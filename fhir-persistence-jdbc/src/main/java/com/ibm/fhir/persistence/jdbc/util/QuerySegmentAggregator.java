@@ -15,13 +15,13 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
-import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Modifier;
+import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 /**
  * This class assists the JDBCQueryBuilder. Its purpose is to aggregate SQL query segments together to produce a well-formed FHIR Resource query or 
@@ -329,7 +329,6 @@ class QuerySegmentAggregator {
     protected String buildWhereClause(String overrideType) {
         final String METHODNAME = "buildWhereClause";
         log.entering(CLASSNAME, METHODNAME);
-        boolean isLocationQuery;
         
         // Override the Type is null, then use the default type here. 
         if(overrideType == null) {
@@ -351,40 +350,41 @@ class QuerySegmentAggregator {
                 String code = param.getCode();
                 if (!SKIP_WHERE.contains(code)) {
 
-                    whereClauseSegment = querySegment.getQueryString();
                     if (Modifier.MISSING.equals(param.getModifier())) {
+                        whereClauseSegment = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", "");
                         whereClause.append(AND).append(whereClauseSegment);
                     } else {
+                        
+                        whereClause.append(AND).append("R.LOGICAL_RESOURCE_ID IN (");
+                        
+                        if (!Type.COMPOSITE.equals(param.getType())) {
+                            whereClauseSegment = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", "");
+                            whereClause.append("SELECT LOGICAL_RESOURCE_ID FROM ")
+                                       .append(tableName(overrideType, param));
+                        } else {
+                            // add an alias for the composite table
+                            String compositeAlias = "comp" + (i+1);
+                            whereClauseSegment = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", compositeAlias + ".");
+                            whereClause.append("SELECT " + compositeAlias + ".LOGICAL_RESOURCE_ID FROM ")
+                                       .append(tableName(overrideType, param))
+                                       .append(compositeAlias);
 
-                        whereClause.append(AND).append("R.LOGICAL_RESOURCE_ID IN (SELECT LOGICAL_RESOURCE_ID FROM ");
-                        whereClause.append(overrideType);
-                        isLocationQuery =
-                                Location.class.equals(this.resourceType)
-                                        && param.getCode().equals(AbstractQueryBuilder.NEAR);
-                        switch (param.getType()) {
-                        case URI:
-                        case REFERENCE:
-                        case STRING:
-                            whereClause.append("_STR_VALUES ");
-                            break;
-                        case NUMBER:
-                            whereClause.append("_NUMBER_VALUES ");
-                            break;
-                        case QUANTITY:
-                            whereClause.append("_QUANTITY_VALUES ");
-                            break;
-                        case DATE:
-                            whereClause.append("_DATE_VALUES ");
-                            break;
-                        case TOKEN:
-                            if (isLocationQuery) {
-                                whereClause.append("_LATLNG_VALUES ");
-                            } else {
-                                whereClause.append("_TOKEN_VALUES ");
+                            List<QueryParameterValue> values = param.getValues();
+                            for (int valueNum = 1; valueNum <= values.size(); valueNum++) {
+                                List<QueryParameter> components = values.get(valueNum - 1).getComponent();
+                                for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
+                                    String alias = compositeAlias + "_p" + componentNum;
+                                    QueryParameter component = components.get(componentNum - 1);
+                                    whereClause.append(" JOIN " + tableName(overrideType, component) + alias)
+                                        .append(" ON ")
+                                        .append(compositeAlias + ".COMP" + componentNum + abbr(component) )
+                                        .append("=")
+                                        .append(alias + ".ROW_ID");
+                                    whereClauseSegment = whereClauseSegment.replaceAll(
+                                            PARAMETER_TABLE_ALIAS + "_" + valueNum + "_" + componentNum + "\\.", alias + ".");
+                                }
                             }
-                            break;
                         }
-                        whereClauseSegment = whereClauseSegment.replaceAll(PARAMETER_TABLE_ALIAS + ".", "");
                         whereClause.append(" WHERE ").append(whereClauseSegment).append(")");
                     }
                 }
@@ -393,6 +393,48 @@ class QuerySegmentAggregator {
 
         log.exiting(CLASSNAME, METHODNAME);
         return whereClause.toString();
+    }
+
+    public static String tableName(String resourceType, QueryParameter param) {
+        StringBuilder name = new StringBuilder(resourceType);
+        switch (param.getType()) {
+        case URI:
+        case REFERENCE:
+        case STRING:
+        case NUMBER:
+        case QUANTITY:
+        case DATE:
+        case TOKEN:
+        case SPECIAL:
+            name.append(abbr(param) + "_VALUES ");
+            break;
+        case COMPOSITE:
+            name.append("_COMPOSITES ");
+            break;
+        }
+        return name.toString();
+    }
+    
+    public static String abbr(QueryParameter param) {
+        switch (param.getType()) {
+        case URI:
+        case REFERENCE:
+        case STRING:
+            return "_STR";
+        case NUMBER:
+            return "_NUMBER";
+        case QUANTITY:
+            return "_QUANTITY";
+        case DATE:
+            return "_DATE";
+        case TOKEN:
+            return "_TOKEN";
+        case SPECIAL:
+            return "_LATLNG";
+        case COMPOSITE:
+        default:
+            throw new IllegalArgumentException("There is no abbreviation for parameter values table of type " + param.getType());
+        }
     }
     
     /**

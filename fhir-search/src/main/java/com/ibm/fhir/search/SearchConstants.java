@@ -198,6 +198,7 @@ public class SearchConstants {
         REFERENCE("reference"), 
         QUANTITY("quantity"), 
         URI("uri"), 
+        SPECIAL("special"), 
         COMPOSITE("composite");
 
         private String value = null;

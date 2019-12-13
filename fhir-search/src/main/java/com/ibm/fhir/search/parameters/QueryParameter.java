@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.search.parameters;
 
+import static com.ibm.fhir.search.SearchConstants.NL;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -69,10 +71,6 @@ public class QueryParameter {
         return values;
     }
 
-    public boolean isComposite() {
-        return false;
-    }
-
     public boolean isChained() {
         return this.nextParameter != null && !this.isInclusionCriteria;
     }
@@ -95,29 +93,24 @@ public class QueryParameter {
         if (modifier != null) {
             buffer.append("modifier: ");
             buffer.append(modifier.value());
-            buffer.append(SearchConstants.NL);
+            buffer.append(NL);
         }
 
         if (modifierResourceTypeName != null) {
             buffer.append("modifierTypeResourceName: ");
             buffer.append(modifierResourceTypeName);
-            buffer.append(SearchConstants.NL);
+            buffer.append(NL);
         }
-
-        boolean composite = isComposite();
-        buffer.append("composite: ");
-        buffer.append(composite);
-        buffer.append(SearchConstants.NL);
 
         boolean chained = isChained();
         buffer.append("chained: ");
         buffer.append(chained);
-        buffer.append(SearchConstants.NL);
+        buffer.append(NL);
 
         boolean inclusionCriteria = this.isInclusionCriteria();
         buffer.append("inclusionCriteria: ");
         buffer.append(inclusionCriteria);
-        buffer.append(SearchConstants.NL);
+        buffer.append(NL);
 
         List<QueryParameterValue> values = getValues();
         for (QueryParameterValue value : values) {
@@ -125,37 +118,37 @@ public class QueryParameter {
             if (prefix != null) {
                 buffer.append("    prefix: ");
                 buffer.append(prefix.value());
-                buffer.append(SearchConstants.NL);
+                buffer.append(NL);
             }
 
             String valueString = value.getValueString();
             if (valueString != null) {
                 buffer.append("    valueString: " + valueString);
-                buffer.append(SearchConstants.NL);
+                buffer.append(NL);
             }
 
             DateTime valueDate = value.getValueDate();
             if (valueDate != null) {
                 buffer.append("    valueDate: " + valueDate.getValue());
-                buffer.append(SearchConstants.NL);
+                buffer.append(NL);
             }
 
             BigDecimal valueNumber = value.getValueNumber();
             if (valueNumber != null) {
                 buffer.append("    valueNumber: " + valueNumber.toPlainString());
-                buffer.append(SearchConstants.NL);
+                buffer.append(NL);
             }
 
             String valueSystem = value.getValueSystem();
             if (valueSystem != null) {
                 buffer.append("    valueSystem: " + valueSystem);
-                buffer.append(SearchConstants.NL);
+                buffer.append(NL);
             }
 
             String valueCode = value.getValueCode();
             if (valueCode != null) {
                 buffer.append("    valueCode: " + valueCode);
-                buffer.append(SearchConstants.NL);
+                buffer.append(NL);
             }
         }
 

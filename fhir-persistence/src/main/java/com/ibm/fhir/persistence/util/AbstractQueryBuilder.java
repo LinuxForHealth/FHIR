@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
-import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
@@ -119,7 +118,9 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
                         break;
                 case QUANTITY:  databaseQueryParm = this.processQuantityParm(resourceType, queryParm);
                         break;
-                case URI:          databaseQueryParm = this.processUriParm(queryParm);
+                case URI:       databaseQueryParm = this.processUriParm(queryParm);
+                        break;
+                case COMPOSITE: databaseQueryParm = this.processCompositeParm(resourceType, queryParm);
                         break;
                 
                 default: throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
@@ -131,7 +132,7 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
         }
         return databaseQueryParm;
     }
-    
+
     /**
      * Map the Modifier in the passed Parameter to a supported query operator.
      * @param queryParm - A valid query Parameter.
@@ -226,26 +227,16 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - An object containing query segment. 
      * @throws FHIRPersistenceException 
      */
-    protected T1 processUriParm(QueryParameter queryParm) throws FHIRPersistenceException {
-        final String METHODNAME = "processUriParm";
-        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
-        
-        T1 parmRoot;
-        QueryParameter myQueryParm;
-                
-        myQueryParm = queryParm;
-        Modifier queryParmModifier = queryParm.getModifier();
-        // A BELOW modifier has the same behavior as a "starts with" String search parm. 
-        if (queryParmModifier != null && queryParmModifier.equals(Modifier.BELOW)) {
-             myQueryParm = new QueryParameter(queryParm.getType(), queryParm.getCode(), null,
-                                 queryParm.getModifierResourceTypeName(), queryParm.getValues());
-        }
-        parmRoot = this.processStringParm(myQueryParm);
-                        
-        log.exiting(CLASSNAME, METHODNAME, parmRoot.toString());
-        return parmRoot;
-    }
-    
+    protected abstract T1 processUriParm(QueryParameter queryParm) throws FHIRPersistenceException;
+
+    /**
+     * Creates a query segment for a Composite type parameter.
+     * @param queryParm - The query parameter
+     * @return T1 - An object containing query segment
+     * @throws FHIRPersistenceException
+     */
+    protected abstract T1 processCompositeParm(Class<?> resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
+
     /**
      * This method executes special logic for a Token type query that maps to a LocationPosition data type.
      * @param queryParameters The entire collection of query input parameters
@@ -306,5 +297,4 @@ public abstract class AbstractQueryBuilder<T1, T2>  implements QueryBuilder<T1> 
      * @return T1 - The query segment necessary for searching locations that are inside the bounding box.
      */
     protected abstract T1 buildLocationQuerySegment(String parmName, BoundingBox boundingBox) throws FHIRPersistenceException;
-
 }

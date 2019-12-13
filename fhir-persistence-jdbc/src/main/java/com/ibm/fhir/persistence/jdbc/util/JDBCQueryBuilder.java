@@ -73,13 +73,13 @@ import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
  * This is the JDBC implementation of a query builder for the IBM FHIR Server JDBC persistence layer schema.
  * Queries are built in SQL.
  * <br><br>
- * For the new R4 schema, the search parameter tables (e.g. <resourceType>_STR_VALUES) are
+ * For the new R4 schema, the search parameter tables (e.g. {@code <resourceType>_STR_VALUES}) are
  * joined to their corresponding <resourceType>_LOGICAL_RESOURCES tables on LOGICAL_RESOURCE_ID.
  * This is because the search parameters are not versioned, and are associated with
  * the logical resource, not the resource version.
  * <br>
  * Useful column reference:<br>
- * <code>
+ * <pre>
  * ------------------------
  * RESOURCE_TYPE_NAME    the formal name of the resource type e.g. 'Patient'
  * RESOURCE_TYPE_ID      FK to the RESOURCE_TYPES table
@@ -88,7 +88,7 @@ import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
  * CURRENT_RESOURCE_ID   the unique BIGINT id of the latest resource version for the logical resource
  * VERSION_ID            INT resource version number incrementing by 1
  * RESOURCE_ID           the PK of the version-specific resource. Now only used as the target for CURRENT_RESOURCE_ID
- * </code>
+ * </pre>
  */
 public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOperator> {
     private static final Logger log = java.util.logging.Logger.getLogger(JDBCQueryBuilder.class.getName());
@@ -314,6 +314,69 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         return operator;
     }
 
+    /**
+     * Builds a query segment for the passed query parameter.
+     * @param resourceType - A valid FHIR Resource type
+     * @param queryParm - A Parameter object describing the name, value and type of search parm
+     * @param tableAlias - An alias for the table for which this query parameter applies
+     * @return SqlQueryData - An object representing the selector query segment for the passed search parm.
+     * @throws Exception
+     * 
+     * @implNote This is just like {@link com.ibm.fhir.persistence.util.AbstractQueryBuilder.buildQueryParm(QueryParameter, String)}
+     *           except this one takes a tableAlias
+     */
+    protected SqlQueryData buildQueryParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws Exception {
+        final String METHODNAME = "buildQueryParm";
+        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+        
+        SqlQueryData databaseQueryParm = null;
+        Type type;
+        
+        try {
+            if (Modifier.MISSING.equals(queryParm.getModifier())) {
+                return this.processMissingParm(resourceType, queryParm, tableAlias);
+            }
+            // NOTE: The special logic needed to process NEAR and NEAR_DISTANCE query parms for the Location resource type is
+            // found in method processLocationPosition(). This method will not handle those.
+            if (! (Location.class.equals(resourceType) && 
+                (queryParm.getCode().equals(NEAR) || queryParm.getCode().equals(NEAR_DISTANCE)))) {
+                
+                type = queryParm.getType();
+                switch(type) {
+                case STRING:    databaseQueryParm = this.processStringParm(queryParm, tableAlias);
+                        break;
+                case REFERENCE: if (queryParm.isChained()) {
+                                    databaseQueryParm = this.processChainedReferenceParm(queryParm);
+                                }
+                                else if (queryParm.isInclusionCriteria()) {
+                                    databaseQueryParm = this.processInclusionCriteria(queryParm);
+                                }
+                                else {
+                                    databaseQueryParm = this.processReferenceParm(resourceType, queryParm, tableAlias);
+                                }
+                        break;
+                case DATE:      databaseQueryParm = this.processDateParm(resourceType, queryParm, tableAlias);
+                        break;
+                case TOKEN:     databaseQueryParm = this.processTokenParm(queryParm, tableAlias);
+                        break;
+                case NUMBER:    databaseQueryParm = this.processNumberParm(resourceType, queryParm, tableAlias);
+                        break;
+                case QUANTITY:  databaseQueryParm = this.processQuantityParm(resourceType, queryParm, tableAlias);
+                        break;
+                case URI:       databaseQueryParm = this.processUriParm(queryParm, tableAlias);
+                        break;
+                case COMPOSITE: databaseQueryParm = this.processCompositeParm(resourceType, queryParm, tableAlias);
+                        break;
+                default: throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
+                }
+            }
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME, new Object[] {databaseQueryParm});
+        }
+        return databaseQueryParm;
+    }
+    
     @Override
     protected SqlQueryData processStringParm(QueryParameter queryParm) throws FHIRPersistenceException {
         return processStringParm(queryParm, PARAMETERS_TABLE_ALIAS);
@@ -584,7 +647,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     private void appendMidChainParm(StringBuilder whereClauseSegment, QueryParameter currentParm, String chainedParmVar)
-        throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException, FHIRPersistenceException {
+            throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException, FHIRPersistenceException {
         Integer parameterNameId = ParameterNamesCache.getParameterNameId(currentParm.getCode());
         if (parameterNameId == null) {
             parameterNameId = this.parameterDao.readParameterNameId(currentParm.getCode());
@@ -596,7 +659,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     private void appendInnerSelect(StringBuilder whereClauseSegment, QueryParameter currentParm, Type nextParmaterType, String resourceTypeName,
-        String chainedResourceVar, String chainedLogicalResourceVar, String chainedParmVar) {
+            String chainedResourceVar, String chainedLogicalResourceVar, String chainedParmVar) {
         String chainedResourceTableAlias = chainedResourceVar + ".";
         String chainedLogicalResourceTableAlias = chainedLogicalResourceVar + ".";
         String chainedParmTableAlias = chainedParmVar + ".";
@@ -605,35 +668,44 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         whereClauseSegment.append("SELECT ").append("'" + resourceTypeName
                 + "'").append(" || ").append("'/'").append(" || ").append(chainedLogicalResourceTableAlias).append("LOGICAL_ID");
 
+        QueryParameter nextParameter = currentParm.getNextParameter();
+        
         // Build this piece: FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
-        whereClauseSegment.append(" FROM ").append(resourceTypeName).append("_RESOURCES ").append(chainedResourceVar).append(", ").append(resourceTypeName).append("_LOGICAL_RESOURCES ").append(chainedLogicalResourceVar).append(", ");
+        whereClauseSegment.append(" FROM ")
+                .append(resourceTypeName).append("_RESOURCES ").append(chainedResourceVar).append(", ")
+                .append(resourceTypeName).append("_LOGICAL_RESOURCES ").append(chainedLogicalResourceVar).append(", ")
+                .append(QuerySegmentAggregator.tableName(resourceTypeName, currentParm.getNextParameter())).append(chainedParmVar);
 
-        switch (nextParmaterType) {
-        case DATE:
-            whereClauseSegment.append(resourceTypeName + "_DATE_VALUES ");
-            break;
-        case NUMBER:
-            whereClauseSegment.append(resourceTypeName + "_NUMBER_VALUES ");
-            break;
-        case QUANTITY:
-            whereClauseSegment.append(resourceTypeName + "_QUANTITY_VALUES ");
-            break;
-        case TOKEN:
-            whereClauseSegment.append(resourceTypeName + "_TOKEN_VALUES ");
-            break;
-        case REFERENCE:
-        case URI:
-        case STRING:
-        default:
-            whereClauseSegment.append(resourceTypeName + "_STR_VALUES ");
-            break;
+        if (Type.COMPOSITE.equals(nextParameter.getType())) {
+            List<QueryParameterValue> values = nextParameter.getValues();
+            for (int valueNum = 1; valueNum <= values.size(); valueNum++) {
+                List<QueryParameter> components = values.get(valueNum - 1).getComponent();
+                for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
+                    String alias = chainedParmVar + "_" + valueNum + "_" + componentNum;
+                    QueryParameter component = components.get(componentNum - 1);
+                    whereClauseSegment.append(" JOIN " + QuerySegmentAggregator.tableName(resourceTypeName, component) + alias)
+                        .append(" ON ")
+                        .append(chainedParmVar + ".COMP" + componentNum + QuerySegmentAggregator.abbr(component) )
+                        .append("=")
+                        .append(alias + ".ROW_ID");
+                }
+            }
         }
 
-        whereClauseSegment.append(chainedParmVar).append(" WHERE ");
+        // CP1 WHERE
+        whereClauseSegment.append(" WHERE ");
 
-        // Build this piece: CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.LOGICAL_RESOURCE_ID =
-        // CLR1.LOGICAL_RESOURCE_ID AND
-        whereClauseSegment.append(chainedResourceTableAlias).append("RESOURCE_ID = ").append(chainedLogicalResourceTableAlias).append("CURRENT_RESOURCE_ID").append(AND).append(chainedResourceTableAlias).append("IS_DELETED").append(" <> 'Y'").append(AND).append(chainedParmTableAlias).append("LOGICAL_RESOURCE_ID = ").append(chainedResourceTableAlias).append("LOGICAL_RESOURCE_ID").append(AND);
+        // CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND 
+        // CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND
+        whereClauseSegment.append(chainedResourceTableAlias).append("RESOURCE_ID = ")
+                          .append(chainedLogicalResourceTableAlias).append("CURRENT_RESOURCE_ID")
+                          .append(AND)
+                          .append(chainedResourceTableAlias)
+                          .append("IS_DELETED").append(" <> 'Y'")
+                          .append(AND)
+                          .append(chainedParmTableAlias).append("LOGICAL_RESOURCE_ID = ")
+                          .append(chainedResourceTableAlias).append("LOGICAL_RESOURCE_ID")
+                          .append(AND);
     }
 
     /**
@@ -1103,7 +1175,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     protected SqlQueryData processQuantityParm(Class<?> resourceType, QueryParameter queryParm) throws Exception {
         return processQuantityParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
     }
-    
+
     private SqlQueryData processQuantityParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws Exception {
         final String METHODNAME = "processQuantityParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
@@ -1122,6 +1194,76 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
 
         log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
+        return queryData;
+    }
+    
+    @Override
+    protected SqlQueryData processUriParm(QueryParameter queryParm) throws FHIRPersistenceException {
+        return processUriParm(queryParm, PARAMETERS_TABLE_ALIAS);
+    }
+
+    /**
+     * Creates a query segment for a URI type parameter.
+     * @param queryParm - The query parameter
+     * @param tableAlias - An alias for the table to query
+     * @return SqlQueryData - An object containing query segment
+     * @throws FHIRPersistenceException
+     */
+    protected SqlQueryData processUriParm(QueryParameter queryParm, String tableAlias) throws FHIRPersistenceException {
+        final String METHODNAME = "processUriParm";
+        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+        SqlQueryData parmRoot = this.processStringParm(queryParm, tableAlias);
+        log.exiting(CLASSNAME, METHODNAME, parmRoot.toString());
+        return parmRoot;
+    }
+
+    @Override
+    protected SqlQueryData processCompositeParm(Class<?> resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
+        return processCompositeParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
+    }
+
+    /**
+     * Creates a query segment for a URI type parameter.
+     * @param queryParm - The query parameter
+     * @param tableAlias - An alias for the table to query
+     * @return SqlQueryData - An object containing query segment
+     * @throws FHIRPersistenceException
+     */
+    private SqlQueryData processCompositeParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws FHIRPersistenceException {
+        final String METHODNAME = "processStringParm";
+        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+
+        StringBuilder whereClauseSegment = new StringBuilder();
+        SqlQueryData queryData;
+        List<Object> bindVariables = new ArrayList<>();
+
+        // Build this piece of the segment:
+        // (P1.PARAMETER_NAME_ID = x AND
+        populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
+
+        whereClauseSegment.append(AND).append(LEFT_PAREN);
+        List<QueryParameterValue> values = queryParm.getValues();
+        
+        for (int i = 0; i < values.size(); i++) {
+            QueryParameterValue compositeValue = values.get(i);
+            List<QueryParameter> components = compositeValue.getComponent();
+            String separator = "";
+            for (int j = 0; j < components.size(); j++) {
+                try {
+                    QueryParameter component = components.get(j);
+                    SqlQueryData subQueryData = buildQueryParm(resourceType, component, tableAlias + "_" + (i+1) + "_" + (j+1));
+                    whereClauseSegment.append(separator + subQueryData.getQueryString());
+                    bindVariables.addAll(subQueryData.getBindVariables());
+                } catch (Exception e) {
+                    throw new FHIRPersistenceException("Error while creating subquery for parameter " + queryParm, e);
+                }
+                separator = AND;
+            }
+        }
+        whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
+
+        queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+        log.exiting(CLASSNAME, METHODNAME);
         return queryData;
     }
 
@@ -1315,94 +1457,5 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
         log.exiting(CLASSNAME, METHODNAME);
         return queryData;
-    }
-
-    /**
-     * Builds a query segment for the passed query parameter.
-     * @param resourceType - A valid FHIR Resource type
-     * @param queryParm - A Parameter object describing the name, value and type of search parm.
-     * @return T1 - An object representing the selector query segment for the passed search parm.
-     * @throws Exception 
-     */
-    protected SqlQueryData buildQueryParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws Exception {
-        final String METHODNAME = "buildQueryParm";
-        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
-        
-        SqlQueryData databaseQueryParm = null;
-        Type type;
-        
-        try {
-            if (Modifier.MISSING.equals(queryParm.getModifier())) {
-                return this.processMissingParm(resourceType, queryParm, tableAlias);
-            }
-            // NOTE: The special logic needed to process NEAR and NEAR_DISTANCE query parms for the Location resource type is
-            // found in method processLocationPosition(). This method will not handle those.
-            if (! (Location.class.equals(resourceType) && 
-                (queryParm.getCode().equals(NEAR) || queryParm.getCode().equals(NEAR_DISTANCE)))) {
-                
-                type = queryParm.getType();
-                switch(type) {
-                case STRING:    databaseQueryParm = this.processStringParm(queryParm, tableAlias);
-                        break;
-                case REFERENCE: if (queryParm.isChained()) {
-                                    databaseQueryParm = this.processChainedReferenceParm(queryParm);
-                                }
-                                else if (queryParm.isInclusionCriteria()) {
-                                    databaseQueryParm = this.processInclusionCriteria(queryParm);
-                                }
-                                else {
-                                    databaseQueryParm = this.processReferenceParm(resourceType, queryParm, tableAlias);
-                                }
-                        break;
-                case DATE:      databaseQueryParm = this.processDateParm(resourceType, queryParm, tableAlias);
-                        break;
-                case TOKEN:     databaseQueryParm = this.processTokenParm(queryParm, tableAlias);
-                        break;
-                case NUMBER:    databaseQueryParm = this.processNumberParm(resourceType, queryParm, tableAlias);
-                        break;
-                case QUANTITY:  databaseQueryParm = this.processQuantityParm(resourceType, queryParm, tableAlias);
-                        break;
-                case URI:       databaseQueryParm = this.processUriParm(queryParm, tableAlias);
-                        break;
-                case COMPOSITE: databaseQueryParm = this.processCompositeParm(queryParm, tableAlias);
-                        break;
-                default: throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
-                }
-            }
-        }
-        finally {
-            log.exiting(CLASSNAME, METHODNAME, new Object[] {databaseQueryParm});
-        }
-        return databaseQueryParm;
-    }
-
-    /**
-     * @param queryParm
-     * @param tableAlias
-     * @return
-     */
-    private SqlQueryData processCompositeParm(QueryParameter queryParm, String tableAlias) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    protected SqlQueryData processUriParm(QueryParameter queryParm) throws FHIRPersistenceException {
-        return processUriParm(queryParm, PARAMETERS_TABLE_ALIAS);
-    }
-
-    /**
-     * Creates a query segment for a URI type parameter.
-     * @param queryParm - The query parameter. 
-     * @param tableAlias - An alias for the table to query
-     * @return T1 - An object containing query segment. 
-     * @throws FHIRPersistenceException 
-     */
-    protected SqlQueryData processUriParm(QueryParameter queryParm, String tableAlias) throws FHIRPersistenceException {
-        final String METHODNAME = "processUriParm";
-        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
-        SqlQueryData parmRoot = this.processStringParm(queryParm, tableAlias);
-        log.exiting(CLASSNAME, METHODNAME, parmRoot.toString());
-        return parmRoot;
     }
 }

@@ -29,17 +29,19 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
     @Test
     public void testSearchToken_boolean() throws Exception {
         assertSearchReturnsSavedResource("composite-boolean", "true$true");
-//        assertSearchDoesntReturnSavedResource("composite-boolean", "false$true");
-//        assertSearchDoesntReturnSavedResource("composite-boolean", "true$false");
-//        assertSearchDoesntReturnSavedResource("composite-boolean", "false$false");
+        assertSearchDoesntReturnSavedResource("composite-boolean", "false$true");
+        assertSearchDoesntReturnSavedResource("composite-boolean", "true$false");
+        assertSearchDoesntReturnSavedResource("composite-boolean", "false$false");
     }
     
-//    @Test
-//    public void testSearchToken_boolean_chained() throws Exception {
-//        assertSearchReturnsComposition("subject:Basic.boolean", "true");
-//        assertSearchDoesntReturnComposition("subject:Basic.boolean", "false");
-//    }
-//    
+    @Test
+    public void testSearchToken_boolean_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.composite-boolean", "true$true");
+        assertSearchDoesntReturnComposition("subject:Basic.composite-boolean", "true$false");
+        assertSearchDoesntReturnComposition("subject:Basic.composite-boolean", "false$true");
+        assertSearchDoesntReturnComposition("subject:Basic.composite-boolean", "false$false");
+    }
+
 //    @Test
 //    public void testSearchToken_boolean_revinclude() throws Exception {
 //        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);

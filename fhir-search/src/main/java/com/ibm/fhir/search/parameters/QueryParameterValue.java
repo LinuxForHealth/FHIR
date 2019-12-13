@@ -7,13 +7,16 @@
 package com.ibm.fhir.search.parameters;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 
 /**
- * Refactored the code to more consistently apply the output patterns.<br/>
+ * A search parameter value for a given search parameter that was passed in a search query
  */
 public class QueryParameterValue {
 
@@ -22,12 +25,16 @@ public class QueryParameterValue {
     private String valueString = null;
     private DateTime valueDate = null;
 
-    // Used with Number
+    // Used for number and quantity search parameters
     private BigDecimal valueNumber = null;
 
+    // Used for quantity and token search parameters
     private String valueSystem = null;
     private String valueCode = null;
 
+    // Used for composite search parameters
+    private List<QueryParameter> component = new ArrayList<>();
+    
     // The delimiter starts off as EMPTY and goes to SearchConstants.PARAMETER_DELIMETER
     private String delim = "";
 
@@ -88,6 +95,30 @@ public class QueryParameterValue {
         this.valueCode = valueCode;
     }
 
+
+    /**
+     * @return the component
+     */
+    public List<QueryParameter> getComponent() {
+        return component;
+    }
+
+    /**
+     * @param component the components to add
+     */
+    public void addComponent(QueryParameter... component) {
+        for (QueryParameter c : component) {
+            this.component.add(c);
+        }
+    }
+
+    /**
+     * @param component the component to set
+     */
+    public void setComponent(Collection<QueryParameter> component) {
+        this.component = new ArrayList<>(component);
+    }
+
     /**
      * Serialize the ParameterValue to a query parameter string
      */
@@ -112,6 +143,18 @@ public class QueryParameterValue {
         outputBuilder(returnString, valueCode);
         outputBuilder(returnString, valueString);
         outputBuilder(returnString, valueDate);
+        
+        if (component != null && !component.isEmpty()) {
+            returnString.append("composite[");
+            // temporarily change the delimiter; NOT thread-safe
+            String oldDelim = delim;
+            delim = "";
+            for (QueryParameter componentParam : component) {
+                returnString.append(delim + componentParam);
+                delim = "$";
+            }
+            delim = oldDelim;
+        }
 
         return returnString.toString();
     }

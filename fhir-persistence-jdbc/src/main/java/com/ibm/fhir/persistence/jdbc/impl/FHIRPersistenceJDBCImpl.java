@@ -420,7 +420,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                                                           (ResourceDAO)this.getResourceDao());
 
             countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
-            if (countQuery != null) {                
+            if (countQuery != null) {
                 searchResultCount = this.getResourceDao().searchCount(countQuery);
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("searchResultCount = " + searchResultCount);
