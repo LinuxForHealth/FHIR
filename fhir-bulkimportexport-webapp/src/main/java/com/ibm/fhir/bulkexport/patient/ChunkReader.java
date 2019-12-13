@@ -139,7 +139,7 @@ public class ChunkReader extends AbstractItemReader {
 
                 queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
 
-                searchContext = SearchUtil.parseQueryParameters("Patient", patient.getId().getValue(),
+                searchContext = SearchUtil.parseQueryParameters("Patient", patient.getId(),
                         ModelSupport.getResourceType(resourceTypes.get(indexOfCurrentResourceType)), queryParameters, null, true);
                 do {
                     searchContext.setPageSize(pageSize);
@@ -162,7 +162,7 @@ public class ChunkReader extends AbstractItemReader {
                         } catch (FHIRGeneratorException e) {
                             if (res.getId() != null) {
                                 logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with id '"
-                                        + res.getId().getValue() + "'", e);
+                                        + res.getId() + "'", e);
                             } else {
                                 logger.log(Level.WARNING,
                                         "fillChunkDataBuffer: Error while writing resources with unknown id", e);

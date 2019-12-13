@@ -126,7 +126,7 @@ public class ChunkReader extends AbstractItemReader {
                 } catch (FHIRGeneratorException e) {
                     if (res.getId() != null) {
                         logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with id '"
-                                + res.getId().getValue() + "'", e);
+                                + res.getId() + "'", e);
                     } else {
                         logger.log(Level.WARNING,
                                 "fillChunkDataBuffer: Error while writing resources with unknown id", e);
