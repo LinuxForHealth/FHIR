@@ -6,6 +6,9 @@
 
 package com.ibm.fhir.model.visitor;
 
+import static com.ibm.fhir.model.util.ModelSupport.delimit;
+import static com.ibm.fhir.model.util.ModelSupport.isKeyword;
+
 import java.util.Stack;
 import java.util.stream.Collectors;
 
@@ -48,7 +51,7 @@ public class PathAwareVisitor extends DefaultVisitor {
      */
     public final void reset() {
         if (!pathStack.isEmpty()) {
-            pathStack.removeAllElements();
+            pathStack.clear();
         }
     }
 
@@ -81,6 +84,9 @@ public class PathAwareVisitor extends DefaultVisitor {
     }
     
     private void pathStackPush(String elementName, int index) {
+        if (isKeyword(elementName)) {
+            elementName = delimit(elementName);
+        }
         if (index != -1) {
             pathStack.push(elementName + "[" + index + "]");
         } else {
@@ -108,7 +114,7 @@ public class PathAwareVisitor extends DefaultVisitor {
     }
     
     @Override
-    public final void visitStart(java.lang.String elementName, int elementIndex, Element element) {        
+    public final void visitStart(java.lang.String elementName, int elementIndex, Element element) {
         pathStackPush(elementName, elementIndex);
         doVisitStart(elementName, elementIndex, element);
     }
@@ -118,4 +124,28 @@ public class PathAwareVisitor extends DefaultVisitor {
         pathStackPush(elementName, elementIndex);
         doVisitStart(elementName, elementIndex, resource);
     }
+    
+    /**
+     * @implSpec PathAwareVisitor makes this method final to ensure that we always set the path for non-visitable elements 
+     *           of type {@code http://hl7.org/fhirpath/System.String}.
+     *           Subclasses can override {@link #doVisit(String, String)} to provide specific visit behavior. 
+     * @implNote Needed for FHIR elements like Resource.id, Element.id, and Extension.url which are system strings
+     *           but also valid FHIRPath nodes.
+     */
+    @Override
+    public final void visit(String elementName, String value) {
+        if (!"value".equals(elementName)) {
+            pathStackPush(elementName, -1);
+        }
+        doVisit(elementName, value);
+        if (!"value".equals(elementName)) {
+            pathStackPop();
+        }
+    }
+
+    /**
+     * @implSpec {@link #visit(String, String)} was made final (to avoid potential issues with the pathStack)
+     * and so this method was introduced to allow subclasses to implement visit behavior for java.lang.String values.
+     */
+    protected void doVisit(String elementName, String value) { }
 }

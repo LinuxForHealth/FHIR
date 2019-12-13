@@ -44,7 +44,7 @@ public class FHIROperationUtil {
         Map<String, List<String>> queryParameters) throws FHIROperationException {
         try {
             Parameters.Builder parametersBuilder = Parameters.builder();
-            parametersBuilder.id(Id.of("InputParameters"));
+            parametersBuilder.id("InputParameters");
             if (definition != null) {
                 for (OperationDefinition.Parameter parameter : definition.getParameter()) {
                     if (OperationParameterUse.IN.getValue().equals(parameter.getUse().getValue())) {
@@ -124,7 +124,7 @@ public class FHIROperationUtil {
     public static Parameters getInputParameters(OperationDefinition definition, Resource resource)
         throws Exception {
         Parameters.Builder parametersBuilder = Parameters.builder();
-        parametersBuilder.id(Id.of("InputParameters"));
+        parametersBuilder.id("InputParameters");
         for (OperationDefinition.Parameter parameterDefinition : definition.getParameter()) {
             String parameterTypeName = parameterDefinition.getType().getValue();
             String resourceTypeName = resource.getClass().getSimpleName();

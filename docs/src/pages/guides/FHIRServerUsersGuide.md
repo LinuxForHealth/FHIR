@@ -47,6 +47,8 @@ View information about recent changes that were made to this document. For more 
 # 2 Installation
 
 ## 2.1 Installing a new server
+0.  Prereqs: The IBM FHIR Server requires Java 8 or higher and has been tested with OpenJDK 8, OpenJDK 11, and the IBM SDK, Java Technology Edition, Version 8. To install Java on your system, we recommend downloading and installing OpenJDK 8 from https://adoptopenjdk.net/.
+
 1.  To install the FHIR server, build or download the `fhir-install` zip installer (e.g. `fhir-server-distribution.zip` or `fhir-install-4.0.0-rc1-20191014-1610`).
 The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases will be made available from the [Releases tab](https://github.com/ibm/fhir/releases).
 
@@ -152,7 +154,7 @@ Configuration properties stored within a `fhir-server-config.json` file are stru
     }
     ```
 
-Throughout this document, we use a path notation to refer to property names. For example, the name of the `truststorePassword` property in the preceding example would be `fhirServer/test/enabled`.
+Throughout this document, we use a path notation to refer to property names. For example, the name of the `truststorePassword` property in the preceding example would be `fhirServer/core/truststorePassword`.
 
 ## 3.3 Tenant-specific configuration properties
 The FHIR server supports certain multi-tenant features. One such feature is the ability to set certain configuration properties on a per-tenant basis.
@@ -1210,6 +1212,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configure for CADF audit logging service.|
 |`fhirServer/audit/serviceProperties/geoState`|string|The Geo State configure for CADF audit logging service.|
 |`fhirServer/audit/serviceProperties/geoCounty`|string|The Geo Country configure for CADF audit logging service.|
+|`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
 
 
 ### 5.1.2 Default property values

@@ -3,7 +3,7 @@
 	"mappings": [{
 		"resourceType": "Resource",
 		"name": "_id",
-		"targetClasses": ["Id"]
+		"targetClasses": ["String"]
 	},
 	{
 		"resourceType": "Resource",
@@ -2613,7 +2613,7 @@
 	{
 		"resourceType": "CommunicationRequest",
 		"name": "patient",
-		"targetClasses": ["DateTime"]
+		"targetClasses": ["Reference"]
 	},
 	{
 		"resourceType": "CommunicationRequest",
@@ -5066,7 +5066,7 @@
 	{
 		"resourceType": "Location",
 		"name": "near",
-		"targetClasses": ["Location"]
+		"targetClasses": ["Position"]
 	},
 	{
 		"resourceType": "Location",
@@ -7878,7 +7878,7 @@
 	{
 		"resourceType": "StructureDefinition",
 		"name": "ext-context",
-		"targetClasses": ["StructureDefinition"]
+		"targetClasses": ["ExtensionContextType"]
 	},
 	{
 		"resourceType": "StructureDefinition",
@@ -7964,7 +7964,7 @@
 	{
 		"resourceType": "Substance",
 		"name": "quantity",
-		"targetClasses": ["Quantity"]
+		"targetClasses": ["SimpleQuantity"]
 	},
 	{
 		"resourceType": "Substance",

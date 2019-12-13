@@ -283,7 +283,10 @@
 		<test name="testLiteralNotFalse" inputfile="patient-example.xml"><expression>false.not() = true</expression><output type="boolean">true</output></test>
 		<test name="testIntegerBooleanNotTrue" inputfile="patient-example.xml"><expression>(0).not() = true</expression><output type="boolean">true</output></test>
 		<test name="testIntegerBooleanNotFalse" inputfile="patient-example.xml"><expression>(1).not() = false</expression><output type="boolean">true</output></test>
+        <!-- TODO: uncomment after 4.0.1 spec upgrade -->
+		<!--
 		<test name="testNotInvalid" inputfile="patient-example.xml"><expression invalid="semantic">(1|2).not() = false</expression></test>
+		-->
 	</group>
 
 	<group name="testTypes">

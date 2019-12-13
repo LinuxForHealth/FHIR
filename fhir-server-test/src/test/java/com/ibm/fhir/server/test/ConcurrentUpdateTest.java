@@ -27,7 +27,6 @@ import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
-import com.ibm.fhir.model.type.Id;
 
 /**
  * Tests specifically the concurrent creation and updating of a single patient,
@@ -59,7 +58,7 @@ public class ConcurrentUpdateTest extends FHIRServerTestBase {
             // Read a JSON Patient and set the id.
             String patientLogicalId = UUID.randomUUID().toString();
             Patient patient = TestUtil.readLocalResource("Patient_SalMonella.json");
-            patient = patient.toBuilder().id(Id.of(patientLogicalId)).build();
+            patient = patient.toBuilder().id(patientLogicalId).build();
 
             // Initialize multi-thread Executor Service.
             ExecutorService executor = Executors.newFixedThreadPool(maxThreads);
@@ -81,7 +80,7 @@ public class ConcurrentUpdateTest extends FHIRServerTestBase {
             Bundle searchResults = response.getResource(Bundle.class);
             assertEquals(1, searchResults.getEntry().size());
             assertNotNull(searchResults.getEntry().get(0).getResource());
-            assertEquals(patientLogicalId, searchResults.getEntry().get(0).getResource().getId().getValue());
+            assertEquals(patientLogicalId, searchResults.getEntry().get(0).getResource().getId());
 
             // Pull the history on the patient id. There should be the same number of
             // versions as the value of maxThreads.

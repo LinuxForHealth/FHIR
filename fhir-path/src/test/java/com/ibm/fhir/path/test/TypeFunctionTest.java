@@ -29,7 +29,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 public class TypeFunctionTest {
     @Test
     public void testTypeFunction() throws Exception {
-        Patient patient = FHIRParser.parser(Format.JSON).parse(ExamplesUtil.reader("json/spec/patient-example-a.json"));
+        Patient patient = FHIRParser.parser(Format.JSON).parse(ExamplesUtil.resourceReader("json/spec/patient-example-a.json"));
         EvaluationContext evaluationContext = new EvaluationContext(patient);
         Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate(evaluationContext, "Patient.contact.type()");
         TypeInfo actual = getSingleton(result).asTypeInfoNode().typeInfo();

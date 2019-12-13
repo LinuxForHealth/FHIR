@@ -49,6 +49,7 @@ public class ValidationProcessor implements IExampleProcessor {
             // Only errors or worse should result in a failure.
             boolean includesFailure = false;
             for (OperationOutcome.Issue issue: issues) {
+                logger.fine(issue.toString());
                 if (FHIRUtil.isFailure(issue.getSeverity())) {
                     includesFailure = true;
                 }

@@ -24,7 +24,7 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.visitor.PathAwareVisitor;
 
-public class FHIRPathTree {    
+public class FHIRPathTree {
     private final FHIRPathNode root;
     private final Map<String, FHIRPathNode> pathNodeMap;
     
@@ -94,7 +94,7 @@ public class FHIRPathTree {
 
         @Override
         protected void doVisitEnd(String elementName, int elementIndex, Resource resource) {
-            build();            
+            build();
         }
 
         @Override
@@ -113,7 +113,7 @@ public class FHIRPathTree {
 
         @Override
         protected void doVisitStart(String elementName, int elementIndex, Resource resource) {
-            builderStack.push(FHIRPathResourceNode.builder(resource).name(elementName));            
+            builderStack.push(FHIRPathResourceNode.builder(resource).name(elementName));
         }
 
         @Override
@@ -137,7 +137,7 @@ public class FHIRPathTree {
         }
     
         @Override
-        public void visit(java.lang.String elementName, java.lang.String value) {
+        public void doVisit(java.lang.String elementName, java.lang.String value) {
             builderStack.peek().value(FHIRPathStringValue.stringValue(elementName, value));
         }
     

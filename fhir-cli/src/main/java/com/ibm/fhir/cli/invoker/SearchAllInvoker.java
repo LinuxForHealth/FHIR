@@ -9,7 +9,6 @@ package com.ibm.fhir.cli.invoker;
 /**
  * This class is the OperationInvoker implementation for the 'search-all' operation.
  * 
- * @author padams
  */
 public class SearchAllInvoker extends OperationInvoker {
 
@@ -18,6 +17,6 @@ public class SearchAllInvoker extends OperationInvoker {
      */
     @Override
     public void doInvoke(InvocationContext ic) throws Exception {
-        response = client.searchAll(queryParameters, requestHeaders);
+        response = client.searchAll(queryParameters, false, requestHeaders);
     }
 }

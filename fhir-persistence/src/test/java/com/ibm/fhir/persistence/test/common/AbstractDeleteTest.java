@@ -45,19 +45,17 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
         
         Device device1 = persistence.create(getDefaultPersistenceContext(), device).getResource();
         assertNotNull(device1.getId());
-        assertNotNull(device1.getId().getValue());
         assertNotNull(device1.getMeta());
         assertNotNull(device1.getMeta().getVersionId().getValue());
         assertEquals("1", device1.getMeta().getVersionId().getValue());
-        this.deviceId1 = device1.getId().getValue();
+        this.deviceId1 = device1.getId();
         
         Device device2 = persistence.create(getDefaultPersistenceContext(), device).getResource();
         assertNotNull(device2.getId());
-        assertNotNull(device2.getId().getValue());
         assertNotNull(device2.getMeta());
         assertNotNull(device2.getMeta().getVersionId().getValue());
         assertEquals("1", device2.getMeta().getVersionId().getValue());
-        this.deviceId2 = device2.getId().getValue();
+        this.deviceId2 = device2.getId();
     }
     
     @Test(expectedExceptions = FHIRPersistenceResourceNotFoundException.class)
@@ -94,7 +92,7 @@ public abstract class AbstractDeleteTest extends AbstractPersistenceTest {
         // Retrieve version 1 of the resource. It should NOT be indicated as deleted in the history context.
         Device device = persistence.vread(getDefaultPersistenceContext(), Device.class, this.deviceId1, "1").getResource();
         assertNotNull(device);
-        assertEquals(this.deviceId1, device.getId().getValue());
+        assertEquals(this.deviceId1, device.getId());
         assertEquals("1",device.getMeta().getVersionId().getValue());
                 
     }

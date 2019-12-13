@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for MedicationRequest.reported[x]",
       "expansion": {
-        "identifier": "urn:uuid:b330bd1c-365e-4d49-b50e-e82e266b041b",
-        "timestamp": "2018-12-27T22:44:30+11:00",
+        "identifier": "urn:uuid:41045d0d-53ab-4ae2-9f44-996befee48cf",
+        "timestamp": "2019-11-01T09:35:58+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -52,8 +52,8 @@
       "status": "active",
       "description": "Type options for MedicationRequest.medication[x]",
       "expansion": {
-        "identifier": "urn:uuid:df68072d-33b7-490e-9f49-0aa4d58eae18",
-        "timestamp": "2018-12-27T22:44:30+11:00",
+        "identifier": "urn:uuid:1d9501df-2abf-478b-9a3b-0c0d40f6a0cc",
+        "timestamp": "2019-11-01T09:35:58+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -75,8 +75,8 @@
       "status": "active",
       "description": "Type options for MedicationRequest.substitution.allowed[x]",
       "expansion": {
-        "identifier": "urn:uuid:01641e80-05a1-4467-b779-4ac92645923c",
-        "timestamp": "2018-12-27T22:44:30+11:00",
+        "identifier": "urn:uuid:0fd820ab-00f2-4912-9600-f8ff0903daec",
+        "timestamp": "2019-11-01T09:35:58+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -97,9 +97,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (Pharmacy)",
   "item": [
     {

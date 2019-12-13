@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for EvidenceVariable.characteristic.definition[x]",
       "expansion": {
-        "identifier": "urn:uuid:f992b7ce-2b8c-414c-a668-b8c6d30a90d9",
-        "timestamp": "2018-12-27T22:43:52+11:00",
+        "identifier": "urn:uuid:43004efd-dc45-4618-ab1b-d61d2ef66e9c",
+        "timestamp": "2019-11-01T09:35:14+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -52,8 +52,8 @@
       "status": "active",
       "description": "Type options for DataRequirement.subject[x]",
       "expansion": {
-        "identifier": "urn:uuid:b06aa98a-0e3a-483e-8490-63b6916c37e2",
-        "timestamp": "2018-12-27T22:43:52+11:00",
+        "identifier": "urn:uuid:28abf834-55d2-4571-b584-9047adc83652",
+        "timestamp": "2019-11-01T09:35:14+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -75,8 +75,8 @@
       "status": "active",
       "description": "Type options for DataRequirement.dateFilter.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:309003e4-b1a9-4337-8888-60e8103b336e",
-        "timestamp": "2018-12-27T22:43:52+11:00",
+        "identifier": "urn:uuid:bd88e0f7-01f6-4a20-b03b-a8e6666886b6",
+        "timestamp": "2019-11-01T09:35:14+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -103,8 +103,8 @@
       "status": "active",
       "description": "Type options for TriggerDefinition.timing[x]",
       "expansion": {
-        "identifier": "urn:uuid:ebec1552-1cf1-4aa5-a626-b63fcf0dd52f",
-        "timestamp": "2018-12-27T22:43:52+11:00",
+        "identifier": "urn:uuid:f5e426c1-eb1d-4f5b-9459-ca969261dd4f",
+        "timestamp": "2019-11-01T09:35:14+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -136,8 +136,8 @@
       "status": "active",
       "description": "Type options for EvidenceVariable.characteristic.participantEffective[x]",
       "expansion": {
-        "identifier": "urn:uuid:a9c5e693-4521-4a23-8554-d76cd2d5d3fd",
-        "timestamp": "2018-12-27T22:43:52+11:00",
+        "identifier": "urn:uuid:28b8ff49-f4ca-4d72-8ed2-7cf8dfcdcc08",
+        "timestamp": "2019-11-01T09:35:14+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -168,9 +168,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (Clinical Decision Support)",
   "item": [
     {

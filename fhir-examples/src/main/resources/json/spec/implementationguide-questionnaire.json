@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for ImplementationGuide.definition.resource.example[x]",
       "expansion": {
-        "identifier": "urn:uuid:c6290e51-51c9-4920-b175-a665080dd681",
-        "timestamp": "2018-12-27T22:44:07+11:00",
+        "identifier": "urn:uuid:12fc9263-b0b8-4d22-bce7-35191ca5d117",
+        "timestamp": "2019-11-01T09:35:27+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for ImplementationGuide.definition.page.name[x]",
       "expansion": {
-        "identifier": "urn:uuid:724ffd72-9f1c-484a-adda-6e0e94380836",
-        "timestamp": "2018-12-27T22:44:07+11:00",
+        "identifier": "urn:uuid:762f4298-f5ca-483b-8a7b-8f5057c17bb0",
+        "timestamp": "2019-11-01T09:35:27+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -55,8 +55,8 @@
       "status": "active",
       "description": "Type options for ImplementationGuide.manifest.resource.example[x]",
       "expansion": {
-        "identifier": "urn:uuid:f44a897d-0046-424a-9554-ea9478e69b4e",
-        "timestamp": "2018-12-27T22:44:07+11:00",
+        "identifier": "urn:uuid:5e5cf923-2727-415a-9a73-3e3d9e5977ec",
+        "timestamp": "2019-11-01T09:35:27+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -77,9 +77,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (FHIR Infrastructure)",
   "item": [
     {
@@ -1055,7 +1055,7 @@
                   }
                 }
               ],
-              "text": "The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].[minor], which is 4.0.0. for this version. Most implementation guides target a single version - e.g. they describe how to use a particular version, and the profiles and examples etc are valid for that version. But some implementation guides describe how to use multiple different versions of FHIR to solve the same problem, or in concert with each other. Typically, the requirement to support multiple versions arises as implementation matures and different implementation communities are stuck at different versions by regulation or market dynamics.",
+              "text": "The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].[minor], which is 4.0.1. for this version. Most implementation guides target a single version - e.g. they describe how to use a particular version, and the profiles and examples etc are valid for that version. But some implementation guides describe how to use multiple different versions of FHIR to solve the same problem, or in concert with each other. Typically, the requirement to support multiple versions arises as implementation matures and different implementation communities are stuck at different versions by regulation or market dynamics.",
               "type": "display"
             },
             {

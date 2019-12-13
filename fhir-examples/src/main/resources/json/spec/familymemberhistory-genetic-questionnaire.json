@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.born[x]",
       "expansion": {
-        "identifier": "urn:uuid:ea36aefb-4b07-49ce-b355-563529733d48",
-        "timestamp": "2018-12-27T22:43:58+11:00",
+        "identifier": "urn:uuid:00ccd281-9c21-4dd4-a8db-0ae4bda374f6",
+        "timestamp": "2019-11-01T09:35:19+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -37,8 +37,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.age[x]",
       "expansion": {
-        "identifier": "urn:uuid:28c15192-45d1-4524-8ef4-0b6877e2a6ae",
-        "timestamp": "2018-12-27T22:43:58+11:00",
+        "identifier": "urn:uuid:b0c916dc-f6f6-4b51-a5aa-48918bcf9bc8",
+        "timestamp": "2019-11-01T09:35:19+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -65,8 +65,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.deceased[x]",
       "expansion": {
-        "identifier": "urn:uuid:1399220d-df14-4f3f-a65a-22518c06d919",
-        "timestamp": "2018-12-27T22:43:58+11:00",
+        "identifier": "urn:uuid:3f891603-4296-49c6-a9c8-bb21c0766f67",
+        "timestamp": "2019-11-01T09:35:19+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -103,8 +103,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.condition.onset[x]",
       "expansion": {
-        "identifier": "urn:uuid:380ca8fe-0581-4229-9745-39ebc4069f58",
-        "timestamp": "2018-12-27T22:43:58+11:00",
+        "identifier": "urn:uuid:ce4d9a6c-eac6-4295-83af-7f1e59bae33e",
+        "timestamp": "2019-11-01T09:35:19+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -135,7 +135,7 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
   "date": "2013-10-02T00:00:00+10:00",
   "publisher": "Health Level Seven International (Clinical Genomics)",
@@ -469,7 +469,7 @@
                   }
                 }
               ],
-              "text": "Business identifiers assigned to this family member history by the performer or other systems which remain constant as the resource is updated and propagates from server to server. This is a business identifier, not a resource identifier (see [discussion](resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
+              "text": "Business identifiers assigned to this family member history by the performer or other systems which remain constant as the resource is updated and propagates from server to server. This is a business identifier, not a resource identifier (see [discussion](http://hl7.org/fhir/resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
               "type": "display"
             },
             {

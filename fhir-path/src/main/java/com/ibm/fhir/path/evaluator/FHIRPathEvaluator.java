@@ -34,6 +34,7 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.isSingleton;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isTrue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isTypeCompatible;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
+import static com.ibm.fhir.path.util.FHIRPathUtil.unescape;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -62,6 +63,8 @@ import com.ibm.fhir.path.FHIRPathDateValue;
 import com.ibm.fhir.path.FHIRPathLexer;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathParser;
+import com.ibm.fhir.path.FHIRPathParser.ExpressionContext;
+import com.ibm.fhir.path.FHIRPathParser.ParamListContext;
 import com.ibm.fhir.path.FHIRPathQuantityNode;
 import com.ibm.fhir.path.FHIRPathQuantityValue;
 import com.ibm.fhir.path.FHIRPathStringValue;
@@ -70,8 +73,6 @@ import com.ibm.fhir.path.FHIRPathTemporalValue;
 import com.ibm.fhir.path.FHIRPathTimeValue;
 import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.FHIRPathType;
-import com.ibm.fhir.path.FHIRPathParser.ExpressionContext;
-import com.ibm.fhir.path.FHIRPathParser.ParamListContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.function.FHIRPathFunction;
 
@@ -138,9 +139,9 @@ public class FHIRPathEvaluator {
         return new FHIRPathEvaluator();
     }
     
-    private static class EvaluatingVisitor extends FHIRPathBaseVisitor<Collection<FHIRPathNode>> {
+    public static class EvaluatingVisitor extends FHIRPathBaseVisitor<Collection<FHIRPathNode>> {
         private static final String SYSTEM_NAMESPACE = "System";
- 
+
         private static final int IDENTIFIER_CACHE_MAX_ENTRIES = 2048;
         private static final Map<String, Collection<FHIRPathNode>> IDENTIFIER_CACHE = createLRUCache(IDENTIFIER_CACHE_MAX_ENTRIES);
         
@@ -432,7 +433,7 @@ public class FHIRPathEvaluator {
             String operator = ctx.getChild(1).getText();
             
             if ((hasNumberValue(left) && hasNumberValue(right)) || (hasStringValue(left) && hasStringValue(right))) {
-                if (hasNumberValue(left) && hasNumberValue(right)) {            
+                if (hasNumberValue(left) && hasNumberValue(right)) {
                     switch (operator) {
                     case "+":
                         result = singleton(getNumberValue(left).add(getNumberValue(right)));
@@ -451,7 +452,7 @@ public class FHIRPathEvaluator {
                 }
             } else if (((hasStringValue(left) && right.isEmpty()) || (left.isEmpty() && hasStringValue(right))) && ("+".equals(operator) || "&".equals(operator))) {
                 if ("&".equals(operator)) {
-                    // concatenation where an empty collection is treated as an empty string                
+                    // concatenation where an empty collection is treated as an empty string
                     if (hasStringValue(left) && right.isEmpty()) {
                         FHIRPathStringValue leftValue = getStringValue(left);
                         result = singleton(leftValue.asStringValue().concat(EMPTY_STRING));
@@ -496,10 +497,10 @@ public class FHIRPathEvaluator {
                     result = singleton(leftNode.subtract(rightNode));
                     break;
                 }
-            } else {
+            } else if (!left.isEmpty() && !right.isEmpty()){
                 throw new IllegalArgumentException("Invalid argument(s) for '" + operator + "' operator");
             }
-                                    
+
             indentLevel--;
             return result;
         }
@@ -795,10 +796,9 @@ public class FHIRPathEvaluator {
             // If the left operand evaluates to true, this operator returns the boolean evaluation of the right operand. If the left operand evaluates to false, this operator returns true. Otherwise, this operator returns true if the right operand evaluates to true, and the empty collection ({ }) otherwise.
             if (evaluatesToBoolean(left) && evaluatesToBoolean(right)) {
                 // !left || right
-                result = (isFalse(left) || isTrue(right)) ? SINGLETON_TRUE : SINGLETON_FALSE;
-            } else if (left.isEmpty() && evaluatesToBoolean(right) && isTrue(right)) {
-                result = SINGLETON_TRUE;
-            } else if (evaluatesToBoolean(left) && isFalse(left) && right.isEmpty()) {
+                result = (!isTrue(left) || isTrue(right)) ? SINGLETON_TRUE : SINGLETON_FALSE;
+            } else if ((left.isEmpty() && evaluatesToBoolean(right) && isTrue(right)) || 
+                    (evaluatesToBoolean(left) && isFalse(left) && right.isEmpty())) {
                 result = SINGLETON_TRUE;
             }
             
@@ -931,23 +931,8 @@ public class FHIRPathEvaluator {
         @Override
         public Collection<FHIRPathNode> visitStringLiteral(FHIRPathParser.StringLiteralContext ctx) {
             debug(ctx);
-            String text = convert(ctx.getText());
+            String text = unescape(ctx.getText());
             return singleton(stringValue(text.substring(1, text.length() - 1)));
-        }
-        
-        private String convert(String s) {
-            StringBuilder sb = new StringBuilder();
-            int index = 0;
-            while (index < s.length()) {
-                if (s.regionMatches(index, "\\u", 0, 2)) {
-                    int hex = Integer.parseInt(s.substring(index + 2, index + 6), 16);
-                    sb.append(Character.toChars(hex));
-                    index += 6;
-                } else {
-                    sb.append(s.charAt(index++));
-                }
-            }
-            return sb.toString();
         }
         
         @Override
@@ -1210,7 +1195,7 @@ public class FHIRPathEvaluator {
         private static final Collection<FHIRPathNode> UCUM_SYSTEM_SINGLETON = singleton(stringValue(UCUM_SYSTEM));
         
         private static final String LOINC_SYSTEM = "http://loinc.org";
-        private static final Collection<FHIRPathNode> LOINC_SYTEM_SINGLETON = singleton(stringValue(LOINC_SYSTEM));
+        private static final Collection<FHIRPathNode> LOINC_SYSTEM_SINGLETON = singleton(stringValue(LOINC_SYSTEM));
         
         private static final String SCT_SYSTEM = "http://snomed.info/sct";
         private static final Collection<FHIRPathNode> SCT_SYSTEM_SINGLETON = singleton(stringValue(SCT_SYSTEM));
@@ -1218,24 +1203,34 @@ public class FHIRPathEvaluator {
         private final FHIRPathTree tree;
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
         
+        /**
+         * Create an empty evaluation context, evaluating stand-alone expressions
+         */
         public EvaluationContext() {
             this((FHIRPathTree) null);
         }
         
+        /**
+         * Create an evaluation context where the passed resource is the context root.
+         * Sets %resource and %rootResource external constants to the passed resource, but these can be overridden. 
+         * @param resource
+         */
         public EvaluationContext(Resource resource) {
             this(FHIRPathTree.tree(resource));
+            externalConstantMap.put("rootResource", singleton(tree.getRoot()));
             externalConstantMap.put("resource", singleton(tree.getRoot()));
         }
         
+        /**
+         * Create an evaluation context where the passed element is the context root.
+         * @param element
+         */
         public EvaluationContext(Element element) {
             this(FHIRPathTree.tree(element));
         }
         
-        public EvaluationContext(FHIRPathTree tree) {
+        private EvaluationContext(FHIRPathTree tree) {
             this.tree = tree;
-            externalConstantMap.put("ucum", UCUM_SYSTEM_SINGLETON);
-            externalConstantMap.put("loinc", LOINC_SYTEM_SINGLETON);
-            externalConstantMap.put("sct", SCT_SYSTEM_SINGLETON);
         }
         
         public FHIRPathTree getTree() {
@@ -1255,12 +1250,22 @@ public class FHIRPathEvaluator {
         }
         
         public Collection<FHIRPathNode> getExternalConstant(String name) {
-            if (name.startsWith("ext-")) {
-                return singleton(stringValue(name.replace("ext-", "http://hl7.org/fhir/StructureDefinition/")));
-            } else if (name.startsWith("vs-")) {
-                return singleton(stringValue(name.replace("vs-", "http://hl7.org/fhir/ValueSet/")));
+            switch (name) {
+            case "ucum":
+                return UCUM_SYSTEM_SINGLETON;
+            case "loinc":
+                return LOINC_SYSTEM_SINGLETON;
+            case "sct":
+                return SCT_SYSTEM_SINGLETON;
+            default:
+                if (name.startsWith("ext-")) {
+                    return singleton(stringValue(name.replace("ext-", "http://hl7.org/fhir/StructureDefinition/")));
+                }
+                if (name.startsWith("vs-")) {
+                    return singleton(stringValue(name.replace("vs-", "http://hl7.org/fhir/ValueSet/")));
+                }
+                return externalConstantMap.getOrDefault(name, empty());
             }
-            return externalConstantMap.getOrDefault(name, empty());
         }
         
         public boolean hasExternalConstant(String name) {

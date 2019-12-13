@@ -122,6 +122,11 @@ public class FHIRVersion extends Code {
      */
     public static final FHIRVersion VERSION_4_0_0 = FHIRVersion.builder().value(ValueSet.VERSION_4_0_0).build();
 
+    /**
+     * 4.0.1
+     */
+    public static final FHIRVersion VERSION_4_0_1 = FHIRVersion.builder().value(ValueSet.VERSION_4_0_1).build();
+
     private volatile int hashCode;
 
     private FHIRVersion(Builder builder) {
@@ -172,6 +177,8 @@ public class FHIRVersion extends Code {
             return VERSION_3_5_0;
         case VERSION_4_0_0:
             return VERSION_4_0_0;
+        case VERSION_4_0_1:
+            return VERSION_4_0_1;
         default:
             throw new IllegalStateException(value.name());
         }
@@ -365,7 +372,12 @@ public class FHIRVersion extends Code {
         /**
          * 4.0.0
          */
-        VERSION_4_0_0("4.0.0");
+        VERSION_4_0_0("4.0.0"),
+
+        /**
+         * 4.0.1
+         */
+        VERSION_4_0_1("4.0.1");
 
         private final java.lang.String value;
 

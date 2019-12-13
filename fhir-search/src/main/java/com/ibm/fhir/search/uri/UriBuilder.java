@@ -93,6 +93,7 @@ public class UriBuilder {
         appendRevInclusionParameters();
         appendSortParameters();
         appendSummaryParameter();
+        appendResourceTypesParameter();
 
         // Always include page number at the end, even if it wasn't in the request
         queryString.append(SearchConstants.AND_CHAR);
@@ -106,6 +107,20 @@ public class UriBuilder {
 
         return selfUri.toString();
 
+    }
+
+    private void appendResourceTypesParameter() {
+        if (context.getSearchResourceTypes() != null && !context.getSearchResourceTypes().isEmpty()) {
+            queryString.append(SearchConstants.AND_CHAR);
+            queryString.append(SearchConstants.RESOURCE_TYPE);
+            queryString.append(SearchConstants.EQUALS_CHAR);
+            String delim = SearchConstants.EMPTY_QUERY_STRING;
+            for (String param : context.getSearchResourceTypes()) {
+                queryString.append(delim).append(param);
+                delim = SearchConstants.JOIN_STR;
+            }
+        }
+        
     }
 
     /*
@@ -207,15 +222,19 @@ public class UriBuilder {
             while (process) {
                 param   = param.getNextParameter();
                 process = param != null && param.isChained();
+                // A guard is added as the original code 'could' result in an NPE.
                 if (param != null) {
-                    // A guard is added as the original code 'could' result in an NPE.
-                    returnString.append(param.getCode());
+                    returnString.append(SearchConstants.CHAINED_PARAMETER_CHARACTER);
+                    if (param.isChained()) {
+                        returnString.append(param.getCode());
+                    } else {
+                        appendNormalParameter(param, returnString);
+                    }
                 }
-
             }
+        } else {
+            appendNormalParameter(param, returnString);
         }
-
-        appendNormalParameter(param, returnString);
 
         return returnString.toString();
     }

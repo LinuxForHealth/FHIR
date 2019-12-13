@@ -155,6 +155,12 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         //assertSearchReturnsSavedResource("date", "9999-01-01,ap2018-10-29");
     }
 
+    /*
+     * Currently, documented in our conformance statement. We do not support
+     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
+     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
+     */
+    
 //    @Test
 //    public void testSearchDate_date_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.date:missing", "false");
@@ -308,6 +314,12 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-instant:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-instant:missing", "false");
     }
+    
+    /*
+     * Currently, documented in our conformance statement. We do not support
+     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
+     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
+     */
     
 //    @Test
 //    public void testSearchDate_instant_chained_missing() throws Exception {

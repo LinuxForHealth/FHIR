@@ -55,39 +55,6 @@ import com.ibm.fhir.path.TupleTypeInfo;
 import com.ibm.fhir.path.TupleTypeInfoElement;
 
 public final class FHIRPathUtil {
-    private static final Set<String> KEYWORDS = new HashSet<>(Arrays.asList(
-        "$index", 
-        "$this", 
-        "$total", 
-        "and", 
-        "as", 
-        "contains", 
-        "day", 
-        "days", 
-        "div", 
-        "false", 
-        "hour", 
-        "hours", 
-        "implies", 
-        "in", 
-        "is", 
-        "millisecond", 
-        "milliseconds", 
-        "minute", 
-        "minutes", 
-        "mod", 
-        "month", 
-        "months", 
-        "or", 
-        "seconds", 
-        "true", 
-        "week", 
-        "weeks", 
-        "xor", 
-        "year", 
-        "years", 
-        "second"
-    ));
     public static final Set<String> STRING_TRUE_VALUES = new HashSet<>(Arrays.asList("true", "t", "yes", "y", "1", "1.0"));
     public static final Set<String> STRING_FALSE_VALUES = new HashSet<>(Arrays.asList("false", "f", "no", "n", "0", "0.0"));
     public static final Integer INTEGER_TRUE = 1;
@@ -105,19 +72,22 @@ public final class FHIRPathUtil {
         TYPE_COMPATIBILITY_MAP.put(FHIRPathType.SYSTEM_DATE_TIME, new HashSet<>(Arrays.asList(FHIRPathType.SYSTEM_DATE_TIME, FHIRPathType.SYSTEM_DATE)));
         TYPE_COMPATIBILITY_MAP.put(FHIRPathType.SYSTEM_TIME, new HashSet<>(Arrays.asList(FHIRPathType.SYSTEM_TIME)));
     }
+    public static final Map<String, String> UNESCAPED = new HashMap<>();
+    static {
+        UNESCAPED.put("\\`", "`");
+        UNESCAPED.put("\\'", "'");
+        UNESCAPED.put("\\\\", "\\");
+        UNESCAPED.put("\\/", "/");
+        UNESCAPED.put("\\f", "\f");
+        UNESCAPED.put("\\n", "\n");
+        UNESCAPED.put("\\r", "\r");
+        UNESCAPED.put("\\t", "\t");
+    }
     
     private FHIRPathUtil() { }
 
     public static boolean isTypeCompatible(FHIRPathSystemValue leftValue, FHIRPathSystemValue rightValue) {
         return TYPE_COMPATIBILITY_MAP.get(leftValue.type()).contains(rightValue.type());
-    }
-    
-    public static boolean isKeyword(String identifier) {
-        return KEYWORDS.contains(identifier);
-    }
-    
-    public static String delimit(String identifier) {
-        return String.format("`%s`", identifier);
     }
     
     public static boolean hasResourceNode(Collection<FHIRPathNode> nodes) {
@@ -558,5 +528,28 @@ public final class FHIRPathUtil {
             return (FHIRPathTemporalValue) node;
         }
         return (FHIRPathTemporalValue) node.getValue();
+    }
+
+    public static String unescape(String s) {
+        StringBuilder sb = new StringBuilder();
+        int index = 0;
+        while (index < s.length()) {
+            if (s.regionMatches(index, "\\u", 0, 2)) {
+                int hex = Integer.parseInt(s.substring(index + 2, index + 6), 16);
+                sb.append(Character.toChars(hex));
+                index += 6;
+            } else if (s.regionMatches(index, "\\", 0, 1)) {
+                String escaped = s.substring(index, index + 2);
+                if (UNESCAPED.containsKey(escaped)) {
+                    sb.append(UNESCAPED.get(escaped));
+                    index += 2;
+                } else {
+                    sb.append(s.charAt(index++));
+                }
+            } else {
+                sb.append(s.charAt(index++));
+            }
+        }
+        return sb.toString();
     }
 }

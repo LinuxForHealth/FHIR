@@ -27,6 +27,7 @@ import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
+import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
 import com.ibm.fhir.model.spec.test.DriverStats;
 import com.ibm.fhir.model.spec.test.Expectation;
@@ -64,7 +65,7 @@ import com.ibm.fhir.validation.test.ValidationProcessor;
  *   --parse
  *   --validate
  *   --derby
- *   --index-file file:/path/to/my/index.txt
+ *   --index MINIMAL_JSON
  * </code>
  */
 public class Main {
@@ -83,7 +84,7 @@ public class Main {
     private String tenantKey;
 
     // The name of the index file to use
-    private String indexFileName;
+    private Index index;
 
     private boolean validate;
 
@@ -172,9 +173,9 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case "--index-file":
+            case "--index":
                 if (++i < args.length) {
-                    this.indexFileName = args[i];
+                    this.index = Index.valueOf(args[i]);
                 }
                 else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
@@ -346,11 +347,11 @@ public class Main {
                 driver.processExample(fx.getFilename(), fx.getExpectation());
             }
         }
-        else if (this.indexFileName != null) {
-            driver.processIndex(this.indexFileName);
+        else if (this.index != null) {
+            driver.processIndex(this.index);
         }
         else {
-            driver.processAllExamples();
+            driver.processIndex(Index.MINIMAL_JSON);
         }
     }
 

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ConceptMap xmlns="http://hl7.org/fhir">
+  <id value="sc-contract-publicationstatus"/>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <h2>ContractResourcePublicationStatusCodesCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-contract-publicationstatus)</h2>
+      <p>Mapping from 
+        <a href="valueset-contract-publicationstatus.html">http://hl7.org/fhir/ValueSet/contract-publicationstatus</a> to 
+        <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
+      </p>
+      <p>DRAFT. Published on 01/11/2019 9:29:23 AM by Financial Management (
+        <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>). 
+      </p>
+      <div>
+        <p>Canonical Mapping for &quot;This value set contract specific codes for status.&quot;</p>
+
+      </div>
+      <br/>
+      <table class="grid">
+        <tr>
+          <td>
+            <b>Source Code</b>
+          </td>
+          <td>
+            <b>Equivalence</b>
+          </td>
+          <td>
+            <b>Destination Code</b>
+          </td>
+        </tr>
+        <tr>
+          <td>entered-in-error</td>
+          <td>equivalent</td>
+          <td>error</td>
+        </tr>
+        <tr>
+          <td>offered</td>
+          <td>equivalent</td>
+          <td>proposed</td>
+        </tr>
+        <tr>
+          <td>negotiable,policy</td>
+          <td>equivalent</td>
+          <td>draft</td>
+        </tr>
+        <tr>
+          <td>executable,resolved</td>
+          <td>equivalent</td>
+          <td>active</td>
+        </tr>
+        <tr>
+          <td>disputed</td>
+          <td>equivalent</td>
+          <td>suspended</td>
+        </tr>
+        <tr>
+          <td>revoked</td>
+          <td>equivalent</td>
+          <td>failed</td>
+        </tr>
+        <tr>
+          <td>amended,appended,renewed</td>
+          <td>equivalent</td>
+          <td>replaced</td>
+        </tr>
+        <tr>
+          <td>executed</td>
+          <td>equivalent</td>
+          <td>complete</td>
+        </tr>
+        <tr>
+          <td>cancelled,rejected,terminated</td>
+          <td>equivalent</td>
+          <td>abandoned</td>
+        </tr>
+      </table>
+    </div>
+  </text>
+  <url value="http://hl7.org/fhir/ConceptMap/sc-contract-publicationstatus"/>
+  <version value="4.0.1"/>
+  <name value="ContractResourcePublicationStatusCodesCanonicalMap"/>
+  <title value="Canonical Mapping for &quot;Contract Resource Publication Status codes&quot;"/>
+  <status value="draft"/>
+  <date value="2019-11-01T09:29:23+11:00"/>
+  <publisher value="Financial Management"/>
+  <contact>
+    <telecom>
+      <system value="url"/>
+      <value value="http://hl7.org/fhir"/>
+    </telecom>
+  </contact>
+  <description value="Canonical Mapping for &quot;This value set contract specific codes for status.&quot;"/>
+  <sourceCanonical value="http://hl7.org/fhir/ValueSet/contract-publicationstatus"/>
+  <targetCanonical value="http://hl7.org/fhir/ValueSet/resource-status"/>
+  <group>
+    <source value="http://hl7.org/fhir/contract-publicationstatus"/>
+    <target value="http://hl7.org/fhir/resource-status"/>
+    <element>
+      <code value="entered-in-error"/>
+      <target>
+        <code value="error"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="offered"/>
+      <target>
+        <code value="proposed"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="negotiable,policy"/>
+      <target>
+        <code value="draft"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="executable,resolved"/>
+      <target>
+        <code value="active"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="disputed"/>
+      <target>
+        <code value="suspended"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="revoked"/>
+      <target>
+        <code value="failed"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="amended,appended,renewed"/>
+      <target>
+        <code value="replaced"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="executed"/>
+      <target>
+        <code value="complete"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+    <element>
+      <code value="cancelled,rejected,terminated"/>
+      <target>
+        <code value="abandoned"/>
+        <equivalence value="equivalent"/>
+      </target>
+    </element>
+  </group>
+</ConceptMap>

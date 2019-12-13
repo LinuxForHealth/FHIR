@@ -21,7 +21,6 @@ import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
@@ -71,7 +70,7 @@ public class DeviceMetric extends DomainResource {
         bindingName = "DeviceMetricOperationalStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Describes the operational status of the DeviceMetric.",
-        valueSet = "http://hl7.org/fhir/ValueSet/metric-operational-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/metric-operational-status|4.0.1"
     )
     private final DeviceMetricOperationalStatus operationalStatus;
     @Summary
@@ -79,7 +78,7 @@ public class DeviceMetric extends DomainResource {
         bindingName = "DeviceMetricColor",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Describes the typical color of representation.",
-        valueSet = "http://hl7.org/fhir/ValueSet/metric-color|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/metric-color|4.0.1"
     )
     private final DeviceMetricColor color;
     @Summary
@@ -87,7 +86,7 @@ public class DeviceMetric extends DomainResource {
         bindingName = "DeviceMetricCategory",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Describes the category of the metric.",
-        valueSet = "http://hl7.org/fhir/ValueSet/metric-category|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/metric-category|4.0.1"
     )
     @Required
     private final DeviceMetricCategory category;
@@ -364,7 +363,7 @@ public class DeviceMetric extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -789,7 +788,7 @@ public class DeviceMetric extends DomainResource {
             bindingName = "DeviceMetricCalibrationType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Describes the type of a metric calibration.",
-            valueSet = "http://hl7.org/fhir/ValueSet/metric-calibration-type|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/metric-calibration-type|4.0.1"
         )
         private final DeviceMetricCalibrationType type;
         @Summary
@@ -797,7 +796,7 @@ public class DeviceMetric extends DomainResource {
             bindingName = "DeviceMetricCalibrationState",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "Describes the state of a metric calibration.",
-            valueSet = "http://hl7.org/fhir/ValueSet/metric-calibration-state|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/metric-calibration-state|4.0.1"
         )
         private final DeviceMetricCalibrationState state;
         @Summary

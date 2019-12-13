@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for MedicationDispense.statusReason[x]",
       "expansion": {
-        "identifier": "urn:uuid:d1fc3b3c-97ae-4c04-aa1b-8e3e3d4a5fc5",
-        "timestamp": "2018-12-27T22:44:24+11:00",
+        "identifier": "urn:uuid:76638580-e654-49ca-8802-110356ff039d",
+        "timestamp": "2019-11-01T09:35:52+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for MedicationDispense.medication[x]",
       "expansion": {
-        "identifier": "urn:uuid:a0af8d33-4263-4c5a-b9ab-d34a23e41947",
-        "timestamp": "2018-12-27T22:44:24+11:00",
+        "identifier": "urn:uuid:f454ac1d-b47e-4a1a-92a5-d235e333be52",
+        "timestamp": "2019-11-01T09:35:52+11:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -54,9 +54,9 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "draft",
-  "date": "2018-12-27T22:37:54+11:00",
+  "date": "2019-11-01T09:29:23+11:00",
   "publisher": "Health Level Seven International (Pharmacy)",
   "item": [
     {

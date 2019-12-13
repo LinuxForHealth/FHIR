@@ -22,7 +22,7 @@ public class UpdateOperation extends BaseOperation {
         final Resource resource = tc.getResource();
         final FHIRPersistenceContext context = tc.createPersistenceContext();
 
-        final String logicalId = resource.getId().getValue();
+        final String logicalId = resource.getId();
         
         logger.fine("Updating: " + logicalId);
 

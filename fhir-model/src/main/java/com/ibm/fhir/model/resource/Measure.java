@@ -30,7 +30,6 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Expression;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
@@ -81,7 +80,7 @@ public class Measure extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -172,7 +171,7 @@ public class Measure extends DomainResource {
         bindingName = "MeasureImprovementNotation",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Observation values that indicate what change in a measurement value or score is indicative of an improvement in the measured item or scored issue.",
-        valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.0.1"
     )
     private final CodeableConcept improvementNotation;
     @Summary
@@ -964,7 +963,7 @@ public class Measure extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 

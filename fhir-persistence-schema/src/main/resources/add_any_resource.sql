@@ -114,7 +114,7 @@ BEGIN
   
     -- resource exists, so if we are storing a specific version, do a quick check to make
     -- sure that this version doesn't currently exist. This is only done when processing
-    -- replication messages or other custom operations which explicitly provide a version
+    -- custom operations which explicitly provide a version
     IF p_version IS NOT NULL
     THEN
       PREPARE stmt FROM
@@ -140,9 +140,9 @@ BEGIN
     || ' WHERE resource_id = ?)';
     EXECUTE stmt INTO v_version USING v_current_resource_id;
 
-    -- If we have been passed a version number, this means that this is a replicated
+    -- If we have been passed a version number, this means that this is a custom ops
     -- resource, and so we only need to delete parameters if the given version is later 
-    -- than the current version. This allows versions (from replication or custom ops)
+    -- than the current version. This allows versions (from custom ops)
     -- to arrive out of order, and we're just filling in the gaps
     IF p_version IS NULL OR p_version > v_version
     THEN
@@ -177,10 +177,9 @@ BEGIN
   VALUES NEXT VALUE FOR {{SCHEMA_NAME}}.fhir_sequence INTO v_resource_id;
 
   PREPARE stmt FROM
-         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (mt_id, resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, TX_CORRELATION_ID, CHANGED_BY, CORRELATION_TOKEN, REASON, SERVICE_ID, TENANT_ID) '
-      || ' VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-  EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, v_logical_resource_id, v_insert_version, p_payload, p_last_updated, p_is_deleted, ' ', ' ' , ' ', ' ' , ' ', ' '
-  ;
+         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (mt_id, resource_id, logical_resource_id, version_id, data, last_updated, is_deleted) '
+      || ' VALUES ( ?, ?, ?, ?, ?, ?, ?)';
+  EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, v_logical_resource_id, v_insert_version, p_payload, p_last_updated, p_is_deleted;
 
   IF p_version IS NULL OR p_version > v_version
   THEN

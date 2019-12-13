@@ -28,7 +28,7 @@ import com.ibm.fhir.path.visitor.FHIRPathDefaultNodeVisitor;
 public class NodeVisitorTest {
     @Test
     public void testNodeVisitor() throws Exception {
-        try (BufferedReader reader = new BufferedReader(ExamplesUtil.reader("json/spec/patient-example.json"))) {
+        try (BufferedReader reader = new BufferedReader(ExamplesUtil.resourceReader("json/spec/patient-example.json"))) {
             Patient patient = FHIRParser.parser(Format.JSON).parse(reader);
                         
             List<String> paths = new ArrayList<>();

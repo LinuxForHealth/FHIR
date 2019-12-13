@@ -21,7 +21,7 @@ public class FHIRPathEvaluatorProfileTest {
     private static final int NUM_ITERATIONS = 500000;
     
     public static void main(String[] args) throws Exception {
-        String specExample = new BufferedReader(ExamplesUtil.reader("json/spec/patient-examples-general.json"))
+        String specExample = new BufferedReader(ExamplesUtil.resourceReader("json/spec/patient-examples-general.json"))
                 .lines()
                 .collect(Collectors.joining(System.lineSeparator()));
         Resource resource = FHIRParser.parser(Format.JSON).parse(new StringReader(specExample));

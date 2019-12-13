@@ -35,7 +35,6 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.Id;
 
 /**
  * Test cases for the <b>$apply</b> operation
@@ -311,7 +310,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         }
 
         Parameters.Builder builder = Parameters.builder();
-        builder.id(Id.of(UUID.randomUUID().toString()));
+        builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
         return builder.build();
     }

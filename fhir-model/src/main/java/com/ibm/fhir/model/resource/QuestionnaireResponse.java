@@ -30,7 +30,6 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
@@ -71,7 +70,7 @@ public class QuestionnaireResponse extends DomainResource {
         bindingName = "QuestionnaireResponseStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Lifecycle status of the questionnaire response.",
-        valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.0.1"
     )
     @Required
     private final QuestionnaireResponseStatus status;
@@ -363,7 +362,7 @@ public class QuestionnaireResponse extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 

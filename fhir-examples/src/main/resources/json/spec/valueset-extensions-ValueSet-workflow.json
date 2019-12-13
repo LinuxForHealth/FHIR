@@ -2,7 +2,7 @@
   "resourceType": "SearchParameter",
   "id": "valueset-extensions-ValueSet-workflow",
   "url": "http://hl7.org/fhir/SearchParameter/valueset-extensions-ValueSet-workflow",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "name": "workflow",
   "status": "draft",
   "experimental": true,
@@ -10,7 +10,5 @@
   "code": "workflow",
   "type": "token",
   "xpath": "f:ValueSet/f:extension[@url\u003d\u0027http://hl7.org/fhir/StructureDefinition/valueset-workflowStatus\u0027] | /f:#workflowStatus",
-  "xpathUsage": "normal",
-  "multipleOr": true,
-  "multipleAnd": true
+  "xpathUsage": "normal"
 }

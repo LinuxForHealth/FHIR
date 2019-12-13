@@ -24,7 +24,6 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Date;
-import com.ibm.fhir.model.type.Id;
 
 /**
  * Tests the update operation.
@@ -59,7 +58,7 @@ public class UpdateTest extends FHIRServerTestBase {
             // Generate an ID for the new resource.
             String newId = UUID.randomUUID().toString();
             Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
-            patient = patient.toBuilder().id(Id.of(newId)).build();
+            patient = patient.toBuilder().id(newId).build();
             
             // Create the new resource via the update operation.
             FHIRClient client = getFHIRClient();
@@ -122,7 +121,7 @@ public class UpdateTest extends FHIRServerTestBase {
             // Generate an ID for the new resource.
             String newId = UUID.randomUUID().toString();
             Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
-            patient = patient.toBuilder().id(Id.of(newId)).build();
+            patient = patient.toBuilder().id(newId).build();
             
             // Call update for this new resource and make sure we get back an error.
             FHIRClient client = getFHIRClient();
@@ -246,7 +245,7 @@ public class UpdateTest extends FHIRServerTestBase {
             
             // Create the new resource with return pref of "minimal"
             String id1 = UUID.randomUUID().toString();
-            patient = patient.toBuilder().id(Id.of(id1)).build();
+            patient = patient.toBuilder().id(id1).build();
             returnPref = new FHIRRequestHeader("Prefer", "return=minimal");
             FHIRResponse response1 = client.update(patient, returnPref);
             assertNotNull(response1);
@@ -261,7 +260,7 @@ public class UpdateTest extends FHIRServerTestBase {
             
             // Create the new resource with return pref of "representation"
             String id2 = UUID.randomUUID().toString();
-            patient = patient.toBuilder().id(Id.of(id2)).build();
+            patient = patient.toBuilder().id(id2).build();
             returnPref = new FHIRRequestHeader("Prefer", "return=representation");
             FHIRResponse response2 = client.update(patient, returnPref);
             assertNotNull(response2);
@@ -278,7 +277,7 @@ public class UpdateTest extends FHIRServerTestBase {
             
             // Create the new resource with return pref of "representation"
             String id3 = UUID.randomUUID().toString();
-            patient = patient.toBuilder().id(Id.of(id3)).build();
+            patient = patient.toBuilder().id(id3).build();
             returnPref = new FHIRRequestHeader("Prefer", "return=OperationOutcome");
             FHIRResponse response3 = client.update(patient, returnPref);
             assertNotNull(response3);

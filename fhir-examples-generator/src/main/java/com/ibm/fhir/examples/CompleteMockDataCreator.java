@@ -60,6 +60,7 @@ import com.ibm.fhir.model.type.TriggerDefinition;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.model.type.code.AddressUse;
+import com.ibm.fhir.model.type.code.CapabilityStatementKind;
 import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.type.code.QuestionnaireItemOperator;
 import com.ibm.fhir.model.type.code.QuestionnaireItemType;
@@ -188,8 +189,6 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                     else if (builder instanceof RiskAssessment.Prediction.Builder && method.getName().equals("probability")) {
                         argument = Decimal.of(Math.random() * 100);
                     }
-                    // org-2:  An address of an organization can never be of use 'home'
-                    // org-3:  The telecom of an organization can never be of use 'home'
                     /////////////////
                     // Everything else
                     /////////////////
@@ -322,6 +321,12 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                 if (code instanceof ContactPointUse.Builder) {
                     // 'home' is the first constant and we use all kinds of values, so avoid that one
                     enumConstant = enumConstants[ThreadLocalRandom.current().nextInt(1, enumConstants.length)];
+                }
+                // cpb-3:  Messaging end-point is required (and is only permitted) when a statement is for an implementation.
+                // cpb-15: If kind = capability, implementation must be absent, software must be present
+                if (code instanceof CapabilityStatementKind.Builder) {
+                    // use 'instance' to avoid the other special cases
+                    enumConstant = CapabilityStatementKind.ValueSet.INSTANCE;
                 }
                 
                 String enumValue = (String) clazz.getMethod("value").invoke(enumConstant);

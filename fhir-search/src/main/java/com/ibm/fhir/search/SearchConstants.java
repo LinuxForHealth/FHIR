@@ -89,6 +89,9 @@ public class SearchConstants {
     
     // _pretty
     public static final String PRETTY = "_pretty";
+    
+    // _type
+    public static final String RESOURCE_TYPE = "_type";
 
     // set as unmodifiable
     public static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
@@ -175,12 +178,9 @@ public class SearchConstants {
 
     /**
      * Types
-     * 
-     * @author markd
-     *
      */
     public enum Type {
-        NUMBER("number"), DATE("date"), STRING("string"), TOKEN("token"), REFERENCE("reference"), QUANTITY("quantity"), URI("uri");
+        NUMBER("number"), DATE("date"), STRING("string"), TOKEN("token"), REFERENCE("reference"), QUANTITY("quantity"), URI("uri"), SPECIAL("special");
 
         private String value = null;
 

@@ -89,7 +89,7 @@ public class TestUtil {
         Format fmt = (fileName.endsWith(".xml") ? Format.XML : Format.JSON);
 
         // Deserialize the file contents.
-        try (Reader reader = ExamplesUtil.reader(fileName)) {
+        try (Reader reader = ExamplesUtil.resourceReader(fileName)) {
             return FHIRParser.parser(fmt).parse(reader);
         }
     }
@@ -257,12 +257,12 @@ public class TestUtil {
         int count = 0;
         
         String resourceTypeToFind = FHIRUtil.getResourceTypeName(resourceToFind);
-        String idToFind = resourceToFind.getId().getValue();
+        String idToFind = resourceToFind.getId();
         String versionToFind = resourceToFind.getMeta().getVersionId().getValue();
         
         for (Resource r : resources) {
             String resourceType = FHIRUtil.getResourceTypeName(r);
-            String id = r.getId().getValue();
+            String id = r.getId();
             String version = r.getMeta().getVersionId().getValue();
             if (idToFind.equals(id) && resourceTypeToFind.equals(resourceType)) {
                 if (versionToFind.equals(version)) {

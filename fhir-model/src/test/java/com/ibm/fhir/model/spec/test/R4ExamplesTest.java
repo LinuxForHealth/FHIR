@@ -9,6 +9,7 @@ package com.ibm.fhir.model.spec.test;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.visitor.CopyingVisitor;
@@ -28,13 +29,17 @@ public class R4ExamplesTest {
     @Test
     public void serializationTest() throws Exception {
         driver.setProcessor(new SerializationProcessor());
-        driver.processAllExamples();
+        String index = System.getProperty(this.getClass().getName()
+            + ".index", Index.MINIMAL_JSON.name());
+        driver.processIndex(Index.valueOf(index));
     }
     
     @Test
     public void copyTest() throws Exception {
         driver.setProcessor(new CopyProcessor(new CopyingVisitor<Resource>()));
-        driver.processAllExamples();
+        String index = System.getProperty(this.getClass().getName()
+            + ".index", Index.MINIMAL_JSON.name());
+        driver.processIndex(Index.valueOf(index));
     }
     
     /**

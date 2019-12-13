@@ -52,7 +52,7 @@ public class ImagingStudy extends DomainResource {
         bindingName = "ImagingStudyStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the ImagingStudy.",
-        valueSet = "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.0.1"
     )
     @Required
     private final ImagingStudyStatus status;
@@ -538,7 +538,7 @@ public class ImagingStudy extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 

@@ -26,7 +26,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
@@ -68,7 +67,7 @@ public class GraphDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -97,7 +96,7 @@ public class GraphDefinition extends DomainResource {
         bindingName = "ResourceType",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
-        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
     )
     @Required
     private final ResourceType start;
@@ -452,7 +451,7 @@ public class GraphDefinition extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1401,7 +1400,7 @@ public class GraphDefinition extends DomainResource {
                 bindingName = "ResourceType",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "One of the resource types defined as part of this version of FHIR.",
-                valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
             )
             @Required
             private final ResourceType type;
@@ -1809,7 +1808,7 @@ public class GraphDefinition extends DomainResource {
                     bindingName = "GraphCompartmentUse",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "Defines how a compartment rule is used.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-use|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-use|4.0.1"
                 )
                 @Required
                 private final GraphCompartmentUse use;
@@ -1817,7 +1816,7 @@ public class GraphDefinition extends DomainResource {
                     bindingName = "CompartmentCode",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "Identifies a compartment.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.1"
                 )
                 @Required
                 private final CompartmentCode code;
@@ -1825,7 +1824,7 @@ public class GraphDefinition extends DomainResource {
                     bindingName = "GraphCompartmentRule",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "How a compartment must be linked.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-rule|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-rule|4.0.1"
                 )
                 @Required
                 private final GraphCompartmentRule rule;
@@ -2108,7 +2107,7 @@ public class GraphDefinition extends DomainResource {
                      * <p>This element is required.
                      * 
                      * @param code
-                     *     Identifies the compartment
+                     *     Patient | Encounter | RelatedPerson | Practitioner | Device
                      * 
                      * @return
                      *     A reference to this Builder instance

@@ -54,7 +54,7 @@ public class ReadOperation extends BaseOperation {
     		final Resource resource = tc.getResource();
     		final FHIRPersistenceContext context = tc.createPersistenceContext();
     		
-    		final String logicalId = resource.getId().getValue();
+    		final String logicalId = resource.getId();
 
     		if (logger.isLoggable(Level.FINE)) {
     		    logger.fine("Reading: " + logicalId);

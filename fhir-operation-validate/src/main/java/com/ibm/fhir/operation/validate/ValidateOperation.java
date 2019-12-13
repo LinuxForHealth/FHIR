@@ -83,7 +83,7 @@ public class ValidateOperation extends AbstractOperation {
                 || IssueSeverity.FATAL.equals(issue.getSeverity()));
                 
         OperationOutcome operationOutcome = OperationOutcome.builder()
-                .id(Id.of(hasError? "Error" : "NoError"))
+                .id(hasError? "Error" : "NoError")
                 .text(Narrative.builder()
                     .status(NarrativeStatus.ADDITIONAL)
                     .div(xhtml(hasError? "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>ERROR</p></div>"

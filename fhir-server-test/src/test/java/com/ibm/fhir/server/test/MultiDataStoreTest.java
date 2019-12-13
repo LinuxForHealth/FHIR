@@ -23,7 +23,6 @@ import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.test.TestUtil;
-import com.ibm.fhir.model.type.Id;
 
 /**
  * Tests that involve multiple datastores defined for tenant1
@@ -41,7 +40,7 @@ public class MultiDataStoreTest extends FHIRServerTestBase {
     public void testCreatePatient() throws Exception {
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         assertNotNull(patient);
-        patient = patient.toBuilder().id(Id.of(patientId)).build();
+        patient = patient.toBuilder().id(patientId).build();
 
         FHIRRequestHeader[] headers = getHeaders("tenant1", "profile");
         FHIRResponse response = client.update(patient, headers);
@@ -81,7 +80,7 @@ public class MultiDataStoreTest extends FHIRServerTestBase {
     public void testCreatePractitioner() throws Exception {
         Practitioner practitioner = TestUtil.readLocalResource("Practitioner.json");
         assertNotNull(practitioner);
-        practitioner = practitioner.toBuilder().id(Id.of(practitionerId)).build();
+        practitioner = practitioner.toBuilder().id(practitionerId).build();
 
         FHIRRequestHeader[] headers = getHeaders("tenant1", "reference");
         FHIRResponse response = client.update(practitioner, headers);
@@ -126,7 +125,7 @@ public class MultiDataStoreTest extends FHIRServerTestBase {
     public void testCreateMedicationAdministration() throws Exception {
         MedicationAdministration medadmin = TestUtil.readLocalResource("MedicationAdministration.json");
         assertNotNull(medadmin);
-        medadmin = medadmin.toBuilder().id(Id.of(medadminId)).build();
+        medadmin = medadmin.toBuilder().id(medadminId).build();
 
         FHIRRequestHeader[] headers = getHeaders("tenant1", "study1");
         FHIRResponse response = client.update(medadmin, headers);
@@ -171,7 +170,7 @@ public class MultiDataStoreTest extends FHIRServerTestBase {
     public void testCreateObservation() throws Exception {
         Observation observation = TestUtil.readLocalResource("Observation1.json");
         assertNotNull(observation);
-        observation = observation.toBuilder().id(Id.of(observationId)).build();
+        observation = observation.toBuilder().id(observationId).build();
 
         FHIRRequestHeader[] headers = getHeaders("tenant1", "default");
         FHIRResponse response = client.update(observation, headers);

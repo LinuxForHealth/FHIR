@@ -174,12 +174,14 @@ public class FHIRUtil {
         Dosage.class));
     private static final Map<String, String> CONCRETE_TYPE_NAME_MAP = buildConcreteTypeNameMap();
     private static final OperationOutcome ALL_OK = OperationOutcome.builder()
-                                                            .issue(Issue.builder()
-                                                                    .severity(IssueSeverity.INFORMATION)
-                                                                    .code(IssueType.INFORMATIONAL)
-                                                                    .details(CodeableConcept.builder().text(string("All OK")).build())
-                                                                    .build())
-                                                            .build();
+        .issue(Issue.builder()
+        .severity(IssueSeverity.INFORMATION)
+        .code(IssueType.INFORMATIONAL)
+            .details(CodeableConcept.builder()
+                .text(string("All OK"))
+                .build())
+            .build())
+        .build();
 
     private FHIRUtil() { }
 
@@ -481,7 +483,7 @@ public class FHIRUtil {
      */
     public static OperationOutcome buildOperationOutcome(FHIROperationException e, boolean includeCausedByClauses) {
         if (e.getIssues() != null && e.getIssues().size() > 0) {
-            Id id = Id.builder().value(e.getUniqueId()).build();
+            String id = e.getUniqueId();
             return buildOperationOutcome(e.getIssues()).toBuilder().id(id).build();
         } else {
             return buildOperationOutcome((FHIRException) e, includeCausedByClauses);
@@ -493,7 +495,7 @@ public class FHIRUtil {
      * 'fatal'.
      */
     public static OperationOutcome buildOperationOutcome(FHIRException e, boolean includeCausedByClauses) {
-        Id id = Id.builder().value(e.getUniqueId()).build();
+        String id = e.getUniqueId();
         return buildOperationOutcome((Exception) e, includeCausedByClauses).toBuilder().id(id).build();
     }
 
@@ -566,7 +568,7 @@ public class FHIRUtil {
         if (!resourceTypeName.equals(type)) {
             resourceTypeName = type;
         }
-        return URI.create(resourceTypeName + "/" + resource.getId().getValue() + "/_history/" + resource.getMeta().getVersionId().getValue());
+        return URI.create(resourceTypeName + "/" + resource.getId() + "/_history/" + resource.getMeta().getVersionId().getValue());
     }
 
     /**
@@ -615,9 +617,9 @@ public class FHIRUtil {
             referenceUriString = referenceUriString.substring(1);
             List<Resource> containedResources = resource.getContained();
             for (Resource containedResource : containedResources) {
-                Id id = containedResource.getId();
+                String id = containedResource.getId();
                 if (id != null) {
-                    if (referenceUriString.equals(id.getValue())) {
+                    if (referenceUriString.equals(id)) {
                         return containedResource;
                     }
                 }

@@ -8,6 +8,7 @@ package com.ibm.fhir.search.test;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.validation.test.ValidationProcessor;
 
@@ -24,8 +25,9 @@ public class ExamplesDriverTest {
         final R4ExamplesDriver driver = new R4ExamplesDriver();
         driver.setValidator(new ValidationProcessor());
         driver.setProcessor(new ExtractorRequestProcessor());
-        
-        driver.processAllExamples();
+        String index = System.getProperty(this.getClass().getName()
+            + ".index", Index.MINIMAL_JSON.name());
+        driver.processIndex(Index.valueOf(index));
      }
     
 }

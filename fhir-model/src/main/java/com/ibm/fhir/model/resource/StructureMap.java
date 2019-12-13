@@ -128,7 +128,7 @@ public class StructureMap extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
     @Required
     private final PublicationStatus status;
@@ -367,7 +367,7 @@ public class StructureMap extends DomainResource {
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
      */
-    public List<Canonical> getimport() {
+    public List<Canonical> getImport() {
         return _import;
     }
 
@@ -560,7 +560,7 @@ public class StructureMap extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1223,7 +1223,7 @@ public class StructureMap extends DomainResource {
             bindingName = "StructureMapModelMode",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "How the referenced structure is used in this mapping.",
-            valueSet = "http://hl7.org/fhir/ValueSet/map-model-mode|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/map-model-mode|4.0.1"
         )
         @Required
         private final StructureMapModelMode mode;
@@ -1569,7 +1569,7 @@ public class StructureMap extends DomainResource {
             bindingName = "StructureMapGroupTypeMode",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "If this is the default rule set to apply for the source type, or this combination of types.",
-            valueSet = "http://hl7.org/fhir/ValueSet/map-group-type-mode|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/map-group-type-mode|4.0.1"
         )
         @Required
         private final StructureMapGroupTypeMode typeMode;
@@ -1611,7 +1611,7 @@ public class StructureMap extends DomainResource {
          * @return
          *     An immutable object of type {@link Id}.
          */
-        public Id getextends() {
+        public Id getExtends() {
             return _extends;
         }
 
@@ -2031,7 +2031,7 @@ public class StructureMap extends DomainResource {
                 bindingName = "StructureMapInputMode",
                 strength = BindingStrength.ValueSet.REQUIRED,
                 description = "Mode for this instance of data.",
-                valueSet = "http://hl7.org/fhir/ValueSet/map-input-mode|4.0.0"
+                valueSet = "http://hl7.org/fhir/ValueSet/map-input-mode|4.0.1"
             )
             @Required
             private final StructureMapInputMode mode;
@@ -2860,7 +2860,7 @@ public class StructureMap extends DomainResource {
                 @Summary
                 private final String type;
                 @Summary
-                @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class })
+                @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class })
                 private final Element defaultValue;
                 @Summary
                 private final String element;
@@ -2869,7 +2869,7 @@ public class StructureMap extends DomainResource {
                     bindingName = "StructureMapSourceListMode",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "If field is a list, how to manage the source.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/map-source-list-mode|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/map-source-list-mode|4.0.1"
                 )
                 private final StructureMapSourceListMode listMode;
                 @Summary
@@ -2889,7 +2889,7 @@ public class StructureMap extends DomainResource {
                     min = builder.min;
                     max = builder.max;
                     type = builder.type;
-                    defaultValue = ValidationSupport.choiceElement(builder.defaultValue, "defaultValue", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class);
+                    defaultValue = ValidationSupport.choiceElement(builder.defaultValue, "defaultValue", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
                     element = builder.element;
                     listMode = builder.listMode;
                     variable = builder.variable;
@@ -3346,6 +3346,7 @@ public class StructureMap extends DomainResource {
                      * <li>{@link TriggerDefinition}</li>
                      * <li>{@link UsageContext}</li>
                      * <li>{@link Dosage}</li>
+                     * <li>{@link Meta}</li>
                      * </ul>
                      * 
                      * @param defaultValue
@@ -3489,7 +3490,7 @@ public class StructureMap extends DomainResource {
                     bindingName = "StructureMapContextType",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "How to interpret the context.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/map-context-type|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/map-context-type|4.0.1"
                 )
                 private final StructureMapContextType contextType;
                 @Summary
@@ -3501,7 +3502,7 @@ public class StructureMap extends DomainResource {
                     bindingName = "StructureMapTargetListMode",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "If field is a list, how to manage the production.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/map-target-list-mode|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/map-target-list-mode|4.0.1"
                 )
                 private final List<StructureMapTargetListMode> listMode;
                 @Summary
@@ -3511,7 +3512,7 @@ public class StructureMap extends DomainResource {
                     bindingName = "StructureMapTransform",
                     strength = BindingStrength.ValueSet.REQUIRED,
                     description = "How data is copied/created.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/map-transform|4.0.0"
+                    valueSet = "http://hl7.org/fhir/ValueSet/map-transform|4.0.1"
                 )
                 private final StructureMapTransform transform;
                 @Summary

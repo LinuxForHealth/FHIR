@@ -27,7 +27,6 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -62,7 +61,7 @@ public class Communication extends DomainResource {
         bindingName = "CommunicationStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of the communication.",
-        valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.1"
     )
     @Required
     private final CommunicationStatus status;
@@ -86,7 +85,7 @@ public class Communication extends DomainResource {
         bindingName = "CommunicationPriority",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "Codes indicating the relative importance of a communication.",
-        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
     )
     private final CommunicationPriority priority;
     @Binding(
@@ -598,7 +597,7 @@ public class Communication extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -1000,7 +999,7 @@ public class Communication extends DomainResource {
          * <p>This element is required.
          * 
          * @param status
-         *     preparation | in-progress | not-done | suspended | aborted | completed | entered-in-error
+         *     preparation | in-progress | not-done | on-hold | stopped | completed | entered-in-error | unknown
          * 
          * @return
          *     A reference to this Builder instance
@@ -1063,7 +1062,7 @@ public class Communication extends DomainResource {
          * urgent, routine.
          * 
          * @param priority
-         *     Message urgency
+         *     routine | urgent | asap | stat
          * 
          * @return
          *     A reference to this Builder instance

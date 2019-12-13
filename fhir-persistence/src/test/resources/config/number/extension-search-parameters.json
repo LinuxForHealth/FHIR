@@ -324,5 +324,22 @@
             "xpath": "f:Basic/f:extension[@url='http://example.org/missing-decimal']/f:valueDecimal",
             "xpathUsage": "normal"
         }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-precision",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-precision",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-precision",
+            "name": "precision",
+            "status": "active",
+            "description": "test param",
+            "code": "precision",
+            "base": ["Basic"],
+            "type": "number",
+            "expression": "Basic.extension.where(url='http://example.org/precision').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/precision']/f:valueDecimal",
+            "xpathUsage": "normal"
+        }
     }]
 }

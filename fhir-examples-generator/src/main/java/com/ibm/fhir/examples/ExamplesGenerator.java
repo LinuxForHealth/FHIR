@@ -88,6 +88,13 @@ public class ExamplesGenerator {
      * @return
      */
     private Resource tag(Resource resource, String tag) {
+        Coding tagCode = Coding.builder().code(Code.of(tag)).build();
+        if (resource.getMeta() != null && !resource.getMeta().getTag().isEmpty()) {
+            if (resource.getMeta().getTag().contains(tagCode)) {
+                // resource already has the tag, so just return
+                return resource;
+            }
+        }
         Meta.Builder metaBuilder = resource.getMeta() != null ? resource.getMeta().toBuilder() : Meta.builder();
         metaBuilder.tag(Coding.builder().code(Code.of(tag)).build());
         resource = resource.toBuilder().meta(metaBuilder.build()).build();

@@ -53,6 +53,19 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <com.ibm.fhir.validation.test.R4ExamplesValidatorTest.index>${fhir-validation.index}</com.ibm.fhir.validation.test.R4ExamplesValidatorTest.index>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <profiles>
         <profile>
             <id>fhir-validation-distribution</id>
@@ -105,8 +118,6 @@
                     </plugin>
                 </plugins>
             </build>
-
         </profile>
     </profiles>
-
 </project>

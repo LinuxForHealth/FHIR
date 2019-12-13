@@ -9,7 +9,6 @@ package com.ibm.fhir.path.function;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
 import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
-import static com.ibm.fhir.path.util.FHIRPathUtil.evaluatesToBoolean;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isTrue;
 
 import java.util.Collection;
@@ -39,9 +38,12 @@ public class NotFunction extends FHIRPathAbstractFunction {
         if (context.isEmpty()) {
             return empty();
         }
+        // TOOD: uncomment after 4.0.1 spec upgrade
+        /*
         if (!evaluatesToBoolean(context)) {
             throw new IllegalArgumentException();
         }
+        */
         return isTrue(context) ? SINGLETON_FALSE : SINGLETON_TRUE;
     }
 }

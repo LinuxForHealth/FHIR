@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;

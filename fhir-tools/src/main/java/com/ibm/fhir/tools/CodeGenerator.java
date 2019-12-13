@@ -42,7 +42,6 @@ import javax.json.JsonReader;
 import javax.json.JsonValue;
 import javax.lang.model.SourceVersion;
 
-
 public class CodeGenerator {
     private final Map<String, JsonObject> structureDefinitionMap;
     private final Map<String, JsonObject> codeSystemMap;
@@ -329,8 +328,8 @@ public class CodeGenerator {
         cb.javadoc("<ul>",false);
         cb.javadoc("<li>preVisit methods to control whether a given Resource or Element gets visited",false);
         cb.javadoc("<li>visitStart methods to provide setup behavior prior to the visit",false);
-        cb.javadoc("<li>defaultAction methods to perform some common action on all visited Resources and Elements",false);
-        cb.javadoc("<li>specific visit methods to perform unique behavior that varies by the type being visited",false);
+        cb.javadoc("<li>supertype visit methods to perform some common action on all visited Resources and Elements",false);
+        cb.javadoc("<li>subtype visit methods to perform unique behavior that varies by the type being visited",false);
         cb.javadoc("<li>visitEnd methods to provide initial cleanup behavior after a Resource or Element has been visited",false);
         cb.javadoc("<li>postVisit methods to provide final cleanup behavior after a Resource or Element has been visited",false);
         cb.javadoc("</ul>",false);
@@ -443,8 +442,12 @@ public class CodeGenerator {
         cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "YearMonth value")).end().newLine();
 
         cb.override();
-        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "ZonedDateTime value")).end();
-
+        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "ZonedDateTime value")).end().newLine();
+        
+        cb.override();
+        cb.method(mods("public"), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", "Location.Position position"));
+        cb._return("visit(elementName, elementIndex, (BackboneElement) position)");
+        cb.end();
         cb._end();
         
         File file = new File(basePath + "/" + packageName.replace(".", "/") + "/DefaultVisitor.java");
@@ -718,7 +721,7 @@ public class CodeGenerator {
                 ("Resource".equals(className) || "Element".equals(className)))) {
             cb.invoke("super.from", args(paramName));
         }
-        for (JsonObject elementDefinition : declaredElementDefinitions) {                
+        for (JsonObject elementDefinition : declaredElementDefinitions) {
             String fieldName = getFieldName(elementDefinition, path);
             String prefix = "";
             if (fieldName.equals(paramName)) {
@@ -1062,6 +1065,10 @@ public class CodeGenerator {
                 }
             }
             
+            if ("Resource".equals(className) && !nested) {
+                cb.invoke("ValidationSupport", "checkId", args("id"));
+            }
+            
             if ("Element".equals(className) && !nested) {
                 cb.invoke("ValidationSupport", "checkString", args("id"));
             }
@@ -1095,7 +1102,7 @@ public class CodeGenerator {
                 if (elementDefinition.getString("path").equals(basePath)) {
                     String fieldName = getFieldName(elementDefinition, path);
                     String fieldType = getFieldType(structureDefinition, elementDefinition);
-                    String methodName = "get" + titleCase(fieldName).replace("_", "");
+                    String methodName = "get" + titleCase(fieldName.replace("_", ""));
                     generateGetterMethodJavadoc(structureDefinition, elementDefinition, fieldType, cb);
                     cb.method(mods("public"), fieldType, methodName)._return(fieldName).end().newLine();
                 }
@@ -1339,9 +1346,9 @@ public class CodeGenerator {
             Map<String, String> valueMap = new LinkedHashMap<>();
             valueMap.put("id", quote(key));
             valueMap.put("level", "error".equals(severity) ? quote("Rule") : quote("Warning"));
-            valueMap.put("location", path.equals(name) ? quote("(base)") : quote(path.replace("div", "`div`").replace("contains", "`contains`").replace("[x]", "")));
+            valueMap.put("location", path.equals(name) ? quote("(base)") : quote(path.replace(".div", ".`div`").replace("[x]", "")));
             valueMap.put("description", quote(human.replace("\"", "\\\"")));
-            valueMap.put("expression", quote(expression.replace("\"", "\\\"").replace("div", "`div`").replace(".contains(", ".`contains`(")));
+            valueMap.put("expression", quote(expression.replace("\"", "\\\"")));
             if (MODEL_CHECKED_CONSTRAINTS.contains(key)) {
                 valueMap.put("modelChecked", "true");
             }
@@ -1349,7 +1356,7 @@ public class CodeGenerator {
         }
     }
     
-    private boolean hasConstraints(JsonObject structureDefinition) {        
+    private boolean hasConstraints(JsonObject structureDefinition) {
         for (JsonObject elementDefinition : getElementDefinitions(structureDefinition)) {
             if (elementDefinition.containsKey("constraint")) {
                 return true;
@@ -1604,7 +1611,11 @@ public class CodeGenerator {
             imports.add("java.util.Collection");
         }
         
-        if ("Resource".equals(name) || "Element".equals(name)) {
+        if ("Resource".equals(name)) {
+            imports.add("com.ibm.fhir.model.util.ValidationSupport");
+            imports.add("com.ibm.fhir.model.builder.AbstractBuilder");
+        }
+        if ("Element".equals(name)) {
             imports.add("com.ibm.fhir.model.builder.AbstractBuilder");
         }
         
@@ -1977,6 +1988,31 @@ public class CodeGenerator {
             ._end()
             ._return("joiner.toString()")
         .end().newLine();
+        
+        cb.method(mods("private"), "java.lang.String", "parseJavaString", params("java.lang.String elementName", "XMLStreamReader reader", "int elementIndex"),
+                throwsExceptions("XMLStreamException"))
+            .invoke("stackPush", args("elementName", "elementIndex"))
+            .assign("java.lang.String javaString", "reader.getAttributeValue(null, \"value\")")
+            ._while("reader.hasNext()")
+                .assign("int eventType", "reader.next()")
+                ._switch("eventType")
+                
+                ._case("XMLStreamReader.START_ELEMENT")
+                    .assign("java.lang.String localName", "reader.getLocalName()")
+                    ._throw(_new("IllegalArgumentException", args("\"Unrecognized element: '\" + localName + \"'\"")))
+                
+                ._case("XMLStreamReader.END_ELEMENT")
+                    ._if("reader.getLocalName().equals(elementName)")
+                        .invoke("stackPop", args())
+                        ._return("javaString")
+                    ._end()
+                    ._break()
+                ._end()
+                
+            ._end()
+            ._throw(_new("XMLStreamException", args(quote("Unexpected end of stream"))))
+        .end()
+        .newLine();
         
         cb.method(mods("private"), "java.lang.String", "getResourceType", params("XMLStreamReader reader"), throwsExceptions("XMLStreamException"))
             .assign("java.lang.String resourceType", "reader.getLocalName()")
@@ -2496,7 +2532,7 @@ public class CodeGenerator {
         cb.end().newLine();
     }
     
-    private void generateParseMethod(String generatedClassName, JsonObject structureDefinition, CodeBuilder cb) {                
+    private void generateParseMethod(String generatedClassName, JsonObject structureDefinition, CodeBuilder cb) {
         if (isQuantitySubtype(structureDefinition)) {
             return;
         }
@@ -2970,6 +3006,12 @@ public class CodeGenerator {
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "Year value"));
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "YearMonth value"));
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "ZonedDateTime value"));
+        
+        // Added to Process Location.Position.
+        cb.javadocStart();
+        cb.javadocReturn("true if the children of this Location.Position should be visited; otherwise false");
+        cb.javadocEnd();
+        cb.abstractMethod(mods(), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", "Location.Position position"));
 
         cb._end();
         
@@ -3103,7 +3145,7 @@ public class CodeGenerator {
     private String getDisplay(JsonObject concept) {
         return concept.getString("display", null);
     }
-    
+
     private JsonObject getElementDefinition(JsonObject structureDefinition, String path) {
         for (JsonObject elementDefinition : getElementDefinitions(structureDefinition)) {
             if (path.equals(elementDefinition.getString("path"))) {
@@ -3120,7 +3162,7 @@ public class CodeGenerator {
     private List<JsonObject> getElementDefinitions(JsonObject structureDefinition, boolean snapshot) {
         List<JsonObject> elementDefinitions = new ArrayList<>();
         JsonObject snapshotOrDifferential = structureDefinition.getJsonObject(snapshot ? "snapshot" : "differential");
-        for (JsonValue element : snapshotOrDifferential.getJsonArray("element")) {            
+        for (JsonValue element : snapshotOrDifferential.getJsonArray("element")) {
             elementDefinitions.add(element.asJsonObject());
             if (snapshot) {
                 String path = element.asJsonObject().getString("path");
@@ -3295,10 +3337,10 @@ public class CodeGenerator {
             return "Element";
         }
         
-        if ("Element.id".equals(basePath) || "Extension.url".equals(basePath)) {
+        if ("Resource.id".equals(basePath) || "Element.id".equals(basePath) || "Extension.url".equals(basePath)) {
             return "java.lang.String";
         }
-                
+
         String fieldType = null;
         
         List<JsonObject> types = getTypes(elementDefinition);
@@ -3308,8 +3350,11 @@ public class CodeGenerator {
             contentReference = contentReference.substring(1);
             fieldType = Arrays.asList(contentReference.split("\\.")).stream().map(s -> titleCase(s)).collect(Collectors.joining("."));
         } else if (types.isEmpty() || isBackboneElement(elementDefinition)) {
-            fieldType = titleCase(path.substring(path.lastIndexOf(".") + 1));     
+            fieldType = titleCase(path.substring(path.lastIndexOf(".") + 1));
         } else {
+            if (types.size() > 1) {
+                throw new RuntimeException("Expected a single type but found " + types.size());
+            }
             fieldType = titleCase(types.get(0).getString("code"));
             if (types.get(0).containsKey("profile")) {
                 String profile = types.get(0).getJsonArray("profile").getString(0);

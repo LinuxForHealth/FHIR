@@ -119,6 +119,12 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-code:missing", "false");
     }
 
+    /*
+     * Currently, documented in our conformance statement. We do not support
+     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
+     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
+     */
+    
 //    @Test
 //    public void testSearchToken_code_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.code:missing", "false");
@@ -182,6 +188,12 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-Coding:missing", "false");
     }
 
+    /*
+     * Currently, documented in our conformance statement. We do not support
+     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
+     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
+     */
+    
 //    @Test
 //    public void testSearchToken_Coding_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.Coding:missing", "false");
@@ -231,6 +243,12 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-Identifier:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-Identifier:missing", "false");
     }
+    
+    /*
+     * Currently, documented in our conformance statement. We do not support
+     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
+     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
+     */
 
 //    @Test
 //    public void testSearchToken_Identifier_chained_missing() throws Exception {

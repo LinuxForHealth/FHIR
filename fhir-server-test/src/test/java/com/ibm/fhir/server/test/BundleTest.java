@@ -46,7 +46,6 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
@@ -493,9 +492,9 @@ public class BundleTest extends FHIRServerTestBase {
         patientB1 = patientB1.toBuilder().active(com.ibm.fhir.model.type.Boolean.FALSE).build();
 
         Bundle bundle = buildBundle(BundleType.BATCH);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientB2.getId().getValue(), null,
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientB2.getId(), null,
                 patientB2);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientB1.getId().getValue(), null,
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientB1.getId(), null,
                 patientB1);
 
         printBundle(method, "request", bundle);
@@ -529,9 +528,9 @@ public class BundleTest extends FHIRServerTestBase {
         patientBVA1 = patientBVA1.toBuilder().active(com.ibm.fhir.model.type.Boolean.FALSE).build();
 
         Bundle bundle = buildBundle(BundleType.BATCH);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientBVA2.getId().getValue(), "W/\"1\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientBVA2.getId(), "W/\"1\"",
                 patientBVA2);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientBVA1.getId().getValue(), "W/\"1\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientBVA1.getId(), "W/\"1\"",
                 patientBVA1);
 
         printBundle(method, "request", bundle);
@@ -554,14 +553,14 @@ public class BundleTest extends FHIRServerTestBase {
 
         // First, call the 'read' API to retrieve the previously-created patients.
         assertNotNull(patientBVA2);
-        Response res1 = target.path("Patient/" + patientBVA2.getId().getValue())
+        Response res1 = target.path("Patient/" + patientBVA2.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(res1, Response.Status.OK.getStatusCode());
         Patient patientVA2 = res1.readEntity(Patient.class);
         assertNotNull(patientVA2);
 
         assertNotNull(patientBVA1);
-        Response res2 = target.path("Patient/" + patientBVA1.getId().getValue())
+        Response res2 = target.path("Patient/" + patientBVA1.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(res2, Response.Status.OK.getStatusCode());
         Patient patientVA1 = res2.readEntity(Patient.class);
@@ -572,9 +571,9 @@ public class BundleTest extends FHIRServerTestBase {
         patientVA1 = patientVA1.toBuilder().active(com.ibm.fhir.model.type.Boolean.FALSE).build();
 
         Bundle bundle = buildBundle(BundleType.BATCH);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA2.getId().getValue(), "W/\"2\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA2.getId(), "W/\"2\"",
                 patientVA2);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA1.getId().getValue(), "W/\"1\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA1.getId(), "W/\"1\"",
                 patientVA1);
 
         printBundle(method, "request", bundle);
@@ -599,14 +598,14 @@ public class BundleTest extends FHIRServerTestBase {
 
         // First, call the 'read' API to retrieve the previously-created patients.
         assertNotNull(patientBVA2);
-        Response res1 = target.path("Patient/" + patientBVA2.getId().getValue())
+        Response res1 = target.path("Patient/" + patientBVA2.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(res1, Response.Status.OK.getStatusCode());
         Patient patientVA2 = res1.readEntity(Patient.class);
         assertNotNull(patientVA2);
 
         assertNotNull(patientBVA1);
-        Response res2 = target.path("Patient/" + patientBVA1.getId().getValue())
+        Response res2 = target.path("Patient/" + patientBVA1.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(res2, Response.Status.OK.getStatusCode());
         Patient patientVA1 = res2.readEntity(Patient.class);
@@ -617,9 +616,9 @@ public class BundleTest extends FHIRServerTestBase {
         patientVA1 = patientVA1.toBuilder().active(com.ibm.fhir.model.type.Boolean.FALSE).build();
 
         Bundle bundle = buildBundle(BundleType.BATCH);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA2.getId().getValue(), "W/\"1\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA2.getId(), "W/\"1\"",
                 patientVA2);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA1.getId().getValue(), "W/\"2\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA1.getId(), "W/\"2\"",
                 patientVA1);
 
         printBundle(method, "request", bundle);
@@ -644,14 +643,14 @@ public class BundleTest extends FHIRServerTestBase {
 
         // First, call the 'read' API to retrieve the previously-created patients.
         assertNotNull(patientBVA2);
-        Response res1 = target.path("Patient/" + patientBVA2.getId().getValue())
+        Response res1 = target.path("Patient/" + patientBVA2.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(res1, Response.Status.OK.getStatusCode());
         Patient patientVA2 = res1.readEntity(Patient.class);
         assertNotNull(patientVA2);
 
         assertNotNull(patientBVA1);
-        Response res2 = target.path("Patient/" + patientBVA1.getId().getValue())
+        Response res2 = target.path("Patient/" + patientBVA1.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(res2, Response.Status.OK.getStatusCode());
         Patient patientVA1 = res2.readEntity(Patient.class);
@@ -662,9 +661,9 @@ public class BundleTest extends FHIRServerTestBase {
         patientVA1 = patientVA1.toBuilder().active(com.ibm.fhir.model.type.Boolean.FALSE).build();
 
         Bundle bundle = buildBundle(BundleType.BATCH);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA2.getId().getValue(), "W/\"2\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA2.getId(), "W/\"2\"",
                 patientVA2);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA1.getId().getValue(), "W/\"2\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA1.getId(), "W/\"2\"",
                 patientVA1);
 
         printBundle(method, "request", bundle);
@@ -697,8 +696,8 @@ public class BundleTest extends FHIRServerTestBase {
         p2 = (Patient)setNewResourceId(p2);
 
         Bundle bundle = buildBundle(BundleType.BATCH);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + p1.getId().getValue(), null, p1);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + p2.getId().getValue(), null, p2);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + p1.getId(), null, p1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + p2.getId(), null, p2);
 
         printBundle(method, "request", bundle);
 
@@ -718,7 +717,7 @@ public class BundleTest extends FHIRServerTestBase {
      * resource.
      */
     private Resource setNewResourceId(Resource resource) {
-        return resource.toBuilder().id(Id.of(UUID.randomUUID().toString())).build();
+        return resource.toBuilder().id(UUID.randomUUID().toString()).build();
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
@@ -730,7 +729,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         // Perform a 'read' and a 'vread'.
         Bundle bundle = buildBundle(BundleType.BATCH);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB2.getId().getValue(), null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB2.getId(), null, null);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, locationB1, null, null);
 
         printBundle(method, "request", bundle);
@@ -753,7 +752,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         // Perform a 'read' and a 'vread'.
         Bundle bundle = buildBundle(BundleType.BATCH);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB1.getId().getValue() + "/_history",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB1.getId() + "/_history",
                 null, null);
 
         printBundle(method, "request", bundle);
@@ -877,7 +876,7 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         Bundle bundle = buildBundle(BundleType.BATCH);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "_search?_id=" + patientB1.getId().getValue(), null,
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "_search?_id=" + patientB1.getId(), null,
                 null);
 
         printBundle(method, "request", bundle);
@@ -944,14 +943,14 @@ public class BundleTest extends FHIRServerTestBase {
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
                 TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
         // update
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientB1.getId().getValue(), null,
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientB1.getId(), null,
                 patientB1);
         // read
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB2.getId().getValue(), null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB2.getId(), null, null);
         // vread
         bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, locationB1, null, null);
         // history
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB1.getId().getValue() + "/_history",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB1.getId() + "/_history",
                 null, null);
         // search
         bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient?family=Ortiz&_count=100", null, null);
@@ -1101,9 +1100,9 @@ public class BundleTest extends FHIRServerTestBase {
         String family2 = patientT2.getName().get(0).getFamily().getValue();
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId().getValue(), null,
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId(), null,
                 patientT1);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT2.getId().getValue(), null,
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT2.getId(), null,
                 patientT2);
 
         printBundle(method, "request", bundle);
@@ -1121,8 +1120,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
 
-        assertHistoryResults(target, "Patient/" + patientT1.getId().getValue() + "/_history", 2);
-        assertHistoryResults(target, "Patient/" + patientT2.getId().getValue() + "/_history", 2);
+        assertHistoryResults(target, "Patient/" + patientT1.getId() + "/_history", 2);
+        assertHistoryResults(target, "Patient/" + patientT2.getId() + "/_history", 2);
 
         locationT1 = responseBundle.getEntry().get(0).getResponse().getLocation().getValue();
     }
@@ -1142,9 +1141,9 @@ public class BundleTest extends FHIRServerTestBase {
         String family2 = patientTVA2.getName().get(0).getFamily().getValue();
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA1.getId().getValue(), "W/\"1\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA1.getId(), "W/\"1\"",
                 patientTVA1);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA2.getId().getValue(), "W/\"1\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA2.getId(), "W/\"1\"",
                 patientTVA2);
 
         printBundle(method, "request", bundle);
@@ -1162,8 +1161,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
 
-        assertHistoryResults(target, "Patient/" + patientTVA1.getId().getValue() + "/_history", 2);
-        assertHistoryResults(target, "Patient/" + patientTVA2.getId().getValue() + "/_history", 2);
+        assertHistoryResults(target, "Patient/" + patientTVA1.getId() + "/_history", 2);
+        assertHistoryResults(target, "Patient/" + patientTVA2.getId() + "/_history", 2);
     }
 
     @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionUpdatesVersionAware" })
@@ -1178,7 +1177,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         // First, call the 'read' API to retrieve the previously-created patients.
         assertNotNull(patientTVA2);
-        Response res1 = target.path("Patient/" + patientTVA2.getId().getValue())
+        Response res1 = target.path("Patient/" + patientTVA2.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(res1, Response.Status.OK.getStatusCode());
         Patient patientVA2 = res1.readEntity(Patient.class);
@@ -1186,7 +1185,7 @@ public class BundleTest extends FHIRServerTestBase {
         checkForIssuesWithValidation(patientVA2, true, false);
                 
         assertNotNull(patientTVA1);
-        Response res2 = target.path("Patient/" + patientTVA1.getId().getValue())
+        Response res2 = target.path("Patient/" + patientTVA1.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(res2, Response.Status.OK.getStatusCode());
         Patient patientVA1 = res2.readEntity(Patient.class);
@@ -1202,9 +1201,9 @@ public class BundleTest extends FHIRServerTestBase {
         patientVA1 = patientVA1.toBuilder().active(com.ibm.fhir.model.type.Boolean.FALSE).build();
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA1.getId().getValue(), "W/\"1\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA1.getId(), "W/\"1\"",
                 patientVA1);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA2.getId().getValue(), "W/\"2\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA2.getId(), "W/\"2\"",
                 patientVA2);
         printBundle(method, "request", bundle);
 
@@ -1220,8 +1219,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
 
-        assertHistoryResults(target, "Patient/" + patientTVA1.getId().getValue() + "/_history", 2);
-        assertHistoryResults(target, "Patient/" + patientTVA2.getId().getValue() + "/_history", 2);
+        assertHistoryResults(target, "Patient/" + patientTVA1.getId() + "/_history", 2);
+        assertHistoryResults(target, "Patient/" + patientTVA2.getId() + "/_history", 2);
     }
 
     @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionUpdatesVersionAware",
@@ -1240,9 +1239,9 @@ public class BundleTest extends FHIRServerTestBase {
         String family2 = patientTVA2.getName().get(0).getFamily().getValue();
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA1.getId().getValue(), "W/\"2\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA1.getId(), "W/\"2\"",
                 patientTVA1);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA2.getId().getValue(), "W/\"1\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA2.getId(), "W/\"1\"",
                 patientTVA2);
 
         printBundle(method, "request", bundle);
@@ -1259,8 +1258,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
 
-        assertHistoryResults(target, "Patient/" + patientTVA1.getId().getValue() + "/_history", 2);
-        assertHistoryResults(target, "Patient/" + patientTVA2.getId().getValue() + "/_history", 2);
+        assertHistoryResults(target, "Patient/" + patientTVA1.getId() + "/_history", 2);
+        assertHistoryResults(target, "Patient/" + patientTVA2.getId() + "/_history", 2);
     }
 
     @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionUpdatesVersionAware",
@@ -1279,9 +1278,9 @@ public class BundleTest extends FHIRServerTestBase {
         String family2 = patientTVA2.getName().get(0).getFamily().getValue();
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA1.getId().getValue(), "W/\"1\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA1.getId(), "W/\"1\"",
                 patientTVA1);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA2.getId().getValue(), "W/\"1\"",
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA2.getId(), "W/\"1\"",
                 patientTVA2);
 
         printBundle(method, "request", bundle);
@@ -1303,8 +1302,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
 
-        assertHistoryResults(target, "Patient/" + patientTVA1.getId().getValue() + "/_history", 2);
-        assertHistoryResults(target, "Patient/" + patientTVA2.getId().getValue() + "/_history", 2);
+        assertHistoryResults(target, "Patient/" + patientTVA1.getId() + "/_history", 2);
+        assertHistoryResults(target, "Patient/" + patientTVA2.getId() + "/_history", 2);
     }
 
     @Test(groups = { "transaction" })
@@ -1327,8 +1326,8 @@ public class BundleTest extends FHIRServerTestBase {
         p2 = (Patient)setNewResourceId(p2);
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + p1.getId().getValue(), null, p1);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + p2.getId().getValue(), null, p2);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + p1.getId(), null, p1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + p2.getId(), null, p2);
 
         printBundle(method, "request", bundle);
 
@@ -1403,9 +1402,9 @@ public class BundleTest extends FHIRServerTestBase {
         String family2 = patientT2.getName().get(0).getFamily().getValue();
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId().getValue(), null,
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId(), null,
                 patientT1);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT2.getId().getValue(), null,
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT2.getId(), null,
                 patientT2);
         // This will cause a failure - url mismatch with resource type.
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Observation", null,
@@ -1425,8 +1424,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
 
-        assertHistoryResults(target, "Patient/" + patientT1.getId().getValue() + "/_history", 2);
-        assertHistoryResults(target, "Patient/" + patientT2.getId().getValue() + "/_history", 2);
+        assertHistoryResults(target, "Patient/" + patientT1.getId() + "/_history", 2);
+        assertHistoryResults(target, "Patient/" + patientT2.getId() + "/_history", 2);
     }
 
     @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionUpdatesError" })
@@ -1445,14 +1444,14 @@ public class BundleTest extends FHIRServerTestBase {
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
                 TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
         // update
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId().getValue(), null,
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId(), null,
                 patientT1);
         // read
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientT2.getId().getValue(), null, null);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientT2.getId(), null, null);
         // vread
         bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, locationT1, null, null);
         // history
-//      bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientT1.getId().getValue() + "/_history", null, null);
+//      bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientT1.getId() + "/_history", null, null);
         // search
 //      bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient?family=Ortiz&_count=100", null, null);
 
@@ -1633,7 +1632,7 @@ public class BundleTest extends FHIRServerTestBase {
                             .value(Reference.builder().reference(string(patientLocalRef)).build()).build())
                     .build();
 
-            bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Observation/" + obs.getId().getValue(), null, obs);
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Observation/" + obs.getId(), null, obs);
         }
 
         // Add 3 POST entries to create the Patient resources.
@@ -1950,8 +1949,8 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         Bundle bundle = buildBundle(BundleType.BATCH);
-        String url1 = "Patient/" + patientBD1.getId().getValue();
-        String url2 = "Patient/" + patientBD2.getId().getValue();
+        String url1 = "Patient/" + patientBD1.getId();
+        String url2 = "Patient/" + patientBD2.getId();
         bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, url1, null, null);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, url2, null, null);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, url2, null, patientBD2);
@@ -1980,10 +1979,10 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         Bundle bundle = buildBundle(BundleType.BATCH);
-        String url1 = "Patient/" + patientBD1.getId().getValue();
-        String url2 = "Patient/" + patientBD1.getId().getValue() + "/_history/1";
-        String url3 = "Patient/" + patientBD1.getId().getValue() + "/_history/2";
-        String url4 = "Patient/" + patientBD1.getId().getValue() + "/_history";
+        String url1 = "Patient/" + patientBD1.getId();
+        String url2 = "Patient/" + patientBD1.getId() + "/_history/1";
+        String url3 = "Patient/" + patientBD1.getId() + "/_history/2";
+        String url4 = "Patient/" + patientBD1.getId() + "/_history";
         bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, url1, null, null);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, url2, null, null);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, url3, null, null);
@@ -2043,8 +2042,8 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
-        String url1 = "Patient/" + patientTD1.getId().getValue();
-        String url2 = "Patient/" + patientTD2.getId().getValue();
+        String url1 = "Patient/" + patientTD1.getId();
+        String url2 = "Patient/" + patientTD2.getId();
         bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, url1, null, null);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, url2, null, null);
 
@@ -2070,10 +2069,10 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
-        String url1 = "Patient/" + patientTD1.getId().getValue();
-        String url2 = "Patient/" + patientTD1.getId().getValue() + "/_history/1";
-        String url3 = "Patient/" + patientTD1.getId().getValue() + "/_history/2";
-        String url4 = "Patient/" + patientTD1.getId().getValue() + "/_history";
+        String url1 = "Patient/" + patientTD1.getId();
+        String url2 = "Patient/" + patientTD1.getId() + "/_history/1";
+        String url3 = "Patient/" + patientTD1.getId() + "/_history/2";
+        String url4 = "Patient/" + patientTD1.getId() + "/_history";
         bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, url1, null, null);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, url2, null, null);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, url3, null, null);
@@ -2101,7 +2100,7 @@ public class BundleTest extends FHIRServerTestBase {
         // Set first request to yield no matches.
         bundle = addRequestToBundle("_id=NOMATCHES", bundle, HTTPVerb.POST, "Patient", null, patient);
         // Set second request to yield 1 match.
-        bundle = addRequestToBundle("_id=" + patientB1.getId().getValue(), bundle, HTTPVerb.POST, "Patient", null,
+        bundle = addRequestToBundle("_id=" + patientB1.getId(), bundle, HTTPVerb.POST, "Patient", null,
                 patient);
         // Set third request to yield multiple matches.
         bundle = addRequestToBundle("name=Doe", bundle, HTTPVerb.POST, "Patient", null, patient);
@@ -2137,7 +2136,7 @@ public class BundleTest extends FHIRServerTestBase {
         // Set first request to yield no matches.
         bundle = addRequestToBundle("_id=NOMATCHES", bundle, HTTPVerb.POST, "Patient", null, patient);
         // Set second request to yield 1 match.
-        bundle = addRequestToBundle("_id=" + patientB1.getId().getValue(), bundle, HTTPVerb.POST, "Patient", null, patient);
+        bundle = addRequestToBundle("_id=" + patientB1.getId(), bundle, HTTPVerb.POST, "Patient", null, patient);
 
         printBundle(method, "request", bundle);
 
@@ -2204,7 +2203,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         String patientId = UUID.randomUUID().toString();
         Patient patient = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
-        patient = patient.toBuilder().id(Id.of(patientId)).build();
+        patient = patient.toBuilder().id(patientId).build();
 
         String urlString = "Patient?_id=" + patientId;
         String multipleMatches = "Patient?name=Doe";
@@ -2271,7 +2270,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         String method = "testBatchConditionalDeletes";
 
-        String patientId = patientBCD1.getId().getValue();
+        String patientId = patientBCD1.getId();
         String noMatches = "Patient?_id=NOMATCHES";
         String oneMatch = "Patient?_id=" + patientId;
         String multipleMatches = "Patient?name=Doe";
@@ -2332,7 +2331,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         // 4. POST request with resource at resource instance level
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST,
-                "Patient/" + patientB1.getId().getValue() + "/$validate", null, validateOperationParameters);
+                "Patient/" + patientB1.getId() + "/$validate", null, validateOperationParameters);
 
         printBundle(method, "request", bundle);
 
@@ -2389,8 +2388,8 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testTransactionDeletes";
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
-        String url1 = "Patient?_id=" + patientTCD1.getId().getValue();
-        String url2 = "Patient?_id=" + patientTCD2.getId().getValue();
+        String url1 = "Patient?_id=" + patientTCD1.getId();
+        String url2 = "Patient?_id=" + patientTCD2.getId();
         bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, url1, null, null);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.DELETE, url2, null, null);
 

@@ -18,6 +18,10 @@ import com.ibm.fhir.search.parameters.SortParameter;
  * Interface for FHIR Search Context. 
  */
 public interface FHIRSearchContext extends FHIRPagingContext {
+    
+    List<String> getSearchResourceTypes();
+    
+    void setSearchResourceTypes(List<String> searchResourceTypes);
 
     List<Parameter> getSearchParameters();
 

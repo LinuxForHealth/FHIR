@@ -6,11 +6,14 @@
 
 package com.ibm.fhir.path.test;
 
+import static com.ibm.fhir.model.util.ModelSupport.delimit;
+import static com.ibm.fhir.model.util.ModelSupport.isKeyword;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import com.ibm.fhir.model.annotation.Constraint;
@@ -18,30 +21,29 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.FHIRPathBaseVisitor;
 import com.ibm.fhir.path.FHIRPathLexer;
 import com.ibm.fhir.path.FHIRPathParser;
-import com.ibm.fhir.path.FHIRPathVisitor;
 import com.ibm.fhir.path.FHIRPathParser.ExpressionContext;
+import com.ibm.fhir.path.FHIRPathVisitor;
 import com.ibm.fhir.path.function.FHIRPathFunction;
-import com.ibm.fhir.path.util.FHIRPathUtil;
 
 public class FHIRPathCacheSizeEstimator {
     public static void main(String[] args) {        
         Set<String> identifiers = new HashSet<>();
         for (Class<?> modelClass : ModelSupport.getModelClasses()) {
             String typeName = ModelSupport.getTypeName(modelClass);
-            if (FHIRPathUtil.isKeyword(typeName)) {
-                typeName = FHIRPathUtil.delimit(typeName);
+            if (isKeyword(typeName)) {
+                typeName = delimit(typeName);
             }
             identifiers.add(typeName);
             for (String elementName : ModelSupport.getElementNames(modelClass)) {
-                if (FHIRPathUtil.isKeyword(elementName)) {
-                    elementName = FHIRPathUtil.delimit(elementName);
+                if (isKeyword(elementName)) {
+                    elementName = delimit(elementName);
                 }
                 identifiers.add(elementName);
             }
         }
         for (String functionName : FHIRPathFunction.registry().getFunctionNames()) {   
-            if (FHIRPathUtil.isKeyword(functionName)) {
-                functionName = FHIRPathUtil.delimit(functionName);
+            if (isKeyword(functionName)) {
+                functionName = delimit(functionName);
             }
             identifiers.add(functionName);
         }
@@ -73,7 +75,7 @@ public class FHIRPathCacheSizeEstimator {
     }
     
     private static ExpressionContext compile(String expr) {
-        FHIRPathLexer lexer = new FHIRPathLexer(new ANTLRInputStream(expr));
+        FHIRPathLexer lexer = new FHIRPathLexer(CharStreams.fromString(expr));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         FHIRPathParser parser = new FHIRPathParser(tokens);
         return parser.expression();

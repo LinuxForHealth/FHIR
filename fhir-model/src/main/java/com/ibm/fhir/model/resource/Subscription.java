@@ -21,7 +21,6 @@ import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.ContactPoint;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
@@ -47,7 +46,7 @@ public class Subscription extends DomainResource {
         bindingName = "SubscriptionStatus",
         strength = BindingStrength.ValueSet.REQUIRED,
         description = "The status of a subscription.",
-        valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.0.0"
+        valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.0.1"
     )
     @Required
     private final SubscriptionStatus status;
@@ -276,7 +275,7 @@ public class Subscription extends DomainResource {
          *     A reference to this Builder instance
          */
         @Override
-        public Builder id(Id id) {
+        public Builder id(java.lang.String id) {
             return (Builder) super.id(id);
         }
 
@@ -631,7 +630,7 @@ public class Subscription extends DomainResource {
             bindingName = "SubscriptionChannelType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The type of method used to execute a subscription.",
-            valueSet = "http://hl7.org/fhir/ValueSet/subscription-channel-type|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/subscription-channel-type|4.0.1"
         )
         @Required
         private final SubscriptionChannelType type;
@@ -642,7 +641,7 @@ public class Subscription extends DomainResource {
             bindingName = "MimeType",
             strength = BindingStrength.ValueSet.REQUIRED,
             description = "The mime type of an attachment. Any valid mime type is allowed.",
-            valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.0"
+            valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
         )
         private final Code payload;
         @Summary

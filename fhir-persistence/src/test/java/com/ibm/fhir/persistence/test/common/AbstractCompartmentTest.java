@@ -78,7 +78,6 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
         savedObservation = persistence.create(getDefaultPersistenceContext(), observationBuilder.build()).getResource();
         assertNotNull(savedObservation);
         assertNotNull(savedObservation.getId());
-        assertNotNull(savedObservation.getId().getValue());
         assertNotNull(savedObservation.getMeta());
         assertNotNull(savedObservation.getMeta().getVersionId().getValue());
         assertEquals("1", savedObservation.getMeta().getVersionId().getValue());
@@ -87,18 +86,17 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
     private Reference buildReference(Resource resource) {
         assertNotNull(resource);
         assertNotNull(resource.getId());
-        assertNotNull(resource.getId().getValue());
         
         String resourceTypeName = FHIRUtil.getResourceTypeName(resource);
         return Reference.builder()
-                        .reference(string(resourceTypeName + "/" + resource.getId().getValue()))
+                        .reference(string(resourceTypeName + "/" + resource.getId()))
                         .build();
     }
 
     @Test
     public void testPatientCompartment() throws Exception {
-        List<Resource> results = runQueryTest("Patient", savedPatient.getId().getValue(), 
-                                    Observation.class, "_id", savedObservation.getId().getValue());
+        List<Resource> results = runQueryTest("Patient", savedPatient.getId(), 
+                                    Observation.class, "_id", savedObservation.getId());
         // This currently returns 2 due to https://github.com/IBM/FHIR/issues/265
 //        assertEquals(1, results.size());
         assertTrue(results.size() > 0);
@@ -106,29 +104,29 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
     
     @Test
     public void testDeviceCompartment() throws Exception {
-        List<Resource> results = runQueryTest("Device", savedDevice.getId().getValue(), 
-                                    Observation.class, "_id", savedObservation.getId().getValue());
+        List<Resource> results = runQueryTest("Device", savedDevice.getId(), 
+                                    Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
     }
     
     @Test
     public void testEncounterCompartment() throws Exception {
-        List<Resource> results = runQueryTest("Encounter", savedEncounter.getId().getValue(), 
-                                    Observation.class, "_id", savedObservation.getId().getValue());
+        List<Resource> results = runQueryTest("Encounter", savedEncounter.getId(), 
+                                    Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
     }
     
     @Test
     public void testPractitionerCompartment() throws Exception {
-        List<Resource> results = runQueryTest("Practitioner", savedPractitioner.getId().getValue(), 
-                                    Observation.class, "_id", savedObservation.getId().getValue());
+        List<Resource> results = runQueryTest("Practitioner", savedPractitioner.getId(), 
+                                    Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
     }
     
     @Test
     public void testRelatedPersonCompartment() throws Exception {
-        List<Resource> results = runQueryTest("RelatedPerson", savedRelatedPerson.getId().getValue(), 
-                                    Observation.class, "_id", savedObservation.getId().getValue());
+        List<Resource> results = runQueryTest("RelatedPerson", savedRelatedPerson.getId(), 
+                                    Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
     }
 }

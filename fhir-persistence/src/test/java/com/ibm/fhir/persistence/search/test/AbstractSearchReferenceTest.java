@@ -110,6 +110,12 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-Reference:missing", "false");
     }
     
+    /*
+     * Currently, documented in our conformance statement. We do not support
+     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
+     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
+     */
+    
 //    @Test
 //    public void testSearchReference_Reference_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.Reference:missing", "false");
@@ -137,6 +143,12 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("missing-uri:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-uri:missing", "false");
     }
+    
+    /*
+     * Currently, documented in our conformance statement. We do not support
+     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
+     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
+     */
     
 //    @Test
 //    public void testSearchReference_uri_chained_missing() throws Exception {
