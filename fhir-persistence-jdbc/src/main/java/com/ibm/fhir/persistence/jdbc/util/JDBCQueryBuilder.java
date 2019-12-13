@@ -1290,16 +1290,19 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         }
 
         // Build this piece of the segment
-        // missing: LEFT JOIN (SELECT DISTINCT LOGICAL_RESOURCE_ID FROM ...)
+        // missing: LEFT JOIN (SELECT DISTINCT LOGICAL_RESOURCE_ID FROM Observation_STR_VALUES...)
         //            TEMP ON TEMP.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID
         //            WHERE TEMP.LOGICAL_RESOURCE_ID is NULL
-        // not missing: JOIN (SELECT DISTINCT LOGICAL_RESOURCE_ID FROM ...)
+        // not missing: JOIN (SELECT DISTINCT LOGICAL_RESOURCE_ID FROM Observation_STR_VALUES...)
         //            TEMP ON TEMP.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID            
         if (missing == null || missing) {
             whereClauseSegment.append(" LEFT JOIN ");
         } else {
             whereClauseSegment.append(" JOIN ");
         }
+        // Using DISTINCT here is important, this can avoid duplication in the search results, even thought
+        // DISTINCT can impact performance, but because LOGICAL_RESOURCE_ID is always indexed, so the impact 
+        // should be very limited.
         whereClauseSegment.append("(SELECT DISTINCT LOGICAL_RESOURCE_ID FROM " + valuesTable + WHERE);
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), valuesTable.toString());
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);

@@ -39,14 +39,14 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.util.FHIRUtil;
 
-public class SearchPerformaceTest extends FHIRServerTestBase {
+public class SearchPerformanceTest extends FHIRServerTestBase {
 
     private static final boolean DEBUG_SEARCH = false;
     private String patientId;
     private String observationId;
     private Boolean compartmentSearchSupported = null;
     // Controls which tenant to use for the test.
-    private final String tanantName = "default";
+    private final String tenantName = "default";
     // Controls how many observations and patients to create for the test.
     // Using invocationCount of testng can cause the testng report grows too big, so
     // this config is used to make sure all test users are created in one testng step.
@@ -74,7 +74,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
                     Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response =
                     target.path("Patient").request()
-                    .header("X-FHIR-TENANT-ID", tanantName)
+                    .header("X-FHIR-TENANT-ID", tenantName)
                     .post(entity, Response.class);
             assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -84,7 +84,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
             // Next, call the 'read' API to retrieve the new patient and verify it.
             response = target.path("Patient/"
                     + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                    .header("X-FHIR-TENANT-ID", tanantName)
+                    .header("X-FHIR-TENANT-ID", tenantName)
                     .get();
             assertResponse(response, Response.Status.OK.getStatusCode());
             Patient responsePatient = response.readEntity(Patient.class);
@@ -113,7 +113,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
             response =
                     target.path("Observation")
                     .request()
-                    .header("X-FHIR-TENANT-ID", tanantName)
+                    .header("X-FHIR-TENANT-ID", tenantName)
                     .post(entity2, Response.class);
             assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -124,7 +124,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
             response = target.path("Observation/"
                     + observationId)
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                    .header("X-FHIR-TENANT-ID", tanantName)
+                    .header("X-FHIR-TENANT-ID", tenantName)
                     .get();
             assertResponse(response, Response.Status.OK.getStatusCode());
             Observation responseObservation =
@@ -148,7 +148,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
         Response response =
                 target.path("Patient").queryParam("given", "John")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -163,7 +163,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
         Response response =
                 target.path("Patient").queryParam("_id", patientId)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -178,7 +178,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
         Response response =
                 target.path("Patient").queryParam("birthdate", "1970-01-01")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -195,7 +195,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
         Response response =
                 target.path("Patient").queryParam("birthdate", "lt1971-01-01")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -211,7 +211,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
         Response response =
                 target.path("Patient").queryParam("birthdate", "gt1950-08-13")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -227,7 +227,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
         Response response =
                 target.path("Patient").queryParam("gender", "male")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -244,7 +244,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
         Response response =
                 target.path("Observation").queryParam("_id", observationId)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -261,7 +261,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
                 target.path("Observation").queryParam("subject", "Patient/"
                         + patientId)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -277,7 +277,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
                 target.path("Observation").queryParam("_count", "100")
                 .queryParam("_page", "1")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -296,7 +296,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
                 .queryParam("_count", "100")
                 .queryParam("_page", "1")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -333,7 +333,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
                 .queryParam("_count", "100")
                 .queryParam("_page", "1")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -410,7 +410,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
         Response response =
                 target.path("Patient").queryParam("_id", patientId).queryParam("_revinclude", "Observation:patient")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -446,7 +446,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
         String targetUri = "Patient/" + patientId + "/Observation";
         Response response =
                 target.path(targetUri).request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -462,7 +462,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
         Response response =
                 target.path("Observation").queryParam("patient", "Patient/"
                         + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -479,7 +479,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
                 .queryParam("_include", "Observation:subject")
                 .queryParam("_summary", "text")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -497,7 +497,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
                 .queryParam("_revinclude", "Observation:patient")
                 .queryParam("_summary", "text")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -512,7 +512,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
         Response response =
                 target.path("Observation").queryParam("subject:Patient.name", "john")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tanantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);

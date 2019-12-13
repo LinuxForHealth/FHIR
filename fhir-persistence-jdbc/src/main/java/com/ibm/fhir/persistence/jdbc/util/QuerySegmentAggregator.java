@@ -385,7 +385,7 @@ class QuerySegmentAggregator {
                         }
                         whereClauseSegment = whereClauseSegment.replaceAll(PARAMETER_TABLE_ALIAS + ".", "");
                         whereClause.append(" WHERE ").append(whereClauseSegment).append(") ");
-                        String tmpTableName = "TMP" + i;
+                        String tmpTableName = overrideType + i;
                         whereClause.append(tmpTableName).append(ON).append(tmpTableName).append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
                     }
                 }
