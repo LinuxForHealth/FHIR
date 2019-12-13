@@ -42,7 +42,6 @@ import javax.json.JsonReader;
 import javax.json.JsonValue;
 import javax.lang.model.SourceVersion;
 
-
 public class CodeGenerator {
     private final Map<String, JsonObject> structureDefinitionMap;
     private final Map<String, JsonObject> codeSystemMap;
@@ -443,8 +442,12 @@ public class CodeGenerator {
         cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "YearMonth value")).end().newLine();
 
         cb.override();
-        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "ZonedDateTime value")).end();
-
+        cb.method(mods("public"), "void", "visit", params("java.lang.String elementName", "ZonedDateTime value")).end().newLine();
+        
+        cb.override();
+        cb.method(mods("public"), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", "Location.Position position"));
+        cb._return("visit(elementName, elementIndex, (BackboneElement) position)");
+        cb.end();
         cb._end();
         
         File file = new File(basePath + "/" + packageName.replace(".", "/") + "/DefaultVisitor.java");
@@ -3003,6 +3006,12 @@ public class CodeGenerator {
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "Year value"));
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "YearMonth value"));
         cb.abstractMethod(mods(), "void", "visit", params("java.lang.String elementName", "ZonedDateTime value"));
+        
+        // Added to Process Location.Position.
+        cb.javadocStart();
+        cb.javadocReturn("true if the children of this Location.Position should be visited; otherwise false");
+        cb.javadocEnd();
+        cb.abstractMethod(mods(), "boolean", "visit", params("java.lang.String elementName", "int elementIndex", "Location.Position position"));
 
         cb._end();
         

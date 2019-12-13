@@ -15,7 +15,6 @@ import java.time.ZonedDateTime;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.resource.*;
-import com.ibm.fhir.model.resource.Location.Position;
 import com.ibm.fhir.model.type.*;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Integer;
@@ -1348,14 +1347,9 @@ public interface Visitor {
     void visit(java.lang.String elementName, Year value);
     void visit(java.lang.String elementName, YearMonth value);
     void visit(java.lang.String elementName, ZonedDateTime value);
-
     /**
-     * @return the coordinates for the lat/long. 
-     * 
-     * @param elementName
-     * @param elementIndex
-     * @param location
      * @return
+     *     true if the children of this Location.Position should be visited; otherwise false
      */
-    boolean visit(java.lang.String elementName, int elementIndex, Position position);
+    boolean visit(java.lang.String elementName, int elementIndex, Location.Position position);
 }

@@ -29,8 +29,8 @@ import com.ibm.fhir.model.type.String;
  * <ul>
  * <li>preVisit methods to control whether a given Resource or Element gets visited
  * <li>visitStart methods to provide setup behavior prior to the visit
- * <li>supertype visit methods to perform some common action on all visited Resources and Elements
- * <li>subtype visit methods to perform unique behavior that varies by the type being visited
+ * <li>defaultAction methods to perform some common action on all visited Resources and Elements
+ * <li>specific visit methods to perform unique behavior that varies by the type being visited
  * <li>visitEnd methods to provide initial cleanup behavior after a Resource or Element has been visited
  * <li>postVisit methods to provide final cleanup behavior after a Resource or Element has been visited
  * </ul>
@@ -1127,16 +1127,6 @@ public class DefaultVisitor implements Visitor {
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Location location) {
         return visit(elementName, elementIndex, (DomainResource) location);
-    }
-    
-    /**
-     * Delegates to {@link #visit(elementName, elementIndex, Location.Position)}
-     * @return
-     *     {@inheritDoc}
-     */
-    @Override
-    public boolean visit(java.lang.String elementName, int elementIndex, Location.Position position) {
-        return visit(elementName, elementIndex, (BackboneElement) position);
     }
 
     /**
@@ -2267,5 +2257,10 @@ public class DefaultVisitor implements Visitor {
 
     @Override
     public void visit(java.lang.String elementName, ZonedDateTime value) {
+    }
+
+    @Override
+    public boolean visit(java.lang.String elementName, int elementIndex, Location.Position position) {
+        return visit(elementName, elementIndex, (BackboneElement) position);
     }
 }

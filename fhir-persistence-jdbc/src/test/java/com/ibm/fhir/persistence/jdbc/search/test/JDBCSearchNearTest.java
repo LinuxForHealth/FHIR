@@ -13,7 +13,7 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.io.InputStream;
+import java.io.FileInputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +29,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
@@ -66,8 +67,8 @@ public class JDBCSearchNearTest {
 
     @BeforeClass
     public void startup() throws Exception {
-        InputStream inputStream = JDBCSearchNearTest.class.getResourceAsStream("/near.unitTest.properties");
-        LogManager.getLogManager().readConfiguration(inputStream);
+        LogManager.getLogManager().readConfiguration(
+                new FileInputStream("../fhir-persistence/src/test/resources/logging.unitTest.properties"));
 
         FHIRConfiguration.setConfigHome("../fhir-persistence/target/test-classes");
         FHIRRequestContext.get().setTenantId("default");
@@ -88,7 +89,23 @@ public class JDBCSearchNearTest {
         SingleResourceResult<Location> result =
                 persistence.create(FHIRPersistenceContextFactory.createPersistenceContext(null), savedResource);
         assertTrue(result.isSuccess());
+        assertNotNull(result.getResource());
+        savedResource = result.getResource();
 
+    }
+
+    @AfterClass
+    public void teardown() throws Exception {
+        if (savedResource != null && persistence.isDeleteSupported()) {
+            FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, Collections.emptyMap(), true);
+            FHIRPersistenceContext persistenceContext =
+                    FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
+            persistence.delete(persistenceContext, Location.class, savedResource.getId());
+            if (persistence.isTransactional()) {
+                persistence.getTransaction().commit();
+            }
+        }
+        FHIRRequestContext.get().setTenantId("default");
     }
 
     public MultiResourceResult<Resource> runQueryTest(String searchParamCode, String queryValue) throws Exception {
@@ -101,11 +118,6 @@ public class JDBCSearchNearTest {
         FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
         MultiResourceResult<Resource> result = persistence.search(persistenceContext, Location.class);
         return result;
-    }
-
-    @AfterClass
-    public void teardown() throws Exception {
-        FHIRRequestContext.get().setTenantId("default");
     }
 
     @BeforeMethod(alwaysRun = true)

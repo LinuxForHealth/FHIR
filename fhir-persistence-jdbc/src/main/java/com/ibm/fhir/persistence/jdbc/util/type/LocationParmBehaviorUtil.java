@@ -25,9 +25,6 @@ import com.ibm.fhir.search.location.bounding.BoundingRadius;
 /**
  * Location Behavior Util generates SQL and loads the variables into bind
  * variables.
- * <br>
- * The bounding areas at this point are already valid as the fhir-search
- * component has processed the received point into a set of bounding boxes.
  */
 public class LocationParmBehaviorUtil {
 
