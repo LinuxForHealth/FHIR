@@ -10,7 +10,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNION;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETERS_TABLE_ALIAS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
 
 import java.util.ArrayList;
@@ -377,7 +377,7 @@ public class QuerySegmentAggregator {
                             whereClause.append("_TOKEN_VALUES ");
                             break;
                         }
-                        whereClauseSegment = whereClauseSegment.replaceAll(PARAMETERS_TABLE_ALIAS + ".", "");
+                        whereClauseSegment = whereClauseSegment.replaceAll(PARAMETER_TABLE_ALIAS + ".", "");
                         whereClause.append(" WHERE ").append(whereClauseSegment).append(") ");
                         String tmpTableName = overrideType + i;
                         whereClause.append(tmpTableName).append(ON).append(tmpTableName).append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");

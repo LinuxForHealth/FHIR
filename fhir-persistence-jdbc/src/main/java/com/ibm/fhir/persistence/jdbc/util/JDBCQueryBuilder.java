@@ -17,7 +17,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_EXPR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_PERCENT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_UNDERSCORE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETERS_TABLE_ALIAS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.STR_VALUE;
@@ -222,7 +222,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
         // For each search parm, build a query parm that will satisfy the search.
         for (Parameter queryParameter : searchParameters) {
-            querySegment = this.buildQueryParm(resourceType, queryParameter, PARAMETERS_TABLE_ALIAS);
+            querySegment = this.buildQueryParm(resourceType, queryParameter, PARAMETER_TABLE_ALIAS);
             if (querySegment != null) {
                 helper.addQueryData(querySegment, queryParameter);
                 isValidQuery = true;
@@ -317,7 +317,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
     @Override
     protected SqlQueryData processStringParm(Parameter queryParm) throws FHIRPersistenceException {
-        return processStringParm(queryParm, PARAMETERS_TABLE_ALIAS);
+        return processStringParm(queryParm, PARAMETER_TABLE_ALIAS);
     }
     
     private SqlQueryData processStringParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
@@ -421,7 +421,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
     @Override
     protected SqlQueryData processReferenceParm(Class<?> resourceType, Parameter queryParm) throws Exception {
-        return processReferenceParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
+        return processReferenceParm(resourceType, queryParm, PARAMETER_TABLE_ALIAS);
     }
     
     private SqlQueryData processReferenceParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
@@ -535,10 +535,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                     // Must build this first piece using px placeholder table alias, which will be replaced with a
                     // generated value in the buildQuery() method.
                     // Build this piece:P1.PARAMETER_NAME_ID = x AND (p1.STR_VALUE IN
-                    this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETERS_TABLE_ALIAS);
+                    this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETER_TABLE_ALIAS);
                     whereClauseSegment.append(JDBCOperator.AND.value());
                     whereClauseSegment.append(LEFT_PAREN);
-                    whereClauseSegment.append(PARAMETERS_TABLE_ALIAS + DOT).append(STR_VALUE).append(JDBCOperator.IN.value());
+                    whereClauseSegment.append(PARAMETER_TABLE_ALIAS + DOT).append(STR_VALUE).append(JDBCOperator.IN.value());
                 } else {
                     // Build this piece: CP1.PARAMETER_NAME_ID = x AND CP1.STR_VALUE IN
                     appendMidChainParm(whereClauseSegment, currentParm, chainedParmVar);
@@ -786,10 +786,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 currentParmValue = currentParm.getValues().get(0).getValueString();
                 // Build this piece:
                 // (pX.PARAMETER_NAME_ID = x AND
-                this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETERS_TABLE_ALIAS);
+                this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETER_TABLE_ALIAS);
                 whereClauseSegment.append(JDBCOperator.AND.value());
                 // Build this piece: pX.str_value = search-attribute-value
-                whereClauseSegment.append(PARAMETERS_TABLE_ALIAS + DOT).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
+                whereClauseSegment.append(PARAMETER_TABLE_ALIAS + DOT).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
                 whereClauseSegment.append(RIGHT_PAREN);
                 bindVariables.add(currentParmValue);
             }
@@ -808,7 +808,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     
     @Override
     protected SqlQueryData processDateParm(Class<?> resourceType, Parameter queryParm) throws Exception {
-        return processDateParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
+        return processDateParm(resourceType, queryParm, PARAMETER_TABLE_ALIAS);
     }
 
     private SqlQueryData processDateParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
@@ -1017,7 +1017,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
     @Override
     protected SqlQueryData processTokenParm(Parameter queryParm) throws FHIRPersistenceException {
-        return processTokenParm(queryParm, PARAMETERS_TABLE_ALIAS);
+        return processTokenParm(queryParm, PARAMETER_TABLE_ALIAS);
     }
     
     private SqlQueryData processTokenParm(Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
@@ -1078,7 +1078,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
     @Override
     protected SqlQueryData processNumberParm(Class<?> resourceType, Parameter queryParm) throws FHIRPersistenceException {
-        return processNumberParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
+        return processNumberParm(resourceType, queryParm, PARAMETER_TABLE_ALIAS);
     }
     
     private SqlQueryData processNumberParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws FHIRPersistenceException {
@@ -1103,7 +1103,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
     @Override
     protected SqlQueryData processQuantityParm(Class<?> resourceType, Parameter queryParm) throws Exception {
-        return processQuantityParm(resourceType, queryParm, PARAMETERS_TABLE_ALIAS);
+        return processQuantityParm(resourceType, queryParm, PARAMETER_TABLE_ALIAS);
     }
     
     private SqlQueryData processQuantityParm(Class<?> resourceType, Parameter queryParm, String tableAlias) throws Exception {
@@ -1135,7 +1135,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         // Build this piece of the segment:
         // (P1.PARAMETER_NAME_ID = x AND
         StringBuilder whereClauseSegment = new StringBuilder();
-        this.populateNameIdSubSegment(whereClauseSegment, parmName, PARAMETERS_TABLE_ALIAS);
+        this.populateNameIdSubSegment(whereClauseSegment, parmName, PARAMETER_TABLE_ALIAS);
         
         List<Object> bindVariables = new ArrayList<>();
         LocationParmBehaviorUtil behaviorUtil = new LocationParmBehaviorUtil();
@@ -1346,7 +1346,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
     @Override
     protected SqlQueryData processUriParm(Parameter queryParm) throws FHIRPersistenceException {
-        return processUriParm(queryParm, PARAMETERS_TABLE_ALIAS);
+        return processUriParm(queryParm, PARAMETER_TABLE_ALIAS);
     }
 
     /**

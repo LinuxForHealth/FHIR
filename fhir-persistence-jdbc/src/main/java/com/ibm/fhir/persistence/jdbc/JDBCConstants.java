@@ -30,7 +30,7 @@ public class JDBCConstants {
     // Generic SQL query string constants
     public static final String DOT = ".";
     public static final String WHERE = " WHERE ";
-    public static final String PARAMETERS_TABLE_ALIAS = "pX";
+    public static final String PARAMETER_TABLE_ALIAS = "pX";
     public static final String LEFT_PAREN = "(";
     public static final String RIGHT_PAREN = ")";
     public static final String AND = " AND ";
