@@ -54,9 +54,6 @@ import com.ibm.fhir.search.exception.SearchExceptionUtil;
  * <br>
  * Load the class in the classloader to initialize static members. Call this before using the class in order to avoid a
  * slight performance hit on first use.
- * 
- * @author pbastide
- *
  */
 public class CompartmentUtil {
 
