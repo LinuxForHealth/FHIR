@@ -12,6 +12,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NUMBER_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.STR_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 
 import java.util.ArrayList;
 import java.util.List;

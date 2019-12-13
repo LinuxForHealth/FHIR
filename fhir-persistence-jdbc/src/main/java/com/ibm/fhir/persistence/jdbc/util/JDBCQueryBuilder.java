@@ -27,7 +27,8 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNDERSCORE_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHERE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierMap;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.prefixOperatorMap;
-import static com.ibm.fhir.persistence.jdbc.util.QuerySegmentAggregator.PARAMETER_TABLE_ALIAS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_JOIN;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -221,7 +222,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
         // For each search parm, build a query parm that will satisfy the search.
         for (Parameter queryParameter : searchParameters) {
-            querySegment = this.buildQueryParm(resourceType, queryParameter, PARAMETER_TABLE_ALIAS);
+            querySegment = this.buildQueryParm(resourceType, queryParameter, PARAMETERS_TABLE_ALIAS);
             if (querySegment != null) {
                 helper.addQueryData(querySegment, queryParameter);
                 isValidQuery = true;
@@ -487,17 +488,18 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      * Observation given this search parameter: device:Device.patient.family=Monella
      *
      * <pre>
-     * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID FROM
-     * Observation_RESOURCES R, Observation_LOGICAL_RESOURCES LR , Observation_STR_VALUES P1 WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' AND
-     * P1.RESOURCE_ID = R.RESOURCE_ID AND
-     * P1.PARAMETER_NAME_ID = 107 AND
-     * (p1.STR_VALUE IN
+     * SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID
+     * FROM Observation_LOGICAL_RESOURCES LR 
+     * JOIN Observation_RESOURCES R ON R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y'
+     * JOIN (SELECT DISTINCT LOGICAL_RESOURCE_ID FROM Observation_STR_VALUES
+     * WHERE(P1.PARAMETER_NAME_ID = 107 AND (p1.STR_VALUE IN
      *    (SELECT 'Device' || '/' || CLR1.LOGICAL_ID FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
      *        CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND CP1.RESOURCE_ID = CR1.RESOURCE_ID AND
      *          CP1.PARAMETER_NAME_ID = 17 AND CP1.STR_VALUE IN
      *                 (SELECT 'Patient' || '/' || CLR2.LOGICAL_ID FROM Patient_RESOURCES CR2, Patient_LOGICAL_RESOURCES CLR2, Patient_STR_VALUES CP2 WHERE
      *                     CR2.RESOURCE_ID = CLR2.CURRENT_RESOURCE_ID AND CR2.IS_DELETED <> 'Y' AND CP2.RESOURCE_ID = CR2.RESOURCE_ID AND
-     *                     CP2.PARAMETER_NAME_ID = 5 AND CP2.STR_VALUE = 'Monella')));
+     *                     CP2.PARAMETER_NAME_ID = 5 AND CP2.STR_VALUE = 'Monella')))
+     * TMP0 ON TMP0.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID                     ;
      * </pre>
      * 
      * @see https://www.hl7.org/fhir/search.html#reference (section 2.1.1.4.13)
@@ -533,10 +535,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                     // Must build this first piece using px placeholder table alias, which will be replaced with a
                     // generated value in the buildQuery() method.
                     // Build this piece:P1.PARAMETER_NAME_ID = x AND (p1.STR_VALUE IN
-                    this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETER_TABLE_ALIAS);
+                    this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETERS_TABLE_ALIAS);
                     whereClauseSegment.append(JDBCOperator.AND.value());
                     whereClauseSegment.append(LEFT_PAREN);
-                    whereClauseSegment.append(PARAMETER_TABLE_ALIAS + DOT).append(STR_VALUE).append(JDBCOperator.IN.value());
+                    whereClauseSegment.append(PARAMETERS_TABLE_ALIAS + DOT).append(STR_VALUE).append(JDBCOperator.IN.value());
                 } else {
                     // Build this piece: CP1.PARAMETER_NAME_ID = x AND CP1.STR_VALUE IN
                     appendMidChainParm(whereClauseSegment, currentParm, chainedParmVar);
@@ -774,7 +776,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 throw new FHIRPersistenceException("No Paramter values found when processing inclusion criteria.");
             }
             // Handle the special case of chained inclusion criteria.
-            if (currentParm.getCode().contains(".")) {
+            if (currentParm.getCode().contains(DOT)) {
                 whereClauseSegment.append(LEFT_PAREN);
                 chainedIncQueryData = this.processChainedInclusionCriteria(currentParm);
                 whereClauseSegment.append(chainedIncQueryData.getQueryString());
@@ -784,10 +786,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 currentParmValue = currentParm.getValues().get(0).getValueString();
                 // Build this piece:
                 // (pX.PARAMETER_NAME_ID = x AND
-                this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETER_TABLE_ALIAS);
+                this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETERS_TABLE_ALIAS);
                 whereClauseSegment.append(JDBCOperator.AND.value());
                 // Build this piece: pX.str_value = search-attribute-value
-                whereClauseSegment.append(PARAMETER_TABLE_ALIAS + DOT).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
+                whereClauseSegment.append(PARAMETERS_TABLE_ALIAS + DOT).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
                 whereClauseSegment.append(RIGHT_PAREN);
                 bindVariables.add(currentParmValue);
             }
@@ -1133,7 +1135,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         // Build this piece of the segment:
         // (P1.PARAMETER_NAME_ID = x AND
         StringBuilder whereClauseSegment = new StringBuilder();
-        this.populateNameIdSubSegment(whereClauseSegment, parmName, PARAMETER_TABLE_ALIAS);
+        this.populateNameIdSubSegment(whereClauseSegment, parmName, PARAMETERS_TABLE_ALIAS);
         
         List<Object> bindVariables = new ArrayList<>();
         LocationParmBehaviorUtil behaviorUtil = new LocationParmBehaviorUtil();
@@ -1235,16 +1237,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
         StringBuilder whereClauseSegment = new StringBuilder();
 
-        // WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID because we're not using the value from the parameters table
-        whereClauseSegment.append("R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND ");
-
-        // if (missing != null && !missing) {
-        // // Build this piece of the segment:
-        // // (P1.PARAMETER_NAME_ID = x AND P1.logical_resource_id = LR.logical_resource_id)
-        // this.populateNameIdSubSegment(whereClauseSegment, queryParm.get(), tableAlias);
-        // whereClauseSegment.append(AND).append(tableAlias + DOT + "LOGICAL_RESOURCE_ID = LR.LOGICL_RESOURCE_ID");
-        // whereClauseSegment.append(RIGHT_PAREN);
-        // } else {
         StringBuilder valuesTable = new StringBuilder(resourceType.getSimpleName());
         switch (queryParm.getType()) {
         case URI:
@@ -1269,17 +1261,27 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
         }
 
+        // Build this piece of the segment
+        // missing: LEFT JOIN (SELECT DISTINCT LOGICAL_RESOURCE_ID FROM Observation_STR_VALUES...)
+        //            TEMP ON TEMP.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID
+        //            WHERE TEMP.LOGICAL_RESOURCE_ID is NULL
+        // not missing: JOIN (SELECT DISTINCT LOGICAL_RESOURCE_ID FROM Observation_STR_VALUES...)
+        //            TEMP ON TEMP.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID            
         if (missing == null || missing) {
-            whereClauseSegment.append("NOT ");
+            whereClauseSegment.append(LEFT_JOIN);
+        } else {
+            whereClauseSegment.append(JOIN);
         }
-        whereClauseSegment.append("EXISTS ").append("(SELECT 1 FROM " + valuesTable + WHERE);
-
-        // Build this piece of the segment:
-        // (P1.PARAMETER_NAME_ID = x AND P1.logical_resource_id = R.logical_resource_id))
+        // Using DISTINCT here is important, this can avoid duplication in the search results, even thought
+        // DISTINCT can impact performance, but because LOGICAL_RESOURCE_ID is always indexed, so the impact 
+        // should be very limited.
+        whereClauseSegment.append("(SELECT DISTINCT LOGICAL_RESOURCE_ID FROM " + valuesTable + WHERE);
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), valuesTable.toString());
-        whereClauseSegment.append(AND).append(valuesTable + DOT + "LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
-        // }
+        whereClauseSegment.append(" TEMP ON TEMP.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
+        if (missing == null || missing) {
+            whereClauseSegment.append(" WHERE TEMP.LOGICAL_RESOURCE_ID is NULL ");
+        }
 
         List<Object> bindVariables = new ArrayList<>();
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);

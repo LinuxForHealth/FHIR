@@ -6,6 +6,13 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNION;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETERS_TABLE_ALIAS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -28,26 +35,21 @@ import com.ibm.fhir.search.parameters.Parameter;
 public class QuerySegmentAggregator {
     private static final String CLASSNAME = QuerySegmentAggregator.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
-
     protected static final String SELECT_ROOT = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID ";
     protected static final String SYSTEM_LEVEL_SELECT_ROOT = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID ";
     protected static final String SYSTEM_LEVEL_SUBSELECT_ROOT = SELECT_ROOT;
     private static final String SELECT_COUNT_ROOT = "SELECT COUNT(R.RESOURCE_ID) ";
     private static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT COUNT(RESOURCE_ID) ";
     private static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT R.RESOURCE_ID ";
-
     protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED <> 'Y'";
-    public static final String PARAMETER_TABLE_ALIAS = "pX";
-    private static final String FROM = " FROM ";
-    private static final String UNION = " UNION ALL ";
-    protected static final String ON = " ON ";
-    private static final String AND = " AND ";
-    protected static final String COMBINED_RESULTS = " COMBINED_RESULTS";
     private static final String DEFAULT_ORDERING = " ORDER BY R.RESOURCE_ID ASC ";
 
     private static final Set<String> SKIP_WHERE = new HashSet<>(Arrays.asList("_id"));
     
     protected Class<?> resourceType;
+    
+    // Used for whole system search on multiple resource types.
+    private List<String> resourceTypes = null;
 
     /**
      * querySegments and searchQueryParameters are used as parallel arrays
@@ -81,6 +83,10 @@ public class QuerySegmentAggregator {
         this.querySegments = new ArrayList<>();
         this.searchQueryParameters = new ArrayList<>();
          
+    }
+    
+    public void setResourceTypes(List<String> resourceTypes) {
+        this.resourceTypes = resourceTypes;
     }
     
     /**
@@ -203,6 +209,10 @@ public class QuerySegmentAggregator {
         
         for(Map.Entry<String,Integer> resourceEntry : resourceNameMap.entrySet()) {
             String resourceTypeName =  resourceEntry.getKey();
+            // Only search the required resource types if any.
+            if (this.resourceTypes != null && !this.resourceTypes.contains(resourceTypeName)) {
+                continue;
+            }
             
             tempFromClause = this.buildFromClause(resourceTypeName);
             
@@ -258,12 +268,12 @@ public class QuerySegmentAggregator {
         log.entering(CLASSNAME, METHODNAME);
 
         StringBuilder fromClause = new StringBuilder();
-        fromClause.append("FROM ");
+        fromClause.append(FROM);
         processFromClauseForId(fromClause, simpleName);
         fromClause.append(" LR JOIN ");
         fromClause.append(simpleName);
         fromClause.append("_RESOURCES");
-        fromClause.append(" R ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
+        fromClause.append(" R ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' ");
 
         log.exiting(CLASSNAME, METHODNAME);
         return fromClause.toString();
@@ -325,7 +335,6 @@ public class QuerySegmentAggregator {
         StringBuilder whereClause = new StringBuilder();
         String whereClauseSegment;
 
-        whereClause.append(WHERE_CLAUSE_ROOT);
         if (!this.querySegments.isEmpty()) {
             for (int i = 0; i < this.querySegments.size(); i++) {
                 SqlQueryData querySegment = this.querySegments.get(i);
@@ -339,10 +348,10 @@ public class QuerySegmentAggregator {
 
                     whereClauseSegment = querySegment.getQueryString();
                     if (Modifier.MISSING.equals(param.getModifier())) {
-                        whereClause.append(AND).append(whereClauseSegment);
+                        whereClause.append(whereClauseSegment);
                     } else {
 
-                        whereClause.append(AND).append("R.LOGICAL_RESOURCE_ID IN (SELECT LOGICAL_RESOURCE_ID FROM ");
+                        whereClause.append(JOIN).append("(SELECT DISTINCT LOGICAL_RESOURCE_ID FROM ");
                         whereClause.append(overrideType);
                         switch (param.getType()) {
                         case URI:
@@ -368,8 +377,10 @@ public class QuerySegmentAggregator {
                             whereClause.append("_TOKEN_VALUES ");
                             break;
                         }
-                        whereClauseSegment = whereClauseSegment.replaceAll(PARAMETER_TABLE_ALIAS + ".", "");
-                        whereClause.append(" WHERE ").append(whereClauseSegment).append(")");
+                        whereClauseSegment = whereClauseSegment.replaceAll(PARAMETERS_TABLE_ALIAS + ".", "");
+                        whereClause.append(" WHERE ").append(whereClauseSegment).append(") ");
+                        String tmpTableName = overrideType + i;
+                        whereClause.append(tmpTableName).append(ON).append(tmpTableName).append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
                     }
                 }
             }

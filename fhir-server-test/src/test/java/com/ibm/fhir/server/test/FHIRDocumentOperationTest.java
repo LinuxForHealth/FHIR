@@ -313,13 +313,6 @@ public class FHIRDocumentOperationTest extends FHIRServerTestBase {
         TestUtil.assertResourceEquals(responseDocument, document);
     }
 
-    private Condition buildCondition(String patientId, String fileName) throws Exception {
-        Condition condition = TestUtil.readLocalResource(fileName);
-        condition = condition.toBuilder().subject(Reference.builder().reference(string("Patient/" + patientId)).build()).build();
-
-        return condition;
-    }
-
     private AllergyIntolerance buildAllergyIntolerance(String patientId, String fileName) throws Exception {
         AllergyIntolerance allergyIntolerance = TestUtil.readLocalResource(fileName);
 

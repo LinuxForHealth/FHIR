@@ -439,15 +439,26 @@ public class FHIRClientImpl implements FHIRClient {
     }
 
     @Override
-    public FHIRResponse searchAll(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
+    public FHIRResponse searchAll(FHIRParameters parameters, boolean isPost, FHIRRequestHeader... headers) throws Exception {
+        Invocation.Builder builder;
+        Response response;
         WebTarget endpoint = getWebTarget();
-        endpoint = endpoint.path("_search");
-        endpoint = addParametersToWebTarget(endpoint, parameters);
-        Invocation.Builder builder = endpoint.request(getDefaultMimeType());
-        builder = addRequestHeaders(builder, headers);
-        Response response = builder.get();
+        if (isPost) {
+            endpoint = endpoint.path("/");
+            endpoint = addParametersToWebTarget(endpoint, parameters);
+            builder = endpoint.request(getDefaultMimeType());
+            builder = addRequestHeaders(builder, headers);
+            response = builder.get();
+        } else {
+            endpoint = endpoint.path("_search");
+            builder = endpoint.request(getDefaultMimeType());
+            Entity<Form> entity = Entity.form(parameters.getParameterMap());
+            response = builder.post(entity);
+        }
+        
         return new FHIRResponseImpl(response);
     }
+
 
     @Override
     public FHIRResponse validate(Resource resource, FHIRRequestHeader... headers) throws Exception {

@@ -16,13 +16,9 @@ import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.Parameter;
 import com.ibm.fhir.search.parameters.SortParameter;
 
-/**
- * 
- * @author markd
- * @author pbastide
- *
- */
+
 public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIRSearchContext {
+    private List<String> searchResourceTypes = null;
     private List<Parameter> searchParameters = new ArrayList<>();
     private List<SortParameter> sortParameters = new ArrayList<>();
     private List<InclusionParameter> includeParameters = new ArrayList<>();
@@ -125,6 +121,17 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     @Override
     public void setSummaryParameter(SummaryValueSet summary) {
         this.summaryParameter = summary;
+        
+    }
+
+    @Override
+    public List<String> getSearchResourceTypes() {
+        return this.searchResourceTypes;
+    }
+
+    @Override
+    public void setSearchResourceTypes(List<String> searchResourceTypes) {
+        this.searchResourceTypes = searchResourceTypes;
         
     }
 }
