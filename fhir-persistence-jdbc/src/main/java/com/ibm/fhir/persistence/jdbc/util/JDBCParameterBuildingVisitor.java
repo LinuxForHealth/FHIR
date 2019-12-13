@@ -558,7 +558,6 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
 
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Location.Position position) {
-        // The parameter isn't added unless either low or high holds a value
         Parameter p = new Parameter();
         p.setName(searchParamCode);
         
