@@ -145,7 +145,7 @@ public class LocationParmBehaviorUtil {
                 .append(RIGHT_PAREN)
                 .append("<= ?");
 
-        // The following order is important. 
+        // The following order is important.
         bindVariables.add(boundingRadius.getLatitude());
         bindVariables.add(boundingRadius.getLatitude());
         bindVariables.add(boundingRadius.getLongitude());
