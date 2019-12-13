@@ -46,7 +46,7 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
     private String observationId;
     private Boolean compartmentSearchSupported = null;
     // Controls which tenant to use for the test.
-    private final String tanantName = "perform2";
+    private final String tanantName = "default";
     // Controls how many observations and patients to create for the test.
     // Using invocationCount of testng can cause the testng report grows too big, so
     // this config is used to make sure all test users are created in one testng step.
@@ -504,4 +504,20 @@ public class SearchPerformaceTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() == 1);
     }
+    
+    
+    @Test(groups = { "server-search-performance" })
+    public void testSearchObservationWithPatientName() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Observation").queryParam("subject:Patient.name", "john")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tanantName)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+    }
+
+    
 }

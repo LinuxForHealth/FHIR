@@ -1265,16 +1265,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
         StringBuilder whereClauseSegment = new StringBuilder();
 
-        // WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID because we're not using the value from the parameters table
-        whereClauseSegment.append("R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND ");
-
-        // if (missing != null && !missing) {
-        // // Build this piece of the segment:
-        // // (P1.PARAMETER_NAME_ID = x AND P1.logical_resource_id = LR.logical_resource_id)
-        // this.populateNameIdSubSegment(whereClauseSegment, queryParm.get(), tableAlias);
-        // whereClauseSegment.append(AND).append(tableAlias + DOT + "LOGICAL_RESOURCE_ID = LR.LOGICL_RESOURCE_ID");
-        // whereClauseSegment.append(RIGHT_PAREN);
-        // } else {
         StringBuilder valuesTable = new StringBuilder(resourceType.getSimpleName());
         switch (queryParm.getType()) {
         case URI:
@@ -1299,17 +1289,24 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
         }
 
+        // Build this piece of the segment
+        // missing: LEFT JOIN (SELECT DISTINCT LOGICAL_RESOURCE_ID FROM ...)
+        //            TEMP ON TEMP.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID
+        //            WHERE TEMP.LOGICAL_RESOURCE_ID is NULL
+        // not missing: JOIN (SELECT DISTINCT LOGICAL_RESOURCE_ID FROM ...)
+        //            TEMP ON TEMP.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID            
         if (missing == null || missing) {
-            whereClauseSegment.append("NOT ");
+            whereClauseSegment.append(" LEFT JOIN ");
+        } else {
+            whereClauseSegment.append(" JOIN ");
         }
-        whereClauseSegment.append("EXISTS ").append("(SELECT 1 FROM " + valuesTable + WHERE);
-
-        // Build this piece of the segment:
-        // (P1.PARAMETER_NAME_ID = x AND P1.logical_resource_id = R.logical_resource_id))
+        whereClauseSegment.append("(SELECT DISTINCT LOGICAL_RESOURCE_ID FROM " + valuesTable + WHERE);
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), valuesTable.toString());
-        whereClauseSegment.append(AND).append(valuesTable + DOT + "LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
-        // }
+        whereClauseSegment.append(" TEMP ON TEMP.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
+        if (missing == null || missing) {
+            whereClauseSegment.append(" WHERE TEMP.LOGICAL_RESOURCE_ID is NULL ");
+        }
 
         List<Object> bindVariables = new ArrayList<>();
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
