@@ -29,8 +29,8 @@ import com.ibm.fhir.model.type.String;
  * <ul>
  * <li>preVisit methods to control whether a given Resource or Element gets visited
  * <li>visitStart methods to provide setup behavior prior to the visit
- * <li>defaultAction methods to perform some common action on all visited Resources and Elements
- * <li>specific visit methods to perform unique behavior that varies by the type being visited
+ * <li>supertype methods to perform some common action on all visited Resources and Elements
+ * <li>subtype visit methods to perform unique behavior that varies by the type being visited
  * <li>visitEnd methods to provide initial cleanup behavior after a Resource or Element has been visited
  * <li>postVisit methods to provide final cleanup behavior after a Resource or Element has been visited
  * </ul>

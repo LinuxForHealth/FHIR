@@ -328,8 +328,8 @@ public class CodeGenerator {
         cb.javadoc("<ul>",false);
         cb.javadoc("<li>preVisit methods to control whether a given Resource or Element gets visited",false);
         cb.javadoc("<li>visitStart methods to provide setup behavior prior to the visit",false);
-        cb.javadoc("<li>defaultAction methods to perform some common action on all visited Resources and Elements",false);
-        cb.javadoc("<li>specific visit methods to perform unique behavior that varies by the type being visited",false);
+        cb.javadoc("<li>supertype methods to perform some common action on all visited Resources and Elements",false);
+        cb.javadoc("<li>subtype visit methods to perform unique behavior that varies by the type being visited",false);
         cb.javadoc("<li>visitEnd methods to provide initial cleanup behavior after a Resource or Element has been visited",false);
         cb.javadoc("<li>postVisit methods to provide final cleanup behavior after a Resource or Element has been visited",false);
         cb.javadoc("</ul>",false);
