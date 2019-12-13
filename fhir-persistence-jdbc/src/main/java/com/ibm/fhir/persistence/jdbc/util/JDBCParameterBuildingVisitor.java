@@ -561,10 +561,16 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         // The parameter isn't added unless either low or high holds a value
         Parameter p = new Parameter();
         p.setName(searchParamCode);
-        Double lat = position.getLatitude().getValue().doubleValue();
-        Double lon = position.getLongitude().getValue().doubleValue();
-        p.setValueLatitude(lat);
-        p.setValueLongitude(lon);
+
+        if (position.getLatitude() != null && position.getLatitude().getValue() != null) {
+            Double lat = position.getLatitude().getValue().doubleValue();
+            p.setValueLatitude(lat);
+        }
+
+        if (position.getLongitude() != null && position.getLongitude().getValue() != null) {
+            Double lon = position.getLongitude().getValue().doubleValue();
+            p.setValueLongitude(lon);
+        }
         result.add(p);
         return false; 
     }
