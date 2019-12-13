@@ -78,12 +78,13 @@
 	{
 		"resourceType": "ActivityDefinition",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "ActivityDefinition",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "ActivityDefinition",
@@ -249,85 +250,85 @@
 		"resourceType": "AllergyIntolerance",
 		"name": "code",
 		"targetClasses": ["Element",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "Condition",
 		"name": "code",
 		"targetClasses": ["Element",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "DeviceRequest",
 		"name": "code",
 		"targetClasses": ["Element",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "DiagnosticReport",
 		"name": "code",
 		"targetClasses": ["Element",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "FamilyMemberHistory",
 		"name": "code",
 		"targetClasses": ["Element",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "List",
 		"name": "code",
 		"targetClasses": ["Element",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "Medication",
 		"name": "code",
 		"targetClasses": ["Element",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "MedicationAdministration",
 		"name": "code",
 		"targetClasses": ["Element",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "MedicationDispense",
 		"name": "code",
 		"targetClasses": ["Element",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "MedicationRequest",
 		"name": "code",
 		"targetClasses": ["Element",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "MedicationStatement",
 		"name": "code",
 		"targetClasses": ["Element",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "Observation",
 		"name": "code",
 		"targetClasses": ["Element",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "Procedure",
 		"name": "code",
 		"targetClasses": ["Element",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "ServiceRequest",
 		"name": "code",
 		"targetClasses": ["Element",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "AllergyIntolerance",
@@ -338,120 +339,120 @@
 		"resourceType": "AllergyIntolerance",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "CarePlan",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "CareTeam",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "ClinicalImpression",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "Composition",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "Consent",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "DiagnosticReport",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "Encounter",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "EpisodeOfCare",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "FamilyMemberHistory",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "Flag",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "Immunization",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "List",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "Observation",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "Procedure",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "RiskAssessment",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "SupplyRequest",
 		"name": "date",
 		"targetClasses": ["Element",
-		" Period",
-		" DateTime"]
+		"Period",
+		"DateTime"]
 	},
 	{
 		"resourceType": "AllergyIntolerance",
@@ -797,37 +798,37 @@
 		"resourceType": "AllergyIntolerance",
 		"name": "type",
 		"targetClasses": ["AllergyIntoleranceType",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "Composition",
 		"name": "type",
 		"targetClasses": ["AllergyIntoleranceType",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "DocumentManifest",
 		"name": "type",
 		"targetClasses": ["AllergyIntoleranceType",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "DocumentReference",
 		"name": "type",
 		"targetClasses": ["AllergyIntoleranceType",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "Encounter",
 		"name": "type",
 		"targetClasses": ["AllergyIntoleranceType",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "EpisodeOfCare",
 		"name": "type",
 		"targetClasses": ["AllergyIntoleranceType",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "AllergyIntolerance",
@@ -1122,142 +1123,156 @@
 	{
 		"resourceType": "CapabilityStatement",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "CodeSystem",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "CompartmentDefinition",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "ConceptMap",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "GraphDefinition",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "ImplementationGuide",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "MessageDefinition",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "NamingSystem",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "OperationDefinition",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "SearchParameter",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "StructureDefinition",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "StructureMap",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "TerminologyCapabilities",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "ValueSet",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "CapabilityStatement",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "CodeSystem",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "CompartmentDefinition",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "ConceptMap",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "GraphDefinition",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "ImplementationGuide",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "MessageDefinition",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "NamingSystem",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "OperationDefinition",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "SearchParameter",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "StructureDefinition",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "StructureMap",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "TerminologyCapabilities",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "ValueSet",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "CapabilityStatement",
@@ -2167,12 +2182,13 @@
 	{
 		"resourceType": "ChargeItemDefinition",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "ChargeItemDefinition",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "ChargeItemDefinition",
@@ -2742,12 +2758,12 @@
 	{
 		"resourceType": "Composition",
 		"name": "related-id",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Identifier"]
 	},
 	{
 		"resourceType": "Composition",
 		"name": "related-ref",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Reference"]
 	},
 	{
 		"resourceType": "Composition",
@@ -2787,7 +2803,7 @@
 	{
 		"resourceType": "ConceptMap",
 		"name": "source",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Canonical"]
 	},
 	{
 		"resourceType": "ConceptMap",
@@ -2802,12 +2818,12 @@
 	{
 		"resourceType": "ConceptMap",
 		"name": "source-uri",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Uri"]
 	},
 	{
 		"resourceType": "ConceptMap",
 		"name": "target",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Canonical"]
 	},
 	{
 		"resourceType": "ConceptMap",
@@ -2822,7 +2838,7 @@
 	{
 		"resourceType": "ConceptMap",
 		"name": "target-uri",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Uri"]
 	},
 	{
 		"resourceType": "Condition",
@@ -3292,12 +3308,13 @@
 	{
 		"resourceType": "DeviceRequest",
 		"name": "device",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Reference"]
 	},
 	{
 		"resourceType": "DeviceRequest",
 		"name": "event-date",
-		"targetClasses": ["Element"]
+		"targetClasses": ["DateTime",
+		"Period"]
 	},
 	{
 		"resourceType": "DeviceRequest",
@@ -3572,12 +3589,13 @@
 	{
 		"resourceType": "EffectEvidenceSynthesis",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "EffectEvidenceSynthesis",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "EffectEvidenceSynthesis",
@@ -3832,12 +3850,13 @@
 	{
 		"resourceType": "EventDefinition",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "EventDefinition",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "EventDefinition",
@@ -3932,12 +3951,13 @@
 	{
 		"resourceType": "Evidence",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "Evidence",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "Evidence",
@@ -4032,12 +4052,13 @@
 	{
 		"resourceType": "EvidenceVariable",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "EvidenceVariable",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "EvidenceVariable",
@@ -4127,12 +4148,13 @@
 	{
 		"resourceType": "ExampleScenario",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "ExampleScenario",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "ExampleScenario",
@@ -4322,7 +4344,7 @@
 	{
 		"resourceType": "Goal",
 		"name": "start-date",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Date"]
 	},
 	{
 		"resourceType": "Goal",
@@ -4332,7 +4354,7 @@
 	{
 		"resourceType": "Goal",
 		"name": "target-date",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Date"]
 	},
 	{
 		"resourceType": "GraphDefinition",
@@ -4382,7 +4404,8 @@
 	{
 		"resourceType": "Group",
 		"name": "value",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept",
+		"Boolean"]
 	},
 	{
 		"resourceType": "GuidanceResponse",
@@ -4847,12 +4870,13 @@
 	{
 		"resourceType": "Library",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "Library",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "Library",
@@ -5077,12 +5101,13 @@
 	{
 		"resourceType": "Measure",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "Measure",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "Measure",
@@ -5297,12 +5322,12 @@
 	{
 		"resourceType": "Medication",
 		"name": "ingredient",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Reference"]
 	},
 	{
 		"resourceType": "Medication",
 		"name": "ingredient-code",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "Medication",
@@ -5337,22 +5362,22 @@
 	{
 		"resourceType": "MedicationAdministration",
 		"name": "medication",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Reference"]
 	},
 	{
 		"resourceType": "MedicationDispense",
 		"name": "medication",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Reference"]
 	},
 	{
 		"resourceType": "MedicationRequest",
 		"name": "medication",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Reference"]
 	},
 	{
 		"resourceType": "MedicationStatement",
 		"name": "medication",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Reference"]
 	},
 	{
 		"resourceType": "MedicationAdministration",
@@ -5378,33 +5403,33 @@
 		"resourceType": "MedicationAdministration",
 		"name": "status",
 		"targetClasses": ["MedicationRequestStatus",
-		" MedicationStatementStatus",
-		" MedicationDispenseStatus",
-		" MedicationAdministrationStatus"]
+		"MedicationStatementStatus",
+		"MedicationDispenseStatus",
+		"MedicationAdministrationStatus"]
 	},
 	{
 		"resourceType": "MedicationDispense",
 		"name": "status",
 		"targetClasses": ["MedicationRequestStatus",
-		" MedicationStatementStatus",
-		" MedicationDispenseStatus",
-		" MedicationAdministrationStatus"]
+		"MedicationStatementStatus",
+		"MedicationDispenseStatus",
+		"MedicationAdministrationStatus"]
 	},
 	{
 		"resourceType": "MedicationRequest",
 		"name": "status",
 		"targetClasses": ["MedicationRequestStatus",
-		" MedicationStatementStatus",
-		" MedicationDispenseStatus",
-		" MedicationAdministrationStatus"]
+		"MedicationStatementStatus",
+		"MedicationDispenseStatus",
+		"MedicationAdministrationStatus"]
 	},
 	{
 		"resourceType": "MedicationStatement",
 		"name": "status",
 		"targetClasses": ["MedicationRequestStatus",
-		" MedicationStatementStatus",
-		" MedicationDispenseStatus",
-		" MedicationAdministrationStatus"]
+		"MedicationStatementStatus",
+		"MedicationDispenseStatus",
+		"MedicationAdministrationStatus"]
 	},
 	{
 		"resourceType": "MedicationAdministration",
@@ -5939,7 +5964,7 @@
 	{
 		"resourceType": "Observation",
 		"name": "combo-value-concept",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "Observation",
@@ -5959,12 +5984,13 @@
 	{
 		"resourceType": "Observation",
 		"name": "component-value-concept",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "Observation",
 		"name": "component-value-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"SampledData"]
 	},
 	{
 		"resourceType": "Observation",
@@ -6024,22 +6050,25 @@
 	{
 		"resourceType": "Observation",
 		"name": "value-concept",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "Observation",
 		"name": "value-date",
-		"targetClasses": ["Element"]
+		"targetClasses": ["DateTime",
+		"Period"]
 	},
 	{
 		"resourceType": "Observation",
 		"name": "value-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"SampledData"]
 	},
 	{
 		"resourceType": "Observation",
 		"name": "value-string",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept",
+		"String"]
 	},
 	{
 		"resourceType": "OperationDefinition",
@@ -6359,7 +6388,7 @@
 	{
 		"resourceType": "Patient",
 		"name": "death-date",
-		"targetClasses": ["Element"]
+		"targetClasses": ["DateTime"]
 	},
 	{
 		"resourceType": "Patient",
@@ -6644,12 +6673,13 @@
 	{
 		"resourceType": "PlanDefinition",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "PlanDefinition",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "PlanDefinition",
@@ -6919,7 +6949,7 @@
 	{
 		"resourceType": "Provenance",
 		"name": "when",
-		"targetClasses": ["Element"]
+		"targetClasses": ["DateTime"]
 	},
 	{
 		"resourceType": "Questionnaire",
@@ -6929,12 +6959,13 @@
 	{
 		"resourceType": "Questionnaire",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "Questionnaire",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "Questionnaire",
@@ -7164,12 +7195,13 @@
 	{
 		"resourceType": "ResearchDefinition",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "ResearchDefinition",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "ResearchDefinition",
@@ -7264,12 +7296,13 @@
 	{
 		"resourceType": "ResearchElementDefinition",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "ResearchElementDefinition",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "ResearchElementDefinition",
@@ -7484,12 +7517,13 @@
 	{
 		"resourceType": "RiskEvidenceSynthesis",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "RiskEvidenceSynthesis",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "RiskEvidenceSynthesis",
@@ -7910,7 +7944,7 @@
 		"resourceType": "Substance",
 		"name": "code",
 		"targetClasses": ["Element",
-		" CodeableConcept"]
+		"CodeableConcept"]
 	},
 	{
 		"resourceType": "Substance",
@@ -7940,12 +7974,12 @@
 	{
 		"resourceType": "Substance",
 		"name": "substance-reference",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Reference"]
 	},
 	{
 		"resourceType": "SubstanceSpecification",
 		"name": "code",
-		"targetClasses": ["CodeableConcept"]
+		"targetClasses": ["Code"]
 	},
 	{
 		"resourceType": "SupplyDelivery",
@@ -8115,12 +8149,13 @@
 	{
 		"resourceType": "TestScript",
 		"name": "context",
-		"targetClasses": ["Element"]
+		"targetClasses": ["CodeableConcept"]
 	},
 	{
 		"resourceType": "TestScript",
 		"name": "context-quantity",
-		"targetClasses": ["Element"]
+		"targetClasses": ["Quantity",
+		"Range"]
 	},
 	{
 		"resourceType": "TestScript",

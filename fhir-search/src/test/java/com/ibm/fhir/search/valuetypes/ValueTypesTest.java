@@ -41,9 +41,6 @@ import com.ibm.fhir.search.test.BaseSearchTest;
 
 /**
  * Tests ValueType Gets
- * 
- * @author pbastide
- *
  */
 public class ValueTypesTest extends BaseSearchTest {
 
@@ -127,7 +124,7 @@ public class ValueTypesTest extends BaseSearchTest {
     public void testGetValueTypes2() throws Exception {
         Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(Patient.class, "_id");
         assertEquals(valueTypes.size(), 1);
-        assertTrue(valueTypes.contains(com.ibm.fhir.model.type.Id.class));
+        assertTrue(valueTypes.contains(com.ibm.fhir.model.type.String.class));
     }
 
     @Test
@@ -135,7 +132,6 @@ public class ValueTypesTest extends BaseSearchTest {
         Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(Observation.class, "date");
         printValueTypes(valueTypes);
         assertEquals(valueTypes.size(), 3);
-        assertTrue(valueTypes.contains(Element.class));
     }
 
     @Test
