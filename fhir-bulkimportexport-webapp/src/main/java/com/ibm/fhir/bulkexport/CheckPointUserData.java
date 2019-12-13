@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.bulkexport.common;
+package com.ibm.fhir.bulkexport;
 
 import java.util.List;
 

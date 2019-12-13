@@ -29,20 +29,22 @@ import com.ibm.fhir.rest.FHIRResourceHelpers;
 
 /**
  * Creates an Export of FHIR Data to NDJSON format
- *
+ * 
  * @link https://build.fhir.org/ig/HL7/bulk-data/OperationDefinition-export.html At the time of building this...
  *       BulkDataAccess IG: STU1
- *
+ * 
  * These three operation definitions are for <code>$export</code>:
  * @link export https://build.fhir.org/ig/HL7/bulk-data/OperationDefinition-export.json.html
  * @link patient-export https://build.fhir.org/ig/HL7/bulk-data/OperationDefinition-patient-export.json.html
  * @link group-export https://build.fhir.org/ig/HL7/bulk-data/OperationDefinition-group-export.json.html
+ * 
+ * @author pbastide
  *
  */
 public class ExportOperation extends AbstractOperation {
 
     private static final String FILE = "export.json";
-
+    
     private static BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
 
     public ExportOperation() {
@@ -74,16 +76,16 @@ public class ExportOperation extends AbstractOperation {
         Instant since = BulkDataUtil.checkAndExtractSince(parameters);
         List<String> types = BulkDataUtil.checkAndValidateTypes(parameters);
         List<String> typeFilters = BulkDataUtil.checkAndValidateTypeFilters(parameters);
-
+        
         // If Patient - Export Patient Filter Resources
         Parameters response = null;
         if (BulkDataUtil.checkType(resourceType, "Patient")) {
             response =
-                    BulkDataFactory.getExport(cache).exportPatient(logicalId, outputFormat, since, types, typeFilters, ctx, resourceHelper, operationContext, cache);
+                    BulkDataFactory.getExport(cache).exportPatient(logicalId, outputFormat, since, types, typeFilters, ctx, resourceHelper);
         } else if (BulkDataUtil.checkType(resourceType, "Group")) {
             // If Group, Export and Patient Members Filter Resources
             response =
-                    BulkDataFactory.getExport(cache).exportGroup(logicalId, outputFormat, since, types, typeFilters, ctx, resourceHelper, operationContext, cache);
+                    BulkDataFactory.getExport(cache).exportGroup(logicalId, outputFormat, since, types, typeFilters, ctx, resourceHelper);
         } else if (resourceType == null) {
             // If Base, Export (Else Invalid)
             response =
@@ -96,5 +98,5 @@ public class ExportOperation extends AbstractOperation {
 
         return response;
     }
-
+    
 }
