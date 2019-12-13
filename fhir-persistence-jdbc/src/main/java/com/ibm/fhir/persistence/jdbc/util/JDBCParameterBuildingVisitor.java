@@ -580,7 +580,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             log.fine("The Location.Position parameter is invalid, and not added '" + searchParamCode + "'"); 
         }
 
-        return add; 
+        return false; 
     }
 
     /*====================
