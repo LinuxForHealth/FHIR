@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.jdbc.util;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_END;
@@ -677,17 +678,17 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 .append(QuerySegmentAggregator.tableName(resourceTypeName, currentParm.getNextParameter())).append(chainedParmVar);
 
         if (Type.COMPOSITE.equals(nextParameter.getType())) {
-            List<QueryParameterValue> values = nextParameter.getValues();
-            for (int valueNum = 1; valueNum <= values.size(); valueNum++) {
-                List<QueryParameter> components = values.get(valueNum - 1).getComponent();
+            if (nextParameter.getValues() != null && !nextParameter.getValues().isEmpty()) {
+                // Assumption:  all the values should have the same number of components and the same types
+                List<QueryParameter> components = nextParameter.getValues().get(0).getComponent();
                 for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
-                    String alias = chainedParmVar + "_" + valueNum + "_" + componentNum;
+                    String alias = chainedParmVar + "_p" + componentNum;
                     QueryParameter component = components.get(componentNum - 1);
                     whereClauseSegment.append(" JOIN " + QuerySegmentAggregator.tableName(resourceTypeName, component) + alias)
-                        .append(" ON ")
-                        .append(chainedParmVar + ".COMP" + componentNum + QuerySegmentAggregator.abbr(component) )
-                        .append("=")
-                        .append(alias + ".ROW_ID");
+                            .append(" ON ")
+                            .append(chainedParmVar + ".COMP" + componentNum + QuerySegmentAggregator.abbr(component) )
+                            .append("=")
+                            .append(alias + ".ROW_ID");
                 }
             }
         }
@@ -1242,23 +1243,26 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
 
         whereClauseSegment.append(AND).append(LEFT_PAREN);
-        List<QueryParameterValue> values = queryParm.getValues();
         
-        for (int i = 0; i < values.size(); i++) {
-            QueryParameterValue compositeValue = values.get(i);
+        String valueSeparator = "";
+        for (QueryParameterValue compositeValue : queryParm.getValues()) {
             List<QueryParameter> components = compositeValue.getComponent();
-            String separator = "";
+            
+            whereClauseSegment.append(valueSeparator);
+            
+            String componentSeparator = "";
             for (int j = 0; j < components.size(); j++) {
                 try {
                     QueryParameter component = components.get(j);
-                    SqlQueryData subQueryData = buildQueryParm(resourceType, component, tableAlias + "_" + (i+1) + "_" + (j+1));
-                    whereClauseSegment.append(separator + subQueryData.getQueryString());
+                    SqlQueryData subQueryData = buildQueryParm(resourceType, component, tableAlias + "_p" + (j+1));
+                    whereClauseSegment.append(componentSeparator + subQueryData.getQueryString());
                     bindVariables.addAll(subQueryData.getBindVariables());
                 } catch (Exception e) {
                     throw new FHIRPersistenceException("Error while creating subquery for parameter " + queryParm, e);
                 }
-                separator = AND;
+                componentSeparator = AND;
             }
+            valueSeparator = OR;
         }
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
 
@@ -1417,29 +1421,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         // whereClauseSegment.append(AND).append(tableAlias + DOT + "LOGICAL_RESOURCE_ID = LR.LOGICL_RESOURCE_ID");
         // whereClauseSegment.append(RIGHT_PAREN);
         // } else {
-        StringBuilder valuesTable = new StringBuilder(resourceType.getSimpleName());
-        switch (queryParm.getType()) {
-        case URI:
-        case REFERENCE:
-        case STRING:
-            valuesTable.append("_STR_VALUES");
-            break;
-        case NUMBER:
-            valuesTable.append("_NUMBER_VALUES");
-            break;
-        case QUANTITY:
-            valuesTable.append("_QUANTITY_VALUES");
-            break;
-        case DATE:
-            valuesTable.append("_DATE_VALUES");
-            break;
-        case TOKEN:
-            valuesTable.append("_TOKEN_VALUES");
-            break;
-        default:
-            break;
-
-        }
+        String valuesTable = QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm);
 
         if (missing == null || missing) {
             whereClauseSegment.append("NOT ");

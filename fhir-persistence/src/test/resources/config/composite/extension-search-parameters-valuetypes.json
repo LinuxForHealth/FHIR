@@ -156,9 +156,81 @@
         "targetClasses": ["Timing"]
     },
     
+    
+    
+    
     {
         "resourceType": "Basic",
         "name": "composite-boolean",
         "targetClasses": ["Boolean", "Boolean"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "composite-code",
+        "targetClasses": ["Code", "Code"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "composite-Coding",
+        "targetClasses": ["Coding", "Coding"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "composite-CodeableConcept",
+        "targetClasses": ["CodeableConcept", "CodeableConcept"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "composite-Identifier",
+        "targetClasses": ["Identifier", "Identifier"]
+    },
+    
+    {
+        "resourceType": "Basic",
+        "name": "composite-Quantity",
+        "targetClasses": ["Quantity", "Quantity"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "composite-Range",
+        "targetClasses": ["Range", "Range"]
+    },
+    
+    {
+        "resourceType": "Basic",
+        "name": "composite-date",
+        "targetClasses": ["Date", "Date"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "composite-dateTime",
+        "targetClasses": ["DateTime", "DateTime"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "composite-instant",
+        "targetClasses": ["Instant", "Instant"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "composite-Period",
+        "targetClasses": ["Period", "Period"]
+    },
+    
+    {
+        "resourceType": "Basic",
+        "name": "composite-integer",
+        "targetClasses": ["Integer", "Integer"]
+    },
+    {
+        "resourceType": "Basic",
+        "name": "composite-decimal",
+        "targetClasses": ["Decimal", "Decimal"]
+    },
+    
+    {
+        "resourceType": "Basic",
+        "name": "composite-string",
+        "targetClasses": ["String", "String"]
     }]
 }

@@ -140,13 +140,14 @@ public class SearchConstants {
                 private static final long serialVersionUID = -7809685447880880523L;
 
                 {
-                    put(SearchConstants.Type.STRING, Arrays.asList(SearchConstants.Modifier.EXACT, SearchConstants.Modifier.CONTAINS, SearchConstants.Modifier.MISSING));
-                    put(SearchConstants.Type.REFERENCE, Arrays.asList(SearchConstants.Modifier.TYPE, SearchConstants.Modifier.MISSING));
-                    put(SearchConstants.Type.URI, Arrays.asList(SearchConstants.Modifier.BELOW, SearchConstants.Modifier.MISSING, SearchConstants.Modifier.ABOVE));
-                    put(SearchConstants.Type.TOKEN, Arrays.asList(SearchConstants.Modifier.BELOW, SearchConstants.Modifier.NOT, SearchConstants.Modifier.MISSING));
-                    put(SearchConstants.Type.NUMBER, Arrays.asList(SearchConstants.Modifier.MISSING));
-                    put(SearchConstants.Type.DATE, Arrays.asList(SearchConstants.Modifier.MISSING));
-                    put(SearchConstants.Type.QUANTITY, Arrays.asList(SearchConstants.Modifier.MISSING));
+                    put(SearchConstants.Type.STRING, Arrays.asList(Modifier.EXACT, Modifier.CONTAINS, Modifier.MISSING));
+                    put(SearchConstants.Type.REFERENCE, Arrays.asList(Modifier.TYPE, Modifier.MISSING));
+                    put(SearchConstants.Type.URI, Arrays.asList(Modifier.BELOW, Modifier.ABOVE, Modifier.MISSING));
+                    put(SearchConstants.Type.TOKEN, Arrays.asList(Modifier.BELOW, Modifier.NOT, Modifier.MISSING));
+                    put(SearchConstants.Type.NUMBER, Arrays.asList(Modifier.MISSING));
+                    put(SearchConstants.Type.DATE, Arrays.asList(Modifier.MISSING));
+                    put(SearchConstants.Type.QUANTITY, Arrays.asList(Modifier.MISSING));
+                    put(SearchConstants.Type.COMPOSITE, Arrays.asList(Modifier.MISSING));
                 }
             });
 

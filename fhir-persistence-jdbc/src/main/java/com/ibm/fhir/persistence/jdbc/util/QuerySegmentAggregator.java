@@ -369,9 +369,10 @@ class QuerySegmentAggregator {
                                        .append(tableName(overrideType, param))
                                        .append(compositeAlias);
 
-                            List<QueryParameterValue> values = param.getValues();
-                            for (int valueNum = 1; valueNum <= values.size(); valueNum++) {
-                                List<QueryParameter> components = values.get(valueNum - 1).getComponent();
+                            if (param.getValues() != null && !param.getValues().isEmpty()) {
+                                // Assumption:  all the values should have the same number of components and the same types
+                                QueryParameterValue queryParameterValue = param.getValues().get(0);
+                                List<QueryParameter> components = queryParameterValue.getComponent();
                                 for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
                                     String alias = compositeAlias + "_p" + componentNum;
                                     QueryParameter component = components.get(componentNum - 1);
@@ -381,7 +382,7 @@ class QuerySegmentAggregator {
                                         .append("=")
                                         .append(alias + ".ROW_ID");
                                     whereClauseSegment = whereClauseSegment.replaceAll(
-                                            PARAMETER_TABLE_ALIAS + "_" + valueNum + "_" + componentNum + "\\.", alias + ".");
+                                            PARAMETER_TABLE_ALIAS + "_p" + componentNum + "\\.", alias + ".");
                                 }
                             }
                         }

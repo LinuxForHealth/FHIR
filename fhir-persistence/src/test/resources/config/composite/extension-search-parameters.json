@@ -555,5 +555,308 @@
         "expression": "where(url='http://example.org/boolean').value"
       }]
     }
+  },
+  {
+    "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-composite-code",
+    "resource": {
+      "resourceType": "SearchParameter",
+      "id": "Basic-composite-code",
+      "url": "http://hl7.org/fhir/SearchParameter/Basic-composite-code",
+      "name": "composite-code",
+      "status": "active",
+      "description": "test param",
+      "code": "composite-code",
+      "base": ["Basic"],
+      "type": "composite",
+      "expression": "Basic.extension.where(url='http://example.org/composite').extension",
+      "component": [{
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-code",
+        "expression": "where(url='http://example.org/code').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-code",
+        "expression": "where(url='http://example.org/code').value"
+      }]
+    }
+  },
+  {
+    "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-composite-CodeableConcept",
+    "resource": {
+      "resourceType": "SearchParameter",
+      "id": "Basic-composite-CodeableConcept",
+      "url": "http://hl7.org/fhir/SearchParameter/Basic-composite-CodeableConcept",
+      "name": "composite-CodeableConcept",
+      "status": "active",
+      "description": "test param",
+      "code": "composite-CodeableConcept",
+      "base": ["Basic"],
+      "type": "composite",
+      "expression": "Basic.extension.where(url='http://example.org/composite').extension",
+      "component": [{
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-CodeableConcept",
+        "expression": "where(url='http://example.org/CodeableConcept').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-CodeableConcept",
+        "expression": "where(url='http://example.org/CodeableConcept').value"
+      }]
+    }
+  },
+  {
+    "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-composite-Coding",
+    "resource": {
+      "resourceType": "SearchParameter",
+      "id": "Basic-composite-Coding",
+      "url": "http://hl7.org/fhir/SearchParameter/Basic-composite-Coding",
+      "name": "composite-Coding",
+      "status": "active",
+      "description": "test param",
+      "code": "composite-Coding",
+      "base": ["Basic"],
+      "type": "composite",
+      "expression": "Basic.extension.where(url='http://example.org/composite').extension",
+      "component": [{
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-Coding",
+        "expression": "where(url='http://example.org/Coding').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-Coding",
+        "expression": "where(url='http://example.org/Coding').value"
+      }]
+    }
+  },
+  {
+    "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-composite-Identifier",
+    "resource": {
+      "resourceType": "SearchParameter",
+      "id": "Basic-composite-Identifier",
+      "url": "http://hl7.org/fhir/SearchParameter/Basic-composite-Identifier",
+      "name": "composite-Identifier",
+      "status": "active",
+      "description": "test param",
+      "code": "composite-Identifier",
+      "base": ["Basic"],
+      "type": "composite",
+      "expression": "Basic.extension.where(url='http://example.org/composite').extension",
+      "component": [{
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-Identifier",
+        "expression": "where(url='http://example.org/Identifier').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-Identifier",
+        "expression": "where(url='http://example.org/Identifier').value"
+      }]
+    }
+  },
+  
+  {
+    "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-composite-Quantity",
+    "resource": {
+      "resourceType": "SearchParameter",
+      "id": "Basic-composite-Quantity",
+      "url": "http://hl7.org/fhir/SearchParameter/Basic-composite-Quantity",
+      "name": "composite-Quantity",
+      "status": "active",
+      "description": "test param",
+      "code": "composite-Quantity",
+      "base": ["Basic"],
+      "type": "composite",
+      "expression": "Basic.extension.where(url='http://example.org/composite').extension",
+      "component": [{
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-Quantity",
+        "expression": "where(url='http://example.org/Quantity').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-Quantity",
+        "expression": "where(url='http://example.org/Quantity').value"
+      }]
+    }
+  },
+  {
+    "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-composite-Range",
+    "resource": {
+      "resourceType": "SearchParameter",
+      "id": "Basic-composite-Range",
+      "url": "http://hl7.org/fhir/SearchParameter/Basic-composite-Range",
+      "name": "composite-Range",
+      "status": "active",
+      "description": "test param",
+      "code": "composite-Range",
+      "base": ["Basic"],
+      "type": "composite",
+      "expression": "Basic.extension.where(url='http://example.org/composite').extension",
+      "component": [{
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-Range",
+        "expression": "where(url='http://example.org/Range').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-Range",
+        "expression": "where(url='http://example.org/Range').value"
+      }]
+    }
+  },
+  
+  {
+    "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-composite-date",
+    "resource": {
+      "resourceType": "SearchParameter",
+      "id": "Basic-composite-date",
+      "url": "http://hl7.org/fhir/SearchParameter/Basic-composite-date",
+      "name": "composite-date",
+      "status": "active",
+      "description": "test param",
+      "code": "composite-date",
+      "base": ["Basic"],
+      "type": "composite",
+      "expression": "Basic.extension.where(url='http://example.org/composite').extension",
+      "component": [{
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-date",
+        "expression": "where(url='http://example.org/date').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-date",
+        "expression": "where(url='http://example.org/date').value"
+      }]
+    }
+  },
+  {
+    "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-composite-dateTime",
+    "resource": {
+      "resourceType": "SearchParameter",
+      "id": "Basic-composite-dateTime",
+      "url": "http://hl7.org/fhir/SearchParameter/Basic-composite-dateTime",
+      "name": "composite-dateTime",
+      "status": "active",
+      "description": "test param",
+      "code": "composite-dateTime",
+      "base": ["Basic"],
+      "type": "composite",
+      "expression": "Basic.extension.where(url='http://example.org/composite').extension",
+      "component": [{
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-dateTime",
+        "expression": "where(url='http://example.org/dateTime').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-dateTime",
+        "expression": "where(url='http://example.org/dateTime').value"
+      }]
+    }
+  },
+  {
+    "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-composite-instant",
+    "resource": {
+      "resourceType": "SearchParameter",
+      "id": "Basic-composite-instant",
+      "url": "http://hl7.org/fhir/SearchParameter/Basic-composite-instant",
+      "name": "composite-instant",
+      "status": "active",
+      "description": "test param",
+      "code": "composite-instant",
+      "base": ["Basic"],
+      "type": "composite",
+      "expression": "Basic.extension.where(url='http://example.org/composite').extension",
+      "component": [{
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-instant",
+        "expression": "where(url='http://example.org/instant').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-instant",
+        "expression": "where(url='http://example.org/instant').value"
+      }]
+    }
+  },
+  {
+    "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-composite-Period",
+    "resource": {
+      "resourceType": "SearchParameter",
+      "id": "Basic-composite-Period",
+      "url": "http://hl7.org/fhir/SearchParameter/Basic-composite-Period",
+      "name": "composite-Period",
+      "status": "active",
+      "description": "test param",
+      "code": "composite-Period",
+      "base": ["Basic"],
+      "type": "composite",
+      "expression": "Basic.extension.where(url='http://example.org/composite').extension",
+      "component": [{
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-Period",
+        "expression": "where(url='http://example.org/Period').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-Period",
+        "expression": "where(url='http://example.org/Period').value"
+      }]
+    }
+  },
+  
+  {
+    "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-composite-integer",
+    "resource": {
+      "resourceType": "SearchParameter",
+      "id": "Basic-composite-integer",
+      "url": "http://hl7.org/fhir/SearchParameter/Basic-composite-integer",
+      "name": "composite-integer",
+      "status": "active",
+      "description": "test param",
+      "code": "composite-integer",
+      "base": ["Basic"],
+      "type": "composite",
+      "expression": "Basic.extension.where(url='http://example.org/composite').extension",
+      "component": [{
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-integer",
+        "expression": "where(url='http://example.org/integer').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-integer",
+        "expression": "where(url='http://example.org/integer').value"
+      }]
+    }
+  },
+  {
+    "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-composite-decimal",
+    "resource": {
+      "resourceType": "SearchParameter",
+      "id": "Basic-composite-decimal",
+      "url": "http://hl7.org/fhir/SearchParameter/Basic-composite-decimal",
+      "name": "composite-decimal",
+      "status": "active",
+      "description": "test param",
+      "code": "composite-decimal",
+      "base": ["Basic"],
+      "type": "composite",
+      "expression": "Basic.extension.where(url='http://example.org/composite').extension",
+      "component": [{
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-decimal",
+        "expression": "where(url='http://example.org/decimal').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-decimal",
+        "expression": "where(url='http://example.org/decimal').value"
+      }]
+    }
+  },
+  
+  {
+    "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-composite-string",
+    "resource": {
+      "resourceType": "SearchParameter",
+      "id": "Basic-composite-string",
+      "url": "http://hl7.org/fhir/SearchParameter/Basic-composite-string",
+      "name": "composite-string",
+      "status": "active",
+      "description": "test param",
+      "code": "composite-string",
+      "base": ["Basic"],
+      "type": "composite",
+      "expression": "Basic.extension.where(url='http://example.org/composite').extension",
+      "component": [{
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-string",
+        "expression": "where(url='http://example.org/string').value"
+      },
+      {
+        "definition": "http://ibm.com/fhir/SearchParameter/Basic-string",
+        "expression": "where(url='http://example.org/string').value"
+      }]
+    }
   }]
 }

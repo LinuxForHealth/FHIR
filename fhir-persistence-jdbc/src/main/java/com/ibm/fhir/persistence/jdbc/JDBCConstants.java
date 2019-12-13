@@ -34,6 +34,7 @@ public class JDBCConstants {
     public static final String LEFT_PAREN = "(";
     public static final String RIGHT_PAREN = ")";
     public static final String AND = " AND ";
+    public static final String OR = " OR ";
     public static final String BIND_VAR = "?";
     public static final String PERCENT_WILDCARD = "%";
     public static final String UNDERSCORE_WILDCARD = "_";

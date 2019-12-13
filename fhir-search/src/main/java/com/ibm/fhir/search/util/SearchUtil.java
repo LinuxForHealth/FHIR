@@ -731,15 +731,15 @@ public class SearchUtil {
                     Type type = Type.fromValue(searchParameter.getType().getValue());
 
                     // Process the modifier
-                    SearchConstants.Modifier modifier = null;
+                    Modifier modifier = null;
                     String modifierResourceTypeName = null;
                     if (mod != null) {
                         if (ModelSupport.isResourceType(mod)) {
-                            modifier                 = SearchConstants.Modifier.TYPE;
+                            modifier                 = Modifier.TYPE;
                             modifierResourceTypeName = mod;
                         } else {
                             try {
-                                modifier = SearchConstants.Modifier.fromValue(mod);
+                                modifier = Modifier.fromValue(mod);
                             } catch (IllegalArgumentException e) {
                                 String msg = "Undefined Modifier: " + mod;
                                 throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
@@ -813,7 +813,7 @@ public class SearchUtil {
         return queryParameterValues;
     }
 
-    private static List<QueryParameterValue> parseCompositeQueryParameterValuesString(String compositeParamCode, List<SearchConstants.Type> compTypes,
+    private static List<QueryParameterValue> parseCompositeQueryParameterValuesString(String compositeParamCode, List<Type> compTypes,
             String queryParameterValuesString) throws FHIRSearchException {
         List<QueryParameterValue> parameterValues = new ArrayList<>();
 
@@ -843,7 +843,7 @@ public class SearchUtil {
         return parameterValues;
     }
     
-    private static List<QueryParameterValue> parseQueryParameterValuesString(SearchConstants.Type type,
+    private static List<QueryParameterValue> parseQueryParameterValuesString(Type type,
             String queryParameterValuesString) throws FHIRSearchException {
         List<QueryParameterValue> parameterValues = new ArrayList<>();
 
@@ -972,7 +972,7 @@ public class SearchUtil {
      * @param modifier
      * @return
      */
-    protected static boolean isAllowed(SearchConstants.Type type, SearchConstants.Modifier modifier) {
+    protected static boolean isAllowed(Type type, Modifier modifier) {
         return SearchConstants.RESOURCE_TYPE_MODIFIER_MAP.get(type).contains(modifier);
     }
 
@@ -1030,7 +1030,7 @@ public class SearchUtil {
                     CompartmentUtil.getCompartmentResourceTypeInclusionCriteria(compartmentName,
                             resourceType.getSimpleName());
             for (String criteria : inclusionCriteria) {
-                parameter = new QueryParameter(SearchConstants.Type.REFERENCE, criteria, null, null, true);
+                parameter = new QueryParameter(Type.REFERENCE, criteria, null, null, true);
                 value     = new QueryParameterValue();
                 value.setValueString(compartmentName + "/" + compartmentLogicalId);
                 parameter.getValues().add(value);
@@ -1123,7 +1123,7 @@ public class SearchUtil {
             int lastIndex = components.size() - 1;
             int currentIndex = 0;
 
-            SearchConstants.Type type = null;
+            Type type = null;
 
             for (String component : components) {
                 modifier = null;
@@ -1138,13 +1138,13 @@ public class SearchUtil {
                     // QueryParameter modifier exists
                     String mod = parameterName.substring(loc + 1);
                     if (ModelSupport.isResourceType(mod)) {
-                        modifier                 = SearchConstants.Modifier.TYPE;
+                        modifier                 = Modifier.TYPE;
                         modifierResourceTypeName = mod;
                     } else {
-                        modifier = SearchConstants.Modifier.fromValue(mod);
+                        modifier = Modifier.fromValue(mod);
                     }
 
-                    if (modifier != null && !SearchConstants.Modifier.TYPE.equals(modifier)
+                    if (modifier != null && !Modifier.TYPE.equals(modifier)
                             && currentIndex < lastIndex) {
                         throw SearchExceptionUtil.buildNewInvalidSearchException(
                                 String.format(MODIFIER_NOT_ALLOWED_WITH_CHAINED_EXCEPTION, modifier));
@@ -1157,13 +1157,13 @@ public class SearchUtil {
                 HashSet<String> modifierResourceTypeName4ResourceTypes = new HashSet<String>();
                 if (resourceType != null) {
                     searchParameter = getSearchParameter(resourceType, parameterName);
-                    type = SearchConstants.Type.fromValue(searchParameter.getType().getValue());
+                    type = Type.fromValue(searchParameter.getType().getValue());
                 } else {
                     for (String resTypeName: resourceTypes) {
                         searchParameter = getSearchParameter(ModelSupport.getResourceType(resTypeName), parameterName);
-                        type = SearchConstants.Type.fromValue(searchParameter.getType().getValue());
+                        type = Type.fromValue(searchParameter.getType().getValue());
 
-                        if (!SearchConstants.Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
+                        if (!Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
                             throw SearchExceptionUtil.buildNewInvalidSearchException(
                                     String.format(TYPE_NOT_ALLOWED_WITH_CHAINED_PARAMETER_EXCEPTION, type));
                         }
@@ -1181,7 +1181,7 @@ public class SearchUtil {
                         }
 
                         if (modifierResourceTypeName == null && currentIndex < lastIndex) {
-                            modifier                 = SearchConstants.Modifier.TYPE;
+                            modifier                 = Modifier.TYPE;
                             modifierResourceTypeName4ResourceTypes.add(targets.get(0).getValue());
                         }
                     }
@@ -1253,13 +1253,13 @@ public class SearchUtil {
                     // QueryParameter modifier exists
                     String mod = parameterName.substring(loc + 1);
                     if (ModelSupport.isResourceType(mod)) {
-                        modifier                 = SearchConstants.Modifier.TYPE;
+                        modifier                 = Modifier.TYPE;
                         modifierResourceTypeName = mod;
                     } else {
-                        modifier = SearchConstants.Modifier.fromValue(mod);
+                        modifier = Modifier.fromValue(mod);
                     }
 
-                    if (modifier != null && !SearchConstants.Modifier.TYPE.equals(modifier)
+                    if (modifier != null && !Modifier.TYPE.equals(modifier)
                             && currentIndex < lastIndex) {
                         throw SearchExceptionUtil.buildNewInvalidSearchException(
                                 String.format(MODIFIER_NOT_ALLOWED_WITH_CHAINED_EXCEPTION, modifier));
@@ -1272,7 +1272,7 @@ public class SearchUtil {
                 searchParameter = getSearchParameter(resourceType, parameterName);
                 type = Type.fromValue(searchParameter.getType().getValue());
 
-                if (!SearchConstants.Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
+                if (!Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
                     throw SearchExceptionUtil.buildNewInvalidSearchException(
                             String.format(TYPE_NOT_ALLOWED_WITH_CHAINED_PARAMETER_EXCEPTION, type));
                 }
@@ -1354,11 +1354,11 @@ public class SearchUtil {
             if (parmNames[i].indexOf(SearchConstants.COLON_DELIMITER) != -1) {
                 qualifiedInclusionCriteria = parmNames[i].split(SearchConstants.COLON_DELIMITER_STR);
                 chainedInclusionCriteria   =
-                        new QueryParameter(SearchConstants.Type.REFERENCE, qualifiedInclusionCriteria[0], null, resourceType,
+                        new QueryParameter(Type.REFERENCE, qualifiedInclusionCriteria[0], null, resourceType,
                                 inclusionCriteriaParm.getValues());
             } else {
                 chainedInclusionCriteria =
-                        new QueryParameter(SearchConstants.Type.REFERENCE, parmNames[i], null, resourceType);
+                        new QueryParameter(Type.REFERENCE, parmNames[i], null, resourceType);
             }
             if (rootParameter == null) {
                 rootParameter = chainedInclusionCriteria;

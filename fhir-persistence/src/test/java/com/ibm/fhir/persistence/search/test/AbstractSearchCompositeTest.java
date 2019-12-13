@@ -6,6 +6,13 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static org.testng.Assert.assertTrue;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -26,12 +33,23 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
         FHIRRequestContext.get().setTenantId("composite");
     }
 
+    /////////////////
+    // Token tests //
+    /////////////////
     @Test
     public void testSearchToken_boolean() throws Exception {
         assertSearchReturnsSavedResource("composite-boolean", "true$true");
         assertSearchDoesntReturnSavedResource("composite-boolean", "false$true");
         assertSearchDoesntReturnSavedResource("composite-boolean", "true$false");
         assertSearchDoesntReturnSavedResource("composite-boolean", "false$false");
+    }
+    
+    @Test
+    public void testSearchToken_boolean_or() throws Exception {
+        assertSearchReturnsSavedResource("composite-boolean", "true$true,true$true");
+        assertSearchReturnsSavedResource("composite-boolean", "false$false,true$true");
+        assertSearchReturnsSavedResource("composite-boolean", "true$true,false$false");
+        assertSearchDoesntReturnSavedResource("composite-boolean", "false$false,false$false");
     }
     
     @Test
@@ -42,149 +60,161 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnComposition("subject:Basic.composite-boolean", "false$false");
     }
 
-//    @Test
-//    public void testSearchToken_boolean_revinclude() throws Exception {
-//        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
-//        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
-//        queryParms.put("boolean", Collections.singletonList("true"));
-//        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
-//        assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
-//    }
-//    
-//    
-//    @Test
-//    public void testSearchToken_boolean_missing() throws Exception {
-//        assertSearchReturnsSavedResource("boolean:missing", "false");
-//        assertSearchDoesntReturnSavedResource("boolean:missing", "true");
-//        
-//        assertSearchReturnsSavedResource("missing-boolean:missing", "true");
-//        assertSearchDoesntReturnSavedResource("missing-boolean:missing", "false");
-//    }
-//    
-//    @Test
-//    public void testSearchToken_code() throws Exception {
-//        assertSearchReturnsSavedResource("code", "code");
-//        assertSearchReturnsSavedResource("code", "|code");
-//    }
-//    
-//    @Test
-//    public void testSearchToken_code_chained() throws Exception {
-//        assertSearchReturnsComposition("subject:Basic.code", "code");
-//        assertSearchReturnsComposition("subject:Basic.code", "|code");
-//    }
-//
-//    @Test
-//    public void testSearchToken_CodeableConcept() throws Exception {
-//        assertSearchReturnsSavedResource("CodeableConcept", "code");
-//        assertSearchReturnsSavedResource("CodeableConcept", "http://example.org/codesystem|code");
-//    }
-//    
-//    @Test
-//    public void testSearchToken_CodeableConcept_or() throws Exception {
-//        assertSearchReturnsSavedResource("CodeableConcept", "foo,code,bar");
-//        assertSearchDoesntReturnSavedResource("CodeableConcept", "foo\\,code,bar");
-//        assertSearchDoesntReturnSavedResource("CodeableConcept", "foo,code\\,bar");
-//    }
-//    
-//    @Test
-//    public void testSearchToken_CodeableConcept_escaped() throws Exception {
-//        assertSearchReturnsSavedResource("CodeableConcept", "http://example.org/codesystem|code");
-//        assertSearchDoesntReturnSavedResource("CodeableConcept", "http://example.org/codesystem\\|code");
-//    }
-//    
-//    @Test
-//    public void testSearchToken_CodeableConcept_chained() throws Exception {
-//        assertSearchReturnsComposition("subject:Basic.CodeableConcept", "code");
-//        assertSearchReturnsComposition("subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
-//    }
-//    
-//    @Test
-//    public void testSearchDate_CodeableConcept_multiCoded() throws Exception {
-//        assertSearchReturnsSavedResource("CodeableConcept-multiCoded", "http://example.org/codesystem|code");
-//        assertSearchReturnsSavedResource("CodeableConcept-multiCoded", "http://example.org/othersystem|code");
-//    }
-//    
-//    @Test
-//    public void testSearchToken_CodeableConcept_missing() throws Exception {
-//        assertSearchReturnsSavedResource("CodeableConcept:missing", "false");
-//        assertSearchDoesntReturnSavedResource("CodeableConcept:missing", "true");
-//        
-//        assertSearchReturnsSavedResource("missing-CodeableConcept:missing", "true");
-//        assertSearchDoesntReturnSavedResource("missing-CodeableConcept:missing", "false");
-//    }
-//    
-//    @Test
-//    public void testSearchToken_Coding() throws Exception {
-//        assertSearchReturnsSavedResource("Coding", "code");
-//        assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|code");
-//    }
-//    
-//    @Test
-//    public void testSearchToken_Coding_or() throws Exception {
-//        assertSearchReturnsSavedResource("Coding", "foo,code,bar");
-//        assertSearchDoesntReturnSavedResource("Coding", "foo\\,code,bar");
-//        assertSearchDoesntReturnSavedResource("Coding", "foo,code\\,bar");
-//    }
-//    
-//    @Test
-//    public void testSearchToken_Coding_escaped() throws Exception {
-//        assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|code");
-//        assertSearchDoesntReturnSavedResource("Coding", "http://example.org/codesystem\\|code");
-//    }
-//    
-//    @Test
-//    public void testSearchToken_Coding_chained() throws Exception {
-//        assertSearchReturnsComposition("subject:Basic.Coding", "code");
-//        assertSearchReturnsComposition("subject:Basic.Coding", "http://example.org/codesystem|code");
-//    }
-//    
-//    @Test
-//    public void testSearchDate_Coding_NoSystem() throws Exception {
-//        assertSearchReturnsSavedResource("Coding-noSystem", "code");
-//        assertSearchReturnsSavedResource("Coding-noSystem", "|code");
-//    }
-//    
-//    @Test
-//    public void testSearchToken_Identifier() throws Exception {
-//        assertSearchReturnsSavedResource("Identifier", "code");
-//        assertSearchReturnsSavedResource("Identifier", "http://example.org/identifiersystem|code");
-//    }
-//    
-//    @Test
-//    public void testSearchToken_Identifier_chained() throws Exception {
-//        assertSearchReturnsComposition("subject:Basic.Identifier", "code");
-//        assertSearchReturnsComposition("subject:Basic.Identifier", "http://example.org/identifiersystem|code");
-//    }
-//    
-//    @Test
-//    public void testSearchDate_Identifier_NoSystem() throws Exception {
-//        assertSearchReturnsSavedResource("Identifier-noSystem", "code");
-//        assertSearchReturnsSavedResource("Identifier-noSystem", "|code");
-//    }
-//    
-//    @Test
-//    public void testSearchToken_ContactPoint() throws Exception {
-//        assertSearchReturnsSavedResource("ContactPoint", "(555) 675 5745");
-//    }
-//    @Test
-//    public void testSearchToken_ContactPoint_chained() throws Exception {
-//        assertSearchReturnsComposition("subject:Basic.ContactPoint", "(555) 675 5745");
-//    }
-//    @Test
-//    public void testSearchToken_ContactPoint_URI() throws Exception {
-//        assertSearchReturnsSavedResource("ContactPoint-uri", "tel:+15556755745");
-//    }
-//    @Test
-//    public void testSearchDate_ContactPoint_HomeFax() throws Exception {
-//        assertSearchReturnsSavedResource("ContactPoint-homeFax", "(555) 675 5745");
-//    }
-//    @Test
-//    public void testSearchDate_ContactPoint_NoUse() throws Exception {
-//        assertSearchReturnsSavedResource("ContactPoint-noUse", "test@example.com");
-//    }
-//    @Test
-//    public void testSearchDate_ContactPoint_NoSystem() throws Exception {
-//        assertSearchReturnsSavedResource("ContactPoint-noSystem", "test@example.com");
-//        assertSearchReturnsSavedResource("ContactPoint-noSystem", "|test@example.com");
-//    }
+    @Test
+    public void testSearchToken_boolean_revinclude() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        queryParms.put("composite-boolean", Collections.singletonList("true$true"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
+    }
+
+    @Test
+    public void testSearchToken_boolean_missing() throws Exception {
+        assertSearchReturnsSavedResource("composite-boolean:missing", "false");
+        assertSearchDoesntReturnSavedResource("composite-boolean:missing", "true");
+    }
+
+    @Test
+    public void testSearchToken_code() throws Exception {
+        assertSearchReturnsSavedResource("composite-code", "code$code");
+        assertSearchReturnsSavedResource("composite-code", "|code$|code");
+        assertSearchDoesntReturnSavedResource("composite-code", "miss$code");
+        assertSearchDoesntReturnSavedResource("composite-code", "code$miss");
+        assertSearchDoesntReturnSavedResource("composite-code", "miss$miss");
+    }
+
+    @Test
+    public void testSearchToken_CodeableConcept() throws Exception {
+        assertSearchReturnsSavedResource("composite-CodeableConcept", "code$code");
+        assertSearchReturnsSavedResource("composite-CodeableConcept", "http://example.org/codesystem|code$http://example.org/codesystem|code");
+    }
+
+    @Test
+    public void testSearchToken_Coding() throws Exception {
+        assertSearchReturnsSavedResource("composite-Coding", "code$code");
+        assertSearchReturnsSavedResource("composite-Coding", "http://example.org/codesystem|code$http://example.org/codesystem|code");
+    }
+
+    @Test
+    public void testSearchToken_Identifier() throws Exception {
+        assertSearchReturnsSavedResource("composite-Identifier", "code$code");
+        assertSearchReturnsSavedResource("composite-Identifier", "http://example.org/identifiersystem|code$http://example.org/identifiersystem|code");
+    }
+
+    ////////////////////
+    // Quantity tests //
+    ////////////////////
+    @Test
+    public void testSearchQuantity_Quantity() throws Exception {
+        assertSearchReturnsSavedResource("composite-Quantity", "25|http://unitsofmeasure.org|s$25|http://unitsofmeasure.org|s");
+        assertSearchReturnsSavedResource("composite-Quantity", "25||s$25||s");
+        assertSearchReturnsSavedResource("composite-Quantity", "25$25");
+    }
+
+    @Test
+    public void testSearchQuantity_Range() throws Exception {
+        // Range is 5-10 seconds
+        
+        assertSearchReturnsSavedResource("composite-Range", "gt4||s$lt11||s");
+    }
+
+    ////////////////
+    // Date tests //
+    ////////////////
+    @Test
+    public void testSearchDate_date() throws Exception {
+        // "date" is 2018-10-29
+        
+        assertSearchReturnsSavedResource("composite-date", "2018-10-29$2018-10-29");
+        
+        assertSearchDoesntReturnSavedResource("composite-date", "ne2018-10-29$2018-10-29");
+        assertSearchDoesntReturnSavedResource("composite-date", "lt2018-10-29$2018-10-29");
+        assertSearchDoesntReturnSavedResource("composite-date", "gt2018-10-29$2018-10-29");
+        assertSearchReturnsSavedResource("composite-date", "le2018-10-29$2018-10-29");
+        assertSearchReturnsSavedResource("composite-date", "ge2018-10-29$2018-10-29");
+        assertSearchDoesntReturnSavedResource("composite-date", "sa2018-10-29$2018-10-29");
+        assertSearchDoesntReturnSavedResource("composite-date", "eb2018-10-29$2018-10-29");
+        assertSearchReturnsSavedResource("composite-date", "ap2018-10-29$2018-10-29");
+        
+        assertSearchDoesntReturnSavedResource("composite-date", "2018-10-29$ne2018-10-29");
+        assertSearchDoesntReturnSavedResource("composite-date", "2018-10-29$lt2018-10-29");
+        assertSearchDoesntReturnSavedResource("composite-date", "2018-10-29$gt2018-10-29");
+        assertSearchReturnsSavedResource("composite-date", "2018-10-29$le2018-10-29");
+        assertSearchReturnsSavedResource("composite-date", "2018-10-29$ge2018-10-29");
+        assertSearchDoesntReturnSavedResource("composite-date", "2018-10-29$sa2018-10-29");
+        assertSearchDoesntReturnSavedResource("composite-date", "2018-10-29$eb2018-10-29");
+        assertSearchReturnsSavedResource("composite-date", "2018-10-29$ap2018-10-29");
+    }
+
+    @Test
+    public void testSearchDate_date_missing() throws Exception {
+        assertSearchReturnsSavedResource("composite-date:missing", "false");
+        assertSearchDoesntReturnSavedResource("composite-date:missing", "true");
+    }
+
+    @Test
+    public void testSearchDate_date_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.composite-date", "2018-10-29$2018-10-29");
+        assertSearchDoesntReturnComposition("subject:Basic.composite-date", "2025-10-29$2025-10-29");
+    }
+
+    @Test
+    public void testSearchDate_date_revinclude() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        queryParms.put("composite-date", Collections.singletonList("2018-10-29$2018-10-29"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
+    }
+    
+    @Test
+    public void testSearchDate_date_or() throws Exception {
+        assertSearchReturnsSavedResource("composite-date", "2018-10-29$2018-10-29,9999-01-01$2018-10-29");
+        assertSearchReturnsSavedResource("composite-date", "9999-01-01$2018-10-29,2018-10-29$2018-10-29");
+    }
+
+    @Test
+    public void testSearchDate_dateTime() throws Exception {
+        // "dateTime" is 2018-10-29T17:12:00-04:00
+        assertSearchReturnsSavedResource("composite-dateTime", "2018-10-29$2018-10-29");
+    }
+    
+    @Test
+    public void testSearchDate_instant() throws Exception {
+        // "instant" is 2018-10-29T17:12:00-04:00
+        assertSearchReturnsSavedResource("composite-instant", "2018-10-29T17:12:44-04:00$2018-10-29T17:12:44-04:00");
+    }
+
+    @Test
+    public void testSearchDate_Period() throws Exception {
+        // "Period" is 2018-10-29T17:12:00-04:00 to 2018-10-29T17:18:00-04:00
+        assertSearchReturnsSavedResource("composite-Period", "2018-10-29$2018-10-29");
+    }
+
+    //////////////////
+    // Number tests //
+    //////////////////
+    @Test
+    public void testSearchNumber_integer() throws Exception {
+        assertSearchReturnsSavedResource("composite-integer", "12$12");
+    }
+    
+    @Test
+    public void testSearchNumber_decimal() throws Exception {
+        // Targeted Value is 99.99
+
+        // Range: 99.985, 99.995
+        assertSearchReturnsSavedResource("composite-decimal", "99.99$99.99");
+    }
+
+    //////////////////
+    // String tests //
+    //////////////////
+    @Test
+    public void testSearchString_string() throws Exception {
+        assertSearchReturnsSavedResource("composite-string", "testString$testString");
+        assertSearchReturnsSavedResource("composite-string", "test$test");
+        assertSearchDoesntReturnSavedResource("composite-string", "String$String");
+    }
 }

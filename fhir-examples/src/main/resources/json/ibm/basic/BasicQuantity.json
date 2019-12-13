@@ -69,19 +69,19 @@
     {
       "url": "http://example.org/Range",
       "valueRange": {
-      	"low": {
-	      "value": 5,
-	      "unit": "sec",
-	      "system": "http://unitsofmeasure.org",
-	      "code": "s"
-	    },
-	    "high": {
-	      "value": 10,
-	      "unit": "sec",
-	      "system": "http://unitsofmeasure.org",
-	      "code": "s"
-	    }
-	  }
+          "low": {
+          "value": 5,
+          "unit": "sec",
+          "system": "http://unitsofmeasure.org",
+          "code": "s"
+        },
+        "high": {
+          "value": 10,
+          "unit": "sec",
+          "system": "http://unitsofmeasure.org",
+          "code": "s"
+        }
+      }
     }
   ]
 }
