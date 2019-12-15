@@ -63,7 +63,7 @@ class QuerySegmentAggregator {
     
     // used for special treatment of _id and _lastUpdated
     protected Parameter queryParamId = null;
-    protected Parameter queryParamLastUpdate = null;
+    protected Parameter queryParamLastUpdated = null;
     
     private int offset;
     private int pageSize;
@@ -108,8 +108,12 @@ class QuerySegmentAggregator {
         String name = queryParm.getCode();
         if("_id".compareTo(name)==0) {
             queryParamId = queryParm;
-        } 
-        this.searchQueryParameters.add(queryParm);
+        } else if("_lastUpdated".compareTo(name)==0) {
+            queryParamLastUpdated = queryParm;
+        } else { 
+            // Only add the query parameter one time, if it's not _id or _lastUpdated.
+            this.searchQueryParameters.add(queryParm);
+        }
 
         log.exiting(CLASSNAME, METHODNAME);
          
