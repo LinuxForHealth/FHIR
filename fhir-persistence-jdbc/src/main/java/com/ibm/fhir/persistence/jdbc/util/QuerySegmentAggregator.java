@@ -6,6 +6,13 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNION;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -15,12 +22,10 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.util.type.DateParmBehaviorUtil;
-import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.parameters.Parameter;
 
@@ -28,24 +33,16 @@ import com.ibm.fhir.search.parameters.Parameter;
  * This class assists the JDBCQueryBuilder. Its purpose is to aggregate SQL query segments together to produce a well-formed FHIR Resource query or 
  * FHIR Resource count query. 
  */
-class QuerySegmentAggregator {
+public class QuerySegmentAggregator {
     private static final String CLASSNAME = QuerySegmentAggregator.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
-
     protected static final String SELECT_ROOT = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID ";
     protected static final String SYSTEM_LEVEL_SELECT_ROOT = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID ";
     protected static final String SYSTEM_LEVEL_SUBSELECT_ROOT = SELECT_ROOT;
     private static final String SELECT_COUNT_ROOT = "SELECT COUNT(R.RESOURCE_ID) ";
     private static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT COUNT(RESOURCE_ID) ";
     private static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT R.RESOURCE_ID ";
-
     protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED <> 'Y'";
-    protected static final String PARAMETER_TABLE_ALIAS = "pX";
-    private static final String FROM = " FROM ";
-    private static final String UNION = " UNION ALL ";
-    protected static final String ON = " ON ";
-    private static final String AND = " AND ";
-    protected static final String COMBINED_RESULTS = " COMBINED_RESULTS";
     private static final String DEFAULT_ORDERING = " ORDER BY R.RESOURCE_ID ASC ";
 
     private static final Set<String> SKIP_WHERE = new HashSet<>(Arrays.asList("_id"));
@@ -279,11 +276,11 @@ class QuerySegmentAggregator {
         log.entering(CLASSNAME, METHODNAME);
 
         StringBuilder fromClause = new StringBuilder();
-        fromClause.append("FROM ");
+        fromClause.append(FROM);
         processFromClauseForId(fromClause, simpleName);
         fromClause.append(" LR JOIN ");
         processFromClauseForLastUpdated(fromClause, simpleName);
-        fromClause.append(" R ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
+        fromClause.append(" R ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' ");
 
         log.exiting(CLASSNAME, METHODNAME);
         return fromClause.toString();
@@ -355,7 +352,6 @@ class QuerySegmentAggregator {
     protected String buildWhereClause(String overrideType) {
         final String METHODNAME = "buildWhereClause";
         log.entering(CLASSNAME, METHODNAME);
-        boolean isLocationQuery;
         
         // Override the Type is null, then use the default type here. 
         if(overrideType == null) {
@@ -365,7 +361,6 @@ class QuerySegmentAggregator {
         StringBuilder whereClause = new StringBuilder();
         String whereClauseSegment;
 
-        whereClause.append(WHERE_CLAUSE_ROOT);
         if (!this.querySegments.isEmpty()) {
             for (int i = 0; i < this.querySegments.size(); i++) {
                 SqlQueryData querySegment = this.querySegments.get(i);
@@ -379,14 +374,11 @@ class QuerySegmentAggregator {
 
                     whereClauseSegment = querySegment.getQueryString();
                     if (Modifier.MISSING.equals(param.getModifier())) {
-                        whereClause.append(AND).append(whereClauseSegment);
+                        whereClause.append(whereClauseSegment);
                     } else {
 
-                        whereClause.append(AND).append("R.LOGICAL_RESOURCE_ID IN (SELECT LOGICAL_RESOURCE_ID FROM ");
+                        whereClause.append(JOIN).append("(SELECT DISTINCT LOGICAL_RESOURCE_ID FROM ");
                         whereClause.append(overrideType);
-                        isLocationQuery =
-                                Location.class.equals(this.resourceType)
-                                        && param.getCode().equals(AbstractQueryBuilder.NEAR);
                         switch (param.getType()) {
                         case URI:
                         case REFERENCE:
@@ -402,16 +394,19 @@ class QuerySegmentAggregator {
                         case DATE:
                             whereClause.append("_DATE_VALUES ");
                             break;
+                        case SPECIAL: 
+                            // in search-parameters.json we only support latlng for 'near'
+                            // in the future if special expands beyond lat/lng we'll have to add logic to support. 
+                            whereClause.append("_LATLNG_VALUES ");
+                            break;
                         case TOKEN:
-                            if (isLocationQuery) {
-                                whereClause.append("_LATLNG_VALUES ");
-                            } else {
-                                whereClause.append("_TOKEN_VALUES ");
-                            }
+                            whereClause.append("_TOKEN_VALUES ");
                             break;
                         }
                         whereClauseSegment = whereClauseSegment.replaceAll(PARAMETER_TABLE_ALIAS + ".", "");
-                        whereClause.append(" WHERE ").append(whereClauseSegment).append(")");
+                        whereClause.append(" WHERE ").append(whereClauseSegment).append(") ");
+                        String tmpTableName = overrideType + i;
+                        whereClause.append(tmpTableName).append(ON).append(tmpTableName).append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
                     }
                 }
             }

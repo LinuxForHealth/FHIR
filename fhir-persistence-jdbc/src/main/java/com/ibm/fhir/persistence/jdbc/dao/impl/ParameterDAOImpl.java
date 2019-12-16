@@ -31,8 +31,8 @@ import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.SqlParameterEncoder;
-import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Type;
+import com.ibm.fhir.search.location.NearLocationHandler;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
@@ -111,7 +111,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
-    
+
     /**
      * Calls a stored procedure to read the name contained in the passed Parameter in the Parameter_Names table.
      * If it's not in the DB, it will be stored and a unique id will be returned.
@@ -454,8 +454,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         try {
             structTypeName = new StringBuilder().append(schemaName).append(".").append("T_LATLNG_VALUES").toString();
             for (Parameter parameter : parameters) {
-                if (AbstractQueryBuilder.NEAR.equals(parameter.getName()) || 
-                    AbstractQueryBuilder.NEAR_DISTANCE.equals(parameter.getName())) {
+                if (NearLocationHandler.NEAR.equals(parameter.getName())) {
                     rowData = new Object[] {this.acquireParameterNameId(parameter.getName()),
                                             parameter.getValueLatitude(), parameter.getValueLongitude()};
                     sqlParmList.add(connection.createStruct(structTypeName, rowData));

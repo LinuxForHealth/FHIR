@@ -219,6 +219,7 @@ public class FhirResourceGroup {
                 .addCharColumn(           IS_DELETED,           1, false)
                 .addBlobColumn(                 DATA,  2147483647,  10240,   true)
                 .addUniqueIndex(tableName + "_PRF_IN1", prfIndexCols, prfIncludeCols)
+                .addIndex(IDX + tableName + LOGICAL_RESOURCE_ID, LOGICAL_RESOURCE_ID)
                 .addPrimaryKey(tableName + "_PK", RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)

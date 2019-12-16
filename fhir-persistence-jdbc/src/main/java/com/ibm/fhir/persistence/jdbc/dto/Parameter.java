@@ -220,6 +220,9 @@ public class Parameter {
         case URI:
             visitor.stringValue(name, this.valueString, baseLevel);
             break;
+        case SPECIAL:
+            visitor.locationValue(name, this.getValueLatitude(), this.getValueLongitude());
+            break;
         }
     }
 

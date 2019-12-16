@@ -12,14 +12,11 @@ import com.ibm.fhir.model.util.FHIRUtil;
 
 /**
  * SearchExceptionUtil encapsulates the logic for throwing a Search Exception
- * 
- * @author pbastide
- *
  */
 public class SearchExceptionUtil {
 
     private static final String ILLEGAL_EXCEPTION = "SearchParameter filter property values must be an array of String.";
-    private static final String ILLEGAL_ARGUMENT_EXCEPTION = "No constant with value %s found.";
+    private static final String ILLEGAL_ARGUMENT_EXCEPTION = "No constant with value '%s' found.";
     private static final String PARSE_PARAMETER_EXCEPTION = "An error occurred while parsing parameter '%s'.";
     private static final String CHAINED_PARAMETER_EXCEPTION = "Unable to parse chained parameter: '%s'";
     private static final String GET_SEARCH_FAILED = "Unable to process getSearch ";

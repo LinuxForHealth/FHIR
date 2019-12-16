@@ -66,6 +66,9 @@ public class FHIRConfiguration {
     public static final String PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE = "fhirServer/persistence/jdbc/enableCodeSystemsCache";
     public static final String PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE = "fhirServer/persistence/jdbc/enableParameterNamesCache";
     public static final String PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE = "fhirServer/persistence/jdbc/enableResourceTypesCache";
+    
+    // fhir-search - Bounding area
+    public static final String PROPERTY_SEARCH_BOUNDING_AREA_RADIUS_TYPE = "fhirServer/search/useBoundingRadius";
 
     // Custom header names
     public static final String DEFAULT_TENANT_ID_HEADER_NAME = "X-FHIR-TENANT-ID";
