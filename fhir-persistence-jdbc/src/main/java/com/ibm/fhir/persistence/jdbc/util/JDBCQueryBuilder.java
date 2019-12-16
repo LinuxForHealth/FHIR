@@ -1414,18 +1414,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         // WHERE R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID because we're not using the value from the parameters table
         whereClauseSegment.append("R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND ");
 
-        // if (missing != null && !missing) {
-        // // Build this piece of the segment:
-        // // (P1.PARAMETER_NAME_ID = x AND P1.logical_resource_id = LR.logical_resource_id)
-        // this.populateNameIdSubSegment(whereClauseSegment, queryParm.get(), tableAlias);
-        // whereClauseSegment.append(AND).append(tableAlias + DOT + "LOGICAL_RESOURCE_ID = LR.LOGICL_RESOURCE_ID");
-        // whereClauseSegment.append(RIGHT_PAREN);
-        // } else {
-        String valuesTable = QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm);
-
         if (missing == null || missing) {
             whereClauseSegment.append("NOT ");
         }
+        String valuesTable = QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm);
         whereClauseSegment.append("EXISTS ").append("(SELECT 1 FROM " + valuesTable + WHERE);
 
         // Build this piece of the segment:
@@ -1433,7 +1425,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), valuesTable.toString());
         whereClauseSegment.append(AND).append(valuesTable + DOT + "LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
-        // }
 
         List<Object> bindVariables = new ArrayList<>();
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
