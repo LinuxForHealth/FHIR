@@ -1,0 +1,38 @@
+{
+    "resourceType": "CodeSystem",
+    "url": "http://ibm.com/fhir/CodeSystem/cs4",
+    "version": "1.0.0",
+    "status": "active",
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "code": "notSelectable",
+            "uri": "http://ibm.com/fhir/concept-properties#notSelectable",
+            "type": "boolean"
+        }
+    ],
+    "concept": [
+        {
+            "code": "j"
+        },
+        {
+            "code": "k"
+        },
+        {
+            "code": "j"
+        },
+        {
+            "code": "k",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                }
+            ]
+        },
+        {
+            "code": "l"
+        }
+    ]
+}
