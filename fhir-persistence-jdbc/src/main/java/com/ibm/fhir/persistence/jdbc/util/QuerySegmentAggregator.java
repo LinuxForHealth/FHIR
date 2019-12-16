@@ -19,6 +19,7 @@ import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
+import com.ibm.fhir.persistence.jdbc.util.type.DateParmBehaviorUtil;
 import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.parameters.Parameter;
@@ -61,9 +62,9 @@ class QuerySegmentAggregator {
     protected List<SqlQueryData> querySegments;
     protected List<Parameter> searchQueryParameters;
     
-    // used for special treatment of _id and _lastUpdated
-    protected Parameter queryParamId = null;
-    protected Parameter queryParamLastUpdated = null;
+    // used for special treatment of List<Parameters> of _id and _lastUpdated
+    protected List<Parameter> queryParamIds = new ArrayList<>();
+    protected List<Parameter> queryParamLastUpdateds = new ArrayList<>();
     
     private int offset;
     private int pageSize;
@@ -105,13 +106,15 @@ class QuerySegmentAggregator {
         //parallel arrays
         this.querySegments.add(querySegment);
         
-        String name = queryParm.getCode();
-        if("_id".compareTo(name)==0) {
-            queryParamId = queryParm;
-        } else if("_lastUpdated".compareTo(name)==0) {
-            queryParamLastUpdated = queryParm;
-        } else { 
-            // Only add the query parameter one time, if it's not _id or _lastUpdated.
+        String code = queryParm.getCode();
+        if("_id".compareTo(code)==0) {
+            queryParamIds.add(queryParm);
+        }
+        if(DateParmBehaviorUtil.LAST_UPDATED.compareTo(code)==0) {
+            queryParamLastUpdateds.add(queryParm);
+        }
+        else { 
+            // Only add the query parameter one time, if it's not _id
             this.searchQueryParameters.add(queryParm);
         }
 
@@ -279,15 +282,14 @@ class QuerySegmentAggregator {
         fromClause.append("FROM ");
         processFromClauseForId(fromClause, simpleName);
         fromClause.append(" LR JOIN ");
-        fromClause.append(simpleName);
-        fromClause.append("_RESOURCES");
+        processFromClauseForLastUpdated(fromClause, simpleName);
         fromClause.append(" R ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ");
 
         log.exiting(CLASSNAME, METHODNAME);
         return fromClause.toString();
         
     }
-    
+
     /*
      * Processes the From Clause for _id, as _id is contained in the LOGICAL_RESOURCES 
      * else, return a default table name
@@ -308,19 +310,38 @@ class QuerySegmentAggregator {
          * </pre>
          */
         
-        if(queryParamId != null) {
+        if (!queryParamIds.isEmpty()) {
             // ID, then special handling. 
             fromClause.append("( SELECT * FROM ");
             fromClause.append(target);
             fromClause.append("_LOGICAL_RESOURCES");
             fromClause.append(" ILR WHERE ILR.LOGICAL_ID IN ( ");
-                        
-            fromClause.append(queryParamId.getValues().stream().map(param -> "?" ).collect(Collectors.joining(", ")));
+            //TODO fromClause.append(queryParamId.getValues().stream().map(param -> "?" ).collect(Collectors.joining(", ")));
             fromClause.append(" )) ");
         } else {
             // Not ID, then go to the default. 
             fromClause.append(target);
             fromClause.append("_LOGICAL_RESOURCES");
+        }
+    }
+    
+    private void processFromClauseForLastUpdated(StringBuilder fromClause, String target) {
+        if(!queryParamLastUpdateds.isEmpty()) {
+            // Start the Drived Table
+            fromClause.append("( SELECT * FROM ");
+            fromClause.append(target);
+            fromClause.append("_RESOURCES IR ");
+
+            // Process the Condtional
+            fromClause.append("WHERE ILR.LOGICAL_ID IN ( ");
+            //fromClause.append(queryParamId.getValues().stream().map(param -> "?" ).collect(Collectors.joining(", ")));
+            
+            // Close out the Derived Tables
+            fromClause.append(" )) ");
+        } else {
+            // Not _lastUpdated, then go to the default. 
+            fromClause.append(target);
+            fromClause.append("_RESOURCES");
         }
     }
     

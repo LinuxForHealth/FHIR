@@ -34,6 +34,8 @@ import com.ibm.fhir.search.parameters.ParameterValue;
  * quantity.
  */
 public class DateParmBehaviorUtil {
+    
+    public static final String LAST_UPDATED = "_lastUpdated";
 
     public DateParmBehaviorUtil() {
         // No Operation
