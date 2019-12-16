@@ -148,6 +148,8 @@ BEGIN
     THEN
       -- existing resource, so need to delete all its parameters. 
       -- TODO patch parameter sets instead of all delete/all insert.
+      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_composites      WHERE logical_resource_id = ?';
+      EXECUTE stmt USING v_logical_resource_id;
       PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values      WHERE logical_resource_id = ?';
       EXECUTE stmt USING v_logical_resource_id;
       PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values   WHERE logical_resource_id = ?';

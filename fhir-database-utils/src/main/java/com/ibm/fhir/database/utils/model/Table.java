@@ -201,7 +201,7 @@ public class Table extends BaseObject {
         private int version = 1;
         
         /**
-         * Privat constructor to force creation through factory method
+         * Private constructor to force creation through factory method
          * @param schemaName
          * @param tableName
          */

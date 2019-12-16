@@ -115,7 +115,7 @@ public class Main {
     private IDatabaseTranslator translator = new Db2Translator();
 
     // The connection pool and transaction provider to support concurrent operations
-    private int maxConnectionPoolSize = FhirSchemaConstants.DEFAULT_POOL_SIZE;
+    private int maxConnectionPoolSize = FhirSchemaConstants.DEFAULT_POOL_SIZE / 2;
     private PoolConnectionProvider connectionPool;
     private ITransactionProvider transactionProvider;
 
