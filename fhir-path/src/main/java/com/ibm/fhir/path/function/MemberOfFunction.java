@@ -119,13 +119,12 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
 
     /**
      * Determine whether the provided code is in the codeSet associated with the provided system and version.
-     * 
-     * @apiNote
-     *     If the system and version are non-null, they are concatenated to form a key into codeSetMap. If not found,
-     *     then the provided system is concatenated with the "VERSION_UNKNOWN" constant in case the expanded value set
-     *     did not have a version available during the expansion. If only the system is non-null, then the codeSetMap
-     *     keys are checked for startsWith(system). Finally, if both system and version are null, map keys are ignored
-     *     and the values of the map are iterated over/checked.
+     *
+     * <p>If the system and version are non-null, they are concatenated to form a key into codeSetMap. If not found,
+     * then the provided system is concatenated with the "VERSION_UNKNOWN" constant in case the expanded value set
+     * did not have a version available during the expansion. If only the system is non-null, then the codeSetMap
+     * keys are checked for startsWith(system). Finally, if both system and version are null, map keys are ignored
+     * and the values of the map are iterated over/checked.
      * 
      * @param codeSetMap
      *     the code set map
@@ -136,7 +135,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
      * @param code
      *     the code used in the membership check
      * @return
-     *     true if a codeSet is found and the code is a member of that codeSet, false otherwise
+     *     true if a codeSet is found and the provided code is a member of that codeSet, false otherwise
      */
     private boolean contains(Map<String, Set<String>> codeSetMap, String system, String version, String code) {
         if (system != null && version != null) {
