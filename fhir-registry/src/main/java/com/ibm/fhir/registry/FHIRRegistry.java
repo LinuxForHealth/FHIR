@@ -21,6 +21,9 @@ import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
+/**
+ * A singleton registry for FHIR definitional resources: http://hl7.org/fhir/definition.html
+ */
 public final class FHIRRegistry {
     private static final Logger log = Logger.getLogger(FHIRRegistry.class.getName());
     
@@ -36,29 +39,34 @@ public final class FHIRRegistry {
         return INSTANCE;
     }
     
-    public boolean hasResource(String url) {
-        if (Objects.isNull(url)) {
-            return false;
+    /**
+     * Get the latest version of a resource for the given url.
+     * 
+     * @param url
+     *     the url of the resource
+     * @return
+     *     the version of the resource associated with the input parameter, or null if no such resource exists
+     */
+    public String getLatestVersion(String url) {
+        if (url == null) {
+            return null;
         }
         
-        String id = null;
-        int index = url.indexOf("#");
+        int index = url.indexOf("|");
         if (index != -1) {
-            id = url.substring(index + 1);
             url = url.substring(0, index);
         }
         
-        String version = null;
-        index = url.indexOf("|");
-        if (index != -1) {
-            version = url.substring(index + 1);
-            url = url.substring(0, index);
-        }
-        
-        FHIRRegistryResource resource = findResource(url, version);
-        return (id != null) ? (getResource(resource, url, id) != null) : (resource != null);
+        FHIRRegistryResource resource = findResource(url, null);
+        return (resource != null) ? resource.getVersion().toString() : null;
     }
-    
+
+    /**
+     * Get the resource for the given canonical url.
+     * 
+     * @return
+     *    the resource associated with the input parameter, or null if no such resource exists
+     */
     public <T extends Resource> T getResource(String url, Class<T> resourceType) {
         Objects.requireNonNull(url);
         Objects.requireNonNull(resourceType);
@@ -80,6 +88,67 @@ public final class FHIRRegistry {
         return resourceType.cast(getResource(findResource(url, version), url, id));
     }
 
+    /**
+     * Determine if the resource associated with the given url exists in the registry.
+     * 
+     * @param url
+     *     the url of the resource
+     * @return
+     *     true if the resource associated with the given url exists in the registry, false otherwise
+     */
+    public boolean hasResource(String url) {
+        if (url == null) {
+            return false;
+        }
+        
+        String id = null;
+        int index = url.indexOf("#");
+        if (index != -1) {
+            id = url.substring(index + 1);
+            url = url.substring(0, index);
+        }
+        
+        String version = null;
+        index = url.indexOf("|");
+        if (index != -1) {
+            version = url.substring(index + 1);
+            url = url.substring(0, index);
+        }
+        
+        FHIRRegistryResource resource = findResource(url, version);
+        return (id != null) ? (getResource(resource, url, id) != null) : (resource != null);
+    }
+    
+
+    /**
+     * Unload the resource associated with the given url.
+     * 
+     * @param url
+     *     the url of the resource
+     */
+    public void unloadResource(String url) {
+        if (url == null) {
+            return;
+        }
+        
+        int index = url.indexOf("#");
+        if (index != -1) {
+            url = url.substring(0, index);
+        }
+        
+        String version = null;
+        index = url.indexOf("|");
+        if (index != -1) {
+            version = url.substring(index + 1);
+            url = url.substring(0, index);
+        }
+        
+        FHIRRegistryResource resource = findResource(url, version);
+        if (resource != null) {
+            resource.unload();
+        }
+    }
+    
     private FHIRRegistryResource findResource(String url, String version) {
         List<FHIRRegistryResource> resources = resourceMap.get(url);
         if (resources != null) {

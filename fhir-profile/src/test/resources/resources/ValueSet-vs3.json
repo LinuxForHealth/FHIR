@@ -1,0 +1,25 @@
+{
+    "resourceType": "ValueSet",
+    "url": "http://ibm.com/fhir/ValueSet/vs3",
+    "version": "1.0.0",
+    "status": "active",
+    "compose": {
+        "include": [
+            {
+                "system": "http://ibm.com/fhir/CodeSystem/cs3"
+            }
+        ],
+        "exclude": [
+            {
+                "system": "http://ibm.com/fhir/CodeSystem/cs3",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "descendent-of",
+                        "value": "x"
+                    }
+                ]
+            }
+        ]
+    }
+}
