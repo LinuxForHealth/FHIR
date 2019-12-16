@@ -120,11 +120,11 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
     /**
      * Determine whether the provided code is in the codeSet associated with the provided system and version.
      *
-     * <p>If the system and version are non-null, they are concatenated to form a key into codeSetMap. If not found,
-     * then the provided system is concatenated with the "VERSION_UNKNOWN" constant in case the expanded value set
-     * did not have a version available during the expansion. If only the system is non-null, then the codeSetMap
-     * keys are checked for startsWith(system). Finally, if both system and version are null, map keys are ignored
-     * and the values of the map are iterated over/checked.
+     * <p>If the system and version are non-null, then they are concatenated to form a key into the codeSetMap. If 
+     * not found, then the system is concatenated with the "VERSION_UNKNOWN" constant (in cases where the expanded 
+     * value set did not have a version available during the expansion). If only the system is non-null, then the 
+     * codeSetMap keys are checked for startsWith(system). Finally, if both system and version are null, map keys 
+     * are ignored and the values of the map are checked directly.
      * 
      * @param codeSetMap
      *     the code set map
