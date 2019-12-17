@@ -43,8 +43,13 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.visitor.DefaultVisitor;
 import com.ibm.fhir.model.visitor.Visitable;
-import com.ibm.fhir.persistence.jdbc.dto.Parameter;
-import com.ibm.fhir.persistence.jdbc.dto.Parameter.TimeType;
+import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
+import com.ibm.fhir.persistence.jdbc.dto.LocationParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 
 /**
  * This class is the JDBC persistence layer implementation for transforming SearchParameters into Parameter Data Transfer Objects.
@@ -75,20 +80,20 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     /**
      * The result of the visit(s)
      */
-    private List<Parameter> result;
+    private List<ExtractedParameterValue> result;
 
     public JDBCParameterBuildingVisitor(SearchParameter searchParameter) {
         super(false);
         this.searchParamCode = searchParameter.getCode().getValue();
         this.searchParamType = searchParameter.getType();
 
-        result = new ArrayList<Parameter>();
+        result = new ArrayList<>();
     }
 
     /**
      * @return the Parameters extracted from the visited Elements
      */
-    public List<Parameter> getResult() {
+    public List<ExtractedParameterValue> getResult() {
         return Collections.unmodifiableList(result);
     }
 
@@ -107,7 +112,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Boolean _boolean) {
         if (_boolean.hasValue()) {
-            Parameter p = new Parameter();
+            TokenParmVal p = new TokenParmVal();
             if (!TOKEN.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, _boolean);
             }
@@ -125,7 +130,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Canonical canonical) {
         if (canonical.hasValue()) {
-            Parameter p = new Parameter();
+            StringParmVal p = new StringParmVal();
             if (!REFERENCE.equals(searchParamType) && !URI.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, canonical);
             }
@@ -138,7 +143,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Code code) {
         if (code.hasValue()) {
-            Parameter p = new Parameter();
+            TokenParmVal p = new TokenParmVal();
             if (!TOKEN.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, code);
             }
@@ -152,7 +157,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Date date) {
         if (date.hasValue()) {
-            Parameter p = new Parameter();
+            DateParmVal p = new DateParmVal();
             if (!DATE.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, date);
             }
@@ -165,7 +170,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.DateTime dateTime) {
         if (dateTime.hasValue()) {
-            Parameter p = new Parameter();
+            DateParmVal p = new DateParmVal();
             if (!DATE.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, dateTime);
             }
@@ -178,7 +183,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Decimal decimal) {
         if (decimal.hasValue()) {
-            Parameter p = new Parameter();
+            NumberParmVal p = new NumberParmVal();
             if (!NUMBER.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, decimal);
             }
@@ -191,7 +196,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Id id) {
         if (id.hasValue()) {
-            Parameter p = new Parameter();
+            TokenParmVal p = new TokenParmVal();
             if (!TOKEN.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, id);
             }
@@ -204,7 +209,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Instant instant) {
         if (instant.hasValue()) {
-            Parameter p = new Parameter();
+            DateParmVal p = new DateParmVal();
             if (!DATE.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, instant);
             }
@@ -217,7 +222,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Integer integer) {
         if (integer.hasValue()) {
-            Parameter p = new Parameter();
+            NumberParmVal p = new NumberParmVal();
             if (!NUMBER.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, integer);
             }
@@ -231,23 +236,26 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     @Override
     public boolean visit(String elementName, int elementIndex, com.ibm.fhir.model.type.String value) {
         if (value.hasValue()) {
-            Parameter p = new Parameter();
             if (STRING.equals(searchParamType)) {
+                StringParmVal p = new StringParmVal();
                 p.setValueString(value.getValue());
+                p.setName(searchParamCode);
+                result.add(p);
             } else if (TOKEN.equals(searchParamType)) {
+                TokenParmVal p = new TokenParmVal();
                 p.setValueCode(value.getValue());
+                p.setName(searchParamCode);
+                result.add(p);
             } else {
                 throw invalidComboException(searchParamType, value);
             }
-            p.setName(searchParamCode);
-            result.add(p);
         }
         return false;
     }
     @Override
     public boolean visit(String elementName, int elementIndex, Uri uri) {
         if (uri.hasValue()) {
-            Parameter p = new Parameter();
+            StringParmVal p = new StringParmVal();
             if (!URI.equals(searchParamType) && !REFERENCE.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, uri);
             }
@@ -264,48 +272,48 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
 
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Address address) {
-        Parameter p;
+        StringParmVal p;
         if (!STRING.equals(searchParamType)) {
             throw invalidComboException(searchParamType, address);
         }
         for (com.ibm.fhir.model.type.String aLine : address.getLine()) {
-            p = new Parameter();
+            p = new StringParmVal();
             p.setName(searchParamCode);
             p.setValueString(aLine.getValue());
             result.add(p);
         }
         if (address.getCity() != null) {
-            p = new Parameter();
+            p = new StringParmVal();
             p.setName(searchParamCode);
             p.setValueString(address.getCity().getValue());
             result.add(p);
         }
         if (address.getDistrict() != null) {
-            p = new Parameter();
+            p = new StringParmVal();
             p.setName(searchParamCode);
             p.setValueString(address.getDistrict().getValue());
             result.add(p);
         }
         if (address.getState() != null) {
-            p = new Parameter();
+            p = new StringParmVal();
             p.setName(searchParamCode);
             p.setValueString(address.getState().getValue());
             result.add(p);
         }
         if (address.getCountry() != null) {
-            p = new Parameter();
+            p = new StringParmVal();
             p.setName(searchParamCode);
             p.setValueString(address.getCountry().getValue());
             result.add(p);
         }
         if (address.getPostalCode() != null) {
-            p = new Parameter();
+            p = new StringParmVal();
             p.setName(searchParamCode);
             p.setValueString(address.getPostalCode().getValue());
             result.add(p);
         }
         if (address.getText() != null) {
-            p = new Parameter();
+            p = new StringParmVal();
             p.setName(searchParamCode);
             p.setValueString(address.getText().getValue());
             result.add(p);
@@ -325,7 +333,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Coding coding) {
         if (coding.getCode() != null && coding.getCode().hasValue()) {
-            Parameter p = new Parameter();
+            TokenParmVal p = new TokenParmVal();
             if (!TOKEN.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, coding);
             }
@@ -344,7 +352,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             if (!TOKEN.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, contactPoint);
             }
-            Parameter telecom = new Parameter();
+            TokenParmVal telecom = new TokenParmVal();
             telecom.setName(searchParamCode);
             telecom.setValueCode(contactPoint.getValue().getValue());
             result.add(telecom);
@@ -353,37 +361,37 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     }
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, HumanName humanName) {
-        Parameter p;
+        StringParmVal p;
         if (!STRING.equals(searchParamType)) {
             throw invalidComboException(searchParamType, humanName);
         }
         if (humanName.getFamily() != null) {
             // family is just a string in R4 (not a list)
-            p = new Parameter();
+            p = new StringParmVal();
             p.setName(searchParamCode);
             p.setValueString(humanName.getFamily().getValue());
             result.add(p);
         }
         for (com.ibm.fhir.model.type.String given : humanName.getGiven()) {
-            p = new Parameter();
+            p = new StringParmVal();
             p.setName(searchParamCode);
             p.setValueString(given.getValue());
             result.add(p);
         }
         for (com.ibm.fhir.model.type.String prefix : humanName.getPrefix()) {
-            p = new Parameter();
+            p = new StringParmVal();
             p.setName(searchParamCode);
             p.setValueString(prefix.getValue());
             result.add(p);
         }
         for (com.ibm.fhir.model.type.String suffix : humanName.getSuffix()) {
-            p = new Parameter();
+            p = new StringParmVal();
             p.setName(searchParamCode);
             p.setValueString(suffix.getValue());
             result.add(p);
         }
         if (humanName.getText() != null) {
-            p = new Parameter();
+            p = new StringParmVal();
             p.setName(searchParamCode);
             p.setValueString(humanName.getText().getValue());
             result.add(p);
@@ -396,7 +404,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             throw invalidComboException(searchParamType, identifier);
         }
         if (identifier != null && identifier.getValue() != null) {
-            Parameter p = new Parameter();
+            TokenParmVal p = new TokenParmVal();
             p.setName(searchParamCode);
             if (identifier.getSystem() != null) {
                 p.setValueSystem(identifier.getSystem().getValue());
@@ -412,7 +420,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             throw invalidComboException(searchParamType, money);
         }
         if (money != null && money.getValue() != null && money.getValue().getValue() != null) {
-            Parameter p = new Parameter();
+            QuantityParmVal p = new QuantityParmVal();
             p.setName(searchParamCode);
             p.setValueNumber(money.getValue().getValue());
             if (money.getCurrency() != null) {
@@ -431,7 +439,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             // early exit
             return false;
         }
-        Parameter p = new Parameter();
+        DateParmVal p = new DateParmVal();
         p.setName(searchParamCode);
         if (period.getStart() == null || period.getStart().getValue() == null) {
             p.setValueDateStart(SMALLEST_TIMESTAMP);
@@ -459,7 +467,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             
             // see https://gforge.hl7.org/gf/project/fhir/tracker/?action=TrackerItemEdit&tracker_item_id=19597
             if (quantity.getCode() != null && quantity.getCode().hasValue()) {
-                Parameter p = new Parameter();
+                QuantityParmVal p = new QuantityParmVal();
                 p.setName(searchParamCode);
                 p.setValueNumber(value);
                 p.setValueCode(quantity.getCode().getValue());
@@ -472,7 +480,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 String displayUnit = quantity.getUnit().getValue();
                 // No need to save a second parameter value if the display unit matches the coded unit
                 if (quantity.getCode() == null || !displayUnit.equals(quantity.getCode().getValue())) {
-                    Parameter p = new Parameter();
+                    QuantityParmVal p = new QuantityParmVal();
                     p.setName(searchParamCode);
                     p.setValueNumber(value);
                     p.setValueCode(displayUnit);
@@ -488,7 +496,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             throw invalidComboException(searchParamType, range);
         }
         // The parameter isn't added unless either low or high holds a value
-        Parameter p = new Parameter();
+        QuantityParmVal p = new QuantityParmVal();
         p.setName(searchParamCode);
         if (range.getLow() != null && range.getLow().getValue() != null && range.getLow().getValue().getValue() != null) {
             if (range.getLow().getSystem() != null) {
@@ -527,7 +535,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             throw invalidComboException(searchParamType, reference);
         }
         if (reference.getReference() != null) {
-            Parameter p = new Parameter();
+            StringParmVal p = new StringParmVal();
             p.setName(searchParamCode);
             p.setValueString(reference.getReference().getValue());
             result.add(p);
@@ -558,7 +566,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
 
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Location.Position position) {
-        Parameter p = new Parameter();
+        LocationParmVal p = new LocationParmVal();
         p.setName(searchParamCode);
         
         // The following code ensures that the lat/lon is only added when there is a pair. 
@@ -593,7 +601,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
      * @param p
      * @param date
      */
-    private void setDateValues(Parameter p, Date date) {
+    private void setDateValues(DateParmVal p, Date date) {
         java.time.Instant start = QueryBuilderUtil.getStart(date);
         java.time.Instant end = QueryBuilderUtil.getEnd(date);
         setDateValues(p, start, end);
@@ -607,7 +615,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
      * @param dateTime
      * @throws NullPointerException if p or dateTime are null
      */
-    private void setDateValues(Parameter p, DateTime dateTime) {
+    private void setDateValues(DateParmVal p, DateTime dateTime) {
         if (dateTime.isPartial()) {
             java.time.Instant start = QueryBuilderUtil.getStart(dateTime);
             java.time.Instant end = QueryBuilderUtil.getEnd(dateTime);
@@ -619,18 +627,17 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     }
 
     /**
-     * Set the date values on the {@link Parameter}, adjusting the end time slightly to make it inclusive (which is a TODO to fix).
+     * Set the date values on the {@link DateParmVal}, adjusting the end time slightly to make it inclusive (which is a TODO to fix).
      *
      * @param p
      * @param start
      * @param end
      */
-    private void setDateValues(Parameter p, java.time.Instant start, java.time.Instant end) {
+    private void setDateValues(DateParmVal p, java.time.Instant start, java.time.Instant end) {
         if (start != null) {
             Timestamp startTime = Timestamp.from(start);
             p.setValueDateStart(startTime);
             p.setValueDate(startTime);
-            p.setTimeType(TimeType.UNKNOWN);
         }
 
         if (end != null) {

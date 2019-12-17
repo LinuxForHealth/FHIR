@@ -18,6 +18,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.common.CommonDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.model.ColumnBase;
+import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Table;
 
@@ -59,7 +60,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
-            String tablespaceName) {
+            IdentityDef identity, String tablespaceName) {
 
         // Derby doesn't support partitioning, so we ignore tenantColumnName
         if (tenantColumnName != null) {
@@ -67,7 +68,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         }
 
         // We also ignore tablespace for Derby
-        String ddl = buildCreateTableStatement(schemaName, name, columns, primaryKey, null);
+        String ddl = buildCreateTableStatement(schemaName, name, columns, primaryKey, identity, null);
 
 
         runStatement(ddl);

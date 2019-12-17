@@ -8,13 +8,15 @@
   /opt/ibm/db2/V11.5/adm/db2licm -r db2dec && /opt/ibm/db2/V11.5/adm/db2licm -a /var/db2/db2trial.lic
 
   su - db2inst1 -c "db2 update dbm cfg using INSTANCE_MEMORY AUTOMATIC" \
+  && su - db2inst1 -c "db2 update database cfg for LOGFILSIZE using 4000" \
   && su - db2inst1 -c "db2stop" \
   && su - db2inst1 -c "db2start"
   
 # Create the FHIR database and give fhiruser access
+# Note Update transaction log file size (logfilsiz) to avoid 
 # Note 32K pagesize is required
 
-# Finally create the database if it doesn't yet exist
+# Create the database if it doesn't yet exist
 if [[ $(su - db2inst1 -c "db2 list db directory" | grep alias | grep FHIRDB | awk '{print $4}') == "FHIRDB" ]]; then
   echo "FHIRDB exists - skipping create"
 else

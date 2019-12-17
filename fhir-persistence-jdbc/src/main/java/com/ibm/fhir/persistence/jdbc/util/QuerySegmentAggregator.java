@@ -6,12 +6,12 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNION;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNION;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +26,9 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.search.SearchConstants.Modifier;
-import com.ibm.fhir.search.parameters.Parameter;
+import com.ibm.fhir.search.SearchConstants.Type;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 /**
  * This class assists the JDBCQueryBuilder. Its purpose is to aggregate SQL query segments together to produce a well-formed FHIR Resource query or 
@@ -35,16 +37,17 @@ import com.ibm.fhir.search.parameters.Parameter;
 public class QuerySegmentAggregator {
     private static final String CLASSNAME = QuerySegmentAggregator.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
+    
     protected static final String SELECT_ROOT = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID ";
     protected static final String SYSTEM_LEVEL_SELECT_ROOT = "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID ";
     protected static final String SYSTEM_LEVEL_SUBSELECT_ROOT = SELECT_ROOT;
-    private static final String SELECT_COUNT_ROOT = "SELECT COUNT(R.RESOURCE_ID) ";
-    private static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT COUNT(RESOURCE_ID) ";
-    private static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT R.RESOURCE_ID ";
+    protected static final String SELECT_COUNT_ROOT = "SELECT COUNT(R.RESOURCE_ID) ";
+    protected static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT COUNT(RESOURCE_ID) ";
+    protected static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT R.RESOURCE_ID ";
     protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED <> 'Y'";
-    private static final String DEFAULT_ORDERING = " ORDER BY R.RESOURCE_ID ASC ";
+    protected static final String DEFAULT_ORDERING = " ORDER BY R.RESOURCE_ID ASC ";
 
-    private static final Set<String> SKIP_WHERE = new HashSet<>(Arrays.asList("_id"));
+    protected static final Set<String> SKIP_WHERE = new HashSet<>(Arrays.asList("_id"));
     
     protected Class<?> resourceType;
     
@@ -56,10 +59,10 @@ public class QuerySegmentAggregator {
      * and should be added to/removed together. 
      */
     protected List<SqlQueryData> querySegments;
-    protected List<Parameter> searchQueryParameters;
+    protected List<QueryParameter> searchQueryParameters;
     
     // used for special treatment of _id
-    protected Parameter queryParamId = null;
+    protected QueryParameter queryParamId = null;
     
     private int offset;
     private int pageSize;
@@ -82,7 +85,6 @@ public class QuerySegmentAggregator {
         this.resourceDao = resourceDao;
         this.querySegments = new ArrayList<>();
         this.searchQueryParameters = new ArrayList<>();
-         
     }
     
     public void setResourceTypes(List<String> resourceTypes) {
@@ -94,7 +96,7 @@ public class QuerySegmentAggregator {
      * @param querySegment A piece of a SQL WHERE clause 
      * @param queryParm - The corresponding query parameter
      */
-    protected void addQueryData(SqlQueryData querySegment,Parameter queryParm) {
+    protected void addQueryData(SqlQueryData querySegment,QueryParameter queryParm) {
         final String METHODNAME = "addQueryData";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -108,7 +110,6 @@ public class QuerySegmentAggregator {
         this.searchQueryParameters.add(queryParm);
 
         log.exiting(CLASSNAME, METHODNAME);
-         
     }
     
     /**
@@ -138,7 +139,7 @@ public class QuerySegmentAggregator {
 
             // Add default ordering
             queryString.append(DEFAULT_ORDERING);
-            this.addPaginationClauses(queryString);        
+            this.addPaginationClauses(queryString);
             queryData = new SqlQueryData(queryString.toString(), allBindVariables);
         }
         
@@ -147,7 +148,7 @@ public class QuerySegmentAggregator {
     }
     
     /**
-     *   Builds a complete SQL count query based upon the encapsulated query segments and bind variables.
+     * Builds a complete SQL count query based upon the encapsulated query segments and bind variables.
      * @return SqlQueryData - contains the complete SQL count query string and any associated bind variables.
      * @throws Exception 
      */
@@ -335,59 +336,102 @@ public class QuerySegmentAggregator {
         StringBuilder whereClause = new StringBuilder();
         String whereClauseSegment;
 
-        if (!this.querySegments.isEmpty()) {
-            for (int i = 0; i < this.querySegments.size(); i++) {
-                SqlQueryData querySegment = this.querySegments.get(i);
-                Parameter param = this.searchQueryParameters.get(i);
+        for (int i = 0; i < this.querySegments.size(); i++) {
+            SqlQueryData querySegment = this.querySegments.get(i);
+            QueryParameter param = this.searchQueryParameters.get(i);
 
-                // Being bold here... this part should NEVER get a NPE. 
-                // The parameter would not be parsed and passed successfully,
-                // the NPE would have occurred earlier in the stack. 
-                String code = param.getCode();
-                if (!SKIP_WHERE.contains(code)) {
+            // Being bold here... this part should NEVER get a NPE. 
+            // The parameter would not be parsed and passed successfully,
+            // the NPE would have occurred earlier in the stack. 
+            String code = param.getCode();
+            if (!SKIP_WHERE.contains(code)) {
 
-                    whereClauseSegment = querySegment.getQueryString();
-                    if (Modifier.MISSING.equals(param.getModifier())) {
-                        whereClause.append(whereClauseSegment);
-                    } else {
+                if (Modifier.MISSING.equals(param.getModifier())) {
+                    whereClauseSegment = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", "");
+                    whereClause.append(whereClauseSegment);
+                } else {
+                    if (!Type.COMPOSITE.equals(param.getType())) {
+                        whereClauseSegment = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", "");
 
                         whereClause.append(JOIN).append("(SELECT DISTINCT LOGICAL_RESOURCE_ID FROM ");
-                        whereClause.append(overrideType);
-                        switch (param.getType()) {
-                        case URI:
-                        case REFERENCE:
-                        case STRING:
-                            whereClause.append("_STR_VALUES ");
-                            break;
-                        case NUMBER:
-                            whereClause.append("_NUMBER_VALUES ");
-                            break;
-                        case QUANTITY:
-                            whereClause.append("_QUANTITY_VALUES ");
-                            break;
-                        case DATE:
-                            whereClause.append("_DATE_VALUES ");
-                            break;
-                        case SPECIAL: 
-                            // in search-parameters.json we only support latlng for 'near'
-                            // in the future if special expands beyond lat/lng we'll have to add logic to support. 
-                            whereClause.append("_LATLNG_VALUES ");
-                            break;
-                        case TOKEN:
-                            whereClause.append("_TOKEN_VALUES ");
-                            break;
+                        whereClause.append(tableName(overrideType, param));
+                    } else {
+                        // add an alias for the composite table
+                        String compositeAlias = "comp" + (i+1);
+                        whereClauseSegment = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", compositeAlias + ".");
+
+                        whereClause.append(JOIN).append("(SELECT DISTINCT " + compositeAlias + ".LOGICAL_RESOURCE_ID FROM ");
+                        whereClause.append(tableName(overrideType, param))
+                                   .append(compositeAlias);
+
+                        if (param.getValues() != null && !param.getValues().isEmpty()) {
+                            // Assumption:  all the values should have the same number of components and the same types
+                            QueryParameterValue queryParameterValue = param.getValues().get(0);
+                            List<QueryParameter> components = queryParameterValue.getComponent();
+                            for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
+                                String alias = compositeAlias + "_p" + componentNum;
+                                QueryParameter component = components.get(componentNum - 1);
+                                whereClause.append(JOIN + tableName(overrideType, component) + alias)
+                                    .append(ON)
+                                    .append(compositeAlias + ".COMP" + componentNum + abbr(component) )
+                                    .append("=")
+                                    .append(alias + ".ROW_ID");
+                                whereClauseSegment = whereClauseSegment.replaceAll(
+                                        PARAMETER_TABLE_ALIAS + "_p" + componentNum + "\\.", alias + ".");
+                            }
                         }
-                        whereClauseSegment = whereClauseSegment.replaceAll(PARAMETER_TABLE_ALIAS + ".", "");
-                        whereClause.append(" WHERE ").append(whereClauseSegment).append(") ");
-                        String tmpTableName = overrideType + i;
-                        whereClause.append(tmpTableName).append(ON).append(tmpTableName).append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
                     }
+                    whereClause.append(" WHERE ").append(whereClauseSegment).append(") ");
+                    String tmpTableName = overrideType + i;
+                    whereClause.append(tmpTableName).append(ON).append(tmpTableName).append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
                 }
-            }
-        }
+            } // end if SKIP
+        } // end for
 
         log.exiting(CLASSNAME, METHODNAME);
         return whereClause.toString();
+    }
+
+    public static String tableName(String resourceType, QueryParameter param) {
+        StringBuilder name = new StringBuilder(resourceType);
+        switch (param.getType()) {
+        case URI:
+        case REFERENCE:
+        case STRING:
+        case NUMBER:
+        case QUANTITY:
+        case DATE:
+        case TOKEN:
+        case SPECIAL:
+            name.append(abbr(param) + "_VALUES ");
+            break;
+        case COMPOSITE:
+            name.append("_COMPOSITES ");
+            break;
+        }
+        return name.toString();
+    }
+    
+    public static String abbr(QueryParameter param) {
+        switch (param.getType()) {
+        case URI:
+        case REFERENCE:
+        case STRING:
+            return "_STR";
+        case NUMBER:
+            return "_NUMBER";
+        case QUANTITY:
+            return "_QUANTITY";
+        case DATE:
+            return "_DATE";
+        case TOKEN:
+            return "_TOKEN";
+        case SPECIAL:
+            return "_LATLNG";
+        case COMPOSITE:
+        default:
+            throw new IllegalArgumentException("There is no abbreviation for parameter values table of type " + param.getType());
+        }
     }
     
     /**

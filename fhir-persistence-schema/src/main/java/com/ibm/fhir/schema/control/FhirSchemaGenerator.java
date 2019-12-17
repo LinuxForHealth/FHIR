@@ -157,7 +157,6 @@ public class FhirSchemaGenerator {
         for (FHIRResourceType.ValueSet rt: FHIRResourceType.ValueSet.values()) {
             resourceTypes.add(rt.value());
         }
-        
     }
 
     /**
@@ -194,7 +193,7 @@ public class FhirSchemaGenerator {
                 Arrays.asList(allAdminTablesComplete), 
                 procedurePrivileges);
         setTenant.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
-        
+
         // A final marker which is used to block any FHIR data schema activity until the admin schema is completed
         this.adminSchemaComplete = new NopObject(adminSchemaName, "adminSchemaComplete");
         this.adminSchemaComplete.addDependencies(Arrays.asList(setTenant));
@@ -212,7 +211,7 @@ public class FhirSchemaGenerator {
         this.sessionVariable.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         variablePrivileges.forEach(p -> p.addToObject(this.sessionVariable));
         
-        // Make any admin procedures are built after the session variable
+        // Make sure any admin procedures are built after the session variable
         adminProcedureDependencies.add(this.sessionVariable);
         model.addObject(this.sessionVariable);
     }
@@ -249,7 +248,7 @@ public class FhirSchemaGenerator {
 
         this.tenantKeysTable = Table.builder(adminSchemaName, TENANT_KEYS)
                 .addIntColumn(        TENANT_KEY_ID,             false) // PK
-                .addIntColumn(            MT_ID,             false) // FK to TENANTS
+                .addIntColumn(                MT_ID,             false) // FK to TENANTS
                 .addVarcharColumn(      TENANT_SALT,        44,  false) // 32 bytes == 44 Base64 symbols
                 .addVarbinaryColumn(    TENANT_HASH,        32,  false) // SHA-256 => 32 bytes
                 .addUniqueIndex(IDX + "TENANT_KEY_SALT", TENANT_SALT)   // we want every salt to be unique
@@ -299,14 +298,14 @@ public class FhirSchemaGenerator {
         addCodeSystems(model);
         addResourceTypes(model);
         addLogicalResources(model); // for system-level parameter search
-        addResourceTokenValues(model); // for system-level _tag and _security parameters
-        addResourceStrValues(model); // for system-level _profile parameters
-        addResourceDateValues(model); // for system-level date parameters
-        addResourceTables(model);
+        
+        Table globalTokenValues = addResourceTokenValues(model); // for system-level _tag and _security parameters
+        Table globalStrValues = addResourceStrValues(model); // for system-level _profile parameters
+        Table globalDateValues = addResourceDateValues(model); // for system-level date parameters
 
-        // Make sure we have the row and array types defined
-        // before we try and add the procedures
-        addProcedureParameterTypes(model);
+        // The three "global" tables aren't true dependencies, but this was the easiest way to force sequential processing 
+        // and avoid a pesky deadlock issue we were hitting while adding foreign key constraints on the global tables
+        addResourceTables(model, globalTokenValues, globalStrValues, globalDateValues);
 
         // All the table objects and types should be ready now, so create our NOP
         // which is used as a single dependency for all procedures. This means
@@ -388,8 +387,9 @@ public class FhirSchemaGenerator {
      * Add the system-wide TOKEN_VALUES table which is used for
      * _tag and _security search properties in R4
      * @param pdm
+     * @return Table the table that was added to the PhysicalDataModel
      */
-    public void addResourceTokenValues(PhysicalDataModel pdm) {
+    public Table addResourceTokenValues(PhysicalDataModel pdm) {
 
         final String tableName = TOKEN_VALUES;
         final int tvb = MAX_TOKEN_VALUE_BYTES;
@@ -403,9 +403,9 @@ public class FhirSchemaGenerator {
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
                 .addIndex(IDX + tableName + "_PNCSCV", PARAMETER_NAME_ID, CODE_SYSTEM_ID, TOKEN_VALUE, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, CODE_SYSTEM_ID, TOKEN_VALUE)
-                .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_CS", schemaName, CODE_SYSTEMS, CODE_SYSTEM_ID)
                 .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
@@ -416,14 +416,17 @@ public class FhirSchemaGenerator {
         this.procedureDependencies.add(tbl);
         pdm.addTable(tbl);
         pdm.addObject(tbl);
+        
+        return tbl;
     }
 
     /**
      * Add system-wide RESOURCE_STR_VALUES table to support _profile
      * properties (which are of type REFERENCE). 
      * @param pdm
+     * @return Table the table that was added to the PhysicalDataModel
      */
-    public void addResourceStrValues(PhysicalDataModel pdm) {
+    public Table addResourceStrValues(PhysicalDataModel pdm) {
         final int msb = MAX_SEARCH_STRING_BYTES;
         
         Table tbl = Table.builder(schemaName, STR_VALUES)
@@ -447,13 +450,16 @@ public class FhirSchemaGenerator {
         this.procedureDependencies.add(tbl);
         pdm.addTable(tbl);
         pdm.addObject(tbl);
+        
+        return tbl;
     }
 
     /**
      * Add the table for data search parameters at the (system-wide) resource level
      * @param model
+     * @return Table the table that was added to the PhysicalDataModel
      */
-    public void addResourceDateValues(PhysicalDataModel model) {
+    public Table addResourceDateValues(PhysicalDataModel model) {
         final String tableName = DATE_VALUES;
         final String logicalResourcesTable = LOGICAL_RESOURCES;
         
@@ -480,6 +486,8 @@ public class FhirSchemaGenerator {
         this.procedureDependencies.add(tbl);
         model.addTable(tbl);
         model.addObject(tbl);
+        
+        return tbl;
     }
 
 
@@ -522,20 +530,23 @@ public class FhirSchemaGenerator {
      * FHIR resource types
      * @param model
      */
-    protected void addResourceTables(PhysicalDataModel model) {
+    protected void addResourceTables(PhysicalDataModel model, IDatabaseObject... dependency) {
         if (this.sessionVariable == null) {
             throw new IllegalStateException("Session variable must be defined before adding resource tables");
         }
 
         // The sessionVariable is used to enable access control on every table, so we
         // provide it as a dependency
-        FhirResourceGroup frg = new FhirResourceGroup(model, this.schemaName, sessionVariable, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
+        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, sessionVariable, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
         for (String resourceType: this.resourceTypes) {
             ObjectGroup group = frg.addResourceType(resourceType);
             group.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
             // Add additional dependencies the group doesn't yet know about
             group.addDependencies(Arrays.asList(this.codeSystemsTable, this.parameterNamesTable, this.resourceTypesTable));
+
+            // Add all other dependencies that were explicitly passed
+            group.addDependencies(Arrays.asList(dependency));
 
             // Make this group a dependency for all the stored procedures.
             this.procedureDependencies.add(group);
@@ -653,206 +664,13 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     * Add the types we need for passing parameters to the stored procedures
-       <pre>
-       CREATE OR REPLACE TYPE SCHEMA.t_str_values AS ROW (parameter_name_id INTEGER, str_value VARCHAR(511 OCTETS), str_value_lcase   VARCHAR(511 OCTETS))
-       CREATE OR REPLACE TYPE SCHEMA.t_str_values_arr AS SCHEMA.t_str_values ARRAY[256]
-       </pre>
-       @param pdm
-     */
-    protected void addProcedureParameterTypes(PhysicalDataModel pdm) {
-        // We get a deadlock: 'SQLCODE=-911, SQLSTATE=40001, SQLERRMC=2' if we try to create
-        // these types in parallel, so we just create a dependency chain to serialize things
-        IDatabaseObject dob;
-        dob = addStrValuesTypes(pdm);
-        dob = addTokenValuesTypes(pdm, dob);
-        dob = addDateValuesTypes(pdm, dob);
-        dob = addLatLngValuesTypes(pdm, dob);
-        dob = addQuantityValuesTypes(pdm, dob);
-        dob = addNumberValuesTypes(pdm, dob);
-    }
-
-    /**
-     * Add the row and array types for str_values
-     * @param pdm
-     */
-    protected IDatabaseObject addStrValuesTypes(PhysicalDataModel pdm) {
-
-        // Add the row type first
-        RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
-        strValuesBuilder
-            .setSchemaName(this.schemaName)
-            .setTypeName("t_str_values")
-            .addBigIntColumn(PARAMETER_NAME_ID, false)
-            .addVarcharColumn(STR_VALUE, 511, false)
-            .addVarcharColumn(STR_VALUE_LCASE, 511, false);
-
-        IDatabaseObject rt = strValuesBuilder.build();
-        rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        procedureDependencies.add(rt);
-        pdm.addObject(rt);
-
-        // Followed by the corresponding array type
-        IDatabaseObject rat = new RowArrayType(schemaName, "t_str_values_arr", FhirSchemaConstants.INITIAL_VERSION, "t_str_values", ARRAY_SIZE);
-        rat.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        rat.addDependencies(Arrays.asList(rt));
-        procedureDependencies.add(rat);
-        pdm.addObject(rat);
-
-        return rat;
-    }
-
-    /**
-     * <pre>
-    t_token_values AS ROW ( parameter_name_id INTEGER, code_system_id    INTEGER, token_value       VARCHAR(255 OCTETS))';
-    t_token_values_arr AS ' || CURRENT SCHEMA || '.t_token_values ARRAY[256]';
-    </pre>
-     * @param pdm
-     * @param dob
-     */
-    protected IDatabaseObject addTokenValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
-
-        // Add the row type first
-        RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
-        strValuesBuilder
-            .setSchemaName(this.schemaName)
-            .setTypeName("t_token_values")
-            .addBigIntColumn(PARAMETER_NAME_ID, false)
-            .addIntColumn(CODE_SYSTEM_ID, false)
-            .addVarcharColumn(TOKEN_VALUE, 255, false);
-        IDatabaseObject rt = strValuesBuilder.build();
-        rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        rt.addDependencies(Arrays.asList(dob));
-        procedureDependencies.add(rt);
-        pdm.addObject(rt);
-
-        // Followed by the corresponding array type
-        IDatabaseObject rat = new RowArrayType(schemaName, "t_token_values_arr", FhirSchemaConstants.INITIAL_VERSION, "t_token_values", ARRAY_SIZE);
-        rat.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        rat.addDependencies(Arrays.asList(rt));
-        procedureDependencies.add(rat);
-        pdm.addObject(rat);
-
-        return rat;
-    }
-
-    /**
-     * <pre>
-    t_date_values AS ROW ( parameter_name_id         INT, date_value          TIMESTAMP, date_start          TIMESTAMP, date_end            TIMESTAMP)';
-    t_date_values_arr AS ' || CURRENT SCHEMA || '.t_date_values ARRAY[256]';
-    </pre>
-     * 
-     * @param pdm
-     * @param dob
-     */
-    protected IDatabaseObject addDateValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
-
-        // Add the row type first
-        RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
-        strValuesBuilder
-            .setSchemaName(this.schemaName)
-            .setTypeName("t_date_values")
-            .addBigIntColumn(PARAMETER_NAME_ID, false)
-            .addTimestampColumn(DATE_VALUE, false)
-            .addTimestampColumn(DATE_START, false)
-            .addTimestampColumn(DATE_END, false);
-        IDatabaseObject rt = strValuesBuilder.build();
-        rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        rt.addDependencies(Arrays.asList(dob));
-        procedureDependencies.add(rt);
-        pdm.addObject(rt);
-
-        // Followed by the corresponding array type
-        IDatabaseObject rat = new RowArrayType(schemaName, "t_date_values_arr", FhirSchemaConstants.INITIAL_VERSION, "t_date_values", ARRAY_SIZE);
-        rat.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        rat.addDependencies(Arrays.asList(rt));
-        procedureDependencies.add(rat);
-        pdm.addObject(rat);
-
-        return rat;
-    }
-
-    /**
-     * <pre>
-    t_number_values AS ROW ( parameter_name_id      INT, number_value        DOUBLE)';
-    t_number_values_arr AS ' || CURRENT SCHEMA || '.t_number_values ARRAY[256]';
-    </pre>
-     * 
-     * @param pdm
-     * @param dob
-     */
-    protected IDatabaseObject addNumberValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
-
-        // Add the row type first
-        RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
-        strValuesBuilder
-            .setSchemaName(this.schemaName)
-            .setTypeName("t_number_values")
-            .addBigIntColumn(PARAMETER_NAME_ID, false)
-            .addDoubleColumn(NUMBER_VALUE, false);
-        IDatabaseObject rt = strValuesBuilder.build();
-        rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        rt.addDependencies(Arrays.asList(dob));
-        procedureDependencies.add(rt);
-        pdm.addObject(rt);
-
-        // Followed by the corresponding array type
-        IDatabaseObject rat = new RowArrayType(schemaName, "t_number_values_arr", FhirSchemaConstants.INITIAL_VERSION, "t_number_values", ARRAY_SIZE);
-        rat.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        rat.addDependencies(Arrays.asList(rt));
-        procedureDependencies.add(rat);
-        pdm.addObject(rat);
-
-        return rat;
-    }
-
-    /**
-     * 
-     * <pre>
-    t_quantity_values AS ROW ( parameter_name_id        INT, code                 VARCHAR(255 OCTETS), quantity_value        DOUBLE, quantity_value_low    DOUBLE, quantity_value_high   DOUBLE, code_system_id           INT)';
-    t_quantity_values_arr AS ' || CURRENT SCHEMA || '.t_quantity_values ARRAY[256]';
-     </pre>
-     * @param pdm
-     * @param dob
-     */
-    protected IDatabaseObject addQuantityValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
-
-        // Add the row type first
-        RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
-        strValuesBuilder
-            .setSchemaName(this.schemaName)
-            .setTypeName("t_quantity_values")
-            .addBigIntColumn(PARAMETER_NAME_ID, false)
-            .addVarcharColumn(CODE, 255, false)
-            .addDoubleColumn(QUANTITY_VALUE, false)
-            .addDoubleColumn(QUANTITY_VALUE_LOW, false)
-            .addDoubleColumn(QUANTITY_VALUE_HIGH, false)
-            .addIntColumn(CODE_SYSTEM_ID, false);
-        IDatabaseObject rt = strValuesBuilder.build();
-        rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        rt.addDependencies(Arrays.asList(dob));
-        procedureDependencies.add(rt);
-        pdm.addObject(rt);
-
-        // Followed by the corresponding array type
-        IDatabaseObject rat = new RowArrayType(schemaName, "t_quantity_values_arr", FhirSchemaConstants.INITIAL_VERSION, "t_quantity_values", ARRAY_SIZE);
-        rat.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        rat.addDependencies(Arrays.asList(rt));
-        procedureDependencies.add(rat);
-        pdm.addObject(rat);
-
-        return rat;
-    }
-
-    /**
-    
-    <pre> 
+     * <pre> 
     CREATE SEQUENCE fhir_sequence
              AS BIGINT
      START WITH 1
           CACHE 1000
        NO CYCLE;
-       </pre>
+     * </pre>
      * 
      * @param pdm
      */
@@ -875,7 +693,6 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     *     
      *<pre>
     t_latlng_values AS ROW ( parameter_name_id      INT, latitude_value      DOUBLE, longitude_value     DOUBLE)';
     t_latlng_values_arr AS ' || CURRENT SCHEMA || '.t_latlng_values ARRAY[256]';

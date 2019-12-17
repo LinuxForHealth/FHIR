@@ -168,10 +168,10 @@ public class ExtractorValidator {
                     }
                 }
             }
-
         } else {
+            // just return the Resource name
             FHIRPathResourceNode nodeConverted = node.asResourceNode();
-            val = "" + nodeConverted.getValue();
+            val = "" + nodeConverted.resource().getClass().getSimpleName();
         }
         return val;
     }

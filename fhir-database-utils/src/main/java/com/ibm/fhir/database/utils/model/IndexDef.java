@@ -67,10 +67,10 @@ public class IndexDef {
             target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, includeColumns);
         }
         else if (unique) {
-            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);            
+            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
         }
         else {
-            target.createIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);            
+            target.createIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
         }
     }
 }

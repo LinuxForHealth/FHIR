@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.search.parameters;
 
+import static com.ibm.fhir.search.SearchConstants.NL;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -20,18 +22,18 @@ import com.ibm.fhir.search.SearchConstants.Type;
 /**
  * general type of parameter. 
  */
-public class Parameter {
+public class QueryParameter {
 
     private Type type = null;
     private String code = null;
 
     private Modifier modifier = null;
     private String modifierResourceTypeName = null;
-    private List<ParameterValue> values = null;
-    private Parameter nextParameter = null;
+    private List<QueryParameterValue> values = null;
+    private QueryParameter nextParameter = null;
     private boolean isInclusionCriteria = false;
 
-    public Parameter(Type type, String code, Modifier modifier, String modifierResourceTypeName) {
+    public QueryParameter(Type type, String code, Modifier modifier, String modifierResourceTypeName) {
         this.type = type;
         this.code = code;
         this.modifier = modifier;
@@ -39,12 +41,12 @@ public class Parameter {
         values = new ArrayList<>();
     }
 
-    public Parameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, boolean isInclusionCriteria) {
+    public QueryParameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, boolean isInclusionCriteria) {
         this(type, code, modifier, modifierResourceTypeName);
         this.isInclusionCriteria = isInclusionCriteria;
     }
 
-    public Parameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, List<ParameterValue> parmValues) {
+    public QueryParameter(Type type, String code, Modifier modifier, String modifierResourceTypeName, List<QueryParameterValue> parmValues) {
         this(type, code, modifier, modifierResourceTypeName);
         this.values = parmValues;
     }
@@ -65,12 +67,8 @@ public class Parameter {
         return modifierResourceTypeName;
     }
 
-    public List<ParameterValue> getValues() {
+    public List<QueryParameterValue> getValues() {
         return values;
-    }
-
-    public boolean isComposite() {
-        return false;
     }
 
     public boolean isChained() {
@@ -95,78 +93,73 @@ public class Parameter {
         if (modifier != null) {
             buffer.append("modifier: ");
             buffer.append(modifier.value());
-            buffer.append(SearchConstants.NL);
+            buffer.append(NL);
         }
 
         if (modifierResourceTypeName != null) {
             buffer.append("modifierTypeResourceName: ");
             buffer.append(modifierResourceTypeName);
-            buffer.append(SearchConstants.NL);
+            buffer.append(NL);
         }
-
-        boolean composite = isComposite();
-        buffer.append("composite: ");
-        buffer.append(composite);
-        buffer.append(SearchConstants.NL);
 
         boolean chained = isChained();
         buffer.append("chained: ");
         buffer.append(chained);
-        buffer.append(SearchConstants.NL);
+        buffer.append(NL);
 
         boolean inclusionCriteria = this.isInclusionCriteria();
         buffer.append("inclusionCriteria: ");
         buffer.append(inclusionCriteria);
-        buffer.append(SearchConstants.NL);
+        buffer.append(NL);
 
-        List<ParameterValue> values = getValues();
-        for (ParameterValue value : values) {
+        List<QueryParameterValue> values = getValues();
+        for (QueryParameterValue value : values) {
             Prefix prefix = value.getPrefix();
             if (prefix != null) {
                 buffer.append("    prefix: ");
                 buffer.append(prefix.value());
-                buffer.append(SearchConstants.NL);
+                buffer.append(NL);
             }
 
             String valueString = value.getValueString();
             if (valueString != null) {
                 buffer.append("    valueString: " + valueString);
-                buffer.append(SearchConstants.NL);
+                buffer.append(NL);
             }
 
             DateTime valueDate = value.getValueDate();
             if (valueDate != null) {
                 buffer.append("    valueDate: " + valueDate.getValue());
-                buffer.append(SearchConstants.NL);
+                buffer.append(NL);
             }
 
             BigDecimal valueNumber = value.getValueNumber();
             if (valueNumber != null) {
                 buffer.append("    valueNumber: " + valueNumber.toPlainString());
-                buffer.append(SearchConstants.NL);
+                buffer.append(NL);
             }
 
             String valueSystem = value.getValueSystem();
             if (valueSystem != null) {
                 buffer.append("    valueSystem: " + valueSystem);
-                buffer.append(SearchConstants.NL);
+                buffer.append(NL);
             }
 
             String valueCode = value.getValueCode();
             if (valueCode != null) {
                 buffer.append("    valueCode: " + valueCode);
-                buffer.append(SearchConstants.NL);
+                buffer.append(NL);
             }
         }
 
         return buffer.toString();
     }
 
-    public Parameter getNextParameter() {
+    public QueryParameter getNextParameter() {
         return nextParameter;
     }
 
-    public void setNextParameter(Parameter nextParameter) {
+    public void setNextParameter(QueryParameter nextParameter) {
         this.nextParameter = nextParameter;
     }
 
@@ -175,10 +168,10 @@ public class Parameter {
      * 
      * @return
      */
-    public LinkedList<Parameter> getChain() {
+    public LinkedList<QueryParameter> getChain() {
 
-        LinkedList<Parameter> parameterChain = new LinkedList<>();
-        Parameter currentParameter = this.getNextParameter();
+        LinkedList<QueryParameter> parameterChain = new LinkedList<>();
+        QueryParameter currentParameter = this.getNextParameter();
         while (currentParameter != null) {
             parameterChain.addLast(currentParameter);
             currentParameter = currentParameter.getNextParameter();

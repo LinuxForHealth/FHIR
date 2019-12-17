@@ -13,13 +13,13 @@ import com.ibm.fhir.core.context.impl.FHIRPagingContextImpl;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.parameters.InclusionParameter;
-import com.ibm.fhir.search.parameters.Parameter;
+import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.SortParameter;
 
 
 public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIRSearchContext {
     private List<String> searchResourceTypes = null;
-    private List<Parameter> searchParameters = new ArrayList<>();
+    private List<QueryParameter> searchParameters = new ArrayList<>();
     private List<SortParameter> sortParameters = new ArrayList<>();
     private List<InclusionParameter> includeParameters = new ArrayList<>();
     private List<InclusionParameter> revIncludeParameters = new ArrayList<>();
@@ -31,12 +31,12 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     }
 
     @Override
-    public List<Parameter> getSearchParameters() {
+    public List<QueryParameter> getSearchParameters() {
         return searchParameters;
     }
 
     @Override
-    public void setSearchParameters(List<Parameter> searchParameters) {
+    public void setSearchParameters(List<QueryParameter> searchParameters) {
         this.searchParameters = searchParameters;
     }
 
@@ -100,7 +100,7 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     }
 
     /*
-     * issue 49: Added toString to enable easier debugging. 
+     * issue 49: Added toString to enable easier debugging.
      */
     @Override
     public String toString() {
@@ -121,7 +121,7 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     @Override
     public void setSummaryParameter(SummaryValueSet summary) {
         this.summaryParameter = summary;
-        
+
     }
 
     @Override
@@ -132,6 +132,6 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     @Override
     public void setSearchResourceTypes(List<String> searchResourceTypes) {
         this.searchResourceTypes = searchResourceTypes;
-        
+
     }
 }

@@ -27,8 +27,8 @@ import com.ibm.fhir.persistence.jdbc.JDBCConstants.JDBCOperator;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.search.SearchConstants.Prefix;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 /**
  * <a href="https://hl7.org/fhir/search.html#quantity>FHIR Specification: Search
@@ -43,7 +43,7 @@ public class QuantityParmBehaviorUtil {
         // No operation
     }
 
-    public void executeBehavior(StringBuilder whereClauseSegment, Parameter queryParm, List<Object> bindVariables,
+    public void executeBehavior(StringBuilder whereClauseSegment, QueryParameter queryParm, List<Object> bindVariables,
             String tableAlias, ParameterDAO parameterDao)
             throws Exception {
         // Start the Clause 
@@ -53,7 +53,7 @@ public class QuantityParmBehaviorUtil {
         // Process each parameter value in the query parameter
         boolean parmValueProcessed = false;
         Set<String> seen = new HashSet<>();
-        for (ParameterValue value : queryParm.getValues()) {
+        for (QueryParameterValue value : queryParm.getValues()) {
 
             // Let's get the prefix. 
             Prefix prefix = value.getPrefix();

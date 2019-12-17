@@ -134,7 +134,7 @@ public class ParametersUtilTest extends BaseSearchTest {
         // Check that each returned "Resource" is included in the first set returned.
         assertNotNull(params1);
         assertNotNull(params2);
-        assertEquals(params2.size(), 7);
+        assertEquals(params2.size(), 7 * 2);
         params2.keySet().stream().forEach(new Consumer<String>() {
 
             @Override

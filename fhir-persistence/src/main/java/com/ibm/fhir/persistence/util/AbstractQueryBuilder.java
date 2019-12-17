@@ -13,14 +13,13 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
-import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.location.NearLocationHandler;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.util.LocationUtil;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 /**
  * This class defines a reusable method structure and common functionality for a
@@ -33,11 +32,10 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
 
     /**
      * Examines the passed ParamaterValue, and checks to see if the value is a URL.
-     * If it is, the
-     * {ResourceType/id} part of the URL path is extracted and returned. For
-     * example:
-     * If the input value is http://localhost:8080/fhir/Patient/123, then
-     * Patient/123 is returned.
+     * If it is, the {ResourceType/id} part of the URL path is extracted and returned.
+     * For example:
+     * If the input value is http://localhost:8080/fhir/Patient/123, 
+     * then Patient/123 is returned.
      * 
      * @param parmValue A valid String parameter value that may or may not contain a
      *                  URL.
@@ -78,13 +76,11 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
      * Builds a query segment for the passed query parameter.
      * 
      * @param resourceType - A valid FHIR Resource type
-     * @param queryParm    - A Parameter object describing the name, value and type
-     *                     of search parm.
-     * @return T1 - An object representing the selector query segment for the passed
-     *         search parm.
-     * @throws Exception
+     * @param queryParm - A Parameter object describing the name, value and type of search parm.
+     * @return T1 - An object representing the selector query segment for the passed search parm.
+     * @throws Exception 
      */
-    protected T1 buildQueryParm(Class<?> resourceType, Parameter queryParm)
+    protected T1 buildQueryParm(Class<?> resourceType, QueryParameter queryParm) 
             throws Exception {
         final String METHODNAME = "buildQueryParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
@@ -93,7 +89,7 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
         Type type;
 
         try {
-            // NOTE: The special logic needed to process NEAR query parmeters for the Location resource type is
+            // NOTE: The special logic needed to process NEAR query parameter for the Location resource type is
             // found in method processLocationPosition(). This method will not handle those.
             if (!LocationUtil.isLocation(resourceType, queryParm)) {
                 type = queryParm.getType();
@@ -125,6 +121,9 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
                 case URI:
                     databaseQueryParm = this.processUriParm(queryParm);
                     break;
+                case COMPOSITE:
+                    databaseQueryParm = this.processCompositeParm(resourceType, queryParm);
+                    break;
 
                 default:
                     throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
@@ -142,20 +141,18 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
      * @param queryParm - A valid query Parameter.
      * @return T2 - A supported operator.
      */
-    protected abstract T2 getOperator(Parameter queryParm);
+    protected abstract T2 getOperator(QueryParameter queryParm);
 
     /**
-     * Map the Modifier in the passed Parameter to a supported query operator.
+     * Map the Modifier in the passed Parameter to a supported query operator. 
      * If the mapping results in the default operator, override the default operator
-     * with the passed operator
-     * if the passed operator is not null.
+     * with the passed operator if the passed operator is not null.
      * 
      * @param queryParm       - A valid query Parameter.
-     * @param defaultOverride - An operator that should override the default
-     *                        operator.
+     * @param defaultOverride - An operator that should override the default operator.
      * @return T2 - A supported operator.
      */
-    protected abstract T2 getOperator(Parameter queryParm, T2 defaultOverride);
+    protected abstract T2 getOperator(QueryParameter queryParm, T2 defaultOverride);
 
     /**
      * Map the Prefix in the passed ParameterValue to a supported query operator.
@@ -163,7 +160,7 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
      * @param queryParmValue - A valid query ParameterValue.
      * @return T2 - A supported operator.
      */
-    protected abstract T2 getPrefixOperator(ParameterValue queryParmValue);
+    protected abstract T2 getPrefixOperator(QueryParameterValue queryParmValue);
 
     /**
      * Creates a query segment for a String type parameter.
@@ -171,16 +168,16 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
      */
-    protected abstract T1 processStringParm(Parameter queryParm) throws FHIRPersistenceException;
+    protected abstract T1 processStringParm(QueryParameter queryParm) throws FHIRPersistenceException;
 
     /**
      * Creates a query segment for a Reference type parameter.
      * 
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
-     * @throws Exception
+     * @throws Exception 
      */
-    protected abstract T1 processReferenceParm(Class<?> resourceType, Parameter queryParm) throws Exception;
+    protected abstract T1 processReferenceParm(Class<?> resourceType, QueryParameter queryParm) throws Exception;
 
     /**
      * Contains special logic for handling chained reference search parameters.
@@ -190,7 +187,7 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
      * @return T1 - An object containing a query segment.
      * @throws FHIRPersistenceException
      */
-    protected abstract T1 processChainedReferenceParm(Parameter queryParm) throws Exception;
+    protected abstract T1 processChainedReferenceParm(QueryParameter queryParm) throws Exception;
 
     /**
      * Contains special logic for handling Compartment based searches.
@@ -200,7 +197,7 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
      * @return T1 - An object containing a query segment.
      * @throws FHIRPersistenceException
      */
-    protected abstract T1 processInclusionCriteria(Parameter queryParm) throws Exception;
+    protected abstract T1 processInclusionCriteria(QueryParameter queryParm) throws Exception;
 
     /**
      * Creates a query segment for a Date type parameter.
@@ -209,7 +206,7 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
      * @return T1 - An object containing query segment.
      * @throws Exception
      */
-    protected abstract T1 processDateParm(Class<?> resourceType, Parameter queryParm) throws Exception;
+    protected abstract T1 processDateParm(Class<?> resourceType, QueryParameter queryParm) throws Exception;
 
     /**
      * Creates a query segment for a Token type parameter.
@@ -217,7 +214,7 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
      */
-    protected abstract T1 processTokenParm(Parameter queryParm) throws FHIRPersistenceException;
+    protected abstract T1 processTokenParm(QueryParameter queryParm) throws FHIRPersistenceException;
 
     /**
      * Creates a query segment for a Number type parameter.
@@ -226,7 +223,7 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
      * @return T1 - An object containing query segment.
      * @throws FHIRPersistenceException
      */
-    protected abstract T1 processNumberParm(Class<?> resourceType, Parameter queryParm) throws FHIRPersistenceException;
+    protected abstract T1 processNumberParm(Class<?> resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
 
     /**
      * Creates a query segment for a Quantity type parameter.
@@ -235,35 +232,26 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
      * @return T1 - An object containing query segment.
      * @throws Exception
      */
-    protected abstract T1 processQuantityParm(Class<?> resourceType, Parameter queryParm) throws Exception;
+    protected abstract T1 processQuantityParm(Class<?> resourceType, QueryParameter queryParm) throws Exception;
 
     /**
      * Creates a query segment for a URI type parameter.
+     * 
      * 
      * @param queryParm - The query parameter.
      * @return T1 - An object containing query segment.
      * @throws FHIRPersistenceException
      */
-    protected T1 processUriParm(Parameter queryParm) throws FHIRPersistenceException {
-        final String METHODNAME = "processUriParm";
-        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+    protected abstract T1 processUriParm(QueryParameter queryParm) throws FHIRPersistenceException;
 
-        T1 parmRoot;
-        Parameter myQueryParm;
-
-        myQueryParm = queryParm;
-        Modifier queryParmModifier = queryParm.getModifier();
-        // A BELOW modifier has the same behavior as a "starts with" String search parm. 
-        if (queryParmModifier != null && queryParmModifier.equals(Modifier.BELOW)) {
-            myQueryParm =
-                    new Parameter(queryParm.getType(), queryParm.getCode(), null,
-                            queryParm.getModifierResourceTypeName(), queryParm.getValues());
-        }
-        parmRoot = this.processStringParm(myQueryParm);
-
-        log.exiting(CLASSNAME, METHODNAME, parmRoot.toString());
-        return parmRoot;
-    }
+    /**
+     * Creates a query segment for a Composite type parameter.
+     * 
+     * @param queryParm - The query parameter
+     * @return T1 - An object containing query segment
+     * @throws FHIRPersistenceException
+     */
+    protected abstract T1 processCompositeParm(Class<?> resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
 
     /**
      * This method executes special logic for a Token type query that maps to a
@@ -273,7 +261,7 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
      * @return T1 - A query segment related to a LocationPosition
      * @throws FHIRPersistenceException
      */
-    protected T1 processLocationPosition(List<Parameter> queryParameters) throws FHIRPersistenceException {
+    protected T1 processLocationPosition(List<QueryParameter> queryParameters) throws FHIRPersistenceException {
         final String METHODNAME = "processLocationPosition";
         log.entering(CLASSNAME, METHODNAME);
 
