@@ -26,7 +26,7 @@ import java.util.TimeZone;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 /**
  * Date Time Handler<br>
@@ -330,7 +330,7 @@ public class DateTimeHandler {
      * @param v
      * @throws FHIRSearchException
      */
-    public static void parse(Prefix prefix, ParameterValue parameterValue, String v) throws FHIRSearchException {
+    public static void parse(Prefix prefix, QueryParameterValue parameterValue, String v) throws FHIRSearchException {
         TemporalAccessor value = parse(v);
         parameterValue.setValueDate(generateValue(value, v));
         parameterValue.setValueDateLowerBound(generateLowerBound(prefix, value, v));

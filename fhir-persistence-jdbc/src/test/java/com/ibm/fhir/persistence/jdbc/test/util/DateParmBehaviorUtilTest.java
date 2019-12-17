@@ -27,8 +27,8 @@ import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.date.DateTimeHandler;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 public class DateParmBehaviorUtilTest {
     private static final Logger log = java.util.logging.Logger.getLogger(DateParmBehaviorUtilTest.class.getName());
@@ -46,29 +46,29 @@ public class DateParmBehaviorUtilTest {
         FHIRRequestContext.get().setTenantId("default");
     }
 
-    private ParameterValue generateParameterValue(SearchConstants.Prefix prefix) {
-        ParameterValue parameterValue = new ParameterValue();
+    private QueryParameterValue generateQueryParameterValue(SearchConstants.Prefix prefix) {
+        QueryParameterValue parameterValue = new QueryParameterValue();
         parameterValue.setPrefix(prefix);
         return parameterValue;
     }
 
-    private Parameter generateParameter(SearchConstants.Prefix prefix, SearchConstants.Modifier modifier,
+    private QueryParameter generateQueryParameter(SearchConstants.Prefix prefix, SearchConstants.Modifier modifier,
             String... values) throws FHIRSearchException {
-        Parameter parameter = new Parameter(SearchConstants.Type.DATE, "test-date", modifier, null);
+        QueryParameter parameter = new QueryParameter(SearchConstants.Type.DATE, "test-date", modifier, null);
         for (String value : values) {
-            ParameterValue parameterValue = generateParameterValue(prefix);
+            QueryParameterValue parameterValue = generateQueryParameterValue(prefix);
             DateTimeHandler.parse(prefix, parameterValue, value);
             parameter.getValues().add(parameterValue);
         }
         return parameter;
     }
 
-    private void runTest(Parameter queryParm, List<Timestamp> expectedBindVariables, String expectedSql)
+    private void runTest(QueryParameter queryParm, List<Timestamp> expectedBindVariables, String expectedSql)
             throws Exception {
         runTest(queryParm, expectedBindVariables, expectedSql, "Date", false);
     }
 
-    private void runTest(Parameter queryParm, List<Timestamp> expectedBindVariables, String expectedSql,
+    private void runTest(QueryParameter queryParm, List<Timestamp> expectedBindVariables, String expectedSql,
             String tableAlias, boolean approx)
             throws Exception {
         if (log.isLoggable(LOG_LEVEL)) {
@@ -120,7 +120,7 @@ public class DateParmBehaviorUtilTest {
         Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
 
         // gt - Greater Than
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.GT, null, vTime);
+        QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.GT, null, vTime);
         List<Timestamp> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(upper);
         expectedBindVariables.add(upper);
@@ -131,7 +131,7 @@ public class DateParmBehaviorUtilTest {
                 expectedSql);
 
         // lt - Less Than
-        queryParm             = generateParameter(SearchConstants.Prefix.LT, null, vTime);
+        queryParm             = generateQueryParameter(SearchConstants.Prefix.LT, null, vTime);
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(value);
         expectedBindVariables.add(value);
@@ -142,7 +142,7 @@ public class DateParmBehaviorUtilTest {
                 expectedSql);
 
         // ge - Greater than Equal
-        queryParm             = generateParameter(SearchConstants.Prefix.GE, null, vTime);
+        queryParm             = generateQueryParameter(SearchConstants.Prefix.GE, null, vTime);
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(value);
         expectedBindVariables.add(value);
@@ -153,7 +153,7 @@ public class DateParmBehaviorUtilTest {
                 expectedSql);
 
         // le - Less than Equal
-        queryParm             = generateParameter(SearchConstants.Prefix.LE, null, vTime);
+        queryParm             = generateQueryParameter(SearchConstants.Prefix.LE, null, vTime);
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(upper);
         expectedBindVariables.add(upper);
@@ -164,7 +164,7 @@ public class DateParmBehaviorUtilTest {
                 expectedSql);
 
         // sa - starts after
-        queryParm             = generateParameter(SearchConstants.Prefix.SA, null, vTime);
+        queryParm             = generateQueryParameter(SearchConstants.Prefix.SA, null, vTime);
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(upper);
         expectedBindVariables.add(upper);
@@ -175,7 +175,7 @@ public class DateParmBehaviorUtilTest {
                 expectedSql);
 
         // eb - Ends before
-        queryParm             = generateParameter(SearchConstants.Prefix.EB, null, vTime);
+        queryParm             = generateQueryParameter(SearchConstants.Prefix.EB, null, vTime);
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(value);
         expectedBindVariables.add(value);
@@ -193,7 +193,7 @@ public class DateParmBehaviorUtilTest {
         Timestamp value = Timestamp.from(DateTimeHandler.generateValue(v, vTime));
         Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, vTime);
+        QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.EQ, null, vTime);
         List<Timestamp> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(upper);
         expectedBindVariables.add(value);
@@ -213,7 +213,7 @@ public class DateParmBehaviorUtilTest {
         Timestamp value = Timestamp.from(DateTimeHandler.generateValue(v, vTime));
         Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, vTime, vTime);
+        QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.EQ, null, vTime, vTime);
         List<Timestamp> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(upper);
         expectedBindVariables.add(value);
@@ -240,7 +240,7 @@ public class DateParmBehaviorUtilTest {
         Timestamp lower = Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime));
         Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.NE, null, vTime);
+        QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.NE, null, vTime);
         List<Timestamp> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(upper);
         expectedBindVariables.add(upper);
@@ -258,7 +258,7 @@ public class DateParmBehaviorUtilTest {
     public void testPrecisionWithApprox() throws Exception {
         String vTime = "2019-12-11T00:00:00Z+00:00";
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, vTime);
+        QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.AP, null, vTime);
         List<Timestamp> expectedBindVariables = new ArrayList<>();
 
         String expectedSql =
@@ -273,7 +273,7 @@ public class DateParmBehaviorUtilTest {
         String vTime = "2019-12-11T00:00:00Z+00:00";
         String vTime2 = "2019-01-11T00:00:00Z+00:00";
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, vTime, vTime2);
+        QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.AP, null, vTime, vTime2);
         List<Timestamp> expectedBindVariables = new ArrayList<>();
 
         String expectedSql =

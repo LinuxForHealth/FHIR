@@ -63,8 +63,8 @@ public class QuerySegmentAggregator {
     protected List<QueryParameter> searchQueryParameters;
     
     // used for special treatment of List<Parameters> of _id and _lastUpdated
-    protected List<Parameter> queryParamIds = new ArrayList<>();
-    protected List<Parameter> queryParamLastUpdateds = new ArrayList<>();
+    protected List<QueryParameter> queryParamIds = new ArrayList<>();
+    protected List<QueryParameter> queryParamLastUpdateds = new ArrayList<>();
     
     private int offset;
     private int pageSize;
@@ -109,13 +109,12 @@ public class QuerySegmentAggregator {
         if("_id".compareTo(code)==0) {
             queryParamIds.add(queryParm);
         }
-        if(DateParmBehaviorUtil.LAST_UPDATED.compareTo(code)==0) {
+        else if(DateParmBehaviorUtil.LAST_UPDATED.compareTo(code)==0) {
             queryParamLastUpdateds.add(queryParm);
         }
-        else { 
-            // Only add the query parameter one time, if it's not _id
-            this.searchQueryParameters.add(queryParm);
-        }
+        
+        // Here we are intentionally adding the parameters. 
+        this.searchQueryParameters.add(queryParm);
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -314,7 +313,7 @@ public class QuerySegmentAggregator {
             fromClause.append(target);
             fromClause.append("_LOGICAL_RESOURCES");
             fromClause.append(" ILR WHERE ILR.LOGICAL_ID IN ( ");
-            //TODO fromClause.append(queryParamId.getValues().stream().map(param -> "?" ).collect(Collectors.joining(", ")));
+            fromClause.append(queryParamIds.get(0).getValues().stream().map(param -> "?" ).collect(Collectors.joining(", ")));
             fromClause.append(" )) ");
         } else {
             // Not ID, then go to the default. 
@@ -324,23 +323,23 @@ public class QuerySegmentAggregator {
     }
     
     private void processFromClauseForLastUpdated(StringBuilder fromClause, String target) {
-        if(!queryParamLastUpdateds.isEmpty()) {
-            // Start the Drived Table
-            fromClause.append("( SELECT * FROM ");
-            fromClause.append(target);
-            fromClause.append("_RESOURCES IR ");
-
-            // Process the Condtional
-            fromClause.append("WHERE ILR.LOGICAL_ID IN ( ");
-            //fromClause.append(queryParamId.getValues().stream().map(param -> "?" ).collect(Collectors.joining(", ")));
-            
-            // Close out the Derived Tables
-            fromClause.append(" )) ");
-        } else {
+//        if(!queryParamLastUpdateds.isEmpty()) {
+//            // Start the Drived Table
+//            fromClause.append("( SELECT * FROM ");
+//            fromClause.append(target);
+//            fromClause.append("_RESOURCES IR ");
+//
+//            // Process the Condtional
+//            fromClause.append("WHERE ILR.LOGICAL_ID IN ( ");
+//            //fromClause.append(queryParamId.getValues().stream().map(param -> "?" ).collect(Collectors.joining(", ")));
+//            
+//            // Close out the Derived Tables
+//            fromClause.append(" )) ");
+//        } else {
             // Not _lastUpdated, then go to the default. 
             fromClause.append(target);
             fromClause.append("_RESOURCES");
-        }
+        //}
     }
     
     /**

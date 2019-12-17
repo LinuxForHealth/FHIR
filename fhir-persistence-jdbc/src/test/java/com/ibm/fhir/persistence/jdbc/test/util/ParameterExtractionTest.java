@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.jdbc.test.util;
 
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
@@ -161,9 +162,7 @@ public class ParameterExtractionTest {
         for (ExtractedParameterValue param : params) {
             assertTrue(param instanceof DateParmVal);
             DateParmVal dateParam = (DateParmVal) param;
-            assertEquals(timestampToString(dateParam.getValueDateStart()), SAMPLE_DATE_START);
             assertEquals(timestampToString(dateParam.getValueDate()), SAMPLE_DATE_START);
-            assertEquals(timestampToString(dateParam.getValueDateEnd()), "2016-12-31T23:59:59.999999Z");
         }
     }
     
@@ -696,6 +695,7 @@ public class ParameterExtractionTest {
      * @return
      */
     private String timestampToString(java.sql.Timestamp tstamp) {
+        assertNotNull(tstamp);
         // do not use Timestamp#toString() because it converts to local timezone.
         // We need it rendered in UTC
         return tstamp.toInstant().atZone(ZoneOffset.UTC).format(TIMESTAMP_FORMATTER);

@@ -14,7 +14,6 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
-
 import static com.ibm.fhir.search.date.DateTimeHandler.generateTimestamp;
 
 import java.sql.Timestamp;
@@ -23,8 +22,8 @@ import java.util.List;
 
 import com.ibm.fhir.persistence.jdbc.JDBCConstants.JDBCOperator;
 import com.ibm.fhir.search.SearchConstants.Prefix;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 /**
  * <a href="https://hl7.org/fhir/search.html#date>FHIR Specification: Search
@@ -41,7 +40,7 @@ public class DateParmBehaviorUtil {
         // No Operation
     }
 
-    public void executeBehavior(StringBuilder whereClauseSegment, Parameter queryParm, List<Timestamp> bindVariables,
+    public void executeBehavior(StringBuilder whereClauseSegment, QueryParameter queryParm, List<Timestamp> bindVariables,
             String tableAlias)
             throws Exception {
         // Start the Clause 
@@ -50,7 +49,7 @@ public class DateParmBehaviorUtil {
 
         // Initially we don't want to 
         boolean parmValueProcessed = false;
-        for (ParameterValue value : queryParm.getValues()) {
+        for (QueryParameterValue value : queryParm.getValues()) {
             // If multiple values are present, we need to OR them together.
             if (parmValueProcessed) {
                 // OR

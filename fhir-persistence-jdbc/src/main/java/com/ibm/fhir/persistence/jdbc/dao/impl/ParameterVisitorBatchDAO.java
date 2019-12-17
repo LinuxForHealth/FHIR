@@ -22,7 +22,15 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICodeSystemCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IParameterNameCache;
-import com.ibm.fhir.persistence.jdbc.dto.IParameterVisitor;
+import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValueVisitor;
+import com.ibm.fhir.persistence.jdbc.dto.LocationParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
@@ -66,7 +74,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     private final PreparedStatement quantities;
     private int quantityCount;
 
-    // rarely used so no need for PreparedStatement or batching on this one;
+    // rarely used so no need for {@code java.sql.PreparedStatement} or batching on this one
     // even on Location resources its only there once by default
     private final String insertLocation;
 
@@ -648,11 +656,6 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 compositesCount = 0;
             }
 
-            if (locationCount > 0) {
-                locations.executeBatch();
-                locationCount = 0;
-            }
-
             if (resourceStringCount > 0) {
                 resourceStrings.executeBatch();
                 resourceStringCount = 0;
@@ -685,7 +688,6 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         closeStatement(tokens);
         closeStatement(tokenComp);
         closeStatement(quantities);
-        closeStatement(locations);
         closeStatement(resourceStrings);
         closeStatement(resourceDates);
         closeStatement(resourceTokens);

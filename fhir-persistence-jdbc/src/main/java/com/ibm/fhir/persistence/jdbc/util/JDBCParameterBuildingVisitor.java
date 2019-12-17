@@ -610,6 +610,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         if (date.getValue() != null) {
             java.time.Instant inst = DateTimeHandler.generateValue(date.getValue());
             p.setValueDate(DateTimeHandler.generateTimestamp(inst));
+            
         }
     }
 

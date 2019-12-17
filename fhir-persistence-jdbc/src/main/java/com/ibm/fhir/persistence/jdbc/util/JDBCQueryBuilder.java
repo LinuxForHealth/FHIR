@@ -32,7 +32,6 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_JOIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX_NUM_OF_COMPOSITE_COMPONENTS;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
