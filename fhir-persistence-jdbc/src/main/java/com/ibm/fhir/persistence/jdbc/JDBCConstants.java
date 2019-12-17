@@ -11,6 +11,11 @@ import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 
 public class JDBCConstants {
+    /**
+     * The maximum number of components allowed within a search parameter of type composite
+     */
+    public static final int MAX_NUM_OF_COMPOSITE_COMPONENTS = 3;
+    
     // Constants for the IBM FHIR Server database schema
     public static final String STR_VALUE = "STR_VALUE";
     public static final String STR_VALUE_LCASE = "STR_VALUE_LCASE";

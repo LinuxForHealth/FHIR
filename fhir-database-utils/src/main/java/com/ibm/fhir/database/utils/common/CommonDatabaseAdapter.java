@@ -120,7 +120,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         StringBuilder result = new StringBuilder();
         result.append("CREATE TABLE ");
         result.append(getQualifiedName(schema, name));
-        result.append("(");
+        result.append('(');
         result.append(buildColumns(columns, identity));
         
         // Add the primary key definition after the columns
@@ -138,9 +138,9 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
             }
             
             result.append(cols);
-            result.append(")");
+            result.append(')');
         }
-        result.append(")");
+        result.append(')');
         
         if (tablespaceName != null) {
             DataDefinitionUtil.assertValidName(tablespaceName);

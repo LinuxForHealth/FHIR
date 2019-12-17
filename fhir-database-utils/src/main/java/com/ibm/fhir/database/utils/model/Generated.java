@@ -6,14 +6,22 @@
 
 package com.ibm.fhir.database.utils.model;
 
+/**
+ * When to generate a value for an identity column.
+ */
 public enum Generated {
     ALWAYS, BY_DEFAULT;
     
+    /**
+     * @return the SQL keyword or phrase for this Generated option
+     */
     @Override
     public String toString() {
         switch (this) {
-        case BY_DEFAULT: return "BY DEFAULT";
-        default: return this.name();
+        case BY_DEFAULT:
+            return "BY DEFAULT";
+        default:
+            return this.name();
         }
     }
 }

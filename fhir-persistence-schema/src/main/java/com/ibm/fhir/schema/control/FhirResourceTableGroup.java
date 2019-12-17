@@ -108,7 +108,6 @@ public class FhirResourceTableGroup {
 
     /**
      * Public constructor
-     * @param model
      */
     public FhirResourceTableGroup(PhysicalDataModel model, String schemaName, SessionVariableDef sessionVariable,
             Set<IDatabaseObject> procedureDependencies, Tablespace fhirTablespace, Collection<GroupPrivilege> privileges) {
@@ -160,6 +159,7 @@ public class FhirResourceTableGroup {
 
     /**
      * Add the logical_resources table definition for the given resource prefix
+     * @param group
      * @param prefix
      */
     public void addLogicalResources(List<IDatabaseObject> group, String prefix) {
@@ -216,6 +216,7 @@ public class FhirResourceTableGroup {
 
   CREATE UNIQUE INDEX device_resource_prf_in1    ON device_resources (resource_id) INCLUDE (logical_resource_id, version_id, is_deleted);
      * </pre>
+     * @param group
      * @param prefix
      */
     public void addResources(List<IDatabaseObject> group, String prefix) {
@@ -263,6 +264,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_pnid FOREIGN K
 ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_pnid FOREIGN KEY (parameter_name_id) REFERENCES parameter_names;
 ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN KEY (resource_id) REFERENCES device_resources;
      * </pre>
+     * @param group
      * @param prefix
      */
     public void addStrValues(List<IDatabaseObject> group, String prefix) {
@@ -314,6 +316,7 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_pn FOREIGN
 ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_cs FOREIGN KEY (code_system_id)    REFERENCES code_systems;
 ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN KEY (resource_id)       REFERENCES device_resources;
      * </pre>
+     * @param group
      * @param prefix
      */
     public void addTokenValues(List<IDatabaseObject> group, String prefix) {
@@ -365,6 +368,7 @@ CREATE INDEX idx_device_date_values_rpse   ON device_date_values(resource_id, pa
 ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_pn FOREIGN KEY (parameter_name_id) REFERENCES parameter_names;
 ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN KEY (resource_id)       REFERENCES device_resources;
      * </pre>
+     * @param group
      * @param prefix
      */
     public void addDateValues(List<IDatabaseObject> group, String prefix) {
@@ -416,6 +420,7 @@ CREATE INDEX idx_device_number_values_rps ON device_number_values(resource_id, p
 ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_pn FOREIGN KEY (parameter_name_id) REFERENCES parameter_names ON DELETE CASCADE;
 ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREIGN KEY (resource_id)       REFERENCES device_resources ON DELETE CASCADE;
      * </pre>
+     * @param group
      * @param prefix
      */
     public void addNumberValues(List<IDatabaseObject> group, String prefix) {
@@ -461,6 +466,7 @@ CREATE INDEX idx_device_latlng_values_rplng ON device_latlng_values(resource_id,
 ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_pn FOREIGN KEY (parameter_name_id) REFERENCES parameter_names;
 ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREIGN KEY (resource_id)       REFERENCES device_resources;
      * </pre>
+     * @param group
      * @param prefix
      */
     public void addLatLngValues(List<IDatabaseObject> group, String prefix) {
@@ -518,6 +524,7 @@ CREATE INDEX idx_device_quantity_values_rpchls  ON device_quantity_values(resour
 ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_pn FOREIGN KEY (parameter_name_id) REFERENCES parameter_names ON DELETE CASCADE;
 ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  FOREIGN KEY (resource_id)       REFERENCES device_resources ON DELETE CASCADE;
      * </pre>
+     * @param group
      * @param prefix
      */
     public void addQuantityValues(List<IDatabaseObject> group, String prefix) {
@@ -582,6 +589,7 @@ ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_rid  FOREIGN K
 ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_pn FOREIGN KEY (parameter_name_id) REFERENCES parameter_names ON DELETE CASCADE;
 ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  FOREIGN KEY (resource_id)       REFERENCES device_logical_resources ON DELETE CASCADE;
      * </pre>
+     * @param group
      * @param prefix
      */
     public void addComposites(List<IDatabaseObject> group, String prefix) {

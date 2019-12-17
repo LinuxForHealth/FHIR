@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.jdbc.util;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
@@ -17,6 +18,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_EXPR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_PERCENT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_UNDERSCORE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
@@ -30,6 +32,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierMap;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.prefixOperatorMap;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_JOIN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX_NUM_OF_COMPOSITE_COMPONENTS;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -678,7 +681,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         QueryParameter nextParameter = currentParm.getNextParameter();
         
         // Build this piece: FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
-        whereClauseSegment.append(" FROM ")
+        whereClauseSegment.append(FROM)
                 .append(resourceTypeName).append("_RESOURCES ").append(chainedResourceVar).append(", ")
                 .append(resourceTypeName).append("_LOGICAL_RESOURCES ").append(chainedLogicalResourceVar).append(", ")
                 .append(QuerySegmentAggregator.tableName(resourceTypeName, currentParm.getNextParameter())).append(chainedParmVar);
@@ -690,8 +693,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
                     String alias = chainedParmVar + "_p" + componentNum;
                     QueryParameter component = components.get(componentNum - 1);
-                    whereClauseSegment.append(" JOIN " + QuerySegmentAggregator.tableName(resourceTypeName, component) + alias)
-                            .append(" ON ")
+                    whereClauseSegment.append(JOIN + QuerySegmentAggregator.tableName(resourceTypeName, component) + alias)
+                            .append(ON)
                             .append(chainedParmVar + ".COMP" + componentNum + QuerySegmentAggregator.abbr(component) )
                             .append("=")
                             .append(alias + ".ROW_ID");
@@ -1252,14 +1255,19 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         String valueSeparator = "";
         for (QueryParameterValue compositeValue : queryParm.getValues()) {
             List<QueryParameter> components = compositeValue.getComponent();
-            
+
+            if (components.size() > MAX_NUM_OF_COMPOSITE_COMPONENTS) {
+                throw new UnsupportedOperationException(String.format("Found %d components for query parameter '%s', "
+                        + "but this persistence layer can only support composites of %d or fewer components", 
+                        components.size(), queryParm.getCode(), MAX_NUM_OF_COMPOSITE_COMPONENTS));
+            }
+
             whereClauseSegment.append(valueSeparator);
-            
             String componentSeparator = "";
-            for (int j = 0; j < components.size(); j++) {
+            for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
                 try {
-                    QueryParameter component = components.get(j);
-                    SqlQueryData subQueryData = buildQueryParm(resourceType, component, tableAlias + "_p" + (j+1));
+                    QueryParameter component = components.get(componentNum - 1);
+                    SqlQueryData subQueryData = buildQueryParm(resourceType, component, tableAlias + "_p" + componentNum);
                     whereClauseSegment.append(componentSeparator + subQueryData.getQueryString());
                     bindVariables.addAll(subQueryData.getBindVariables());
                 } catch (Exception e) {

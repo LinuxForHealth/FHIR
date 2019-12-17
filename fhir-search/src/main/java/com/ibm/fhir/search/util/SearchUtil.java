@@ -90,7 +90,7 @@ public class SearchUtil {
     private static final String MODIFIYERRESOURCETYPE_NOT_ALLOWED_FOR_RESOURCETYPE =
             "Modifier resource type [%s] is not allowed for search parameter [%s] of resource type [%s].";
 
-    private static final String Different_MODIFIYERRESOURCETYPES_FOUND_FOR_RESOURCETYPES =
+    private static final String DIFFERENT_MODIFIYERRESOURCETYPES_FOUND_FOR_RESOURCETYPES =
             "Different Modifier resource types are found for search parameter [%s] of the to-be-searched resource types.";
 
     // The functionality is split into a new class.
@@ -1198,7 +1198,7 @@ public class SearchUtil {
 
 
                 if (modifierResourceTypeName4ResourceTypes.size() > 1) {
-                    String.format(Different_MODIFIYERRESOURCETYPES_FOUND_FOR_RESOURCETYPES, parameterName);
+                    String.format(DIFFERENT_MODIFIYERRESOURCETYPES_FOUND_FOR_RESOURCETYPES, parameterName);
                 } else if (modifierResourceTypeName4ResourceTypes.size() == 1) {
                     modifierResourceTypeName = modifierResourceTypeName4ResourceTypes.iterator().next();
                 }

@@ -225,7 +225,6 @@ public final class ParametersUtil {
 
                     /*
                      * In R4, SearchParameter changes from a single Base resource to an array.
-                     * In prior releases, the code transformed VirtualResources to Basic.
                      * As Base is an array, there are going be potential collisions in the map.
                      */
                     List<ResourceType> types = parameter.getBase();

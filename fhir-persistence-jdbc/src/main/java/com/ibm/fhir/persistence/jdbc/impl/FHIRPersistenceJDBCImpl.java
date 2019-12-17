@@ -11,6 +11,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMET
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX_NUM_OF_COMPOSITE_COMPONENTS;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -1020,8 +1021,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 List<FHIRPathNode> values = entry.getValue();
                 
                 if (SearchParamType.COMPOSITE.equals(sp.getType())) {
-                    FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
                     List<Component> components = sp.getComponent();
+                    if (components.size() > MAX_NUM_OF_COMPOSITE_COMPONENTS) {
+                        throw new UnsupportedOperationException(String.format("Found %d components for search parameter '%s', "
+                                + "but this persistence layer can only support composites of %d or fewer components", 
+                                components.size(), code, MAX_NUM_OF_COMPOSITE_COMPONENTS));
+                    }
+                    FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
                     
                     for (FHIRPathNode value : values) {
                         Visitable fhirNode;

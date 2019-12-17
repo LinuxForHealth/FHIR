@@ -147,13 +147,11 @@ public class QueryParameterValue {
         if (component != null && !component.isEmpty()) {
             returnString.append("composite[");
             // temporarily change the delimiter; NOT thread-safe
-            String oldDelim = delim;
-            delim = "";
+            String componentDelim = "";
             for (QueryParameter componentParam : component) {
-                returnString.append(delim + componentParam);
-                delim = "$";
+                returnString.append(componentDelim).append(componentParam);
+                componentDelim = "$";
             }
-            delim = oldDelim;
         }
 
         return returnString.toString();
@@ -163,7 +161,7 @@ public class QueryParameterValue {
      * simple build method to apply consistent usage of StringBuilder.
      * 
      * @param outputBuilder
-     * @param o
+     * @param value
      */
     private void outputBuilder(StringBuilder outputBuilder, Object value) {
         if (value != null) {
