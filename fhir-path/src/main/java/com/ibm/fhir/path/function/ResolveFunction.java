@@ -73,10 +73,6 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                 String referenceReference = getReferenceReference(reference);
                 String referenceType = getReferenceType(reference);
 
-                if (referenceReference == null && referenceType == null) {
-                    continue;
-                }
-
                 String resourceType = null;
 
                 if (referenceReference != null) {
