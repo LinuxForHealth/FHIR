@@ -37,7 +37,6 @@ import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.JsonSupport;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -568,33 +567,29 @@ public class SearchUtil {
             }
 
             // Process the Expression
-            // Disable the processing of "special" types
-            // <code>"type" : "special",</code>
-            // Alternative: filter that out while loading the search parameters map
-            SearchParamType type = parameter.getType();
-            if (expression == null || SearchParamType.SPECIAL.equals(type)) {
+            if (expression == null) {
                 if (log.isLoggable(Level.FINER)) {
-                    log.fine(String.format(UNSUPPORTED_EXPR_NULL, parameter.getType(), parameter.getCode().getValue()));
+                    log.finer(String.format(UNSUPPORTED_EXPR_NULL, parameter.getType(), parameter.getCode().getValue()));
                 }
-            } else {
-                try {
-                    Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, expression.getValue());
+                continue;
+            } 
+            try {
+                Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, expression.getValue());
 
-                    if (log.isLoggable(Level.FINEST)) {
-                        log.finest("Expression [" + expression.getValue() + "] parameter-code ["
-                                + parameter.getCode().getValue() + "] Size -[" + tmpResults.size() + "]");
-                    }
-
-                    // Adds only if !skipEmpty || tmpResults is not empty
-                    if (!tmpResults.isEmpty() || !skipEmpty) {
-                        result.put(parameter, new ArrayList<>(tmpResults));
-                    }
-
-                } catch (java.lang.UnsupportedOperationException | FHIRPathException uoe) {
-                    // switched to using code instead of name
-                    log.warning(String.format(UNSUPPORTED_EXCEPTION, parameter.getCode().getValue(),
-                            expression.getValue(), uoe.getMessage()));
+                if (log.isLoggable(Level.FINEST)) {
+                    log.finest("Expression [" + expression.getValue() + "] parameter-code ["
+                            + parameter.getCode().getValue() + "] Size -[" + tmpResults.size() + "]");
                 }
+
+                // Adds only if !skipEmpty || tmpResults is not empty
+                if (!tmpResults.isEmpty() || !skipEmpty) {
+                    result.put(parameter, new ArrayList<>(tmpResults));
+                }
+
+            } catch (java.lang.UnsupportedOperationException | FHIRPathException uoe) {
+                // switched to using code instead of name
+                log.warning(String.format(UNSUPPORTED_EXCEPTION, parameter.getCode().getValue(),
+                        expression.getValue(), uoe.getMessage()));
             }
         }
 
@@ -769,7 +764,6 @@ public class SearchUtil {
                                 + resourceType.getSimpleName();
                 if (lenient) {
                     log.log(Level.FINE, msg, se);
-                    continue;
                 } else {
                     throw se;
                 }
@@ -935,6 +929,21 @@ public class SearchUtil {
             }
             case URI: {
                 // [parameter]=[value]
+                parameterValue.setValueString(unescapeSearchParm(v));
+                break;
+            }
+            case SPECIAL: {
+                // Just in case any instance of SPECIAL supports prefix. 
+                prefix = getPrefix(v);
+                if (prefix != null) {
+                    v = v.substring(2);
+                    parameterValue.setPrefix(prefix);
+                }
+                
+                // One specific instance of SPECIAL is 'near'
+                //[parameter]=[latitude]|[longitude]|[distance]|[units] 
+                // As there may be more in the future, we're leaving the parameter as a String
+                // so the custom downstream logic can treat appropriately. 
                 parameterValue.setValueString(unescapeSearchParm(v));
                 break;
             }

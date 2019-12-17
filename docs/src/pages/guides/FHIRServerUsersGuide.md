@@ -1212,6 +1212,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configure for CADF audit logging service.|
 |`fhirServer/audit/serviceProperties/geoState`|string|The Geo State configure for CADF audit logging service.|
 |`fhirServer/audit/serviceProperties/geoCounty`|string|The Geo Country configure for CADF audit logging service.|
+|`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
 
 
 ### 5.1.2 Default property values

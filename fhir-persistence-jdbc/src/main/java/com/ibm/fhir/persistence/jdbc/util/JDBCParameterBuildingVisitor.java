@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -44,6 +45,7 @@ import com.ibm.fhir.model.visitor.DefaultVisitor;
 import com.ibm.fhir.model.visitor.Visitable;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
+import com.ibm.fhir.persistence.jdbc.dto.LocationParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
@@ -560,6 +562,32 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             // TODO how to properly calculate the outer limits if there are no "bounds"?
         }
         return false;
+    }
+
+    @Override
+    public boolean visit(java.lang.String elementName, int elementIndex, Location.Position position) {
+        LocationParmVal p = new LocationParmVal();
+        p.setName(searchParamCode);
+        
+        // The following code ensures that the lat/long is only added when there is a pair. 
+        boolean add = false;
+        if (position.getLatitude() != null && position.getLatitude().getValue() != null) {
+            Double lat = position.getLatitude().getValue().doubleValue();
+            p.setValueLatitude(lat);
+
+            if (position.getLongitude() != null && position.getLongitude().getValue() != null) {
+                Double lon = position.getLongitude().getValue().doubleValue();
+                p.setValueLongitude(lon);
+                result.add(p);
+                add = true;
+            }
+        }
+
+        if(!add && log.isLoggable(Level.FINE)) { 
+            log.fine("The Location.Position parameter is invalid, and not added '" + searchParamCode + "'"); 
+        }
+
+        return false; 
     }
 
     /*====================

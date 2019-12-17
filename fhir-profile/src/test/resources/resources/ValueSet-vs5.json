@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "url": "http://ibm.com/fhir/ValueSet/vs5",
+    "version": "1.0.0",
+    "status": "active",
+    "compose": {
+        "include": [
+            {
+                "system": "http://ibm.com/fhir/CodeSystem/cs5",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "generalizes",
+                        "value": "q"
+                    }
+                ]
+            },
+            {
+                "system": "http://ibm.com/fhir/CodeSystem/cs5",
+                "filter": [
+                    {
+                        "property": "parent",
+                        "op": "=",
+                        "value": "n"
+                    }
+                ]
+            },
+            {
+                "system": "http://ibm.com/fhir/CodeSystem/cs5",
+                "filter": [
+                    {
+                        "property": "label",
+                        "op": "regex",
+                        "value": "^concept label$"
+                    }
+                ]
+            },
+            {
+                "system": "http://ibm.com/fhir/CodeSystem/cs5",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "t"
+                    }
+                ]
+            }
+        ]
+    }
+}

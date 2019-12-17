@@ -2258,4 +2258,9 @@ public class DefaultVisitor implements Visitor {
     @Override
     public void visit(java.lang.String elementName, ZonedDateTime value) {
     }
+
+    @Override
+    public boolean visit(java.lang.String elementName, int elementIndex, Location.Position position) {
+        return visit(elementName, elementIndex, (BackboneElement) position);
+    }
 }

@@ -242,10 +242,6 @@ public class ValueTypesTool {
                 end++;
             }
 
-            // Retrieves the target.
-            String target = path.substring(start + " as ".length());
-            System.out.println("#### " + path + " Target -> " + path.split("\\.")[0] + " " + target);
-
             path = removeAsType(path);
         }
 
@@ -275,8 +271,6 @@ public class ValueTypesTool {
             int startIdx = path.indexOf(" as ");
             int startScanIdx = path.indexOf(" as ") + 4;
             int endIdx = startScanIdx;
-
-            // System.out.println(path);
 
             boolean found = false;
             while (!found && endIdx != path.length() - 1) {

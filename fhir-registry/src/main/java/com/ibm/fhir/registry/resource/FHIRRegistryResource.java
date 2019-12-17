@@ -14,7 +14,13 @@ import java.util.Objects;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Resource;
 
+/**
+ * A registry entry that can load a definitional resource (e.g. StructureDefinition) given a url, version and name
+ */
 public class FHIRRegistryResource {
+    /**
+     * Used to sort multiple versions of a definitional resource
+     */
     public static final Comparator<FHIRRegistryResource> VERSION_COMPARATOR = new Comparator<FHIRRegistryResource>() {
         @Override
         public int compare(FHIRRegistryResource first, FHIRRegistryResource second) {
@@ -46,6 +52,12 @@ public class FHIRRegistryResource {
         return version;
     }
     
+    /**
+     * Get the resource associated with this url, version and name.
+     * 
+     * @return
+     *     the resource
+     */
     public Resource getResource() {
         Resource resource = this.resource;
         if (resource == null) {
@@ -58,6 +70,22 @@ public class FHIRRegistryResource {
             }
         }
         return resource;
+    }
+    
+    /**
+     * Unload the resource by setting it to null, thus making it available for 
+     * garbage collection.
+     */
+    public void unload() {
+        Resource resource = this.resource;
+        if (resource != null) {
+            synchronized (this) {
+                resource = this.resource;
+                if (resource != null) {
+                    this.resource = null;
+                }
+            }
+        }
     }
     
     @Override
@@ -80,6 +108,9 @@ public class FHIRRegistryResource {
         return Objects.hash(url, version);
     }
     
+    /**
+     * Represents a version that can either be lexical or follow the Semantic Versioning format
+     */
     public static class Version implements Comparable<Version> {
         public enum CompareMode { SEMVER, LEXICAL };
         
