@@ -569,7 +569,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         LocationParmVal p = new LocationParmVal();
         p.setName(searchParamCode);
         
-        // The following code ensures that the lat/long is only added when there is a pair. 
+        // The following code ensures that the lat/lon is only added when there is a pair. 
         boolean add = false;
         if (position.getLatitude() != null && position.getLatitude().getValue() != null) {
             Double lat = position.getLatitude().getValue().doubleValue();
@@ -638,7 +638,6 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             Timestamp startTime = Timestamp.from(start);
             p.setValueDateStart(startTime);
             p.setValueDate(startTime);
-//            p.setTimeType(TimeType.UNKNOWN);
         }
 
         if (end != null) {
