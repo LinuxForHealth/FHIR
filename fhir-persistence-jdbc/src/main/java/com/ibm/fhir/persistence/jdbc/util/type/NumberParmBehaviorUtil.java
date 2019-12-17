@@ -26,8 +26,8 @@ import com.ibm.fhir.persistence.jdbc.JDBCConstants.JDBCOperator;
 import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 
 /**
@@ -44,7 +44,7 @@ public class NumberParmBehaviorUtil {
         // No operation
     }
 
-    public static void executeBehavior(StringBuilder whereClauseSegment, Parameter queryParm,
+    public static void executeBehavior(StringBuilder whereClauseSegment, QueryParameter queryParm,
             List<Object> bindVariables, Class<?> resourceType, String tableAlias, JDBCQueryBuilder queryBuilder)
             throws FHIRPersistenceException {
         // Start the Clause 
@@ -54,7 +54,7 @@ public class NumberParmBehaviorUtil {
         // Process each parameter value in the query parameter
         boolean parmValueProcessed = false;
         Set<String> seen = new HashSet<>();
-        for (ParameterValue value : queryParm.getValues()) {
+        for (QueryParameterValue value : queryParm.getValues()) {
 
             Prefix prefix = value.getPrefix();
 
@@ -245,7 +245,7 @@ public class NumberParmBehaviorUtil {
      * @return boolean indicating that an integer search is being run.
      * @throws FHIRPersistenceException
      */
-    public static boolean checkIntegerSearchWithSaEb(Prefix prefix, Class<?> resourceType, Parameter queryParm,
+    public static boolean checkIntegerSearchWithSaEb(Prefix prefix, Class<?> resourceType, QueryParameter queryParm,
             BigDecimal originalNumber)
             throws FHIRPersistenceException {
         boolean isIntegerSearch = false;

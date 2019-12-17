@@ -224,9 +224,8 @@ public final class ParametersUtil {
                 if (parameter != null) {
 
                     /*
-                     * In R4, SearchParameter changes from a single Base resource to an array In prior releases, the
-                     * code transformed VirtualResources to Basic. As Base is an array, there are going to result in
-                     * potential collisions in the map. transformParameter and transformPath
+                     * In R4, SearchParameter changes from a single Base resource to an array.
+                     * As Base is an array, there are going be potential collisions in the map.
                      */
                     List<ResourceType> types = parameter.getBase();
                     for (ResourceType type : types) {
@@ -240,12 +239,14 @@ public final class ParametersUtil {
                             searchParameterMap.put(base, map);
                         }
 
-                        // Issue 202: check and warns if the parameter and code do not agree.
-                        // Switch to using code
+                        // check and warn if the parameter name and code do not agree.
                         String code = parameter.getCode().getValue();
                         String name = parameter.getName().getValue();
                         checkAndWarnForIssueWithCodeAndName(code, name);
                         map.put(code, parameter);
+                        
+                        // also add the parameter under its canonical uri
+                        map.put(parameter.getUrl().getValue(), parameter);
                     }
                 }
 

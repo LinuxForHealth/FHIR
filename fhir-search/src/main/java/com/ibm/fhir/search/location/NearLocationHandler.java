@@ -22,8 +22,8 @@ import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingBox;
 import com.ibm.fhir.search.location.bounding.BoundingRadius;
 import com.ibm.fhir.search.location.uom.UOMManager;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 /**
  * <a href="https://www.hl7.org/fhir/r4/location.html#search"> FHIR Search:
@@ -161,13 +161,13 @@ public class NearLocationHandler {
      * @return
      * @throws FHIRSearchException
      */
-    public List<Bounding> generateLocationPositionsFromParameters(List<Parameter> queryParameters)
+    public List<Bounding> generateLocationPositionsFromParameters(List<QueryParameter> queryParameters)
             throws FHIRSearchException {
         List<Bounding> boundingAreas = new ArrayList<>();
         // We are only interested in the near and near-distance parameters.
         // Extract the following data elements: latitude, longitude, distance, distance unit
-        for (Parameter queryParm : queryParameters.stream().collect(Collectors.toList())) {
-            for (ParameterValue value : queryParm.getValues()) {
+        for (QueryParameter queryParm : queryParameters.stream().collect(Collectors.toList())) {
+            for (QueryParameterValue value : queryParm.getValues()) {
                 if (NEAR.equals(queryParm.getCode())) {
 
                     // Make sure that the prefixes are properly defined. 

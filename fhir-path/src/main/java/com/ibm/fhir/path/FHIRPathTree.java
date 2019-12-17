@@ -41,6 +41,19 @@ public class FHIRPathTree {
         return pathNodeMap.get(path);
     }
     
+    public FHIRPathNode getParent(FHIRPathNode node) {
+        if (node == null) {
+            return null;
+        }
+        
+        int index = node.path().lastIndexOf(".");
+        if (index != -1) {
+            return pathNodeMap.get(node.path().substring(0, index));
+        }
+        
+        return null;
+    }
+    
     public static FHIRPathTree tree(Resource resource) {
         Objects.requireNonNull(resource);
         

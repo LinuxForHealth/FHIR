@@ -13,7 +13,8 @@ import java.util.Map;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
-import com.ibm.fhir.persistence.jdbc.dto.Parameter;
+import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -193,7 +194,7 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceVersionIdMismatchException 
      */
-    Resource insert(Resource resource, List<Parameter> parameters, ParameterDAO parameterDao) 
-                    throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException;
+    Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao) 
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException;
 
 }

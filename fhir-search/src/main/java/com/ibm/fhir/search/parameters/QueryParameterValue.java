@@ -13,9 +13,9 @@ import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 
 /**
- * Refactored the code to more consistently apply the output patterns.<br/>
+ * A search parameter value for a given search parameter that was passed in a search query
  */
-public class ParameterValue {
+public class QueryParameterValue {
 
     private Prefix prefix = null;
 
@@ -25,16 +25,20 @@ public class ParameterValue {
     private Instant valueDateLowerBound = null;
     private Instant valueDateUpperBound = null;
 
-    // Used with Number
+    // Used for number and quantity search parameters
     private BigDecimal valueNumber = null;
 
+    // Used for quantity and token search parameters
     private String valueSystem = null;
     private String valueCode = null;
 
+    // Used for composite search parameters
+    private List<QueryParameter> component = new ArrayList<>();
+    
     // The delimiter starts off as EMPTY and goes to SearchConstants.PARAMETER_DELIMETER
     private String delim = "";
 
-    public ParameterValue() {
+    public QueryParameterValue() {
         // No Operation
     }
 
@@ -42,7 +46,7 @@ public class ParameterValue {
         this.prefix = prefix;
     }
 
-    public ParameterValue withPrefix(Prefix prefix) {
+    public QueryParameterValue withPrefix(Prefix prefix) {
         setPrefix(prefix);
         return this;
     }
@@ -108,6 +112,28 @@ public class ParameterValue {
     }
 
     /**
+     * @return the component
+     */
+    public List<QueryParameter> getComponent() {
+        return component;
+    }
+
+    /**
+     * @param component the components to add
+     */
+    public void addComponent(QueryParameter... component) {
+        for (QueryParameter c : component) {
+            this.component.add(c);
+        }
+    }
+
+    /**
+     * @param component the component to set
+     */
+    public void setComponent(Collection<QueryParameter> component) {
+        this.component = new ArrayList<>(component);
+    }
+    /**
      * Serialize the ParameterValue to a query parameter string
      */
     @Override
@@ -134,6 +160,15 @@ public class ParameterValue {
         outputBuilder(returnString, valueDateLowerBound);
         outputBuilder(returnString, valueDateUpperBound);
 
+        if (component != null && !component.isEmpty()) {
+            returnString.append("composite[");
+            // temporarily change the delimiter; NOT thread-safe
+            String componentDelim = "";
+            for (QueryParameter componentParam : component) {
+                returnString.append(componentDelim).append(componentParam);
+                componentDelim = "$";
+            }
+        }
         return returnString.toString();
     }
 
@@ -141,7 +176,7 @@ public class ParameterValue {
      * simple build method to apply consistent usage of StringBuilder.
      * 
      * @param outputBuilder
-     * @param o
+     * @param value
      */
     private void outputBuilder(StringBuilder outputBuilder, Object value) {
         if (value != null) {

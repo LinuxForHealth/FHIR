@@ -30,7 +30,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.search.parameters.Parameter;
+import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
@@ -72,13 +72,13 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         assertNotNull(context);
         assertNotNull(context.getSearchParameters());
         assertEquals(1, context.getSearchParameters().size());
-        Parameter parm1 = context.getSearchParameters().get(0);
+        QueryParameter parm1 = context.getSearchParameters().get(0);
         assertEquals("patient", parm1.getCode());
 
         /*
          * The compartment > Resource is { "code" : "Condition", "param" : ["patient", "asserter"] },
          */
-        Parameter p = parm1;
+        QueryParameter p = parm1;
         String out = "";
         while (p != null) {
             out += (" -> " + p.getCode());
@@ -111,7 +111,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         assertNotNull(context.getSearchParameters());
         assertEquals(1, context.getSearchParameters().size());
 
-        Parameter searchParm = context.getSearchParameters().get(0);
+        QueryParameter searchParm = context.getSearchParameters().get(0);
         int parmCount = 0;
         while (searchParm != null) {
             parmCount++;
@@ -151,7 +151,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         assertEquals(3, context.getSearchParameters().size());
 
         // Validate compartment related search parms.
-        Parameter searchParm = context.getSearchParameters().get(2);
+        QueryParameter searchParm = context.getSearchParameters().get(2);
         int parmCount = 0;
         while (searchParm != null) {
             parmCount++;
@@ -199,7 +199,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         assertEquals(1, context.getSearchParameters().size());
 
         // Validate compartment related search parms.
-        Parameter searchParm = context.getSearchParameters().get(0);
+        QueryParameter searchParm = context.getSearchParameters().get(0);
         int parmCount = 0;
         while (searchParm != null) {
             parmCount++;
@@ -248,7 +248,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         assertEquals(2, context.getSearchParameters().size());
 
         // Validate non-compartment related search parms.
-        for (Parameter searchParm : context.getSearchParameters()) {
+        for (QueryParameter searchParm : context.getSearchParameters()) {
             assertTrue((searchParm.getCode().equals("category") || searchParm.getCode().equals("value-quantity")));
             assertNotNull(searchParm.getValues());
             assertEquals(1, searchParm.getValues().size());

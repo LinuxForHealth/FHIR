@@ -28,6 +28,7 @@ import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.common.CommonDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.model.ColumnBase;
+import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.IntColumn;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Table;
@@ -54,7 +55,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
 
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
-            String tablespaceName) {
+            IdentityDef identity, String tablespaceName) {
 
         // With DB2 we can implement support for multi-tenancy, which we do by injecting a MT_ID column
         // to the definition and partitioning on that column
@@ -78,7 +79,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // Now append all the actual columns we want in the table
         cols.addAll(columns);
 
-        String ddl = buildCreateTableStatement(schemaName, name, cols, primaryKey, tablespaceName);
+        String ddl = buildCreateTableStatement(schemaName, name, cols, primaryKey, identity, tablespaceName);
 
         // Our multi-tenant tables are range-partitioned as part of our data isolation strategy
         // We reserve partition 0. Real tenant partitions start at 1...

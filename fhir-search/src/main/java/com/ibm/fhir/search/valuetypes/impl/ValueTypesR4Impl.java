@@ -37,7 +37,7 @@ import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.search.parameters.Parameter;
+import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.valuetypes.IValueTypes;
 import com.ibm.fhir.search.valuetypes.cache.TenantSpecificValueTypesCache;
 
@@ -76,12 +76,12 @@ public class ValueTypesR4Impl implements IValueTypes {
     }
 
     @Override
-    public boolean isDateRangeSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
+    public boolean isDateRangeSearch(Class<?> resourceType, QueryParameter queryParm) throws FHIRSearchException {
         return getValueTypes(resourceType, queryParm.getCode()).contains(Period.class);
     }
 
     @Override
-    public boolean isDateSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
+    public boolean isDateSearch(Class<?> resourceType, QueryParameter queryParm) throws FHIRSearchException {
         // Date Search does not support Date and Partial DateTime in a Range Search.
 
         Set<Class<?>> valueTypes = getValueTypes(resourceType, queryParm.getCode());
@@ -90,13 +90,13 @@ public class ValueTypesR4Impl implements IValueTypes {
     }
 
     @Override
-    public boolean isRangeSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
+    public boolean isRangeSearch(Class<?> resourceType, QueryParameter queryParm) throws FHIRSearchException {
         // Range Search does not handle decimal searches like a range search
         return getValueTypes(resourceType, queryParm.getCode()).contains(Range.class);
     }
 
     @Override
-    public boolean isIntegerSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
+    public boolean isIntegerSearch(Class<?> resourceType, QueryParameter queryParm) throws FHIRSearchException {
         try {
             Set<Class<?>> valueTypes = getValueTypes(resourceType, queryParm.getCode());
             return (valueTypes.contains(com.ibm.fhir.model.type.Integer.class) || valueTypes.contains(UnsignedInt.class)
