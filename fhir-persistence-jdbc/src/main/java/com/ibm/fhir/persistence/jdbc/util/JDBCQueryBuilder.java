@@ -56,6 +56,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.util.type.DateParmBehaviorUtil;
+import com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.LocationParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.QuantityParmBehaviorUtil;
@@ -182,17 +183,17 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         int nearParameterIndex;
         List<QueryParameter> searchParameters = searchContext.getSearchParameters();
         
-        // Forces _id to come before all other parameters, which is good for this bit here
+        // Forces _id and _lastUpdated to come before all other parameters, which is good for this bit here
         // zero is used to for all other cases.
         searchParameters.sort(new Comparator<QueryParameter>() {
             @Override
             public int compare(QueryParameter leftParameter, QueryParameter rightParameter) {
-                
                 int result = 0;
-                if("_id".compareTo(leftParameter.getCode())==0) {
+                if (QuerySegmentAggregator.ID.equals(leftParameter.getCode())) {
                     result = -100;
+                } else if (LastUpdatedParmBehaviorUtil.LAST_UPDATED.equals(leftParameter.getCode())) {
+                    result = -90;
                 }
-                
                 return result;
             }
             
@@ -248,7 +249,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         // In the case where a URI, we need specific behavior/manipulation
         // so that URI defaults to EQ, unless... BELOW
         if (Type.URI.compareTo(queryParm.getType()) == 0) {
-            if(modifier != null && Modifier.BELOW.compareTo(modifier) == 0) {
+            if (modifier != null && Modifier.BELOW.compareTo(modifier) == 0) {
                 operator = JDBCOperator.LIKE;
             } else {
                 operator = JDBCOperator.EQ;
@@ -423,7 +424,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                     searchValue = tempSearchValue + PERCENT_WILDCARD;
                     
                     // Specific processing for 
-                    if(Type.URI.compareTo(queryParm.getType()) == 0 
+                    if (Type.URI.compareTo(queryParm.getType()) == 0 
                             && queryParm.getModifier() != null 
                             && Modifier.BELOW.compareTo(queryParm.getModifier())==0) {
                         searchValue = tempSearchValue + "/" + PERCENT_WILDCARD;
@@ -448,7 +449,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 if (queryParm.getModifier() != null && Type.URI.equals(queryParm.getType())) {
                     if (Modifier.ABOVE.compareTo(queryParm.getModifier()) == 0){
                         values = UriModifierUtil.generateAboveValuesQuery(searchValue, whereClauseSegment, tableAlias + DOT + STR_VALUE);
-                    } else if(Modifier.BELOW.compareTo(queryParm.getModifier())==0) {
+                    } else if (Modifier.BELOW.compareTo(queryParm.getModifier())==0) {
                         UriModifierUtil.generateBelowValuesQuery(whereClauseSegment, tableAlias + DOT + STR_VALUE);
                     }
                 } 
@@ -913,9 +914,13 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
 
         List<Timestamp> bindVariables = new ArrayList<>();
-        DateParmBehaviorUtil behaviorUtil = new DateParmBehaviorUtil();
-        behaviorUtil.executeBehavior(whereClauseSegment, queryParm, bindVariables, tableAlias);
-
+        if (!LastUpdatedParmBehaviorUtil.LAST_UPDATED.equals(queryParm.getCode())) {
+            DateParmBehaviorUtil behaviorUtil = new DateParmBehaviorUtil();
+            behaviorUtil.executeBehavior(whereClauseSegment, queryParm, bindVariables, tableAlias);
+        } else if (log.isLoggable(Level.FINE)) {
+            log.fine("branching for _lastUpdated ");
+        }
+        
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
         log.exiting(CLASSNAME, METHODNAME);
         return queryData;
@@ -937,45 +942,48 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         List<Object> bindVariables = new ArrayList<>();
         Integer codeSystemId;
 
-        // Build this piece of the segment:
-        // (P1.PARAMETER_NAME_ID = x AND
-        this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
-
-        whereClauseSegment.append(AND).append(LEFT_PAREN);
-        for (QueryParameterValue value : queryParm.getValues()) {
-            // If multiple values are present, we need to OR them together.
-            if (parmValueProcessed) {
-                whereClauseSegment.append(JDBCOperator.OR.value());
-            }
-
-            whereClauseSegment.append(LEFT_PAREN);
-            // Include code
-            whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator.value()).append(BIND_VAR);
-            bindVariables.add(SqlParameterEncoder.encode(value.getValueCode()));
-
-            // Include system if present.
-            if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
-                if (operator.equals(JDBCOperator.NE)) {
+        String code = queryParm.getCode();
+        if ( !QuerySegmentAggregator.ID.equals(code)) {
+            // Build this piece of the segment:
+            // (P1.PARAMETER_NAME_ID = x AND
+            this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
+    
+            whereClauseSegment.append(AND).append(LEFT_PAREN);
+            for (QueryParameterValue value : queryParm.getValues()) {
+                // If multiple values are present, we need to OR them together.
+                if (parmValueProcessed) {
                     whereClauseSegment.append(JDBCOperator.OR.value());
-                } else {
-                    whereClauseSegment.append(JDBCOperator.AND.value());
                 }
-                whereClauseSegment.append(tableAlias + DOT).append(CODE_SYSTEM_ID).append(operator.value()).append(BIND_VAR);
-                codeSystemId = CodeSystemsCache.getCodeSystemId(value.getValueSystem());
-                if (codeSystemId == null) {
-                    codeSystemId = this.parameterDao.readCodeSystemId(value.getValueSystem());
-                    if (codeSystemId != null) {
-                        this.parameterDao.addCodeSystemsCacheCandidate(value.getValueSystem(), codeSystemId);
+    
+                whereClauseSegment.append(LEFT_PAREN);
+                // Include code
+                whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator.value()).append(BIND_VAR);
+                bindVariables.add(SqlParameterEncoder.encode(value.getValueCode()));
+    
+                // Include system if present.
+                if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
+                    if (operator.equals(JDBCOperator.NE)) {
+                        whereClauseSegment.append(JDBCOperator.OR.value());
+                    } else {
+                        whereClauseSegment.append(JDBCOperator.AND.value());
                     }
+                    whereClauseSegment.append(tableAlias + DOT).append(CODE_SYSTEM_ID).append(operator.value()).append(BIND_VAR);
+                    codeSystemId = CodeSystemsCache.getCodeSystemId(value.getValueSystem());
+                    if (codeSystemId == null) {
+                        codeSystemId = this.parameterDao.readCodeSystemId(value.getValueSystem());
+                        if (codeSystemId != null) {
+                            this.parameterDao.addCodeSystemsCacheCandidate(value.getValueSystem(), codeSystemId);
+                        }
+                    }
+                    // must be able to handle nulls
+                    bindVariables.add(codeSystemId);
                 }
-                // must be able to handle nulls
-                bindVariables.add(codeSystemId);
+                whereClauseSegment.append(RIGHT_PAREN);
+                parmValueProcessed = true;
             }
-            whereClauseSegment.append(RIGHT_PAREN);
-            parmValueProcessed = true;
+    
+            whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
         }
-
-        whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
         queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
 
         log.exiting(CLASSNAME, METHODNAME);

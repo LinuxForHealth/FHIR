@@ -26,21 +26,22 @@ import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 /**
- * <a href="https://hl7.org/fhir/search.html#date>FHIR Specification: Search
+ * <a href="https://hl7.org/fhir/search.html#date">FHIR Specification: Search
  * - Date</a>
  * <br>
  * This utility encapsulates the logic specific to fhir-search related to
  * quantity.
  */
 public class DateParmBehaviorUtil {
-    
+
     public static final String LAST_UPDATED = "_lastUpdated";
 
     public DateParmBehaviorUtil() {
         // No Operation
     }
 
-    public void executeBehavior(StringBuilder whereClauseSegment, QueryParameter queryParm, List<Timestamp> bindVariables,
+    public void executeBehavior(StringBuilder whereClauseSegment, QueryParameter queryParm,
+            List<Timestamp> bindVariables,
             String tableAlias)
             throws Exception {
         // Start the Clause 

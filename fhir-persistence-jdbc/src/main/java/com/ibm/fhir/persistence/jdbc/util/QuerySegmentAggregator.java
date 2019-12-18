@@ -20,12 +20,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.util.type.DateParmBehaviorUtil;
+import com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.parameters.QueryParameter;
@@ -48,7 +49,9 @@ public class QuerySegmentAggregator {
     protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED <> 'Y'";
     protected static final String DEFAULT_ORDERING = " ORDER BY R.RESOURCE_ID ASC ";
 
-    protected static final Set<String> SKIP_WHERE = new HashSet<>(Arrays.asList("_id"));
+    // Enables the SKIP_WHERE of WHERE clauses. 
+    public static final String ID = "_id";
+    protected static final Set<String> SKIP_WHERE = new HashSet<>(Arrays.asList(ID, LastUpdatedParmBehaviorUtil.LAST_UPDATED));
     
     protected Class<?> resourceType;
     
@@ -65,6 +68,10 @@ public class QuerySegmentAggregator {
     // used for special treatment of List<Parameters> of _id and _lastUpdated
     protected List<QueryParameter> queryParamIds = new ArrayList<>();
     protected List<QueryParameter> queryParamLastUpdateds = new ArrayList<>();
+    
+    // _lastUpdated
+    protected LastUpdatedParmBehaviorUtil lastUpdatedParmBehaviorUtil = new LastUpdatedParmBehaviorUtil();
+    protected List<Object> idsObjects = new ArrayList<>();
     
     private int offset;
     private int pageSize;
@@ -106,13 +113,13 @@ public class QuerySegmentAggregator {
         this.querySegments.add(querySegment);
         
         String code = queryParm.getCode();
-        if("_id".compareTo(code)==0) {
+        if (ID.equals(code)) {
             queryParamIds.add(queryParm);
         }
-        else if(DateParmBehaviorUtil.LAST_UPDATED.compareTo(code)==0) {
+        else if (DateParmBehaviorUtil.LAST_UPDATED.equals(code)) {
             queryParamLastUpdateds.add(queryParm);
         }
-        
+
         // Here we are intentionally adding the parameters. 
         this.searchQueryParameters.add(queryParm);
 
@@ -214,7 +221,6 @@ public class QuerySegmentAggregator {
 
         // Processes through EACH register parameter extracting the integer value
         Map<String, Integer> resourceNameMap = resourceDao.readAllResourceTypeNames();
-        
         for(Map.Entry<String,Integer> resourceEntry : resourceNameMap.entrySet()) {
             String resourceTypeName =  resourceEntry.getKey();
             // Only search the required resource types if any.
@@ -236,6 +242,8 @@ public class QuerySegmentAggregator {
             tempFromClause = this.buildWhereClause(resourceTypeName);
             queryString.append(tempFromClause);
 
+            allBindVariables.addAll(idsObjects);
+            allBindVariables.addAll(lastUpdatedParmBehaviorUtil.getBindVariables());
             for (SqlQueryData querySegment : this.querySegments) {
                 allBindVariables.addAll(querySegment.getBindVariables());
             }
@@ -313,7 +321,27 @@ public class QuerySegmentAggregator {
             fromClause.append(target);
             fromClause.append("_LOGICAL_RESOURCES");
             fromClause.append(" ILR WHERE ILR.LOGICAL_ID IN ( ");
-            fromClause.append(queryParamIds.get(0).getValues().stream().map(param -> "?" ).collect(Collectors.joining(", ")));
+
+            idsObjects.clear();
+            boolean add = false;
+            for (QueryParameter queryParamId : queryParamIds) {
+                if (add) { 
+                    fromClause.append(JDBCConstants.COMMA);
+                } else { 
+                    add = true;
+                }
+
+                boolean addValue = false;
+                for(QueryParameterValue value : queryParamId.getValues()) {
+                    if (addValue) { 
+                        fromClause.append(JDBCConstants.COMMA);
+                    } else { 
+                        addValue = true;
+                    }
+                    fromClause.append(JDBCConstants.BIND_VAR);
+                    idsObjects.add(SqlParameterEncoder.encode(value.getValueCode()));
+                }
+            }
             fromClause.append(" )) ");
         } else {
             // Not ID, then go to the default. 
@@ -321,25 +349,19 @@ public class QuerySegmentAggregator {
             fromClause.append("_LOGICAL_RESOURCES");
         }
     }
-    
+
+    /*
+     * processes the clause for _lastUpdated
+     */
     private void processFromClauseForLastUpdated(StringBuilder fromClause, String target) {
-//        if(!queryParamLastUpdateds.isEmpty()) {
-//            // Start the Drived Table
-//            fromClause.append("( SELECT * FROM ");
-//            fromClause.append(target);
-//            fromClause.append("_RESOURCES IR ");
-//
-//            // Process the Condtional
-//            fromClause.append("WHERE ILR.LOGICAL_ID IN ( ");
-//            //fromClause.append(queryParamId.getValues().stream().map(param -> "?" ).collect(Collectors.joining(", ")));
-//            
-//            // Close out the Derived Tables
-//            fromClause.append(" )) ");
-//        } else {
+        if(!queryParamLastUpdateds.isEmpty()) {
+            lastUpdatedParmBehaviorUtil.clearBindVariables();
+            lastUpdatedParmBehaviorUtil.buildLastUpdatedDerivedTable(fromClause, target, queryParamLastUpdateds);
+        } else {
             // Not _lastUpdated, then go to the default. 
             fromClause.append(target);
             fromClause.append("_RESOURCES");
-        //}
+        }
     }
     
     /**
@@ -410,7 +432,7 @@ public class QuerySegmentAggregator {
                     String tmpTableName = overrideType + i;
                     whereClause.append(tmpTableName).append(ON).append(tmpTableName).append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
                 }
-            } // end if SKIP
+            } // end if SKIP_WHERE
         } // end for
 
         log.exiting(CLASSNAME, METHODNAME);

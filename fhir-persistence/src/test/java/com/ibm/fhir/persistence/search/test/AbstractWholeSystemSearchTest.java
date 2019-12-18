@@ -105,7 +105,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
 
         List<Resource> resources = runQueryTest(Resource.class, queryParms);
         assertNotNull(resources);
-        assertEquals(0, resources.size(), "Number of resources returned");
+        assertEquals(resources.size(), 0, "Number of resources returned");
     }
     
     @Test

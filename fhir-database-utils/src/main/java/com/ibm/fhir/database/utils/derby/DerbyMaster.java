@@ -46,7 +46,7 @@ public class DerbyMaster implements AutoCloseable {
     private final String database;
 
     // Controls if we run derby in debugging mode which enables more logs.
-    private static final boolean DEBUGGING = false;
+    private static final boolean DEBUG = false;
 
     /**
      * Public constructor
@@ -60,7 +60,7 @@ public class DerbyMaster implements AutoCloseable {
             Class.forName(DERBY_TRANSLATOR.getDriverClassName());
             // This speeds up sequence fetching by pre-creating 1000 instead of the default 100.
             out.println("derby.language.sequence.preallocator=1000");
-            if (DEBUGGING) {
+            if (DEBUG) {
                 out.println("derby.language.logQueryPlan=true");
                 out.println("derby.language.logStatementText=true");
                 out.println("derby.locks.deadlockTrace=true");

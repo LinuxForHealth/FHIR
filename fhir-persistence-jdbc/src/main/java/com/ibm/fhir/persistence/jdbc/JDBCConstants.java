@@ -57,6 +57,7 @@ public class JDBCConstants {
     public static final String JOIN = " JOIN ";
     public static final String LEFT_JOIN = " LEFT JOIN ";
     public static final String COMBINED_RESULTS = " COMBINED_RESULTS";
+    public static final String COMMA = ", ";
     
     /**
      * Maps Parameter modifiers to SQL operators.
