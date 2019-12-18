@@ -83,10 +83,10 @@ This is the only one that should be edited.
 The other files are theme.
 
 # Links
-[Gatsby Theme: Carbon](https://github.com/carbon-design-system/gatsby-theme-carbon)
-[Gatsby Theme Carbon: Guides](https://gatsby-theme-carbon.now.sh/guides/)
-[Carbon Design](https://www.carbondesignsystem.com/components/link/code/)
-[Carbon Theme Details](http://react.carbondesignsystem.com/?path=/story/link--default)
-[MDX](https://mdxjs.com/)
+- [Gatsby Theme: Carbon](https://github.com/carbon-design-system/gatsby-theme-carbon)
+- [Gatsby Theme Carbon: Guides](https://gatsby-theme-carbon.now.sh/guides/)
+- [Carbon Design](https://www.carbondesignsystem.com/components/link/code/)
+- [Carbon Theme Details](http://react.carbondesignsystem.com/?path=/story/link--default)
+- [MDX](https://mdxjs.com/)
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
