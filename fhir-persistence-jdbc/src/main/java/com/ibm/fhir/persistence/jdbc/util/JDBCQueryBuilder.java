@@ -7,8 +7,6 @@
 package com.ibm.fhir.persistence.jdbc.util;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_END;
@@ -19,7 +17,12 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_EXPR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_PERCENT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_UNDERSCORE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_JOIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX_NUM_OF_COMPOSITE_COMPONENTS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
@@ -28,11 +31,8 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.STR_VALUE_LCASE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNDERSCORE_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHERE;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierMap;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierOperatorMap;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.prefixOperatorMap;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_JOIN;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX_NUM_OF_COMPOSITE_COMPONENTS;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -257,7 +257,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 operator = JDBCOperator.EQ;
             }
         } else if (modifier != null) {
-            operator = modifierMap.get(modifier);
+            operator = modifierOperatorMap.get(modifier);
         }
         
         if (operator == null) {
@@ -287,7 +287,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         Modifier modifier = queryParm.getModifier();
 
         if (modifier != null) {
-            operator = modifierMap.get(modifier);
+            operator = modifierOperatorMap.get(modifier);
         }
         if (operator == null) {
             if (defaultOverride != null) {

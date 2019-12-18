@@ -116,13 +116,13 @@ public class SearchConstants {
     
     public static final String WILDCARD = "*";
     
-    public static final char AND_CHAR = '&';    
+    public static final char AND_CHAR = '&';
     
     public static final char EQUALS_CHAR = '=';
     
     public static final String JOIN_STR = ",";
     
-    public static final String AND_CHAR_STR = "&";    
+    public static final String AND_CHAR_STR = "&";
     
     // Filter
     public static final String WILDCARD_FILTER = "*";
@@ -141,9 +141,10 @@ public class SearchConstants {
 
                 {
                     put(SearchConstants.Type.STRING, Arrays.asList(Modifier.EXACT, Modifier.CONTAINS, Modifier.MISSING));
-                    put(SearchConstants.Type.REFERENCE, Arrays.asList(Modifier.TYPE, Modifier.MISSING));
+                    put(SearchConstants.Type.REFERENCE, Arrays.asList(Modifier.TYPE, Modifier.IDENTIFIER, Modifier.MISSING));
                     put(SearchConstants.Type.URI, Arrays.asList(Modifier.BELOW, Modifier.ABOVE, Modifier.MISSING));
-                    put(SearchConstants.Type.TOKEN, Arrays.asList(Modifier.BELOW, Modifier.NOT, Modifier.MISSING));
+                    put(SearchConstants.Type.TOKEN, Arrays.asList(Modifier.TEXT, Modifier.NOT, 
+                            Modifier.ABOVE, Modifier.BELOW, Modifier.IN, Modifier.NOT_IN, Modifier.OF_TYPE, Modifier.MISSING));
                     put(SearchConstants.Type.NUMBER, Arrays.asList(Modifier.MISSING));
                     put(SearchConstants.Type.DATE, Arrays.asList(Modifier.MISSING));
                     put(SearchConstants.Type.QUANTITY, Arrays.asList(Modifier.MISSING));
@@ -235,7 +236,9 @@ public class SearchConstants {
         ABOVE("above"),
         NOT("not"),
         NOT_IN("not-in"),
-        TYPE("[type]");
+        TYPE("[type]"), 
+        OF_TYPE("of-type"), 
+        IDENTIFIER("identifier");
 
         private String value = null;
 
