@@ -63,7 +63,6 @@ public class LastUpdatedParmBehaviorUtil {
      * @param parameters
      */
     public void buildLastUpdatedDerivedTable(StringBuilder fromClause, String target, List<QueryParameter> parameters) {
-
         // Start the Derived Table
         fromClause.append(LEFT_PAREN);
         fromClause.append(" SELECT * FROM ");

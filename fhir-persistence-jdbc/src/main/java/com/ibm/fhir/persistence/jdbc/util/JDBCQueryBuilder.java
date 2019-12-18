@@ -914,12 +914,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
 
         List<Timestamp> bindVariables = new ArrayList<>();
-        if (!LastUpdatedParmBehaviorUtil.LAST_UPDATED.equals(queryParm.getCode())) {
-            DateParmBehaviorUtil behaviorUtil = new DateParmBehaviorUtil();
-            behaviorUtil.executeBehavior(whereClauseSegment, queryParm, bindVariables, tableAlias);
-        } else if (log.isLoggable(Level.FINE)) {
-            log.fine("branching for _lastUpdated ");
-        }
+        DateParmBehaviorUtil behaviorUtil = new DateParmBehaviorUtil();
+        behaviorUtil.executeBehavior(whereClauseSegment, queryParm, bindVariables, tableAlias);
         
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
         log.exiting(CLASSNAME, METHODNAME);
@@ -943,7 +939,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         Integer codeSystemId;
 
         String code = queryParm.getCode();
-        if ( !QuerySegmentAggregator.ID.equals(code)) {
+        if (!QuerySegmentAggregator.ID.equals(code)) {
             // Build this piece of the segment:
             // (P1.PARAMETER_NAME_ID = x AND
             this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
