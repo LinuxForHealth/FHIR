@@ -12,7 +12,8 @@ import java.util.Properties;
 import com.ibm.fhir.database.utils.api.ConnectionDetails;
 import com.ibm.fhir.database.utils.api.ConnectionException;
 import com.ibm.fhir.database.utils.api.DataAccessException;
-import com.ibm.fhir.database.utils.api.DuplicateValueException;
+import com.ibm.fhir.database.utils.api.DuplicateNameException;
+import com.ibm.fhir.database.utils.api.UniquenessViolationException;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
@@ -47,6 +48,12 @@ public class Db2Translator implements IDatabaseTranslator {
     public boolean isDuplicate(SQLException x) {
         // Class Code 23: Constraint Violation
         return "23505".equals(x.getSQLState());
+    }
+
+    @Override
+    public boolean isAlreadyExists(SQLException x) {
+        // SQL-Error: -601, SQL State 42710
+        return "42710".equals(x.getSQLState());
     }
 
     @Override
@@ -88,7 +95,10 @@ public class Db2Translator implements IDatabaseTranslator {
             return new ConnectionException(x);
         }
         else if (isDuplicate(x)) {
-            return new DuplicateValueException(x);
+            return new UniquenessViolationException(x);
+        }
+        else if (isAlreadyExists(x)) {
+            return new DuplicateNameException(x);
         }
         else if (isUndefinedName(x)) {
             return new UndefinedNameException(x);
@@ -145,7 +155,7 @@ public class Db2Translator implements IDatabaseTranslator {
             return String.format("timestampdiff(2, %s, %s)", left, right);
         }
         else {
-            return String.format("timestampdiff(2, %s, %s) AS %s", left, right, alias);            
+            return String.format("timestampdiff(2, %s, %s) AS %s", left, right, alias);
         }
     }
 
@@ -167,7 +177,7 @@ public class Db2Translator implements IDatabaseTranslator {
     @Override
     public String getUrl(Properties connectionProperties) {
         Db2PropertyAdapter adapter = new Db2PropertyAdapter(connectionProperties);
-        return "jdbc:db2://" + adapter.getHost() + ":" + adapter.getPort() + "/" + adapter.getDatabase();    
+        return "jdbc:db2://" + adapter.getHost() + ":" + adapter.getPort() + "/" + adapter.getDatabase();
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.ConnectionDetails;
 import com.ibm.fhir.database.utils.api.ConnectionException;
 import com.ibm.fhir.database.utils.api.DataAccessException;
-import com.ibm.fhir.database.utils.api.DuplicateValueException;
+import com.ibm.fhir.database.utils.api.UniquenessViolationException;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
@@ -51,6 +51,11 @@ public class DerbyTranslator implements IDatabaseTranslator {
     }
 
     @Override
+    public boolean isAlreadyExists(SQLException x) {
+        return "42710".equals(x.getSQLState());
+    }
+
+    @Override
     public boolean isLockTimeout(SQLException x) {
         return false;
     }
@@ -79,7 +84,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
             return new ConnectionException(x);
         }
         else if (isDuplicate(x)) {
-            return new DuplicateValueException(x);
+            return new UniquenessViolationException(x);
         }
         else if (isUndefinedName(x)) {
             return new UndefinedNameException(x);

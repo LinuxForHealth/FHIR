@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
+import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransaction;
@@ -430,9 +431,17 @@ public class Db2Adapter extends CommonDatabaseAdapter {
 
     @Override
     public void createFhirSchemas(String schemaName, String adminSchemaName) {
-        String ddl = "CREATE SCHEMA " + schemaName;
-        runStatement(ddl);
-        ddl = "CREATE SCHEMA " + adminSchemaName;
-        runStatement(ddl);
+        try {
+            String ddl = "CREATE SCHEMA " + schemaName;
+            runStatement(ddl);
+        } catch (DuplicateNameException e) {
+            logger.log(Level.WARNING, "The schema '" + schemaName + "' already exists; proceed with caution.");
+        }
+        try {
+            String ddl = "CREATE SCHEMA " + adminSchemaName;
+            runStatement(ddl);
+        } catch (DuplicateNameException e) {
+            logger.log(Level.WARNING, "The schema '" + adminSchemaName + "' already exists; proceed with caution.");
+        }
     }
 }

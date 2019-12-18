@@ -768,6 +768,8 @@ public class Main {
                 throw x;
             }
         }
+        
+        logger.info("Allocated tenant: " + tenantName + " [key=" + tenantKey + "] with Id = " + tenantId);
     }
 
     /**
