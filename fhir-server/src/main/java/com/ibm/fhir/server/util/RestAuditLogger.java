@@ -46,8 +46,6 @@ import com.ibm.fhir.model.util.FHIRUtil;
 
 /**
  * This class provides convenience methods for FHIR Rest services that need to write FHIR audit log entries.
- * @author markd
- *
  */
 public class RestAuditLogger {
     
@@ -462,7 +460,6 @@ public class RestAuditLogger {
         
         StringBuffer requestUrl;
         String patientIdExtUrl;
-        String resourceNameExtUrl;
         List<String> userList = new ArrayList<>();
                 
         // Build a list of possible user names. Pick the first non-null user name to include in the audit log entry.
@@ -512,8 +509,6 @@ public class RestAuditLogger {
         
         patientIdExtUrl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_PATIENT_ID_EXTURL, null);
         entry.setPatientId(FHIRUtil.getExtensionStringValue(resource, patientIdExtUrl));
-        resourceNameExtUrl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_RESOURCE_NAME_EXTURL, null);
-        entry.getContext().setResourceName((FHIRUtil.getExtensionStringValue(resource, resourceNameExtUrl)));
         entry.getContext().setRequestUniqueId(FHIRRequestContext.get().getRequestUniqueId());
                 
         log.exiting(CLASSNAME, METHODNAME);

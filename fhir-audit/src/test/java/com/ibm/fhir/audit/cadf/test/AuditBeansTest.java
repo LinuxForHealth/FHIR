@@ -130,7 +130,6 @@ public class AuditBeansTest {
         assertNull(ctx.getPurpose());
         assertNull(ctx.getQueryParameters());
         assertNull(ctx.getRequestUniqueId());
-        assertNull(ctx.getResourceName());
         assertNull(ctx.getStartTime());
     }
 
@@ -175,7 +174,6 @@ public class AuditBeansTest {
         builder.purpose("purpose");
         builder.queryParameters("queryParameters");
         builder.requestUniqueId("requestUniqueId");
-        builder.resourceName("test");
         builder.startTime("startTime");
 
         Context ctx = builder.build();
@@ -203,9 +201,6 @@ public class AuditBeansTest {
 
         assertNotNull(ctx.getRequestUniqueId());
         assertEquals(ctx.getRequestUniqueId(), "requestUniqueId");
-
-        assertNotNull(ctx.getResourceName());
-        assertEquals(ctx.getResourceName(), "test");
 
         assertNotNull(ctx.getStartTime());
         assertEquals(ctx.getStartTime(), "startTime");
@@ -235,9 +230,6 @@ public class AuditBeansTest {
 
         assertNotNull(ctx.getRequestUniqueId());
         assertEquals(ctx.getRequestUniqueId(), "requestUniqueId");
-
-        assertNotNull(ctx.getResourceName());
-        assertEquals(ctx.getResourceName(), "test");
 
         assertNotNull(ctx.getStartTime());
         assertEquals(ctx.getStartTime(), "startTime");
@@ -349,7 +341,6 @@ public class AuditBeansTest {
         builder.purpose("purpose");
         builder.queryParameters("queryParameters");
         builder.requestUniqueId("requestUniqueId");
-        builder.resourceName("test");
         builder.startTime("startTime");
 
         builder.clientCertCn("clientCertCn");
@@ -385,9 +376,6 @@ public class AuditBeansTest {
 
         assertNotNull(fhirCtx.getRequestUniqueId());
         assertEquals(fhirCtx.getRequestUniqueId(), "requestUniqueId");
-
-        assertNotNull(fhirCtx.getResourceName());
-        assertEquals(fhirCtx.getResourceName(), "test");
 
         assertNotNull(fhirCtx.getStartTime());
         assertEquals(fhirCtx.getStartTime(), "startTime");
