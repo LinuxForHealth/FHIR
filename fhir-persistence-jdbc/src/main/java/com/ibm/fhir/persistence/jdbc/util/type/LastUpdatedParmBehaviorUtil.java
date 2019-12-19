@@ -6,8 +6,15 @@
 
 package com.ibm.fhir.persistence.jdbc.util.type;
 
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LTE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.search.date.DateTimeHandler.generateTimestamp;
 
@@ -16,7 +23,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ibm.fhir.persistence.jdbc.JDBCConstants.JDBCOperator;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
@@ -31,8 +37,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * 
  * <pre>
  * (
- *       SELECT
- *         *
+ *       SELECT *
  *       FROM SubstancePolymer_RESOURCES IR
  *       WHERE
  *         (
@@ -45,7 +50,6 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * </pre>
  */
 public class LastUpdatedParmBehaviorUtil {
-
     public static final String LAST_UPDATED = "_lastUpdated";
     public static final String LAST_UPDATED_COLUMN_NAME = "LAST_UPDATED";
 
@@ -75,7 +79,7 @@ public class LastUpdatedParmBehaviorUtil {
             // If multiple values are present, we need to OR them together.
             if (parmProcessed) {
                 // OR
-                fromClause.append(RIGHT_PAREN).append(JDBCOperator.AND.value()).append(LEFT_PAREN);
+                fromClause.append(RIGHT_PAREN).append(AND).append(LEFT_PAREN);
             } else {
                 // Signal to the downstream to treat any subsequent value as an OR condition 
                 parmProcessed = true;
@@ -104,7 +108,7 @@ public class LastUpdatedParmBehaviorUtil {
             // If multiple values are present, we need to OR them together.
             if (parmValueProcessed) {
                 // OR
-                whereClause.append(RIGHT_PAREN).append(JDBCOperator.OR.value()).append(LEFT_PAREN);
+                whereClause.append(RIGHT_PAREN).append(OR).append(LEFT_PAREN);
             } else {
                 // Signal to the downstream to treat any subsequent value as an OR condition 
                 parmValueProcessed = true;
@@ -139,27 +143,27 @@ public class LastUpdatedParmBehaviorUtil {
         switch (prefix) {
         case EB:
             // EB - Ends Before
-            buildCommonClause(whereClauseSegment, JDBCOperator.LT.value(), value);
+            buildCommonClause(whereClauseSegment, LT, value);
             break;
         case SA:
             // SA - Starts After
-            buildCommonClause(whereClauseSegment, JDBCOperator.GT.value(), upperBound);
+            buildCommonClause(whereClauseSegment, GT, upperBound);
             break;
         case GE:
             // GE - Greater Than Equal
-            buildCommonClause(whereClauseSegment, JDBCOperator.GTE.value(), value);
+            buildCommonClause(whereClauseSegment, GTE, value);
             break;
         case GT:
             // GT - Greater Than
-            buildCommonClause(whereClauseSegment, JDBCOperator.GT.value(), upperBound);
+            buildCommonClause(whereClauseSegment, GT, upperBound);
             break;
         case LE:
             // LE - Less Than Equal
-            buildCommonClause(whereClauseSegment, JDBCOperator.LTE.value(), upperBound);
+            buildCommonClause(whereClauseSegment, LTE, upperBound);
             break;
         case LT:
             // LT - Less Than
-            buildCommonClause(whereClauseSegment, JDBCOperator.LT.value(), value);
+            buildCommonClause(whereClauseSegment, LT, value);
             break;
         case AP:
             // AP - Approximate - Relative
@@ -205,9 +209,9 @@ public class LastUpdatedParmBehaviorUtil {
             // @formatter:off
             whereClauseSegment
                     .append(LEFT_PAREN)
-                            .append(LAST_UPDATED_COLUMN_NAME).append(JDBCOperator.GTE.value()).append(BIND_VAR)
-                            .append(JDBCOperator.AND.value())
-                            .append(LAST_UPDATED_COLUMN_NAME).append(JDBCOperator.LTE.value()).append(BIND_VAR)
+                            .append(LAST_UPDATED_COLUMN_NAME).append(GTE).append(BIND_VAR)
+                            .append(AND)
+                            .append(LAST_UPDATED_COLUMN_NAME).append(LTE).append(BIND_VAR)
                     .append(RIGHT_PAREN);
             // @formatter:on
             bindVariables.add(generateTimestamp(upperBound));
@@ -215,11 +219,10 @@ public class LastUpdatedParmBehaviorUtil {
             // @formatter:off
             whereClauseSegment
                     .append(LEFT_PAREN)
-                        .append(LAST_UPDATED_COLUMN_NAME).append(JDBCOperator.EQ.value()).append(BIND_VAR)
+                        .append(LAST_UPDATED_COLUMN_NAME).append(EQ).append(BIND_VAR)
                     .append(RIGHT_PAREN);
-         // @formatter:on
+            // @formatter:on
         }
-
     }
 
     /**
@@ -233,9 +236,9 @@ public class LastUpdatedParmBehaviorUtil {
         // @formatter:off
         whereClauseSegment
                 .append(LEFT_PAREN)
-                        .append(LAST_UPDATED_COLUMN_NAME).append(JDBCOperator.LT.value()).append(BIND_VAR)
-                        .append(JDBCOperator.AND.value())
-                        .append(LAST_UPDATED_COLUMN_NAME).append(JDBCOperator.GT.value()).append(BIND_VAR)
+                        .append(LAST_UPDATED_COLUMN_NAME).append(LT).append(BIND_VAR)
+                        .append(AND)
+                        .append(LAST_UPDATED_COLUMN_NAME).append(GT).append(BIND_VAR)
                 .append(RIGHT_PAREN);
         // @formatter:on
 

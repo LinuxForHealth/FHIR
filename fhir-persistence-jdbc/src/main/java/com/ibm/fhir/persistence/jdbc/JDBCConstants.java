@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.ibm.fhir.search.SearchConstants.Modifier;
-import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
 
 public class JDBCConstants {
@@ -39,12 +38,11 @@ public class JDBCConstants {
 
     // Generic SQL query string constants
     public static final String DOT = ".";
+    public static final char DOT_CHAR = '.';
     public static final String WHERE = " WHERE ";
     public static final String PARAMETER_TABLE_ALIAS = "pX";
     public static final String LEFT_PAREN = "(";
     public static final String RIGHT_PAREN = ")";
-    public static final String AND = " AND ";
-    public static final String OR = " OR ";
     public static final String BIND_VAR = "?";
     public static final String PERCENT_WILDCARD = "%";
     public static final String UNDERSCORE_WILDCARD = "_";
@@ -65,6 +63,19 @@ public class JDBCConstants {
     public static final String COMMA = " , ";
     public static final char COMMA_CHAR = ',';
     public static final char QUOTE = '\'';
+    public static final char PATH_CHAR = '/';
+    
+    // JDBC Operators
+    public static final String EQ = " = ";
+    public static final String LIKE = " LIKE ";
+    public static final String IN =" IN ";
+    public static final String LT = " < ";
+    public static final String LTE = " <= ";
+    public static final String GT = " > "; 
+    public static final String GTE = " >= ";
+    public static final String NE = " <> ";
+    public static final String OR = " OR ";
+    public static final String AND = " AND ";
     
     // ASC/DESC
     public static final String ORDER_BY = " ORDER BY ";
@@ -73,25 +84,24 @@ public class JDBCConstants {
     
     public static final String DEFAULT_ORDERING = " ORDER BY RESOURCE_ID ASC ";
     public static final String DEFAULT_ORDERING_WITH_TABLE = " ORDER BY R.RESOURCE_ID ASC ";
+    
+    // MIN / MAX 
+    public static final String MAX = "MAX";
+    public static final String MIN = "MIN";
 
     /**
      * Maps search parameter types to the currently supported list of modifiers for
      * that type.
      */
-    public static Map<Type, List<Modifier>> supportedModifiersMap;
+    public static final Map<Type, List<Modifier>> supportedModifiersMap;
 
     /**
      * Maps Parameter modifiers to SQL operators.
      */
-    public static Map<Modifier, JDBCOperator> modifierOperatorMap;
-
-    /**
-     * Maps Parameter value prefix operators to SQL operators.
-     */
-    public static Map<Prefix, JDBCOperator> prefixOperatorMap;
+    public static final Map<Modifier, String> modifierOperatorMap;
 
     static {
-        supportedModifiersMap = new HashMap<Type, List<Modifier>>();
+        supportedModifiersMap = new HashMap<>();
         supportedModifiersMap.put(Type.STRING, Arrays.asList(Modifier.EXACT, Modifier.CONTAINS, Modifier.MISSING));
         supportedModifiersMap.put(Type.REFERENCE, Arrays.asList(Modifier.TYPE, Modifier.MISSING));
         supportedModifiersMap.put(Type.URI, Arrays.asList(Modifier.BELOW, Modifier.ABOVE, Modifier.MISSING));
@@ -103,57 +113,11 @@ public class JDBCConstants {
         supportedModifiersMap.put(Type.SPECIAL, Arrays.asList(Modifier.MISSING));
 
         modifierOperatorMap = new HashMap<>();
-        modifierOperatorMap.put(Modifier.ABOVE, JDBCOperator.GT);
-        modifierOperatorMap.put(Modifier.BELOW, JDBCOperator.LT);
-        modifierOperatorMap.put(Modifier.CONTAINS, JDBCOperator.LIKE);
-        modifierOperatorMap.put(Modifier.EXACT, JDBCOperator.EQ);
-        modifierOperatorMap.put(Modifier.NOT, JDBCOperator.NE);
-
-        prefixOperatorMap = new HashMap<>();
-        prefixOperatorMap.put(Prefix.EQ, JDBCOperator.EQ);
-        prefixOperatorMap.put(Prefix.GE, JDBCOperator.GTE);
-        prefixOperatorMap.put(Prefix.GT, JDBCOperator.GT);
-        prefixOperatorMap.put(Prefix.LE, JDBCOperator.LTE);
-        prefixOperatorMap.put(Prefix.LT, JDBCOperator.LT);
-        prefixOperatorMap.put(Prefix.NE, JDBCOperator.NE);
-        prefixOperatorMap.put(Prefix.SA, JDBCOperator.GT);
-        prefixOperatorMap.put(Prefix.EB, JDBCOperator.LT);
-        prefixOperatorMap.put(Prefix.AP, JDBCOperator.EQ);
-    }
-
-    /**
-     * An enumeration of SQL query operators.
-     */
-    public enum JDBCOperator {
-        EQ(" = "),
-        LIKE(" LIKE "),
-        IN(" IN "),
-        LT(" < "),
-        LTE(" <= "),
-        GT(" > "),
-        GTE(" >= "),
-        NE(" <> "),
-        OR(" OR "),
-        AND(" AND ");
-
-        private String value = null;
-
-        JDBCOperator(String value) {
-            this.value = value;
-        }
-
-        public String value() {
-            return value;
-        }
-
-        public static JDBCOperator fromValue(String value) {
-            for (JDBCOperator operator : JDBCOperator.values()) {
-                if (operator.value.equalsIgnoreCase(value)) {
-                    return operator;
-                }
-            }
-            throw new IllegalArgumentException("No constant with value " + value + " found.");
-        }
+        modifierOperatorMap.put(Modifier.ABOVE, GT);
+        modifierOperatorMap.put(Modifier.BELOW, LT);
+        modifierOperatorMap.put(Modifier.CONTAINS, LIKE);
+        modifierOperatorMap.put(Modifier.EXACT, EQ);
+        modifierOperatorMap.put(Modifier.NOT, NE);
     }
 
     private JDBCConstants() {

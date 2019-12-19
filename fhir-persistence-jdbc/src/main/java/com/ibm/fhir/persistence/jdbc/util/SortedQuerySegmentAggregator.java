@@ -13,7 +13,10 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMA;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMA_CHAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DESCENDING;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT_CHAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NUMBER_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ORDER_BY;
@@ -203,13 +206,13 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             if (nameProcessed) {
                 expression.append(COMMA);
             }
-            if (Sort.Direction.INCREASING.compareTo(sortParm.getDirection()) == 0) {
-                expression.append("MIN");
+            if (Sort.Direction.INCREASING.equals(sortParm.getDirection())) {
+                expression.append(MIN);
             } else {
-                expression.append("MAX");
+                expression.append(MAX);
             }
             expression.append(LEFT_PAREN);
-            expression.append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(".");
+            expression.append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(DOT_CHAR);
             expression.append(attributeName);
             expression.append(RIGHT_PAREN);
             if (useInOrderByClause) {
@@ -272,7 +275,6 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
 
         log.exiting(CLASSNAME, METHODNAME);
         return attributeNames;
-
     }
 
     /**
@@ -382,8 +384,8 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         log.entering(CLASSNAME, METHODNAME);
 
         StringBuilder orderByBuffer = new StringBuilder();
-
         orderByBuffer.append(ORDER_BY);
+
         // Build MIN and/or MAX clauses
         for (int i = 0; i < this.sortParameters.size(); i++) {
             if (i > 0) {

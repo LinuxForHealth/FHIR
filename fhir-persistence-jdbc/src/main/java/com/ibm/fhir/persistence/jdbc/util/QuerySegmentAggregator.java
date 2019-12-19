@@ -76,7 +76,7 @@ public class QuerySegmentAggregator {
     protected List<Object> idsObjects = new ArrayList<>();
 
     // used for special treatment of List<Parameter> of _lastUpdated
-    protected List<QueryParameter> queryParmLastUpdated = new ArrayList<>();
+    protected List<QueryParameter> queryParmLastUpdateds = new ArrayList<>();
     protected List<Object> lastUpdatedObjects = new ArrayList<>();
 
     private int offset;
@@ -122,7 +122,7 @@ public class QuerySegmentAggregator {
         if (ID.equals(code)) {
             queryParamIds.add(queryParm);
         } else if (LAST_UPDATED.equals(code)) {
-            queryParmLastUpdated.add(queryParm);
+            queryParmLastUpdateds.add(queryParm);
         } else {
             // Only add if not _id and _lastUpdated
             // All else
@@ -328,7 +328,8 @@ public class QuerySegmentAggregator {
          * ( SELECT * FROM BASIC_LOGICAL_RESOURCES ILR WHERE ILR.LOGICAL_ID IN ( ? ? ))
          * </pre>
          */
-
+        
+        // TODO: Optimize
         if (!queryParamIds.isEmpty()) {
             // ID, then special handling. 
             fromClause.append("( SELECT LOGICAL_ID, LOGICAL_RESOURCE_ID, CURRENT_RESOURCE_ID FROM ");
@@ -368,10 +369,10 @@ public class QuerySegmentAggregator {
      * processes the clause for _lastUpdated
      */
     public void processFromClauseForLastUpdated(StringBuilder fromClause, String target) {
-        if (!queryParmLastUpdated.isEmpty()) {
+        if (!queryParmLastUpdateds.isEmpty()) {
             lastUpdatedObjects.clear();
             LastUpdatedParmBehaviorUtil behaviorUtil = new LastUpdatedParmBehaviorUtil();
-            behaviorUtil.buildLastUpdatedDerivedTable(fromClause, target, queryParmLastUpdated);
+            behaviorUtil.buildLastUpdatedDerivedTable(fromClause, target, queryParmLastUpdateds);
             lastUpdatedObjects.addAll(behaviorUtil.getBindVariables());
         } else {
             // Not _lastUpdated, then go to the default. 

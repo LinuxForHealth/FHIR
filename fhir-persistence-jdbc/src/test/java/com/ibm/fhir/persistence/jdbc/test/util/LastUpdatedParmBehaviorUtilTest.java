@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
-import com.ibm.fhir.persistence.jdbc.util.type.DateParmBehaviorUtil;
+import com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.date.DateTimeHandler;
@@ -30,9 +30,10 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 
-public class DateParmBehaviorUtilTest {
-    private static final Logger log = java.util.logging.Logger.getLogger(DateParmBehaviorUtilTest.class.getName());
-    private static final Level LOG_LEVEL = Level.INFO;
+public class LastUpdatedParmBehaviorUtilTest {
+    private static final Logger log =
+            java.util.logging.Logger.getLogger(LastUpdatedParmBehaviorUtilTest.class.getName());
+    private static final Level LOG_LEVEL = Level.FINE;
 
     //---------------------------------------------------------------------------------------------------------
     // Supporting Methods: 
@@ -75,11 +76,10 @@ public class DateParmBehaviorUtilTest {
             log.info("Expected Bind Variables -> " + expectedBindVariables);
         }
         StringBuilder actualWhereClauseSegment = new StringBuilder();
-        List<Timestamp> actualBindVariables = new ArrayList<>();
 
-        DateParmBehaviorUtil behavior = new DateParmBehaviorUtil();
-        behavior.executeBehavior(actualWhereClauseSegment, queryParm, actualBindVariables,
-                tableAlias);
+        LastUpdatedParmBehaviorUtil behavior = new LastUpdatedParmBehaviorUtil();
+        behavior.executeBehavior(actualWhereClauseSegment, queryParm);
+        List<Timestamp> actualBindVariables = behavior.getBindVariables();
 
         if (log.isLoggable(LOG_LEVEL)) {
             log.info("whereClauseSegment -> " + actualWhereClauseSegment.toString());
@@ -125,7 +125,7 @@ public class DateParmBehaviorUtilTest {
         expectedBindVariables.add(upper);
         expectedBindVariables.add(upper);
         String expectedSql =
-                " AND (((Date.DATE_VALUE > ? OR Date.DATE_START > ?))))";
+                "(LAST_UPDATED > ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -136,7 +136,7 @@ public class DateParmBehaviorUtilTest {
         expectedBindVariables.add(value);
         expectedBindVariables.add(value);
         expectedSql =
-                " AND (((Date.DATE_VALUE < ? OR Date.DATE_END < ?))))";
+                "(LAST_UPDATED < ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -146,8 +146,7 @@ public class DateParmBehaviorUtilTest {
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(value);
         expectedBindVariables.add(value);
-        expectedSql =
-                " AND (((Date.DATE_VALUE >= ? OR Date.DATE_START >= ?))))";
+        expectedSql = "(LAST_UPDATED >= ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -157,8 +156,7 @@ public class DateParmBehaviorUtilTest {
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(upper);
         expectedBindVariables.add(upper);
-        expectedSql =
-                " AND (((Date.DATE_VALUE <= ? OR Date.DATE_END <= ?))))";
+        expectedSql = "(LAST_UPDATED <= ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -168,8 +166,7 @@ public class DateParmBehaviorUtilTest {
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(upper);
         expectedBindVariables.add(upper);
-        expectedSql =
-                " AND (((Date.DATE_VALUE > ? OR Date.DATE_START > ?))))";
+        expectedSql = "(LAST_UPDATED > ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -179,8 +176,7 @@ public class DateParmBehaviorUtilTest {
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(value);
         expectedBindVariables.add(value);
-        expectedSql =
-                " AND (((Date.DATE_VALUE < ? OR Date.DATE_END < ?))))";
+        expectedSql = "(LAST_UPDATED < ?)";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -199,8 +195,7 @@ public class DateParmBehaviorUtilTest {
         expectedBindVariables.add(value);
         expectedBindVariables.add(value);
         expectedBindVariables.add(value);
-        String expectedSql =
-                " AND ((((Date.DATE_VALUE >= ? AND Date.DATE_VALUE <= ?) OR (Date.DATE_START >= ? AND Date.DATE_END <= ?)))))";
+        String expectedSql = "((LAST_UPDATED >= ? AND LAST_UPDATED <= ?))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -225,7 +220,7 @@ public class DateParmBehaviorUtilTest {
         expectedBindVariables.add(value);
 
         String expectedSql =
-                " AND ((((Date.DATE_VALUE >= ? AND Date.DATE_VALUE <= ?) OR (Date.DATE_START >= ? AND Date.DATE_END <= ?))) OR (((Date.DATE_VALUE >= ? AND Date.DATE_VALUE <= ?) OR (Date.DATE_START >= ? AND Date.DATE_END <= ?)))))";
+                "((LAST_UPDATED >= ? AND LAST_UPDATED <= ?)) OR ((LAST_UPDATED >= ? AND LAST_UPDATED <= ?))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -248,7 +243,7 @@ public class DateParmBehaviorUtilTest {
         expectedBindVariables.add(value);
 
         String expectedSql =
-                " AND ((((Date.DATE_VALUE < ? OR Date.DATE_VALUE > ?) OR (Date.DATE_START < ? OR Date.DATE_END > ?)))))";
+                "((LAST_UPDATED < ? AND LAST_UPDATED > ?))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql);
@@ -261,8 +256,7 @@ public class DateParmBehaviorUtilTest {
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.AP, null, vTime);
         List<Timestamp> expectedBindVariables = new ArrayList<>();
 
-        String expectedSql =
-                " AND ((((Date.DATE_VALUE >= ? AND Date.DATE_VALUE <= ?) OR (Date.DATE_START >= ? AND Date.DATE_END <= ?)))))";
+        String expectedSql = "((LAST_UPDATED >= ? AND LAST_UPDATED <= ?))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, "Date", true);
@@ -277,7 +271,7 @@ public class DateParmBehaviorUtilTest {
         List<Timestamp> expectedBindVariables = new ArrayList<>();
 
         String expectedSql =
-                " AND ((((Date.DATE_VALUE >= ? AND Date.DATE_VALUE <= ?) OR (Date.DATE_START >= ? AND Date.DATE_END <= ?))) OR (((Date.DATE_VALUE >= ? AND Date.DATE_VALUE <= ?) OR (Date.DATE_START >= ? AND Date.DATE_END <= ?)))))";
+                "((LAST_UPDATED >= ? AND LAST_UPDATED <= ?)) OR ((LAST_UPDATED >= ? AND LAST_UPDATED <= ?))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, "Date", true);
@@ -292,7 +286,7 @@ public class DateParmBehaviorUtilTest {
         List<Timestamp> expectedBindVariables = new ArrayList<>();
 
         String expectedSql =
-                " AND ((((Date.DATE_VALUE >= ? AND Date.DATE_VALUE <= ?) OR (Date.DATE_START >= ? AND Date.DATE_END <= ?))) OR (((Date.DATE_VALUE >= ? AND Date.DATE_VALUE <= ?) OR (Date.DATE_START >= ? AND Date.DATE_END <= ?)))))";
+                "((LAST_UPDATED >= ? AND LAST_UPDATED <= ?)) OR ((LAST_UPDATED >= ? AND LAST_UPDATED <= ?))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, "Date", true);

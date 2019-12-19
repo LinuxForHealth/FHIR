@@ -266,7 +266,7 @@ public class DateTimeHandlerTest {
 
     @Test
     public void testYearMonthDaySeparatorHourMinutesSecondsMicrosecondsParserZone() throws FHIRSearchException {
-        TemporalAccessor acc = DateTimeHandler.parse("2019-10-11T01:10:00Z+01:00");
+        TemporalAccessor acc = DateTimeHandler.parse("2019-10-11T01:10:00+01:00");
         assertNotNull(acc);
         assertEquals(acc.getLong(ChronoField.YEAR), 2019);
         assertTrue(acc.isSupported(ChronoField.YEAR));
@@ -276,7 +276,7 @@ public class DateTimeHandlerTest {
         assertTrue(acc.isSupported(ChronoField.MINUTE_OF_HOUR));
         assertTrue(acc.isSupported(ChronoField.SECOND_OF_MINUTE));
 
-        acc = DateTimeHandler.parse("2019-10-11T21:10:59.999992Z+05:00");
+        acc = DateTimeHandler.parse("2019-10-11T21:10:59.999992+05:00");
         assertNotNull(acc);
         assertEquals(acc.getLong(ChronoField.YEAR), 2019);
         assertTrue(acc.isSupported(ChronoField.YEAR));
@@ -286,7 +286,7 @@ public class DateTimeHandlerTest {
         assertTrue(acc.isSupported(ChronoField.MINUTE_OF_HOUR));
         assertTrue(acc.isSupported(ChronoField.SECOND_OF_MINUTE));
 
-        acc = DateTimeHandler.parse("2019-10-11T21:10:59.9Z-05:00");
+        acc = DateTimeHandler.parse("2019-10-11T21:10:59.9-05:00");
         assertNotNull(acc);
         assertEquals(acc.getLong(ChronoField.YEAR), 2019);
         assertTrue(acc.isSupported(ChronoField.YEAR));
@@ -296,7 +296,7 @@ public class DateTimeHandlerTest {
         assertTrue(acc.isSupported(ChronoField.MINUTE_OF_HOUR));
         assertTrue(acc.isSupported(ChronoField.SECOND_OF_MINUTE));
 
-        acc = DateTimeHandler.parse("2019-10-11T21:10:59Z+05:00");
+        acc = DateTimeHandler.parse("2019-10-11T21:10:59+05:00");
         assertNotNull(acc);
         assertEquals(acc.getLong(ChronoField.YEAR), 2019);
         assertTrue(acc.isSupported(ChronoField.YEAR));
@@ -316,7 +316,7 @@ public class DateTimeHandlerTest {
         assertTrue(acc.isSupported(ChronoField.MINUTE_OF_HOUR));
         assertTrue(acc.isSupported(ChronoField.SECOND_OF_MINUTE));
 
-        acc = DateTimeHandler.parse("2019-10-11T21Z+00:00");
+        acc = DateTimeHandler.parse("2019-10-11T21+00:00");
         assertNotNull(acc);
         assertEquals(acc.getLong(ChronoField.YEAR), 2019);
         assertTrue(acc.isSupported(ChronoField.YEAR));
@@ -346,14 +346,14 @@ public class DateTimeHandlerTest {
 
     @Test
     public void testSerializerOutput() throws FHIRSearchException {
-        TemporalAccessor acc = DateTimeHandler.parse("2019-10-11T01:10:00Z+01:00");
+        TemporalAccessor acc = DateTimeHandler.parse("2019-10-11T01:10:00+01:00");
         assertNotNull(acc);
         assertEquals(DateTimeHandler.serialize(acc), "2019-10-11T01:10+01:00");
     }
 
     @Test
     public void testGenerateLowerUpperBoundWithApproximation() throws FHIRSearchException {
-        String v = "2019-12-11T00:00:00Z+00:00";
+        String v = "2019-12-11T00:00:00+00:00";
         TemporalAccessor value = DateTimeHandler.parse(v);
         assertNotNull(value);
         Instant lowerBound = DateTimeHandler.generateLowerBound(Prefix.AP, value, v);
@@ -363,8 +363,8 @@ public class DateTimeHandlerTest {
 
     @Test
     public void testGenerateLowerUpperBoundApproximation() throws FHIRSearchException {
-        TemporalAccessor value = DateTimeHandler.parse("2019-12-11T00:00:00Z+00:00");
-        TemporalAccessor nowValue = DateTimeHandler.parse("2019-12-21T00:00:00Z+00:00");
+        TemporalAccessor value = DateTimeHandler.parse("2019-12-11T00:00:00+00:00");
+        TemporalAccessor nowValue = DateTimeHandler.parse("2019-12-21T00:00:00+00:00");
         Instant cur = java.time.Instant.from(value);
         Instant now = java.time.Instant.from(nowValue);
 
@@ -458,7 +458,7 @@ public class DateTimeHandlerTest {
 
     @Test
     public void testGenerateLowerUpperBoundZonedDateTimePrecise() throws FHIRSearchException {
-        String v = "2019-12-11T00:00:00Z+05:00";
+        String v = "2019-12-11T00:00:00+05:00";
         TemporalAccessor value = DateTimeHandler.parse(v);
 
         Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
@@ -469,7 +469,7 @@ public class DateTimeHandlerTest {
 
     @Test
     public void testGenerateLowerUpperBoundZonedDateTimeYearMonthDayHoursMinutesSeconds() throws FHIRSearchException {
-        String v = "2019-12-11T00:00:00Z+05:00";
+        String v = "2019-12-11T00:00:00+05:00";
         TemporalAccessor value = DateTimeHandler.parse(v);
 
         Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
@@ -480,7 +480,7 @@ public class DateTimeHandlerTest {
 
     @Test
     public void testGenerateLowerUpperBoundZonedDateTimeYearMonthDayHoursMinutes() throws FHIRSearchException {
-        String v = "2019-12-11T00:00Z+05:00";
+        String v = "2019-12-11T00:00+05:00";
         TemporalAccessor value = DateTimeHandler.parse(v);
 
         Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
@@ -491,7 +491,7 @@ public class DateTimeHandlerTest {
 
     @Test
     public void testGenerateLowerUpperBoundZonedDateTimeYearMonthDayHours() throws FHIRSearchException {
-        String v = "2019-12-11T00Z+05:00";
+        String v = "2019-12-11T00+05:00";
         TemporalAccessor value = DateTimeHandler.parse(v);
 
         Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
@@ -502,42 +502,42 @@ public class DateTimeHandlerTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testGenerateLowerUpperBoundZonedDateTimeYearMonthDayLower() throws FHIRSearchException {
-        String v = "2019-12-11Z+05:00";
+        String v = "2019-12-11+05:00";
         TemporalAccessor value = DateTimeHandler.parse(v);
         DateTimeHandler.generateLowerBound(null, value, v);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testGenerateLowerUpperBoundZonedDateTimeYearMonthDayUpper() throws FHIRSearchException {
-        String v = "2019-12-11Z+05:00";
+        String v = "2019-12-11+05:00";
         TemporalAccessor value = DateTimeHandler.parse(v);
         DateTimeHandler.generateUpperBound(null, value, v);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testGenerateLowerUpperBoundZonedDateTimeYearMonthLower() throws FHIRSearchException {
-        String v = "2019-12Z+05:00";
+        String v = "2019-12+05:00";
         TemporalAccessor value = DateTimeHandler.parse(v);
         DateTimeHandler.generateLowerBound(null, value, v);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testGenerateLowerUpperBoundZonedDateTimeYearMonthUpper() throws FHIRSearchException {
-        String v = "2019-12Z+05:00";
+        String v = "2019-12+05:00";
         TemporalAccessor value = DateTimeHandler.parse(v);
         DateTimeHandler.generateUpperBound(null, value, v);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testGenerateLowerUpperBoundZonedDateTimeYearLower() throws FHIRSearchException {
-        String v = "2019Z+05:00";
+        String v = "2019+05:00";
         TemporalAccessor value = DateTimeHandler.parse(v);
         DateTimeHandler.generateLowerBound(null, value, v);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testGenerateLowerUpperBoundZonedDateTimeYearUpper() throws FHIRSearchException {
-        String v = "2019Z+05:00";
+        String v = "2019+05:00";
         TemporalAccessor value = DateTimeHandler.parse(v);
         DateTimeHandler.generateUpperBound(null, value, v);
     }

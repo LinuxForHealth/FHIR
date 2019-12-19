@@ -77,12 +77,12 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     // Derby: https://db.apache.org/derby/docs/10.0/manuals/reference/sqlj271.html
     private static final Timestamp SMALLEST_TIMESTAMP =
             Timestamp.from(
-                    ((ZonedDateTime) DateTimeHandler.parseQuiet("0001-01-01T00:00:00.000000Z+00:00")).toInstant());
+                    ((ZonedDateTime) DateTimeHandler.parseQuiet("0001-01-01T00:00:00.000000+00:00")).toInstant());
 
     // 23:59:59.999999 used instead of 24:00:00.000000 to ensure it could be represented in FHIR if needed
     private static final Timestamp LARGEST_TIMESTAMP =
             Timestamp.from(
-                    ((ZonedDateTime) DateTimeHandler.parseQuiet("9999-12-31T23:59:59.999999Z+00:00")).toInstant());
+                    ((ZonedDateTime) DateTimeHandler.parseQuiet("9999-12-31T23:59:59.999999+00:00")).toInstant());
 
     // We only need the SearchParameter type and code, so just store those directly as members
     private final String searchParamCode;

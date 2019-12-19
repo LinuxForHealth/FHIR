@@ -6,18 +6,18 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUOTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMA;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUOTE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants.JDBCOperator;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.search.parameters.InclusionParameter;
@@ -211,7 +211,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         // P1.PARAMETER_NAME_ID=xx AND 
         subQueryString.append("P1.PARAMETER_NAME_ID=")
                 .append(this.getParameterNameId(includeParm.getSearchParameter()))
-                .append(JDBCOperator.AND.value());
+                .append(AND);
 
         // P1.LOGICAL_RESOURCE_ID IN 
         subQueryString.append("P1.LOGICAL_RESOURCE_ID IN ");

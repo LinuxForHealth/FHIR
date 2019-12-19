@@ -35,7 +35,7 @@ import com.ibm.fhir.model.type.Uri;
 
 public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest {
     public static final boolean DEBUG = false;
-    
+
     protected final String TAG_SYSTEM = "http://ibm.com/fhir/tag";
     protected final String TAG = UUID.randomUUID().toString();
     protected final String TAG2 = UUID.randomUUID().toString();

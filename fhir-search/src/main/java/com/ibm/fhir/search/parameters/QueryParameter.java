@@ -24,7 +24,6 @@ import com.ibm.fhir.search.date.DateTimeHandler;
  * general type of parameter. 
  */
 public class QueryParameter {
-
     private Type type = null;
     private String code = null;
 

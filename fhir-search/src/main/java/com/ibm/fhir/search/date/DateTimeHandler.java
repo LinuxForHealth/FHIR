@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.YearMonth;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,7 +22,6 @@ import java.time.format.ResolverStyle;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
-import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.search.SearchConstants.Prefix;
@@ -37,17 +37,6 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  */
 public class DateTimeHandler {
     private static final Logger logger = Logger.getLogger(DateTimeHandler.class.getName());
-
-    /*
-     * to normalize the times and dates we store all times and dates as UTC.
-     * This ensures a consistent, and accurate approach when extracting the times
-     * and dates.
-     * <br>
-     * If there is a need to override, the DEFAULT_ZONE can be used in combination
-     * with a FHIR Configuration property, the property defaults to UTC, and may be
-     * overridden.
-     */
-    private static final String DEFAULT_ZONE = "UTC";
 
     // used for adjustInto calls to obtain usable Zulu instants from Year, YearMonth, LocalDate
     private static final String REFERENCE_DATE_STRING = "2018-01-01T00:00:00.000000";
@@ -92,10 +81,7 @@ public class DateTimeHandler {
                                     .optionalEnd()
                                 .optionalEnd()
                                 .optionalStart()
-                                    .appendLiteral('Z')
-                                    .optionalStart()
-                                        .appendZoneOrOffsetId()
-                                    .optionalEnd()
+                                    .appendPattern("XXX")
                                 .optionalEnd()
                             .optionalEnd()
                             .optionalEnd()
@@ -105,8 +91,7 @@ public class DateTimeHandler {
     // @formatter:on
 
     public static Timestamp generateTimestamp(Instant inst) {
-        TimeZone.setDefault(TimeZone.getTimeZone(DEFAULT_ZONE));
-        return Timestamp.from(inst);
+        return Timestamp.from(ZonedDateTime.ofInstant(inst, ZoneId.of("UTC")).toInstant());
     }
 
     /**
@@ -166,21 +151,18 @@ public class DateTimeHandler {
             YearMonth ym = (YearMonth) value;
             LocalDateTime local = REFERENCE_DATE.with(ChronoField.YEAR, ym.getYear());
             local    = local.with(ChronoField.MONTH_OF_YEAR, ym.getMonthValue());
-            response =
-                    ZonedDateTime.of(local, ZoneOffset.UTC).toInstant();
+            response = ZonedDateTime.of(local, ZoneOffset.UTC).toInstant();
         } else if (value instanceof LocalDate) {
             // LocalDate - YYYY-MM-DD
             LocalDate ld = (LocalDate) value;
             LocalDateTime local = REFERENCE_DATE.with(ChronoField.YEAR, ld.getYear());
             local    = local.with(ChronoField.MONTH_OF_YEAR, ld.getMonthValue());
             local    = local.with(ChronoField.DAY_OF_MONTH, ld.getDayOfMonth());
-            response =
-                    ZonedDateTime.of(local, ZoneOffset.UTC).toInstant();
+            response = ZonedDateTime.of(local, ZoneOffset.UTC).toInstant();
         } else if (value instanceof LocalDateTime) {
             // LocalDate - YYYY-MM-DD HH
             LocalDateTime local = (LocalDateTime) value;
-            response =
-                    ZonedDateTime.of(local, ZoneOffset.UTC).toInstant();
+            response = ZonedDateTime.of(local, ZoneOffset.UTC).toInstant();
         } else if (value instanceof ZonedDateTime) {
             ZonedDateTime zdt = (ZonedDateTime) value;
             response = zdt.toInstant();
@@ -201,7 +183,6 @@ public class DateTimeHandler {
     public static Instant generateUpperBound(Prefix prefix, TemporalAccessor value, String originalString) {
         Instant response = null;
 
-        ChronoUnit unit = ChronoUnit.NANOS;
         if (value instanceof java.time.Year) {
             // YEAR + 1
             Year year = (Year) value;
@@ -209,9 +190,7 @@ public class DateTimeHandler {
             LocalDateTime local = REFERENCE_DATE.with(ChronoField.YEAR, year.getValue());
             response =
                     ZonedDateTime.of(local, ZoneOffset.UTC).toInstant().minus(TICK,
-                            unit);
-
-            unit     = ChronoUnit.YEARS;
+                            ChronoUnit.NANOS);
         } else if (value instanceof YearMonth) {
             // Grab the values for Year/Month Value
             YearMonth ym = (YearMonth) value;
@@ -221,7 +200,6 @@ public class DateTimeHandler {
             response =
                     ZonedDateTime.of(local, ZoneOffset.UTC).toInstant().minus(TICK,
                             ChronoUnit.NANOS);
-            unit     = ChronoUnit.MONTHS;
         } else if (value instanceof LocalDate) {
             // LocalDate - YYYY-MM-DD
             LocalDate ld = (LocalDate) value;
@@ -232,62 +210,49 @@ public class DateTimeHandler {
             response =
                     ZonedDateTime.of(local, ZoneOffset.UTC).toInstant().minus(TICK,
                             ChronoUnit.NANOS);
-
-            unit     = ChronoUnit.DAYS;
         } else if (value instanceof LocalDateTime) {
             // LocalDate - YYYY-MM-DD
             LocalDateTime local = (LocalDateTime) value;
             long precision = originalString.chars().filter(ch -> ch == ':' || ch == '.').count();
             if (precision == 0) {
                 // HH - No Colon 
-                local =
-                        local.plus(1, ChronoUnit.HOURS).minus(TICK,
-                                ChronoUnit.NANOS);
-
-                unit  = ChronoUnit.HOURS;
+                local = local.plus(1, ChronoUnit.HOURS).minus(TICK, ChronoUnit.NANOS);
             } else if (precision == 1) {
                 // HH:MM - First Colon 
-                local =
-                        local.plus(1, ChronoUnit.MINUTES).minus(TICK,
-                                ChronoUnit.NANOS);
-
-                unit  = ChronoUnit.MINUTES;
+                local = local.plus(1, ChronoUnit.MINUTES).minus(TICK, ChronoUnit.NANOS);
             } else if (precision == 2) {
                 // HH:MM:SS - Second Colon
-                local =
-                        local.plus(1, ChronoUnit.SECONDS).minus(TICK,
-                                ChronoUnit.NANOS);
-                unit  = ChronoUnit.SECONDS;
+                local = local.truncatedTo(ChronoUnit.SECONDS).plus(1, ChronoUnit.SECONDS).minus(TICK, ChronoUnit.NANOS);
             }
 
-            // ELSE -> HH:MM:SS.XXXXX - First Period
-            // We're at a precise point here, no more infinite precision. 
-            response =
-                    ZonedDateTime.of(local, ZoneOffset.UTC).toInstant();
+            // ELSE -> HH:MM:SS.XXXXX
+            // The point is treated as exact.
+            response = ZonedDateTime.of(local, ZoneOffset.UTC).toInstant();
+
         } else if (value instanceof ZonedDateTime) {
             ZonedDateTime zdt = (ZonedDateTime) value;
-            long precision = originalString.chars().filter(ch -> ch == ':' || ch == '.').count();
+            long precision = originalString.chars().filter(ch -> ch == ':' || ch == '.' || ch == 'Z' ).count();
             // Shift by 1 as the Zone includes a semicolon. 
             if (precision == 1) {
-                // HH - No Colon 
-                zdt  =
-                        zdt.plus(1, ChronoUnit.HOURS).minus(TICK,
-                                ChronoUnit.NANOS);
-                unit = ChronoUnit.HOURS;
+                // HH - First Colon (Zone is colon)
+                // 2019-12-11T00+05:00
+                zdt = zdt.plus(1, ChronoUnit.HOURS).minus(TICK, ChronoUnit.NANOS);
             } else if (precision == 2) {
-                // HH:MM - First Colon 
-                zdt  = zdt.plus(1, ChronoUnit.MINUTES).minus(TICK, ChronoUnit.NANOS);
-                unit = ChronoUnit.MINUTES;
+                // HH:MM - Second Colon 
+                // 2019-12-11T00:00+05:00
+                zdt = zdt.plus(1, ChronoUnit.MINUTES).minus(TICK, ChronoUnit.NANOS);
             } else if (precision == 3) {
-                // HH:MM:SS - Second Colon
-                zdt  = zdt.plus(1, ChronoUnit.SECONDS).minus(TICK, ChronoUnit.NANOS);
-                unit = ChronoUnit.SECONDS;
+                // HH:MM:SS - Third Colon
+                // 2019-12-11T00:00:00+05:00
+                zdt = zdt.truncatedTo(ChronoUnit.SECONDS).plus(1, ChronoUnit.SECONDS).minus(TICK, ChronoUnit.NANOS);
+            } else if (precision == 4) { 
+                // Nanoseconds
+                // 2019-12-11T00:00:00.000000+05:00
+                zdt = zdt.truncatedTo(ChronoUnit.MILLIS).plus(1, ChronoUnit.MILLIS).minus(TICK, ChronoUnit.NANOS);
             }
 
-            // ELSE -> HH:MM:SS.XXXXX - First Period
-            // We're at a precise point here, no more infinite precision. 
-            response =
-                    zdt.toInstant();
+            // ELSE -> HH:MM:SS.XXXXX - treat precise.
+            response = zdt.toInstant();
         }
 
         if (prefix != null && Prefix.AP.compareTo(prefix) == 0 && response != null) {
@@ -362,8 +327,7 @@ public class DateTimeHandler {
             return DATE_TIME_PARSER_FORMATTER.withResolverStyle(ResolverStyle.SMART).parseBest(value,
                     ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from);
         } catch (java.time.format.DateTimeParseException dtpe) {
-            logger.fine("Error parsing a quiet value");
-            dtpe.printStackTrace();
+            logger.fine("Error parsing a quiet value " + dtpe.toString());
             return null;
         }
     }

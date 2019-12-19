@@ -7,29 +7,34 @@
 package com.ibm.fhir.persistence.jdbc.util;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMA_CHAR;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.IN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIKE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PATH_CHAR;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.SPACE;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ibm.fhir.persistence.jdbc.JDBCConstants;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants.JDBCOperator;
-
 /**
  * Modifier: uri:above
  * <br>
- * <a href="https://www.hl7.org/fhir/search.html#uri">FHIR Specification: Search uri:above</a>
+ * <a href="https://www.hl7.org/fhir/search.html#uri">FHIR Specification: Search
+ * uri:above</a>
  */
 public class UriModifierUtil {
-    public static final char PATH_CHAR = '/';
-    public static final char SPACE_CHAR = ' ';
-    public static final char COMMA_CHAR = ',';
-    
+
     private UriModifierUtil() {
         // No Operation
     }
 
     /**
-     *  generates the uri:above query
+     * generates the uri:above query
+     * 
      * @param searchValue
      * @param conditionalBuilder
      * @param tableColumnName
@@ -45,11 +50,11 @@ public class UriModifierUtil {
         if (protocolLoc != -1) {
             // We found the start, but we want the end of the protocol
             protocolLoc += 3;
-            
+
             int position = conditionalBuilder.length();
-            
+
             // Start the Conditional Builder
-            conditionalBuilder.append(SPACE_CHAR).append(JDBCOperator.IN).append(SPACE_CHAR).append(JDBCConstants.LEFT_PAREN);
+            conditionalBuilder.append(IN).append(LEFT_PAREN);
 
             StringBuilder urlSegments = new StringBuilder();
             urlSegments.append(searchValue.substring(0, protocolLoc));
@@ -57,7 +62,7 @@ public class UriModifierUtil {
             // Ignore query parameters ?name=value
             String[] pathArgs = searchValue.substring(protocolLoc).split("\\?")[0].split("/");
             for (int i = 0; i < pathArgs.length; i++) {
-                conditionalBuilder.append(SPACE_CHAR).append(BIND_VAR).append(COMMA_CHAR);
+                conditionalBuilder.append(SPACE).append(BIND_VAR).append(COMMA_CHAR);
 
                 urlSegments.append(pathArgs[i]);
                 queryArgs.add(urlSegments.toString());
@@ -68,18 +73,18 @@ public class UriModifierUtil {
 
             // Close out the Conditional Builder
             conditionalBuilder.deleteCharAt(conditionalBuilder.length() - 1)
-                    .append(' ')
-                    .append(JDBCConstants.RIGHT_PAREN);
-            
-            if(!queryArgs.isEmpty()) {
+                    .append(SPACE).append(RIGHT_PAREN);
+
+            if (!queryArgs.isEmpty()) {
                 conditionalBuilder.insert(position, tableColumnName);
             }
         }
         return queryArgs;
     }
-    
+
     /**
      * generates the uri:below query
+     * 
      * @param conditionalBuilder
      * @param tableColumnName
      */
@@ -90,11 +95,10 @@ public class UriModifierUtil {
         // <pre> 
         // TABLE.MY_STR_VALUES = ? )  OR  ( TABLE.MY_STR_VALUES LIKE ?
         // </pre>
-        
-        conditionalBuilder.append(tableColumnName).append(SPACE_CHAR).append('=').append(SPACE_CHAR)
-            .append(BIND_VAR).append(SPACE_CHAR).append(SPACE_CHAR).append(JDBCOperator.OR.value())
-            .append(SPACE_CHAR).append(SPACE_CHAR).append(tableColumnName).append(" LIKE ")
-            .append(BIND_VAR);
-        
+
+        conditionalBuilder.append(tableColumnName).append(EQ)
+                .append(BIND_VAR).append(OR)
+                .append(tableColumnName).append(LIKE)
+                .append(BIND_VAR);
     }
 }

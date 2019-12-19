@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -361,7 +362,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             connection = this.getConnection();
             stmt = connection.prepareStatement(sql);
             // Inject arguments into the prepared stmt.
-            for (int i = 0; i <searchArgs.length;  i++) {
+            for (int i = 0; i <searchArgs.length; i++) {
                 stmt.setObject(i+1, searchArgs[i]);
             }
             dbCallStartTime = System.nanoTime();
@@ -417,7 +418,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             connection = this.getConnection();
             stmt = connection.prepareStatement(sql);
             // Inject arguments into the prepared stmt.
-            for (int i = 0; i <searchArgs.length;  i++) {
+            for (int i = 0; i <searchArgs.length; i++) {
                 stmt.setObject(i+1, searchArgs[i]);
             }
             dbCallStartTime = System.nanoTime();
