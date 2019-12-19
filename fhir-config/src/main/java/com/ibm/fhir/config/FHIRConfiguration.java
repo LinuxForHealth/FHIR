@@ -48,8 +48,6 @@ public class FHIRConfiguration {
     public static final String PROPERTY_AUDIT_SERVICE_CLASS_NAME = "fhirServer/audit/serviceClassName";
     public static final String PROPERTY_AUDIT_SERVICE_PROPERTIES = "fhirServer/audit/serviceProperties";
     public static final String PROPERTY_AUDIT_PATIENT_ID_EXTURL = "fhirServer/audit/patientIdExtensionUrl";
-    public static final String PROPERTY_AUDIT_RESOURCE_NAME_EXTURL = "fhirServer/audit/resourceNameExtensionUrl";
-    public static final String PROPERTY_UPDATE_CREATE_ENABLED = "fhirServer/persistence/common/updateCreateEnabled";
 
     // Notification config properties
     public static final String PROPERTY_NOTIFICATION_RESOURCE_TYPES = "fhirServer/notifications/common/includeResourceTypes";
@@ -59,6 +57,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_KAFKA_CONNECTIONPROPS = "fhirServer/notifications/kafka/connectionProperties";
 
     // Persistence layer properties
+    public static final String PROPERTY_UPDATE_CREATE_ENABLED = "fhirServer/persistence/common/updateCreateEnabled";
     public static final String PROPERTY_PERSISTENCE_FACTORY = "fhirServer/persistence/factoryClassname";
     public static final String PROPERTY_DATASOURCES = "fhirServer/persistence/datasources";
     public static final String PROPERTY_JDBC_BOOTSTRAP_DB = "fhirServer/persistence/jdbc/bootstrapDb";

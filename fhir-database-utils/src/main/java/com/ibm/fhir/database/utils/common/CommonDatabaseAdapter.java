@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.database.utils.api.DuplicateValueException;
+import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -345,7 +345,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
                     AddTenantDAO adder = new AddTenantDAO(adminSchemaName, tenantId, tenantName);
                     runStatement(adder);
                 }
-                catch (DuplicateValueException x) {
+                catch (UniqueConstraintViolationException x) {
                     // Concurrent operation, so try again
                     logger.info("Duplicate value, so try the next one");
                     tenantId = 0;
