@@ -16,10 +16,11 @@ import com.ibm.fhir.search.SearchConstants.Type;
 
 public class JDBCConstants {
     /**
-     * The maximum number of components allowed within a search parameter of type composite
+     * The maximum number of components allowed within a search parameter of type
+     * composite
      */
     public static final int MAX_NUM_OF_COMPOSITE_COMPONENTS = 3;
-    
+
     // Constants for the IBM FHIR Server database schema
     public static final String STR_VALUE = "STR_VALUE";
     public static final String STR_VALUE_LCASE = "STR_VALUE_LCASE";
@@ -35,7 +36,7 @@ public class JDBCConstants {
     public static final String DATE_END = "DATE_END";
     public static final String LATITUDE_VALUE = "LATITUDE_VALUE";
     public static final String LONGITUDE_VALUE = "LONGITUDE_VALUE";
-    
+
     // Generic SQL query string constants
     public static final String DOT = ".";
     public static final String WHERE = " WHERE ";
@@ -65,7 +66,8 @@ public class JDBCConstants {
     public static final char QUOTE = '\'';
 
     /**
-     * Maps search parameter types to the currently supported list of modifiers for that type.
+     * Maps search parameter types to the currently supported list of modifiers for
+     * that type.
      */
     public static Map<Type, List<Modifier>> supportedModifiersMap;
 
@@ -113,28 +115,28 @@ public class JDBCConstants {
     /**
      * An enumeration of SQL query operators.
      */
-    public static enum JDBCOperator {
-        EQ(" = "), 
-        LIKE(" LIKE "), 
-        IN(" IN "), 
-        LT(" < "), 
+    public enum JDBCOperator {
+        EQ(" = "),
+        LIKE(" LIKE "),
+        IN(" IN "),
+        LT(" < "),
         LTE(" <= "),
-        GT(" > "), 
+        GT(" > "),
         GTE(" >= "),
-        NE(" <> "), 
+        NE(" <> "),
         OR(" OR "),
         AND(" AND ");
-        
+
         private String value = null;
-        
+
         JDBCOperator(String value) {
             this.value = value;
         }
-        
+
         public String value() {
             return value;
         }
-        
+
         public static JDBCOperator fromValue(String value) {
             for (JDBCOperator operator : JDBCOperator.values()) {
                 if (operator.value.equalsIgnoreCase(value)) {
@@ -143,5 +145,9 @@ public class JDBCConstants {
             }
             throw new IllegalArgumentException("No constant with value " + value + " found.");
         }
+    }
+
+    private JDBCConstants() {
+        // Hide the constructor
     }
 }
