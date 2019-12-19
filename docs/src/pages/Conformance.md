@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2019-10-08 09:59:05 -0400
+date:   2019-12-16 09:59:05 -0400
 permalink: /conformance/
 ---
 
@@ -80,11 +80,11 @@ For information on how to specify custom search parameters, see [FHIRSearchConfi
 FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#modifiers and vary by search parameter type. The IBM FHIR Server implements a subset of the spec-defined search modifiers that is defined in the following table:
 
 |FHIR Search Parameter Type|Supported Modifiers|"Default" search behavior when no Modifier or Prefix is present|
-|--------------------------|-------------------|-----------------------------------------------------|
+|--------------------------|-------------------|---------------------------------------------------------------|
 |String                    |`:exact`,`:contains`,`:missing` |"starts with" search that is case-insensitive and accent-insensitive|
 |Reference                 |`:[type]`,`:missing`            |exact match search|
 |URI                       |`:below`,`:above`,`:missing`    |exact match search|
-|Token                     |`:below`,`:not`,`:missing`      |exact match search|
+|Token                     |`:missing`                      |exact match search|
 |Number                    |`:missing`                      |exact match search|
 |Date                      |`:missing`                      |exact match search|
 |Quantity                  |`:missing`                      |implicit range search (see http://hl7.org/fhir/R4/search.html#quantity)|

@@ -5,10 +5,14 @@
  */
 package com.ibm.fhir.persistence.jdbc;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Prefix;
+import com.ibm.fhir.search.SearchConstants.Type;
 
 public class JDBCConstants {
     /**
@@ -59,24 +63,40 @@ public class JDBCConstants {
     public static final String COMBINED_RESULTS = ") COMBINED_RESULTS";
     public static final String COMMA = ", ";
     public static final char QUOTE = '\'';
-    
+
+    /**
+     * Maps search parameter types to the currently supported list of modifiers for that type.
+     */
+    public static Map<Type, List<Modifier>> supportedModifiersMap;
+
     /**
      * Maps Parameter modifiers to SQL operators.
      */
-    public static HashMap<Modifier, JDBCOperator> modifierMap;
+    public static Map<Modifier, JDBCOperator> modifierOperatorMap;
 
     /**
      * Maps Parameter value prefix operators to SQL operators.
      */
-    public static HashMap<Prefix, JDBCOperator> prefixOperatorMap;
+    public static Map<Prefix, JDBCOperator> prefixOperatorMap;
 
     static {
-        modifierMap = new HashMap<>();
-        modifierMap.put(Modifier.ABOVE, JDBCOperator.GT);
-        modifierMap.put(Modifier.BELOW, JDBCOperator.LT);
-        modifierMap.put(Modifier.CONTAINS, JDBCOperator.LIKE);
-        modifierMap.put(Modifier.EXACT, JDBCOperator.EQ);
-        modifierMap.put(Modifier.NOT, JDBCOperator.NE);
+        supportedModifiersMap = new HashMap<Type, List<Modifier>>();
+        supportedModifiersMap.put(Type.STRING, Arrays.asList(Modifier.EXACT, Modifier.CONTAINS, Modifier.MISSING));
+        supportedModifiersMap.put(Type.REFERENCE, Arrays.asList(Modifier.TYPE, Modifier.MISSING));
+        supportedModifiersMap.put(Type.URI, Arrays.asList(Modifier.BELOW, Modifier.ABOVE, Modifier.MISSING));
+        supportedModifiersMap.put(Type.TOKEN, Arrays.asList(Modifier.MISSING));
+        supportedModifiersMap.put(Type.NUMBER, Arrays.asList(Modifier.MISSING));
+        supportedModifiersMap.put(Type.DATE, Arrays.asList(Modifier.MISSING));
+        supportedModifiersMap.put(Type.QUANTITY, Arrays.asList(Modifier.MISSING));
+        supportedModifiersMap.put(Type.COMPOSITE, Arrays.asList(Modifier.MISSING));
+        supportedModifiersMap.put(Type.SPECIAL, Arrays.asList(Modifier.MISSING));
+
+        modifierOperatorMap = new HashMap<>();
+        modifierOperatorMap.put(Modifier.ABOVE, JDBCOperator.GT);
+        modifierOperatorMap.put(Modifier.BELOW, JDBCOperator.LT);
+        modifierOperatorMap.put(Modifier.CONTAINS, JDBCOperator.LIKE);
+        modifierOperatorMap.put(Modifier.EXACT, JDBCOperator.EQ);
+        modifierOperatorMap.put(Modifier.NOT, JDBCOperator.NE);
 
         prefixOperatorMap = new HashMap<>();
         prefixOperatorMap.put(Prefix.EQ, JDBCOperator.EQ);
@@ -89,7 +109,7 @@ public class JDBCConstants {
         prefixOperatorMap.put(Prefix.EB, JDBCOperator.LT);
         prefixOperatorMap.put(Prefix.AP, JDBCOperator.EQ);
     }
-    
+
     /**
      * An enumeration of SQL query operators.
      */

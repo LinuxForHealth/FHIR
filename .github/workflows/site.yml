@@ -71,8 +71,8 @@ jobs:
         find . 
         find . -iname '*.sh' -delete
         date > build.txt
-        git config --global user.email "${{ secrets.GITHUB_ACTOR }}@users.noreply.github.com"
-        git config --global user.name "Git Hub Site Automation"
+        git config --global user.email "prb112@users.noreply.github.com"
+        git config --global user.name "Paul Bastide (Automation)"
         git add . 
         git commit -m "Update to GH-Pages" 
     - name: Push changes to GH Pages

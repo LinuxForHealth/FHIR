@@ -79,6 +79,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
@@ -106,6 +107,7 @@ import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
+import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
@@ -171,7 +173,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         this.setManagedConnection(this.getBaseDao().getConnection());
         this.resourceDao = new ResourceDAOImpl(this.getManagedConnection());
         this.parameterDao = new ParameterDAOImpl(this.getManagedConnection());
-                
+        
         log.exiting(CLASSNAME, METHODNAME);
     }
 
@@ -417,8 +419,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         SqlQueryData query;
 
         try {
-            queryBuilder = new JDBCQueryBuilder((ParameterDAO)this.getParameterDao(),
-                                                          (ResourceDAO)this.getResourceDao());
+            checkModifiers(searchContext);
+            queryBuilder = new JDBCQueryBuilder((ParameterDAO) this.getParameterDao(),
+                                                (ResourceDAO) this.getResourceDao());
 
             countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
             if (countQuery != null) {
@@ -504,6 +507,22 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
+        }
+    }
+    
+    /**
+     * @throws FHIRPersistenceException if the search context contains one or more unsupported modifiers
+     */
+    private void checkModifiers(FHIRSearchContext searchContext) throws FHIRPersistenceException {
+        for (QueryParameter param : searchContext.getSearchParameters()) {
+            do {
+                if(param.getModifier() != null &&
+                        !JDBCConstants.supportedModifiersMap.get(param.getType()).contains(param.getModifier())) {
+                    throw new FHIRPersistenceException("Found unsupported modifier '" + param.getModifier() + "'"
+                            + " for search parameter '" + param.getCode() + "' of type " + param.getType());
+                }
+                param = param.getNextParameter();
+            } while (param != null);
         }
     }
     
