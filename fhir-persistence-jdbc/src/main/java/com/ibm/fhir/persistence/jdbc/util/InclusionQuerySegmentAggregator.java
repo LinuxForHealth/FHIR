@@ -9,8 +9,9 @@ package com.ibm.fhir.persistence.jdbc.util;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUOTE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMA;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -38,8 +39,10 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String SELECT_ROOT =
             "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID FROM ";
     private static final String UNION_ALL = " UNION ALL ";
-    private static final String REVINCLUDE_JOIN =
-            "JOIN  {0}_STR_VALUES P1 ON P1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID ";
+    private static final String REVINCLUDE_JOIN_START =
+            "JOIN ";
+    private static final String REVINCLUDE_JOIN_END =
+            "_STR_VALUES P1 ON P1.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID ";
     private static final String ORDERING = " ORDER BY R.LOGICAL_RESOURCE_ID ASC ";
 
     private List<InclusionParameter> includeParameters;
@@ -137,9 +140,9 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         queryString.append(SELECT_COUNT_ROOT);
         queryString.append(LEFT_PAREN);
         queryString.append(QuerySegmentAggregator.SELECT_ROOT);
-        queryString.append(super.buildFromClause());
+        buildFromClause(queryString, resourceType.getSimpleName());
         allBindVariables.addAll(this.idsObjects);
-        queryString.append(super.buildWhereClause(null));
+        buildWhereClause(queryString, null);
 
         queryString.append(COMBINED_RESULTS);
 
@@ -174,9 +177,10 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         queryString.append(InclusionQuerySegmentAggregator.SELECT_ROOT).append(LEFT_PAREN);
         queryString.append(InclusionQuerySegmentAggregator.SELECT_ROOT).append(LEFT_PAREN);
         queryString.append(QuerySegmentAggregator.SELECT_ROOT);
-        queryString.append(super.buildFromClause());
+        buildFromClause(queryString, resourceType.getSimpleName());
         allBindVariables.addAll(this.idsObjects);
-        queryString.append(super.buildWhereClause(null));
+        buildWhereClause(queryString, null);
+
         // Add ordering
         queryString.append(ORDERING);
         this.addPaginationClauses(queryString);
@@ -200,19 +204,24 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             List<Object> bindVariables) throws Exception {
         StringBuilder subQueryString = new StringBuilder();
         // SELECT P1.STR_VALUE FROM OBSERVATION_STR_VALUES P1 WHERE
-        subQueryString.append("SELECT P1.STR_VALUE FROM ").append(this.resourceType.getSimpleName())
+        subQueryString.append("SELECT P1.STR_VALUE FROM ")
+                .append(this.resourceType.getSimpleName())
                 .append("_STR_VALUES P1 WHERE ");
+
         // P1.PARAMETER_NAME_ID=xx AND 
-        subQueryString.append("P1.PARAMETER_NAME_ID=").append(this.getParameterNameId(includeParm.getSearchParameter()))
+        subQueryString.append("P1.PARAMETER_NAME_ID=")
+                .append(this.getParameterNameId(includeParm.getSearchParameter()))
                 .append(JDBCOperator.AND.value());
-        // P1.RESOURCE_ID IN 
+
+        // P1.LOGICAL_RESOURCE_ID IN 
         subQueryString.append("P1.LOGICAL_RESOURCE_ID IN ");
         // (SELECT R.LOGICAL_RESOURCE_ID  
         subQueryString.append("(SELECT R.LOGICAL_RESOURCE_ID ");
         // Add FROM clause for "root" resource type
-        subQueryString.append(super.buildFromClause());
+        buildFromClause(subQueryString, resourceType.getSimpleName());
         // Add WHERE clause for "root" resource type
-        subQueryString.append(super.buildWhereClause(null));
+        buildWhereClause(subQueryString, null);
+
         // ORDER BY R.LOGICAL_RESOURCE_ID ASC
         subQueryString.append(ORDERING);
         // Only include resources related to the required page of the main resources.
@@ -226,18 +235,19 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         boolean isFirstItem = true;
         for (String strValue : this.resourceDao.searchStringValues(subQueryData)) {
             if (!isFirstItem) {
-                queryString.append(" , ");
+                queryString.append(COMMA);
             }
             if (strValue != null) {
-                queryString.append("'").append(strValue).append("'");
+                queryString.append(QUOTE).append(strValue).append(QUOTE);
                 isFirstItem = false;
             }
         }
+
         // if nothing added so far, then need to add '', otherwise sql will fail. 
         if (isFirstItem) {
-            queryString.append("''");
+            queryString.append(QUOTE).append(QUOTE);
         }
-        queryString.append(")");
+        queryString.append(RIGHT_PAREN);
     }
 
     /*
@@ -297,7 +307,9 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             // FROM Observation_RESOURCES R JOIN Observation_LOGICAL_RESOURCES LR ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID
             processFromClause(queryString, includeParm.getJoinResourceType());
             // JOIN Observation_STR_VALUES P1 ON P1.RESOURCE_ID = R.RESOURCE_ID
-            queryString.append(MessageFormat.format(REVINCLUDE_JOIN, includeParm.getJoinResourceType()));
+            queryString.append(REVINCLUDE_JOIN_START);
+            queryString.append(includeParm.getJoinResourceType());
+            queryString.append(REVINCLUDE_JOIN_END);
             // WHERE R.IS_DELETED <> 'Y' AND
             queryString.append(QuerySegmentAggregator.WHERE_CLAUSE_ROOT).append(" AND ");
             // P1.PARAMETER_NAME_ID=xx AND 
@@ -309,16 +321,17 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             queryString.append("(SELECT '").append(includeParm.getSearchParameterTargetType())
                     .append("/' || LR.LOGICAL_ID ");
             // Add FROM clause for "root" resource type
-            queryString.append(super.buildFromClause());
+            buildFromClause(queryString, resourceType.getSimpleName());
             bindVariables.addAll(this.idsObjects);
             // Add WHERE clause for "root" resource type
-            queryString.append(super.buildWhereClause(null));
+            buildWhereClause(queryString, null);
+
             // ORDER BY R.LOGICAL_RESOURCE_ID ASC
             queryString.append(ORDERING);
             // Only include resources related to the required page of the main resources.
             this.addPaginationClauses(queryString);
 
-            queryString.append(")");
+            queryString.append(RIGHT_PAREN);
 
             this.addBindVariables(bindVariables);
         }

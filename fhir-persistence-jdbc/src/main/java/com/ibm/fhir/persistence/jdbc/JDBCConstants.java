@@ -62,8 +62,17 @@ public class JDBCConstants {
     public static final String JOIN = " JOIN ";
     public static final String LEFT_JOIN = " LEFT JOIN ";
     public static final String COMBINED_RESULTS = ") COMBINED_RESULTS";
-    public static final String COMMA = ", ";
+    public static final String COMMA = " , ";
+    public static final char COMMA_CHAR = ',';
     public static final char QUOTE = '\'';
+    
+    // ASC/DESC
+    public static final String ORDER_BY = " ORDER BY ";
+    public static final String ASCENDING = "ASC";
+    public static final String DESCENDING = "DESC";
+    
+    public static final String DEFAULT_ORDERING = " ORDER BY RESOURCE_ID ASC ";
+    public static final String DEFAULT_ORDERING_WITH_TABLE = " ORDER BY R.RESOURCE_ID ASC ";
 
     /**
      * Maps search parameter types to the currently supported list of modifiers for

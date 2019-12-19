@@ -7,11 +7,14 @@
 package com.ibm.fhir.persistence.jdbc.util;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DEFAULT_ORDERING;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNION;
+import static com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil.LAST_UPDATED;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,15 +48,15 @@ public class QuerySegmentAggregator {
             "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID ";
     protected static final String SYSTEM_LEVEL_SUBSELECT_ROOT = SELECT_ROOT;
     protected static final String SELECT_COUNT_ROOT = "SELECT COUNT(R.RESOURCE_ID) ";
-    protected static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT COUNT(RESOURCE_ID) ";
-    protected static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT R.RESOURCE_ID ";
+    protected static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT SUM(CNT) ";
+    protected static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT COUNT(LR.LOGICAL_RESOURCE_ID) AS CNT ";
     protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED <> 'Y'";
-    protected static final String DEFAULT_ORDERING = " ORDER BY R.RESOURCE_ID ASC ";
 
     // Enables the SKIP_WHERE of WHERE clauses. 
     public static final String ID = "_id";
+    public static final String ID_COLUMN_NAME = "LOGICAL_ID ";
     protected static final Set<String> SKIP_WHERE =
-            new HashSet<>(Arrays.asList(ID));
+            new HashSet<>(Arrays.asList(ID)); // LAST_UPDATED
 
     protected Class<?> resourceType;
 
@@ -67,9 +70,14 @@ public class QuerySegmentAggregator {
     protected List<SqlQueryData> querySegments;
     protected List<QueryParameter> searchQueryParameters;
 
-    // used for special treatment of List<Parameters> of _id
+    // used for special treatment of List<Parameter> of _id
     protected List<QueryParameter> queryParamIds = new ArrayList<>();
     protected List<Object> idsObjects = new ArrayList<>();
+    
+    // used for special treatment of List<Parameter> of _lastUpdated
+    protected List<QueryParameter> queryParmLastUpdated = new ArrayList<>();
+    protected List<Object> lastUpdatedObjects = new ArrayList<>();
+    
 
     private int offset;
     private int pageSize;
@@ -116,6 +124,8 @@ public class QuerySegmentAggregator {
         String code = queryParm.getCode();
         if (ID.equals(code)) {
             queryParamIds.add(queryParm);
+        } else if (LAST_UPDATED.equals(code)) {
+            queryParmLastUpdated.add(queryParm);
         }
 
         // Here we are intentionally adding the parameters. 
@@ -136,17 +146,18 @@ public class QuerySegmentAggregator {
         final String METHODNAME = "buildQuery";
         log.entering(CLASSNAME, METHODNAME);
 
-        StringBuilder queryString = new StringBuilder();
         SqlQueryData queryData;
-        List<Object> allBindVariables = new ArrayList<>();
-
         if (this.isSystemLevelSearch()) {
             queryData = this.buildSystemLevelQuery(SYSTEM_LEVEL_SELECT_ROOT, SYSTEM_LEVEL_SUBSELECT_ROOT, true);
         } else {
+            // Build Query
+            StringBuilder queryString = new StringBuilder();
             queryString.append(SELECT_ROOT);
-            queryString.append(this.buildFromClause());
-            queryString.append(this.buildWhereClause(null));
+            buildFromClause(queryString, resourceType.getSimpleName());
+            buildWhereClause(queryString, null);
 
+            // Bind Variables
+            List<Object> allBindVariables = new ArrayList<>();
             allBindVariables.addAll(idsObjects);
             for (SqlQueryData querySegment : this.querySegments) {
                 allBindVariables.addAll(querySegment.getBindVariables());
@@ -174,26 +185,24 @@ public class QuerySegmentAggregator {
         final String METHODNAME = "buildCountQuery";
         log.entering(CLASSNAME, METHODNAME);
 
-        StringBuilder queryString = new StringBuilder();
         SqlQueryData queryData;
-        List<Object> allBindVariables = new ArrayList<>();
-
         if (this.isSystemLevelSearch()) {
             queryData =
                     this.buildSystemLevelQuery(SYSTEM_LEVEL_SELECT_COUNT_ROOT, SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT,
                             false);
         } else {
+            StringBuilder queryString = new StringBuilder();
             queryString.append(SELECT_COUNT_ROOT);
-
-            queryString.append(this.buildFromClause());
-
-            queryString.append(this.buildWhereClause(null));
+            buildFromClause(queryString, resourceType.getSimpleName());
+            buildWhereClause(queryString, null);
 
             // An important step here is to add _id then all other values. 
+            List<Object> allBindVariables = new ArrayList<>();
             allBindVariables.addAll(idsObjects);
             for (SqlQueryData querySegment : this.querySegments) {
                 allBindVariables.addAll(querySegment.getBindVariables());
             }
+
             queryData = new SqlQueryData(queryString.toString(), allBindVariables);
         }
 
@@ -224,41 +233,36 @@ public class QuerySegmentAggregator {
         log.entering(CLASSNAME, METHODNAME);
 
         StringBuilder queryString = new StringBuilder();
-        SqlQueryData queryData;
+        queryString.append(selectRoot).append(FROM).append(LEFT_PAREN);
+
         List<Object> allBindVariables = new ArrayList<>();
-
-        String tempFromClause;
         boolean resourceTypeProcessed = false;
-
-        queryString.append(selectRoot).append(FROM).append("(");
 
         // Processes through EACH register parameter extracting the integer value
         Map<String, Integer> resourceNameMap = resourceDao.readAllResourceTypeNames();
         for (Map.Entry<String, Integer> resourceEntry : resourceNameMap.entrySet()) {
             String resourceTypeName = resourceEntry.getKey();
+
             // Only search the required resource types if any.
-            if (this.resourceTypes != null && !this.resourceTypes.contains(resourceTypeName)) {
-                continue;
-            }
+            if (this.resourceTypes == null || this.resourceTypes.contains(resourceTypeName)) {
+                // Skip the UNION on the first, and change to indicate
+                // subsequent resourceTypes are to be unioned. 
+                if (resourceTypeProcessed) {
+                    queryString.append(UNION);
+                } else {
+                    // The next one must be the second statement, therefore let's union it.
+                    resourceTypeProcessed = true;
+                }
 
-            tempFromClause = this.buildFromClause(resourceTypeName);
+                queryString.append(subSelectRoot);
+                buildFromClause(queryString, resourceTypeName);
+                buildWhereClause(queryString, resourceTypeName);
 
-            // Skip the UNION on the first, and change to indicate
-            // subsequent resourceTypes are to be unioned. 
-            if (resourceTypeProcessed) {
-                queryString.append(UNION);
-            }
-            resourceTypeProcessed = true;
-
-            queryString.append(subSelectRoot).append(tempFromClause);
-
-            tempFromClause = this.buildWhereClause(resourceTypeName);
-            queryString.append(tempFromClause);
-
-            // An important step here is to add _id then all other values. 
-            allBindVariables.addAll(idsObjects);
-            for (SqlQueryData querySegment : this.querySegments) {
-                allBindVariables.addAll(querySegment.getBindVariables());
+                // An important step here is to add _id then all other values. 
+                allBindVariables.addAll(idsObjects);
+                for (SqlQueryData querySegment : this.querySegments) {
+                    allBindVariables.addAll(querySegment.getBindVariables());
+                }
             }
         }
 
@@ -267,12 +271,11 @@ public class QuerySegmentAggregator {
 
         // Add Ordering and Pagination
         if (addFinalClauses) {
-            queryString.append(" ORDER BY RESOURCE_ID ASC ");
+            queryString.append(DEFAULT_ORDERING);
             this.addPaginationClauses(queryString);
         }
 
-        queryData = new SqlQueryData(queryString.toString(), allBindVariables);
-
+        SqlQueryData queryData = new SqlQueryData(queryString.toString(), allBindVariables);
         log.exiting(CLASSNAME, METHODNAME, queryData);
         return queryData;
     }
@@ -284,31 +287,16 @@ public class QuerySegmentAggregator {
      * 
      * @return A String containing the FROM clause
      */
-    protected String buildFromClause() {
-        return buildFromClause(this.resourceType.getSimpleName());
-    }
-
-    /**
-     * enables calls to buildFromClause to avoid redoing string replacements.
-     * 
-     * @param simpleName
-     * @return
-     */
-    protected String buildFromClause(String simpleName) {
-        final String METHODNAME = "buildFromClause";
+    protected void buildFromClause(StringBuilder fromClause, String simpleName) {
+        final String METHODNAME = "buildFromClause(StringBuilder fromClause, String simpleName)";
         log.entering(CLASSNAME, METHODNAME);
-
-        StringBuilder fromClause = new StringBuilder();
         fromClause.append(FROM);
         processFromClauseForId(fromClause, simpleName);
         fromClause.append(" LR JOIN ");
         processFromClauseForLastUpdated(fromClause, simpleName);
         fromClause.append(
                 " R ON R.LOGICAL_RESOURCE_ID=LR.LOGICAL_RESOURCE_ID AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID AND R.IS_DELETED <> 'Y' ");
-
         log.exiting(CLASSNAME, METHODNAME);
-        return fromClause.toString();
-
     }
 
     /*
@@ -382,11 +370,12 @@ public class QuerySegmentAggregator {
      * the contained query segments, and ties those segments back
      * to the appropriate parameter table alias.
      * 
+     * @param whereClause 
      * @param overrideType if not null, then it's the default type used in the
      *                     building of the where clause.
      * @return
      */
-    protected String buildWhereClause(String overrideType) {
+    protected void buildWhereClause(StringBuilder whereClause, String overrideType) {
         final String METHODNAME = "buildWhereClause";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -395,7 +384,6 @@ public class QuerySegmentAggregator {
             overrideType = this.resourceType.getSimpleName();
         }
 
-        StringBuilder whereClause = new StringBuilder();
         String whereClauseSegment;
 
         for (int i = 0; i < this.querySegments.size(); i++) {
@@ -457,7 +445,6 @@ public class QuerySegmentAggregator {
         } // end for
 
         log.exiting(CLASSNAME, METHODNAME);
-        return whereClause.toString();
     }
 
     public static String tableName(String resourceType, QueryParameter param) {
