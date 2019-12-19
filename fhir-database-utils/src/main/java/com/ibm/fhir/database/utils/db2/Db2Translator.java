@@ -13,7 +13,7 @@ import com.ibm.fhir.database.utils.api.ConnectionDetails;
 import com.ibm.fhir.database.utils.api.ConnectionException;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.DuplicateNameException;
-import com.ibm.fhir.database.utils.api.UniquenessViolationException;
+import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
@@ -95,7 +95,7 @@ public class Db2Translator implements IDatabaseTranslator {
             return new ConnectionException(x);
         }
         else if (isDuplicate(x)) {
-            return new UniquenessViolationException(x);
+            return new UniqueConstraintViolationException(x);
         }
         else if (isAlreadyExists(x)) {
             return new DuplicateNameException(x);
