@@ -66,6 +66,15 @@
                 "__comment": "Configuration properties common to all persistence layer implementations",
                 "updateCreateEnabled": true
             },
+            "jdbc": {
+                "__comment": "Configuration properties for the JDBC persistence implementation",
+                "bootstrapDb": true,
+                "__comment": "Use jdbc/fhirProxyDataSource to use the proxy datasource.",
+                "dataSourceJndiName": "jdbc/fhirProxyDataSource",
+                "enableCodeSystemsCache": true,
+                "enableParameterNamesCache": true,
+                "enableResourceTypesCache": true
+            },
             "datasources": {
                 "default": {
                     "type": "derby",
@@ -88,40 +97,7 @@
                         "sslTrustStoreLocation": "resources/security/fhirTruststore.jks",
                         "sslTrustStorePassword": "change-password"
                     }
-                },
-                "audit": {
-                    "type": "derby",
-                    "connectionProperties": {
-                        "databaseName": "derby/auditDB",
-                        "createDatabase": "create"
-                    }
-                },
-                "_db2_audit": {
-                    "type": "db2",
-                    "connectionProperties": {
-                        "serverName": "localhost",
-                        "portNumber": 50001,
-                        "user": "db2inst1",
-                        "password": "change-password",
-                        "databaseName": "AUDITDB",
-                        "currentSchema": "AUDIT1",
-                        "driverType": 4,
-                        "sslConnection": true,
-                        "sslTrustStoreLocation": "resources/security/fhirTruststore.jks",
-                        "sslTrustStorePassword": "change-password"
-                    }
                 }
-            },
-            "jdbc": {
-                "__comment": "Configuration properties for the JDBC persistence implementation, Use jdbc/fhirProxyDataSource to use the proxy datasource.",
-                "bootstrapDb": true,
-                "dataSourceJndiName": "jdbc/fhirProxyDataSource",
-                "enableCodeSystemsCache": true,
-                "enableParameterNamesCache": true,
-                "enableResourceTypesCache": true
-            },
-            "audit": {
-                "bootstrapDb": true
             }
         }
     }

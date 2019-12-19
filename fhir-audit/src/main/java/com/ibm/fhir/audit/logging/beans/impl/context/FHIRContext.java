@@ -124,10 +124,6 @@ public class FHIRContext extends Context {
                         generator.write("purpose", obj.getPurpose());
                     }
 
-                    if (obj.getResourceName() != null) {
-                        generator.write("resource_name", obj.getResourceName());
-                    }
-
                     if (obj.getStartTime() != null) {
                         generator.write("start_time", obj.getStartTime());
                     }
@@ -226,12 +222,6 @@ public class FHIRContext extends Context {
                 if (t != null) {
                     String purpose = jsonObject.getString("purpose");
                     builder.purpose(purpose);
-                }
-
-                t = jsonObject.get("resource_name");
-                if (t != null) {
-                    String resourceName = jsonObject.getString("resource_name");
-                    builder.resourceName(resourceName);
                 }
 
                 t = jsonObject.get("start_time");
@@ -392,11 +382,6 @@ public class FHIRContext extends Context {
 
         public FHIRBuilder requestUniqueId(String requestUniqueId) {
             fhirContext.setRequestUniqueId(requestUniqueId);
-            return this;
-        }
-
-        public FHIRBuilder resourceName(String resourceName) {
-            fhirContext.setResourceName(resourceName);
             return this;
         }
 
