@@ -117,7 +117,8 @@ public class FHIRUtilities {
      * @return
      */
     public static Timestamp convertToTimestamp(java.time.ZonedDateTime zdt) {
-        return new Timestamp(zdt.toInstant().toEpochMilli());
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        return Timestamp.from(zdt.toInstant());
     }
 
 

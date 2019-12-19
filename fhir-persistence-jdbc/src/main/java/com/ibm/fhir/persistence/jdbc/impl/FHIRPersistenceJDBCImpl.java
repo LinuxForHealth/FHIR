@@ -1271,7 +1271,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         catch (Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while starting a transaction.");
             log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;            
+            throw fx;
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -1293,7 +1293,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         catch (Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while committing a transaction.");
             log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;            
+            throw fx;
         }
         finally {
             if (sharedConnection != null) {
@@ -1325,7 +1325,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         catch (Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while rolling back a transaction.");
             log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;            
+            throw fx;
         } 
         finally {
             if (sharedConnection != null) {
@@ -1358,7 +1358,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         catch (Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException(errorMessage);
             log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;            
+            throw fx;
         } 
         finally {
             if (sharedConnection != null) {
@@ -1368,7 +1368,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 catch (SQLException e) {
                     FHIRPersistenceException fx = new FHIRPersistenceException("Failure closing DB Conection");
                     log.log(Level.SEVERE, fx.getMessage(), e);
-                    throw fx;            
+                    throw fx;
                 }
                 sharedConnection = null;
             }

@@ -28,6 +28,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
+import com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.parameters.QueryParameter;
@@ -56,7 +57,7 @@ public class QuerySegmentAggregator {
     public static final String ID = "_id";
     public static final String ID_COLUMN_NAME = "LOGICAL_ID ";
     protected static final Set<String> SKIP_WHERE =
-            new HashSet<>(Arrays.asList(ID)); // LAST_UPDATED
+            new HashSet<>(Arrays.asList(ID, LAST_UPDATED));
 
     protected Class<?> resourceType;
 
@@ -73,11 +74,10 @@ public class QuerySegmentAggregator {
     // used for special treatment of List<Parameter> of _id
     protected List<QueryParameter> queryParamIds = new ArrayList<>();
     protected List<Object> idsObjects = new ArrayList<>();
-    
+
     // used for special treatment of List<Parameter> of _lastUpdated
     protected List<QueryParameter> queryParmLastUpdated = new ArrayList<>();
     protected List<Object> lastUpdatedObjects = new ArrayList<>();
-    
 
     private int offset;
     private int pageSize;
@@ -118,19 +118,17 @@ public class QuerySegmentAggregator {
         final String METHODNAME = "addQueryData";
         log.entering(CLASSNAME, METHODNAME);
 
-        //parallel arrays
-        this.querySegments.add(querySegment);
-
         String code = queryParm.getCode();
         if (ID.equals(code)) {
             queryParamIds.add(queryParm);
         } else if (LAST_UPDATED.equals(code)) {
             queryParmLastUpdated.add(queryParm);
+        } else {
+            // Only add if not _id and _lastUpdated
+            // All else
+            this.searchQueryParameters.add(queryParm);
+            this.querySegments.add(querySegment);
         }
-
-        // Here we are intentionally adding the parameters. 
-        this.searchQueryParameters.add(queryParm);
-
         log.exiting(CLASSNAME, METHODNAME);
     }
 
@@ -159,6 +157,7 @@ public class QuerySegmentAggregator {
             // Bind Variables
             List<Object> allBindVariables = new ArrayList<>();
             allBindVariables.addAll(idsObjects);
+            allBindVariables.addAll(lastUpdatedObjects);
             for (SqlQueryData querySegment : this.querySegments) {
                 allBindVariables.addAll(querySegment.getBindVariables());
             }
@@ -199,6 +198,7 @@ public class QuerySegmentAggregator {
             // An important step here is to add _id then all other values. 
             List<Object> allBindVariables = new ArrayList<>();
             allBindVariables.addAll(idsObjects);
+            allBindVariables.addAll(lastUpdatedObjects);
             for (SqlQueryData querySegment : this.querySegments) {
                 allBindVariables.addAll(querySegment.getBindVariables());
             }
@@ -256,10 +256,14 @@ public class QuerySegmentAggregator {
 
                 queryString.append(subSelectRoot);
                 buildFromClause(queryString, resourceTypeName);
+
+                // An important step here is to add _id and _lastUpdated
+                allBindVariables.addAll(idsObjects);
+                allBindVariables.addAll(lastUpdatedObjects);
+
                 buildWhereClause(queryString, resourceTypeName);
 
-                // An important step here is to add _id then all other values. 
-                allBindVariables.addAll(idsObjects);
+                //Adding all other values.
                 for (SqlQueryData querySegment : this.querySegments) {
                     allBindVariables.addAll(querySegment.getBindVariables());
                 }
@@ -290,6 +294,9 @@ public class QuerySegmentAggregator {
     protected void buildFromClause(StringBuilder fromClause, String simpleName) {
         final String METHODNAME = "buildFromClause(StringBuilder fromClause, String simpleName)";
         log.entering(CLASSNAME, METHODNAME);
+        idsObjects.clear();
+        lastUpdatedObjects.clear();
+
         fromClause.append(FROM);
         processFromClauseForId(fromClause, simpleName);
         fromClause.append(" LR JOIN ");
@@ -361,8 +368,16 @@ public class QuerySegmentAggregator {
      * processes the clause for _lastUpdated
      */
     public void processFromClauseForLastUpdated(StringBuilder fromClause, String target) {
-        fromClause.append(target);
-        fromClause.append("_RESOURCES");
+        if (!queryParmLastUpdated.isEmpty()) {
+            lastUpdatedObjects.clear();
+            LastUpdatedParmBehaviorUtil behaviorUtil = new LastUpdatedParmBehaviorUtil();
+            behaviorUtil.buildLastUpdatedDerivedTable(fromClause, target, queryParmLastUpdated);
+            lastUpdatedObjects.addAll(behaviorUtil.getBindVariables());
+        } else {
+            // Not _lastUpdated, then go to the default. 
+            fromClause.append(target);
+            fromClause.append("_RESOURCES");
+        }
     }
 
     /**
@@ -370,7 +385,7 @@ public class QuerySegmentAggregator {
      * the contained query segments, and ties those segments back
      * to the appropriate parameter table alias.
      * 
-     * @param whereClause 
+     * @param whereClause
      * @param overrideType if not null, then it's the default type used in the
      *                     building of the where clause.
      * @return

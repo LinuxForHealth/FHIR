@@ -140,7 +140,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             }
             else if (this.connectionProvider != null) {
                 try {
-                    connection = connectionProvider.getConnection();                    
+                    connection = connectionProvider.getConnection();
                 }
                 catch (SQLException x) {
                     FHIRPersistenceDBConnectException fx = new FHIRPersistenceDBConnectException("Failed to acquire database connection from provider");

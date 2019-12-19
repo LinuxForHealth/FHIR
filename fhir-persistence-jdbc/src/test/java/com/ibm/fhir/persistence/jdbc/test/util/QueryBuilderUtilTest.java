@@ -70,7 +70,7 @@ public class QueryBuilderUtilTest {
         Instant startRef = Instant.parse("2018-01-01T00:00:00Z");
         Instant endRef = Instant.parse("2018-02-01T00:00:00Z");
         
-        DateTime dt = DateTime.builder().value("2018-01").build();        
+        DateTime dt = DateTime.builder().value("2018-01").build();
         Instant start = QueryBuilderUtil.getStart(dt);
         assertEquals(startRef, start, "getStart failed");
         
@@ -110,7 +110,7 @@ public class QueryBuilderUtilTest {
         Instant startRef = Instant.parse("2018-01-01T00:00:00Z");
         Instant endRef = Instant.parse("2018-02-01T00:00:00Z");
         
-        Date date = Date.builder().value("2018-01").build();        
+        Date date = Date.builder().value("2018-01").build();
         Instant start = QueryBuilderUtil.getStart(date);
         assertEquals(startRef, start, "getStart failed");
         

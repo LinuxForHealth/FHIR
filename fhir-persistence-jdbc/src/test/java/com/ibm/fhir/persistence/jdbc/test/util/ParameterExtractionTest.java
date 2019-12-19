@@ -162,6 +162,7 @@ public class ParameterExtractionTest {
         for (ExtractedParameterValue param : params) {
             assertTrue(param instanceof DateParmVal);
             DateParmVal dateParam = (DateParmVal) param;
+            System.out.println(dateParam.getValueDateStart());
             assertEquals(timestampToString(dateParam.getValueDate()), SAMPLE_DATE_START);
         }
     }

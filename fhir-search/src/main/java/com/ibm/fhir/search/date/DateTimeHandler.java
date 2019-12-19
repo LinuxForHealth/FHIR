@@ -138,7 +138,7 @@ public class DateTimeHandler {
             Instant now = java.time.Instant.now();
             response = generateLowerBoundApproximation(now, cur);
         } else {
-            response = generateValue(value, originalString).minus(TICK, ChronoUnit.NANOS);
+            response = generateValue(value, originalString);
         }
         return response;
     }
@@ -185,8 +185,7 @@ public class DateTimeHandler {
             ZonedDateTime zdt = (ZonedDateTime) value;
             response = zdt.toInstant();
         } else {
-            Instant cur = java.time.Instant.from(value);
-            response = cur.minus(Duration.ofNanos(TICK));
+            response = java.time.Instant.from(value);
         }
         return response;
     }

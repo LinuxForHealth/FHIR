@@ -170,9 +170,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             selectBuffer.append(COMMA_CHAR);
             selectBuffer.append(this.buildAggregateExpression(this.sortParameters.get(i), i + 1, false));
         }
-
         selectBuffer.append(SPACE);
-        //selectBuffer.append(" FROM ").append(this.resourceType.getSimpleName()).append("_RESOURCES R ");
 
         log.exiting(CLASSNAME, METHODNAME);
         return selectBuffer.toString();

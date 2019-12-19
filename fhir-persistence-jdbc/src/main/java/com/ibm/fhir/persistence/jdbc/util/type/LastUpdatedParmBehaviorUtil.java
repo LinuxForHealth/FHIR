@@ -28,6 +28,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * This utility encapsulates the logic specific to fhir-search related to date.
  * <br>
  * The derived table looks similar to the following SQL:
+ * 
  * <pre>
  * (
  *       SELECT
@@ -87,7 +88,8 @@ public class LastUpdatedParmBehaviorUtil {
     }
 
     /**
-     * generate for each 
+     * generate for each
+     * 
      * @param fromClause
      * @param queryParm
      */
@@ -198,17 +200,26 @@ public class LastUpdatedParmBehaviorUtil {
      * @param upperBound
      */
     public void buildEqualsRangeClause(StringBuilder whereClauseSegment, Instant lowerBound, Instant upperBound) {
-        // @formatter:off
-        whereClauseSegment
-                .append(LEFT_PAREN)
-                        .append(LAST_UPDATED_COLUMN_NAME).append(JDBCOperator.GTE.value()).append(BIND_VAR)
-                        .append(JDBCOperator.AND.value())
-                        .append(LAST_UPDATED_COLUMN_NAME).append(JDBCOperator.LTE.value()).append(BIND_VAR)
-                .append(RIGHT_PAREN);
-        // @formatter:on
-
         bindVariables.add(generateTimestamp(lowerBound));
-        bindVariables.add(generateTimestamp(upperBound));
+        if (!lowerBound.equals(upperBound)) {
+            // @formatter:off
+            whereClauseSegment
+                    .append(LEFT_PAREN)
+                            .append(LAST_UPDATED_COLUMN_NAME).append(JDBCOperator.GTE.value()).append(BIND_VAR)
+                            .append(JDBCOperator.AND.value())
+                            .append(LAST_UPDATED_COLUMN_NAME).append(JDBCOperator.LTE.value()).append(BIND_VAR)
+                    .append(RIGHT_PAREN);
+            // @formatter:on
+            bindVariables.add(generateTimestamp(upperBound));
+        } else {
+            // @formatter:off
+            whereClauseSegment
+                    .append(LEFT_PAREN)
+                        .append(LAST_UPDATED_COLUMN_NAME).append(JDBCOperator.EQ.value()).append(BIND_VAR)
+                    .append(RIGHT_PAREN);
+         // @formatter:on
+        }
+
     }
 
     /**
@@ -233,9 +244,9 @@ public class LastUpdatedParmBehaviorUtil {
     }
 
     public List<Timestamp> getBindVariables() {
-        return  bindVariables;
+        return bindVariables;
     }
-    
+
     public void clearBindVariables() {
         bindVariables.clear();
     }

@@ -381,7 +381,7 @@ public class DateTimeHandlerTest {
         TemporalAccessor value = DateTimeHandler.parse(v);
         Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
         Instant upperBound = DateTimeHandler.generateUpperBound(null, value, v);
-        assertEquals(lowerBound.toString(), "2018-12-31T23:59:59.999999Z");
+        assertEquals(lowerBound.toString(), "2019-01-01T00:00:00Z");
         assertEquals(upperBound.toString(), "2019-12-31T23:59:59.999999Z");
     }
 
@@ -391,7 +391,7 @@ public class DateTimeHandlerTest {
         TemporalAccessor value = DateTimeHandler.parse(v);
         Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
         Instant upperBound = DateTimeHandler.generateUpperBound(null, value, v);
-        assertEquals(lowerBound.toString(), "2019-11-30T23:59:59.999999Z");
+        assertEquals(lowerBound.toString(), "2019-12-01T00:00:00Z");
         assertEquals(upperBound.toString(), "2019-12-31T23:59:59.999999Z");
     }
 
@@ -401,7 +401,7 @@ public class DateTimeHandlerTest {
         TemporalAccessor value = DateTimeHandler.parse(v);
         Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
         Instant upperBound = DateTimeHandler.generateUpperBound(null, value, v);
-        assertEquals(lowerBound.toString(), "2019-12-10T23:59:59.999999Z");
+        assertEquals(lowerBound.toString(), "2019-12-11T00:00:00Z");
         assertEquals(upperBound.toString(), "2019-12-11T23:59:59.999999Z");
     }
 
@@ -411,7 +411,7 @@ public class DateTimeHandlerTest {
         TemporalAccessor value = DateTimeHandler.parse(v);
         Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
         Instant upperBound = DateTimeHandler.generateUpperBound(null, value, v);
-        assertEquals(lowerBound.toString(), "2019-10-11T10:59:59.999999Z");
+        assertEquals(lowerBound.toString(), "2019-10-11T11:00:00Z");
         assertEquals(upperBound.toString(), "2019-10-11T11:59:59.999999Z");
     }
 
@@ -421,7 +421,7 @@ public class DateTimeHandlerTest {
         TemporalAccessor value = DateTimeHandler.parse(v);
         Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
         Instant upperBound = DateTimeHandler.generateUpperBound(null, value, v);
-        assertEquals(lowerBound.toString(), "2019-10-11T10:59:59.999999Z");
+        assertEquals(lowerBound.toString(), "2019-10-11T11:00:00Z");
         assertEquals(upperBound.toString(), "2019-10-11T11:00:59.999999Z");
     }
 
@@ -431,7 +431,7 @@ public class DateTimeHandlerTest {
         TemporalAccessor value = DateTimeHandler.parse(v);
         Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
         Instant upperBound = DateTimeHandler.generateUpperBound(null, value, v);
-        assertEquals(lowerBound.toString(), "2019-10-11T10:59:59.999999Z");
+        assertEquals(lowerBound.toString(), "2019-10-11T11:00:00Z");
         assertEquals(upperBound.toString(), "2019-10-11T11:00:00.999999Z");
     }
 
@@ -442,7 +442,7 @@ public class DateTimeHandlerTest {
         TemporalAccessor value = DateTimeHandler.parse(v);
         Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
         Instant upperBound = DateTimeHandler.generateUpperBound(null, value, v);
-        assertEquals(lowerBound.toString(), "2019-10-11T11:00:00.999998Z");
+        assertEquals(lowerBound.toString(), "2019-10-11T11:00:00.999999Z");
         assertEquals(upperBound.toString(), "2019-10-11T11:00:00.999999Z");
     }
 
@@ -452,7 +452,7 @@ public class DateTimeHandlerTest {
         TemporalAccessor value = DateTimeHandler.parse(v);
         Instant lowerBound = DateTimeHandler.generateLowerBound(Prefix.EQ, value, v);
         Instant upperBound = DateTimeHandler.generateUpperBound(Prefix.EQ, value, v);
-        assertEquals(lowerBound.toString(), "2018-12-31T23:59:59.999999Z");
+        assertEquals(lowerBound.toString(), "2019-01-01T00:00:00Z");
         assertEquals(upperBound.toString(), "2019-12-31T23:59:59.999999Z");
     }
 
@@ -463,7 +463,7 @@ public class DateTimeHandlerTest {
 
         Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
         Instant upperBound = DateTimeHandler.generateUpperBound(null, value, v);
-        assertEquals(lowerBound.toString(), "2019-12-10T18:59:59.999999Z");
+        assertEquals(lowerBound.toString(), "2019-12-10T19:00:00Z");
         assertEquals(upperBound.toString(), "2019-12-10T19:00:00.999999Z");
     }
 
@@ -474,7 +474,7 @@ public class DateTimeHandlerTest {
 
         Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
         Instant upperBound = DateTimeHandler.generateUpperBound(null, value, v);
-        assertEquals(lowerBound.toString(), "2019-12-10T18:59:59.999999Z");
+        assertEquals(lowerBound.toString(), "2019-12-10T19:00:00Z");
         assertEquals(upperBound.toString(), "2019-12-10T19:00:00.999999Z");
     }
 
@@ -485,7 +485,7 @@ public class DateTimeHandlerTest {
 
         Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
         Instant upperBound = DateTimeHandler.generateUpperBound(null, value, v);
-        assertEquals(lowerBound.toString(), "2019-12-10T18:59:59.999999Z");
+        assertEquals(lowerBound.toString(), "2019-12-10T19:00:00Z");
         assertEquals(upperBound.toString(), "2019-12-10T19:00:59.999999Z");
     }
 
@@ -496,7 +496,7 @@ public class DateTimeHandlerTest {
 
         Instant lowerBound = DateTimeHandler.generateLowerBound(null, value, v);
         Instant upperBound = DateTimeHandler.generateUpperBound(null, value, v);
-        assertEquals(lowerBound.toString(), "2019-12-10T18:59:59.999999Z");
+        assertEquals(lowerBound.toString(), "2019-12-10T19:00:00Z");
         assertEquals(upperBound.toString(), "2019-12-10T19:59:59.999999Z");
     }
 
