@@ -22,6 +22,7 @@ import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
 import java.util.TimeZone;
+import java.util.logging.Logger;
 
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.exception.FHIRSearchException;
@@ -35,6 +36,8 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * Time Formatter</a>
  */
 public class DateTimeHandler {
+    private static final Logger logger = Logger.getLogger(DateTimeHandler.class.getName());
+
     /*
      * to normalize the times and dates we store all times and dates as UTC.
      * This ensures a consistent, and accurate approach when extracting the times
@@ -286,17 +289,12 @@ public class DateTimeHandler {
             // We're at a precise point here, no more infinite precision. 
             response =
                     zdt.toInstant();
-        } 
-
-        //else {
-        //    Instant cur = java.time.Instant.from(value);
-        //    response = cur.minus(Duration.ofNanos(TICK));
-        //}
+        }
 
         if (prefix != null && Prefix.AP.compareTo(prefix) == 0 && response != null) {
             // Take the ChronoUnits into consideration with +/- 10%
             // And now we're at the upper bound of a range, and taking 10% from there. 
-            response = generateUpperBoundApproximation(Instant.now(),response);
+            response = generateUpperBoundApproximation(Instant.now(), response);
         }
 
         return response;
@@ -350,6 +348,24 @@ public class DateTimeHandler {
                     ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from);
         } catch (java.time.format.DateTimeParseException dtpe) {
             throw SearchExceptionUtil.buildNewDateTimeFormatException(dtpe);
+        }
+    }
+
+    /**
+     * parses quiet the value into a set of bounds/value and adds to parameter
+     * value.
+     * 
+     * @param value
+     * @return
+     */
+    public static TemporalAccessor parseQuiet(String value) {
+        try {
+            return DATE_TIME_PARSER_FORMATTER.withResolverStyle(ResolverStyle.SMART).parseBest(value,
+                    ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from);
+        } catch (java.time.format.DateTimeParseException dtpe) {
+            logger.fine("Error parsing a quiet value");
+            dtpe.printStackTrace();
+            return null;
         }
     }
 }
