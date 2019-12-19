@@ -145,11 +145,13 @@ public class QueryParameterValue {
         outputBuilder(returnString, valueDate);
         
         if (component != null && !component.isEmpty()) {
-            returnString.append("composite[");
-            // temporarily change the delimiter; NOT thread-safe
             String componentDelim = "";
             for (QueryParameter componentParam : component) {
-                returnString.append(componentDelim).append(componentParam);
+                List<QueryParameterValue> componentValues = componentParam.getValues();
+                if (componentValues.size() != 1) {
+                    throw new IllegalStateException("Components of a composite search parameter may only have a single value");
+                }
+                returnString.append(componentDelim).append(componentValues.get(0));
                 componentDelim = "$";
             }
         }

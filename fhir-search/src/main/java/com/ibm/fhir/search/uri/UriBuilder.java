@@ -239,7 +239,7 @@ public class UriBuilder {
         return returnString.toString();
     }
 
-    /*
+    /**
      * creates a normal parameter and string.
      * 
      * @param param
