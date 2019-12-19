@@ -18,6 +18,7 @@ import static com.ibm.fhir.search.date.DateTimeHandler.generateTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -72,11 +73,11 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     // Datetime Limits from
     // DB2: https://www.ibm.com/support/knowledgecenter/en/SSEPGG_11.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0001029.html
     // Derby: https://db.apache.org/derby/docs/10.0/manuals/reference/sqlj271.html
-    private static final Timestamp SMALLEST_TIMESTAMP = Timestamp.valueOf("0001-01-01 00:00:00.000000");
+    private static final Timestamp SMALLEST_TIMESTAMP = Timestamp.valueOf(LocalDateTime.MIN);
 
     // 00:00:00.000000 used instead of 24:00:00.000000 to ensure it could be represented in FHIR if needed
     // Have to account for Timezone shifts
-    private static final Timestamp LARGEST_TIMESTAMP = Timestamp.valueOf("9999-12-31 00:00:00.000000");
+    private static final Timestamp LARGEST_TIMESTAMP = Timestamp.valueOf(LocalDateTime.MAX);
 
     // We only need the SearchParameter type and code, so just store those directly as members
     private final String searchParamCode;
@@ -454,6 +455,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         if (period.getEnd() == null || period.getEnd().getValue() == null) {
             p.setValueDateEnd(LARGEST_TIMESTAMP);
+
         } else {
             java.time.Instant endInst = DateTimeHandler.generateValue(period.getEnd().getValue());
             p.setValueDateEnd(generateTimestamp(endInst));
