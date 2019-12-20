@@ -19,13 +19,12 @@ import com.ibm.fhir.search.location.NearLocationHandler;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.util.LocationUtil;
 import com.ibm.fhir.search.parameters.QueryParameter;
-import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 /**
  * This class defines a reusable method structure and common functionality for a
  * FHIR persistence query builder.
  */
-public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
+public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
 
     private static final Logger log = java.util.logging.Logger.getLogger(AbstractQueryBuilder.class.getName());
     private static final String CLASSNAME = AbstractQueryBuilder.class.getName();
@@ -134,33 +133,6 @@ public abstract class AbstractQueryBuilder<T1, T2> implements QueryBuilder<T1> {
         }
         return databaseQueryParm;
     }
-
-    /**
-     * Map the Modifier in the passed Parameter to a supported query operator.
-     * 
-     * @param queryParm - A valid query Parameter.
-     * @return T2 - A supported operator.
-     */
-    protected abstract T2 getOperator(QueryParameter queryParm);
-
-    /**
-     * Map the Modifier in the passed Parameter to a supported query operator. 
-     * If the mapping results in the default operator, override the default operator
-     * with the passed operator if the passed operator is not null.
-     * 
-     * @param queryParm       - A valid query Parameter.
-     * @param defaultOverride - An operator that should override the default operator.
-     * @return T2 - A supported operator.
-     */
-    protected abstract T2 getOperator(QueryParameter queryParm, T2 defaultOverride);
-
-    /**
-     * Map the Prefix in the passed ParameterValue to a supported query operator.
-     * 
-     * @param queryParmValue - A valid query ParameterValue.
-     * @return T2 - A supported operator.
-     */
-    protected abstract T2 getPrefixOperator(QueryParameterValue queryParmValue);
 
     /**
      * Creates a query segment for a String type parameter.

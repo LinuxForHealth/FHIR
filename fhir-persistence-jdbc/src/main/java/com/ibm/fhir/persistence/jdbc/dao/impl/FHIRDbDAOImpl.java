@@ -140,7 +140,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             }
             else if (this.connectionProvider != null) {
                 try {
-                    connection = connectionProvider.getConnection();                    
+                    connection = connectionProvider.getConnection();
                 }
                 catch (SQLException x) {
                     FHIRPersistenceDBConnectException fx = new FHIRPersistenceDBConnectException("Failed to acquire database connection from provider");
@@ -361,7 +361,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             connection = this.getConnection();
             stmt = connection.prepareStatement(sql);
             // Inject arguments into the prepared stmt.
-            for (int i = 0; i <searchArgs.length;  i++) {
+            for (int i = 0; i <searchArgs.length; i++) {
                 stmt.setObject(i+1, searchArgs[i]);
             }
             dbCallStartTime = System.nanoTime();
@@ -404,7 +404,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
     protected int runCountQuery(String sql, Object... searchArgs) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "runCountQuery";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         int rowCount = 0;
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -412,12 +412,12 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         String errMsg = "Failure retrieving count. SQL=" + sql + NEWLINE + "  searchArgs=" + Arrays.toString(searchArgs);
         long dbCallStartTime;
         double dbCallDuration;
-                        
+
         try {
             connection = this.getConnection();
             stmt = connection.prepareStatement(sql);
             // Inject arguments into the prepared stmt.
-            for (int i = 0; i <searchArgs.length;  i++) {
+            for (int i = 0; i <searchArgs.length; i++) {
                 stmt.setObject(i+1, searchArgs[i]);
             }
             dbCallStartTime = System.nanoTime();

@@ -7,11 +7,11 @@
 package com.ibm.fhir.search.parameters;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 
@@ -23,7 +23,10 @@ public class QueryParameterValue {
     private Prefix prefix = null;
 
     private String valueString = null;
-    private DateTime valueDate = null;
+
+    private Instant valueDate = null;
+    private Instant valueDateLowerBound = null;
+    private Instant valueDateUpperBound = null;
 
     // Used for number and quantity search parameters
     private BigDecimal valueNumber = null;
@@ -63,11 +66,11 @@ public class QueryParameterValue {
         this.valueString = valueString;
     }
 
-    public DateTime getValueDate() {
+    public Instant getValueDate() {
         return valueDate;
     }
 
-    public void setValueDate(DateTime valueDate) {
+    public void setValueDate(Instant valueDate) {
         this.valueDate = valueDate;
     }
 
@@ -95,6 +98,21 @@ public class QueryParameterValue {
         this.valueCode = valueCode;
     }
 
+    public Instant getValueDateLowerBound() {
+        return valueDateLowerBound;
+    }
+
+    public void setValueDateLowerBound(Instant valueDateLowerBound) {
+        this.valueDateLowerBound = valueDateLowerBound;
+    }
+
+    public Instant getValueDateUpperBound() {
+        return valueDateUpperBound;
+    }
+
+    public void setValueDateUpperBound(Instant valueDateUpperBound) {
+        this.valueDateUpperBound = valueDateUpperBound;
+    }
 
     /**
      * @return the component
@@ -118,7 +136,6 @@ public class QueryParameterValue {
     public void setComponent(Collection<QueryParameter> component) {
         this.component = new ArrayList<>(component);
     }
-
     /**
      * Serialize the ParameterValue to a query parameter string
      */
@@ -143,7 +160,9 @@ public class QueryParameterValue {
         outputBuilder(returnString, valueCode);
         outputBuilder(returnString, valueString);
         outputBuilder(returnString, valueDate);
-        
+        outputBuilder(returnString, valueDateLowerBound);
+        outputBuilder(returnString, valueDateUpperBound);
+
         if (component != null && !component.isEmpty()) {
             String componentDelim = "";
             for (QueryParameter componentParam : component) {
@@ -155,7 +174,6 @@ public class QueryParameterValue {
                 componentDelim = "$";
             }
         }
-
         return returnString.toString();
     }
 

@@ -11,7 +11,13 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LTE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE_HIGH;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE_LOW;
@@ -23,7 +29,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants.JDBCOperator;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.search.SearchConstants.Prefix;
@@ -72,7 +77,7 @@ public class QuantityParmBehaviorUtil {
                 // If multiple values are present, we need to OR them together.
                 if (parmValueProcessed) {
                     // OR
-                    whereClauseSegment.append(RIGHT_PAREN).append(JDBCOperator.OR.value()).append(LEFT_PAREN);
+                    whereClauseSegment.append(RIGHT_PAREN).append(OR).append(LEFT_PAREN);
                 } else {
                     // Signal to the downstream to treat any subsequent value as an OR condition 
                     parmValueProcessed = true;
@@ -138,9 +143,9 @@ public class QuantityParmBehaviorUtil {
 
             // We shouldn't be adding to the query if it's NULL at this point. 
             // What should we do? 
-            whereClauseSegment.append(JDBCOperator.AND.value()).append(tableAlias).append(DOT)
+            whereClauseSegment.append(AND).append(tableAlias).append(DOT)
                     .append(CODE_SYSTEM_ID)
-                    .append(JDBCOperator.EQ.value()).append(BIND_VAR);
+                    .append(EQ).append(BIND_VAR);
             bindVariables.add(systemId);
         }
     }
@@ -157,8 +162,8 @@ public class QuantityParmBehaviorUtil {
             String code) {
         // Include code if present.
         if (isPresent(code)) {
-            whereClauseSegment.append(JDBCOperator.AND.value()).append(tableAlias + DOT).append(CODE)
-                    .append(JDBCOperator.EQ.value()).append(BIND_VAR);
+            whereClauseSegment.append(AND).append(tableAlias + DOT).append(CODE)
+                    .append(EQ).append(BIND_VAR);
             bindVariables.add(code);
         }
     }
@@ -189,7 +194,7 @@ public class QuantityParmBehaviorUtil {
         whereClauseSegment
                 .append(LEFT_PAREN)
                 .append(tableAlias).append(DOT).append(columnName).append(operator).append(BIND_VAR)
-                .append(JDBCOperator.OR.value())
+                .append(OR)
                 .append(tableAlias).append(DOT).append(columnNameLowOrHigh).append(operator).append(BIND_VAR)
                 .append(RIGHT_PAREN);
 
@@ -202,15 +207,15 @@ public class QuantityParmBehaviorUtil {
         whereClauseSegment
             .append(LEFT_PAREN)
             .append(LEFT_PAREN)
-                    .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(JDBCOperator.GT.value()).append(BIND_VAR)
-                    .append(JDBCOperator.AND.value())
-                    .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(JDBCOperator.LTE.value()).append(BIND_VAR)
+                    .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(GT).append(BIND_VAR)
+                    .append(AND)
+                    .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(LTE).append(BIND_VAR)
                 .append(RIGHT_PAREN)
-                .append(JDBCOperator.OR.value())
+                .append(OR)
                 .append(LEFT_PAREN)
-                    .append(tableAlias).append(DOT).append(QUANTITY_VALUE_LOW).append(JDBCOperator.LT.value()).append(BIND_VAR)
-                    .append(JDBCOperator.AND.value())
-                    .append(tableAlias).append(DOT).append(QUANTITY_VALUE_HIGH).append(JDBCOperator.GTE.value()).append(BIND_VAR)
+                    .append(tableAlias).append(DOT).append(QUANTITY_VALUE_LOW).append(LT).append(BIND_VAR)
+                    .append(AND)
+                    .append(tableAlias).append(DOT).append(QUANTITY_VALUE_HIGH).append(GTE).append(BIND_VAR)
                 .append(RIGHT_PAREN).append(RIGHT_PAREN);
 
         bindVariables.add(lowerBound);
@@ -224,15 +229,15 @@ public class QuantityParmBehaviorUtil {
          whereClauseSegment
              .append(LEFT_PAREN)
              .append(LEFT_PAREN)
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(JDBCOperator.GT.value()).append(BIND_VAR)
-                     .append(JDBCOperator.AND.value())
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(JDBCOperator.LTE.value()).append(BIND_VAR)
+                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(GT).append(BIND_VAR)
+                     .append(AND)
+                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(LTE).append(BIND_VAR)
                  .append(RIGHT_PAREN)
-                 .append(JDBCOperator.OR.value())
+                 .append(OR)
                  .append(LEFT_PAREN)
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE_LOW).append(JDBCOperator.LTE.value()).append(BIND_VAR)
-                     .append(JDBCOperator.AND.value())
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE_HIGH).append(JDBCOperator.GTE.value()).append(BIND_VAR)
+                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE_LOW).append(LTE).append(BIND_VAR)
+                     .append(AND)
+                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE_HIGH).append(GTE).append(BIND_VAR)
                  .append(RIGHT_PAREN).append(RIGHT_PAREN);
 
          bindVariables.add(lowerBound);
@@ -246,15 +251,15 @@ public class QuantityParmBehaviorUtil {
          whereClauseSegment
              .append(LEFT_PAREN)
              .append(LEFT_PAREN)
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(JDBCOperator.LTE.value()).append(BIND_VAR)
-                     .append(JDBCOperator.OR.value())
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(JDBCOperator.GT.value()).append(BIND_VAR)
+                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(LTE).append(BIND_VAR)
+                     .append(OR)
+                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(GT).append(BIND_VAR)
                  .append(RIGHT_PAREN)
-                 .append(JDBCOperator.OR.value())
+                 .append(OR)
                  .append(LEFT_PAREN)
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE_LOW).append(JDBCOperator.LTE.value()).append(BIND_VAR)
-                     .append(JDBCOperator.OR.value())
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE_HIGH).append(JDBCOperator.GT.value()).append(BIND_VAR)
+                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE_LOW).append(LTE).append(BIND_VAR)
+                     .append(OR)
+                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE_HIGH).append(GT).append(BIND_VAR)
                  .append(RIGHT_PAREN).append(RIGHT_PAREN);
 
          bindVariables.add(lowerBound);
@@ -286,40 +291,40 @@ public class QuantityParmBehaviorUtil {
             // the range of the search value does not overlap with the range of the target value,
             // and the range above the search value contains the range of the target value
             buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_HIGH,
-                    JDBCOperator.LT.value(), value, value);
+                    LT, value, value);
             break;
         case SA:
             // SA - Starts After
             // the range of the search value does not overlap with the range of the target value,
             // and the range below the search value contains the range of the target value
             buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_LOW,
-                    JDBCOperator.GT.value(), value, value);
+                    GT, value, value);
             break;
         case GE:
             // GE - Greater Than Equal
             // the range above the search value intersects (i.e. overlaps) with the range of the target value,
             // or the range of the search value fully contains the range of the target value
             buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_HIGH,
-                    JDBCOperator.GTE.value(), value, value);
+                    GTE, value, value);
             break;
         case GT:
             // GT - Greater Than
             // the range above the search value intersects (i.e. overlaps) with the range of the target value
             buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_HIGH,
-                    JDBCOperator.GT.value(), value, value);
+                    GT, value, value);
             break;
         case LE:
             // LE - Less Than Equal
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             // or the range of the search value fully contains the range of the target value
             buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_LOW,
-                    JDBCOperator.LTE.value(), value, value);
+                    LTE, value, value);
             break;
         case LT:
             // LT - Less Than
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_LOW,
-                    JDBCOperator.LT.value(), value, value);
+                    LT, value, value);
             break;
         case AP:
             // AP - Approximate - Relative

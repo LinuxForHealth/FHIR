@@ -8,6 +8,7 @@ package com.ibm.fhir.core;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.Base64;
 import java.util.Date;
 import java.util.TimeZone;
@@ -117,7 +118,7 @@ public class FHIRUtilities {
      * @return
      */
     public static Timestamp convertToTimestamp(java.time.ZonedDateTime zdt) {
-        return new Timestamp(zdt.toInstant().toEpochMilli());
+        return Timestamp.from(zdt.withZoneSameInstant(ZoneId.of("UTC")).toInstant());
     }
 
 

@@ -13,9 +13,11 @@ import static com.ibm.fhir.model.type.code.SearchParamType.REFERENCE;
 import static com.ibm.fhir.model.type.code.SearchParamType.STRING;
 import static com.ibm.fhir.model.type.code.SearchParamType.TOKEN;
 import static com.ibm.fhir.model.type.code.SearchParamType.URI;
+import static com.ibm.fhir.search.date.DateTimeHandler.generateTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,14 +52,18 @@ import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
+import com.ibm.fhir.search.date.DateTimeHandler;
 
 /**
- * This class is the JDBC persistence layer implementation for transforming SearchParameters into Parameter Data Transfer Objects.
- *
- * <p>Call {@code Element.accept} with this visitor to add zero to many Parameters to the result list and invoke {@code getResult}
+ * This class is the JDBC persistence layer implementation for transforming
+ * SearchParameters into Parameter Data Transfer Objects.
+ * <p>
+ * Call {@code Element.accept} with this visitor to add zero to many Parameters
+ * to the result list and invoke {@code getResult}
  * to get the current list of extracted Parameter objects.
- *
- * <p>Note: this class DOES NOT set the resourceType on the underlying JDBC Parameter objects it creates;
+ * <p>
+ * Note: this class DOES NOT set the resourceType on the underlying JDBC
+ * Parameter objects it creates;
  * that is a responsibility of the caller.
  */
 public class JDBCParameterBuildingVisitor extends DefaultVisitor {
@@ -69,9 +75,14 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     // Datetime Limits from
     // DB2: https://www.ibm.com/support/knowledgecenter/en/SSEPGG_11.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0001029.html
     // Derby: https://db.apache.org/derby/docs/10.0/manuals/reference/sqlj271.html
-    private static final Timestamp SMALLEST_TIMESTAMP = Timestamp.valueOf("0001-01-01 00:00:00.000000");
+    private static final Timestamp SMALLEST_TIMESTAMP =
+            Timestamp.from(
+                    ((ZonedDateTime) DateTimeHandler.parseQuiet("0001-01-01T00:00:00.000000+00:00")).toInstant());
+
     // 23:59:59.999999 used instead of 24:00:00.000000 to ensure it could be represented in FHIR if needed
-    private static final Timestamp LARGEST_TIMESTAMP = Timestamp.valueOf("9999-12-31 23:59:59.999999");
+    private static final Timestamp LARGEST_TIMESTAMP =
+            Timestamp.from(
+                    ((ZonedDateTime) DateTimeHandler.parseQuiet("9999-12-31T23:59:59.999999+00:00")).toInstant());
 
     // We only need the SearchParameter type and code, so just store those directly as members
     private final String searchParamCode;
@@ -87,7 +98,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         this.searchParamCode = searchParameter.getCode().getValue();
         this.searchParamType = searchParameter.getType();
 
-        result = new ArrayList<>();
+        result               = new ArrayList<>();
     }
 
     /**
@@ -105,9 +116,11 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         return false;
     }
 
-    /*====================
-     * Primitive Types   *
-     ====================*/
+    /*
+     * ====================
+     * Primitive Types *
+     * ====================
+     */
 
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Boolean _boolean) {
@@ -127,6 +140,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Canonical canonical) {
         if (canonical.hasValue()) {
@@ -140,6 +154,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Code code) {
         if (code.hasValue()) {
@@ -154,6 +169,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Date date) {
         if (date.hasValue()) {
@@ -167,6 +183,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.DateTime dateTime) {
         if (dateTime.hasValue()) {
@@ -180,6 +197,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Decimal decimal) {
         if (decimal.hasValue()) {
@@ -193,6 +211,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Id id) {
         if (id.hasValue()) {
@@ -206,6 +225,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Instant instant) {
         if (instant.hasValue()) {
@@ -214,11 +234,12 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 throw invalidComboException(searchParamType, instant);
             }
             p.setName(searchParamCode);
-            p.setValueDate(Timestamp.from(instant.getValue().toInstant()));
+            p.setValueDate(generateTimestamp(instant.getValue().toInstant()));
             result.add(p);
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, com.ibm.fhir.model.type.Integer integer) {
         if (integer.hasValue()) {
@@ -233,6 +254,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(String elementName, int elementIndex, com.ibm.fhir.model.type.String value) {
         if (value.hasValue()) {
@@ -252,6 +274,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(String elementName, int elementIndex, Uri uri) {
         if (uri.hasValue()) {
@@ -266,9 +289,11 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         return false;
     }
 
-    /*====================
-     * Data Types        *
-     ====================*/
+    /*
+     * ====================
+     * Data Types *
+     * ====================
+     */
 
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Address address) {
@@ -320,6 +345,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, CodeableConcept codeableConcept) {
         if (!TOKEN.equals(searchParamType)) {
@@ -330,6 +356,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Coding coding) {
         if (coding.getCode() != null && coding.getCode().hasValue()) {
@@ -346,6 +373,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, ContactPoint contactPoint) {
         if (contactPoint.getValue() != null) {
@@ -359,6 +387,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, HumanName humanName) {
         StringParmVal p;
@@ -398,6 +427,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Identifier identifier) {
         if (!TOKEN.equals(searchParamType)) {
@@ -414,6 +444,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Money money) {
         if (!QUANTITY.equals(searchParamType)) {
@@ -430,6 +461,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Period period) {
         if (!DATE.equals(searchParamType)) {
@@ -444,18 +476,20 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         if (period.getStart() == null || period.getStart().getValue() == null) {
             p.setValueDateStart(SMALLEST_TIMESTAMP);
         } else {
-            java.time.Instant startInst = QueryBuilderUtil.getInstant(period.getStart());
-            p.setValueDateStart(Timestamp.from(startInst));
+            java.time.Instant startInst = DateTimeHandler.generateValue(period.getStart().getValue());
+            p.setValueDateStart(generateTimestamp(startInst));
         }
         if (period.getEnd() == null || period.getEnd().getValue() == null) {
             p.setValueDateEnd(LARGEST_TIMESTAMP);
+
         } else {
-            java.time.Instant endInst = QueryBuilderUtil.getInstant(period.getEnd());
-            p.setValueDateEnd(Timestamp.from(endInst));
+            java.time.Instant endInst = DateTimeHandler.generateValue(period.getEnd().getValue());
+            p.setValueDateEnd(generateTimestamp(endInst));
         }
         result.add(p);
         return false;
     }
+
     // Also handles Quantity subtypes like Age and Duration
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Quantity quantity) {
@@ -464,7 +498,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         if (quantity.getValue() != null && quantity.getValue().hasValue()) {
             BigDecimal value = quantity.getValue().getValue();
-            
+
             // see https://gforge.hl7.org/gf/project/fhir/tracker/?action=TrackerItemEdit&tracker_item_id=19597
             if (quantity.getCode() != null && quantity.getCode().hasValue()) {
                 QuantityParmVal p = new QuantityParmVal();
@@ -490,6 +524,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Range range) {
         if (!QUANTITY.equals(searchParamType)) {
@@ -498,7 +533,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         // The parameter isn't added unless either low or high holds a value
         QuantityParmVal p = new QuantityParmVal();
         p.setName(searchParamCode);
-        if (range.getLow() != null && range.getLow().getValue() != null && range.getLow().getValue().getValue() != null) {
+        if (range.getLow() != null && range.getLow().getValue() != null
+                && range.getLow().getValue().getValue() != null) {
             if (range.getLow().getSystem() != null) {
                 p.setValueSystem(range.getLow().getSystem().getValue());
             }
@@ -510,12 +546,14 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p.setValueNumberLow(range.getLow().getValue().getValue());
 
             // The unit and code/system elements of the low or high elements SHALL match
-            if (range.getHigh() != null && range.getHigh().getValue() != null && range.getHigh().getValue().getValue() != null) {
+            if (range.getHigh() != null && range.getHigh().getValue() != null
+                    && range.getHigh().getValue().getValue() != null) {
                 p.setValueNumberHigh(range.getHigh().getValue().getValue());
             }
 
             result.add(p);
-        } else if (range.getHigh() != null && range.getHigh().getValue() != null && range.getHigh().getValue().getValue() != null) {
+        } else if (range.getHigh() != null && range.getHigh().getValue() != null
+                && range.getHigh().getValue().getValue() != null) {
             if (range.getHigh().getSystem() != null) {
                 p.setValueSystem(range.getHigh().getSystem().getValue());
             }
@@ -529,6 +567,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Reference reference) {
         if (!REFERENCE.equals(searchParamType)) {
@@ -542,15 +581,19 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         return false;
     }
+
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Timing timing) {
         if (!DATE.equals(searchParamType)) {
             throw invalidComboException(searchParamType, timing);
         }
         /*
-         * The specified scheduling details are ignored and only the outer limits matter. For instance, a schedule that
-         * specifies every second day between 31-Jan 2013 and 24-Mar 2013 includes 1-Feb 2013, even though that is on an
-         * odd day that is not specified by the period. This is to keep the server load processing queries reasonable.
+         * The specified scheduling details are ignored and only the outer limits
+         * matter. For instance, a schedule that
+         * specifies every second day between 31-Jan 2013 and 24-Mar 2013 includes 1-Feb
+         * 2013, even though that is on an
+         * odd day that is not specified by the period. This is to keep the server load
+         * processing queries reasonable.
          */
 
         Timing.Repeat repeat = timing.getRepeat();
@@ -568,7 +611,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     public boolean visit(java.lang.String elementName, int elementIndex, Location.Position position) {
         LocationParmVal p = new LocationParmVal();
         p.setName(searchParamCode);
-        
+
         // The following code ensures that the lat/lon is only added when there is a pair. 
         boolean add = false;
         if (position.getLatitude() != null && position.getLatitude().getValue() != null) {
@@ -583,32 +626,37 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             }
         }
 
-        if(!add && log.isLoggable(Level.FINE)) { 
-            log.fine("The Location.Position parameter is invalid, and not added '" + searchParamCode + "'"); 
+        if (!add && log.isLoggable(Level.FINE)) {
+            log.fine("The Location.Position parameter is invalid, and not added '" + searchParamCode + "'");
         }
 
-        return false; 
+        return false;
     }
 
-    /*====================
+    /*
+     * ====================
      * Date/Time helpers *
-     ====================*/
+     * ====================
+     */
 
     /**
-     * Configure the date values in the parameter based on the model {@link Date} which again might be partial
+     * Configure the date values in the parameter based on the model {@link Date}
+     * which again might be partial
      * (Year/YearMonth/LocalDate)
      *
      * @param p
      * @param date
      */
     private void setDateValues(DateParmVal p, Date date) {
-        java.time.Instant start = QueryBuilderUtil.getStart(date);
-        java.time.Instant end = QueryBuilderUtil.getEnd(date);
-        setDateValues(p, start, end);
+        if (date.getValue() != null) {
+            java.time.Instant inst = DateTimeHandler.generateValue(date.getValue());
+            p.setValueDate(DateTimeHandler.generateTimestamp(inst));
+        }
     }
 
     /**
-     * Configure the date values in the parameter based on the model {@link DateTime} and the type of date it
+     * Configure the date values in the parameter based on the model
+     * {@link DateTime} and the type of date it
      * represents.
      *
      * @param p
@@ -616,47 +664,10 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
      * @throws NullPointerException if p or dateTime are null
      */
     private void setDateValues(DateParmVal p, DateTime dateTime) {
-        if (dateTime.isPartial()) {
-            java.time.Instant start = QueryBuilderUtil.getStart(dateTime);
-            java.time.Instant end = QueryBuilderUtil.getEnd(dateTime);
-            setDateValues(p, start, end);
-        } else {
-            // fully specified time including zone, so we can interpret as an instant
-            p.setValueDate(java.sql.Timestamp.from(java.time.Instant.from(dateTime.getValue())));
-        }
-    }
-
-    /**
-     * Set the date values on the {@link DateParmVal}, adjusting the end time slightly to make it inclusive (which is a TODO to fix).
-     *
-     * @param p
-     * @param start
-     * @param end
-     */
-    private void setDateValues(DateParmVal p, java.time.Instant start, java.time.Instant end) {
-        if (start != null) {
-            Timestamp startTime = Timestamp.from(start);
-            p.setValueDateStart(startTime);
-            p.setValueDate(startTime);
-        }
-
-        if (end != null) {
-            Timestamp implicitEndExclusive = Timestamp.from(end);
-            // TODO: Is it possible to avoid this by using <= or BETWEEN instead of < when constructing the query?
-            Timestamp implicitEndInclusive = convertToInclusiveEnd(implicitEndExclusive);
-            p.setValueDateEnd(implicitEndInclusive);
-        }
-    }
-
-    /**
-     * Convert a period's end timestamp from an exclusive end timestamp to an inclusive one
-     *
-     * @param exlusiveEndTime
-     * @return inclusiveEndTime
-     */
-    private Timestamp convertToInclusiveEnd(Timestamp exlusiveEndTime) {
-        // Our current schema uses the db2/derby default of 6 decimal places (1000 nanoseconds) for fractional seconds.
-        return Timestamp.from(exlusiveEndTime.toInstant().minusNanos(1000));
+        if (dateTime.getValue() != null) {
+            java.time.Instant inst = DateTimeHandler.generateValue(dateTime.getValue());
+            p.setValueDate(DateTimeHandler.generateTimestamp(inst));
+        } 
     }
 
     private IllegalArgumentException invalidComboException(SearchParamType paramType, Element value) {

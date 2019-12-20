@@ -9,18 +9,19 @@ package com.ibm.fhir.persistence.jdbc.util;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_END;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_START;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_EXPR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_PERCENT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_UNDERSCORE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.IN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_JOIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIKE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX_NUM_OF_COMPOSITE_COMPONENTS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
@@ -32,10 +33,8 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNDERSCORE_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHERE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierOperatorMap;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.prefixOperatorMap;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -54,17 +53,17 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants.JDBCOperator;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.jdbc.util.type.DateParmBehaviorUtil;
+import com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.LocationParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.QuantityParmBehaviorUtil;
 import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Modifier;
-import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.location.bounding.Bounding;
@@ -75,15 +74,21 @@ import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 
 /**
- * This is the JDBC implementation of a query builder for the IBM FHIR Server JDBC persistence layer schema.
+ * This is the JDBC implementation of a query builder for the IBM FHIR Server
+ * JDBC persistence layer schema.
  * Queries are built in SQL.
- * <br><br>
- * For the new R4 schema, the search parameter tables (e.g. {@code <resourceType>_STR_VALUES}) are
- * joined to their corresponding <resourceType>_LOGICAL_RESOURCES tables on LOGICAL_RESOURCE_ID.
- * This is because the search parameters are not versioned, and are associated with
+ * <br>
+ * <br>
+ * For the new R4 schema, the search parameter tables (e.g.
+ * {@code <resourceType>_STR_VALUES}) are
+ * joined to their corresponding <resourceType>_LOGICAL_RESOURCES tables on
+ * LOGICAL_RESOURCE_ID.
+ * This is because the search parameters are not versioned, and are associated
+ * with
  * the logical resource, not the resource version.
  * <br>
  * Useful column reference:<br>
+ * 
  * <pre>
  * ------------------------
  * RESOURCE_TYPE_NAME    the formal name of the resource type e.g. 'Patient'
@@ -95,7 +100,7 @@ import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
  * RESOURCE_ID           the PK of the version-specific resource. Now only used as the target for CURRENT_RESOURCE_ID
  * </pre>
  */
-public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOperator> {
+public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
     private static final Logger log = java.util.logging.Logger.getLogger(JDBCQueryBuilder.class.getName());
     private static final String CLASSNAME = JDBCQueryBuilder.class.getName();
 
@@ -120,23 +125,25 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
     public JDBCQueryBuilder(ParameterDAO parameterDao, ResourceDAO resourceDao) {
         this.parameterDao = parameterDao;
-        this.resourceDao = resourceDao;
+        this.resourceDao  = resourceDao;
     }
 
     /**
-     * Builds a query that returns the count of the search results that would be found by applying the search parameters
+     * Builds a query that returns the count of the search results that would be
+     * found by applying the search parameters
      * contained within the passed search context.
      * 
      * @param resourceType
-     *            - The type of resource being searched for.
+     *                      - The type of resource being searched for.
      * @param searchContext
-     *            - The search context containing the search parameters.
+     *                      - The search context containing the search parameters.
      * @return String - A count query SQL string
      * @throws Exception
      */
     public SqlQueryData buildCountQuery(Class<?> resourceType, FHIRSearchContext searchContext) throws Exception {
         final String METHODNAME = "buildCountQuery";
-        log.entering(CLASSNAME, METHODNAME, new Object[] { resourceType.getSimpleName(), searchContext.getSearchParameters() });
+        log.entering(CLASSNAME, METHODNAME,
+                new Object[] { resourceType.getSimpleName(), searchContext.getSearchParameters() });
 
         QuerySegmentAggregator helper;
         SqlQueryData query = null;
@@ -153,7 +160,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     @Override
     public SqlQueryData buildQuery(Class<?> resourceType, FHIRSearchContext searchContext) throws Exception {
         final String METHODNAME = "buildQuery";
-        log.entering(CLASSNAME, METHODNAME, new Object[] { resourceType.getSimpleName(), searchContext.getSearchParameters() });
+        log.entering(CLASSNAME, METHODNAME,
+                new Object[] { resourceType.getSimpleName(), searchContext.getSearchParameters() });
 
         SqlQueryData query = null;
         QuerySegmentAggregator helper;
@@ -168,45 +176,51 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     /**
-     * Contains logic common to the building of both 'count' resource queries and 'regular' resource queries.
+     * Contains logic common to the building of both 'count' resource queries and
+     * 'regular' resource queries.
      * 
      * @param resourceType
-     *            The type of FHIR resource being searched for.
+     *                      The type of FHIR resource being searched for.
      * @param searchContext
-     *            The search context containing search parameters.
-     * @return QuerySegmentAggregator - A query builder helper containing processed query segments.
+     *                      The search context containing search parameters.
+     * @return QuerySegmentAggregator - A query builder helper containing processed
+     *         query segments.
      * @throws Exception
      */
-    private QuerySegmentAggregator buildQueryCommon(Class<?> resourceType, FHIRSearchContext searchContext) throws Exception {
+    private QuerySegmentAggregator buildQueryCommon(Class<?> resourceType, FHIRSearchContext searchContext)
+            throws Exception {
         final String METHODNAME = "buildQueryCommon";
-        log.entering(CLASSNAME, METHODNAME, new Object[] { resourceType.getSimpleName(), searchContext.getSearchParameters() });
+        log.entering(CLASSNAME, METHODNAME,
+                new Object[] { resourceType.getSimpleName(), searchContext.getSearchParameters() });
 
         SqlQueryData querySegment;
         int nearParameterIndex;
         List<QueryParameter> searchParameters = searchContext.getSearchParameters();
-        
-        // Forces _id to come before all other parameters, which is good for this bit here
+
+        // Forces _id and _lastUpdated to come before all other parameters, which is good for this bit here
         // zero is used to for all other cases.
         searchParameters.sort(new Comparator<QueryParameter>() {
             @Override
             public int compare(QueryParameter leftParameter, QueryParameter rightParameter) {
-                
                 int result = 0;
-                if("_id".compareTo(leftParameter.getCode())==0) {
+                if (QuerySegmentAggregator.ID.equals(leftParameter.getCode())) {
                     result = -100;
+                } else if (LastUpdatedParmBehaviorUtil.LAST_UPDATED.equals(leftParameter.getCode())) {
+                    result = -90;
                 }
-                
                 return result;
             }
-            
+
         });
-        
+
         int pageSize = searchContext.getPageSize();
         int offset = (searchContext.getPageNumber() - 1) * pageSize;
         QuerySegmentAggregator helper;
         boolean isValidQuery = true;
 
-        helper = QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, offset, pageSize, this.parameterDao, this.resourceDao, searchContext);
+        helper =
+                QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, offset, pageSize,
+                        this.parameterDao, this.resourceDao, searchContext);
 
         // Special logic for handling LocationPosition queries. These queries have interdependencies between
         // a couple of related input query parameters
@@ -240,103 +254,93 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
     }
 
-    @Override
-    protected JDBCOperator getOperator(QueryParameter queryParm) {
-        final String METHODNAME = "getOperator(Parameter)";
+    protected String getOperator(QueryParameter queryParm) {
+        final String METHODNAME = "getOperator(QueryParameter)";
         log.entering(CLASSNAME, METHODNAME, queryParm.getModifier());
 
-        JDBCOperator operator = null;
+        String operator = LIKE;
         Modifier modifier = queryParm.getModifier();
 
         // In the case where a URI, we need specific behavior/manipulation
         // so that URI defaults to EQ, unless... BELOW
-        if (Type.URI.compareTo(queryParm.getType()) == 0) {
-            if(modifier != null && Modifier.BELOW.compareTo(modifier) == 0) {
-                operator = JDBCOperator.LIKE;
+        if (Type.URI.equals(queryParm.getType())) {
+            if (modifier != null && Modifier.BELOW.equals(modifier)) {
+                operator = LIKE;
             } else {
-                operator = JDBCOperator.EQ;
+                operator = EQ;
             }
         } else if (modifier != null) {
             operator = modifierOperatorMap.get(modifier);
         }
-        
+
         if (operator == null) {
-            operator = JDBCOperator.LIKE;
-        } 
-        
-        log.exiting(CLASSNAME, METHODNAME, operator.value());
+            operator = LIKE;
+        }
+
+        log.exiting(CLASSNAME, METHODNAME, operator);
         return operator;
     }
 
     /**
-     * Map the Modifier in the passed Parameter to a supported query operator. If the mapping results in the default
-     * operator, override the default operator with the passed operator if the passed operator is not null.
+     * Map the Modifier in the passed Parameter to a supported query operator. If
+     * the mapping results in the default
+     * operator, override the default operator with the passed operator if the
+     * passed operator is not null.
      * 
      * @param queryParm
-     *            - A valid query Parameter.
+     *                        - A valid query Parameter.
      * @param defaultOverride
-     *            - An operator that should override the default operator.
-     * @return T2 - A supported operator.
+     *                        - An operator that should override the default
+     *                        operator.
+     * @return A supported operator.
      */
-    @Override
-    protected JDBCOperator getOperator(QueryParameter queryParm, JDBCOperator defaultOverride) {
-        final String METHODNAME = "getOperator(Parameter, JDBCOperator)";
+    protected String getOperator(QueryParameter queryParm, String defaultOverride) {
+        final String METHODNAME = "getOperator(Parameter, String)";
         log.entering(CLASSNAME, METHODNAME, queryParm.getModifier());
 
-        JDBCOperator operator = null;
+        String operator = defaultOverride;
         Modifier modifier = queryParm.getModifier();
 
         if (modifier != null) {
             operator = modifierOperatorMap.get(modifier);
         }
+
         if (operator == null) {
             if (defaultOverride != null) {
                 operator = defaultOverride;
             } else {
-                operator = JDBCOperator.LIKE;
+                operator = LIKE;
             }
         }
-        log.exiting(CLASSNAME, METHODNAME, operator.value());
-        return operator;
-    }
 
-    @Override
-    public JDBCOperator getPrefixOperator(QueryParameterValue queryParmValue) {
-        final String METHODNAME = "getOperator(ParameterValue)";
-        log.entering(CLASSNAME, METHODNAME, queryParmValue.getPrefix());
-
-        Prefix prefix = queryParmValue.getPrefix();
-        JDBCOperator operator = null;
-
-        if (prefix != null) {
-            operator = prefixOperatorMap.get(prefix);
-        }
-        if (operator == null) {
-            operator = JDBCOperator.EQ;
-        }
-
-        log.exiting(CLASSNAME, METHODNAME, operator.value());
+        log.exiting(CLASSNAME, METHODNAME, operator);
         return operator;
     }
 
     /**
      * Builds a query segment for the passed query parameter.
-     * @param resourceType - A valid FHIR Resource type
-     * @param queryParm - A Parameter object describing the name, value and type of search parm
-     * @param tableAlias - An alias for the table for which this query parameter applies
-     * @return SqlQueryData - An object representing the selector query segment for the passed search parm.
-     * @throws Exception
      * 
-     * @implNote This is just like {@link com.ibm.fhir.persistence.util.AbstractQueryBuilder.buildQueryParm(QueryParameter, String)}
+     * @param resourceType - A valid FHIR Resource type
+     * @param queryParm    - A Parameter object describing the name, value and type
+     *                     of search parm
+     * @param tableAlias   - An alias for the table for which this query parameter
+     *                     applies
+     * @return SqlQueryData - An object representing the selector query segment for
+     *         the passed search parm.
+     * @throws Exception
+     * @implNote This is just like
+     *           {@link com.ibm.fhir.persistence.util.AbstractQueryBuilder.buildQueryParm(QueryParameter,
+     *           String)}
      *           except this one takes a tableAlias
      */
-    protected SqlQueryData buildQueryParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws Exception {
+    protected SqlQueryData buildQueryParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias)
+            throws Exception {
         final String METHODNAME = "buildQueryParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
-        
+
         SqlQueryData databaseQueryParm = null;
         Type type;
-        
+
         try {
             if (Modifier.MISSING.equals(queryParm.getModifier())) {
                 return this.processMissingParm(resourceType, queryParm, tableAlias);
@@ -345,7 +349,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             // found in method processLocationPosition(). This method will not handle those.
             if (!LocationUtil.isLocation(resourceType, queryParm)) {
                 type = queryParm.getType();
-                switch(type) {
+                switch (type) {
                 case STRING:
                     databaseQueryParm = this.processStringParm(queryParm, tableAlias);
                     break;
@@ -376,27 +380,28 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 case COMPOSITE:
                     databaseQueryParm = this.processCompositeParm(resourceType, queryParm, tableAlias);
                     break;
-                default: throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
+                default:
+                    throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
                 }
             }
-        }
-        finally {
-            log.exiting(CLASSNAME, METHODNAME, new Object[] {databaseQueryParm});
+        } finally {
+            log.exiting(CLASSNAME, METHODNAME, new Object[] { databaseQueryParm });
         }
         return databaseQueryParm;
     }
-    
+
     @Override
     protected SqlQueryData processStringParm(QueryParameter queryParm) throws FHIRPersistenceException {
         return processStringParm(queryParm, PARAMETER_TABLE_ALIAS);
     }
-    
-    private SqlQueryData processStringParm(QueryParameter queryParm, String tableAlias) throws FHIRPersistenceException {
+
+    private SqlQueryData processStringParm(QueryParameter queryParm, String tableAlias)
+            throws FHIRPersistenceException {
         final String METHODNAME = "processStringParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         StringBuilder whereClauseSegment = new StringBuilder();
-        JDBCOperator operator = this.getOperator(queryParm);
+        String operator = this.getOperator(queryParm);
         boolean parmValueProcessed = false;
         String searchValue, tempSearchValue;
         boolean appendEscape;
@@ -410,29 +415,29 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         whereClauseSegment.append(AND).append(LEFT_PAREN);
         for (QueryParameterValue value : queryParm.getValues()) {
             List<String> values = new ArrayList<>();
-            
+
             appendEscape = false;
-            if (operator.equals(JDBCOperator.LIKE)) {
+            if (LIKE.equals(operator)) {
                 // Must escape special wildcard characters _ and % in the parameter value string.
                 tempSearchValue =
                         SqlParameterEncoder.encode(value.getValueString()
-                                           .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
-                                           .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE));
+                                .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
+                                .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE));
                 if (Modifier.CONTAINS.equals(queryParm.getModifier())) {
                     searchValue = PERCENT_WILDCARD + tempSearchValue + PERCENT_WILDCARD;
                 } else {
                     // If there is not a CONTAINS modifier on the query parm, construct
                     // a 'starts with' search value.
                     searchValue = tempSearchValue + PERCENT_WILDCARD;
-                    
+
                     // Specific processing for 
-                    if(Type.URI.compareTo(queryParm.getType()) == 0 
-                            && queryParm.getModifier() != null 
-                            && Modifier.BELOW.compareTo(queryParm.getModifier())==0) {
+                    if (Type.URI.compareTo(queryParm.getType()) == 0
+                            && queryParm.getModifier() != null
+                            && Modifier.BELOW.compareTo(queryParm.getModifier()) == 0) {
                         searchValue = tempSearchValue + "/" + PERCENT_WILDCARD;
                         values.add(tempSearchValue);
                         values.add(searchValue);
-                    } 
+                    }
                 }
                 appendEscape = true;
             } else {
@@ -441,25 +446,27 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
             // If multiple values are present, we need to OR them together.
             if (parmValueProcessed) {
-                whereClauseSegment.append(JDBCOperator.OR.value());
+                whereClauseSegment.append(OR);
             }
 
-            if (operator.equals(JDBCOperator.EQ) || Type.URI.equals(queryParm.getType())) {
+            if (EQ.equals(operator) || Type.URI.equals(queryParm.getType())) {
                 // For an exact match, we search against the STR_VALUE column in the Resource's string values table.
                 // Build this piece: pX.str_value = search-attribute-value
-                
+
                 if (queryParm.getModifier() != null && Type.URI.equals(queryParm.getType())) {
-                    if (Modifier.ABOVE.compareTo(queryParm.getModifier()) == 0){
-                        values = UriModifierUtil.generateAboveValuesQuery(searchValue, whereClauseSegment, tableAlias + DOT + STR_VALUE);
-                    } else if(Modifier.BELOW.compareTo(queryParm.getModifier())==0) {
+                    if (Modifier.ABOVE.compareTo(queryParm.getModifier()) == 0) {
+                        values =
+                                UriModifierUtil.generateAboveValuesQuery(searchValue, whereClauseSegment,
+                                        tableAlias + DOT + STR_VALUE);
+                    } else if (Modifier.BELOW.compareTo(queryParm.getModifier()) == 0) {
                         UriModifierUtil.generateBelowValuesQuery(whereClauseSegment, tableAlias + DOT + STR_VALUE);
                     }
-                } 
+                }
 
                 if (values.isEmpty()) {
                     // In every other case... use whatever operator comes through at this point
                     whereClauseSegment.append(tableAlias + DOT).append(STR_VALUE)
-                        .append(operator.value()).append(BIND_VAR);
+                            .append(operator).append(BIND_VAR);
                 }
             } else {
                 // For anything other than an exact match, we search against the STR_VALUE_LCASE column in the
@@ -467,16 +474,16 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 // Also, the search value is "normalized"; it has accents removed and is lower-cased. This enables a
                 // case-insensitive, accent-insensitive search.
                 // Build this piece: pX.str_value_lcase {operator} search-attribute-value
-                whereClauseSegment.append(tableAlias + DOT).append(STR_VALUE_LCASE).append(operator.value()).append(BIND_VAR);
+                whereClauseSegment.append(tableAlias + DOT).append(STR_VALUE_LCASE).append(operator).append(BIND_VAR);
                 searchValue = SearchUtil.normalizeForSearch(searchValue);
             }
-            
+
             if (values.isEmpty()) {
                 bindVariables.add(searchValue);
             } else {
                 bindVariables.addAll(values);
             }
-            
+
             // Build this piece: ESCAPE '+'
             if (appendEscape) {
                 whereClauseSegment.append(ESCAPE_EXPR);
@@ -494,14 +501,15 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     protected SqlQueryData processReferenceParm(Class<?> resourceType, QueryParameter queryParm) throws Exception {
         return processReferenceParm(resourceType, queryParm, PARAMETER_TABLE_ALIAS);
     }
-    
-    private SqlQueryData processReferenceParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws Exception {
+
+    private SqlQueryData processReferenceParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias)
+            throws Exception {
         final String METHODNAME = "processReferenceParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         StringBuilder whereClauseSegment = new StringBuilder();
-        JDBCOperator operator = this.getOperator(queryParm, JDBCOperator.EQ);
-        boolean parmValueProcessed = false;
+        String operator = getOperator(queryParm, EQ);
+
         String searchValue;
         SqlQueryData queryData;
         List<Object> bindVariables = new ArrayList<>();
@@ -511,15 +519,19 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
 
         whereClauseSegment.append(AND).append(LEFT_PAREN);
+
+        boolean parmValueProcessed = false;
         for (QueryParameterValue value : queryParm.getValues()) {
             // Handle query parm representing this name/value pair construct:
-            // {name} = {resource-type/resource-id}
+            // <code> {name} = {resource-type/resource-id}</code>
             searchValue = SqlParameterEncoder.encode(value.getValueString());
 
             // Handle query parm representing this name/value pair construct:
-            // {name}:{Resource Type} = {resource-id}
+            // <code>{name}:{Resource Type} = {resource-id}</code>
             if (queryParm.getModifier() != null && queryParm.getModifier().equals(Modifier.TYPE)) {
-                searchValue = queryParm.getModifierResourceTypeName() + "/" + SqlParameterEncoder.encode(value.getValueString());
+                searchValue =
+                        queryParm.getModifierResourceTypeName() + "/"
+                                + SqlParameterEncoder.encode(value.getValueString());
             } else if (!isAbsoluteURL(searchValue)) {
                 SearchParameter definition = SearchUtil.getSearchParameter(resourceType, queryParm.getCode());
                 if (definition != null) {
@@ -532,18 +544,20 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                         }
                     }
                 } else {
-                    log.finer("Couldn't find search parameter named " + queryParm.getCode() + " for resource of type " + resourceType);
+                    log.finer("Couldn't find search parameter named '" + queryParm.getCode() + "' for resource of type "
+                            + resourceType);
                 }
             }
 
             // If multiple values are present, we need to OR them together.
             if (parmValueProcessed) {
-                whereClauseSegment.append(JDBCOperator.OR.value());
+                whereClauseSegment.append(OR);
+            } else {
+                parmValueProcessed = true;
             }
             // Build this piece: pX.str_value {operator} search-attribute-value
-            whereClauseSegment.append(tableAlias + DOT).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
+            whereClauseSegment.append(tableAlias).append(DOT).append(STR_VALUE).append(operator).append(BIND_VAR);
             bindVariables.add(searchValue);
-            parmValueProcessed = true;
         }
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
 
@@ -555,7 +569,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     /**
      * Contains special logic for handling chained reference search parameters.
      * <p>
-     * Nested sub-selects are built to realize the chaining logic required. Here is a sample chained query for an
+     * Nested sub-selects are built to realize the chaining logic required. Here is
+     * a sample chained query for an
      * Observation given this search parameter: device:Device.patient.family=Monella
      *
      * <pre>
@@ -575,8 +590,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      * 
      * @see https://www.hl7.org/fhir/search.html#reference (section 2.1.1.4.13)
      * @param queryParm
-     *            - A Parameter representing a chained query.
-     * @return SqlQueryData - The query segment for a chained parameter reference search.
+     *                  - A Parameter representing a chained query.
+     * @return SqlQueryData - The query segment for a chained parameter reference
+     *         search.
      * @throws Exception
      */
     @Override
@@ -607,18 +623,18 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                     // generated value in the buildQuery() method.
                     // Build this piece:P1.PARAMETER_NAME_ID = x AND (p1.STR_VALUE IN
                     this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETER_TABLE_ALIAS);
-                    whereClauseSegment.append(JDBCOperator.AND.value());
+                    whereClauseSegment.append(AND);
                     whereClauseSegment.append(LEFT_PAREN);
-                    whereClauseSegment.append(PARAMETER_TABLE_ALIAS + DOT).append(STR_VALUE).append(JDBCOperator.IN.value());
+                    whereClauseSegment.append(PARAMETER_TABLE_ALIAS + DOT).append(STR_VALUE).append(IN);
                 } else {
                     // Build this piece: CP1.PARAMETER_NAME_ID = x AND CP1.STR_VALUE IN
                     appendMidChainParm(whereClauseSegment, currentParm, chainedParmVar);
                 }
 
                 refParmIndex++;
-                chainedResourceVar = CR + refParmIndex;
+                chainedResourceVar        = CR + refParmIndex;
                 chainedLogicalResourceVar = CLR + refParmIndex;
-                chainedParmVar = CP + refParmIndex;
+                chainedParmVar            = CP + refParmIndex;
 
                 // The * is a wildcard for any resource type. This occurs only in the case where a reference parameter
                 // chain was built to represent a compartment search with chained inclusion criteria that includes a
@@ -627,13 +643,15 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 // For this situation, a separate method is called, and further processing of the chain by this method
                 // is halted.
                 if (currentParm.getModifierResourceTypeName().equals("*")) {
-                    this.processWildcardChainedRefParm(currentParm, chainedResourceVar, chainedLogicalResourceVar, chainedParmVar, whereClauseSegment, bindVariables);
+                    this.processWildcardChainedRefParm(currentParm, chainedResourceVar, chainedLogicalResourceVar,
+                            chainedParmVar, whereClauseSegment, bindVariables);
                     break;
                 }
                 resourceTypeName = currentParm.getModifierResourceTypeName();
                 // Build this piece: (SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID ...
                 whereClauseSegment.append(LEFT_PAREN);
-                appendInnerSelect(whereClauseSegment, currentParm, nextParmaterType, resourceTypeName, chainedResourceVar, chainedLogicalResourceVar, chainedParmVar);
+                appendInnerSelect(whereClauseSegment, currentParm, nextParmaterType, resourceTypeName,
+                        chainedResourceVar, chainedLogicalResourceVar, chainedParmVar);
             } else {
                 // This logic processes the LAST parameter in the chain.
                 // Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?
@@ -665,10 +683,13 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 this.parameterDao.addParameterNamesCacheCandidate(currentParm.getCode(), parameterNameId);
             }
         }
-        whereClauseSegment.append(chainedParmVar).append(".").append("PARAMETER_NAME_ID").append(JDBCOperator.EQ.value()).append(parameterNameId).append(JDBCOperator.AND.value()).append(chainedParmVar).append(".").append(STR_VALUE).append(JDBCOperator.IN.value());
+        whereClauseSegment.append(chainedParmVar).append(DOT).append("PARAMETER_NAME_ID").append(EQ)
+                .append(parameterNameId)
+                .append(AND).append(chainedParmVar).append(DOT).append(STR_VALUE).append(IN);
     }
 
-    private void appendInnerSelect(StringBuilder whereClauseSegment, QueryParameter currentParm, Type nextParmaterType, String resourceTypeName,
+    private void appendInnerSelect(StringBuilder whereClauseSegment, QueryParameter currentParm, Type nextParmaterType,
+            String resourceTypeName,
             String chainedResourceVar, String chainedLogicalResourceVar, String chainedParmVar) {
         String chainedResourceTableAlias = chainedResourceVar + ".";
         String chainedLogicalResourceTableAlias = chainedLogicalResourceVar + ".";
@@ -676,15 +697,17 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
         // Build this piece: SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID
         whereClauseSegment.append("SELECT ").append("'" + resourceTypeName
-                + "'").append(" || ").append("'/'").append(" || ").append(chainedLogicalResourceTableAlias).append("LOGICAL_ID");
+                + "'").append(" || ").append("'/'").append(" || ").append(chainedLogicalResourceTableAlias)
+                .append("LOGICAL_ID");
 
         QueryParameter nextParameter = currentParm.getNextParameter();
-        
+
         // Build this piece: FROM Device_RESOURCES CR1, Device_LOGICAL_RESOURCES CLR1, Device_STR_VALUES CP1 WHERE
         whereClauseSegment.append(FROM)
                 .append(resourceTypeName).append("_RESOURCES ").append(chainedResourceVar).append(", ")
                 .append(resourceTypeName).append("_LOGICAL_RESOURCES ").append(chainedLogicalResourceVar).append(", ")
-                .append(QuerySegmentAggregator.tableName(resourceTypeName, currentParm.getNextParameter())).append(chainedParmVar);
+                .append(QuerySegmentAggregator.tableName(resourceTypeName, currentParm.getNextParameter()))
+                .append(chainedParmVar);
 
         if (Type.COMPOSITE.equals(nextParameter.getType())) {
             if (nextParameter.getValues() != null && !nextParameter.getValues().isEmpty()) {
@@ -693,9 +716,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
                     String alias = chainedParmVar + "_p" + componentNum;
                     QueryParameter component = components.get(componentNum - 1);
-                    whereClauseSegment.append(JOIN + QuerySegmentAggregator.tableName(resourceTypeName, component) + alias)
+                    whereClauseSegment
+                            .append(JOIN + QuerySegmentAggregator.tableName(resourceTypeName, component) + alias)
                             .append(ON)
-                            .append(chainedParmVar + ".COMP" + componentNum + QuerySegmentAggregator.abbr(component) )
+                            .append(chainedParmVar + ".COMP" + componentNum + QuerySegmentAggregator.abbr(component))
                             .append("=")
                             .append(alias + ".ROW_ID");
                 }
@@ -707,24 +731,26 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         // CR1.RESOURCE_ID = CLR1.CURRENT_RESOURCE_ID AND CR1.IS_DELETED <> 'Y' AND 
         // CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND
         whereClauseSegment.append(chainedResourceTableAlias).append("RESOURCE_ID = ")
-                          .append(chainedLogicalResourceTableAlias).append("CURRENT_RESOURCE_ID")
-                          .append(AND)
-                          .append(chainedResourceTableAlias)
-                          .append("IS_DELETED").append(" <> 'Y'")
-                          .append(AND)
-                          .append(chainedParmTableAlias).append("LOGICAL_RESOURCE_ID = ")
-                          .append(chainedResourceTableAlias).append("LOGICAL_RESOURCE_ID")
-                          .append(AND);
+                .append(chainedLogicalResourceTableAlias).append("CURRENT_RESOURCE_ID")
+                .append(AND)
+                .append(chainedResourceTableAlias)
+                .append("IS_DELETED").append(" <> 'Y'")
+                .append(AND)
+                .append(chainedParmTableAlias).append("LOGICAL_RESOURCE_ID = ")
+                .append(chainedResourceTableAlias).append("LOGICAL_RESOURCE_ID")
+                .append(AND);
     }
 
     /**
-     * This method handles the processing of a wildcard chained reference parameter. The wildcard represents ALL FHIR
+     * This method handles the processing of a wildcard chained reference parameter.
+     * The wildcard represents ALL FHIR
      * resource types stored in the FHIR database.
      * 
      * @throws Exception
      */
-    private void processWildcardChainedRefParm(QueryParameter currentParm, String chainedResourceVar, String chainedLogicalResourceVar, String chainedParmVar,
-        StringBuilder whereClauseSegment, List<Object> bindVariables) throws Exception {
+    private void processWildcardChainedRefParm(QueryParameter currentParm, String chainedResourceVar,
+            String chainedLogicalResourceVar, String chainedParmVar,
+            StringBuilder whereClauseSegment, List<Object> bindVariables) throws Exception {
         final String METHODNAME = "processChainedReferenceParm";
         log.entering(CLASSNAME, METHODNAME, currentParm.toString());
 
@@ -735,12 +761,13 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         Map<String, Integer> resourceNameIdMap = null;
         Map<Integer, String> resourceIdNameMap = null;
 
-        lastParm = currentParm.getNextParameter();
+        lastParm          = currentParm.getNextParameter();
 
         // Acquire ALL Resource Type Ids
         resourceNameIdMap = resourceDao.readAllResourceTypeNames();
-        resourceTypeIds = resourceNameIdMap.values();
-        resourceIdNameMap = resourceNameIdMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+        resourceTypeIds   = resourceNameIdMap.values();
+        resourceIdNameMap =
+                resourceNameIdMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
 
         // Build a sub-SELECT for each resource type, and put them together in a UNION.
         for (Integer resourceTypeId : resourceTypeIds) {
@@ -754,7 +781,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 whereClauseSegment.append(LEFT_PAREN);
             }
 
-            appendInnerSelect(whereClauseSegment, currentParm, lastParm.getType(), resourceTypeName, chainedResourceVar, chainedLogicalResourceVar, chainedParmVar);
+            appendInnerSelect(whereClauseSegment, currentParm, lastParm.getType(), resourceTypeName, chainedResourceVar,
+                    chainedLogicalResourceVar, chainedParmVar);
 
             // This logic processes the LAST parameter in the chain.
             // Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.STR_VALUE = ?
@@ -771,10 +799,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     /**
-     * This method is the entry point for processing inclusion criteria, which define resources that are part of a
+     * This method is the entry point for processing inclusion criteria, which
+     * define resources that are part of a
      * comparment-based search.
-     * 
      * Example inclusion criteria for AuditEvent in the Patient compartment:
+     * 
      * <pre>
      * {
      *        "name": "AuditEvent",
@@ -784,7 +813,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      *        "reference.patient:*"]                    This is a chained inclusion criterion with wildcard. The wildcard means "any resource type".
      * }
      * </pre>
-     * 
      * <p>
      * Here is a sample generated query for this inclusion criteria:
      * <li>PARAMETER_NAME_ID 13 = 'participant'
@@ -832,7 +860,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      * </pre>
      * 
      * @throws Exception
-     * @see compartments.json for the specificaiton of compartments, resources contained in each compartment, and the
+     * @see compartments.json for the specificaiton of compartments, resources
+     *      contained in each compartment, and the
      *      criteria for a resource to be included in a compartment.
      */
     @Override
@@ -841,7 +870,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         StringBuilder whereClauseSegment = new StringBuilder();
-        JDBCOperator operator = JDBCOperator.EQ;
+        String operator = EQ;
         QueryParameter currentParm;
         String currentParmValue;
         List<Object> bindVariables = new ArrayList<>();
@@ -866,9 +895,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
                 // Build this piece:
                 // (pX.PARAMETER_NAME_ID = x AND
                 this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETER_TABLE_ALIAS);
-                whereClauseSegment.append(JDBCOperator.AND.value());
+                whereClauseSegment.append(AND);
                 // Build this piece: pX.str_value = search-attribute-value
-                whereClauseSegment.append(PARAMETER_TABLE_ALIAS + DOT).append(STR_VALUE).append(operator.value()).append(BIND_VAR);
+                whereClauseSegment.append(PARAMETER_TABLE_ALIAS + DOT).append(STR_VALUE).append(operator)
+                        .append(BIND_VAR);
                 whereClauseSegment.append(RIGHT_PAREN);
                 bindVariables.add(currentParmValue);
             }
@@ -876,7 +906,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             currentParm = currentParm.getNextParameter();
             // If more than one parameter is in the chain, OR them together.
             if (currentParm != null) {
-                whereClauseSegment.append(JDBCOperator.OR.value());
+                whereClauseSegment.append(OR);
             }
         }
         whereClauseSegment.append(RIGHT_PAREN);
@@ -884,22 +914,17 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
         return queryData;
     }
-    
+
     @Override
     protected SqlQueryData processDateParm(Class<?> resourceType, QueryParameter queryParm) throws Exception {
         return processDateParm(resourceType, queryParm, PARAMETER_TABLE_ALIAS);
     }
 
-    private SqlQueryData processDateParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws Exception {
+    private SqlQueryData processDateParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias)
+            throws Exception {
         final String METHODNAME = "processDateParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
-        StringBuilder whereClauseSegment = new StringBuilder();
-        JDBCOperator operator;
-        boolean parmValueProcessed = false;
-        Instant datetime, start = null, end = null;
-        SqlQueryData queryData;
-        List<Timestamp> bindVariables = new ArrayList<>();
         boolean isDateSearch = isDateSearch(resourceType, queryParm);
         boolean isDateRangeSearch = isDateRangeSearch(resourceType, queryParm);
 
@@ -907,248 +932,88 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             log.fine("isDateSearch=" + isDateSearch + "  isDateRangeSearch=" + isDateRangeSearch);
         }
         if (!isDateSearch && !isDateRangeSearch) {
-            throw new FHIRPersistenceException("Cannot process query parameter '" + queryParm.getCode() + "' as a date.").withIssue(
-                    Issue.builder()
-                         .code(IssueType.INVALID)
-                         .severity(IssueSeverity.WARNING)
-                         .build()
-                    );
+            throw new FHIRPersistenceException(
+                    "Cannot process query parameter '" + queryParm.getCode() + "' as a date.").withIssue(
+                            Issue.builder()
+                                    .code(IssueType.INVALID)
+                                    .severity(IssueSeverity.WARNING)
+                                    .build());
         }
+
+        StringBuilder whereClauseSegment = new StringBuilder();
 
         // Build this piece of the segment:
         // (P1.PARAMETER_NAME_ID = x AND
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
 
-        whereClauseSegment.append(AND).append(LEFT_PAREN);
-        for (QueryParameterValue value : queryParm.getValues()) {
-            operator = getPrefixOperator(value);
-            // If multiple values are present, we need to OR them together.
-            if (parmValueProcessed) {
-                whereClauseSegment.append(JDBCOperator.OR.value()).append(LEFT_PAREN);
-            }
+        List<Timestamp> bindVariables = new ArrayList<>();
+        DateParmBehaviorUtil behaviorUtil = new DateParmBehaviorUtil();
+        behaviorUtil.executeBehavior(whereClauseSegment, queryParm, bindVariables, tableAlias);
 
-            datetime = QueryBuilderUtil.getInstant(value.getValueDate());
-            // If the dateTime value is fully specified down to the microsecond, build a where clause segment with strict equals.
-            if (!value.getValueDate().isPartial() && QueryBuilderUtil.hasSubSeconds(value.getValueDate().getValue())) {
-                start = datetime;
-                end = datetime;
-                if (isDateSearch) {
-                    whereClauseSegment.append(LEFT_PAREN);
-                    whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE)
-                                      .append(operator.value())
-                                      .append(BIND_VAR);
-                    bindVariables.add(Timestamp.from(datetime));
-                    whereClauseSegment.append(RIGHT_PAREN);
-                }
-            } else {
-                // For everything else, a duration is calculated and a where segment is generated to cover the implicit range.
-                // For example, if the dateTime is specified down to the day, a range where segment is generated to cover that day.
-
-                start = datetime;
-                end = QueryBuilderUtil.getEnd(value.getValueDate());
-
-                if (isDateSearch) {
-                    whereClauseSegment.append(LEFT_PAREN);
-                    if (operator.equals(JDBCOperator.EQ)) {
-                        // TODO: can we combine this with the dateRange logic below?
-                        // The main difference is here we use DATE_VALUE instead of DATE_START/DATE_END
-                        // because the DATE_VALUE is precise and has no implicit range
-                        whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE)
-                                          .append(JDBCOperator.GTE.value())
-                                          .append(BIND_VAR)
-                                          .append(JDBCOperator.AND.value())
-                                          .append(tableAlias + DOT).append(DATE_VALUE)
-                                          .append(JDBCOperator.LT.value())
-                                          .append(BIND_VAR);
-                        bindVariables.add(Timestamp.from(start));
-                        bindVariables.add(Timestamp.from(end));
-                    } else {
-                        whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE).append(operator.value()).append(BIND_VAR);
-                        bindVariables.add(Timestamp.from(start));
-                    }
-                    whereClauseSegment.append(RIGHT_PAREN);
-                }
-            }
-            
-            if (isDateRangeSearch) {
-                if (isDateSearch) {
-                    whereClauseSegment.append(JDBCOperator.OR.value());
-                }
-                whereClauseSegment.append(LEFT_PAREN);
-                if (value.getPrefix() == null) {
-                    handleDateRangeComparison(tableAlias, whereClauseSegment, start, end, bindVariables, Prefix.EQ);
-                } else {
-                    handleDateRangeComparison(tableAlias, whereClauseSegment, start, end, bindVariables, value.getPrefix());
-                }
-                whereClauseSegment.append(RIGHT_PAREN);
-            }
-            whereClauseSegment.append(RIGHT_PAREN);
-            parmValueProcessed = true;
-        }
-        whereClauseSegment.append(RIGHT_PAREN);
-
-        queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+        SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
         log.exiting(CLASSNAME, METHODNAME);
         return queryData;
-    }
-
-    /**
-     * Append the condition and bind the variables according to the semantics of the passed prefix
-     * 
-     * @param tableAlias
-     * @param whereClauseSegment
-     * @param start
-     * @param end
-     * @param bindVariables
-     * @param prefix
-     */
-    private void handleDateRangeComparison(String tableAlias, StringBuilder whereClauseSegment, Instant start, Instant end, List<Timestamp> bindVariables,
-        Prefix prefix) {
-        switch (prefix) {
-        case EB:
-            // the range of the search value does not overlap with the range of the target value,
-            // and the range above the search value contains the range of the target value
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(start));
-            break;
-        case SA:
-            // the range of the search value does not overlap with the range of the target value,
-            // and the range below the search value contains the range of the target value
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.GT.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(end));
-            break;
-        case GE:
-            // the range above the search value intersects (i.e. overlaps) with the range of the target value,
-            // or the range of the search value fully contains the range of the target value
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(start));
-            break;
-        case GT:
-            // the range above the search value intersects (i.e. overlaps) with the range of the target value
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GT.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(start));
-            break;
-        case LE:
-            // the range below the search value intersects (i.e. overlaps) with the range of the target value
-            // or the range of the search value fully contains the range of the target value
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.LTE.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(end));
-            break;
-        case LT:
-            // the range below the search value intersects (i.e. overlaps) with the range of the target value
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(end));
-            break;
-        case AP:
-            // the range of the search value overlaps with the range of the target value
-
-            // 1. search range fully contains the target period
-            whereClauseSegment.append(LEFT_PAREN);
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            whereClauseSegment.append(JDBCOperator.AND.value());
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(start));
-            bindVariables.add(Timestamp.from(end));
-            whereClauseSegment.append(RIGHT_PAREN);
-
-            whereClauseSegment.append(JDBCOperator.OR.value());
-            // 2. search range begins during the target period
-            whereClauseSegment.append(LEFT_PAREN);
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.LTE.value()).append(BIND_VAR);
-            whereClauseSegment.append(JDBCOperator.AND.value());
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(start));
-            bindVariables.add(Timestamp.from(start));
-            whereClauseSegment.append(RIGHT_PAREN);
-
-            whereClauseSegment.append(JDBCOperator.OR.value());
-            // 3. search range ends during the target period
-            whereClauseSegment.append(LEFT_PAREN);
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_START)
-                // strictly less than because the implicit end of the search range is exclusive
-                .append(JDBCOperator.LT.value()).append(BIND_VAR);
-            whereClauseSegment.append(JDBCOperator.AND.value());
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(end));
-            bindVariables.add(Timestamp.from(end));
-            whereClauseSegment.append(RIGHT_PAREN);
-
-            break;
-        case NE:
-            // the range of the search value does not fully contain the range of the target value
-            whereClauseSegment.append(tableAlias).append(DOT).append(DATE_START).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            whereClauseSegment.append(JDBCOperator.OR.value());
-            whereClauseSegment.append(tableAlias).append(DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(start));
-            bindVariables.add(Timestamp.from(end));
-            break;
-        case EQ:
-        default:
-            // the range of the search value fully contains the range of the target value
-            whereClauseSegment.append(tableAlias).append(DOT).append(DATE_START).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            whereClauseSegment.append(JDBCOperator.AND.value());
-            whereClauseSegment.append(tableAlias).append(DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(Timestamp.from(start));
-            bindVariables.add(Timestamp.from(end));
-            break;
-        }
     }
 
     @Override
     protected SqlQueryData processTokenParm(QueryParameter queryParm) throws FHIRPersistenceException {
         return processTokenParm(queryParm, PARAMETER_TABLE_ALIAS);
     }
-    
+
     private SqlQueryData processTokenParm(QueryParameter queryParm, String tableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "processTokenParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         StringBuilder whereClauseSegment = new StringBuilder();
-        JDBCOperator operator = this.getOperator(queryParm, JDBCOperator.EQ);
+        String operator = this.getOperator(queryParm, EQ);
         boolean parmValueProcessed = false;
         SqlQueryData queryData;
         List<Object> bindVariables = new ArrayList<>();
         Integer codeSystemId;
 
-        // Build this piece of the segment:
-        // (P1.PARAMETER_NAME_ID = x AND
-        this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
+        String code = queryParm.getCode();
+        if (!QuerySegmentAggregator.ID.equals(code)) {
+            // Build this piece of the segment:
+            // (P1.PARAMETER_NAME_ID = x AND
+            this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
 
-        whereClauseSegment.append(AND).append(LEFT_PAREN);
-        for (QueryParameterValue value : queryParm.getValues()) {
-            // If multiple values are present, we need to OR them together.
-            if (parmValueProcessed) {
-                whereClauseSegment.append(JDBCOperator.OR.value());
-            }
-
-            whereClauseSegment.append(LEFT_PAREN);
-            // Include code
-            whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator.value()).append(BIND_VAR);
-            bindVariables.add(SqlParameterEncoder.encode(value.getValueCode()));
-
-            // Include system if present.
-            if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
-                if (operator.equals(JDBCOperator.NE)) {
-                    whereClauseSegment.append(JDBCOperator.OR.value());
-                } else {
-                    whereClauseSegment.append(JDBCOperator.AND.value());
+            whereClauseSegment.append(AND).append(LEFT_PAREN);
+            for (QueryParameterValue value : queryParm.getValues()) {
+                // If multiple values are present, we need to OR them together.
+                if (parmValueProcessed) {
+                    whereClauseSegment.append(OR);
                 }
-                whereClauseSegment.append(tableAlias + DOT).append(CODE_SYSTEM_ID).append(operator.value()).append(BIND_VAR);
-                codeSystemId = CodeSystemsCache.getCodeSystemId(value.getValueSystem());
-                if (codeSystemId == null) {
-                    codeSystemId = this.parameterDao.readCodeSystemId(value.getValueSystem());
-                    if (codeSystemId != null) {
-                        this.parameterDao.addCodeSystemsCacheCandidate(value.getValueSystem(), codeSystemId);
+
+                whereClauseSegment.append(LEFT_PAREN);
+                // Include code
+                whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
+                bindVariables.add(SqlParameterEncoder.encode(value.getValueCode()));
+
+                // Include system if present.
+                if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
+                    if (NE.equals(operator)) {
+                        whereClauseSegment.append(OR);
+                    } else {
+                        whereClauseSegment.append(AND);
                     }
+                    whereClauseSegment.append(tableAlias + DOT).append(CODE_SYSTEM_ID).append(operator)
+                            .append(BIND_VAR);
+                    codeSystemId = CodeSystemsCache.getCodeSystemId(value.getValueSystem());
+                    if (codeSystemId == null) {
+                        codeSystemId = this.parameterDao.readCodeSystemId(value.getValueSystem());
+                        if (codeSystemId != null) {
+                            this.parameterDao.addCodeSystemsCacheCandidate(value.getValueSystem(), codeSystemId);
+                        }
+                    }
+                    // must be able to handle nulls
+                    bindVariables.add(codeSystemId);
                 }
-                // must be able to handle nulls
-                bindVariables.add(codeSystemId);
+                whereClauseSegment.append(RIGHT_PAREN);
+                parmValueProcessed = true;
             }
-            whereClauseSegment.append(RIGHT_PAREN);
-            parmValueProcessed = true;
-        }
 
-        whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
+            whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
+        }
         queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
 
         log.exiting(CLASSNAME, METHODNAME);
@@ -1156,24 +1021,27 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     @Override
-    protected SqlQueryData processNumberParm(Class<?> resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
+    protected SqlQueryData processNumberParm(Class<?> resourceType, QueryParameter queryParm)
+            throws FHIRPersistenceException {
         return processNumberParm(resourceType, queryParm, PARAMETER_TABLE_ALIAS);
     }
-    
-    private SqlQueryData processNumberParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws FHIRPersistenceException {
+
+    private SqlQueryData processNumberParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias)
+            throws FHIRPersistenceException {
         final String METHODNAME = "processNumberParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         StringBuilder whereClauseSegment = new StringBuilder();
         List<Object> bindVariables = new ArrayList<>();
-        
+
         // Build this piece of the segment:
         // (P1.PARAMETER_NAME_ID = x AND
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
 
         // Calls to the NumberParmBehaviorUtil which encapsulates the precision 
         // selection criteria. 
-        NumberParmBehaviorUtil.executeBehavior(whereClauseSegment, queryParm, bindVariables, resourceType, tableAlias, this);
+        NumberParmBehaviorUtil.executeBehavior(whereClauseSegment, queryParm, bindVariables, resourceType, tableAlias,
+                this);
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
 
         log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
@@ -1185,20 +1053,21 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         return processQuantityParm(resourceType, queryParm, PARAMETER_TABLE_ALIAS);
     }
 
-    private SqlQueryData processQuantityParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws Exception {
+    private SqlQueryData processQuantityParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias)
+            throws Exception {
         final String METHODNAME = "processQuantityParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         StringBuilder whereClauseSegment = new StringBuilder();
         List<Object> bindVariables = new ArrayList<>();
-        
+
         // Build this piece of the segment:
         // (P1.PARAMETER_NAME_ID = x AND
         this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
-        
+
         // Calls to the QuantityParmBehaviorUtil which encapsulates the precision 
         // selection criteria. 
-        QuantityParmBehaviorUtil behaviorUtil = new QuantityParmBehaviorUtil(); 
+        QuantityParmBehaviorUtil behaviorUtil = new QuantityParmBehaviorUtil();
         behaviorUtil.executeBehavior(whereClauseSegment, queryParm, bindVariables, tableAlias, parameterDao);
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
 
@@ -1213,7 +1082,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
 
     /**
      * Creates a query segment for a URI type parameter.
-     * @param queryParm - The query parameter
+     * 
+     * @param queryParm  - The query parameter
      * @param tableAlias - An alias for the table to query
      * @return SqlQueryData - An object containing query segment
      * @throws FHIRPersistenceException
@@ -1227,18 +1097,21 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     @Override
-    protected SqlQueryData processCompositeParm(Class<?> resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
+    protected SqlQueryData processCompositeParm(Class<?> resourceType, QueryParameter queryParm)
+            throws FHIRPersistenceException {
         return processCompositeParm(resourceType, queryParm, PARAMETER_TABLE_ALIAS);
     }
 
     /**
      * Creates a query segment for a URI type parameter.
-     * @param queryParm - The query parameter
+     * 
+     * @param queryParm  - The query parameter
      * @param tableAlias - An alias for the table to query
      * @return SqlQueryData - An object containing query segment
      * @throws FHIRPersistenceException
      */
-    private SqlQueryData processCompositeParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws FHIRPersistenceException {
+    private SqlQueryData processCompositeParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias)
+            throws FHIRPersistenceException {
         final String METHODNAME = "processStringParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
@@ -1251,14 +1124,14 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
 
         whereClauseSegment.append(AND).append(LEFT_PAREN);
-        
+
         String valueSeparator = "";
         for (QueryParameterValue compositeValue : queryParm.getValues()) {
             List<QueryParameter> components = compositeValue.getComponent();
 
             if (components.size() > MAX_NUM_OF_COMPOSITE_COMPONENTS) {
                 throw new UnsupportedOperationException(String.format("Found %d components for query parameter '%s', "
-                        + "but this persistence layer can only support composites of %d or fewer components", 
+                        + "but this persistence layer can only support composites of %d or fewer components",
                         components.size(), queryParm.getCode(), MAX_NUM_OF_COMPOSITE_COMPONENTS));
             }
 
@@ -1267,7 +1140,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
                 try {
                     QueryParameter component = components.get(componentNum - 1);
-                    SqlQueryData subQueryData = buildQueryParm(resourceType, component, tableAlias + "_p" + componentNum);
+                    SqlQueryData subQueryData =
+                            buildQueryParm(resourceType, component, tableAlias + "_p" + componentNum);
                     whereClauseSegment.append(componentSeparator + subQueryData.getQueryString());
                     bindVariables.addAll(subQueryData.getBindVariables());
                 } catch (Exception e) {
@@ -1285,7 +1159,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     @Override
-    protected SqlQueryData buildLocationQuerySegment(String parmName, List<Bounding> boundingAreas) throws FHIRPersistenceException {
+    protected SqlQueryData buildLocationQuerySegment(String parmName, List<Bounding> boundingAreas)
+            throws FHIRPersistenceException {
         final String METHODNAME = "buildLocationQuerySegment";
         log.entering(CLASSNAME, METHODNAME, parmName);
 
@@ -1293,7 +1168,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         // (P1.PARAMETER_NAME_ID = x AND
         StringBuilder whereClauseSegment = new StringBuilder();
         this.populateNameIdSubSegment(whereClauseSegment, parmName, PARAMETER_TABLE_ALIAS);
-        
+
         List<Object> bindVariables = new ArrayList<>();
         LocationParmBehaviorUtil behaviorUtil = new LocationParmBehaviorUtil();
         behaviorUtil.buildLocationSearchQuery(whereClauseSegment, bindVariables, boundingAreas);
@@ -1310,7 +1185,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
      * @param queryParmName
      * @throws FHIRPersistenceException
      */
-    private void populateNameIdSubSegment(StringBuilder whereClauseSegment, String queryParmName, String parameterTableAlias) throws FHIRPersistenceException {
+    private void populateNameIdSubSegment(StringBuilder whereClauseSegment, String queryParmName,
+            String parameterTableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "populateNameIdSubSegment";
         log.entering(CLASSNAME, METHODNAME, queryParmName);
 
@@ -1328,7 +1204,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
             }
         }
         whereClauseSegment.append(LEFT_PAREN);
-        whereClauseSegment.append(parameterTableAlias + DOT).append("PARAMETER_NAME_ID=").append(nullCheck(parameterNameId));
+        whereClauseSegment.append(parameterTableAlias + DOT).append("PARAMETER_NAME_ID=")
+                .append(nullCheck(parameterNameId));
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -1344,14 +1221,18 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
     }
 
     /**
-     * This method handles the special case of chained inclusion criteria. Using data extracted from the passed query
-     * parameter, a new Parameter chain is built to represent the chained inclusion criteria. That new Parameter is then
-     * passed to the inherited processChainedReferenceParamter() method to generate the required where clause segment.
+     * This method handles the special case of chained inclusion criteria. Using
+     * data extracted from the passed query
+     * parameter, a new Parameter chain is built to represent the chained inclusion
+     * criteria. That new Parameter is then
+     * passed to the inherited processChainedReferenceParamter() method to generate
+     * the required where clause segment.
      * 
      * @see https://www.hl7.org/fhir/compartments.html
      * @param queryParm
-     *            - A Parameter representing chained inclusion criterion.
-     * @return SqlQueryData - the where clause segment and bind variables for a chained inclusion criterion.
+     *                  - A Parameter representing chained inclusion criterion.
+     * @return SqlQueryData - the where clause segment and bind variables for a
+     *         chained inclusion criterion.
      * @throws Exception
      */
     private SqlQueryData processChainedInclusionCriteria(QueryParameter queryParm) throws Exception {
@@ -1364,14 +1245,15 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData, JDBCOpe
         // Transform the passed query parm into a chained parameter representation.
         rootParameter = SearchUtil.parseChainedInclusionCriteria(queryParm);
         // Call method to process the Parameter built by this method as a chained parameter.
-        queryData = this.processChainedReferenceParm(rootParameter);
+        queryData     = this.processChainedReferenceParm(rootParameter);
 
         log.exiting(CLASSNAME, METHODNAME);
         return queryData;
 
     }
 
-    private SqlQueryData processMissingParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias) throws FHIRPersistenceException {
+    private SqlQueryData processMissingParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias)
+            throws FHIRPersistenceException {
         final String METHODNAME = "processStringParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 

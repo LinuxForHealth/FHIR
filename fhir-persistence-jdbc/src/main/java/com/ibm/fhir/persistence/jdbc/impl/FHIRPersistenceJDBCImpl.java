@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.ZoneOffset;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -100,13 +101,13 @@ import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
 import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
-import com.ibm.fhir.persistence.jdbc.util.QueryBuilderUtil;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
+import com.ibm.fhir.search.date.DateTimeHandler;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -1233,7 +1234,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             parameter = p;
         } else if (systemValue.isTemporalValue()) {
             DateParmVal p = new DateParmVal();
-            p.setValueDate(Timestamp.from(QueryBuilderUtil.getInstantFromPartial(systemValue.asTemporalValue().temporal())));
+            TemporalAccessor v = systemValue.asTemporalValue().temporal();
+            java.time.Instant inst = DateTimeHandler.generateValue(v);
+            p.setValueDate(DateTimeHandler.generateTimestamp(inst));
             parameter = p;
         } else if (systemValue.isStringValue()) {
             StringParmVal p = new StringParmVal();
@@ -1271,7 +1274,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         catch (Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while starting a transaction.");
             log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;            
+            throw fx;
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -1293,7 +1296,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         catch (Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while committing a transaction.");
             log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;            
+            throw fx;
         }
         finally {
             if (sharedConnection != null) {
@@ -1325,7 +1328,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         catch (Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while rolling back a transaction.");
             log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;            
+            throw fx;
         } 
         finally {
             if (sharedConnection != null) {
@@ -1358,7 +1361,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         catch (Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException(errorMessage);
             log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;            
+            throw fx;
         } 
         finally {
             if (sharedConnection != null) {
@@ -1368,7 +1371,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 catch (SQLException e) {
                     FHIRPersistenceException fx = new FHIRPersistenceException("Failure closing DB Conection");
                     log.log(Level.SEVERE, fx.getMessage(), e);
-                    throw fx;            
+                    throw fx;
                 }
                 sharedConnection = null;
             }

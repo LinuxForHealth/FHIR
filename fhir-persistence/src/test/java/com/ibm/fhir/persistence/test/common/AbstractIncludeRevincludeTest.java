@@ -481,7 +481,6 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                 fail("Unexpected resource type returned.");
             }
         }
-
     }
 
     private void checkIncludeAndRevIncludeResources(List<Resource> resources, int numOfPatients) {

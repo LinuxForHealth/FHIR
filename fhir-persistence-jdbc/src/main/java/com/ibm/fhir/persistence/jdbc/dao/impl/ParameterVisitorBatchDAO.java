@@ -74,7 +74,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     private final PreparedStatement quantities;
     private int quantityCount;
 
-    // rarely used so no need for PreparedStatement or batching on this one;
+    // rarely used so no need for {@code java.sql.PreparedStatement} or batching on this one
     // even on Location resources its only there once by default
     private final String insertLocation;
 
@@ -338,8 +338,8 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             }
             else {
                 if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("dateValue: " + parameterName + "[" + parameterNameId + "], "
-                            + date + " [" + dateStart + ", " + dateEnd + "]");
+                    logger.fine("dateValue: " + parameterName + "[" + parameterNameId + "], value: [" 
+                            + date + "], period: [" + dateStart + ", " + dateEnd + "]");
                 }
 
                 setDateParms(dates, parameterNameId, date, dateStart, dateEnd);

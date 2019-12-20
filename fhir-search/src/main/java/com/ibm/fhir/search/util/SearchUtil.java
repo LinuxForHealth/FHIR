@@ -35,7 +35,6 @@ import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.SearchParameter.Component;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.JsonSupport;
 import com.ibm.fhir.model.util.ModelSupport;
@@ -50,6 +49,7 @@ import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
+import com.ibm.fhir.search.date.DateTimeHandler;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 import com.ibm.fhir.search.parameters.InclusionParameter;
@@ -854,12 +854,8 @@ public class SearchUtil {
                     v = v.substring(2);
                     parameterValue.setPrefix(prefix);
                 }
-
-                // DONT USE DateTime here
-                DateTime.Builder builder = DateTime.builder();
-                builder.value(v);
-
-                parameterValue.setValueDate(builder.build());
+                // Dispatches the population and treatment of the DateTime values to the handler.
+                DateTimeHandler.parse(prefix, parameterValue,v);
                 break;
             }
             case NUMBER: {

@@ -97,7 +97,7 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @param codeSystemId The id corresponding to the code system name.
      * @throws FHIRPersistenceException
      */
-    void addCodeSystemsCacheCandidate(String codeSystemName, Integer codeSystemId) throws FHIRPersistenceException;    
+    void addCodeSystemsCacheCandidate(String codeSystemName, Integer codeSystemId) throws FHIRPersistenceException;
 
     /**
      * Adds a parameter name / parameter id pair to a candidate collection for population into the ParameterNamesCache.

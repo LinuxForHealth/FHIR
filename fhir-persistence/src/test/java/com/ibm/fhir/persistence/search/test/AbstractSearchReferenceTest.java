@@ -20,7 +20,6 @@ import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.test.TestUtil;
 
 /**
- * @author lmsurpre
  * @see https://hl7.org/fhir/r4/search.html#reference
  */
 public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {

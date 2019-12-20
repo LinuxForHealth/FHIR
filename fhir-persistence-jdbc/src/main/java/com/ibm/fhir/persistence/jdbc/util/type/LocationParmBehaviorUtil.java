@@ -6,18 +6,21 @@
 
 package com.ibm.fhir.persistence.jdbc.util.type;
 
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LATITUDE_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LONGITUDE_VALUE;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LTE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 
 import java.util.List;
 
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants.JDBCOperator;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingBox;
 import com.ibm.fhir.search.location.bounding.BoundingRadius;
@@ -42,7 +45,7 @@ public class LocationParmBehaviorUtil {
     public void buildLocationSearchQuery(StringBuilder whereClauseSegment, List<Object> bindVariables,
             List<Bounding> boundingAreas) {
         // Clause: AND (
-        whereClauseSegment.append(JDBCOperator.AND.value())
+        whereClauseSegment.append(AND)
                 .append(LEFT_PAREN);
 
         boolean first = true;
@@ -52,7 +55,7 @@ public class LocationParmBehaviorUtil {
             if (!first) {
                 whereClauseSegment
                         .append(RIGHT_PAREN)
-                        .append(JDBCOperator.OR.value())
+                        .append(OR)
                         .append(LEFT_PAREN);
             } else {
                 first = false;
@@ -87,19 +90,19 @@ public class LocationParmBehaviorUtil {
         whereClauseSegment
                 .append(JDBCConstants.SPACE)
                 // LAT <= ? --- LAT >= MIN_LAT
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(JDBCOperator.GTE.value())
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(GTE)
                 .append(BIND_VAR)
                 // LAT <= ? --- LAT <= MAX_LAT
-                .append(JDBCOperator.AND.value())
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(JDBCOperator.LTE.value())
+                .append(AND)
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(LTE)
                 .append(BIND_VAR)
                 // LON <= ? --- LON >= MIN_LON
-                .append(JDBCOperator.AND.value())
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(JDBCOperator.GTE.value())
+                .append(AND)
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(GTE)
                 .append(BIND_VAR)
                 // LON <= ? --- LON <= MAX_LON
-                .append(JDBCOperator.AND.value())
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(JDBCOperator.LTE.value())
+                .append(AND)
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(LTE)
                 .append(BIND_VAR)
                 .append(RIGHT_PAREN);
 
@@ -122,19 +125,19 @@ public class LocationParmBehaviorUtil {
         // This section of code is based on code from http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
         whereClauseSegment
                 .append(JDBCConstants.SPACE)
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(JDBCOperator.LTE.value())
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(LTE)
                 .append(BIND_VAR)
-                .append(JDBCOperator.AND.value())
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(JDBCOperator.GTE.value())
+                .append(AND)
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(GTE)
                 .append(BIND_VAR)
-                .append(JDBCOperator.AND.value())
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(JDBCOperator.LTE.value())
+                .append(AND)
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(LTE)
                 .append(BIND_VAR)
-                .append(JDBCOperator.AND.value())
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(JDBCOperator.GTE.value())
+                .append(AND)
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(GTE)
                 .append(BIND_VAR)
                 // Check the ARC Radius
-                .append(JDBCOperator.AND.value())
+                .append(AND)
                 .append("ACOS(SIN(?) * SIN(")
                 .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE)
                 .append(") + COS(?) * COS(")
