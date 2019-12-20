@@ -22,7 +22,7 @@ public class TimestampColumn extends ColumnBase {
         this.precision = null;
     }
     
-    public TimestampColumn(String name, boolean nullable, int precision) {
+    public TimestampColumn(String name, boolean nullable, Integer precision) {
         super(name, nullable);
         this.precision = precision;
     }
