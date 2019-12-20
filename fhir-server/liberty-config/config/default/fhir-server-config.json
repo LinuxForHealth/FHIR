@@ -69,7 +69,6 @@
             "jdbc": {
                 "__comment": "Configuration properties for the JDBC persistence implementation",
                 "bootstrapDb": true,
-                "__comment": "Use jdbc/fhirProxyDataSource to use the proxy datasource.",
                 "dataSourceJndiName": "jdbc/fhirProxyDataSource",
                 "enableCodeSystemsCache": true,
                 "enableParameterNamesCache": true,
