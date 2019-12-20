@@ -6,9 +6,11 @@
 package com.ibm.fhir.persistence.jdbc;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
@@ -64,34 +66,38 @@ public class JDBCConstants {
     public static final char COMMA_CHAR = ',';
     public static final char QUOTE = '\'';
     public static final char PATH_CHAR = '/';
-    
+
     // JDBC Operators
     public static final String EQ = " = ";
     public static final String LIKE = " LIKE ";
     public static final String IN =" IN ";
     public static final String LT = " < ";
     public static final String LTE = " <= ";
-    public static final String GT = " > "; 
+    public static final String GT = " > ";
     public static final String GTE = " >= ";
     public static final String NE = " <> ";
     public static final String OR = " OR ";
     public static final String AND = " AND ";
-    
+
     // ASC/DESC
     public static final String ORDER_BY = " ORDER BY ";
     public static final String ASCENDING = "ASC";
     public static final String DESCENDING = "DESC";
-    
+
     public static final String DEFAULT_ORDERING = " ORDER BY RESOURCE_ID ASC ";
     public static final String DEFAULT_ORDERING_WITH_TABLE = " ORDER BY R.RESOURCE_ID ASC ";
-    
-    // MIN / MAX 
+
+    // MIN / MAX
     public static final String MAX = "MAX";
     public static final String MIN = "MIN";
 
     /**
-     * Maps search parameter types to the currently supported list of modifiers for
-     * that type.
+     * Calendar object to use while inserting Timestamp objects into the database.
+     */
+    public static final Calendar UTC = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+
+    /**
+     * Maps search parameter types to the currently supported list of modifiers for that type.
      */
     public static final Map<Type, List<Modifier>> supportedModifiersMap;
 

@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +33,7 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBCleanupException;
@@ -39,23 +41,23 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
- * This class is a root Data Access Object for managing JDBC access to the FHIR database. It contains common functions for managing connections, closing used 
+ * This class is a root Data Access Object for managing JDBC access to the FHIR database. It contains common functions for managing connections, closing used
  * JDBC resources, and running database queries.
  *
  */
 public class FHIRDbDAOImpl implements FHIRDbDAO {
-        
+
     private static final Logger log = Logger.getLogger(FHIRDbDAOImpl.class.getName());
-    private static final String CLASSNAME = FHIRDbDAOImpl.class.getName(); 
+    private static final String CLASSNAME = FHIRDbDAOImpl.class.getName();
     private static final String NEWLINE = System.getProperty("line.separator");
-    
+
     private static DataSource fhirDb = null;
     private static String datasourceJndiName = null;
-    
+
     private Properties dbProps = null;
     private Connection externalConnection = null;
     private static boolean dbDriverLoaded = false;
-    
+
     // Abstract source of configured connections
     private final IConnectionProvider connectionProvider;
 
@@ -66,7 +68,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         super();
         this.connectionProvider = null;
     }
-    
+
     /**
      * Constructs a DAO instance suitable for acquiring connections based on the passed database type specific properties.
      * @param dbProperties
@@ -85,7 +87,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         this();
         this.setExternalConnection(conn);
     }
-    
+
     /**
      * Convenience function to log the cause of an exception about to be thrown. This
      * is useful when avoiding chaining the cause with the persistence exception, which
@@ -126,7 +128,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
     @Override
     public Connection getConnection() throws FHIRPersistenceDBConnectException {
         final String METHODNAME = "getConnection";
-        
+
         if (log.isLoggable(Level.FINEST)) {
             log.entering(CLASSNAME, METHODNAME);
         }
@@ -155,7 +157,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                         log.fine("Getting connection for tenantId/dsId: [" + tenantId + "/" + dsId + "]...");
                     }
                     connection = getFhirDatasource().getConnection(tenantId, dsId);
-                    
+
                     if (log.isLoggable(Level.FINE)) {
                         log.fine("Got the connection for [" + tenantId + "/" + dsId + "]!");
                     }
@@ -189,11 +191,11 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                     throw severe(log, fx, "Failed to acquire DB connection. dbUrl=" + dbUrl, e);
                 }
             }
-            
+
             // Configure the connection for the tenant
             String tenantName = FHIRRequestContext.get().getTenantId();
             String tenantKey = FHIRRequestContext.get().getTenantKey();
-            
+
             if (tenantName != null && tenantKey != null) {
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("Setting tenant access on connection for: " + tenantName);
@@ -203,7 +205,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                 Db2Adapter adapter = new Db2Adapter(target);
                 adapter.runStatement(cmd);
             }
-            
+
             return connection;
         } catch (FHIRPersistenceDBConnectException e) {
             throw e;
@@ -217,7 +219,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
         }
     }
-    
+
     /**
      * Retrieves the datasource JNDI name to be used from the fhir server configuration.
      * @return the datasource JNDI name
@@ -237,13 +239,13 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
     /**
      * Looks up and returns a Datasource JDBC object representing the FHIR database via JNDI.
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     private static DataSource getFhirDatasource() throws Exception {
         final String METHODNAME = "getFhirDb";
         log.entering(CLASSNAME, METHODNAME);
         try {
-            
+
             if (fhirDb == null) {
                 acquireFhirDb();
             }
@@ -252,7 +254,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
-    
+
     private static synchronized void acquireFhirDb() throws Exception {
         final String METHODNAME = "acquireFhirDb";
         if (log.isLoggable(Level.FINEST)) {
@@ -279,7 +281,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             }
         }
     }
-    
+
     /**
      * Closes the passed PreparedStatement and Connection objects.
      * @param stmt
@@ -288,13 +290,13 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
     protected void cleanup(PreparedStatement stmt, Connection connection)  {
         final String METHODNAME = "cleanup(PreparedStatement, Connection)";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         FHIRPersistenceDBCleanupException ce;
-        
+
         if (stmt != null) {
             try {
                 stmt.close();
-            } 
+            }
             catch (Throwable e) {
                 ce =  new FHIRPersistenceDBCleanupException("Failure closing PreparedStatement.",e);
                 log.log(Level.SEVERE, ce.getMessage(), ce);
@@ -303,7 +305,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         if(connection != null && this.getExternalConnection() == null) {
             try {
                 connection.close();
-            } 
+            }
             catch (Throwable e) {
                 ce =  new FHIRPersistenceDBCleanupException("Failure closing Connection.",e);
                 log.log(Level.SEVERE, ce.getMessage(), ce);
@@ -311,7 +313,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
-    
+
     /**
      * Closes the passed ResultSet, PreparedStatement, and Connection objects.
      * @param resultSet
@@ -321,13 +323,13 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
     protected void cleanup(ResultSet resultSet, PreparedStatement stmt, Connection connection)  {
         final String METHODNAME = "cleanup(PreparedStatement, Connection)";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         FHIRPersistenceDBCleanupException ce;
-        
+
         if (resultSet != null) {
             try {
                 resultSet.close();
-            } 
+            }
             catch (Throwable e) {
                 ce =  new FHIRPersistenceDBCleanupException("Failure closing ResultSet.",e);
                 log.log(Level.SEVERE, ce.getMessage(), ce);
@@ -336,19 +338,19 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         this.cleanup(stmt, connection);
         log.exiting(CLASSNAME, METHODNAME);
     }
-    
+
     /**
      * Creates and executes a PreparedStatement using the passed parameters that returns a collection of FHIR Data Transfer Objects of type T.
      * @param sql - The SQL template to execute.
      * @param searchArgs - An array of arguments to be substituted into the SQL template.
      * @return List<T> - A List of FHIR Data Transfer Objects resulting from the executed query.
      * @throws FHIRPersistenceDataAccessException
-     * @throws FHIRPersistenceDBConnectException 
+     * @throws FHIRPersistenceDBConnectException
      */
     protected List<Resource> runQuery(String sql, Object... searchArgs) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "runQuery";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         List<Resource> fhirObjects = new ArrayList<>();
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -356,13 +358,17 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         String errMsg;
         long dbCallStartTime;
         double dbCallDuration;
-                        
+
         try {
             connection = this.getConnection();
             stmt = connection.prepareStatement(sql);
             // Inject arguments into the prepared stmt.
-            for (int i = 0; i <searchArgs.length; i++) {
-                stmt.setObject(i+1, searchArgs[i]);
+            for (int i = 0; i <searchArgs.length;  i++) {
+                if (searchArgs[i] instanceof Timestamp) {
+                    stmt.setTimestamp(i+1, (Timestamp) searchArgs[i], JDBCConstants.UTC);
+                } else {
+                    stmt.setObject(i+1, searchArgs[i]);
+                }
             }
             dbCallStartTime = System.nanoTime();
             resultSet = stmt.executeQuery();
@@ -371,10 +377,10 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             fhirObjects = this.createDTOs(resultSet);
 
             if (log.isLoggable(Level.FINE)) {
-                log.fine("Successfully retrieved FHIR objects. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs) + 
+                log.fine("Successfully retrieved FHIR objects. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs) +
                          " executionTime=" + dbCallDuration + "ms");
             }
-        } 
+        }
         catch(FHIRPersistenceException e) {
             throw e;
         }
@@ -383,23 +389,23 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR objects");
             errMsg = "Failure retrieving FHIR objects. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs);
             throw severe(log, fx, errMsg, e);
-        } 
+        }
         finally {
             this.cleanup(resultSet, stmt, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
-        
+
         return fhirObjects;
     }
-    
+
     /**
-     * Creates and executes a PreparedStatement for the passed sql containing a 'SELECT COUNT...'. 
+     * Creates and executes a PreparedStatement for the passed sql containing a 'SELECT COUNT...'.
      * The count value is extracted from the ResultSet and returned as an int.
      * @param sql - The SQL SELECT COUNT template to execute.
      * @param searchArgs - An array of arguments to be substituted into the SQL template.
      * @return int - The count of results returned by the SQL query.
      * @throws FHIRPersistenceDataAccessException
-     * @throws FHIRPersistenceDBConnectException 
+     * @throws FHIRPersistenceDBConnectException
      */
     protected int runCountQuery(String sql, Object... searchArgs) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "runCountQuery";
@@ -417,8 +423,12 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             connection = this.getConnection();
             stmt = connection.prepareStatement(sql);
             // Inject arguments into the prepared stmt.
-            for (int i = 0; i <searchArgs.length; i++) {
-                stmt.setObject(i+1, searchArgs[i]);
+            for (int i = 0; i <searchArgs.length;  i++) {
+                if (searchArgs[i] instanceof Timestamp) {
+                    stmt.setTimestamp(i+1, (Timestamp) searchArgs[i], JDBCConstants.UTC);
+                } else {
+                    stmt.setObject(i+1, searchArgs[i]);
+                }
             }
             dbCallStartTime = System.nanoTime();
             resultSet = stmt.executeQuery();
@@ -426,7 +436,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             if (resultSet.next()) {
                 rowCount = resultSet.getInt(1);
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Successfully retrieved count. SQL=" + sql + NEWLINE + "  searchArgs=" + 
+                    log.fine("Successfully retrieved count. SQL=" + sql + NEWLINE + "  searchArgs=" +
                                 Arrays.toString(searchArgs) + NEWLINE + "  count=" + rowCount + " executionTime=" + dbCallDuration + "ms");
                 }
             }
@@ -435,7 +445,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                 FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Server error: failure retrieving count");
                 throw severe(log, fx, errMsg, null);
             }
-        } 
+        }
         catch(FHIRPersistenceException e) {
             throw e;
         }
@@ -443,15 +453,15 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             // Don't emit the SQL text in an exception - it risks returning it to the client in a response
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Server error: failure retrieving count");
             throw severe(log, fx, errMsg, e);
-        } 
+        }
         finally {
             this.cleanup(resultSet, stmt, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
-        
+
         return rowCount;
     }
-    
+
     /**
      * An method for creating a collection of Data Transfer Objects of type T from the contents of the passed ResultSet.
      * @param resultSet A ResultSet containing FHIR persistent object data.
@@ -461,10 +471,10 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
     protected List<Resource> createDTOs(ResultSet resultSet) throws FHIRPersistenceDataAccessException {
         final String METHODNAME = "createDTOs";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         Resource dto;
         List<Resource> dtoList = new ArrayList<Resource>();
-        
+
         try {
             while(resultSet.next()) {
                 dto = this.createDTO(resultSet);
@@ -472,7 +482,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                     dtoList.add(dto);
                 }
             }
-        } 
+        }
         catch (Throwable e) {
             // Don't chain the cause, because we might leak secrets
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure creating DTOs.");
@@ -483,7 +493,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         }
         return dtoList;
     }
-    
+
     /**
      * A method for creating a Data Transfer Object of type T from the contents of the passed ResultSet.
      * @param resultSet A ResultSet containing FHIR persistent object data.
@@ -513,9 +523,9 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
     @Override
     public boolean isDb2Database() throws FHIRPersistenceDBConnectException, SQLException {
-                
+
         String dbUrl;
-        
+
         dbUrl = this.getConnection().getMetaData().getURL();
         dbUrl = dbUrl.toLowerCase();
         return dbUrl.contains("db2");
@@ -532,7 +542,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
      * @param searchArgs - An array of arguments to be substituted into the SQL template.
      * @return List<String> - A List of strings resulting from the executed query.
      * @throws FHIRPersistenceDataAccessException
-     * @throws FHIRPersistenceDBConnectException 
+     * @throws FHIRPersistenceDBConnectException
      */
     protected List<String> runQuery_STR_VALUES(String sql, Object... searchArgs) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "runQuery_STR_VALUES";
@@ -550,21 +560,25 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             stmt = connection.prepareStatement(sql);
             // Inject arguments into the prepared stmt.
             for (int i = 0; i <searchArgs.length;  i++) {
-                stmt.setObject(i+1, searchArgs[i]);
+                if (searchArgs[i] instanceof Timestamp) {
+                    stmt.setTimestamp(i+1, (Timestamp) searchArgs[i], JDBCConstants.UTC);
+                } else {
+                    stmt.setObject(i+1, searchArgs[i]);
+                }
             }
             dbCallStartTime = System.nanoTime();
             resultSet = stmt.executeQuery();
-            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;  
+            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
 
             while(resultSet.next()) {
                 strValues.add(resultSet.getString(1));
             }
 
             if (log.isLoggable(Level.FINE)) {
-                log.fine("Successfully retrieved string values. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs) + 
+                log.fine("Successfully retrieved string values. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs) +
                          " executionTime=" + dbCallDuration + "ms");
             }
-        } 
+        }
         catch(FHIRPersistenceException e) {
             throw e;
         }
@@ -573,7 +587,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving string values");
             errMsg = "Failure retrieving string values. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs);
             throw severe(log, fx, errMsg, e);
-        } 
+        }
         finally {
             this.cleanup(resultSet, stmt, connection);
             log.exiting(CLASSNAME, METHODNAME);

@@ -75,14 +75,11 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     // Datetime Limits from
     // DB2: https://www.ibm.com/support/knowledgecenter/en/SSEPGG_11.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0001029.html
     // Derby: https://db.apache.org/derby/docs/10.0/manuals/reference/sqlj271.html
-    private static final Timestamp SMALLEST_TIMESTAMP =
-            Timestamp.from(
-                    ((ZonedDateTime) DateTimeHandler.parseQuiet("0001-01-01T00:00:00.000000+00:00")).toInstant());
-
+    private static final Timestamp SMALLEST_TIMESTAMP = Timestamp.from(
+            ZonedDateTime.parse("0001-01-01T00:00:00.000000Z").toInstant());
     // 23:59:59.999999 used instead of 24:00:00.000000 to ensure it could be represented in FHIR if needed
-    private static final Timestamp LARGEST_TIMESTAMP =
-            Timestamp.from(
-                    ((ZonedDateTime) DateTimeHandler.parseQuiet("9999-12-31T23:59:59.999999+00:00")).toInstant());
+    private static final Timestamp LARGEST_TIMESTAMP = Timestamp.from(
+            ZonedDateTime.parse("9999-12-31T23:59:59.999999Z").toInstant());
 
     // We only need the SearchParameter type and code, so just store those directly as members
     private final String searchParamCode;
@@ -612,7 +609,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         LocationParmVal p = new LocationParmVal();
         p.setName(searchParamCode);
 
-        // The following code ensures that the lat/lon is only added when there is a pair. 
+        // The following code ensures that the lat/lon is only added when there is a pair.
         boolean add = false;
         if (position.getLatitude() != null && position.getLatitude().getValue() != null) {
             Double lat = position.getLatitude().getValue().doubleValue();
@@ -667,7 +664,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         if (dateTime.getValue() != null) {
             java.time.Instant inst = DateTimeHandler.generateValue(dateTime.getValue());
             p.setValueDate(DateTimeHandler.generateTimestamp(inst));
-        } 
+        }
     }
 
     private IllegalArgumentException invalidComboException(SearchParamType paramType, Element value) {

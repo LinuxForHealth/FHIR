@@ -266,6 +266,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchDate_instant() throws Exception {
+        // instant is 2018-10-29T17:12:44-04:00
         assertSearchReturnsSavedResource("instant", "2018-10-29T17:12:44-04:00");
     }
 
