@@ -532,11 +532,7 @@ public class Table extends BaseObject {
                     column = new DoubleColumn(cd.getName(), cd.isNullable());
                     break;
                 case TIMESTAMP:
-                    if (cd.getPrecision() == null) {
-                        column = new TimestampColumn(cd.getName(), cd.isNullable());
-                    } else {
-                        column = new TimestampColumn(cd.getName(), cd.isNullable(), cd.getPrecision());
-                    }
+                    column = new TimestampColumn(cd.getName(), cd.isNullable(), cd.getPrecision());
                     break;
                 case VARCHAR:
                     if (cd.getSize() > Integer.MAX_VALUE) {
