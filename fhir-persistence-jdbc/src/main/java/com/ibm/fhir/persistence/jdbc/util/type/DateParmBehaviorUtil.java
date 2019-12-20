@@ -99,7 +99,7 @@ public class DateParmBehaviorUtil {
             // the value for the parameter in the resource is equal to the provided value
             // the range of the search value fully contains the range of the target value
             buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_END,
-                    LT, value, value);
+                    LT, lowerBound, lowerBound);
             break;
         case SA:
             // SA - Starts After
@@ -112,27 +112,27 @@ public class DateParmBehaviorUtil {
             // GE - Greater Than Equal
             // the range above the search value intersects (i.e. overlaps) with the range of the target value,
             // or the range of the search value fully contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_START,
-                    GTE, value, value);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_END,
+                    GTE, lowerBound, lowerBound);
             break;
         case GT:
             // GT - Greater Than
             // the range above the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_START,
-                    GT, upperBound, upperBound);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_END,
+                    GT, lowerBound, lowerBound);
             break;
         case LE:
             // LE - Less Than Equal
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             // or the range of the search value fully contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_END,
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_START,
                     LTE, upperBound, upperBound);
             break;
         case LT:
             // LT - Less Than
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_END,
-                    LT, value, value);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_START,
+                    LT, upperBound, upperBound);
             break;
         case AP:
             // AP - Approximate - Relative
@@ -143,13 +143,13 @@ public class DateParmBehaviorUtil {
         case NE:
             // NE:  Upper and Lower Bounds - Range Based Search
             // the range of the search value does not fully contain the range of the target value
-            buildNotEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, value, upperBound);
+            buildNotEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, lowerBound, upperBound);
             break;
         case EQ:
         default:
             // EQ:  Upper and Lower Bounds - Range Based Search
             // the range of the search value fully contains the range of the target value
-            buildEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, value, upperBound);
+            buildEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, lowerBound, upperBound);
             break;
         }
     }
@@ -163,21 +163,14 @@ public class DateParmBehaviorUtil {
      * @param columnName
      * @param columnNameLowOrHigh
      * @param operator
-     * @param value
+     * @param value TODO: remove this
      * @param bound
      */
     public void buildCommonClause(StringBuilder whereClauseSegment, List<Timestamp> bindVariables, String tableAlias,
             String columnName, String columnNameLowOrHigh, String operator, Instant value, Instant bound) {
-        // @formatter:off
         whereClauseSegment
-                .append(LEFT_PAREN)
-                    .append(tableAlias).append(DOT).append(columnName).append(operator).append(BIND_VAR)
-                .append(OR)
-                    .append(tableAlias).append(DOT).append(columnNameLowOrHigh).append(operator).append(BIND_VAR)
-                .append(RIGHT_PAREN);
-        // @formatter:on
+                    .append(tableAlias).append(DOT).append(columnNameLowOrHigh).append(operator).append(BIND_VAR);
 
-        bindVariables.add(generateTimestamp(value));
         bindVariables.add(generateTimestamp(bound));
     }
 
