@@ -8,6 +8,9 @@
             <class name="com.ibm.fhir.persistence.jdbc.test.util.UriModifierUtilTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.util.NumberParmBehaviorUtilTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.util.QuantityParmBehaviorUtilTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.util.DateParmBehaviorUtilTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.util.LastUpdatedParmBehaviorUtilTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.util.LocationParmBehaviorUtilTest" />
         </classes>
     </test>
     <test name="JDBCSpecTest">

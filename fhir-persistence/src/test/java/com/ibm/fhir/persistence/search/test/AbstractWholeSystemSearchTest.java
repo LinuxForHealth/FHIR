@@ -119,20 +119,15 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
      * generates the output into a resource.
      */
     public static void generateOutput(Resource resource) {
-
         try (StringWriter writer = new StringWriter();) {
             FHIRGenerator.generator(Format.JSON, true).generate(resource, System.out);
             System.out.println(writer.toString());
         } catch (FHIRGeneratorException e) {
-
-            e.printStackTrace();
-            fail("unable to generate the fhir resource to JSON");
-
+            fail("unable to generate the fhir resource to JSON", e);
         } catch (IOException e1) {
             e1.printStackTrace();
-            fail("unable to generate the fhir resource to JSON (io problem) ");
+            fail("unable to generate the fhir resource to JSON (io problem) ", e1);
         }
-
     }
 
     @Test

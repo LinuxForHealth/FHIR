@@ -667,7 +667,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         if (dateTime.getValue() != null) {
             java.time.Instant inst = DateTimeHandler.generateValue(dateTime.getValue());
             p.setValueDate(DateTimeHandler.generateTimestamp(inst));
-        }
+        } 
     }
 
     private IllegalArgumentException invalidComboException(SearchParamType paramType, Element value) {

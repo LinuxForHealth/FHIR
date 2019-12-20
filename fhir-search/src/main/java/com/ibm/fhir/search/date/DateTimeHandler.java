@@ -173,6 +173,15 @@ public class DateTimeHandler {
     }
 
     /**
+     * convience method to generate upper bound.
+     * @param value
+     * @return
+     */
+    public static Instant generateUpperBound(TemporalAccessor value) {
+        return generateUpperBound(null, value, value.toString());
+    }
+
+    /**
      * generate upper bounds
      * 
      * @param prefix
@@ -231,7 +240,7 @@ public class DateTimeHandler {
 
         } else if (value instanceof ZonedDateTime) {
             ZonedDateTime zdt = (ZonedDateTime) value;
-            long precision = originalString.chars().filter(ch -> ch == ':' || ch == '.' || ch == 'Z' ).count();
+            long precision = originalString.chars().filter(ch -> ch == ':' || ch == '.' || ch == 'Z').count();
             // Shift by 1 as the Zone includes a semicolon. 
             if (precision == 1) {
                 // HH - First Colon (Zone is colon)
@@ -245,7 +254,7 @@ public class DateTimeHandler {
                 // HH:MM:SS - Third Colon
                 // 2019-12-11T00:00:00+05:00
                 zdt = zdt.truncatedTo(ChronoUnit.SECONDS).plus(1, ChronoUnit.SECONDS).minus(TICK, ChronoUnit.NANOS);
-            } else if (precision == 4) { 
+            } else if (precision == 4) {
                 // Nanoseconds
                 // 2019-12-11T00:00:00.000000+05:00
                 zdt = zdt.truncatedTo(ChronoUnit.MILLIS).plus(1, ChronoUnit.MILLIS).minus(TICK, ChronoUnit.NANOS);

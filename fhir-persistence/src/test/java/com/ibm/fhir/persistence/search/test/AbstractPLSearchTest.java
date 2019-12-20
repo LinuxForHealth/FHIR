@@ -6,18 +6,17 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
-import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -48,8 +47,6 @@ import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
  * https://github.com/cbeust/testng-eclipse/issues/435
  */
 public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
-    private static final String DEFAULT_ZONE = "UTC";
-
     protected Basic savedResource;
     protected Composition composition;
 
@@ -67,7 +64,6 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
     
     @BeforeClass
     public void createResources() throws Exception {
-        TimeZone.setDefault(TimeZone.getTimeZone(DEFAULT_ZONE));
         setTenant();
         saveBasicResource(getBasicResource());
         createCompositionReferencingSavedResource();

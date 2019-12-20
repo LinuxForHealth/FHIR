@@ -132,24 +132,24 @@ public class DateParmBehaviorUtil {
             // LT - Less Than
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_END,
-                   LT, value, value);
+                    LT, value, value);
             break;
         case AP:
             // AP - Approximate - Relative
             // -10% of the Lower Bound
             // +10% of the Upper Bound
-            buildApproxRangeClause(whereClauseSegment, bindVariables, tableAlias, lowerBound, upperBound, value);
+            buildApproxRangeClause(whereClauseSegment, bindVariables, tableAlias, lowerBound, upperBound);
             break;
         case NE:
             // NE:  Upper and Lower Bounds - Range Based Search
             // the range of the search value does not fully contain the range of the target value
-            buildNotEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, value, upperBound, value);
+            buildNotEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, value, upperBound);
             break;
         case EQ:
         default:
             // EQ:  Upper and Lower Bounds - Range Based Search
             // the range of the search value fully contains the range of the target value
-            buildEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, value, upperBound, value);
+            buildEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, value, upperBound);
             break;
         }
     }
@@ -189,11 +189,10 @@ public class DateParmBehaviorUtil {
      * @param tableAlias
      * @param lowerBound
      * @param upperBound
-     * @param value
      */
     public void buildEqualsRangeClause(StringBuilder whereClauseSegment, List<Timestamp> bindVariables,
-            String tableAlias,
-            Instant lowerBound, Instant upperBound, Instant value) {
+            String tableAlias, Instant lowerBound, Instant upperBound) {
+        //  buildEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, value, upperBound, value);
         // @formatter:off
         whereClauseSegment
                 .append(LEFT_PAREN).append(LEFT_PAREN)
@@ -223,10 +222,9 @@ public class DateParmBehaviorUtil {
      * @param tableAlias
      * @param lowerBound
      * @param upperBound
-     * @param value
      */
     public void buildApproxRangeClause(StringBuilder whereClauseSegment, List<Timestamp> bindVariables,
-            String tableAlias,             Instant lowerBound, Instant upperBound, Instant value) {
+            String tableAlias, Instant lowerBound, Instant upperBound) {
         // @formatter:off
         whereClauseSegment
                 .append(LEFT_PAREN)
@@ -258,10 +256,9 @@ public class DateParmBehaviorUtil {
      * @param tableAlias
      * @param lowerBound
      * @param upperBound
-     * @param value
      */
     public void buildNotEqualsRangeClause(StringBuilder whereClauseSegment, List<Timestamp> bindVariables,
-            String tableAlias, Instant lowerBound, Instant upperBound, Instant value) {
+            String tableAlias, Instant lowerBound, Instant upperBound) {
         // @formatter:off
         whereClauseSegment
                 .append(LEFT_PAREN)
