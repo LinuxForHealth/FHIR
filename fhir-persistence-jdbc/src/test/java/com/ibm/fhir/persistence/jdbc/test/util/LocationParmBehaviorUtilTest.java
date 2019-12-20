@@ -27,7 +27,7 @@ import com.ibm.fhir.search.location.bounding.BoundingRadius;
 
 public class LocationParmBehaviorUtilTest {
     private static final Logger log = java.util.logging.Logger.getLogger(LocationParmBehaviorUtilTest.class.getName());
-    private static final Level LOG_LEVEL = Level.INFO;
+    private static final Level LOG_LEVEL = Level.FINE;
 
     private void runTestBoundingBox(List<Object> expectedBindVariables, String expectedSql,
             BoundingBox boundingBox)

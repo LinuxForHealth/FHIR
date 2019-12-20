@@ -651,6 +651,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p.setValueDateStart(DateTimeHandler.generateTimestamp(inst));
             inst = DateTimeHandler.generateUpperBound(date.getValue());
             p.setValueDateEnd(DateTimeHandler.generateTimestamp(inst));
+            
+            System.out.println(p);
         }
     }
 

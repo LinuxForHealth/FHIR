@@ -10,8 +10,8 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_END;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_START;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
@@ -44,8 +44,7 @@ public class DateParmBehaviorUtil {
 
     public void executeBehavior(StringBuilder whereClauseSegment, QueryParameter queryParm,
             List<Timestamp> bindVariables,
-            String tableAlias)
-            throws Exception {
+            String tableAlias) {
         // Start the Clause 
         // Query: AND ((
         whereClauseSegment.append(AND).append(LEFT_PAREN).append(LEFT_PAREN);
@@ -69,10 +68,9 @@ public class DateParmBehaviorUtil {
                 prefix = Prefix.EQ;
             }
 
-            Instant v = value.getValueDate();
             Instant lowerBound = value.getValueDateLowerBound();
             Instant upperBound = value.getValueDateUpperBound();
-            buildPredicates(whereClauseSegment, bindVariables, tableAlias, prefix, v, lowerBound, upperBound);
+            buildPredicates(whereClauseSegment, bindVariables, tableAlias, prefix, lowerBound, upperBound);
         }
 
         // End the Clause started above, and closes the parameter expression. 
@@ -87,52 +85,45 @@ public class DateParmBehaviorUtil {
      * @param bindVariables
      * @param tableAlias
      * @param prefix
-     * @param value
      * @param lowerBound
      * @param upperBound
      */
     public void buildPredicates(StringBuilder whereClauseSegment, List<Timestamp> bindVariables, String tableAlias,
-            Prefix prefix, Instant value, Instant lowerBound, Instant upperBound) {
+            Prefix prefix, Instant lowerBound, Instant upperBound) {
         switch (prefix) {
         case EB:
             // EB - Ends Before
             // the value for the parameter in the resource is equal to the provided value
             // the range of the search value fully contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_END,
-                    LT, lowerBound, lowerBound);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_END, LT, lowerBound);
             break;
         case SA:
             // SA - Starts After
             // the range of the search value does not overlap with the range of the target value,
             // and the range below the search value contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_START,
-                    GT, upperBound, upperBound);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_START, GT, upperBound);
             break;
         case GE:
             // GE - Greater Than Equal
             // the range above the search value intersects (i.e. overlaps) with the range of the target value,
             // or the range of the search value fully contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_END,
-                    GTE, lowerBound, lowerBound);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_END, GTE, lowerBound);
             break;
         case GT:
             // GT - Greater Than
             // the range above the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_END,
-                    GT, lowerBound, lowerBound);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_END, GT, lowerBound);
             break;
         case LE:
             // LE - Less Than Equal
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             // or the range of the search value fully contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_START,
-                    LTE, upperBound, upperBound);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_START, LTE, upperBound);
             break;
         case LT:
             // LT - Less Than
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_VALUE, DATE_START,
-                    LT, upperBound, upperBound);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_START, LT, upperBound);
             break;
         case AP:
             // AP - Approximate - Relative
@@ -160,17 +151,13 @@ public class DateParmBehaviorUtil {
      * @param whereClauseSegment
      * @param bindVariables
      * @param tableAlias
-     * @param columnName
      * @param columnNameLowOrHigh
      * @param operator
-     * @param value TODO: remove this
      * @param bound
      */
     public void buildCommonClause(StringBuilder whereClauseSegment, List<Timestamp> bindVariables, String tableAlias,
-            String columnName, String columnNameLowOrHigh, String operator, Instant value, Instant bound) {
-        whereClauseSegment
-                    .append(tableAlias).append(DOT).append(columnNameLowOrHigh).append(operator).append(BIND_VAR);
-
+            String columnNameLowOrHigh, String operator, Instant bound) {
+        whereClauseSegment.append(tableAlias).append(DOT).append(columnNameLowOrHigh).append(operator).append(BIND_VAR);
         bindVariables.add(generateTimestamp(bound));
     }
 
@@ -185,26 +172,25 @@ public class DateParmBehaviorUtil {
      */
     public void buildEqualsRangeClause(StringBuilder whereClauseSegment, List<Timestamp> bindVariables,
             String tableAlias, Instant lowerBound, Instant upperBound) {
-        //  buildEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, value, upperBound, value);
-        // @formatter:off
-        whereClauseSegment
-                .append(LEFT_PAREN).append(LEFT_PAREN)
-                        .append(tableAlias).append(DOT).append(DATE_VALUE).append(GTE).append(BIND_VAR)
-                        .append(AND)
-                        .append(tableAlias).append(DOT).append(DATE_VALUE).append(LTE).append(BIND_VAR)
-                    .append(RIGHT_PAREN)
-                    .append(OR)
+        bindVariables.add(generateTimestamp(lowerBound));
+
+        if (!lowerBound.equals(upperBound)) {
+            // @formatter:off
+            whereClauseSegment
                     .append(LEFT_PAREN)
                         .append(tableAlias).append(DOT).append(DATE_START).append(GTE).append(BIND_VAR)
-                        .append(AND)
+                    .append(AND)
                         .append(tableAlias).append(DOT).append(DATE_END).append(LTE).append(BIND_VAR)
-                .append(RIGHT_PAREN).append(RIGHT_PAREN);
-        // @formatter:on
-
-        bindVariables.add(generateTimestamp(lowerBound));
-        bindVariables.add(generateTimestamp(upperBound));
-        bindVariables.add(generateTimestamp(lowerBound));
-        bindVariables.add(generateTimestamp(upperBound));
+                    .append(RIGHT_PAREN);
+            // @formatter:on
+            bindVariables.add(generateTimestamp(upperBound));
+        } else {
+            // Exact match of an instant. 
+            whereClauseSegment
+                    .append(LEFT_PAREN)
+                    .append(tableAlias).append(DOT).append(DATE_START).append(EQ).append(BIND_VAR)
+                    .append(RIGHT_PAREN);
+        }
     }
 
     /**
@@ -221,22 +207,12 @@ public class DateParmBehaviorUtil {
         // @formatter:off
         whereClauseSegment
                 .append(LEFT_PAREN)
-                    .append(LEFT_PAREN)
-                        .append(tableAlias).append(DOT).append(DATE_VALUE).append(GTE).append(BIND_VAR)
-                    .append(AND)
-                        .append(tableAlias).append(DOT).append(DATE_VALUE).append(LTE).append(BIND_VAR)
-                    .append(RIGHT_PAREN)
-                    .append(OR)
-                    .append(LEFT_PAREN)
-                        .append(tableAlias).append(DOT).append(DATE_START).append(GTE).append(BIND_VAR)
-                    .append(AND)
-                        .append(tableAlias).append(DOT).append(DATE_END).append(LTE).append(BIND_VAR)
-                    .append(RIGHT_PAREN)
+                     .append(tableAlias).append(DOT).append(DATE_START).append(GTE).append(BIND_VAR)
+                .append(AND)
+                     .append(tableAlias).append(DOT).append(DATE_END).append(LTE).append(BIND_VAR)
                 .append(RIGHT_PAREN);
         // @formatter:on
 
-        bindVariables.add(generateTimestamp(lowerBound));
-        bindVariables.add(generateTimestamp(upperBound));
         bindVariables.add(generateTimestamp(lowerBound));
         bindVariables.add(generateTimestamp(upperBound));
     }
@@ -255,22 +231,12 @@ public class DateParmBehaviorUtil {
         // @formatter:off
         whereClauseSegment
                 .append(LEFT_PAREN)
-                    .append(LEFT_PAREN)
-                        .append(tableAlias).append(DOT).append(DATE_VALUE).append(LT).append(BIND_VAR)
-                        .append(OR)
-                        .append(tableAlias).append(DOT).append(DATE_VALUE).append(GT).append(BIND_VAR)
-                    .append(RIGHT_PAREN)
-                    .append(OR)
-                    .append(LEFT_PAREN)
                         .append(tableAlias).append(DOT).append(DATE_START).append(LT).append(BIND_VAR)
                         .append(OR)
                         .append(tableAlias).append(DOT).append(DATE_END).append(GT).append(BIND_VAR)
-                    .append(RIGHT_PAREN)
                 .append(RIGHT_PAREN);
         // @formatter:on
 
-        bindVariables.add(generateTimestamp(lowerBound));
-        bindVariables.add(generateTimestamp(upperBound));
         bindVariables.add(generateTimestamp(lowerBound));
         bindVariables.add(generateTimestamp(upperBound));
     }

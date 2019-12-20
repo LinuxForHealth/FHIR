@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.YearMonth;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -91,7 +90,7 @@ public class DateTimeHandler {
     // @formatter:on
 
     public static Timestamp generateTimestamp(Instant inst) {
-        return Timestamp.from(ZonedDateTime.ofInstant(inst, ZoneId.of("UTC")).toInstant());
+        return Timestamp.from(inst);
     }
 
     /**
@@ -253,11 +252,11 @@ public class DateTimeHandler {
             } else if (precision == 3) {
                 // HH:MM:SS - Third Colon
                 // 2019-12-11T00:00:00+05:00
-                zdt = zdt.truncatedTo(ChronoUnit.SECONDS).plus(1, ChronoUnit.SECONDS).minus(TICK, ChronoUnit.NANOS);
+                zdt = zdt.plus(1, ChronoUnit.SECONDS).minus(TICK, ChronoUnit.NANOS);
             } else if (precision == 4) {
                 // Nanoseconds
                 // 2019-12-11T00:00:00.000000+05:00
-                zdt = zdt.truncatedTo(ChronoUnit.MILLIS).plus(1, ChronoUnit.MILLIS).minus(TICK, ChronoUnit.NANOS);
+                logger.fine("Falling through as this is a nanoseconds value");
             }
 
             // ELSE -> HH:MM:SS.XXXXX - treat precise.
