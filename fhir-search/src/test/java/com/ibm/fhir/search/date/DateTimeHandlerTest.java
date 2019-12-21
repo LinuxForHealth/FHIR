@@ -14,7 +14,9 @@ import static org.testng.Assert.assertTrue;
 import java.time.Instant;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
+import java.util.TimeZone;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.type.DateTime;
@@ -22,6 +24,11 @@ import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 
 public class DateTimeHandlerTest {
+
+    @BeforeClass
+    public void setSystemTimeZone() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
 
     @Test
     public void testYearParser() throws FHIRSearchException {

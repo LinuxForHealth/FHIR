@@ -18,7 +18,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.List;
+import java.util.TimeZone;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.SearchParameter;
@@ -98,6 +100,11 @@ public class ParameterExtractionTest {
     private static final SearchParameter uriSearchParam = searchParamBuilder.type(SearchParamType.URI).build();
     private static final SearchParameter stringSearchParam = searchParamBuilder.type(SearchParamType.STRING).build();
     private static final SearchParameter tokenSearchParam = searchParamBuilder.type(SearchParamType.TOKEN).build();
+    
+    @BeforeClass
+    public void setSystemTimeZone() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
     
     @Test
     public void testBoolean() throws FHIRPersistenceProcessorException {
