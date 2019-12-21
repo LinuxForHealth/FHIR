@@ -188,7 +188,7 @@ public class DateParmBehaviorUtil {
             // Exact match of an instant. 
             whereClauseSegment
                     .append(LEFT_PAREN)
-                    .append(tableAlias).append(DOT).append(DATE_START).append(EQ).append(BIND_VAR)
+                        .append(tableAlias).append(DOT).append(DATE_START).append(EQ).append(BIND_VAR)
                     .append(RIGHT_PAREN);
         }
     }

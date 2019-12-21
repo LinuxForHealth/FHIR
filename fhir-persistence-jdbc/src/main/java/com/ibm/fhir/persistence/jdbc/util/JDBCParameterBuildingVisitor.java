@@ -231,7 +231,10 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 throw invalidComboException(searchParamType, instant);
             }
             p.setName(searchParamCode);
-            p.setValueDate(generateTimestamp(instant.getValue().toInstant()));
+            Timestamp t = generateTimestamp(instant.getValue().toInstant());
+            p.setValueDate(t);
+            p.setValueDateStart(t);
+            p.setValueDateEnd(t);
             result.add(p);
         }
         return false;
@@ -651,8 +654,6 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p.setValueDateStart(DateTimeHandler.generateTimestamp(inst));
             inst = DateTimeHandler.generateUpperBound(date.getValue());
             p.setValueDateEnd(DateTimeHandler.generateTimestamp(inst));
-            
-            System.out.println(p);
         }
     }
 
