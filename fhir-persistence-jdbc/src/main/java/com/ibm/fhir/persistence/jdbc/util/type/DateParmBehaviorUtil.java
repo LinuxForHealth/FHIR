@@ -11,7 +11,6 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_END;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_START;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
@@ -172,25 +171,17 @@ public class DateParmBehaviorUtil {
      */
     public void buildEqualsRangeClause(StringBuilder whereClauseSegment, List<Timestamp> bindVariables,
             String tableAlias, Instant lowerBound, Instant upperBound) {
-        bindVariables.add(generateTimestamp(lowerBound));
+        // @formatter:off
+        whereClauseSegment
+                .append(LEFT_PAREN)
+                    .append(tableAlias).append(DOT).append(DATE_START).append(GTE).append(BIND_VAR)
+                .append(AND)
+                    .append(tableAlias).append(DOT).append(DATE_END).append(LTE).append(BIND_VAR)
+                .append(RIGHT_PAREN);
+        // @formatter:on
 
-        if (!lowerBound.equals(upperBound)) {
-            // @formatter:off
-            whereClauseSegment
-                    .append(LEFT_PAREN)
-                        .append(tableAlias).append(DOT).append(DATE_START).append(GTE).append(BIND_VAR)
-                    .append(AND)
-                        .append(tableAlias).append(DOT).append(DATE_END).append(LTE).append(BIND_VAR)
-                    .append(RIGHT_PAREN);
-            // @formatter:on
-            bindVariables.add(generateTimestamp(upperBound));
-        } else {
-            // Exact match of an instant. 
-            whereClauseSegment
-                    .append(LEFT_PAREN)
-                        .append(tableAlias).append(DOT).append(DATE_START).append(EQ).append(BIND_VAR)
-                    .append(RIGHT_PAREN);
-        }
+        bindVariables.add(generateTimestamp(lowerBound));
+        bindVariables.add(generateTimestamp(upperBound));
     }
 
     /**

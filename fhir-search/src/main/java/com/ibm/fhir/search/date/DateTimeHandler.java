@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.YearMonth;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -21,8 +21,11 @@ import java.time.format.ResolverStyle;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
+import java.time.zone.ZoneRules;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.model.type.Date;
+import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
@@ -139,29 +142,30 @@ public class DateTimeHandler {
      */
     public static Instant generateValue(TemporalAccessor value) {
         Instant response;
+        ZoneRules defaultOffsetRules = ZoneId.systemDefault().getRules();
         if (value instanceof java.time.Year) {
             // YEAR - 1
             Year year = (Year) value;
             LocalDateTime local = REFERENCE_DATE.with(ChronoField.YEAR, year.getValue());
-            response = ZonedDateTime.of(local, ZoneOffset.UTC).toInstant();
+            response = ZonedDateTime.of(local, defaultOffsetRules.getOffset(Instant.now())).toInstant();
         } else if (value instanceof YearMonth) {
             // Month - 1
             // Grab the values for Year/Month Value
             YearMonth ym = (YearMonth) value;
             LocalDateTime local = REFERENCE_DATE.with(ChronoField.YEAR, ym.getYear());
             local    = local.with(ChronoField.MONTH_OF_YEAR, ym.getMonthValue());
-            response = ZonedDateTime.of(local, ZoneOffset.UTC).toInstant();
+            response = ZonedDateTime.of(local, defaultOffsetRules.getOffset(Instant.now())).toInstant();
         } else if (value instanceof LocalDate) {
             // LocalDate - YYYY-MM-DD
             LocalDate ld = (LocalDate) value;
             LocalDateTime local = REFERENCE_DATE.with(ChronoField.YEAR, ld.getYear());
             local    = local.with(ChronoField.MONTH_OF_YEAR, ld.getMonthValue());
             local    = local.with(ChronoField.DAY_OF_MONTH, ld.getDayOfMonth());
-            response = ZonedDateTime.of(local, ZoneOffset.UTC).toInstant();
+            response = ZonedDateTime.of(local, defaultOffsetRules.getOffset(Instant.now())).toInstant();
         } else if (value instanceof LocalDateTime) {
             // LocalDate - YYYY-MM-DD HH
             LocalDateTime local = (LocalDateTime) value;
-            response = ZonedDateTime.of(local, ZoneOffset.UTC).toInstant();
+            response = ZonedDateTime.of(local, defaultOffsetRules.getOffset(Instant.now())).toInstant();
         } else if (value instanceof ZonedDateTime) {
             ZonedDateTime zdt = (ZonedDateTime) value;
             response = zdt.toInstant();
@@ -172,12 +176,26 @@ public class DateTimeHandler {
     }
 
     /**
-     * convience method to generate upper bound.
+     * convenience method to generate upper bound for a DateTime value.
      * @param value
      * @return
      */
-    public static Instant generateUpperBound(TemporalAccessor value) {
-        return generateUpperBound(null, value, value.toString());
+    public static Instant generateUpperBound(DateTime value) {
+        // from https://www.hl7.org/fhir/datatypes.html#dateTime:
+        // "Seconds must be provided due to schema type constraints but may be zero-filled and may be ignored at receiver discretion."
+        
+        // use value.getValue().toString() instead if you want to interpret zero-filled seconds ("ss" = 00) 
+        // as a datetime with a precision of 1 minute (i.e. HH:mm rather than HH:mm:ss)
+        return generateUpperBound(null, value.getValue(), DateTime.PARSER_FORMATTER.format(value.getValue()));
+    }
+    
+    /**
+     * convenience method to generate upper bound for a Date value.
+     * @param value
+     * @return
+     */
+    public static Instant generateUpperBound(Date value) {
+        return generateUpperBound(null, value.getValue(), Date.PARSER_FORMATTER.format(value.getValue()));
     }
 
     /**
@@ -190,14 +208,14 @@ public class DateTimeHandler {
      */
     public static Instant generateUpperBound(Prefix prefix, TemporalAccessor value, String originalString) {
         Instant response = null;
-
+        ZoneRules defaultOffsetRules = ZoneId.systemDefault().getRules();
         if (value instanceof java.time.Year) {
             // YEAR + 1
             Year year = (Year) value;
             year = year.plus(1, ChronoUnit.YEARS);
             LocalDateTime local = REFERENCE_DATE.with(ChronoField.YEAR, year.getValue());
             response =
-                    ZonedDateTime.of(local, ZoneOffset.UTC).toInstant().minus(TICK,
+                    ZonedDateTime.of(local, defaultOffsetRules.getOffset(Instant.now())).toInstant().minus(TICK,
                             ChronoUnit.NANOS);
         } else if (value instanceof YearMonth) {
             // Grab the values for Year/Month Value
@@ -206,7 +224,7 @@ public class DateTimeHandler {
             LocalDateTime local = REFERENCE_DATE.with(ChronoField.YEAR, ym.getYear());
             local    = local.with(ChronoField.MONTH_OF_YEAR, ym.getMonthValue());
             response =
-                    ZonedDateTime.of(local, ZoneOffset.UTC).toInstant().minus(TICK,
+                    ZonedDateTime.of(local, defaultOffsetRules.getOffset(Instant.now())).toInstant().minus(TICK,
                             ChronoUnit.NANOS);
         } else if (value instanceof LocalDate) {
             // LocalDate - YYYY-MM-DD
@@ -216,7 +234,7 @@ public class DateTimeHandler {
             local    = local.with(ChronoField.MONTH_OF_YEAR, ld.getMonthValue());
             local    = local.with(ChronoField.DAY_OF_MONTH, ld.getDayOfMonth());
             response =
-                    ZonedDateTime.of(local, ZoneOffset.UTC).toInstant().minus(TICK,
+                    ZonedDateTime.of(local, defaultOffsetRules.getOffset(Instant.now())).toInstant().minus(TICK,
                             ChronoUnit.NANOS);
         } else if (value instanceof LocalDateTime) {
             // LocalDate - YYYY-MM-DD
@@ -230,12 +248,12 @@ public class DateTimeHandler {
                 local = local.plus(1, ChronoUnit.MINUTES).minus(TICK, ChronoUnit.NANOS);
             } else if (precision == 2) {
                 // HH:MM:SS - Second Colon
-                local = local.truncatedTo(ChronoUnit.SECONDS).plus(1, ChronoUnit.SECONDS).minus(TICK, ChronoUnit.NANOS);
+                local = local.plus(1, ChronoUnit.SECONDS).minus(TICK, ChronoUnit.NANOS);
             }
 
             // ELSE -> HH:MM:SS.XXXXX
             // The point is treated as exact.
-            response = ZonedDateTime.of(local, ZoneOffset.UTC).toInstant();
+            response = ZonedDateTime.of(local, defaultOffsetRules.getOffset(Instant.now())).toInstant();
 
         } else if (value instanceof ZonedDateTime) {
             ZonedDateTime zdt = (ZonedDateTime) value;
