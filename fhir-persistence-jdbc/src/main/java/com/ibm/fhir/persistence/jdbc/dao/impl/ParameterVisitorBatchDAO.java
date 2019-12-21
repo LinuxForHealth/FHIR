@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
+
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -324,11 +326,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 }
 
                 // Insert record into the base level date attribute table
-                resourceDates.setInt(1, parameterNameId);
-                resourceDates.setTimestamp(2, date);
-                resourceDates.setTimestamp(3, dateStart);
-                resourceDates.setTimestamp(4, dateEnd);
-                resourceDates.setLong(5, logicalResourceId);
+                setDateParms(resourceDates, parameterNameId, date, dateStart, dateEnd);
                 resourceDates.addBatch();
 
                 if (++resourceDateCount == this.batchSize) {
@@ -359,9 +357,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
     private void setDateParms(PreparedStatement insert, int parameterNameId, Timestamp date, Timestamp dateStart, Timestamp dateEnd) throws SQLException {
         insert.setInt(1, parameterNameId);
-        insert.setTimestamp(2, date);
-        insert.setTimestamp(3, dateStart);
-        insert.setTimestamp(4, dateEnd);
+        insert.setTimestamp(2, date, UTC);
+        insert.setTimestamp(3, dateStart, UTC);
+        insert.setTimestamp(4, dateEnd, UTC);
         insert.setLong(5, logicalResourceId);
     }
 

@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.logging.LogManager;
 
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
@@ -55,6 +56,9 @@ public abstract class AbstractPersistenceTest {
 
     // A hook for subclasses to override and provide specific test database setup functionality if required.
     protected void bootstrapDatabase() throws Exception {}
+    
+    // A hook for subclasses to override and provide specific test database shutdown functionality if required.
+    protected void shutdownDatabase() throws Exception {}
 
     // The following persistence context-related methods can be overridden in subclasses to
     // provide a more specific instance of the FHIRPersistenceContext if necessary.
@@ -96,6 +100,11 @@ public abstract class AbstractPersistenceTest {
         if (persistence != null && persistence.isTransactional()) {
             persistence.getTransaction().commit();
         }
+    }
+    
+    @AfterSuite(alwaysRun = true)
+    public void tearDown() throws Exception {
+        shutdownDatabase();
     }
 
     protected List<Resource> runQueryTest(Class<? extends Resource> resourceType, String parmName, String parmValue) throws Exception {

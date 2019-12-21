@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.persistence.jdbc.derby;
 
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -309,7 +311,7 @@ public class DerbyResourceDAO {
             stmt.setLong(2, v_logical_resource_id);
             stmt.setInt(3, v_insert_version);
             stmt.setBytes(4, p_payload);
-            stmt.setTimestamp(5, p_last_updated);
+            stmt.setTimestamp(5, p_last_updated, UTC);
             stmt.setString(6, p_is_deleted ? "Y" : "N");
             stmt.executeUpdate();
         }

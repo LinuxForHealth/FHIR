@@ -97,4 +97,10 @@ public class DateParmVal implements ExtractedParameterValue {
     public void setBase(String base) {
         this.base = base;
     }
+
+    @Override
+    public String toString() {
+        return "DateParmVal [resourceType=" + resourceType + ", name=" + name + ", valueDate=" + valueDate
+                + ", valueDateStart=" + valueDateStart + ", valueDateEnd=" + valueDateEnd + ", base=" + base + "]";
+    }
 }

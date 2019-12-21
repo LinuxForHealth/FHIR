@@ -31,6 +31,7 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
@@ -397,7 +398,12 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt = connection.prepareStatement(queryData.getQueryString());
             // Inject arguments into the prepared stmt.
             for (int i = 0; i < queryData.getBindVariables().size(); i++) {
-                stmt.setObject(i+1, queryData.getBindVariables().get(i));
+                Object object = queryData.getBindVariables().get(i);
+                if (object instanceof Timestamp) {
+                    stmt.setTimestamp(i+1, (Timestamp) object, JDBCConstants.UTC);
+                } else {
+                    stmt.setObject(i+1, object);
+                }
             }
             dbCallStartTime = System.nanoTime();
             resultSet = stmt.executeQuery();
@@ -523,7 +529,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.setBytes(3, resource.getData());
             
             lastUpdated = resource.getLastUpdated();
-            stmt.setTimestamp(4, lastUpdated);
+            stmt.setTimestamp(4, lastUpdated, UTC);
             stmt.setString(5, resource.isDeleted() ? "Y": "N");
             stmt.setString(6, UUID.randomUUID().toString());
             stmt.setInt(7, resource.getVersionId());
