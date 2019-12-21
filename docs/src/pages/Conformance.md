@@ -85,8 +85,8 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 |Reference                 |`:[type]`,`:missing`            |exact match search|
 |URI                       |`:below`,`:above`,`:missing`    |exact match search|
 |Token                     |`:missing`                      |exact match search|
-|Number                    |`:missing`                      |exact match search|
-|Date                      |`:missing`                      |exact match search|
+|Number                    |`:missing`                      |implicit range search (see http://hl7.org/fhir/R4/search.html#number)|
+|Date                      |`:missing`                      |implicit range search (see https://www.hl7.org/fhir/search.html#date)|
 |Quantity                  |`:missing`                      |implicit range search (see http://hl7.org/fhir/R4/search.html#quantity)|
 |Composite                 |`:missing`                      |processes each parameter component according to its type|
 |Special (near)            | none                           |searches a bounding area according to the value of the `fhirServer/search/useBoundingRadius` property|
@@ -127,13 +127,17 @@ If not specified on a query string, the default prefix is `eq`.
 The IBM FHIR Server adheres to the specification with two minor exceptions:
 * The server supports search query values with fractional seconds; any search query value given with fractional seconds is treated as precise value, whereas search query values without fractional seconds are handled as an implicit range (e.g. `2000-04-30T23:59:00` becomes the range `[2000-04-30T23:59:00, 2000-04-30T23:59:01)`).
 * Dates and DateTimes (and query parameter values for date search parameters) which are expressed without timezones are handled as UTC values.
-  * This differs slightly from the specification which indicates that "Where both search parameters and resource element date times do not have time zones, the servers local time zone should be assumed". However, because both the element values AND search query parameters are handled in the same way, this difference matters only when timezones are specified on one side (resource element or search query parameter) but not the other. For example, a query like `Patient?birthdate=2019-01-01` would match a resource with a value of `2019-01-01`, but would *not* match a resource with a value of `2019-01-01T20:00:00-04:00`.
+* This differs slightly from the specification which indicates that "Where both search parameters and resource element date times do not have time zones, the servers local time zone should be assumed". However, because both the element values AND search query parameters are handled in the same way, this difference matters only when timezones are specified on one side (resource element or search query parameter) but not the other. For example, a query like `Patient?birthdate=2019-01-01` would match a resource with a value of `2019-01-01`, but would *not* match a resource with a value of `2019-01-01T20:00:00-04:00`.
 
-All search parameter values are stored in the database in UTC time in order to improve data portability.
+The IBM FHIR Server supports up to 6 fractional seconds (microsecond granularity) for Instant and DateTime values and all extracted parameter values are stored in the database in UTC in order to improve data portability.
 
-The IBM FHIR Server stores up to 6 fractional seconds (microsecond granularity) for Instant and DateTime values.
+Dates and DateTimes which are expressed without timezones are assumed to be in the local timezone of the application server at the time of parameter extraction.
+Similarly, query parameter date values with no timezone are assumed to be in the local time of the server at the time the search is invoked.
+To ensure consistency of search results, clients are recommended to include the timezone on all search query values that include a time.
 
-Query parameter values without fractional seconds will be handled as an implicit range. For example, a search like `Patient?date=2019-01-01T12:00:00Z` would include resources with the following effectiveDateTime values:
+Finally, the server extends the specified capabilities with support for "exact match" semantics on fractional seconds.
+
+Query parameter values without fractional seconds is handled as an implicit range. For example, a search like `Observatoin?date=2019-01-01T12:00:00Z` would return resources with the following effectiveDateTime values:
 * 2019-01-01T12:00:00Z
 * 2019-01-01T12:00:00.1Z
 * 2019-01-01T12:00:00.999999Z
