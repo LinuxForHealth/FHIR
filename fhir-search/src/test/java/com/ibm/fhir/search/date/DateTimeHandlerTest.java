@@ -17,6 +17,7 @@ import java.time.temporal.TemporalAccessor;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 
@@ -433,6 +434,13 @@ public class DateTimeHandlerTest {
         Instant upperBound = DateTimeHandler.generateUpperBound(null, value, v);
         assertEquals(lowerBound.toString(), "2019-10-11T11:00:00Z");
         assertEquals(upperBound.toString(), "2019-10-11T11:00:00.999999Z");
+    }
+
+    @Test
+    public void testToStringWithNullPrefixYearMonthDayHoursMinutesSeconds() throws FHIRSearchException {
+        DateTime dt = DateTime.of("2019-10-11T11:00:00Z");
+        assertEquals("2019-10-11T11:00:00Z", DateTime.PARSER_FORMATTER.format(dt.getValue()));
+        assertEquals("2019-10-11T11:00Z", dt.getValue().toString());
     }
 
     @Test

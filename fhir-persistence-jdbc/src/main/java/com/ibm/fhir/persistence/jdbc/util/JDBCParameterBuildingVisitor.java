@@ -652,7 +652,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             java.time.Instant inst = DateTimeHandler.generateValue(date.getValue());
             p.setValueDate(DateTimeHandler.generateTimestamp(inst));
             p.setValueDateStart(DateTimeHandler.generateTimestamp(inst));
-            inst = DateTimeHandler.generateUpperBound(date.getValue());
+            inst = DateTimeHandler.generateUpperBound(date);
             p.setValueDateEnd(DateTimeHandler.generateTimestamp(inst));
         }
     }
@@ -671,7 +671,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             java.time.Instant inst = DateTimeHandler.generateValue(dateTime.getValue());
             p.setValueDate(DateTimeHandler.generateTimestamp(inst));
             p.setValueDateStart(DateTimeHandler.generateTimestamp(inst));
-            inst = DateTimeHandler.generateUpperBound(dateTime.getValue());
+            inst = DateTimeHandler.generateUpperBound(dateTime);
             p.setValueDateEnd(DateTimeHandler.generateTimestamp(inst));
         }
     }

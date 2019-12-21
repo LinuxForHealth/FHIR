@@ -23,6 +23,8 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.model.type.Date;
+import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
@@ -172,12 +174,26 @@ public class DateTimeHandler {
     }
 
     /**
-     * convience method to generate upper bound.
+     * convenience method to generate upper bound for a DateTime value.
      * @param value
      * @return
      */
-    public static Instant generateUpperBound(TemporalAccessor value) {
-        return generateUpperBound(null, value, value.toString());
+    public static Instant generateUpperBound(DateTime value) {
+        // from https://www.hl7.org/fhir/datatypes.html#dateTime:
+        // "Seconds must be provided due to schema type constraints but may be zero-filled and may be ignored at receiver discretion."
+        
+        // use value.getValue().toString() instead if you want to interpret zero-filled seconds ("ss" = 00) 
+        // as a datetime with a precision of 1 minute (i.e. HH:mm rather than HH:mm:ss)
+        return generateUpperBound(null, value.getValue(), DateTime.PARSER_FORMATTER.format(value.getValue()));
+    }
+    
+    /**
+     * convenience method to generate upper bound for a Date value.
+     * @param value
+     * @return
+     */
+    public static Instant generateUpperBound(Date value) {
+        return generateUpperBound(null, value.getValue(), Date.PARSER_FORMATTER.format(value.getValue()));
     }
 
     /**
@@ -230,7 +246,7 @@ public class DateTimeHandler {
                 local = local.plus(1, ChronoUnit.MINUTES).minus(TICK, ChronoUnit.NANOS);
             } else if (precision == 2) {
                 // HH:MM:SS - Second Colon
-                local = local.truncatedTo(ChronoUnit.SECONDS).plus(1, ChronoUnit.SECONDS).minus(TICK, ChronoUnit.NANOS);
+                local = local.plus(1, ChronoUnit.SECONDS).minus(TICK, ChronoUnit.NANOS);
             }
 
             // ELSE -> HH:MM:SS.XXXXX

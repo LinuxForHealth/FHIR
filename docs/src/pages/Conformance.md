@@ -124,16 +124,21 @@ The `eb` and `ap` prefixes are not supported for searches which target values of
 If not specified on a query string, the default prefix is `eq`.
 
 ### Searching on Date
-The FHIR server adheres to the specification except in cases where a time is included in the search query value. When a time is specified, the implementation requires an hour, minute, second, and timezone value. Including these values is consistent with the way in which `instant` and `dateTime` data types are defined at https://www.hl7.org/fhir/R4/datatypes.html#primitive. However, the implementation differs from the description at https://www.hl7.org/fhir/R4/search.html#date, which allows clients to include hours and minutes, but to omit values for seconds and time zone.
+The IBM FHIR Server adheres to the specification with two minor exceptions:
+* The server supports search query values with fractional seconds; any search query value given with fractional seconds is treated as precise value, whereas search query values without fractional seconds are handled as an implicit range (e.g. `2000-04-30T23:59:00` becomes the range `[2000-04-30T23:59:00, 2000-04-30T23:59:01)`).
+* Dates and DateTimes (and query parameter values for date search parameters) which are expressed without timezones are handled as UTC values.
+  * This differs slightly from the specification which indicates that "Where both search parameters and resource element date times do not have time zones, the servers local time zone should be assumed". However, because both the element values AND search query parameters are handled in the same way, this difference will only matter when timezones are specified on one side (resource element or search query parameter) but not the other. For example, a query like `Patient?birthdate=2019-01-01` would match a resource with a value of `2019-01-01`, but would *not* match a resource with a value of `2019-01-01T20:00:00-04:00`.
 
-The IBM FHIR Server stores up to 6 fractional seconds (microsecond granularity) for Instant and DateTime values (when present) and allows clients to search with these as well.
+All search parameter values are stored in the database in UTC time in order to improve data portability.
+
+The IBM FHIR Server stores up to 6 fractional seconds (microsecond granularity) for Instant and DateTime values.
 
 Query parameter values without fractional seconds will be handled as an implicit range. For example, a search like `Patient?date=2019-01-01T12:00:00Z` would include resources with the following effectiveDateTime values:
 * 2019-01-01T12:00:00Z
 * 2019-01-01T12:00:00.1Z
 * 2019-01-01T12:00:00.999999Z
 
-Query parameter values with fractional seconds will be handled with exact match semantics (ignoring precision). For example, a search like `Patient?date=2019-01-01T12:00:00.100Z` would include resources with the following effectiveDateTime values:
+Query parameter values with fractional seconds will be handled with exact match semantics (ignoring precision). For example, a search like `Patient?birthdate=2019-01-01T12:00:00.1Z` would include resources with the following effectiveDateTime values:
 * 2019-01-01T12:00:00.1Z
 * 2019-01-01T12:00:00.100Z
 * 2019-01-01T12:00:00.100000Z
