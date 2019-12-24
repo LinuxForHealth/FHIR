@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.code.ResourceType;
@@ -84,7 +83,6 @@ public final class ParametersUtil {
      * Loads the built-in search parameters and constructs . 
      * 
      * @return a map of ParametersMaps, keyed by resourceType
-     * @throws FHIRParserException 
      */
     private static Map<String, ParametersMap> loadBuiltIns() {
         Map<String, ParametersMap> map;
@@ -124,30 +122,29 @@ public final class ParametersUtil {
                 if (log.isLoggable(Level.FINE)) {
                     log.fine(String.format(MISSING_EXPRESSION, parameter.getCode().getValue()));
                 }
-                continue;
-            }
-
-            /*
-             * In R4, SearchParameter changes from a single Base resource to an array.
-             * As Base is an array, there are going be potential collisions in the map.
-             */
-            List<ResourceType> types = parameter.getBase();
-            for (ResourceType type : types) {
-                String base = type.getValue();
-
-                ParametersMap map = typeToParamMap.get(base);
-                if (map == null) {
-                    map = new ParametersMap();
-                    typeToParamMap.put(base, map);
+            } else {
+                /*
+                 * In R4, SearchParameter changes from a single Base resource to an array.
+                 * As Base is an array, there are going be potential collisions in the map.
+                 */
+                List<ResourceType> types = parameter.getBase();
+                for (ResourceType type : types) {
+                    String base = type.getValue();
+    
+                    ParametersMap map = typeToParamMap.get(base);
+                    if (map == null) {
+                        map = new ParametersMap();
+                        typeToParamMap.put(base, map);
+                    }
+    
+                    // check and warn if the parameter name and code do not agree.
+                    String code = parameter.getCode().getValue();
+                    String name = parameter.getName().getValue();
+                    checkAndWarnForIssueWithCodeAndName(code, name);
+    
+                    // add the map entry with keys for both the code and the url
+                    map.insert(code, parameter.getUrl().getValue(), parameter);
                 }
-
-                // check and warn if the parameter name and code do not agree.
-                String code = parameter.getCode().getValue();
-                String name = parameter.getName().getValue();
-                checkAndWarnForIssueWithCodeAndName(code, name);
-
-                // add the map entry with keys for both the code and the url
-                map.insert(code, parameter.getUrl().getValue(), parameter);
             }
         }
         

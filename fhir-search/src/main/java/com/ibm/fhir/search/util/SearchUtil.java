@@ -421,23 +421,12 @@ public class SearchUtil {
     public static SearchParameter getSearchParameter(String resourceType, String code) throws Exception {
         String tenantId = FHIRRequestContext.get().getTenantId();
 
-        SearchParameter result = null;
-
         // First try to find the search parameter within the specified tenant's map.
-        Map<String, ParametersMap> spMaps = getTenantOrDefaultSPMap(tenantId);
-        if (spMaps != null && !spMaps.isEmpty()) {
-            ParametersMap parametersMap = spMaps.get(resourceType);
-            if (parametersMap != null && !parametersMap.isEmpty()) {
-                result = parametersMap.lookupByCode(code);
-            }
-        }
+        SearchParameter result = getSearchParameterByCodeIfPresent(getTenantOrDefaultSPMap(tenantId), resourceType, code);
 
         // If we didn't find it within the tenant's map, then look within the built-in map.
         if (result == null) {
-            ParametersMap parametersMap = ParametersUtil.getBuiltInSearchParametersMap().get(resourceType);
-            if (parametersMap != null && !parametersMap.isEmpty()) {
-                result = parametersMap.lookupByCode(code);
-            }
+            result = getSearchParameterByCodeIfPresent(ParametersUtil.getBuiltInSearchParametersMap(), resourceType, code);
 
             // If we found it within the built-in search parameters, apply our filtering rules.
             if (result != null) {
@@ -450,6 +439,25 @@ public class SearchUtil {
                 result = (filteredResult.isEmpty() ? null : filteredResult.iterator().next());
             }
         }
+        return result;
+    }
+    
+    /**
+     * @param spMaps
+     * @param resourceType
+     * @param uri
+     * @return the SearchParameter for type {@code resourceType} with code {@code code} or null if it doesn't exist 
+     */
+    private static SearchParameter getSearchParameterByCodeIfPresent(Map<String, ParametersMap> spMaps, String resourceType, String code) {
+        SearchParameter result = null;
+        
+        if (spMaps != null && !spMaps.isEmpty()) {
+            ParametersMap parametersMap = spMaps.get(resourceType);
+            if (parametersMap != null && !parametersMap.isEmpty()) {
+                result = parametersMap.lookupByCode(code);
+            }
+        }
+        
         return result;
     }
 
@@ -465,23 +473,13 @@ public class SearchUtil {
      */
     public static SearchParameter getSearchParameter(String resourceType, Canonical uri) throws Exception {
         String tenantId = FHIRRequestContext.get().getTenantId();
-        SearchParameter result = null;
         
         // First try to find the search parameter within the specified tenant's map.
-        Map<String, ParametersMap> spMaps = getTenantOrDefaultSPMap(tenantId);
-        if (spMaps != null && !spMaps.isEmpty()) {
-            ParametersMap parametersMap = spMaps.get(resourceType);
-            if (parametersMap != null && !parametersMap.isEmpty()) {
-                result = parametersMap.lookupByUrl(uri.getValue());
-            }
-        }
+        SearchParameter result = getSearchParameterByUrlIfPresent(getTenantOrDefaultSPMap(tenantId), resourceType, uri);
 
         // If we didn't find it within the tenant's map, then look within the built-in map.
         if (result == null) {
-            ParametersMap parametersMap = ParametersUtil.getBuiltInSearchParametersMap().get(resourceType);
-            if (parametersMap != null && !parametersMap.isEmpty()) {
-                result = parametersMap.lookupByUrl(uri.getValue());
-            }
+            result = getSearchParameterByUrlIfPresent(ParametersUtil.getBuiltInSearchParametersMap(), resourceType, uri);
 
             // If we found it within the built-in search parameters, apply our filtering rules.
             if (result != null) {
@@ -493,6 +491,25 @@ public class SearchUtil {
                 result = (filteredResult.isEmpty() ? null : filteredResult.iterator().next());
             }
         }
+        return result;
+    }
+
+    /**
+     * @param spMaps
+     * @param resourceType
+     * @param uri
+     * @return the SearchParameter for type {@code resourceType} with url {@code uri} or null if it doesn't exist 
+     */
+    private static SearchParameter getSearchParameterByUrlIfPresent(Map<String, ParametersMap> spMaps, String resourceType, Canonical uri) {
+        SearchParameter result = null;
+        
+        if (spMaps != null && !spMaps.isEmpty()) {
+            ParametersMap parametersMap = spMaps.get(resourceType);
+            if (parametersMap != null && !parametersMap.isEmpty()) {
+                result = parametersMap.lookupByUrl(uri.getValue());
+            }
+        }
+        
         return result;
     }
 
