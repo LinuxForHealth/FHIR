@@ -52,7 +52,7 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
             ParametersUtil.print(System.out);
         }
 
-        assertEquals(45 * 2, result.size());
+        assertEquals(44, result.size());
     }
 
     @Test
@@ -65,12 +65,12 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters2/Patient", result);
-        assertEquals(36 * 2, result.size());
+        assertEquals(35, result.size());
 
         result = SearchUtil.getSearchParameters("Observation");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters2/Observation", result);
-        assertEquals(45 * 2, result.size());
+        assertEquals(44, result.size());
     }
 
     @Test
@@ -90,19 +90,19 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
             System.out.println("As Follows: ");
             System.out.println(result.stream().map(in -> in.getCode().getValue()).collect(Collectors.toList()));
         }
-        assertEquals(2 * 2, result.size());
+        assertEquals(2, result.size());
         SearchParameter sp = result.get(0);
         assertNotNull(sp);
         assertEquals("code", sp.getCode().getValue());
 
-        sp = result.get(2); // skip index=1 because its the same as index=0 but with a canonical key
+        sp = result.get(1);
         assertNotNull(sp);
         assertEquals("value-range", sp.getCode().getValue());
 
         result = SearchUtil.getSearchParameters("Immunization");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters3/Immunization", result);
-        assertEquals(23 * 2, result.size());
+        assertEquals(22, result.size());
     }
 
     @Test
@@ -113,7 +113,7 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getSearchParameters("Device");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters4/Device", result);
-        assertEquals(2 * 2, result.size());
+        assertEquals(2, result.size());
         List<String> codes = getSearchParameterNames(result);
         assertTrue(codes.contains("patient"));
         assertTrue(codes.contains("organization"));
@@ -127,7 +127,7 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters5/Patient", result);
-        assertEquals(4 * 2, result.size());
+        assertEquals(4, result.size());
         List<String> codes = getSearchParameterNames(result);
         assertTrue(codes.contains("active"));
         assertTrue(codes.contains("address"));
@@ -139,7 +139,7 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         result = SearchUtil.getSearchParameters("MedicationAdministration");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters5/MedicationAdministration", result);
-        assertEquals(20 * 2, result.size());
+        assertEquals(19, result.size());
     }
 
     @Test
@@ -150,11 +150,11 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters6/Patient", result);
-        assertEquals(36 * 2, result.size());
+        assertEquals(35, result.size());
 
         result = SearchUtil.getSearchParameters("Device");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters6/Device", result);
-        assertEquals(19 * 2, result.size());
+        assertEquals(18, result.size());
     }
 }

@@ -7,6 +7,8 @@
 package com.ibm.fhir.search.parameters.cache;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.Reader;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,7 +16,10 @@ import java.util.logging.Logger;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.core.TenantSpecificFileBasedCache;
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.parser.FHIRParser;
+import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.search.parameters.ParametersMap;
 import com.ibm.fhir.search.parameters.ParametersUtil;
 
 /**
@@ -25,7 +30,7 @@ import com.ibm.fhir.search.parameters.ParametersUtil;
  * should change one line in this class, and be instantiated in the SearchUtil, and embedded in the call to Parameters.
  * Alternatively, one could, upon not finding the JSON file, load the XML file.
  */
-public class TenantSpecificSearchParameterCache extends TenantSpecificFileBasedCache<Map<String, Map<String, SearchParameter>>> {
+public class TenantSpecificSearchParameterCache extends TenantSpecificFileBasedCache<Map<String, ParametersMap>> {
 
     private static final String CLASSNAME = TenantSpecificSearchParameterCache.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
@@ -56,13 +61,15 @@ public class TenantSpecificSearchParameterCache extends TenantSpecificFileBasedC
      * @see com.ibm.fhir.core.TenantSpecificFileBasedCache#createCachedObject(java.lang.String)
      */
     @Override
-    public Map<String, Map<String, SearchParameter>> createCachedObject(File f) throws Exception {
+    public Map<String, ParametersMap> createCachedObject(File f) throws Exception {
         try {
             // Added logging to help diagnose issues while loading the files.
             if (log.isLoggable(Level.FINE)) {
                 log.fine(String.format(LOG_FILE_LOAD, f.toURI()));
             }
-            return ParametersUtil.populateSearchParameterMapFromFile(f);
+            Reader reader = new FileReader(f);
+            Bundle bundle = FHIRParser.parser(Format.JSON).parse(reader);
+            return ParametersUtil.buildSearchParametersMapFromBundle(bundle);
         } catch (Throwable t) {
             // In R4, there are two files used with postfix JSON.
             // Default is to use JSON in R4
