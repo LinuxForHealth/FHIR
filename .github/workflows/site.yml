@@ -56,7 +56,7 @@ jobs:
             token: ${{ secrets.GITHUB_TOKEN }} 
     - name: Commit and Add GH Pages
       env: 
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
             GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
             GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
             CI: true
@@ -82,7 +82,7 @@ jobs:
             git commit -m "Automated gh-pages deployment: $(date -u)" 
     - name: Push changes to GH Pages
       env: 
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
             GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
             GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
             CI: true
