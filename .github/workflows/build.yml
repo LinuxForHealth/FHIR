@@ -4,6 +4,7 @@ on:
   pull_request:
     paths-ignore:
     - 'docs/**'
+    - '.github/site.yml'
 
 jobs:
   build-tools:
