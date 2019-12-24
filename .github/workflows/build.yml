@@ -14,7 +14,7 @@ jobs:
         java: [ 'openjdk8', 'openjdk11' ]
       fail-fast: false
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up OpenJDK
       uses: joschi/setup-jdk@v1
       with:

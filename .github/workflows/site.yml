@@ -1,10 +1,10 @@
 name: Docs and Site
 
-on: 
+on:
   push:
     paths:
         - "docs/**"
-    branches: 
+    branches:
         - master
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
 
     steps:
     - name: Grab the Master Branch
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
             working-directory: fhir
             ref: refs/heads/master
@@ -34,59 +34,59 @@ jobs:
             cd docs/
             npm install -g gatsby-cli
             gatsby telemetry --disable
-            
+
             # Install the packages
             # fsevents is not used on linux images, so use --no-optional (these plugins are suspect)
             npm install --no-optional --save react react-copy-to-clipboard react-dom react-ga classnames carbon @carbon/addons-website carbon-components carbon-components-react carbon-addons-cloud carbon-icons gatsby gatsby-theme-carbon-starter markdown-it gatsby-plugin-manifest gatsby-plugin-slug gatsby-plugin-sitemap gatsby-plugin-sharp
 
             # make sure yarn is run to avoid this issue with #98123 WEBPACK
             # add yarn --verbose to trace issues with yarn
-            
+
             # don't use gatsby build directly per https://github.com/gatsbyjs/gatsby/issues/17557
-            # use the suggestion as a workaround due to path/issues in the gatsby component dependency of fsevents 
-            npm --prefix-paths run build 
+            # use the suggestion as a workaround due to path/issues in the gatsby component dependency of fsevents
+            npm --prefix-paths run build
             cp -R public/ ../../public/
     - name: Grab the GH Pages Branch
       uses: actions/checkout@v1
-      with: 
+      with:
             working-directory: gh-pages
             ref: refs/heads/gh-pages
             fetch-depth: 1
             path: docs
-            token: ${{ secrets.GITHUB_TOKEN }} 
+            token: ${{ secrets.GITHUB_TOKEN }}
     - name: Commit and Add GH Pages
-      env: 
+      env:
             GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
             GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
             GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
             CI: true
       run: |
-            echo "cleaning up the prior files on the branch" 
+            echo "cleaning up the prior files on the branch"
             if [ ! -f .nojekyll ]
-            then 
+            then
                 touch .nojekyll
                 rm -f _config.yml
             fi
 
             rm -f *.js webpack.stats.json styles-*.js styles-*.js.map webpack-runtime-*.js.map webpack-runtime-*.js manifest.webmanifest component---*.js* app-*.js*
             rm -rf docs/node_modules docs/public docs/.cache
-            
+
             echo "Moving the files around for gh-pages"
             cp -Rf ../public/* ./
-            find . 
+            find .
             find . -iname '*.sh' -delete
             date > build.txt
             git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
             git config --global user.name "Github Actions Bot - GH-Pages"
-            git add . 
-            git commit -m "Automated gh-pages deployment: $(date -u)" 
+            git add .
+            git commit -m "Automated gh-pages deployment: $(date -u)"
     - name: Push changes to GH Pages
-      env: 
+      env:
             GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
             GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
             GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
             CI: true
-      run: | 
+      run: |
             echo "Push Changes"
             git branch
             remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
