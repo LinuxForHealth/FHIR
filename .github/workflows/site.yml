@@ -71,18 +71,18 @@ jobs:
         find . 
         find . -iname '*.sh' -delete
         date > build.txt
-        git config --global user.email "prb112@users.noreply.github.com"
-        git config --global user.name "Paul Bastide (Automation)"
+        git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+        git config --global user.name "Github Actions Bot - GH-Pages"
         git add . 
-        git commit -m "Update to GH-Pages" 
+        git commit -m "Automated gh-pages deployment: $(date -u)" 
     - name: Push changes to GH Pages
       run: | 
         echo "Push Changes"
         git branch
-        remote_repo="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+        remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
         git push "${remote_repo}" HEAD:gh-pages
-      env: 
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
-        GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
-        CI: true
+    env: 
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+      GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+      CI: true
