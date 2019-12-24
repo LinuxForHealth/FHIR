@@ -64,8 +64,8 @@ jobs:
             echo "cleaning up the prior files on the branch" 
             if [ ! -f .nojekyll ]
             then 
-            touch .nojekyll
-            rm -f _config.yml
+                touch .nojekyll
+                rm -f _config.yml
             fi
 
             rm -f *.js webpack.stats.json styles-*.js styles-*.js.map webpack-runtime-*.js.map webpack-runtime-*.js manifest.webmanifest component---*.js* app-*.js*
