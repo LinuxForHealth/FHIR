@@ -68,6 +68,10 @@ public abstract class Element extends AbstractVisitable {
         return elementType.isInstance(this);
     }
 
+    /**
+     * @throws ClassCastException
+     *     when this element cannot be cast to the requested elementType
+     */
     public <T extends Element> T as(Class<T> elementType) {
         return elementType.cast(this);
     }
