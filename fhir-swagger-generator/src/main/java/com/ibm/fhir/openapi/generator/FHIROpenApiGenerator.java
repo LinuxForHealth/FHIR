@@ -8,7 +8,9 @@ package com.ibm.fhir.openapi.generator;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -30,11 +32,13 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
 import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.examples.ExamplesUtil;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -98,13 +102,16 @@ import com.ibm.fhir.swagger.generator.APIConnectAdapter;
  * Generate OpenAPI 3.0 from the HL7 FHIR R4 artifacts and IBM FHIR object model.
  * 
  * <p>
- * By default, this class will create a separate OpenAPI definition for each and every resource type;
- * each with all HTTP interactions enabled.
+ * By default, this class will generate:
+ * <ol>
+ * <li> an "all-in-one" OpenAPI definition for the entire api
+ * <li> a separate OpenAPI definition for each and every resource type; each with all HTTP interactions enabled
+ * </ol>
  * 
  * <p>
  * To limit the output to a given set of resources and/or interactions, pass a set of semicolon-delimited
  * filter strings of the form {@code ResourceType1(interaction1,interaction2)}.
- *  
+ * 
  * For example: 
  * <pre>
  * Patient(create,read,vread,history,search,update,delete);Contract(create,read,vread,history,search);RiskAssessment(read)
@@ -149,7 +156,7 @@ public class FHIROpenApiGenerator {
         JsonObjectBuilder info = factory.createObjectBuilder();
         info.add("title", "Simplified FHIR API");
         info.add("description", "A simplified version of the HL7 FHIR API");
-        info.add("version", "4.0.0");
+        info.add("version", "4.0.1");
         swagger.add("info", info);
 
         JsonArrayBuilder servers = factory.createArrayBuilder();
@@ -1069,7 +1076,20 @@ public class FHIROpenApiGenerator {
                 definition.add("required", requiredArray);
             }
 
+            if (Resource.class.isAssignableFrom(modelClass)) {
+                addExamples(modelClass, definition);
+            }
+
             definitions.add(getSimpleNameWithEnclosingNames(modelClass), definition);
+        }
+    }
+
+    public static void addExamples(Class<?> modelClass, JsonObjectBuilder definition) throws IOException {
+        if (!Modifier.isAbstract(modelClass.getModifiers())) {
+            // Change this from "complete-mock" to "minimal" to reduce the size of the generated definition
+            Reader example = ExamplesUtil.resourceReader("json/ibm/complete-mock/" + modelClass.getSimpleName() + "-1.json");
+            JsonReader jsonReader = Json.createReader(example);
+            definition.add("example", jsonReader.readObject());
         }
     }
 

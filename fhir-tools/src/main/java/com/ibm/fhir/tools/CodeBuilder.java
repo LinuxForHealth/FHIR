@@ -145,6 +145,14 @@ public class CodeBuilder {
         return this;
     }
     
+    public CodeBuilder javadocThrows(String exception, String description) {
+        indent().append(" * @throws").append(" ").append(exception).newLine();
+        for (String line : wrap(escape(normalizeSpace(description)))) {
+            indent().append(" *     ").append(line).newLine();
+        }
+        return this;
+    }
+    
     public CodeBuilder javadocSee(String reference) {
         return indent()
                 .append(" * @see")

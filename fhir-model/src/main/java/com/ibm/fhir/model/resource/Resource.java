@@ -93,6 +93,10 @@ public abstract class Resource extends AbstractVisitable {
         return resourceType.isInstance(this);
     }
 
+    /**
+     * @throws ClassCastException
+     *     when this resources cannot be cast to the requested resourceType
+     */
     public <T extends Resource> T as(Class<T> resourceType) {
         return resourceType.cast(this);
     }

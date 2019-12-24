@@ -1739,6 +1739,9 @@ public class CodeGenerator {
                 ._return("resourceType.isInstance(this)")
             .end().newLine();
             
+            cb.javadocStart()
+                .javadocThrows("ClassCastException", "when this resources cannot be cast to the requested resourceType")
+                .javadocEnd();
             cb.method(mods("public"), "<T extends Resource> T", "as", params("Class<T> resourceType"))
                 ._return("resourceType.cast(this)")
             .end().newLine();
@@ -1748,6 +1751,9 @@ public class CodeGenerator {
                 ._return("elementType.isInstance(this)")
             .end().newLine();
             
+            cb.javadocStart()
+                .javadocThrows("ClassCastException", "when this element cannot be cast to the requested elementType")
+                .javadocEnd();
             cb.method(mods("public"), "<T extends Element> T", "as", params("Class<T> elementType"))
                 ._return("elementType.cast(this)")
             .end().newLine();
