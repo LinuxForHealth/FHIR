@@ -119,7 +119,8 @@ jobs:
       run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Build parent without tests
       # As the e2e tests are the fastest, opting to put javadoc:javadoc in fhir-parent
-      run: mvn -B javadoc:javadoc install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
+      # The profile avoids UML diagram creation
+      run: mvn -B -Pvalidate-javadoc javadoc:javadoc install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
     - name: Server Integration Tests
       env:
         # debian-based linux uses C.UTF-8 by default and Derby doesn't like that

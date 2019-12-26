@@ -818,6 +818,40 @@
                 </repository>
             </distributionManagement>
         </profile>
+        <profile>
+            <id>validate-javadoc</id>
+            <!-- validate is an optimized javadoc:javadoc goal for processing only -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <source>8</source>
+                            <verbose>true</verbose>
+                            <doclint>none</doclint>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                            <minmemory>512m</minmemory>
+                            <maxmemory>1g</maxmemory>
+                            <nohelp>true</nohelp>
+                            <nodeprecated>true</nodeprecated>
+                            <nodeprecatedlist>true</nodeprecatedlist>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>javadoc-no-fork</goal>
+                                    <goal>test-javadoc-no-fork</goal>
+                                </goals>
+                                <phase>install</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
     <reporting>
