@@ -122,7 +122,7 @@ jobs:
       # The profile avoids UML diagram creation
       run: |
         export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
-        mvn -B -Pvalidate-javadoc javadoc:javadoc install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
+        mvn -B -Pvalidate-javadoc javadoc:javadoc install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress -X
     - name: Server Integration Tests
       env:
         # debian-based linux uses C.UTF-8 by default and Derby doesn't like that
