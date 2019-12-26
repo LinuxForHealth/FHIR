@@ -121,7 +121,12 @@ jobs:
       # As the e2e tests are the fastest, opting to put javadoc:javadoc in fhir-parent
       # The profile avoids UML diagram creation
       run: |
-        export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
+        JAVADOC_GOAL=""
+        if [ "${{ matrix.java }}" != "openjdk8" ]
+        then 
+          export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
+          JAVADOC_GOAL=" javadoc:javadoc "
+        fi
         mvn -B -Pvalidate-javadoc javadoc:javadoc install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress -X
     - name: Server Integration Tests
       env:
