@@ -230,7 +230,7 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <!--  required for the Tyrus client to work on Java 11 -->
+                <!-- required for the Tyrus client to work on Java 11 -->
                 <groupId>javax.xml.ws</groupId>
                 <artifactId>jaxws-api</artifactId>
                 <version>2.3.0</version>
@@ -498,23 +498,47 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>2.9</version>
+                    <version>3.0.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.0.1</version>
                     <configuration>
-                        <!-- no matter the JDK running the javadoc, it's important this be at 
-                        the minimum level we support, which is 8. -->
+                        <!-- speed up the build -->
+                        <isOffline>true</isOffline>
+                        <!-- no matter the JDK running the javadoc, it's 
+                            important this be at the minimum level we support, which is 8. -->
                         <source>8</source>
-                        <verbose>true</verbose>
+                        <!-- we don't need package -->
+                        <show>package</show>
+                        <!-- verbose if you are debugging -->
+                        <verbose>false</verbose>
+                        <dependencySourceIncludes>com.ibm.fhir:*</dependencySourceIncludes>
+                        <minmemory>2g</minmemory>
+                        <maxmemory>2g</maxmemory>
+                        <!-- doclint is none, otherwise build breaks -->
                         <doclint>none</doclint>
                         <additionalparam>-Xdoclint:none</additionalparam>
-                        <minmemory>512m</minmemory>
-                        <maxmemory>1g</maxmemory>
+                        <detectLinks>true</detectLinks>
+                        <docletArtifact>
+                            <groupId>nl.talsmasoftware</groupId>
+                            <artifactId>umldoclet</artifactId>
+                            <version>2.0.7</version>
+                        </docletArtifact>
+                        <doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet>
+                        <additionalparam>
+                            -umlSkipStandardDoclet true
+                            -umlLogLevel INFO
+                            -umlImageFormat svg
+                        </additionalparam>
+                        <!-- control display -->
+                        <author>false</author>
+                        <windowtitle>IBM FHIR Server</windowtitle>
+                        <doctitle>${project.name} ${project.version}</doctitle>
                         <additionalOptions>
-                            <!-- makes the frames visible, disabled and going away eventually -->
+                            <!-- makes the frames visible, disabled and going 
+                                away eventually -->
                             <additionalOption>--frames</additionalOption>
                             <!-- Fixes the undefined redirect in search -->
                             <additionalOption>--no-module-directories</additionalOption>
@@ -528,16 +552,6 @@
                         <nodeprecated>true</nodeprecated>
                         <nodeprecatedlist>true</nodeprecatedlist>
                     </configuration>
-                    <executions>
-                        <execution>
-                            <id>attach-javadocs</id>
-                            <goals>
-                                <goal>javadoc-no-fork</goal>
-                                <goal>test-javadoc-no-fork</goal>
-                            </goals>
-                            <phase>site</phase>
-                        </execution>
-                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -690,8 +704,8 @@
         </profile>
         <profile>
             <id>deploy-version-rc</id>
-            <!-- This profile enables automation to change version and DEPLOY rc to bintray: 
-                mvn clean -Drc=1 -Pdeploy-version-rc -f fhir-tools/pom.xml -->
+            <!-- This profile enables automation to change version and DEPLOY 
+                rc to bintray: mvn clean -Drc=1 -Pdeploy-version-rc -f fhir-tools/pom.xml -->
             <properties>
                 <!-- the version to be set -->
                 <rc>1</rc>
@@ -809,7 +823,8 @@
         </profile>
         <profile>
             <id>validate-javadoc</id>
-            <!-- validate is an optimized javadoc:javadoc goal for processing only -->
+            <!-- validate is an optimized javadoc:javadoc goal for processing 
+                only -->
             <build>
                 <plugins>
                     <plugin>
@@ -821,8 +836,8 @@
                             <verbose>true</verbose>
                             <doclint>none</doclint>
                             <additionalparam>-Xdoclint:none</additionalparam>
-                            <minmemory>512m</minmemory>
-                            <maxmemory>1g</maxmemory>
+                            <minmemory>2g</minmemory>
+                            <maxmemory>2g</maxmemory>
                             <nohelp>true</nohelp>
                             <nodeprecated>true</nodeprecated>
                             <nodeprecatedlist>true</nodeprecatedlist>
@@ -832,67 +847,8 @@
                                 <id>attach-javadocs</id>
                                 <goals>
                                     <goal>javadoc-no-fork</goal>
-                                    <goal>test-javadoc-no-fork</goal>
                                 </goals>
                                 <phase>install</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>build-javadoc</id>
-            <!-- validate is an optimized javadoc:javadoc goal for processing only -->
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <inherited>false</inherited>
-                        <configuration>
-                            <!-- no matter the JDK running the javadoc, it's important this be at 
-                            the minimum level we support, which is 8. -->
-                            <source>8</source>
-                            <verbose>true</verbose>
-                            <doclint>none</doclint>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                            <minmemory>512m</minmemory>
-                            <maxmemory>1g</maxmemory>
-                            <additionalOptions>
-                                <!-- makes the frames visible, disabled and going away eventually -->
-                                <additionalOption>--frames</additionalOption>
-                                <!-- Fixes the undefined redirect in search -->
-                                <additionalOption>--no-module-directories</additionalOption>
-                            </additionalOptions>
-                            <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
-                            <bottom><![CDATA[Copyright 2019. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
-                            <author>false</author>
-                            <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
-                            <docletArtifact>
-                                <groupId>nl.talsmasoftware</groupId>
-                                <artifactId>umldoclet</artifactId>
-                                <version>2.0.5</version>
-                            </docletArtifact>
-                            <doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet>
-                            <additionalparam>
-                                -umlSkipStandardDoclet true
-                                -umlLogLevel DEBUG
-                                -umlImageFormat png
-                            </additionalparam>
-                            <!-- skips the three entries -->
-                            <nohelp>true</nohelp>
-                            <nodeprecated>true</nodeprecated>
-                            <nodeprecatedlist>true</nodeprecatedlist>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>javadoc-no-fork</goal>
-                                    <goal>test-javadoc-no-fork</goal>
-                                </goals>
-                                <phase>site</phase>
                             </execution>
                         </executions>
                     </plugin>
@@ -906,40 +862,76 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <inherited>true</inherited>
                 <reportSets>
                     <reportSet>
+                        <id>aggregate</id>
+                        <inherited>false</inherited>
                         <reports>
                             <report>aggregate</report>
                         </reports>
                     </reportSet>
+                    <reportSet>
+                        <id>default</id>
+                        <inherited>false</inherited>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
                 </reportSets>
                 <configuration>
-                    <dependencySourceIncludes>com.ibm.fhir:*</dependencySourceIncludes>
+                    <!-- speed up the build -->
+                    <isOffline>true</isOffline>
+                    <!-- no matter the JDK running the javadoc, it's important 
+                        this be at the minimum level we support, which is 8. -->
                     <source>8</source>
-                    <minmemory>512m</minmemory> 
-                    <maxmemory>1g</maxmemory>
+                    <!-- we don't need package -->
+                    <show>package</show>
+                    <!-- verbose if you are debugging -->
+                    <verbose>false</verbose>
+                    <dependencySourceIncludes>com.ibm.fhir:*</dependencySourceIncludes>
+                    <minmemory>2g</minmemory>
+                    <maxmemory>2g</maxmemory>
+                    <!-- doclint is none, otherwise build breaks -->
                     <doclint>none</doclint>
                     <additionalparam>-Xdoclint:none</additionalparam>
-                    <author>false</author>
                     <detectLinks>true</detectLinks>
                     <docletArtifact>
                         <groupId>nl.talsmasoftware</groupId>
                         <artifactId>umldoclet</artifactId>
-                        <version>2.0.5</version>
+                        <version>2.0.7</version>
                     </docletArtifact>
                     <doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet>
                     <additionalparam>
                         -umlSkipStandardDoclet true
-                        -umlLogLevel DEBUG
-                        -umlImageFormat png
+                        -umlLogLevel INFO
+                        -umlImageFormat svg
                     </additionalparam>
+                    <!-- control display -->
+                    <author>false</author>
+                    <windowtitle>IBM FHIR Server</windowtitle>
+                    <doctitle>${project.name} ${project.version}</doctitle>
+                    <additionalOptions>
+                        <!-- makes the frames visible, disabled and going 
+                            away eventually -->
+                        <additionalOption>--frames</additionalOption>
+                        <!-- Fixes the undefined redirect in search -->
+                        <additionalOption>--no-module-directories</additionalOption>
+                    </additionalOptions>
+                    <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
+                    <bottom><![CDATA[Copyright 2019. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                    <author>false</author>
+                    <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
+                    <!-- skips the three entries -->
+                    <nohelp>true</nohelp>
+                    <nodeprecated>true</nodeprecated>
+                    <nodeprecatedlist>true</nodeprecatedlist>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <configuration>
+                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
                 </configuration>
                 <reportSets>
                     <reportSet>
@@ -951,5 +943,4 @@
             </plugin>
         </plugins>
     </reporting>
-
 </project>
