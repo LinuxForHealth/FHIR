@@ -127,7 +127,7 @@ jobs:
           export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
           JAVADOC_GOAL=" -Pvalidate-javadoc javadoc:javadoc "
         fi
-        mvn -B ${JAVADOC_GOAL} install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress -X
+        mvn -B ${JAVADOC_GOAL} install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
     - name: Server Integration Tests
       env:
         # debian-based linux uses C.UTF-8 by default and Derby doesn't like that
