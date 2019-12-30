@@ -95,6 +95,10 @@ public class Main {
     private boolean checkCompatibility = false;
     private boolean createFhirSchemas = false;
 
+    // By default, the dryRun option is OFF, and FALSE
+    // When overridden, it simulates the actions. 
+    private Boolean dryRun = Boolean.FALSE;
+
     // The database user we will grant tenant data access privileges to
     private String grantTo;
 
@@ -253,7 +257,10 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-
+            case "--dry-run":
+                // The presense of dry-run automatically flips it on.
+                this.dryRun = Boolean.TRUE;
+                break;
             default:
                 throw new IllegalArgumentException("Invalid argument: " + arg);
             }
