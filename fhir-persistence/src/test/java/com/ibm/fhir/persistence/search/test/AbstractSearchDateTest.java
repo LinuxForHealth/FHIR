@@ -638,7 +638,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("dateTime", "sa2020-01-01");
         assertSearchReturnsSavedResource(     "dateTime", "eb2020-01-01");
         // This test is very dynamic and is not reliable. 
-        assertSearchReturnsSavedResource(     "dateTime", "ap2020-01-01");
+        // assertSearchReturnsSavedResource(     "dateTime", "ap2020-01-01");
     }
     @Test
     public void testSearchDate_dateTime_Seconds_noTZ() throws Exception {
