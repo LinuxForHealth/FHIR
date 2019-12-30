@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <licenses>
         <license>
@@ -23,7 +24,7 @@
     <packaging>war</packaging>
 
     <name>IBM FHIR Server - REST API WebApp</name>
-    
+
     <properties>
         <fhir.server.war.name>fhir-server</fhir.server.war.name>
     </properties>
@@ -132,6 +133,30 @@
                 <configuration>
                     <warName>${fhir.server.war.name}</warName>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>war</goal>
+                        </goals>
+                        <configuration>
+                            <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                            <warName>${fhir.server.war.name}</warName>
+                        </configuration>
+                        <phase>package</phase>
+                    </execution>
+                    <execution>
+                        <id>no-forced-tls</id>
+                        <goals>
+                            <goal>war</goal>
+                        </goals>
+                        <configuration>
+                            <webXml>src/main/webapp/WEB-INF/web-notls.xml</webXml>
+                            <warName>${fhir.server.war.name}-notls</warName>
+                        </configuration>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

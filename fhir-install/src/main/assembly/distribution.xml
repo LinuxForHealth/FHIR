@@ -33,6 +33,11 @@
             <fileMode>0755</fileMode>
         </file>
         <file>
+            <source>../fhir-server-webapp/target/fhir-server-notls.war</source>
+            <outputDirectory>fhir/server/usr/servers/fhir-server/apps</outputDirectory>
+            <fileMode>0755</fileMode>
+        </file>
+        <file>
             <source>../fhir-bulkimportexport-webapp/target/fhir-bulkimportexport.war</source>
             <outputDirectory>fhir/server/usr/servers/fhir-server/apps</outputDirectory>
             <fileMode>0755</fileMode>
