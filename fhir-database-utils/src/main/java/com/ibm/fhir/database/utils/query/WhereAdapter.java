@@ -12,7 +12,6 @@ package com.ibm.fhir.database.utils.query;
  * 
  */
 public class WhereAdapter {
-    
     // The select statement for this where clause
     private final Select select;
 
@@ -24,6 +23,7 @@ public class WhereAdapter {
      */
     public WhereAdapter(Select select, String predicate) {
         this.select = select;
+        this.select.addWhere(predicate);
     }
     
     /**
@@ -32,7 +32,7 @@ public class WhereAdapter {
      * @return
      */
     public WhereAdapter where(String predicate) {
-        // Add this predicate to the select statement
+        this.select.addWhere(predicate);
         return this;
     }
 
@@ -42,6 +42,7 @@ public class WhereAdapter {
      * @return
      */
     public GroupByAdapter groupBy(String... expressions) {
+        select.addGroupBy(expressions);
         return new GroupByAdapter(select);
     }
     

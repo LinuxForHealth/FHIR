@@ -26,6 +26,6 @@ public class GroupByClause {
 
     @Override
     public String toString() {
-        return items.stream().collect(Collectors.joining(", "));
+        return "GROUP BY " + items.stream().collect(Collectors.joining(", "));
     }
 }

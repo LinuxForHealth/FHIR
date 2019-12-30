@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
  * The OrderByClause SQL definition
  */
 public class OrderByClause {
-
     private final List<String> items = new ArrayList<>();
 
     /**
@@ -27,7 +26,6 @@ public class OrderByClause {
 
     @Override
     public String toString() {
-        return items.stream().collect(Collectors.joining(", "));
+        return "ORDER BY " + items.stream().collect(Collectors.joining(", "));
     }
-
 }

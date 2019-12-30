@@ -10,8 +10,8 @@ package com.ibm.fhir.database.utils.query;
  * Manages the Having Clause
  */
 public class HavingClause {
-
     private String predicate;
+
     /**
      * @param predicate
      */
@@ -19,4 +19,8 @@ public class HavingClause {
         this.predicate = predicate;
     }
 
+    @Override
+    public String toString() {
+        return "HAVING " + predicate;
+    }
 }

@@ -10,7 +10,7 @@ package com.ibm.fhir.database.utils.query;
  * Represents a table referenced in the from list
  */
 public class FromItemSelect extends FromItem {
-    
+
     // The sub-query
     private final Select select;
 
@@ -24,16 +24,16 @@ public class FromItemSelect extends FromItem {
         super(alias);
         this.select = subQuery;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("(");
         result.append(select.toString());
         result.append(")");
-        
+
         Alias alias = getAlias();
-        if (alias != null) {    
+        if (alias != null) {
             result.append(" AS ").append(alias.toString());
         }
         return result.toString();

@@ -10,15 +10,16 @@ package com.ibm.fhir.database.utils.query;
  * The FromClause adapter
  */
 public class FromSubQueryAdapter extends SelectAdapter {
-    
+
     // The select statement we'll be part of when complete
     private final Select parentSelect;
-    
+
     // The From clause we are part of because we need to unwind
     private final FromAdapter from;
 
     /**
      * constructor
+     * 
      * @param parentSelect
      * @param from
      */
@@ -26,11 +27,12 @@ public class FromSubQueryAdapter extends SelectAdapter {
         // Start with a fresh Select statement representing this sub-query
         super(new Select());
         this.parentSelect = parentSelect;
-        this.from = from;
+        this.from         = from;
     }
 
     /**
-     * End construction of this sub-query by returning out parent {@link FromAdapter}
+     * End construction of this sub-query by returning out parent
+     * {@link FromAdapter}
      * thus allowing a caller to continue with their fluent building of the
      * select statement
      * 

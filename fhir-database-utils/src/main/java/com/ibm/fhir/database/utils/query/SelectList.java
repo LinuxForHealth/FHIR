@@ -8,6 +8,7 @@ package com.ibm.fhir.database.utils.query;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * Represents the list of columns, expressions or sub-queries being selected
@@ -38,5 +39,14 @@ public class SelectList {
         SelectItemSubQuery column = new SelectItemSubQuery(subQuery, alias);
         items.add(column);
         return column;
+    }
+
+    @Override
+    public String toString() {
+        StringJoiner joiner = new StringJoiner(", ");
+        for(SelectItem selectItem : items) {
+            joiner.add(selectItem.toString());
+        }
+        return joiner.toString();
     }
 }

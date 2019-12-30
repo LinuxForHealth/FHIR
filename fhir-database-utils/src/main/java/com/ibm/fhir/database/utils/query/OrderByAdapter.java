@@ -8,7 +8,6 @@ package com.ibm.fhir.database.utils.query;
 
 /**
  * The ORDER BY part of a SELECT statement
- *
  */
 public class OrderByAdapter {
     // The builder from which we were created
@@ -16,14 +15,14 @@ public class OrderByAdapter {
 
     /**
      * Protected constructor for modeling the GROUP BY part of a SELECT statement.
+     * 
      * @param select
      */
     protected OrderByAdapter(Select select) {
         this.select = select;
     }
-        
+
     public Select build() {
         return this.select;
     }
-
 }
