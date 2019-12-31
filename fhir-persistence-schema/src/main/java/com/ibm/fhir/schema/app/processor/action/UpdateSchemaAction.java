@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.schema.control.processor.action;
+package com.ibm.fhir.schema.app.processor.action;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

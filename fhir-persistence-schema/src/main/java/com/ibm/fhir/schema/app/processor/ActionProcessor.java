@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.schema.control.processor;
+package com.ibm.fhir.schema.app.processor;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -25,7 +25,7 @@ import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.transaction.TransactionFactory;
 import com.ibm.fhir.schema.app.dryrun.DryRunConnection;
 import com.ibm.fhir.schema.app.dryrun.DryRunJdbcConnectionProvider;
-import com.ibm.fhir.schema.control.processor.action.ISchemaAction;
+import com.ibm.fhir.schema.app.processor.action.ISchemaAction;
 
 public class ActionProcessor {
     private static final Logger logger = Logger.getLogger(ActionProcessor.class.getName());

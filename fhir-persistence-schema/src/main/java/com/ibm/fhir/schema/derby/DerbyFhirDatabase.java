@@ -57,11 +57,12 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
 
     @Override
     public void commitTransaction() throws SQLException {
-        // NOP
+        // No Operation
     }
 
     @Override
     public void describe(String arg0, StringBuilder arg1, String arg2) {
+        // No Operation
     }
 
     @Override
@@ -78,6 +79,6 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
 
     @Override
     public void rollbackTransaction() throws SQLException {
-        // NOP
+        // No Operation
     }
 }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.schema.control.processor.action;
+package com.ibm.fhir.schema.app.processor.action;
 
 import java.util.logging.Logger;
 
@@ -14,8 +14,8 @@ import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
+import com.ibm.fhir.schema.app.processor.TenantUtil;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
-import com.ibm.fhir.schema.control.processor.TenantUtil;
 
 public class AddTenantKeyAction implements ISchemaAction {
     private static final Logger logger = Logger.getLogger(AddTenantKeyAction.class.getName());

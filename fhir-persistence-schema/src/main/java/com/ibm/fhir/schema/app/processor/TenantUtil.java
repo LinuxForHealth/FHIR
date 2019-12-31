@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.schema.control.processor;
+package com.ibm.fhir.schema.app.processor;
 
 import java.security.SecureRandom;
 import java.util.Base64;
