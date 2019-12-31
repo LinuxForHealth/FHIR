@@ -2,3 +2,6 @@
 /derby.log
 /bin/
 /fhirschema.log
+
+# keep db2.properties from propagating
+**/db2.properties

@@ -10,56 +10,36 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.security.SecureRandom;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Base64;
-import java.util.Base64.Encoder;
-import java.util.Collection;
-import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
-import com.ibm.fhir.database.utils.api.DataAccessException;
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.database.utils.api.ITransaction;
-import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
-import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
-import com.ibm.fhir.database.utils.common.JdbcTarget;
-import com.ibm.fhir.database.utils.common.LogFormatter;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
-import com.ibm.fhir.database.utils.db2.Db2GetTenantVariable;
-import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
-import com.ibm.fhir.database.utils.db2.Db2SetTenantVariable;
 import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
-import com.ibm.fhir.database.utils.model.Tenant;
-import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
-import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
-import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
-import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
-import com.ibm.fhir.database.utils.transaction.TransactionFactory;
-import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
-import com.ibm.fhir.schema.control.Db2AddResourceType;
-import com.ibm.fhir.schema.control.Db2GetResourceTypeList;
+import com.ibm.fhir.schema.app.util.SchemaUtil;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
-import com.ibm.fhir.schema.control.FhirSchemaGenerator;
-import com.ibm.fhir.schema.model.ResourceType;
+import com.ibm.fhir.schema.control.processor.ActionProcessor;
+import com.ibm.fhir.schema.control.processor.action.AddTenantKeyAction;
+import com.ibm.fhir.schema.control.processor.action.AddTenantPartitionsAction;
+import com.ibm.fhir.schema.control.processor.action.AllocateTenantAction;
+import com.ibm.fhir.schema.control.processor.action.ApplyModelAction;
+import com.ibm.fhir.schema.control.processor.action.CheckCompatibilityAction;
+import com.ibm.fhir.schema.control.processor.action.CreateSchemaAction;
+import com.ibm.fhir.schema.control.processor.action.CreateVersionHistoryAction;
+import com.ibm.fhir.schema.control.processor.action.DropSchemaAction;
+import com.ibm.fhir.schema.control.processor.action.DropTenantAction;
+import com.ibm.fhir.schema.control.processor.action.GrantPrivilegesAction;
+import com.ibm.fhir.schema.control.processor.action.PopulateStaticTablesAction;
+import com.ibm.fhir.schema.control.processor.action.TestTenantAction;
+import com.ibm.fhir.schema.control.processor.action.UpdateProceduresAction;
+import com.ibm.fhir.schema.control.processor.action.UpdateSchemaAction;
+import com.ibm.fhir.schema.control.processor.action.UpdateTenantStatusAction;
+import com.ibm.fhir.schema.control.processor.action.VersionHistoryServiceAction;
 import com.ibm.fhir.task.api.ITaskCollector;
-import com.ibm.fhir.task.api.ITaskGroup;
-import com.ibm.fhir.task.core.service.TaskService;
 
 /**
  * Utility app to connect to a DB2 database and create/update the FHIR schema.
@@ -69,12 +49,11 @@ import com.ibm.fhir.task.core.service.TaskService;
  * code.
  */
 public class Main {
-
     private static final Logger logger = Logger.getLogger(Main.class.getName());
-    private static final int EXIT_OK = 0; // validation was successful
-    private static final int EXIT_BAD_ARGS = 1; // invalid CLI arguments
-    private static final int EXIT_RUNTIME_ERROR = 2; // programming error
-    private static final int EXIT_VALIDATION_FAILED = 3; // validation test failed
+    public static final int EXIT_OK = 0; // validation was successful
+    public static final int EXIT_BAD_ARGS = 1; // invalid CLI arguments
+    public static final int EXIT_RUNTIME_ERROR = 2; // programming error
+    public static final int EXIT_VALIDATION_FAILED = 3; // validation test failed
     private static final double NANOS = 1e9;
 
     // Properties accumulated as we parse args and read configuration files
@@ -120,11 +99,76 @@ public class Main {
 
     // The connection pool and transaction provider to support concurrent operations
     private int maxConnectionPoolSize = FhirSchemaConstants.DEFAULT_POOL_SIZE / 2;
-    private PoolConnectionProvider connectionPool;
-    private ITransactionProvider transactionProvider;
 
-    // Random generator for new tenant keys and salts
-    private static final SecureRandom random = new SecureRandom();
+    private ActionProcessor processor;
+
+    /**
+     * Read the properties from the given file
+     * 
+     * @param filename
+     */
+    public void loadPropertyFile(String filename) {
+        File file = new File(filename);
+        if (!file.exists()) {
+            throw new IllegalArgumentException("The properties file does not exist [" + filename + "]");
+        }
+
+        try (InputStream is = new FileInputStream(filename)) {
+            properties.load(is);
+        } catch (IOException x) {
+            throw new IllegalArgumentException(x);
+        }
+    }
+
+    /**
+     * Parse the given key=value string and add to the properties being collected
+     * 
+     * @param pair
+     */
+    public void addProperty(String pair) {
+        String[] kv = pair.split("=");
+        if (kv.length == 2) {
+            properties.put(kv[0], kv[1]);
+        } else {
+            throw new IllegalArgumentException("Property must be defined as key=value, not: " + pair);
+        }
+    }
+
+    /**
+     * Get the program exit status from the environment
+     * 
+     * @return
+     */
+    protected int getExitStatus() {
+        return this.exitStatus;
+    }
+
+    /**
+     * Write a final status message - useful for QA to review when checking the
+     * output
+     */
+    protected void logStatusMessage(int status) {
+        switch (status) {
+        case EXIT_OK:
+            logger.info("RESULT: OK");
+            break;
+        case EXIT_BAD_ARGS:
+            logger.severe("RESULT: BAD ARGS");
+            break;
+        case EXIT_RUNTIME_ERROR:
+            logger.severe("RESULT: RUNTIME ERROR");
+            break;
+        case EXIT_VALIDATION_FAILED:
+            logger.warning("RESULT: FAILED");
+            break;
+        default:
+            logger.severe("RESULT: RUNTIME ERROR");
+            break;
+        }
+    }
+
+    // **************************************************************************************************************
+    // Parse the commandline arguments
 
     /**
      * Parse the command-line arguments, building up the environment and
@@ -260,402 +304,11 @@ public class Main {
     }
 
     /**
-     * Read the properties from the given file
-     * 
-     * @param filename
-     */
-    public void loadPropertyFile(String filename) {
-        try (InputStream is = new FileInputStream(filename)) {
-            properties.load(is);
-        } catch (IOException x) {
-            throw new IllegalArgumentException(x);
-        }
-    }
-
-    /**
-     * Parse the given key=value string and add to the properties being collected
-     * 
-     * @param pair
-     */
-    public void addProperty(String pair) {
-        String[] kv = pair.split("=");
-        if (kv.length == 2) {
-            properties.put(kv[0], kv[1]);
-        } else {
-            throw new IllegalArgumentException("Property must be defined as key=value, not: " + pair);
-        }
-    }
-
-    /***
-     * prints a brief menu to the standard out showing the usage. 
-     */
-    public static void printUsage() {
-        PrintStream ps = System.err;
-        ps.println("Usage: ");
-
-        // Properties File
-        ps.println("--prop-file path-to-property-file");
-        ps.println(" * loads the properties from a file");
-
-        // Schema Name
-        ps.println("--schema-name schema-name");
-        ps.println(" * uses the schema as specified, must be valid.");
-
-        // Grant Permissions to a valid username
-        ps.println("--grant-to username");
-        ps.println(" * uses the user as specified, must be valid.");
-        ps.println(" * and grants permission to the username");
-
-        // Add Tenant Key
-        ps.println("--add-tenant-key tenant-key");
-        ps.println(" * adds a tenant-key");
-
-        // Updates the Sotred Procedure for a Tenant
-        ps.println("--update-proc");
-        ps.println(" * updates the stored procedure for a specific tenant");
-
-        // Checks feature compatiblility
-        ps.println("--check-compatibility");
-        ps.println(" * checks feature compatibility ");
-
-        // Drop the Admin Schema
-        ps.println("--drop-admin");
-        ps.println(" * drops the admin schema ");
-
-        // Test Tenant
-        ps.println("--test-tenant tenantName");
-        ps.println(" * used to test with tenantName ");
-
-        // Tenant Key
-        ps.println("--tenant-key tenantKey");
-        ps.println(" * uses the tenant-key in the queries ");
-
-        // Update Schema action
-        ps.println("--update-schema");
-        ps.println(" * action to update the schema ");
-
-        // Create Schema action
-        ps.println("--create-schemas");
-        ps.println(" * action to create the schema ");
-
-        // Drop Schema action 
-        ps.println("--drop-schema");
-        ps.println(" * action to drop the schema ");
-
-        // Uses a specified poolsize
-        ps.println("--pool-size poolSize");
-        ps.println(" * poolsize used with the database actions ");
-
-        // Property used to connect
-        ps.println("--prop name=value");
-        ps.println(" * name=value that is passed in on the commandline  ");
-
-        // Confirms dropping of the schema
-        ps.println("--confirm-drop");
-        ps.println(" * confirms the dropping of a schema");
-
-        // Allocates Tenant
-        ps.println("--allocate-tenant");
-        ps.println(" * allocates a tenant");
-
-        // Drops a Tenant
-        ps.println("--drop-tenant tenantName");
-        ps.println(" * drops the tenant given the tenantName");
-
-        // Dry Run functionality
-        ps.println("--dry-run ");
-        ps.println(" * simulates the actions of the actions that change the datastore");
-    }
-
-    /**
-     * Set up the logger using the log.dir system property
-     */
-    protected void configureLogger() {
-        final String logDirectory = System.getProperty("log.dir");
-        if (logDirectory == null || logDirectory.isEmpty()) {
-            configureLogger(".");
-        } else {
-            configureLogger(logDirectory);
-        }
-    }
-
-    /**
-     * Configure the logger to use the given directory.
-     * 
-     * @param logDir
-     */
-    protected void configureLogger(final String logDir) {
-        File f = new File(logDir, "fhirschema.log");
-        LogFormatter.init(f.getPath());
-    }
-
-    /**
-     * Get the program exit status from the environment
-     * 
-     * @return
-     */
-    protected int getExitStatus() {
-        return this.exitStatus;
-    }
-
-    /**
-     * Write a final status message - useful for QA to review when checking the
-     * output
-     */
-    protected void logStatusMessage(int status) {
-        switch (status) {
-        case EXIT_OK:
-            logger.info("SCHEMA CHANGE: OK");
-            break;
-        case EXIT_BAD_ARGS:
-            logger.severe("SCHEMA CHANGE: BAD ARGS");
-            break;
-        case EXIT_RUNTIME_ERROR:
-            logger.severe("SCHEMA CHANGE: RUNTIME ERROR");
-            break;
-        case EXIT_VALIDATION_FAILED:
-            logger.warning("SCHEMA CHANGE: FAILED");
-            break;
-        default:
-            logger.severe("SCHEMA CHANGE: RUNTIME ERROR");
-            break;
-        }
-    }
-
-    /**
-     * Drop all the objects in the admin and data schemas. Typically used
-     * during development.
-     */
-    protected void dropSchema() {
-
-        // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
-
-        try {
-            try (Connection c = createConnection()) {
-                try {
-                    JdbcTarget target = new JdbcTarget(c);
-                    Db2Adapter adapter = new Db2Adapter(target);
-
-                    if (this.dropSchema) {
-                        // Just drop the objects associated with the FHIRDATA schema group
-                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
-                    }
-
-                    if (dropAdmin) {
-                        // Just drop the objects associated with the ADMIN schema group
-                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
-                    }
-                } catch (Exception x) {
-                    c.rollback();
-                    throw x;
-                }
-                c.commit();
-            }
-        } catch (SQLException x) {
-            throw translator.translate(x);
-        }
-    }
-
-    /**
-     * Update the schema
-     */
-    protected void updateSchema() {
-
-        // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
-        gen.buildProcedures(pdm);
-
-        // The objects are applied in parallel, which relies on each object
-        // expressing its dependencies correctly. Changes are only applied
-        // if their version is greater than the current version.
-        TaskService taskService = new TaskService();
-        ExecutorService pool = Executors.newFixedThreadPool(this.maxConnectionPoolSize);
-        ITaskCollector collector = taskService.makeTaskCollector(pool);
-        Db2Adapter adapter = new Db2Adapter(this.connectionPool);
-        applyDataModel(pdm, adapter, collector);
-    }
-
-    /**
-     * Create fhir data and admin schema
-     */
-    protected void createFhirSchemas() {
-        try {
-            try (Connection c = createConnection()) {
-                try {
-                    JdbcTarget target = new JdbcTarget(c);
-                    Db2Adapter adapter = new Db2Adapter(target);
-                    adapter.createFhirSchemas(schemaName, adminSchemaName);
-                } catch (Exception x) {
-                    c.rollback();
-                    throw x;
-                }
-                c.commit();
-            }
-        } catch (SQLException x) {
-            throw translator.translate(x);
-        }
-    }
-
-    /**
-     * Update the stored procedures used by FHIR to insert records
-     * into the FHIR resource tables
-     */
-    protected void updateProcedures() {
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
-
-        // Now only apply the procedures in the model. Much faster than
-        // going through the whole schema
-        try {
-            try (Connection c = createConnection()) {
-                try {
-                    JdbcTarget target = new JdbcTarget(c);
-                    Db2Adapter adapter = new Db2Adapter(target);
-                    pdm.applyProcedures(adapter);
-                } catch (Exception x) {
-                    c.rollback();
-                    throw x;
-                }
-                c.commit();
-            }
-        } catch (SQLException x) {
-            throw translator.translate(x);
-        }
-
-    }
-
-    /**
-     * Start the schema object creation tasks and wait for everything to complete
-     * 
-     * @param pdm
-     * @param adapter
-     * @param collector
-     * @param vhs
-     */
-    protected void applyModel(PhysicalDataModel pdm, IDatabaseAdapter adapter, ITaskCollector collector,
-            VersionHistoryService vhs) {
-        logger.info("Collecting model update tasks");
-        pdm.collect(collector, adapter, this.transactionProvider, vhs);
-
-        // FHIR in the hole!
-        logger.info("Starting model updates");
-        collector.startAndWait();
-
-        Collection<ITaskGroup> failedTaskGroups = collector.getFailedTaskGroups();
-        if (failedTaskGroups.size() > 0) {
-            this.exitStatus = EXIT_RUNTIME_ERROR;
-
-            final String failedStr =
-                    failedTaskGroups.stream().map((tg) -> tg.getTaskId()).collect(Collectors.joining(","));
-            logger.severe("List of failed task groups: " + failedStr);
-        }
-    }
-
-    /**
-     * Apply the given physical data model to the database
-     * 
-     * @param pdm
-     * @param adapter
-     * @param collector
-     */
-    protected void applyDataModel(PhysicalDataModel pdm, IDatabaseAdapter adapter, ITaskCollector collector) {
-
-        // Before we start anything, we need to make sure our schema history
-        // tables are in place. There's only a single history table, which
-        // resides in the admin schema and handles the history of all objects
-        // in any schema being managed.
-        CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);
-
-        // Current version history for the data schema
-        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, schemaName);
-        vhs.setTransactionProvider(transactionProvider);
-        vhs.setTarget(adapter);
-        vhs.init();
-
-        applyModel(pdm, adapter, collector, vhs);
-
-        //         The old way
-        //         try {
-        //             try (Connection c = createConnection()) {
-        //                 try {
-        //                     JdbcTarget target = new JdbcTarget(c);
-        //                     Db2Adapter adapter = new Db2Adapter(target);
-        //                     pdm.apply(adapter);
-        //                 }
-        //                 catch (Exception x) {
-        //                     c.rollback();
-        //                     throw x;
-        //                 }
-        //                 c.commit();
-        //             }
-        //         }
-        //         catch (SQLException x) {
-        //             throw translator.translate(x);
-        //         }
-
-    }
-
-    /**
-     * Load the DB2 driver class
-     */
-    protected void loadDriver() {
-        try {
-            Class.forName(translator.getDriverClassName());
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException(e);
-        }
-
-    }
-
-    /**
-     * Connect to the target database
-     * 
-     * @return
-     */
-    protected Connection createConnection() {
-        Properties connectionProperties = new Properties();
-        Db2PropertyAdapter adapter = new Db2PropertyAdapter(this.properties);
-        adapter.getExtraProperties(connectionProperties);
-
-        String url = translator.getUrl(properties);
-        logger.info("Opening connection to DB2: " + url);
-        Connection connection;
-        try {
-            connection = DriverManager.getConnection(url, connectionProperties);
-            connection.setAutoCommit(false);
-        } catch (SQLException x) {
-            throw translator.translate(x);
-        }
-
-        return connection;
-
-    }
-
-    /**
-     * Create a simple connection pool associated with our data source so that we
-     * can
-     * perform the DDL deployment in parallel
-     */
-    protected void configureConnectionPool() {
-        Db2PropertyAdapter adapter = new Db2PropertyAdapter(this.properties);
-
-        JdbcConnectionProvider cp = new JdbcConnectionProvider(this.translator, adapter);
-        this.connectionPool      = new PoolConnectionProvider(cp, this.maxConnectionPoolSize);
-        this.transactionProvider = new SimpleTransactionProvider(this.connectionPool);
-    }
-
-    /**
      * Process the requested operation
      */
     protected void process() {
         long start = System.nanoTime();
-        configureConnectionPool();
+        processor = new ActionProcessor(properties, translator, dryRun, maxConnectionPoolSize);
 
         if (this.checkCompatibility) {
             checkCompatibility();
@@ -699,30 +352,33 @@ public class Main {
         logger.info(String.format("Processing took: %7.3f s", elapsed / NANOS));
     }
 
+    //**************************************************************************************************************
+    // The following methods are ACTIONs that can be taken in this application.
+
     /**
-     * Grant the minimum required set of privileges on the FHIR schema objects
-     * to the grantTo user. All tenant data access is via this user, and is the
-     * only user the FHIR server itself is configured with.
-     *
-     * @param groupName
+     * Create fhir data and admin schema
      */
-    protected void grantPrivileges(String groupName) {
-        // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
+    protected void createFhirSchemas() {
+        CreateSchemaAction action = new CreateSchemaAction(schemaName, adminSchemaName);
+        processor.process(action);
+    }
 
-        final Db2Adapter adapter = new Db2Adapter(this.connectionPool);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                pdm.applyGrants(adapter, groupName, grantTo);
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
+    /**
+     * Drop all the objects in the admin and data schemas. Typically used
+     * during development.
+     */
+    protected void dropSchema() {
+        DropSchemaAction action = new DropSchemaAction(schemaName, adminSchemaName, dropSchema, dropAdmin);
+        processor.process(action);
+    }
 
+    /**
+     * Update the stored procedures used by FHIR to insert records
+     * into the FHIR resource tables
+     */
+    protected void updateProcedures() {
+        UpdateProceduresAction action = new UpdateProceduresAction(schemaName, adminSchemaName);
+        processor.process(action);
     }
 
     /**
@@ -731,143 +387,92 @@ public class Main {
      * avoids any service interruption.
      */
     protected void addTenantKey() {
-
-        final String tenantKey = getRandomKey();
-
-        // The salt is used when we hash the tenantKey. We're just using SHA-256 for
-        // the hash here, not multiple rounds of a password hashing algorithm. It's
-        // sufficient in our case because we are using a 32-byte random value as the
-        // key, giving 256 bits of entropy.
-        final String tenantSalt = getRandomKey();
-
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                GetTenantDAO tid = new GetTenantDAO(adminSchemaName, addKeyForTenant);
-                Tenant tenant = adapter.runStatement(tid);
-
-                if (tenant != null) {
-                    // Attach the new tenant key to the tenant:
-                    AddTenantKeyDAO adder =
-                            new AddTenantKeyDAO(adminSchemaName, tenant.getTenantId(), tenantKey, tenantSalt,
-                                    FhirSchemaConstants.TENANT_SEQUENCE);
-                    adapter.runStatement(adder);
-                } else {
-                    throw new IllegalArgumentException("Tenant does not exist: " + addKeyForTenant);
-                }
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-
-        logger.info("New tenant key: " + addKeyForTenant + " [key=" + tenantKey + "]");
-
+        AddTenantKeyAction action = new AddTenantKeyAction(adminSchemaName, addKeyForTenant);
+        processor.processTransaction(action);
     }
 
     /**
      * Allocate this tenant, creating new partitions if required.
      */
     protected void allocateTenant() {
-        // The key we'll use for this tenant. This key should be used in subsequent
-        // activities related to this tenant, such as setting the tenant context.
-        final String tenantKey = getRandomKey();
+        // Starts the Allocate Tenant Action by getting the tenantId
+        AllocateTenantAction action = new AllocateTenantAction(adminSchemaName, schemaName, tenantName);
+        processor.processTransaction(action);
+        int tenantId = action.getTenantId();
 
-        // The salt is used when we hash the tenantKey. We're just using SHA-256 for
-        // the hash here, not multiple rounds of a password hashing algorithm. It's
-        // sufficient in our case because we are using a 32-byte random value as the
-        // key, giving 256 bits of entropy.
-        final String tenantSalt = getRandomKey();
-
-        // Open a new transaction and associate it with our connection pool. Remember
-        // that we don't support distributed transactions, so all connections within
-        // this transaction must come from the same pool
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-        logger.info("Allocating new tenant: " + tenantName + " [key=" + tenantKey + "]");
-        int tenantId;
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-
-            try {
-                tenantId =
-                        adapter.allocateTenant(adminSchemaName, schemaName, tenantName, tenantKey, tenantSalt,
-                                FhirSchemaConstants.TENANT_SEQUENCE);
-
-                // The tenant-id is important because this is also used to identify the partition number
-                logger.info("Tenant Id[" + tenantName + "] = " + tenantId);
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-
-        // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
-
-        // Get the data model to create the table partitions. This is threaded, so transactions are
-        // handled within each thread by the adapter. This means we should probably pull some of
-        // that logic out of the adapter and handle it at a higher level. Note...the extent size used
-        // for the partitions needs to match the extent size of the original table tablespace (FHIR_TS)
-        // so this must be constant.
-        pdm.addTenantPartitions(adapter, schemaName, tenantId, FhirSchemaConstants.FHIR_TS_EXTENT_KB);
+        // Add Tenant Partition Action.
+        AddTenantPartitionsAction addTenantPartitionsAction =
+                new AddTenantPartitionsAction(schemaName, adminSchemaName, tenantId);
+        processor.process(addTenantPartitionsAction);
 
         // Fill any static data tables (which are also partitioned by tenant)
-        populateStaticTables(gen, tenantKey);
+        PopulateStaticTablesAction actionStatic =
+                new PopulateStaticTablesAction(adminSchemaName, schemaName, tenantName, tenantKey);
+        processor.processTransaction(actionStatic);
 
         // Now all the table partitions have been allocated, we can mark the tenant as ready
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                adapter.updateTenantStatus(adminSchemaName, tenantId, TenantStatus.ALLOCATED);
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-
-        logger.info("Allocated tenant: " + tenantName + " [key=" + tenantKey + "] with Id = " + tenantId);
+        UpdateTenantStatusAction updateTenantStatusAction =
+                new UpdateTenantStatusAction(adminSchemaName, tenantKey, tenantName, tenantId, TenantStatus.ALLOCATED);
+        processor.processTransaction(updateTenantStatusAction);
     }
 
     /**
-     * Populate all the static tables we need
-     * 
-     * @param gen
-     * @param tenantKey
+     * checks the compatibility action
      */
-    protected void populateStaticTables(FhirSchemaGenerator gen, String tenantKey) {
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                // Very important. Establish the value of the session variable so that we
-                // pass the row permission predicate
-                Db2SetTenantVariable cmd = new Db2SetTenantVariable(adminSchemaName, tenantName, tenantKey);
-                adapter.runStatement(cmd);
-
-                addResourceTypes(adapter, gen);
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
+    protected boolean checkCompatibility() {
+        CheckCompatibilityAction action = new CheckCompatibilityAction(adminSchemaName);
+        processor.processTransaction(action);
+        return action.getCompatible();
     }
 
     /**
-     * Add all the resource types
-     * 
-     * @param adapter
-     * @param gen
+     * Grant the minimum required set of privileges on the FHIR schema objects
+     * to the grantTo user. All tenant data access is via this user, and is the
+     * only user the FHIR server itself is configured with.
+     *
+     * @param groupName
      */
-    protected void addResourceTypes(Db2Adapter adapter, FhirSchemaGenerator gen) {
+    protected void grantPrivileges(String groupName) {
+        GrantPrivilegesAction action = new GrantPrivilegesAction(adminSchemaName, schemaName, groupName, grantTo);
+        processor.processTransaction(action);
+    }
 
-        // Now get all the resource types and insert them into the tenant-based table
-        gen.applyResourceTypes(c -> {
-            Db2AddResourceType art = new Db2AddResourceType(schemaName, c);
-            adapter.runStatement(art);
-        });
+    /**
+     * Update the schema
+     */
+    protected void updateSchema() {
+        UpdateSchemaAction action = new UpdateSchemaAction(schemaName, adminSchemaName, maxConnectionPoolSize);
+        processor.processTransaction(action);
+        ITaskCollector collector = action.getCollector();
+        PhysicalDataModel pdm = action.getPhysicalDataModel();
+
+        // Create a Version History Table 
+        CreateVersionHistoryAction createVersionHistoryAction = new CreateVersionHistoryAction(adminSchemaName);
+        processor.process(createVersionHistoryAction);
+
+        // Current version history for the data schema
+        VersionHistoryServiceAction versionHistoryServiceAction =
+                new VersionHistoryServiceAction(schemaName, adminSchemaName);
+        processor.process(versionHistoryServiceAction);
+        VersionHistoryService vhs = versionHistoryServiceAction.getVersionHistoryService();
+
+        ApplyModelAction applyModelAction = new ApplyModelAction(pdm, vhs, collector);
+        processor.process(applyModelAction);
+        exitStatus = applyModelAction.getExitStatus();
+    }
+
+    /**
+     * Deallocate this tenant, dropping all the related partitions
+     */
+    protected void dropTenant() {
+        DropTenantAction action = new DropTenantAction(schemaName, adminSchemaName, tenantName);
+        processor.processTransaction(action);
+
+        // Now all the table partitions have been allocated, we can mark the tenant as dropped
+        int tenantId = action.getTenantId();
+        UpdateTenantStatusAction updateTenantStatusAction =
+                new UpdateTenantStatusAction(adminSchemaName, tenantKey, tenantName, tenantId, TenantStatus.DROPPED);
+        processor.processTransaction(updateTenantStatusAction);
     }
 
     /**
@@ -886,147 +491,35 @@ public class Main {
 
         logger.info("Testing tenant: " + tenantName);
 
-        // We don't need to build the physical data model. We just need some info
-        // from the generator in order to populate the static tables
-        // The admin model needs to be added before any schema (fhir data) model
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
-        populateStaticTables(gen, this.tenantKey);
+        // Fill any static data tables (which are also partitioned by tenant)
+        PopulateStaticTablesAction actionStatic =
+                new PopulateStaticTablesAction(adminSchemaName, schemaName, tenantName, tenantKey);
+        processor.processTransaction(actionStatic);
 
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                // The tenants table, variable and set_tenant procedure are all located in
-                // the admin schema. The data access user only has execute privileges on the
-                // set_tenant procedure and read access to the variable. The variable can
-                // only be set by calling the stored procedure
-                Db2SetTenantVariable cmd = new Db2SetTenantVariable(adminSchemaName, tenantName, tenantKey);
-                adapter.runStatement(cmd);
-
-                Db2GetTenantVariable getter = new Db2GetTenantVariable(adminSchemaName);
-                Integer tid = adapter.runStatement(getter);
-                if (tid == null) {
-                    throw new IllegalStateException("SV_TENANT_ID not set!");
-                }
-
-                // Print the id from the session variable (used for access control)
-                logger.info("tenantName='" + tenantName + "', tenantId=" + tid);
-
-                // Now let's check we can run a select against one our tenant-based
-                // tables
-                Db2GetResourceTypeList rtListGetter = new Db2GetResourceTypeList(schemaName);
-                List<ResourceType> rtList = adapter.runStatement(rtListGetter);
-                rtList.forEach(rt -> logger.info("ResourceType: " + rt.toString()));
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
+        TestTenantAction testTenantAction = new TestTenantAction(adminSchemaName, schemaName, tenantName, tenantKey);
+        processor.processTransaction(testTenantAction);
     }
 
-    /**
-     * Deallocate this tenant, dropping all the related partitions
-     */
-    protected void dropTenant() {
-        // Mark the tenant as being dropped. This should prevent it from
-        // being used in any way
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-        logger.info("Marking tenant for drop: " + tenantName);
-        int tenantId;
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-
-            try {
-                tenantId = adapter.findTenantId(schemaName, tenantName);
-                if (tenantId < 1) {
-                    throw new IllegalArgumentException("Tenant '" + tenantName + "' not found in schema " + schemaName);
-                }
-
-                // Mark the tenant as frozen before we proceed with dropping anything
-                adapter.updateTenantStatus(schemaName, tenantId, TenantStatus.FROZEN);
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-
-        // Build the model of the data (FHIRDATA) schema which is then used to drive the drop
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
-
-        // Remove all the tenant-based data
-        pdm.removeTenantPartitions(adapter, schemaName, tenantId);
-        pdm.dropOldTenantTables();
-        pdm.dropTenantTablespace();
-
-        // Now all the table partitions have been allocated, we can mark the tenant as dropped
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                adapter.updateTenantStatus(schemaName, tenantId, TenantStatus.DROPPED);
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-
-    }
-
-    protected boolean checkCompatibility() {
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            return adapter.checkCompatibility(this.adminSchemaName);
-        }
-    }
-
-    /**
-     * Generate a random 32 byte value encoded as a Base64 string (44 characters).
-     * 
-     * @return
-     */
-    private String getRandomKey() {
-        byte[] buffer = new byte[32];
-        random.nextBytes(buffer);
-
-        Encoder enc = Base64.getEncoder();
-        return enc.encodeToString(buffer);
-    }
-
-    /**
-     * Print the classpath so we can see what on earth is going on with connecting
-     * to DB2 using an api key.
-     */
-    private static void logClasspath() {
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine("CLASSPATH: ");
-            ClassLoader cl = ClassLoader.getSystemClassLoader();
-            URL[] classpath = ((URLClassLoader) cl).getURLs();
-            for (URL u : classpath) {
-                logger.fine("  " + u.getFile());
-            }
-        }
-    }
-
+    //**************************************************************************************************************
     /**
      * Main entry point
      * 
      * @param args
      */
     public static void main(String[] args) {
-        logClasspath();
+        SchemaUtil.logClasspath();
 
         int exitStatus;
         Main m = new Main();
         try {
-            m.configureLogger();
+            SchemaUtil.configureLogger();
             m.parseArgs(args);
-            m.loadDriver();
+            SchemaUtil.loadDriver(m.translator);
             m.process();
             exitStatus = m.getExitStatus();
         } catch (IllegalArgumentException x) {
             logger.log(Level.SEVERE, "bad argument", x);
-            printUsage();
+            SchemaUtil.printUsage();
             exitStatus = EXIT_BAD_ARGS;
         } catch (Exception x) {
             logger.log(Level.SEVERE, "schema tool failed", x);
@@ -1041,5 +534,4 @@ public class Main {
         // really ought to be able to see that this is a main function in a J2SE environment
         System.exit(exitStatus);
     }
-
 }

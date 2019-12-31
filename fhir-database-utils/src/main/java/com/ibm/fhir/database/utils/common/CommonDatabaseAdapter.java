@@ -283,10 +283,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
             logger.warning(ddl + "; VARIABLE not found"); 
         }
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#createForeignKeyConstraint(java.lang.String, java.lang.String, java.lang.String, java.util.List)
-     */
+
     @Override
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name, 
             String targetSchema, String targetTable, String tenantColumnName,

@@ -81,7 +81,7 @@ public class JdbcPropertyAdapter {
     }
 
     
-    protected Properties getProperties() {
+    public Properties getProperties() {
         return this.properties;
     }
     
