@@ -6,35 +6,31 @@
 
 package com.ibm.fhir.schema.app.processor.action;
 
+import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
-import com.ibm.fhir.database.utils.common.JdbcTarget;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
+import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 
 public class CreateVersionHistoryAction implements ISchemaAction {
 
-    private String adminSchemaName;
-
-    public CreateVersionHistoryAction(String adminSchemaName) {
-        this.adminSchemaName = adminSchemaName;
+    public CreateVersionHistoryAction() {
+        // No Operation
     }
 
     @Override
-    public void run(JdbcTarget target, Db2Adapter adapter, ITransactionProvider transactionProvider) {
+    public void run(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
+            ITransactionProvider transactionProvider) {
         // Before we start anything, we need to make sure our schema history
         // tables are in place. There's only a single history table, which
         // resides in the admin schema and handles the history of all objects
         // in any schema being managed.
-        CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);
-
+        CreateVersionHistory.createTableIfNeeded(actionBean.getAdminSchemaName(), adapter);
     }
 
     @Override
-    public void dryRun(JdbcTarget target, Db2Adapter adapter, ITransactionProvider transactionProvider) {
-        // Before we start anything, we need to make sure our schema history
-        // tables are in place. There's only a single history table, which
-        // resides in the admin schema and handles the history of all objects
-        // in any schema being managed.
-        CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);
+    public void dryRun(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
+            ITransactionProvider transactionProvider) {
+        run(actionBean, target, adapter, transactionProvider);
     }
 }

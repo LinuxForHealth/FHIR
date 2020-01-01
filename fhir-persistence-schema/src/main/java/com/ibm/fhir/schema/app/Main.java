@@ -6,20 +6,11 @@
 
 package com.ibm.fhir.schema.app;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
-import com.ibm.fhir.database.utils.db2.Db2Translator;
-import com.ibm.fhir.database.utils.model.PhysicalDataModel;
-import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.app.processor.ActionProcessor;
 import com.ibm.fhir.schema.app.processor.action.AddTenantKeyAction;
 import com.ibm.fhir.schema.app.processor.action.AddTenantPartitionsAction;
@@ -37,9 +28,8 @@ import com.ibm.fhir.schema.app.processor.action.UpdateProceduresAction;
 import com.ibm.fhir.schema.app.processor.action.UpdateSchemaAction;
 import com.ibm.fhir.schema.app.processor.action.UpdateTenantStatusAction;
 import com.ibm.fhir.schema.app.processor.action.VersionHistoryServiceAction;
+import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 import com.ibm.fhir.schema.app.util.SchemaUtil;
-import com.ibm.fhir.schema.control.FhirSchemaConstants;
-import com.ibm.fhir.task.api.ITaskCollector;
 
 /**
  * Utility app to connect to a DB2 database and create/update the FHIR schema.
@@ -56,83 +46,12 @@ public class Main {
     public static final int EXIT_VALIDATION_FAILED = 3; // validation test failed
     private static final double NANOS = 1e9;
 
-    // Properties accumulated as we parse args and read configuration files
-    private final Properties properties = new Properties();
-
-    // The schema we will use for all the FHIR data tables
-    private String schemaName;
-
-    // The schema used for administration of tenants
-    private String adminSchemaName = "FHIR_ADMIN";
-
-    // Arguments requesting we drop the objects from the schema
-    private boolean dropSchema = false;
-    private boolean dropAdmin = false;
-    private boolean confirmDrop = false;
-    private boolean updateSchema = false;
-    private boolean updateProc = false;
-    private boolean checkCompatibility = false;
-    private boolean createFhirSchemas = false;
-
-    // By default, the dryRun option is OFF, and FALSE
-    // When overridden, it simulates the actions. 
-    private Boolean dryRun = Boolean.FALSE;
-
-    // The database user we will grant tenant data access privileges to
-    private String grantTo;
-
-    // Tenant management
-    private boolean allocateTenant;
-    private boolean dropTenant;
-    private String tenantName;
-    private boolean testTenant;
-    private String tenantKey;
-
-    // The tenant name for when we want to add a new tenant key
-    private String addKeyForTenant;
-
     // What status to leave with
     private int exitStatus = EXIT_OK;
 
-    // This utility is designed to work with a DB2 database
-    private IDatabaseTranslator translator = new Db2Translator();
-
-    // The connection pool and transaction provider to support concurrent operations
-    private int maxConnectionPoolSize = FhirSchemaConstants.DEFAULT_POOL_SIZE / 2;
-
+    // To support ISchemaAction
     private ActionProcessor processor;
-
-    /**
-     * Read the properties from the given file
-     * 
-     * @param filename
-     */
-    public void loadPropertyFile(String filename) {
-        File file = new File(filename);
-        if (!file.exists()) {
-            throw new IllegalArgumentException("The properties file does not exist [" + filename + "]");
-        }
-
-        try (InputStream is = new FileInputStream(filename)) {
-            properties.load(is);
-        } catch (IOException x) {
-            throw new IllegalArgumentException(x);
-        }
-    }
-
-    /**
-     * Parse the given key=value string and add to the properties being collected
-     * 
-     * @param pair
-     */
-    public void addProperty(String pair) {
-        String[] kv = pair.split("=");
-        if (kv.length == 2) {
-            properties.put(kv[0], kv[1]);
-        } else {
-            throw new IllegalArgumentException("Property must be defined as key=value, not: " + pair);
-        }
-    }
+    private ActionBean actionBean = new ActionBean();
 
     /**
      * Get the program exit status from the environment
@@ -178,7 +97,6 @@ public class Main {
      * @param args
      */
     protected void parseArgs(String[] args) {
-
         // Arguments are pretty simple, so we go with a basic switch instead of having
         // yet another dependency (e.g. commons-cli).
         for (int i = 0; i < args.length; i++) {
@@ -186,7 +104,7 @@ public class Main {
             switch (arg) {
             case "--prop-file":
                 if (++i < args.length) {
-                    loadPropertyFile(args[i]);
+                    actionBean.loadPropertyFile(args[i]);
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
@@ -196,10 +114,9 @@ public class Main {
                     DataDefinitionUtil.assertValidName(args[i]);
 
                     // Force upper-case to avoid tricky-to-catch errors related to quoting names
-                    this.schemaName = args[i].toUpperCase();
-
-                    if (!schemaName.equals(args[i])) {
-                        logger.info("Schema name forced to upper case: " + schemaName);
+                    actionBean.setSchemaName(args[i].toUpperCase());
+                    if (!actionBean.getSchemaName().equals(args[i])) {
+                        logger.info("Schema name forced to upper case: " + actionBean.getSchemaName());
                     }
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
@@ -210,56 +127,56 @@ public class Main {
                     DataDefinitionUtil.assertValidName(args[i]);
 
                     // Force upper-case because user names are case-insensitive
-                    this.grantTo = args[i].toUpperCase();
+                    actionBean.setGrantTo(args[i].toUpperCase());
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
             case "--add-tenant-key":
                 if (++i < args.length) {
-                    this.addKeyForTenant = args[i];
+                    actionBean.setAddKeyForTenant(args[i]);
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
             case "--update-proc":
-                this.updateProc = true;
+                actionBean.setUpdateProc(true);
                 break;
             case "--check-compatibility":
-                this.checkCompatibility = true;
+                actionBean.setCheckCompatibility(true);
                 break;
             case "--drop-admin":
-                this.dropAdmin = true;
+                actionBean.setDropAdmin(true);
                 break;
             case "--test-tenant":
                 if (++i < args.length) {
-                    this.tenantName = args[i];
-                    this.testTenant = true;
+                    actionBean.setTenantName(args[i]);
+                    actionBean.setTestTenant(true);
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
             case "--tenant-key":
                 if (++i < args.length) {
-                    this.tenantKey = args[i];
+                    actionBean.setTenantKey(args[i]);
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
             case "--update-schema":
-                this.updateSchema = true;
-                this.dropSchema = false;
+                actionBean.setUpdateSchema(true);
+                actionBean.setDropSchema(false);
                 break;
             case "--create-schemas":
-                this.createFhirSchemas = true;
+                actionBean.setCreateFhirSchemas(true);
                 break;
             case "--drop-schema":
-                this.updateSchema = false;
-                this.dropSchema = true;
+                actionBean.setUpdateSchema(false);
+                actionBean.setDropSchema(true);
                 break;
             case "--pool-size":
                 if (++i < args.length) {
-                    this.maxConnectionPoolSize = Integer.parseInt(args[i]);
+                    actionBean.setMaxConnectionPoolSize(Integer.parseInt(args[i]));
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
@@ -267,35 +184,35 @@ public class Main {
             case "--prop":
                 if (++i < args.length) {
                     // properties are given as name=value
-                    addProperty(args[i]);
+                    actionBean.addProperty(args[i]);
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
             case "--confirm-drop":
-                this.confirmDrop = true;
+                actionBean.setConfirmDrop(true);
                 break;
             case "--allocate-tenant":
                 if (++i < args.length) {
-                    this.tenantName     = args[i];
-                    this.allocateTenant = true;
-                    this.dropTenant     = false;
+                    actionBean.setTenantName(args[i]);
+                    actionBean.setAllocateTenant(true);
+                    actionBean.setDropTenant(false);
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
             case "--drop-tenant":
                 if (++i < args.length) {
-                    this.tenantName     = args[i];
-                    this.dropTenant     = true;
-                    this.allocateTenant = false;
+                    actionBean.setTenantName(args[i]);
+                    actionBean.setAllocateTenant(false);
+                    actionBean.setDropTenant(true);
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
             case "--dry-run":
                 // The presence of dry-run automatically flips it on.
-                this.dryRun = Boolean.TRUE;
+                actionBean.setDryRun(Boolean.TRUE);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid argument: " + arg);
@@ -308,44 +225,45 @@ public class Main {
      */
     protected void process() {
         long start = System.nanoTime();
-        processor = new ActionProcessor(properties, translator, dryRun, maxConnectionPoolSize);
+        processor = new ActionProcessor(actionBean);
+        SchemaUtil.loadDriver(actionBean.getTranslator());
 
-        if (this.checkCompatibility) {
-            checkCompatibility();
+        if (actionBean.isCheckCompatibility()) {
+            logger.info("Check Compatibility -> " + checkCompatibility());
         }
 
-        if (addKeyForTenant != null) {
+        if (actionBean.getAddKeyForTenant() != null) {
             addTenantKey();
-        } else if (this.dropSchema) {
+        } else if (actionBean.isDropSchema()) {
             // only proceed with the drop if the user has provided additional confirmation
-            if (this.confirmDrop) {
+            if (actionBean.isConfirmDrop()) {
                 dropSchema();
             } else {
                 throw new IllegalArgumentException("[ERROR] Drop not confirmed with --confirm-drop");
             }
-        } else if (this.dropAdmin) {
+        } else if (actionBean.isDropAdmin()) {
             // only try to drop the admin schema
-            if (this.confirmDrop) {
+            if (actionBean.isConfirmDrop()) {
                 dropSchema();
             } else {
                 throw new IllegalArgumentException("[ERROR] Drop not confirmed with --confirm-drop");
             }
-        } else if (updateSchema) {
+        } else if (actionBean.isUpdateSchema()) {
             updateSchema();
-        } else if (createFhirSchemas) {
+        } else if (actionBean.isCreateFhirSchemas()) {
             createFhirSchemas();
-        } else if (updateProc) {
+        } else if (actionBean.isUpdateProc()) {
             updateProcedures();
-        } else if (this.allocateTenant) {
+        } else if (actionBean.isAllocateTenant()) {
             allocateTenant();
-        } else if (this.testTenant) {
+        } else if (actionBean.isTestTenant()) {
             testTenant();
-        } else if (this.dropTenant) {
+        } else if (actionBean.isDropTenant()) {
             dropTenant();
         }
 
-        if (this.grantTo != null) {
-            grantPrivileges(FhirSchemaConstants.FHIR_USER_GRANT_GROUP);
+        if (actionBean.getGrantTo() != null) {
+            grantPrivileges();
         }
 
         long elapsed = System.nanoTime() - start;
@@ -359,7 +277,7 @@ public class Main {
      * Create fhir data and admin schema
      */
     protected void createFhirSchemas() {
-        CreateSchemaAction action = new CreateSchemaAction(schemaName, adminSchemaName);
+        CreateSchemaAction action = new CreateSchemaAction();
         processor.process(action);
     }
 
@@ -368,7 +286,7 @@ public class Main {
      * during development.
      */
     protected void dropSchema() {
-        DropSchemaAction action = new DropSchemaAction(schemaName, adminSchemaName, dropSchema, dropAdmin);
+        DropSchemaAction action = new DropSchemaAction();
         processor.process(action);
     }
 
@@ -377,7 +295,7 @@ public class Main {
      * into the FHIR resource tables
      */
     protected void updateProcedures() {
-        UpdateProceduresAction action = new UpdateProceduresAction(schemaName, adminSchemaName);
+        UpdateProceduresAction action = new UpdateProceduresAction();
         processor.process(action);
     }
 
@@ -387,7 +305,7 @@ public class Main {
      * avoids any service interruption.
      */
     protected void addTenantKey() {
-        AddTenantKeyAction action = new AddTenantKeyAction(adminSchemaName, addKeyForTenant);
+        AddTenantKeyAction action = new AddTenantKeyAction();
         processor.processTransaction(action);
     }
 
@@ -396,23 +314,20 @@ public class Main {
      */
     protected void allocateTenant() {
         // Starts the Allocate Tenant Action by getting the tenantId
-        AllocateTenantAction action = new AllocateTenantAction(adminSchemaName, schemaName, tenantName);
+        AllocateTenantAction action = new AllocateTenantAction();
         processor.processTransaction(action);
-        int tenantId = action.getTenantId();
 
         // Add Tenant Partition Action.
-        AddTenantPartitionsAction addTenantPartitionsAction =
-                new AddTenantPartitionsAction(schemaName, adminSchemaName, tenantId);
+        AddTenantPartitionsAction addTenantPartitionsAction = new AddTenantPartitionsAction();
         processor.process(addTenantPartitionsAction);
 
         // Fill any static data tables (which are also partitioned by tenant)
-        PopulateStaticTablesAction actionStatic =
-                new PopulateStaticTablesAction(adminSchemaName, schemaName, tenantName, tenantKey);
+        PopulateStaticTablesAction actionStatic = new PopulateStaticTablesAction();
         processor.processTransaction(actionStatic);
 
         // Now all the table partitions have been allocated, we can mark the tenant as ready
-        UpdateTenantStatusAction updateTenantStatusAction =
-                new UpdateTenantStatusAction(adminSchemaName, tenantKey, tenantName, tenantId, TenantStatus.ALLOCATED);
+        actionBean.setStatus(TenantStatus.ALLOCATED);
+        UpdateTenantStatusAction updateTenantStatusAction = new UpdateTenantStatusAction();
         processor.processTransaction(updateTenantStatusAction);
     }
 
@@ -420,20 +335,18 @@ public class Main {
      * checks the compatibility action
      */
     protected boolean checkCompatibility() {
-        CheckCompatibilityAction action = new CheckCompatibilityAction(adminSchemaName);
+        CheckCompatibilityAction action = new CheckCompatibilityAction();
         processor.processTransaction(action);
-        return action.getCompatible();
+        return actionBean.isCompatible();
     }
 
     /**
      * Grant the minimum required set of privileges on the FHIR schema objects
      * to the grantTo user. All tenant data access is via this user, and is the
      * only user the FHIR server itself is configured with.
-     *
-     * @param groupName
      */
-    protected void grantPrivileges(String groupName) {
-        GrantPrivilegesAction action = new GrantPrivilegesAction(adminSchemaName, schemaName, groupName, grantTo);
+    protected void grantPrivileges() {
+        GrantPrivilegesAction action = new GrantPrivilegesAction();
         processor.processTransaction(action);
     }
 
@@ -441,37 +354,31 @@ public class Main {
      * Update the schema
      */
     protected void updateSchema() {
-        UpdateSchemaAction action = new UpdateSchemaAction(schemaName, adminSchemaName, maxConnectionPoolSize);
+        UpdateSchemaAction action = new UpdateSchemaAction();
         processor.processTransaction(action);
-        ITaskCollector collector = action.getCollector();
-        PhysicalDataModel pdm = action.getPhysicalDataModel();
 
         // Create a Version History Table 
-        CreateVersionHistoryAction createVersionHistoryAction = new CreateVersionHistoryAction(adminSchemaName);
+        CreateVersionHistoryAction createVersionHistoryAction = new CreateVersionHistoryAction();
         processor.process(createVersionHistoryAction);
 
         // Current version history for the data schema
-        VersionHistoryServiceAction versionHistoryServiceAction =
-                new VersionHistoryServiceAction(schemaName, adminSchemaName);
+        VersionHistoryServiceAction versionHistoryServiceAction = new VersionHistoryServiceAction();
         processor.process(versionHistoryServiceAction);
-        VersionHistoryService vhs = versionHistoryServiceAction.getVersionHistoryService();
 
-        ApplyModelAction applyModelAction = new ApplyModelAction(pdm, vhs, collector);
+        ApplyModelAction applyModelAction = new ApplyModelAction();
         processor.process(applyModelAction);
-        exitStatus = applyModelAction.getExitStatus();
     }
 
     /**
      * Deallocate this tenant, dropping all the related partitions
      */
     protected void dropTenant() {
-        DropTenantAction action = new DropTenantAction(schemaName, adminSchemaName, tenantName);
+        DropTenantAction action = new DropTenantAction();
         processor.processTransaction(action);
 
         // Now all the table partitions have been allocated, we can mark the tenant as dropped
-        int tenantId = action.getTenantId();
-        UpdateTenantStatusAction updateTenantStatusAction =
-                new UpdateTenantStatusAction(adminSchemaName, tenantKey, tenantName, tenantId, TenantStatus.DROPPED);
+        actionBean.setStatus(TenantStatus.DROPPED);
+        UpdateTenantStatusAction updateTenantStatusAction = new UpdateTenantStatusAction();
         processor.processTransaction(updateTenantStatusAction);
     }
 
@@ -481,22 +388,11 @@ public class Main {
      * tenant record exists in the tenants table)
      */
     protected void testTenant() {
-        if (this.tenantName == null || this.tenantName.isEmpty()) {
-            throw new IllegalStateException("Missing tenant name");
-        }
-
-        if (this.tenantKey == null || this.tenantKey.isEmpty()) {
-            throw new IllegalArgumentException("No tenant-key value provided");
-        }
-
-        logger.info("Testing tenant: " + tenantName);
-
         // Fill any static data tables (which are also partitioned by tenant)
-        PopulateStaticTablesAction actionStatic =
-                new PopulateStaticTablesAction(adminSchemaName, schemaName, tenantName, tenantKey);
+        PopulateStaticTablesAction actionStatic = new PopulateStaticTablesAction();
         processor.processTransaction(actionStatic);
 
-        TestTenantAction testTenantAction = new TestTenantAction(adminSchemaName, schemaName, tenantName, tenantKey);
+        TestTenantAction testTenantAction = new TestTenantAction();
         processor.processTransaction(testTenantAction);
     }
 
@@ -514,7 +410,6 @@ public class Main {
         try {
             SchemaUtil.configureLogger();
             m.parseArgs(args);
-            SchemaUtil.loadDriver(m.translator);
             m.process();
             exitStatus = m.getExitStatus();
         } catch (IllegalArgumentException x) {

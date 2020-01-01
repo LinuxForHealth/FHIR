@@ -6,38 +6,32 @@
 
 package com.ibm.fhir.schema.app.processor.action;
 
+import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
-import com.ibm.fhir.database.utils.common.JdbcTarget;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
+import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 
 public class VersionHistoryServiceAction implements ISchemaAction {
-    private String schemaName;
-    private String adminSchemaName;
-    private VersionHistoryService vhs;
 
-    public VersionHistoryServiceAction(String schemaName, String adminSchemaName) {
-        this.schemaName            = schemaName;
-        this.adminSchemaName       = adminSchemaName;
+    public VersionHistoryServiceAction() {
+        // No Operation
     }
 
     @Override
-    public void run(JdbcTarget target, Db2Adapter adapter, ITransactionProvider transactionProvider) {
-        vhs = new VersionHistoryService(adminSchemaName, schemaName);
+    public void run(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
+            ITransactionProvider transactionProvider) {
+        VersionHistoryService vhs =
+                new VersionHistoryService(actionBean.getAdminSchemaName(), actionBean.getSchemaName());
         vhs.setTransactionProvider(transactionProvider);
         vhs.setTarget(adapter);
         vhs.init();
+        actionBean.setVersionHistoryService(vhs);
     }
 
     @Override
-    public void dryRun(JdbcTarget target, Db2Adapter adapter, ITransactionProvider transactionProvider) {
-        vhs = new VersionHistoryService(adminSchemaName, schemaName);
-        vhs.setTransactionProvider(transactionProvider);
-        vhs.setTarget(adapter);
-        vhs.init();
-    }
-    
-    public VersionHistoryService getVersionHistoryService() {
-        return vhs;
+    public void dryRun(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
+            ITransactionProvider transactionProvider) {
+        run(actionBean, target, adapter, transactionProvider);
     }
 }

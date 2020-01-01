@@ -6,40 +6,33 @@
 
 package com.ibm.fhir.schema.app.processor.action;
 
+import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
-import com.ibm.fhir.database.utils.common.JdbcTarget;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
+import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
+import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 
 public class GrantPrivilegesAction implements ISchemaAction {
-    private String schemaName; 
-    private String adminSchemaName;
-    private String groupName; 
-    private String grantTo; 
 
-    public GrantPrivilegesAction(String adminSchemaName, String schemaName, String groupName, String grantTo) {
-        this.schemaName = schemaName;
-        this.adminSchemaName = adminSchemaName;
-        this.groupName = groupName;
-        this.grantTo = grantTo;
+    public GrantPrivilegesAction() {
+        // No Operation 
     }
 
     @Override
-    public void run(JdbcTarget target, Db2Adapter adapter, ITransactionProvider transactionProvider) {
+    public void run(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
+            ITransactionProvider transactionProvider) {
         // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(actionBean.getAdminSchemaName(), actionBean.getSchemaName());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
-        pdm.applyGrants(adapter, groupName, grantTo);
+        pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, actionBean.getGrantTo());
     }
 
     @Override
-    public void dryRun(JdbcTarget target, Db2Adapter adapter, ITransactionProvider transactionProvider) {
-        // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
-        pdm.applyGrants(adapter, groupName, grantTo);
+    public void dryRun(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
+            ITransactionProvider transactionProvider) {
+        run(actionBean, target, adapter, transactionProvider);
     }
 }

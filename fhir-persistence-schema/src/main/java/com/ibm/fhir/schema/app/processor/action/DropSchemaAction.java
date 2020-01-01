@@ -6,60 +6,41 @@
 
 package com.ibm.fhir.schema.app.processor.action;
 
+import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
-import com.ibm.fhir.database.utils.common.JdbcTarget;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
+import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 
 public class DropSchemaAction implements ISchemaAction {
 
-    private String schemaName;
-    private String adminSchemaName;
-
-    private boolean dropSchema = false;
-    private boolean dropAdmin = false;
-
-    public DropSchemaAction(String schemaName, String adminSchemaName, boolean dropSchema, boolean dropAdmin) {
-        this.schemaName      = schemaName;
-        this.adminSchemaName = adminSchemaName;
-        this.dropSchema      = dropSchema;
-        this.dropAdmin = dropAdmin;
+    public DropSchemaAction() {
+        // No Operation
     }
 
     @Override
-    public void run(JdbcTarget target, Db2Adapter adapter, ITransactionProvider transactionProvider) {
+    public void run(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
+            ITransactionProvider transactionProvider) {
         // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(actionBean.getAdminSchemaName(), actionBean.getSchemaName());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
-        if (this.dropSchema) {
+        if (actionBean.isDropSchema()) {
             // Just drop the objects associated with the FHIRDATA schema group
             pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
         }
 
-        if (dropAdmin) {
+        if (actionBean.isDropAdmin()) {
             // Just drop the objects associated with the ADMIN schema group
             pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
         }
     }
 
     @Override
-    public void dryRun(JdbcTarget target, Db2Adapter adapter, ITransactionProvider transactionProvider) {
-        // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
-
-        if (this.dropSchema) {
-            // Just drop the objects associated with the FHIRDATA schema group
-            pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
-        }
-
-        if (dropAdmin) {
-            // Just drop the objects associated with the ADMIN schema group
-            pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
-        }
+    public void dryRun(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
+            ITransactionProvider transactionProvider) {
+        run(actionBean, target, adapter, transactionProvider);
     }
 }

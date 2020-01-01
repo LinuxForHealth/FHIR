@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,37 +8,29 @@ package com.ibm.fhir.schema.app.processor.action;
 
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
-import com.ibm.fhir.database.utils.api.TenantStatus;
-import com.ibm.fhir.database.utils.common.JdbcTarget;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
+import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 
 public class UpdateTenantStatusAction implements ISchemaAction {
     private static final Logger logger = Logger.getLogger(UpdateTenantStatusAction.class.getName());
 
-    private String adminSchemaName;
-    private int tenantId;
-    private String tenantName;
-    private String tenantKey;
-    private TenantStatus status;
-
-    public UpdateTenantStatusAction(String adminSchemaName, String tenantKey, String tenantName, int tenantId, TenantStatus status) {
-        this.adminSchemaName = adminSchemaName;
-        this.tenantId        = tenantId;
-        this.tenantName      = tenantName;
-        this.tenantKey       = tenantKey;
-        this.status = status;
+    public UpdateTenantStatusAction() {
+        // No Operation
     }
 
     @Override
-    public void run(JdbcTarget target, Db2Adapter adapter, ITransactionProvider transactionProvider) {
-        adapter.updateTenantStatus(adminSchemaName, tenantId, status);
-        logger.info("Allocated tenant: " + tenantName + " [key=" + tenantKey + "] with Id = " + tenantId);
+    public void run(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
+            ITransactionProvider transactionProvider) {
+        adapter.updateTenantStatus(actionBean.getAdminSchemaName(), actionBean.getTenantId(), actionBean.getStatus());
+        logger.info("Allocated tenant: " + actionBean.getTenantName() + " [key=" + actionBean.getTenantKey()
+                + "] with Id = " + actionBean.getTenantId());
     }
 
     @Override
-    public void dryRun(JdbcTarget target, Db2Adapter adapter, ITransactionProvider transactionProvider) {
-        adapter.updateTenantStatus(adminSchemaName, tenantId, status);
-        logger.info("Allocated tenant: " + tenantName + " [key=" + tenantKey + "] with Id = " + tenantId);
+    public void dryRun(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
+            ITransactionProvider transactionProvider) {
+        run(actionBean, target, adapter, transactionProvider);
     }
 }

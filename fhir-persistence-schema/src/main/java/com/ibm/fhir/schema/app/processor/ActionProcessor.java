@@ -26,6 +26,7 @@ import com.ibm.fhir.database.utils.transaction.TransactionFactory;
 import com.ibm.fhir.schema.app.dryrun.DryRunConnection;
 import com.ibm.fhir.schema.app.dryrun.DryRunJdbcConnectionProvider;
 import com.ibm.fhir.schema.app.processor.action.ISchemaAction;
+import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 
 public class ActionProcessor {
     private static final Logger logger = Logger.getLogger(ActionProcessor.class.getName());
@@ -38,12 +39,18 @@ public class ActionProcessor {
     private Boolean dryRun = Boolean.FALSE;
     private Properties properties;
 
+    private ActionBean actionBean;
+
     public ActionProcessor(Properties properties, IDatabaseTranslator translator, Boolean dryRun,
             int maxConnectionPoolSize) {
         this.properties            = properties;
         this.translator            = translator;
         this.dryRun                = dryRun;
         this.maxConnectionPoolSize = maxConnectionPoolSize;
+    }
+
+    public ActionProcessor(ActionBean actionBean) {
+        this.actionBean = actionBean;
     }
 
     /**
@@ -70,9 +77,9 @@ public class ActionProcessor {
                 JdbcTarget target = new JdbcTarget(c);
                 Db2Adapter adapter = new Db2Adapter(target);
                 if (dryRun) {
-                    action.dryRun(target, adapter, transactionProvider);
+                    action.dryRun(actionBean, target, adapter, transactionProvider);
                 } else {
-                    action.run(target, adapter, transactionProvider);
+                    action.run(actionBean, target, adapter, transactionProvider);
                 }
             } catch (Exception x) {
                 c.rollback();
@@ -89,9 +96,9 @@ public class ActionProcessor {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 if (dryRun) {
-                    action.dryRun(null, adapter, transactionProvider);
+                    action.dryRun(actionBean, null, adapter, transactionProvider);
                 } else {
-                    action.run(null, adapter, transactionProvider);
+                    action.run(actionBean, null, adapter, transactionProvider);
                 }
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
