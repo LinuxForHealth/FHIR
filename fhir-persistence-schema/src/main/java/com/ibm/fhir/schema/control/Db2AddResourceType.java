@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,10 +10,12 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.Arrays;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.dryrun.DryRunContainer;
 
 /**
  * DAO command to add a resource type. If it already exists, we get back the
@@ -33,7 +35,7 @@ public class Db2AddResourceType implements IDatabaseStatement {
      * @param resourceType
      */
     public Db2AddResourceType(String schemaName, String resourceType) {
-        this.schemaName = schemaName;
+        this.schemaName   = schemaName;
         this.resourceType = resourceType;
     }
 
@@ -51,15 +53,18 @@ public class Db2AddResourceType implements IDatabaseStatement {
         final String proc = DataDefinitionUtil.getQualifiedName(schemaName, "ADD_RESOURCE_TYPE");
         final String sql = "CALL " + proc + "(?, ?)";
 
-        try (CallableStatement cs = c.prepareCall(sql)) {
-            cs.setString(1, resourceType);
-            cs.registerOutParameter(2, Types.INTEGER);
-            cs.execute();
-            this.resourceTypeId = cs.getInt(2);
-        } catch (SQLException x) {
-            throw translator.translate(x);
+        if (DryRunContainer.getSingleInstance().isDryRun()) {
+            DryRunContainer.getSingleInstance().add(sql,
+                    Arrays.asList(resourceType, Types.INTEGER));
+        } else {
+            try (CallableStatement cs = c.prepareCall(sql)) {
+                cs.setString(1, resourceType);
+                cs.registerOutParameter(2, Types.INTEGER);
+                cs.execute();
+                this.resourceTypeId = cs.getInt(2);
+            } catch (SQLException x) {
+                throw translator.translate(x);
+            }
         }
-
     }
-
 }

@@ -4,27 +4,41 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.schema.app.util;
+package com.ibm.fhir.schema.app.processor.util;
 
 import java.io.File;
 import java.io.PrintStream;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.security.SecureRandom;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Base64;
+import java.util.Base64.Encoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.common.LogFormatter;
+import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 import com.ibm.fhir.task.api.ITaskGroup;
 
+/**
+ * Schema Utility
+ */
 public class SchemaUtil {
     private static final Logger logger = Logger.getLogger(SchemaUtil.class.getName());
 
-    
+    // Random generator for new tenant keys and salts
+    private static final SecureRandom random = new SecureRandom();
+
     public static String mapToId(ITaskGroup group) {
         return group.getTaskId();
     }
-    
+
     /**
      * Print the classpath so we can see what on earth is going on with connecting
      * to DB2 using an api key.
@@ -50,8 +64,7 @@ public class SchemaUtil {
             throw new IllegalStateException(e);
         }
     }
-    
-    
+
     /**
      * Set up the logger using the log.dir system property
      */
@@ -73,7 +86,6 @@ public class SchemaUtil {
         File f = new File(logDir, "fhirschema.log");
         LogFormatter.init(f.getPath());
     }
-    
 
     /***
      * prints a brief menu to the standard out showing the usage.
@@ -157,5 +169,42 @@ public class SchemaUtil {
         // Dry Run functionality
         ps.println("--dry-run ");
         ps.println(" * simulates the actions of the actions that change the datastore");
+    }
+
+    /**
+     * checks that the schema exists.
+     */
+    public static boolean checkSchema(ActionBean actionBean, IDatabaseTarget target, String schemaName) {
+        boolean result = false;
+        if (target instanceof JdbcTarget) {
+            JdbcTarget jdbcTarget = (JdbcTarget) target;
+            final String statement = "select schemaname from syscat.schemata WHERE schemaname = ?";
+            try (PreparedStatement ps = jdbcTarget.getConnection().prepareStatement(statement)) {
+                int i = 1;
+                ps.setString(i++, schemaName);
+                boolean ex = ps.execute();
+                if (ex) {
+                    try (ResultSet resultSet = ps.getResultSet();) {
+                        result = resultSet.next();
+                    }
+                }
+            } catch (SQLException x) {
+                throw actionBean.getTranslator().translate(x);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Generate a random 32 byte value encoded as a Base64 string (44 characters).
+     * 
+     * @return
+     */
+    public static String getRandomKey() {
+        byte[] buffer = new byte[32];
+        random.nextBytes(buffer);
+
+        Encoder enc = Base64.getEncoder();
+        return enc.encodeToString(buffer);
     }
 }

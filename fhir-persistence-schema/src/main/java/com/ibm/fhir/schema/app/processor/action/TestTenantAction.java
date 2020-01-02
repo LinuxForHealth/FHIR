@@ -15,6 +15,7 @@ import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.db2.Db2GetTenantVariable;
 import com.ibm.fhir.database.utils.db2.Db2SetTenantVariable;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
+import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
 import com.ibm.fhir.schema.control.Db2GetResourceTypeList;
 import com.ibm.fhir.schema.model.ResourceType;
 
@@ -27,7 +28,7 @@ public class TestTenantAction implements ISchemaAction {
 
     @Override
     public void run(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
-            ITransactionProvider transactionProvider) {
+            ITransactionProvider transactionProvider) throws SchemaActionException {
         // The tenants table, variable and set_tenant procedure are all located in
         // the admin schema. The data access user only has execute privileges on the
         // set_tenant procedure and read access to the variable. The variable can
@@ -51,11 +52,5 @@ public class TestTenantAction implements ISchemaAction {
         Db2GetResourceTypeList rtListGetter = new Db2GetResourceTypeList(actionBean.getSchemaName());
         List<ResourceType> rtList = adapter.runStatement(rtListGetter);
         rtList.forEach(rt -> logger.info("ResourceType: " + rt.toString()));
-    }
-
-    @Override
-    public void dryRun(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
-            ITransactionProvider transactionProvider) {
-        run(actionBean, target, adapter, transactionProvider);
     }
 }

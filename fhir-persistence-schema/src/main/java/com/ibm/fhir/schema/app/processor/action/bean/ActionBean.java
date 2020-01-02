@@ -21,7 +21,6 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.task.api.ITaskCollector;
 
 public class ActionBean {
-
     // Properties accumulated as we parse args and read configuration files
     private Properties properties = new Properties();
 
@@ -324,5 +323,4 @@ public class ActionBean {
             throw new IllegalArgumentException("Property must be defined as key=value, not: " + pair);
         }
     }
-
 }

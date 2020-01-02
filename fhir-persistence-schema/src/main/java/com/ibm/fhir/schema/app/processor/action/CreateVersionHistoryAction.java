@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,11 @@ import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
+import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
 
+/**
+ * creates the version history tables
+ */
 public class CreateVersionHistoryAction implements ISchemaAction {
 
     public CreateVersionHistoryAction() {
@@ -20,17 +24,11 @@ public class CreateVersionHistoryAction implements ISchemaAction {
 
     @Override
     public void run(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
-            ITransactionProvider transactionProvider) {
+            ITransactionProvider transactionProvider) throws SchemaActionException {
         // Before we start anything, we need to make sure our schema history
         // tables are in place. There's only a single history table, which
         // resides in the admin schema and handles the history of all objects
         // in any schema being managed.
         CreateVersionHistory.createTableIfNeeded(actionBean.getAdminSchemaName(), adapter);
-    }
-
-    @Override
-    public void dryRun(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
-            ITransactionProvider transactionProvider) {
-        run(actionBean, target, adapter, transactionProvider);
     }
 }

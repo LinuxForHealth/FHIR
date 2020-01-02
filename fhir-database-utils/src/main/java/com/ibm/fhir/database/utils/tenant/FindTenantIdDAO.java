@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,16 +10,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.dryrun.DryRunContainer;
 
 /**
  * DAO to create a free tenant slot (to align with a new partition)
  */
 public class FindTenantIdDAO implements IDatabaseSupplier<Integer> {
-    
     private final String schemaName;
     private final String tenantName;
 
@@ -43,20 +44,25 @@ public class FindTenantIdDAO implements IDatabaseSupplier<Integer> {
          * data to the configured target
          */
         final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "TENANTS");
-        final String SQL = "" + " SELECT mt_id " + "   FROM " + tableName + "    WHERE tenant_name = ? ";
+        final String SQL = "SELECT mt_id " + "   FROM " + tableName + "    WHERE tenant_name = ? ";
 
-        try (PreparedStatement ps = c.prepareStatement(SQL)) {
-            ps.setString(1, tenantName);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1); // can't be null
-            } else {
-                return null;
+        if (DryRunContainer.getSingleInstance().isDryRun()) {
+            DryRunContainer.getSingleInstance().add(SQL, Arrays.asList(tenantName));
+        } else {
+            try (PreparedStatement ps = c.prepareStatement(SQL)) {
+                ps.setString(1, tenantName);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1); // can't be null
+                } else {
+                    return null;
+                }
+            } catch (SQLException x) {
+                // Translate the exception into something a little more meaningful
+                // for this database type and application
+                throw translator.translate(x);
             }
-        } catch (SQLException x) {
-            // Translate the exception into something a little more meaningful
-            // for this database type and application
-            throw translator.translate(x);
         }
+        return -1;
     }
 }

@@ -129,7 +129,6 @@ public interface IDatabaseAdapter {
     public void dropProcedure(String schemaName, String procedureName);
 
     /**
-     *
      * @param schemaName
      * @param tableName
      * @param indexName
@@ -141,7 +140,6 @@ public interface IDatabaseAdapter {
             List<String> indexColumns, List<String> includeColumns);
 
     /**
-     *
      * @param schemaName
      * @param tableName
      * @param indexName
@@ -152,7 +150,6 @@ public interface IDatabaseAdapter {
             List<String> indexColumns);
 
     /**
-     *
      * @param schemaName
      * @param tableName
      * @param indexName
@@ -163,7 +160,6 @@ public interface IDatabaseAdapter {
             List<String> indexColumns);
 
     /**
-     *
      * <pre>
      * CREATE VARIABLE ptng.session_tenant INT DEFAULT NULL;
      * </pre>
@@ -174,7 +170,6 @@ public interface IDatabaseAdapter {
     public void createIntVariable(String schemaName, String variableName);
 
     /**
-     *
      * <pre>
      * CREATE PERMISSION ROW_ACCESS ON ptng.patients FOR ROWS WHERE patients.mt_id =
      * ptng.session_tenant ENFORCED FOR ALL ACCESS ENABLE;
@@ -188,9 +183,8 @@ public interface IDatabaseAdapter {
     public void createPermission(String schemaName, String permissionName, String tableName, String predicate);
 
     /**
-     *
-     *
-     * <pre> ALTER TABLE <tbl> ACTIVATE ROW ACCESS CONTROL
+     * <pre>
+     *  ALTER TABLE <tbl> ACTIVATE ROW ACCESS CONTROL
      * </pre>
      *
      * @param schemaName
@@ -239,7 +233,6 @@ public interface IDatabaseAdapter {
     public void dropVariable(String schemaName, String variableName);
 
     /**
-     *
      * @param constraintName
      * @param schemaName
      * @param name
@@ -307,7 +300,6 @@ public interface IDatabaseAdapter {
     public void updateTenantStatus(String adminSchemaName, int tenantId, TenantStatus status);
 
     /**
-     *
      * @param schemaName
      * @param sequenceName
      * @param cache
@@ -315,7 +307,6 @@ public interface IDatabaseAdapter {
     public void createSequence(String schemaName, String sequenceName, int cache);
 
     /**
-     *
      * @param schemaName
      * @param sequenceName
      */
@@ -393,7 +384,6 @@ public interface IDatabaseAdapter {
      */
     public boolean doesTableExist(String schemaName, String objectName);
 
-
     /**
      * Create FHIR data and admin schemas
      *
@@ -401,6 +391,12 @@ public interface IDatabaseAdapter {
      * @param adminSchemaName
      */
     public void createFhirSchemas(String schemaName, String adminSchemaName);
-
-
+    
+    /**
+     * indicates if the database translator is in dry run mode. 
+     * @return
+     */
+    default boolean isDryRun() {
+        return false;
+    }
 }

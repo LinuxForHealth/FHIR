@@ -20,11 +20,11 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
  * JdbcTarget for the database
  */
 public class JdbcTarget implements IDatabaseTarget {
-    
     private final Connection connection;
-    
+
     /**
      * Public constructor
+     * 
      * @param c
      */
     public JdbcTarget(Connection c) {
@@ -36,8 +36,7 @@ public class JdbcTarget implements IDatabaseTarget {
         // Execute the DDL (no parameters)
         try (Statement s = connection.createStatement()) {
             s.executeUpdate(ddl);
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
     }
@@ -47,8 +46,7 @@ public class JdbcTarget implements IDatabaseTarget {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, value);
             ps.executeUpdate(sql);
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
     }
@@ -64,4 +62,7 @@ public class JdbcTarget implements IDatabaseTarget {
         return supplier.run(translator, connection);
     }
 
+    public Connection getConnection() {
+        return this.connection;
+    }
 }

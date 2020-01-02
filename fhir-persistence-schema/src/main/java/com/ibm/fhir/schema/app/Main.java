@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.dryrun.DryRunContainer;
 import com.ibm.fhir.schema.app.processor.ActionProcessor;
 import com.ibm.fhir.schema.app.processor.action.AddTenantKeyAction;
 import com.ibm.fhir.schema.app.processor.action.AddTenantPartitionsAction;
@@ -29,7 +30,8 @@ import com.ibm.fhir.schema.app.processor.action.UpdateSchemaAction;
 import com.ibm.fhir.schema.app.processor.action.UpdateTenantStatusAction;
 import com.ibm.fhir.schema.app.processor.action.VersionHistoryServiceAction;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
-import com.ibm.fhir.schema.app.util.SchemaUtil;
+import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
+import com.ibm.fhir.schema.app.processor.util.SchemaUtil;
 
 /**
  * Utility app to connect to a DB2 database and create/update the FHIR schema.
@@ -222,8 +224,9 @@ public class Main {
 
     /**
      * Process the requested operation
+     * @throws Exception 
      */
-    protected void process() {
+    protected void process() throws Exception {
         long start = System.nanoTime();
         processor = new ActionProcessor(actionBean);
         SchemaUtil.loadDriver(actionBean.getTranslator());
@@ -275,8 +278,9 @@ public class Main {
 
     /**
      * Create fhir data and admin schema
+     * @throws Exception 
      */
-    protected void createFhirSchemas() {
+    protected void createFhirSchemas() throws Exception {
         CreateSchemaAction action = new CreateSchemaAction();
         processor.process(action);
     }
@@ -284,8 +288,9 @@ public class Main {
     /**
      * Drop all the objects in the admin and data schemas. Typically used
      * during development.
+     * @throws Exception 
      */
-    protected void dropSchema() {
+    protected void dropSchema() throws Exception {
         DropSchemaAction action = new DropSchemaAction();
         processor.process(action);
     }
@@ -293,8 +298,9 @@ public class Main {
     /**
      * Update the stored procedures used by FHIR to insert records
      * into the FHIR resource tables
+     * @throws Exception 
      */
-    protected void updateProcedures() {
+    protected void updateProcedures() throws Exception {
         UpdateProceduresAction action = new UpdateProceduresAction();
         processor.process(action);
     }
@@ -303,16 +309,18 @@ public class Main {
      * Add a new tenant key so that we can rotate the values (add a
      * new key, update config files, then remove the old key). This
      * avoids any service interruption.
+     * @throws SchemaActionException 
      */
-    protected void addTenantKey() {
+    protected void addTenantKey() throws SchemaActionException {
         AddTenantKeyAction action = new AddTenantKeyAction();
         processor.processTransaction(action);
     }
 
     /**
      * Allocate this tenant, creating new partitions if required.
+     * @throws Exception 
      */
-    protected void allocateTenant() {
+    protected void allocateTenant() throws Exception {
         // Starts the Allocate Tenant Action by getting the tenantId
         AllocateTenantAction action = new AllocateTenantAction();
         processor.processTransaction(action);
@@ -333,8 +341,9 @@ public class Main {
 
     /**
      * checks the compatibility action
+     * @throws SchemaActionException 
      */
-    protected boolean checkCompatibility() {
+    protected boolean checkCompatibility() throws SchemaActionException {
         CheckCompatibilityAction action = new CheckCompatibilityAction();
         processor.processTransaction(action);
         return actionBean.isCompatible();
@@ -344,16 +353,18 @@ public class Main {
      * Grant the minimum required set of privileges on the FHIR schema objects
      * to the grantTo user. All tenant data access is via this user, and is the
      * only user the FHIR server itself is configured with.
+     * @throws SchemaActionException 
      */
-    protected void grantPrivileges() {
+    protected void grantPrivileges() throws SchemaActionException {
         GrantPrivilegesAction action = new GrantPrivilegesAction();
         processor.processTransaction(action);
     }
 
     /**
      * Update the schema
+     * @throws SchemaActionException 
      */
-    protected void updateSchema() {
+    protected void updateSchema() throws Exception {
         UpdateSchemaAction action = new UpdateSchemaAction();
         processor.processTransaction(action);
 
@@ -371,8 +382,9 @@ public class Main {
 
     /**
      * Deallocate this tenant, dropping all the related partitions
+     * @throws SchemaActionException 
      */
-    protected void dropTenant() {
+    protected void dropTenant() throws SchemaActionException {
         DropTenantAction action = new DropTenantAction();
         processor.processTransaction(action);
 
@@ -386,8 +398,9 @@ public class Main {
      * Check that we can call the set_tenant procedure successfully (which means
      * that the
      * tenant record exists in the tenants table)
+     * @throws SchemaActionException 
      */
-    protected void testTenant() {
+    protected void testTenant() throws SchemaActionException {
         // Fill any static data tables (which are also partitioned by tenant)
         PopulateStaticTablesAction actionStatic = new PopulateStaticTablesAction();
         processor.processTransaction(actionStatic);
@@ -411,11 +424,18 @@ public class Main {
             SchemaUtil.configureLogger();
             m.parseArgs(args);
             m.process();
+
+            // Print before closing out.
+            DryRunContainer.getSingleInstance().print(";", System.out);
             exitStatus = m.getExitStatus();
         } catch (IllegalArgumentException x) {
             logger.log(Level.SEVERE, "bad argument", x);
             SchemaUtil.printUsage();
             exitStatus = EXIT_BAD_ARGS;
+        } catch (SchemaActionException sae) {
+            // Singals an issue with a schema action. 
+            logger.log(Level.SEVERE, "schema tool failed");
+            exitStatus = EXIT_RUNTIME_ERROR;
         } catch (Exception x) {
             logger.log(Level.SEVERE, "schema tool failed", x);
             exitStatus = EXIT_RUNTIME_ERROR;

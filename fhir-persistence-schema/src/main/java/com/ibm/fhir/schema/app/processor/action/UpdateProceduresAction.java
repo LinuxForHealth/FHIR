@@ -11,6 +11,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
+import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 
 public class UpdateProceduresAction implements ISchemaAction {
@@ -21,7 +22,7 @@ public class UpdateProceduresAction implements ISchemaAction {
 
     @Override
     public void run(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
-            ITransactionProvider transactionProvider) {
+            ITransactionProvider transactionProvider) throws SchemaActionException {
 
         FhirSchemaGenerator gen = new FhirSchemaGenerator(actionBean.getAdminSchemaName(), actionBean.getSchemaName());
         PhysicalDataModel pdm = new PhysicalDataModel();
@@ -30,11 +31,5 @@ public class UpdateProceduresAction implements ISchemaAction {
         // Now only apply the procedures in the model. Much faster than
         // going through the whole schema
         pdm.applyProcedures(adapter);
-    }
-
-    @Override
-    public void dryRun(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
-            ITransactionProvider transactionProvider) {
-        run(actionBean, target, adapter, transactionProvider);
     }
 }

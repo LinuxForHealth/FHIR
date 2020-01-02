@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ import java.sql.Statement;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.dryrun.DryRunContainer;
 
 /**
  * Drops the table at the schema.table
@@ -22,6 +23,7 @@ public class DropTable implements IDatabaseStatement {
 
     /**
      * Public constructor
+     * 
      * @param schemaName
      * @param tableName
      */
@@ -29,20 +31,21 @@ public class DropTable implements IDatabaseStatement {
         DataDefinitionUtil.assertValidName(schemaName);
         DataDefinitionUtil.assertValidName(tableName);
         this.schemaName = schemaName;
-        this.tableName = tableName;
+        this.tableName  = tableName;
     }
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         final String ddl = "DROP TABLE " + qname;
-        
-        try (Statement s = c.createStatement()) {
-            s.executeUpdate(ddl);
-        }
-        catch (SQLException x) {
-            throw translator.translate(x);
+        if (DryRunContainer.getSingleInstance().isDryRun()) {
+            DryRunContainer.getSingleInstance().add(ddl, null);
+        } else {
+            try (Statement s = c.createStatement()) {
+                s.executeUpdate(ddl);
+            } catch (SQLException x) {
+                throw translator.translate(x);
+            }
         }
     }
-
 }

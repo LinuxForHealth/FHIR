@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,10 +9,12 @@ package com.ibm.fhir.database.utils.tenant;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.dryrun.DryRunContainer;
 
 /**
  * DAO to add a new tenant key record
@@ -36,10 +38,10 @@ public class AddTenantKeyDAO implements IDatabaseStatement {
     public AddTenantKeyDAO(String schemaName, int tenantId, String tenantKey, String tenantSalt,
             String idSequenceName) {
         DataDefinitionUtil.assertValidName(schemaName);
-        this.schemaName = schemaName;
-        this.tenantId = tenantId;
-        this.tenantKey = tenantKey;
-        this.tenantSalt = tenantSalt;
+        this.schemaName     = schemaName;
+        this.tenantId       = tenantId;
+        this.tenantKey      = tenantKey;
+        this.tenantSalt     = tenantSalt;
         this.idSequenceName = idSequenceName;
     }
 
@@ -51,19 +53,25 @@ public class AddTenantKeyDAO implements IDatabaseStatement {
          */
         final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "TENANT_KEYS");
         final String idSeq = DataDefinitionUtil.getQualifiedName(schemaName, idSequenceName);
-        final String SQL = "" + "   INSERT INTO " + tableName + "(tenant_key_id, mt_id, tenant_salt, tenant_hash)"
-                + "        VALUES (next value for " + idSeq + ", ?, ?, SYSIBM.HASH(? || ?, 2))";
+        final String SQL =
+                "INSERT INTO " + tableName + "(tenant_key_id, mt_id, tenant_salt, tenant_hash)"
+                        + " VALUES (next value for " + idSeq + ", ?, ?, SYSIBM.HASH(? || ?, 2))";
 
-        try (PreparedStatement ps = c.prepareStatement(SQL)) {
-            ps.setInt(1, tenantId);
-            ps.setString(2, tenantSalt);
-            ps.setString(3, tenantSalt); // | Database only stores the hash of these
-            ps.setString(4, tenantKey); // | two values combined. The key is not stored
-            ps.executeUpdate();
-        } catch (SQLException x) {
-            // Translate the exception into something a little more meaningful
-            // for this database type and application
-            throw translator.translate(x);
-        }
+        if (DryRunContainer.getSingleInstance().isDryRun()) {
+            DryRunContainer.getSingleInstance().add(SQL,
+                    Arrays.asList(tenantId, tenantSalt, tenantSalt, tenantKey));
+        } else {
+            try (PreparedStatement ps = c.prepareStatement(SQL)) {
+                ps.setInt(1, tenantId);
+                ps.setString(2, tenantSalt);
+                ps.setString(3, tenantSalt); // | Database only stores the hash of these
+                ps.setString(4, tenantKey); // | two values combined. The key is not stored
+                ps.executeUpdate();
+            } catch (SQLException x) {
+                // Translate the exception into something a little more meaningful
+                // for this database type and application
+                throw translator.translate(x);
+            }
+        } 
     }
 }

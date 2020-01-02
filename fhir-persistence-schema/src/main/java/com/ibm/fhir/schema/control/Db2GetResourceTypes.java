@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.dryrun.DryRunContainer;
 import com.ibm.fhir.schema.model.ResourceType;
 
 /**
@@ -25,26 +26,28 @@ public class Db2GetResourceTypes implements IDatabaseStatement {
 
     public Db2GetResourceTypes(String schemaName, Consumer<ResourceType> c) {
         this.schemaName = schemaName;
-        this.consumer = c;
+        this.consumer   = c;
     }
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        final String SQL = "SELECT resource_type_id, resource_type " 
-                         + "  FROM " + schemaName + ".RESOURCE_TYPES";
-
-        try (Statement s = c.createStatement()) {
-            ResultSet rs = s.executeQuery(SQL);
-            while (rs.next()) {
-                ResourceType rt = new ResourceType();
-                rt.setId(rs.getLong(1));
-                rt.setName(rs.getString(2));
-                consumer.accept(rt);
+        final String SQL =
+                "SELECT resource_type_id, resource_type "
+                        + "  FROM " + schemaName + ".RESOURCE_TYPES";
+        if (DryRunContainer.getSingleInstance().isDryRun()) {
+            DryRunContainer.getSingleInstance().add(SQL, null);
+        } else {
+            try (Statement s = c.createStatement()) {
+                ResultSet rs = s.executeQuery(SQL);
+                while (rs.next()) {
+                    ResourceType rt = new ResourceType();
+                    rt.setId(rs.getLong(1));
+                    rt.setName(rs.getString(2));
+                    consumer.accept(rt);
+                }
+            } catch (SQLException x) {
+                throw translator.translate(x);
             }
-        } catch (SQLException x) {
-            throw translator.translate(x);
         }
-
     }
-
 }

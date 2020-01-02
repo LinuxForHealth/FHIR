@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,11 +9,13 @@ package com.ibm.fhir.database.utils.tenant;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.dryrun.DryRunContainer;
 
 /**
  * DAO to create a free tenant slot (to align with a new partition)
@@ -33,34 +35,35 @@ public class AddTenantDAO implements IDatabaseStatement {
     public AddTenantDAO(String schemaName, int tenantId, String tenantName) {
         DataDefinitionUtil.assertValidName(schemaName);
         this.schemaName = schemaName;
-        this.tenantId = tenantId;
+        this.tenantId   = tenantId;
         this.tenantName = tenantName;
     }
-    
-    
+
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         /*
-         * Execute the encapsulated query against the database and stream the result data to the
-         * configured target
+         * Execute the encapsulated query against the database and stream the result
+         * data to the configured target
          */
-        
-        final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "TENANTS");
-        final String SQL = ""
-                + "   INSERT INTO " + tableName + "(mt_id, tenant_status, tenant_name)"
-                + "        VALUES (?, ?, ?)"
-                ;
 
-        try (PreparedStatement ps = c.prepareStatement(SQL)) {
-            ps.setInt(1, tenantId);
-            ps.setString(2, TenantStatus.PROVISIONING.name());
-            ps.setString(3, tenantName);
-            ps.executeUpdate();
-        }
-        catch (SQLException x) {
-            // Translate the exception into something a little more meaningful
-            // for this database type and application
-            throw translator.translate(x);
+        final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "TENANTS");
+        final String SQL =
+                "   INSERT INTO " + tableName + "(mt_id, tenant_status, tenant_name)"
+                        + " VALUES (?, ?, ?)";
+        if (DryRunContainer.getSingleInstance().isDryRun()) {
+            DryRunContainer.getSingleInstance().add(SQL,
+                    Arrays.asList(tenantId, TenantStatus.PROVISIONING.name(), tenantName));
+        } else {
+            try (PreparedStatement ps = c.prepareStatement(SQL)) {
+                ps.setInt(1, tenantId);
+                ps.setString(2, TenantStatus.PROVISIONING.name());
+                ps.setString(3, tenantName);
+                ps.executeUpdate();
+            } catch (SQLException x) {
+                // Translate the exception into something a little more meaningful
+                // for this database type and application
+                throw translator.translate(x);
+            }
         }
     }
 }

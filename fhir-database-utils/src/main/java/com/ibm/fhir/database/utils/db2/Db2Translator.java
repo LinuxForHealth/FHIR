@@ -18,11 +18,12 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
 
-
 /**
  * Handles translation of statements/fragments etc specific to DB2
  */
 public class Db2Translator implements IDatabaseTranslator {
+
+    private Boolean dryRun = Boolean.FALSE;
 
     @Override
     public String addForUpdate(String sql) {
@@ -62,8 +63,8 @@ public class Db2Translator implements IDatabaseTranslator {
         final String sqlState = x.getSQLState();
         final String msg = x.getMessage();
 
-        return "40001".equals(sqlState) 
-                && msg != null 
+        return "40001".equals(sqlState)
+                && msg != null
                 && msg.contains("SQLERRMC=68");
     }
 
@@ -72,9 +73,9 @@ public class Db2Translator implements IDatabaseTranslator {
         // deadlock is 40001 reason code 2
         final String sqlState = x.getSQLState();
         final String msg = x.getMessage();
-        return "40001".equals(sqlState) 
-            && msg != null
-            && msg.contains("SQLERRMC=2");
+        return "40001".equals(sqlState)
+                && msg != null
+                && msg.contains("SQLERRMC=2");
     }
 
     @Override
@@ -87,23 +88,17 @@ public class Db2Translator implements IDatabaseTranslator {
     public DataAccessException translate(SQLException x) {
         if (isDeadlock(x)) {
             return new LockException(x, true);
-        }
-        else if (isLockTimeout(x)) {
+        } else if (isLockTimeout(x)) {
             return new LockException(x, false);
-        }
-        else if (isConnectionError(x)) {
+        } else if (isConnectionError(x)) {
             return new ConnectionException(x);
-        }
-        else if (isDuplicate(x)) {
+        } else if (isDuplicate(x)) {
             return new UniqueConstraintViolationException(x);
-        }
-        else if (isAlreadyExists(x)) {
+        } else if (isAlreadyExists(x)) {
             return new DuplicateNameException(x);
-        }
-        else if (isUndefinedName(x)) {
+        } else if (isUndefinedName(x)) {
             return new UndefinedNameException(x);
-        }
-        else {
+        } else {
             return new DataAccessException(x);
         }
     }
@@ -118,7 +113,7 @@ public class Db2Translator implements IDatabaseTranslator {
         // Configure the properties as required by the DB2 driver
         p.put("user", cd.getUser());
         p.put("password", cd.getPassword());
-                
+
         if (cd.isSsl()) {
             p.put("sslConnection", "true");
             p.put("sslTrustStoreLocation", cd.getTrustStoreLocation());
@@ -131,7 +126,7 @@ public class Db2Translator implements IDatabaseTranslator {
             // failback only works if enableSeamlessFailover and enableClientAffinitiesList are yes
             // p.put("affinityFailbackInterval", cd.getAffinityFailbackInterval());
             p.put("clientRerouteAlternateServerName", cd.getClientRerouteAlternateServerName());
-            
+
             // RTC 257857 need to pass in port number as a string property
             p.put("clientRerouteAlternatePortNumber", cd.getClientRerouteAlternatePortNumber());
 
@@ -139,7 +134,7 @@ public class Db2Translator implements IDatabaseTranslator {
             if (cd.getEnableSeamlessFailover() > 0) {
                 p.put("enableSeamlessFailover", cd.getEnableSeamlessFailover());
             }
-            
+
             p.put("maxRetriesForClientReroute", "" + cd.getMaxRetriesForClientReroute());
             p.put("retryIntervalForClientReroute", "" + cd.getRetryIntervalForClientReroute());
             p.put("enableClientAffinitiesList", "" + cd.getEnableClientAffinitiesList());
@@ -153,8 +148,7 @@ public class Db2Translator implements IDatabaseTranslator {
     public String timestampDiff(String left, String right, String alias) {
         if (alias == null || alias.isEmpty()) {
             return String.format("timestampdiff(2, %s, %s)", left, right);
-        }
-        else {
+        } else {
             return String.format("timestampdiff(2, %s, %s) AS %s", left, right, alias);
         }
     }
@@ -183,5 +177,13 @@ public class Db2Translator implements IDatabaseTranslator {
     @Override
     public boolean clobSupportsInline() {
         return true;
+    }
+
+    public void setDryRun(Boolean dryRun) {
+        this.dryRun = dryRun;
+    }
+
+    public boolean isDryRun() {
+        return dryRun;
     }
 }

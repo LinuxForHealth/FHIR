@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
+import com.ibm.fhir.database.utils.dryrun.DryRunContainer;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -39,40 +40,42 @@ import com.ibm.fhir.database.utils.tenant.MaxTenantIdDAO;
 import com.ibm.fhir.database.utils.tenant.UpdateTenantStatusDAO;
 
 /**
- * Provides schema control functions common to our supported databases (DB2 and Derby)
+ * Provides schema control functions common to our supported databases (DB2 and
+ * Derby)
  */
 public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDatabaseTypeAdapter {
     private static final Logger logger = Logger.getLogger(CommonDatabaseAdapter.class.getName());
 
     // The target to use for executing our DDL
     protected final IDatabaseTarget target;
-    
+
     // The source of database connections
     protected final IConnectionProvider connectionProvider;
-    
+
     // The translator used to to tweak the syntax for the database
     private final IDatabaseTranslator translator;
-        
-    
+
     /**
      * Protected constructor
-     * @param tgt database targeted 
-     * @param dt the translator for this type of database
+     * 
+     * @param tgt database targeted
+     * @param dt  the translator for this type of database
      */
     protected CommonDatabaseAdapter(IDatabaseTarget tgt, IDatabaseTranslator dt) {
-        this.target = tgt;
-        this.translator = dt;
+        this.target             = tgt;
+        this.translator         = dt;
         this.connectionProvider = null;
     }
 
     /**
      * Public constructor for when we're using a connection provider
+     * 
      * @param cp
      * @param dt
      */
     protected CommonDatabaseAdapter(IConnectionProvider cp, IDatabaseTranslator dt) {
-        this.target = null;
-        this.translator = dt;
+        this.target             = null;
+        this.translator         = dt;
         this.connectionProvider = cp;
     }
 
@@ -80,17 +83,17 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     public IDatabaseTranslator getTranslator() {
         return this.translator;
     }
-    
+
     /**
      * Build the list of columns in the create table statement
      */
     protected String buildColumns(List<ColumnBase> columns, IdentityDef identity) {
         StringBuilder result = new StringBuilder();
-        for (ColumnBase column: columns) {
+        for (ColumnBase column : columns) {
             if (result.length() > 0) {
                 result.append(", ");
             }
-            
+
             result.append(column.getName());
             result.append(" ");
             result.append(column.getTypeInfo(this));
@@ -101,11 +104,10 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
                 result.append(" NOT NULL");
             }
         }
-        
-        
+
         return result.toString();
     }
-    
+
     /**
      * Generate a create table statement suitable for Derby
      * 
@@ -116,32 +118,33 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
      * @param tablespaceName
      * @return
      */
-    protected String buildCreateTableStatement(String schema, String name, List<ColumnBase> columns, PrimaryKeyDef pkDef, IdentityDef identity, String tablespaceName) {
+    protected String buildCreateTableStatement(String schema, String name, List<ColumnBase> columns,
+            PrimaryKeyDef pkDef, IdentityDef identity, String tablespaceName) {
         StringBuilder result = new StringBuilder();
         result.append("CREATE TABLE ");
         result.append(getQualifiedName(schema, name));
         result.append('(');
         result.append(buildColumns(columns, identity));
-        
+
         // Add the primary key definition after the columns
         if (pkDef != null) {
             result.append(", CONSTRAINT ");
             result.append(pkDef.getConstraintName());
             result.append(" PRIMARY KEY (");
-            
+
             StringBuilder cols = new StringBuilder();
-            for (String c: pkDef.getColumns()) {
+            for (String c : pkDef.getColumns()) {
                 if (cols.length() > 0) {
                     cols.append(", ");
                 }
                 cols.append(c);
             }
-            
+
             result.append(cols);
             result.append(')');
         }
         result.append(')');
-        
+
         if (tablespaceName != null) {
             DataDefinitionUtil.assertValidName(tablespaceName);
             result.append(" IN ");
@@ -152,15 +155,16 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<String> indexColumns, List<String> includeColumns) {
+            List<String> indexColumns, List<String> includeColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
-        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns);
+        String ddl =
+                DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns);
         runStatement(ddl);
     }
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<String> indexColumns) {
+            List<String> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns);
         runStatement(ddl);
@@ -168,7 +172,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     @Override
     public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<String> indexColumns) {
+            List<String> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns);
         runStatement(ddl);
@@ -177,6 +181,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     /**
      * Prefix the tenantColumnName to the list of columns, or do nothing
      * if tenantColumnName is null
+     * 
      * @param tenantColumnName
      * @param columns
      * @return
@@ -185,113 +190,117 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         List<String> result;
         if (tenantColumnName == null) {
             result = columns; // no change
-        }
-        else {
+        } else {
             result = new ArrayList<>(columns.size() + 1);
             result.add(tenantColumnName);
             result.addAll(columns);
         }
-        
+
         return result;
     }
 
     /**
      * Execute the statement on a connection managed by our connection provider
+     * 
      * @param ddl
      */
     protected void runStatement(final String ddl) {
-        if (this.connectionProvider != null) {
-            try (Connection c = connectionProvider.getConnection()) {
-                runStatement(c, ddl);
+        if (DryRunContainer.getSingleInstance().isDryRun()) {
+            DryRunContainer.getSingleInstance().add(ddl, null);
+        } else {
+            if (this.connectionProvider != null) {
+                try (Connection c = connectionProvider.getConnection()) {
+                    runStatement(c, ddl);
+                } catch (SQLException x) {
+                    throw translator.translate(x);
+                }
+
+            } else {
+                target.runStatement(this.translator, ddl);
             }
-            catch (SQLException x) {
-                throw translator.translate(x);
-            }
-            
-        }
-        else {
-            target.runStatement(this.translator, ddl);
         }
     }
 
     /**
      * Run the given SQL statement on the connection
+     * 
      * @param c
      * @param ddl
      * @throws SQLException
      */
     private void runStatement(Connection c, final String ddl) throws SQLException {
-        
         if (logger.isLoggable(Level.FINE)) {
             System.out.println(ddl);
         }
-        
+
         try (Statement s = c.createStatement()) {
-            s.executeUpdate(ddl);
+            if (DryRunContainer.getSingleInstance().isDryRun()) {
+                DryRunContainer.getSingleInstance().add(ddl, null);
+            } else {
+                s.executeUpdate(ddl);
+            }
         }
     }
-    
 
     /**
      * Return the fully qualified name in the form "SCHEMA.OBJECT"
      * Validates that both schema and object names are valid
+     * 
      * @param schemaName
      * @param objectName
      * @return the fully qualified name
-     * @throws IllegalArgumentException if either name is not a valid database object name
+     * @throws IllegalArgumentException if either name is not a valid database
+     *                                  object name
      */
     public String getQualifiedName(String schemaName, String objectName) {
         return DataDefinitionUtil.getQualifiedName(schemaName, objectName);
     }
-    
+
     @Override
     public void dropTable(String schemaName, String tableName) {
         final String nm = getQualifiedName(schemaName, tableName);
         final String ddl = "DROP TABLE " + nm;
-        
+
         try {
             runStatement(ddl);
-        }
-        catch (UndefinedNameException x) {
-            logger.warning(ddl + "; TABLE not found"); 
+        } catch (UndefinedNameException x) {
+            logger.warning(ddl + "; TABLE not found");
         }
 
     }
-    
+
     @Override
     public void dropPermission(String schemaName, String permissionName) {
         final String nm = getQualifiedName(schemaName, permissionName);
         final String ddl = "DROP PERMISSION " + nm;
-        
+
         try {
             runStatement(ddl);
-        }
-        catch (UndefinedNameException x) {
-            logger.warning(ddl + "; PERMISSION not found"); 
-        }
-    }
-    
-    @Override
-    public void dropVariable(String schemaName, String variableName) {
-        final String nm = getQualifiedName(schemaName, variableName);
-        final String ddl = "DROP VARIABLE " + nm;
-        
-        try {
-            runStatement(ddl);
-        }
-        catch (UndefinedNameException x) {
-            logger.warning(ddl + "; VARIABLE not found"); 
+        } catch (UndefinedNameException x) {
+            logger.warning(ddl + "; PERMISSION not found");
         }
     }
 
     @Override
-    public void createForeignKeyConstraint(String constraintName, String schemaName, String name, 
+    public void dropVariable(String schemaName, String variableName) {
+        final String nm = getQualifiedName(schemaName, variableName);
+        final String ddl = "DROP VARIABLE " + nm;
+
+        try {
+            runStatement(ddl);
+        } catch (UndefinedNameException x) {
+            logger.warning(ddl + "; VARIABLE not found");
+        }
+    }
+
+    @Override
+    public void createForeignKeyConstraint(String constraintName, String schemaName, String name,
             String targetSchema, String targetTable, String tenantColumnName,
             List<String> columns) {
 
         String tableName = DataDefinitionUtil.getQualifiedName(schemaName, name);
         String targetName = DataDefinitionUtil.getQualifiedName(targetSchema, targetTable);
-        
+
         // Add the tenant column as a prefix to the list of columns if we have a multi-tenant table
         List<String> cols = new ArrayList<>(columns.size() + 1);
         if (tenantColumnName != null) {
@@ -308,19 +317,19 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         ddl.append(DataDefinitionUtil.join(cols));
         ddl.append(") REFERENCES ");
         ddl.append(targetName);
-        
+
         try {
             // it seems that these statements are vulnerable to deadlocks in the DB2 dictionary
             runStatement(ddl.toString());
-        }
-        catch (Exception x) {
+        } catch (Exception x) {
             logger.warning("Statement failed (" + x.getMessage() + ") " + ddl.toString());
             throw x;
         }
     }
 
     @Override
-    public int allocateTenant(String adminSchemaName, String schemaName, String tenantName, String tenantKey, String tenantSalt, String idSequenceName) {
+    public int allocateTenant(String adminSchemaName, String schemaName, String tenantName, String tenantKey,
+            String tenantSalt, String idSequenceName) {
         // Need a mutable integer
         int tenantId = 0;
         do {
@@ -329,20 +338,18 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
             Tenant tenant = runStatement(tid);
             if (tenant != null) {
                 tenantId = tenant.getTenantId();
-            }
-            else {
+            } else {
                 // get the current max tenant id
                 MaxTenantIdDAO dao = new MaxTenantIdDAO(adminSchemaName);
                 Integer maxTenantId = runStatement(dao);
                 tenantId = maxTenantId == null || maxTenantId < 0 ? 1 : maxTenantId + 1;
-                
+
                 // Now try to create the new tenant using this new id
                 try {
                     logger.info("Trying new tenant record: " + tenantId + ", " + tenantName);
                     AddTenantDAO adder = new AddTenantDAO(adminSchemaName, tenantId, tenantName);
                     runStatement(adder);
-                }
-                catch (UniqueConstraintViolationException x) {
+                } catch (UniqueConstraintViolationException x) {
                     // Concurrent operation, so try again
                     logger.info("Duplicate value, so try the next one");
                     tenantId = 0;
@@ -359,13 +366,13 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     /**
      * Update the tenant status
+     * 
      * @param adminSchemaName
      * @param tenantId
      * @param status
      */
     @Override
     public void updateTenantStatus(String adminSchemaName, int tenantId, TenantStatus status) {
-
         UpdateTenantStatusDAO dao = new UpdateTenantStatusDAO(adminSchemaName, tenantId, status);
         runStatement(dao);
     }
@@ -374,6 +381,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
      * Run the statement using the connectionProvider to obtain a new
      * connection. Also, there should be a transaction open on the current
      * thread at this time
+     * 
      * @param stmt
      */
     @Override
@@ -381,56 +389,49 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         if (this.connectionProvider != null) {
             try (Connection c = connectionProvider.getConnection()) {
                 stmt.run(getTranslator(), c);
-            }
-            catch (SQLException x) {
+            } catch (SQLException x) {
                 throw translator.translate(x);
             }
-        }
-        else {
+        } else {
             this.target.runStatement(getTranslator(), stmt);
         }
     }
-    
+
     @Override
     public <T> T runStatement(IDatabaseSupplier<T> supplier) {
         if (this.connectionProvider != null) {
             try (Connection c = connectionProvider.getConnection()) {
                 return supplier.run(getTranslator(), c);
-            }
-            catch (SQLException x) {
+            } catch (SQLException x) {
                 throw translator.translate(x);
             }
-        }
-        else {
+        } else {
             return this.target.runStatement(getTranslator(), supplier);
         }
-        
     }
 
     @Override
     public void createSequence(String schemaName, String sequenceName, int cache) {
         /*
          * <CODE>CREATE SEQUENCE fhir_sequence
-             AS BIGINT
-     START WITH 1
-          CACHE 1000
-       NO CYCLE;</CODE>
-    */
+         * AS BIGINT
+         * START WITH 1
+         * CACHE 1000
+         * NO CYCLE;</CODE>
+         */
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 1 CACHE " + cache + " NO CYCLE";
         runStatement(ddl);
-        
     }
 
     @Override
     public void dropSequence(String schemaName, String sequenceName) {
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "DROP SEQUENCE " + sname;
-        
+
         try {
-            runStatement(ddl);        
-        }
-        catch (UndefinedNameException x) {
+            runStatement(ddl);
+        } catch (UndefinedNameException x) {
             logger.warning(ddl + "; Sequence not found");
         }
     }
@@ -443,55 +444,60 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     /**
      * get the privileges as a comma-separated string
+     * 
      * @param privileges
      * @return
      */
     private String privilegeString(Collection<Privilege> privileges) {
         return privileges.stream().map(Object::toString).collect(Collectors.joining(","));
     }
-    
+
     @Override
-    public void grantObjectPrivileges(String schemaName, String tableName, Collection<Privilege> privileges, String toUser) {
+    public void grantObjectPrivileges(String schemaName, String tableName, Collection<Privilege> privileges,
+            String toUser) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         DataDefinitionUtil.assertValidName(toUser);
         final String privs = privilegeString(privileges);
         final String grant = "GRANT " + privs + " ON " + objectName + " TO " + toUser;
-        
+
         logger.info("Applying: " + grant); // Grants are very useful to see logged
-        
+
         runStatement(grant);
     }
 
     @Override
-    public void grantProcedurePrivileges(String schemaName, String procedureName, Collection<Privilege> privileges, String toUser) {
+    public void grantProcedurePrivileges(String schemaName, String procedureName, Collection<Privilege> privileges,
+            String toUser) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
         DataDefinitionUtil.assertValidName(toUser);
         final String privs = privilegeString(privileges);
         final String grant = "GRANT " + privs + " ON PROCEDURE " + objectName + " TO " + toUser;
-        
+
         logger.info("Applying: " + grant); // Grants are very useful to see logged
 
         runStatement(grant);
     }
 
     @Override
-    public void grantVariablePrivileges(String schemaName, String variableName, Collection<Privilege> privileges, String toUser) {
+    public void grantVariablePrivileges(String schemaName, String variableName, Collection<Privilege> privileges,
+            String toUser) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, variableName);
         DataDefinitionUtil.assertValidName(toUser);
         final String privs = privilegeString(privileges);
         final String grant = "GRANT " + privs + " ON VARIABLE " + objectName + " TO " + toUser;
-        
+
         logger.info("Applying: " + grant); // Grants are very useful to see logged
         runStatement(grant);
     }
 
     @Override
-    public void grantSequencePrivileges(String schemaName, String variableName, Collection<Privilege> privileges, String toUser) {
+    public void grantSequencePrivileges(String schemaName, String variableName, Collection<Privilege> privileges,
+            String toUser) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, variableName);
         DataDefinitionUtil.assertValidName(toUser);
         final String privs = privilegeString(privileges);
         final String grant = "GRANT " + privs + " ON SEQUENCE " + objectName + " TO " + toUser;
-        
+
         logger.info("Applying: " + grant); // Grants are very useful to see logged
         runStatement(grant);
     }

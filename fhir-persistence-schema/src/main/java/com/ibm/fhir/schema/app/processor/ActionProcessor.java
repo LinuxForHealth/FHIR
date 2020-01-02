@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,37 +20,32 @@ import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
+import com.ibm.fhir.database.utils.db2.Db2Translator;
+import com.ibm.fhir.database.utils.dryrun.DryRunContainer;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.transaction.TransactionFactory;
-import com.ibm.fhir.schema.app.dryrun.DryRunConnection;
-import com.ibm.fhir.schema.app.dryrun.DryRunJdbcConnectionProvider;
 import com.ibm.fhir.schema.app.processor.action.ISchemaAction;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
+import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
 
 public class ActionProcessor {
     private static final Logger logger = Logger.getLogger(ActionProcessor.class.getName());
 
     private PoolConnectionProvider connectionPool;
     private ITransactionProvider transactionProvider;
-    private int maxConnectionPoolSize;
 
     private IDatabaseTranslator translator;
-    private Boolean dryRun = Boolean.FALSE;
-    private Properties properties;
 
     private ActionBean actionBean;
 
-    public ActionProcessor(Properties properties, IDatabaseTranslator translator, Boolean dryRun,
-            int maxConnectionPoolSize) {
-        this.properties            = properties;
-        this.translator            = translator;
-        this.dryRun                = dryRun;
-        this.maxConnectionPoolSize = maxConnectionPoolSize;
-    }
-
     public ActionProcessor(ActionBean actionBean) {
         this.actionBean = actionBean;
+        if (actionBean.getDryRun()) {
+            Db2Translator t = new Db2Translator();
+            t.setDryRun(Boolean.TRUE);
+            translator = t;
+        }
     }
 
     /**
@@ -59,28 +54,21 @@ public class ActionProcessor {
      * perform the DDL deployment in parallel
      */
     protected void configureConnectionPool() {
-        Db2PropertyAdapter adapter = new Db2PropertyAdapter(this.properties);
-
-        // Selectively switch to the DryRun provider or the Connection.
+        Db2PropertyAdapter adapter = new Db2PropertyAdapter(actionBean.getProperties());
         JdbcConnectionProvider cp = new JdbcConnectionProvider(this.translator, adapter);
-        if (this.dryRun) {
-            cp = new DryRunJdbcConnectionProvider(this.translator, adapter);
-        }
-
-        this.connectionPool      = new PoolConnectionProvider(cp, this.maxConnectionPoolSize);
+        this.connectionPool      = new PoolConnectionProvider(cp, actionBean.getMaxConnectionPoolSize());
         this.transactionProvider = new SimpleTransactionProvider(this.connectionPool);
     }
 
-    public void process(ISchemaAction action) {
+    public void process(ISchemaAction action) throws Exception {
         try (Connection c = createConnection()) {
             try {
                 JdbcTarget target = new JdbcTarget(c);
                 Db2Adapter adapter = new Db2Adapter(target);
-                if (dryRun) {
-                    action.dryRun(actionBean, target, adapter, transactionProvider);
-                } else {
-                    action.run(actionBean, target, adapter, transactionProvider);
+                if (actionBean.getDryRun()) {
+                    DryRunContainer.getSingleInstance().setDryRun(actionBean.getDryRun());
                 }
+                action.run(actionBean, target, adapter, transactionProvider);
             } catch (Exception x) {
                 c.rollback();
                 throw x;
@@ -91,15 +79,17 @@ public class ActionProcessor {
         }
     }
 
-    public void processTransaction(ISchemaAction action) {
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
+    public void processTransaction(ISchemaAction action) throws SchemaActionException {
+        if (actionBean.getDryRun()) {
+            DryRunContainer.getSingleInstance().setDryRun(actionBean.getDryRun());
+        }
+
+        // Configure the connection pool
+        configureConnectionPool();
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
-                if (dryRun) {
-                    action.dryRun(actionBean, null, adapter, transactionProvider);
-                } else {
-                    action.run(actionBean, null, adapter, transactionProvider);
-                }
+                Db2Adapter adapter = new Db2Adapter(connectionPool);
+                action.run(actionBean, null, adapter, transactionProvider);
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
@@ -115,25 +105,18 @@ public class ActionProcessor {
      */
     protected Connection createConnection() {
         Properties connectionProperties = new Properties();
-        Db2PropertyAdapter adapter = new Db2PropertyAdapter(this.properties);
+        Db2PropertyAdapter adapter = new Db2PropertyAdapter(actionBean.getProperties());
         adapter.getExtraProperties(connectionProperties);
 
-        String url = translator.getUrl(properties);
+        String url = translator.getUrl(actionBean.getProperties());
         logger.info("Opening connection to DB2: " + url);
         Connection connection;
         try {
-            // Dry Run
-            if (dryRun) {
-                Connection wrappedConnection = DriverManager.getConnection(url, connectionProperties);
-                connection = new DryRunConnection(wrappedConnection);
-            } else {
-                connection = DriverManager.getConnection(url, connectionProperties);
-            }
+            connection = DriverManager.getConnection(url, connectionProperties);
             connection.setAutoCommit(false);
         } catch (SQLException x) {
             throw translator.translate(x);
         }
-
         return connection;
     }
 }

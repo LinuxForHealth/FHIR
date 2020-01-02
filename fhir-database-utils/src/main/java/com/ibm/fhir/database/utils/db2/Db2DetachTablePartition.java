@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,21 +13,22 @@ import java.sql.Statement;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.dryrun.DryRunContainer;
 
 /**
  * DB2 DetatchTable Partition
  */
 public class Db2DetachTablePartition implements IDatabaseStatement {
-    
     private final String schemaName;
     private final String tableName;
     private final int partitionId;
-    
+
     // The name of the table the partition is moved into
     private final String intoTableName;
-    
+
     /**
      * Public constructor
+     * 
      * @param tableName
      * @param partitionId
      */
@@ -35,9 +36,9 @@ public class Db2DetachTablePartition implements IDatabaseStatement {
         DataDefinitionUtil.assertValidName(schemaName);
         DataDefinitionUtil.assertValidName(tableName);
         DataDefinitionUtil.assertValidName(intoTableName);
-        this.schemaName = schemaName;
-        this.tableName = tableName;
-        this.partitionId = partitionId;
+        this.schemaName    = schemaName;
+        this.tableName     = tableName;
+        this.partitionId   = partitionId;
         this.intoTableName = intoTableName;
     }
 
@@ -45,15 +46,17 @@ public class Db2DetachTablePartition implements IDatabaseStatement {
     public void run(IDatabaseTranslator translator, Connection c) {
         final String partitionName = "TENANT" + partitionId;
         final String fromTable = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
-        final String targetName = DataDefinitionUtil.getQualifiedName(schemaName, intoTableName);        
+        final String targetName = DataDefinitionUtil.getQualifiedName(schemaName, intoTableName);
         final String ddl = "ALTER TABLE " + fromTable + " DETACH PARTITION " + partitionName + " INTO " + targetName;
-        
-        try (Statement s = c.createStatement()) {
-            s.executeUpdate(ddl);
-        }
-        catch (SQLException x) {
-            throw translator.translate(x);
+
+        if (DryRunContainer.getSingleInstance().isDryRun()) {
+            DryRunContainer.getSingleInstance().add(ddl, null);
+        } else {
+            try (Statement s = c.createStatement()) {
+                s.executeUpdate(ddl);
+            } catch (SQLException x) {
+                throw translator.translate(x);
+            }
         }
     }
-
 }

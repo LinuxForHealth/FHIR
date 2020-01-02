@@ -11,8 +11,9 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
-import com.ibm.fhir.schema.app.processor.TenantUtil;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
+import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
+import com.ibm.fhir.schema.app.processor.util.SchemaUtil;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 public class AllocateTenantAction implements ISchemaAction {
@@ -24,16 +25,16 @@ public class AllocateTenantAction implements ISchemaAction {
 
     @Override
     public void run(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
-            ITransactionProvider transactionProvider) {
+            ITransactionProvider transactionProvider) throws SchemaActionException {
         // The key we'll use for this tenant. This key should be used in subsequent
         // activities related to this tenant, such as setting the tenant context.
-        final String tenantKey = TenantUtil.getRandomKey();
+        final String tenantKey = SchemaUtil.getRandomKey();
 
         // The salt is used when we hash the tenantKey. We're just using SHA-256 for
         // the hash here, not multiple rounds of a password hashing algorithm. It's
         // sufficient in our case because we are using a 32-byte random value as the
         // key, giving 256 bits of entropy.
-        final String tenantSalt = TenantUtil.getRandomKey();
+        final String tenantSalt = SchemaUtil.getRandomKey();
 
         // Open a new transaction and associate it with our connection pool. Remember
         // that we don't support distributed transactions, so all connections within
@@ -49,11 +50,5 @@ public class AllocateTenantAction implements ISchemaAction {
         // The tenant-id is important because this is also used to identify the partition number
         logger.info("Tenant Id[" + actionBean.getTenantName() + "] = " + tenantId);
         actionBean.setTenantId(tenantId);
-    }
-
-    @Override
-    public void dryRun(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
-            ITransactionProvider transactionProvider) {
-        run(actionBean, target, adapter, transactionProvider);
     }
 }

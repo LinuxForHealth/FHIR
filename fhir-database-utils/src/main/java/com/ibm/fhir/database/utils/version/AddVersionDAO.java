@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,9 +9,11 @@ package com.ibm.fhir.database.utils.version;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.dryrun.DryRunContainer;
 import com.ibm.fhir.database.utils.model.InsertStatement;
 
 /**
@@ -21,49 +23,50 @@ import com.ibm.fhir.database.utils.model.InsertStatement;
 public class AddVersionDAO implements IDatabaseStatement {
     // The admin schema holding the history table
     private final String adminSchemaName;
-    
+
     // The schema, type and name of the object we want to manage
     private final String schemaName;
     private final String type;
     private final String name;
     private final int version;
-    
+
     public AddVersionDAO(String adminSchemaName, String schemaName, String type, String name, int version) {
         this.adminSchemaName = adminSchemaName;
-        this.schemaName = schemaName;
-        this.type = type;
-        this.name = name;
-        this.version = version;
+        this.schemaName      = schemaName;
+        this.type            = type;
+        this.name            = name;
+        this.version         = version;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        
-        final InsertStatement ins = InsertStatement.builder(adminSchemaName, SchemaConstants.VERSION_HISTORY)
-                .addColumn(SchemaConstants.SCHEMA_NAME)
-                .addColumn(SchemaConstants.OBJECT_TYPE)
-                .addColumn(SchemaConstants.OBJECT_NAME)
-                .addColumn(SchemaConstants.VERSION)
-                .addColumn(SchemaConstants.APPLIED, "CURRENT TIMESTAMP")
-                .build();
-        
-        try (PreparedStatement ps = c.prepareStatement(ins.toString())) {
-            ps.setString(1, schemaName);
-            ps.setString(2, type);
-            ps.setString(3, name);
-            ps.setInt(4, version);
-            ps.executeUpdate();
-        }
-        catch (SQLException x) {
-            // suppress any complaints about duplicates because we want this to
-            // be idempotent
-            if (!translator.isDuplicate(x)) {
-                throw translator.translate(x);
+
+        final InsertStatement ins =
+                InsertStatement.builder(adminSchemaName, SchemaConstants.VERSION_HISTORY)
+                        .addColumn(SchemaConstants.SCHEMA_NAME)
+                        .addColumn(SchemaConstants.OBJECT_TYPE)
+                        .addColumn(SchemaConstants.OBJECT_NAME)
+                        .addColumn(SchemaConstants.VERSION)
+                        .addColumn(SchemaConstants.APPLIED, "CURRENT TIMESTAMP")
+                        .build();
+
+        if (DryRunContainer.getSingleInstance().isDryRun()) {
+            DryRunContainer.getSingleInstance().add(ins.toString(),
+                    Arrays.asList(schemaName, type, name, version));
+        } else {
+            try (PreparedStatement ps = c.prepareStatement(ins.toString())) {
+                ps.setString(1, schemaName);
+                ps.setString(2, type);
+                ps.setString(3, name);
+                ps.setInt(4, version);
+                ps.executeUpdate();
+            } catch (SQLException x) {
+                // suppress any complaints about duplicates because we want this to
+                // be idempotent
+                if (!translator.isDuplicate(x)) {
+                    throw translator.translate(x);
+                }
             }
         }
     }
-
 }

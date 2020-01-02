@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,10 +9,12 @@ package com.ibm.fhir.database.utils.db2;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.dryrun.DryRunContainer;
 
 /**
  * DAO command to call the set_tenant fhir admin procedure which will set the
@@ -27,6 +29,7 @@ public class Db2SetTenantVariable implements IDatabaseStatement {
 
     /**
      * Public constructor
+     * 
      * @param schemaName
      * @param tenantName
      */
@@ -34,20 +37,22 @@ public class Db2SetTenantVariable implements IDatabaseStatement {
         DataDefinitionUtil.assertValidName(schemaName);
         this.schemaName = schemaName;
         this.tenantName = tenantName;
-        this.tenantKey = tenantKey;
+        this.tenantKey  = tenantKey;
     }
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        final String call = "CALL " + schemaName + ".set_tenant(?, ?)"; 
-        
-        try (CallableStatement cs = c.prepareCall(call)) {
-            cs.setString(1, tenantName);
-            cs.setString(2, tenantKey);
-            cs.executeUpdate();
-        }
-        catch (SQLException x) {
-            throw translator.translate(x);
+        final String call = "CALL " + schemaName + ".set_tenant(?, ?)";
+        if (DryRunContainer.getSingleInstance().isDryRun()) {
+            DryRunContainer.getSingleInstance().add(call, Arrays.asList(tenantName, tenantKey));
+        } else {
+            try (CallableStatement cs = c.prepareCall(call)) {
+                cs.setString(1, tenantName);
+                cs.setString(2, tenantKey);
+                cs.executeUpdate();
+            } catch (SQLException x) {
+                throw translator.translate(x);
+            }
         }
     }
 }

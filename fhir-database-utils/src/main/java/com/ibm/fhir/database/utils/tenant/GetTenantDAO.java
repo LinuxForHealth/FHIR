@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,8 +45,8 @@ public class GetTenantDAO implements IDatabaseSupplier<Tenant> {
          */
 
         final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "TENANTS");
-        final String SQL = "" + "   SELECT mt_id, tenant_status " + "     FROM " + tableName
-                + "    WHERE tenant_name = ?";
+        final String SQL = "SELECT mt_id, tenant_status " + "     FROM " + tableName
+                + " WHERE tenant_name = ?";
 
         try (PreparedStatement ps = c.prepareStatement(SQL)) {
             ps.setString(1, this.tenantName);

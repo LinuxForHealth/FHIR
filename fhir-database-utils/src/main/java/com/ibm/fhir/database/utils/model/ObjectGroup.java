@@ -79,7 +79,7 @@ public class ObjectGroup extends BaseObject {
     public void grant(IDatabaseAdapter target, String groupName, String toUser) {
         /**
          * Override the BaseObject behavior because we need to propagate the grant request
-         * to the indivual objects we have aggregated
+         * to the individual objects we have aggregated
          */
         
         for (IDatabaseObject obj: this.group) {

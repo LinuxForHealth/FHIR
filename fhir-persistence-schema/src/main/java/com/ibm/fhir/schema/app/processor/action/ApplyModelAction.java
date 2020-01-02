@@ -15,7 +15,8 @@ import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.schema.app.Main;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
-import com.ibm.fhir.schema.app.util.SchemaUtil;
+import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
+import com.ibm.fhir.schema.app.processor.util.SchemaUtil;
 import com.ibm.fhir.task.api.ITaskGroup;
 
 public class ApplyModelAction implements ISchemaAction {
@@ -27,7 +28,7 @@ public class ApplyModelAction implements ISchemaAction {
 
     @Override
     public void run(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
-            ITransactionProvider transactionProvider) {
+            ITransactionProvider transactionProvider) throws SchemaActionException {
         logger.info("Collecting model update tasks");
         actionBean.getPhysicalDataModel().collect(actionBean.getCollector(), adapter, transactionProvider,
                 actionBean.getVersionHistoryService());
@@ -44,12 +45,5 @@ public class ApplyModelAction implements ISchemaAction {
                     failedTaskGroups.stream().map(SchemaUtil::mapToId).collect(Collectors.joining(","));
             logger.severe("List of failed task groups: " + failedStr);
         }
-
-    }
-
-    @Override
-    public void dryRun(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
-            ITransactionProvider transactionProvider) {
-        run(actionBean, target, adapter, transactionProvider);
     }
 }

@@ -14,6 +14,7 @@ import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
+import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 
 public class DropTenantAction implements ISchemaAction {
@@ -25,7 +26,7 @@ public class DropTenantAction implements ISchemaAction {
 
     @Override
     public void run(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
-            ITransactionProvider transactionProvider) {
+            ITransactionProvider transactionProvider) throws SchemaActionException {
         // Mark the tenant as being dropped. This should prevent it from
         // being used in any way
         logger.info("Marking tenant for drop: " + actionBean.getTenantName());
@@ -49,11 +50,5 @@ public class DropTenantAction implements ISchemaAction {
         pdm.dropTenantTablespace();
 
         actionBean.setTenantId(tenantId);
-    }
-
-    @Override
-    public void dryRun(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
-            ITransactionProvider transactionProvider) {
-        run(actionBean, target, adapter, transactionProvider);
     }
 }
