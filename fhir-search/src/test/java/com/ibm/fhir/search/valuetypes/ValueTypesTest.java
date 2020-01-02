@@ -36,14 +36,11 @@ import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.search.parameters.Parameter;
+import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.test.BaseSearchTest;
 
 /**
  * Tests ValueType Gets
- * 
- * @author pbastide
- *
  */
 public class ValueTypesTest extends BaseSearchTest {
 
@@ -127,7 +124,7 @@ public class ValueTypesTest extends BaseSearchTest {
     public void testGetValueTypes2() throws Exception {
         Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(Patient.class, "_id");
         assertEquals(valueTypes.size(), 1);
-        assertTrue(valueTypes.contains(com.ibm.fhir.model.type.Id.class));
+        assertTrue(valueTypes.contains(com.ibm.fhir.model.type.String.class));
     }
 
     @Test
@@ -135,7 +132,6 @@ public class ValueTypesTest extends BaseSearchTest {
         Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(Observation.class, "date");
         printValueTypes(valueTypes);
         assertEquals(valueTypes.size(), 3);
-        assertTrue(valueTypes.contains(Element.class));
     }
 
     @Test
@@ -183,11 +179,11 @@ public class ValueTypesTest extends BaseSearchTest {
         Class<?> resourceType = Account.class;
 
         String name = "period";
-        Parameter queryParm = new Parameter(Type.DATE, name, null, name);
+        QueryParameter queryParm = new QueryParameter(Type.DATE, name, null, name);
         assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateRangeSearch(resourceType, queryParm));
 
         name = "subject";
-        queryParm = new Parameter(Type.REFERENCE, name, null, name);
+        queryParm = new QueryParameter(Type.REFERENCE, name, null, name);
         assertFalse(ValueTypesFactory.getValueTypesProcessor().isDateRangeSearch(resourceType, queryParm));
 
     }
@@ -197,31 +193,31 @@ public class ValueTypesTest extends BaseSearchTest {
         Class<?> resourceType = ActivityDefinition.class;
 
         String name = "date";
-        Parameter queryParm = new Parameter(Type.DATE, name, null, name);
+        QueryParameter queryParm = new QueryParameter(Type.DATE, name, null, name);
         assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
 
         name = "depends-on";
-        queryParm = new Parameter(Type.REFERENCE, name, null, name);
+        queryParm = new QueryParameter(Type.REFERENCE, name, null, name);
         assertFalse(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
 
         resourceType = Account.class;
         name = "subject";
-        queryParm = new Parameter(Type.REFERENCE, name, null, name);
+        queryParm = new QueryParameter(Type.REFERENCE, name, null, name);
         assertFalse(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
 
         resourceType = Appointment.class;
         name = "date";
-        queryParm = new Parameter(Type.DATE, name, null, name);
+        queryParm = new QueryParameter(Type.DATE, name, null, name);
         assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
 
         resourceType = CapabilityStatement.class;
         name = "date";
-        queryParm = new Parameter(Type.DATE, name, null, name);
+        queryParm = new QueryParameter(Type.DATE, name, null, name);
         assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
 
         resourceType = ClaimResponse.class;
         name = "payment-date";
-        queryParm = new Parameter(Type.DATE, name, null, name);
+        queryParm = new QueryParameter(Type.DATE, name, null, name);
         assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
 
     }
@@ -232,11 +228,11 @@ public class ValueTypesTest extends BaseSearchTest {
         Class<?> resourceType = ActivityDefinition.class;
 
         String name = "context-quantity";
-        Parameter queryParm = new Parameter(Type.QUANTITY, name, null, name);
+        QueryParameter queryParm = new QueryParameter(Type.QUANTITY, name, null, name);
         assertTrue(ValueTypesFactory.getValueTypesProcessor().isRangeSearch(resourceType, queryParm));
         
         name = "derived-from";
-        queryParm = new Parameter(Type.REFERENCE, name, null, name);
+        queryParm = new QueryParameter(Type.REFERENCE, name, null, name);
         assertFalse(ValueTypesFactory.getValueTypesProcessor().isRangeSearch(resourceType, queryParm));
 
     }
@@ -246,7 +242,7 @@ public class ValueTypesTest extends BaseSearchTest {
         Class<?> resourceType = MolecularSequence.class;
 
         String name = "variant-end";
-        Parameter queryParm = new Parameter(Type.NUMBER, name, null, name);
+        QueryParameter queryParm = new QueryParameter(Type.NUMBER, name, null, name);
         assertTrue(ValueTypesFactory.getValueTypesProcessor().isIntegerSearch(resourceType, queryParm));
         
     }

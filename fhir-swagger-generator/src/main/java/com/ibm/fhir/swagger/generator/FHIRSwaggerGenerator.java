@@ -855,6 +855,10 @@ public class FHIRSwaggerGenerator {
                 definition.add("required", requiredArray);
             }
 
+            if (Resource.class.isAssignableFrom(modelClass)) {
+                FHIROpenApiGenerator.addExamples(modelClass, definition);
+            }
+
             definitions.add(getSimpleNameWithEnclosingNames(modelClass), definition);
         }
     }

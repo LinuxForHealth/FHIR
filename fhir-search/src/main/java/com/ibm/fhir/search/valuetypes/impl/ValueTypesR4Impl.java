@@ -28,6 +28,7 @@ import javax.json.JsonString;
 import javax.json.JsonValue;
 
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.type.Count;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Instant;
@@ -37,15 +38,12 @@ import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.search.parameters.Parameter;
+import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.valuetypes.IValueTypes;
 import com.ibm.fhir.search.valuetypes.cache.TenantSpecificValueTypesCache;
 
 /**
  * ValueTypes R4 Impl
- * 
- * @author pbastide
- *
  */
 public class ValueTypesR4Impl implements IValueTypes {
 
@@ -62,7 +60,8 @@ public class ValueTypesR4Impl implements IValueTypes {
 
     private static TenantSpecificValueTypesCache cache = new TenantSpecificValueTypesCache();
 
-    public static final String EXCEPTION = "Unable to determine search parameter values for query parameter '%s' and resource type '%s' ";
+    public static final String EXCEPTION =
+            "Unable to determine search parameter values for query parameter '%s' and resource type '%s' ";
 
     public static final String CONVERT_EXCEPTION = "unable to convert to class while setting value types for %s";
 
@@ -76,12 +75,12 @@ public class ValueTypesR4Impl implements IValueTypes {
     }
 
     @Override
-    public boolean isDateRangeSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
+    public boolean isDateRangeSearch(Class<?> resourceType, QueryParameter queryParm) throws FHIRSearchException {
         return getValueTypes(resourceType, queryParm.getCode()).contains(Period.class);
     }
 
     @Override
-    public boolean isDateSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
+    public boolean isDateSearch(Class<?> resourceType, QueryParameter queryParm) throws FHIRSearchException {
         // Date Search does not support Date and Partial DateTime in a Range Search.
 
         Set<Class<?>> valueTypes = getValueTypes(resourceType, queryParm.getCode());
@@ -90,13 +89,13 @@ public class ValueTypesR4Impl implements IValueTypes {
     }
 
     @Override
-    public boolean isRangeSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
+    public boolean isRangeSearch(Class<?> resourceType, QueryParameter queryParm) throws FHIRSearchException {
         // Range Search does not handle decimal searches like a range search
         return getValueTypes(resourceType, queryParm.getCode()).contains(Range.class);
     }
 
     @Override
-    public boolean isIntegerSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
+    public boolean isIntegerSearch(Class<?> resourceType, QueryParameter queryParm) throws FHIRSearchException {
         try {
             Set<Class<?>> valueTypes = getValueTypes(resourceType, queryParm.getCode());
             return (valueTypes.contains(com.ibm.fhir.model.type.Integer.class) || valueTypes.contains(UnsignedInt.class)
@@ -156,16 +155,18 @@ public class ValueTypesR4Impl implements IValueTypes {
                     if (valueTypes != null) {
                         valueTypesList.addAll(valueTypes);
                     } else if (log.isLoggable(Level.FINER)) {
-                        log.log(Level.FINER, "Assuming search parameter '" + code + "' on resource type '" 
-                                + resourceType.getSimpleName() + "' is not an extension-search-parameter [tenantId=" + tenantId + "]");
+                        log.log(Level.FINER, "Assuming search parameter '" + code + "' on resource type '"
+                                + resourceType.getSimpleName() + "' is not an extension-search-parameter [tenantId="
+                                + tenantId + "]");
                     }
                 } else if (log.isLoggable(Level.FINE)) {
-                    log.log(Level.FINE, "Unable to find extension-search-parameters-valuetypes for tenantId '" + tenantId + "'");
+                    log.log(Level.FINE,
+                            "Unable to find extension-search-parameters-valuetypes for tenantId '" + tenantId + "'");
                 }
 
             } catch (Exception e) {
                 // If there is an exception here, it's most likely in the file.
-                log.log(Level.INFO, "Error loading the value types for parameter '" + code + "' on resource type '" 
+                log.log(Level.INFO, "Error loading the value types for parameter '" + code + "' on resource type '"
                         + resourceType.getSimpleName() + "' [tenantId=" + tenantId + "]", e);
             }
         }
@@ -242,6 +243,11 @@ public class ValueTypesR4Impl implements IValueTypes {
             if (!found) {
                 // Checks the other possibility
                 found = processClass(clzs, "com.ibm.fhir.model.type.code", type);
+            }
+
+            if (!found && "Location.Position".compareTo(type) == 0) {
+                found = true;
+                clzs.add(Location.Position.class);
             }
 
             // Logs out if error.

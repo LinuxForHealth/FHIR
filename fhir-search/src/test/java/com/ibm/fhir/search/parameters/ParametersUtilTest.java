@@ -10,15 +10,17 @@ import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.io.Reader;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -26,6 +28,10 @@ import java.util.function.Consumer;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.parser.FHIRParser;
+import com.ibm.fhir.model.parser.exception.FHIRParserException;
+import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Markdown;
@@ -45,41 +51,42 @@ import com.ibm.fhir.search.test.BaseSearchTest;
 public class ParametersUtilTest extends BaseSearchTest {
 
     @Test
-    public void testGetBuildInSearchParameterMap() throws IOException {
+    public void testGetBuiltInSearchParameterMap() throws IOException {
         // Tests JSON
-        Map<String, Map<String, SearchParameter>> params = ParametersUtil.getBuiltInSearchParameterMap();
+        Map<String, ParametersMap> params = ParametersUtil.getBuiltInSearchParametersMap();
         assertNotNull(params);
         // Intentionally the data is caputred in the bytearray output stream.
         try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true);) {
             ParametersUtil.print(out);
             Assert.assertNotNull(outBA);
         }
-        // 134 + DomainResource
-        assertEquals(params.size(), 135);
+        assertEquals(params.size(), 134);
     }
 
     @Test()
-    public void testPopulateSearchParameterMapFromStreamXML() throws IOException {
+    public void testPopulateSearchParameterMapFromStreamXML() throws IOException, FHIRParserException {
         // Tests XML (once we support reading XML)
         try (InputStream stream = ParametersUtil.class.getClassLoader().getResourceAsStream("search-parameters.xml")) {
-            Map<String, Map<String, SearchParameter>> params = ParametersUtil.populateSearchParameterMapFromStreamXML(stream);
+            Bundle bundle = FHIRParser.parser(Format.XML).parse(stream);
+            Map<String, ParametersMap> params = ParametersUtil.buildSearchParametersMapFromBundle(bundle);
             assertNotNull(params);
             if (DEBUG) {
                 ParametersUtil.print(System.out);
             }
-            // 134 + DomainResource
-            assertEquals(params.size(), 135);
+            assertEquals(params.size(), 134);
         }
 
     }
 
     @Test(expectedExceptions = {})
-    public void testPopulateSearchParameterMapFromFile() throws IOException {
+    public void testPopulateSearchParameterMapFromFile() throws IOException, FHIRParserException {
         File customSearchParams = new File("src/test/resources/config/tenant1/extension-search-parameters.json");
         if (DEBUG) {
             System.out.println(customSearchParams.getAbsolutePath());
         }
-        Map<String, Map<String, SearchParameter>> params = ParametersUtil.populateSearchParameterMapFromFile(customSearchParams);
+        Reader reader = new FileReader(customSearchParams);
+        Bundle bundle = FHIRParser.parser(Format.JSON).parse(reader);
+        Map<String, ParametersMap> params = ParametersUtil.buildSearchParametersMapFromBundle(bundle);
         if (DEBUG) {
             System.out.println(params.keySet());
         }
@@ -98,6 +105,9 @@ public class ParametersUtilTest extends BaseSearchTest {
             ParametersUtil.print(out);
             assertNotNull(outBA);
             assertNotNull(outBA.toByteArray());
+            if (DEBUG) {
+                System.out.println(outBA);
+            }
         } catch (Exception e) {
             fail();
         }
@@ -105,106 +115,35 @@ public class ParametersUtilTest extends BaseSearchTest {
     }
 
     @Test(expectedExceptions = {})
-    public void testGetBuiltInSearchParameterMapByResourceTypeInvalid() {
+    public void testGetBuiltInSearchParameterMapByResourceType() {
         // getBuiltInSearchParameterMapByResourceType
-        Map<String, SearchParameter> result = ParametersUtil.getBuiltInSearchParameterMapByResourceType("Junk");
+        Map<String, ParametersMap> result = ParametersUtil.getBuiltInSearchParametersMap();
         assertNotNull(result);
-        assertTrue(result.isEmpty());
-    }
-
-    @Test(expectedExceptions = {})
-    public void testGetBuiltInSearchParameterMapByResourceTypeValid() {
-        // getBuiltInSearchParameterMapByResourceType
-        Map<String, SearchParameter> result = ParametersUtil.getBuiltInSearchParameterMapByResourceType("Observation");
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
-    }
-
-    @Test(expectedExceptions = { FileNotFoundException.class })
-    public void testPopulateSearchParameterMapFromResourceNull() throws IOException {
-        String invalidResourceName = "INVALID_RESOURCE";
-        ParametersUtil.populateSearchParameterMapFromResource(invalidResourceName);
+        assertNull(result.get("Junk"));
+        assertFalse(result.get("Observation").isEmpty());
     }
 
     @Test
     public void testResourceDefaults() throws IOException {
-        Map<String, SearchParameter> params1 = ParametersUtil.getBuiltInSearchParameterMapByResourceType("Observation");
-        Map<String, SearchParameter> params2 = ParametersUtil.getBuiltInSearchParameterMapByResourceType("Resource");
+        Map<String, ParametersMap> result = ParametersUtil.getBuiltInSearchParametersMap();
+        ParametersMap params1 = result.get("Observation");
+        ParametersMap params2 = result.get("Resource");
 
         // Check that each returned "Resource" is included in the first set returned.
         assertNotNull(params1);
         assertNotNull(params2);
-        assertEquals(params2.size(), 7);
-        params2.keySet().stream().forEach(new Consumer<String>() {
+        assertEquals(params2.size(), 6);
+        params2.values().stream().forEach(new Consumer<SearchParameter>() {
 
             @Override
-            public void accept(String resourceParam) {
+            public void accept(SearchParameter resourceParam) {
                 if (DEBUG) {
-                    System.out.println("Checking Resource Param -> " + resourceParam);
+                    System.out.println("Checking Resource Param -> " + resourceParam.getId());
                 }
-                assertTrue(params1.containsKey(resourceParam));
+                assertTrue(params1.values().contains(resourceParam));
             }
 
         });
-    }
-
-    /*
-     * Generate Search parameter
-     */
-    private SearchParameter generateSearchParameter(String expressions) {
-        SearchParameter.Builder builder = SearchParameter.builder();
-        builder.url(com.ibm.fhir.model.type.Uri.uri("test"));
-        builder.name(string("test"));
-        builder.status(PublicationStatus.ACTIVE);
-        builder.description(Markdown.builder().id("test").value("test").build());
-        builder.code(Code.builder().id("test").value("test").build());
-        builder.base(ResourceType.ACCOUNT);
-        builder.type(SearchParamType.COMPOSITE);
-        builder.expression(string(expressions));
-        return builder.build();
-    }
-
-    @Test
-    public void testRemoveUnsupportedExpressionsParameterResolves() {
-
-        String expressions = "resolve() ";
-        assertNotNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
-
-        expressions = "resolve() | resolve() | resolve()";
-        assertNotNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
-
-        expressions = "resolve() | resolve() | resolve ()";
-        assertNotNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
-
-        // issue 206: Resolve is no longer removed
-        // The checks are flipped and left for posterity as they should be true.
-        expressions = ".where(resolve())";
-        assertNotNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
-
-        expressions = "CarePlan.subject.where(resolve() is Patient) ";
-        assertEquals(ParametersUtil.processResolve(expressions), expressions);
-
-        expressions =
-                "AllergyIntolerance.patient | CarePlan.subject.where(resolve() is Patient) | CareTeam.subject.where(resolve() is Patient) | ClinicalImpression.subject.where(resolve() is Patient) | Composition.subject.where(resolve() is Patient) | Condition.subject.where(resolve() is Patient) | Consent.patient | DetectedIssue.patient | DeviceRequest.subject.where(resolve() is Patient) | DeviceUseStatement.subject | DiagnosticReport.subject.where(resolve() is Patient) | DocumentManifest.subject.where(resolve() is Patient) | DocumentReference.subject.where(resolve() is Patient) | Encounter.subject.where(resolve() is Patient) | EpisodeOfCare.patient | FamilyMemberHistory.patient | Flag.subject.where(resolve() is Patient) | Goal.subject.where(resolve() is Patient) | ImagingStudy.subject.where(resolve() is Patient) | Immunization.patient | List.subject.where(resolve() is Patient) | MedicationAdministration.subject.where(resolve() is Patient) | MedicationDispense.subject.where(resolve() is Patient) | MedicationRequest.subject.where(resolve() is Patient) | MedicationStatement.subject.where(resolve() is Patient) | NutritionOrder.patient | Observation.subject.where(resolve() is Patient) | Procedure.subject.where(resolve() is Patient) | RiskAssessment.subject.where(resolve() is Patient) | ServiceRequest.subject.where(resolve() is Patient) | SupplyDelivery.patient | VisionPrescription.patient";
-        assertEquals(ParametersUtil.processResolve(expressions), expressions);
-
-        expressions =
-                "AllergyIntolerance.patient | CarePlan.subject.where(resolve() is Patient) | CareTeam.subject.where(resolve() is Patient) | ClinicalImpression.subject.where(resolve() is Patient) | Composition.subject.where(resolve() is Patient) | Condition.subject.where(resolve() is Patient) | Consent.patient | DetectedIssue.patient | DeviceRequest.subject.where(resolve() is Patient) | DeviceUseStatement.subject | DiagnosticReport.subject.where(resolve() is Patient) | DocumentManifest.subject.where(resolve() is Patient) | DocumentReference.subject.where(resolve() is Patient) | Encounter.subject.where(resolve() is Patient) | EpisodeOfCare.patient | FamilyMemberHistory.patient | Flag.subject.where(resolve() is Patient) | Goal.subject.where(resolve() is Patient) | ImagingStudy.subject.where(resolve() is Patient) | Immunization.patient | List.subject.where(resolve() is Patient) | MedicationAdministration.subject.where(resolve() is Patient) | MedicationDispense.subject.where(resolve() is Patient) | MedicationRequest.subject.where(resolve() is Patient) | MedicationStatement.subject.where(resolve() is Patient) | NutritionOrder.patient | Observation.subject.where(resolve() is Patient) | Procedure.subject.where(resolve() is Patient) | RiskAssessment.subject.where(resolve() is Patient) | ServiceRequest.subject.where(resolve() is Patient) | SupplyDelivery.patient | VisionPrescription.patient";
-        String output = ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)).getExpression().getValue();
-        assertNotNull(output);
-        if (DEBUG) {
-            System.out.println(output);
-        }
-        assertTrue(output.contains("resolve()"));
-
-    }
-
-    @Test
-    public void testProcessResolve() {
-        // issue 206: Resolve is no longer removed
-        String expressions = "Procedure.subject.where(resolve() is Patient)";
-        assertEquals(ParametersUtil.processResolve(expressions), expressions);
-
     }
 
     @Test
@@ -221,7 +160,6 @@ public class ParametersUtilTest extends BaseSearchTest {
                 System.out.println(outBA.toString("UTF-8"));
             }
         }
-
     }
 
     @Test
@@ -245,24 +183,4 @@ public class ParametersUtilTest extends BaseSearchTest {
 
         assertTrue(true);
     }
-    
-    @Test
-    public void testProcessContains() {
-        String expression = "ValueSet.expansion.contains.code";
-        String result = ParametersUtil.processContains(expression);
-        assertEquals(result, "ValueSet.expansion.`contains`.code");
-        
-        expression = "ValueSet.expansion.contains";
-        result = ParametersUtil.processContains(expression);
-        assertEquals(result, "ValueSet.expansion.`contains`");
-        
-        expression = "ValueSet.expansion.contains()";
-        result = ParametersUtil.processContains(expression);
-        assertEquals(result, "ValueSet.expansion.contains()");
-        
-        expression = "ValueSet.expansion.contains().code";
-        result = ParametersUtil.processContains(expression);
-        assertEquals(result, "ValueSet.expansion.contains().code");
-    }
-
 }

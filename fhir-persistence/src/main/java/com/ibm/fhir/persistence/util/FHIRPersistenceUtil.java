@@ -9,7 +9,6 @@ package com.ibm.fhir.persistence.util;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.Resource;
@@ -22,7 +21,10 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 public class FHIRPersistenceUtil {
     private static final Logger log = Logger.getLogger(FHIRPersistenceUtil.class.getName());
-    private final static double EARTH_RADIUS_KILOMETERS = 6371.0; // earth radius in kilometers
+
+    private FHIRPersistenceUtil() {
+        // No operation
+    }
 
     // Parse history parameters into a FHIRHistoryContext
     public static FHIRHistoryContext parseHistoryParameters(Map<String, List<String>> queryParameters, boolean lenient) throws FHIRPersistenceException {
@@ -65,66 +67,6 @@ public class FHIRPersistenceUtil {
         return context;
     }
 
-    /**
-     * Method to build a bounding box given a latitude, longitude and distance
-     * 
-     * @param latitude
-     * @param longitude
-     * @param distance
-     * @param unit
-     * @return
-     */
-    public static BoundingBox createBoundingBox(double latitude, double longitude, double distance, String unit) {
-        log.entering(FHIRPersistenceUtil.class.getName(), "createBoundingBox");
-        if (log.isLoggable(Level.FINE)) {
-            log.fine("distance   :" + distance + ":unit:" + unit + ":latitude :" + latitude + ":longitude:" + longitude);
-        }
-        try {
-            if (!"km".equalsIgnoreCase(unit) && !"kilometers".equalsIgnoreCase(unit) && !"mi".equalsIgnoreCase(unit) && !"miles".equalsIgnoreCase(unit)) {
-                throw new IllegalArgumentException("Invalid unit: '" + unit + "'. Must be one of: ['km', 'kilometers', 'mi', 'miles']");
-            }
-            
-            if ("mi".equalsIgnoreCase(unit) || "miles".equalsIgnoreCase(unit)) {
-                distance = convertMilesToKilometers(distance);
-                unit = "kilometers";
-            }
-            
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("distance: " + distance + ", unit: " + unit);
-            }
-
-            // build bounding box points
-            double minLatitude = latitude - (distance / EARTH_RADIUS_KILOMETERS) * (180.0 / Math.PI);
-            double maxLatitude = latitude + (distance / EARTH_RADIUS_KILOMETERS) * (180.0 / Math.PI);
-            double minLongitude = longitude - ((distance / EARTH_RADIUS_KILOMETERS) * (180.0 / Math.PI)) / Math.cos(latitude * (180.0 / Math.PI));
-            double maxLongitude = longitude + ((distance / EARTH_RADIUS_KILOMETERS) * (180.0 / Math.PI)) / Math.cos(latitude * (180.0 / Math.PI));
-            
-            BoundingBox boundingBox = new BoundingBox(minLatitude, maxLatitude, minLongitude, maxLongitude);
-            
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("bounding box: " + boundingBox);
-            }
-            
-            return boundingBox;
-        } finally {
-            log.exiting(FHIRPersistenceUtil.class.getName(), "createBoundingBox");
-        }
-    }
-
-    /**
-     * Method to convert miles into kilometers
-     * 
-     * @param miles distance in miles
-     * @return distance in kilometers
-     */
-    public static double convertMilesToKilometers(double miles) {
-        log.entering(FHIRPersistenceUtil.class.getName(), "convertMilesToKilometers");
-        try {
-            return miles * 1.609344;
-        } finally {
-            log.exiting(FHIRPersistenceUtil.class.getName(), "convertMilesToKilometers");
-        }
-    }
     
     /**
      * Create a minimal deleted resource marker from the given resource

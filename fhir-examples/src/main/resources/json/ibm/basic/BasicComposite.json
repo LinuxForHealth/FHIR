@@ -1,0 +1,144 @@
+{
+  "resourceType": "Basic",
+  "code": {
+    "text": "test"
+  },
+  "extension": [
+    {
+      "url": "http://example.org/composite",
+      "extension": [
+        {
+          "url": "http://example.org/boolean",
+          "valueBoolean": true
+        },
+        {
+          "url": "http://example.org/integer",
+          "valueInteger": 12
+        },
+        {
+          "url": "http://example.org/string",
+          "valueString": "testString"
+        },
+        {
+          "url": "http://example.org/code",
+          "valueCode": "code"
+        },
+        {
+          "url": "http://example.org/id",
+          "valueId": "testId"
+        },
+        {
+          "url": "http://example.org/markdown",
+          "valueMarkdown": "testMarkdown"
+        },
+        {
+          "url": "http://example.org/decimal",
+          "valueDecimal": 99.99
+        },
+        {
+          "url": "http://example.org/uri",
+          "valueUri": "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7"
+        },
+        {
+          "url": "http://example.org/instant",
+          "valueInstant": "2018-10-29T17:12:44-04:00"
+        },
+        {
+          "url": "http://example.org/date",
+          "valueDate": "2018-10-29"
+        },
+        {
+          "url": "http://example.org/dateTime",
+          "valueDateTime": "2018-10-29T17:12:00-04:00"
+        },
+        {
+          "url": "http://example.org/time",
+          "valueTime": "17:12:00"
+        },
+        
+        {
+          "url": "http://example.org/Period",
+          "valuePeriod": {
+            "start": "2018-10-29T17:12:00-04:00",
+            "end": "2018-10-29T17:18:00-04:00"
+          }
+        },
+        {
+          "url": "http://example.org/Timing",
+          "valueTiming": {
+            "event": [
+              "2018-10-29T17:12:00-04:00",
+              "2018-10-29T17:14:00-04:00",
+              "2018-10-29T17:16:00-04:00",
+              "2018-10-29T17:18:00-04:00"
+            ]
+          }
+        },
+        {
+          "url": "http://example.org/Quantity",
+          "valueQuantity": {
+            "value": 25,
+            "unit": "sec",
+            "system": "http://unitsofmeasure.org",
+            "code": "s"
+          }
+        },
+        {
+          "url": "http://example.org/Range",
+          "valueRange": {
+              "low": {
+              "value": 5,
+              "unit": "sec",
+              "system": "http://unitsofmeasure.org",
+              "code": "s"
+            },
+            "high": {
+              "value": 10,
+              "unit": "sec",
+              "system": "http://unitsofmeasure.org",
+              "code": "s"
+            }
+          }
+        },
+        {
+          "url": "http://example.org/Reference",
+          "valueReference": {
+              "reference": "Patient/123"
+          }
+        },
+        {
+          "url": "http://example.org/Coding",
+          "valueCoding": {
+            "system": "http://example.org/codesystem",
+            "code": "code"
+          }
+        },
+        {
+          "url": "http://example.org/CodeableConcept",
+          "valueCodeableConcept": {
+            "coding": [{
+              "system": "http://example.org/codesystem",
+              "code": "code"
+            }]
+          }
+        },
+        {
+          "url": "http://example.org/Identifier",
+          "valueIdentifier": {
+            "use": "official",
+            "system": "http://example.org/identifiersystem",
+            "value": "code"
+          }
+        },
+        {
+          "url": "http://example.org/ContactPoint",
+          "valueContactPoint": {
+            "use": "home",
+            "system": "phone",
+            "value": "(555) 675 5745"
+          }
+        }
+      ]
+    }
+  ]
+}

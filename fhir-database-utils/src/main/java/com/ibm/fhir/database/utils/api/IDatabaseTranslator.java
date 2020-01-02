@@ -51,6 +51,14 @@ public interface IDatabaseTranslator {
     boolean isDuplicate(SQLException x);
     
     /**
+     * Check the exception to see if it is reporting that THE NAME OF THE OBJECT TO BE CREATED 
+     * OR THE TARGET OF A RENAME STATEMENT IS IDENTICAL TO THE EXISTING NAME OF THE OBJECT TYPE
+     * @param x
+     * @return
+     */
+    boolean isAlreadyExists(SQLException x);
+    
+    /**
      * Database timed out waiting to get a lock. This is not the same as a deadlock, of course
      * @param x
      * @return

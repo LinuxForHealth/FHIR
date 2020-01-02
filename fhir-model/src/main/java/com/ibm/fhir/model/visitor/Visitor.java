@@ -1347,4 +1347,9 @@ public interface Visitor {
     void visit(java.lang.String elementName, Year value);
     void visit(java.lang.String elementName, YearMonth value);
     void visit(java.lang.String elementName, ZonedDateTime value);
+    /**
+     * @return
+     *     true if the children of this Location.Position should be visited; otherwise false
+     */
+    boolean visit(java.lang.String elementName, int elementIndex, Location.Position position);
 }

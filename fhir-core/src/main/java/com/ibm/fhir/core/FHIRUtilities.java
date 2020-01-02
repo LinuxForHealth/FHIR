@@ -117,7 +117,7 @@ public class FHIRUtilities {
      * @return
      */
     public static Timestamp convertToTimestamp(java.time.ZonedDateTime zdt) {
-        return new Timestamp(zdt.toInstant().toEpochMilli());
+        return Timestamp.from(zdt.toInstant());
     }
 
 

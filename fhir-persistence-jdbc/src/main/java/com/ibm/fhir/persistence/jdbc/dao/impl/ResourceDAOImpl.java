@@ -31,10 +31,11 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
-import com.ibm.fhir.persistence.jdbc.dto.Parameter;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -397,7 +398,12 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt = connection.prepareStatement(queryData.getQueryString());
             // Inject arguments into the prepared stmt.
             for (int i = 0; i < queryData.getBindVariables().size(); i++) {
-                stmt.setObject(i+1, queryData.getBindVariables().get(i));
+                Object object = queryData.getBindVariables().get(i);
+                if (object instanceof Timestamp) {
+                    stmt.setTimestamp(i+1, (Timestamp) object, JDBCConstants.UTC);
+                } else {
+                    stmt.setObject(i+1, object);
+                }
             }
             dbCallStartTime = System.nanoTime();
             resultSet = stmt.executeQuery();
@@ -453,10 +459,9 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     }
 
-    @Override
-    public Resource insert(Resource resource, List<Parameter> parameters, ParameterDAO parameterDao)
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
             throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
-            final String METHODNAME = "insert(Resource, List<Parameter>";
+            final String METHODNAME = "insert(Resource, List<ExtractedParameterValue>";
             log.entering(CLASSNAME, METHODNAME);
 
             try {
@@ -484,7 +489,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceVersionIdMismatchException
      */
-    private Resource insertToDb2(Resource resource, List<Parameter> parameters, ParameterDAO parameterDao)
+    private Resource insertToDb2(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
                     throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
         final String METHODNAME = "insertToDb2";
         log.entering(CLASSNAME, METHODNAME);
@@ -524,7 +529,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.setBytes(3, resource.getData());
             
             lastUpdated = resource.getLastUpdated();
-            stmt.setTimestamp(4, lastUpdated);
+            stmt.setTimestamp(4, lastUpdated, UTC);
             stmt.setString(5, resource.isDeleted() ? "Y": "N");
             stmt.setString(6, UUID.randomUUID().toString());
             stmt.setInt(7, resource.getVersionId());
@@ -541,8 +546,8 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (parameters != null) {
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true, resource.getId(), 100,
                     new ParameterNameCacheAdapter(parameterDao), new CodeSystemCacheAdapter(parameterDao))) {
-                    for (Parameter p: parameters) {
-                        p.visit(pvd);
+                    for (ExtractedParameterValue p: parameters) {
+                        p.accept(pvd);
                     }
                 }
             }
@@ -587,7 +592,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceVersionIdMismatchException
      */
-    private Resource insertToDerby(Resource resource, List<Parameter> parameters, ParameterDAO parameterDao) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
+    private Resource insertToDerby(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
         final String METHODNAME = "insertToDerby";
         log.entering(CLASSNAME, METHODNAME);
 

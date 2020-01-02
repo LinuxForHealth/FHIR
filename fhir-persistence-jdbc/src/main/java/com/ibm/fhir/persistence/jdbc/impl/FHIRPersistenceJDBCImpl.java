@@ -6,11 +6,12 @@
 
 package com.ibm.fhir.persistence.jdbc.impl;
 
-import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
+import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX_NUM_OF_COMPOSITE_COMPONENTS;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,7 +21,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.ZoneOffset;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -52,16 +55,22 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.model.resource.SearchParameter.Component;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.JsonSupport;
+import com.ibm.fhir.model.visitor.Visitable;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathSystemValue;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.MultiResourceResult;
@@ -71,13 +80,20 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
-import com.ibm.fhir.persistence.jdbc.dto.Parameter;
+import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
+import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
@@ -85,14 +101,14 @@ import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
 import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
-import com.ibm.fhir.persistence.jdbc.util.QueryBuilderUtil;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
+import com.ibm.fhir.search.date.DateTimeHandler;
+import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
@@ -119,7 +135,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     private Connection managedConnection;
 
     /**
-     * Constructor for use when running as web application in WLP. 
+     * Constructor for use when running as web application in WLP.
      * @throws Exception 
      */
     public FHIRPersistenceJDBCImpl() throws Exception {
@@ -131,11 +147,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
         
         ParameterNamesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE, 
-                                       Boolean.TRUE.booleanValue()));
+                                       Boolean.TRUE));
         CodeSystemsCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE, 
-                                    Boolean.TRUE.booleanValue()));
+                                    Boolean.TRUE));
         ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE, 
-                                      Boolean.TRUE.booleanValue()));
+                                      Boolean.TRUE));
         this.resourceDao = new ResourceDAOImpl(this.getTrxSynchRegistry());
         this.parameterDao = new ParameterDAOImpl(this.getTrxSynchRegistry());
         
@@ -158,7 +174,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         this.setManagedConnection(this.getBaseDao().getConnection());
         this.resourceDao = new ResourceDAOImpl(this.getManagedConnection());
         this.parameterDao = new ParameterDAOImpl(this.getManagedConnection());
-                
+        
         log.exiting(CLASSNAME, METHODNAME);
     }
 
@@ -404,11 +420,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         SqlQueryData query;
 
         try {
-            queryBuilder = new JDBCQueryBuilder((ParameterDAO)this.getParameterDao(),
-                                                          (ResourceDAO)this.getResourceDao());
+            checkModifiers(searchContext);
+            queryBuilder = new JDBCQueryBuilder((ParameterDAO) this.getParameterDao(),
+                                                (ResourceDAO) this.getResourceDao());
 
             countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
-            if (countQuery != null) {                
+            if (countQuery != null) {
                 searchResultCount = this.getResourceDao().searchCount(countQuery);
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("searchResultCount = " + searchResultCount);
@@ -491,6 +508,22 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
+        }
+    }
+    
+    /**
+     * @throws FHIRPersistenceException if the search context contains one or more unsupported modifiers
+     */
+    private void checkModifiers(FHIRSearchContext searchContext) throws FHIRPersistenceException {
+        for (QueryParameter param : searchContext.getSearchParameters()) {
+            do {
+                if(param.getModifier() != null &&
+                        !JDBCConstants.supportedModifiersMap.get(param.getType()).contains(param.getModifier())) {
+                    throw new FHIRPersistenceException("Found unsupported modifier '" + param.getModifier() + "'"
+                            + " for search parameter '" + param.getCode() + "' of type " + param.getType());
+                }
+                param = param.getNextParameter();
+            } while (param != null);
         }
     }
     
@@ -980,7 +1013,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @param resourceDTO - A Resource DTO representation of the passed FHIR Resource.
      * @throws Exception 
      */
-    private List<Parameter> extractSearchParameters(Resource fhirResource, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO) 
+    private List<ExtractedParameterValue> extractSearchParameters(Resource fhirResource, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO) 
                  throws Exception {
         final String METHODNAME = "extractSearchParameters";
         log.entering(CLASSNAME, METHODNAME);
@@ -990,7 +1023,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         String type;
         String expression;
         
-        List<Parameter> allParameters = new ArrayList<>();
+        List<ExtractedParameterValue> allParameters = new ArrayList<>();
         
         try {
             map = SearchUtil.extractParameterValues(fhirResource);
@@ -1005,56 +1038,175 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                     log.fine("Processing SearchParameter code: " + code + ", type: " + type + ", expression: " + expression);
                 }
                 
-                JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(sp);
-                
                 List<FHIRPathNode> values = entry.getValue();
                 
-                for (FHIRPathNode value : values) {
-                    try {
-                        if (value.isElementNode()) {
-                            // parameterBuilder aggregates the results for later retrieval
-                            value.asElementNode().element().accept(parameterBuilder);
-                        } else if (value.isSystemValue()){
-                            Parameter p = processPrimitiveValue(value.asSystemValue());
-                            p.setName(code);
-                            p.setType(Type.fromValue(type));
-                            p.setResourceId(resourceDTO.getId());
-                            p.setResourceType(fhirResource.getClass().getSimpleName());
-                            allParameters.add(p);
-                            if (log.isLoggable(Level.FINE)) {
-                                log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
-                            }
-                        } else {
-                            // log and continue
-                            if (log.isLoggable(Level.FINE)) {
-                                log.fine("Unable to extract value from '" + value.path() +
-                                        "'; search parameter value extraction can only be performed on Elements and primitive values.");
-                            }
-                            // TODO: return this as a OperationOutcomeIssue with severity of WARNING
-                            continue;
-                        }
-                    } catch (IllegalArgumentException e) {
-                        // log and continue with the other parameters
-                        StringBuilder msg = new StringBuilder("Skipping search parameter '" + code + "'");
-                        if (sp.getId() != null) {
-                            msg.append(" with id '" + sp.getId() + "'");
-                        }
-                        msg.append(" for resource type " + fhirResource.getClass().getSimpleName());
-                        // just use the message...no need for the whole stack trace
-                        msg.append(" due to \n" + e.getMessage());
-                        log.log(Level.INFO, msg.toString());
-                        // TODO: add an issue to the OperationOutcome in the return object
+                if (SearchParamType.COMPOSITE.equals(sp.getType())) {
+                    List<Component> components = sp.getComponent();
+                    if (components.size() > MAX_NUM_OF_COMPOSITE_COMPONENTS) {
+                        throw new UnsupportedOperationException(String.format("Found %d components for search parameter '%s', "
+                                + "but this persistence layer can only support composites of %d or fewer components", 
+                                components.size(), code, MAX_NUM_OF_COMPOSITE_COMPONENTS));
                     }
-                }
-                // retrieve the list of parameters built from all the FHIRPathElementNode values 
-                List<Parameter> parameters = parameterBuilder.getResult();
-                for (Parameter p : parameters) {
-                    p.setType(Type.fromValue(type));
-                    p.setResourceId(resourceDTO.getId());
-                    p.setResourceType(fhirResource.getClass().getSimpleName());
-                    allParameters.add(p);
-                    if (log.isLoggable(Level.FINE)) {
-                        log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
+                    FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+                    
+                    for (FHIRPathNode value : values) {
+                        Visitable fhirNode;
+                        EvaluationContext context;
+                        if (value.isResourceNode()) {
+                            fhirNode = value.asResourceNode().resource();
+                            context = new EvaluationContext((Resource) fhirNode);
+                        } else if (value.isElementNode()) {
+                            fhirNode = value.asElementNode().element();
+                            context = new EvaluationContext((Element) fhirNode);
+                        } else {
+                            throw new IllegalStateException("Composite parameter expression must select one or more FHIR elements");
+                        }
+                        
+                        CompositeParmVal p = new CompositeParmVal();
+                        p.setName(code);
+                        p.setResourceType(fhirResource.getClass().getSimpleName());
+                        
+                        for (int i = 0; i < components.size(); i++) {
+                            Component component = components.get(i);
+                            Collection<FHIRPathNode> nodes = evaluator.evaluate(context, component.getExpression().getValue());
+                            if (nodes.isEmpty()){
+                                if (log.isLoggable(Level.FINER)) {
+                                    log.finer("Component expression '" + component.getExpression().getValue() + "' resulted in 0 nodes; "
+                                            + "skipping composite parameter '" + code + "'.");
+                                }
+                                continue;
+                            }
+                            
+                            // Alternative: consider pulling the search parameter from the FHIRRegistry instead so we can use versioned references.
+                            // Of course, that would require adding extension-search-params to the Registry which would require the Registry to be tenant-aware.
+//                            SearchParameter compSP = FHIRRegistry.getInstance().getResource(component.getDefinition().getValue(), SearchParameter.class);
+                            SearchParameter compSP = SearchUtil.getSearchParameter(p.getResourceType(), component.getDefinition());
+                            JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(compSP);
+                            FHIRPathNode node = nodes.iterator().next();
+                            if (nodes.size() > 1 ) {
+                                // TODO: support component expressions that result in multiple nodes
+                                // On the current schema, this means creating a different CompositeParmValue for each ordered set of component values.
+                                // For example, if a composite has two components and each one's expression results in two nodes
+                                // ([Code1,Code2] and [Quantity1,Quantity2]) and each node results in a single ExtractedParameterValue,
+                                // then we need to generate CompositeParmVal objects for [Code1,Quantity1], [Code1,Quantity2], 
+                                // [Code2,Quantity1], and [Code2,Quantity2].
+                                // Assumption: this should be rare.
+                                log.fine("Component expression '" + component.getExpression().getValue() + "' resulted in multiple nodes; "
+                                        + "proceeding with randomly chosen node '" + node.path() + "' for search parameter '" + code + "'.");
+                            }
+                            
+                            try {
+                                if (node.isElementNode()) {
+                                    // parameterBuilder aggregates the results for later retrieval
+                                    node.asElementNode().element().accept(parameterBuilder);
+                                    // retrieve the list of parameters built from all the FHIRPathElementNode values 
+                                    List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
+                                    if (parameters.isEmpty()){
+                                        log.fine("Selected element '" + node.path() + "' resulted in 0 extracted parameter values; "
+                                                + "skipping composite parameter '" + code + "'.");
+                                        continue;
+                                    }
+                                    
+                                    if (parameters.size() > 1) {
+                                        // TODO: support component searchParms that lead to multiple ExtractedParameterValues
+                                        // On the current schema, this means creating a different CompositeParmValue for each ordered set of component values.
+                                        // For example:
+                                        // If a composite has two components and each results in two extracted parameters ([A,B] and [1,2] respectively)
+                                        // then we need to generate CompositeParmVal objects for [A,1], [A,2], [B,1], and [B,2]
+                                        // Assumption: this should only be common for Quantity search parameters with both a coded unit and a display unit,
+                                        // and in these cases, the coded unit is almost always the preferred value for search.
+                                        log.fine("Selected element '" + node.path() + "' resulted in multiple extracted parameter values; "
+                                                + "proceeding with the first extracted value for composite parameter '" + code + "'.");
+                                    }
+                                    ExtractedParameterValue componentParam = parameters.get(0);
+                                    // override the component parameter name with the composite parameter name
+                                    componentParam.setName(code);
+                                    componentParam.setResourceType(p.getResourceType());
+                                    componentParam.setBase(p.getBase());
+                                    p.addComponent(componentParam);
+                                } else if (node.isSystemValue()){
+                                    ExtractedParameterValue primitiveParam = processPrimitiveValue(node.asSystemValue());
+                                    primitiveParam.setName(code);
+                                    primitiveParam.setResourceType(fhirResource.getClass().getSimpleName());
+                                    
+                                    if (log.isLoggable(Level.FINE)) {
+                                        log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
+                                    }
+                                    p.addComponent(primitiveParam);
+                                } else {
+                                    // log and continue
+                                    if (log.isLoggable(Level.FINE)) {
+                                        log.fine("Unable to extract value from '" + value.path() +
+                                                "'; search parameter value extraction can only be performed on Elements and primitive values.");
+                                    }
+                                    // TODO: return this as a OperationOutcomeIssue with severity of WARNING
+                                    continue;
+                                }
+                            } catch (IllegalArgumentException e) {
+                                // log and continue with the other parameters
+                                StringBuilder msg = new StringBuilder("Skipping search parameter '" + code + "'");
+                                if (sp.getId() != null) {
+                                    msg.append(" with id '" + sp.getId() + "'");
+                                }
+                                msg.append(" for resource type " + fhirResource.getClass().getSimpleName());
+                                // just use the message...no need for the whole stack trace
+                                msg.append(" due to \n" + e.getMessage());
+                                log.log(Level.INFO, msg.toString());
+                                // TODO: add an issue to the OperationOutcome in the return object
+                            }
+                        }
+                        if (components.size() == p.getComponent().size()) {
+                            // only add the parameter if all of the components are present and accounted for
+                            allParameters.add(p);
+                        }
+                    }
+                } else {
+                    JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(sp);
+                    
+                    for (FHIRPathNode value : values) {
+                        
+                        try {
+                            if (value.isElementNode()) {
+                                // parameterBuilder aggregates the results for later retrieval
+                                value.asElementNode().element().accept(parameterBuilder);
+                            } else if (value.isSystemValue()){
+                                ExtractedParameterValue p = processPrimitiveValue(value.asSystemValue());
+                                p.setName(code);
+                                p.setResourceType(fhirResource.getClass().getSimpleName());
+                                allParameters.add(p);
+                                if (log.isLoggable(Level.FINE)) {
+                                    log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
+                                }
+                            } else {
+                                // log and continue
+                                if (log.isLoggable(Level.FINE)) {
+                                    log.fine("Unable to extract value from '" + value.path() +
+                                            "'; search parameter value extraction can only be performed on Elements and primitive values.");
+                                }
+                                // TODO: return this as a OperationOutcomeIssue with severity of WARNING
+                                continue;
+                            }
+                        } catch (IllegalArgumentException e) {
+                            // log and continue with the other parameters
+                            StringBuilder msg = new StringBuilder("Skipping search parameter '" + code + "'");
+                            if (sp.getId() != null) {
+                                msg.append(" with id '" + sp.getId() + "'");
+                            }
+                            msg.append(" for resource type " + fhirResource.getClass().getSimpleName());
+                            // just use the message...no need for the whole stack trace
+                            msg.append(" due to \n" + e.getMessage());
+                            log.log(Level.INFO, msg.toString());
+                            // TODO: add an issue to the OperationOutcome in the return object
+                        }
+                    }
+                    // retrieve the list of parameters built from all the FHIRPathElementNode values 
+                    List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
+                    for (ExtractedParameterValue p : parameters) {
+                        p.setResourceType(fhirResource.getClass().getSimpleName());
+                        allParameters.add(p);
+                        if (log.isLoggable(Level.FINE)) {
+                            log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
+                        }
                     }
                 }
             }
@@ -1070,22 +1222,37 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * Note: this method only sets the value; 
      * caller is responsible for setting all other fields on the created Parameter.
      */
-    private Parameter processPrimitiveValue(FHIRPathSystemValue systemValue) {
-        Parameter p = new Parameter();
+    private ExtractedParameterValue processPrimitiveValue(FHIRPathSystemValue systemValue) {
+        ExtractedParameterValue parameter = null;
         if (systemValue.isBooleanValue()) {
+            TokenParmVal p = new TokenParmVal();
             if (systemValue.asBooleanValue()._boolean()) {
                 p.setValueCode("true");
             } else {
                 p.setValueCode("false");
             }
+            parameter = p;
         } else if (systemValue.isTemporalValue()) {
-            p.setValueDate(Timestamp.from(QueryBuilderUtil.getInstantFromPartial(systemValue.asTemporalValue().temporal())));
+            DateParmVal p = new DateParmVal();
+            TemporalAccessor v = systemValue.asTemporalValue().temporal();
+            java.time.Instant inst = DateTimeHandler.generateValue(v);
+            p.setValueDate(DateTimeHandler.generateTimestamp(inst));
+            parameter = p;
         } else if (systemValue.isStringValue()) {
+            StringParmVal p = new StringParmVal();
             p.setValueString(systemValue.asStringValue().string());
+            parameter = p;
         } else if (systemValue.isNumberValue()) {
+            NumberParmVal p = new NumberParmVal();
             p.setValueNumber(systemValue.asNumberValue().decimal());
+            parameter = p;
+        } else if (systemValue.isQuantityValue()) {
+            QuantityParmVal p = new QuantityParmVal();
+            p.setValueNumber(systemValue.asQuantityValue().value());
+            p.setValueSystem("http://unitsofmeasure.org"); // FHIRPath Quantity requires UCUM units
+            p.setValueCode(systemValue.asQuantityValue().unit());
         }
-        return p;
+        return parameter;
     }
 
     @Override
@@ -1107,7 +1274,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         catch (Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while starting a transaction.");
             log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;            
+            throw fx;
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -1129,7 +1296,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         catch (Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while committing a transaction.");
             log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;            
+            throw fx;
         }
         finally {
             if (sharedConnection != null) {
@@ -1161,7 +1328,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         catch (Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while rolling back a transaction.");
             log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;            
+            throw fx;
         } 
         finally {
             if (sharedConnection != null) {
@@ -1194,7 +1361,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         catch (Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException(errorMessage);
             log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;            
+            throw fx;
         } 
         finally {
             if (sharedConnection != null) {
@@ -1204,7 +1371,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 catch (SQLException e) {
                     FHIRPersistenceException fx = new FHIRPersistenceException("Failure closing DB Conection");
                     log.log(Level.SEVERE, fx.getMessage(), e);
-                    throw fx;            
+                    throw fx;
                 }
                 sharedConnection = null;
             }

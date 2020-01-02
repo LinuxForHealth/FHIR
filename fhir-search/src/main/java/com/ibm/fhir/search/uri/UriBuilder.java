@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.parameters.InclusionParameter;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.parameters.SortParameter;
 import com.ibm.fhir.search.sort.Sort.Direction;
 
@@ -83,7 +83,7 @@ public class UriBuilder {
         // paradigm is consistent with JOINING multiple strings
         if (!context.getSearchParameters().isEmpty()) {
             queryString.append(SearchConstants.AND_CHAR);
-            Function<Parameter, String> serializeSearchParmToQueryString = p -> serializeSearchParmToQueryString(p);
+            Function<QueryParameter, String> serializeSearchParmToQueryString = p -> serializeSearchParmToQueryString(p);
             queryString.append(context.getSearchParameters().stream().map(serializeSearchParmToQueryString)
                     .collect(Collectors.joining(SearchConstants.AND_CHAR_STR)));
         }
@@ -206,7 +206,7 @@ public class UriBuilder {
      * 
      * @return
      */
-    private String serializeSearchParmToQueryString(Parameter param) {
+    private String serializeSearchParmToQueryString(QueryParameter param) {
         if (param.isInclusionCriteria()) {
             // Inclusion criteria come from compartment searches which appear as part of the path
             // and so there is nothing to add to the query string.
@@ -239,14 +239,14 @@ public class UriBuilder {
         return returnString.toString();
     }
 
-    /*
+    /**
      * creates a normal parameter and string.
      * 
      * @param param
      * 
      * @param returnString
      */
-    private void appendNormalParameter(Parameter param, StringBuilder returnString) {
+    private void appendNormalParameter(QueryParameter param, StringBuilder returnString) {
         if (param != null) {
             returnString.append(param.getCode());
             SearchConstants.Modifier modifier = param.getModifier();
@@ -260,7 +260,7 @@ public class UriBuilder {
                 }
             }
             returnString.append(SearchConstants.EQUALS_CHAR);
-            returnString.append(param.getValues().stream().map(ParameterValue::toString)
+            returnString.append(param.getValues().stream().map(QueryParameterValue::toString)
                     .collect(Collectors.joining(SearchConstants.JOIN_STR)));
         }
     }
@@ -272,7 +272,7 @@ public class UriBuilder {
      * 
      * @param returnString
      */
-    private void appendChainedParm(Parameter param, StringBuilder returnString) {
+    private void appendChainedParm(QueryParameter param, StringBuilder returnString) {
         returnString.append(param.getCode());
         if (param.getModifierResourceTypeName() != null && !param.getModifierResourceTypeName().isEmpty()) {
             returnString.append(SearchConstants.COLON_DELIMITER);

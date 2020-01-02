@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "url": "http://ibm.com/fhir/ValueSet/vs4",
+    "version": "1.0.0",
+    "status": "active",
+    "compose": {
+        "include": [
+            {
+                "system": "http://ibm.com/fhir/CodeSystem/cs4"
+            },
+            {
+                "system": "http://ibm.com/fhir/CodeSystem/cs1",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "in",
+                        "value": "a,b"
+                    }
+                ]
+            },
+            {
+                "system": "http://ibm.com/fhir/CodeSystem/cs2",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "not-in",
+                        "value": "e,f"
+                    }
+                ]
+            },
+            {
+                "valueSet": [
+                    "http://ibm.com/fhir/ValueSet/vs5"
+                ]
+            }
+        ],
+        "exclude": [
+            {
+                "system": "http://ibm.com/fhir/CodeSystem/cs4",
+                "filter": [
+                    {
+                        "property": "notSelectable",
+                        "op": "=",
+                        "value": "true"
+                    }
+                ]
+            }
+        ]
+    }
+}

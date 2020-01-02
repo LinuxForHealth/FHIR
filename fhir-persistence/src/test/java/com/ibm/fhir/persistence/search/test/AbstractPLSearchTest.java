@@ -6,12 +6,12 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
-import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -47,7 +47,6 @@ import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
  * https://github.com/cbeust/testng-eclipse/issues/435
  */
 public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
-
     protected Basic savedResource;
     protected Composition composition;
 

@@ -2,17 +2,17 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2019-10-08 09:59:05 -0400
+date:   2019-12-16 09:59:05 -0400
 permalink: /conformance/
 ---
 
 # Conformance to the HL7 FHIR Specification
-The IBM FHIR Server aims to be a conformant implementation of the HL7 FHIR specification, version 4.0.0 (R4). However, the FHIR specification is very broad and not all implementations are expected to implement every feature. We prioritize performance and configurability over spec coverage.
+The IBM FHIR Server aims to be a conformant implementation of the HL7 FHIR specification, version 4.0.1 (R4). However, the FHIR specification is very broad and not all implementations are expected to implement every feature. We prioritize performance and configurability over spec coverage.
 
 ## Capability statement
 The HL7 FHIR specification defines [an interaction](https://www.hl7.org/fhir/R4/http.html#capabilities) for retrieving a machine-readable description of the server's capabilities via the `[base]/metadata` endpoint. The IBM FHIR Server implements this interaction and generates a `CapabilityStatement` resource based on the current server configuration. While the `CapabilityStatement` resource is ideal for certain uses, this markdown document provides a human-readable summary of important details, with a special focus on limitations of the current implementation and deviations from the specification.
 
-The IBM FHIR Server supports only version 4.0.0 of the specification and presently has no support for the MIME-type parameter `fhirVersion`.
+The IBM FHIR Server supports only version 4.0.1 of the specification and presently has no support for the MIME-type parameter `fhirVersion`.
 
 ## FHIR HTTP API
 The HL7 FHIR specification is more than just a data format. It defines an [HTTP API](https://www.hl7.org/fhir/R4/http.html) for creating, reading, updating, deleting, and searching over FHIR resources. The IBM FHIR Server implements almost the full API for every resource defined in the specification, with the following exceptions:
@@ -24,17 +24,21 @@ The IBM FHIR Server implements a linear versioning scheme for resources and full
 ### General parameters
 The `_format` parameter is supported and provides a useful mechanism for requesting a specific format (`XML` or `JSON`) in requests made from a browser. In the absence of either an `Accept` header or a `_format` query parameter, the server defaults to `application/fhir+json`.
 
-The `_pretty` parameter is also supported. 
+The `_pretty` parameter is also supported.
 
 The `_summary` and `_elements` parameters are supported on the search interaction as documented.
 
 ## Search
-The IBM FHIR Server supports search parameters of type `Number`, `Date/DateTime`, `String`, `Token`, `Reference`, `Quantity`, and `URI`.
-
-Search parameters of type [Composite](https://www.hl7.org/fhir/R4/search.html#composite) and [Special](https://www.hl7.org/fhir/R4/search.html#special) are not currently supported.
-
-For all other types, the IBM FHIR Server supports the parameters defined in the
-specification and allows for the configuration of additional ones.
+The IBM FHIR Server supports all search parameter types defined in the specification:
+* `Number`
+* `Date/DateTime`
+* `String`
+* `Token`
+* `Reference`
+* `Composite`
+* `Quantity`
+* `URI`
+* `Special` (Location-near)
 
 ### Search parameters
 Search parameters defined in the specification can be found by browsing the R4 FHIR specification by resource type. For example, to find the search parameters for the Patient resource, navigate to https://www.hl7.org/fhir/R4/patient.html and scroll to the Search Parameters section near the end of the page.
@@ -46,10 +50,14 @@ In addition, the following search parameters are supported on all resources:
 * `_profile`
 * `_security`
 * `_source`
+* `_type`
 
-The `_text`, `_content`, `_list`, `_has`, `_type`, `_query`, and `_filter` parameters are not supported at this time.
+These parameters can be used while searching any single resource type or while searching across resource types (whole system search).
+The `_type` parameter is special in that it is only applicable for whole system search.
 
-Finally, the specification defines a set of <q>Search result parameters</q> for controlling the search behavior. The IBM FHIR Server supports the following:
+The `_text`, `_content`, `_list`, `_has`, `_query`, and `_filter` parameters are not supported at this time.
+
+Finally, the specification defines a set of "Search result parameters" for controlling the search behavior. The IBM FHIR Server supports the following:
 * `_sort`
 * `_count`
 * `_include`
@@ -71,23 +79,23 @@ For information on how to specify custom search parameters, see [FHIRSearchConfi
 ### Search modifiers
 FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#modifiers and vary by search parameter type. The IBM FHIR Server implements a subset of the spec-defined search modifiers that is defined in the following table:
 
-|FHIR Search Parameter Type|Supported Modifiers|"Default" search behavior when no Modifier is present|
-|--------------------------|-------------------|-----------------------------------------------------|
-|String                 |`:exact`,`:contains`,`:missing` |Performs a "starts with" search that is case-insensitive and accent-insensitive|
-|Reference              |`:[type]`,`:missing`            |Performs an exact match search|
-|URI                    |`:below`,`:above`,`:missing`    |Performs a "starts with" search (issue #273), component based search for the path in the URL (issue #448)|
-|Token                  |`:below`,`:not`,`:missing`      |Performs an exact match search|
-|Number                 |`:missing`                      |Honors prefix if present, otherwise performs an exact match search|
-|Date                   |`:missing`                      |Honors prefix if present, otherwise performs an exact match search|
-|Quantity               |`:missing`                      |Honors prefix if present, otherwise performs an exact match search|
+|FHIR Search Parameter Type|Supported Modifiers|"Default" search behavior when no Modifier or Prefix is present|
+|--------------------------|-------------------|---------------------------------------------------------------|
+|String                    |`:exact`,`:contains`,`:missing` |"starts with" search that is case-insensitive and accent-insensitive|
+|Reference                 |`:[type]`,`:missing`            |exact match search|
+|URI                       |`:below`,`:above`,`:missing`    |exact match search|
+|Token                     |`:missing`                      |exact match search|
+|Number                    |`:missing`                      |implicit range search (see http://hl7.org/fhir/R4/search.html#number)|
+|Date                      |`:missing`                      |implicit range search (see https://www.hl7.org/fhir/search.html#date)|
+|Quantity                  |`:missing`                      |implicit range search (see http://hl7.org/fhir/R4/search.html#quantity)|
+|Composite                 |`:missing`                      |processes each parameter component according to its type|
+|Special (near)            | none                           |searches a bounding area according to the value of the `fhirServer/search/useBoundingRadius` property|
 
-Note that the default IBM FHIR Server behavior for URI search parameters differs from the behavior defined at https://www.hl7.org/fhir/R4/search.html#uri.
+Due to performance implications, the `:exact` modifier should be used for String searches where possible.
 
 At present, modifiers cannot be used with chained parameters. For example, a search with query string like `subject:Basic.date:missing` will result in an `OperationOutcome` explaining that the search parameter could not be processed.
 
 The `:text` modifier is not supported in this version of the FHIR server and use of this modifier will results in an HTTP 400 error with an `OperationOutcome` that describes the failure.
-
-Due to performance implications, the `:exact` modifier should be used for String searches where possible.
 
 ### Search prefixes
 FHIR search prefixes are described at https://www.hl7.org/fhir/R4/search.html#prefix.
@@ -116,16 +124,22 @@ The `eb` and `ap` prefixes are not supported for searches which target values of
 If not specified on a query string, the default prefix is `eq`.
 
 ### Searching on Date
-The FHIR server adheres to the specification except in cases where a time is included in the search query value. When a time is specified, the implementation requires an hour, minute, second, and timezone value. Including these values is consistent with the way in which `instant` and `dateTime` data types are defined at https://www.hl7.org/fhir/R4/datatypes.html#primitive. However, the implementation differs from the description at https://www.hl7.org/fhir/R4/search.html#date, which allows clients to include hours and minutes, but to omit values for seconds and time zone.
+The IBM FHIR Server implements date search as according to the specification.
 
-The IBM FHIR Server stores up to 6 fractional seconds (microsecond granularity) for Instant and DateTime values (when present) and allows clients to search with these as well.
+The server supports up to 6 fractional seconds (microsecond granularity) for Instant and DateTime values and all extracted parameter values are stored in the database in UTC in order to improve data portability.
 
-Query parameter values without fractional seconds will be handled as an implicit range. For example, a search like `Patient?date=2019-01-01T12:00:00Z` would include resources with the following effectiveDateTime values:
+Dates and DateTimes which are expressed without timezones are assumed to be in the local timezone of the application server at the time of parameter extraction.
+Similarly, query parameter date values with no timezone are assumed to be in the local timezone of the server at the time the search is invoked.
+To ensure consistency of search results, clients are recommended to include the timezone on all search query values that include a time.
+
+Finally, the server extends the specified capabilities with support for "exact match" semantics on fractional seconds.
+
+Query parameter values without fractional seconds is handled as an implicit range. For example, a search like `Observatoin?date=2019-01-01T12:00:00Z` would return resources with the following effectiveDateTime values:
 * 2019-01-01T12:00:00Z
 * 2019-01-01T12:00:00.1Z
 * 2019-01-01T12:00:00.999999Z
 
-Query parameter values with fractional seconds will be handled with exact match semantics (ignoring precision). For example, a search like `Patient?date=2019-01-01T12:00:00.100Z` would include resources with the following effectiveDateTime values:
+Query parameter values with fractional seconds is handled with exact match semantics (ignoring precision). For example, a search like `Patient?birthdate=2019-01-01T12:00:00.1Z` would include resources with the following effectiveDateTime values:
 * 2019-01-01T12:00:00.1Z
 * 2019-01-01T12:00:00.100Z
 * 2019-01-01T12:00:00.100000Z
@@ -147,20 +161,24 @@ For search parameters of type token that are defined on data fields of type `Con
 Searching string values via a token search parameter is not currently supported.
 
 ### Searching on Number
-For fields of type `decimal`, the IBM FHIR Server does not compute an implicit range for search. Search query values must match to the same precision, or greater precision, as the value in the resource.
+For fields of type `decimal`, the IBM FHIR Server computes an implicit range when the query parameter value has a prefix of `eq` (the default), `ne`, or `ap`. The computed range is based on the number of significant figures passed in the query string and further information can be found at https://www.hl7.org/fhir/R4/search.html#number.
+For searches with the `ap` prefix, we use the range `[implicitLowerBound - searchQueryValue * .1, implicitUpperBound + searchQueryValue * .1)` to ensure that the `ap` range is broader than the implicit range of `eq`.
 
 ### Searching on Quantity
-Quantity elements are not indexed unless they include either a valid `system` **and** `code` for their unit **or** a human-readable `unit` field. Quantities that don't include a `value` element are also skipped.
+Quantity elements are not indexed unless they include either a valid `system` **and** `code` for their unit **or** a human-readable `unit` field.
+If a Quantity element contains both a coded unit **and** a display unit, then both will be indexed. Quantities that don't include a `value` element are also skipped.
 
-The FHIR server does not perform any unit conversion or unit manipulation at this time. Quantity values **must** be searched using the same unit `code` that is included in the original resource. If, and only if, a coded unit is not present on a resource, then the FHIR server indexes the human-readable `unit` field, which can then be searched by omitting the `system` in the search query.
+The FHIR server does not perform any unit conversion or unit manipulation at this time. Quantity values should be searched using the same unit `code` that is included in the original resource.
+
+Similar to Numeric searches, the FHIR Server computes an implicit range for search query values with no range prefix (e.g. `eq`, `ne`, `ap`) based on the number of significant figures passed in the query string.
+For searches with the `ap` prefix, we use the range `[implicitLowerBound - searchQueryValue * .1, implicitUpperBound + searchQueryValue * .1)` to ensure that the `ap` range is broader than the implicit range of `eq`.
 
 The IBM FHIR Server does not consider the `Quantity.comparator` field as part of search processing at this time.
-Similar to Numeric searches, the FHIR Server does not compute an implicit range for quantity values...the precise number given in the resource is required for retrieval via standard search (i.e. searches with either no prefix or the `eq` prefix).
 
 ### Searching on URI
-URI searches on the IBM FHIR Server are case-insensitive, similar to the default behavior of searching on string values.
+URI searches on the IBM FHIR Server are case-sensitive with "exact-match" semantics. The `above` and `below` prefixes can be used to perform path-based matching that is based on the `/` delimiter.
 
-## HL7 FHIR R4 (v4.0.0) errata
+## HL7 FHIR R4 (v4.0.1) errata
 We add information here as we find issues with the artifacts provided with this version of the specification.
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.

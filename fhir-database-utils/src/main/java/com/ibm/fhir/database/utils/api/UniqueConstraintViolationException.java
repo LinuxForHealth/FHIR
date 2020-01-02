@@ -9,16 +9,16 @@ package com.ibm.fhir.database.utils.api;
 /**
  * Translation of a duplicate key or value constraint SQLException.
  */
-public class DuplicateValueException extends DataAccessException {
+public class UniqueConstraintViolationException extends DataAccessException {
 
     // Generated serial number
     private static final long serialVersionUID = -2753101534110619540L;
 
-    public DuplicateValueException(Throwable t) {
+    public UniqueConstraintViolationException(Throwable t) {
         super(t);
     }
 
-    public DuplicateValueException(String msg, Throwable t) {
+    public UniqueConstraintViolationException(String msg, Throwable t) {
         super(msg, t);
     }
 }

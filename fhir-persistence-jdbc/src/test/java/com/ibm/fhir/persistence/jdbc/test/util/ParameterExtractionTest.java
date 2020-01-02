@@ -8,7 +8,9 @@ package com.ibm.fhir.persistence.jdbc.test.util;
 
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.time.ZoneOffset;
@@ -16,7 +18,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.List;
+import java.util.TimeZone;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.SearchParameter;
@@ -52,7 +56,12 @@ import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceProcessorException;
-import com.ibm.fhir.persistence.jdbc.dto.Parameter;
+import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
+import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
 
 /**
@@ -92,13 +101,18 @@ public class ParameterExtractionTest {
     private static final SearchParameter stringSearchParam = searchParamBuilder.type(SearchParamType.STRING).build();
     private static final SearchParameter tokenSearchParam = searchParamBuilder.type(SearchParamType.TOKEN).build();
     
+    @BeforeClass
+    public void setSystemTimeZone() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
+    
     @Test
     public void testBoolean() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
         com.ibm.fhir.model.type.Boolean.TRUE.accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueCode(), "true");
+        assertEquals(((TokenParmVal) params.get(0)).getValueCode(), "true");
         
         assertNullValueReturnsNoParameters(tokenSearchParam, com.ibm.fhir.model.type.Boolean.builder());
     }
@@ -112,19 +126,19 @@ public class ParameterExtractionTest {
     public void testCanonical() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder;
         Canonical canonical = Canonical.of(SAMPLE_URI);
-        List<Parameter> params;
+        List<ExtractedParameterValue> params;
         
         parameterBuilder = new JDBCParameterBuildingVisitor(referenceSearchParam);
         canonical.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueString(), SAMPLE_URI);
+        assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_URI);
         
         parameterBuilder = new JDBCParameterBuildingVisitor(uriSearchParam);
         canonical.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueString(), SAMPLE_URI);
+        assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_URI);
     }
     
     @Test
@@ -137,9 +151,9 @@ public class ParameterExtractionTest {
     public void testCode() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
         Code.of(SAMPLE_STRING).accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueCode(), SAMPLE_STRING);
+        assertEquals(((TokenParmVal) params.get(0)).getValueCode(), SAMPLE_STRING);
     }
     
     @Test
@@ -151,11 +165,11 @@ public class ParameterExtractionTest {
     public void testDate() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
         Date.of("2016").accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
-        for (Parameter param : params) {
-            assertEquals(timestampToString(param.getValueDateStart()), SAMPLE_DATE_START);
-            assertEquals(timestampToString(param.getValueDate()), SAMPLE_DATE_START);
-            assertEquals(timestampToString(param.getValueDateEnd()), "2016-12-31T23:59:59.999999Z");
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
+        for (ExtractedParameterValue param : params) {
+            assertTrue(param instanceof DateParmVal);
+            DateParmVal dateParam = (DateParmVal) param;
+            assertEquals(timestampToString(dateParam.getValueDate()), SAMPLE_DATE_START);
         }
     }
     
@@ -168,9 +182,9 @@ public class ParameterExtractionTest {
     public void testDateTime() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
         DateTime.of("2016-01-01T10:10:10.1+04:00").accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
-        for (Parameter param : params) {
-            assertEquals(timestampToString(param.getValueDate()), "2016-01-01T06:10:10.100000Z");
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
+        for (ExtractedParameterValue param : params) {
+            assertEquals(timestampToString(((DateParmVal) param).getValueDate()), "2016-01-01T06:10:10.100000Z");
         }
     }
     
@@ -183,9 +197,9 @@ public class ParameterExtractionTest {
     public void testDecimal() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(numberSearchParam);
         Decimal.of(99.99).accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueNumber().doubleValue(), 99.99);
+        assertEquals(((NumberParmVal) params.get(0)).getValueNumber().doubleValue(), 99.99);
     }
     
     @Test
@@ -197,9 +211,9 @@ public class ParameterExtractionTest {
     public void testId() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
         Id.of("x").accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueCode(), "x");
+        assertEquals(((TokenParmVal) params.get(0)).getValueCode(), "x");
     }
     
     @Test
@@ -212,9 +226,9 @@ public class ParameterExtractionTest {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
         Instant now = Instant.now(ZoneOffset.UTC);
         now.accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(timestampToString(params.get(0).getValueDate()), TIMESTAMP_FORMATTER.format(now.getValue()));
+        assertEquals(timestampToString(((DateParmVal) params.get(0)).getValueDate()), TIMESTAMP_FORMATTER.format(now.getValue()));
     }
     
     @Test
@@ -226,9 +240,9 @@ public class ParameterExtractionTest {
     public void testInteger() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(numberSearchParam);
         Integer.of(13).accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueNumber().intValue(), 13);
+        assertEquals(((NumberParmVal) params.get(0)).getValueNumber().intValue(), 13);
     }
     
     @Test
@@ -240,19 +254,19 @@ public class ParameterExtractionTest {
     public void testString() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder;
         com.ibm.fhir.model.type.String stringVal = string(SAMPLE_STRING);
-        List<Parameter> params;
+        List<ExtractedParameterValue> params;
         
         parameterBuilder = new JDBCParameterBuildingVisitor(stringSearchParam);
         stringVal.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueString(), SAMPLE_STRING);
+        assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_STRING);
         
         parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
         stringVal.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueCode(), SAMPLE_STRING);
+        assertEquals(((TokenParmVal) params.get(0)).getValueCode(), SAMPLE_STRING);
     }
     
     @Test
@@ -265,19 +279,19 @@ public class ParameterExtractionTest {
     public void testUri() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder;
         Uri uri = Uri.of(SAMPLE_URI);
-        List<Parameter> params;
+        List<ExtractedParameterValue> params;
         
         parameterBuilder = new JDBCParameterBuildingVisitor(referenceSearchParam);
         uri.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueString(), SAMPLE_URI);
+        assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_URI);
         
         parameterBuilder = new JDBCParameterBuildingVisitor(uriSearchParam);
         uri.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueString(), SAMPLE_URI);
+        assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_URI);
     }
     
     @Test
@@ -289,7 +303,7 @@ public class ParameterExtractionTest {
     private void assertNullValueReturnsNoParameters(SearchParameter sp, Element.Builder builder) {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(sp);
         builder.extension(SAMPLE_EXTENSION).build().accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 0, "Number of extracted parameters");
     }
     
@@ -305,13 +319,13 @@ public class ParameterExtractionTest {
                .text(string("4025 S. Miami Blvd., Durham, NC 27703"))  //4
                .build()
                .accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 5, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueString(), "4025 S. Miami Blvd.");
-        assertEquals(params.get(1).getValueString(), "Durham");
-        assertEquals(params.get(2).getValueString(), "NC");
-        assertEquals(params.get(3).getValueString(), "27703");
-        assertEquals(params.get(4).getValueString(), "4025 S. Miami Blvd., Durham, NC 27703");
+        assertEquals(((StringParmVal) params.get(0)).getValueString(), "4025 S. Miami Blvd.");
+        assertEquals(((StringParmVal) params.get(1)).getValueString(), "Durham");
+        assertEquals(((StringParmVal) params.get(2)).getValueString(), "NC");
+        assertEquals(((StringParmVal) params.get(3)).getValueString(), "27703");
+        assertEquals(((StringParmVal) params.get(4)).getValueString(), "4025 S. Miami Blvd., Durham, NC 27703");
     }
     
     @Test
@@ -328,11 +342,13 @@ public class ParameterExtractionTest {
            .code(Code.of("a"))
            .build()
            .accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueNumber().intValue(), 1);
-        assertEquals(params.get(0).getValueSystem(), UNITSOFMEASURE);
-        assertEquals(params.get(0).getValueCode(), "a");
+        assertTrue(params.get(0) instanceof QuantityParmVal);
+        QuantityParmVal quantParam = (QuantityParmVal) params.get(0);
+        assertEquals(quantParam.getValueNumber().intValue(), 1);
+        assertEquals(quantParam.getValueSystem(), UNITSOFMEASURE);
+        assertEquals(quantParam.getValueCode(), "a");
     }
     
     @Test
@@ -349,14 +365,14 @@ public class ParameterExtractionTest {
                        .coding(Coding.builder().code(Code.of("c")).system(Uri.of(SAMPLE_URI)).build())
                        .build()
                        .accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 3, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueCode(), "a");
-        assertEquals(params.get(0).getValueSystem(), SAMPLE_URI);
-        assertEquals(params.get(1).getValueCode(), "b");
-        assertEquals(params.get(1).getValueSystem(), SAMPLE_URI);
-        assertEquals(params.get(2).getValueCode(), "c");
-        assertEquals(params.get(2).getValueSystem(), SAMPLE_URI);
+        assertEquals(((TokenParmVal) params.get(0)).getValueCode(), "a");
+        assertEquals(((TokenParmVal) params.get(0)).getValueSystem(), SAMPLE_URI);
+        assertEquals(((TokenParmVal) params.get(1)).getValueCode(), "b");
+        assertEquals(((TokenParmVal) params.get(1)).getValueSystem(), SAMPLE_URI);
+        assertEquals(((TokenParmVal) params.get(2)).getValueCode(), "c");
+        assertEquals(((TokenParmVal) params.get(2)).getValueSystem(), SAMPLE_URI);
     }
     
     @Test
@@ -372,10 +388,10 @@ public class ParameterExtractionTest {
               .system(Uri.of(SAMPLE_URI))
               .build()
               .accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueCode(), SAMPLE_STRING);
-        assertEquals(params.get(0).getValueSystem(), SAMPLE_URI);
+        assertEquals(((TokenParmVal) params.get(0)).getValueCode(), SAMPLE_STRING);
+        assertEquals(((TokenParmVal) params.get(0)).getValueSystem(), SAMPLE_URI);
     }
     
     @Test
@@ -391,9 +407,9 @@ public class ParameterExtractionTest {
                     .value(string("5558675309"))
                     .build()
                     .accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueCode(), "5558675309");
+        assertEquals(((TokenParmVal) params.get(0)).getValueCode(), "5558675309");
     }
     
     @Test
@@ -410,11 +426,11 @@ public class ParameterExtractionTest {
                 .code(Code.of(SAMPLE_UNIT))
                 .build()
                 .accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueNumber().intValue(), 1);
-        assertEquals(params.get(0).getValueSystem(), UNITSOFMEASURE);
-        assertEquals(params.get(0).getValueCode(), SAMPLE_UNIT);
+        assertEquals(((QuantityParmVal) params.get(0)).getValueNumber().intValue(), 1);
+        assertEquals(((QuantityParmVal) params.get(0)).getValueSystem(), UNITSOFMEASURE);
+        assertEquals(((QuantityParmVal) params.get(0)).getValueCode(), SAMPLE_UNIT);
     }
     
     @Test
@@ -433,13 +449,13 @@ public class ParameterExtractionTest {
                  .text(string("Dr. Nick"))   //4
                  .build()
                  .accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 5, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueString(), "Simpson");
-        assertEquals(params.get(1).getValueString(), "Nick");
-        assertEquals(params.get(2).getValueString(), "Dr.");
-        assertEquals(params.get(3).getValueString(), "III");
-        assertEquals(params.get(4).getValueString(), "Dr. Nick");
+        assertEquals(((StringParmVal) params.get(0)).getValueString(), "Simpson");
+        assertEquals(((StringParmVal) params.get(1)).getValueString(), "Nick");
+        assertEquals(((StringParmVal) params.get(2)).getValueString(), "Dr.");
+        assertEquals(((StringParmVal) params.get(3)).getValueString(), "III");
+        assertEquals(((StringParmVal) params.get(4)).getValueString(), "Dr. Nick");
     }
     
     @Test
@@ -455,10 +471,10 @@ public class ParameterExtractionTest {
                   .value(string("abc123"))
                   .build()
                   .accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueSystem(), SAMPLE_URI);
-        assertEquals(params.get(0).getValueCode(), "abc123");
+        assertEquals(((TokenParmVal) params.get(0)).getValueSystem(), SAMPLE_URI);
+        assertEquals(((TokenParmVal) params.get(0)).getValueCode(), "abc123");
     }
     
     @Test
@@ -474,10 +490,10 @@ public class ParameterExtractionTest {
              .value(Decimal.of(100))
              .build()
              .accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueCode(), "USD");
-        assertEquals(params.get(0).getValueNumber().intValue(), 100);
+        assertEquals(((QuantityParmVal) params.get(0)).getValueCode(), "USD");
+        assertEquals(((QuantityParmVal) params.get(0)).getValueNumber().intValue(), 100);
     }
     
     @Test
@@ -493,10 +509,10 @@ public class ParameterExtractionTest {
               .end(DateTime.of(SAMPLE_DATE_END))
               .build()
               .accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(timestampToString(params.get(0).getValueDateStart()), SAMPLE_DATE_START);
-        assertEquals(timestampToString(params.get(0).getValueDateEnd()), SAMPLE_DATE_END);
+        assertEquals(timestampToString(((DateParmVal) params.get(0)).getValueDateStart()), SAMPLE_DATE_START);
+        assertEquals(timestampToString(((DateParmVal) params.get(0)).getValueDateEnd()), SAMPLE_DATE_END);
     }
     
     @Test
@@ -506,9 +522,9 @@ public class ParameterExtractionTest {
               .end(DateTime.of(SAMPLE_DATE_END))
               .build()
               .accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(timestampToString(params.get(0).getValueDateEnd()), SAMPLE_DATE_END);
+        assertEquals(timestampToString(((DateParmVal) params.get(0)).getValueDateEnd()), SAMPLE_DATE_END);
     }
     
     @Test
@@ -518,9 +534,9 @@ public class ParameterExtractionTest {
               .start(DateTime.of(SAMPLE_DATE_START))
               .build()
               .accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(timestampToString(params.get(0).getValueDateStart()), SAMPLE_DATE_START);
+        assertEquals(timestampToString(((DateParmVal) params.get(0)).getValueDateStart()), SAMPLE_DATE_START);
     }
     
     @Test
@@ -537,11 +553,11 @@ public class ParameterExtractionTest {
                 .code(Code.of(SAMPLE_UNIT))
                 .build()
                 .accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueNumber().intValue(), 1);
-        assertEquals(params.get(0).getValueSystem(), UNITSOFMEASURE);
-        assertEquals(params.get(0).getValueCode(), SAMPLE_UNIT);
+        assertEquals(((QuantityParmVal) params.get(0)).getValueNumber().intValue(), 1);
+        assertEquals(((QuantityParmVal) params.get(0)).getValueSystem(), UNITSOFMEASURE);
+        assertEquals(((QuantityParmVal) params.get(0)).getValueCode(), SAMPLE_UNIT);
     }
     
     @Test
@@ -567,11 +583,13 @@ public class ParameterExtractionTest {
                                               .build())
                            .build();
         range.accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueNumberLow(), BigDecimal.valueOf(1));
-        assertNull(params.get(0).getValueNumber());
-        assertEquals(params.get(0).getValueNumberHigh(), BigDecimal.valueOf(2));
+        assertTrue(params.get(0) instanceof QuantityParmVal);
+        QuantityParmVal quantParam = (QuantityParmVal) params.get(0);
+        assertEquals(quantParam.getValueNumberLow(), BigDecimal.valueOf(1));
+        assertNull(quantParam.getValueNumber());
+        assertEquals(quantParam.getValueNumberHigh(), BigDecimal.valueOf(2));
     }
     
     @Test
@@ -586,11 +604,13 @@ public class ParameterExtractionTest {
                                               .build())
                            .build();
         range.accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueNumberLow(), BigDecimal.valueOf(1));
-        assertNull(params.get(0).getValueNumber());
-        assertNull(params.get(0).getValueNumberHigh());
+        assertTrue(params.get(0) instanceof QuantityParmVal);
+        QuantityParmVal quantParam = (QuantityParmVal) params.get(0);
+        assertEquals(quantParam.getValueNumberLow(), BigDecimal.valueOf(1));
+        assertNull(quantParam.getValueNumber());
+        assertNull(quantParam.getValueNumberHigh());
     }
     
     @Test
@@ -605,11 +625,13 @@ public class ParameterExtractionTest {
                                               .build())
                            .build();
         range.accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertNull(params.get(0).getValueNumberLow());
-        assertNull(params.get(0).getValueNumber());
-        assertEquals(params.get(0).getValueNumberHigh(), BigDecimal.valueOf(1));
+        assertTrue(params.get(0) instanceof QuantityParmVal);
+        QuantityParmVal quantParam = (QuantityParmVal) params.get(0);
+        assertNull(quantParam.getValueNumberLow());
+        assertNull(quantParam.getValueNumber());
+        assertEquals(quantParam.getValueNumberHigh(), BigDecimal.valueOf(1));
     }
     
     @Test
@@ -624,9 +646,9 @@ public class ParameterExtractionTest {
                  .reference(string(SAMPLE_REF))
                  .build()
                  .accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(params.get(0).getValueString(), SAMPLE_REF);
+        assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_REF);
     }
     
     @Test
@@ -645,11 +667,11 @@ public class ParameterExtractionTest {
               .repeat(Timing.Repeat.builder().bounds(period).build())
               .build()
               .accept(parameterBuilder);
-        List<Parameter> params = parameterBuilder.getResult();
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        Parameter param = params.get(0);
-        assertEquals(timestampToString(param.getValueDateStart()), SAMPLE_DATE_START);
-        assertEquals(timestampToString(param.getValueDateEnd()), SAMPLE_DATE_END);
+        ExtractedParameterValue param = params.get(0);
+        assertEquals(timestampToString(((DateParmVal) param).getValueDateStart()), SAMPLE_DATE_START);
+        assertEquals(timestampToString(((DateParmVal) param).getValueDateEnd()), SAMPLE_DATE_END);
     }
     
     @Test
@@ -669,8 +691,8 @@ public class ParameterExtractionTest {
 //        List<Parameter> params = parameterBuilder.getResult();
 //        assertEquals(params.size(), 1, "Number of extracted parameters");
 //        Parameter param = params.get(0);
-//        assertEquals(timestampToString(param.getValueDateStart()), SAMPLE_DATE_START);
-//        assertEquals(timestampToString(param.getValueDateEnd()), SAMPLE_DATE_END);
+//        assertEquals(timestampToString(((DateParameter) param).getValueDateStart()), SAMPLE_DATE_START);
+//        assertEquals(timestampToString(((DateParameter) param).getValueDateEnd()), SAMPLE_DATE_END);
 //    }
     
     /**
@@ -680,6 +702,7 @@ public class ParameterExtractionTest {
      * @return
      */
     private String timestampToString(java.sql.Timestamp tstamp) {
+        assertNotNull(tstamp);
         // do not use Timestamp#toString() because it converts to local timezone.
         // We need it rendered in UTC
         return tstamp.toInstant().atZone(ZoneOffset.UTC).format(TIMESTAMP_FORMATTER);

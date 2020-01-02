@@ -83,6 +83,12 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
         builder.add("code", "Diplotype Call");
         builder.add("combo-code", "Diplotype Call");
         builder.add("status", "final");
+        builder.add("code-value-concept", "Observation");
+        builder.add("code-value-date", "Observation");
+        builder.add("code-value-quantity", "Observation");
+        builder.add("code-value-string", "Observation");
+        builder.add("combo-code-value-concept", "Observation");
+        builder.add("combo-code-value-quantity", "Observation");
         builder.strict(true);
 
         runTest(testFile, Observation.class, false, builder.build());
