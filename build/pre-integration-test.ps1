@@ -1,38 +1,40 @@
 @echo off
 
-@REM ##############################################################################
-@REM (C) Copyright IBM Corp. 2019, 2020
-@REM 
-@REM SPDX-License-Identifier: Apache-2.0
-@REM ##############################################################################
+###############################################################################
+# (C) Copyright IBM Corp. 2019, 2020
+# 
+# SPDX-License-Identifier: Apache-2.0
+###############################################################################
 
-@REM This script will install the fhir server on the local machine and then
-@REM start it up so that we can run server integration tests
-@REM $WORKSPACE - top level directory of the Jenkins workspace
-@REM $WORKSPACE/SIT - holds everything related to server integration tests
-@REM $WORKSPACE/SIT/fhir-server-dist - installer contents (after unzipping)
-@REM $WORKSPACE/SIT/wlp - fhir server installation
+<# 
+ This script will install the fhir server on the local machine and then
+ start it up so that we can run server integration tests
+ $WORKSPACE - top level directory of the Jenkins workspace
+ $WORKSPACE/SIT - holds everything related to server integration tests
+ $WORKSPACE/SIT/fhir-server-dist - installer contents (after unzipping)
+ $WORKSPACE/SIT/wlp - fhir server installation 
+#>
 
-@REM Initial wait time after the "server start" command returns
-set SERVER_WAITTIME="30"
+# Initial wait time after the "server start" command returns
+$Env:SERVER_WAITTIME="30"
 
-@REM Sleep interval after each "metadata" invocation
-set SLEEP_INTERVAL="10"
+# Sleep interval after each "metadata" invocation
+$Env:SLEEP_INTERVAL="10"
 
-@REM Max number of "metadata" tries to detect server is running
-set MAX_TRIES=10
+# Max number of "metadata" tries to detect server is running
+$Env:MAX_TRIES=10
 
 echo "Preparing environment for fhir-server integration tests..."
-if [[ -z "${WORKSPACE}" ]]; then
+if ([string]::isNullOrWhitespace($Env:WORKSPACE)){
     echo "ERROR: WORKSPACE environment variable not set!"
     exit 2
-fi
+}
 
-@REM Collect the installers and config files in a common place (same as the docker process)
+# Collect the installers and config files in a common place (same as the docker process)
 cd ${WORKSPACE}/fhir-install/docker
-call copy-dependencies.bat
+& copy-dependencies.ps1
 
-@REM Remove the entire SIT file tree if it exists
+# Remove the entire SIT file tree if it exists
 set SIT=${WORKSPACE}/SIT
 if [ -d "%SIT%" ]; then
     echo "Removing %SIT%"
@@ -42,7 +44,7 @@ fi
 if NOT EXISTS %SIT%
 mkdir -p %SIT%
 
-@REM Install a fresh copy of the fhir server
+# Install a fresh copy of the fhir server
 echo "Unzipping fhir-server installer..."
 unzip ${WORKSPACE}/fhir-install/docker/volumes/dist/fhir-server-distribution.zip -d %SIT%
 
@@ -56,7 +58,7 @@ cp -pr ${WORKSPACE}/fhir-install/docker/volumes/dist/config/* %SIT%/wlp/usr/serv
 echo "Copying test artifacts to install location..."
 cp -pr ${WORKSPACE}/fhir-operation/target/fhir-operation-*-tests.jar %SIT%/wlp/usr/servers/fhir-server/userlib/
 
-@REM Start up the fhir server
+# Start up the fhir server
 echo "
 >>> Current time: " $(date)
 echo "Starting fhir server..."
@@ -65,12 +67,12 @@ Powershell.exe -c "[System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Dat
 set DATE_PS=<d.txt
 echo ">>> Current time: " %DATE_PS%
 
-@REM Sleep for a bit to let the server startup
+# Sleep for a bit to let the server startup
 echo "Sleeping ${SERVER_WAITTIME} to let the server start..."
 sleep ${SERVER_WAITTIME}
 
-@REM Next, we'll invoke the metadata API to detect when the
-@REM server is ready to accept requests.
+# Next, we'll invoke the metadata API to detect when the
+# server is ready to accept requests.
 echo "Waiting for fhir-server to complete initialization..."
 set metadata_url="https://localhost:9443/fhir-server/api/v4/metadata"
 set tries=0
@@ -88,7 +90,7 @@ while [ $status -ne 200 -a $tries -lt ${MAX_TRIES} ]; do
     fi
 done
 
-@REM Gather server logs in case there was a problem starting up the server
+# Gather server logs in case there was a problem starting up the server
 echo "Collecting pre-test server logs..."
 set pre_it_logs=%SIT%/pre-it-logs
 set zip_file=${WORKSPACE}/pre-it-logs.zip
@@ -98,8 +100,8 @@ rm -f ${zip_file} 2>/dev/null
 cp -pr %SIT%/wlp/usr/servers/fhir-server/logs ${pre_it_logs}
 zip -r ${zip_file} ${pre_it_logs}
 
-@REM If we weren't able to detect the fhir server ready within the allotted timeframe,
-@REM then exit now...
+# If we weren't able to detect the fhir server ready within the allotted timeframe,
+# then exit now...
 if [ $status -ne 200 ]
 then
     echo "Could not establish a connection to the fhir-server within $tries REST API invocations!"
@@ -109,4 +111,4 @@ fi
 echo "The fhir-server appears to be running..."
 exit 0
 
-@REM End of Script 
+# End of Script 
