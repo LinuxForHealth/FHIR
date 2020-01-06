@@ -13,7 +13,7 @@ echo Executing %0 to deploy the fhir-server web application...
 
 @REM Make sure that JAVA_HOME is set
 if "-%JAVA_HOME%-"=="--" (
-    echo Error: JAVA_HOME not set; make sure JAVA_HOME points to a Java 8 JVM (or above) and then re-try.
+    echo "Error: JAVA_HOME not set; make sure JAVA_HOME points to a Java 8 JVM (or above) and then re-try."
     set rc=1
     goto :exit
 ) else (
