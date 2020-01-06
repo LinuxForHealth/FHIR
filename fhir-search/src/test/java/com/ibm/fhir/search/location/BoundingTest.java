@@ -30,7 +30,7 @@ public class BoundingTest {
         assertEquals(bounding.getMaxLatitude(), 10.0);
         assertEquals(bounding.getMaxLongitude(), 20.0);
         assertEquals(bounding.toString(),
-                "BoundingBox [minLatitude=-10.0, maxLatitude=10.0, minLongitude=-10.0, maxLongitude=20.0]");
+                "BoundingBox [minLatitude=-10.0, maxLatitude=10.0, minLongitude=-10.0, maxLongitude=20.0, instance=0]");
         assertEquals(bounding.getDataPoints(), Arrays.asList(-10.0,  -10.0, 10.0, 20.0));
         assertEquals(bounding.getType(), BoundingType.BOX);
     }
@@ -122,7 +122,7 @@ public class BoundingTest {
         assertEquals(bounding.getLatitude(), 10.0);
         assertEquals(bounding.getLongitude(), 20.0);
         assertEquals(bounding.getRadius(), 4.0);
-        assertEquals(bounding.toString(), "BoundingRadius [latitude=10.0, longitude=20.0]");
+        assertEquals(bounding.toString(), "BoundingRadius [latitude=10.0, longitude=20.0, instance=0]");
         assertEquals(bounding.getDataPoints(), Arrays.asList(10.0, 20.0, 4.0));
         assertEquals(bounding.getType(), BoundingType.RADIUS);
     }

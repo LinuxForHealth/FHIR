@@ -1,0 +1,76 @@
+name: Javadocs Build for Site
+
+on:
+  push:
+    tags: 
+        - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 'openjdk8']
+      fail-fast: false
+    steps:
+    - name: Gets the version
+      id: get_version
+      run: echo ::set-env name=TAG_VERSION::${GITHUB_REF/refs\/tags\//}
+    - name: Grab the Master Branch
+      uses: actions/checkout@v2
+      with:
+            working-directory: fhir
+            ref: refs/heads/master
+            fetch-depth: 1
+            path: fhir
+    - uses: actions/checkout@v1
+    - name: Set up OpenJDK
+      uses: joschi/setup-jdk@v1
+      with:
+        java-version: ${{ matrix.java }}
+    - name: Build samples
+      run: |
+            mvn -Pdeploy-version-release clean -f fhir-examples/pom.xml
+            mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
+    - name: Build parent without tests
+      run: |
+            export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
+            mvn -Pdeploy-version-release clean -f fhir-parent/pom.xml -N
+            mvn -B site --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
+            cp -R fhir-parent/target/site/apidocs apidocs/
+    - name: Grab the GH Pages Branch
+      uses: actions/checkout@v1
+      with:
+            working-directory: gh-pages
+            ref: refs/heads/gh-pages
+            fetch-depth: 1
+            path: docs
+            token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Commit and Add GH Pages
+      env:
+            GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
+            GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+            GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+            CI: true
+      run: |
+            rm -rf ./javadocs/latest/
+            cp -Rf ../apidocs/* ./javadocs/
+            mv javadocs/apidocs javadocs/latest 
+            cp -Rf javadocs/javadocs javadocs/${TAG_VERSION}
+            date > build.txt
+            echo "javadocs" >> build.txt
+            git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+            git config --global user.name "Github Actions Bot - GH-Pages"
+            git add .
+            git commit -m "Automated gh-pages deployment of javadocs: $(date -u)"
+    - name: Push changes to GH Pages
+      env:
+            GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
+            GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+            GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+            CI: true
+      run: |
+            echo "Push Changes"
+            git branch
+            remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            git push "${remote_repo}" HEAD:gh-pages

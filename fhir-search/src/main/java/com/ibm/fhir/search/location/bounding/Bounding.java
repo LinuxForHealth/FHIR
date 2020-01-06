@@ -12,22 +12,39 @@ import java.util.List;
  * Bounding defines an area that is searched with a location.
  * There are default constraints included in this implementation.
  */
-public interface Bounding {
+public abstract class Bounding {
+    private int instance = 0;
+
+    /**
+     * sets the instance number
+     */
+    public void setInstance(int instance) {
+        this.instance = instance;
+    }
+
+    /**
+     * @return the instance of the parameter
+     */
+    public int instance() { 
+        return instance;
+    }
 
     /**
      * validates the Longitude and Latitude is valid for the Bounding area.
      */
-    public void validate();
-    
+    public abstract void validate();
+
     /**
      * gets the coordinates in an ordered list
+     * 
      * @return
      */
-    public List<Double> getDataPoints();
-    
+    public abstract List<Double> getDataPoints();
+
     /**
-     * returns the bounding type - radius or box. 
+     * returns the bounding type - radius or box.
+     * 
      * @return
      */
-    public BoundingType getType();
+    public abstract BoundingType getType();
 }
