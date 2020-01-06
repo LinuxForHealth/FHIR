@@ -26,6 +26,8 @@ public class OrderByClause {
 
     @Override
     public String toString() {
-        return "ORDER BY " + items.stream().collect(Collectors.joining(", "));
+        return new StringBuilder("ORDER BY ")
+                .append(items.stream().collect(Collectors.joining(", ")))
+                .toString();
     }
 }

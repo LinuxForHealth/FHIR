@@ -31,10 +31,8 @@ public class FromSubQueryAdapter extends SelectAdapter {
     }
 
     /**
-     * End construction of this sub-query by returning out parent
-     * {@link FromAdapter}
-     * thus allowing a caller to continue with their fluent building of the
-     * select statement
+     * End construction of this sub-query by returning out parent {@link FromAdapter} 
+     * thus allowing a caller to continue with their fluent building of the select statement
      * 
      * @param alias
      * @return our parent {@link FromAdapter}

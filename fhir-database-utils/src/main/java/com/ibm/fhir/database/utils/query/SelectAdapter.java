@@ -19,9 +19,8 @@ package com.ibm.fhir.database.utils.query;
  * </ul>
  * <p/>
  * The goal isn't to enforce building a syntactically perfect SQL statement -
- * checking
- * that is the role of the RDBMS SQL parser. But hopefully this makes things
- * a bit easier, less error-prone and therefore quicker. It also helps to
+ * checking that is the role of the RDBMS SQL parser. But hopefully this makes
+ * things a bit easier, less error-prone and therefore quicker. It also helps to
  * standardize the SQL statement building process across the project.
  */
 public class SelectAdapter {
@@ -61,7 +60,7 @@ public class SelectAdapter {
     /**
      * Add the sub-query select to the FROM clause
      * 
-     * @param sub   the sub-query select statement
+     * @param sub the sub-query select statement
      * @param alias
      * @return
      */
