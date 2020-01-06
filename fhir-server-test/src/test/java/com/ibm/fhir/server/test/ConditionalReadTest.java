@@ -39,7 +39,7 @@ public class ConditionalReadTest extends FHIRServerTestBase {
      */
     @BeforeClass
     public void retrieveConfig() throws Exception {
-        conditionalReadSupported = isUpdateCreateSupported();
+        conditionalReadSupported = isConditionalReadSupported();
         System.out.println("Conditional read enabled?: " + conditionalReadSupported.toString());
     }
 
