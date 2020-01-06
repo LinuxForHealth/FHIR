@@ -29,7 +29,7 @@ fi
 
 @REM Collect the installers and config files in a common place (same as the docker process)
 cd ${WORKSPACE}/fhir-install/docker
-./copy-dependencies.bat
+call copy-dependencies.bat
 
 @REM Remove the entire SIT file tree if it exists
 set SIT=${WORKSPACE}/SIT
