@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,10 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -30,6 +34,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -96,6 +101,7 @@ import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.CapabilityStatementKind;
 import com.ibm.fhir.model.type.code.ConditionalDeleteStatus;
+import com.ibm.fhir.model.type.code.ConditionalReadStatus;
 import com.ibm.fhir.model.type.code.FHIRVersion;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueSeverity;
@@ -162,6 +168,18 @@ public class FHIRResource implements FHIRResourceHelpers {
     private static final String LOCAL_REF_PREFIX = "urn:";
     private static final String HEADERNAME_IF_NONE_EXIST = "If-None-Exist";
     private static final String HEADERNAME_PREFER = "Prefer";
+    private static final String HEADERNAME_IF_MODIFIED_SINCE = "If-Modified-Since";
+    private static final String HEADERNAME_IF_NONE_MATCH = "If-None-Match";
+    
+    private static final DateFormat ascTime = 
+            new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy");
+    private static final DateFormat touchStoneTime = 
+            new SimpleDateFormat("EEE, dd-MMM-yy HH:mm:ss");
+    
+    static {
+        ascTime.setTimeZone(TimeZone.getTimeZone("GMT"));
+        touchStoneTime.setTimeZone(TimeZone.getTimeZone("GMT"));
+    }
 
     private PersistenceHelper persistenceHelper = null;
     private FHIRPersistence persistence = null;
@@ -600,6 +618,30 @@ public class FHIRResource implements FHIRResourceHelpers {
             log.exiting(this.getClass().getName(), "delete(String,String)");
         }
     }
+    
+    
+    private long parseIfModifiedSince() {
+        long modifiedSince = -1;
+        try {
+            // Handle RFC_1123 and RFC_850 formats first. 
+            // e.g "Sun, 06 Nov 1994 08:49:37 GMT", "Sunday, 06-Nov-94 08:49:37 GMT", "Sunday, 06-Nov-1994 08:49:37 GMT"
+            // If 2 digits year is used, then means 1940 to 2039.
+            modifiedSince = httpServletRequest.getDateHeader(HEADERNAME_IF_MODIFIED_SINCE);
+        } catch (IllegalArgumentException e) {
+            try {
+                // And then handle ANSIC format, e.g, "Sun Nov  6 08:49:37 1994"
+                modifiedSince = ascTime.parse(httpHeaders.getHeaderString(HEADERNAME_IF_MODIFIED_SINCE)).getTime();
+            } catch (ParseException e1) {
+                try {
+                    // Last, handle touchStone specific format, e.g, "Sat, 28-Sep-19 16:11:14"
+                    modifiedSince = touchStoneTime.parse(httpHeaders.getHeaderString(HEADERNAME_IF_MODIFIED_SINCE)).getTime();
+                } catch (ParseException e2) {
+                    modifiedSince = -1;
+                }
+            }
+        }
+        return modifiedSince;
+    }
 
     @GET
     @Path("{type}/{id}")
@@ -610,9 +652,50 @@ public class FHIRResource implements FHIRResourceHelpers {
         try {
             checkInitComplete();
             MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
+            long modifiedSince = parseIfModifiedSince();
+            
+            String ifNoneMatch = httpHeaders.getHeaderString(HEADERNAME_IF_NONE_MATCH);
+            
             Resource resource = doRead(type, id, true, false, null, null, queryParameters);
-            ResponseBuilder response = Response.ok().entity(resource);
-            response = addHeaders(response, resource);
+            int version2Match = -1;
+            // Support ETag value with or without " (and W/)
+            // e.g:  1, "1", W/1, W/"1" (the first format is used by TouchStone)
+            if (ifNoneMatch != null && !ifNoneMatch.replaceAll("\"", "").replaceAll("W/", "").trim().isEmpty()) {
+                try {
+                    version2Match = Integer.parseInt(ifNoneMatch.replaceAll("\"", "").replaceAll("W/", "").trim());
+                }
+                catch (NumberFormatException e)
+                {
+                    // ignore invalid version
+                    version2Match = -1;
+                }
+            }
+            Instant modifiedTime2Compare = null;
+            if (modifiedSince > 0 ) {
+                modifiedTime2Compare = Instant.ofEpochMilli(modifiedSince);
+            }
+            
+            boolean isModifed = true;
+            // check if-not-match first
+            if (version2Match != -1) {
+                if (version2Match == Integer.parseInt(resource.getMeta().getVersionId().getValue())) {
+                    isModifed = false;
+                }
+            }
+            // then check if-modified-since
+            if(isModifed && modifiedTime2Compare != null) {
+                if (resource.getMeta().getLastUpdated().getValue().toInstant().isBefore(modifiedTime2Compare)) {
+                    isModifed = false;
+                }
+            }
+            
+            ResponseBuilder response;
+            if (isModifed) {
+                response = Response.ok().entity(resource);
+                response = addHeaders(response, resource);
+            } else {
+                response = Response.status(Response.Status.NOT_MODIFIED);
+            }
             return response.build();
         } catch (FHIRHttpException e) {
             return exceptionResponse(e);
@@ -3482,7 +3565,9 @@ public class FHIRResource implements FHIRResourceHelpers {
      */
     private ResponseBuilder addHeaders(ResponseBuilder rb, Resource resource) {
         return rb.header(HttpHeaders.ETAG, getEtagValue(resource))
-                 .header(HttpHeaders.LAST_MODIFIED, resource.getMeta().getLastUpdated().getValue().toString());
+                // According to 3.3.1 of RTC2616(HTTP/1.1), we MUST only generate the RFC 1123 format for representing HTTP-date values
+                // in header fields, e.g Sat, 28 Sep 2019 16:11:14 GMT
+                .lastModified(Date.from(resource.getMeta().getLastUpdated().getValue().toInstant()));
     }
 
     private String getEtagValue(Resource resource) {
@@ -3631,6 +3716,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                                          .conditionalUpdate(com.ibm.fhir.model.type.Boolean.of(true))
                                          .updateCreate(com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled()))
                                          .conditionalDelete(ConditionalDeleteStatus.SINGLE)
+                                         .conditionalRead(ConditionalReadStatus.FULL_SUPPORT)
                                          .searchParam(conformanceSearchParams)
                                          .build();
 
