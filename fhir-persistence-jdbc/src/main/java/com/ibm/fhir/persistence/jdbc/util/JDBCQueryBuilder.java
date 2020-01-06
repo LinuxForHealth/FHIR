@@ -1164,14 +1164,14 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         final String METHODNAME = "buildLocationQuerySegment";
         log.entering(CLASSNAME, METHODNAME, parmName);
 
-        // Build this piece of the segment:
-        // (P1.PARAMETER_NAME_ID = x AND
         StringBuilder whereClauseSegment = new StringBuilder();
-        this.populateNameIdSubSegment(whereClauseSegment, parmName, PARAMETER_TABLE_ALIAS);
-
         List<Object> bindVariables = new ArrayList<>();
+
+        StringBuilder populateNameIdSubSegment = new StringBuilder();
+        this.populateNameIdSubSegment(populateNameIdSubSegment, parmName, PARAMETER_TABLE_ALIAS);
+
         LocationParmBehaviorUtil behaviorUtil = new LocationParmBehaviorUtil();
-        behaviorUtil.buildLocationSearchQuery(whereClauseSegment, bindVariables, boundingAreas);
+        behaviorUtil.buildLocationSearchQuery(populateNameIdSubSegment.toString(), whereClauseSegment, bindVariables, boundingAreas);
 
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
         log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());

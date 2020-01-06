@@ -149,6 +149,7 @@ public class SearchConstants {
                     put(SearchConstants.Type.DATE, Arrays.asList(Modifier.MISSING));
                     put(SearchConstants.Type.QUANTITY, Arrays.asList(Modifier.MISSING));
                     put(SearchConstants.Type.COMPOSITE, Arrays.asList(Modifier.MISSING));
+                    put(SearchConstants.Type.SPECIAL, Arrays.asList(Modifier.MISSING));
                 }
             });
 
