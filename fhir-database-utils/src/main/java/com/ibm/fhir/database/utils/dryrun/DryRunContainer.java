@@ -45,8 +45,9 @@ public class DryRunContainer {
             } else if (entry.getKey().startsWith("--")) {
                 out.println(entry.getKey());
             } else if (!entry.getKey().startsWith("SELECT") || SELECT) {
+                out.println(entry.getKey() + separator);
                 if (entry.getValue() != null) {
-                    out.print("-- [");
+                    out.print("-- Arguments [");
                     StringJoiner args = new StringJoiner(",");
                     for (Object o : entry.getValue()) {
                         args.add(o.toString());
@@ -54,7 +55,6 @@ public class DryRunContainer {
                     out.print(args.toString());
                     out.println("]");
                 }
-                out.println(entry.getKey() + separator);
             }
         }
         out.println();
