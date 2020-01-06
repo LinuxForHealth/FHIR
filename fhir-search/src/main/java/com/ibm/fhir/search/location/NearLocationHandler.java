@@ -166,7 +166,7 @@ public class NearLocationHandler {
     public List<Bounding> generateLocationPositionsFromParameters(List<QueryParameter> queryParameters)
             throws FHIRSearchException {
         List<Bounding> boundingAreas = new ArrayList<>();
-        // We are only interested in the near and near-distance parameters.
+        // We are only interested in the near parameter.
         // Extract the following data elements: latitude, longitude, distance, distance unit
         int instance = 0;
         for (QueryParameter queryParm : queryParameters.stream().collect(Collectors.toList())) {
