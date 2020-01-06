@@ -15,8 +15,6 @@ import com.ibm.fhir.database.utils.query.expression.PredicateExpression;
 
 /**
  * Representation of a select statement built by {@link SelectAdapter#build()}
- * TODO currently a work-in-progress, to sketch out ideas and see what
- * works, what's useful etc.
  */
 public class Select {
     // The fields, expressions we are selecting
@@ -36,44 +34,46 @@ public class Select {
 
     // The fields/expressions determining sort order. Optional
     private OrderByClause orderByClause;
-    
 
     /**
      * Factory to create a new instance of the builder needed to create this
      * statement
+     * 
      * @return
      */
     public static SelectAdapter select(String... columns) {
         return new SelectAdapter(columns);
     }
-    
+
     /**
      * Factory function for creating an {@link Alias} from a string
+     * 
      * @param aliasStr
      * @return
      */
     public static Alias alias(String aliasStr) {
         return new Alias(aliasStr);
     }
-    
+
     public static Predicate predicate(String boolExpr) {
         return new PredicateExpression(boolExpr);
     }
- 
+
     /**
      * Add the list of simple columns
+     * 
      * @param columns
      */
     public void addColumns(String... columns) {
-        for (String c: columns) {
+        for (String c : columns) {
             selectList.addColumn(c);
         }
     }
-    
+
     public void addColumn(String source, String name) {
         selectList.addColumn(source, name);
     }
-    
+
     public void addTable(String schemaName, String tableName) {
         fromClause.addTable(schemaName, tableName);
     }
@@ -85,51 +85,30 @@ public class Select {
     public void addTable(String schemaName, String tableName, Alias alias) {
         fromClause.addTable(schemaName, tableName, alias);
     }
-    
+
     public void addFrom(Select sub, Alias alias) {
         fromClause.addFrom(sub, alias);
     }
-    
-    public void addGroupBy(String...expressions) {
+
+    public void addWhere(String predicate) {
+        if (whereClause == null) {
+            whereClause = new WhereClause();
+        }
+        whereClause.addPredicate(predicate);
+    }
+
+    public void addGroupBy(String... expressions) {
         if (groupByClause == null) {
             groupByClause = new GroupByClause();
         }
         groupByClause.add(expressions);
     }
 
-    public void addOrderBy(String...expressions) {
+    public void addOrderBy(String... expressions) {
         if (orderByClause == null) {
             orderByClause = new OrderByClause();
         }
         orderByClause.add(expressions);
-    }
-
-    @Override
-    public String toString() {
-        // render the statement as a string. TODO consider using a visitor?
-        StringBuilder result = new StringBuilder();
-        result.append(SELECT);
-        result.append(SPACE).append(this.selectList.toString());
-        result.append(SPACE).append(FROM);
-        result.append(SPACE).append(this.fromClause.toString());
-        
-        if (this.whereClause != null) {
-            result.append(SPACE).append(this.whereClause.toString());
-        }
-        
-        if (this.groupByClause != null) {
-            result.append(SPACE).append(this.groupByClause.toString());
-        }
-
-        if (this.havingClause != null) {
-            result.append(SPACE).append(this.havingClause.toString());            
-        }
-        
-        if (this.orderByClause != null) {
-            result.append(SPACE).append(this.orderByClause.toString());            
-        }
-        
-        return result.toString();
     }
 
     /**
@@ -140,5 +119,32 @@ public class Select {
             this.havingClause = new HavingClause();
         }
         this.havingClause.addPredicate(predicate);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append(SELECT);
+        result.append(SPACE).append(this.selectList.toString());
+        result.append(SPACE).append(FROM);
+        result.append(SPACE).append(this.fromClause.toString());
+
+        if (this.whereClause != null) {
+            result.append(SPACE).append(this.whereClause.toString());
+        }
+
+        if (this.groupByClause != null) {
+            result.append(SPACE).append(this.groupByClause.toString());
+        }
+
+        if (this.havingClause != null) {
+            result.append(SPACE).append(this.havingClause.toString());
+        }
+
+        if (this.orderByClause != null) {
+            result.append(SPACE).append(this.orderByClause.toString());
+        }
+
+        return result.toString();
     }
 }

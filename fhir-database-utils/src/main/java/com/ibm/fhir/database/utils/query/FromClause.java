@@ -37,6 +37,7 @@ public class FromClause {
 
     /**
      * Add the sub-query as an item in the from list
+     * 
      * @param sub
      * @param alias
      */
@@ -49,5 +50,4 @@ public class FromClause {
     public String toString() {
         return items.stream().map(FromItem::toString).collect(Collectors.joining(", "));
     }
-
 }

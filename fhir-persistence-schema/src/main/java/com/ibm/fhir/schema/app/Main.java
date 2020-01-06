@@ -95,6 +95,10 @@ public class Main {
     private boolean checkCompatibility = false;
     private boolean createFhirSchemas = false;
 
+    // By default, the dryRun option is OFF, and FALSE
+    // When overridden, it simulates the actions. 
+    private Boolean dryRun = Boolean.FALSE;
+
     // The database user we will grant tenant data access privileges to
     private String grantTo;
 
@@ -123,22 +127,23 @@ public class Main {
     private static final SecureRandom random = new SecureRandom();
 
     /**
-     * Parse the command-line arguments, building up the environment and establishing
+     * Parse the command-line arguments, building up the environment and
+     * establishing
      * the run-list
+     * 
      * @param args
      */
     protected void parseArgs(String[] args) {
 
         // Arguments are pretty simple, so we go with a basic switch instead of having
         // yet another dependency (e.g. commons-cli).
-        for (int i=0; i<args.length; i++) {
+        for (int i = 0; i < args.length; i++) {
             String arg = args[i];
             switch (arg) {
             case "--prop-file":
                 if (++i < args.length) {
                     loadPropertyFile(args[i]);
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
@@ -152,8 +157,7 @@ public class Main {
                     if (!schemaName.equals(args[i])) {
                         logger.info("Schema name forced to upper case: " + schemaName);
                     }
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
@@ -163,16 +167,14 @@ public class Main {
 
                     // Force upper-case because user names are case-insensitive
                     this.grantTo = args[i].toUpperCase();
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
             case "--add-tenant-key":
                 if (++i < args.length) {
                     this.addKeyForTenant = args[i];
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
@@ -189,16 +191,14 @@ public class Main {
                 if (++i < args.length) {
                     this.tenantName = args[i];
                     this.testTenant = true;
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
             case "--tenant-key":
                 if (++i < args.length) {
                     this.tenantKey = args[i];
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
@@ -216,8 +216,7 @@ public class Main {
             case "--pool-size":
                 if (++i < args.length) {
                     this.maxConnectionPoolSize = Integer.parseInt(args[i]);
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
@@ -225,8 +224,7 @@ public class Main {
                 if (++i < args.length) {
                     // properties are given as name=value
                     addProperty(args[i]);
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
@@ -235,25 +233,26 @@ public class Main {
                 break;
             case "--allocate-tenant":
                 if (++i < args.length) {
-                    this.tenantName = args[i];
+                    this.tenantName     = args[i];
                     this.allocateTenant = true;
-                    this.dropTenant = false;
-                }
-                else {
+                    this.dropTenant     = false;
+                } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
             case "--drop-tenant":
                 if (++i < args.length) {
-                    this.tenantName = args[i];
-                    this.dropTenant = true;
+                    this.tenantName     = args[i];
+                    this.dropTenant     = true;
                     this.allocateTenant = false;
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-
+            case "--dry-run":
+                // The presence of dry-run automatically flips it on.
+                this.dryRun = Boolean.TRUE;
+                break;
             default:
                 throw new IllegalArgumentException("Invalid argument: " + arg);
             }
@@ -262,38 +261,110 @@ public class Main {
 
     /**
      * Read the properties from the given file
+     * 
      * @param filename
      */
     public void loadPropertyFile(String filename) {
         try (InputStream is = new FileInputStream(filename)) {
             properties.load(is);
-        }
-        catch (IOException x) {
+        } catch (IOException x) {
             throw new IllegalArgumentException(x);
         }
     }
 
     /**
      * Parse the given key=value string and add to the properties being collected
+     * 
      * @param pair
      */
     public void addProperty(String pair) {
         String[] kv = pair.split("=");
         if (kv.length == 2) {
             properties.put(kv[0], kv[1]);
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Property must be defined as key=value, not: " + pair);
         }
     }
 
     /***
-     * Dump a usage string to stdout
+     * prints a brief menu to the standard out showing the usage. 
      */
     public static void printUsage() {
-        // TODO
         PrintStream ps = System.err;
         ps.println("Usage: ");
+
+        // Properties File
+        ps.println("--prop-file path-to-property-file");
+        ps.println(" * loads the properties from a file");
+
+        // Schema Name
+        ps.println("--schema-name schema-name");
+        ps.println(" * uses the schema as specified, must be valid.");
+
+        // Grant Permissions to a valid username
+        ps.println("--grant-to username");
+        ps.println(" * uses the user as specified, must be valid.");
+        ps.println(" * and grants permission to the username");
+
+        // Add Tenant Key
+        ps.println("--add-tenant-key tenant-key");
+        ps.println(" * adds a tenant-key");
+
+        // Updates the Sotred Procedure for a Tenant
+        ps.println("--update-proc");
+        ps.println(" * updates the stored procedure for a specific tenant");
+
+        // Checks feature compatiblility
+        ps.println("--check-compatibility");
+        ps.println(" * checks feature compatibility ");
+
+        // Drop the Admin Schema
+        ps.println("--drop-admin");
+        ps.println(" * drops the admin schema ");
+
+        // Test Tenant
+        ps.println("--test-tenant tenantName");
+        ps.println(" * used to test with tenantName ");
+
+        // Tenant Key
+        ps.println("--tenant-key tenantKey");
+        ps.println(" * uses the tenant-key in the queries ");
+
+        // Update Schema action
+        ps.println("--update-schema");
+        ps.println(" * action to update the schema ");
+
+        // Create Schema action
+        ps.println("--create-schemas");
+        ps.println(" * action to create the schema ");
+
+        // Drop Schema action 
+        ps.println("--drop-schema");
+        ps.println(" * action to drop the schema ");
+
+        // Uses a specified poolsize
+        ps.println("--pool-size poolSize");
+        ps.println(" * poolsize used with the database actions ");
+
+        // Property used to connect
+        ps.println("--prop name=value");
+        ps.println(" * name=value that is passed in on the commandline  ");
+
+        // Confirms dropping of the schema
+        ps.println("--confirm-drop");
+        ps.println(" * confirms the dropping of a schema");
+
+        // Allocates Tenant
+        ps.println("--allocate-tenant");
+        ps.println(" * allocates a tenant");
+
+        // Drops a Tenant
+        ps.println("--drop-tenant tenantName");
+        ps.println(" * drops the tenant given the tenantName");
+
+        // Dry Run functionality
+        ps.println("--dry-run ");
+        ps.println(" * simulates the actions of the actions that change the datastore");
     }
 
     /**
@@ -303,14 +374,14 @@ public class Main {
         final String logDirectory = System.getProperty("log.dir");
         if (logDirectory == null || logDirectory.isEmpty()) {
             configureLogger(".");
-        }
-        else {
+        } else {
             configureLogger(logDirectory);
         }
     }
 
     /**
      * Configure the logger to use the given directory.
+     * 
      * @param logDir
      */
     protected void configureLogger(final String logDir) {
@@ -320,6 +391,7 @@ public class Main {
 
     /**
      * Get the program exit status from the environment
+     * 
      * @return
      */
     protected int getExitStatus() {
@@ -327,7 +399,8 @@ public class Main {
     }
 
     /**
-     * Write a final status message - useful for QA to review when checking the output
+     * Write a final status message - useful for QA to review when checking the
+     * output
      */
     protected void logStatusMessage(int status) {
         switch (status) {
@@ -375,15 +448,13 @@ public class Main {
                         // Just drop the objects associated with the ADMIN schema group
                         pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
                     }
-                }
-                catch (Exception x) {
+                } catch (Exception x) {
                     c.rollback();
                     throw x;
                 }
                 c.commit();
             }
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
     }
@@ -398,7 +469,6 @@ public class Main {
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
         gen.buildProcedures(pdm);
-
 
         // The objects are applied in parallel, which relies on each object
         // expressing its dependencies correctly. Changes are only applied
@@ -420,15 +490,13 @@ public class Main {
                     JdbcTarget target = new JdbcTarget(c);
                     Db2Adapter adapter = new Db2Adapter(target);
                     adapter.createFhirSchemas(schemaName, adminSchemaName);
-                }
-                catch (Exception x) {
+                } catch (Exception x) {
                     c.rollback();
                     throw x;
                 }
                 c.commit();
             }
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
     }
@@ -450,15 +518,13 @@ public class Main {
                     JdbcTarget target = new JdbcTarget(c);
                     Db2Adapter adapter = new Db2Adapter(target);
                     pdm.applyProcedures(adapter);
-                }
-                catch (Exception x) {
+                } catch (Exception x) {
                     c.rollback();
                     throw x;
                 }
                 c.commit();
             }
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
 
@@ -466,12 +532,14 @@ public class Main {
 
     /**
      * Start the schema object creation tasks and wait for everything to complete
+     * 
      * @param pdm
      * @param adapter
      * @param collector
      * @param vhs
      */
-    protected void applyModel(PhysicalDataModel pdm, IDatabaseAdapter adapter, ITaskCollector collector, VersionHistoryService vhs) {
+    protected void applyModel(PhysicalDataModel pdm, IDatabaseAdapter adapter, ITaskCollector collector,
+            VersionHistoryService vhs) {
         logger.info("Collecting model update tasks");
         pdm.collect(collector, adapter, this.transactionProvider, vhs);
 
@@ -483,13 +551,15 @@ public class Main {
         if (failedTaskGroups.size() > 0) {
             this.exitStatus = EXIT_RUNTIME_ERROR;
 
-            final String failedStr = failedTaskGroups.stream().map((tg) -> tg.getTaskId()).collect(Collectors.joining(","));
+            final String failedStr =
+                    failedTaskGroups.stream().map((tg) -> tg.getTaskId()).collect(Collectors.joining(","));
             logger.severe("List of failed task groups: " + failedStr);
         }
     }
 
     /**
      * Apply the given physical data model to the database
+     * 
      * @param pdm
      * @param adapter
      * @param collector
@@ -510,24 +580,24 @@ public class Main {
 
         applyModel(pdm, adapter, collector, vhs);
 
-//         The old way
-//         try {
-//             try (Connection c = createConnection()) {
-//                 try {
-//                     JdbcTarget target = new JdbcTarget(c);
-//                     Db2Adapter adapter = new Db2Adapter(target);
-//                     pdm.apply(adapter);
-//                 }
-//                 catch (Exception x) {
-//                     c.rollback();
-//                     throw x;
-//                 }
-//                 c.commit();
-//             }
-//         }
-//         catch (SQLException x) {
-//             throw translator.translate(x);
-//         }
+        //         The old way
+        //         try {
+        //             try (Connection c = createConnection()) {
+        //                 try {
+        //                     JdbcTarget target = new JdbcTarget(c);
+        //                     Db2Adapter adapter = new Db2Adapter(target);
+        //                     pdm.apply(adapter);
+        //                 }
+        //                 catch (Exception x) {
+        //                     c.rollback();
+        //                     throw x;
+        //                 }
+        //                 c.commit();
+        //             }
+        //         }
+        //         catch (SQLException x) {
+        //             throw translator.translate(x);
+        //         }
 
     }
 
@@ -537,8 +607,7 @@ public class Main {
     protected void loadDriver() {
         try {
             Class.forName(translator.getDriverClassName());
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             throw new IllegalStateException(e);
         }
 
@@ -546,6 +615,7 @@ public class Main {
 
     /**
      * Connect to the target database
+     * 
      * @return
      */
     protected Connection createConnection() {
@@ -559,8 +629,7 @@ public class Main {
         try {
             connection = DriverManager.getConnection(url, connectionProperties);
             connection.setAutoCommit(false);
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
 
@@ -569,14 +638,15 @@ public class Main {
     }
 
     /**
-     * Create a simple connection pool associated with our data source so that we can
+     * Create a simple connection pool associated with our data source so that we
+     * can
      * perform the DDL deployment in parallel
      */
     protected void configureConnectionPool() {
         Db2PropertyAdapter adapter = new Db2PropertyAdapter(this.properties);
 
         JdbcConnectionProvider cp = new JdbcConnectionProvider(this.translator, adapter);
-        this.connectionPool = new PoolConnectionProvider(cp, this.maxConnectionPoolSize);
+        this.connectionPool      = new PoolConnectionProvider(cp, this.maxConnectionPoolSize);
         this.transactionProvider = new SimpleTransactionProvider(this.connectionPool);
     }
 
@@ -593,41 +663,31 @@ public class Main {
 
         if (addKeyForTenant != null) {
             addTenantKey();
-        }
-        else if (this.dropSchema) {
+        } else if (this.dropSchema) {
             // only proceed with the drop if the user has provided additional confirmation
             if (this.confirmDrop) {
                 dropSchema();
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException("[ERROR] Drop not confirmed with --confirm-drop");
             }
-        }
-        else if (this.dropAdmin) {
+        } else if (this.dropAdmin) {
             // only try to drop the admin schema
             if (this.confirmDrop) {
                 dropSchema();
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException("[ERROR] Drop not confirmed with --confirm-drop");
             }
-        }
-        else if (updateSchema) {
+        } else if (updateSchema) {
             updateSchema();
-        }
-        else if (createFhirSchemas) {
+        } else if (createFhirSchemas) {
             createFhirSchemas();
-        }
-        else if (updateProc) {
+        } else if (updateProc) {
             updateProcedures();
-        }
-        else if (this.allocateTenant) {
+        } else if (this.allocateTenant) {
             allocateTenant();
-        }
-        else if (this.testTenant) {
+        } else if (this.testTenant) {
             testTenant();
-        }
-        else if (this.dropTenant) {
+        } else if (this.dropTenant) {
             dropTenant();
         }
 
@@ -656,8 +716,7 @@ public class Main {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 pdm.applyGrants(adapter, groupName, grantTo);
-            }
-            catch (DataAccessException x) {
+            } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
                 throw x;
@@ -689,14 +748,14 @@ public class Main {
 
                 if (tenant != null) {
                     // Attach the new tenant key to the tenant:
-                    AddTenantKeyDAO adder = new AddTenantKeyDAO(adminSchemaName, tenant.getTenantId(), tenantKey, tenantSalt, FhirSchemaConstants.TENANT_SEQUENCE);
+                    AddTenantKeyDAO adder =
+                            new AddTenantKeyDAO(adminSchemaName, tenant.getTenantId(), tenantKey, tenantSalt,
+                                    FhirSchemaConstants.TENANT_SEQUENCE);
                     adapter.runStatement(adder);
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException("Tenant does not exist: " + addKeyForTenant);
                 }
-            }
-            catch (DataAccessException x) {
+            } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
                 throw x;
@@ -730,12 +789,13 @@ public class Main {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
 
             try {
-                tenantId = adapter.allocateTenant(adminSchemaName, schemaName, tenantName, tenantKey, tenantSalt, FhirSchemaConstants.TENANT_SEQUENCE);
+                tenantId =
+                        adapter.allocateTenant(adminSchemaName, schemaName, tenantName, tenantKey, tenantSalt,
+                                FhirSchemaConstants.TENANT_SEQUENCE);
 
                 // The tenant-id is important because this is also used to identify the partition number
                 logger.info("Tenant Id[" + tenantName + "] = " + tenantId);
-            }
-            catch (DataAccessException x) {
+            } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
                 throw x;
@@ -761,19 +821,19 @@ public class Main {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 adapter.updateTenantStatus(adminSchemaName, tenantId, TenantStatus.ALLOCATED);
-            }
-            catch (DataAccessException x) {
+            } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
                 throw x;
             }
         }
-        
+
         logger.info("Allocated tenant: " + tenantName + " [key=" + tenantKey + "] with Id = " + tenantId);
     }
 
     /**
      * Populate all the static tables we need
+     * 
      * @param gen
      * @param tenantKey
      */
@@ -787,8 +847,7 @@ public class Main {
                 adapter.runStatement(cmd);
 
                 addResourceTypes(adapter, gen);
-            }
-            catch (DataAccessException x) {
+            } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
                 throw x;
@@ -798,6 +857,7 @@ public class Main {
 
     /**
      * Add all the resource types
+     * 
      * @param adapter
      * @param gen
      */
@@ -811,7 +871,8 @@ public class Main {
     }
 
     /**
-     * Check that we can call the set_tenant procedure successfully (which means that the
+     * Check that we can call the set_tenant procedure successfully (which means
+     * that the
      * tenant record exists in the tenants table)
      */
     protected void testTenant() {
@@ -855,8 +916,7 @@ public class Main {
                 Db2GetResourceTypeList rtListGetter = new Db2GetResourceTypeList(schemaName);
                 List<ResourceType> rtList = adapter.runStatement(rtListGetter);
                 rtList.forEach(rt -> logger.info("ResourceType: " + rt.toString()));
-            }
-            catch (DataAccessException x) {
+            } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
                 throw x;
@@ -883,8 +943,7 @@ public class Main {
 
                 // Mark the tenant as frozen before we proceed with dropping anything
                 adapter.updateTenantStatus(schemaName, tenantId, TenantStatus.FROZEN);
-            }
-            catch (DataAccessException x) {
+            } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
                 throw x;
@@ -905,8 +964,7 @@ public class Main {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 adapter.updateTenantStatus(schemaName, tenantId, TenantStatus.DROPPED);
-            }
-            catch (DataAccessException x) {
+            } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
                 throw x;
@@ -924,6 +982,7 @@ public class Main {
 
     /**
      * Generate a random 32 byte value encoded as a Base64 string (44 characters).
+     * 
      * @return
      */
     private String getRandomKey() {
@@ -942,8 +1001,8 @@ public class Main {
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("CLASSPATH: ");
             ClassLoader cl = ClassLoader.getSystemClassLoader();
-            URL[] classpath = ((URLClassLoader)cl).getURLs();
-            for (URL u: classpath) {
+            URL[] classpath = ((URLClassLoader) cl).getURLs();
+            for (URL u : classpath) {
                 logger.fine("  " + u.getFile());
             }
         }
@@ -951,6 +1010,7 @@ public class Main {
 
     /**
      * Main entry point
+     * 
      * @param args
      */
     public static void main(String[] args) {
@@ -964,13 +1024,11 @@ public class Main {
             m.loadDriver();
             m.process();
             exitStatus = m.getExitStatus();
-        }
-        catch (IllegalArgumentException x) {
+        } catch (IllegalArgumentException x) {
             logger.log(Level.SEVERE, "bad argument", x);
             printUsage();
             exitStatus = EXIT_BAD_ARGS;
-        }
-        catch (Exception x) {
+        } catch (Exception x) {
             logger.log(Level.SEVERE, "schema tool failed", x);
             exitStatus = EXIT_RUNTIME_ERROR;
         }
