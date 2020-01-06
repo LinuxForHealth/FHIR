@@ -21,11 +21,15 @@ import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -170,16 +174,15 @@ public class FHIRResource implements FHIRResourceHelpers {
     private static final String HEADERNAME_PREFER = "Prefer";
     private static final String HEADERNAME_IF_MODIFIED_SINCE = "If-Modified-Since";
     private static final String HEADERNAME_IF_NONE_MATCH = "If-None-Match";
-    
-    private static final DateFormat ascTime = 
-            new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy");
-    private static final DateFormat touchStoneTime = 
-            new SimpleDateFormat("EEE, dd-MMM-yy HH:mm:ss");
-    
-    static {
-        ascTime.setTimeZone(TimeZone.getTimeZone("GMT"));
-        touchStoneTime.setTimeZone(TimeZone.getTimeZone("GMT"));
-    }
+
+    public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder()
+            .appendPattern("EEE")
+            .optionalStart()
+            .appendPattern(" MMM dd HH:mm:ss yyyy")
+            .optionalEnd()
+            .optionalStart()
+            .appendPattern(", dd-MMM-yy HH:mm:ss")
+            .optionalEnd().toFormatter();
 
     private PersistenceHelper persistenceHelper = null;
     private FHIRPersistence persistence = null;
@@ -629,15 +632,13 @@ public class FHIRResource implements FHIRResourceHelpers {
             modifiedSince = httpServletRequest.getDateHeader(HEADERNAME_IF_MODIFIED_SINCE);
         } catch (IllegalArgumentException e) {
             try {
-                // And then handle ANSIC format, e.g, "Sun Nov  6 08:49:37 1994"
-                modifiedSince = ascTime.parse(httpHeaders.getHeaderString(HEADERNAME_IF_MODIFIED_SINCE)).getTime();
-            } catch (ParseException e1) {
-                try {
-                    // Last, handle touchStone specific format, e.g, "Sat, 28-Sep-19 16:11:14"
-                    modifiedSince = touchStoneTime.parse(httpHeaders.getHeaderString(HEADERNAME_IF_MODIFIED_SINCE)).getTime();
-                } catch (ParseException e2) {
+                // Then handle ANSIC format, e.g, "Sun Nov  6 08:49:37 1994"
+                // and touchStone specific format, e.g, "Sat, 28-Sep-19 16:11:14"
+                // assuming the time zone is GMT.
+                modifiedSince = PARSER_FORMATTER.parse(httpHeaders.getHeaderString(HEADERNAME_IF_MODIFIED_SINCE), LocalDateTime::from)
+                        .atZone(ZoneId.of("GMT")).toInstant().toEpochMilli();
+            } catch (DateTimeParseException e1) {
                     modifiedSince = -1;
-                }
             }
         }
         return modifiedSince;
