@@ -20,8 +20,6 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -38,7 +36,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -178,9 +175,11 @@ public class FHIRResource implements FHIRResourceHelpers {
     public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder()
             .appendPattern("EEE")
             .optionalStart()
+            // ANSIC date time format for If-Modified-Since
             .appendPattern(" MMM dd HH:mm:ss yyyy")
             .optionalEnd()
             .optionalStart()
+            // Touchstone date time format for If-Modified-Since
             .appendPattern(", dd-MMM-yy HH:mm:ss")
             .optionalEnd().toFormatter();
 
@@ -624,6 +623,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     
     
     private long parseIfModifiedSince() {
+        // Modified since date time in EpochMilli
         long modifiedSince = -1;
         try {
             // Handle RFC_1123 and RFC_850 formats first. 
@@ -661,14 +661,17 @@ public class FHIRResource implements FHIRResourceHelpers {
             int version2Match = -1;
             // Support ETag value with or without " (and W/)
             // e.g:  1, "1", W/1, W/"1" (the first format is used by TouchStone)
-            if (ifNoneMatch != null && !ifNoneMatch.replaceAll("\"", "").replaceAll("W/", "").trim().isEmpty()) {
-                try {
-                    version2Match = Integer.parseInt(ifNoneMatch.replaceAll("\"", "").replaceAll("W/", "").trim());
-                }
-                catch (NumberFormatException e)
-                {
-                    // ignore invalid version
-                    version2Match = -1;
+            if (ifNoneMatch != null) {
+                ifNoneMatch = ifNoneMatch.replaceAll("\"", "").replaceAll("W/", "").trim();
+                if (!ifNoneMatch.isEmpty()) { 
+                    try {
+                        version2Match = Integer.parseInt(ifNoneMatch);
+                    }
+                    catch (NumberFormatException e)
+                    {
+                        // ignore invalid version
+                        version2Match = -1;
+                    }
                 }
             }
             Instant modifiedTime2Compare = null;
@@ -676,22 +679,22 @@ public class FHIRResource implements FHIRResourceHelpers {
                 modifiedTime2Compare = Instant.ofEpochMilli(modifiedSince);
             }
             
-            boolean isModifed = true;
+            boolean isModified = true;
             // check if-not-match first
             if (version2Match != -1) {
                 if (version2Match == Integer.parseInt(resource.getMeta().getVersionId().getValue())) {
-                    isModifed = false;
+                    isModified = false;
                 }
             }
             // then check if-modified-since
-            if(isModifed && modifiedTime2Compare != null) {
+            if(isModified && modifiedTime2Compare != null) {
                 if (resource.getMeta().getLastUpdated().getValue().toInstant().isBefore(modifiedTime2Compare)) {
-                    isModifed = false;
+                    isModified = false;
                 }
             }
             
             ResponseBuilder response;
-            if (isModifed) {
+            if (isModified) {
                 response = Response.ok().entity(resource);
                 response = addHeaders(response, resource);
             } else {
