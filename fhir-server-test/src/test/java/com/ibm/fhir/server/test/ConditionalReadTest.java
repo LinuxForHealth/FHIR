@@ -305,4 +305,53 @@ public class ConditionalReadTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
+    @Test(groups = { "conditiaonal-read" }, dependsOnMethods = { "testUpdatePatient" })
+    public void testIfModifiedSinceInvalid() throws Exception {
+        assertNotNull(conditionalReadSupported);
+        if (!conditionalReadSupported.booleanValue()) {
+            return;
+        }
+        WebTarget target = getWebTarget();
+        // Call the 'read' API with invalid ETag format to retrieve the updated patient.
+        Response response = target.path("Patient/" + savedCreatedPatient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).header(HEADERNAME_IF_MODIFIED_SINCE, "Tue").get();
+        // Server should always ignore the invalid input - incomplete date time.
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        
+        response = target.path("Patient/" + savedCreatedPatient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).header(HEADERNAME_IF_MODIFIED_SINCE, "Wed Sep 28 16:11:14").get();
+        // Server should always ignore the invalid input - incomplete date time.
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        
+        response = target.path("Patient/" + savedCreatedPatient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).header(HEADERNAME_IF_MODIFIED_SINCE, "Wed Sep 28 16:11:14, 28-Sep-39 16:11:14").get();
+        // Server should always ignore the invalid input - with one incomplete date time and one correct date time.
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        
+        response = target.path("Patient/" + savedCreatedPatient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).header(HEADERNAME_IF_MODIFIED_SINCE, "Wed, 28-Sep-39 16:11:14 Sep 28 16:11:14").get();
+        // Server should always ignore the invalid input - with one incomplete date time and one correct date time.
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        
+        response = target.path("Patient/" + savedCreatedPatient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).header(HEADERNAME_IF_MODIFIED_SINCE, "Wed Sep 28 16:11:14 2039, 27-Sep-39 16:11:14").get();
+        // Server should always ignore the invalid input - the duplicated date times are not align with each other.
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        
+        response = target.path("Patient/" + savedCreatedPatient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).header(HEADERNAME_IF_MODIFIED_SINCE, "Wed Sep 28 16:11:14 2100").get();
+        // Server should always ignore the invalid input - weekday doesn't align with the date
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        
+        response = target.path("Patient/" + savedCreatedPatient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).header(HEADERNAME_IF_MODIFIED_SINCE, "Wed Sep 28 16:11:14 2039 28-Sep-39 16:11:14").get();
+        // Server should always ignore the invalid input - .
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        
+        response = target.path("Patient/" + savedCreatedPatient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).header(HEADERNAME_IF_MODIFIED_SINCE, "Wed Sep 28 16:11:14 2039, 28-Sep-39 16:11:14").get();
+        // Server allows duplicated input if the date times are aligned with each other and each is correct by itself.
+        assertResponse(response, Response.Status.NOT_MODIFIED.getStatusCode());
+    }
+
 }
