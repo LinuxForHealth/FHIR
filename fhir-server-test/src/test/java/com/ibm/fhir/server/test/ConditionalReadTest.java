@@ -344,7 +344,7 @@ public class ConditionalReadTest extends FHIRServerTestBase {
         
         response = target.path("Patient/" + savedCreatedPatient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).header(HEADERNAME_IF_MODIFIED_SINCE, "Wed Sep 28 16:11:14 2039 28-Sep-39 16:11:14").get();
-        // Server should always ignore the invalid input - .
+        // Server should always ignore the invalid input - duplicated date times and one doesn't match any of the patterns.
         assertResponse(response, Response.Status.OK.getStatusCode());
         
         response = target.path("Patient/" + savedCreatedPatient.getId())
