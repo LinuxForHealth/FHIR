@@ -312,7 +312,6 @@ public class ConditionalReadTest extends FHIRServerTestBase {
             return;
         }
         WebTarget target = getWebTarget();
-        // Call the 'read' API with invalid ETag format to retrieve the updated patient.
         Response response = target.path("Patient/" + savedCreatedPatient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).header(HEADERNAME_IF_MODIFIED_SINCE, "Tue").get();
         // Server should always ignore the invalid input - incomplete date time.
