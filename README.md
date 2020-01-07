@@ -16,7 +16,7 @@ Information on installing and running the IBM FHIR Server will be available in t
 IBM FHIR Server artifacts will become available on JCenter and Maven Central with a group ID of `com.ibm.fhir` in the near future.
 
 For example, if you are using Maven and would like to use our object model (including our high-performance parser, generator, and validator), you could declare the dependency like this:
-
+ 
 ```
 ...
 <dependencies>

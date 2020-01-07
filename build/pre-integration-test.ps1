@@ -1,4 +1,4 @@
-@echo off
+@Write-Output off
 
 ###############################################################################
 # (C) Copyright IBM Corp. 2019, 2020
@@ -16,17 +16,17 @@
 #>
 
 # Initial wait time after the "server start" command returns
-$Env:SERVER_WAITTIME="30"
+$SERVER_WAITTIME="30"
 
 # Sleep interval after each "metadata" invocation
-$Env:SLEEP_INTERVAL="10"
+$SLEEP_INTERVAL="10"
 
 # Max number of "metadata" tries to detect server is running
-$Env:MAX_TRIES=10
+$MAX_TRIES=10
 
-echo "Preparing environment for fhir-server integration tests..."
-if ([string]::isNullOrWhitespace($Env:WORKSPACE)){
-    echo "ERROR: WORKSPACE environment variable not set!"
+Write-Output "Preparing environment for fhir-server integration tests..."
+if ([string]::isNullOrWhitespace($Env:WORKSPACE)) {
+    Write-Output "ERROR: WORKSPACE environment variable not set!"
     exit 2
 }
 
@@ -35,63 +35,62 @@ cd ${WORKSPACE}/fhir-install/docker
 & copy-dependencies.ps1
 
 # Remove the entire SIT file tree if it exists
-set SIT=${WORKSPACE}/SIT
-if [ -d "%SIT%" ]; then
-    echo "Removing %SIT%"
-    rm -fr %SIT%
-fi
+[string]$SIT=$Env:WORKSPACE/SIT
+if(![System.IO.File]::Exists($SIT)){
+    Write-Output "Removing %SIT%"
+    Remove-Item –path %SIT% –recurse -force
+}
 
-if NOT EXISTS %SIT%
-mkdir -p %SIT%
+# Create the directory
+new-item -Name $SIT -ItemType directory
 
 # Install a fresh copy of the fhir server
-echo "Unzipping fhir-server installer..."
-unzip ${WORKSPACE}/fhir-install/docker/volumes/dist/fhir-server-distribution.zip -d %SIT%
+Write-Output "Unzipping fhir-server installer..."
+Expand-Archive -LiteralPath $Env:WORKSPACE/fhir-install/docker/volumes/dist/fhir-server-distribution.zip -DestinationPath $SIT
 
-echo "Installing fhir server in %SIT%"
-%SIT%/fhir-server-dist/install.sh %SIT%
+Write-Output "Installing fhir server in Integration Tests"
+$SIT/fhir-server-dist/install.bat $SIT
 
-echo "Copying configuration to install location..."
-rm -fr %SIT%/wlp/usr/servers/fhir-server/config/*
-cp -pr ${WORKSPACE}/fhir-install/docker/volumes/dist/config/* %SIT%/wlp/usr/servers/fhir-server/config/
+Write-Output "Copying configuration to install location..."
+rm -fr $SIT/wlp/usr/servers/fhir-server/config/*
+Copy-Item $Env:WORKSPACE/fhir-install/docker/volumes/dist/config/* -Destination $Env:WORKSPACE/wlp/usr/servers/fhir-server/config/ -Recurse
 
-echo "Copying test artifacts to install location..."
-cp -pr ${WORKSPACE}/fhir-operation/target/fhir-operation-*-tests.jar %SIT%/wlp/usr/servers/fhir-server/userlib/
+Write-Output "Copying test artifacts to install location..."
+Copy-Item $Env:WORKSPACE/fhir-operation/target/fhir-operation-*-tests.jar -Destination $Env:WORKSPACE/wlp/usr/servers/fhir-server/userlib/
 
 # Start up the fhir server
-echo "
->>> Current time: " $(date)
-echo "Starting fhir server..."
-%SIT%/wlp/bin/server start fhir-server
-Powershell.exe -c "[System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'Line Islands Standard Time').ToString('t')" > d.txt
-set DATE_PS=<d.txt
-echo ">>> Current time: " %DATE_PS%
+$DATE_PS=[System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'Greenwich Standard Time').ToString('t')
+Write-Output "
+>>> Current time: " $DATE_PS
+Write-Output "Starting fhir server..."
+$SIT/wlp/bin/server start fhir-server
+Write-Output ">>> Current time: " DATE_PS
 
 # Sleep for a bit to let the server startup
-echo "Sleeping ${SERVER_WAITTIME} to let the server start..."
-sleep ${SERVER_WAITTIME}
+Write-Output "Sleeping $SERVER_WAITTIME to let the server start..."
+Start-Sleep -s $SERVER_WAITTIME
 
 # Next, we'll invoke the metadata API to detect when the
 # server is ready to accept requests.
-echo "Waiting for fhir-server to complete initialization..."
-set metadata_url="https://localhost:9443/fhir-server/api/v4/metadata"
-set tries=0
-set status=0
+Write-Output "Waiting for fhir-server to complete initialization..."
+$metadata_url="https://localhost:9443/fhir-server/api/v4/metadata"
+$tries=0
+$status=0
 while [ $status -ne 200 -a $tries -lt ${MAX_TRIES} ]; do
-    tries=$((tries + 1))
+    tries++
     cmd="curl -sS -k -o ${WORKSPACE}/metadata.json -I -w %{http_code} -u fhiruser:change-password $metadata_url "
-    echo "Executing[$tries]: $cmd"
+    Write-Output "Executing[$tries]: $cmd"
     status=$($cmd)
-    echo "Status code: $status"
+    Write-Output "Status code: $status"
     if [ $status -ne 200 ]
     then
-       echo "Sleeping for ${SLEEP_INTERVAL} secs..."
+       Write-Output "Sleeping for ${SLEEP_INTERVAL} secs..."
        sleep ${SLEEP_INTERVAL}
     fi
 done
 
 # Gather server logs in case there was a problem starting up the server
-echo "Collecting pre-test server logs..."
+Write-Output "Collecting pre-test server logs..."
 set pre_it_logs=%SIT%/pre-it-logs
 set zip_file=${WORKSPACE}/pre-it-logs.zip
 rm -fr ${pre_it_logs} 2>/dev/null
@@ -104,11 +103,11 @@ zip -r ${zip_file} ${pre_it_logs}
 # then exit now...
 if [ $status -ne 200 ]
 then
-    echo "Could not establish a connection to the fhir-server within $tries REST API invocations!"
+    Write-Output "Could not establish a connection to the fhir-server within $tries REST API invocations!"
     exit 1
 fi
 
-echo "The fhir-server appears to be running..."
+Write-Output "The fhir-server appears to be running..."
 exit 0
 
 # End of Script 
