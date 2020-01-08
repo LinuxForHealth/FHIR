@@ -12,15 +12,14 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 
 /**
  * This is a root interface for child Data Access Object interfaces. 
- * 
  */
 public interface FHIRDbDAO {
 
-    String FHIRDB_JNDI_NAME_DEFAULT = "jdbc/fhirDB";
-    String PROPERTY_DB_DRIVER = "dbDriverName";
-    String PROPERTY_DB_URL = "dbUrl";
-    String PROPERTY_DB2_USER = "user";
-    String PROPERTY_DB2_PSWD = "password";
+    public static final String FHIRDB_JNDI_NAME_DEFAULT = "jdbc/fhirDB";
+    public static final String PROPERTY_DB_DRIVER = "dbDriverName";
+    public static final String PROPERTY_DB_URL = "dbUrl";
+    public static final String PROPERTY_DB2_USER = "user";
+    public static final String PROPERTY_DB2_PSWD = "password";
 
     /**
      * Acquires and returns a JDBC database connection to the FHIR database.

@@ -15,15 +15,17 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingBox;
+import com.ibm.fhir.search.location.bounding.BoundingMissing;
 import com.ibm.fhir.search.location.bounding.BoundingRadius;
 import com.ibm.fhir.search.location.uom.UOMManager;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 /**
  * <a href="https://www.hl7.org/fhir/r4/location.html#search"> FHIR Search:
@@ -161,58 +163,86 @@ public class NearLocationHandler {
      * @return
      * @throws FHIRSearchException
      */
-    public List<Bounding> generateLocationPositionsFromParameters(List<Parameter> queryParameters)
+    public List<Bounding> generateLocationPositionsFromParameters(List<QueryParameter> queryParameters)
             throws FHIRSearchException {
         List<Bounding> boundingAreas = new ArrayList<>();
-        // We are only interested in the near and near-distance parameters.
+        // We are only interested in the near parameter.
         // Extract the following data elements: latitude, longitude, distance, distance unit
-        for (Parameter queryParm : queryParameters.stream().collect(Collectors.toList())) {
-            for (ParameterValue value : queryParm.getValues()) {
-                if (NEAR.equals(queryParm.getCode())) {
+        int instance = 0;
+        for (QueryParameter queryParm : queryParameters.stream().collect(Collectors.toList())) {
+            // Only process the NEAR values IFF it's actually 'near'
+            if (NEAR.equals(queryParm.getCode())) {
+                Modifier modifier = queryParm.getModifier();
+                if (modifier != null && Modifier.MISSING.equals(modifier)) {
+                    BoundingMissing missing = new BoundingMissing();
+                    missing.setInstance(instance);
 
-                    // Make sure that the prefixes are properly defined. 
-                    Prefix prefix = value.getPrefix();
-                    if (prefix != null && Prefix.EQ.compareTo(prefix) != 0) {
-                        throw new FHIRSearchException("Only prefixes allowed for near search are [default/empty, EQ].");
+                    Boolean miss = null;
+                    for (QueryParameterValue value : queryParm.getValues()) {
+                        if (miss != null && miss != Boolean.parseBoolean(value.getValueCode())) {
+                            // user has requested both missing and not missing values for this field which makes no sense
+                            logger.warning(
+                                    "Processing query with conflicting values for query param with 'missing' modifier");
+                        } else {
+                            miss = Boolean.parseBoolean(value.getValueCode());
+                        }
                     }
-
-                    double latitude;
-                    double longitude;
-                    double distance = DEFAULT_DISTANCE;
-                    String unit = DEFAULT_UNIT;
-
-                    try {
-                        // [latitude]|[longitude]|[distance]|[units]
-                        // -83.694810|42.256500|11.20|km
-                        String[] components =
-                                value.getValueString().split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + "\\|");
-
-                        // If less than 2, it's going to generate an NPE (caught in the outer exception). 
-                        latitude  = Double.parseDouble(components[0]);
-                        longitude = Double.parseDouble(components[1]);
-
-                        // Distance is included
-                        if (components.length >= 3) {
-                            distance = Double.parseDouble(components[2]);
+                    missing.setMissing(miss);
+                    boundingAreas.add(missing);
+                } else {
+                    for (QueryParameterValue value : queryParm.getValues()) {
+                        // Make sure that the prefixes are properly defined. 
+                        Prefix prefix = value.getPrefix();
+                        if (prefix != null && Prefix.EQ.compareTo(prefix) != 0) {
+                            throw new FHIRSearchException(
+                                    "Only prefixes allowed for near search are [default/empty, EQ].");
                         }
 
-                        // The user has set the units value. 
-                        if (components.length >= 3) {
-                            unit = components[3];
+                        double latitude;
+                        double longitude;
+                        double distance = DEFAULT_DISTANCE;
+                        String unit = DEFAULT_UNIT;
+
+                        try {
+                            // [latitude]|[longitude]|[distance]|[units]
+                            // -83.694810|42.256500|11.20|km
+                            String[] components =
+                                    value.getValueString().split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + "\\|");
+
+                            // If less than 2, it's going to generate an NPE (caught in the outer exception). 
+                            latitude  = Double.parseDouble(components[0]);
+                            longitude = Double.parseDouble(components[1]);
+
+                            // Distance is included
+                            if (components.length >= 3) {
+                                distance = Double.parseDouble(components[2]);
+                            }
+
+                            // The user has set the units value. 
+                            if (components.length >= 3) {
+                                unit = components[3];
+                            }
+                        } catch (NumberFormatException | NullPointerException e) {
+                            throw SearchExceptionUtil
+                                    .buildNewInvalidSearchException("Invalid parameters for the 'near' search");
                         }
-                    } catch (NumberFormatException | NullPointerException e) {
-                        throw SearchExceptionUtil
-                                .buildNewInvalidSearchException("Invalid parameters for the 'near' search");
-                    }
 
-                    // Switch between the types bounding radius and boxes. 
-                    if (boundingRadius) {
-                        boundingAreas.add(createBoundingRadius(latitude, longitude, distance, unit));
-                    } else {
-                        boundingAreas.add(createBoundingBox(latitude, longitude, distance, unit));
-                    }
+                        // Switch between the types bounding radius and boxes.
+                        Bounding bounding;
+                        if (boundingRadius) {
+                            bounding = createBoundingRadius(latitude, longitude, distance, unit);
+                        } else {
+                            bounding = createBoundingBox(latitude, longitude, distance, unit);
+                        }
 
+                        // Identifies which Query parameter
+                        bounding.setInstance(instance);
+                        boundingAreas.add(bounding);
+                    }
                 }
+
+                // Increment the 'near'
+                instance++;
             }
         }
         return boundingAreas;
@@ -260,7 +290,8 @@ public class NearLocationHandler {
     }
 
     /**
-     * overrides the bounding functionality. 
+     * overrides the bounding functionality.
+     * 
      * @param boundingRadius
      */
     public void setBounding(boolean boundingRadius) {

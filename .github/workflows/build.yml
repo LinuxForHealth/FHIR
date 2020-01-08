@@ -1,9 +1,10 @@
-name: Continuous Integration
+name: Integration
 
 on:
   pull_request:
     paths-ignore:
     - 'docs/**'
+    - '.github/site.yml'
 
 jobs:
   build-tools:
@@ -13,7 +14,7 @@ jobs:
         java: [ 'openjdk8', 'openjdk11' ]
       fail-fast: false
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up OpenJDK
       uses: joschi/setup-jdk@v1
       with:
@@ -117,7 +118,16 @@ jobs:
     - name: Build samples
       run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Build parent without tests
-      run: mvn -B install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
+      # As the e2e tests are the fastest, opting to put javadoc:javadoc in fhir-parent
+      # The profile avoids UML diagram creation
+      run: |
+        JAVADOC_GOAL=""
+        if [ "${{ matrix.java }}" != "openjdk8" ]
+        then 
+          export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
+          JAVADOC_GOAL=" -Pvalidate-javadoc javadoc:javadoc "
+        fi
+        mvn -B ${JAVADOC_GOAL} install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
     - name: Server Integration Tests
       env:
         # debian-based linux uses C.UTF-8 by default and Derby doesn't like that

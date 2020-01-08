@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -54,6 +54,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.code.ConditionalReadStatus;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
@@ -319,6 +320,32 @@ public abstract class FHIRServerTestBase {
         }
 
         return conformanceStmt;
+    }
+
+    /**
+     * Determines whether or not the server supports the "conditional-read" feature by
+     * examining the conformance statement.
+     */
+    protected boolean isConditionalReadSupported() throws Exception {
+        Boolean conditionalReadSupported = Boolean.FALSE;
+        CapabilityStatement conf = retrieveConformanceStatement();
+
+        List<CapabilityStatement.Rest> restList = conf.getRest();
+        if (restList != null) {
+            CapabilityStatement.Rest rest = restList.get(0);
+            if (rest != null) {
+                assertEquals(RestfulCapabilityMode.SERVER.getValue(), rest.getMode().getValue());
+                List<Rest.Resource> resources = rest.getResource();
+                if (resources != null) {
+                    Rest.Resource resource = resources.get(0);
+                    if (resource != null && resource.getConditionalRead()!= null) {
+                        conditionalReadSupported = resource.getConditionalRead().equals(ConditionalReadStatus.FULL_SUPPORT);
+                    }
+                }
+            }
+        }
+
+        return conditionalReadSupported.booleanValue();
     }
 
     /**

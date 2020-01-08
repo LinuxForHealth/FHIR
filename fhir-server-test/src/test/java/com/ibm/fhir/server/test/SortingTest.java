@@ -754,9 +754,6 @@ public class SortingTest extends FHIRServerTestBase {
     }
 
     public static java.time.Instant getInstantFromPartial(TemporalAccessor ta) {
-        /*
-         * Original Implementation in QueryBuilderUtil.java
-         */
         java.time.LocalDateTime result;
 
         if (ta instanceof Year) {

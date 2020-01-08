@@ -19,7 +19,7 @@ import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.location.util.LocationUtil;
-import com.ibm.fhir.search.parameters.Parameter;
+import com.ibm.fhir.search.parameters.QueryParameter;
 
 public class LocationUtilTest {
 
@@ -84,8 +84,8 @@ public class LocationUtilTest {
     public void testIsLocation() {
         Class<?> notLocation = Patient.class;
         Class<?> location = Location.class;
-        Parameter notNearParm = new Parameter(null, "not-near", null, null);
-        Parameter nearParm = new Parameter(null, "near", null, null);
+        QueryParameter notNearParm = new QueryParameter(null, "not-near", null, null);
+        QueryParameter nearParm = new QueryParameter(null, "near", null, null);
 
         assertFalse(LocationUtil.isLocation(notLocation, notNearParm));
         assertTrue(LocationUtil.isLocation(location, nearParm));
@@ -95,9 +95,9 @@ public class LocationUtilTest {
 
     @Test
     public void testFindNearParameterIndex() {
-        Parameter notNearParm = new Parameter(null, "not-near", null, null);
-        Parameter notParm = new Parameter(null, "not", null, null);
-        Parameter nearParm = new Parameter(null, "near", null, null);
+        QueryParameter notNearParm = new QueryParameter(null, "not-near", null, null);
+        QueryParameter notParm = new QueryParameter(null, "not", null, null);
+        QueryParameter nearParm = new QueryParameter(null, "near", null, null);
         assertEquals(LocationUtil.findNearParameterIndex(Collections.emptyList()), -1);
         assertEquals(LocationUtil.findNearParameterIndex(Arrays.asList(notNearParm)), -1);
         assertEquals(LocationUtil.findNearParameterIndex(Arrays.asList(notNearParm, notParm)), -1);

@@ -26,40 +26,40 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 public class NumberParmBehaviorUtilTest {
     private static final Logger log = java.util.logging.Logger.getLogger(NumberParmBehaviorUtilTest.class.getName());
     private static final Level LOG_LEVEL = Level.FINE;
 
-    private ParameterValue generateParameterValue(String value, SearchConstants.Prefix prefix) {
-        ParameterValue parameterValue = new ParameterValue();
+    private QueryParameterValue generateParameterValue(String value, SearchConstants.Prefix prefix) {
+        QueryParameterValue parameterValue = new QueryParameterValue();
         parameterValue.setPrefix(prefix);
         parameterValue.setValueNumber(new BigDecimal(value));
         return parameterValue;
     }
 
-    private Parameter generateParameter(SearchConstants.Prefix prefix, SearchConstants.Modifier modifier,
+    private QueryParameter generateParameter(SearchConstants.Prefix prefix, SearchConstants.Modifier modifier,
             String code, String... values) {
-        Parameter parameter = new Parameter(SearchConstants.Type.NUMBER, code, modifier, null);
+        QueryParameter parameter = new QueryParameter(SearchConstants.Type.NUMBER, code, modifier, null);
         for (String value : values) {
             parameter.getValues().add(generateParameterValue(value, prefix));
         }
         return parameter;
     }
 
-    private Parameter generateParameter(SearchConstants.Prefix prefix, SearchConstants.Modifier modifier,
+    private QueryParameter generateParameter(SearchConstants.Prefix prefix, SearchConstants.Modifier modifier,
             String value) {
         return generateParameter(prefix, modifier, "precision", new String[] { value });
     }
 
-    private Parameter generateParameter(SearchConstants.Prefix prefix, SearchConstants.Modifier modifier,
+    private QueryParameter generateParameter(SearchConstants.Prefix prefix, SearchConstants.Modifier modifier,
             String... values) {
         return generateParameter(prefix, modifier, "precision", values);
     }
 
-    private void runTest(Parameter queryParm, List<Object> expectedBindVariables, String expectedSql)
+    private void runTest(QueryParameter queryParm, List<Object> expectedBindVariables, String expectedSql)
             throws FHIRPersistenceException {
         runTest(queryParm, expectedBindVariables, expectedSql, "Basic", Basic.class);
     }
@@ -77,7 +77,7 @@ public class NumberParmBehaviorUtilTest {
         assertEquals(NumberParmBehaviorUtil.calculateSignificantFigures(new BigDecimal(value)), significantDigits);
     }
 
-    private void runTest(Parameter queryParm, List<Object> expectedBindVariables, String expectedSql,
+    private void runTest(QueryParameter queryParm, List<Object> expectedBindVariables, String expectedSql,
             String tableAlias, Class<?> resourceType)
             throws FHIRPersistenceException {
         StringBuilder actualWhereClauseSegment = new StringBuilder();
@@ -123,7 +123,7 @@ public class NumberParmBehaviorUtilTest {
         // However there is no 'lgt', means gt? (documented in https://jira.hl7.org/browse/FHIR-21216) 
 
         // gt - Greater Than
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.GT, null, "1e3");
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.GT, null, "1e3");
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1E+3"));
         String expectedSql = " AND (Basic.NUMBER_VALUE > ?))";
@@ -180,7 +180,7 @@ public class NumberParmBehaviorUtilTest {
     @Test(expectedExceptions = { FHIRPersistenceException.class })
     public void testPrecisionIntegerWithStartsAfter() throws FHIRPersistenceException {
         // sa - starts after with integer, and it's not supported
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.SA, null, "window-end", new String[] { "1" });
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.SA, null, "window-end", new String[] { "1" });
         List<Object> expectedBindVariables = new ArrayList<>();
         String expectedSql = "THROWS EXCEPTION";
         runTest(queryParm,
@@ -191,7 +191,7 @@ public class NumberParmBehaviorUtilTest {
     @Test(expectedExceptions = { FHIRPersistenceException.class })
     public void testPrecisionIntegerWithEndsBefore() throws FHIRPersistenceException {
         // eb - ends before with integer, and it's not supported
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.SA, null, "window-end", new String[] { "1" });
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.SA, null, "window-end", new String[] { "1" });
         List<Object> expectedBindVariables = new ArrayList<>();
         String expectedSql = "THROWS EXCEPTION";
         runTest(queryParm,
@@ -212,7 +212,7 @@ public class NumberParmBehaviorUtilTest {
         // Implied Range: [99.5 ... 100.5)
         // Exclusive and Inclusive
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, "100");
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, "100");
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal(99.5));
         expectedBindVariables.add(new BigDecimal(100.5));
@@ -235,7 +235,7 @@ public class NumberParmBehaviorUtilTest {
         // Implied Range: [99.5 ... 100.5) [0.995 ... 1.005)
         // Exclusive and Inclusive
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, new String[] { "100", "1.00" });
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, new String[] { "100", "1.00" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("99.5"));
         expectedBindVariables.add(new BigDecimal("100.5"));
@@ -258,7 +258,7 @@ public class NumberParmBehaviorUtilTest {
         // Implied Range: <= 99.5 OR 100.5 >
         // Exclusive and Inclusive
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.NE, null, "100");
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.NE, null, "100");
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal(99.5));
         expectedBindVariables.add(new BigDecimal(100.5));
@@ -277,7 +277,7 @@ public class NumberParmBehaviorUtilTest {
         // Precision is implied by the use of ap
         // Implied Range: (89.5 ... 110.5)
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, "100");
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, "100");
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("89.5"));
         expectedBindVariables.add(new BigDecimal("110.5"));
@@ -296,7 +296,7 @@ public class NumberParmBehaviorUtilTest {
         // Precision is implied by the use of ap
         // Implied Range: (.4 ... 1.6)
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, "1");
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, "1");
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("0.4"));
         expectedBindVariables.add(new BigDecimal("1.6"));
@@ -317,7 +317,7 @@ public class NumberParmBehaviorUtilTest {
 
         // It should de-dupe
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, new String[] { "100", "100" });
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, new String[] { "100", "100" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("89.5"));
         expectedBindVariables.add(new BigDecimal("110.5"));
@@ -335,7 +335,7 @@ public class NumberParmBehaviorUtilTest {
         // expectedBindVariables are pivoted on 100
         // It should NOT de-dupe
 
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, new String[] { "100", "100.00" });
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, new String[] { "100", "100.00" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("89.5"));
         expectedBindVariables.add(new BigDecimal("110.5"));
@@ -426,7 +426,7 @@ public class NumberParmBehaviorUtilTest {
     @Test(expectedExceptions = {})
     public void testPrecisionIntegerWithEQ() throws FHIRPersistenceException {
         // sa - starts after with integer, and it's not supported
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, "window-end", new String[] { "1" });
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, "window-end", new String[] { "1" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1"));
         String expectedSql = " AND (MolecularSequence.NUMBER_VALUE = ?))";
@@ -438,7 +438,7 @@ public class NumberParmBehaviorUtilTest {
     @Test(expectedExceptions = {})
     public void testPrecisionIntegerWithNE() throws FHIRPersistenceException {
         // sa - starts after with integer, and it's not supported
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.NE, null, "window-end", new String[] { "1" });
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.NE, null, "window-end", new String[] { "1" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1"));
         String expectedSql = " AND (MolecularSequence.NUMBER_VALUE <> ?))";
@@ -450,7 +450,7 @@ public class NumberParmBehaviorUtilTest {
     @Test(expectedExceptions = {})
     public void testPrecisionIntegerWithEQNotInt() throws FHIRPersistenceException {
         // sa - starts after with integer, and it's not supported
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, "window-end", new String[] { "1.0" });
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, "window-end", new String[] { "1.0" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("0.95"));
         expectedBindVariables.add(new BigDecimal("1.05"));
@@ -463,7 +463,7 @@ public class NumberParmBehaviorUtilTest {
     @Test(expectedExceptions = {})
     public void testPrecisionIntegerWithNENotInt() throws FHIRPersistenceException {
         // sa - starts after with integer, and it's not supported
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.NE, null, "window-end", new String[] { "1.0" });
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.NE, null, "window-end", new String[] { "1.0" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("0.95"));
         expectedBindVariables.add(new BigDecimal("1.05"));
@@ -476,7 +476,7 @@ public class NumberParmBehaviorUtilTest {
     @Test(expectedExceptions = {})
     public void testPrecisionIntegerWithEQNotIntExp() throws FHIRPersistenceException {
         // sa - starts after with integer, and it's not supported
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, "window-end", new String[] { "1e2" });
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.EQ, null, "window-end", new String[] { "1e2" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("95"));
         expectedBindVariables.add(new BigDecimal("105"));
@@ -489,7 +489,7 @@ public class NumberParmBehaviorUtilTest {
     @Test(expectedExceptions = {})
     public void testPrecisionIntegerWithNENotIntExp() throws FHIRPersistenceException {
         // sa - starts after with integer, and it's not supported
-        Parameter queryParm = generateParameter(SearchConstants.Prefix.NE, null, "window-end", new String[] { "1e2" });
+        QueryParameter queryParm = generateParameter(SearchConstants.Prefix.NE, null, "window-end", new String[] { "1e2" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("95"));
         expectedBindVariables.add(new BigDecimal("105"));

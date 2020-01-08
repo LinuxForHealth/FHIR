@@ -32,10 +32,10 @@ import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.model.resource.SearchParameter.Component;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.JsonSupport;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -43,16 +43,20 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.SearchConstants.Modifier;
+import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
+import com.ibm.fhir.search.date.DateTimeHandler;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 import com.ibm.fhir.search.parameters.InclusionParameter;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.ParametersMap;
 import com.ibm.fhir.search.parameters.ParametersUtil;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.parameters.cache.TenantSpecificSearchParameterCache;
 import com.ibm.fhir.search.sort.Sort;
 import com.ibm.fhir.search.uri.UriBuilder;
@@ -61,8 +65,7 @@ import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 /**
  * Search Utility<br/>
  * This class uses FHIRPath Expressions (and currently does not support XPath)
- * and uses init to activate the
- * Parameters/Compartments/ValueTypes components.
+ * and uses init to activate the Parameters/Compartments/ValueTypes components.
  */
 public class SearchUtil {
     private static final String CLASSNAME = SearchUtil.class.getName();
@@ -82,13 +85,13 @@ public class SearchUtil {
     private static final String SEARCH_PARAMETER_MODIFIER_NAME =
             "Search parameter: '%s' must have resource type name modifier";
     private static final String INVALID_TARGET_TYPE_EXCEPTION = "Invalid target type for the Inclusion Parameter.";
-    private static final String UNSUPPOTED_EXPR_NULL =
+    private static final String UNSUPPORTED_EXPR_NULL =
             "An empty expression is found or the parameter type is unsupported [%s][%s]";
-    
+
     private static final String MODIFIYERRESOURCETYPE_NOT_ALLOWED_FOR_RESOURCETYPE =
             "Modifier resource type [%s] is not allowed for search parameter [%s] of resource type [%s].";
-    
-    private static final String Different_MODIFIYERRESOURCETYPES_FOUND_FOR_RESOURCETYPES =
+
+    private static final String DIFFERENT_MODIFIYERRESOURCETYPES_FOUND_FOR_RESOURCETYPES =
             "Different Modifier resource types are found for search parameter [%s] of the to-be-searched resource types.";
 
     // The functionality is split into a new class.
@@ -161,10 +164,9 @@ public class SearchUtil {
 
     /**
      * This function will return a list of all SearchParameters associated with the
-     * specified resource type and the
-     * current tenant-id. The result will include both built-in and tenant-specific
-     * SearchParameters for the specified
-     * resource type.
+     * specified resource type and the current tenant-id.
+     * The result will include both built-in and tenant-specific
+     * SearchParameters for the specified resource type.
      *
      * @param resourceType
      *                     the resource type associated with the search parameters
@@ -187,22 +189,18 @@ public class SearchUtil {
             // First retrieve built-in search parameters for this resource type and add them to the result.
             // We'll filter these built-in search parameters to include only the ones
             // specified by the tenant's filtering (inclusion) rules.
-            // The contract always returns a valid Map (it just might be empty).
-            Map<String, SearchParameter> spMapResourceType =
-                    ParametersUtil.getBuiltInSearchParameterMapByResourceType(resourceType);
-            if (!spMapResourceType.isEmpty()) {
+            ParametersMap spMapResourceType = ParametersUtil.getBuiltInSearchParametersMap().get(resourceType);
+            if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
                 // Retrieve the current tenant's search parameter filtering rules.
                 Map<String, List<String>> filterRules = getFilterRules();
 
                 // Add only the "included" search parameters for this resource type to our result list.
                 result.addAll(filterSearchParameters(filterRules, resourceType, spMapResourceType.values()));
-
             }
 
             // Next, retrieve the specified tenant's search parameters for this resource type and add those
             // to the result as well.
             result.addAll(getUserDefinedSearchParameters(resourceType));
-
         } finally {
             // No Operation
         }
@@ -224,10 +222,10 @@ public class SearchUtil {
     protected static List<SearchParameter> getUserDefinedSearchParameters(String resourceType) throws Exception {
         List<SearchParameter> result = new ArrayList<>();
         String tenantId = FHIRRequestContext.get().getTenantId();
-        Map<String, Map<String, SearchParameter>> spMapTenant = getTenantOrDefaultSPMap(tenantId);
+        Map<String, ParametersMap> spMapTenant = getTenantOrDefaultSPMap(tenantId);
 
         if (spMapTenant != null) {
-            Map<String, SearchParameter> spMapResourceType = spMapTenant.get(resourceType);
+            ParametersMap spMapResourceType = spMapTenant.get(resourceType);
             if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
                 result.addAll(spMapResourceType.values());
             }
@@ -248,13 +246,13 @@ public class SearchUtil {
     protected static List<SearchParameter> getFilteredBuiltinSearchParameters(String resourceType) throws Exception {
         List<SearchParameter> result = new ArrayList<>();
 
-        Map<String, Map<String, SearchParameter>> spBuiltin = ParametersUtil.getBuiltInSearchParameterMap();
+        Map<String, ParametersMap> spBuiltin = ParametersUtil.getBuiltInSearchParametersMap();
 
         // Retrieve the current tenant's search parameter filtering rules.
         Map<String, List<String>> filterRules = getFilterRules();
 
         // Retrieve the SPs associated with the specified resource type and filter per the filter rules.
-        Map<String, SearchParameter> spMap = spBuiltin.get(resourceType);
+        ParametersMap spMap = spBuiltin.get(resourceType);
         if (spMap != null && !spMap.isEmpty()) {
             result.addAll(filterSearchParameters(filterRules, resourceType, spMap.values()));
         }
@@ -383,12 +381,12 @@ public class SearchUtil {
      *                 the tenant-id whose SearchParameters should be returned.
      * @throws FileNotFoundException
      */
-    private static Map<String, Map<String, SearchParameter>> getTenantOrDefaultSPMap(String tenantId) throws Exception {
+    private static Map<String, ParametersMap> getTenantOrDefaultSPMap(String tenantId) throws Exception {
         if (log.isLoggable(Level.FINEST)) {
             log.entering(CLASSNAME, "getTenantSPMap", new Object[] { tenantId });
         }
         try {
-            Map<String, Map<String, SearchParameter>> cachedObjectForTenant =
+            Map<String, ParametersMap> cachedObjectForTenant =
                     searchParameterCache.getCachedObjectForTenant(tenantId);
 
             if (cachedObjectForTenant == null) {
@@ -416,21 +414,19 @@ public class SearchUtil {
 
     /**
      * @param resourceType
-     * @param name
+     * @param code
      * @return
      * @throws Exception
      */
-    public static SearchParameter getSearchParameter(String resourceType, String name) throws Exception {
+    public static SearchParameter getSearchParameter(String resourceType, String code) throws Exception {
         String tenantId = FHIRRequestContext.get().getTenantId();
 
         // First try to find the search parameter within the specified tenant's map.
-        SearchParameter result =
-                getSearchParameterInternal(getTenantOrDefaultSPMap(tenantId), resourceType, name, false);
+        SearchParameter result = getSearchParameterByCodeIfPresent(getTenantOrDefaultSPMap(tenantId), resourceType, code);
 
         // If we didn't find it within the tenant's map, then look within the built-in map.
         if (result == null) {
-            result =
-                    getSearchParameterInternal(ParametersUtil.getBuiltInSearchParameterMap(), resourceType, name, true);
+            result = getSearchParameterByCodeIfPresent(ParametersUtil.getBuiltInSearchParametersMap(), resourceType, code);
 
             // If we found it within the built-in search parameters, apply our filtering rules.
             if (result != null) {
@@ -445,43 +441,78 @@ public class SearchUtil {
         }
         return result;
     }
-
+    
     /**
-     * Given a map of SearchParameters for a particular tenant, return the one
-     * associated with the specified resource
-     * type and name.
-     *
-     * @param tenantMap
-     *                     the map in which to look for the desired SearchParameter
+     * @param spMaps
      * @param resourceType
-     *                     the resource type associated with the desired
-     *                     SearchParameter
-     * @param name
-     *                     the name of the desired SearchParameter
-     * @return
+     * @param uri
+     * @return the SearchParameter for type {@code resourceType} with code {@code code} or null if it doesn't exist 
      */
-    private static SearchParameter getSearchParameterInternal(Map<String, Map<String, SearchParameter>> tenantMap,
-            String resourceType, String name,
-            boolean searchSuperType) {
+    private static SearchParameter getSearchParameterByCodeIfPresent(Map<String, ParametersMap> spMaps, String resourceType, String code) {
         SearchParameter result = null;
-        if (tenantMap != null) {
-            Map<String, SearchParameter> resourceTypeMap = tenantMap.get(resourceType);
-            if (resourceTypeMap != null) {
-                result = resourceTypeMap.get(name);
-            }
-
-            // If requested, search for the SP associated with the "Resource" super type
-            // if we didn't find the SP above.
-            if (result == null && searchSuperType) {
-                resourceTypeMap = tenantMap.get(SearchConstants.RESOURCE_RESOURCE);
-                if (resourceTypeMap != null) {
-                    result = resourceTypeMap.get(name);
-                }
+        
+        if (spMaps != null && !spMaps.isEmpty()) {
+            ParametersMap parametersMap = spMaps.get(resourceType);
+            if (parametersMap != null && !parametersMap.isEmpty()) {
+                result = parametersMap.lookupByCode(code);
             }
         }
-
+        
         return result;
     }
+
+    public static SearchParameter getSearchParameter(Class<?> resourceType, Canonical uri) throws Exception {
+        return getSearchParameter(resourceType.getSimpleName(), uri);
+    }
+
+    /**
+     * @param resourceType
+     * @param name
+     * @return
+     * @throws Exception
+     */
+    public static SearchParameter getSearchParameter(String resourceType, Canonical uri) throws Exception {
+        String tenantId = FHIRRequestContext.get().getTenantId();
+        
+        // First try to find the search parameter within the specified tenant's map.
+        SearchParameter result = getSearchParameterByUrlIfPresent(getTenantOrDefaultSPMap(tenantId), resourceType, uri);
+
+        // If we didn't find it within the tenant's map, then look within the built-in map.
+        if (result == null) {
+            result = getSearchParameterByUrlIfPresent(ParametersUtil.getBuiltInSearchParametersMap(), resourceType, uri);
+
+            // If we found it within the built-in search parameters, apply our filtering rules.
+            if (result != null) {
+                ResourceType rt = result.getBase().get(0);
+                Collection<SearchParameter> filteredResult =
+                        filterSearchParameters(getFilterRules(), rt.getValue(), Collections.singleton(result));
+
+                // If our filtered result is non-empty, then just return the first (and only) item.
+                result = (filteredResult.isEmpty() ? null : filteredResult.iterator().next());
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @param spMaps
+     * @param resourceType
+     * @param uri
+     * @return the SearchParameter for type {@code resourceType} with url {@code uri} or null if it doesn't exist 
+     */
+    private static SearchParameter getSearchParameterByUrlIfPresent(Map<String, ParametersMap> spMaps, String resourceType, Canonical uri) {
+        SearchParameter result = null;
+        
+        if (spMaps != null && !spMaps.isEmpty()) {
+            ParametersMap parametersMap = spMaps.get(resourceType);
+            if (parametersMap != null && !parametersMap.isEmpty()) {
+                result = parametersMap.lookupByUrl(uri.getValue());
+            }
+        }
+        
+        return result;
+    }
+
 
     /**
      * skips the empty extracted search parameters
@@ -523,7 +554,6 @@ public class SearchUtil {
 
             // Outputs the Expression and the Name of the SearchParameter
             if (log.isLoggable(Level.FINEST)) {
-                // This used to "name" but now correctly uses "code"
                 String loggedValue = "EMPTY";
                 if (expression != null) {
                     loggedValue = expression.getValue();
@@ -533,34 +563,29 @@ public class SearchUtil {
             }
 
             // Process the Expression
-            // Disable the processing of composite
-            // <code>"type" : "composite",</code>
-            // Alternatives, which are possible, on loading the map, filter out at that time.
-            SearchParamType type = parameter.getType();
-            if (expression != null && !SearchParamType.COMPOSITE.equals(type)) {
-
-                try {
-                    Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, expression.getValue());
-
-                    if (log.isLoggable(Level.FINEST)) {
-                        log.finest("Expression [" + expression.getValue() + "] parameter-code ["
-                                + parameter.getCode().getValue() + "] Size -[" + tmpResults.size() + "]");
-                    }
-
-                    // Adds only if !skipEmpty || collect is not empty
-                    if (!tmpResults.isEmpty() || !skipEmpty) {
-                        result.put(parameter, new ArrayList<>(tmpResults));
-                    }
-
-                } catch (java.lang.UnsupportedOperationException | FHIRPathException uoe) {
-                    // switched to using code instead of name
-                    log.warning(String.format(UNSUPPORTED_EXCEPTION, parameter.getCode().getValue(),
-                            expression.getValue(), uoe.getMessage()));
-                }
-            } else {
+            if (expression == null) {
                 if (log.isLoggable(Level.FINER)) {
-                    log.fine(String.format(UNSUPPOTED_EXPR_NULL, parameter.getType(), parameter.getCode().getValue()));
+                    log.finer(String.format(UNSUPPORTED_EXPR_NULL, parameter.getType(), parameter.getCode().getValue()));
                 }
+                continue;
+            } 
+            try {
+                Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, expression.getValue());
+
+                if (log.isLoggable(Level.FINEST)) {
+                    log.finest("Expression [" + expression.getValue() + "] parameter-code ["
+                            + parameter.getCode().getValue() + "] Size -[" + tmpResults.size() + "]");
+                }
+
+                // Adds only if !skipEmpty || tmpResults is not empty
+                if (!tmpResults.isEmpty() || !skipEmpty) {
+                    result.put(parameter, new ArrayList<>(tmpResults));
+                }
+
+            } catch (java.lang.UnsupportedOperationException | FHIRPathException uoe) {
+                // switched to using code instead of name
+                log.warning(String.format(UNSUPPORTED_EXCEPTION, parameter.getCode().getValue(),
+                        expression.getValue(), uoe.getMessage()));
             }
         }
 
@@ -579,7 +604,7 @@ public class SearchUtil {
 
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         context.setLenient(lenient);
-        List<Parameter> parameters = new ArrayList<>();
+        List<QueryParameter> parameters = new ArrayList<>();
 
         // Retrieve the SearchParameters that will apply to this resource type (including those for Resource.class).
         Map<String, SearchParameter> applicableSPs = getApplicableSearchParametersMap(resourceType.getSimpleName());
@@ -592,16 +617,16 @@ public class SearchUtil {
             throw SearchExceptionUtil.buildNewInvalidSearchException(
                     "_sort search result parameter not supported with _include or _revinclude.");
         }
-        HashSet<String> resourceTypes = new HashSet<String>(); 
+        HashSet<String> resourceTypes = new HashSet<>();
         if (Resource.class.equals(resourceType)) {
-            // Because _include and _revinclude searches all require certain resource type modifier in 
+            // Because _include and _revinclude searches all require certain resource type modifier in
             // search parameter, so we just don't support it.
             if (queryParameters.containsKey(SearchConstants.INCLUDE)
                         || queryParameters.containsKey(SearchConstants.REVINCLUDE)) {
                 throw SearchExceptionUtil.buildNewInvalidSearchException(
                         "system search not supported with _include or _revinclude.");
             }
-            
+
             if (queryParameters.containsKey(SearchConstants.RESOURCE_TYPE)) {
                 for (String resTypes : queryParameters.get(SearchConstants.RESOURCE_TYPE)) {
                     List<String> tmpResourceTypes = Arrays.asList(resTypes.split("\\s*,\\s*"));
@@ -619,13 +644,13 @@ public class SearchUtil {
                         }
                     }
                 }
-            } 
+            }
         }
-        
+
         queryParameters.remove(SearchConstants.RESOURCE_TYPE);
-        
+
         Boolean isMultiResTypeSearch = Resource.class.equals(resourceType) && !resourceTypes.isEmpty();
-        
+
         if (isMultiResTypeSearch) {
             context.setSearchResourceTypes(new ArrayList<>(resourceTypes));
         }
@@ -640,7 +665,7 @@ public class SearchUtil {
 
                 if (isSearchResultParameter(name)) {
                     parseSearchResultParameter(resourceType, context, name, params, lenient);
-                    // _include and _revinclude parameters cannot be mixed with _summary=text 
+                    // _include and _revinclude parameters cannot be mixed with _summary=text
                     // TODO: this will fire on each search result parameter; maybe move this above to where we handle _sort + _include/_revinclude?
                     if (context.getSummaryParameter() != null
                             && context.getSummaryParameter().equals(SummaryValueSet.TEXT)) {
@@ -650,7 +675,7 @@ public class SearchUtil {
                 } else if (isChainedParameter(name)) {
                     List<String> chainedParemeters = params;
                     for (String chainedParameterString : chainedParemeters) {
-                        Parameter chainedParameter;
+                        QueryParameter chainedParameter;
                         if (isMultiResTypeSearch) {
                             chainedParameter = parseChainedParameter(resourceTypes, name, chainedParameterString);
                         } else {
@@ -666,13 +691,13 @@ public class SearchUtil {
                         mod           = parameterCode.substring(parameterCode.indexOf(":") + 1);
                         parameterCode = parameterCode.substring(0, parameterCode.indexOf(":"));
                     }
-                    
+
                     SearchParameter searchParameter = null;
                     if (isMultiResTypeSearch) {
                       // Find the SearchParameter that will apply to all the resource types.
                       for (String resType: resourceTypes) {
                           Map<String, SearchParameter> resTypeSPs = getApplicableSearchParametersMap(resType);
-  
+
                           // Get the search parameter from our filtered set of applicable SPs for this resource type.
                           searchParameter = resTypeSPs.get(parameterCode);
                           if (searchParameter == null) {
@@ -694,18 +719,18 @@ public class SearchUtil {
                     }
 
                     // Get the type of parameter so that we can use it to parse the value.
-                    SearchConstants.Type type = SearchConstants.Type.fromValue(searchParameter.getType().getValue());
+                    Type type = Type.fromValue(searchParameter.getType().getValue());
 
                     // Process the modifier
-                    SearchConstants.Modifier modifier = null;
+                    Modifier modifier = null;
                     String modifierResourceTypeName = null;
                     if (mod != null) {
                         if (ModelSupport.isResourceType(mod)) {
-                            modifier                 = SearchConstants.Modifier.TYPE;
+                            modifier                 = Modifier.TYPE;
                             modifierResourceTypeName = mod;
                         } else {
                             try {
-                                modifier = SearchConstants.Modifier.fromValue(mod);
+                                modifier = Modifier.fromValue(mod);
                             } catch (IllegalArgumentException e) {
                                 String msg = "Undefined Modifier: " + mod;
                                 throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
@@ -720,16 +745,9 @@ public class SearchUtil {
                     }
 
                     for (String queryParameterValueString : queryParameters.get(name)) {
-                        Parameter parameter = new Parameter(type, parameterCode, modifier, modifierResourceTypeName);
-                        List<ParameterValue> queryParameterValues;
-                        if (SearchConstants.Modifier.MISSING.equals(modifier)) {
-                            // FHIR search considers booleans a special case of token for some reason...
-                            queryParameterValues =
-                                    parseQueryParameterValuesString(SearchConstants.Type.TOKEN,
-                                            queryParameterValueString);
-                        } else {
-                            queryParameterValues = parseQueryParameterValuesString(type, queryParameterValueString);
-                        }
+                        QueryParameter parameter = new QueryParameter(type, parameterCode, modifier, modifierResourceTypeName);
+                        List<QueryParameterValue> queryParameterValues =
+                                processQueryParameterValueString(resourceType, searchParameter, modifier, queryParameterValueString);
                         parameter.getValues().addAll(queryParameterValues);
                         parameters.add(parameter);
                     }
@@ -754,13 +772,74 @@ public class SearchUtil {
         return context;
     }
 
-    private static List<ParameterValue> parseQueryParameterValuesString(SearchConstants.Type type,
-            String queryParameterValuesString)
-            throws FHIRSearchException {
-        List<ParameterValue> parameterValues = new ArrayList<>();
+    /**
+     * Common logic from handling a single queryParameterValueString based on its type
+     */
+    private static List<QueryParameterValue> processQueryParameterValueString(Class<?> resourceType, SearchParameter searchParameter, Modifier modifier,
+            String queryParameterValueString) throws FHIRSearchException, Exception {
+        String parameterCode = searchParameter.getCode().getValue();
+        Type type = Type.fromValue(searchParameter.getType().getValue());
+        List<QueryParameterValue> queryParameterValues;
+        if (Modifier.MISSING.equals(modifier)) {
+            // FHIR search considers booleans a special case of token for some reason...
+            queryParameterValues = parseQueryParameterValuesString(Type.TOKEN, queryParameterValueString);
+        } else {
+            if (Type.COMPOSITE == type) {
+                List<Component> components = searchParameter.getComponent();
+                List<Type> compTypes = new ArrayList<>(components.size());
+                for (Component component : components) {
+                    if (component.getDefinition() == null || !component.getDefinition().hasValue()) {
+                        throw new IllegalStateException(String.format("Composite search parameter '%s' is "
+                                + "missing one or more component definition", searchParameter.getName()));
+                    }
+                    SearchParameter referencedParam = getSearchParameter(resourceType, component.getDefinition());
+                    compTypes.add(Type.fromValue(referencedParam.getType().getValue()));
+                }
+                queryParameterValues = parseCompositeQueryParameterValuesString(parameterCode, compTypes, queryParameterValueString);
+            } else {
+                queryParameterValues = parseQueryParameterValuesString(type, queryParameterValueString);
+            }
+        }
+        return queryParameterValues;
+    }
 
+    private static List<QueryParameterValue> parseCompositeQueryParameterValuesString(String compositeParamCode, List<Type> compTypes,
+            String queryParameterValuesString) throws FHIRSearchException {
+        List<QueryParameterValue> parameterValues = new ArrayList<>();
+
+        // BACKSLASH_NEGATIVE_LOOKBEHIND prevents it from splitting on ',' that are preceded by a '\'
         for (String v : queryParameterValuesString.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + ",")) {
-            ParameterValue parameterValue = new ParameterValue();
+            String[] componentValueStrings = v.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + "\\$");
+            if (compTypes.size() != componentValueStrings.length) {
+                throw new FHIRSearchException(String.format("Expected %d components but found %d in composite query value '%s'", 
+                    compTypes.size(), componentValueStrings.length, v));
+            }
+            QueryParameterValue parameterValue = new QueryParameterValue();
+            for (int i = 0; i < compTypes.size(); i++) {
+                List<QueryParameterValue> values = parseQueryParameterValuesString(compTypes.get(i), componentValueStrings[i]);
+                if (values.isEmpty()) {
+                    throw new FHIRSearchException("Component values cannot be empty");
+                } else if (values.size() > 1) {
+                    throw new IllegalStateException("A single component can only have a single value");
+                } else {
+                    // exactly one
+                    QueryParameter parameter = new QueryParameter(compTypes.get(i), compositeParamCode, null, null, values);
+                    parameterValue.addComponent(parameter);
+                }
+            }
+            
+            parameterValues.add(parameterValue);
+        }
+        return parameterValues;
+    }
+    
+    private static List<QueryParameterValue> parseQueryParameterValuesString(Type type,
+            String queryParameterValuesString) throws FHIRSearchException {
+        List<QueryParameterValue> parameterValues = new ArrayList<>();
+
+        // BACKSLASH_NEGATIVE_LOOKBEHIND means it won't split on ',' that are preceded by a '\'
+        for (String v : queryParameterValuesString.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + ",")) {
+            QueryParameterValue parameterValue = new QueryParameterValue();
             SearchConstants.Prefix prefix = null;
             switch (type) {
             case DATE: {
@@ -771,12 +850,8 @@ public class SearchUtil {
                     v = v.substring(2);
                     parameterValue.setPrefix(prefix);
                 }
-
-                // DONT USE DateTime here
-                DateTime.Builder builder = DateTime.builder();
-                builder.value(v);
-
-                parameterValue.setValueDate(builder.build());
+                // Dispatches the population and treatment of the DateTime values to the handler.
+                DateTimeHandler.parse(prefix, parameterValue,v);
                 break;
             }
             case NUMBER: {
@@ -873,8 +948,7 @@ public class SearchUtil {
     }
 
     /**
-     * Un-escape search parameter values that were encoding based on FHIR escaping
-     * rules
+     * Un-escape search parameter values that were encoding based on FHIR escaping rules
      * 
      * @param escapedString
      * @return unescapedString
@@ -899,7 +973,7 @@ public class SearchUtil {
      * @param modifier
      * @return
      */
-    protected static boolean isAllowed(SearchConstants.Type type, SearchConstants.Modifier modifier) {
+    protected static boolean isAllowed(Type type, Modifier modifier) {
         return SearchConstants.RESOURCE_TYPE_MODIFIER_MAP.get(type).contains(modifier);
     }
 
@@ -944,10 +1018,10 @@ public class SearchUtil {
     public static FHIRSearchContext parseQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType,
             Map<String, List<String>> queryParameters, String queryString, boolean lenient) throws Exception {
-        List<Parameter> parameters = new ArrayList<>();
-        Parameter parameter;
-        ParameterValue value;
-        Parameter rootParameter = null;
+        List<QueryParameter> parameters = new ArrayList<>();
+        QueryParameter parameter;
+        QueryParameterValue value;
+        QueryParameter rootParameter = null;
 
         if (compartmentName != null && compartmentLogicalId != null) {
             // The inclusion criteria are represented as a chain of parameters, each with a value of the
@@ -957,8 +1031,8 @@ public class SearchUtil {
                     CompartmentUtil.getCompartmentResourceTypeInclusionCriteria(compartmentName,
                             resourceType.getSimpleName());
             for (String criteria : inclusionCriteria) {
-                parameter = new Parameter(SearchConstants.Type.REFERENCE, criteria, null, null, true);
-                value     = new ParameterValue();
+                parameter = new QueryParameter(Type.REFERENCE, criteria, null, null, true);
+                value     = new QueryParameterValue();
                 value.setValueString(compartmentName + "/" + compartmentLogicalId);
                 parameter.getValues().add(value);
                 if (rootParameter == null) {
@@ -1036,21 +1110,24 @@ public class SearchUtil {
     public static boolean isChainedParameter(String name) {
         return name.contains(SearchConstants.CHAINED_PARAMETER_CHARACTER);
     }
-    
-    private static Parameter parseChainedParameter(HashSet<String> resourceTypes, String name, String valuesString)
+
+    private static QueryParameter parseChainedParameter(HashSet<String> resourceTypes, String name, String valuesString)
             throws Exception {
-        Parameter rootParameter = null;
+        QueryParameter rootParameter = null;
         Class<?> resourceType = null;
 
+        // declared here so we can remember the values from the last component in the chain after looping
+        SearchParameter searchParameter = null;
+        Modifier modifier = null;
         try {
             List<String> components = Arrays.asList(name.split("\\."));
             int lastIndex = components.size() - 1;
             int currentIndex = 0;
 
-            SearchConstants.Type type = null;
+            Type type = null;
 
             for (String component : components) {
-                SearchConstants.Modifier modifier = null;
+                modifier = null;
                 String modifierResourceTypeName = null;
                 String parameterName = component;
 
@@ -1059,52 +1136,53 @@ public class SearchUtil {
                 // collapsing the branching logic is ideal
                 int loc = parameterName.indexOf(SearchConstants.COLON_DELIMITER);
                 if (loc > 0) {
-                    // Parameter exists
+                    // QueryParameter modifier exists
                     String mod = parameterName.substring(loc + 1);
                     if (ModelSupport.isResourceType(mod)) {
-                        modifier                 = SearchConstants.Modifier.TYPE;
+                        modifier                 = Modifier.TYPE;
                         modifierResourceTypeName = mod;
                     } else {
-                        modifier = SearchConstants.Modifier.fromValue(mod);
+                        modifier = Modifier.fromValue(mod);
                     }
 
-                    if (modifier != null && !SearchConstants.Modifier.TYPE.equals(modifier)
+                    if (modifier != null && !Modifier.TYPE.equals(modifier)
                             && currentIndex < lastIndex) {
                         throw SearchExceptionUtil.buildNewInvalidSearchException(
                                 String.format(MODIFIER_NOT_ALLOWED_WITH_CHAINED_EXCEPTION, modifier));
                     }
                     parameterName = parameterName.substring(0, parameterName.indexOf(":"));
+                } else {
+                    modifier = null;
                 }
-                
-                SearchParameter searchParameter;
+
                 HashSet<String> modifierResourceTypeName4ResourceTypes = new HashSet<String>();
                 if (resourceType != null) {
                     searchParameter = getSearchParameter(resourceType, parameterName);
-                    type = SearchConstants.Type.fromValue(searchParameter.getType().getValue()); 
+                    type = Type.fromValue(searchParameter.getType().getValue());
                 } else {
                     for (String resTypeName: resourceTypes) {
                         searchParameter = getSearchParameter(ModelSupport.getResourceType(resTypeName), parameterName);
-                        type = SearchConstants.Type.fromValue(searchParameter.getType().getValue());
+                        type = Type.fromValue(searchParameter.getType().getValue());
 
-                        if (!SearchConstants.Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
+                        if (!Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
                             throw SearchExceptionUtil.buildNewInvalidSearchException(
                                     String.format(TYPE_NOT_ALLOWED_WITH_CHAINED_PARAMETER_EXCEPTION, type));
                         }
-                        
+
                         List<ResourceType> targets = searchParameter.getTarget();
                         if (modifierResourceTypeName != null && !targets.contains(ResourceType.of(modifierResourceTypeName))) {
                             throw SearchExceptionUtil.buildNewInvalidSearchException(
-                                    String.format(MODIFIYERRESOURCETYPE_NOT_ALLOWED_FOR_RESOURCETYPE, modifierResourceTypeName, 
+                                    String.format(MODIFIYERRESOURCETYPE_NOT_ALLOWED_FOR_RESOURCETYPE, modifierResourceTypeName,
                                             parameterName, resTypeName));
                         }
-                        
+
                         if (modifierResourceTypeName == null && targets.size() > 1 && currentIndex < lastIndex) {
                             throw SearchExceptionUtil.buildNewInvalidSearchException(
                                     String.format(SEARCH_PARAMETER_MODIFIER_NAME, parameterName));
                         }
-                        
+
                         if (modifierResourceTypeName == null && currentIndex < lastIndex) {
-                            modifier                 = SearchConstants.Modifier.TYPE;
+                            modifier                 = Modifier.TYPE;
                             modifierResourceTypeName4ResourceTypes.add(targets.get(0).getValue());
                         }
                     }
@@ -1112,12 +1190,12 @@ public class SearchUtil {
 
 
                 if (modifierResourceTypeName4ResourceTypes.size() > 1) {
-                    String.format(Different_MODIFIYERRESOURCETYPES_FOUND_FOR_RESOURCETYPES, parameterName);
+                    String.format(DIFFERENT_MODIFIYERRESOURCETYPES_FOUND_FOR_RESOURCETYPES, parameterName);
                 } else if (modifierResourceTypeName4ResourceTypes.size() == 1) {
                     modifierResourceTypeName = modifierResourceTypeName4ResourceTypes.iterator().next();
                 }
 
-                Parameter parameter = new Parameter(type, parameterName, modifier, modifierResourceTypeName);
+                QueryParameter parameter = new QueryParameter(type, parameterName, modifier, modifierResourceTypeName);
                 if (rootParameter == null) {
                     rootParameter = parameter;
                 } else {
@@ -1138,7 +1216,7 @@ public class SearchUtil {
                 currentIndex++;
             } // end for loop
 
-            List<ParameterValue> valueList = parseQueryParameterValuesString(type, valuesString);
+            List<QueryParameterValue> valueList = processQueryParameterValueString(resourceType, searchParameter, modifier, valuesString);
             rootParameter.getChain().getLast().getValues().addAll(valueList);
         } catch (FHIRSearchException e) {
             throw e;
@@ -1149,20 +1227,22 @@ public class SearchUtil {
         return rootParameter;
     }
 
-    private static Parameter parseChainedParameter(Class<?> resourceType, String name, String valuesString)
+    private static QueryParameter parseChainedParameter(Class<?> resourceType, String name, String valuesString)
             throws Exception {
 
-        Parameter rootParameter = null;
+        QueryParameter rootParameter = null;
 
         try {
             List<String> components = Arrays.asList(name.split("\\."));
             int lastIndex = components.size() - 1;
             int currentIndex = 0;
 
-            SearchConstants.Type type = null;
+            Type type = null;
 
+            // declared here so we can remember the values from the last component in the chain after looping
+            SearchParameter searchParameter = null;
+            Modifier modifier = null;
             for (String component : components) {
-                SearchConstants.Modifier modifier = null;
                 String modifierResourceTypeName = null;
                 String parameterName = component;
 
@@ -1171,27 +1251,29 @@ public class SearchUtil {
                 // collapsing the branching logic is ideal
                 int loc = parameterName.indexOf(SearchConstants.COLON_DELIMITER);
                 if (loc > 0) {
-                    // Parameter exists
+                    // QueryParameter modifier exists
                     String mod = parameterName.substring(loc + 1);
                     if (ModelSupport.isResourceType(mod)) {
-                        modifier                 = SearchConstants.Modifier.TYPE;
+                        modifier                 = Modifier.TYPE;
                         modifierResourceTypeName = mod;
                     } else {
-                        modifier = SearchConstants.Modifier.fromValue(mod);
+                        modifier = Modifier.fromValue(mod);
                     }
 
-                    if (modifier != null && !SearchConstants.Modifier.TYPE.equals(modifier)
+                    if (modifier != null && !Modifier.TYPE.equals(modifier)
                             && currentIndex < lastIndex) {
                         throw SearchExceptionUtil.buildNewInvalidSearchException(
                                 String.format(MODIFIER_NOT_ALLOWED_WITH_CHAINED_EXCEPTION, modifier));
                     }
                     parameterName = parameterName.substring(0, parameterName.indexOf(":"));
+                } else {
+                    modifier = null;
                 }
 
-                SearchParameter searchParameter = getSearchParameter(resourceType, parameterName);
-                type = SearchConstants.Type.fromValue(searchParameter.getType().getValue());
+                searchParameter = getSearchParameter(resourceType, parameterName);
+                type = Type.fromValue(searchParameter.getType().getValue());
 
-                if (!SearchConstants.Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
+                if (!Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
                     throw SearchExceptionUtil.buildNewInvalidSearchException(
                             String.format(TYPE_NOT_ALLOWED_WITH_CHAINED_PARAMETER_EXCEPTION, type));
                 }
@@ -1200,10 +1282,10 @@ public class SearchUtil {
                 // Check if the modifier resource type is invalid.
                 if (modifierResourceTypeName != null && !targets.contains(ResourceType.of(modifierResourceTypeName))) {
                     throw SearchExceptionUtil.buildNewInvalidSearchException(
-                            String.format(MODIFIYERRESOURCETYPE_NOT_ALLOWED_FOR_RESOURCETYPE, modifierResourceTypeName, 
+                            String.format(MODIFIYERRESOURCETYPE_NOT_ALLOWED_FOR_RESOURCETYPE, modifierResourceTypeName,
                                     parameterName, resourceType.getSimpleName()));
                 }
-                
+
                 if (modifierResourceTypeName == null && targets.size() > 1 && currentIndex < lastIndex) {
                     throw SearchExceptionUtil.buildNewInvalidSearchException(
                             String.format(SEARCH_PARAMETER_MODIFIER_NAME, parameterName));
@@ -1211,10 +1293,10 @@ public class SearchUtil {
 
                 if (modifierResourceTypeName == null && currentIndex < lastIndex) {
                     modifierResourceTypeName = targets.get(0).getValue();
-                    modifier                 = SearchConstants.Modifier.TYPE;
+                    modifier                 = Modifier.TYPE;
                 }
 
-                Parameter parameter = new Parameter(type, parameterName, modifier, modifierResourceTypeName);
+                QueryParameter parameter = new QueryParameter(type, parameterName, modifier, modifierResourceTypeName);
                 if (rootParameter == null) {
                     rootParameter = parameter;
                 } else {
@@ -1235,7 +1317,7 @@ public class SearchUtil {
                 currentIndex++;
             } // end for loop
 
-            List<ParameterValue> valueList = parseQueryParameterValuesString(type, valuesString);
+            List<QueryParameterValue> valueList = processQueryParameterValueString(resourceType, searchParameter, modifier, valuesString);
             rootParameter.getChain().getLast().getValues().addAll(valueList);
         } catch (FHIRSearchException e) {
             throw e;
@@ -1247,22 +1329,23 @@ public class SearchUtil {
     }
 
     /**
-     * Transforms the passed Parameter representing chained inclusion criteria, into
-     * an actual chain of Parameter
-     * objects. This method consumes Parameters with names of this form:
-     * "{attribute1}.{attribute2}:{resourceType}" For
-     * specific examples of chained inclusion criteria, see the FHIR spec for the
-     * Patient compartment here:
-     *
-     * @see https://www.hl7.org/fhir/compartment-patient.html
+     * Transforms the passed QueryParameter representing chained inclusion criteria, into
+     * an actual chain of QueryParameter objects. This method consumes QueryParameters 
+     * with names of this form:
+     * <pre>
+     * "{attribute1}.{attribute2}:{resourceType}"
+     * </pre>
+     * For specific examples of chained inclusion criteria, see the FHIR spec for the
+     * <a href="https://www.hl7.org/fhir/compartment-patient.html">Patient compartment</a>
+     * 
      * @param inclusionCriteriaParm
-     * @return Parameter - The root of a parameter chain for chained inclusion
+     * @return QueryParameter - The root of a parameter chain for chained inclusion
      *         criteria.
      */
-    public static Parameter parseChainedInclusionCriteria(Parameter inclusionCriteriaParm) {
+    public static QueryParameter parseChainedInclusionCriteria(QueryParameter inclusionCriteriaParm) {
 
-        Parameter rootParameter = null;
-        Parameter chainedInclusionCriteria = null;
+        QueryParameter rootParameter = null;
+        QueryParameter chainedInclusionCriteria = null;
         String[] qualifiedInclusionCriteria;
         String[] parmNames = inclusionCriteriaParm.getCode().split("\\.");
         String resourceType = inclusionCriteriaParm.getCode().split(SearchConstants.COLON_DELIMITER_STR)[1];
@@ -1272,11 +1355,11 @@ public class SearchUtil {
             if (parmNames[i].indexOf(SearchConstants.COLON_DELIMITER) != -1) {
                 qualifiedInclusionCriteria = parmNames[i].split(SearchConstants.COLON_DELIMITER_STR);
                 chainedInclusionCriteria   =
-                        new Parameter(SearchConstants.Type.REFERENCE, qualifiedInclusionCriteria[0], null, resourceType,
+                        new QueryParameter(Type.REFERENCE, qualifiedInclusionCriteria[0], null, resourceType,
                                 inclusionCriteriaParm.getValues());
             } else {
                 chainedInclusionCriteria =
-                        new Parameter(SearchConstants.Type.REFERENCE, parmNames[i], null, resourceType);
+                        new QueryParameter(Type.REFERENCE, parmNames[i], null, resourceType);
             }
             if (rootParameter == null) {
                 rootParameter = chainedInclusionCriteria;
@@ -1413,8 +1496,7 @@ public class SearchUtil {
 
     /**
      * Builds and returns a collection of InclusionParameter objects representing
-     * occurrences the _revinclude search
-     * result parameter in the query string.
+     * occurrences the _revinclude search result parameter in the query string.
      * 
      * @throws FHIRSearchException
      */

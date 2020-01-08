@@ -12,7 +12,7 @@ import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
 import com.ibm.fhir.search.location.NearLocationHandler;
-import com.ibm.fhir.search.parameters.Parameter;
+import com.ibm.fhir.search.parameters.QueryParameter;
 
 /**
  * Common Location related functions.
@@ -60,7 +60,7 @@ public class LocationUtil {
      * @param searchParameters
      * @return int - The index of the 'near' parameter in the passed List.
      */
-    public static int findNearParameterIndex(List<Parameter> searchParameters) {
+    public static int findNearParameterIndex(List<QueryParameter> searchParameters) {
         int nearParameterIndex = -1;
         for (int i = 0; i < searchParameters.size(); i++) {
             if (NearLocationHandler.NEAR.equals(searchParameters.get(i).getCode())) {
@@ -79,7 +79,7 @@ public class LocationUtil {
      * @param queryParm
      * @return
      */
-    public static boolean isLocation(Class<?> resourceType, Parameter queryParm) {
+    public static boolean isLocation(Class<?> resourceType, QueryParameter queryParm) {
         // near-distance was deprecated. 
         return Location.class.equals(resourceType) &&
                 NearLocationHandler.NEAR.equals(queryParm.getCode());

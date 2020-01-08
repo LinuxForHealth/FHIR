@@ -11,11 +11,11 @@ package com.ibm.fhir.database.utils.query;
  */
 public class FromItem {
     private final Alias alias;
-    
+
     protected FromItem(Alias alias) {
         this.alias = alias;
     }
-    
+
     public Alias getAlias() {
         return this.alias;
     }

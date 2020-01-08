@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@ package com.ibm.fhir.client.impl;
 
 import java.net.URI;
 import java.time.Instant;
+import java.util.Date;
 
 import javax.json.JsonObject;
 import javax.ws.rs.core.HttpHeaders;
@@ -68,9 +69,10 @@ public class FHIRResponseImpl implements FHIRResponse {
     @Override
     public Instant getLastModified() throws Exception {
         Instant lastModified = null;
-        String s = response.getHeaderString("Last-Modified");
+        Date s = response.getLastModified();
+        
         if (s != null) {
-            lastModified = Instant.parse(s);
+            lastModified = s.toInstant();
         }
         return lastModified;
     }

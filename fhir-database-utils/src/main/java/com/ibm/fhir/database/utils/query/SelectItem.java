@@ -8,7 +8,6 @@ package com.ibm.fhir.database.utils.query;
 
 /**
  * A column reference, expression or sub-query item used in the selection list
- *
  */
 public class SelectItem {
     // The alias to use for this item. Can be null
@@ -34,5 +33,10 @@ public class SelectItem {
     
     public void setAlias(Alias alias) {
         this.alias = alias;
+    }
+
+    @Override
+    public String toString() {
+        return alias.toString();
     }
 }

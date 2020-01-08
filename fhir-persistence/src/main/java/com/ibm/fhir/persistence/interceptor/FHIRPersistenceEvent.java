@@ -14,7 +14,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.FHIRPersistence;
 
 /**
@@ -190,7 +190,7 @@ public class FHIRPersistenceEvent {
      * represents a standard FHIR resource type.
      */
     public boolean isStandardResourceType() {
-        return (this.getFhirResourceType() != null ? FHIRUtil.isStandardResourceType(getFhirResourceType()) : false);
+        return (this.getFhirResourceType() != null ? ModelSupport.isResourceType(getFhirResourceType()) : false);
     }
     
     /**

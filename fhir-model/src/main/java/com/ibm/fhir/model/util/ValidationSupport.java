@@ -26,6 +26,9 @@ import com.ibm.fhir.model.type.Element;
 
 /**
  * Static helper methods for validating model objects during construction
+ * 
+ * @apiNote In methods where an exception is thrown, IllegalStateException is chosen over IllegalArgumentException 
+ *          so that Builder.build() methods can throw the most appropriate exception without catching and wrapping
  */
 public final class ValidationSupport {
     private static final int MIN_STRING_LENGTH = 1;
@@ -53,8 +56,6 @@ public final class ValidationSupport {
      * </pre>
      * 
      * @throws IllegalStateException if the passed String is not a valid FHIR String value
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static void checkString(String s) {
         if (s == null) {
@@ -63,7 +64,6 @@ public final class ValidationSupport {
         if (s.length() > MAX_STRING_LENGTH) {
             throw new IllegalStateException(String.format("String value length: %d is greater than maximum allowed length: %d", s.length(), MAX_STRING_LENGTH));
         }
-        
         int count = 0;
         for (int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
@@ -86,8 +86,6 @@ public final class ValidationSupport {
      * </pre>
      * 
      * @throws IllegalStateException if the passed String is not a valid FHIR Code value
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static void checkCode(String s) {
         if (s == null) {
@@ -99,7 +97,6 @@ public final class ValidationSupport {
         if (Character.isWhitespace(s.charAt(s.length() - 1))) {
             throw new IllegalStateException(String.format("Code value: '%s' must end with a non-whitespace character", s));
         }
-        
         boolean previousIsSpace = false;
         for (int i = 0; i < s.length(); i++) {
             char current = s.charAt(i);
@@ -126,8 +123,6 @@ public final class ValidationSupport {
      * </pre>
      * 
      * @throws IllegalStateException if the passed String is not a valid FHIR Id value
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static void checkId(String s) {
         if (s == null) {
@@ -139,7 +134,6 @@ public final class ValidationSupport {
         if (s.length() > 64) {
             throw new IllegalStateException(String.format("Id value length: %d is greater than maximum allowed length: %d", s.length(), 64));
         }
-
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             //45 = '-'
@@ -163,8 +157,6 @@ public final class ValidationSupport {
      * </pre>
      * 
      * @throws IllegalStateException if the passed String is not a valid FHIR Id value
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static void checkUri(String s) {
         if (s == null) {
@@ -173,7 +165,6 @@ public final class ValidationSupport {
         if (s.length() > MAX_STRING_LENGTH) {
             throw new IllegalStateException(String.format("Uri value length: %d is greater than maximum allowed length: %d", s.length(), MAX_STRING_LENGTH));
         }
-
         for (int i = 0; i < s.length(); i++) {
             if (Character.isWhitespace(s.charAt(i))) {
                 throw new IllegalStateException(String.format("Uri value: '%s' must not contain whitespace", s));
@@ -183,8 +174,6 @@ public final class ValidationSupport {
 
     /**
      * @throws IllegalStateException if the passed String is longer than the maximum string length
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static void checkMaxLength(String value) {
         if (value != null) {
@@ -196,8 +185,6 @@ public final class ValidationSupport {
 
     /**
      * @throws IllegalStateException if the passed String is shorter than the minimum string length
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static void checkMinLength(String value) {
         if (value != null) {
@@ -209,8 +196,6 @@ public final class ValidationSupport {
 
     /**
      * @throws IllegalStateException if the passed Integer value is less than the passed minValue
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static void checkValue(Integer value, int minValue) {
         if (value != null) {
@@ -222,8 +207,6 @@ public final class ValidationSupport {
 
     /**
      * @throws IllegalStateException if the passed String value does not match the passed pattern
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static void checkValue(String value, Pattern pattern) {
         if (value != null) {
@@ -235,8 +218,6 @@ public final class ValidationSupport {
 
     /**
      * @throws IllegalStateException if the type of the passed value is not one of the passed types
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static <T> T checkValueType(T value, Class<?>... types) {
         if (value != null) {
@@ -252,8 +233,6 @@ public final class ValidationSupport {
 
     /**
      * @throws IllegalStateException if the type of the passed element is not one of the passed types
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      * @apiNote Only differs from {@link #checkValueType} in that we can provide a better error message
      */
     public static <T extends Element> T choiceElement(T element, String elementName, Class<?>... types) {
@@ -269,8 +248,6 @@ public final class ValidationSupport {
 
     /**
      * @throws IllegalStateException if the passed String value is not valid XHTML
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static void checkXHTMLContent(String value) {
         try {
@@ -306,8 +283,6 @@ public final class ValidationSupport {
     
     /**
      * @throws IllegalStateException if the passed element is null or if its type is not one of the passed types
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static <T extends Element> T requireChoiceElement(T element, String elementName, Class<?>... types) {
         requireNonNull(element, elementName);
@@ -316,8 +291,6 @@ public final class ValidationSupport {
     
     /**
      * @throws IllegalStateException if the passed list is empty or contains any null objects
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static <T> List<T> requireNonEmpty(List<T> elements, String elementName) {
         requireNonNull(elements, elementName);
@@ -329,8 +302,6 @@ public final class ValidationSupport {
     
     /**
      * @throws IllegalStateException if the passed element is null
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static <T> T requireNonNull(T element, String elementName) {
         if (element == null) {
@@ -341,8 +312,6 @@ public final class ValidationSupport {
     
     /**
      * @throws IllegalStateException if the passed list contains any null objects
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static <T> List<T> requireNonNull(List<T> elements, String elementName) {
         if (elements.stream().anyMatch(Objects::isNull)) {
@@ -353,8 +322,6 @@ public final class ValidationSupport {
 
     /**
      * @throws IllegalStateException if the passed element has no value and no children
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static void requireValueOrChildren(Element element) {
         if (!element.hasValue() && !element.hasChildren()) {
@@ -364,8 +331,6 @@ public final class ValidationSupport {
     
     /**
      * @throws IllegalStateException if the passed element has no children
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static void requireChildren(Resource resource) {
         if (!resource.hasChildren()) {
@@ -375,8 +340,6 @@ public final class ValidationSupport {
     
     /**
      * @throws IllegalStateException if the passed element is not null
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static void prohibited(Element element, String elementName) {
         if (element != null) {
@@ -386,8 +349,6 @@ public final class ValidationSupport {
 
     /**
      * @throws IllegalStateException if the passed list is not empty
-     * @apiNote IllegalStateException is chosen in favor of IllegalArgumentException so that Builder.build()
-     *          methods can throw the most appropriate exception without catching and wrapping.
      */
     public static <T extends Element> void prohibited(List<T> elements, String elementName) {
         if (!elements.isEmpty()) {

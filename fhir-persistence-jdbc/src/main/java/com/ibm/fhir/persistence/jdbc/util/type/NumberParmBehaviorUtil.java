@@ -9,8 +9,15 @@ package com.ibm.fhir.persistence.jdbc.util.type;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LTE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NUMBER_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 
 import java.math.BigDecimal;
@@ -21,13 +28,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants.JDBCOperator;
 import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.exception.FHIRSearchException;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 
 /**
@@ -44,7 +49,7 @@ public class NumberParmBehaviorUtil {
         // No operation
     }
 
-    public static void executeBehavior(StringBuilder whereClauseSegment, Parameter queryParm,
+    public static void executeBehavior(StringBuilder whereClauseSegment, QueryParameter queryParm,
             List<Object> bindVariables, Class<?> resourceType, String tableAlias, JDBCQueryBuilder queryBuilder)
             throws FHIRPersistenceException {
         // Start the Clause 
@@ -54,7 +59,7 @@ public class NumberParmBehaviorUtil {
         // Process each parameter value in the query parameter
         boolean parmValueProcessed = false;
         Set<String> seen = new HashSet<>();
-        for (ParameterValue value : queryParm.getValues()) {
+        for (QueryParameterValue value : queryParm.getValues()) {
 
             Prefix prefix = value.getPrefix();
 
@@ -76,7 +81,7 @@ public class NumberParmBehaviorUtil {
                 if (parmValueProcessed) {
                     // ) OR (
                     whereClauseSegment.append(RIGHT_PAREN)
-                            .append(JDBCOperator.OR.value())
+                            .append(OR)
                             .append(LEFT_PAREN);
                 } else {
                     // Signal to the downstream to treat any subsequent value as an OR condition 
@@ -90,10 +95,8 @@ public class NumberParmBehaviorUtil {
                     // eq - equals is a specific range search.
                     if (isInteger) {
                         bindVariables.add(originalNumber);
-                        whereClauseSegment.append(tableAlias + DOT).append(NUMBER_VALUE);
-                        whereClauseSegment.append(JDBCOperator.EQ.value())
-                                .append(BIND_VAR);
-
+                        whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
+                        whereClauseSegment.append(EQ).append(BIND_VAR);
                     } else {
                         // Not an Integer search. 
                         // Bounds are based on precision.
@@ -101,14 +104,10 @@ public class NumberParmBehaviorUtil {
                         bindVariables.add(generateUpperBound(originalNumber));
 
                         // <CODE>BASIC_NUMBER_VALUE > ? AND BASIC_NUMBER_VALUE <= ?</CODE> 
-                        whereClauseSegment.append(tableAlias + DOT).append(NUMBER_VALUE);
-                        whereClauseSegment.append(JDBCOperator.GT.value())
-                                .append(BIND_VAR);
-                        whereClauseSegment.append(JDBCConstants.SPACE).append(JDBCOperator.AND)
-                                .append(JDBCConstants.SPACE);
-                        whereClauseSegment.append(tableAlias + DOT).append(NUMBER_VALUE);
-                        whereClauseSegment.append(JDBCOperator.LTE.value())
-                                .append(BIND_VAR);
+                        whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
+                        whereClauseSegment.append(GT).append(BIND_VAR).append(AND);
+                        whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
+                        whereClauseSegment.append(LTE).append(BIND_VAR);
                     }
 
                     break;
@@ -116,9 +115,8 @@ public class NumberParmBehaviorUtil {
                     // ne - not equals is a specific not in range search.
                     if (isInteger) {
                         bindVariables.add(originalNumber);
-                        whereClauseSegment.append(tableAlias + DOT).append(NUMBER_VALUE);
-                        whereClauseSegment.append(JDBCOperator.NE.value())
-                                .append(BIND_VAR);
+                        whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
+                        whereClauseSegment.append(NE).append(BIND_VAR);
                     } else {
                         // Bounds are based on precision.
 
@@ -126,14 +124,11 @@ public class NumberParmBehaviorUtil {
                         bindVariables.add(generateUpperBound(originalNumber));
 
                         // <CODE>BASIC_NUMBER_VALUE <= ? OR BASIC_NUMBER_VALUE > ?</CODE> 
-                        whereClauseSegment.append(tableAlias + DOT).append(NUMBER_VALUE);
-                        whereClauseSegment.append(JDBCOperator.LTE.value())
-                                .append(BIND_VAR);
-                        whereClauseSegment.append(JDBCConstants.SPACE).append(JDBCOperator.OR)
-                                .append(JDBCConstants.SPACE);
-                        whereClauseSegment.append(tableAlias + DOT).append(NUMBER_VALUE);
-                        whereClauseSegment.append(JDBCOperator.GT.value())
-                                .append(BIND_VAR);
+                        whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
+                        whereClauseSegment.append(LTE).append(BIND_VAR);
+                        whereClauseSegment.append(OR);
+                        whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
+                        whereClauseSegment.append(GT).append(BIND_VAR);
                     }
                     break;
                 case AP:
@@ -147,20 +142,46 @@ public class NumberParmBehaviorUtil {
                     bindVariables.add(upperBound.add(factor));
 
                     // <CODE>BASIC_NUMBER_VALUE >= ? AND BASIC_NUMBER_VALUE <= ?</CODE> 
-                    whereClauseSegment.append(tableAlias + DOT).append(NUMBER_VALUE);
-                    whereClauseSegment.append(JDBCOperator.GTE.value())
-                            .append(BIND_VAR);
-                    whereClauseSegment.append(JDBCConstants.SPACE).append(JDBCOperator.AND).append(JDBCConstants.SPACE);
-                    whereClauseSegment.append(tableAlias + DOT).append(NUMBER_VALUE);
-                    whereClauseSegment.append(JDBCOperator.LTE.value())
-                            .append(BIND_VAR);
+                    whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
+                    whereClauseSegment.append(GTE).append(BIND_VAR);
+                    whereClauseSegment.append(AND);
+                    whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
+                    whereClauseSegment.append(LTE).append(BIND_VAR);
                     break;
                 default:
                     // gt, lt, ge, le, sa, eb
                     // take the default behavior.
                     // Build this piece: p1.value_string {operator} search-attribute-value
-                    JDBCOperator operator = queryBuilder.getPrefixOperator(value);
-                    whereClauseSegment.append(tableAlias + DOT).append(NUMBER_VALUE).append(operator.value())
+                    String operator = EQ;
+                    switch (prefix) {
+                    case EB:
+                        // EB - Ends Before
+                        operator = LT;
+                        break;
+                    case SA:
+                        // SA - Starts After
+                        operator = GT;
+                        break;
+                    case GE:
+                        // GE - Greater Than Equal
+                        operator = GTE;
+                        break;
+                    case GT:
+                        // GT - Greater Than
+                        operator = GT;
+                        break;
+                    case LE:
+                        // LE - Less Than Equal
+                        operator = LTE;
+                        break;
+                    case LT:
+                    default:
+                        // LT - Less Than
+                        operator = LT;
+                        break;
+                    }
+
+                    whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE).append(operator)
                             .append(BIND_VAR);
                     bindVariables.add(originalNumber);
                     break;
@@ -245,7 +266,7 @@ public class NumberParmBehaviorUtil {
      * @return boolean indicating that an integer search is being run.
      * @throws FHIRPersistenceException
      */
-    public static boolean checkIntegerSearchWithSaEb(Prefix prefix, Class<?> resourceType, Parameter queryParm,
+    public static boolean checkIntegerSearchWithSaEb(Prefix prefix, Class<?> resourceType, QueryParameter queryParm,
             BigDecimal originalNumber)
             throws FHIRPersistenceException {
         boolean isIntegerSearch = false;

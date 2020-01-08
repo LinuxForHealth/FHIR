@@ -135,6 +135,69 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 //    }
     
     @Test
+    public void testSearchToken_CodeableConcept() throws Exception {
+        assertSearchReturnsSavedResource("CodeableConcept", "code");
+        assertSearchReturnsSavedResource("CodeableConcept", "http://example.org/codesystem|code");
+//        assertSearchReturnsSavedResource("CodeableConcept", "http://example.org/codesystem|");
+        
+        // This shouldn't return any results because the CodeableConcept has a system
+//        assertSearchDoesntReturnSavedResource("CodeableConcept", "|code");
+    }
+    
+    @Test
+    public void testSearchToken_CodeableConcept_or() throws Exception {
+        assertSearchReturnsSavedResource("CodeableConcept", "foo,code,bar");
+        assertSearchDoesntReturnSavedResource("CodeableConcept", "foo\\,code,bar");
+        assertSearchDoesntReturnSavedResource("CodeableConcept", "foo,code\\,bar");
+    }
+    
+    @Test
+    public void testSearchToken_CodeableConcept_escaped() throws Exception {
+        assertSearchReturnsSavedResource("CodeableConcept", "http://example.org/codesystem|code");
+        assertSearchDoesntReturnSavedResource("CodeableConcept", "http://example.org/codesystem\\|code");
+    }
+    
+    @Test
+    public void testSearchToken_CodeableConcept_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.CodeableConcept", "code");
+        assertSearchReturnsComposition("subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
+//        assertSearchReturnsComposition("subject:Basic.CodeableConcept", "http://example.org/codesystem|");
+        
+        // This shouldn't return any results because the CodeableConcept has a system
+//        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept", "|code");
+    }
+    
+    @Test
+    public void testSearchDate_CodeableConcept_multiCoded() throws Exception {
+        assertSearchReturnsSavedResource("CodeableConcept-multiCoded", "http://example.org/codesystem|code");
+        assertSearchReturnsSavedResource("CodeableConcept-multiCoded", "http://example.org/othersystem|code");
+    }
+    
+    // Currently CodeableConcepts with no code are skipped
+//    @Test
+//    public void testSearchDate_CodeableConcept_NoCode() throws Exception {
+//        assertSearchReturnsSavedResource("CodeableConcept-noCode", "http://example.org/codesystem|");
+//    }
+    
+    @Test
+    public void testSearchToken_CodeableConcept_missing() throws Exception {
+        assertSearchReturnsSavedResource("CodeableConcept:missing", "false");
+        assertSearchDoesntReturnSavedResource("CodeableConcept:missing", "true");
+        
+        assertSearchReturnsSavedResource("missing-CodeableConcept:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-CodeableConcept:missing", "false");
+    }
+
+//    @Test
+//    public void testSearchToken_CodeableConcept_chained_missing() throws Exception {
+//        assertSearchReturnsComposition("subject:Basic.CodeableConcept:missing", "false");
+//        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept:missing", "true");
+//        
+//        assertSearchReturnsComposition("subject:Basic.missing-CodeableConcept:missing", "true");
+//        assertSearchDoesntReturnComposition("subject:Basic.missing-CodeableConcept:missing", "false");
+//    }
+    
+    @Test
     public void testSearchToken_Coding() throws Exception {
         assertSearchReturnsSavedResource("Coding", "code");
         assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|code");

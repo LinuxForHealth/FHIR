@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import com.ibm.fhir.database.utils.model.ColumnBase;
+import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
@@ -71,10 +72,11 @@ public interface IDatabaseAdapter {
      * @param tenantColumnName optional column name to enable multi-tenancy
      * @param columns
      * @param primaryKey
+     * @param identity
      * @param tablespaceName
      */
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns,
-            PrimaryKeyDef primaryKey, String tablespaceName);
+            PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName);
 
     /**
      * Create ROW type used for passing values to stored procedures e.g.:

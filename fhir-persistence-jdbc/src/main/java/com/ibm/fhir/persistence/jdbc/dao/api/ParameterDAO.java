@@ -6,13 +6,10 @@
 
 package com.ibm.fhir.persistence.jdbc.dao.api;
 
-import java.sql.Array;
 import java.sql.Connection;
-import java.util.List;
 import java.util.Map;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
@@ -22,14 +19,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
  */
 public interface ParameterDAO extends FHIRDbDAO {
 
-    /**
-     * Deletes from the Parameter table all rows associated with the passed resource id.
-     * @param resourceId - The id of the resource for which Parameter rows should be deleted.
-     * @throws FHIRPersistenceDBConnectException
-     * @throws FHIRPersistenceDataAccessException 
-     */
-    default void deleteByResource(long resourceId) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {};
-    
     /**
      * Reads all rows in the Parameter_Names table and returns the data as a Map
      * @return Map<String, Long> - A map containing key=parameter-name, value=parameter-name-id
@@ -45,7 +34,6 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceDataAccessException
      */
     Map<String,Integer> readAllCodeSystems() throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
-    
     
     /**
      * Reads the id associated with the name of the passed Parameter from the Parameter_Names table. If the id for the passed name is not present
@@ -76,7 +64,6 @@ public interface ParameterDAO extends FHIRDbDAO {
      */
     int readOrAddCodeSystemId(String systemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
 
-    
     /**
      * Read the id for the given code system name, but do not create a new record if it doesn't exist.
      * @param systemName
@@ -102,7 +89,7 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceException
      */
     int acquireCodeSystemId(String codeSystemName) throws FHIRPersistenceException;
-    
+
     /**
      * Adds a code system name / code system id pair to a candidate collection for population into the CodeSystemsCache.
      * This pair must be present as a row in the FHIR DB CODE_SYSTEMS table.
@@ -110,8 +97,8 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @param codeSystemId The id corresponding to the code system name.
      * @throws FHIRPersistenceException
      */
-    void addCodeSystemsCacheCandidate(String codeSystemName, Integer codeSystemId) throws FHIRPersistenceException;    
-    
+    void addCodeSystemsCacheCandidate(String codeSystemName, Integer codeSystemId) throws FHIRPersistenceException;
+
     /**
      * Adds a parameter name / parameter id pair to a candidate collection for population into the ParameterNamesCache.
      * This pair must be present as a row in the FHIR DB PARAMETER_NAMES table.
@@ -120,72 +107,10 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceException
      */
     void addParameterNamesCacheCandidate(String parameterName, Integer parameterId) throws FHIRPersistenceException;
-    
-    /**
-     * Extracts String type FHIR search parameters from the passed collection and creates an SQL array of those parameters and their values.
-     * @param connection A connection to the FHIR database.
-     * @param schemaName The current schema name.
-     * @param parameters A collection of FHIR search parameters.
-     * @return An SQL Array containing rows of parameter names and values.
-     * @throws FHIRPersistenceException
-     */
-    Array transformStringParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException;
-    
-    
-    /**
-     * Extracts Number type FHIR search parameters from the passed collection and creates an SQL array of those parameters and their values.
-     * @param connection A connection to the FHIR database.
-     * @param schemaName The current schema name.
-     * @param parameters A collection of FHIR search parameters.
-     * @return An SQL Array containing rows of parameter names and values.
-     * @throws FHIRPersistenceException
-     */
-    Array transformNumberParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException;
-    
-    /**
-     * Extracts Date type FHIR search parameters from the passed collection and creates an SQL array of those parameters and their values.
-     * @param connection A connection to the FHIR database.
-     * @param schemaName The current schema name.
-     * @param parameters A collection of FHIR search parameters.
-     * @return An SQL Array containing rows of parameter names and values.
-     * @throws FHIRPersistenceException
-     */
-    Array transformDateParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException;
-    
-    /**
-     * Extracts Latitude/Longitude type FHIR search parameters from the passed collection and creates an SQL array of those parameters and their values.
-     * @param connection A connection to the FHIR database.
-     * @param schemaName The current schema name.
-     * @param parameters A collection of FHIR search parameters.
-     * @return An SQL Array containing rows of parameter names and values.
-     * @throws FHIRPersistenceException
-     */
-    Array transformLatLongParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException;
-    
-    /**
-     * Extracts Token type FHIR search parameters from the passed collection and creates an SQL array of those parameters and their values.
-     * @param connection A connection to the FHIR database.
-     * @param schemaName The current schema name.
-     * @param parameters A collection of FHIR search parameters.
-     * @return An SQL Array containing rows of parameter names and values.
-     * @throws FHIRPersistenceException
-     */
-    Array transformTokenParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException;
-    
-    /**
-     * Extracts Quantity type FHIR search parameters from the passed collection and creates an SQL array of those parameters and their values.
-     * @param connection A connection to the FHIR database.
-     * @param schemaName The current schema name.
-     * @param parameters A collection of FHIR search parameters.
-     * @return An SQL Array containing rows of parameter names and values.
-     * @throws FHIRPersistenceException
-     */
-    Array transformQuantityParameters(Connection connection, String schemaName, List<Parameter> parameters) throws FHIRPersistenceException;
-    
+
     /**
      * Sets an externally managed DB connection, used by the DAO for all DB activity.
      * @param connection
      */
     void setExternalConnection(Connection connection);
-
 }

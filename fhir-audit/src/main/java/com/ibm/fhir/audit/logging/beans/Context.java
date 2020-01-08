@@ -138,14 +138,6 @@ public class Context {
         this.requestUniqueId = requestUniqueId;
     }
 
-    public String getResourceName() {
-        return resourceName;
-    }
-
-    public void setResourceName(String resourceName) {
-        this.resourceName = resourceName;
-    }
-
     /**
      * Generates JSON from this object.
      */
@@ -189,10 +181,6 @@ public class Context {
 
                     if (obj.getPurpose() != null) {
                         generator.write("purpose", obj.getPurpose());
-                    }
-
-                    if (obj.getResourceName() != null) {
-                        generator.write("resource_name", obj.getResourceName());
                     }
 
                     if (obj.getStartTime() != null) {
@@ -273,12 +261,6 @@ public class Context {
                 if (t != null) {
                     String purpose = jsonObject.getString("purpose");
                     builder.purpose(purpose);
-                }
-
-                t = jsonObject.get("resource_name");
-                if (t != null) {
-                    String resourceName = jsonObject.getString("resource_name");
-                    builder.resourceName(resourceName);
                 }
 
                 t = jsonObject.get("start_time");
@@ -384,11 +366,6 @@ public class Context {
 
         public Builder requestUniqueId(String requestUniqueId) {
             context.setRequestUniqueId(requestUniqueId);
-            return this;
-        }
-
-        public Builder resourceName(String resourceName) {
-            context.setResourceName(resourceName);
             return this;
         }
 

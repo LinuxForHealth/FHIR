@@ -195,9 +195,9 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Quantity-noCodeOrUnit", "1||eq");
     }
 
-    /***
+    /*
      * FHIR Server does not yet use quantity comparator to calculate search results.
-     *********************************************************************************/
+     */
     // Quantity search is of the form <prefix><number>|<unit_system>|<unit>.
     // We use custom units to mark the quantity comparators so we can scope our searches in the tests.
 
@@ -280,6 +280,15 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
     // Range is 5-10 seconds
     @Test
+    public void testSearchQuantity_Range_EQ_Implied() throws Exception {
+        // the range of the search value doesn't fully contain the range of the target value
+        assertSearchDoesntReturnSavedResource("Range", "4||s");
+        assertSearchDoesntReturnSavedResource("Range", "5||s");
+        assertSearchReturnsSavedResource("Range", "10||s");
+        assertSearchDoesntReturnSavedResource("Range", "11||s");
+    }
+
+    @Test
     public void testSearchQuantity_Range_NE() throws Exception {
         assertSearchReturnsSavedResource("Range", "ne4||s");
         assertSearchReturnsSavedResource("Range", "ne5||s");
@@ -293,15 +302,6 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Range", "ap5||s");
         assertSearchReturnsSavedResource("Range", "ap10||s");
         assertSearchDoesntReturnSavedResource("Range", "ap11||s");
-    }
-
-    @Test
-    public void testSearchQuantity_Range_EQ_Implied() throws Exception {
-        // the range of the search value doesn't fully contain the range of the target value
-        assertSearchDoesntReturnSavedResource("Range", "4||s");
-        assertSearchDoesntReturnSavedResource("Range", "5||s");
-        assertSearchReturnsSavedResource("Range", "10||s");
-        assertSearchDoesntReturnSavedResource("Range", "11||s");
     }
 
     @Test

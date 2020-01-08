@@ -21,7 +21,6 @@ import com.ibm.fhir.rest.FHIRResourceHelpers;
  * The expected result is:
  * 1. to see an error/message explaining why this service was not loaded
  * 2. for other operations to continue working
- * @author lmsurpre
  */
 public class CrashingOperation extends AbstractOperation {
     @Override
@@ -29,9 +28,6 @@ public class CrashingOperation extends AbstractOperation {
         throw new RuntimeException("Testing an operation that fails to initialize");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.operation.AbstractOperation#doInvoke(com.ibm.fhir.operation.context.FHIROperationContext, java.lang.Class, java.lang.String, java.lang.String, com.ibm.fhir.model.Parameters, com.ibm.fhir.rest.FHIRResourceHelpers)
-     */
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
         Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {

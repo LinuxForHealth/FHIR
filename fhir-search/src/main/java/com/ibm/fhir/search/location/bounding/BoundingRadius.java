@@ -16,7 +16,7 @@ import com.ibm.fhir.search.location.util.LocationUtil;
  * Latitude and Longtitude and the radius on the arc.
  * The radius on the arc must be in meters.
  */
-public class BoundingRadius implements Bounding {
+public class BoundingRadius extends Bounding {
 
     private Double latitude;
     private Double longitude;
@@ -98,6 +98,7 @@ public class BoundingRadius implements Bounding {
 
     @Override
     public String toString() {
-        return "BoundingRadius [latitude=" + latitude + ", longitude=" + longitude + "]";
+        return "BoundingRadius [latitude=" + latitude + ", longitude=" + longitude + ", instance=" + super.instance()
+                + "]";
     }
 }

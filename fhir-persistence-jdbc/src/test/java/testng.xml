@@ -3,11 +3,13 @@
     <test name="ParameterTests">
         <classes>
             <class name="com.ibm.fhir.persistence.jdbc.test.util.CacheUtilTest" />
-            <class name="com.ibm.fhir.persistence.jdbc.test.util.QueryBuilderUtilTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.util.ParameterExtractionTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.util.UriModifierUtilTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.util.NumberParmBehaviorUtilTest" />
             <class name="com.ibm.fhir.persistence.jdbc.test.util.QuantityParmBehaviorUtilTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.util.DateParmBehaviorUtilTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.util.LastUpdatedParmBehaviorUtilTest" />
+            <class name="com.ibm.fhir.persistence.jdbc.test.util.LocationParmBehaviorUtilTest" />
         </classes>
     </test>
     <test name="JDBCSpecTest">

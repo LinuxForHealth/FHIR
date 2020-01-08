@@ -52,7 +52,7 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
             ParametersUtil.print(System.out);
         }
 
-        assertEquals(45, result.size());
+        assertEquals(44, result.size());
     }
 
     @Test
@@ -65,12 +65,12 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters2/Patient", result);
-        assertEquals(36, result.size());
+        assertEquals(35, result.size());
 
         result = SearchUtil.getSearchParameters("Observation");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters2/Observation", result);
-        assertEquals(45, result.size());
+        assertEquals(44, result.size());
     }
 
     @Test
@@ -102,7 +102,7 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         result = SearchUtil.getSearchParameters("Immunization");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters3/Immunization", result);
-        assertEquals(23, result.size());
+        assertEquals(22, result.size());
     }
 
     @Test
@@ -139,7 +139,7 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         result = SearchUtil.getSearchParameters("MedicationAdministration");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters5/MedicationAdministration", result);
-        assertEquals(20, result.size());
+        assertEquals(19, result.size());
     }
 
     @Test
@@ -150,11 +150,11 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters6/Patient", result);
-        assertEquals(36, result.size());
+        assertEquals(35, result.size());
 
         result = SearchUtil.getSearchParameters("Device");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters6/Device", result);
-        assertEquals(19, result.size());
+        assertEquals(18, result.size());
     }
 }

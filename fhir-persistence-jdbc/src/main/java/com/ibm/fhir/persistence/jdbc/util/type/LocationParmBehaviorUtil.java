@@ -6,21 +6,27 @@
 
 package com.ibm.fhir.persistence.jdbc.util.type;
 
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LATITUDE_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LONGITUDE_VALUE;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LTE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.SPACE;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.ibm.fhir.persistence.jdbc.JDBCConstants;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants.JDBCOperator;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingBox;
+import com.ibm.fhir.search.location.bounding.BoundingMissing;
 import com.ibm.fhir.search.location.bounding.BoundingRadius;
+import com.ibm.fhir.search.location.bounding.BoundingType;
 
 /**
  * Location Behavior Util generates SQL and loads the variables into bind
@@ -39,21 +45,35 @@ public class LocationParmBehaviorUtil {
      * @param bindVariables
      * @param boundingAreas
      */
-    public void buildLocationSearchQuery(StringBuilder whereClauseSegment, List<Object> bindVariables,
-            List<Bounding> boundingAreas) {
-        // Clause: AND (
-        whereClauseSegment.append(JDBCOperator.AND.value())
-                .append(LEFT_PAREN);
+    public void buildLocationSearchQuery(String populateNameIdSubSegment, StringBuilder whereClauseSegment,
+            List<Object> bindVariables, List<Bounding> boundingAreas) {
+        int instance = 0;
 
         boolean first = true;
-        for (Bounding area : boundingAreas) {
-            // If this is not the first, we want to make this a co-joined set of conditions.
-            // ) OR (
-            if (!first) {
+        int processed = 0;
+        // Strips out the MISSING bounds. 
+        for (Bounding area : boundingAreas.stream()
+                .filter(area -> !BoundingType.MISSING.equals(area.getType())).collect(Collectors.toList())) {
+            if (instance == area.instance()) {
+                processed++;
+                if (instance > 0) {
+                    whereClauseSegment.append(RIGHT_PAREN)
+                            .append(AND)
+                            .append(LEFT_PAREN);
+                }
+
+                // Build this piece of the segment:
+                // (P1.PARAMETER_NAME_ID = x AND (
                 whereClauseSegment
-                        .append(RIGHT_PAREN)
-                        .append(JDBCOperator.OR.value())
-                        .append(LEFT_PAREN);
+                        .append(populateNameIdSubSegment).append(AND).append(SPACE);
+                instance++;
+                first = true;
+            }
+
+            if (!first) {
+                // If this is not the first, we want to make this a co-joined set of conditions.
+                // ) OR (
+                whereClauseSegment.append(OR);
             } else {
                 first = false;
             }
@@ -64,13 +84,26 @@ public class LocationParmBehaviorUtil {
                 buildQueryForBoundingRadius(whereClauseSegment, bindVariables,
                         (BoundingRadius) area);
                 break;
+            case MISSING:
+                buildQueryForBoundingMissing(populateNameIdSubSegment, whereClauseSegment, (BoundingMissing) area);
+                break;
             case BOX:
             default:
                 buildQueryForBoundingBox(whereClauseSegment, bindVariables, (BoundingBox) area);
                 break;
             }
         }
-        whereClauseSegment.append(RIGHT_PAREN);
+
+        if (processed > 0) {
+            for (int i = 0; i < processed; i++) {
+                whereClauseSegment.append(RIGHT_PAREN);
+            }
+        }
+    }
+
+    public void buildQueryForBoundingMissing(String populateNameIdSubSegment, StringBuilder whereClauseSegment,
+            BoundingMissing missingArea) {
+        // No Operation - the main logic is contained in the process Missing parameter
     }
 
     /**
@@ -85,21 +118,21 @@ public class LocationParmBehaviorUtil {
         // Now build the piece that compares the BoundingBox longitude and latitude values
         // to the persisted longitude and latitude parameters.
         whereClauseSegment
-                .append(JDBCConstants.SPACE)
+                .append(LEFT_PAREN)
                 // LAT <= ? --- LAT >= MIN_LAT
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(JDBCOperator.GTE.value())
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(GTE)
                 .append(BIND_VAR)
                 // LAT <= ? --- LAT <= MAX_LAT
-                .append(JDBCOperator.AND.value())
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(JDBCOperator.LTE.value())
+                .append(AND)
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(LTE)
                 .append(BIND_VAR)
                 // LON <= ? --- LON >= MIN_LON
-                .append(JDBCOperator.AND.value())
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(JDBCOperator.GTE.value())
+                .append(AND)
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(GTE)
                 .append(BIND_VAR)
                 // LON <= ? --- LON <= MAX_LON
-                .append(JDBCOperator.AND.value())
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(JDBCOperator.LTE.value())
+                .append(AND)
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(LTE)
                 .append(BIND_VAR)
                 .append(RIGHT_PAREN);
 
@@ -121,20 +154,20 @@ public class LocationParmBehaviorUtil {
             BoundingRadius boundingRadius) {
         // This section of code is based on code from http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
         whereClauseSegment
-                .append(JDBCConstants.SPACE)
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(JDBCOperator.LTE.value())
+                .append(LEFT_PAREN)
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(LTE)
                 .append(BIND_VAR)
-                .append(JDBCOperator.AND.value())
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(JDBCOperator.GTE.value())
+                .append(AND)
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE).append(GTE)
                 .append(BIND_VAR)
-                .append(JDBCOperator.AND.value())
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(JDBCOperator.LTE.value())
+                .append(AND)
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(LTE)
                 .append(BIND_VAR)
-                .append(JDBCOperator.AND.value())
-                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(JDBCOperator.GTE.value())
+                .append(AND)
+                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LONGITUDE_VALUE).append(GTE)
                 .append(BIND_VAR)
                 // Check the ARC Radius
-                .append(JDBCOperator.AND.value())
+                .append(AND)
                 .append("ACOS(SIN(?) * SIN(")
                 .append(PARAMETER_TABLE_ALIAS).append(DOT).append(LATITUDE_VALUE)
                 .append(") + COS(?) * COS(")

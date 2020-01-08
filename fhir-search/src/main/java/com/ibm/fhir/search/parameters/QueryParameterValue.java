@@ -7,31 +7,41 @@
 package com.ibm.fhir.search.parameters;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 
 /**
- * Refactored the code to more consistently apply the output patterns.<br/>
+ * A search parameter value for a given search parameter that was passed in a search query
  */
-public class ParameterValue {
+public class QueryParameterValue {
 
     private Prefix prefix = null;
 
     private String valueString = null;
-    private DateTime valueDate = null;
 
-    // Used with Number
+    private Instant valueDate = null;
+    private Instant valueDateLowerBound = null;
+    private Instant valueDateUpperBound = null;
+
+    // Used for number and quantity search parameters
     private BigDecimal valueNumber = null;
 
+    // Used for quantity and token search parameters
     private String valueSystem = null;
     private String valueCode = null;
 
+    // Used for composite search parameters
+    private List<QueryParameter> component = new ArrayList<>();
+    
     // The delimiter starts off as EMPTY and goes to SearchConstants.PARAMETER_DELIMETER
     private String delim = "";
 
-    public ParameterValue() {
+    public QueryParameterValue() {
         // No Operation
     }
 
@@ -39,7 +49,7 @@ public class ParameterValue {
         this.prefix = prefix;
     }
 
-    public ParameterValue withPrefix(Prefix prefix) {
+    public QueryParameterValue withPrefix(Prefix prefix) {
         setPrefix(prefix);
         return this;
     }
@@ -56,11 +66,11 @@ public class ParameterValue {
         this.valueString = valueString;
     }
 
-    public DateTime getValueDate() {
+    public Instant getValueDate() {
         return valueDate;
     }
 
-    public void setValueDate(DateTime valueDate) {
+    public void setValueDate(Instant valueDate) {
         this.valueDate = valueDate;
     }
 
@@ -88,6 +98,44 @@ public class ParameterValue {
         this.valueCode = valueCode;
     }
 
+    public Instant getValueDateLowerBound() {
+        return valueDateLowerBound;
+    }
+
+    public void setValueDateLowerBound(Instant valueDateLowerBound) {
+        this.valueDateLowerBound = valueDateLowerBound;
+    }
+
+    public Instant getValueDateUpperBound() {
+        return valueDateUpperBound;
+    }
+
+    public void setValueDateUpperBound(Instant valueDateUpperBound) {
+        this.valueDateUpperBound = valueDateUpperBound;
+    }
+
+    /**
+     * @return the component
+     */
+    public List<QueryParameter> getComponent() {
+        return component;
+    }
+
+    /**
+     * @param component the components to add
+     */
+    public void addComponent(QueryParameter... component) {
+        for (QueryParameter c : component) {
+            this.component.add(c);
+        }
+    }
+
+    /**
+     * @param component the component to set
+     */
+    public void setComponent(Collection<QueryParameter> component) {
+        this.component = new ArrayList<>(component);
+    }
     /**
      * Serialize the ParameterValue to a query parameter string
      */
@@ -112,7 +160,20 @@ public class ParameterValue {
         outputBuilder(returnString, valueCode);
         outputBuilder(returnString, valueString);
         outputBuilder(returnString, valueDate);
+        outputBuilder(returnString, valueDateLowerBound);
+        outputBuilder(returnString, valueDateUpperBound);
 
+        if (component != null && !component.isEmpty()) {
+            String componentDelim = "";
+            for (QueryParameter componentParam : component) {
+                List<QueryParameterValue> componentValues = componentParam.getValues();
+                if (componentValues.size() != 1) {
+                    throw new IllegalStateException("Components of a composite search parameter may only have a single value");
+                }
+                returnString.append(componentDelim).append(componentValues.get(0));
+                componentDelim = "$";
+            }
+        }
         return returnString.toString();
     }
 
@@ -120,7 +181,7 @@ public class ParameterValue {
      * simple build method to apply consistent usage of StringBuilder.
      * 
      * @param outputBuilder
-     * @param o
+     * @param value
      */
     private void outputBuilder(StringBuilder outputBuilder, Object value) {
         if (value != null) {

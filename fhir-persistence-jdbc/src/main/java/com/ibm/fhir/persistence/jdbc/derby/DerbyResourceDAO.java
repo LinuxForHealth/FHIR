@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.persistence.jdbc.derby;
 
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,11 +21,14 @@ import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
-import com.ibm.fhir.persistence.jdbc.dto.Parameter;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 
 /**
+ * Data access object for writing FHIR resources to an Apache Derby database.
+ * 
+ * @implNote The original implementation (for DSTU2) used a global temporary table
  * to pass the parameter list into the stored procedure, but this approach
- * exposed some query optimizer issues in DB2 resulting in significant 
+ * exposed some query optimizer issues in DB2 resulting in significant
  * concurrency problems (related to dynamic statistics collection and
  * query compilation). The solution used row type arrays instead, but these
  * aren't supported in Derby, and have since been replaced by a DAO-based
@@ -94,7 +99,7 @@ public class DerbyResourceDAO {
      * @return the resource_id for the entry we created
      * @throws Exception
      */
-    public long storeResource(String tablePrefix, List<Parameter> parameters, String p_logical_id, byte[] p_payload, Timestamp p_last_updated, boolean p_is_deleted, 
+    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, byte[] p_payload, Timestamp p_last_updated, boolean p_is_deleted, 
         String p_source_key, Integer p_version) throws Exception {
 
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
@@ -259,6 +264,8 @@ public class DerbyResourceDAO {
             // later than the current version
             if (p_version == null || p_version > v_version) {
                 // existing resource, so need to delete all its parameters
+                // delete composites first, or else the foreign keys there restrict deletes on referenced tables
+                deleteFromParameterTable(conn, tablePrefix + "_composites", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_str_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_number_values", v_logical_resource_id);
                 deleteFromParameterTable(conn, tablePrefix + "_date_values", v_logical_resource_id);
@@ -304,7 +311,7 @@ public class DerbyResourceDAO {
             stmt.setLong(2, v_logical_resource_id);
             stmt.setInt(3, v_insert_version);
             stmt.setBytes(4, p_payload);
-            stmt.setTimestamp(5, p_last_updated);
+            stmt.setTimestamp(5, p_last_updated, UTC);
             stmt.setString(6, p_is_deleted ? "Y" : "N");
             stmt.executeUpdate();
         }
@@ -327,8 +334,8 @@ public class DerbyResourceDAO {
                 // Derby doesn't support partitioned multi-tenancy, so we disable it on the DAO:
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_logical_resource_id, 100, 
                     new ParameterNameCacheAdapter(parameterNameDAO), new CodeSystemCacheAdapter(codeSystemDAO))) {
-                    for (Parameter p: parameters) {
-                        p.visit(pvd);
+                    for (ExtractedParameterValue p: parameters) {
+                        p.accept(pvd);
                     }
                 }
             }

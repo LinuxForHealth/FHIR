@@ -11,7 +11,7 @@ import java.util.List;
 import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.parameters.InclusionParameter;
-import com.ibm.fhir.search.parameters.Parameter;
+import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.SortParameter;
 
 /**
@@ -23,9 +23,9 @@ public interface FHIRSearchContext extends FHIRPagingContext {
     
     void setSearchResourceTypes(List<String> searchResourceTypes);
 
-    List<Parameter> getSearchParameters();
+    List<QueryParameter> getSearchParameters();
 
-    void setSearchParameters(List<Parameter> searchParameters);
+    void setSearchParameters(List<QueryParameter> searchParameters);
 
     List<SortParameter> getSortParameters();
 

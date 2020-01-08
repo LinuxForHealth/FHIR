@@ -11,5 +11,6 @@ package com.ibm.fhir.search.location.bounding;
  */
 public enum BoundingType {
     BOX, 
-    RADIUS
+    RADIUS,
+    MISSING
 }

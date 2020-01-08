@@ -18,8 +18,8 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
-import com.ibm.fhir.search.parameters.Parameter;
-import com.ibm.fhir.search.parameters.ParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
@@ -36,19 +36,19 @@ public class UriTest {
                 "https://localhost:9443/fhir-server/api/v4/_search?_count=10&_security=http://ibm.com/fhir/security&_fudge=tag&_page=1";
         String requestUriString = incoming.split("\\?")[0];
 
-        ParameterValue value = new ParameterValue();
+        QueryParameterValue value = new QueryParameterValue();
         value.setValueString("http://ibm.com/fhir/security");
-        List<ParameterValue> values = Arrays.asList(value);
-        Parameter parameter = new Parameter(Type.TOKEN, "_security", null, null, values);
+        List<QueryParameterValue> values = Arrays.asList(value);
+        QueryParameter parameter = new QueryParameter(Type.TOKEN, "_security", null, null, values);
 
-        List<Parameter> searchParameters = new ArrayList<>();
+        List<QueryParameter> searchParameters = new ArrayList<>();
         
         searchParameters.add(parameter);
         
-        ParameterValue value2 = new ParameterValue();
+        QueryParameterValue value2 = new QueryParameterValue();
         value2.setValueString("tag");
-        List<ParameterValue> values2 = Arrays.asList(value2);
-        Parameter parameter2 = new Parameter(Type.TOKEN, "_fudge", null, null, values2);
+        List<QueryParameterValue> values2 = Arrays.asList(value2);
+        QueryParameter parameter2 = new QueryParameter(Type.TOKEN, "_fudge", null, null, values2);
         searchParameters.add(parameter2);
         
 
