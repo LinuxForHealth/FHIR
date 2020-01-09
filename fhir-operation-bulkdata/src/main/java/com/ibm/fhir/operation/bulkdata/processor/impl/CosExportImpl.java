@@ -169,7 +169,7 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
         List<String> types, List<String> typeFilters, FHIRRequestContext ctx,
         FHIRResourceHelpers resourceHelper, FHIROperationContext operationContext,
         BulkDataTenantSpecificCache cache) throws FHIROperationException {
-        throw new FHIROperationException("No $export delete operation right now");
+        throw new FHIROperationException("No $export group operation right now");
 
     }
 
