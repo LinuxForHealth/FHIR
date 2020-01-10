@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -134,14 +134,17 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         log.entering(CLASSNAME, METHODNAME);
 
         List<Object> allBindVariables = new ArrayList<>();
-        this.addBindVariables(allBindVariables);
 
         StringBuilder queryString = new StringBuilder();
         queryString.append(SELECT_COUNT_ROOT);
         queryString.append(LEFT_PAREN);
         queryString.append(QuerySegmentAggregator.SELECT_ROOT);
         buildFromClause(queryString, resourceType.getSimpleName());
-        allBindVariables.addAll(this.idsObjects);
+
+        // An important step here is to add _id and _lastUpdated
+        allBindVariables.addAll(idsObjects);
+        allBindVariables.addAll(lastUpdatedObjects);
+
         buildWhereClause(queryString, null);
 
         queryString.append(COMBINED_RESULTS);
@@ -171,14 +174,18 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
 
         List<Object> allBindVariables = new ArrayList<>();
         this.addBindVariables(allBindVariables);
-        allBindVariables.addAll(this.idsObjects);
 
         StringBuilder queryString = new StringBuilder();
         queryString.append(InclusionQuerySegmentAggregator.SELECT_ROOT).append(LEFT_PAREN);
         queryString.append(InclusionQuerySegmentAggregator.SELECT_ROOT).append(LEFT_PAREN);
         queryString.append(QuerySegmentAggregator.SELECT_ROOT);
+
         buildFromClause(queryString, resourceType.getSimpleName());
-        allBindVariables.addAll(this.idsObjects);
+
+        // An important step here is to add _id and _lastUpdated
+        allBindVariables.addAll(idsObjects);
+        allBindVariables.addAll(lastUpdatedObjects);
+
         buildWhereClause(queryString, null);
 
         // Add ordering
@@ -217,8 +224,10 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         subQueryString.append("P1.LOGICAL_RESOURCE_ID IN ");
         // (SELECT R.LOGICAL_RESOURCE_ID  
         subQueryString.append("(SELECT R.LOGICAL_RESOURCE_ID ");
+
         // Add FROM clause for "root" resource type
         buildFromClause(subQueryString, resourceType.getSimpleName());
+
         // Add WHERE clause for "root" resource type
         buildWhereClause(subQueryString, null);
 
@@ -232,13 +241,14 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         //The subquery should return a list of strings in the FHIR Reference String value format 
         //(e.g. {@code "Patient/<resource_id>"})
         SqlQueryData subQueryData = new SqlQueryData(subQueryString.toString(), bindVariables);
+
         boolean isFirstItem = true;
         for (String strValue : this.resourceDao.searchStringValues(subQueryData)) {
             if (!isFirstItem) {
                 queryString.append(COMMA);
             }
             if (strValue != null) {
-                queryString.append(QUOTE).append(strValue).append(QUOTE);
+                queryString.append(QUOTE).append(SqlParameterEncoder.encode(strValue)).append(QUOTE);
                 isFirstItem = false;
             }
         }
@@ -320,9 +330,14 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             // (SELECT 'Patient/' || LR.LOGICAL_ID
             queryString.append("(SELECT '").append(includeParm.getSearchParameterTargetType())
                     .append("/' || LR.LOGICAL_ID ");
+
             // Add FROM clause for "root" resource type
             buildFromClause(queryString, resourceType.getSimpleName());
+
+            // An important step here is to add _id and _lastUpdated
             bindVariables.addAll(this.idsObjects);
+            bindVariables.addAll(this.lastUpdatedObjects);
+
             // Add WHERE clause for "root" resource type
             buildWhereClause(queryString, null);
 

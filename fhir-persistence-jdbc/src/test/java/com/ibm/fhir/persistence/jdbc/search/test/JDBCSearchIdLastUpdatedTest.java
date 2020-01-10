@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2017,2020
+ * (C) Copyright IBM Corp. 2018,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.test;
+package com.ibm.fhir.persistence.jdbc.search.test;
 
 import java.util.Properties;
 
@@ -12,12 +12,13 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
-import com.ibm.fhir.persistence.test.common.AbstractIncludeRevincludeTest;
+import com.ibm.fhir.persistence.search.test.AbstractSearchIdAndLastUpdatedTest;
 
-public class JDBCIncludeRevincludeTest extends AbstractIncludeRevincludeTest {
+public class JDBCSearchIdLastUpdatedTest extends AbstractSearchIdAndLastUpdatedTest {
+
     private Properties testProps;
 
-    public JDBCIncludeRevincludeTest() throws Exception {
+    public JDBCSearchIdLastUpdatedTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
 
@@ -27,7 +28,7 @@ public class JDBCIncludeRevincludeTest extends AbstractIncludeRevincludeTest {
         String dbDriverName = this.testProps.getProperty("dbDriverName");
         if (dbDriverName != null && dbDriverName.contains("derby")) {
             derbyInit = new DerbyInitializer(this.testProps);
-            derbyInit.bootstrapDb(false);
+            derbyInit.bootstrapDb();
         }
     }
 

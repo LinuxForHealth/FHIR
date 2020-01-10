@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -128,6 +128,10 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
 
             // Build FROM clause
             buildFromClause(sqlSortQuery, resourceType.getSimpleName());
+
+            // An important step here is to add _id and _lastUpdated
+            allBindVariables.addAll(idsObjects);
+            allBindVariables.addAll(lastUpdatedObjects);
 
             // Build LEFT OUTER JOIN clause
             sqlSortQuery.append(this.buildSortJoinClause());
