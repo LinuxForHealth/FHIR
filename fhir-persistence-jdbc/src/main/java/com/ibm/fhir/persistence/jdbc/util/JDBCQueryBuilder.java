@@ -40,7 +40,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -50,6 +49,7 @@ import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
@@ -71,7 +71,6 @@ import com.ibm.fhir.search.location.util.LocationUtil;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.util.SearchUtil;
-import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 
 /**
  * This is the JDBC implementation of a query builder for the IBM FHIR Server
@@ -106,22 +105,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     private ParameterDAO parameterDao;
     private ResourceDAO resourceDao;
-
-    public static final boolean isIntegerSearch(Class<?> resourceType, QueryParameter queryParm) throws Exception {
-        return ValueTypesFactory.getValueTypesProcessor().isIntegerSearch(resourceType, queryParm);
-    }
-
-    public static final boolean isRangeSearch(Class<?> resourceType, QueryParameter queryParm) throws Exception {
-        return ValueTypesFactory.getValueTypesProcessor().isRangeSearch(resourceType, queryParm);
-    }
-
-    public static final boolean isDateSearch(Class<?> resourceType, QueryParameter queryParm) throws Exception {
-        return ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm);
-    }
-
-    public static final boolean isDateRangeSearch(Class<?> resourceType, QueryParameter queryParm) throws Exception {
-        return ValueTypesFactory.getValueTypesProcessor().isDateRangeSearch(resourceType, queryParm);
-    }
 
     public JDBCQueryBuilder(ParameterDAO parameterDao, ResourceDAO resourceDao) {
         this.parameterDao = parameterDao;
@@ -925,13 +908,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         final String METHODNAME = "processDateParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
-        boolean isDateSearch = isDateSearch(resourceType, queryParm);
-        boolean isDateRangeSearch = isDateRangeSearch(resourceType, queryParm);
-
-        if (log.isLoggable(Level.FINE)) {
-            log.fine("isDateSearch=" + isDateSearch + "  isDateRangeSearch=" + isDateRangeSearch);
-        }
-        if (!isDateSearch && !isDateRangeSearch) {
+        // Check to see if this is of a type is date. 
+        String code = queryParm.getCode();
+        SearchParamType type = SearchUtil.getSearchParameter(resourceType, code).getType();
+        if (SearchParamType.DATE.getValue().equals(type.getValue())) {
             throw new FHIRPersistenceException(
                     "Cannot process query parameter '" + queryParm.getCode() + "' as a date.").withIssue(
                             Issue.builder()

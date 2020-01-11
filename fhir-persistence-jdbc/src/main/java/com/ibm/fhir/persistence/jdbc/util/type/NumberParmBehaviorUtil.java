@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,20 +20,31 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NUMBER_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Token;
+
+import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.path.FHIRPathLexer;
+import com.ibm.fhir.path.FHIRPathParser;
+import com.ibm.fhir.path.FHIRPathParser.ExpressionContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Prefix;
-import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
-import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
+import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * Number Parameter Behavior Util encapsulates the logic specific to Prefix
@@ -44,6 +55,9 @@ public class NumberParmBehaviorUtil {
     private static final Logger log = java.util.logging.Logger.getLogger(NumberParmBehaviorUtil.class.getName());
 
     protected static final BigDecimal FACTOR = new BigDecimal(".1");
+
+    private static final List<String> SKIPPED_TOKENS = Arrays.asList(".", "<EOF>");
+    private static final List<String> INTEGER_TYPE = Arrays.asList("Integer", "UnsignedInt", "PositiveInt");
 
     private NumberParmBehaviorUtil() {
         // No operation
@@ -269,14 +283,7 @@ public class NumberParmBehaviorUtil {
     public static boolean checkIntegerSearchWithSaEb(Prefix prefix, Class<?> resourceType, QueryParameter queryParm,
             BigDecimal originalNumber)
             throws FHIRPersistenceException {
-        boolean isIntegerSearch = false;
-        try {
-            isIntegerSearch = ValueTypesFactory.getValueTypesProcessor().isIntegerSearch(resourceType, queryParm);
-        } catch (FHIRSearchException e) {
-            log.log(Level.INFO, "Caught exception while checking the value types for parameter '"
-                    + queryParm.getCode() + "'; continuing...", e);
-            // do nothing
-        }
+        boolean isIntegerSearch = isIntegerSearch(resourceType, queryParm);
 
         if (isIntegerSearch) {
             if (prefix == Prefix.EB || prefix == Prefix.SA) {
@@ -308,5 +315,107 @@ public class NumberParmBehaviorUtil {
         }
 
         return isIntegerSearch;
+    }
+
+    public static boolean isIntegerSearch(Class<?> resourceType, QueryParameter queryParm) {
+        boolean result = false;
+
+        try {
+            String code = queryParm.getCode();
+            SearchParameter searchParameter = SearchUtil.getSearchParameter(resourceType, code);
+
+            // Only process if the expression exists, for instance a DomainResource would not. 
+            if (searchParameter.getExpression() != null) {
+                result =
+                        processTheExpressionStringToComponents(resourceType,
+                                searchParameter.getExpression().getValue());
+            }
+        } catch (Exception e) {
+            log.warning("Exception retrieving the search parameter " + e);
+        }
+        return result;
+    }
+
+    protected static boolean processTheExpressionStringToComponents(Class<?> resourceType, String expressionsString) {
+        boolean result = false;
+        String[] exprs = expressionsString.split("\\|");
+        for (String expr : exprs) {
+            FHIRPathLexer lexer = new FHIRPathLexer(CharStreams.fromString(expr));
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            FHIRPathParser parser = new FHIRPathParser(tokens);
+            ExpressionContext ctx = parser.expression();
+
+            // Log out the ctx for debugging purposes, the parser.expression causes the tokens to be populated.
+            if (log.isLoggable(Level.FINE)) {
+                log.fine(" Context is populated with " + ctx);
+            }
+
+            boolean isAs = false;
+            boolean isWhere = false;
+            int countParenthesis = 0;
+            String cast = "";
+            List<String> fields = new ArrayList<>();
+            for (Token token : tokens.getTokens()) {
+                String tokenStr = token.getText();
+                if (!SKIPPED_TOKENS.contains(tokenStr) && !tokenStr.trim().isEmpty()) {
+                    if ("as".equals(tokenStr)) {
+                        isAs = true;
+                    } else if ("where".equals(tokenStr)) {
+                        isWhere = true;
+                    } else if ("(".equals(tokenStr)) {
+                        countParenthesis++;
+                    } else if (")".equals(tokenStr)) {
+                        countParenthesis--;
+                    } else if (isAs && countParenthesis > 0) {
+                        cast = tokenStr;
+                        isAs = false;
+                    } else if (!isWhere) {
+                        if (countParenthesis == 0) {
+                            isWhere = false;
+                        }
+                        fields.add(tokenStr);
+                    }
+                }
+            }
+
+            // If it's cast or the path needs to be checked.
+            if ("Integer".equals(cast) || followPathToCheckInteger(resourceType, fields)) {
+                return true;
+            }
+        }
+        return result;
+    }
+
+    // Navigates down the path using the fields from the Expression.
+    protected static boolean followPathToCheckInteger(Class<?> resourceType, List<String> fields) {
+        String simpleName = resourceType.getSimpleName();
+
+        // Only if the context is the class, we remove from the list. 
+        if (!fields.isEmpty() && fields.get(0).equals(simpleName)) {
+            fields.remove(simpleName);
+        }
+
+        Class<?> clz = resourceType;
+        for (String fieldStr : fields) {
+            for (Field f : clz.getDeclaredFields()) {
+                if (f.getName().equals(fieldStr)) {
+                    java.lang.reflect.Type genericType = f.getGenericType();
+                    if (genericType instanceof ParameterizedType) {
+                        ParameterizedType parameterizedType = (ParameterizedType) genericType;
+                        clz = (Class<?>) parameterizedType.getActualTypeArguments()[0];
+                    } else {
+                        try {
+                            clz = Class.forName(genericType.getTypeName());
+                        } catch (ClassNotFoundException e) {
+                            return false;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+
+        // Checks to see if is of Integer type 
+        return INTEGER_TYPE.contains(clz.getSimpleName());
     }
 }

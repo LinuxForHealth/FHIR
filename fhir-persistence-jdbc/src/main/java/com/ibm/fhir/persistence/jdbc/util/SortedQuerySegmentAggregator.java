@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ASCENDING;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMA;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMA_CHAR;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_START;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DESCENDING;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT_CHAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
@@ -254,7 +254,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             attributeNames.add(STR_VALUE);
             break;
         case DATE:
-            attributeNames.add(DATE_VALUE);
+            attributeNames.add(DATE_START);
             break;
         case TOKEN:
             attributeNames.add(CODE_SYSTEM_ID); //TODO This is probably wrong

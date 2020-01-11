@@ -1236,7 +1236,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             DateParmVal p = new DateParmVal();
             TemporalAccessor v = systemValue.asTemporalValue().temporal();
             java.time.Instant inst = DateTimeHandler.generateValue(v);
-            p.setValueDate(DateTimeHandler.generateTimestamp(inst));
+            p.setValueDateStart(DateTimeHandler.generateTimestamp(inst));
             parameter = p;
         } else if (systemValue.isStringValue()) {
             StringParmVal p = new StringParmVal();
