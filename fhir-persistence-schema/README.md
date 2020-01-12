@@ -2,6 +2,11 @@
 
 Builds and manages the multi-tenant FHIR R4 RDBMS schema (Db2). Includes Derby support for use in unit tests.
 
+# To Execute the fhir-persistence-schema 
+
+1. Print the schema to files by executing the SchemaPrinter:
+    `java -jar ./fhir-persistence-schema.jar  <schema-command>`
+
 # Creating the database 
 
 To create the database and database user, please use the following command.
