@@ -137,7 +137,8 @@ public class ChunkReader extends AbstractItemReader {
                     queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCreterial);
                 }
 
-                queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
+                // Todo: uncomment this after the sort lastModified bug is fixed
+                //queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
 
                 searchContext = SearchUtil.parseQueryParameters("Patient", patient.getId(),
                         ModelSupport.getResourceType(resourceTypes.get(indexOfCurrentResourceType)), queryParameters, null, true);
@@ -231,8 +232,6 @@ public class ChunkReader extends AbstractItemReader {
         }
 
         FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
-        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
-        fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
 
         FHIRSearchContext searchContext;
         FHIRPersistenceContext persistenceContext;
@@ -251,7 +250,8 @@ public class ChunkReader extends AbstractItemReader {
             queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCreterial);
         }
 
-        queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
+        // Todo: uncomment this after the sort lastModified bug is fixed
+        //queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
         searchContext = SearchUtil.parseQueryParameters(Patient.class, queryParameters);
         searchContext.setPageSize(pageSize);
         searchContext.setPageNumber(pageNum);
@@ -275,7 +275,7 @@ public class ChunkReader extends AbstractItemReader {
         }
 
         if (resources != null) {
-            logger.info("readItem: loaded patients number - " + resources.size());
+            logger.info("readItem(" + resourceTypes.get(indexOfCurrentResourceType) + "): loaded patients number - " + resources.size());
             fillChunkDataBuffer(resources);
         } else {
             logger.info("readItem: End of reading!");
@@ -286,6 +286,8 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public void open(Serializable checkpoint) throws Exception {
+        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
+        fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
         if (checkpoint != null) {
             CheckPointUserData checkPointData = (CheckPointUserData) checkpoint;
             pageNum = checkPointData.getPageNum();

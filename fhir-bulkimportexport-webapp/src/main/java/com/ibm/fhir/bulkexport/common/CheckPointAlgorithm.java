@@ -95,16 +95,18 @@ public class CheckPointAlgorithm implements CheckpointAlgorithm {
                     return (chunkData.getBufferStream().size() >= cosMaxFileSize
                             || chunkData.getPageNum() > chunkData.getLastPageNum());
                 } else {
-                    try {
-                        numofPagePerCosObject = Integer.parseInt(pagesPerCosObject);
-                        logger.info("isReadyToCheckpoint: " + numofPagePerCosObject + " pages per COS object!");
-                    } catch (Exception e) {
-                        numofPagePerCosObject = Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT;
-                        logger.warning("isReadyToCheckpoint: Set number of pages per COS object to default("
-                                + Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT + ").");
+                    if (pagesPerCosObject != null) {
+                        try {
+                            numofPagePerCosObject = Integer.parseInt(pagesPerCosObject);
+                            logger.info("isReadyToCheckpoint: " + numofPagePerCosObject + " pages per COS object!");
+                        } catch (Exception e) {
+                            numofPagePerCosObject = Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT;
+                            logger.warning("isReadyToCheckpoint: Set number of pages per COS object to default("
+                                    + Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT + ").");
+                        }
+                        return ((chunkData.getPageNum() - 1) % numofPagePerCosObject == 0
+                                || chunkData.getPageNum() > chunkData.getLastPageNum());
                     }
-                    return ((chunkData.getPageNum() - 1) % numofPagePerCosObject == 0
-                            || chunkData.getPageNum() > chunkData.getLastPageNum());
                 }
             }
         }

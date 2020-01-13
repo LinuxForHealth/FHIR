@@ -8,7 +8,9 @@ package com.ibm.fhir.bulkexport.system;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.time.Instant;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -18,6 +20,7 @@ import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
+import com.ibm.cloud.objectstorage.services.s3.model.CannedAccessControlList;
 import com.ibm.cloud.objectstorage.services.s3.model.CreateBucketRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.ObjectMetadata;
 import com.ibm.cloud.objectstorage.services.s3.model.PutObjectRequest;
@@ -147,15 +150,21 @@ public class ChunkWriter extends AbstractItemWriter {
             metadata.setContentLength(dataLength);
 
             String itemName;
+            PutObjectRequest req;
             if (cosBucketPathPrefix != null && cosBucketPathPrefix.trim().length() > 0) {
                 itemName = cosBucketPathPrefix + "/" + ResourceTypes.get(chunkData.getIndexOfCurrentResourceType())
                             + "_" + chunkData.getPartNum() + ".ndjson";
+                req = new PutObjectRequest(cosBucketName, itemName, in, metadata);
+                // Allow public read only if cosBucketPathPrefix is used.
+                req.setCannedAcl(CannedAccessControlList.PublicRead);
+                // Set expiration time to 2 hours(7200 seconds).
+                metadata.setExpirationTime(Date.from(Instant.now().plusSeconds(7200)));
             } else {
                 itemName = "job" + jobContext.getExecutionId() + "/" + ResourceTypes.get(chunkData.getIndexOfCurrentResourceType())
                             + "_" + chunkData.getPartNum() + ".ndjson";
+                req = new PutObjectRequest(cosBucketName, itemName, in, metadata);
             }
 
-            PutObjectRequest req = new PutObjectRequest(cosBucketName, itemName, in, metadata);
             cosClient.putObject(req);
             logger.info(
                     "pushFhirJsons2Cos: " + itemName + "(" + dataLength + " bytes) was successfully written to COS");

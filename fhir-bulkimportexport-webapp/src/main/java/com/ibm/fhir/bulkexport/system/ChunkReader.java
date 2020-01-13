@@ -212,7 +212,8 @@ public class ChunkReader extends AbstractItemReader {
             queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCreterial);
         }
 
-        queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
+        // Todo: uncomment this after the sort lastModified bug is fixed
+        //queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
         searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(pageSize);
         searchContext.setPageNumber(pageNum);

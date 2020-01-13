@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,14 +14,17 @@ import java.net.URL;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.crypto.KeyGenerator;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -55,6 +58,9 @@ public class BulkDataClient {
 
     private static final List<String> SUCCESS_STATUS = Arrays.asList("COMPLETED");
     private static final List<String> FAILED_STATUS = Arrays.asList("FAILED", "ABANDONED");
+
+    // Random generator for COS path prefix
+    private static final SecureRandom random = new SecureRandom();
 
     private Map<String, String> properties;
 
@@ -130,6 +136,26 @@ public class BulkDataClient {
     }
 
     /**
+     * Generate a random AES key or 32 byte value encoded as a Base64 string.
+     *
+     * @return
+     */
+    private String getRandomKey() {
+        KeyGenerator keyGen;
+        try {
+            keyGen = KeyGenerator.getInstance("AES");
+            keyGen.init(256);
+            return Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
+
+        } catch (NoSuchAlgorithmException e) {
+            byte[] buffer = new byte[32];
+            random.setSeed(System.currentTimeMillis());
+            random.nextBytes(buffer);
+            return Base64.getEncoder().encodeToString(buffer);
+        }
+    }
+
+    /**
      * @param outputFormat
      * @param since
      * @param types
@@ -150,10 +176,10 @@ public class BulkDataClient {
         builder.moduleName(properties.get(BulkDataConfigUtil.MODULE_NAME));
         switch (exportType) {
         case PATIENT:
-            builder.jobXMLName("FhirBulkExportChunkJob");
+            builder.jobXMLName("FhirBulkExportPatientChunkJob");
             break;
         default:
-            builder.jobXMLName("FhirBulkExportPatientChunkJob");
+            builder.jobXMLName("FhirBulkExportChunkJob");
             break;
         }
 
@@ -163,6 +189,9 @@ public class BulkDataClient {
         builder.cosCredentialIbm(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_IBM));
         builder.cosApiKey(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_KEY));
         builder.cosSrvInstId(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT));
+
+        // Fetch a string generated from random 32 bytes
+        builder.cosBucketPathPrefix(getRandomKey());
 
         String fhirTenant = FHIRRequestContext.get().getTenantId();
         builder.fhirTenant(fhirTenant);
@@ -266,6 +295,7 @@ public class BulkDataClient {
         // Assemble the URL
         String jobId = Integer.toString(response.getInstanceId());
         String resourceTypes = response.getJobParameters().getFhirResourceType();
+        String cosBucketPathPrefix = response.getJobParameters().getCosBucketPathPrefix();
 
         String baseCosUrl = properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT);
         String bucket = properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET);
@@ -292,7 +322,7 @@ public class BulkDataClient {
                         .split("\\s*,\\s*");
                 for (int i = 0; i < resourceCounts.length; i++) {
                     String downloadUrl =
-                            baseCosUrl + "/" + bucket + "/job" + jobId + "/" + resourceType + "_" + (i+1) + ".ndjson";
+                            baseCosUrl + "/" + bucket + "/" + cosBucketPathPrefix + "/" + resourceType + "_" + (i+1) + ".ndjson";
                     outPutList.add(new PollingLocationResponse.Output(resourceType, downloadUrl, resourceCounts[i]));
                 }
             }
