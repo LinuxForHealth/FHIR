@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
- * DAO to fetch the current value of FHIRADMIN.SV_TENANT_ID. Useful for
+ * DAO to fetch the current value of FHIR_ADMIN.SV_TENANT_ID. Useful for
  * debugging - the value isn't useful outside of the database.
  */
 public class Db2GetTenantVariable implements IDatabaseSupplier<Integer> {
