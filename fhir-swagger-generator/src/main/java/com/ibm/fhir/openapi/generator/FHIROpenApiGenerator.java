@@ -7,7 +7,7 @@
 package com.ibm.fhir.openapi.generator;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -261,7 +262,7 @@ public class FHIROpenApiGenerator {
         JsonWriterFactory factory = Json.createWriterFactory(config);
         
         File outFile = new File(OUTDIR + File.separator + "all-openapi.json");
-        try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
+        try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
             writer.writeObject(swagger.build());
         } catch (Exception e) {
             throw new Error(e);
@@ -356,7 +357,7 @@ public class FHIROpenApiGenerator {
                 JsonWriterFactory factory = Json.createWriterFactory(config);
                 
                 File outFile = new File(OUTDIR + File.separator + resourceClassName + "-openapi.json");
-                try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
+                try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
                     writer.writeObject(swagger.build());
                 } catch (Exception e) {
                     throw new Error(e);
@@ -414,7 +415,7 @@ public class FHIROpenApiGenerator {
         JsonWriterFactory factory = Json.createWriterFactory(config);
         
         File outFile = new File(OUTDIR + File.separator + "metadata-swagger.json");
-        try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
+        try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
             writer.writeObject(swagger.build());
         } catch (Exception e) {
             throw new Error(e);
@@ -466,7 +467,7 @@ public class FHIROpenApiGenerator {
         JsonWriterFactory factory = Json.createWriterFactory(config);
         
         File outFile = new File(OUTDIR + File.separator + "batch-swagger.json");
-        try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
+        try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
             writer.writeObject(swagger.build());
         } catch (Exception e) {
             throw new Error(e);
