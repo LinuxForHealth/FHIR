@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,8 +26,7 @@ import com.ibm.fhir.task.core.service.TaskService;
 public class ParallelBuildTest {
     private static final Logger logger = Logger.getLogger(ParallelBuildTest.class.getName());
     private static final String SCHEMA_NAME = "PTNG";
-    private static final String ADMIN_SCHEMA_NAME = "FHIRADMIN";
-
+    private static final String ADMIN_SCHEMA_NAME = "FHIR_ADMIN";
 
     @Test
     public void testParallelTableCreation() {

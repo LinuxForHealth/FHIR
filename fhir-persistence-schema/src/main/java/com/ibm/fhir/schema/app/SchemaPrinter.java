@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -84,7 +84,7 @@ import com.ibm.fhir.schema.control.FhirSchemaGenerator;
  */
 public class SchemaPrinter {
     private static final String SCHEMA_NAME = "FHIRAPP";
-    private static final String ADMIN_SCHEMA_NAME = "FHIRADMIN";
+    private static final String ADMIN_SCHEMA_NAME = "FHIR_ADMIN";
 
     private static final String DELIMITER = ";";
     private static final String STORED_PROCEDURE_DELIMITER = "@";

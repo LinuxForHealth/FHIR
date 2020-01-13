@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -57,7 +57,7 @@ public class FhirSchemaGenerator {
     // The tags we use to separate the schemas
     public static final String SCHEMA_GROUP_TAG = "SCHEMA_GROUP";
     public static final String FHIRDATA_GROUP = "FHIRDATA";
-    public static final String ADMIN_GROUP = "FHIRADMIN";
+    public static final String ADMIN_GROUP = "FHIR_ADMIN";
 
     // The max array size we use for array type parameters
     private static final int ARRAY_SIZE = 256;
