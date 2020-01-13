@@ -20,6 +20,8 @@ set VERSION=4.0.0-SNAPSHOT
 java -jar ./fhir-persistence-schema-%VERSION%.jar SCHEMA_COMMAND
 ```
 
+Note: the jar file is stored locally in `fhir-persistence-schema/target` or in the Artifactory repository for this project.
+
 # Creating the database 
 
 To create the database and database user, please use the following command.
@@ -161,6 +163,8 @@ java -cp ./fhir-persistence-schema-${VERSION}.jar com.ibm.fhir.schema.app.Schema
 set VERSION=4.0.0-SNAPSHOT
 java -cp ./fhir-persistence-schema-%VERSION%.jar com.ibm.fhir.schema.app.SchemaPrinter --to-file
 ```
+
+Note: the jar file is stored locally in `fhir-persistence-schema/target` or in the Artifactory repository for this project.
 
 2 - Connect to your instance and execute each of the following:
     - schema.sql:  `db2 -tvf schema.sql`
