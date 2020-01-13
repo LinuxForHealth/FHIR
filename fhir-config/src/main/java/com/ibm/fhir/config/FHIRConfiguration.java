@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,6 @@ import java.util.logging.Logger;
  * This class serves up a singleton instance of ConfigurationService containing the FHIR Server's configuration.
  */
 public class FHIRConfiguration {
-    
     private static final Logger log = Logger.getLogger(FHIRConfiguration.class.getName());
 
     public static final String CONFIG_LOCATION = "config";
@@ -104,8 +103,8 @@ public class FHIRConfiguration {
         if (s == null) {
             s = "";
         }
-        if (!s.isEmpty() && !s.endsWith("/")) {
-            s += "/";
+        if (!s.isEmpty() && !s.endsWith(File.separator)) {
+            s += File.separator;
         }
         
         configHome = s;
