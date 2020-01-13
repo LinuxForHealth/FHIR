@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  * 
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -61,7 +61,9 @@ import com.ibm.fhir.model.type.Distance;
 import com.ibm.fhir.model.type.Dosage;
 import com.ibm.fhir.model.type.Duration;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.ElementDefinition;
 import com.ibm.fhir.model.type.Expression;
+import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
@@ -69,6 +71,7 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Money;
 import com.ibm.fhir.model.type.MoneyQuantity;
+import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Oid;
 import com.ibm.fhir.model.type.ParameterDefinition;
 import com.ibm.fhir.model.type.Period;
@@ -98,7 +101,8 @@ public final class ModelSupport {
     private static final Map<Class<?>, Map<String, ElementInfo>> MODEL_CLASS_ELEMENT_INFO_MAP = buildModelClassElementInfoMap();
     private static final Map<String, Class<? extends Resource>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
     private static final Map<Class<?>, Set<Constraint>> MODEL_CLASS_CONSTRAINT_MAP = buildModelClassConstraintMap();
-    private static final Set<Class<?>> CHOICE_ELEMENT_TYPES = new HashSet<>(Arrays.asList(
+    // LinkedHashSet is used just to preserve the order, for convenience only
+    private static final Set<Class<? extends Element>> CHOICE_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
         Base64Binary.class, 
         com.ibm.fhir.model.type.Boolean.class, 
         Canonical.class, 
@@ -150,6 +154,16 @@ public final class ModelSupport {
         TriggerDefinition.class, 
         UsageContext.class, 
         Dosage.class));
+    private static final Set<Class<? extends Element>> DATA_TYPES;
+    static {
+        // LinkedHashSet is used just to preserve the order, for convenience only
+        Set<Class<? extends Element>> dataTypes = new LinkedHashSet<>(CHOICE_ELEMENT_TYPES);
+        dataTypes.add(Xhtml.class);
+        dataTypes.add(Narrative.class);
+        dataTypes.add(Extension.class);
+        dataTypes.add(ElementDefinition.class);
+        DATA_TYPES = Collections.unmodifiableSet(dataTypes);
+    }
     private static final Set<String> KEYWORDS = new HashSet<>(Arrays.asList(
         "$index", 
         "$this", 
@@ -489,6 +503,16 @@ public final class ModelSupport {
         return RESOURCE_TYPE_MAP.values();
     }
     
+    /**
+     * @return the set of classes for the FHIR data types
+     */
+    public static Set<Class<? extends Element>> getDataTypes() {
+        return DATA_TYPES;
+    }
+    
+    /**
+     * @return the name of the FHIR data type which corresponds to the passed type
+     */
     public static String getTypeName(Class<?> type) {
         String typeName = type.getSimpleName();
         if (Code.class.isAssignableFrom(type)) {
@@ -498,7 +522,10 @@ public final class ModelSupport {
         }
         return typeName;
     }
-    
+
+    /**
+     * @return the set of FHIR data type names for the passed modelClass and its supertypes
+     */
     public static Set<String> getTypeNames(Class<?> modelClass) {
         Set<String> typeNames = new HashSet<>();
         while (!Object.class.equals(modelClass)) {

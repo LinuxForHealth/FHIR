@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,6 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.config.PropertyGroup;
 
 public class FHIRConfigHelperTest {
     
