@@ -4,20 +4,18 @@ Builds and manages the multi-tenant FHIR R4 RDBMS schema (Db2). Includes Derby s
 
 # To Execute the fhir-persistence-schema 
 
-1 - Execute the jar corresponding command, where VERSION is the version of the fhir-persistence-schema shaded jar that you are using, and SCHEMA_COMMAND is the documented schema command you are using.
+1 - Execute the jar corresponding command, where SCHEMA_COMMAND is the documented schema command you are using.
 
 *Linux/Mac*  
 
 ```
-VERSION=4.0.0-SNAPSHOT
-java -jar ./fhir-persistence-schema-${VERSION}.jar SCHEMA_COMMAND
+java -jar ./fhir-persistence-schema.jar SCHEMA_COMMAND
 ```
 
 *Windows*
 
 ```
-set VERSION=4.0.0-SNAPSHOT
-java -jar ./fhir-persistence-schema-%VERSION%.jar SCHEMA_COMMAND
+java -jar ./fhir-persistence-schema.jar SCHEMA_COMMAND
 ```
 
 Note: the jar file is stored locally in `fhir-persistence-schema/target` or in the Artifactory repository for this project.
@@ -153,15 +151,13 @@ To manually apply the DDL to a Db2 instance:
 *Linux/Mac*  
 
 ```
-VERSION=4.0.0-SNAPSHOT
-java -cp ./fhir-persistence-schema-${VERSION}.jar com.ibm.fhir.schema.app.SchemaPrinter --to-file
+java -cp ./fhir-persistence-schema.jar com.ibm.fhir.schema.app.SchemaPrinter --to-file
 ```
 
 *Windows*
 
 ```
-set VERSION=4.0.0-SNAPSHOT
-java -cp ./fhir-persistence-schema-%VERSION%.jar com.ibm.fhir.schema.app.SchemaPrinter --to-file
+java -cp ./fhir-persistence-schema.jar com.ibm.fhir.schema.app.SchemaPrinter --to-file
 ```
 
 Note: the jar file is stored locally in `fhir-persistence-schema/target` or in the Artifactory repository for this project.
