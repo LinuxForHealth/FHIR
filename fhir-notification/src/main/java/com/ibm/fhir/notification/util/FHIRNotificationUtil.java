@@ -17,7 +17,6 @@ import javax.json.JsonReader;
 import javax.json.JsonReaderFactory;
 
 import com.ibm.fhir.exception.FHIRException;
-import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.JsonSupport;
 import com.ibm.fhir.notification.FHIRNotificationEvent;
 

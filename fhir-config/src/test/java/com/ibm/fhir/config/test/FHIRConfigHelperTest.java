@@ -22,7 +22,6 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.config.PropertyGroup;
 
 public class FHIRConfigHelperTest {
     
