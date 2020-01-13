@@ -74,6 +74,7 @@ import com.ibm.fhir.search.util.SearchUtil;
  * </pre>
  */
 public class FHIRSwaggerGenerator {
+    private static final String OUTDIR = "swagger";
     private static final JsonBuilderFactory factory = Json.createBuilderFactory(null);
     private static final Map<Class<?>, StructureDefinition> structureDefinitionMap = buildStructureDefinitionMap();
     private static boolean includeDeleteOperation = false;
@@ -81,10 +82,11 @@ public class FHIRSwaggerGenerator {
     public static final String RESOURCEPACKAGENAME = "com.ibm.fhir.model.resource";
 
     public static void main(String[] args) throws Exception {
-        File file = new File("./src/main/resources/swagger");
+        File file = new File(OUTDIR);
         if (!file.exists()) {
             file.mkdirs();
         }
+        System.out.println("Generating swagger definitions at " + file.getCanonicalPath());
 
         Filter filter = null;
         if (args.length == 1) {
@@ -169,7 +171,7 @@ public class FHIRSwaggerGenerator {
                 config.put(JsonGenerator.PRETTY_PRINTING, true);
                 JsonWriterFactory factory = Json.createWriterFactory(config);
 
-                File outFile = new File("./src/main/resources/swagger/" + resourceClassName + "-swagger.json");
+                File outFile = new File(OUTDIR + File.separator +  resourceClassName + "-swagger.json");
                 try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
                     writer.writeObject(swagger.build());
                 } catch (Exception e) {
@@ -231,7 +233,7 @@ public class FHIRSwaggerGenerator {
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory factory = Json.createWriterFactory(config);
 
-        File outFile = new File("./src/main/resources/swagger/metadata-swagger.json");
+        File outFile = new File(OUTDIR + File.separator + "metadata-swagger.json");
         try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
             writer.writeObject(swagger.build());
         } catch (Exception e) {
@@ -285,7 +287,7 @@ public class FHIRSwaggerGenerator {
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory factory = Json.createWriterFactory(config);
 
-        File outFile = new File("./src/main/resources/swagger/batch-swagger.json");
+        File outFile = new File(OUTDIR + File.separator + "batch-swagger.json");
         try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
             writer.writeObject(swagger.build());
         } catch (Exception e) {
