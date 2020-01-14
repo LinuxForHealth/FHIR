@@ -183,8 +183,8 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         // An important step here is to add _id and _lastUpdated
         // then add the regular bind variables.
         List<Object> allBindVariables = new ArrayList<>();
-        allBindVariables.addAll(idsObjects);
-        allBindVariables.addAll(lastUpdatedObjects);
+        allBindVariables.addAll(super.idsObjects);
+        allBindVariables.addAll(super.lastUpdatedObjects);
         this.addBindVariables(allBindVariables);
 
         buildWhereClause(queryString, null);
@@ -338,6 +338,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             // An important step here is to add _id and _lastUpdated
             bindVariables.addAll(this.idsObjects);
             bindVariables.addAll(this.lastUpdatedObjects);
+            this.addBindVariables(bindVariables);
 
             // Add WHERE clause for "root" resource type
             buildWhereClause(queryString, null);
@@ -348,8 +349,6 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
             this.addPaginationClauses(queryString);
 
             queryString.append(RIGHT_PAREN);
-
-            this.addBindVariables(bindVariables);
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -365,9 +364,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         final String METHODNAME = "getParameterNameId";
         log.entering(CLASSNAME, METHODNAME);
 
-        Integer parameterNameId;
-
-        parameterNameId = ParameterNamesCache.getParameterNameId(searchParameterName);
+        Integer parameterNameId = ParameterNamesCache.getParameterNameId(searchParameterName);
         if (parameterNameId == null) {
             parameterNameId = this.parameterDao.readParameterNameId(searchParameterName);
             if (parameterNameId != null) {
@@ -379,7 +376,6 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
 
         log.exiting(CLASSNAME, METHODNAME);
         return parameterNameId;
-
     }
 
     /**
@@ -395,6 +391,7 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         for (SqlQueryData querySegment : this.querySegments) {
             bindVariables.addAll(querySegment.getBindVariables());
         }
+
         log.exiting(CLASSNAME, METHODNAME);
     }
 }

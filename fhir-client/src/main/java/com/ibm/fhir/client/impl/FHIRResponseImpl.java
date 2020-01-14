@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -70,7 +70,7 @@ public class FHIRResponseImpl implements FHIRResponse {
     public Instant getLastModified() throws Exception {
         Instant lastModified = null;
         Date s = response.getLastModified();
-        
+
         if (s != null) {
             lastModified = s.toInstant();
         }
@@ -114,7 +114,7 @@ public class FHIRResponseImpl implements FHIRResponse {
         if (location == null) {
             throw new NullPointerException("The 'location' parameter was specified as null.");
         }
-        
+
         String[] tokens = location.split("/");
         // Check if we should expect 4 tokens or only 2.
         if (location.contains("_history")) {
@@ -137,7 +137,7 @@ public class FHIRResponseImpl implements FHIRResponse {
         }
         return result;
     }
-    
+
     /* (non-Javadoc)
      * @see com.ibm.fhir.client.FHIRResponse#isEmpty()
      */

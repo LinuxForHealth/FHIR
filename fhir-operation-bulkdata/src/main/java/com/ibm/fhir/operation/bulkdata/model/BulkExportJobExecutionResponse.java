@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,9 +32,9 @@ import com.ibm.fhir.exception.FHIROperationException;
  *
  * <pre>
  *  {
-   “jobName”: “BulkImportJob”,
+   “jobName”: “bulkexportchunkjob”,
    “instanceId”: 9,
-   “appName”: “fhir-bulkimportexport-webapp#fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war”,
+   “appName”: “fhir-bulkimportexport-webapp#fhir-bulkimportexport.war”,
    “submitter”: “fhiruser”,
    “batchStatus”: “STARTING”,
    “jobXMLName”: “FhirBulkExportChunkJob”,
@@ -160,84 +160,6 @@ public class BulkExportJobExecutionResponse {
         this.exitStatus = exitStatus;
     }
 
-    public static class JobParameter {
-
-        String fhirResourceType;
-        String fhirSearchFromDate;
-
-        String cosBucketName;
-        String cosLocation;
-        String cosEndpointUrl;
-        String cosCredentialIbm;
-        String cosApiKey;
-        String cosSrvInstId;
-
-        public String getFhirResourceType() {
-            return fhirResourceType;
-        }
-
-        public void setFhirResourceType(String fhirResourceType) {
-            this.fhirResourceType = fhirResourceType;
-        }
-
-        public String getFhirSearchFromDate() {
-            return fhirSearchFromDate;
-        }
-
-        public void setFhirSearchFromDate(String fhirSearchFromDate) {
-            this.fhirSearchFromDate = fhirSearchFromDate;
-        }
-
-        public String getCosBucketName() {
-            return cosBucketName;
-        }
-
-        public void setCosBucketName(String cosBucketName) {
-            this.cosBucketName = cosBucketName;
-        }
-
-        public String getCosLocation() {
-            return cosLocation;
-        }
-
-        public void setCosLocation(String cosLocation) {
-            this.cosLocation = cosLocation;
-        }
-
-        public String getCosEndpointUrl() {
-            return cosEndpointUrl;
-        }
-
-        public void setCosEndpointUrl(String cosEndpointUrl) {
-            this.cosEndpointUrl = cosEndpointUrl;
-        }
-
-        public String getCosCredentialIbm() {
-            return cosCredentialIbm;
-        }
-
-        public void setCosCredentialIbm(String cosCredentialIbm) {
-            this.cosCredentialIbm = cosCredentialIbm;
-        }
-
-        public String getCosApiKey() {
-            return cosApiKey;
-        }
-
-        public void setCosApiKey(String cosApiKey) {
-            this.cosApiKey = cosApiKey;
-        }
-
-        public String getCosSrvInstId() {
-            return cosSrvInstId;
-        }
-
-        public void setCosSrvInstId(String cosSrvInstId) {
-            this.cosSrvInstId = cosSrvInstId;
-        }
-
-    }
-
     /**
      * Link is a sub class reflecting the link to the parts of the Export Job.
      *
@@ -359,6 +281,21 @@ public class BulkExportJobExecutionResponse {
 
         public Builder cosSrvInstId(String cosSrvInstId) {
             jobParameter.setCosSrvInstId(cosSrvInstId);
+            return this;
+        }
+
+        public Builder cosBucketPathPrefix(String cosBucketPathPrefix) {
+            jobParameter.setCosBucketPathPrefix(cosBucketPathPrefix);
+            return this;
+        }
+
+        public Builder fhirTenant(String fhirTenant) {
+            jobParameter.setFhirTenant(fhirTenant);
+            return this;
+        }
+
+        public Builder fhirDataStoreId(String fhirDataStoreId) {
+            jobParameter.setFhirDataStoreId(fhirDataStoreId);
             return this;
         }
 
@@ -508,6 +445,21 @@ public class BulkExportJobExecutionResponse {
                     if (cosSrvinstId != null) {
                         builder.cosSrvInstId(cosSrvinstId);
                     }
+
+                    String fhirTenant = obj.getString("fhir.tenant");
+                    if (fhirTenant != null) {
+                        builder.fhirTenant(fhirTenant);
+                    }
+
+                    String fhirDataStoreId = obj.getString("fhir.datastoreid");
+                    if (fhirDataStoreId != null) {
+                        builder.fhirDataStoreId(fhirDataStoreId);
+                    }
+
+                    String cosBucketPathPrefix = obj.getString("cos.bucket.pathprefix");
+                    if (cosBucketPathPrefix != null) {
+                        builder.cosBucketPathPrefix(cosBucketPathPrefix);
+                    }
                 }
 
                 return builder.build();
@@ -620,6 +572,12 @@ public class BulkExportJobExecutionResponse {
                     if (withSensitive) {
                         if (parameter.getCosSrvInstId() != null) {
                             generator.write("cos.srvinst.id", parameter.getCosSrvInstId());
+                        }
+                    }
+
+                    if (withSensitive) {
+                        if (parameter.getCosBucketPathPrefix() != null) {
+                            generator.write("cos.bucket.pathprefix", parameter.getCosBucketPathPrefix());
                         }
                     }
 
