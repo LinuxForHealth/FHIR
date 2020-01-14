@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2020
+ * (C) Copyright IBM Corp. 2018, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -133,20 +133,21 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         final String METHODNAME = "buildCountQuery";
         log.entering(CLASSNAME, METHODNAME);
 
-        List<Object> allBindVariables = new ArrayList<>();
-
         StringBuilder queryString = new StringBuilder();
         queryString.append(SELECT_COUNT_ROOT);
         queryString.append(LEFT_PAREN);
         queryString.append(QuerySegmentAggregator.SELECT_ROOT);
         buildFromClause(queryString, resourceType.getSimpleName());
 
-        // An important step here is to add _id and _lastUpdated
+        // An important step here is to add _id and _lastUpdated and then
+        // the regular bind variables. 
+        List<Object> allBindVariables = new ArrayList<>();
         allBindVariables.addAll(idsObjects);
         allBindVariables.addAll(lastUpdatedObjects);
+        this.addBindVariables(allBindVariables);
 
+        // Add the Where Clause
         buildWhereClause(queryString, null);
-
         queryString.append(COMBINED_RESULTS);
 
         SqlQueryData queryData = new SqlQueryData(queryString.toString(), allBindVariables);
@@ -172,9 +173,6 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         final String METHODNAME = "buildQuery";
         log.entering(CLASSNAME, METHODNAME);
 
-        List<Object> allBindVariables = new ArrayList<>();
-        this.addBindVariables(allBindVariables);
-
         StringBuilder queryString = new StringBuilder();
         queryString.append(InclusionQuerySegmentAggregator.SELECT_ROOT).append(LEFT_PAREN);
         queryString.append(InclusionQuerySegmentAggregator.SELECT_ROOT).append(LEFT_PAREN);
@@ -183,8 +181,11 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         buildFromClause(queryString, resourceType.getSimpleName());
 
         // An important step here is to add _id and _lastUpdated
+        // then add the regular bind variables.
+        List<Object> allBindVariables = new ArrayList<>();
         allBindVariables.addAll(idsObjects);
         allBindVariables.addAll(lastUpdatedObjects);
+        this.addBindVariables(allBindVariables);
 
         buildWhereClause(queryString, null);
 
