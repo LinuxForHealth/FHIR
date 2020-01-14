@@ -69,13 +69,18 @@ import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Markdown;
+import com.ibm.fhir.model.type.MarketingStatus;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Money;
 import com.ibm.fhir.model.type.MoneyQuantity;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Oid;
 import com.ibm.fhir.model.type.ParameterDefinition;
 import com.ibm.fhir.model.type.Period;
+import com.ibm.fhir.model.type.Population;
 import com.ibm.fhir.model.type.PositiveInt;
+import com.ibm.fhir.model.type.ProdCharacteristic;
+import com.ibm.fhir.model.type.ProductShelfLife;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.Ratio;
@@ -84,6 +89,7 @@ import com.ibm.fhir.model.type.RelatedArtifact;
 import com.ibm.fhir.model.type.SampledData;
 import com.ibm.fhir.model.type.Signature;
 import com.ibm.fhir.model.type.SimpleQuantity;
+import com.ibm.fhir.model.type.SubstanceAmount;
 import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.TriggerDefinition;
@@ -153,7 +159,8 @@ public final class ModelSupport {
         RelatedArtifact.class, 
         TriggerDefinition.class, 
         UsageContext.class, 
-        Dosage.class));
+        Dosage.class, 
+        Meta.class));
     private static final Set<Class<? extends Element>> DATA_TYPES;
     static {
         // LinkedHashSet is used just to preserve the order, for convenience only
@@ -162,6 +169,11 @@ public final class ModelSupport {
         dataTypes.add(Narrative.class);
         dataTypes.add(Extension.class);
         dataTypes.add(ElementDefinition.class);
+        dataTypes.add(MarketingStatus.class);
+        dataTypes.add(Population.class);
+        dataTypes.add(ProductShelfLife.class);
+        dataTypes.add(ProdCharacteristic.class);
+        dataTypes.add(SubstanceAmount.class);
         DATA_TYPES = Collections.unmodifiableSet(dataTypes);
     }
     private static final Set<String> KEYWORDS = new HashSet<>(Arrays.asList(

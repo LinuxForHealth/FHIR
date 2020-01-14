@@ -48,6 +48,18 @@
             <groupId>com.ibm.db2</groupId>
             <artifactId>jcc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-persistence-schema</artifactId>
+            <version>${project.version}</version>
+            <classifier>cli</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-swagger-generator</artifactId>
+            <version>${project.version}</version>
+            <classifier>cli</classifier>
+        </dependency>
     </dependencies>
 
     <build>
