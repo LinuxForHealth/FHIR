@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.operation.FHIROperation;
 import com.ibm.fhir.operation.exception.FHIROperationNotFoundException;
 import com.ibm.fhir.validation.FHIRValidator;
@@ -46,7 +47,20 @@ public class FHIROperationRegistry {
                     log.severe("Operation $" + operationName + " has failed validation and will be skipped.");
                     continue;
                 }
-                operationMap.put(operation.getName(), operation);
+                List<ResourceType> operationResourceTypes = operation.getDefinition().getResource();
+                if (operationResourceTypes == null || operationResourceTypes.isEmpty()) {
+                    if (operationMap.putIfAbsent(operation.getName(), operation) != null) {
+                        throw new IllegalStateException("Found duplicated operation name: " + operation.getName());
+                    }
+                } else {
+                    for (ResourceType operationResourceType : operationResourceTypes) {
+                        if (operationMap.putIfAbsent(operation.getName() + ":" + operationResourceType.getValue(), operation)
+                                != null) {
+                            throw new IllegalStateException("Found duplicated operation name plus resource type: "
+                                + operation.getName() + "-" + operationResourceType.getValue());
+                        }
+                    }
+                }
             } catch (ServiceConfigurationError | FHIRValidationException e) {
                 log.log(Level.SEVERE, "Unable to validate operation $" + operationName + ". This operation will be skipped.", e);
             }
@@ -62,9 +76,9 @@ public class FHIROperationRegistry {
         List<Issue> issues = FHIRValidator.validator().validate(operation.getDefinition());
         if (!issues.isEmpty()) {
             for (Issue issue : issues) {
-                log.info("Issue: " + issue.getCode().getValue() + ":" 
+                log.info("Issue: " + issue.getCode().getValue() + ":"
             + issue.getSeverity().getValue() + ":" + issue.getDetails().getText().getValue());
-                if (issue.getSeverity().equals(IssueSeverity.ERROR) 
+                if (issue.getSeverity().equals(IssueSeverity.ERROR)
                         || issue.getSeverity().equals(IssueSeverity.FATAL)) {
                     return false;
                 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2020
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -2354,9 +2354,10 @@ public class FHIRResource implements FHIRResourceHelpers {
             if (resourceTypeName != null) {
                 resourceType = getResourceType(resourceTypeName);
             }
+            String operationKey = (resourceTypeName == null? operationName : operationName + ":" + resourceTypeName);
 
             FHIROperation operation =
-                    FHIROperationRegistry.getInstance().getOperation(operationName);
+                    FHIROperationRegistry.getInstance().getOperation(operationKey);
             Parameters parameters = null;
             if (resource instanceof Parameters) {
                 parameters = (Parameters) resource;
