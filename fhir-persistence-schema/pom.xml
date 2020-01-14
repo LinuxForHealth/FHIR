@@ -12,10 +12,6 @@
         <relativePath>../fhir-parent</relativePath>
     </parent>
 
-    <properties>
-        <uberjar.name>fhir-persistence-schema</uberjar.name>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -84,7 +80,8 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <finalName>${uberjar.name}</finalName>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>cli</shadedClassifierName>
                             <transformers>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
