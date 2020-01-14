@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019,2020
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,15 +28,12 @@ import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
 
 /**
- * Creates an Export of FHIR Data to NDJSON format
+ * Creates an System Export of FHIR Data to NDJSON format
  *
- * @link https://build.fhir.org/ig/HL7/bulk-data/OperationDefinition-export.html At the time of building this...
- *       BulkDataAccess IG: STU1
+ * @link https://hl7.org/Fhir/uv/bulkdata/OperationDefinition-export.html At the time of building this...
+ *       BulkDataAccess V1.0.0: STU1
  *
- * These three operation definitions are for <code>$export</code>:
- * @link export https://build.fhir.org/ig/HL7/bulk-data/OperationDefinition-export.json.html
- * @link patient-export https://build.fhir.org/ig/HL7/bulk-data/OperationDefinition-patient-export.json.html
- * @link group-export https://build.fhir.org/ig/HL7/bulk-data/OperationDefinition-group-export.json.html
+ * system export operation definition for <code>$export</code>:
  *
  */
 public class ExportOperation extends AbstractOperation {

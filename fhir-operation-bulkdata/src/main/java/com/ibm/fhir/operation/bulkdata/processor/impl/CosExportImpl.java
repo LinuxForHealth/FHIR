@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -123,7 +123,7 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
         }
     }
 
-    // The following operations are not yet implemented.
+    // Patient export
 
     @Override
     public Parameters exportPatient(String logicalId, MediaType outputFormat, Instant since,
@@ -163,7 +163,7 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
         }
     }
 
-
+    // not implemented yet
     @Override
     public Parameters exportGroup(String logicalId, MediaType outputFormat, Instant since,
         List<String> types, List<String> typeFilters, FHIRRequestContext ctx,

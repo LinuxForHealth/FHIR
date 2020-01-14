@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,10 +27,6 @@ import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.util.FHIROperationUtil;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
 
-/**
- * @author pbastide
- *
- */
 public class DummyImportExportImpl implements ExportBulkData, ImportBulkData {
 
     /*

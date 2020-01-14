@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,7 +20,7 @@ import com.ibm.fhir.rest.FHIRResourceHelpers;
 /**
  * Bulkdata Import Signature to match @link http://hl7.org/fhir/uv/bulkdata/export/index.html
  *
- * Each implmeentation is responsible for write the three possible outcomes.
+ * Each implmentation is responsible for write the three possible outcomes.
  *
  * <li>In-Progress (202 Accepted)</li>
  * <li>Error (500 Server Error)</li>
@@ -62,6 +62,8 @@ public interface ExportBulkData {
      * @param typeFilters
      * @param ctx
      * @param resourceHelper
+     * @param operationContext
+     * @param BulkDataTenantSpecificCache
      * @return
      *
      * @throws FHIROperationException
@@ -84,6 +86,8 @@ public interface ExportBulkData {
      * @param typeFilters
      * @param ctx
      * @param resourceHelper
+     * @param operationContext
+     * @param BulkDataTenantSpecificCache
      * @return
      *
      * @throws FHIROperationException
