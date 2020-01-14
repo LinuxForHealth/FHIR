@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -104,6 +104,29 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         List<String> savedLastUpdated = Collections.singletonList(dateTime);
         queryParms.put("_id", savedId);
         queryParms.put("_lastUpdated", savedLastUpdated);
+
+        if (DEBUG) {
+            generateOutput(savedResource);
+        }
+
+        List<Resource> resources = runQueryTest(Resource.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test
+    public void testSearchAllUsingIdAndLastUpdatedWithSort() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        List<String> savedId = Collections.singletonList(savedResource.getId());
+
+        String dateTime = savedResource.getMeta().getLastUpdated().getValue().toString();
+        List<String> savedLastUpdated = Collections.singletonList(dateTime);
+        queryParms.put("_id", savedId);
+        queryParms.put("_lastUpdated", savedLastUpdated);
+
+        // Sort id and then lastUpdated
+        queryParms.put("_sort", Collections.singletonList("_id,-_lastUpdated"));
 
         if (DEBUG) {
             generateOutput(savedResource);

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,6 @@ import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.search.test.AbstractSearchDateTest;
 
 public class JDBCSearchDateTest extends AbstractSearchDateTest {
-
     private Properties testProps;
 
     public JDBCSearchDateTest() throws Exception {

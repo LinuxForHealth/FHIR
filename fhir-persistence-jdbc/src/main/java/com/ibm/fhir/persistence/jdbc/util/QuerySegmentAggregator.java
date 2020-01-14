@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -328,8 +328,7 @@ public class QuerySegmentAggregator {
          * ( SELECT * FROM BASIC_LOGICAL_RESOURCES ILR WHERE ILR.LOGICAL_ID IN ( ? ? ))
          * </pre>
          */
-        
-        // TODO: Optimize
+
         if (!queryParamIds.isEmpty()) {
             // ID, then special handling. 
             fromClause.append("( SELECT LOGICAL_ID, LOGICAL_RESOURCE_ID, CURRENT_RESOURCE_ID FROM ");
