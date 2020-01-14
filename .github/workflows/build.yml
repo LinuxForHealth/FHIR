@@ -177,10 +177,7 @@ jobs:
       shell: powershell
       run: |
         & build/pre-integration-test.ps1
-        & mvn -B test -DskipTests=false -f .\fhir-server-test\pom.xml -DskipWebSocketTest=true --no-transfer-progress
-    - name: shutdown the fhir-server 
-      shell: powershell
-      run: |
+        & build/tests.ps1
         & build/post-integration-test.ps1
     - name: Gather error logs
       shell: powershell
