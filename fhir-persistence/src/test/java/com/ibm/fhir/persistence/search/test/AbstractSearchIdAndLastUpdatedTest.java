@@ -14,7 +14,6 @@ import static org.testng.Assert.fail;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.time.ZoneId;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +35,7 @@ import com.ibm.fhir.model.test.TestUtil;
  * - _id and _lastUpdated</a> Tests
  */
 public abstract class AbstractSearchIdAndLastUpdatedTest extends AbstractPLSearchTest {
-    private Boolean DEBUG = Boolean.TRUE;
+    private Boolean DEBUG = Boolean.FALSE;
 
     protected Basic getBasicResource() throws Exception {
         return TestUtil.readExampleResource("json/ibm/basic/BasicDate.json");
@@ -48,7 +47,6 @@ public abstract class AbstractSearchIdAndLastUpdatedTest extends AbstractPLSearc
         // this might deserve its own method, but just use setTenant for now 
         // since its called before creating any resources
         TimeZone.setDefault(TimeZone.getTimeZone("GMT-4:00"));
-        System.out.println(ZoneId.systemDefault());
     }
 
     @Test
@@ -147,7 +145,6 @@ public abstract class AbstractSearchIdAndLastUpdatedTest extends AbstractPLSearc
         } catch (FHIRGeneratorException e) {
             fail("unable to generate the fhir resource to JSON", e);
         } catch (IOException e1) {
-            e1.printStackTrace();
             fail("unable to generate the fhir resource to JSON (io problem) ", e1);
         }
     }
