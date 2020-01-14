@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.search.test;
 
 import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
+import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -27,8 +28,20 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Basic;
+import com.ibm.fhir.model.resource.Device;
+import com.ibm.fhir.model.resource.Encounter;
+import com.ibm.fhir.model.resource.Observation;
+import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Practitioner;
+import com.ibm.fhir.model.resource.RelatedPerson;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.persistence.MultiResourceResult;
+import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.fhir.search.context.FHIRSearchContext;
+import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * <a href="https://hl7.org/fhir/search.html#date">FHIR Specification: Search
@@ -39,6 +52,16 @@ public abstract class AbstractSearchIdAndLastUpdatedTest extends AbstractPLSearc
 
     protected Basic getBasicResource() throws Exception {
         return TestUtil.readExampleResource("json/ibm/basic/BasicDate.json");
+    }
+
+    private Reference buildReference(Resource resource) {
+        assertNotNull(resource);
+        assertNotNull(resource.getId());
+
+        String resourceTypeName = FHIRUtil.getResourceTypeName(resource);
+        return Reference.builder()
+                .reference(string(resourceTypeName + "/" + resource.getId()))
+                .build();
     }
 
     protected void setTenant() throws Exception {
@@ -156,6 +179,81 @@ public abstract class AbstractSearchIdAndLastUpdatedTest extends AbstractPLSearc
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
         assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test
+    public void testSearchWholeSystemUsingLastUpdatedResourceWithSortGreaterThanEquals() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+
+        String dateTime = savedResource.getMeta().getLastUpdated().getValue().toString();
+        List<String> savedLastUpdated = Collections.singletonList("ge" + dateTime);
+        queryParms.put("_lastUpdated", savedLastUpdated);
+
+        // Sort id and then lastUpdated
+        queryParms.put("_sort", Collections.singletonList("-_lastUpdated"));
+
+        if (DEBUG) {
+            generateOutput(savedResource);
+        }
+
+        List<Resource> resources = runQueryTest(Basic.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test()
+    public void testPatientCompartmentForBulkData() throws Exception {
+
+        Patient savedPatient;
+        Device savedDevice;
+        Encounter savedEncounter;
+        Practitioner savedPractitioner;
+        RelatedPerson savedRelatedPerson;
+        Observation savedObservation;
+
+        Observation.Builder observationBuilder =
+                ((Observation) TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json")).toBuilder();
+
+        Patient patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
+        savedPatient = persistence.create(getDefaultPersistenceContext(), patient).getResource();
+        observationBuilder.subject(buildReference(savedPatient));
+        observationBuilder.performer(buildReference(savedPatient));
+
+        Device device = TestUtil.readExampleResource("json/ibm/minimal/Device-1.json");
+        savedDevice = persistence.create(getDefaultPersistenceContext(), device).getResource();
+        observationBuilder.device(buildReference(savedDevice));
+
+        Encounter encounter = TestUtil.readExampleResource("json/ibm/minimal/Encounter-1.json");
+        savedEncounter = persistence.create(getDefaultPersistenceContext(), encounter).getResource();
+        observationBuilder.encounter(buildReference(savedEncounter));
+
+        Practitioner practitioner = TestUtil.readExampleResource("json/ibm/minimal/Practitioner-1.json");
+        savedPractitioner = persistence.create(getDefaultPersistenceContext(), practitioner).getResource();
+        observationBuilder.performer(buildReference(savedPractitioner));
+
+        RelatedPerson relatedPerson = TestUtil.readExampleResource("json/ibm/minimal/RelatedPerson-1.json");
+        savedRelatedPerson = persistence.create(getDefaultPersistenceContext(), relatedPerson).getResource();
+        observationBuilder.performer(buildReference(savedRelatedPerson));
+
+        savedObservation = persistence.create(getDefaultPersistenceContext(), observationBuilder.build()).getResource();
+        assertNotNull(savedObservation);
+        assertNotNull(savedObservation.getId());
+        assertNotNull(savedObservation.getMeta());
+        assertNotNull(savedObservation.getMeta().getVersionId().getValue());
+        assertEquals("1", savedObservation.getMeta().getVersionId().getValue());
+
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>(2);
+        String parmName = "_lastUpdated";
+        queryParms.put(parmName, Collections.singletonList("ge2000"));
+        queryParms.put("_sort", Collections.singletonList("_id"));
+
+        FHIRSearchContext searchContext =
+                SearchUtil.parseQueryParameters("Patient", savedPatient.getId(), Observation.class, queryParms, null);
+        FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
+        MultiResourceResult<Resource> result = persistence.search(persistenceContext, Observation.class);
+        assertNotNull(result.getResource());
+        assertTrue(result.getResource().size() > 0);
     }
 
     /*
