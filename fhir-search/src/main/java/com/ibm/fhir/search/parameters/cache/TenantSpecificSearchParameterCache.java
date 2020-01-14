@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,27 +47,18 @@ public class TenantSpecificSearchParameterCache extends TenantSpecificFileBasedC
         super(CACHE_NAME);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.core.TenantSpecificFileBasedCache#getCacheEntryFilename(java.lang.String)
-     */
     @Override
     public String getCacheEntryFilename(String tenantId) {
         return FHIRConfiguration.getConfigHome() + FHIRConfiguration.CONFIG_LOCATION + File.separator + tenantId + File.separator + SP_FILE_BASENAME_JSON;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.core.TenantSpecificFileBasedCache#createCachedObject(java.lang.String)
-     */
     @Override
     public Map<String, ParametersMap> createCachedObject(File f) throws Exception {
-        try {
-            // Added logging to help diagnose issues while loading the files.
-            if (log.isLoggable(Level.FINE)) {
-                log.fine(String.format(LOG_FILE_LOAD, f.toURI()));
-            }
-            Reader reader = new FileReader(f);
+        // Added logging to help diagnose issues while loading the files.
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(String.format(LOG_FILE_LOAD, f.toURI()));
+        }
+        try (Reader reader = new FileReader(f);) {
             Bundle bundle = FHIRParser.parser(Format.JSON).parse(reader);
             return ParametersUtil.buildSearchParametersMapFromBundle(bundle);
         } catch (Throwable t) {

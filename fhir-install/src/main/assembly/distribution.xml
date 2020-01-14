@@ -76,7 +76,11 @@
             <directoryMode>0755</directoryMode>
             <fileMode>0755</fileMode>
             <includes>
-                <include>${project.groupId}:fhir-persistence-proxy:*</include>
+                <include>${project.groupId}:fhir-persistence-proxy</include>
+                <!-- We shouldn't need to list these, but we found that (under certain circumstances)
+                  fhir-core was missing when it wasn't explicitly listed here -->
+                <include>${project.groupId}:fhir-core</include>
+                <include>${project.groupId}:fhir-config</include>
             </includes>
         </dependencySet>
         <dependencySet>
@@ -85,8 +89,8 @@
             <directoryMode>0755</directoryMode>
             <fileMode>0755</fileMode>
             <includes>
-                <include>org.apache.derby:derbyclient:*</include>
-                <include>org.apache.derby:derby:*</include>
+                <include>org.apache.derby:derbyclient</include>
+                <include>org.apache.derby:derby</include>
             </includes>
         </dependencySet>
         <dependencySet>
@@ -95,7 +99,17 @@
             <directoryMode>0755</directoryMode>
             <fileMode>0755</fileMode>
             <includes>
-                <include>com.ibm.db2:jcc:*</include>
+                <include>com.ibm.db2:jcc</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>fhir/server/fhir</outputDirectory>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>com.ibm.fhir:fhir-persistence-schema:cli</include>
+                <include>com.ibm.fhir:fhir-swagger-generator:cli</include>
             </includes>
         </dependencySet>
     </dependencySets>

@@ -1,24 +1,42 @@
 # FHIR Swagger Generator
 
-This module provides classes for generating Swagger and/or OpenAPI definitions for the FHIR HTTP interface.
-
+This module provides classes for generating Swagger and OpenAPI definitions for the FHIR HTTP interface.
 It uses a combination of the HL7-provided specification artifacts and the generated java classes from `fhir-model`.
 
-## Usage
+This module is built into two different jar files. The executable command line interface (cli) version of this jar packages this module with all of its dependencies and is included in the IBM FHIR Server distribution zip.
+Alternatively, this jar can be downloaded directly from [JFrog Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases/fhir-persistence-schema#files/com/ibm/fhir/fhir-persistence-schema) or built locally to `fhir-swagger-generator/target`.
 
-Both the FHIRSwaggerGenerator and the FHIROpenApiGenerator are designed to generate one interface definition (swagger 2.0 or openapi 3.0) per resource type.
-The main driver for this approach is the assumption that most users of FHIR will be focused on a specific subset of the FHIR Resources. By default, the FHIRSwagger generates these files at `src/main/resources/swagger` whereas the OpenApiGenerator places them at `src/main/resources/openapi`. 
+## Execute the fhir-swagger-generator command line interface (CLI)
+
+The fhir-swagger-generator project builds into an executable jar file that includes all of its dependencies.
+By default, the jar executes the FHIROpenApiGenerator main method, which generates OpenAPI 3.0 definitions for each FHIR resource type.
+For example, for the 4.0.0 release, execute:
+
+```
+java -jar fhir-swagger-generator-4.0.0-cli.jar
+```
+
+To limit the number of resource types included in the outputs, pass a list of semicolon-delimited filter strings as program arguments.
+
+For example, to generate definitions for `read, vread, and history` on the Patient API, `create, read, vread, history, and search` on the Contract API, and `read` on the RiskAssessment API, invoke the generator with the following argument: 
+
+```
+java -jar fhir-swagger-generator-4.0.0-cli.jar "Patient(read,vread,history);Contract(create,read,vread,history,search);RiskAssessment(read)"
+```
+
+To generate Swagger 2.0 definitions instead, execute the com.ibm.fhir.swagger.generator.FHIRSwaggerGenerator class:
+
+```
+java -cp fhir-swagger-generator-4.0.0-cli.jar com.ibm.fhir.swagger.generator.FHIRSwaggerGenerator [OPTIONAL FILTER]
+```
+
+## Output
+
+Both the FHIRSwaggerGenerator and the FHIROpenApiGenerator are designed to generate one interface definition per resource type.
+This allows users to mix and match the APIs which they want to expose from API management tools like IBM API Connect.
+The FHIRSwagger generates these files at `./swagger/` whereas the OpenApiGenerator places them at `./openapi/`. 
 
 Additionally, the FHIROpenApiGenerator will generate an "all-in-one" definition called all-openapi.json. This is the version of the OpenAPI definition that we ship with our server via the `fhir-openapi` project (e.g. see `fhir-openapi/src/main/webapp/META-INF/openapi.json`).
-
-To limit the number of resource types included in the output directories (and in the all-in-one mentioned above), you may pass a set of semicolon-delimited 
-filter strings as program arguments.
-
-For example, to generate definitions for `read, vread, and history` on the Patient API, `create, read, vread, history, and search` on the Contract API, and `read` on the RiskAssessment API (and no other output), you would invoke the generator with the following argument: 
-
-```
-Patient(read,vread,history);Contract(create,read,vread,history,search);RiskAssessment(read)
-```
 
 ## Design decisions
 
