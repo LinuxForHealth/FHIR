@@ -8,13 +8,13 @@ It uses a combination of the HL7-provided specification artifacts and the genera
 
 The fhir-swagger-generator project builds into an executable jar file that includes all of its dependencies.
 By default, the jar executes the FHIROpenApiGenerator main method, which generates OpenAPI 3.0 definitions for each FHIR resource type.
-For example:
+For example, for the 4.0.0 release, execute:
 
 ```
 java -jar fhir-swagger-generator-4.0.0.jar
 ```
 
-To limit the number of resource types included in the output directories (and in the all-in-one mentioned above), you may pass a set of semicolon-delimited filter strings as program arguments.
+To limit the number of resource types included in the outputs, pass a list of semicolon-delimited filter strings as program arguments.
 
 For example, to generate definitions for `read, vread, and history` on the Patient API, `create, read, vread, history, and search` on the Contract API, and `read` on the RiskAssessment API, invoke the generator with the following argument: 
 
@@ -22,10 +22,10 @@ For example, to generate definitions for `read, vread, and history` on the Patie
 java -jar fhir-swagger-generator-4.0.0.jar "Patient(read,vread,history);Contract(create,read,vread,history,search);RiskAssessment(read)"
 ```
 
-To generate Swagger 2.0 definitions instead, specify the com.ibm.fhir.swagger.generator.FHIRSwaggerGenerator class instead:
+To generate Swagger 2.0 definitions instead, execute the com.ibm.fhir.swagger.generator.FHIRSwaggerGenerator class:
 
 ```
-java -cp fhir-swagger-generator-4.0.0-SNAPSHOT.jar com.ibm.fhir.swagger.generator.FHIRSwaggerGenerator [OPTIONAL FILTER]
+java -cp fhir-swagger-generator-4.0.0.jar com.ibm.fhir.swagger.generator.FHIRSwaggerGenerator [OPTIONAL FILTER]
 ```
 
 ## Output

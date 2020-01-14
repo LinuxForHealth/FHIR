@@ -414,7 +414,7 @@ public class FHIROpenApiGenerator {
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory factory = Json.createWriterFactory(config);
         
-        File outFile = new File(OUTDIR + File.separator + "metadata-swagger.json");
+        File outFile = new File(OUTDIR + File.separator + "metadata-openapi.json");
         try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
             writer.writeObject(swagger.build());
         } catch (Exception e) {
@@ -466,7 +466,7 @@ public class FHIROpenApiGenerator {
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory factory = Json.createWriterFactory(config);
         
-        File outFile = new File(OUTDIR + File.separator + "batch-swagger.json");
+        File outFile = new File(OUTDIR + File.separator + "batch-openapi.json");
         try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
             writer.writeObject(swagger.build());
         } catch (Exception e) {
@@ -1423,6 +1423,11 @@ public class FHIROpenApiGenerator {
         Set<Class<? extends Element>> allTypes = ModelSupport.getDataTypes();
 
         List<String> toAddTypesList = new ArrayList<String>();
+        
+        // Explicitly add the abstract supertypes
+        toAddTypesList.add("Element");
+        toAddTypesList.add("BackboneElement");
+        
         for (Class<? extends Element> resourceTypeClass : allTypes) {
             String typeName = resourceTypeClass.getSimpleName();
             toAddTypesList.add(typeName);
