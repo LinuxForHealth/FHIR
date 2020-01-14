@@ -29,7 +29,8 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
 public class FHIROperationRegistry {
     private final Logger log = Logger.getLogger(FHIROperationRegistry.class.getName());
     private static final FHIROperationRegistry INSTANCE = new FHIROperationRegistry();
-
+    // Key format: operation name[:resource type]
+    // Sample keys: validate:Resource, export:Patient, export
     private Map<String, FHIROperation> operationMap = null;
 
     private FHIROperationRegistry() {

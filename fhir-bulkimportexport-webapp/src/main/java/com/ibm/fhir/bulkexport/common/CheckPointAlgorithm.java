@@ -86,7 +86,7 @@ public class CheckPointAlgorithm implements CheckpointAlgorithm {
                 if (cosBucketMaxFileSize != null) {
                     try {
                         cosMaxFileSize = Integer.parseInt(cosBucketMaxFileSize);
-                        logger.info("isReadyToCheckpoint: Set max COS file size to " + cosMaxFileSize + ".");
+                        logger.fine("isReadyToCheckpoint: Set max COS file size to " + cosMaxFileSize + ".");
                     } catch (Exception e) {
                         cosMaxFileSize = Constants.DEFAULT_MAXCOSFILE_SIZE;
                         logger.warning("isReadyToCheckpoint: Set max COS file size to default("
@@ -98,7 +98,7 @@ public class CheckPointAlgorithm implements CheckpointAlgorithm {
                     if (pagesPerCosObject != null) {
                         try {
                             numofPagePerCosObject = Integer.parseInt(pagesPerCosObject);
-                            logger.info("isReadyToCheckpoint: " + numofPagePerCosObject + " pages per COS object!");
+                            logger.fine("isReadyToCheckpoint: " + numofPagePerCosObject + " pages per COS object!");
                         } catch (Exception e) {
                             numofPagePerCosObject = Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT;
                             logger.warning("isReadyToCheckpoint: Set number of pages per COS object to default("

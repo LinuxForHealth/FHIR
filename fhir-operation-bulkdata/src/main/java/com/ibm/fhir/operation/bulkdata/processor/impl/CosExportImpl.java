@@ -132,7 +132,7 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
         BulkDataTenantSpecificCache cache) throws FHIROperationException{
 
         try {
-            log.info("Using the COS Implementation");
+            log.fine("Using the COS Implementation");
 
             Map<String, String> properties =
                     cache.getCachedObjectForTenant(FHIRConfiguration.DEFAULT_TENANT_ID);
@@ -157,8 +157,6 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception e) {
-            // Need to printStackTrace for debugging (eventually we'll shove into logger with debug/fine/finest)
-            e.printStackTrace();
             throw new FHIROperationException("", e);
         }
     }

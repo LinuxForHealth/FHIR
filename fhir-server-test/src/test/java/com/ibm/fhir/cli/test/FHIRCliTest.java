@@ -10,6 +10,7 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.PrintStream;
 import java.time.LocalDate;
@@ -320,11 +321,11 @@ public class FHIRCliTest extends FHIRServerTestBase {
     }
 
     private static String dirPrefix(String fname) {
-        return dirPrefix + "/" + fname;
+        return dirPrefix + File.separator + fname;
     }
 
     private static String testData(String fname) {
-        return dirPrefix("testdata"+ "/" + fname);
+        return dirPrefix("testdata"+ File.separator + fname);
     }
 
     private static String propsFile() {

@@ -120,13 +120,11 @@ public class ChunkReader extends AbstractItemReader {
                 if (res == null) {
                     continue;
                 }
-
                 Patient patient = (Patient) res;
                 Map<String, List<String>> queryParameters = new HashMap<>();
-
-                List<String> searchCreterial = new ArrayList<String>();
-
+                List<String> searchCreterial = new ArrayList<>();
                 if (fhirSearchFromDate != null) {
+                    // https://www.hl7.org/fhir/r4/search.html#prefix
                     searchCreterial.add("ge" + fhirSearchFromDate);
                 }
                 if (fhirSearchToDate != null) {
@@ -186,9 +184,6 @@ public class ChunkReader extends AbstractItemReader {
 
     }
 
-    /**
-     * @see AbstractItemReader#readItem()
-     */
     @Override
     public Object readItem() throws Exception {
         List <String> allCompartmentResourceTypes = CompartmentUtil.getCompartmentResourceTypes("Patient");

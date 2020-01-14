@@ -25,7 +25,6 @@ import com.ibm.fhir.operation.bulkdata.processor.impl.DummyImportExportImpl;
  *
  */
 public class BulkDataFactory {
-
     private static final String CLASSNAME = BulkDataFactory.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
 

@@ -2354,7 +2354,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             if (resourceTypeName != null) {
                 resourceType = getResourceType(resourceTypeName);
             }
-            String operationKey = (resourceTypeName == null? operationName : operationName + ":" + resourceTypeName);
+            String operationKey = (resourceTypeName == null ? operationName : operationName + ":" + resourceTypeName);
 
             FHIROperation operation =
                     FHIROperationRegistry.getInstance().getOperation(operationKey);
@@ -4227,9 +4227,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         Object o = operationContext.getProperty(FHIROperationContext.PROPNAME_STATUS_TYPE);
         if(o != null) {
             status = (Response.Status) o;
-
-
-            if (Response.Status.ACCEPTED.compareTo(status)==0) {
+            if (Response.Status.ACCEPTED.equals(status)) {
                 // This change is for BulkData operations which manipulate the response code.
                 // Operations that return Accepted need to implement their own approach.
                 Object ox = operationContext.getProperty(FHIROperationContext.PROPNAME_RESPONSE);

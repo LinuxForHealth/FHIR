@@ -81,11 +81,8 @@ public class BulkExportJobRestTest {
 
         try(InputStream in = new ByteArrayInputStream(testStr.getBytes())){
             BulkExportJobInstanceResponse parsedObj = BulkExportJobInstanceResponse.Parser.parse(in);
-
             String str = BulkExportJobInstanceResponse.Writer.generate(parsedObj);
             JSONAssert.assertEquals(testStr, str, false);
-
-            System.out.println(str);
         } catch(Exception e) {
             fail("failed to parse", e);
         }
@@ -116,12 +113,9 @@ public class BulkExportJobRestTest {
 
         try(InputStream in = new ByteArrayInputStream(jsonString.getBytes())){
             BulkExportJobInstanceRequest parsedObj = BulkExportJobInstanceRequest.Parser.parse(in);
-
             String str = BulkExportJobInstanceRequest.Writer.generate(parsedObj, true);
-
             JSONAssert.assertEquals(jsonString, str, false);
         } catch(Exception e) {
-            e.printStackTrace();
             fail("failed to parse", e);
         }
     }
@@ -200,8 +194,6 @@ public class BulkExportJobRestTest {
 
             String str = BulkExportJobInstanceResponse.Writer.generate(parsedObj);
             JSONAssert.assertEquals(jsonString, str, false);
-
-            System.out.println(str);
         } catch(Exception e) {
             fail("failed to parse", e);
         }

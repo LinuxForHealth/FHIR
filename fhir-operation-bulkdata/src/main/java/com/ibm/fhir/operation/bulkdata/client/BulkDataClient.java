@@ -315,7 +315,7 @@ public class BulkDataClient {
         if (!exitStatus.contentEquals("COMPLETED")) {
             List<String> ResourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
 
-            List< PollingLocationResponse.Output> outPutList = new ArrayList< PollingLocationResponse.Output>();
+            List< PollingLocationResponse.Output> outPutList = new ArrayList<>();
             for (String resourceTypeInf: ResourceTypeInfs) {
                 String resourceType = resourceTypeInf.substring(0, resourceTypeInf.indexOf("["));
                 String resourceCounts[] = resourceTypeInf.substring(resourceTypeInf.indexOf("[")+1, resourceTypeInf.indexOf("]"))
