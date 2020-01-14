@@ -63,8 +63,7 @@ public class FHIROperationRegistry {
                     // Then check if there is already operation defined for the required resource types.
                     for (ResourceType operationResourceType : operationResourceTypes) {
                         tmpKey = operation.getName() + ":" + operationResourceType.getValue();
-                        if (operationMap.putIfAbsent(tmpKey, operation)
-                                != null) {
+                        if (operationMap.putIfAbsent(tmpKey, operation) != null) {
                             throw new IllegalStateException("Found duplicated operation name plus resource type: "
                                 + operation.getName() + "-" + operationResourceType.getValue()
                                 + "; Conflict Operations: " + operation.getDefinition().getName()
@@ -113,8 +112,8 @@ public class FHIROperationRegistry {
     public FHIROperation getOperation(String name) throws FHIROperationException {
         FHIROperation operation = operationMap.get(name);
         if (operation == null) {
-            // Check if there is an operation definened for all resource types.
-            operation = operationMap.get(name.split(":")[0] + "Resource");
+            // Check if there is an operation defined for all resource types.
+            operation = operationMap.get(name.split(":")[0] + ":" + "Resource");
             if (operation == null) {
                 throw new FHIROperationNotFoundException("Operation with name: '" + name + "' was not found");
             }
