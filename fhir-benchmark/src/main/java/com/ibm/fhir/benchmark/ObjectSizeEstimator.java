@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,7 @@ import com.ibm.fhir.model.visitor.Visitable;
  * This only works when you configure the enclosing jar file as a java agent. For example:
  * 
  * <p>
- * {@code Java -javaagent:target/fhir-benchmarch-4.0.0-SNAPSHOT.jar ...}
+ * {@code Java -javaagent:target/fhir-benchmarch-4.0.1-SNAPSHOT.jar ...}
  */
 public class ObjectSizeEstimator {
     private static ObjectSizeVisitor visitor = new ObjectSizeVisitor();
@@ -31,7 +31,7 @@ public class ObjectSizeEstimator {
     public static void premain(String args, Instrumentation inst) {
         instrumentation = inst;
     }
-    
+
     /**
      * Compute the estimated size of the Visitable by traversing the structure and adding 
      * the estimated size of all the objects in the tree
@@ -40,8 +40,8 @@ public class ObjectSizeEstimator {
         o.accept(visitor);
         return visitor.getResult();
     }
-    
-    
+
+
     private static class ObjectSizeVisitor extends DefaultVisitor {
         long size = 0;
         
