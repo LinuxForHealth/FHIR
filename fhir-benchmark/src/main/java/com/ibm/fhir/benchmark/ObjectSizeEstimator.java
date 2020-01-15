@@ -22,7 +22,7 @@ import com.ibm.fhir.model.visitor.Visitable;
  * This only works when you configure the enclosing jar file as a java agent. For example:
  * 
  * <p>
- * {@code Java -javaagent:target/fhir-benchmarch-4.0.01-SNAPSHOT.jar ...}
+ * {@code Java -javaagent:target/fhir-benchmarch-4.0.1-SNAPSHOT.jar ...}
  */
 public class ObjectSizeEstimator {
     private static ObjectSizeVisitor visitor = new ObjectSizeVisitor();

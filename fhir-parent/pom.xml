@@ -655,18 +655,16 @@
             </properties>
         </profile>
         <profile>
-            <id>jenkins</id>
+            <id>integration</id>
             <activation>
                 <property>
                     <name>profile</name>
-                    <value>jenkins</value>
+                    <value>integration</value>
                 </property>
             </activation>
             <properties>
-                <build.id>${env.BUILD_DISPLAY_NAME}</build.id>
+                <build.id>Integration_${env.GITHUB_REF}_${env.GITHUB_SHA}</build.id>
             </properties>
-            <build>
-            </build>
         </profile>
         <profile>
             <id>model-all-tests</id>
