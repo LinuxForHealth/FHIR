@@ -131,9 +131,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         numbers = c.prepareStatement(insertNumber);
 
         insertDate = multitenant ?
-                "INSERT INTO " + tablePrefix + "_date_values (mt_id, parameter_name_id, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
+                "INSERT INTO " + tablePrefix + "_date_values (mt_id, parameter_name_id, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
                 :
-                "INSERT INTO " + tablePrefix + "_date_values (parameter_name_id, date_start, date_end, logical_resource_id) VALUES (?,?,?,?,?)";
+                "INSERT INTO " + tablePrefix + "_date_values (parameter_name_id, date_start, date_end, logical_resource_id) VALUES (?,?,?,?)";
         dates = c.prepareStatement(insertDate);
 
         String insertToken = multitenant ?
@@ -175,9 +175,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
         // Resource level date attributes
         String insertResourceDate = multitenant ?
-                "INSERT INTO resource_date_values (mt_id, parameter_name_id, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
+                "INSERT INTO resource_date_values (mt_id, parameter_name_id, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
                 :
-                "INSERT INTO resource_date_values (parameter_name_id, date_start, date_end, logical_resource_id) VALUES (?,?,?,?,?)";
+                "INSERT INTO resource_date_values (parameter_name_id, date_start, date_end, logical_resource_id) VALUES (?,?,?,?)";
         resourceDates = c.prepareStatement(insertResourceDate);
 
         // Resource level token attributes

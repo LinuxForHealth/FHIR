@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -911,7 +911,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         // Check to see if this is of a type is date. 
         String code = queryParm.getCode();
         SearchParamType type = SearchUtil.getSearchParameter(resourceType, code).getType();
-        if (SearchParamType.DATE.getValue().equals(type.getValue())) {
+        if (!SearchParamType.DATE.getValue().equals(type.getValue())) {
             throw new FHIRPersistenceException(
                     "Cannot process query parameter '" + queryParm.getCode() + "' as a date.").withIssue(
                             Issue.builder()

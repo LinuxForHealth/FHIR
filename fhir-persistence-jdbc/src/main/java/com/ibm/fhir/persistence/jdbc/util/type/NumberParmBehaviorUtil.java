@@ -20,6 +20,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NUMBER_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
@@ -35,10 +36,10 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
 
+import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.path.FHIRPathLexer;
 import com.ibm.fhir.path.FHIRPathParser;
-import com.ibm.fhir.path.FHIRPathParser.ExpressionContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Prefix;
@@ -317,21 +318,29 @@ public class NumberParmBehaviorUtil {
         return isIntegerSearch;
     }
 
+    /**
+     * the code navigates from a resourcetype down the hierarchy of the object model and the path of the
+     * search parameter code to determine if the queried parameter is an integer.
+     * 
+     * @param resourceType
+     * @param queryParm
+     * @return
+     */
     public static boolean isIntegerSearch(Class<?> resourceType, QueryParameter queryParm) {
         boolean result = false;
-
         try {
             String code = queryParm.getCode();
             SearchParameter searchParameter = SearchUtil.getSearchParameter(resourceType, code);
 
             // Only process if the expression exists, for instance a DomainResource would not. 
-            if (searchParameter.getExpression() != null) {
+            if (searchParameter != null && searchParameter.getExpression() != null) {
                 result =
                         processTheExpressionStringToComponents(resourceType,
                                 searchParameter.getExpression().getValue());
             }
         } catch (Exception e) {
             log.warning("Exception retrieving the search parameter " + e);
+            e.printStackTrace();
         }
         return result;
     }
@@ -343,16 +352,12 @@ public class NumberParmBehaviorUtil {
             FHIRPathLexer lexer = new FHIRPathLexer(CharStreams.fromString(expr));
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             FHIRPathParser parser = new FHIRPathParser(tokens);
-            ExpressionContext ctx = parser.expression();
-
-            // Log out the ctx for debugging purposes, the parser.expression causes the tokens to be populated.
-            if (log.isLoggable(Level.FINE)) {
-                log.fine(" Context is populated with " + ctx);
-            }
+            // An intentional call to generate an expression, which populates the tokens in the CommonTokenStream            
+            parser.expression();
 
             boolean isAs = false;
             boolean isWhere = false;
-            int countParenthesis = 0;
+            int count = 0;
             String cast = "";
             List<String> fields = new ArrayList<>();
             for (Token token : tokens.getTokens()) {
@@ -363,23 +368,22 @@ public class NumberParmBehaviorUtil {
                     } else if ("where".equals(tokenStr)) {
                         isWhere = true;
                     } else if ("(".equals(tokenStr)) {
-                        countParenthesis++;
+                        count++;
                     } else if (")".equals(tokenStr)) {
-                        countParenthesis--;
-                    } else if (isAs && countParenthesis > 0) {
+                        count--;
+                    } else if (isAs && count > 0) {
                         cast = tokenStr;
                         isAs = false;
-                    } else if (!isWhere) {
-                        if (countParenthesis == 0) {
-                            isWhere = false;
-                        }
+                    } else if (isWhere && count > 0) {
+                        isWhere = false;
+                    } else if (count == 0) {
                         fields.add(tokenStr);
                     }
                 }
             }
 
             // If it's cast or the path needs to be checked.
-            if ("Integer".equals(cast) || followPathToCheckInteger(resourceType, fields)) {
+            if (INTEGER_TYPE.contains(cast) || (cast.isEmpty() && followPathToCheckInteger(resourceType, fields))) {
                 return true;
             }
         }
@@ -397,25 +401,66 @@ public class NumberParmBehaviorUtil {
 
         Class<?> clz = resourceType;
         for (String fieldStr : fields) {
-            for (Field f : clz.getDeclaredFields()) {
-                if (f.getName().equals(fieldStr)) {
-                    java.lang.reflect.Type genericType = f.getGenericType();
-                    if (genericType instanceof ParameterizedType) {
-                        ParameterizedType parameterizedType = (ParameterizedType) genericType;
-                        clz = (Class<?>) parameterizedType.getActualTypeArguments()[0];
-                    } else {
-                        try {
-                            clz = Class.forName(genericType.getTypeName());
-                        } catch (ClassNotFoundException e) {
-                            return false;
-                        }
-                    }
-                    break;
-                }
+            if (log.isLoggable(Level.FINE)) {
+                log.fine(" - " + fieldStr + " " + fields + " " + clz.getSimpleName());
+            }
+
+            Class<?> found = processField(clz, fieldStr);
+            if (found == null) {
+                clz = clz.getSuperclass();
+                clz = processField(clz, fieldStr);
+            } else {
+                clz = found;
             }
         }
 
         // Checks to see if is of Integer type 
         return INTEGER_TYPE.contains(clz.getSimpleName());
+    }
+
+    public static Class<?> processField(Class<?> clz, String fieldStr) {
+        Class<?> found = null;
+        for (Field f : clz.getDeclaredFields()) {
+            // Logs the field tests
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("\t" + f.getName() + " -<>- " + f.getName());
+            }
+
+            if (f.getName().equals(fieldStr.trim())) {
+
+                java.lang.reflect.Type genericType = f.getGenericType();
+                if (genericType instanceof ParameterizedType) {
+                    ParameterizedType parameterizedType = (ParameterizedType) genericType;
+                    found = (Class<?>) parameterizedType.getActualTypeArguments()[0];
+                } else {
+                    try {
+                        found = Class.forName(genericType.getTypeName());
+                    } catch (ClassNotFoundException e) {
+                        return null;
+                    }
+                }
+
+                // Check for a choice type. 
+                for (Annotation anno : f.getAnnotationsByType(Choice.class)) {
+                    Choice choice = (Choice) anno;
+                    Class<?>[] clzs = choice.value();
+                    for (Class<?> t : clzs) {
+                        if (t.getSimpleName().contains("Int")) {
+                            found = t;
+                            break;
+                        }
+                    }
+                }
+
+                break;
+            }
+        }
+
+        // Logs the field tests
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(" Discovered the simple class -> " + found);
+        }
+
+        return found;
     }
 }
