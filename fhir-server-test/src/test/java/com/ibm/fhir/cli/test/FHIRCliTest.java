@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -70,13 +70,13 @@ public class FHIRCliTest extends FHIRServerTestBase {
     @Test
     public void testMetadataToConsole() throws Exception {
         runTest("testMetadataToConsole", "-p", propsFile(), "--operation", "metadata");
-        verifyConsoleOutput("IBM FHIR Server", "(C) Copyright IBM Corporation 2016, 2019", "4.0.0");
+        verifyConsoleOutput("IBM FHIR Server", "(C) Copyright IBM Corporation 2016, 2020", "4.0.1");
     }
     
     @Test
     public void testMetadataToFile() throws Exception {
         runTest("testMetadataToFile", "-p", propsFile(), "--operation", "metadata", "--output", dirPrefix("metadata.json"));
-        verifyFileContents("metadata.json", "IBM FHIR Server", "(C) Copyright IBM Corporation 2016, 2019", "4.0.0");
+        verifyFileContents("metadata.json", "IBM FHIR Server", "(C) Copyright IBM Corporation 2016, 2020", "4.0.1");
     }
     
     @Test

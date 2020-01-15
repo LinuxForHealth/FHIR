@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -73,7 +73,7 @@ public class FHIRCLI {
         }
     }
     
-    private static final String copyright = "\nFHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 2018, 2019.\n";
+    private static final String copyright = "\nFHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 2018, 2020.\n";
     private static final String header = "\nProvides access to the FHIR Client API via the command line.\n\nOptions:\n";
     private static final String syntax = "fhir-cli [options]";
     private static final String DEFAULT_MIMETYPE = FHIRMediaType.APPLICATION_FHIR_JSON;

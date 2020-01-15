@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -163,7 +163,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             java.util.logging.Logger.getLogger(FHIRResource.class.getName());
 
     private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
-    private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2019";
+    private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2020";
     private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
 
     private static final String LOCAL_REF_PREFIX = "urn:";
