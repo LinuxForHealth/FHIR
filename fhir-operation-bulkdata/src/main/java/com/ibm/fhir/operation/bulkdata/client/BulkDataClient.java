@@ -36,6 +36,7 @@ import com.ibm.fhir.client.impl.FHIRBasicAuthenticator;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
 import com.ibm.fhir.operation.bulkdata.model.BulkExportJobExecutionResponse;
@@ -177,6 +178,10 @@ public class BulkDataClient {
         switch (exportType) {
         case PATIENT:
             builder.jobXMLName("FhirBulkExportPatientChunkJob");
+            break;
+        case GROUP:
+            builder.jobXMLName("FhirBulkExportGroupChunkJob");
+            builder.fhirPatientGroupId(properties.get(BulkDataConstants.PARAM_GROUP_ID));
             break;
         default:
             builder.jobXMLName("FhirBulkExportChunkJob");

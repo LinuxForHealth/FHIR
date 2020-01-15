@@ -163,6 +163,11 @@ public class BulkExportJobInstanceRequest {
             return this;
         }
 
+        public Builder fhirPatientGroupId(String fhirPatientGroupId) {
+            jobParameter.setFhirPatientGroupId(fhirPatientGroupId);
+            return this;
+        }
+
         public Builder cosBucketPathPrefix(String cosBucketPathPrefix) {
             jobParameter.setCosBucketPathPrefix(cosBucketPathPrefix);
             return this;
@@ -367,6 +372,10 @@ public class BulkExportJobInstanceRequest {
 
                     if (parameter.getFhirTenant() != null) {
                         generator.write("fhir.tenant", parameter.getFhirTenant());
+                    }
+
+                    if (parameter.getFhirPatientGroupId() != null) {
+                        generator.write("fhir.search.patientgroupid", parameter.getFhirPatientGroupId());
                     }
 
                     if (withSensitive) {

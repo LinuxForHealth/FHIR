@@ -13,6 +13,7 @@ public class JobParameter {
     String fhirSearchFromDate;
     String fhirTenant;
     String fhirDataStoreId;
+    String fhirPatientGroupId;
 
     String cosBucketName;
     String cosLocation;
@@ -21,6 +22,14 @@ public class JobParameter {
     String cosApiKey;
     String cosSrvInstId;
     String cosBucketPathPrefix;
+
+    public String getFhirPatientGroupId() {
+        return fhirPatientGroupId;
+    }
+
+    public void setFhirPatientGroupId(String fhirPatientGroupId) {
+        this.fhirPatientGroupId = fhirPatientGroupId;
+    }
 
     public String getCosBucketPathPrefix() {
         return cosBucketPathPrefix;

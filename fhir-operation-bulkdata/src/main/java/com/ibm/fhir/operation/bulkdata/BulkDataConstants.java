@@ -28,6 +28,7 @@ public class BulkDataConstants {
     public static final String PARAM_SINCE = "_since";
     public static final String PARAM_TYPE = "_type";
     public static final String PARAM_TYPE_FILTER = "_typeFilter";
+    public static final String PARAM_GROUP_ID = "groupId";
 
 
     /**
