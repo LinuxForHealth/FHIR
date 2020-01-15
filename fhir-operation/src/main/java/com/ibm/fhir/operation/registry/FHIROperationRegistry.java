@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.operation.FHIROperation;
 import com.ibm.fhir.operation.exception.FHIROperationNotFoundException;
 import com.ibm.fhir.validation.FHIRValidator;
@@ -28,7 +29,8 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
 public class FHIROperationRegistry {
     private final Logger log = Logger.getLogger(FHIROperationRegistry.class.getName());
     private static final FHIROperationRegistry INSTANCE = new FHIROperationRegistry();
-
+    // Key format: operation name[:resource type]
+    // Sample keys: validate:Resource, export:Patient, export
     private Map<String, FHIROperation> operationMap = null;
 
     private FHIROperationRegistry() {
@@ -46,7 +48,30 @@ public class FHIROperationRegistry {
                     log.severe("Operation $" + operationName + " has failed validation and will be skipped.");
                     continue;
                 }
-                operationMap.put(operation.getName(), operation);
+                List<ResourceType> operationResourceTypes = operation.getDefinition().getResource();
+                if (operationResourceTypes == null || operationResourceTypes.isEmpty()) {
+                    if (operationMap.putIfAbsent(operation.getName(), operation) != null) {
+                        throw new IllegalStateException("Found duplicated operation name: " + operation.getName());
+                    }
+                } else {
+                    // First, check if there is already an operation defined for all resource types.
+                    String tmpKey = operation.getName() + ":" + "Resource";
+                    if (operationMap.containsKey(tmpKey)) {
+                        throw new IllegalStateException("There is already operation defined for all resource types: "
+                            + operation.getName() + "; Conflict Operations: " + operation.getDefinition().getName()
+                            + " <--> " + operationMap.get(tmpKey).getDefinition().getName());
+                    }
+                    // Then check if there is already operation defined for the required resource types.
+                    for (ResourceType operationResourceType : operationResourceTypes) {
+                        tmpKey = operation.getName() + ":" + operationResourceType.getValue();
+                        if (operationMap.putIfAbsent(tmpKey, operation) != null) {
+                            throw new IllegalStateException("Found duplicated operation name plus resource type: "
+                                + operation.getName() + "-" + operationResourceType.getValue()
+                                + "; Conflict Operations: " + operation.getDefinition().getName()
+                                + " <--> " + operationMap.get(tmpKey).getDefinition().getName());
+                        }
+                    }
+                }
             } catch (ServiceConfigurationError | FHIRValidationException e) {
                 log.log(Level.SEVERE, "Unable to validate operation $" + operationName + ". This operation will be skipped.", e);
             }
@@ -62,9 +87,9 @@ public class FHIROperationRegistry {
         List<Issue> issues = FHIRValidator.validator().validate(operation.getDefinition());
         if (!issues.isEmpty()) {
             for (Issue issue : issues) {
-                log.info("Issue: " + issue.getCode().getValue() + ":" 
+                log.info("Issue: " + issue.getCode().getValue() + ":"
             + issue.getSeverity().getValue() + ":" + issue.getDetails().getText().getValue());
-                if (issue.getSeverity().equals(IssueSeverity.ERROR) 
+                if (issue.getSeverity().equals(IssueSeverity.ERROR)
                         || issue.getSeverity().equals(IssueSeverity.FATAL)) {
                     return false;
                 }
@@ -88,7 +113,11 @@ public class FHIROperationRegistry {
     public FHIROperation getOperation(String name) throws FHIROperationException {
         FHIROperation operation = operationMap.get(name);
         if (operation == null) {
-            throw new FHIROperationNotFoundException("Operation with name: '" + name + "' was not found");
+            // Check if there is an operation defined for all resource types.
+            operation = operationMap.get(name.split(":")[0] + ":" + "Resource");
+            if (operation == null) {
+                throw new FHIROperationNotFoundException("Operation with name: '" + name + "' was not found");
+            }
         }
         return operation;
     }

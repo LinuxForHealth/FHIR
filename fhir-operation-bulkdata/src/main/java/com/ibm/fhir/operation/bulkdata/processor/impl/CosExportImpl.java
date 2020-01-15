@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,7 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.client.BulkDataClient;
 import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
@@ -28,10 +29,6 @@ import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.util.FHIROperationUtil;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
 
-/**
- * @author pbastide
- *
- */
 public class CosExportImpl implements ExportBulkData, ImportBulkData {
 
     private static final String CLASSNAME = CosExportImpl.class.getName();
@@ -58,7 +55,7 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
              * Submit Job
              */
             BulkDataClient client = new BulkDataClient(properties);
-            String url = client.submit(outputFormat, since, types, properties);
+            String url = client.submit(outputFormat, since, types, properties, ExportType.SYSTEM);
 
             /*
              * As we are now 'corrupting' the response, we're PUSHING it into the operation context. The
@@ -126,20 +123,51 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
         }
     }
 
-    // The following operations are not yet implemented.
+    // Patient export
 
     @Override
     public Parameters exportPatient(String logicalId, MediaType outputFormat, Instant since,
         List<String> types, List<String> typeFilters, FHIRRequestContext ctx,
-        FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        throw new FHIROperationException("No $export delete operation right now");
+        FHIRResourceHelpers resourceHelper, FHIROperationContext operationContext,
+        BulkDataTenantSpecificCache cache) throws FHIROperationException{
+
+        try {
+            log.fine("Using the COS Implementation");
+
+            Map<String, String> properties =
+                    cache.getCachedObjectForTenant(FHIRConfiguration.DEFAULT_TENANT_ID);
+
+            /*
+             * Submit Job
+             */
+            BulkDataClient client = new BulkDataClient(properties);
+            String url = client.submit(outputFormat, since, types, properties, ExportType.PATIENT);
+
+            /*
+             * As we are now 'corrupting' the response, we're PUSHING it into the operation context. The
+             * OperationContext is checked for ACCEPTED, and picks out the custom response.
+             */
+            Response response =
+                    Response.status(Status.ACCEPTED).header("Content-Location", url).build();
+
+            operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, Response.Status.ACCEPTED);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_RESPONSE, response);
+
+            return FHIROperationUtil.getOutputParameters(null);
+        } catch (FHIROperationException fe) {
+            throw fe;
+        } catch (Exception e) {
+            throw new FHIROperationException("", e);
+        }
     }
 
+    // not implemented yet
     @Override
     public Parameters exportGroup(String logicalId, MediaType outputFormat, Instant since,
         List<String> types, List<String> typeFilters, FHIRRequestContext ctx,
-        FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        throw new FHIROperationException("No $export delete operation right now");
+        FHIRResourceHelpers resourceHelper, FHIROperationContext operationContext,
+        BulkDataTenantSpecificCache cache) throws FHIROperationException {
+        throw new FHIROperationException("No $export group operation right now");
 
     }
 

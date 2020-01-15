@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,10 +47,10 @@ import com.ibm.fhir.search.exception.SearchExceptionUtil;
  * <li>Practitioner - https://www.hl7.org/fhir/compartmentdefinition-practitioner.json</li>
  * <li>Device - https://www.hl7.org/fhir/compartmentdefinition-device.json</li>
  * </ul>
- * 
+ *
  * This class extracts the Compartment Logic from SearchUtil, converts the Custom Compartment logic and format into the
  * ComponentDefintion, adds support for the the default definition.
- * 
+ *
  * <br>
  * Load the class in the classloader to initialize static members. Call this before using the class in order to avoid a
  * slight performance hit on first use.
@@ -103,7 +103,7 @@ public class CompartmentUtil {
      * Builds an in-memory model of the Compartment map defined in compartments.json, for supporting compartment based
      * FHIR searches.
      *
-     * @return a map of compartment caches 
+     * @return a map of compartment caches
      * @throws IOException
      */
     public static final Map<String, CompartmentCache> buildCompartmentMap() {
@@ -119,7 +119,7 @@ public class CompartmentUtil {
 
                 FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
                 EvaluationContext evaluationContext = new EvaluationContext(bundle);
-                
+
                 Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, FHIR_PATH_BUNDLE_ENTRY);
 
                 Iterator<FHIRPathNode> iter = result.iterator();
@@ -136,7 +136,10 @@ public class CompartmentUtil {
                     for (Resource resource : compartmentDefinition.getResource()) {
                         String inclusionCode = resource.getCode().getValue();
                         List<com.ibm.fhir.model.type.String> params = resource.getParam();
-                        compartmentDefinitionCache.add(inclusionCode, params);
+                        // Make sure to only add the valid resource types (at least with one inclusion) instead of all types.
+                        if (!params.isEmpty()) {
+                            compartmentDefinitionCache.add(inclusionCode, params);
+                        }
                     }
 
                     String codeCacheName = compartmentDefinition.getCode().getValue();
@@ -160,7 +163,7 @@ public class CompartmentUtil {
 
     /**
      * gets the compartment
-     * 
+     *
      * @param compartment
      * @return
      * @throws FHIRSearchException
@@ -172,7 +175,7 @@ public class CompartmentUtil {
 
     /**
      * gets the compartment and resource type inclusion criteria.
-     * 
+     *
      * @param compartment
      * @param resourceType
      * @return
@@ -185,7 +188,7 @@ public class CompartmentUtil {
 
     /**
      * checks that the compartment is valid, and throws and exception if, not
-     * 
+     *
      * @param compartment
      * @throws FHIRSearchException
      */
@@ -198,7 +201,7 @@ public class CompartmentUtil {
 
     /**
      * checks that the compartment and resource are valid, and throws and exception if, not
-     * 
+     *
      * @param compartment
      * @throws FHIRSearchException
      */
@@ -213,7 +216,7 @@ public class CompartmentUtil {
 
     /**
      * builds the bundle and the resources for the compartments.json and puts out to the output stream.
-     * 
+     *
      * @throws FHIRGeneratorException
      */
     public static void buildCompositeBundle(PrintStream out) throws FHIRGeneratorException {

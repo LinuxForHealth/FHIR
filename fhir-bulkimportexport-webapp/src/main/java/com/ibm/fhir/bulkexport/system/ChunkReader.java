@@ -1,16 +1,15 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.bulkexport;
+package com.ibm.fhir.bulkexport.system;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +23,8 @@ import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 import com.ibm.fhir.bulkcommon.Constants;
+import com.ibm.fhir.bulkexport.common.CheckPointUserData;
+import com.ibm.fhir.bulkexport.common.TransientUserData;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -39,7 +40,7 @@ import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
- * Bulk export Chunk implementation - the Reader.
+ * Bulk system export Chunk implementation - the Reader.
  *
  */
 public class ChunkReader extends AbstractItemReader {
@@ -111,6 +112,7 @@ public class ChunkReader extends AbstractItemReader {
 
     private void fillChunkDataBuffer(List<Resource> resources) throws Exception {
         TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
+        int resSubTotal = 0;
         if (chunkData != null) {
             for (Resource res : resources) {
                 if (res == null) {
@@ -120,21 +122,22 @@ public class ChunkReader extends AbstractItemReader {
                 try {
                     FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
                     chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR.getBytes());
+                    resSubTotal++;
                 } catch (FHIRGeneratorException e) {
                     if (res.getId() != null) {
-                        logger.log(Level.WARNING, "updateChunkDataSizeInfo: Error while writing resources with id '"
+                        logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with id '"
                                 + res.getId() + "'", e);
                     } else {
                         logger.log(Level.WARNING,
-                                "updateChunkDataSizeInfo: Error while writing resources with unknown id", e);
+                                "fillChunkDataBuffer: Error while writing resources with unknown id", e);
                     }
                 } catch (IOException e) {
                     logger.warning("fillChunkDataBuffer: chunkDataBuffer written error!");
                     throw e;
                 }
             }
-            chunkData.setCurrentPartResourceNum(chunkData.getCurrentPartResourceNum() + resources.size());
-            logger.info("fillChunkDataBuffer: Processed resources - " + resources.size() + "; Bufferred data size - "
+            chunkData.setCurrentPartResourceNum(chunkData.getCurrentPartResourceNum() + resSubTotal);
+            logger.info("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
                     + chunkData.getBufferStream().size());
         } else {
             logger.warning("fillChunkDataBuffer: chunkData is null, this should never happen!");
@@ -196,12 +199,17 @@ public class ChunkReader extends AbstractItemReader {
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
 
+        List<String> searchCreterial = new ArrayList<String>();
+
         if (fhirSearchFromDate != null) {
-            queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED,
-                    Collections.singletonList("ge" + fhirSearchFromDate));
+            searchCreterial.add("ge" + fhirSearchFromDate);
         }
         if (fhirSearchToDate != null) {
-            queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, Collections.singletonList("lt" + fhirSearchToDate));
+            searchCreterial.add("lt" + fhirSearchToDate);
+        }
+
+        if (!searchCreterial.isEmpty()) {
+            queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCreterial);
         }
 
         queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));

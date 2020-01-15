@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -42,7 +42,7 @@ import com.ibm.fhir.search.util.SearchUtil;
 @WebListener("IBM FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
     private static final Logger log = Logger.getLogger(FHIRServletContextListener.class.getName());
-    
+
     private static final String ATTRNAME_WEBSOCKET_SERVERCONTAINER = "javax.websocket.server.ServerContainer";
     private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
     public static final String FHIR_SERVER_INIT_COMPLETE = "com.ibm.fhir.webappInitComplete";
@@ -56,27 +56,27 @@ public class FHIRServletContextListener implements ServletContextListener {
         try {
             // Initialize our "initComplete" flag to false.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
-            
+
             PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
-            
+
             log.fine("Current working directory: " + Encode.forHtml(System.getProperty("user.dir")));
-            
-            /* 
-             * The following inits are intended to load the FHIRUtil and SearchUtil into the classloader. 
-             * Subsequently, the code activates the static values (and maps).  
+
+            /*
+             * The following inits are intended to load the FHIRUtil and SearchUtil into the classloader.
+             * Subsequently, the code activates the static values (and maps).
              */
             log.fine("Initializing FHIRUtil...");
             FHIRUtil.init();
-            
+
             log.fine("Initializing SearchUtil...");
             SearchUtil.init();
-            
+
             log.fine("Initializing FHIROperationRegistry...");
             FHIROperationRegistry.getInstance();
-            
+
             // For any singleton resources that need to be shared among our resource class instances,
             // we'll add them to our servlet context so that the resource class can easily retrieve them.
-            
+
             // Set the shared FHIRPersistenceHelper.
             event.getServletContext().setAttribute(FHIRPersistenceHelper.class.getName(), new FHIRPersistenceHelper());
             log.fine("Set shared persistence helper on servlet context.");
@@ -90,13 +90,13 @@ public class FHIRServletContextListener implements ServletContextListener {
             } else {
                 log.info("Bypassing WebSocket notification init.");
             }
-            
+
             // If Kafka notifications are enabled, start up our Kafka notification publisher.
             Boolean kafkaEnabled = fhirConfig.getBooleanProperty(PROPERTY_KAFKA_ENABLED, Boolean.FALSE);
             if (kafkaEnabled) {
                 // Retrieve the topic name.
                 String topicName = fhirConfig.getStringProperty(PROPERTY_KAFKA_TOPICNAME, DEFAULT_KAFKA_TOPICNAME);
-                
+
                 // Gather up the Kafka connection properties.
                 Properties kafkaProps = new Properties();
                 PropertyGroup pg = fhirConfig.getPropertyGroup(PROPERTY_KAFKA_CONNECTIONPROPS);
@@ -108,15 +108,15 @@ public class FHIRServletContextListener implements ServletContextListener {
                         }
                     }
                 }
-                
+
                 log.info("Initializing Kafka notification publisher.");
                 kafkaPublisher = new FHIRNotificationKafkaPublisher(topicName, kafkaProps);
             } else {
                 log.info("Bypassing Kafka notification init.");
             }
-            
+
             bootstrapDerbyDatabases(fhirConfig);
-            
+
             // Finally, set our "initComplete" flag to true.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.TRUE);
         } catch(Throwable t) {
@@ -150,7 +150,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             log.info("Derby database bootstrapping is disabled.");
         }
     }
-    
+
     /**
      * Bootstraps the database specified by tenantId and dsId, assuming the specified datastore definition can be
      * retrieved from the configuration.

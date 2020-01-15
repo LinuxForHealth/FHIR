@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.bulkexport;
+package com.ibm.fhir.bulkexport.common;
 
 import java.util.logging.Logger;
 
@@ -86,7 +86,7 @@ public class CheckPointAlgorithm implements CheckpointAlgorithm {
                 if (cosBucketMaxFileSize != null) {
                     try {
                         cosMaxFileSize = Integer.parseInt(cosBucketMaxFileSize);
-                        logger.info("isReadyToCheckpoint: Set max COS file size to " + cosMaxFileSize + ".");
+                        logger.fine("isReadyToCheckpoint: Set max COS file size to " + cosMaxFileSize + ".");
                     } catch (Exception e) {
                         cosMaxFileSize = Constants.DEFAULT_MAXCOSFILE_SIZE;
                         logger.warning("isReadyToCheckpoint: Set max COS file size to default("
@@ -95,16 +95,18 @@ public class CheckPointAlgorithm implements CheckpointAlgorithm {
                     return (chunkData.getBufferStream().size() >= cosMaxFileSize
                             || chunkData.getPageNum() > chunkData.getLastPageNum());
                 } else {
-                    try {
-                        numofPagePerCosObject = Integer.parseInt(pagesPerCosObject);
-                        logger.info("isReadyToCheckpoint: " + numofPagePerCosObject + " pages per COS object!");
-                    } catch (Exception e) {
-                        numofPagePerCosObject = Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT;
-                        logger.warning("isReadyToCheckpoint: Set number of pages per COS object to default("
-                                + Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT + ").");
+                    if (pagesPerCosObject != null) {
+                        try {
+                            numofPagePerCosObject = Integer.parseInt(pagesPerCosObject);
+                            logger.fine("isReadyToCheckpoint: " + numofPagePerCosObject + " pages per COS object!");
+                        } catch (Exception e) {
+                            numofPagePerCosObject = Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT;
+                            logger.warning("isReadyToCheckpoint: Set number of pages per COS object to default("
+                                    + Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT + ").");
+                        }
+                        return ((chunkData.getPageNum() - 1) % numofPagePerCosObject == 0
+                                || chunkData.getPageNum() > chunkData.getLastPageNum());
                     }
-                    return ((chunkData.getPageNum() - 1) % numofPagePerCosObject == 0
-                            || chunkData.getPageNum() > chunkData.getLastPageNum());
                 }
             }
         }
