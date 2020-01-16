@@ -1872,7 +1872,6 @@ public class CodeGenerator {
         cb._import("javax.xml.stream.XMLStreamReader");
         cb.newLine();
         
-//      cb._import("com.ibm.fhir.model.parser.FHIRParser");
         cb._import("com.ibm.fhir.model.parser.FHIRAbstractParser");
         cb._import("com.ibm.fhir.model.parser.exception.FHIRParserException");
         cb._import("com.ibm.fhir.model.resource.*");
@@ -1889,7 +1888,6 @@ public class CodeGenerator {
         
         cb.annotation("NotThreadSafe");
         cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
-//      cb._class(mods("public"), "FHIRXMLParser", null, implementsInterfaces("FHIRParser"));
         cb._class(mods("public"), "FHIRXMLParser", "FHIRAbstractParser");
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
         cb.newLine();
@@ -2290,7 +2288,6 @@ public class CodeGenerator {
         
         cb.annotation("NotThreadSafe");
         cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
-//      cb._class(mods("public"), "FHIRJsonParser", null, implementsInterfaces("FHIRParser"));
         cb._class(mods("public"), "FHIRJsonParser", "FHIRAbstractParser");
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
         cb.field(mods("private", "static", "final"), "JsonReaderFactory", "JSON_READER_FACTORY", "Json.createReaderFactory(null)");
