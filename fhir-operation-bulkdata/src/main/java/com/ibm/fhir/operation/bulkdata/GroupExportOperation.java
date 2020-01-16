@@ -30,9 +30,6 @@ public class GroupExportOperation extends ExportOperation {
 
     @Override
     protected OperationDefinition buildOperationDefinition() {
-        /**
-         * Loads the operation definition file. In this case, there are three files, and only one is loaded.
-         */
         try (InputStream in = getClass().getClassLoader().getResourceAsStream(FILE);) {
             return FHIRParser.parser(Format.JSON).parse(in);
         } catch (Exception e) {

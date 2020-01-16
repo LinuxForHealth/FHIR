@@ -138,13 +138,11 @@ public class ChunkReader extends AbstractItemReader {
                 if (fhirSearchToDate != null) {
                     searchCreterial.add("lt" + fhirSearchToDate);
                 }
-
                 if (!searchCreterial.isEmpty()) {
                     queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCreterial);
                 }
 
                 queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
-
                 searchContext = SearchUtil.parseQueryParameters("Patient", patientId,
                         ModelSupport.getResourceType(resourceTypes.get(indexOfCurrentResourceType)), queryParameters, null, true);
                 do {
@@ -177,7 +175,7 @@ public class ChunkReader extends AbstractItemReader {
                 } while (searchContext.getLastPageNumber() >= compartmentPageNum);
             }
             chunkData.setCurrentPartResourceNum(chunkData.getCurrentPartResourceNum() + resSubTotal);
-            logger.info("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
+            logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
                     + chunkData.getBufferStream().size());
         } else {
             logger.warning("fillChunkDataBuffer: chunkData is null, this should never happen!");
@@ -269,7 +267,7 @@ public class ChunkReader extends AbstractItemReader {
         if (fhirSearchPageSize != null) {
             try {
                 pageSize = Integer.parseInt(fhirSearchPageSize);
-                logger.info("readItem: Set page size to " + pageSize + ".");
+                logger.fine("readItem: Set page size to " + pageSize + ".");
             } catch (Exception e) {
                 logger.warning("readItem: Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
             }
@@ -296,7 +294,7 @@ public class ChunkReader extends AbstractItemReader {
         chunkData.setLastPageNum(1);
 
         if (!patientMembers.isEmpty()) {
-            logger.info("readItem: loaded patients number - " + patientMembers.size());
+            logger.fine("readItem: loaded patients number - " + patientMembers.size());
             fillChunkDataBuffer(patientMembers);
         } else {
             logger.fine("readItem: End of reading!");
