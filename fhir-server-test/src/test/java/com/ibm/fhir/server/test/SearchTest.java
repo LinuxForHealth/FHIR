@@ -915,7 +915,6 @@ public class SearchTest extends FHIRServerTestBase {
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })
     public void test_SearchObservationFilteredSearchParameter1_preferBogus()
             throws Exception {
-        // 'category' search parameter is filtered out for tenant1.
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("subject", "foo");
         FHIRRequestHeader tenantHeader =
