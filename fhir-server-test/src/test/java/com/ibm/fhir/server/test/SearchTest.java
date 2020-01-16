@@ -926,7 +926,7 @@ public class SearchTest extends FHIRServerTestBase {
         FHIRResponse response =
                 client._search("Observation", parameters, tenantHeader, dsHeader, preferStrictHeader);
         // Assumes the server is in strict mode
-        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     @Test(groups = { "server-search" })
