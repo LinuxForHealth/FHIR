@@ -16,6 +16,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.json.JsonObject;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -200,6 +201,26 @@ public class BasicServerTest extends FHIRServerTestBase {
         savedCreatedObservation = responseObs;
 
         TestUtil.assertResourceEquals(observation, responseObs);
+    }
+    
+    @Test( groups = { "server-basic" })
+    public void testCreateObservationWithUnrecognizedElements1() throws Exception {
+        WebTarget target = getWebTarget();
+        JsonObject jsonObject = TestUtil.readJsonObject("testdata/observation-unrecognized-elements.json");
+        Entity<JsonObject> entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Observation").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+    }
+    
+    @Test( groups = { "server-basic" })
+    public void testCreateObservationWithUnrecognizedElements2() throws Exception {
+        WebTarget target = getWebTarget();
+        JsonObject jsonObject = TestUtil.readJsonObject("testdata/observation-unrecognized-elements.json");
+        Entity<JsonObject> entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Observation").request()
+                    .header("Prefer", "handling=lenient")
+                    .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
     }
 
     /**

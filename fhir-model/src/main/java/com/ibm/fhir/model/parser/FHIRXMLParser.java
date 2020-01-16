@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import com.ibm.fhir.model.parser.FHIRParser;
+import com.ibm.fhir.model.parser.FHIRAbstractParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.*;
 import com.ibm.fhir.model.type.*;
@@ -37,7 +37,7 @@ import net.jcip.annotations.NotThreadSafe;
 
 @NotThreadSafe
 @Generated("com.ibm.fhir.tools.CodeGenerator")
-public class FHIRXMLParser implements FHIRParser {
+public class FHIRXMLParser extends FHIRAbstractParser {
     public static boolean DEBUG = false;
 
     private final Stack<java.lang.String> stack = new Stack<>();
