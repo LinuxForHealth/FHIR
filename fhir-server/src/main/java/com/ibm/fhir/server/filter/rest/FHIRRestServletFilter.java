@@ -69,8 +69,6 @@ public class FHIRRestServletFilter implements Filter {
         
         String tenantId = defaultTenantId;
         String dsId = FHIRConfiguration.DEFAULT_DATASTORE_ID;
-        HTTPHandlingPreference handlingPref = HTTPHandlingPreference.from(FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_HANDLING, "strict"));
-        HTTPReturnPreference returnPref = defaultHttpReturnPref;
         
         // Wrap the incoming servlet request with our own implementation.
         if (request instanceof HttpServletRequest) {
@@ -88,29 +86,6 @@ public class FHIRRestServletFilter implements Filter {
             t = ((HttpServletRequest) request).getHeader(datastoreIdHeaderName);
             if (t != null) {
                 dsId = t;
-            }
-            
-            boolean allowClientHandlingPref = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_ALLOW_CLIENT_HANDLING_PREF, true);
-            if (allowClientHandlingPref) {
-                String handlingPrefString = ((HttpServletRequest) request).getHeader(preferHeaderName + ":" + preferHandlingHeaderSectionName);
-                if (handlingPrefString != null && !handlingPrefString.isEmpty()) {
-                    try {
-                        handlingPref = HTTPHandlingPreference.from(handlingPrefString);
-                    } catch (IllegalArgumentException e) {
-                        log.fine("Invalid HTTP handling preference passed in header 'Prefer': '" + handlingPrefString + "'; "
-                                + "using " + handlingPref.value());
-                    }
-                }
-            }
-            
-            String returnPrefString = ((HttpServletRequest) request).getHeader(preferHeaderName + ":" + preferReturnHeaderSectionName);
-            if (returnPrefString != null && !returnPrefString.isEmpty()) {
-                try {
-                    returnPref = HTTPReturnPreference.from(returnPrefString);
-                } catch (IllegalArgumentException e) {
-                    log.fine("Invalid HTTP return preference passed in header 'Prefer': '" + returnPrefString + "'; "
-                            + "using " + returnPref.value());
-                }
             }
         }
 
@@ -133,9 +108,36 @@ public class FHIRRestServletFilter implements Filter {
         try {
             // Create a new FHIRRequestContext and set it on the current thread.
             FHIRRequestContext context = new FHIRRequestContext(tenantId, dsId);
-            context.setHandlingPreference(handlingPref);
-            context.setReturnPreference(returnPref);
             FHIRRequestContext.set(context);
+            
+            // Set the handling preference.
+            HTTPHandlingPreference handlingPref = HTTPHandlingPreference.from(FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_HANDLING, "strict"));
+            boolean allowClientHandlingPref = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_ALLOW_CLIENT_HANDLING_PREF, true);
+            if (allowClientHandlingPref) {
+                String handlingPrefString = ((HttpServletRequest) request).getHeader(preferHeaderName + ":" + preferHandlingHeaderSectionName);
+                if (handlingPrefString != null && !handlingPrefString.isEmpty()) {
+                    try {
+                        handlingPref = HTTPHandlingPreference.from(handlingPrefString);
+                    } catch (IllegalArgumentException e) {
+                        log.fine("Invalid HTTP handling preference passed in header 'Prefer': '" + handlingPrefString + "'; "
+                                + "using " + handlingPref.value());
+                    }
+                }
+            }
+            FHIRRequestContext.get().setHandlingPreference(handlingPref);
+
+            // Set the return preference.
+            HTTPReturnPreference returnPref = defaultHttpReturnPref;
+            String returnPrefString = ((HttpServletRequest) request).getHeader(preferHeaderName + ":" + preferReturnHeaderSectionName);
+            if (returnPrefString != null && !returnPrefString.isEmpty()) {
+                try {
+                    returnPref = HTTPReturnPreference.from(returnPrefString);
+                } catch (IllegalArgumentException e) {
+                    log.fine("Invalid HTTP return preference passed in header 'Prefer': '" + returnPrefString + "'; "
+                            + "using " + returnPref.value());
+                }
+            }
+            FHIRRequestContext.get().setReturnPreference(returnPref);
 
             // Pass the request through to the next filter in the chain.
             chain.doFilter(request, response);
