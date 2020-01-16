@@ -44,29 +44,25 @@ public class ReferenceMappingVistorTest {
     public void setUp() throws Exception {
         java.lang.String id = UUID.randomUUID().toString();
 
-        Meta meta =
-                Meta.builder().versionId(Id.of("1"))
+        Meta meta = Meta.builder().versionId(Id.of("1"))
                         .lastUpdated(Instant.now(ZoneOffset.UTC))
                         .build();
 
-        String given =
-                String.builder().value("John")
+        String given = String.builder().value("John")
                         .extension(Extension.builder()
                                 .url("http://www.ibm.com/someExtension")
                                 .value(String.of("value and extension"))
                                 .build())
                         .build();
 
-        String otherGiven =
-                String.builder()
+        String otherGiven = String.builder()
                         .extension(Extension.builder()
                                 .url("http://www.ibm.com/someExtension")
                                 .value(String.of("extension only"))
                                 .build())
                         .build();
 
-        HumanName name =
-                HumanName.builder()
+        HumanName name = HumanName.builder()
                         .id("someId")
                         .given(given)
                         .given(otherGiven)
@@ -79,13 +75,11 @@ public class ReferenceMappingVistorTest {
         localRefMap = new HashMap<java.lang.String, java.lang.String>();
         localRefMap.put("urn:uuid:" + uUID, "romote:" + uUID);
 
-        Reference providerRef =
-                Reference.builder()
+        Reference providerRef = Reference.builder()
                         .reference(String.of("urn:uuid:" + uUID))
                         .build();
 
-        patient =
-                Patient.builder()
+        patient = Patient.builder()
                         .id(id)
                         .active(Boolean.TRUE)
                         .multipleBirth(Integer.of(2))
