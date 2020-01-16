@@ -1251,7 +1251,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultPrettyPrint`|Y|Y|
 |`fhirServer/core/tenantIdHeaderName`|N|Y|
 |`fhirServer/core/dataSourceIdHeaderName`|N|N|
-|`fhirServer/core/handling`|Y|Y|
+|`fhirServer/core/defaultHandling`|Y|Y|
+|`fhirServer/core/allowClientHandlingPref`|Y|Y|
 |`fhirServer/searchParameterFilter`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|Y|Y|
