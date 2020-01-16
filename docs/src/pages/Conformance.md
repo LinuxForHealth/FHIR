@@ -26,8 +26,6 @@ The `_format` parameter is supported and provides a useful mechanism for request
 
 The `_pretty` parameter is also supported.
 
-The `_summary` and `_elements` parameters are supported on the search interaction as documented.
-
 ## Search
 The IBM FHIR Server supports all search parameter types defined in the specification:
 * `Number`
@@ -111,15 +109,11 @@ As defined in the specification, the following prefixes are supported for Number
 * `eb`
 * `ap`
 
-For explicit range targets (parameter values extracted from Period and Range elements), the prefixes are interpreted as according to https://www.hl7.org/fhir/R4/search.html#prefix.
+For range targets (parameter values extracted from Range, Date/Period, and DateTime elements without fractional seconds), the prefixes are interpreted as according to https://www.hl7.org/fhir/R4/search.html#prefix.
 
-For example, a search like `Observation?date=2018-10-29T12:00:00Z` would *not* match an Observation with an effectivePeriod of `start=2018-10-29` and `end=2018-10-30` because "the search range does not fully contain the range of the target value." Similarly, a search like `range=5||mg` would not match a range value with `low = 1 mg` and `high = 10 mg`. To obtain all range values (Period or Range) which contain a specific value, please use the `ap` prefix which is defined to match when "the range of the search value overlaps with the range of the target value."
+For example, a search like `Observation?date=2018-10-29T12:00:00Z` would *not* match an Observation with an effectivePeriod of `start=2018-10-29` and `end=2018-10-30` because "the search range does not fully contain the range of the target value." Similarly, a search like `range=5||mg` would not match a range value with `low = 1 mg` and `high = 10 mg`. To obtain all range values which contain a specific value, use the `ap` prefix which is defined to match when "the range of the search value overlaps with the range of the target value."
 
-For other target values (parameter values extracted from elements that are not a Period or Range), `ap` is treated like `eq`, `eb` is treated like `lt`, and `sa` is treated like `gt`. Please note that this `ap` behavior differs from the behavior recommended in the specification.
-
-In the absence of a prefix, the default behavior for number, date, and quantity searches is an exact match search.
-
-The `eb` and `ap` prefixes are not supported for searches which target values of type integer (or derived types).
+The `sa` and `eb` prefixes are not supported for searches which target values of type integer (or derived types).
 
 If not specified on a query string, the default prefix is `eq`.
 
@@ -134,12 +128,12 @@ To ensure consistency of search results, clients are recommended to include the 
 
 Finally, the server extends the specified capabilities with support for "exact match" semantics on fractional seconds.
 
-Query parameter values without fractional seconds is handled as an implicit range. For example, a search like `Observatoin?date=2019-01-01T12:00:00Z` would return resources with the following effectiveDateTime values:
+Query parameter values without fractional seconds are handled as an implicit range. For example, a search like `Observatoin?date=2019-01-01T12:00:00Z` would return resources with the following effectiveDateTime values:
 * 2019-01-01T12:00:00Z
 * 2019-01-01T12:00:00.1Z
 * 2019-01-01T12:00:00.999999Z
 
-Query parameter values with fractional seconds is handled with exact match semantics (ignoring precision). For example, a search like `Patient?birthdate=2019-01-01T12:00:00.1Z` would include resources with the following effectiveDateTime values:
+Query parameter values with fractional seconds are handled with exact match semantics (ignoring precision). For example, a search like `Patient?birthdate=2019-01-01T12:00:00.1Z` would include resources with the following effectiveDateTime values:
 * 2019-01-01T12:00:00.1Z
 * 2019-01-01T12:00:00.100Z
 * 2019-01-01T12:00:00.100000Z
