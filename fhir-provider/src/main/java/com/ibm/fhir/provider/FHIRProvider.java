@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,7 +36,9 @@ import javax.ws.rs.ext.MessageBodyWriter;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
@@ -75,7 +77,13 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             InputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "readFrom");
         try {
-            return FHIRParser.parser(getFormat(mediaType)).parse(entityStream);
+            FHIRRequestContext requestContext = FHIRRequestContext.get();
+            Format format = getFormat(mediaType);
+            FHIRParser parser = FHIRParser.parser(format);
+            if (parser.isPropertySupported(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS)) {
+                parser.setProperty(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
+            }
+            return parser.parse(entityStream);
         } catch (FHIRParserException e) {
             if (RuntimeType.SERVER.equals(runtimeType)) {
                 String acceptHeader = httpHeaders.getFirst(HttpHeaders.ACCEPT);
