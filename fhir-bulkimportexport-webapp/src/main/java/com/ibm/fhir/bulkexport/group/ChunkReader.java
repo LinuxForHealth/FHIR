@@ -281,6 +281,11 @@ public class ChunkReader extends AbstractItemReader {
         } else {
             chunkData.setIndexOfCurrentResourceType(indexOfCurrentResourceType);
         }
+        // The fhir resources of one resource type for all the patients will be exported into one COS object.
+        // Here we simply set the lastPageNum to be smaller than the next PageNum to ask the common ChunkWriter
+        // to close the writing for current resource type.
+        chunkData.setPageNum(2);
+        chunkData.setLastPageNum(1);
 
         if (!patientMembers.isEmpty()) {
             logger.info("readItem: loaded patients number - " + patientMembers.size());
