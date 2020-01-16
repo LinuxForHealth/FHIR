@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -185,17 +186,21 @@ public class ChunkReader extends AbstractItemReader {
 
     }
 
-    private void ExpandGroup2Patients(String fhirTenant, String fhirDatastoreId, Group group, List<Member> patients) throws Exception{
+    private void ExpandGroup2Patients(String fhirTenant, String fhirDatastoreId, Group group, List<Member> patients, HashSet<String> groupsInPath)
+            throws Exception{
         if (group == null) {
             return;
         }
+        groupsInPath.add(group.getId());
         for (Member member : group.getMember()) {
             String refValue = member.getEntity().getReference().getValue();
             if (refValue.startsWith("Patient")) {
                 patients.add(member);
             } else if (refValue.startsWith("Group")) {
                 Group group2 = FindGroupByID(fhirTenant, fhirDatastoreId, refValue.substring(6));
-                ExpandGroup2Patients(fhirTenant, fhirDatastoreId, group2, patients);
+                if (!groupsInPath.contains(group.getId())) {
+                    ExpandGroup2Patients(fhirTenant, fhirDatastoreId, group2, patients, groupsInPath);
+                }
             }
         }
     }
@@ -271,8 +276,11 @@ public class ChunkReader extends AbstractItemReader {
         }
 
         Group group = FindGroupByID(fhirTenant, fhirDatastoreId, fhirSearchPatientGroupId);
-        List<Member> patientMembers = new ArrayList<Member>();
-        ExpandGroup2Patients(fhirTenant, fhirDatastoreId, group, patientMembers);
+        // List for the patients
+        List<Member> patientMembers = new ArrayList<>();
+        // List for the group and sub groups in the expansion paths, this is used to avoid dead loop caused by circle reference of the groups.
+        HashSet<String> groupsInPath = new HashSet<>();
+        ExpandGroup2Patients(fhirTenant, fhirDatastoreId, group, patientMembers, groupsInPath);
 
         if (chunkData == null) {
             chunkData = new TransientUserData(0, null, new ArrayList<PartETag>(), 1);
