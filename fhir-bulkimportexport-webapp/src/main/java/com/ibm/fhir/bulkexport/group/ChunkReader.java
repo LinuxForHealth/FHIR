@@ -108,9 +108,7 @@ public class ChunkReader extends AbstractItemReader {
     @Inject
     JobContext jobContext;
 
-    /**
-     * @see AbstractItemReader#AbstractItemReader()
-     */
+
     public ChunkReader() {
         super();
     }
@@ -187,9 +185,46 @@ public class ChunkReader extends AbstractItemReader {
 
     }
 
-    /**
-     * @see AbstractItemReader#readItem()
-     */
+    private void ExpandGroup2Patients(String fhirTenant, String fhirDatastoreId, Group group, List<Member> patients) throws Exception{
+        if (group == null) {
+            return;
+        }
+        for (Member member : group.getMember()) {
+            String refValue = member.getEntity().getReference().getValue();
+            if (refValue.startsWith("Patient")) {
+                patients.add(member);
+            } else if (refValue.startsWith("Group")) {
+                Group group2 = FindGroupByID(fhirTenant, fhirDatastoreId, refValue.substring(6));
+                ExpandGroup2Patients(fhirTenant, fhirDatastoreId, group2, patients);
+            }
+        }
+    }
+
+    private Group FindGroupByID(String fhirTenant, String fhirDatastoreId, String groupId) throws Exception{
+        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
+        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
+        fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
+
+        FHIRSearchContext searchContext;
+        FHIRPersistenceContext persistenceContext;
+        Map<String, List<String>> queryParameters = new HashMap<>();
+
+        queryParameters.put("_id", Arrays.asList(new String[] { groupId }));
+        searchContext = SearchUtil.parseQueryParameters(Group.class, queryParameters);
+        List<Resource> resources = null;
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
+        txn.begin();
+        persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
+        resources = fhirPersistence.search(persistenceContext, Group.class).getResource();
+        txn.commit();
+
+        if (resources != null) {
+            return (Group) resources.get(0);
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public Object readItem() throws Exception {
         List <String> allCompartmentResourceTypes = CompartmentUtil.getCompartmentResourceTypes("Patient");
@@ -235,34 +270,9 @@ public class ChunkReader extends AbstractItemReader {
             }
         }
 
-        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
-        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
-        fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
-
-        FHIRSearchContext searchContext;
-        FHIRPersistenceContext persistenceContext;
-        Map<String, List<String>> queryParameters = new HashMap<>();
-
-        queryParameters.put("_id", Arrays.asList(new String[] { fhirSearchPatientGroupId }));
-        searchContext = SearchUtil.parseQueryParameters(Group.class, queryParameters);
-        List<Resource> resources = null;
-        FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-        txn.begin();
-        persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-        resources = fhirPersistence.search(persistenceContext, Group.class).getResource();
-        txn.commit();
-
+        Group group = FindGroupByID(fhirTenant, fhirDatastoreId, fhirSearchPatientGroupId);
         List<Member> patientMembers = new ArrayList<Member>();
-        int patientNum = 0;
-        if (resources != null) {
-            Group group = (Group) resources.get(0);
-            for (Member member : group.getMember()) {
-                if (member.getEntity().getReference().getValue().startsWith("Patient")) {
-                    patientMembers.add(member);
-                    patientNum++;
-                }
-            }
-        }
+        ExpandGroup2Patients(fhirTenant, fhirDatastoreId, group, patientMembers);
 
         if (chunkData == null) {
             chunkData = new TransientUserData(0, null, new ArrayList<PartETag>(), 1);
@@ -273,13 +283,13 @@ public class ChunkReader extends AbstractItemReader {
         }
 
         if (!patientMembers.isEmpty()) {
-            logger.info("readItem: loaded patients number - " + patientNum);
+            logger.info("readItem: loaded patients number - " + patientMembers.size());
             fillChunkDataBuffer(patientMembers);
         } else {
-            logger.info("readItem: End of reading!");
+            logger.fine("readItem: End of reading!");
         }
 
-        return resources;
+        return patientMembers;
     }
 
     @Override
