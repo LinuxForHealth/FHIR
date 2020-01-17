@@ -26,7 +26,7 @@ Execute the following steps:
 
 The build should output:
 ```
-08:02:18-paulbastide@pauls-mbp:~/git/wffh/oct27/FHIR/docs$ gatsby build --prefix-paths
+08:02:18-paulbastide@pauls-mbp:~/git/wffh/oct27/FHIR/docs$ gatsby build --prefix-paths 
 success open and validate gatsby-configs - 0.090 s
 success load plugins - 1.701 s
 success onPreInit - 0.017 s
