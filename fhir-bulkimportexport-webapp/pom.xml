@@ -79,6 +79,14 @@
                     <groupId>${project.groupId}</groupId>
                     <artifactId>fhir-core</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-persistence-schema</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.derby</groupId>
+                    <artifactId>derbytools</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
