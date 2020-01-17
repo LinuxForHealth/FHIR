@@ -22,7 +22,6 @@ jobs:
             working-directory: fhir
             ref: refs/heads/master
             fetch-depth: 1
-            path: fhir
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
