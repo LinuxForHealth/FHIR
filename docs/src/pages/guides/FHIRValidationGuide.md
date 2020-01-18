@@ -8,7 +8,7 @@ permalink: /FHIRValidationGuide/
 
 ## Overview
 
-The IBM FHIR Server Validation component (FHIRValidator) provides Java APIs for validating FHIR resources using constraints specified in their corresponding structure definitions. For example, in the Patient resource, we have the following constraint:
+The IBM FHIR Server Validation component ([fhir-validation](https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-releases/com/ibm/fhir/fhir-validation/)) provides Java APIs for validating FHIR resources using constraints specified in their corresponding structure definitions. For example, in the Patient resource, we have the following constraint:
 
 ```
 @Constraint(
@@ -20,15 +20,15 @@ The IBM FHIR Server Validation component (FHIRValidator) provides Java APIs for 
 )
 ```
 
-The validation component picks up the Java annotation, pulls out the FHIRPath expression and passes it on to the FHIRPath engine for evaluation. If the invariant evaluates to `false` then the FHIR validator will generate an OperationOutcome.Issue with the severity set relative to the "level" of the constraint (i.e. "Rule" or "Warning");
+The validation component picks up the Java annotation, pulls out the FHIRPath expression and passes it on to the IBM FHIR Server FHIRPath component ([fhir-path](https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-releases/com/ibm/fhir/fhir-path/)) for evaluation. If the invariant evaluates to `false` then the FHIR validator will generate an OperationOutcome.Issue with the severity set relative to the "level" of the constraint (i.e. "Rule" or "Warning");
 
 ![https://ibm.github.io/FHIR/images/fhir-dependency-graph.png](https://ibm.github.io/FHIR/images/fhir-dependency-graph.png)
 
 ## Profile Support
 
-The validation component will also validate a resource against profiles that it asserts conformance to in the `Resource.meta.profile` element assuming those profiles are available to the IBM FHIR Server via the FHIR registry component (fhir-registry) at runtime.
+The validation component will also validate a resource against profiles that it asserts conformance to in the `Resource.meta.profile` element assuming those profiles are available to the IBM FHIR Server via the FHIR registry component ([fhir-registry](https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-releases/com/ibm/fhir/fhir-registry/)) at runtime.
 
-Given a FHIR profile (structure definition) as input, the FHIR profile component generates FHIRPath expressions for a number of different types of constraints. The current scope of constraint generation is:
+Given a FHIR profile (structure definition) as input, the IBM FHIR Server Profile component ([fhir-profile](https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-releases/com/ibm/fhir/fhir-profile/)) generates FHIRPath expressions for a number of different types of constraints. The current scope of constraint generation is:
 
 - Cardinality constraints (required and prohibited elements)
 - Fixed value constraints (Code and Uri data types)
