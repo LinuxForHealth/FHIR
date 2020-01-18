@@ -3,12 +3,12 @@ layout: post
 title: FHIR Validation Guide
 description: FHIR Validation Guide
 date:   2020-01-17 15:45:00 -0400
-permalink: /fhirvalidationguide/
+permalink: /FHIRValidationGuide/
 ---
 
 ## Overview
 
-The FHIR validation component (FHIRValidator) provides Java APIs for validating FHIR resources using constraints specified in their corresponding structure definitions. For example, in the Patient resource, we have the following constraint:
+The IBM FHIR Server Validation component (FHIRValidator) provides Java APIs for validating FHIR resources using constraints specified in their corresponding structure definitions. For example, in the Patient resource, we have the following constraint:
 
 ```
 @Constraint(
@@ -20,12 +20,13 @@ The FHIR validation component (FHIRValidator) provides Java APIs for validating 
 )
 ```
 
-The validation component picks up this annotation, pulls out the FHIRPath expression and passes it on to the FHIRPath engine for evaluation. If the invariant evaluates to `false` then the FHIR validator will generate an OperationOutcome.Issue with the severity set relative to the "level" of the constraint (i.e. "Rule" or "Warning");
+The validation component picks up the Java annotation, pulls out the FHIRPath expression and passes it on to the FHIRPath engine for evaluation. If the invariant evaluates to `false` then the FHIR validator will generate an OperationOutcome.Issue with the severity set relative to the "level" of the constraint (i.e. "Rule" or "Warning");
 
+![https://ibm.github.io/FHIR/images/fhir-dependency-graph.png](https://ibm.github.io/FHIR/images/fhir-dependency-graph.png)
 
 ## Profile Support
 
-The validation component will also validate a resource against profiles that it asserts conformance to in the `Resource.meta.profile` element assuming those profiles are available to the IBM FHIR Server via the FHIR registry component at runtime.
+The validation component will also validate a resource against profiles that it asserts conformance to in the `Resource.meta.profile` element assuming those profiles are available to the IBM FHIR Server via the FHIR registry component (fhir-registry) at runtime.
 
 Given a FHIR profile (structure definition) as input, the FHIR profile component generates FHIRPath expressions for a number of different types of constraints. The current scope of constraint generation is:
 
@@ -41,7 +42,7 @@ NOTE: there is currently no support for `closed` or `ordered` slices.
 
 For example, the HL7 bodyweight profile has the following cardinality and fixed value constraints:
 
-```
+```json
 {
     "id": "Observation.code.coding:BodyWeightCode.system",
     "path": "Observation.code.coding.system",
@@ -56,7 +57,7 @@ For example, the HL7 bodyweight profile has the following cardinality and fixed 
      ...
 }
 ```
-```
+```json
 {
     "id": "Observation.code.coding:BodyWeightCode.code",
     "path": "Observation.code.coding.code",
@@ -79,7 +80,7 @@ code.where(coding.where(system = 'http://loinc.org' and code = '29463-7').exists
 
 The HL7 bodyweight profile has the following reference type constraint:
 
-```
+```json
 {
     "id": "Observation.subject",
     "path": "Observation.subject",
