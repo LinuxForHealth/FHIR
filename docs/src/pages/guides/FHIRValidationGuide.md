@@ -117,7 +117,7 @@ The FHIRRegistry loads FHIRRegistryResource instances into a map on startup. The
 
 The IBM FHIR Server provides a basic implementation of the $validate operation that invokes the FHIRValidator via a REST API. The $validate operation will validate against the base specification and any profiles asserted in `Resource.meta.profile`. The optional `profile` parameter is not currently supported.
 
-#ValueSet membership checking (FHIRPath `memberOf` function)
+## ValueSet membership checking (FHIRPath `memberOf` function)
 
 Coded elements (code, Coding, CodeableConcept data types), maybe have a binding element that specifies a ValueSet that that element is bound to. This means that the coded element must have a value that comes from that value set. The FHIR profile component will expand value sets according to the ValueSet [expansion algorithm](http://hl7.org/fhir/valueset.html#expansion) for ValueSets that include CodeSystem resources availble via the FHIR registry component.
 
