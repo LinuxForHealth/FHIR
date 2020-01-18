@@ -40,36 +40,30 @@ Given a FHIR profile (structure definition) as input, the FHIR profile component
 
 NOTE: there is currently no support for `closed` or `ordered` slices.
 
-For example, the HL7 bodyweight profile has the following cardinality and fixed value constraints:
+For example, the HL7 bodyweight profile has the following cardinality and fixed value constraints (some details removed for brevity):
 
 ```json
 {
     "id": "Observation.code.coding:BodyWeightCode.system",
     "path": "Observation.code.coding.system",
-    ...
     "min": 1,
     "max": "1",
-    ...
     "type": [{
         "code": "uri"
     }],
-    "fixedUri": "http://loinc.org",
-     ...
+    "fixedUri": "http://loinc.org"
 }
 ```
 ```json
 {
     "id": "Observation.code.coding:BodyWeightCode.code",
     "path": "Observation.code.coding.code",
-    ...
     "min": 1,
     "max": "1",
-    ...
     "type": [{
         "code": "code"
     }],
     "fixedCode": "29463-7",
-    ...
 }
 ```
 which are used by the ConstraintGenerator to generate the following FHIRPath expression:
@@ -78,7 +72,7 @@ which are used by the ConstraintGenerator to generate the following FHIRPath exp
 code.where(coding.where(system = 'http://loinc.org' and code = '29463-7').exists()).exists()
 ```
 
-The HL7 bodyweight profile has the following reference type constraint:
+The HL7 bodyweight profile has the following reference type constraint (some details removed for brevity):
 
 ```json
 {
@@ -89,8 +83,7 @@ The HL7 bodyweight profile has the following reference type constraint:
         "targetProfile": [
             "http://hl7.org/fhir/StructureDefinition/Patient"
         ]
-    }],
-               
+    }]      
 }
 ```
 which is used by the ConstraintGenerator to generate the following FHIRPath expression:
