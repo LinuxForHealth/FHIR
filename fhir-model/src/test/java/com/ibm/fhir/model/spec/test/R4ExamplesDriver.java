@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -102,7 +102,7 @@ public class R4ExamplesDriver {
      * @throws Exception
      */
     public void processIndex(Index index) throws Exception {
-        logger.info(String.format("Processing index file '%s'", index.path()));
+        logger.info(String.format("Processing index '%s'", index));
         // reset the state just in case we are called more than once
         this.firstException = null;
         this.testCount.set(0);
