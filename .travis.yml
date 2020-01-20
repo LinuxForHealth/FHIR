@@ -1,11 +1,11 @@
 ###############################################################################
-# (C) Copyright IBM Corp. 2019
+# (C) Copyright IBM Corp. 2019, 2020
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################     
 
-# HELP / USEFUL NOTES: 
-# 
+# Travis Build
+
 # **SKIPPING BUILD via Travis** 
 #   To skip the build use: 
 #   [skip <KEYWORD>]
@@ -14,35 +14,15 @@
 # 
 # Job Lifecycle https://docs.travis-ci.com/user/job-lifecycle/
 
-# Build Status 
-# [![Build Status](https://travis-ci.com/IBM/FHIR.svg?branch=master)](https://travis-ci.com/IBM/FHIR)
-
 # Environment Variables 
 # https://docs.travis-ci.com/user/environment-variables/#convenience-variables
 
 # Dist Limits - https://docs.travis-ci.com/user/reference/overview/
 
-# To encrypt the FHIR_GITHUB_TOKEN
-# $ travis endpoint --set-default -X -e https://api.travis-ci.com
-# $ travis login -X -e https://api.travis-ci.com -g <GITHUB_TOKEN>
-# $ travis encrypt FHIR_GITHUB_TOKEN=<NOT_TRUE> --add env.FHIR_GITHUB_TOKEN
-# 
-# Switched to travis encrypt <VALUE OF TOKEN> 
-# 
-# no output, just stores in the .travis.yml (formatting is kind of messy)
-# update env -> global -> secure:
-
 ################################################################################################################
 # Define the environment variables in this block: 
-env:
-  global:
-    - BINTRAY_REPO_OWNER="ibm-watson-health"
-    - BINTRAY_REPO_NAME="fhir"
-    # Packages need to be updated as a list. 
-    - BINTRAY_PKG_NAME="com.ibm.fhir:pkg"
-    # IBM Java 8
-    - IBM_JAVA_8_SHASUM="bc53faf476655e565f965dab3db37f9258bfc16bb8c5352c93d43d53860b79d3"
-    - IBM_JAVA_8_URI="https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/8.0.5.40/linux/x86_64/ibm-java-sdk-8.0-5.40-x86_64-archive.bin"
+# JAVA_HOME is already set.
+# BINTRAY_PASSWORD and BINTRAY_USERNAME are specified in repository settings.
 
 ################################################################################################################
 # Setup the basics (distribution/addon/jdk/java)
@@ -69,120 +49,31 @@ branches:
   - gh-pages
 
 ################################################################################################################
-# Build
-
-# IBM Java SDK 
-# - Passes to the download function so it can cache. 
-# Reference: https://public.dhe.ibm.com/ibmdl/export/pub/systems/cloud/runtimes/java/meta/sdk/linux/x86_64/index.yml 
+# Make sure we are all up to date
 before_install:
   - sudo apt-get update || true
   - sudo apt-get install git-lfs 
-  - | 
-    # Travis Event must be push before we download. 
-    if [[ $TRAVIS_EVENT_TYPE == "push" && $TRAVIS_TAG != "" ]]; then 
-      bash build/git-build.sh 'download-java' download "${IBM_JAVA_8_SHASUM}" "${IBM_JAVA_8_URI}"
-    fi
-
-    # Identify that it's a tag build and only push to github when tagged. 
-    BUILD_JDK_VERSION="$(java -version | grep -i 'openjdk version')"
-    echo "JDK VERSION (field used for tagged builds) -> ${BUILD_JDK_VERSION}"
-
-# Not used, really stuffed in the following 'script' block
-# install:
-#  - java -version
 
 # originally using stages, it spins up many worker threads. 
 # in this case, we've opted for conditional usage using BASH scripts. 
 # URL - https://github.com/travis-ci/travis-conditions and https://docs.travis-ci.com/user/environment-variables/ 
 # these are useful. 
+# Build and Release for Git Tag
 script: 
-  - | 
-    # if you are debugging set `env` 
-    # pull-request
-    # Don't build on forks and only on Git Pull Requests
   - |
-    if [[ "${TRAVIS_PULL_REQUEST_BRANCH}" != "" && "${TRAVIS_EVENT_TYPE}" == "pull_request"  && "${TRAVIS_PULL_REQUEST}" != "false" ]]; then 
-      bash build/git-build.sh 'pull-request' setup 
-      bash build/git-build.sh 'pull-request' build_install "fhir-examples/pom.xml -P jenkins" "fhir-examples" 
-      bash build/git-build.sh 'pull-request' build_install "fhir-tools/pom.xml -P jenkins" "fhir-tools" 
-      bash build/git-build.sh 'pull-request' build_install "fhir-parent/pom.xml -N" "fhir-parent" 
-      bash build/git-build.sh 'pull-request' build_install "fhir-parent/pom.xml -P jenkins -Dcom.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver.testType=MINIMAL" "fhir-parent" 
+    if [[ "${TRAVIS_EVENT_TYPE}" == "push" && "${TRAVIS_TAG}" != "" ]]
+    then 
+      bash build/release/bootstrap-env.sh
+      . ./build/release/bootstrap.env
+      bash build/release/version.sh
+      bash build/release/clean.sh
+      travis_wait 30 bash build/release/build.sh
+      bash build/release/code-coverage.sh
+      bash build/release/release.sh
+      bash build/release/sync-maven-central.sh
+      bash build/release/release-commit-details.sh
+      bash build/release/diagnostics.sh
     fi
-  # tag-release
-  # tag-release builds on the tag (it'll checkout the tag, not master)
-  # openjdk 11 -> version we run tags. 
-  - | 
-    if [[ $TRAVIS_EVENT_TYPE == "push" && $TRAVIS_TAG != "" ]]; then 
-      bash build/git-build.sh 'tag' setup 
-      bash build/git-build.sh 'tag' set_version "fhir-examples/pom.xml" "fhir-examples" "${TRAVIS_TAG}" 
-      bash build/git-build.sh 'tag' set_version "fhir-tools/pom.xml" "fhir-tools" "${TRAVIS_TAG}" 
-      bash build/git-build.sh 'tag' build_install "fhir-parent/pom.xml -N" "fhir-parent" 
-      bash build/git-build.sh 'tag' set_version "fhir-parent/pom.xml" "fhir-parent" "${TRAVIS_TAG}" 
-      # "[Build]" 
-      bash build/git-build.sh 'tag' build_install "fhir-examples/pom.xml -P jenkins" "fhir-examples" 
-      bash build/git-build.sh 'tag' build_install "fhir-tools/pom.xml -P jenkins" "fhir-tools" 
-      # '[Next submits the fhir-parent, so references are complete in subsequent build actions]' 
-      bash build/git-build.sh 'tag' build_install "fhir-parent/pom.xml -N" "fhir-parent" 
-      bash build/git-build.sh 'tag' build_install "fhir-parent/pom.xml -P jenkins -Dcom.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver.testType=MINIMAL" "fhir-parent" 
-      # Regression
-      # Runs on the IBM JDK 
-      bash build/git-build.sh 'tag' regression "fhir-parent/pom.xml -P jenkins -Dcom.ibm.watsonhealth.fhir.model.spec.test.R4ExamplesDriver.testType=MINIMAL" "fhir-parent" 
-      # '[Check Security Signatures]' 
-      bash build/git-build.sh 'tag' build_security_check "fhir-parent/pom.xml" "fhir-parent" 
-      # '[JavaDoc and Source Jar]' 
-      bash build/git-build.sh 'tag' build_source_javadoc "fhir-examples/pom.xml" "fhir-examples" 
-      bash build/git-build.sh 'tag' build_source_javadoc "fhir-tools/pom.xml" "fhir-tools" 
-      travis_wait 30 bash build/git-build.sh 'tag' build_source_javadoc "fhir-parent/pom.xml" "fhir-parent" 
-    fi
-   
-after_failure:
-  # outputs the diagnostic details for travis 
-  - bash build/git-build.sh 'diag' diagnostics
-  # dumps our log directory 
-  - cat build/logs/diag.log
-  - bash build/git-build.sh 'failure-comment' comment_on_pull_request_with_log "\ud83d\udc4e <b>FAIL</b> - Tested using <i>${TRAVIS_JDK_VERSION}</i>"
-
-# Report back the status comment for the build type. 
-after_success: 
-  - bash build/git-build.sh 'success-comment' comment_on_pull_request "\ud83d\udc4d <b>PASS</b>  - Tested using <i>${TRAVIS_JDK_VERSION}</i>"
-
-# cache the build files
-cache:
-  directories:
-  - $HOME/.m2
-# Option not to not cache ibm-java
-#  - $HOME/ibm-java
-
-# Send out the build whenb it's a tag build
-deploy:
-  - provider: bintray
-    file: bintray-config.json
-    user: $BINTRAY_USER
-    key:  "FAILME$BINTRAY_APIKEY"
-    skip_cleanup: true
-    on:
-      tags: true
-      jdk: openjdk11
-  - provider: releases
-    api_key: $GITHUB_OAUTH_TOKEN
-    file_glob: true
-    file: target/*.jar
-    skip_cleanup: true
-    on:
-      tags: true
-      jdk: openjdk11
-  - provider: script
-    script: "./build/push-javadoc-to-gh-pages.sh"
-    skip_cleanup: true
-    on:
-      tags: true
-      jdk: openjdk11
-
-#
-# Ask bintray to sync the just-deployed artifact to maven central
-after_script:
-- '[ "${TRAVIS_TAG}" != "" && "${BUILD_JDK_VERSION}" == *"openjdk version \"11.0"* ] 
-  && bash build/sync2MC.sh $BINTRAY_USER $BINTRAY_APIKEY $BINTRAY_REPO_OWNER $BINTRAY_REPO_NAME $BINTRAY_PKG_NAME $TRAVIS_TAG'
 
 notifications:
   email:
