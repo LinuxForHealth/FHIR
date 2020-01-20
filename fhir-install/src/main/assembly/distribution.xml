@@ -108,8 +108,8 @@
             <directoryMode>0755</directoryMode>
             <fileMode>0755</fileMode>
             <includes>
-                <include>com.ibm.fhir:fhir-persistence-schema:cli</include>
-                <include>com.ibm.fhir:fhir-swagger-generator:cli</include>
+                <include>com.ibm.fhir:fhir-persistence-schema</include>
+                <include>com.ibm.fhir:fhir-swagger-generator</include>
             </includes>
         </dependencySet>
     </dependencySets>
