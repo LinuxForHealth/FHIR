@@ -56,8 +56,8 @@ function change_all_versions {
     set_version "fhir-parent" 
 
     # Reconcile the versions. 
-     mvn -ntp -B org.codehaus.mojo:versions-maven-plugin:2.7:set-property -Dproperty=fhir-examples.properties -DnewVersion=${BUILD_VERSION} -f fhir-parent
-      mvn -ntp -B org.codehaus.mojo:versions-maven-plugin:2.7:set-property -Dproperty=fhir-tools.properties -DnewVersion=${BUILD_VERSION} -f fhir-parent
+    mvn -ntp -B org.codehaus.mojo:versions-maven-plugin:2.7:set-property -Dproperty=fhir-examples.version -DnewVersion=${BUILD_VERSION} -f fhir-parent
+    mvn -ntp -B org.codehaus.mojo:versions-maven-plugin:2.7:set-property -Dproperty=fhir-tools.version -DnewVersion=${BUILD_VERSION} -f fhir-parent
 }
 
 ###############################################################################
