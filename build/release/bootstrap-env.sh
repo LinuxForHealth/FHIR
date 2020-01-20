@@ -23,7 +23,9 @@ debugging "Script Name is ${SCRIPT_NAME}"
 # Function Declaration
 
 # set_build_variable - take 3 parameters 
-# the three parameters are 
+# 1 - the variable name 
+# 2 - the default value
+# 3 - the preferred, if not empty, value
 function set_build_variable {
     if [ ! -z "${3}" ] # check to see if the variable is already not empty.
     then 
@@ -37,7 +39,6 @@ function set_build_variable {
     else 
         debugging "Environment Variable is already set [${1}]"
     fi
-    
 }
 
 # set_build_type - sets the type of the build and the build id

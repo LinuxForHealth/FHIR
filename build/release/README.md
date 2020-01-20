@@ -1,11 +1,11 @@
 # 
 The build process supports Travis and GitHub Actions. 
 
-The build executes in three four types
-1 - SNAPSHOT (skips the version change phase)
-2 - EXISTING (ignores the build phase, and is generally local to the user's development machine)
-3 - RELEASE CANDIDATE (automatted)
-4 - RELEASE (automatted)
+The build executes in with the following types:
+- SNAPSHOT (skips the version change phase)
+- EXISTING (ignores the build phase, and is generally local to the user's development machine)
+- RELEASE CANDIDATE (automated)
+- RELEASE (automated)
 
 The build is triggered by a push of a tag.  For each tag, a new build is executed.  If a build fails, remove the failed build's tag. 
 
