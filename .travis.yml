@@ -58,9 +58,9 @@ before_install:
 # in this case, we've opted for conditional usage using BASH scripts. 
 # URL - https://github.com/travis-ci/travis-conditions and https://docs.travis-ci.com/user/environment-variables/ 
 # these are useful. 
+# Build and Release for Git Tag
 script: 
   - | 
-    # Build and Release for Git Tag
     if [[ "${TRAVIS_EVENT_TYPE}" == "push" && "${TRAVIS_TAG} != "" ]]
     then 
       bash build/release/bootstrap-env.sh
