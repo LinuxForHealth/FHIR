@@ -19,7 +19,7 @@ jobs:
     - name: Grab the Master Branch
       uses: actions/checkout@v2
       with:
-            working-directory: fhir
+            path: fhir
             ref: refs/heads/master
             fetch-depth: 1
     - name: Use Node.js ${{ matrix.node-version }}
@@ -48,10 +48,9 @@ jobs:
     - name: Grab the GH Pages Branch
       uses: actions/checkout@v2
       with:
-            working-directory: gh-pages
+            path: gh-pages
             ref: refs/heads/gh-pages
             fetch-depth: 1
-            path: docs
             token: ${{ secrets.GITHUB_TOKEN }}
     - name: Commit and Add GH Pages
       env:
