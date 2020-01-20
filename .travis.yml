@@ -67,7 +67,7 @@ script:
       . ./build/release/bootstrap.env
       bash build/release/version.sh
       bash build/release/clean.sh
-      bash build/release/build.sh
+      travis_wait 30 bash build/release/build.sh
       bash build/release/code-coverage.sh
       bash build/release/release.sh
       bash build/release/sync-maven-central.sh
