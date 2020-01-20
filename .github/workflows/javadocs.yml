@@ -16,6 +16,8 @@ jobs:
     - name: Gets the version
       id: get_version
       run: echo ::set-env name=TAG_VERSION::${GITHUB_REF/refs\/tags\//}
+    - name: Setup Graphviz environment
+      uses: kamiazya/setup-graphviz@v1
     - name: Grab the Master Branch
       uses: actions/checkout@v2
       with:
