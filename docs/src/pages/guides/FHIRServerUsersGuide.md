@@ -1106,6 +1106,7 @@ There are 2 projects involved inside the implementation:
 - fhir-operation-bulkdata
 - fhir-bulkimportexport-webapp   
 
+(There is a ExportOperationTest.java in fhir-server-test project with server integration test cases for system, patient and group export)  
 The fhir-operation-bulkdata project implements the REST APIs for Bulkdata export as FHIR operations, there are ExportOperation, PatientExportOperation and GroupExportOperation defined for system export, patient export and group export accordingly. And these operations call JavaBatch jobs defined in the fhir-bulkimportexport-webapp project to do the real export work.   
 There are 3 chunk style JavaBatch jobs defined as following in fhir-bulkimportexport-webapp project for the above 3 export operations:  
 - FhirBulkExportChunkJob
@@ -1221,11 +1222,11 @@ And JavaBatch user used in bulkdata.json can be configured in server.xml as foll
 	</security-role>
 </authorization-roles>
 ```
-please notice that a user with at least batchSubmitter role should be used for batch-user of bulkdata.json.
+Please notice that a user with at least batchSubmitter role should be used for batch-user of bulkdata.json.
 
 By default, in-memory derby database is used for persistence of the JavaBatch Jobs. Instruction is also provided in "Configuring a Liberty Datasource with API Key" section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. Liberty JavaBath framework creates the Database, DB schema and tables automatically by default for both approaches.   
 
-For more information about liberty JavaBatch configuration, please refer to [IBM WebSphere Liberty Java Batch White paper](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/webindex/wp102544).
+For more information about liberty JavaBatch configuration, please refer to [IBM WebSphere Liberty Java Batch White paper](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/webindex/wp102544).  
 
 ## 4.11 CADF audit logging service
 The CADF audit logging service pushs FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)]( https://www.dmtf.org/standards/cadf) standard format to IBM Cloud Event Streams service, these FHIR operations include create, read, update, delete, version read, history, search, validate, custom operation, meta and bundle, these operations are mapped to CADF actions as following:
