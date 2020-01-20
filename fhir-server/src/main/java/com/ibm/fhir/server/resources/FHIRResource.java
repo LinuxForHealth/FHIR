@@ -3672,7 +3672,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 .status(PublicationStatus.ACTIVE)
                 .date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC)))
                 .kind(CapabilityStatementKind.CAPABILITY)
-                .fhirVersion(FHIRVersion.VERSION_4_0_0)
+                .fhirVersion(FHIRVersion.VERSION_4_0_1)
                 .format(format).patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH))
                 .version(string(buildInfo.getBuildVersion()))
                 .name(string(FHIR_SERVER_NAME))
