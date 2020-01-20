@@ -1,16 +1,18 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.examples;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 
 public class ExamplesUtil {
@@ -24,20 +26,28 @@ public class ExamplesUtil {
      *          If the specified index could not be found
      */
     public static Reader indexReader(Index index) throws IOException {
-        InputStream is;
-    
+        StringBuilder allLines = new StringBuilder();
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        is = cl.getResourceAsStream(index.path());
-        if (is == null) {
-            // Try the class's classloader instead
-            is = ExamplesUtil.class.getResourceAsStream(index.path());
+
+        for (String path : index.paths()) {
+            InputStream is = cl.getResourceAsStream(path);
+            if (is == null) {
+                // Try the class's classloader instead
+                is = ExamplesUtil.class.getResourceAsStream(path);
+            }
+            if (is == null) {
+                throw new FileNotFoundException("resource not found: " + path);
+            }
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    allLines.append(line).append(System.lineSeparator());
+                }
+            }
         }
 
-        if (is == null) {
-            throw new FileNotFoundException("resource not found: " + index.path());
-        }
-
-        return new InputStreamReader(is, StandardCharsets.UTF_8);
+        return new StringReader(allLines.toString());
     }
     
     /**
