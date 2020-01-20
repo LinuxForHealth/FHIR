@@ -60,8 +60,8 @@ before_install:
 # these are useful. 
 # Build and Release for Git Tag
 script: 
-  - | 
-    if [[ "${TRAVIS_EVENT_TYPE}" == "push" && "${TRAVIS_TAG} != "" ]]
+  - |
+    if [[ "${TRAVIS_EVENT_TYPE}" == "push" && "${TRAVIS_TAG}" != "" ]]
     then 
       bash build/release/bootstrap-env.sh
       . ./build/release/bootstrap.env
