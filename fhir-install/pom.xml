@@ -179,11 +179,6 @@
                 </dependency>
                 <dependency>
                     <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-persistence-schema</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
                     <artifactId>fhir-notification-kafka</artifactId>
                     <version>${project.version}</version>
                 </dependency>
