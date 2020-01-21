@@ -56,7 +56,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
     public static final boolean ON = true;
 
     public static final boolean DEBUG = false;
-    String ExportStatusUrl;
+    private String exportStatusUrl;
     private String savedPatientId, savedPatientId2;
     private String savedGroupId, savedGroupId2;
 
@@ -151,7 +151,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         Response response;
         do {
             response =
-                doGet(ExportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON);
+                doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON);
             // 202 accept means the request is still under processing
             // 200 mean export is finished
             assertTrue(response.getStatus() == 200 || response.getStatus() == 202);
@@ -325,7 +325,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
 
         assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
-        ExportStatusUrl = contentLocation;
+        exportStatusUrl = contentLocation;
         checkBaseExportStatus();
     }
 
@@ -343,7 +343,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
 
         assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
-        ExportStatusUrl = contentLocation;
+        exportStatusUrl = contentLocation;
         checkBaseExportStatus();
     }
 
@@ -360,7 +360,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
 
         assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
-        ExportStatusUrl = contentLocation;
+        exportStatusUrl = contentLocation;
         checkBaseExportStatus();
     }
 }
