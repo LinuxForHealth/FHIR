@@ -58,14 +58,14 @@ jobs:
             CI: true
       run: |
             cd gh-pages
+            echo "Working Directory is $(pwd)"
             if [ -d './javadocs/latest/' ]
             then
               rm -rf ./javadocs/latest/
             else 
               mkdir -p javadocs/
             fi
-            cp -Rf ../apidocs/* ./javadocs/
-            mv javadocs/apidocs javadocs/latest 
+            cp -Rf ../apidocs/* ./javadocs/latest/
             cp -Rf javadocs/javadocs javadocs/${TAG_VERSION}
             date > build.txt
             echo "javadocs" >> build.txt
