@@ -63,8 +63,9 @@ jobs:
             then
               rm -rf ./javadocs/latest/
             else 
-              mkdir -p javadocs/
+              mkdir -p javadocs/latest
             fi
+            ls -al 
             cp -Rf ../apidocs/* ./javadocs/latest/
             cp -Rf javadocs/javadocs javadocs/${TAG_VERSION}
             date > build.txt
