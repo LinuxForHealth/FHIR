@@ -30,7 +30,7 @@ jobs:
       with:
             ref: refs/heads/gh-pages
             fetch-depth: 1
-            path: docs
+            path: gh-pages
             token: ${{ secrets.GITHUB_TOKEN }}
     - name: Set up OpenJDK
       uses: joschi/setup-jdk@v1
