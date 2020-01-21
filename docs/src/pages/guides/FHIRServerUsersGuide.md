@@ -1151,7 +1151,25 @@ BulkData web application writes the exported FHIR resources to IBM COS or Amazon
   "contextRoot" : "/fhir-server/api/v4"
 }
 ```
-Note: serverHostname is the host name part of the server generated polling location url, and contextRoot is the context root part of the server generated polling location url.  
+|Parameter Name   | Description|
+|--------------| ------------|
+|`applicationName`| fixed value |
+|`moduleName`| fixed value |
+|`jobParameters.cos.bucket.name`| object store bucket name |
+|`jobParameters.cos.location`| object store location |
+|`jobParameters.cos.endpointurl`| object store end point url |
+|`jobParameters.credential.ibm`| if use IBM credential |
+|`jobParameters.cos.api.key`| api key for accessing IBM COS |
+|`jobParameters.cos.srvinst.id`| service instance Id for accessing IBM COS |
+|`implementation_type`| fixed value |
+|`batch-uri`| fixed value |
+|`batch-user`| user for submitting JavaBatch job |
+|`batch-user-password`| password for above batch user |
+|`batch-truststore`| trust store for JavaBatch job submission |
+|`batch-truststore-password`| password for above trust store |
+|`serverHostname`| host name part of the server generated polling location url |
+|`contextRoot`| context root part of the server generated polling location url |
+
 To use Amazon S3 bucket for exporting, please set cos.credential.ibm to "N", set cos.api.key to S3 access key, and set cos.srvinst.id to S3 secret key. This following is a sample path to the exported ndjson file, the full path can be gotten from the response to the polling location request after the export request (please refer to Fhir BulkDate spec for details).  
 
 ```
