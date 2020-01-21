@@ -58,7 +58,10 @@ jobs:
             CI: true
       run: |
             cd gh-pages
-            rm -rf ./javadocs/latest/
+            if [ -d ./javadocs/latest/ ]
+            then
+              rm -rf ./javadocs/latest/
+            fi
             cp -Rf ../apidocs/* ./javadocs/
             mv javadocs/apidocs javadocs/latest 
             cp -Rf javadocs/javadocs javadocs/${TAG_VERSION}
