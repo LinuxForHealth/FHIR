@@ -30,7 +30,7 @@ public class R4ExamplesTest {
     public void serializationTest() throws Exception {
         driver.setProcessor(new SerializationProcessor());
         String index = System.getProperty(this.getClass().getName()
-            + ".index", Index.MINIMAL_JSON.name());
+            + ".index", Index.ALL_JSON.name());
         driver.processIndex(Index.valueOf(index));
     }
     
@@ -38,7 +38,7 @@ public class R4ExamplesTest {
     public void copyTest() throws Exception {
         driver.setProcessor(new CopyProcessor(new CopyingVisitor<Resource>()));
         String index = System.getProperty(this.getClass().getName()
-            + ".index", Index.MINIMAL_JSON.name());
+            + ".index", Index.ALL_JSON.name());
         driver.processIndex(Index.valueOf(index));
     }
     

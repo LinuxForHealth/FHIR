@@ -3,8 +3,7 @@
 This module provides classes for generating Swagger and OpenAPI definitions for the FHIR HTTP interface.
 It uses a combination of the HL7-provided specification artifacts and the generated java classes from `fhir-model`.
 
-This module is built into two different jar files. The executable command line interface (cli) version of this jar packages this module with all of its dependencies and is included in the IBM FHIR Server distribution zip.
-Alternatively, this jar can be downloaded directly from [JFrog Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases/fhir-persistence-schema#files/com/ibm/fhir/fhir-persistence-schema) or built locally to `fhir-swagger-generator/target`.
+This module is built into two different jar files. The executable command line interface (cli) version of this module is can also be downloaded directly from [JFrog Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases/fhir-swagger-generator#files/com/ibm/fhir/fhir-swagger-generator) or is available from the Releases tab.  Alternatively, this jar can be built locally to `fhir-swagger-generator/target`.
 
 ## Execute the fhir-swagger-generator command line interface (CLI)
 

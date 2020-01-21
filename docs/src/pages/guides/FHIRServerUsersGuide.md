@@ -1192,7 +1192,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultPrettyPrint`|boolean|A boolean flag which indicates whether "Pretty Printing" should be used by default. Applies to both XML and JSON.|
 |`fhirServer/core/tenantIdHeaderName`|string|The name of the request header that will be used to specify the tenant-id for each incoming FHIR REST API request. For headers with semicolon-delimited parts, setting a header name like `<headerName>:<partName>` will select the value from the part of header `<headerName>`'s value with a name of `<partName>` (e.g. setting `X-Test:part1` would select `someValue` from the header `X-Test: part1=someValue;part2=someOtherValue`).|
 |`fhirServer/core/dataSourceIdHeaderName`|string|The name of the request header that will be used to specify the datastore-id for each incoming FHIR REST API request. For headers with semicolon-delimited parts, setting a header name like `<headerName>:<partName>` will select the value from the part of header `<headerName>`'s value with a name of `<partName>` (e.g. setting `X-Test:part1` would select `someValue` from the header `X-Test: part1=someValue;part2=someOtherValue`).|
-|`fhirServer/core/handling`|string|The default handling mode of the server (`strict | lenient`) and whether to honor client handling preferences passed through the Prefer header or not (`strict vs strict-only`)|
+|`fhirServer/core/defaultHandling`|string|The default handling preference of the server (`strict | lenient`) which determines how the server handles unrecognized search parameters and resource elements.|
+|`fhirServer/core/allowClientHandlingPref`|boolean|Indicates whether the client is allowed to override the server default handling preference using the `Prefer:handling` header value part.|
 |`fhirServer/searchParameterFilter`|property list|A set of inclusion rules for search parameters. See [FHIR Search Configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-Configuration--Filtering-of-search-parameters) for more information.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
@@ -1221,7 +1222,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultPrettyPrint`|false|
 |`fhirServer/core/tenantIdHeaderName`|`X-FHIR-TENANT-ID`|
 |`fhirServer/core/dataSourceIdHeaderName`|`X-FHIR-DSID`|
-|`fhirServer/core/handling`|"strict"|
+|`fhirServer/core/defaultHandling`|"strict"|
+|`fhirServer/core/allowClientHandlingPref`|true|
 |`fhirServer/searchParameterFilter`|`"*": [*]`|
 |`fhirServer/notifications/common/includeResourceTypes`|["*"]|
 |`fhirServer/notifications/websocket/enabled`|false|
@@ -1249,7 +1251,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultPrettyPrint`|Y|Y|
 |`fhirServer/core/tenantIdHeaderName`|N|Y|
 |`fhirServer/core/dataSourceIdHeaderName`|N|N|
-|`fhirServer/core/handling`|Y|Y|
+|`fhirServer/core/defaultHandling`|Y|Y|
+|`fhirServer/core/allowClientHandlingPref`|Y|Y|
 |`fhirServer/searchParameterFilter`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|Y|Y|

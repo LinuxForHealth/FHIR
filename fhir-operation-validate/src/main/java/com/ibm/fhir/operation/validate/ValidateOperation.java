@@ -23,8 +23,8 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Narrative;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
@@ -52,13 +52,21 @@ public class ValidateOperation extends AbstractOperation {
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters,
         FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
-            Parameter parameter = getParameter(parameters, "resource");
-            if (parameter == null) {
+            Parameter resourceParameter = getParameter(parameters, "resource");
+            if (resourceParameter == null) {
                 throw buildExceptionWithIssue("Input parameter 'resource' is required for the $validate operation", IssueType.INVALID);
             }
+            Resource resource = resourceParameter.getResource() ;
 
-            Resource resource = parameter.getResource() ;
-            List<Issue> issues = FHIRValidator.validator().validate(resource);
+            List<OperationOutcome.Issue> issues;
+            Parameter profileParameter = getParameter(parameters, "profile");
+            if (profileParameter != null && profileParameter.getValue() != null) {
+                Uri profileUri = profileParameter.getValue().as(Uri.class);
+                String profile = profileUri == null ? null : profileUri.getValue();
+                issues = FHIRValidator.validator().validate(resource, profile);
+            } else {
+                issues = FHIRValidator.validator().validate(resource);
+            }
 
             return FHIROperationUtil.getOutputParameters(buildResourceValidOperationOutcome(issues));
         } catch (FHIROperationException e) {
@@ -67,7 +75,7 @@ public class ValidateOperation extends AbstractOperation {
             throw new FHIROperationException("An error occurred during validation", e);
         }
     }
-   
+
     private OperationOutcome buildResourceValidOperationOutcome(List<Issue> issues) {
         if (issues.isEmpty()) {
             issues = Collections.singletonList(Issue.builder()
@@ -78,10 +86,10 @@ public class ValidateOperation extends AbstractOperation {
                             .build())
                         .build());
         }
-        
+
         boolean hasError = issues.stream().anyMatch(issue -> IssueSeverity.ERROR.equals(issue.getSeverity())
                 || IssueSeverity.FATAL.equals(issue.getSeverity()));
-                
+
         OperationOutcome operationOutcome = OperationOutcome.builder()
                 .id(hasError? "Error" : "NoError")
                 .text(Narrative.builder()
@@ -91,7 +99,7 @@ public class ValidateOperation extends AbstractOperation {
                     .build())
                 .issue(issues)
                 .build();
-                
+
         return operationOutcome;
     }
 }

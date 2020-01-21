@@ -1,32 +1,29 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.model.generator;
+package com.ibm.fhir.model.parser;
 
-import java.io.OutputStream;
-import java.io.Writer;
+import java.io.InputStream;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
-import com.ibm.fhir.model.visitor.Visitable;
+import com.ibm.fhir.model.parser.exception.FHIRParserException;
+import com.ibm.fhir.model.resource.Resource;
 
-public abstract class FHIRAbstractGenerator implements FHIRGenerator {
+public abstract class FHIRAbstractParser implements FHIRParser {
     protected Map<String, Object> properties = new HashMap<>();
-
+    
     @Override
-    public abstract void generate(Visitable visitable, OutputStream out) throws FHIRGeneratorException;
-
+    public abstract <T extends Resource> T parse(InputStream in) throws FHIRParserException;
+    
     @Override
-    public abstract void generate(Visitable visitable, Writer writer) throws FHIRGeneratorException;
-
-    @Override
-    public abstract boolean isPrettyPrinting();
-
+    public abstract <T extends Resource> T parse(Reader reader) throws FHIRParserException;
+    
     @Override
     public void setProperty(String name, Object value) {
         Objects.requireNonNull(name);
@@ -62,7 +59,7 @@ public abstract class FHIRAbstractGenerator implements FHIRGenerator {
     }
     
     @Override
-    public <T extends FHIRGenerator> T as(Class<T> generatorClass) {
-        return generatorClass.cast(this);
+    public <T extends FHIRParser> T as(Class<T> parserClass) {
+        return parserClass.cast(this);
     }
 }

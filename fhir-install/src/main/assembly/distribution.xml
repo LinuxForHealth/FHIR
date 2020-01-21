@@ -42,21 +42,6 @@
             <outputDirectory>fhir/server/usr/servers/fhir-server/apps</outputDirectory>
             <fileMode>0755</fileMode>
         </file>
-        <file>
-            <source>../fhir-server-test/src/test/resources/fhirClientTruststore.jks</source>
-            <outputDirectory>fhir/server/fhir/client</outputDirectory>
-            <fileMode>0755</fileMode>
-        </file>
-        <file>
-            <source>../fhir-server-test/src/test/resources/fhirClientKeystore.jks</source>
-            <outputDirectory>fhir/server/fhir/client</outputDirectory>
-            <fileMode>0755</fileMode>
-        </file>
-        <file>
-            <source>../fhir-cli/target/fhir-cli.zip</source>
-            <outputDirectory>fhir/server/fhir/client</outputDirectory>
-            <fileMode>0755</fileMode>
-        </file>
     </files>
     <dependencySets>
         <dependencySet>
@@ -100,16 +85,6 @@
             <fileMode>0755</fileMode>
             <includes>
                 <include>com.ibm.db2:jcc</include>
-            </includes>
-        </dependencySet>
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>fhir/server/fhir</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>com.ibm.fhir:fhir-persistence-schema:cli</include>
-                <include>com.ibm.fhir:fhir-swagger-generator:cli</include>
             </includes>
         </dependencySet>
     </dependencySets>

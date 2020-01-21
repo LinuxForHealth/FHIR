@@ -10,12 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ 'openjdk8']
+        java: [ 'openjdk11']
       fail-fast: false
     steps:
     - name: Gets the version
       id: get_version
       run: echo ::set-env name=TAG_VERSION::${GITHUB_REF/refs\/tags\//}
+    - name: Setup Graphviz environment
+      uses: kamiazya/setup-graphviz@v1
     - name: Grab the Master Branch
       uses: actions/checkout@v2
       with:
@@ -35,11 +37,11 @@ jobs:
     - name: Build parent without tests
       run: |
             export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
-            mvn -Pdeploy-version-release clean -f fhir-parent/pom.xml -N
-            mvn -B site --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
+            mvn -ntp -Pdeploy-version-release clean -f fhir-parent/pom.xml -N
+            mvn -ntp -B site --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
             cp -R fhir-parent/target/site/apidocs apidocs/
     - name: Grab the GH Pages Branch
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
             working-directory: gh-pages
             ref: refs/heads/gh-pages
