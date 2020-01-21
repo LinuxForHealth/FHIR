@@ -38,6 +38,7 @@ jobs:
         CI: true
         JAVA_HOME: /opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
       run: |
+        exit -1
         bash build/release/bootstrap-env.sh
         . ./build/release/bootstrap.env
         bash build/release/version.sh
