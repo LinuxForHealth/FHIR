@@ -198,5 +198,5 @@
             </security-role>
         </application-bnd>
     </webApplication>
-
+    <include optional="true" location="${server.config.dir}/batchDs.xml"/>
 </server>
