@@ -29,8 +29,6 @@
             <class name="com.ibm.fhir.client.test.FHIRClientTest" />
 
             <class name="com.ibm.fhir.cli.test.FHIRCliTest" />
-            
-            <class name="com.ibm.fhir.server.test.ExportOperationTest" />
             <!-- requires $hello operation to be deployed. 
             Include the fhir-operation-[version]-tests jar in the fhir-server userlib dir before running the test:
             -->
