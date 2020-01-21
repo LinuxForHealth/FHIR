@@ -6,11 +6,20 @@
 
 package com.ibm.fhir.examples;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public enum Index {
+    /**
+     * All examples in all formats
+     */
+    ALL("/spec-json.txt", "/ibm-json.txt", "/spec-xml.txt", "/ibm-xml.txt"),
+    
     /**
      * Both R4 spec and IBM generated examples
      */
-    ALL_JSON("/all-json.txt"),
+    ALL_JSON("/spec-json.txt", "/ibm-json.txt"),
 
     /**
      * Small mix of spec and IBM examples used for unit tests to keep build times short
@@ -18,7 +27,7 @@ public enum Index {
     MINIMAL_JSON("/minimal-json.txt"),
 
     /**
-     * All R4 spec examples
+     * Examples shipped with the FHIR R4 specification
      */
     SPEC_JSON("/spec-json.txt"),
 
@@ -35,7 +44,7 @@ public enum Index {
     /**
      * Both R4 spec and IBM generated examples
      */
-    ALL_XML("/all-xml.txt"),
+    ALL_XML("/spec-xml.txt", "/ibm-xml.txt"),
 
     /**
      * Small mix of spec and IBM examples used for unit tests to keep build times short
@@ -53,16 +62,16 @@ public enum Index {
     IBM_XML("/ibm-xml.txt");
 
 
-    private String path;
-    
-    private Index(String path) {
-        this.path = path;
+    private List<String> paths = new ArrayList<>();
+
+    private Index(String... path) {
+        paths.addAll(Arrays.asList(path));
     }
-    
+
     /**
      * @return the String path for this index file
      */
-    public String path() {
-        return path;
+    public List<String> paths() {
+        return paths;
     }
 }

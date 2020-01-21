@@ -6,8 +6,12 @@
 
 package com.ibm.fhir.server.test;
 
+import static com.ibm.fhir.model.type.String.string;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
+
+import java.io.StringWriter;
+import java.util.Collections;
 
 import javax.json.Json;
 import javax.json.JsonBuilderFactory;
@@ -19,13 +23,19 @@ import javax.ws.rs.core.Response;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.Parameters;
+import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 
 public class FHIRValidateOperationTest extends FHIRServerTestBase {
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
     @Test(groups = { "validate-operation" })
-    public void testValidatePatient() {        
+    public void testValidatePatient() {
         JsonObject patient = buildPatient();
         Entity<JsonObject> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_JSON);
         
@@ -34,9 +44,9 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
         
-        assertEquals(operationOutcome.getId(), "NoError");
-        assertEquals(operationOutcome.getIssue().size(), 1);
-        assertEquals(operationOutcome.getIssue().get(0).getSeverity(), IssueSeverity.WARNING);
+        assertEquals("NoError", operationOutcome.getId());
+        assertEquals(1, operationOutcome.getIssue().size());
+        assertEquals(IssueSeverity.WARNING, operationOutcome.getIssue().get(0).getSeverity());
         assertTrue(operationOutcome.getIssue().get(0).getDetails().getText().getValue().startsWith("dom-6"));
     }
 
@@ -50,12 +60,104 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
         
-        assertEquals(operationOutcome.getId(), "Error");
-        assertEquals(operationOutcome.getIssue().size(), 2);
-        assertEquals(operationOutcome.getIssue().get(0).getSeverity(), IssueSeverity.WARNING);
+        assertEquals("Error", operationOutcome.getId());
+        assertEquals(2, operationOutcome.getIssue().size());
+        assertEquals(IssueSeverity.WARNING, operationOutcome.getIssue().get(0).getSeverity());
         assertTrue(operationOutcome.getIssue().get(0).getDetails().getText().getValue().startsWith("dom-6"));
-        assertEquals(operationOutcome.getIssue().get(1).getSeverity(), IssueSeverity.ERROR);
+        assertEquals(IssueSeverity.ERROR, operationOutcome.getIssue().get(1).getSeverity());
         assertTrue(operationOutcome.getIssue().get(1).getDetails().getText().getValue().startsWith("cpt-2"));
+    }
+
+    @Test(groups = { "validate-operation" })
+    public void testValidateValidObsProfile() throws Exception {
+        Observation obs = TestUtil.readExampleResource("json/spec/observation-example-respiratory-rate.json");
+        // Clear the profile from the resource's meta
+        obs = obs.toBuilder()
+                .meta(obs.getMeta().toBuilder().profile(Collections.emptySet()).build())
+                .build();
+        Parameters parameters = Parameters.builder()
+                .parameter(Parameters.Parameter.builder()
+                    .name(string("resource"))
+                    .resource(obs)
+                    .build())
+                .parameter(Parameters.Parameter.builder()
+                    .name(string("profile"))
+                    .value(Uri.of("http://hl7.org/fhir/StructureDefinition/vitalsigns"))
+                    .build())
+                .build();
+
+        StringWriter writer = new StringWriter();
+        FHIRGenerator.generator(Format.JSON).generate(parameters, writer);
+
+        WebTarget target = getWebTarget();
+        Response response = target.path("Resource/$validate").request().post(Entity.json(writer.toString()), Response.class);
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
+
+        assertEquals("NoError", operationOutcome.getId());
+        assertEquals(1, operationOutcome.getIssue().size());
+    }
+
+    @Test(groups = { "validate-operation" })
+    public void testValidateValidRespRate() throws Exception {
+        Observation obs = TestUtil.readExampleResource("json/spec/observation-example-respiratory-rate.json");
+        // Clear the profile from the resource's meta
+        obs = obs.toBuilder()
+                .meta(obs.getMeta().toBuilder().profile(Collections.emptySet()).build())
+                .build();
+        Parameters parameters = Parameters.builder()
+                .parameter(Parameters.Parameter.builder()
+                    .name(string("resource"))
+                    .resource(obs)
+                    .build())
+                .parameter(Parameters.Parameter.builder()
+                    .name(string("profile"))
+                    .value(Uri.of("http://hl7.org/fhir/StructureDefinition/resprate"))
+                    .build())
+                .build();
+
+        StringWriter writer = new StringWriter();
+        FHIRGenerator.generator(Format.JSON).generate(parameters, writer);
+
+        WebTarget target = getWebTarget();
+        Response response = target.path("Resource/$validate").request().post(Entity.json(writer.toString()), Response.class);
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
+
+        assertEquals("NoError", operationOutcome.getId());
+        assertEquals(1, operationOutcome.getIssue().size());
+    }
+
+    @Test(groups = { "validate-operation" })
+    public void testValidateInvalidObsProfile() throws Exception {
+        Observation obs = TestUtil.readExampleResource("json/spec/observation-example-respiratory-rate.json");
+        // Clear the profile from the resource's meta
+        obs = obs.toBuilder()
+                .meta(obs.getMeta().toBuilder().profile(Collections.emptySet()).build())
+                .build();
+        Parameters parameters = Parameters.builder()
+                .parameter(Parameters.Parameter.builder()
+                    .name(string("resource"))
+                    .resource(obs)
+                    .build())
+                .parameter(Parameters.Parameter.builder()
+                    .name(string("profile"))
+                    .value(Uri.of("http://hl7.org/fhir/StructureDefinition/heartrate"))
+                    .build())
+                .build();
+
+        StringWriter writer = new StringWriter();
+        FHIRGenerator.generator(Format.JSON).generate(parameters, writer);
+
+        WebTarget target = getWebTarget();
+        Response response = target.path("Resource/$validate").request().post(Entity.json(writer.toString()), Response.class);
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
+
+        assertEquals("Error", operationOutcome.getId());
+        assertEquals(1, operationOutcome.getIssue().size());
+        assertEquals(IssueSeverity.ERROR, operationOutcome.getIssue().get(0).getSeverity());
+        assertTrue(operationOutcome.getIssue().get(0).getDetails().getText().getValue().startsWith("generated-heartrate"));
     }
 
     private JsonObject buildPatient() {
@@ -85,7 +187,6 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
             .add("telecom", BUILDER_FACTORY.createArrayBuilder()
                 .add(BUILDER_FACTORY.createObjectBuilder()
                     .add("use", "home")
-//                  .add("system", "phone")
                     .add("value", "555-1234")))
             .build();
     }

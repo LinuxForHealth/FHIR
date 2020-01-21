@@ -1,0 +1,45 @@
+{
+	"resourceType": "Observation",
+	"status": "final",
+	"category": [{
+		"coding": [{
+			"system": "http://terminology.hl7.org/CodeSystem/observation-category",
+			"code": "vital-signs",
+			"display": "Vital Signs"
+		}]
+	}],
+	"code": {
+		"coding": [{
+			"system": "http://loinc.org",
+			"code": "55284-4",
+			"display": "Blood pressure systolic and diastolic"
+		}]
+	},
+	"component": [{
+		"code": {
+			"coding": [{
+				"system": "http://loinc.org",
+				"code": "8459-0",
+				"display": "Systolic blood pressure--sitting"
+			}]
+		},
+		"valueQuantity": {
+			"value": 125.0,
+			"unit": "mmHg"
+		}
+	},
+	{
+		"code": {
+			"coding": [{
+				"system": "http://loinc.org",
+				"code": "8453-3",
+				"display": "BP dias--sitting"
+			}]
+		},
+		"valueQuantity": {
+			"value": 80.0,
+			"unit": "mmHg"
+		}
+	}],
+	"hamburger": "hotdog"
+}

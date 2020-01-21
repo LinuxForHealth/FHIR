@@ -68,7 +68,6 @@ import javax.ws.rs.core.UriInfo;
 
 import org.owasp.encoder.Encode;
 
-import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
@@ -146,7 +145,6 @@ import com.ibm.fhir.server.exception.FHIRHttpException;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.helper.FHIRUrlParser;
 import com.ibm.fhir.server.listener.FHIRServletContextListener;
-import com.ibm.fhir.server.util.Handling;
 import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
 import com.ibm.fhir.server.util.ReferenceMappingVisitor;
 import com.ibm.fhir.server.util.RestAuditLogger;
@@ -168,7 +166,6 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     private static final String LOCAL_REF_PREFIX = "urn:";
     private static final String HEADERNAME_IF_NONE_EXIST = "If-None-Exist";
-    private static final String HEADERNAME_PREFER = "Prefer";
     private static final String HEADERNAME_IF_MODIFIED_SINCE = "If-Modified-Since";
     private static final String HEADERNAME_IF_NONE_MATCH = "If-None-Match";
 
@@ -1814,7 +1811,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIRSearchContext searchContext = null;
             if (queryParameters != null) {
-                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, httpServletRequest.getQueryString(), isLenient(requestProperties));
+                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, httpServletRequest.getQueryString(), HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
             }
 
             // Start a new txn in the persistence layer if one is not already active.
@@ -2032,7 +2029,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             Class<? extends Resource> resourceType =
                     getResourceType(resourceTypeName);
             FHIRHistoryContext historyContext =
-                    FHIRPersistenceUtil.parseHistoryParameters(queryParameters, isLenient(requestProperties));
+                    FHIRPersistenceUtil.parseHistoryParameters(queryParameters, HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
 
             // Start a new txn in the persistence layer if one is not already active.
             txn.begin();
@@ -2141,7 +2138,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeSearchEvent(event);
 
             FHIRSearchContext searchContext =
-                    SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters, httpServletRequest.getQueryString(), isLenient(requestProperties));
+                    SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters, httpServletRequest.getQueryString(), HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
@@ -2195,118 +2192,6 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             log.exiting(this.getClass().getName(), "doSearch");
         }
-    }
-
-    /**
-     * Uses the handling property from the server config and the Prefer header from the request to determine which mode the server should use.
-     *
-     * @throws FHIRHttpException if the mode is STRICT and the Prefer header contains an invalid handling value.
-     * @throws IllegalArgumentException if the server handling config contains an invalid string value
-     */
-    private boolean isLenient(Map<String, String> requestProperties) throws FHIRHttpException {
-        boolean isLenient = false; // Assign it to appease the compiler
-        String stringVal = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_HANDLING, Handling.STRICT.value());
-        Handling handlingConfig = Handling.from(stringVal);
-
-        switch(handlingConfig) {
-        case LENIENT: {
-            String handlingStringValue = getHeaderValue(requestProperties, HEADERNAME_PREFER, "handling");
-            if ("strict".equalsIgnoreCase(handlingStringValue)) {
-                isLenient = false;
-            } else {
-                isLenient = true;
-            }
-            break;
-        }
-        case LENIENT_ONLY:
-            isLenient = true;
-            break;
-
-        case STRICT: {
-            String handlingStringValue = getHeaderValue(requestProperties, HEADERNAME_PREFER, "handling");
-            if (handlingStringValue != null) {
-                // throws IllegalArgumentException for invalid values
-                try {
-                    isLenient = HTTPHandlingPreference.LENIENT == HTTPHandlingPreference.from(handlingStringValue);
-                } catch (IllegalArgumentException e) {
-                    throw new FHIRHttpException("Received invalid handling value: '" + handlingStringValue + "'; use 'strict' or 'lenient'.",
-                        Status.BAD_REQUEST);
-                }
-            } else {
-                isLenient = false;
-            }
-            break;
-        }
-        case STRICT_ONLY:
-            isLenient = false;
-            break;
-        }
-
-        return isLenient;
-    }
-
-    /**
-     * Helper method for getting header values.
-     *
-     * <p>Supports the retrieval of a specific part from within a multi-part header value like
-     * {@code Prefer: return=representation; handling=lenient;}
-     *
-     * @partName optional part name to return the value from
-     * @return the header (or header part) value or null if the header (or header part) does not exist
-     */
-    private String getHeaderValue(Map<String, String> requestProperties, String headerName,
-        String partName) {
-
-        String headerStringValue;
-        if (requestProperties != null && requestProperties.containsKey(headerName)) {
-            headerStringValue = requestProperties.get(headerName);
-        } else {
-            headerStringValue = httpHeaders.getHeaderString(headerName);
-        }
-
-        if (headerStringValue == null) {
-            return null;
-        }
-
-        String[] splitHeaderStringValues = headerStringValue.split(",");
-        if (splitHeaderStringValues.length > 1) {
-            log.fine("Found multiple '" + headerName + "' header values; using the first one with partName '"
-                    + partName + "'");
-        }
-
-        // Return the first non-null headerPartValue we find
-        for (String splitHeaderStringValue : splitHeaderStringValues) {
-            String headerPartValue = getHeaderPartValue(splitHeaderStringValue, partName);
-            if (headerPartValue != null) {
-                return headerPartValue;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Helper method for getting header values from multipart headers
-     *
-     * @return the value of the part or the full header value if partName is null; returns null if the partName is not
-     *         found
-     */
-    private String getHeaderPartValue(String fullHeaderValue, String partName) {
-        if (partName == null) {
-            return fullHeaderValue;
-        }
-
-        if (fullHeaderValue != null) {
-            String[] parts = fullHeaderValue.split(";");
-            for (int i = 0; i < parts.length; i++) {
-                String[] splitPart = parts[i].split("=", 2);
-                if (partName.equals(splitPart[0].trim()) && splitPart.length == 2) {
-                    return splitPart[1].trim();
-                }
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -3787,7 +3672,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 .status(PublicationStatus.ACTIVE)
                 .date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC)))
                 .kind(CapabilityStatementKind.CAPABILITY)
-                .fhirVersion(FHIRVersion.VERSION_4_0_0)
+                .fhirVersion(FHIRVersion.VERSION_4_0_1)
                 .format(format).patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH))
                 .version(string(buildInfo.getBuildVersion()))
                 .name(string(FHIR_SERVER_NAME))

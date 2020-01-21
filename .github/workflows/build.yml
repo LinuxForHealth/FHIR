@@ -20,15 +20,15 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Build tools
-      run: mvn -B install --file fhir-tools/pom.xml
+      run: mvn -B install --file fhir-tools
     - name: Build samples
-      run: mvn -B install --file fhir-examples/pom.xml
+      run: mvn -B install --file fhir-examples
     - name: Build parent without tests
-      run: mvn -B install --file fhir-parent/pom.xml -DskipTests
+      run: mvn -B install --file fhir-parent -DskipTests -P integration
     - name: Build sample generator
-      run: mvn -B package --file fhir-examples-generator/pom.xml
+      run: mvn -B package --file fhir-examples-generator
     - name: Build benchmark
-      run: mvn -B package --file fhir-benchmark/pom.xml
+      run: mvn -B package --file fhir-benchmark
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -36,16 +36,20 @@ jobs:
         java: [ 'openjdk8', 'openjdk11' ]
       fail-fast: false
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up OpenJDK
       uses: joschi/setup-jdk@v1
       with:
         java-version: ${{ matrix.java }}
+    - name: Fetch target branch
+      env:
+        BASE: ${{ github['base_ref'] }}
+      run: git fetch --no-tags --prune --depth=1 origin +refs/heads/${BASE}:refs/remotes/origin/${BASE}
     - name: Build samples
-      run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
+      run: mvn -B install --file fhir-examples --no-transfer-progress
     - name: Build parent with tests
       env:
-        BASE: origin/${{ github['base_ref'] }}
+        BASE: ${{ github['base_ref'] }}
       run: |
         model_paths=(
           fhir-model
@@ -68,7 +72,7 @@ jobs:
           fhir-persistence-schema/src/main
           fhir-examples
         )
-        declare -a PROFILES_ARR
+        PROFILES_ARR=(integration)
 
         if [ -n "$(git --no-pager diff --name-only ${BASE} ${GITHUB_SHA} -- ${model_paths[@]})" ]; then
           echo "Changes affect fhir-model, running ALL"
@@ -95,14 +99,10 @@ jobs:
           echo "No changes affect fhir-persistence-jdbc, running MINIMAL"
         fi
 
-        if [ ${#PROFILES[@]} -eq 0 ]; then
-          # Convert the PROFILES_ARR array to a comma-delimited string
-          PROFILES=$(IFS=, ; echo "${PROFILES_ARR[*]}")
-          echo "Using profiles ${PROFILES}"
-          mvn -B -T2C package --file fhir-parent/pom.xml -P "${PROFILES}" --no-transfer-progress
-        else
-          mvn -B -T2C package --file fhir-parent/pom.xml --no-transfer-progress
-        fi
+        # Convert the PROFILES_ARR array to a comma-delimited string
+        PROFILES=$(IFS=, ; echo "${PROFILES_ARR[*]}")
+        echo "Using profiles ${PROFILES}"
+        mvn -B -T2C package --file fhir-parent -P "${PROFILES}" --no-transfer-progress
   e2e-tests:
     runs-on: ubuntu-latest
     strategy:
@@ -110,24 +110,24 @@ jobs:
         java: [ 'openjdk8', 'openjdk11' ]
       fail-fast: false
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up OpenJDK
       uses: joschi/setup-jdk@v1
       with:
         java-version: ${{ matrix.java }}
     - name: Build samples
-      run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
+      run: mvn -B install --file fhir-examples --no-transfer-progress
     - name: Build parent without tests
       # As the e2e tests are the fastest, opting to put javadoc:javadoc in fhir-parent
       # The profile avoids UML diagram creation
       run: |
         JAVADOC_GOAL=""
         if [ "${{ matrix.java }}" != "openjdk8" ]
-        then 
+        then
           export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
           JAVADOC_GOAL=" -Pvalidate-javadoc javadoc:javadoc "
         fi
-        mvn -B ${JAVADOC_GOAL} install --file fhir-parent/pom.xml -DskipTests --no-transfer-progress
+        mvn -B ${JAVADOC_GOAL} install --file fhir-parent -DskipTests -P integration --no-transfer-progress
     - name: Server Integration Tests
       env:
         # debian-based linux uses C.UTF-8 by default and Derby doesn't like that
@@ -136,7 +136,7 @@ jobs:
         export WORKSPACE=${GITHUB_WORKSPACE}
         build/pre-integration-test.sh
         env
-        mvn -B test -DskipTests=false -f fhir-server-test/pom.xml -DskipWebSocketTest=true --no-transfer-progress
+        mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress
         build/post-integration-test.sh
     - name: Gather error logs
       if: failure()

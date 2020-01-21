@@ -109,7 +109,7 @@ public class FHIRSwaggerGenerator {
                 JsonObjectBuilder info = factory.createObjectBuilder();
                 info.add("title", resourceClassName + " API");
                 info.add("description", "A simplified version of the HL7 FHIR API for " + resourceClassName + " resources.");
-                info.add("version", "4.0.0");
+                info.add("version", "4.0.1");
                 swagger.add("info", info);
 
                 swagger.add("basePath", "/fhir-server/api/v4");

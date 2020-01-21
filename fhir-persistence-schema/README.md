@@ -5,7 +5,9 @@ Builds and manages the multi-tenant FHIR R4 RDBMS schema (Db2). Includes Derby s
 This module is built into two different jar files. The default jar is included with the IBM FHIR Server web application and is used
 for bootstrapping Apache Derby databases (if configured). There is also an executable command line interface (cli) version of this jar that packages this module with all of its dependencies.
 
-The cli jar is included in the FHIR Server distribution zip but can also be downloaded directly from [JFrog Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases/fhir-persistence-schema#files/com/ibm/fhir/fhir-persistence-schema) or built locally to `fhir-persistence-schema/target`.
+This module is built into two different jar files. The executable command line interface (cli) version of this module is can also be downloaded directly from [JFrog Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases/fhir-persistence-schema#files/com/ibm/fhir/fhir-persistence-schema) or is available from the Releases tab.
+
+The cli jar is included in the FHIR Server distribution zip but 
 
 ## Execute the fhir-persistence-schema command line interface (CLI)
 
