@@ -1101,21 +1101,22 @@ database hostname or database schema name.
 
 ## 4.10 BulkData
 ### 4.10.1 BulkData Export
-BulkData export is implemented according to [Fhir r4 BulkData spec](http://hl7.org/fhir/uv/bulkdata/STU1/export/index.html).   
-There are 2 projects involved inside the implementation:
+BulkData Export is implemented according to [FHIR r4 BulkData spec](http://hl7.org/fhir/uv/bulkdata/STU1/export/index.html).   
+There are 2 modules involved inside the implementation:
 - fhir-operation-bulkdata
 - fhir-bulkimportexport-webapp   
 
-(There is a ExportOperationTest.java in fhir-server-test project with server integration test cases for system, patient and group export)  
-The fhir-operation-bulkdata project implements the REST APIs for Bulkdata export as FHIR operations, there are ExportOperation, PatientExportOperation and GroupExportOperation defined for system export, patient export and group export accordingly. And these operations call JavaBatch jobs defined in the fhir-bulkimportexport-webapp project to do the real export work.   
-There are 3 chunk style JavaBatch jobs defined as following in fhir-bulkimportexport-webapp project for the above 3 export operations:  
+To integration test BulkData, there are tests in ExportOperationTest.java in fhir-server-test module with server integration test cases for system, patient and group export.  
+The *fhir-operation-bulkdata* project implements the REST APIs for Bulkdata export as FHIR operations.  There are three operations ExportOperation - system export, PatientExportOperation - Patient export and GroupExportOperation - group export.  Each operation calls the JavaBatch framework defined in the *fhir-bulkimportexport-webapp* project to execute the export unit-of-work.   
+There are 3 chunk style JavaBatch jobs defined as following in *fhir-bulkimportexport-webapp* project for the above 3 export operations:  
+
 - FhirBulkExportChunkJob
 - FhirBulkExportPatientChunkJob
 - FhirBulkExportGroupChunkJob
 
-The fhir-bulkimportexport-webapp project is also a wrapper for the whole BulkData web application, which generates fhir-bulkimportexport.war, this war should be copied to the apps directory of the liberty fhir-server instance. Following is a sample deployment description for fhir-bulkimportexport.war in server.xml of liberty server:
+The *fhir-bulkimportexport-webapp* module is a wrapper for the whole BulkData web application, which is the build artifact - fhir-bulkimportexport.war.   This web archive is copied to the apps directory of the liberty fhir-server instance. Following is a sample liberty server configuration (server.xml) for fhir-bulkimportexport.war:
 
-```
+```xml
     <webApplication id="fhir-bulkimportexport-webapp" location="fhir-bulkimportexport.war" name="fhir-bulkimportexport-webapp">
         <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
         <application-bnd>
@@ -1126,9 +1127,9 @@ The fhir-bulkimportexport-webapp project is also a wrapper for the whole BulkDat
     </webApplication>
 ```
 
-The exported FHIR resources can be configured to be written into IBM COS or Amazon S3 bucket in the per-tenant bulkdata.json configuration file which is put under the tenant configuration directory of the fhir-server instance. Following is a sample bulkdata.json which is configured to export the FHIR resources into fhir-bulkdata-sample bucket of IBM COS: 
+BulkData web application writes the exported FHIR resources to IBM COS or Amazon S3 bucket, as configured in the per-tenant bulkdata.json configuration file.  The bulkdata.json file is stored in the tenant configuration directory of each fhir-server instance. The following is a bulkdata.json which is configured to export the FHIR resources into fhir-bulkdata-sample bucket of IBM COS: 
 
-```
+```json
 {
   "applicationName": "fhir-bulkimportexport-webapp",
   "moduleName": "fhir-bulkimportexport.war",
@@ -1147,7 +1148,7 @@ The exported FHIR resources can be configured to be written into IBM COS or Amaz
   "batch-truststore" : "resources/security/fhirTruststore.jks",
   "batch-truststore-password" : "xxxxxxxxxxxx",
   "serverHostname" : "localhost:9443",
-    "contextRoot" : "/fhir-server/api/v4"
+  "contextRoot" : "/fhir-server/api/v4"
 }
 ```
 To use Amazon S3 bucket for exporting, please set cos.credential.ibm to "N", set cos.api.key to S3 access key, and set cos.srvinst.id to S3 secret key. This following is a sample path to the exported ndjson file, the full path can be gotten from the response to the polling location request after the export request (please refer to Fhir BulkDate spec for details).  
@@ -1157,7 +1158,7 @@ To use Amazon S3 bucket for exporting, please set cos.credential.ibm to "N", set
 ```
 Following is the beautified response of sample polling location request after the export is finished:
 
-```
+```json
 {
 "transactionTime": "2020/01/20 16:53:41.160 -0500",
 "request": "/$export?_type=",
@@ -1175,30 +1176,15 @@ Following is the beautified response of sample polling location request after th
   { "type" : "Observation", 
       "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-bulkimexport-connectathon/6SfXzbGvYl1nTjGbf5qeqJDFNjyljiGdKxXEJb4yJn8=/Observation_2.ndjson", 
     "count": 81},
-  { "type" : "Group", 
-      "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-bulkimexport-connectathon/6SfXzbGvYl1nTjGbf5qeqJDFNjyljiGdKxXEJb4yJn8=/Group_1.ndjson", 
-    "count": 15},
-  { "type" : "Condition", 
-      "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-bulkimexport-connectathon/6SfXzbGvYl1nTjGbf5qeqJDFNjyljiGdKxXEJb4yJn8=/Condition_1.ndjson", 
-    "count": 30},
-  { "type" : "Condition", 
-      "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-bulkimexport-connectathon/6SfXzbGvYl1nTjGbf5qeqJDFNjyljiGdKxXEJb4yJn8=/Condition_2.ndjson", 
-    "count": 21},
-  { "type" : "Composition", 
-      "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-bulkimexport-connectathon/6SfXzbGvYl1nTjGbf5qeqJDFNjyljiGdKxXEJb4yJn8=/Composition_1.ndjson", 
-    "count": 20},
-  { "type" : "Composition", 
-      "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-bulkimexport-connectathon/6SfXzbGvYl1nTjGbf5qeqJDFNjyljiGdKxXEJb4yJn8=/Composition_2.ndjson", 
-    "count": 8}]
+	...
 }
-
 ```
 
 The exported ndjson file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please notice that IBM COS doesn't support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. And for both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.  
   
 JavaBatch feature must be enabled in server.xml as following for liberty server:
 
-```
+```xml
     <!-- Enable features -->
     <featureManager>
         ...
@@ -1206,9 +1192,9 @@ JavaBatch feature must be enabled in server.xml as following for liberty server:
         ...
     </featureManager>
 ```
-And JavaBatch user used in bulkdata.json can be configured in server.xml as following: 
+The JavaBatch user is configured in server.xml and the bulkdata.json: 
 
-```    
+```xml    
 <authorization-roles id="com.ibm.ws.batch">
 	<security-role name="batchAdmin">	
 		<user name="fhiradmin"/>	
@@ -1222,9 +1208,9 @@ And JavaBatch user used in bulkdata.json can be configured in server.xml as foll
 	</security-role>
 </authorization-roles>
 ```
-Please notice that a user with at least batchSubmitter role should be used for batch-user of bulkdata.json.
+Note: The user referenced in the bulkdata.json must have a role of at least batchSubmitter.
 
-By default, in-memory derby database is used for persistence of the JavaBatch Jobs. Instruction is also provided in "Configuring a Liberty Datasource with API Key" section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. Liberty JavaBath framework creates the Database, DB schema and tables automatically by default for both approaches.   
+By default, in-memory Derby database is used for persistence of the JavaBatch Jobs. Instruction is also provided in "Configuring a Liberty Datasource with API Key" section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. Liberty JavaBatch framework creates the Database, DB schema and tables automatically by default for both approaches.   
 
 For more information about liberty JavaBatch configuration, please refer to [IBM WebSphere Liberty Java Batch White paper](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/webindex/wp102544).  
 
