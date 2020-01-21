@@ -24,8 +24,7 @@ import com.ibm.fhir.bulkcommon.Constants;
 
 /**
  * Bulk import Chunk implementation - the Reader.
- * 
- * @author Albert Wang
+ *
  */
 public class ChunkReader extends AbstractItemReader {
     private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
@@ -101,6 +100,7 @@ public class ChunkReader extends AbstractItemReader {
      * @throws Exception
      * @see AbstractItemReader#readItem()
      */
+    @Override
     public Object readItem() throws Exception {
         List<String> resCosObjectNameList = new ArrayList<String>();
         cosClient = COSUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,

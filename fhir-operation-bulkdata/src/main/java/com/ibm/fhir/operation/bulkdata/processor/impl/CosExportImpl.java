@@ -119,8 +119,6 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception e) {
-            // Need to printStackTrace for debugging (eventually we'll shove into logger with debug/fine/finest)
-            e.printStackTrace();
             throw new FHIROperationException("", e);
         }
     }

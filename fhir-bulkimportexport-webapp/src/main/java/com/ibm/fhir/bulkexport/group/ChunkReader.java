@@ -109,7 +109,6 @@ public class ChunkReader extends AbstractItemReader {
     @Inject
     JobContext jobContext;
 
-
     public ChunkReader() {
         super();
     }
@@ -181,10 +180,9 @@ public class ChunkReader extends AbstractItemReader {
             logger.warning("fillChunkDataBuffer: chunkData is null, this should never happen!");
             throw new Exception("fillChunkDataBuffer: chunkData is null, this should never happen!");
         }
-
     }
 
-    private void ExpandGroup2Patients(String fhirTenant, String fhirDatastoreId, Group group, List<Member> patients, HashSet<String> groupsInPath)
+    private void expandGroup2Patients(String fhirTenant, String fhirDatastoreId, Group group, List<Member> patients, HashSet<String> groupsInPath)
             throws Exception{
         if (group == null) {
             return;
@@ -195,15 +193,15 @@ public class ChunkReader extends AbstractItemReader {
             if (refValue.startsWith("Patient")) {
                 patients.add(member);
             } else if (refValue.startsWith("Group")) {
-                Group group2 = FindGroupByID(fhirTenant, fhirDatastoreId, refValue.substring(6));
+                Group group2 = findGroupByID(fhirTenant, fhirDatastoreId, refValue.substring(6));
                 if (!groupsInPath.contains(group.getId())) {
-                    ExpandGroup2Patients(fhirTenant, fhirDatastoreId, group2, patients, groupsInPath);
+                    expandGroup2Patients(fhirTenant, fhirDatastoreId, group2, patients, groupsInPath);
                 }
             }
         }
     }
 
-    private Group FindGroupByID(String fhirTenant, String fhirDatastoreId, String groupId) throws Exception{
+    private Group findGroupByID(String fhirTenant, String fhirDatastoreId, String groupId) throws Exception{
         FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
@@ -273,12 +271,12 @@ public class ChunkReader extends AbstractItemReader {
             }
         }
 
-        Group group = FindGroupByID(fhirTenant, fhirDatastoreId, fhirSearchPatientGroupId);
+        Group group = findGroupByID(fhirTenant, fhirDatastoreId, fhirSearchPatientGroupId);
         // List for the patients
         List<Member> patientMembers = new ArrayList<>();
         // List for the group and sub groups in the expansion paths, this is used to avoid dead loop caused by circle reference of the groups.
         HashSet<String> groupsInPath = new HashSet<>();
-        ExpandGroup2Patients(fhirTenant, fhirDatastoreId, group, patientMembers, groupsInPath);
+        expandGroup2Patients(fhirTenant, fhirDatastoreId, group, patientMembers, groupsInPath);
 
         if (chunkData == null) {
             chunkData = new TransientUserData(0, null, new ArrayList<PartETag>(), 1);
