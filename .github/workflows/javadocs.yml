@@ -76,6 +76,7 @@ jobs:
             CI: true
       run: |
             echo "Push Changes"
+            cd gh-pages
             git branch
             remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
             git push "${remote_repo}" HEAD:gh-pages
