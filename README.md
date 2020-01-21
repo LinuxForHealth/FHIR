@@ -17,7 +17,7 @@ Each of the IBM FHIR Server modules are published to a public Maven repository o
 
 To use the artifacts from a Maven project:
 1. Add the repository to your pom.xml:
- 
+
     ```
     <repositories>
         <repository>
