@@ -49,7 +49,7 @@ jobs:
             mvn -ntp -B -N -Pdeploy-version-release clean -f fhir-parent -Ddeploy.version=${TAG_VERSION}
             mvn -ntp -B install --file fhir-parent -DskipTests -Ddeploy.version=${TAG_VERSION}
             mvn -ntp -B site --file fhir-parent -DskipTests -Ddeploy.version=${TAG_VERSION}
-            cp -R fhir-parent/target/site/apidocs apidocs/
+            cp -R fhir-parent/target/site/apidocs ../apidocs/
     - name: Commit and Add GH Pages
       env:
             GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
@@ -75,7 +75,7 @@ jobs:
             GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
             CI: true
       run: |
-            echo "Push Changes"
+            echo "Pushing Changes"
             cd gh-pages
             git branch
             remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
