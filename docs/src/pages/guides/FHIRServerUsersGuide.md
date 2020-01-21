@@ -1101,7 +1101,7 @@ database hostname or database schema name.
 
 ## 4.10 BulkData
 ### 4.10.1 BulkData Export
-BulkData Export is implemented according to [FHIR r4 BulkData spec](http://hl7.org/fhir/uv/bulkdata/STU1/export/index.html).   
+BulkData Export is implemented according to [FHIR BulkDataAccess IG: STU1](http://hl7.org/fhir/uv/bulkdata/STU1/export/index.html).   
 There are 2 modules involved inside the implementation:
 - fhir-operation-bulkdata
 - fhir-bulkimportexport-webapp   
@@ -1147,10 +1147,11 @@ BulkData web application writes the exported FHIR resources to IBM COS or Amazon
   "batch-user-password": "xxxxxxxxxxxx",
   "batch-truststore" : "resources/security/fhirTruststore.jks",
   "batch-truststore-password" : "xxxxxxxxxxxx",
-  "serverHostname" : "localhost:9443",	       <!--Host name part of the server generated polling location url -->
-  "contextRoot" : "/fhir-server/api/v4"		   <!--Context root part of the server generated polling location url -->
+  "serverHostname" : "localhost:9443",
+  "contextRoot" : "/fhir-server/api/v4"
 }
 ```
+Note: serverHostname is the host name part of the server generated polling location url, and contextRoot is the context root part of the server generated polling location url.  
 To use Amazon S3 bucket for exporting, please set cos.credential.ibm to "N", set cos.api.key to S3 access key, and set cos.srvinst.id to S3 secret key. This following is a sample path to the exported ndjson file, the full path can be gotten from the response to the polling location request after the export request (please refer to Fhir BulkDate spec for details).  
 
 ```
