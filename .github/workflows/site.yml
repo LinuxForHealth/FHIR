@@ -124,4 +124,4 @@ jobs:
       run: |
             # As documented here, the GH-Pages behavior changed, and the API must be 'Triggered'
             # https://github.community/t5/GitHub-Actions/Github-action-not-triggering-gh-pages-upon-push/m-p/43192/highlight/true#M5281
-            curl -L -X POST -H "Content-Type: application/json" -H "Authorization: token ${{ secrets.GITHUB_TOKEN}}" "https://api.github.com/repos/${{ secrets.GITHUB_REPOSITORY }}/pages/builds"
+            curl -L -X POST -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages/builds"

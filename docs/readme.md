@@ -15,7 +15,7 @@ The site supports `mdx` and `md` formatted files.
 
 # Building the Site
 Execute the following steps:
- 
+
 1 - npm install
     - if prompted, install these plugins:
         npm install --save gatsby-plugin-manifest
