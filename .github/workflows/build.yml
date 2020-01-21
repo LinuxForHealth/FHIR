@@ -41,11 +41,15 @@ jobs:
       uses: joschi/setup-jdk@v1
       with:
         java-version: ${{ matrix.java }}
+    - name: Fetch target branch
+      env:
+        BASE: ${{ github['base_ref'] }}
+      run: git fetch --no-tags --prune --depth=1 origin +refs/heads/${BASE}:refs/remotes/origin/${BASE}
     - name: Build samples
       run: mvn -B install --file fhir-examples --no-transfer-progress
     - name: Build parent with tests
       env:
-        BASE: origin/${{ github['base_ref'] }}
+        BASE: ${{ github['base_ref'] }}
       run: |
         model_paths=(
           fhir-model
