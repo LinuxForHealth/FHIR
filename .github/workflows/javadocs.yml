@@ -58,9 +58,11 @@ jobs:
             CI: true
       run: |
             cd gh-pages
-            if [ -d ./javadocs/latest/ ]
+            if [ -d './javadocs/latest/' ]
             then
               rm -rf ./javadocs/latest/
+            else 
+              mkdir -p javadocs/
             fi
             cp -Rf ../apidocs/* ./javadocs/
             mv javadocs/apidocs javadocs/latest 
