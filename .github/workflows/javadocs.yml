@@ -67,9 +67,9 @@ jobs:
             fi
             ls -al 
             cp -Rf ../apidocs/* ./javadocs/latest/
-            cp -Rf javadocs/javadocs javadocs/${TAG_VERSION}
+            cp -Rf javadocs/latest javadocs/${TAG_VERSION}
             date > build.txt
-            echo "javadocs" >> build.txt
+            echo "[javadocs]" >> build.txt
             git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
             git config --global user.name "Github Actions Bot - GH-Pages"
             git add .
