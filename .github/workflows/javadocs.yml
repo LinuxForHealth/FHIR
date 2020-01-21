@@ -39,8 +39,7 @@ jobs:
     - name: Build samples
       run: |
             cd fhir
-            mvn -B -ntp -Pdeploy-version-release clean -f fhir-examples
-            mvn -B -ntp install --file fhir-examples
+            mvn -B -ntp clean install --file fhir-examples
     - name: Build parent without tests
       run: |
             cd fhir
