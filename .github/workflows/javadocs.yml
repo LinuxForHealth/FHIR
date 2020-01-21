@@ -40,6 +40,8 @@ jobs:
       run: |
             cd fhir
             mvn -B -ntp clean install --file fhir-examples
+            mvn -ntp -B -N -Pdeploy-version-release clean -f fhir-examples -Ddeploy.version=${TAG_VERSION}
+            mvn -ntp -B install --file fhir-examples -DskipTests -Ddeploy.version=${TAG_VERSION}
     - name: Build parent without tests
       run: |
             cd fhir
