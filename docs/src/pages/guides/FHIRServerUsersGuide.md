@@ -1099,7 +1099,7 @@ team can more easilly read the messages.
 It is also possible to configure the persistence properties for a specific tenant, for example to set an alternate
 database hostname or database schema name.
 
-## 4.10 BulkData
+## 4.10 Bulk data operations
 ### 4.10.1 BulkData Export
 BulkData Export is implemented according to [FHIR BulkDataAccess IG: STU1](http://hl7.org/fhir/uv/bulkdata/STU1/export/index.html).   
 There are 2 modules involved inside the implementation:
