@@ -46,7 +46,6 @@ import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * Bulk patient group export Chunk implementation - the Reader.
- *
  */
 public class ChunkReader extends AbstractItemReader {
     private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
