@@ -27,7 +27,7 @@ permalink: /FHIRServerUsersGuide/
   * [4.7 FHIR command-line interface (fhir-cli)](#47-fhir-command-line-interface-fhir-cli)
   * [4.8 Using local references within request bundles](#48-using-local-references-within-request-bundles)
   * [4.9 Multi-tenancy](#49-multi-tenancy)
-  * [4.10 BulkData](#410-bulkdata)
+  * [4.10 Bulk data operations](#410-bulk-data-operations)
   * [4.11 CADF audit logging service](#410-CADF-audit-logging-service)
 - [5 Appendix](#5-appendix)
   * [5.1 Configuration properties reference](#51-configuration-properties-reference)
