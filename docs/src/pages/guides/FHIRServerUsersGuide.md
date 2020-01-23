@@ -1131,7 +1131,7 @@ The *fhir-bulkimportexport-webapp* module is a wrapper for the whole BulkData we
     </webApplication>
 ```
 
-BulkData web application writes the exported FHIR resources to IBM COS or Amazon S3 bucket, as configured in the per-tenant bulkdata.json configuration file.  The bulkdata.json file is stored in the tenant configuration directory of each fhir-server instance. The following is a bulkdata.json which is configured to export the FHIR resources into fhir-bulkdata-sample bucket of IBM COS: 
+BulkData web application writes the exported FHIR resources to an IBM Cloud Object Storage (COS) or Amazon S3 bucket, as configured in the per-tenant bulkdata.json configuration file. The bulkdata.json file is stored in the tenant configuration directory of each fhir-server instance. The following is a bulkdata.json which is configured to export the FHIR resources into fhir-bulkdata-sample bucket of IBM COS: 
 
 ```json
 {
