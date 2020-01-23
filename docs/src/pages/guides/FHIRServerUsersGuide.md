@@ -1112,7 +1112,7 @@ The *fhir-operation-bulkdata* module implements the REST APIs for bulk data expo
 * PatientExportOperation - Patient export
 * GroupExportOperation - group export.
 Each operation calls the JavaBatch framework defined in the *fhir-bulkimportexport-webapp* module to execute the export unit-of-work.   
-There are 3 chunk style JavaBatch jobs defined as following in *fhir-bulkimportexport-webapp* project for the above 3 export operations:  
+There are 3 chunk style JavaBatch jobs defined as following in *fhir-bulkimportexport-webapp* module for the above 3 export operations:  
 
 - FhirBulkExportChunkJob
 - FhirBulkExportPatientChunkJob
