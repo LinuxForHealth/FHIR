@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.bulkexport.patient;
+package com.ibm.fhir.bulkexport.group;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -30,7 +31,8 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
-import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Group;
+import com.ibm.fhir.model.resource.Group.Member;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.FHIRPersistence;
@@ -43,14 +45,15 @@ import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
- * Bulk patient export Chunk implementation - the Reader.
- *
+ * Bulk patient group export Chunk implementation - the Reader.
  */
 public class ChunkReader extends AbstractItemReader {
-    private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
     int pageNum = 1;
+    // List for the patients
+    List<Member> patientMembers = null;
+    private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
     int indexOfCurrentResourceType = 0;
-    // Control the number of records to read in each "item".
+    // Control the number of records to read in each page.
     int pageSize = Constants.DEFAULT_SEARCH_PAGE_SIZE;
 
     private FHIRPersistence fhirPersistence;
@@ -92,6 +95,13 @@ public class ChunkReader extends AbstractItemReader {
     String fhirSearchToDate;
 
     /**
+     * Fhir search patient group id.
+     */
+    @Inject
+    @BatchProperty(name = "fhir.search.patientgroupid")
+    String fhirSearchPatientGroupId;
+
+    /**
      * Fhir search page size.
      */
     @Inject
@@ -101,14 +111,11 @@ public class ChunkReader extends AbstractItemReader {
     @Inject
     JobContext jobContext;
 
-    /**
-     * @see AbstractItemReader#AbstractItemReader()
-     */
     public ChunkReader() {
         super();
     }
 
-    private void fillChunkDataBuffer(List<Resource> resources) throws Exception {
+    private void fillChunkDataBuffer(List<Member> patientRefs) throws Exception {
         TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
         int compartmentPageNum = 1;
         int resSubTotal = 0;
@@ -116,27 +123,28 @@ public class ChunkReader extends AbstractItemReader {
         Class<? extends Resource> resourceType = ModelSupport
                 .getResourceType(resourceTypes.get(indexOfCurrentResourceType));
         if (chunkData != null) {
-            for (Resource res : resources) {
-                if (res == null) {
+            for (Member patientRef : patientRefs) {
+                if (patientRef == null) {
                     continue;
                 }
-                Patient patient = (Patient) res;
+
+                String patientId =  patientRef.getEntity().getReference().getValue().substring(8);
                 Map<String, List<String>> queryParameters = new HashMap<>();
-                List<String> searchCreteria = new ArrayList<>();
+
+                List<String> searchCreteria = new ArrayList<String>();
+
                 if (fhirSearchFromDate != null) {
-                    // https://www.hl7.org/fhir/r4/search.html#prefix
                     searchCreteria.add("ge" + fhirSearchFromDate);
                 }
                 if (fhirSearchToDate != null) {
                     searchCreteria.add("lt" + fhirSearchToDate);
                 }
-
                 if (!searchCreteria.isEmpty()) {
                     queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCreteria);
                 }
 
                 queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
-                searchContext = SearchUtil.parseQueryParameters("Patient", patient.getId(),
+                searchContext = SearchUtil.parseQueryParameters("Patient", patientId,
                         ModelSupport.getResourceType(resourceTypes.get(indexOfCurrentResourceType)), queryParameters, null, true);
                 do {
                     searchContext.setPageSize(pageSize);
@@ -157,13 +165,8 @@ public class ChunkReader extends AbstractItemReader {
                             chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
                             resSubTotal++;
                         } catch (FHIRGeneratorException e) {
-                            if (res.getId() != null) {
-                                logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with id '"
-                                        + res.getId() + "'", e);
-                            } else {
-                                logger.log(Level.WARNING,
-                                        "fillChunkDataBuffer: Error while writing resources with unknown id", e);
-                            }
+                            logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with id '"
+                                        + patientId + "'", e);
                         } catch (IOException e) {
                             logger.warning("fillChunkDataBuffer: chunkDataBuffer written error!");
                             throw e;
@@ -179,7 +182,50 @@ public class ChunkReader extends AbstractItemReader {
             logger.warning("fillChunkDataBuffer: chunkData is null, this should never happen!");
             throw new Exception("fillChunkDataBuffer: chunkData is null, this should never happen!");
         }
+    }
 
+    private void expandGroup2Patients(String fhirTenant, String fhirDatastoreId, Group group, List<Member> patients, HashSet<String> groupsInPath)
+            throws Exception{
+        if (group == null) {
+            return;
+        }
+        groupsInPath.add(group.getId());
+        for (Member member : group.getMember()) {
+            String refValue = member.getEntity().getReference().getValue();
+            if (refValue.startsWith("Patient")) {
+                patients.add(member);
+            } else if (refValue.startsWith("Group")) {
+                Group group2 = findGroupByID(fhirTenant, fhirDatastoreId, refValue.substring(6));
+                if (!groupsInPath.contains(group.getId())) {
+                    expandGroup2Patients(fhirTenant, fhirDatastoreId, group2, patients, groupsInPath);
+                }
+            }
+        }
+    }
+
+    private Group findGroupByID(String fhirTenant, String fhirDatastoreId, String groupId) throws Exception{
+        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
+        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
+        fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
+
+        FHIRSearchContext searchContext;
+        FHIRPersistenceContext persistenceContext;
+        Map<String, List<String>> queryParameters = new HashMap<>();
+
+        queryParameters.put("_id", Arrays.asList(new String[] { groupId }));
+        searchContext = SearchUtil.parseQueryParameters(Group.class, queryParameters);
+        List<Resource> resources = null;
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
+        txn.begin();
+        persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
+        resources = fhirPersistence.search(persistenceContext, Group.class).getResource();
+        txn.commit();
+
+        if (resources != null) {
+            return (Group) resources.get(0);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -193,6 +239,10 @@ public class ChunkReader extends AbstractItemReader {
             if (resourceTypes == null || resourceTypes.isEmpty()) {
                 throw new Exception("readItem: None of the input resource types is valid!");
             }
+        }
+
+        if (fhirSearchPatientGroupId == null) {
+            throw new Exception("readItem: missing group id for this group export job!");
         }
 
         TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
@@ -209,77 +259,54 @@ public class ChunkReader extends AbstractItemReader {
         }
         if (fhirTenant == null) {
             fhirTenant = Constants.DEFAULT_FHIR_TENANT;
-            logger.fine("readItem: Set tenant to default!");
+            logger.info("readItem: Set tenant to default!");
         }
         if (fhirDatastoreId == null) {
             fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
-            logger.fine("readItem: Set DatastoreId to default!");
+            logger.info("readItem: Set DatastoreId to default!");
         }
         if (fhirSearchPageSize != null) {
             try {
                 pageSize = Integer.parseInt(fhirSearchPageSize);
                 logger.fine("readItem: Set page size to " + pageSize + ".");
             } catch (Exception e) {
-                logger.warning("readItem: Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
+                logger.warning("readItem: Set page size to default [" + Constants.DEFAULT_SEARCH_PAGE_SIZE + "]");
             }
         }
 
-        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
-
-        FHIRSearchContext searchContext;
-        FHIRPersistenceContext persistenceContext;
-        Map<String, List<String>> queryParameters = new HashMap<>();
-
-        List<String> searchCreterial = new ArrayList<String>();
-
-        if (fhirSearchFromDate != null) {
-            searchCreterial.add("ge" + fhirSearchFromDate);
+        if (patientMembers == null) {
+            Group group = findGroupByID(fhirTenant, fhirDatastoreId, fhirSearchPatientGroupId);
+            patientMembers = new ArrayList<>();
+            // List for the group and sub groups in the expansion paths, this is used to avoid dead loop caused by circle reference of the groups.
+            HashSet<String> groupsInPath = new HashSet<>();
+            expandGroup2Patients(fhirTenant, fhirDatastoreId, group, patientMembers, groupsInPath);
         }
-        if (fhirSearchToDate != null) {
-            searchCreterial.add("lt" + fhirSearchToDate);
-        }
-
-        if (!searchCreterial.isEmpty()) {
-            queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCreterial);
-        }
-
-        queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
-        searchContext = SearchUtil.parseQueryParameters(Patient.class, queryParameters);
-        searchContext.setPageSize(pageSize);
-        searchContext.setPageNumber(pageNum);
-        List<Resource> resources = null;
-        FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-        txn.begin();
-        persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-        resources = fhirPersistence.search(persistenceContext, Patient.class).getResource();
-        txn.commit();
+        List<Member> patientPageMembers = patientMembers.subList((pageNum - 1) * pageSize,
+                pageNum * pageSize <= patientMembers.size() ? pageNum * pageSize : patientMembers.size());
         pageNum++;
 
         if (chunkData == null) {
             chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1);
             chunkData.setIndexOfCurrentResourceType(0);
-            chunkData.setLastPageNum(searchContext.getLastPageNumber());
             jobContext.setTransientUserData(chunkData);
         } else {
-            chunkData.setPageNum(pageNum);
             chunkData.setIndexOfCurrentResourceType(indexOfCurrentResourceType);
-            chunkData.setLastPageNum(searchContext.getLastPageNumber());
+            chunkData.setPageNum(pageNum);
         }
+        chunkData.setLastPageNum((patientMembers.size() + pageSize -1)/pageSize );
 
-        if (resources != null) {
-            logger.fine("readItem(" + resourceTypes.get(indexOfCurrentResourceType) + "): loaded patients number - " + resources.size());
-            fillChunkDataBuffer(resources);
+        if (!patientPageMembers.isEmpty()) {
+            logger.fine("readItem: loaded patients number - " + patientMembers.size());
+            fillChunkDataBuffer(patientPageMembers);
         } else {
             logger.fine("readItem: End of reading!");
         }
 
-        return resources;
+        return patientPageMembers;
     }
 
     @Override
     public void open(Serializable checkpoint) throws Exception {
-        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
-        fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
         if (checkpoint != null) {
             CheckPointUserData checkPointData = (CheckPointUserData) checkpoint;
             pageNum = checkPointData.getPageNum();

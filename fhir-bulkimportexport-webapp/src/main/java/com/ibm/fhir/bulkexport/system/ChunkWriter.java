@@ -29,7 +29,7 @@ import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.bulkexport.common.TransientUserData;
 
 /**
- * Bulk system export Chunk implementation - the Writer.
+ * Bulk export Chunk implementation - the Writer.
  *
  */
 public class ChunkWriter extends AbstractItemWriter {

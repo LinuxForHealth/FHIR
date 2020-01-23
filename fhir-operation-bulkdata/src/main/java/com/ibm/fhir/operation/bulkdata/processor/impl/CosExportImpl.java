@@ -5,6 +5,7 @@
  */
 package com.ibm.fhir.operation.bulkdata.processor.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -18,6 +19,7 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.client.BulkDataClient;
 import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
@@ -117,8 +119,6 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception e) {
-            // Need to printStackTrace for debugging (eventually we'll shove into logger with debug/fine/finest)
-            e.printStackTrace();
             throw new FHIROperationException("", e);
         }
     }
@@ -161,13 +161,48 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
         }
     }
 
-    // not implemented yet
     @Override
     public Parameters exportGroup(String logicalId, MediaType outputFormat, Instant since,
         List<String> types, List<String> typeFilters, FHIRRequestContext ctx,
         FHIRResourceHelpers resourceHelper, FHIROperationContext operationContext,
         BulkDataTenantSpecificCache cache) throws FHIROperationException {
-        throw new FHIROperationException("No $export group operation right now");
+
+        try {
+            log.fine("Using the COS Implementation");
+
+            Map<String, String> properties =
+                    cache.getCachedObjectForTenant(FHIRConfiguration.DEFAULT_TENANT_ID);
+
+            /*
+             * Submit Job
+             */
+
+            HashMap<String, String> tmpProperties = new HashMap<>();
+            tmpProperties.putAll(properties);
+            if (logicalId == null || logicalId.isEmpty()) {
+                throw new FHIROperationException("Group export requires group id!");
+            }
+            tmpProperties.put(BulkDataConstants.PARAM_GROUP_ID, logicalId);
+            BulkDataClient client = new BulkDataClient(tmpProperties);
+
+            String url = client.submit(outputFormat, since, types, tmpProperties, ExportType.GROUP);
+
+            /*
+             * As we are now 'corrupting' the response, we're PUSHING it into the operation context. The
+             * OperationContext is checked for ACCEPTED, and picks out the custom response.
+             */
+            Response response =
+                    Response.status(Status.ACCEPTED).header("Content-Location", url).build();
+
+            operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, Response.Status.ACCEPTED);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_RESPONSE, response);
+
+            return FHIROperationUtil.getOutputParameters(null);
+        } catch (FHIROperationException fe) {
+            throw fe;
+        } catch (Exception e) {
+            throw new FHIROperationException("", e);
+        }
 
     }
 

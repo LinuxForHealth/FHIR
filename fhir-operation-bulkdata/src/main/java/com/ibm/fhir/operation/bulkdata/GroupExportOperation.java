@@ -13,17 +13,18 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationDefinition;
 
 /**
- * Creates an Patient Export of FHIR Data to NDJSON format
+ * Creates an Group Export of FHIR Data to NDJSON format
  *
- * <a href="https://hl7.org/Fhir/uv/bulkdata/OperationDefinition-patient-export.json.html">BulkDataAccess V1.0.0: STU1</a>
+ * <a href="https://hl7.org/Fhir/uv/bulkdata/OperationDefinition-group-export.json.html">BulkDataAccess V1.0.0: STU1</a>
  *
- * patient export operation definition for <code>$export</code>
+ * group export operation definition for <code>$export</code>:
  *
  */
-public class PatientExportOperation extends ExportOperation {
-    private static final String FILE = "OperationDefinition-patient-export.json";
+public class GroupExportOperation extends ExportOperation {
 
-    public PatientExportOperation() {
+    private static final String FILE = "OperationDefinition-group-export.json";
+
+    public GroupExportOperation() {
         super();
     }
 

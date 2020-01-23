@@ -121,7 +121,7 @@ public class ChunkReader extends AbstractItemReader {
 
                 try {
                     FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
-                    chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR.getBytes());
+                    chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
                     resSubTotal++;
                 } catch (FHIRGeneratorException e) {
                     if (res.getId() != null) {
@@ -137,7 +137,7 @@ public class ChunkReader extends AbstractItemReader {
                 }
             }
             chunkData.setCurrentPartResourceNum(chunkData.getCurrentPartResourceNum() + resSubTotal);
-            logger.info("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
+            logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
                     + chunkData.getBufferStream().size());
         } else {
             logger.warning("fillChunkDataBuffer: chunkData is null, this should never happen!");
@@ -167,16 +167,16 @@ public class ChunkReader extends AbstractItemReader {
         }
         if (fhirTenant == null) {
             fhirTenant = Constants.DEFAULT_FHIR_TENANT;
-            logger.info("readItem: Set tenant to default!");
+            logger.fine("readItem: Set tenant to default!");
         }
         if (fhirDatastoreId == null) {
             fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
-            logger.info("readItem: Set DatastoreId to default!");
+            logger.fine("readItem: Set DatastoreId to default!");
         }
         if (fhirSearchPageSize != null) {
             try {
                 pageSize = Integer.parseInt(fhirSearchPageSize);
-                logger.info("readItem: Set page size to " + pageSize + ".");
+                logger.fine("readItem: Set page size to " + pageSize + ".");
             } catch (Exception e) {
                 logger.warning("readItem: Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
             }
@@ -199,17 +199,17 @@ public class ChunkReader extends AbstractItemReader {
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
 
-        List<String> searchCreterial = new ArrayList<String>();
+        List<String> searchCreteria = new ArrayList<String>();
 
         if (fhirSearchFromDate != null) {
-            searchCreterial.add("ge" + fhirSearchFromDate);
+            searchCreteria.add("ge" + fhirSearchFromDate);
         }
         if (fhirSearchToDate != null) {
-            searchCreterial.add("lt" + fhirSearchToDate);
+            searchCreteria.add("lt" + fhirSearchToDate);
         }
 
-        if (!searchCreterial.isEmpty()) {
-            queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCreterial);
+        if (!searchCreteria.isEmpty()) {
+            queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCreteria);
         }
 
         queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
@@ -239,10 +239,10 @@ public class ChunkReader extends AbstractItemReader {
         }
 
         if (resources != null) {
-            logger.info("readItem: loaded resources number - " + resources.size());
+            logger.fine("readItem: loaded resources number - " + resources.size());
             fillChunkDataBuffer(resources);
         } else {
-            logger.info("readItem: End of reading!");
+            logger.fine("readItem: End of reading!");
         }
 
         return resources;
