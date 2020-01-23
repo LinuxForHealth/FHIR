@@ -44,7 +44,6 @@ import com.ibm.fhir.model.type.Reference;
 
 /**
  * These tests exercise the $export operation, a BulkData specification defined operation
- *
  */
 public class ExportOperationTest extends FHIRServerTestBase {
     public static final String TEST_GROUP_NAME = "export-operation";

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,11 +11,9 @@ import java.util.Map;
 import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
 
 /**
- * @author pbastide
- *
+ * Client that Runs the BulkData Client Manually. 
  */
 public class BulkDataClientMain {
-
     public static void main(String... args) throws Exception {
         Map<String,String> properties = new LinkedHashMap<>();
         properties.put(BulkDataConfigUtil.BATCH_URL, "https://localhost:9443/ibm/api/batch/jobinstances");
@@ -31,5 +29,4 @@ public class BulkDataClientMain {
         
         client.status("9");
     }
-
 }
