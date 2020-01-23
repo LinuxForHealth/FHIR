@@ -1166,7 +1166,7 @@ The following configured parameters are:
 |`jobParameters.cos.api.key`| api key for accessing IBM COS |
 |`jobParameters.cos.srvinst.id`| service instance Id for accessing IBM COS |
 |`implementation_type`| cos or dummy which matches the desired bulk operation implementation type |
-|`batch-uri`| fixed value |
+|`batch-uri`| the URL to access the FHIR server hosting the batch web application |
 |`batch-user`| user for submitting JavaBatch job |
 |`batch-user-password`| password for above batch user |
 |`batch-truststore`| trust store for JavaBatch job submission |
