@@ -1154,7 +1154,7 @@ BulkData web application writes the exported FHIR resources to IBM COS or Amazon
   "serverHostname" : "localhost:9443",
   "contextRoot" : "/fhir-server/api/v4"
 }
-```
+The following configured parameters are: 
 |Parameter Name   | Description|
 |--------------| ------------|
 |`applicationName`| fixed value |
