@@ -131,16 +131,16 @@ public class ChunkReader extends AbstractItemReader {
                 String patientId =  patientRef.getEntity().getReference().getValue().substring(8);
                 Map<String, List<String>> queryParameters = new HashMap<>();
 
-                List<String> searchCreterial = new ArrayList<String>();
+                List<String> searchCreteria = new ArrayList<String>();
 
                 if (fhirSearchFromDate != null) {
-                    searchCreterial.add("ge" + fhirSearchFromDate);
+                    searchCreteria.add("ge" + fhirSearchFromDate);
                 }
                 if (fhirSearchToDate != null) {
-                    searchCreterial.add("lt" + fhirSearchToDate);
+                    searchCreteria.add("lt" + fhirSearchToDate);
                 }
-                if (!searchCreterial.isEmpty()) {
-                    queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCreterial);
+                if (!searchCreteria.isEmpty()) {
+                    queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCreteria);
                 }
 
                 queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
@@ -162,7 +162,7 @@ public class ChunkReader extends AbstractItemReader {
                         }
                         try {
                             FHIRGenerator.generator(Format.JSON).generate(res2, chunkData.getBufferStream());
-                            chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR.getBytes());
+                            chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
                             resSubTotal++;
                         } catch (FHIRGeneratorException e) {
                             logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with id '"
