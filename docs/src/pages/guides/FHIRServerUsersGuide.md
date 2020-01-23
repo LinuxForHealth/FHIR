@@ -1199,7 +1199,6 @@ Following is the beautified response of sample polling location request after th
   { "type" : "Observation", 
       "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-bulkimexport-connectathon/6SfXzbGvYl1nTjGbf5qeqJDFNjyljiGdKxXEJb4yJn8=/Observation_2.ndjson", 
     "count": 81},
-	...
 }
 ```
 
