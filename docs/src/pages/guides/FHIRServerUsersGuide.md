@@ -1107,7 +1107,7 @@ There are 2 modules involved inside the implementation:
 - fhir-bulkimportexport-webapp   
 
 To integration test, there are tests in ExportOperationTest.java in fhir-server-test module with server integration test cases for system, patient and group export.  
-The *fhir-operation-bulkdata* project implements the REST APIs for bulk data export as FHIR operations.  There are three operations:
+The *fhir-operation-bulkdata* module implements the REST APIs for bulk data export as FHIR operations.  There are three operations:
 * ExportOperation - system export
 * PatientExportOperation - Patient export
 * GroupExportOperation - group export.
