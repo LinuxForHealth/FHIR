@@ -1202,7 +1202,7 @@ Following is the beautified response of sample polling location request after th
 }
 ```
 
-The exported ndjson file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please notice that IBM COS doesn't support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. And for both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.  
+The exported ndjson file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.  
   
 JavaBatch feature must be enabled in server.xml as following for liberty server:
 
