@@ -1157,7 +1157,7 @@ BulkData web application writes the exported FHIR resources to IBM COS or Amazon
 The following configured parameters are: 
 |Parameter Name   | Description|
 |--------------| ------------|
-|`applicationName`| fixed value |
+|`applicationName`| fixed value, always set to fhir-bulkimportexport-webapp |
 |`moduleName`| fixed value |
 |`jobParameters.cos.bucket.name`| object store bucket name |
 |`jobParameters.cos.location`| object store location |
