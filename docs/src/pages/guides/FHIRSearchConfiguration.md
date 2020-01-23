@@ -106,7 +106,7 @@ In the preceding example, extension elements (on a Patient resource) with a url 
 For more information on search parameters, see the HL7 FHIR specification.
 
 #### 1.1.2 Test
-When creating a SearchParameter extension, it is recommended that the FHIRPath expression is checked for validity. Many examples exist in the module `fhir-search`. Further, optimizations to the custom SearchParameter extensions may add explict casts to the intended type and activate the specific behavior `refSequence.start-end.as(FHIRQuantity)`. An entry may look like `"expression": "Basic.extension.where(url='http://example.org/decimal').value.as(Decimal)"`.
+When creating a SearchParameter extension, it is recommended that the FHIRPath expression is checked for validity. Many examples exist in the module `fhir-search`. An entry may look like `"expression": "Basic.extension.where(url='http://example.org/decimal').value`.
 
 ### 1.2 Configuration: Filtering of search parameters
 The FHIR server supports the filtering of built-in search parameters (that is, search parameters defined by the HL7 FHIR specification for each resource type). The default behavior of the FHIR server is to consider all built-in search parameters when storing resources or performing search results, but you can configure inclusion filters to restrict the FHIR server's view to specific search parameters on a resource type basis. This filtering feature does not apply to user-defined search parameters in the extension-search-parameters.json file. User-defined search parameters are always included in the FHIR server's view regardless of the configured inclusion filters.

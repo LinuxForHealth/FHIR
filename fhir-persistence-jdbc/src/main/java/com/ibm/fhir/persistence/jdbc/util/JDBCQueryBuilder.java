@@ -44,12 +44,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.Location;
-import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.code.IssueSeverity;
-import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
@@ -907,18 +903,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             throws Exception {
         final String METHODNAME = "processDateParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
-
-        // Check to see if this is of a type is date. 
-        String code = queryParm.getCode();
-        SearchParamType type = SearchUtil.getSearchParameter(resourceType, code).getType();
-        if (!SearchParamType.DATE.getValue().equals(type.getValue())) {
-            throw new FHIRPersistenceException(
-                    "Cannot process query parameter '" + queryParm.getCode() + "' as a date.").withIssue(
-                            Issue.builder()
-                                    .code(IssueType.INVALID)
-                                    .severity(IssueSeverity.WARNING)
-                                    .build());
-        }
 
         StringBuilder whereClauseSegment = new StringBuilder();
 
