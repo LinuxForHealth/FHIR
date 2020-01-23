@@ -49,6 +49,9 @@ import com.ibm.fhir.search.util.SearchUtil;
  *
  */
 public class ChunkReader extends AbstractItemReader {
+    int pageNum = 1;
+    // List for the patients
+    List<Member> patientMembers = null;
     private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
     int indexOfCurrentResourceType = 0;
     // Control the number of records to read in each page.
@@ -244,12 +247,13 @@ public class ChunkReader extends AbstractItemReader {
         }
 
         TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
-        if (chunkData != null) {
+        if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
             if (resourceTypes.size() == indexOfCurrentResourceType + 1) {
                 // No more resource type and page to read, so return null to end the reading.
                 return null;
             } else {
-                // More resource types to read, so reset partNum and move resource type index to the next.
+                // More resource types to read, so reset pageNum, partNum and move resource type index to the next.
+                pageNum = 1;
                 chunkData.setPartNum(1);
                 indexOfCurrentResourceType++;
             }
@@ -271,40 +275,42 @@ public class ChunkReader extends AbstractItemReader {
             }
         }
 
-        Group group = findGroupByID(fhirTenant, fhirDatastoreId, fhirSearchPatientGroupId);
-        // List for the patients
-        List<Member> patientMembers = new ArrayList<>();
-        // List for the group and sub groups in the expansion paths, this is used to avoid dead loop caused by circle reference of the groups.
-        HashSet<String> groupsInPath = new HashSet<>();
-        expandGroup2Patients(fhirTenant, fhirDatastoreId, group, patientMembers, groupsInPath);
+        if (patientMembers == null) {
+            Group group = findGroupByID(fhirTenant, fhirDatastoreId, fhirSearchPatientGroupId);
+            patientMembers = new ArrayList<>();
+            // List for the group and sub groups in the expansion paths, this is used to avoid dead loop caused by circle reference of the groups.
+            HashSet<String> groupsInPath = new HashSet<>();
+            expandGroup2Patients(fhirTenant, fhirDatastoreId, group, patientMembers, groupsInPath);
+        }
+        List<Member> patientPageMembers = patientMembers.subList((pageNum - 1) * pageSize,
+                pageNum * pageSize <= patientMembers.size() ? pageNum * pageSize : patientMembers.size());
+        pageNum++;
 
         if (chunkData == null) {
-            chunkData = new TransientUserData(0, null, new ArrayList<PartETag>(), 1);
+            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1);
             chunkData.setIndexOfCurrentResourceType(0);
             jobContext.setTransientUserData(chunkData);
         } else {
             chunkData.setIndexOfCurrentResourceType(indexOfCurrentResourceType);
+            chunkData.setPageNum(pageNum);
         }
-        // The fhir resources of one resource type for all the patients will be exported into one COS object.
-        // Here we simply set the lastPageNum to be smaller than the next PageNum to ask the common ChunkWriter
-        // to close the writing for current resource type.
-        chunkData.setPageNum(2);
-        chunkData.setLastPageNum(1);
+        chunkData.setLastPageNum((patientMembers.size() + pageSize -1)/pageSize );
 
-        if (!patientMembers.isEmpty()) {
+        if (!patientPageMembers.isEmpty()) {
             logger.fine("readItem: loaded patients number - " + patientMembers.size());
             fillChunkDataBuffer(patientMembers);
         } else {
             logger.fine("readItem: End of reading!");
         }
 
-        return patientMembers;
+        return patientPageMembers;
     }
 
     @Override
     public void open(Serializable checkpoint) throws Exception {
         if (checkpoint != null) {
             CheckPointUserData checkPointData = (CheckPointUserData) checkpoint;
+            pageNum = checkPointData.getPageNum();
             indexOfCurrentResourceType = checkPointData.getIndexOfCurrentResourceType();
             jobContext.setTransientUserData(TransientUserData.fromCheckPointUserData(checkPointData));
         }
