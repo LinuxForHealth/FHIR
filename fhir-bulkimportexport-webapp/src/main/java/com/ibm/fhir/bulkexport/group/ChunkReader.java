@@ -270,7 +270,7 @@ public class ChunkReader extends AbstractItemReader {
                 pageSize = Integer.parseInt(fhirSearchPageSize);
                 logger.fine("readItem: Set page size to " + pageSize + ".");
             } catch (Exception e) {
-                logger.warning("readItem: Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
+                logger.warning("readItem: Set page size to default [" + Constants.DEFAULT_SEARCH_PAGE_SIZE + "]");
             }
         }
 
