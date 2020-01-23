@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1872,7 +1872,7 @@ public class CodeGenerator {
         cb._import("javax.xml.stream.XMLStreamReader");
         cb.newLine();
         
-        cb._import("com.ibm.fhir.model.parser.FHIRParser");
+        cb._import("com.ibm.fhir.model.parser.FHIRAbstractParser");
         cb._import("com.ibm.fhir.model.parser.exception.FHIRParserException");
         cb._import("com.ibm.fhir.model.resource.*");
         cb._import("com.ibm.fhir.model.type.*");
@@ -1888,7 +1888,7 @@ public class CodeGenerator {
         
         cb.annotation("NotThreadSafe");
         cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
-        cb._class(mods("public"), "FHIRXMLParser", null, implementsInterfaces("FHIRParser"));
+        cb._class(mods("public"), "FHIRXMLParser", "FHIRAbstractParser");
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
         cb.newLine();
         
@@ -2272,6 +2272,7 @@ public class CodeGenerator {
         cb.newLine();
         
         cb._import("com.ibm.fhir.model.parser.FHIRParser");
+        cb._import("com.ibm.fhir.model.parser.FHIRAbstractParser");
         cb._import("com.ibm.fhir.model.parser.exception.FHIRParserException");
         cb._import("com.ibm.fhir.model.resource.*");
         cb._import("com.ibm.fhir.model.type.*");
@@ -2287,7 +2288,7 @@ public class CodeGenerator {
         
         cb.annotation("NotThreadSafe");
         cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
-        cb._class(mods("public"), "FHIRJsonParser", null, implementsInterfaces("FHIRParser"));
+        cb._class(mods("public"), "FHIRJsonParser", "FHIRAbstractParser");
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
         cb.field(mods("private", "static", "final"), "JsonReaderFactory", "JSON_READER_FACTORY", "Json.createReaderFactory(null)");
         cb.newLine();
@@ -2364,6 +2365,15 @@ public class CodeGenerator {
         
         cb.method(mods("private"), "void", "reset")
             .invoke("stack", "clear", args())
+        .end();
+        cb.newLine();
+        
+        cb.override();
+        cb.method(mods("public"), "boolean", "isPropertySupported", params("java.lang.String name"))
+            ._if("FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS.equals(name)")
+                ._return("true")
+            ._end()
+            ._return("false")
         .end();
         cb.newLine();
         
@@ -2559,7 +2569,9 @@ public class CodeGenerator {
                 ._return("null")
             ._end();
             cb.invoke("stackPush", args("elementName", "elementIndex"));
-            cb.invoke("checkForUnrecognizedElements", args(generatedClassName + ".class", "jsonObject"));
+            cb._if("getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false")
+                .invoke("checkForUnrecognizedElements", args(generatedClassName + ".class", "jsonObject"))
+            ._end();
         }
         
         if (!isAbstract(structureDefinition) && !"Quantity".equals(generatedClassName)) {
@@ -2644,7 +2656,9 @@ public class CodeGenerator {
         
         cb._if("_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT")
             .assign("JsonObject jsonObject", "(JsonObject) _jsonValue")
-            .invoke("checkForUnrecognizedElements", args("Element.class", "jsonObject"))
+            ._if("getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false")
+                .invoke("checkForUnrecognizedElements", args("Element.class", "jsonObject"))
+            ._end()
             .invoke("parseElement", args("builder", "jsonObject"))
         ._end();
 

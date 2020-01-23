@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -68,7 +68,6 @@ import javax.ws.rs.core.UriInfo;
 
 import org.owasp.encoder.Encode;
 
-import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
@@ -146,7 +145,6 @@ import com.ibm.fhir.server.exception.FHIRHttpException;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.helper.FHIRUrlParser;
 import com.ibm.fhir.server.listener.FHIRServletContextListener;
-import com.ibm.fhir.server.util.Handling;
 import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
 import com.ibm.fhir.server.util.ReferenceMappingVisitor;
 import com.ibm.fhir.server.util.RestAuditLogger;
@@ -163,12 +161,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             java.util.logging.Logger.getLogger(FHIRResource.class.getName());
 
     private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
-    private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2019";
+    private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2020";
     private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
 
     private static final String LOCAL_REF_PREFIX = "urn:";
     private static final String HEADERNAME_IF_NONE_EXIST = "If-None-Exist";
-    private static final String HEADERNAME_PREFER = "Prefer";
     private static final String HEADERNAME_IF_MODIFIED_SINCE = "If-Modified-Since";
     private static final String HEADERNAME_IF_NONE_MATCH = "If-None-Match";
 
@@ -316,7 +313,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
             status = ior.getStatus();
             response.status(status);
-            
+
             Resource updatedResource = ior.getResource();
             if (updatedResource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
                 response.entity(updatedResource);
@@ -485,7 +482,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
                 response.entity(ior.getOperationOutcome());
             }
-            
+
             response = addHeaders(response, ior.getResource());
 
             if (createAuditLogRecord) {
@@ -544,9 +541,9 @@ public class FHIRResource implements FHIRResourceHelpers {
             checkInitComplete();
 
             ior = doDelete(type, id, null, null);
-            
+
             ResponseBuilder response = Response.noContent();
-            
+
             if (ior.getResource() != null) {
                 response = addHeaders(response, ior.getResource());
             }
@@ -620,13 +617,13 @@ public class FHIRResource implements FHIRResourceHelpers {
             log.exiting(this.getClass().getName(), "delete(String,String)");
         }
     }
-    
-    
+
+
     private long parseIfModifiedSince() {
         // Modified since date time in EpochMilli
         long modifiedSince = -1;
         try {
-            // Handle RFC_1123 and RFC_850 formats first. 
+            // Handle RFC_1123 and RFC_850 formats first.
             // e.g "Sun, 06 Nov 1994 08:49:37 GMT", "Sunday, 06-Nov-94 08:49:37 GMT", "Sunday, 06-Nov-1994 08:49:37 GMT"
             // If 2 digits year is used, then means 1940 to 2039.
             modifiedSince = httpServletRequest.getDateHeader(HEADERNAME_IF_MODIFIED_SINCE);
@@ -654,16 +651,16 @@ public class FHIRResource implements FHIRResourceHelpers {
             checkInitComplete();
             MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
             long modifiedSince = parseIfModifiedSince();
-            
+
             String ifNoneMatch = httpHeaders.getHeaderString(HEADERNAME_IF_NONE_MATCH);
-            
+
             Resource resource = doRead(type, id, true, false, null, null, queryParameters);
             int version2Match = -1;
             // Support ETag value with or without " (and W/)
             // e.g:  1, "1", W/1, W/"1" (the first format is used by TouchStone)
             if (ifNoneMatch != null) {
                 ifNoneMatch = ifNoneMatch.replaceAll("\"", "").replaceAll("W/", "").trim();
-                if (!ifNoneMatch.isEmpty()) { 
+                if (!ifNoneMatch.isEmpty()) {
                     try {
                         version2Match = Integer.parseInt(ifNoneMatch);
                     }
@@ -678,7 +675,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             if (modifiedSince > 0 ) {
                 modifiedTime2Compare = Instant.ofEpochMilli(modifiedSince);
             }
-            
+
             boolean isModified = true;
             // check if-not-match first
             if (version2Match != -1) {
@@ -692,7 +689,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     isModified = false;
                 }
             }
-            
+
             ResponseBuilder response;
             if (isModified) {
                 response = Response.ok().entity(resource);
@@ -846,8 +843,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             log.exiting(this.getClass().getName(), "_search(String)");
         }
     }
-    
-    
+
+
     private Response doSearchAll() {
         log.entering(this.getClass().getName(), "doSearchAll()");
         try {
@@ -893,7 +890,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIROperationContext operationContext =
                     FHIROperationContext.createSystemOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET );
-            
+
             Resource result =
                     doInvoke(operationContext, null, null, null, operationName, null, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -918,7 +915,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIROperationContext operationContext =
                     FHIROperationContext.createSystemOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST );
-            
+
             Resource result =
                     doInvoke(operationContext, null, null, null, operationName, resource, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -944,7 +941,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIROperationContext operationContext =
                     FHIROperationContext.createResourceTypeOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET );
-            
+
             Resource result =
                     doInvoke(operationContext, resourceTypeName, null, null, operationName, null, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -970,7 +967,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIROperationContext operationContext =
                     FHIROperationContext.createResourceTypeOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST );
-            
+
             Resource result =
                     doInvoke(operationContext, resourceTypeName, null, null, operationName, resource, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -1009,7 +1006,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIROperationContext operationContext =
                     FHIROperationContext.createInstanceOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET );
-            
+
             Resource result =
                     doInvoke(operationContext, resourceTypeName, logicalId, null, operationName, null, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -1036,7 +1033,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIROperationContext operationContext =
                     FHIROperationContext.createInstanceOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST);
-            
+
             Resource result =
                     doInvoke(operationContext, resourceTypeName, logicalId, null, operationName, resource, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -1064,7 +1061,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIROperationContext operationContext =
                     FHIROperationContext.createInstanceOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET);
-            
+
             Resource result =
                     doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, null, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -1092,7 +1089,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIROperationContext operationContext =
                     FHIROperationContext.createInstanceOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST );
-            
+
             Resource result =
                     doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, resource, uriInfo.getQueryParameters(), null);
             return buildResponse(operationContext, result);
@@ -1133,16 +1130,17 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Performs the heavy lifting associated with a 'create' interaction.
-     * 
+     *
      * @param type
      *            the resource type specified as part of the request URL
      * @param resource
      *            the Resource to be stored.
      * @param requestProperties
      *            additional request properties which supplement the HTTP headers associated with this request
-     * @return a FHIRRestOperationResponse object containing the results of the operation 
+     * @return a FHIRRestOperationResponse object containing the results of the operation
      * @throws Exception
      */
+    @Override
     public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist,
         Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doCreate");
@@ -1325,14 +1323,14 @@ public class FHIRResource implements FHIRResourceHelpers {
     @Override
     public FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch,
         String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception {
-        
+
         return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, requestProperties);
     }
 
     @Override
     public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource,
         String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception {
-        
+
         return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, requestProperties);
     }
 
@@ -1422,7 +1420,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     ior.setPrevResource(responseBundle.getEntry().get(0).getResource());
                     id = ior.getPrevResource().getId();
 
-                    // If the id of the input resource is different from the id of the search result, 
+                    // If the id of the input resource is different from the id of the search result,
                     // then throw exception.
                     if (newResource.getId() != null && newResource.getId() != null
                             && !newResource.getId().equalsIgnoreCase(id)) {
@@ -1441,7 +1439,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 if (id == null) {
                     String msg = "The 'id' parameter is required for an update/pach operation.";
                     throw buildRestException(msg, Status.BAD_REQUEST, IssueType.REQUIRED);
-                } 
+                }
 
                 // If an id value was passed in (i.e. the id specified in the REST API URL string),
                 // then make sure it's the same as the value in the resource.
@@ -1451,7 +1449,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                         String msg = "Input resource must contain an 'id' attribute.";
                         throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
                     }
-                    
+
                     if (!newResource.getId().equals(id)) {
                         String msg = "Input resource 'id' attribute must match 'id' parameter.";
                         throw buildRestException(msg, Status.BAD_REQUEST, IssueType.VALUE);
@@ -1532,7 +1530,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Commit our transaction if we started one before.
             txn.commit();
             txn = null;
-            
+
             // If the deleted resource is updated, then simply return 201 instead of 200 to pass Touchstone test.
             // we don't set the previous resource to null in above codes if the resource was deleted, otherwise
             // it will break the code logic of the resource versioning.
@@ -1599,7 +1597,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Performs a 'delete' operation on the specified resource.
-     * 
+     *
      * @param type
      *            the resource type associated with the Resource to be deleted
      * @param id
@@ -1609,6 +1607,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
+    @Override
     public FHIRRestOperationResponse doDelete(String type, String id, String searchQueryString,
         Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doDelete");
@@ -1632,7 +1631,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             Class<? extends Resource> resourceType =
-                    (Class<? extends Resource>) getResourceType(resourceTypeName);
+                    getResourceType(resourceTypeName);
 
             // Next, if a conditional delete was invoked then use the search criteria to find the
             // resource to be deleted. Otherwise, we'll use the id value to identify the resource
@@ -1773,10 +1772,10 @@ public class FHIRResource implements FHIRResourceHelpers {
             Map<String, String> requestProperties, Resource contextResource) throws Exception {
         return doRead(type, id, throwExcOnNull, includeDeleted, requestProperties, contextResource, null);
     }
-    
+
     /**
      * Performs a 'read' operation to retrieve a Resource.
-     * 
+     *
      * @param type
      *            the resource type associated with the Resource to be retrieved
      * @param id
@@ -1786,6 +1785,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @return the Resource
      * @throws Exception
      */
+    @Override
     public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
         Map<String, String> requestProperties,
         Resource contextResource,
@@ -1800,7 +1800,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
-        
+
         try {
             String resourceTypeName = type;
             if (!ModelSupport.isResourceType(type)) {
@@ -1808,10 +1808,10 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
-            
+
             FHIRSearchContext searchContext = null;
             if (queryParameters != null) {
-                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, httpServletRequest.getQueryString(), isLenient(requestProperties));
+                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, httpServletRequest.getQueryString(), HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
             }
 
             // Start a new txn in the persistence layer if one is not already active.
@@ -1885,7 +1885,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Performs a 'vread' operation by retrieving the specified version of a Resource.
-     * 
+     *
      * @param type
      *            the resource type associated with the Resource to be retrieved
      * @param id
@@ -1897,6 +1897,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @return the Resource
      * @throws Exception
      */
+    @Override
     public Resource doVRead(String type, String id, String versionId,
         Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doVRead");
@@ -1917,7 +1918,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             Class<? extends Resource> resourceType =
-                    (Class<? extends Resource>) getResourceType(resourceTypeName);
+                    getResourceType(resourceTypeName);
 
             // Start a new txn in the persistence layer if one is not already active.
             txn.begin();
@@ -2004,6 +2005,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @return a Bundle containing the history of the specified Resource
      * @throws Exception
      */
+    @Override
     public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters,
         String requestUri, Map<String, String> requestProperties)
         throws Exception {
@@ -2025,9 +2027,9 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             Class<? extends Resource> resourceType =
-                    (Class<? extends Resource>) getResourceType(resourceTypeName);
+                    getResourceType(resourceTypeName);
             FHIRHistoryContext historyContext =
-                    FHIRPersistenceUtil.parseHistoryParameters(queryParameters, isLenient(requestProperties));
+                    FHIRPersistenceUtil.parseHistoryParameters(queryParameters, HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
 
             // Start a new txn in the persistence layer if one is not already active.
             txn.begin();
@@ -2090,7 +2092,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Performs heavy lifting associated with a 'search' operation.
-     * 
+     *
      * @param type
      *            the resource type associated with the search
      * @param queryParameters
@@ -2100,6 +2102,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @return a Bundle containing the search result set
      * @throws Exception
      */
+    @Override
     public Bundle doSearch(String type, String compartment, String compartmentId,
         MultivaluedMap<String, String> queryParameters, String requestUri,
         Map<String, String> requestProperties, Resource contextResource) throws Exception {
@@ -2117,14 +2120,14 @@ public class FHIRResource implements FHIRResourceHelpers {
         try {
             String resourceTypeName = type;
 
-            // Check to see if it's supported, else, throw a bad request. 
-            // If this is removed, it'll result in nullpointer when processing the request 
+            // Check to see if it's supported, else, throw a bad request.
+            // If this is removed, it'll result in nullpointer when processing the request
             if (!ModelSupport.isResourceType(type)) {
                 throw buildUnsupportedResourceTypeException(type, IssueType.NOT_SUPPORTED);
             }
 
             Class<? extends Resource> resourceType =
-                    (Class<? extends Resource>) getResourceType(resourceTypeName);
+                    getResourceType(resourceTypeName);
 
             // Start a new txn in the persistence layer if one is not already active.
             txn.begin();
@@ -2135,7 +2138,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeSearchEvent(event);
 
             FHIRSearchContext searchContext =
-                    SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters, httpServletRequest.getQueryString(), isLenient(requestProperties));
+                    SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters, httpServletRequest.getQueryString(), HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
@@ -2192,120 +2195,8 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     /**
-     * Uses the handling property from the server config and the Prefer header from the request to determine which mode the server should use.
-     * 
-     * @throws FHIRHttpException if the mode is STRICT and the Prefer header contains an invalid handling value.
-     * @throws IllegalArgumentException if the server handling config contains an invalid string value
-     */
-    private boolean isLenient(Map<String, String> requestProperties) throws FHIRHttpException {
-        boolean isLenient = false; // Assign it to appease the compiler
-        String stringVal = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_HANDLING, Handling.STRICT.value());
-        Handling handlingConfig = Handling.from(stringVal);
-        
-        switch(handlingConfig) {
-        case LENIENT: {
-            String handlingStringValue = getHeaderValue(requestProperties, HEADERNAME_PREFER, "handling");
-            if ("strict".equalsIgnoreCase(handlingStringValue)) {
-                isLenient = false;
-            } else {
-                isLenient = true;
-            }
-            break;
-        }
-        case LENIENT_ONLY:
-            isLenient = true;
-            break;
-
-        case STRICT: {
-            String handlingStringValue = getHeaderValue(requestProperties, HEADERNAME_PREFER, "handling");
-            if (handlingStringValue != null) {
-                // throws IllegalArgumentException for invalid values
-                try {
-                    isLenient = HTTPHandlingPreference.LENIENT == HTTPHandlingPreference.from(handlingStringValue);
-                } catch (IllegalArgumentException e) {
-                    throw new FHIRHttpException("Received invalid handling value: '" + handlingStringValue + "'; use 'strict' or 'lenient'.", 
-                        Status.BAD_REQUEST);
-                }
-            } else {
-                isLenient = false;
-            }
-            break;
-        }
-        case STRICT_ONLY:
-            isLenient = false;
-            break;
-        }
-
-        return isLenient;
-    }
-
-    /**
-     * Helper method for getting header values.
-     * 
-     * <p>Supports the retrieval of a specific part from within a multi-part header value like
-     * {@code Prefer: return=representation; handling=lenient;}
-     * 
-     * @partName optional part name to return the value from
-     * @return the header (or header part) value or null if the header (or header part) does not exist
-     */
-    private String getHeaderValue(Map<String, String> requestProperties, String headerName,
-        String partName) {
-
-        String headerStringValue;
-        if (requestProperties != null && requestProperties.containsKey(headerName)) {
-            headerStringValue = requestProperties.get(headerName);
-        } else {
-            headerStringValue = httpHeaders.getHeaderString(headerName);
-        }
-
-        if (headerStringValue == null) {
-            return null;
-        }
-
-        String[] splitHeaderStringValues = headerStringValue.split(",");
-        if (splitHeaderStringValues.length > 1) {
-            log.fine("Found multiple '" + headerName + "' header values; using the first one with partName '"
-                    + partName + "'");
-        }
-
-        // Return the first non-null headerPartValue we find
-        for (String splitHeaderStringValue : splitHeaderStringValues) {
-            String headerPartValue = getHeaderPartValue(splitHeaderStringValue, partName);
-            if (headerPartValue != null) {
-                return headerPartValue;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Helper method for getting header values from multipart headers
-     * 
-     * @return the value of the part or the full header value if partName is null; returns null if the partName is not
-     *         found
-     */
-    private String getHeaderPartValue(String fullHeaderValue, String partName) {
-        if (partName == null) {
-            return fullHeaderValue;
-        }
-
-        if (fullHeaderValue != null) {
-            String[] parts = fullHeaderValue.split(";");
-            for (int i = 0; i < parts.length; i++) {
-                String[] splitPart = parts[i].split("=", 2);
-                if (partName.equals(splitPart[0].trim()) && splitPart.length == 2) {
-                    return splitPart[1].trim();
-                }
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Helper method which invokes a custom operation.
-     * 
+     *
      * @param operationContext
      *            the FHIROperationContext associated with the request
      * @param resourceTypeName
@@ -2326,6 +2217,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @return a Resource that represents the response to the custom operation
      * @throws Exception
      */
+    @Override
     public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName,
         String logicalId, String versionId, String operationName,
         Resource resource, MultivaluedMap<String, String> queryParameters,
@@ -2345,11 +2237,12 @@ public class FHIRResource implements FHIRResourceHelpers {
         try {
             Class<? extends Resource> resourceType = null;
             if (resourceTypeName != null) {
-                resourceType = (Class<? extends Resource>) getResourceType(resourceTypeName);
+                resourceType = getResourceType(resourceTypeName);
             }
+            String operationKey = (resourceTypeName == null ? operationName : operationName + ":" + resourceTypeName);
 
             FHIROperation operation =
-                    FHIROperationRegistry.getInstance().getOperation(operationName);
+                    FHIROperationRegistry.getInstance().getOperation(operationKey);
             Parameters parameters = null;
             if (resource instanceof Parameters) {
                 parameters = (Parameters) resource;
@@ -2422,6 +2315,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      *            additional request properties which supplement the HTTP headers associated with this request
      * @return the response Bundle
      */
+    @Override
     public Bundle doBundle(Resource bundleResource, Map<String, String> requestProperties)
         throws Exception {
         log.entering(this.getClass().getName(), "doBundle");
@@ -2494,7 +2388,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Sets various properties on the FHIROperationContext instance.
-     * 
+     *
      * @param operationContext
      *            the FHIROperationContext on which to set the properties
      * @throws FHIRPersistenceException
@@ -2670,7 +2564,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                                 }
                                 responseEntry = responseEntryBuilder.build();
                             }
-                            
+
                             continue;
                         }
                     }
@@ -2778,7 +2672,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     /**
      * Retrieves the version id value from an ETag header value. The ETag header value will be of the form:
      * W/"<version-id>".
-     * 
+     *
      * @param ifMatchValue
      *            the value of the If-Match request header.
      */
@@ -2800,7 +2694,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     /**
      * This function will process each request contained in the specified request bundle, and update the response bundle
      * with the appropriate response information.
-     * 
+     *
      * @param requestBundle
      *            the bundle containing the requests
      * @param responseBundle
@@ -3347,7 +3241,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     /**
      * Returns a list of Integers that provide the indices of the bundle entries associated with the specified http
      * method.
-     * 
+     *
      * @param requestBundle
      *            the request bundle
      * @param httpMethod
@@ -3379,7 +3273,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     /**
      * This function sorts the request entries in the specified bundle, based on the path part of the entry's 'url'
      * field.
-     * 
+     *
      * @param bundle
      *            the bundle containing the request entries to be sorted.
      * @return an array of Integer which provides the "sorted" ordering of request entry index values.
@@ -3422,7 +3316,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     /**
      * This function converts the specified query string (a String) into an equivalent MultivaluedMap<String,String>
      * containing the query parameters defined in the query string.
-     * 
+     *
      * @param queryString
      *            the query string to be processed
      * @return
@@ -3436,7 +3330,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Returns the specified BundleEntry's path component of the 'url' field.
-     * 
+     *
      * @param entry
      *            the bundle entry
      * @return the bundle entry's 'url' field's path component
@@ -3457,7 +3351,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     /**
      * This method will add a mapping to the local-to-external identifier map if the specified localIdentifier is
      * non-null.
-     * 
+     *
      * @param localRefMap
      *            the map containing the local-to-external identifier mappings
      * @param localIdentifier
@@ -3479,7 +3373,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     /**
      * This method will retrieve the local identifier associated with the specified bundle request entry, or return null
      * if the fullUrl field is not specified or doesn't contain a local identifier.
-     * 
+     *
      * @param requestEntry
      *            the bundle request entry
      * @param localRefMap
@@ -3506,7 +3400,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * This function will build an absolute URI from the specified base URI and relative URI.
-     * 
+     *
      * @param baseUri
      *            the base URI to be used; this will be of the form <scheme>://<host>:<port>/<context-root>
      * @param relativeUri
@@ -3525,7 +3419,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     private Bundle.Entry setBundleResponseFields(Bundle.Entry responseEntry, Resource resource,
         OperationOutcome operationOutcome, URI locationURI, int httpStatus, String requestDescription, long initialTime) throws FHIROperationException {
-        
+
         Bundle.Entry.Response response = responseEntry.getResponse();
         Bundle.Entry.Response.Builder resBuilder = response.toBuilder();
         resBuilder.status(string(Integer.toString(httpStatus)));
@@ -3670,7 +3564,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Builds a CapabilityStatement resource instance which describes this server.
-     * 
+     *
      * @throws Exception
      */
     private CapabilityStatement buildCapabilityStatement() throws Exception {
@@ -3778,7 +3672,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 .status(PublicationStatus.ACTIVE)
                 .date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC)))
                 .kind(CapabilityStatementKind.CAPABILITY)
-                .fhirVersion(FHIRVersion.VERSION_4_0_0)
+                .fhirVersion(FHIRVersion.VERSION_4_0_1)
                 .format(format).patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH))
                 .version(string(buildInfo.getBuildVersion()))
                 .name(string(FHIR_SERVER_NAME))
@@ -3871,7 +3765,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Creates a bundle that will hold results for a search operation.
-     * 
+     *
      * @param resources
      *            the list of resources to include in the bundle
      * @param searchContext
@@ -3881,7 +3775,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      */
     private Bundle createSearchBundle(List<Resource> resources, FHIRSearchContext searchContext)
         throws FHIROperationException {
-        
+
         // throws if we have a count of more than 2,147,483,647 resources
         UnsignedInt totalCount = UnsignedInt.of(searchContext.getTotalCount());
         // generate ID for this bundle and set total
@@ -3905,9 +3799,9 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         // Add the SUBSETTED tag, if the _elements search result parameter was applied to limit elements included in
         // returned resources or _summary is required.
-        if (searchContext.hasElementsParameters() 
+        if (searchContext.hasElementsParameters()
                 || (searchContext.hasSummaryParameter() && !searchContext.getSummaryParameter().equals(SummaryValueSet.FALSE))) {
-            bundle = (Bundle) FHIRUtil.addTag(bundle, SearchConstants.SUBSETTED_TAG);
+            bundle = FHIRUtil.addTag(bundle, SearchConstants.SUBSETTED_TAG);
         }
 
         return bundle;
@@ -3915,7 +3809,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Creates a bundle that will hold the results of a history operation.
-     * 
+     *
      * @param resources
      *            the list of resources to include in the bundle
      * @param historyContext
@@ -3924,7 +3818,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      */
     private Bundle createHistoryBundle(List<? extends Resource> resources, FHIRHistoryContext historyContext)
         throws FHIROperationException {
-        
+
         // throws if we have a count of more than 2,147,483,647 resources
         UnsignedInt totalCount = UnsignedInt.of(historyContext.getTotalCount());
         // generate ID for this bundle and set the "total" field for the bundle
@@ -4038,7 +3932,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         Bundle.Link selfLink =
                 Bundle.Link.builder().relation(string("self")).url(Url.of(selfUri)).build();
         bundleBuilder.link(selfLink);
-        
+
         // If for search with _summary=count or pageSize == 0, then don't add previous and next links.
         if (!SummaryValueSet.COUNT.equals(summaryParameter) && context.getPageSize() > 0) {
             int nextPageNumber = context.getPageNumber() + 1;
@@ -4135,7 +4029,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Builds a collection of properties that will be passed to the persistence interceptors.
-     * 
+     *
      * @throws FHIRPersistenceException
      */
     private Map<String, Object> buildPersistenceEventProperties(String type, String id,
@@ -4164,7 +4058,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * workaround to a bug in uriInfo.getRequestUri() where an IllegalArgumentException is thrown by getRequestUri()
      * when the query string portion contains a vertical bar | character. The vertical bar is one known case of a
      * special character causing the exception. There could be others.
-     * 
+     *
      * @return String The complete request URI
      */
     private String getRequestUri() {
@@ -4184,7 +4078,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * This method returns the "base URI" associated with the current request. For example, if a client invoked POST
      * https://myhost:9443/fhir-server/api/v4/Patient to create a Patient resource, this method would return
      * "https://myhost:9443/fhir-server/api/v4".
-     * 
+     *
      * @return The base endpoint URI associated with the current request.
      */
     private String getRequestBaseUri() {
@@ -4200,7 +4094,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * This method simply returns a URI object containing the specified URI string.
-     * 
+     *
      * @param uriString
      *            the URI string for which the URI object will be created
      * @throws URISyntaxException
@@ -4211,24 +4105,22 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     private Response buildResponse(FHIROperationContext operationContext, Resource resource)
         throws URISyntaxException {
-        
+
         // The following code allows the downstream application to change the response code
-        // This enables the 202 accepted to be sent back 
+        // This enables the 202 accepted to be sent back
         Response.Status status = Response.Status.OK;
         Object o = operationContext.getProperty(FHIROperationContext.PROPNAME_STATUS_TYPE);
         if(o != null) {
             status = (Response.Status) o;
-            
-            
-            if (Response.Status.ACCEPTED.compareTo(status)==0) {
-                // This change is for BulkData operations which manipulate the response code. 
-                // Operations that return Accepted need to implement their own approach. 
+            if (Response.Status.ACCEPTED.equals(status)) {
+                // This change is for BulkData operations which manipulate the response code.
+                // Operations that return Accepted need to implement their own approach.
                 Object ox = operationContext.getProperty(FHIROperationContext.PROPNAME_RESPONSE);
                 return (Response) ox;
             }
-            
+
         }
-        
+
         URI locationURI =
                 (URI) operationContext.getProperty(FHIROperationContext.PROPNAME_LOCATION_URI);
         if (locationURI != null) {

@@ -5,7 +5,7 @@
 
     <groupId>com.ibm.fhir</groupId>
     <artifactId>fhir-parent</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
+    <version>4.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>IBM FHIR Server</name>
 
@@ -28,6 +28,9 @@
         <fhir-persistence-jdbc.index>MINIMAL_JSON</fhir-persistence-jdbc.index>
         <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
         <java.version>1.8</java.version>
+        <fhir-examples.version>4.0.1-SNAPSHOT</fhir-examples.version>
+        <fhir-tools.version>4.0.1-SNAPSHOT</fhir-tools.version>
+        <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
     </properties>
 
     <modules>
@@ -74,7 +77,7 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>fhir-examples</artifactId>
-                <version>4.0.0-SNAPSHOT</version>
+                <version>${fhir-examples.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -130,11 +133,6 @@
                 <artifactId>jsonassert</artifactId>
                 <version>1.3.0</version>
                 <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.json</groupId>
-                <artifactId>jakarta.json-api</artifactId>
-                <version>1.1.5</version>
             </dependency>
             <dependency>
                 <groupId>com.googlecode.json-simple</groupId>
@@ -545,7 +543,7 @@
                             <additionalOption>--no-module-directories</additionalOption>
                         </additionalOptions>
                         <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
-                        <bottom><![CDATA[Copyright 2019. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                        <bottom><![CDATA[Copyright 2019, 2020. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
                         <author>false</author>
                         <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
                         <!-- skips the three entries -->
@@ -660,23 +658,21 @@
             </properties>
         </profile>
         <profile>
-            <id>jenkins</id>
+            <id>integration</id>
             <activation>
                 <property>
                     <name>profile</name>
-                    <value>jenkins</value>
+                    <value>integration</value>
                 </property>
             </activation>
             <properties>
-                <build.id>${env.BUILD_DISPLAY_NAME}</build.id>
+                <build.id>Integration_${env.GITHUB_REF}_${env.GITHUB_SHA}</build.id>
             </properties>
-            <build>
-            </build>
         </profile>
         <profile>
             <id>model-all-tests</id>
             <properties>
-                <fhir-model.index>ALL_JSON</fhir-model.index>
+                <fhir-model.index>ALL</fhir-model.index>
             </properties>
         </profile>
         <profile>
@@ -919,7 +915,7 @@
                         <additionalOption>--no-module-directories</additionalOption>
                     </additionalOptions>
                     <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
-                    <bottom><![CDATA[Copyright 2019. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                    <bottom><![CDATA[Copyright 2019, 2020. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
                     <author>false</author>
                     <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
                     <!-- skips the three entries -->

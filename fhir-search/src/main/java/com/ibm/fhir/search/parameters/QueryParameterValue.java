@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -151,7 +151,6 @@ public class QueryParameterValue {
         outputBuilder(returnString, valueCode);
         outputBuilder(returnString, valueString);
         outputBuilder(returnString, valueDateLowerBound);
-        outputBuilder(returnString, valueDateUpperBound);
 
         if (component != null && !component.isEmpty()) {
             String componentDelim = "";

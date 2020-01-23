@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,7 @@
 package com.ibm.fhir.openapi.generator;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -78,6 +79,7 @@ import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.Contributor;
 import com.ibm.fhir.model.type.DataRequirement;
 import com.ibm.fhir.model.type.Dosage;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.ElementDefinition;
 import com.ibm.fhir.model.type.Expression;
 import com.ibm.fhir.model.type.MarketingStatus;
@@ -122,7 +124,8 @@ public class FHIROpenApiGenerator {
      * This should match the webApplication contextRoot in server.xml (unless the path is rewritten in front of the server)
      */
     private static final String CONTEXT_ROOT = "/fhir-server/api/v4";
-    
+    // TODO: make this configurable
+    private static final String OUTDIR = "openapi";
     private static final JsonBuilderFactory factory = Json.createBuilderFactory(null);
     private static final Map<Class<?>, StructureDefinition> structureDefinitionMap = buildStructureDefinitionMap();
     private static boolean includeDeleteOperation = false;
@@ -130,10 +133,11 @@ public class FHIROpenApiGenerator {
     public static final String RESOURCEPACKAGENAME = "com.ibm.fhir.model.resource";
 
     public static void main(String[] args) throws Exception {
-        File file = new File("./src/main/resources/openapi");
+        File file = new File(OUTDIR);
         if (!file.exists()) {
             file.mkdirs();
         }
+        System.out.println("Generating openapi definitions at " + file.getCanonicalPath());
 
         Filter filter = null;
         if (args.length == 1) {
@@ -257,8 +261,8 @@ public class FHIROpenApiGenerator {
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory factory = Json.createWriterFactory(config);
         
-        File outFile = new File("./src/main/resources/openapi/all-openapi.json");
-        try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
+        File outFile = new File(OUTDIR + File.separator + "all-openapi.json");
+        try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
             writer.writeObject(swagger.build());
         } catch (Exception e) {
             throw new Error(e);
@@ -279,7 +283,7 @@ public class FHIROpenApiGenerator {
                 JsonObjectBuilder info = factory.createObjectBuilder();
                 info.add("title", resourceClassName + " API");
                 info.add("description", "A simplified version of the HL7 FHIR API for " + resourceClassName + " resources.");
-                info.add("version", "4.0.0");
+                info.add("version", "4.0.1");
                 swagger.add("info", info);
 
                 JsonArrayBuilder servers = factory.createArrayBuilder();
@@ -352,8 +356,8 @@ public class FHIROpenApiGenerator {
                 config.put(JsonGenerator.PRETTY_PRINTING, true);
                 JsonWriterFactory factory = Json.createWriterFactory(config);
                 
-                File outFile = new File("./src/main/resources/openapi/" + resourceClassName + "-openapi.json");
-                try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
+                File outFile = new File(OUTDIR + File.separator + resourceClassName + "-openapi.json");
+                try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
                     writer.writeObject(swagger.build());
                 } catch (Exception e) {
                     throw new Error(e);
@@ -410,8 +414,8 @@ public class FHIROpenApiGenerator {
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory factory = Json.createWriterFactory(config);
         
-        File outFile = new File("./src/main/resources/swagger/metadata-swagger.json");
-        try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
+        File outFile = new File(OUTDIR + File.separator + "metadata-openapi.json");
+        try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
             writer.writeObject(swagger.build());
         } catch (Exception e) {
             throw new Error(e);
@@ -462,8 +466,8 @@ public class FHIROpenApiGenerator {
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory factory = Json.createWriterFactory(config);
         
-        File outFile = new File("./src/main/resources/swagger/batch-swagger.json");
-        try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
+        File outFile = new File(OUTDIR + File.separator + "batch-openapi.json");
+        try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
             writer.writeObject(swagger.build());
         } catch (Exception e) {
             throw new Error(e);
@@ -1388,9 +1392,9 @@ public class FHIROpenApiGenerator {
         return " a ";
     }
 
-    private static void getAllInnerClassNames(Class<?> classToIterat, List<String> resultList) {
+    private static void addInnerClassNames(Class<?> classToIterate, List<String> resultList) {
         try {
-            Class<?>[] InnerClassArray = classToIterat.getDeclaredClasses();
+            Class<?>[] InnerClassArray = classToIterate.getDeclaredClasses();
 
             for (Class<?> InnerClass : InnerClassArray) {
                 if (InnerClass.getSimpleName().equals("Builder") || InnerClass.getSimpleName().equals("ValueSet")) {
@@ -1406,43 +1410,31 @@ public class FHIROpenApiGenerator {
                 resultList.add(InnerClass.getName().substring(classNameOffset));
 
                 if (InnerClass.getDeclaredClasses() != null) {
-                    getAllInnerClassNames(InnerClass, resultList);
+                    addInnerClassNames(InnerClass, resultList);
                 }
             }
 
         } catch (Exception e) {
-            System.err.println("Failed to Iterate class: " + classToIterat.getSimpleName());
+            System.err.println("Failed to Iterate class: " + classToIterate.getSimpleName());
         }
     }
 
     public static List<String> getAllTypesList() {
-        List<String> allTypesList = new ArrayList<String>();
-
-        File typeFolder = new File(
-                System.getProperty("user.dir") + "/../fhir-model/src/main/java/com/ibm/fhir/model/type");
-        File[] listOfFiles = typeFolder.listFiles();
-
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                // strip the ".java"
-                allTypesList.add(listOfFiles[i].getName().substring(0, listOfFiles[i].getName().length() - 5));
-            }
-        }
+        Set<Class<? extends Element>> allTypes = ModelSupport.getDataTypes();
 
         List<String> toAddTypesList = new ArrayList<String>();
-
-        for (String typeName : allTypesList) {
-            try {
-                Class<?> resourceTypeClass = Class.forName(TYPEPACKAGENAME + "." + typeName);
-                getAllInnerClassNames(resourceTypeClass, toAddTypesList);
-            } catch (Exception e) {
-                System.err.println("Failed to get type: " + typeName);
-            }
-        }
         
-        allTypesList.addAll(toAddTypesList);
+        // Explicitly add the abstract supertypes
+        toAddTypesList.add("Element");
+        toAddTypesList.add("BackboneElement");
+        
+        for (Class<? extends Element> resourceTypeClass : allTypes) {
+            String typeName = resourceTypeClass.getSimpleName();
+            toAddTypesList.add(typeName);
+            addInnerClassNames(resourceTypeClass, toAddTypesList);
+        }
 
-        return allTypesList;
+        return toAddTypesList;
     }
 
     public static List<String> getAllResourceInnerClasses() {
@@ -1451,7 +1443,7 @@ public class FHIROpenApiGenerator {
         for (String ResourceName : FHIRUtil.getResourceTypeNames()) {
             try {
                 Class<?> resourceTypeClass = Class.forName(RESOURCEPACKAGENAME + "." + ResourceName);
-                getAllInnerClassNames(resourceTypeClass, allResourceInnerClassList);
+                addInnerClassNames(resourceTypeClass, allResourceInnerClassList);
             } catch (Exception e) {
                 System.err.println("Failed to get resource: " + ResourceName);
             }

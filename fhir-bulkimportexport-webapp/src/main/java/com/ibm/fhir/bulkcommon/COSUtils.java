@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -42,7 +42,6 @@ import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 /**
  * Utility functions for IBM COS.
  *
- * @author Albert Wang
  */
 
 public class COSUtils {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -327,10 +327,12 @@ public class SearchTest extends FHIRServerTestBase {
     public void testSearchPatientWithGender() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Patient").queryParam("gender", "male").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+                target.path("Patient").queryParam("gender", "male").request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", tenantName)
+                    .header("X-FHIR-DSID", dataStoreId)
+                    .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
-
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
     }
@@ -339,7 +341,11 @@ public class SearchTest extends FHIRServerTestBase {
     public void test_SearchPatientWithGender() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("gender", "male");
-        FHIRResponse response = client._search("Patient", parameters);
+        FHIRRequestHeader header =
+                new FHIRRequestHeader("X-FHIR-TENANT-ID", tenantName);
+        FHIRRequestHeader header2 =
+                new FHIRRequestHeader("X-FHIR-DSID", dataStoreId);
+        FHIRResponse response = client._search("Patient", parameters, header, header2);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -909,9 +915,8 @@ public class SearchTest extends FHIRServerTestBase {
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })
     public void test_SearchObservationFilteredSearchParameter1_preferBogus()
             throws Exception {
-        // 'category' search parameter is filtered out for tenant1.
         FHIRParameters parameters = new FHIRParameters();
-        parameters.searchParam("category", "foo");
+        parameters.searchParam("subject", "foo");
         FHIRRequestHeader tenantHeader =
                 new FHIRRequestHeader("X-FHIR-TENANT-ID", tenantName);
         FHIRRequestHeader dsHeader =

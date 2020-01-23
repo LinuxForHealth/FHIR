@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,10 +27,6 @@ import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.util.FHIROperationUtil;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
 
-/**
- * @author pbastide
- *
- */
 public class DummyImportExportImpl implements ExportBulkData, ImportBulkData {
 
     /*
@@ -96,7 +92,8 @@ public class DummyImportExportImpl implements ExportBulkData, ImportBulkData {
     @Override
     public Parameters exportPatient(String logicalId, MediaType outputFormat, Instant since,
         List<String> types, List<String> typeFilters, FHIRRequestContext ctx,
-        FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+        FHIRResourceHelpers resourceHelper, FHIROperationContext operationContext,
+        BulkDataTenantSpecificCache cache) throws FHIROperationException {
 
         try {
             return getOutputParametersWithJson(null);
@@ -108,7 +105,8 @@ public class DummyImportExportImpl implements ExportBulkData, ImportBulkData {
     @Override
     public Parameters exportGroup(String logicalId, MediaType outputFormat, Instant since,
         List<String> types, List<String> typeFilters, FHIRRequestContext ctx,
-        FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+        FHIRResourceHelpers resourceHelper, FHIROperationContext operationContext,
+        BulkDataTenantSpecificCache cache) throws FHIROperationException {
         try {
             return FHIROperationUtil.getOutputParameters(null);
         } catch (Exception e) {

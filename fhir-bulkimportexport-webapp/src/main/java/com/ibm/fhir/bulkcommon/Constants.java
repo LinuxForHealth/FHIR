@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,6 @@
 /**
  * Constants for the JavaBatch Jobs.
  *
- * @author Albert Wang
  */
 
 package com.ibm.fhir.bulkcommon;
@@ -15,7 +14,6 @@ package com.ibm.fhir.bulkcommon;
 /**
  * Constants for BulkExportImport.
  *
- * @author Albert Wang
  */
 public class Constants {
 
@@ -28,5 +26,5 @@ public class Constants {
     public static final int DEFAULT_NUMOFOBJECTS_PERREAD = 1;
     public static final int DEFAULT_MAXCOSFILE_SIZE = 104857600;
     public static final String FHIR_SEARCH_LASTUPDATED = "_lastUpdated";
-    public static final String NDJSON_LINESEPERATOR = "\r\n";
+    public static final byte[] NDJSON_LINESEPERATOR = "\r\n".getBytes();
 }

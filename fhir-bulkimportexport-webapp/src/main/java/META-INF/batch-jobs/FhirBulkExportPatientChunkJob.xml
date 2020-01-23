@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd" id="bulkpatientexportchunkjob" restartable="true" version="1.0">
+    <properties>
+        <property name="cos.pagesperobject" value="#{jobParameters['cos.pagesperobject']}?:10;" />
+    </properties>
+    <step id="step1">
+        <chunk checkpoint-policy="custom" item-count="#{jobProperties['cos.pagesperobject']}">
+            <reader ref="com.ibm.fhir.bulkexport.patient.ChunkReader">
+                <properties >
+                    <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
+                    <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>                   
+                    <property name="fhir.resourcetype" value="#{jobParameters['fhir.resourcetype']}"/>
+                    <property name="fhir.search.fromdate" value="#{jobParameters['fhir.search.fromdate']}"/>
+                    <property name="fhir.search.todate" value="#{jobParameters['fhir.search.todate']}"/>
+                    <property name="fhir.search.pagesize" value="#{jobParameters['fhir.search.pagesize']}"/>
+                </properties>
+            </reader>
+            <writer ref="com.ibm.fhir.bulkexport.patient.ChunkWriter">
+                <properties>
+                    <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
+                    <property name="cos.srvinst.id" value="#{jobParameters['cos.srvinst.id']}"/>
+                    <property name="cos.endpointurl" value="#{jobParameters['cos.endpointurl']}"/>
+                    <property name="cos.location" value="#{jobParameters['cos.location']}"/>
+                    <property name="cos.credential.ibm" value="#{jobParameters['cos.credential.ibm']}"/>
+                    <property name="cos.bucket.name" value="#{jobParameters['cos.bucket.name']}"/>
+                    <property name="cos.bucket.pathprefix" value="#{jobParameters['cos.bucket.pathprefix']}"/>
+                    <property name="fhir.resourcetype" value="#{jobParameters['fhir.resourcetype']}"/>
+                </properties>
+            </writer>
+            <checkpoint-algorithm ref="com.ibm.fhir.bulkexport.common.CheckPointAlgorithm">
+                <properties>
+                    <property name="cos.pagesperobject" value="#{jobParameters['cos.pagesperobject']}"/>
+                    <property name="cos.bucket.maxfilesize" value="#{jobParameters['cos.bucket.maxfilesize']}"/>
+                </properties>
+            </checkpoint-algorithm>
+        </chunk>
+    </step>
+</job>
