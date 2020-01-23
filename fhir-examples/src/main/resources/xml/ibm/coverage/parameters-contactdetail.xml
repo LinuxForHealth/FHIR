@@ -1,0 +1,17 @@
+<Parameters xmlns="http://hl7.org/fhir">
+    <id value="851051fe-004e-4e64-bf4e-46853c86e5b6" />
+    <parameter>
+        <name value="_demo" />
+        <valueContributor>
+            <type value="author" />
+            <name value="contributor-name" />
+            <contact>
+                <name value="Patient P" />
+                <telecom>
+                    <value value="1-111-111-1111" />
+                    <use value="home" />
+                </telecom>
+            </contact>
+        </valueContributor>
+    </parameter>
+</Parameters>
