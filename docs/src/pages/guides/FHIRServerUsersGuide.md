@@ -1158,7 +1158,7 @@ The following configured parameters are:
 |Parameter Name   | Description|
 |--------------| ------------|
 |`applicationName`| fixed value, always set to fhir-bulkimportexport-webapp |
-|`moduleName`| fixed value |
+|`moduleName`| fixed value, always set to fhir-bulkimportexport.war |
 |`jobParameters.cos.bucket.name`| object store bucket name |
 |`jobParameters.cos.location`| object store location |
 |`jobParameters.cos.endpointurl`| object store end point url |
