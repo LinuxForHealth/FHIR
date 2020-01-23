@@ -297,7 +297,7 @@ public class ChunkReader extends AbstractItemReader {
 
         if (!patientPageMembers.isEmpty()) {
             logger.fine("readItem: loaded patients number - " + patientMembers.size());
-            fillChunkDataBuffer(patientMembers);
+            fillChunkDataBuffer(patientPageMembers);
         } else {
             logger.fine("readItem: End of reading!");
         }
