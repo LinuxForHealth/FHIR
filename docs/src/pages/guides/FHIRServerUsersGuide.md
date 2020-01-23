@@ -1177,7 +1177,7 @@ The following configured parameters are:
 To use Amazon S3 bucket for exporting, please set cos.credential.ibm to "N", set cos.api.key to S3 access key, and set cos.srvinst.id to S3 secret key. The following is a sample path to the exported ndjson file, the full path can be found in the response to the polling location request after the export request (please refer to the FHIR BulkDataAccess spec for details).  
 
 ```
-	.../fhir-bulkimexport-connectathon/6xjd4M8afi6Xo95eYv7zPxBqSCoOEFywZLoqH1QBtbw=/Patient_1.ndjson
+.../fhir-bulkimexport-connectathon/6xjd4M8afi6Xo95eYv7zPxBqSCoOEFywZLoqH1QBtbw=/Patient_1.ndjson
 ```
 Following is the beautified response of sample polling location request after the export is finished:
 
