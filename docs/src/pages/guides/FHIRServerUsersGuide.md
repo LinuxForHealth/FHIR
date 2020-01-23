@@ -1165,7 +1165,7 @@ The following configured parameters are:
 |`jobParameters.credential.ibm`| if use IBM credential |
 |`jobParameters.cos.api.key`| api key for accessing IBM COS |
 |`jobParameters.cos.srvinst.id`| service instance Id for accessing IBM COS |
-|`implementation_type`| fixed value |
+|`implementation_type`| cos or dummy which matches the desired bulk operation implementation type |
 |`batch-uri`| fixed value |
 |`batch-user`| user for submitting JavaBatch job |
 |`batch-user-password`| password for above batch user |
