@@ -1232,7 +1232,7 @@ The JavaBatch user is configured in server.xml and the bulkdata.json:
 ```
 Note: The user referenced in the bulkdata.json must have a role of at least batchSubmitter.
 
-By default, in-memory Derby database is used for persistence of the JavaBatch Jobs. Instruction is also provided in "Configuring a Liberty Datasource with API Key" section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. Liberty JavaBatch framework creates DB schema and tables automatically by default for both approaches, and the configured database can be created automatically if the in-memory Derby approach is used.   
+By default, in-memory Derby database is used for persistence of the JavaBatch Jobs. Instruction is also provided in "Configuring a Liberty Datasource with API Key" section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. Liberty JavaBatch framework creates DB schema and tables automatically by default for both approaches, and the configured database is created automatically, if the in-memory Apache Derby approach is used.   
 
 For more information about liberty JavaBatch configuration, please refer to [IBM WebSphere Liberty Java Batch White paper](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/webindex/wp102544).  
 
