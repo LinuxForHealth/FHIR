@@ -3,18 +3,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.processor.impl;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
@@ -24,48 +25,47 @@ import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.client.BulkDataClient;
 import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
-import com.ibm.fhir.operation.bulkdata.processor.ExportBulkData;
-import com.ibm.fhir.operation.bulkdata.processor.ImportBulkData;
-import com.ibm.fhir.operation.bulkdata.util.BulkDataUtil;
+import com.ibm.fhir.operation.bulkdata.processor.ExportImportBulkData;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.util.FHIROperationUtil;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
 
-public class CosExportImpl implements ExportBulkData, ImportBulkData {
-
+public class CosExportImpl implements ExportImportBulkData {
     private static final String CLASSNAME = CosExportImpl.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
 
+    private BulkDataTenantSpecificCache cache = null;
+
+    public CosExportImpl(BulkDataTenantSpecificCache cache) {
+        this.cache = cache;
+        log.fine("Using the COS Implementation");
+    }
+
     @Override
-    public Parameters exportBase(MediaType outputFormat, Instant since, List<String> types,
-        List<String> typeFilters, FHIRRequestContext ctx, FHIRResourceHelpers resourceHelper,
-        FHIROperationContext operationContext, BulkDataTenantSpecificCache cache)
-        throws FHIROperationException {
-
+    public Parameters export(String logicalId, BulkDataConstants.ExportType exportType, MediaType outputFormat,
+            Instant since, List<String> types, List<String> typeFilters, FHIROperationContext operationContext,
+            FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
-            log.info("Using the COS Implementation");
+            FHIRRequestContext requestContext = FHIRRequestContext.get();
+            Map<String, String> properties = cache.getCachedObjectForTenant(requestContext.getTenantId());
 
-            // Resource type(s) is required.
-            if (types == null) {
-                throw BulkDataUtil.buildOperationException("Missing resource type(s)!");
+            Map<String, String> tmpProperties = new HashMap<>();
+            tmpProperties.putAll(properties);
+            if (ExportType.GROUP.equals(exportType)) {
+                if (logicalId == null || logicalId.isEmpty()) {
+                    throw new FHIROperationException("Group export requires group id!");
+                }
+                tmpProperties.put(BulkDataConstants.PARAM_GROUP_ID, logicalId);
             }
 
-            Map<String, String> properties =
-                    cache.getCachedObjectForTenant(FHIRConfiguration.DEFAULT_TENANT_ID);
+            // Submit Job
+            BulkDataClient client = new BulkDataClient(tmpProperties);
+            // If we add multiple formats, shove the mediatype into a properties map. 
+            String url = client.submit(since, types, tmpProperties, exportType);
 
-            /*
-             * Submit Job
-             */
-            BulkDataClient client = new BulkDataClient(properties);
-            String url = client.submit(outputFormat, since, types, properties, ExportType.SYSTEM);
-
-            /*
-             * As we are now 'corrupting' the response, we're PUSHING it into the operation context. The
-             * OperationContext is checked for ACCEPTED, and picks out the custom response.
-             */
-            Response response =
-                    Response.status(Status.ACCEPTED).header("Content-Location", url).build();
-
+            // As we are now 'modifying' the response, we're PUSHING it into the operation context. The
+            // OperationContext is checked for ACCEPTED, and picks out the custom response.
+            Response response = Response.status(Status.ACCEPTED).header("Content-Location", url).build();
             operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, Response.Status.ACCEPTED);
             operationContext.setProperty(FHIROperationContext.PROPNAME_RESPONSE, response);
 
@@ -73,25 +73,21 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception e) {
-            // Need to printStackTrace for debugging (eventually we'll shove into logger with debug/fine/finest)
-            e.printStackTrace();
+            // Conditionally output the log detail:
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Exception is " + e.getMessage());
+            }
             throw new FHIROperationException("", e);
         }
     }
 
     @Override
-    public Parameters statusExport(String job, FHIROperationContext operationContext,
-        BulkDataTenantSpecificCache cache) throws FHIROperationException {
-
+    public Parameters status(String job, FHIROperationContext operationContext) throws FHIROperationException {
         try {
-            log.info("Using the COS Implementation for Polling");
+            FHIRRequestContext requestContext = FHIRRequestContext.get();
+            Map<String, String> properties = cache.getCachedObjectForTenant(requestContext.getTenantId());
 
-            Map<String, String> properties =
-                    cache.getCachedObjectForTenant(FHIRConfiguration.DEFAULT_TENANT_ID);
-
-            /*
-             * Status of the Job
-             */
+            // Check on the Job's Status
             BulkDataClient client = new BulkDataClient(properties);
             PollingLocationResponse pollingResponse = client.status(job);
 
@@ -103,7 +99,8 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
             Response response = null;
             if (pollingResponse != null) {
                 response =
-                        Response.status(Status.OK).entity(pollingResponse.toJsonString()).type(MediaType.APPLICATION_JSON).build();
+                        Response.status(Status.OK).entity(pollingResponse.toJsonString())
+                                .type(MediaType.APPLICATION_JSON).build();
             } else {
                 // Technically we should also do 429 - Throttled when we get too many repeated requests.
                 // We don't do that right now.
@@ -123,100 +120,48 @@ public class CosExportImpl implements ExportBulkData, ImportBulkData {
         }
     }
 
-    // Patient export
-
     @Override
-    public Parameters exportPatient(String logicalId, MediaType outputFormat, Instant since,
-        List<String> types, List<String> typeFilters, FHIRRequestContext ctx,
-        FHIRResourceHelpers resourceHelper, FHIROperationContext operationContext,
-        BulkDataTenantSpecificCache cache) throws FHIROperationException{
-
+    public Parameters delete(String job, FHIROperationContext operationContext)
+            throws FHIROperationException {
         try {
-            log.fine("Using the COS Implementation");
+            FHIRRequestContext requestContext = FHIRRequestContext.get();
+            Map<String, String> properties = cache.getCachedObjectForTenant(requestContext.getTenantId());
 
-            Map<String, String> properties =
-                    cache.getCachedObjectForTenant(FHIRConfiguration.DEFAULT_TENANT_ID);
-
-            /*
-             * Submit Job
-             */
+            // Send the DELETE
             BulkDataClient client = new BulkDataClient(properties);
-            String url = client.submit(outputFormat, since, types, properties, ExportType.PATIENT);
+            client.delete(job);
 
-            /*
-             * As we are now 'corrupting' the response, we're PUSHING it into the operation context. The
-             * OperationContext is checked for ACCEPTED, and picks out the custom response.
-             */
-            Response response =
-                    Response.status(Status.ACCEPTED).header("Content-Location", url).build();
-
+            // Set to accepted for signaling purposes, it does not OVERRIDE the above Status
+            Response response = Response.status(Status.ACCEPTED).build();
             operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, Response.Status.ACCEPTED);
             operationContext.setProperty(FHIROperationContext.PROPNAME_RESPONSE, response);
-
             return FHIROperationUtil.getOutputParameters(null);
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception e) {
-            throw new FHIROperationException("", e);
+            throw new FHIROperationException("exception with $export delete operation", e);
         }
     }
 
     @Override
-    public Parameters exportGroup(String logicalId, MediaType outputFormat, Instant since,
-        List<String> types, List<String> typeFilters, FHIRRequestContext ctx,
-        FHIRResourceHelpers resourceHelper, FHIROperationContext operationContext,
-        BulkDataTenantSpecificCache cache) throws FHIROperationException {
-
+    public Parameters importBulkData(String logicalId, Parameters parameters, FHIROperationContext operationContext,
+            FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
-            log.fine("Using the COS Implementation");
+            FHIRRequestContext requestContext = FHIRRequestContext.get();
+            Map<String, String> properties = cache.getCachedObjectForTenant(requestContext.getTenantId());
 
-            Map<String, String> properties =
-                    cache.getCachedObjectForTenant(FHIRConfiguration.DEFAULT_TENANT_ID);
-
-            /*
-             * Submit Job
-             */
-
-            HashMap<String, String> tmpProperties = new HashMap<>();
+            Map<String, String> tmpProperties = new HashMap<>();
             tmpProperties.putAll(properties);
-            if (logicalId == null || logicalId.isEmpty()) {
-                throw new FHIROperationException("Group export requires group id!");
-            }
-            tmpProperties.put(BulkDataConstants.PARAM_GROUP_ID, logicalId);
-            BulkDataClient client = new BulkDataClient(tmpProperties);
-
-            String url = client.submit(outputFormat, since, types, tmpProperties, ExportType.GROUP);
 
             /*
-             * As we are now 'corrupting' the response, we're PUSHING it into the operation context. The
-             * OperationContext is checked for ACCEPTED, and picks out the custom response.
+             * The framework is in place. However, the deserialized $import operation request format is not balloted
+             * yet.
              */
-            Response response =
-                    Response.status(Status.ACCEPTED).header("Content-Location", url).build();
-
-            operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, Response.Status.ACCEPTED);
-            operationContext.setProperty(FHIROperationContext.PROPNAME_RESPONSE, response);
-
             return FHIROperationUtil.getOutputParameters(null);
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception e) {
-            throw new FHIROperationException("", e);
+            throw new FHIROperationException("exception with $import operation", e);
         }
-
     }
-
-    @Override
-    public Parameters deleteExport(MediaType outputFormat, Instant since, List<String> types,
-        List<String> typeFilters, FHIRRequestContext ctx, FHIRResourceHelpers resourceHelper)
-        throws FHIROperationException {
-        throw new FHIROperationException("No $export delete operation right now");
-    }
-
-    @Override
-    public Parameters importBase(Parameters parameters, FHIRRequestContext ctx,
-        FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        throw new FHIROperationException("No $import operation right now");
-    }
-
 }
