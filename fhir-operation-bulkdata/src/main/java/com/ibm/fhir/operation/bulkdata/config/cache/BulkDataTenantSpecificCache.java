@@ -16,9 +16,8 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
 
 /**
- * This class implements a cache of BulkData configuration organized by tenantId. Each object stored in the cache will
- * be a
- * two-level map of SearchParameters organized first by resource type, then by search parameter name.
+ * This class implements a cache of BulkData configuration organized by tenantId. Each object stored in the cache is a 
+ * a map of properties related to bulkdata operations. 
  */
 public class BulkDataTenantSpecificCache extends TenantSpecificFileBasedCache<Map<String, String>> {
     private static final String CLASSNAME = BulkDataTenantSpecificCache.class.getName();
