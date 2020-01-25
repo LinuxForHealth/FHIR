@@ -1,14 +1,15 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 package com.ibm.fhir.operation.bulkdata.processor.impl;
 
-import static com.ibm.fhir.model.type.String.string;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.WeakHashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -17,76 +18,98 @@ import javax.ws.rs.core.Response.Status;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
-import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
+import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
+import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
 import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
-import com.ibm.fhir.operation.bulkdata.processor.ExportBulkData;
-import com.ibm.fhir.operation.bulkdata.processor.ImportBulkData;
+import com.ibm.fhir.operation.bulkdata.processor.ExportImportBulkData;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.util.FHIROperationUtil;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
 
 /**
- * @author pbastide
- *
+ * The Dummy implementation is used to Import / Export.
  */
-public class DummyImportExportImpl implements ExportBulkData, ImportBulkData {
+public class DummyImportExportImpl implements ExportImportBulkData {
+    private static AtomicInteger jobCounter = new AtomicInteger(0);
 
-    /*
-     * In the dummy implementation, the second request is an error condition. It's a dummy - testing only.
-     */
-    private enum Phase {
-        START,
-        IN_PROGRESS, // http://hl7.org/fhir/uv/bulkdata/export/index.html#response---in-progress-status
-        ERROR, // http://hl7.org/fhir/uv/bulkdata/export/index.html#response---error-status-1
-        COMPLETE,
-        DELETING,
-        DELETED,
-        DELETED_ERROR
-    }
+    private BulkDataTenantSpecificCache cache;
 
-    /*
-     * The API appears to be 'single' executor / tenant / job.
-     */
-    @SuppressWarnings("unused")
-    private static WeakHashMap<String, Phase> jobTracker = new WeakHashMap<>();
-
-    public static Parameters getOutputParametersWithJson(PollingLocationResponse resource)
-        throws Exception {
-        Parameters.Builder parametersBuilder = Parameters.builder();
-        parametersBuilder.parameter(Parameter.builder().name(string("return")).value(string(resource.toJsonString())).build());
-        return parametersBuilder.build();
+    public DummyImportExportImpl(BulkDataTenantSpecificCache cache) {
+        this.cache = cache;
     }
 
     @Override
-    public Parameters importBase(Parameters parameters, FHIRRequestContext ctx,
-        FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        throw new FHIROperationException("No $import operation right now");
-    }
-
-    @Override
-    public Parameters exportBase(MediaType outputFormat, Instant since, List<String> types,
-        List<String> typeFilters, FHIRRequestContext ctx, FHIRResourceHelpers resourceHelper,
-        FHIROperationContext operationContext, BulkDataTenantSpecificCache cache)
-        throws FHIROperationException {
-
+    public Parameters export(String logicalId, BulkDataConstants.ExportType exportType, MediaType outputFormat,
+            Instant since, List<String> types, List<String> typeFilters, FHIROperationContext operationContext,
+            FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
+            int count = jobCounter.incrementAndGet();
+            if (count % 3 == 0) {
+                FHIRRequestContext requestContext = FHIRRequestContext.get();
+                Map<String, String> properties = cache.getCachedObjectForTenant(requestContext.getTenantId());
 
-            /*
-             * Submit Job
-             */
+                if (ExportType.GROUP.equals(exportType)) {
+                    if (logicalId == null || logicalId.isEmpty()) {
+                        throw new FHIROperationException("Group export requires group id!");
+                    }
+                }
 
-            /*
-             * As we are now 'corrupting' the response, we're PUSHING it into the operation context. The
-             * OperationContext is checked for ACCEPTED, and picks out the custom response.
-             */
-            String url = "Go-over-there";
-            Response response =
-                    Response.status(Status.ACCEPTED).header("Content-Location", url).build();
+                String hostname = properties.get(BulkDataConfigUtil.SERVER_HOSTNAME);
+                String contextRoot = properties.get(BulkDataConfigUtil.CONTEXT_ROOT);
+                String url = "https://" + hostname + contextRoot + "/$export-status?job=" + count;
+
+                Response response = Response.status(Status.ACCEPTED).header("Content-Location", url).build();
+                operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, Response.Status.ACCEPTED);
+                operationContext.setProperty(FHIROperationContext.PROPNAME_RESPONSE, response);
+
+                return FHIROperationUtil.getOutputParameters(null);
+            } else {
+                throw new FHIROperationException("$export operation injected failure");
+            }
+        } catch (Exception e) {
+            throw new FHIROperationException("$export operation", e);
+        }
+    }
+
+    @Override
+    public Parameters status(String job, FHIROperationContext operationContext) throws FHIROperationException {
+        try {
+            Integer curJob = Integer.parseInt(job);
+
+            PollingLocationResponse result = new PollingLocationResponse();
+            result.setRequest("/$export?_type=Patient");
+            result.setRequiresAccessToken(false);
+            result.setTransactionTime(Instant.now().toString());
+            List<String> resourceTypeInfs = Arrays.asList("Patient[10,10,10]");
+            List<PollingLocationResponse.Output> outputList = new ArrayList<>();
+            for (String resourceTypeInf : resourceTypeInfs) {
+                String resourceType = resourceTypeInf.substring(0, resourceTypeInf.indexOf("["));
+                String[] resourceCounts =
+                        resourceTypeInf.substring(resourceTypeInf.indexOf("[") + 1, resourceTypeInf.indexOf("]"))
+                                .split("\\s*,\\s*");
+                for (int i = 0; i < resourceCounts.length; i++) {
+                    String downloadUrl = "https://mysite/mybucket/Patient_" + (i + 1) + ".ndjson";
+                    outputList.add(new PollingLocationResponse.Output(resourceType, downloadUrl, resourceCounts[i]));
+                }
+            }
+            result.setOutput(outputList);
+
+            String jsonString = result.toJsonString();
+            Response response = null;
+            if (curJob % 3 == 0) {
+                response = Response.status(Status.OK).entity(jsonString).type(MediaType.APPLICATION_JSON).build();
+            } else if (curJob % 2 == 0) {
+                throw new FHIROperationException("$export operation injected failure");
+            } else {
+                response = Response.status(Status.ACCEPTED).header("Retry-After", "120").build();
+            }
+
+            // Set to accepted for signaling purposes, it does not OVERRIDE the above Status
             operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, Response.Status.ACCEPTED);
             operationContext.setProperty(FHIROperationContext.PROPNAME_RESPONSE, response);
-
             return FHIROperationUtil.getOutputParameters(null);
         } catch (Exception e) {
             throw new FHIROperationException("", e);
@@ -94,49 +117,26 @@ public class DummyImportExportImpl implements ExportBulkData, ImportBulkData {
     }
 
     @Override
-    public Parameters exportPatient(String logicalId, MediaType outputFormat, Instant since,
-        List<String> types, List<String> typeFilters, FHIRRequestContext ctx,
-        FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-
+    public Parameters delete(String job, FHIROperationContext operationContext) throws FHIROperationException {
         try {
-            return getOutputParametersWithJson(null);
+            Integer curJob = Integer.parseInt(job);
+            if (curJob % 2 != 0) {
+                throw new FHIROperationException("$export operation injected failure");
+            } else {
+                // Set to accepted for signaling purposes, it does not OVERRIDE the above Status
+                Response response = Response.status(Status.ACCEPTED).build();
+                operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, Response.Status.ACCEPTED);
+                operationContext.setProperty(FHIROperationContext.PROPNAME_RESPONSE, response);
+                return FHIROperationUtil.getOutputParameters(null);
+            }
         } catch (Exception e) {
-            throw new FHIROperationException("", e);
+            throw new FHIROperationException("exception with $export delete operation", e);
         }
     }
 
     @Override
-    public Parameters exportGroup(String logicalId, MediaType outputFormat, Instant since,
-        List<String> types, List<String> typeFilters, FHIRRequestContext ctx,
-        FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        try {
-            return FHIROperationUtil.getOutputParameters(null);
-        } catch (Exception e) {
-            throw new FHIROperationException("", e);
-        }
-
+    public Parameters importBulkData(String logicalId, Parameters parameters, FHIROperationContext operationContext,
+            FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+        throw new FHIROperationException("BulkData $import operation is not implemented");
     }
-
-    @Override
-    public Parameters deleteExport(MediaType outputFormat, Instant since, List<String> types,
-        List<String> typeFilters, FHIRRequestContext ctx, FHIRResourceHelpers resourceHelper)
-        throws FHIROperationException {
-
-        try {
-            return getOutputParametersWithJson(null);
-        } catch (Exception e) {
-            throw new FHIROperationException("", e);
-        }
-    }
-
-    @Override
-    public Parameters statusExport(String job, FHIROperationContext operationContext,
-        BulkDataTenantSpecificCache cache) throws FHIROperationException {
-        try {
-            return getOutputParametersWithJson(null);
-        } catch (Exception e) {
-            throw new FHIROperationException("", e);
-        }
-    }
-
 }

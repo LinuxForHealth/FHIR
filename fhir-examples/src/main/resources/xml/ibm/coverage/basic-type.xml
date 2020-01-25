@@ -1,0 +1,47 @@
+<Basic xmlns="http://hl7.org/fhir">
+    <extension url="https://extension-base64">
+        <valueBase64Binary
+            value="VEhJUyBJUyBBIEZBS0UgUEFZTE9BRA==" />
+    </extension>
+    <extension url="https://extension-Boolean">
+        <valueBoolean value="true" />
+    </extension>
+    <extension url="https://extension-Canonical">
+        <valueCanonical value="https://mycanonical" />
+    </extension>
+    <extension url="https://extension-base64">
+        <valueBase64Binary
+            value="VEhJUyBJUyBBIEZBS0UgUEFZTE9BRA==" />
+    </extension>
+    <extension url="https://extension-ContactDetail">
+        <valueContactDetail>
+            <name value="Patient P" />
+            <telecom>
+                <value value="1-111-111-1111" />
+                <use value="home" />
+            </telecom>
+        </valueContactDetail>
+    </extension>
+    <extension url="https://extension-Count">
+        <valueCount>
+            <value value="10.0" />
+            <comparator value="&gt;=" />
+            <unit value="kg" />
+        </valueCount>
+    </extension>
+    <extension url="https://extension-Distance">
+        <valueDistance>
+            <value value="10.0" />
+            <unit value="km" />
+        </valueDistance>
+    </extension>
+    <extension url="https://extension-MoneyQuantity">
+        <valueQuantity>
+            <value value="10.0" />
+            <unit value="$" />
+        </valueQuantity>
+    </extension>
+    <code id="1-2-3-4">
+        <text value="Demo" />
+    </code>
+</Basic>

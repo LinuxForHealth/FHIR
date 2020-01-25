@@ -56,7 +56,6 @@ public class FHIRProxyXADataSource implements XADataSource {
 
     /**
      * Internal envelope for caching data source entries
-
      */
     public static class DataSourceCacheEntry {
         private final XADataSource datasource;
@@ -276,6 +275,7 @@ public class FHIRProxyXADataSource implements XADataSource {
     /**
      * Returns the XADataSource implementation classname associated with the specified type,
      * or null if the type is not recognized.
+     * 
      * @param type the datasource type (e.g. "db2", "derby", etc.)
      */
     public static String getDataSourceImplClassnameForType(String type) {

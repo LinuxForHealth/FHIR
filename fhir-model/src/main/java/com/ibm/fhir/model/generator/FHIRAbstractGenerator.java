@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,6 +27,7 @@ public abstract class FHIRAbstractGenerator implements FHIRGenerator {
     @Override
     public abstract boolean isPrettyPrinting();
 
+    @Override
     public void setProperty(String name, Object value) {
         Objects.requireNonNull(name);
         if (!isPropertySupported(name)) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,9 +34,8 @@ import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
 
-
 /**
- * Generates the FHIRADMIN schema which holds the TENANTS
+ * Generates the FHIR_ADMIN schema which holds the TENANTS
  * and TENANT_KEYS tables and supporting stored procedures
  */
 public class AdminSchemaGenerator {

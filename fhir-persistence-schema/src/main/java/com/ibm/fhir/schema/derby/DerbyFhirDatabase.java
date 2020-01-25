@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,7 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     private static final Logger logger = Logger.getLogger(DerbyFhirDatabase.class.getName());
     private static final String DATABASE_NAME = "derby/fhirDB";
     private static final String SCHEMA_NAME = "FHIRDATA";
-    private static final String ADMIN_SCHEMA_NAME = "FHIRADMIN";
+    private static final String ADMIN_SCHEMA_NAME = "FHIR_ADMIN";
 
     // The wrapper for managing a derby in-memory instance
     final DerbyMaster derby;

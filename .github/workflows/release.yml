@@ -1,0 +1,65 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - '*.*'
+    paths-ignore:
+    - 'docs/**'
+    - '.github/workflows/site.yml'
+
+jobs:
+  release-on-push:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 'openjdk11' ]
+      fail-fast: false
+    steps:
+    - name: Setup Graphviz environment
+      uses: kamiazya/setup-graphviz@v1
+    - name: Grab the Master Branch
+      uses: actions/checkout@v2
+      with:
+        ref: refs/heads/master
+        fetch-depth: 1
+    - name: Setup OpenJDK
+      uses: joschi/setup-jdk@v1
+      with:
+        java-version: ${{ matrix.java }}
+    - name: Build and Release for Git Tag
+      env:
+        BASE: origin/${{ github['base_ref'] }}
+        GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
+        GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+        GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+        BINTRAY_USERNAME: ${{ secrets.BINTRAY_USERNAME }}
+        BINTRAY_PASSWORD: ${{ secrets.BINTRAY_PASSWORD }}
+        CODECOV_RUNME: ${{ secrets.CODECOV_RUNME }}
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        CI: true
+        JAVA_HOME: /opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
+      run: |
+        bash build/release/bootstrap-env.sh
+        . ./build/release/bootstrap.env
+        bash build/release/version.sh
+        bash build/release/clean.sh
+        bash build/release/build.sh
+        bash build/release/code-coverage.sh
+        # only covers unit tests (not server integration tests)
+        # bash build/release/ibm-java-regression.sh
+        bash build/release/release.sh
+        bash build/release/sync-maven-central.sh
+        bash build/release/release-commit-details.sh
+        bash build/release/diagnostics.sh
+    - name: Gather error logs
+      if: failure()
+      run: |
+        . ./build/release/bootstrap.env
+        bash build/release/diagnostics.sh
+    - name: Upload logs
+      if: always()
+      uses: actions/upload-artifact@master
+      with:
+        name: release-tag-${{ matrix.java }}
+        path: release-test-coverage-and-logs.tgz

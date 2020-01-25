@@ -615,7 +615,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource(     "dateTime", "ge2019-12-30");
         assertSearchReturnsSavedResource(     "dateTime", "sa2019-12-30");
         assertSearchDoesntReturnSavedResource("dateTime", "eb2019-12-30");
-//        assertSearchReturnsSavedResource(     "dateTime", "ap2019-12-30");
+        // assertSearchReturnsSavedResource(     "dateTime", "ap2019-12-30");
         
         // the day of
         assertSearchReturnsSavedResource(     "dateTime",   "2019-12-31");
@@ -637,6 +637,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("dateTime", "ge2020-01-01");
         assertSearchDoesntReturnSavedResource("dateTime", "sa2020-01-01");
         assertSearchReturnsSavedResource(     "dateTime", "eb2020-01-01");
+        // This test is very dynamic and is not reliable. 
         assertSearchReturnsSavedResource(     "dateTime", "ap2020-01-01");
     }
     @Test

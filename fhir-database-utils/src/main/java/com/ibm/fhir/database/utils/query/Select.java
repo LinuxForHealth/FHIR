@@ -15,7 +15,6 @@ import com.ibm.fhir.database.utils.query.expression.PredicateExpression;
 
 /**
  * Representation of a select statement built by {@link SelectAdapter#build()}
- * works, what's useful etc.
  */
 public class Select {
     // The fields, expressions we are selecting

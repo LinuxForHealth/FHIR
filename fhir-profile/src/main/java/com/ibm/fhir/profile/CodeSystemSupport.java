@@ -19,7 +19,7 @@ import com.ibm.fhir.registry.FHIRRegistry;
 /**
  * A utility class for FHIR code systems
  */
-public final class CodeSystemSupport {    
+public final class CodeSystemSupport {
     private CodeSystemSupport() { }
 
     /**

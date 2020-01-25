@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,7 @@
 package com.ibm.fhir.swagger.generator;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -15,6 +15,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -74,6 +75,7 @@ import com.ibm.fhir.search.util.SearchUtil;
  * </pre>
  */
 public class FHIRSwaggerGenerator {
+    private static final String OUTDIR = "swagger";
     private static final JsonBuilderFactory factory = Json.createBuilderFactory(null);
     private static final Map<Class<?>, StructureDefinition> structureDefinitionMap = buildStructureDefinitionMap();
     private static boolean includeDeleteOperation = false;
@@ -81,10 +83,11 @@ public class FHIRSwaggerGenerator {
     public static final String RESOURCEPACKAGENAME = "com.ibm.fhir.model.resource";
 
     public static void main(String[] args) throws Exception {
-        File file = new File("./src/main/resources/swagger");
+        File file = new File(OUTDIR);
         if (!file.exists()) {
             file.mkdirs();
         }
+        System.out.println("Generating swagger definitions at " + file.getCanonicalPath());
 
         Filter filter = null;
         if (args.length == 1) {
@@ -106,7 +109,7 @@ public class FHIRSwaggerGenerator {
                 JsonObjectBuilder info = factory.createObjectBuilder();
                 info.add("title", resourceClassName + " API");
                 info.add("description", "A simplified version of the HL7 FHIR API for " + resourceClassName + " resources.");
-                info.add("version", "4.0.0");
+                info.add("version", "4.0.1");
                 swagger.add("info", info);
 
                 swagger.add("basePath", "/fhir-server/api/v4");
@@ -169,8 +172,8 @@ public class FHIRSwaggerGenerator {
                 config.put(JsonGenerator.PRETTY_PRINTING, true);
                 JsonWriterFactory factory = Json.createWriterFactory(config);
 
-                File outFile = new File("./src/main/resources/swagger/" + resourceClassName + "-swagger.json");
-                try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
+                File outFile = new File(OUTDIR + File.separator +  resourceClassName + "-swagger.json");
+                try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
                     writer.writeObject(swagger.build());
                 } catch (Exception e) {
                     throw new Error(e);
@@ -231,8 +234,8 @@ public class FHIRSwaggerGenerator {
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory factory = Json.createWriterFactory(config);
 
-        File outFile = new File("./src/main/resources/swagger/metadata-swagger.json");
-        try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
+        File outFile = new File(OUTDIR + File.separator + "metadata-swagger.json");
+        try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
             writer.writeObject(swagger.build());
         } catch (Exception e) {
             throw new Error(e);
@@ -285,8 +288,8 @@ public class FHIRSwaggerGenerator {
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory factory = Json.createWriterFactory(config);
 
-        File outFile = new File("./src/main/resources/swagger/batch-swagger.json");
-        try (JsonWriter writer = factory.createWriter(new FileWriter(outFile))) {
+        File outFile = new File(OUTDIR + File.separator + "batch-swagger.json");
+        try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
             writer.writeObject(swagger.build());
         } catch (Exception e) {
             throw new Error(e);

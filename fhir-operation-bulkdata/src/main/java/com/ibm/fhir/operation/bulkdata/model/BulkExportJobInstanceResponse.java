@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -51,10 +51,7 @@ import com.ibm.fhir.exception.FHIROperationException;
        }
    ]
     }
- *  </pre>
- * 
- * @author pbastide
- *
+ * </pre>
  */
 public class BulkExportJobInstanceResponse {
     private String jobName;
@@ -65,8 +62,8 @@ public class BulkExportJobInstanceResponse {
     private String jobXMLName;
     private String instanceName;
     private String lastUpdatedTime;
-    private String instanceState; 
-    
+    private String instanceState;
+
     private List<Link> _links = new ArrayList<>();
 
     public String getJobName() {
@@ -137,10 +134,6 @@ public class BulkExportJobInstanceResponse {
         return _links;
     }
 
-    public void setLinks(List<Link> _links) {
-        this._links = _links;
-    }
-
     public void addLink(Link link) {
         this._links.add(link);
     }
@@ -155,9 +148,6 @@ public class BulkExportJobInstanceResponse {
 
     /**
      * Link is a sub class reflecting the link to the parts of the Export Job.
-     * 
-     * @author pbastide
-     *
      */
     public static class Link {
         private String rel;
@@ -183,9 +173,6 @@ public class BulkExportJobInstanceResponse {
 
     /**
      * Builder is a convenience pattern to assemble to Java Object that reflects the BatchManagement pattern.
-     * 
-     * @author pbastide
-     *
      */
     public static class Builder {
 
@@ -234,7 +221,7 @@ public class BulkExportJobInstanceResponse {
             response.setLastUpdatedTime(lastUpdatedTime);
             return this;
         }
-        
+
         public Builder instanceState(String instanceState) {
             response.setInstanceState(instanceState);
             return this;
@@ -259,25 +246,24 @@ public class BulkExportJobInstanceResponse {
     }
 
     /**
-     * 
-     * @author pbastide
-     *
+     * Parser
      */
     public static class Parser {
-        
+
         private Parser() {
             // NO Op
         }
 
         private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
-        
+
         public static BulkExportJobInstanceResponse parse(String jsonString) throws FHIROperationException {
-            try(InputStream in = new ByteArrayInputStream(jsonString.getBytes())){
-                
+            try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
+
                 return BulkExportJobInstanceResponse.Parser.parse(in);
-                
-            } catch(Exception e) {
-                throw new FHIROperationException("Problem parsing the Bulk Export Job's from jsonString response from the server", e);
+
+            } catch (Exception e) {
+                throw new FHIROperationException(
+                        "Problem parsing the Bulk Export Job's from jsonString response from the server", e);
             }
         }
 
@@ -291,7 +277,7 @@ public class BulkExportJobInstanceResponse {
                     String jobName = jsonObject.getString("jobName");
                     builder.jobName(jobName);
                 }
-                
+
                 if (jsonObject.containsKey("instanceId")) {
                     Integer instanceId = jsonObject.getInt("instanceId");
                     builder.instanceId(instanceId);
@@ -301,29 +287,27 @@ public class BulkExportJobInstanceResponse {
                     String appName = jsonObject.getString("appName");
                     builder.appName(appName);
                 }
-                
+
                 if (jsonObject.containsKey("batchStatus")) {
                     String batchStatus = jsonObject.getString("batchStatus");
                     builder.batchStatus(batchStatus);
                 }
 
-                
                 if (jsonObject.containsKey("jobXMLName")) {
                     String jobXMLName = jsonObject.getString("jobXMLName");
                     builder.jobXMLName(jobXMLName);
                 }
-                
+
                 if (jsonObject.containsKey("instanceName")) {
                     String instanceName = jsonObject.getString("instanceName");
                     builder.instanceName(instanceName);
                 }
-                
-                
+
                 if (jsonObject.containsKey("instanceState")) {
                     String instanceState = jsonObject.getString("instanceState");
                     builder.instanceState(instanceState);
                 }
-                
+
                 if (jsonObject.containsKey("submitter")) {
                     String submitter = jsonObject.getString("submitter");
                     builder.submitter(submitter);
@@ -334,7 +318,6 @@ public class BulkExportJobInstanceResponse {
                     builder.lastUpdatedTime(lastUpdatedTime);
                 }
 
-                
                 if (jsonObject.containsKey("_links")) {
                     JsonArray arr = jsonObject.getJsonArray("_links");
                     ListIterator<JsonValue> iter = arr.listIterator();
@@ -342,10 +325,9 @@ public class BulkExportJobInstanceResponse {
                         JsonValue v = iter.next();
                         JsonObject vObj = v.asJsonObject();
 
-                        String rel = vObj.getString("rel");
-                        String href = vObj.getString("href");
-
-                        if (rel != null && href != null) {
+                        if (vObj.containsKey("rel") && vObj.containsKey("href")) {
+                            String rel = vObj.getString("rel");
+                            String href = vObj.getString("href");
                             builder.link(rel, href);
                         }
                     }
@@ -361,16 +343,16 @@ public class BulkExportJobInstanceResponse {
 
     /**
      * Generates JSON from this object.
-     * 
-     * @author pbastide
-     *
      */
     public static class Writer {
-
         private static final Map<java.lang.String, Object> properties =
                 Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true);
         private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY =
                 Json.createGeneratorFactory(properties);
+
+        private Writer() {
+            // No Op
+        }
 
         public static String generate(BulkExportJobInstanceResponse obj) throws IOException {
             String o = "{}";
@@ -386,7 +368,7 @@ public class BulkExportJobInstanceResponse {
                     if (obj.getInstanceId() != null) {
                         generator.write("instanceId", obj.getInstanceId());
                     }
-                    
+
                     if (obj.getInstanceState() != null) {
                         generator.write("instanceState", obj.getInstanceState());
                     }
@@ -414,20 +396,18 @@ public class BulkExportJobInstanceResponse {
                         generator.write("lastUpdatedTime", obj.getLastUpdatedTime());
                     }
 
-                    if (obj.getLinks() != null) {
+                    // Never empty, so ok to write.
+                    generator.writeStartArray("_links");
 
-                        generator.writeStartArray("_links");
-
-                        // References
-                        for (Link link : obj.getLinks()) {
-                            generator.writeStartObject();
-                            generator.write("href", link.getHref());
-                            generator.write("rel", link.getRel());
-                            generator.writeEnd();
-                        }
-
+                    // References
+                    for (Link link : obj.getLinks()) {
+                        generator.writeStartObject();
+                        generator.write("href", link.getHref());
+                        generator.write("rel", link.getRel());
                         generator.writeEnd();
                     }
+
+                    generator.writeEnd();
 
                     generator.writeEnd();
                 }
@@ -435,7 +415,5 @@ public class BulkExportJobInstanceResponse {
             }
             return o;
         }
-
     }
-
 }

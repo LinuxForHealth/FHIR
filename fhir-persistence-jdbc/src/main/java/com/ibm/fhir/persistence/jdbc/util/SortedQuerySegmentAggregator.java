@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -65,7 +65,6 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             ResourceDAO resourceDao, List<SortParameter> sortParms) {
         super(resourceType, offset, pageSize, parameterDao, resourceDao);
         this.sortParameters = sortParms;
-
     }
 
     /**
@@ -102,12 +101,6 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             throw new FHIRPersistenceException("No sort parameters found.");
         }
 
-        // Gather up all bind variables from the query segments
-        List<Object> allBindVariables = new ArrayList<>();
-        for (SqlQueryData querySegment : this.querySegments) {
-            allBindVariables.addAll(querySegment.getBindVariables());
-        }
-
         // For system level search, the sort parameters are limited to a couple of columns in the *_resources  
         // and *_logical_resources tables. Execute the following special logic for sorted system-level-searches.
         SqlQueryData queryData;
@@ -128,6 +121,15 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
 
             // Build FROM clause
             buildFromClause(sqlSortQuery, resourceType.getSimpleName());
+
+            // Gather up all bind variables from the query segments
+            // An important step here is to add _id and _lastUpdated
+            List<Object> allBindVariables = new ArrayList<>();
+            allBindVariables.addAll(idsObjects);
+            allBindVariables.addAll(lastUpdatedObjects);
+            for (SqlQueryData querySegment : this.querySegments) {
+                allBindVariables.addAll(querySegment.getBindVariables());
+            }
 
             // Build LEFT OUTER JOIN clause
             sqlSortQuery.append(this.buildSortJoinClause());
@@ -360,7 +362,6 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         case QUANTITY:
             sortParameterTableName.append("QUANTITY_VALUES");
             break;
-
         default:
             throw new FHIRPersistenceNotSupportedException("Parm type not supported: " + sortParm.getType().value());
         }

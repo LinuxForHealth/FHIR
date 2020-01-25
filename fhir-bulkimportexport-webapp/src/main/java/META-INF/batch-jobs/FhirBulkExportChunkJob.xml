@@ -5,7 +5,7 @@
     </properties>
     <step id="step1">
         <chunk checkpoint-policy="custom" item-count="#{jobProperties['cos.pagesperobject']}">
-            <reader ref="com.ibm.fhir.bulkexport.ChunkReader">
+            <reader ref="com.ibm.fhir.bulkexport.system.ChunkReader">
                 <properties >
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                     <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>                   
@@ -16,7 +16,7 @@
                     <property name="cos.bucket.objectname" value="#{jobParameters['cos.bucket.objectname']}"/>
                 </properties>
             </reader>
-            <writer ref="com.ibm.fhir.bulkexport.ChunkWriter">
+            <writer ref="com.ibm.fhir.bulkexport.system.ChunkWriter">
                 <properties>
                     <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
                     <property name="cos.srvinst.id" value="#{jobParameters['cos.srvinst.id']}"/>
@@ -29,7 +29,7 @@
                     <property name="fhir.resourcetype" value="#{jobParameters['fhir.resourcetype']}"/>
                 </properties>
             </writer>
-            <checkpoint-algorithm ref="com.ibm.fhir.bulkexport.CheckPointAlgorithm">
+            <checkpoint-algorithm ref="com.ibm.fhir.bulkexport.common.CheckPointAlgorithm">
                 <properties>
                     <property name="cos.pagesperobject" value="#{jobParameters['cos.pagesperobject']}"/>
                     <property name="cos.bucket.maxfilesize" value="#{jobParameters['cos.bucket.maxfilesize']}"/>

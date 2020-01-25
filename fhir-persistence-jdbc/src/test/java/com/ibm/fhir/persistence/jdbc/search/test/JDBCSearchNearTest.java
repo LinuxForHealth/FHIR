@@ -16,6 +16,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.io.FileInputStream;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -112,7 +113,22 @@ public class JDBCSearchNearTest {
         if (searchParamCode != null && queryValue != null) {
             queryParms.put(searchParamCode, Collections.singletonList(queryValue));
         }
+        return runQueryTest(queryParms);
+    }
 
+    public MultiResourceResult<Resource> runQueryTestMultiples(String searchParamCode, String... queryValues)
+            throws Exception {
+        Map<String, List<String>> queryParms = new LinkedHashMap<String, List<String>>(queryValues.length);
+        for (String queryValue : queryValues) {
+            if (searchParamCode != null && queryValue != null) {
+                queryParms.put(searchParamCode, Collections.singletonList(queryValue));
+            }
+        }
+        System.out.println(queryParms);
+        return runQueryTest(queryParms);
+    }
+
+    public MultiResourceResult<Resource> runQueryTest(Map<String, List<String>> queryParms) throws Exception {
         FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, queryParms, true);
         FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
         MultiResourceResult<Resource> result = persistence.search(persistenceContext, Location.class);
@@ -210,6 +226,19 @@ public class JDBCSearchNearTest {
         String queryValue = "42.25475478|-83.6945691|0.0|km";
 
         MultiResourceResult<Resource> result = runQueryTest(searchParamCode, queryValue);
+        assertNotNull(result);
+        assertNotEquals(result.getResource().size(), 0);
+        assertNull(result.getOutcome());
+    }
+
+    @Test
+    public void testSearchPositionSearchExactMatchMultiples() throws Exception {
+        // Should match the loaded resource
+        String searchParamCode = "near";
+        String queryValue1 = "42.25475478|-83.6945691|0.0|km";
+        String queryValue2 = "42.25475478|-83.6945691|0.0|km";
+
+        MultiResourceResult<Resource> result = runQueryTestMultiples(searchParamCode, queryValue1, queryValue2);
         assertNotNull(result);
         assertNotEquals(result.getResource().size(), 0);
         assertNull(result.getOutcome());

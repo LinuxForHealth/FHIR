@@ -3,7 +3,7 @@
     xmlns="http://xmlns.jcp.org/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <display-name>IBM FHIR® Server</display-name>
+    <display-name>IBM FHIR Server</display-name>
     <servlet>
         <servlet-name>FHIRRestServlet</servlet-name>
         <servlet-class>com.ibm.websphere.jaxrs.server.IBMRestServlet</servlet-class>
@@ -37,9 +37,6 @@
         <auth-constraint>
             <role-name>FHIRUsers</role-name>
         </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
     </security-constraint>
     <login-config>
         <auth-method>CLIENT-CERT</auth-method>

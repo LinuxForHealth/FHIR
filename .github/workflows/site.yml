@@ -19,19 +19,47 @@ jobs:
     - name: Grab the Master Branch
       uses: actions/checkout@v2
       with:
-            working-directory: fhir
+            path: fhir
             ref: refs/heads/master
             fetch-depth: 1
-            path: fhir
+            token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+            GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
+    - name: Grab the GH Pages Branch
+      uses: actions/checkout@v2
+      env:
+            GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
+      with:
+            path: gh-pages
+            ref: refs/heads/gh-pages
+            fetch-depth: 1
+            token: ${{ secrets.GITHUB_TOKEN }}
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
             node-version: ${{ matrix.node-version }}
     - name: Build Site
       run: |
-            echo "Check on Path"
-            pwd
-            cd docs/
+            echo "The current path is - $(pwd)"
+            ls -la
+
+            # Checks if the FHIR repo's gh-pages branch is checked out to fhir.
+            if [ ! -d gh-pages ]
+            then 
+              echo "Branch not checked out to the correct folder - gh-ages"
+              exit -2
+            fi
+
+            # Checks if the FHIR repo's master branch is checked out to fhir.
+            if [ ! -d fhir ]
+            then 
+              echo "Branch not checked out to the correct folder - FHIR"
+              exit -3
+            fi
+
+            # Record the currect directory
+            pushd $(pwd)
+            cd fhir/docs/
             npm install -g gatsby-cli
             gatsby telemetry --disable
 
@@ -39,21 +67,13 @@ jobs:
             # fsevents is not used on linux images, so use --no-optional (these plugins are suspect)
             npm install --no-optional --save react react-copy-to-clipboard react-dom react-ga classnames carbon @carbon/addons-website carbon-components carbon-components-react carbon-addons-cloud carbon-icons gatsby gatsby-theme-carbon-starter markdown-it gatsby-plugin-manifest gatsby-plugin-slug gatsby-plugin-sitemap gatsby-plugin-sharp
 
-            # make sure yarn is run to avoid this issue with #98123 WEBPACK
-            # add yarn --verbose to trace issues with yarn
-
             # don't use gatsby build directly per https://github.com/gatsbyjs/gatsby/issues/17557
             # use the suggestion as a workaround due to path/issues in the gatsby component dependency of fsevents
             npm --prefix-paths run build
             cp -R public/ ../../public/
-    - name: Grab the GH Pages Branch
-      uses: actions/checkout@v1
-      with:
-            working-directory: gh-pages
-            ref: refs/heads/gh-pages
-            fetch-depth: 1
-            path: docs
-            token: ${{ secrets.GITHUB_TOKEN }}
+            
+            # Return to the prior directory
+            popd
     - name: Commit and Add GH Pages
       env:
             GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
@@ -61,6 +81,7 @@ jobs:
             GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
             CI: true
       run: |
+            cd gh-pages
             echo "cleaning up the prior files on the branch"
             if [ ! -f .nojekyll ]
             then
@@ -73,8 +94,11 @@ jobs:
 
             echo "Moving the files around for gh-pages"
             cp -Rf ../public/* ./
-            find .
+            
+            # Make sure no sh files are posted, it'll block the promotion
             find . -iname '*.sh' -delete
+
+            # Record the Build Date
             date > build.txt
             git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
             git config --global user.name "Github Actions Bot - GH-Pages"
@@ -87,7 +111,17 @@ jobs:
             GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
             CI: true
       run: |
+            cd gh-pages
             echo "Push Changes"
             git branch
             remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
             git push "${remote_repo}" HEAD:gh-pages
+    - name: Request GitHub Pages Build
+      env:
+            GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
+            GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+            GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+      run: |
+            # As documented here, the GH-Pages behavior changed, and the API must be 'Triggered'
+            # https://github.community/t5/GitHub-Actions/Github-action-not-triggering-gh-pages-upon-push/m-p/43192/highlight/true#M5281
+            curl -L -X POST -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages/builds"

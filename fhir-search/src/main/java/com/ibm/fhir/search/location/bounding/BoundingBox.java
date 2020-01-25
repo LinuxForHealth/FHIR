@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2019
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,7 +20,7 @@ import com.ibm.fhir.search.location.util.LocationUtil;
  * Latitude: 90 to 0 to -90 <br>
  * Longitude: 180 to 0 -180 <br>
  */
-public class BoundingBox implements Bounding {
+public class BoundingBox extends Bounding {
     public Double minLatitude;
     public Double maxLatitude;
     public Double minLongitude;
@@ -123,6 +123,6 @@ public class BoundingBox implements Bounding {
     @Override
     public String toString() {
         return "BoundingBox [minLatitude=" + minLatitude + ", maxLatitude=" + maxLatitude + ", minLongitude="
-                + minLongitude + ", maxLongitude=" + maxLongitude + "]";
+                + minLongitude + ", maxLongitude=" + maxLongitude + ", instance=" + super.instance() +"]";
     }
 }

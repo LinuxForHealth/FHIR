@@ -32,6 +32,7 @@ public class FromItemTable extends FromItem {
      * Protected constructor
      * 
      * @param tableName
+     * @param alias
      */
     protected FromItemTable(String tableName, Alias alias) {
         super(alias);
@@ -42,7 +43,9 @@ public class FromItemTable extends FromItem {
     /**
      * Protected constructor
      * 
+     * @param schemaName
      * @param tableName
+     * @param alias
      */
     protected FromItemTable(String schemaName, String tableName, Alias alias) {
         super(alias);
@@ -53,6 +56,7 @@ public class FromItemTable extends FromItem {
     /**
      * Protected constructor
      * 
+     * @param schemaName
      * @param tableName
      */
     protected FromItemTable(String schemaName, String tableName) {

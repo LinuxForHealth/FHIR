@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIRException;
 
@@ -31,6 +32,9 @@ public class FHIRRequestContext {
     private String tenantKey;
     private String dataStoreId;
     private String requestUniqueId;
+    
+    // Default to the "strict" handling which means the server will reject unrecognized search parameters and elements
+    private HTTPHandlingPreference handlingPreference = HTTPHandlingPreference.STRICT;
     
     // Default to the "minimal" representation which means create/update responses won't return the resource body
     private HTTPReturnPreference returnPreference = HTTPReturnPreference.MINIMAL;
@@ -152,6 +156,20 @@ public class FHIRRequestContext {
     
     private static String objectHandle(Object obj) {
         return '@' + Integer.toHexString(System.identityHashCode(obj));
+    }
+    
+    /**
+     * @return the handlingPreference
+     */
+    public HTTPHandlingPreference getHandlingPreference() {
+        return handlingPreference;
+    }
+
+    /**
+     * @param handlingPreference the handlingPreference to set
+     */
+    public void setHandlingPreference(HTTPHandlingPreference handlingPreference) {
+        this.handlingPreference = handlingPreference;
     }
 
     /**

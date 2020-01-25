@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,55 +28,55 @@ public class PropertyGroupTest {
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
     private JsonObject jsonObj1 = null;
     private JsonObject jsonObj2 = null;
-    
-    private boolean debug = false;
+
+    private boolean DEBUG = true;
 
     @BeforeClass
     public void setup() {
-
         // Build a JSON object for testing.
-        jsonObj1 = BUILDER_FACTORY.createObjectBuilder()
-                .add("level1", BUILDER_FACTORY.createObjectBuilder()
-                    .add("level2", BUILDER_FACTORY.createObjectBuilder()
-                        .add("level3", BUILDER_FACTORY.createObjectBuilder()
-                            .add("stringProp", "stringValue")
-                            .add("intProp", 123)
-                            .add("booleanProp", true))))
-                .build();
+        jsonObj1 =
+                BUILDER_FACTORY.createObjectBuilder()
+                        .add("level1", BUILDER_FACTORY.createObjectBuilder()
+                                .add("level2", BUILDER_FACTORY.createObjectBuilder()
+                                        .add("level3", BUILDER_FACTORY.createObjectBuilder()
+                                                .add("stringProp", "stringValue")
+                                                .add("intProp", 123)
+                                                .add("booleanProp", true)
+                                                .add("booleanProp-2", "true"))))
+                        .build();
 
         // Simulate a snippet of the fhir-server config.
-        jsonObj2 = BUILDER_FACTORY.createObjectBuilder()
-                .add("fhir-server", BUILDER_FACTORY.createObjectBuilder()
-                    .add("server-core", BUILDER_FACTORY.createObjectBuilder()
-                        .add("truststoreLocation", "XYZ")
-                        .add("truststorePassword", "change-password"))
-                    .add("notifications", BUILDER_FACTORY.createObjectBuilder()
-                        .add("common", BUILDER_FACTORY.createObjectBuilder()
-                            .add("includeResourceTypes", BUILDER_FACTORY.createArrayBuilder()
-                                .add("Patient")
-                                .add("Observation")))
-                        .add("kafka", BUILDER_FACTORY.createObjectBuilder()
-                            .add("enabled", true)
-                            .add("connectionProperties", BUILDER_FACTORY.createObjectBuilder()
-                                .add("groupId", "group1")
-                                .add("bootstrap.servers", "localhost:1234")
-                                .add("change-password", "change-password"))
-                            )
-                        )
-                    .add("object-array", BUILDER_FACTORY.createArrayBuilder()
-                        .add(BUILDER_FACTORY.createObjectBuilder()
-                            .add("url", "http://localhost")
-                            .add("type", "insecure"))
-                        .add(BUILDER_FACTORY.createObjectBuilder()
-                            .add("url", "https://localhost")
-                            .add("type", "secure")))
-                    .add("int-array", BUILDER_FACTORY.createArrayBuilder()
-                        .add(1)
-                        .add(2)
-                        .add(3)))
-                .build();
-        
-        if (debug) {
+        jsonObj2 =
+                BUILDER_FACTORY.createObjectBuilder()
+                        .add("fhir-server", BUILDER_FACTORY.createObjectBuilder()
+                                .add("server-core", BUILDER_FACTORY.createObjectBuilder()
+                                        .add("truststoreLocation", "XYZ")
+                                        .add("truststorePassword", "change-password"))
+                                .add("notifications", BUILDER_FACTORY.createObjectBuilder()
+                                        .add("common", BUILDER_FACTORY.createObjectBuilder()
+                                                .add("includeResourceTypes", BUILDER_FACTORY.createArrayBuilder()
+                                                        .add("Patient")
+                                                        .add("Observation")))
+                                        .add("kafka", BUILDER_FACTORY.createObjectBuilder()
+                                                .add("enabled", true)
+                                                .add("connectionProperties", BUILDER_FACTORY.createObjectBuilder()
+                                                        .add("groupId", "group1")
+                                                        .add("bootstrap.servers", "localhost:1234")
+                                                        .add("change-password", "change-password"))))
+                                .add("object-array", BUILDER_FACTORY.createArrayBuilder()
+                                        .add(BUILDER_FACTORY.createObjectBuilder()
+                                                .add("url", "http://localhost")
+                                                .add("type", "insecure"))
+                                        .add(BUILDER_FACTORY.createObjectBuilder()
+                                                .add("url", "https://localhost")
+                                                .add("type", "secure")))
+                                .add("int-array", BUILDER_FACTORY.createArrayBuilder()
+                                        .add(1)
+                                        .add(2)
+                                        .add(3)))
+                        .build();
+
+        if (DEBUG) {
             System.out.println("\njsonObj1 contents:\n" + jsonObj1.toString());
             System.out.println("\njsonObj2 contents:\n" + jsonObj2.toString());
         }
@@ -117,6 +117,10 @@ public class PropertyGroupTest {
         Boolean value = pg.getBooleanProperty("level1/level2/level3/booleanProp");
         assertNotNull(value);
         assertEquals(Boolean.TRUE, value);
+
+        value = pg.getBooleanProperty("level1/level2/level3/booleanProp-2");
+        assertNotNull(value);
+        assertEquals(Boolean.TRUE, value);
     }
 
     @Test
@@ -128,7 +132,7 @@ public class PropertyGroupTest {
         assertEquals("Patient", (String) array[0]);
         assertEquals("Observation", (String) array[1]);
     }
-    
+
     @Test
     public void testStringListProperty() throws Exception {
         PropertyGroup pg = new PropertyGroup(jsonObj2);
@@ -137,8 +141,8 @@ public class PropertyGroupTest {
         assertEquals(2, strings.size());
         assertEquals("Patient", strings.get(0));
         assertEquals("Observation", strings.get(1));
-        
-        pg = new PropertyGroup(jsonObj2);
+
+        pg      = new PropertyGroup(jsonObj2);
         strings = pg.getStringListProperty("fhir-server/int-array");
         assertNotNull(strings);
         assertEquals(3, strings.size());
@@ -159,7 +163,7 @@ public class PropertyGroupTest {
         if (!(array[1] instanceof PropertyGroup)) {
             fail("array element 1 not a PropertyGroup!");
         }
-        
+
         // Check the first element.
         PropertyGroup pg0 = (PropertyGroup) array[0];
         String url = pg0.getStringProperty("url");
@@ -168,7 +172,7 @@ public class PropertyGroupTest {
         String type = pg0.getStringProperty("type");
         assertNotNull(type);
         assertEquals("insecure", type);
-        
+
         // Check the second element.
         PropertyGroup pg1 = (PropertyGroup) array[1];
         url = pg1.getStringProperty("url");
@@ -202,53 +206,53 @@ public class PropertyGroupTest {
         PropertyGroup pg = new PropertyGroup(jsonObj2);
         pg.getArrayProperty("fhir-server/notifications/kafka");
     }
-    
+
     @Test
     public void testGetProperties1() throws Exception {
         PropertyGroup pg = new PropertyGroup(jsonObj2);
         PropertyGroup connectionProps = pg.getPropertyGroup("fhir-server/notifications/kafka/connectionProperties");
         assertNotNull(connectionProps);
-        
+
         List<PropertyEntry> properties = connectionProps.getProperties();
         assertNotNull(properties);
         assertEquals(3, properties.size());
-        
+
         PropertyEntry propEntry = properties.get(0);
         assertNotNull(propEntry);
         assertEquals("groupId", propEntry.getName());
         assertEquals("group1", (String) propEntry.getValue());
-        
+
         propEntry = properties.get(1);
         assertNotNull(propEntry);
         assertEquals("bootstrap.servers", propEntry.getName());
         assertEquals("localhost:1234", (String) propEntry.getValue());
-        
+
         propEntry = properties.get(2);
         assertNotNull(propEntry);
         assertEquals("change-password", propEntry.getName());
         assertEquals("change-password", (String) propEntry.getValue());
     }
-    
+
     @Test
     public void testGetProperties2() throws Exception {
         PropertyGroup rootPG = new PropertyGroup(jsonObj2);
         PropertyGroup fhirServerPG = rootPG.getPropertyGroup("fhir-server");
         assertNotNull(fhirServerPG);
-        
+
         List<PropertyEntry> properties = fhirServerPG.getProperties();
         assertNotNull(properties);
         assertEquals(4, properties.size());
-        
+
         PropertyEntry propEntry = properties.get(0);
         assertNotNull(propEntry);
         assertEquals("server-core", propEntry.getName());
         assertTrue(propEntry.getValue() instanceof PropertyGroup);
-        
+
         propEntry = properties.get(1);
         assertNotNull(propEntry);
         assertEquals("notifications", propEntry.getName());
         assertTrue(propEntry.getValue() instanceof PropertyGroup);
-        
+
         propEntry = properties.get(2);
         assertNotNull(propEntry);
         assertEquals("object-array", propEntry.getName());
@@ -257,7 +261,7 @@ public class PropertyGroupTest {
             assertNotNull(obj);
             assertTrue(obj instanceof PropertyGroup);
         }
-        
+
         propEntry = properties.get(3);
         assertNotNull(propEntry);
         assertEquals("int-array", propEntry.getName());
@@ -273,16 +277,16 @@ public class PropertyGroupTest {
         PropertyGroup rootPG = new PropertyGroup(jsonObj2);
         PropertyGroup pg = rootPG.getPropertyGroup("fhir-server/notifications/common");
         assertNotNull(pg);
-        
+
         List<PropertyEntry> properties = pg.getProperties();
         assertNotNull(properties);
         assertEquals(1, properties.size());
-        
+
         PropertyEntry propEntry = properties.get(0);
         assertNotNull(propEntry);
         assertEquals("includeResourceTypes", propEntry.getName());
         assertTrue(propEntry.getValue() instanceof List);
-        assertEquals(2, ((List<?>)propEntry.getValue()).size());
+        assertEquals(2, ((List<?>) propEntry.getValue()).size());
         for (Object obj : (List<?>) propEntry.getValue()) {
             assertNotNull(obj);
             assertTrue(obj instanceof String);
