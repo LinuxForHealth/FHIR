@@ -125,7 +125,7 @@ public class ResourceCoverageTest {
             }
         }
     }
-    
+
     @Test
     public void testResourcesWithXml() throws Exception {
         List<String> SKIP = Arrays.asList("DomainResource", "Resource", "Builder");
@@ -137,42 +137,41 @@ public class ResourceCoverageTest {
 
                 Resource.Builder builder = resource.toBuilder();
                 Method[] methods = builder.getClass().getMethods();
-                for(Method method : methods) {
+                for (Method method : methods) {
                     if (method.getName().equals("extension") && method.toString().contains("java.util.Collection")) {
                         List<Extension> extensions = Arrays.asList(buildBooleanTrue());
                         builder = (Resource.Builder) method.invoke(builder, extensions);
                     }
-                    
-                    if (method.getName().equals("modifierExtension") && method.toString().contains("java.util.Collection")) {
+
+                    if (method.getName().equals("modifierExtension")
+                            && method.toString().contains("java.util.Collection")) {
                         List<Extension> extensions = Arrays.asList(buildBooleanTrue());
                         builder = (Resource.Builder) method.invoke(builder, extensions);
                     }
                 }
                 resource = builder.build();
-                
+
                 try (StringWriter writer = new StringWriter()) {
                     FHIRGenerator.generator(Format.JSON).generate(resource, writer);
                     String outJson = writer.toString();
                     assertNotNull(outJson);
                     assertFalse(outJson.isEmpty());
-                    
+
                     try (ByteArrayInputStream in = new ByteArrayInputStream(outJson.getBytes())) {
                         Resource resource2 = FHIRParser.parser(Format.JSON).parse(in).as(Resource.class);
                         assertNotNull(resource2);
-                        assertTrue(true);
                     }
                 }
-                
+
                 try (StringWriter writer = new StringWriter()) {
                     FHIRGenerator.generator(Format.XML).generate(resource, writer);
                     String outXML = writer.toString();
                     assertNotNull(outXML);
                     assertFalse(outXML.isEmpty());
-                    
+
                     try (ByteArrayInputStream in = new ByteArrayInputStream(outXML.getBytes())) {
                         Resource resource2 = FHIRParser.parser(Format.XML).parse(in).as(Resource.class);
                         assertNotNull(resource2);
-                        assertTrue(true);
                     }
                 }
             }
@@ -183,12 +182,10 @@ public class ResourceCoverageTest {
         for (Method method : methods) {
             if (method.getName().startsWith("get")) {
                 method.invoke(resource);
-                assertTrue(true);
             }
 
             if (method.getName().equals("hashCode")) {
                 method.invoke(resource);
-                assertTrue(true);
             }
 
             if (method.getName().equals("equals")) {
@@ -197,23 +194,21 @@ public class ResourceCoverageTest {
 
                 String x = "BAD";
                 method.invoke(resource, x);
-                assertTrue(true);
-                
+
                 if (resource instanceof Resource) {
-                    Resource r = (Resource) resource; 
-                    Resource r2 = r.toBuilder().build(); 
+                    Resource r = (Resource) resource;
+                    Resource r2 = r.toBuilder().build();
                     assertTrue(r.equals(r2));
                 }
             }
 
             if (method.getName().equals("hasChildren")) {
                 method.invoke(resource);
-                assertTrue(true);
             }
         }
     }
 
-    public void buildTestForUncoveredTypes() throws Exception {
+    public static void main(String[] args) throws Exception {
         List<Extension> extensions = new ArrayList<>();
         extensions.add(buildBase64Binary());
         extensions.add(buildBooleanTrue());
@@ -238,7 +233,6 @@ public class ResourceCoverageTest {
             try (ByteArrayInputStream in = new ByteArrayInputStream(out.getBytes())) {
                 Basic basicParsed = FHIRParser.parser(Format.XML).parse(in).as(Basic.class);
                 assertNotNull(basicParsed);
-                assertTrue(true);
             }
         }
 
@@ -253,7 +247,6 @@ public class ResourceCoverageTest {
             try (ByteArrayInputStream in = new ByteArrayInputStream(out.getBytes())) {
                 Basic basicParsed = FHIRParser.parser(Format.JSON).parse(in).as(Basic.class);
                 assertNotNull(basicParsed);
-                assertTrue(true);
             }
         }
     }
