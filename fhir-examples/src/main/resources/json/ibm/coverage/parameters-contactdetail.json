@@ -1,0 +1,18 @@
+{
+	"resourceType": "Parameters",
+	"id": "5d475b8a-6abe-43d4-b587-ce7d63c2628a",
+	"parameter": [{
+		"name": "_demo",
+		"valueContributor": {
+			"type": "author",
+			"name": "contributor-name",
+			"contact": [{
+				"name": "Patient P",
+				"telecom": [{
+					"value": "1-111-111-1111",
+					"use": "home"
+				}]
+			}]
+		}
+	}]
+}
