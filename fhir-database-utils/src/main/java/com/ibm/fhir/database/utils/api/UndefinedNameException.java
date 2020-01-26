@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,6 @@ package com.ibm.fhir.database.utils.api;
  * Throws an undefined name exception
  */
 public class UndefinedNameException extends DataAccessException {
-
     // Generated id
     private static final long serialVersionUID = -4113574235913420649L;
 
@@ -20,5 +19,4 @@ public class UndefinedNameException extends DataAccessException {
     public UndefinedNameException(Throwable t) {
         super(t);
     }
-
 }

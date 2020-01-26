@@ -44,7 +44,6 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
-        gen.buildProcedures(pdm);
 
         // apply the model we've defined to the new Derby database
         derby.createSchema(pdm);

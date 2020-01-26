@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,24 +30,18 @@ public class Db2GetResourceTypeList implements IDatabaseSupplier<List<ResourceTy
     @Override
     public List<ResourceType> run(IDatabaseTranslator translator, Connection c) {
         List<ResourceType> result = new ArrayList<>();
+        final String SQL = "SELECT resource_type_id, resource_type FROM " + schemaName + ".RESOURCE_TYPES";
 
-        final String SQL = "SELECT resource_type_id, resource_type "
-                + "  FROM " + schemaName + ".RESOURCE_TYPES";
-
-        try (Statement s = c.createStatement()) {
-            ResultSet rs = s.executeQuery(SQL);
+        try (Statement s = c.createStatement(); ResultSet rs = s.executeQuery(SQL);) {
             while (rs.next()) {
                 ResourceType rt = new ResourceType();
                 rt.setId(rs.getLong(1));
                 rt.setName(rs.getString(2));
                 result.add(rt);
             }
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
-
         return result;
     }
-
 }

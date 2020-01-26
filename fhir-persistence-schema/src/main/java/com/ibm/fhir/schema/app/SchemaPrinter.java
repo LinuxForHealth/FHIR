@@ -106,7 +106,6 @@ public class SchemaPrinter {
      *  constructor that switches behavior toFile our output stream. 
      */
     public SchemaPrinter(boolean toFile) throws FileNotFoundException {
-
         this.toFile = toFile;
 
         if (this.toFile) {

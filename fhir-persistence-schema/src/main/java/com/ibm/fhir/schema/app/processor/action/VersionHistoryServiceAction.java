@@ -13,7 +13,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
-import com.ibm.fhir.schema.app.Main;
+import com.ibm.fhir.schema.app.feature.ExitFeature;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
 
@@ -39,7 +39,7 @@ public class VersionHistoryServiceAction implements ISchemaAction {
             actionBean.setVersionHistoryService(vhs);
         } catch (UndefinedNameException une) {
             logger.warning("The Version History Service is not found");
-            actionBean.setExitStatus(Main.EXIT_RUNTIME_ERROR);
+            actionBean.setExitStatus(ExitFeature.EXIT_RUNTIME_ERROR);
             throw new SchemaActionException();
         }
     }

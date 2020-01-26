@@ -6,15 +6,18 @@
 
 package com.ibm.fhir.schema.app.processor.action;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
-import com.ibm.fhir.schema.app.processor.util.SchemaUtil;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 
 /**
@@ -67,7 +70,7 @@ public class DropSchemaAction implements ISchemaAction {
 
         if (actionBean.isDropSchema()) {
             // Just drop the objects associated with the FHIRDATA schema group
-            if (SchemaUtil.checkSchema(actionBean, target, FhirSchemaGenerator.FHIRDATA_GROUP)) {
+            if (checkSchema(actionBean, target, FhirSchemaGenerator.FHIRDATA_GROUP)) {
                 pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
             } else {
                 logger.warning("The schema does not exist - [" + FhirSchemaGenerator.FHIRDATA_GROUP + "]");
@@ -77,12 +80,36 @@ public class DropSchemaAction implements ISchemaAction {
 
         if (actionBean.isDropAdmin()) {
             // Just drop the objects associated with the ADMIN schema group
-            if (SchemaUtil.checkSchema(actionBean, target, FhirSchemaGenerator.FHIRDATA_GROUP)) {
+            if (checkSchema(actionBean, target, FhirSchemaGenerator.FHIRDATA_GROUP)) {
                 pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
             } else {
                 logger.warning("The schema does not exist - [" + FhirSchemaGenerator.ADMIN_GROUP + "]");
                 logger.warning("No action taken to drop the schema [" + FhirSchemaGenerator.ADMIN_GROUP + "]");
             }
         }
+    }
+
+    /**
+     * checks that the schema exists.
+     */
+    public static boolean checkSchema(ActionBean actionBean, IDatabaseTarget target, String schemaName) {
+        boolean result = false;
+        if (target instanceof JdbcTarget) {
+            JdbcTarget jdbcTarget = (JdbcTarget) target;
+            final String statement = "select schemaname from syscat.schemata WHERE schemaname = ?";
+            try (PreparedStatement ps = jdbcTarget.getConnection().prepareStatement(statement)) {
+                int i = 1;
+                ps.setString(i++, schemaName);
+                boolean ex = ps.execute();
+                if (ex) {
+                    try (ResultSet resultSet = ps.getResultSet();) {
+                        result = resultSet.next();
+                    }
+                }
+            } catch (SQLException x) {
+                throw actionBean.getTranslator().translate(x);
+            }
+        }
+        return result;
     }
 }

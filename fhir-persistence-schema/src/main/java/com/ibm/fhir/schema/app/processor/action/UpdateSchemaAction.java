@@ -38,7 +38,6 @@ public class UpdateSchemaAction implements ISchemaAction {
         FhirSchemaGenerator gen = new FhirSchemaGenerator(actionBean.getAdminSchemaName(), actionBean.getSchemaName());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
-        gen.buildProcedures(pdm);
 
         // The objects are applied in parallel, which relies on each object
         // expressing its dependencies correctly. Changes are only applied

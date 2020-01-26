@@ -11,9 +11,9 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.schema.app.processor.SchemaUtil;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
-import com.ibm.fhir.schema.app.processor.util.SchemaUtil;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 public class AllocateTenantAction implements ISchemaAction {

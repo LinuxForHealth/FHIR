@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,6 @@ import com.ibm.fhir.database.utils.api.UndefinedNameException;
  * Handles translation of statements/fragments etc specific to DB2
  */
 public class Db2Translator implements IDatabaseTranslator {
-
     private Boolean dryRun = Boolean.FALSE;
 
     @Override

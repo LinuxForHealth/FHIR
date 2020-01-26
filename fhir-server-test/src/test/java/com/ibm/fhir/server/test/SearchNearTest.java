@@ -42,23 +42,23 @@ public class SearchNearTest extends FHIRServerTestBase {
         Response responseAbs = target.path("Location").request().post(entityAbs, Response.class);
         assertResponse(responseAbs, Response.Status.CREATED.getStatusCode());
 
-        locationId = getLocationLogicalId(response);
-        locationAbsId = getLocationLogicalId(response);
+        locationId    = getLocationLogicalId(response);
+        locationAbsId = getLocationLogicalId(responseAbs);
 
         // Next, call the 'read' API to retrieve the new Location and verify it.
-        response   = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        response      = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
-        
-        response   = target.path("Location/" + locationAbsId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+
+        response = target.path("Location/" + locationAbsId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
-    
+
     @AfterClass
     public void testDeleteLocations() {
         WebTarget target = getWebTarget();
-        Response response   = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+        Response response = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
         assertResponse(response, Response.Status.NO_CONTENT.getStatusCode());
-        response   = target.path("Location/" + locationAbsId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+        response = target.path("Location/" + locationAbsId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
         assertResponse(response, Response.Status.NO_CONTENT.getStatusCode());
     }
 
@@ -112,13 +112,13 @@ public class SearchNearTest extends FHIRServerTestBase {
         parameters.searchParam("near", "40.256500|-80.694810|500.0|km,40.256500|-80.694810|500.0|km");
         parameters.searchParam("near", "42.256500|-83.694810|11.20|km");
         FHIRResponse response = client.search(Location.class.getSimpleName(), parameters);
-        SearchAllTest.generateOutput(response.getResource(Bundle.class));
+
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
     }
-    
+
     @Test(groups = { "server-search-near" }, dependsOnMethods = { "testCreateLocation" })
     public void testSearchUsingLocationWithMissing() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
@@ -128,7 +128,7 @@ public class SearchNearTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
     }
-    
+
     @Test(groups = { "server-search-near" }, dependsOnMethods = { "testCreateLocation" })
     public void testSearchUsingLocationWithMissingFalse() throws Exception {
         FHIRParameters parameters = new FHIRParameters();

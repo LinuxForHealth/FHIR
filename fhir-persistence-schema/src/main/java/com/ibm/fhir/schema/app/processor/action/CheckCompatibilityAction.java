@@ -52,6 +52,7 @@ public class CheckCompatibilityAction implements ISchemaAction {
                 logger.warning("The version history table is not found");
             }
         }
+        actionBean.setCheckCompatibility(compatible);
         actionBean.setCompatible(compatible);
     }
 }

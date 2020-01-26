@@ -69,6 +69,8 @@ import com.ibm.fhir.database.utils.model.Tablespace;
  * Utility to create all the tables associated with a particular resource type
  */
 public class FhirResourceTableGroup {
+    public static final String RESOURCE_TYPE = "resourceType";
+    
     // The model containing all the tables for the entire schema
     private final PhysicalDataModel model;
 
@@ -171,7 +173,7 @@ public class FhirResourceTableGroup {
         // things sensible.
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .addTag(RESOURCE_TYPE, prefix)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
                 .addBigIntColumn(CURRENT_RESOURCE_ID, true)
@@ -228,7 +230,7 @@ public class FhirResourceTableGroup {
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .addTag(RESOURCE_TYPE, prefix)
                 .addBigIntColumn(        RESOURCE_ID,              false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,              false)
                 .addIntColumn(            VERSION_ID,              false)
@@ -275,7 +277,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         // Parameters are tied to the logical resource
         Table tbl = Table.builder(schemaName, tableName)
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .addTag(RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -324,7 +326,7 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .addTag(RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -376,7 +378,7 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .addTag(RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -428,7 +430,7 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .addTag(RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -474,7 +476,7 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .addTag(RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -532,7 +534,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .addTag(RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -599,7 +601,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         // Parameters are tied to the logical resource
         Table.Builder tbl = Table.builder(schemaName, tableName)
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .addTag(RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID, false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false);
@@ -649,7 +651,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
         final int lib = LOGICAL_ID_BYTES;
 
         Table tbl = Table.builder(schemaName, LIST_LOGICAL_RESOURCE_ITEMS)
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .addTag(RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn( LOGICAL_RESOURCE_ID,      false)
                 .addIntColumn(       RESOURCE_TYPE_ID,      false)
@@ -680,7 +682,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
         // model with a foreign key to avoid order of insertion issues
 
         Table tbl = Table.builder(schemaName, PATIENT_CURRENT_REFS)
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .addTag(RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(         LOGICAL_RESOURCE_ID,      false)
                 .addVarcharColumn(      CURRENT_PROBLEMS_LIST, lib,  true)
@@ -698,5 +700,4 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
         group.add(tbl);
         model.addTable(tbl);
     }
-
 }

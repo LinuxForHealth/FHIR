@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,13 +7,17 @@
 package com.ibm.fhir.schema.control;
 
 /**
- * Constants related to Schema creation and updating. 
+ * Constants related to Schema creation and updating.
  */
 public class FhirSchemaConstants {
 
+    private FhirSchemaConstants() {
+        // No Operation
+    }
+
     // Standard connection/thread pool size
     public static final int DEFAULT_POOL_SIZE = 80;
-    
+
     // Size of string columns in the search tables. DSTU2 was 511
     public static final int MAX_SEARCH_STRING_BYTES = 1024;
     public static final int MAX_TOKEN_VALUE_BYTES = 1024;
@@ -39,13 +43,13 @@ public class FhirSchemaConstants {
     public static final String TENANT_SALT = "TENANT_SALT";
     public static final String TENANT_NAME = "TENANT_NAME";
     public static final String TENANT_STATUS = "TENANT_STATUS";
-    
+
     // R4 Logical Resources
     public static final String LOGICAL_RESOURCES = "LOGICAL_RESOURCES";
-    
+
     // R4 Logical Resource Tags and Security are modeled as token values
     public static final String TOKEN_VALUES = "TOKEN_VALUES";
-    
+
     // R4 Logical Resource Profile property is a REFERENCE (str_values)
     public static final String STR_VALUES = "STR_VALUES";
 
@@ -56,12 +60,12 @@ public class FhirSchemaConstants {
     public static final String LIST_LOGICAL_RESOURCES = "LIST_LOGICAL_RESOURCES";
     public static final String LIST_LOGICAL_RESOURCE_ITEMS = "LIST_LOGICAL_RESOURCE_ITEMS";
     public static final String ITEM_LOGICAL_ID = "ITEM_LOGICAL_ID";
-    
-    public static final String PATIENT_CURRENT_REFS        = "PATIENT_CURRENT_REFS";
-    public static final String PATIENT_LOGICAL_RESOURCES   = "PATIENT_LOGICAL_RESOURCES";
-    public static final String CURRENT_PROBLEMS_LIST       = "CURRENT_PROBLEMS_LIST";
-    public static final String CURRENT_MEDICATIONS_LIST    = "CURRENT_MEDICATIONS_LIST";
-    public static final String CURRENT_ALLERGIES_LIST      = "CURRENT_ALLERGIES_LIST";
+
+    public static final String PATIENT_CURRENT_REFS = "PATIENT_CURRENT_REFS";
+    public static final String PATIENT_LOGICAL_RESOURCES = "PATIENT_LOGICAL_RESOURCES";
+    public static final String CURRENT_PROBLEMS_LIST = "CURRENT_PROBLEMS_LIST";
+    public static final String CURRENT_MEDICATIONS_LIST = "CURRENT_MEDICATIONS_LIST";
+    public static final String CURRENT_ALLERGIES_LIST = "CURRENT_ALLERGIES_LIST";
     public static final String CURRENT_DRUG_ALLERGIES_LIST = "CURRENT_DRUG_ALLERGIES_LIST";
 
     public static final String LOGICAL_ID = "LOGICAL_ID";
@@ -105,6 +109,8 @@ public class FhirSchemaConstants {
     // to allow for non-disruptive rotation
     public static final String TENANT_KEYS = "TENANT_KEYS";
     public static final String TENANT_KEY_ID = "TENANT_KEY_ID";
+    public static final String SET_TENANT = "SET_TENANT";
+    
 
     public static final String IDX = "IDX_";
     public static final String FK = "FK_";
@@ -113,5 +119,4 @@ public class FhirSchemaConstants {
     // Initial partition range values for table create
     public static final int PART_LOWER = 0;
     public static final int PART_UPPER = 0;
-
 }

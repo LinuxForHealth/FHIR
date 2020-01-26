@@ -83,7 +83,7 @@ public class LogFormatter extends Formatter {
         Formatter halosFormatter = new LogFormatter();
         Logger rootLogger = Logger.getLogger("");
 
-        if (filename != null || filename != "") {
+        if (filename != null && !filename.isEmpty()) {
             try {
                 FileHandler fh = new FileHandler(filename);
                 fh.setFormatter(halosFormatter);

@@ -13,10 +13,10 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
-import com.ibm.fhir.schema.app.Main;
+import com.ibm.fhir.schema.app.feature.ExitFeature;
+import com.ibm.fhir.schema.app.processor.SchemaUtil;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
-import com.ibm.fhir.schema.app.processor.util.SchemaUtil;
 import com.ibm.fhir.task.api.ITaskGroup;
 
 public class ApplyModelAction implements ISchemaAction {
@@ -39,7 +39,7 @@ public class ApplyModelAction implements ISchemaAction {
 
         Collection<ITaskGroup> failedTaskGroups = actionBean.getCollector().getFailedTaskGroups();
         if (!failedTaskGroups.isEmpty()) {
-            actionBean.setExitStatus(Main.EXIT_RUNTIME_ERROR);
+            actionBean.setExitStatus(ExitFeature.EXIT_RUNTIME_ERROR);
 
             final String failedStr =
                     failedTaskGroups.stream().map(SchemaUtil::mapToId).collect(Collectors.joining(","));
