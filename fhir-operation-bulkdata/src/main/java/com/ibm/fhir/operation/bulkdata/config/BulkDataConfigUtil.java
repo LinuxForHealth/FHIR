@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,16 +20,16 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonReaderFactory;
 
+import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
+
 /**
  * bulkdata.json is picked up from the given file, and loaded into an intermediate map.
- * 
- * @author pbastide
- *
  */
 public class BulkDataConfigUtil {
-
     private static final String CLASSNAME = BulkDataConfigUtil.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
+
+    private static BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
 
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
@@ -54,13 +54,23 @@ public class BulkDataConfigUtil {
     public static final String BATCH_USER = "batch-user";
     public static final String BATCH_USER_PASS = "batch-user-password";
     public static final String BATCH_URL = "batch-uri";
-    
+
     public static final String BATCH_TRUSTSTORE = "batch-truststore";
     public static final String BATCH_TRUSTSTORE_PASS = "batch-truststore-password";
 
     public static final String IMPLEMENTATION_TYPE = "implementation_type";
 
+    private BulkDataConfigUtil() {
+        // No Operation
+    }
+
+    public static BulkDataTenantSpecificCache getInstance() {
+        return cache;
+    }
+
     /**
+     * populates from a configuration file 
+     * 
      * @param f
      * @return
      */
@@ -107,24 +117,22 @@ public class BulkDataConfigUtil {
         return configs;
     }
 
-    private static void addChildrenToMap(JsonObject jsonObject, Map<String, String> configs,
-        String jobParameters, String paramName) {
-        
-        if(jsonObject.containsKey(jobParameters)) {
+    private static void addChildrenToMap(JsonObject jsonObject, Map<String, String> configs, String jobParameters,
+            String paramName) {
+        if (jsonObject.containsKey(jobParameters)) {
             JsonObject obj = jsonObject.getJsonObject(jobParameters);
             addToMap(obj, configs, paramName);
-        } else { 
+        } else {
             log.warning("JobParameters obj not found in bulkdata.json ");
         }
     }
 
     public static void addToMap(JsonObject jsonObject, Map<String, String> configs, String name) {
-        if(jsonObject.containsKey(name)) {
+        if (jsonObject.containsKey(name)) {
             String value = jsonObject.getString(name);
             configs.put(name, value);
-        } else { 
+        } else {
             log.warning("Value not found in bulkdata.json '" + name + "'");
         }
-        
     }
 }

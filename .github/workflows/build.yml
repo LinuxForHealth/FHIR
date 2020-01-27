@@ -49,7 +49,7 @@ jobs:
       run: mvn -B install --file fhir-examples --no-transfer-progress
     - name: Build parent with tests
       env:
-        BASE: ${{ github['base_ref'] }}
+        BASE: origin/${{ github['base_ref'] }}
       run: |
         model_paths=(
           fhir-model

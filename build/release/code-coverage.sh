@@ -41,6 +41,15 @@ function code_coverage {
     check_and_fail $? "${FUNCNAME[0]} - stopped - ${PROJECT_PATH}"
 }
 
+# upload_to_codecov - uploads to codecov.io
+function upload_to_codecov { 
+    announce "${FUNCNAME[0]}"
+    TOKEN="$1"
+    cd fhir-install/target
+    curl -s https://codecov.io/bash -o codecov.sh -U "--http1.1"
+    bash codecov.sh -t "${TOKEN}" -f '!*.json'
+}
+
 ###############################################################################
 # check to see if mvn exists
 if which mvn | grep -i mvn
@@ -58,5 +67,11 @@ PROFILES_ARR+=(jdbc-all-tests)
 PROFILES_ARR+=(aggregate-report) # this one is required to aggregate all of the dependencies
 PROFILES=$(IFS=, ; echo "${PROFILES_ARR[*]}")
 code_coverage 'fhir-parent' "-P${PROFILES}"
+
+# Uploads to CodeCov
+if [ ! -z "${CODECOV_RUNME}" ]
+then 
+    upload_to_codecov "${CODECOV_TOKEN}"
+fi
 
 # EOF

@@ -293,46 +293,6 @@ public class FHIRUtil {
     }
 
     /**
-     * use {@link ModelSupport#getTypeName(Class)}
-     */
-    @Deprecated
-    public static String getTypeName(Class<?> type) {
-        String typeName = type.getSimpleName();
-        if (Code.class.isAssignableFrom(type)) {
-            typeName = "code";
-        } else if (isPrimitiveType(type)) {
-            typeName = typeName.substring(0, 1).toLowerCase() + typeName.substring(1);
-        }
-        return typeName;
-    }
-
-    /**
-     * @deprecated use {@link ModelSupport#isPrimitiveType(Class)}
-     */
-    @Deprecated
-    public static boolean isPrimitiveType(Class<?> type) {
-        return Base64Binary.class.equals(type) ||
-            com.ibm.fhir.model.type.Boolean.class.equals(type) ||
-            com.ibm.fhir.model.type.String.class.isAssignableFrom(type) || 
-            Uri.class.isAssignableFrom(type) ||
-            DateTime.class.equals(type) || 
-            Date.class.equals(type) ||
-            Time.class.equals(type) || 
-            Instant.class.equals(type) || 
-            com.ibm.fhir.model.type.Integer.class.isAssignableFrom(type) || 
-            Decimal.class.equals(type) || 
-            Xhtml.class.equals(type);
-    }
-
-    /**
-     * @deprecated use {@link ModelSupport#isChoiceElementType(Class)}
-     */
-    @Deprecated
-    public static boolean isChoiceElementType(Class<?> type) {
-        return CHOICE_ELEMENT_TYPES.contains(type);
-    }
-
-    /**
      * Read JSON from InputStream {@code stream} and parse it into a FHIR resource. Non-mandatory elements which are not
      * in {@code elementsToInclude} will be filtered out.
      * 
