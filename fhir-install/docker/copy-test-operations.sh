@@ -8,4 +8,5 @@
 DIST="volumes/dist"
 
 echo "Copying test artifacts to install location..."
+mkdir -p ${DIST}/userlib
 cp -pr ../../fhir-operation/target/fhir-operation-*-tests.jar $DIST/userlib/

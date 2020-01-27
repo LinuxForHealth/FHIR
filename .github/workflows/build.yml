@@ -2,9 +2,11 @@ name: Integration
 
 on:
   pull_request:
+    branches:
+      - dummy
     paths-ignore:
-    - 'docs/**'
-    - '.github/site.yml'
+      - 'docs/**'
+      - '.github/site.yml'
 
 jobs:
   build-tools:
