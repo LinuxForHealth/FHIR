@@ -199,4 +199,7 @@
         </application-bnd>
     </webApplication>
     <include optional="true" location="${server.config.dir}/batchDs.xml"/>
+    
+    <!-- The key used for encryption of the internal JavaBatch Job instance/execution id which is used in bulkdata APIs  -->
+    <jndiEntry jndiName="config/bulkdatajobencryptionkey" value="change-password"/>
 </server>
