@@ -11,6 +11,8 @@ DIST="volumes/dist"
 SCHEMA="volumes/schema"
 rm -rf $DIST/* 2> /dev/null
 rm -rf $SCHEMA/* 2> /dev/null
+mkdir -p $DIST
+mkdir -p $SCHEMA
 
 echo "Copying installation zip files..."
 cp -p ../target/fhir-server-distribution.zip $DIST

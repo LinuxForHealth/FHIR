@@ -1,8 +1,9 @@
-#
+#!/usr/bin/env bash
+###############################################################################
 # (C) Copyright IBM Corp. 2019, 2020
 #
 # SPDX-License-Identifier: Apache-2.0
-#
+###############################################################################
 
 # Set the instance_memory and enable to 90 days trail license to avoid memory allocation failures.
 #/opt/ibm/db2/V11.5/adm/db2licm -r db2dec && /opt/ibm/db2/V11.5/adm/db2licm -a /var/db2/db2trial.lic
