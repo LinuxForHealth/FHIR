@@ -15,7 +15,7 @@ docker build -t fhirserverdb2 . -f Dockerfile-fhirdb2 --squash
 ```
 
 ## Run
- 
+
 Once the image is built, start it with:
 
 ```sh
@@ -35,7 +35,7 @@ db2 CREATE DB ref using codeset UTF-8 territory us PAGESIZE 32768
 db2 CREATE DB profile using codeset UTF-8 territory us PAGESIZE 32768
 ```
 
-For the created databases fhirdb, study, ref and profile, please use the [db schema tool](https://github.com/IBM/FHIR/tree/master/fhir-persistence-schema) in fhir-persistence-schema project to deploy new schema and grant privileges to data access user "fhiruser". And then add "default" and "tenant1" tenants for fhirdb database, and add "tenant1" tenant for the other 3 databases.  
+For the created databases fhirdb, study, ref and profile, please use the [db schema tool](https://github.com/IBM/FHIR/tree/master/fhir-persistence-schema) in fhir-persistence-schema project to deploy new schema and grant privileges to data access user "fhirserver". And then add "default" and "tenant1" tenants for fhirdb database, and add "tenant1" tenant for the other 3 databases.  
 
 Configure to use db2 for the default tenant in fhir-server-config.json, e.g:
 
@@ -48,7 +48,7 @@ Configure to use db2 for the default tenant in fhir-server-config.json, e.g:
                         "serverName": "localhost",
                         "portNumber": 50000,
                         "databaseName": "fhirdb",
-                        "user": "fhiruser",
+                        "user": "fhirserver",
                         "password": "change-password",
                         "currentSchema": "FHIRDATA",
                         "driverType": 4
@@ -68,7 +68,7 @@ Configure to use db2 for the "tenant1" tenant in fhir-server-config.json, e.g:
                         "serverName": "localhost",
                         "portNumber": 50000,
                         "databaseName": "fhirdb",
-                        "user": "fhiruser",
+                        "user": "fhirserver",
                         "password": "change-password",
                         "currentSchema": "FHIRDATA",
                         "driverType": 4
@@ -81,7 +81,7 @@ Configure to use db2 for the "tenant1" tenant in fhir-server-config.json, e.g:
                         "serverName": "localhost",
                         "portNumber": 50000,
                         "databaseName": "profile",
-                        "user": "fhiruser",
+                        "user": "fhirserver",
                         "password": "change-password",
                         "currentSchema": "FHIRDATA",
                         "driverType": 4
@@ -94,7 +94,7 @@ Configure to use db2 for the "tenant1" tenant in fhir-server-config.json, e.g:
                         "serverName": "localhost",
                         "portNumber": 50000,
                         "databaseName": "ref",
-                        "user": "fhiruser",
+                        "user": "fhirserver",
                         "password": "change-password",
                         "currentSchema": "FHIRDATA",
                         "driverType": 4
@@ -107,7 +107,7 @@ Configure to use db2 for the "tenant1" tenant in fhir-server-config.json, e.g:
                         "serverName": "localhost",
                         "portNumber": 50000,
                         "databaseName": "study",
-                        "user": "fhiruser",
+                        "user": "fhirserver",
                         "password": "change-password",
                         "currentSchema": "FHIRDATA",
                         "driverType": 4
