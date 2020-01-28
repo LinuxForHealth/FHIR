@@ -29,6 +29,22 @@ Note: Replace `${VERSION}` with the version of the jar you're using or use the w
 
 With `--to-file` it outputs to `./schema.sql`, `./grants.sql`, and `./stored-procedures.sql`; otherwise to System.out.
 
+### Connection properties
+
+The `fhir-persistence-schema` tool uses a properties file for database connection information.
+
+|Property|Description|
+|--------|-----------|
+|db.host | The database server hostname|
+|db.port | The database server port|
+|db.database | The name of the database|
+|user | A username with connect and admin permissions on the target database|
+|password | The user password for connecting to the database|
+
+A sample properties file can be found at https://github.com/IBM/FHIR/blob/master/fhir-persistence-schema/db2.properties
+
+Alternatively, properties may be passed via the command line interface `--prop` flag (`--prop <propname>=<propvalue>`).
+
 ## Execute the fhir-persistence-schema command line interface (CLI)
 
 To deploy and manage the schema on a target database, the `fhir-persistence-schema` project includes a Main class that can parallelize the schema updates.
@@ -39,7 +55,7 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar [OPTIONS]
 
 Note: Replace `${VERSION}` with the version of the jar you're using or use the wildcard `*` to match any version.
 
-The following sections include common values for `OPTIONS`:
+The following sections include common values for `OPTIONS`.
 
 ### Drop tables from FHIR_ADMIN and FHIRDATA
 
