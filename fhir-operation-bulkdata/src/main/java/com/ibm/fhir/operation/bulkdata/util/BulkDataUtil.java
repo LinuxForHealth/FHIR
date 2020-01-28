@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -64,7 +65,7 @@ public class BulkDataUtil {
 
     /**
      * coverts to one of the export types.
-     * 
+     *
      * @param type
      * @param resourceType
      * @return
@@ -187,13 +188,13 @@ public class BulkDataUtil {
         List<String> result = new ArrayList<>();
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
-                // The model makes sure getName is never non-null. 
+                // The model makes sure getName is never non-null.
                 if (BulkDataConstants.PARAM_TYPE.equals(parameter.getName().getValue())) {
                     if (parameter.getValue() != null) {
                         String types =
                                 parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
                         for (String type : types.split(",")) {
-                            // Type will never be null here. 
+                            // Type will never be null here.
                             if (!type.isEmpty() && ModelSupport.isResourceType(type)) {
                                 result.add(type);
                             } else {
@@ -232,7 +233,7 @@ public class BulkDataUtil {
                                 parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
 
                         for (String typeFilter : typeFilters.split(",")) {
-                            // Type will never be null here, just check for blanks 
+                            // Type will never be null here, just check for blanks
                             if (!typeFilter.isEmpty()) {
                                 result.add(typeFilter);
                             } else {
@@ -242,7 +243,7 @@ public class BulkDataUtil {
                         }
                         return result;
                     }
-                    // Result must have NOT been returned. 
+                    // Result must have NOT been returned.
                     throw buildOperationException(
                             "invalid typeFilter parameter type sent to $export operation");
                 }
@@ -260,7 +261,7 @@ public class BulkDataUtil {
 
     /**
      * checks and validates the job.
-     * 
+     *
      * @param parameters
      * @return
      * @throws FHIROperationException
@@ -270,9 +271,9 @@ public class BulkDataUtil {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 if (BulkDataConstants.PARAM_JOB.equals(parameter.getName().getValue())
                         && parameter.getValue() != null && parameter.getValue().is(com.ibm.fhir.model.type.String.class)) {
-                    String job = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
+                    String job = decryptStr(parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue());
 
-                    // The job is never going to be empty or null as STRING is never empty at this point. 
+                    // The job is never going to be empty or null as STRING is never empty at this point.
                     if (job.contains("/") || job.contains("?")) {
                         throw new FHIROperationException("job passed is invalid and is not supported");
                     }
@@ -283,5 +284,34 @@ public class BulkDataUtil {
         }
 
         throw new FHIROperationException("no job identifier is passed");
+    }
+
+
+    public static String encryptStr(String strToEncrypt)
+    {
+        if (BulkDataConstants.JOB_ENCRYPTION_KEY == null) {
+            return strToEncrypt;
+        } else {
+            try
+            {
+                Cipher cp = Cipher.getInstance("AES/ECB/PKCS5Padding");
+                cp.init(Cipher.ENCRYPT_MODE, BulkDataConstants.JOB_ENCRYPTION_KEY);
+                return Base64.getEncoder().encodeToString(cp.doFinal(strToEncrypt.getBytes("UTF-8")));
+            } catch (Exception e) {
+                return strToEncrypt;
+            }
+        }
+    }
+
+    public static String decryptStr(String strToDecrypt)
+    {
+        try
+        {
+            Cipher cp = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+            cp.init(Cipher.DECRYPT_MODE, BulkDataConstants.JOB_ENCRYPTION_KEY);
+            return new String(cp.doFinal(Base64.getDecoder().decode(strToDecrypt)));
+        } catch (Exception e) {
+            return strToDecrypt;
+        }
     }
 }

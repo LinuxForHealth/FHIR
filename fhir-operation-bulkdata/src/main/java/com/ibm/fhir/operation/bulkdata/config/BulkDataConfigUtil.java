@@ -10,17 +10,21 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.crypto.spec.SecretKeySpec;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonReaderFactory;
 
 import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
+import com.ibm.fhir.server.helper.FHIRServerUtils;
 
 /**
  * bulkdata.json is picked up from the given file, and loaded into an intermediate map.
@@ -69,8 +73,8 @@ public class BulkDataConfigUtil {
     }
 
     /**
-     * populates from a configuration file 
-     * 
+     * populates from a configuration file
+     *
      * @param f
      * @return
      */
@@ -133,6 +137,22 @@ public class BulkDataConfigUtil {
             configs.put(name, value);
         } else {
             log.warning("Value not found in bulkdata.json '" + name + "'");
+        }
+    }
+
+
+    public static SecretKeySpec getJobIdEncryptionKey() {
+        String jobEncryptionKey = FHIRServerUtils.getJNDIValue("config/bulkdatajobencryptionkey", "change-password-2");
+        try {
+            byte[] keyBytes = jobEncryptionKey.getBytes("UTF-8");
+            MessageDigest sha = MessageDigest.getInstance("SHA-1");
+            keyBytes = sha.digest(keyBytes);
+            keyBytes = Arrays.copyOf(keyBytes, 16);
+            return new SecretKeySpec(keyBytes, "AES");
+        }
+        catch (Exception e) {
+            log.warning("Fail to get encryption key for javabatch job!");
+            return null;
         }
     }
 }
