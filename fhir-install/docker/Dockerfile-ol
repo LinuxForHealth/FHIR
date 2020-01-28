@@ -25,11 +25,9 @@ RUN unzip -qq /dist/fhir-server-distribution.zip -d /tmp && \
 
 
 FROM openliberty/open-liberty
+COPY --chown=1001:0 --from=base /opt/ol/wlp/ /opt/ol/wlp
 
 MAINTAINER Lee Surprenant <lmsurpre@us.ibm.com>
-
-COPY --chown=1001:0 --from=base /opt/ol/wlp/ /opt/ol/wlp
-COPY --chown=1001:0 volumes/schema/ /schema-tool/
 
 ENV FHIR /opt/ol/wlp/usr/servers/fhir-server
 

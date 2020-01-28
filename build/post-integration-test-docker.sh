@@ -34,10 +34,6 @@ fi
 echo "Gathering integration test output"
 cp -pr ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
 
-echo "Zipping up integration test results"
-rm ${zip_file}
-zip -r ${zip_file} ${it_results}
-
 echo "Bringing down the fhir server docker container(s)..."
 cd ${WORKSPACE}/fhir-install/docker
 docker-compose down

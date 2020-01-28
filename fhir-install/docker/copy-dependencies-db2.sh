@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
+set -e
 
 echo "Removing old dependencies..."
 DIST="volumes/dist"
@@ -20,8 +21,7 @@ cp -pr ../../fhir-server/liberty-config-tenants/config/* $DIST/config
 
 cp ../src/test/resources/fhir-server-config-db2.json $DIST/config/default/fhir-server-config.json
 
-echo "Copying db2 schema tool..."
+echo "Copying fhir-persistence-schema tool..."
 cp -pr ../../fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar $SCHEMA
-cp ../src/test/resources/db2.properties $SCHEMA
 
 echo "Finished copying fhir-server dependencies..."
