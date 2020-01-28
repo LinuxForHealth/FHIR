@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,8 +34,7 @@ import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Uri;
 
 public class SearchExtensionsTest extends FHIRServerTestBase {
-    private static final String EXTENSION_BASE_URL =
-            "http://ibm.com/fhir/extension/Patient/";
+    private static final String EXTENSION_BASE_URL = "http://ibm.com/fhir/extension/Patient/";
 
     private static final boolean DEBUG_SEARCH = false;
 
@@ -46,18 +45,40 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         Patient patient = TestUtil.readLocalResource("Patient_SearchExtensions.json");
-        patient = patient.toBuilder().extension(Extension.builder().url(EXTENSION_BASE_URL
-                + "favorite-color").value(string("blue")).build()).extension(Extension.builder().url(EXTENSION_BASE_URL
-                        + "favorite-number").value(Integer.of(5)).build()).extension(Extension.builder().url(EXTENSION_BASE_URL
-                                + "favorite-code").value(CodeableConcept.builder().coding(Coding.builder().code(Code.of("someCode-1234")).system(uri("http://ibm.com/fhir/system")).build()).build()).build()).extension(Extension.builder().url(EXTENSION_BASE_URL
-                                        + "favorite-uri").value(uri("http://www.ibm.com")).build()).extension(Extension.builder().url(EXTENSION_BASE_URL
-                                                + "favorite-quantity").value(Quantity.builder().unit(string("lbs")).value(Decimal.of(180)).build()).build()).extension(Extension.builder().url(EXTENSION_BASE_URL
-                                                        + "favorite-date").value(Date.of("2018-10-25")).build()).build();
+        patient = patient.toBuilder()
+                .extension(Extension.builder()
+                        .url(EXTENSION_BASE_URL + "favorite-color")
+                        .value(string("blue"))
+                        .build())
+                .extension(Extension.builder()
+                        .url(EXTENSION_BASE_URL + "favorite-number")
+                        .value(Integer.of(5))
+                        .build())
+                .extension(Extension.builder()
+                        .url(EXTENSION_BASE_URL + "favorite-code")
+                        .value(CodeableConcept.builder()
+                            .coding(Coding.builder().code(Code.of("someCode-1234")).system(uri("http://ibm.com/fhir/system")).build())
+                            .build())
+                        .build())
+                .extension(Extension.builder()
+                        .url(EXTENSION_BASE_URL + "favorite-uri")
+                        .value(uri("http://www.ibm.com"))
+                        .build())
+                .extension(Extension.builder()
+                        .url(EXTENSION_BASE_URL + "favorite-quantity")
+                        .value(Quantity.builder().unit(string("lbs")).value(Decimal.of(180)).build())
+                        .build())
+                .extension(Extension.builder()
+                        .url(EXTENSION_BASE_URL + "favorite-date")
+                        .value(Date.of("2018-10-25"))
+                        .build())
+                .build();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
                 target.path("Patient").request()
                 .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
                 .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
@@ -65,10 +86,10 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         String patientId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response =
-                target.path("Patient/" + patientId)
+        response = target.path("Patient/" + patientId)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
@@ -80,10 +101,14 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
     public void testSearchPatientWithExtensions() {
         WebTarget target = getWebTarget();
 
-        String favoriteColor =
-                ((com.ibm.fhir.model.type.String) savedCreatedPatientWithExtensions.getExtension().get(0).getValue()).getValue();
-        Response response =
-                target.path("Patient").queryParam("favorite-color", favoriteColor).request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+        String favoriteColor = savedCreatedPatientWithExtensions.getExtension().get(0).getValue()
+                .as(com.ibm.fhir.model.type.String.class).getValue();
+        Response response = target.path("Patient")
+                .queryParam("favorite-color", favoriteColor)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get();
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -99,8 +124,12 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // "red"
-        Response response =
-                target.path("Patient").queryParam("favorite-color", "red").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+        Response response = target.path("Patient")
+                .queryParam("favorite-color", "red")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
 
@@ -116,29 +145,43 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // in lenient mode, an unknown parameter should be ignored
-        Response response =
-                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("Prefer", "handling=lenient").get();
+        Response response = target.path("Patient")
+                .queryParam("fake-parameter", "fakeValue")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("Prefer", "handling=lenient")
+                .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
 
         // in strict mode, an unknown parameter should result in a 400 Bad Request
-        response =
-                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("Prefer", "handling=strict").get();
+        response = target.path("Patient")
+                .queryParam("fake-parameter", "fakeValue")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("Prefer", "handling=strict")
+                .get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
         assertNotNull(oo);
 
         // multiple headers should be handled appropriately
-        response =
-                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("Prefer", "fakeName=fakeValue").header("Prefer", "handling=strict").header("Prefer", "fakeName2=fakeValue2").get();
+        response = target.path("Patient")
+                .queryParam("fake-parameter", "fakeValue")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("Prefer", "fakeName=fakeValue")
+                .header("Prefer", "handling=strict")
+                .header("Prefer", "fakeName2=fakeValue2")
+                .get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         oo = response.readEntity(OperationOutcome.class);
         assertNotNull(oo);
 
         // multiple parts to the Prefer header should be handled
-        response =
-                target.path("Patient").queryParam("fake-parameter", "fakeValue").request(FHIRMediaType.APPLICATION_FHIR_JSON).header("Prefer", "fakeName=fakeValue;handling=strict;fakeName2=fakeValue2").get();
+        response = target.path("Patient")
+                .queryParam("fake-parameter", "fakeValue")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("Prefer", "fakeName=fakeValue;handling=strict;fakeName2=fakeValue2")
+                .get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         oo = response.readEntity(OperationOutcome.class);
         assertNotNull(oo);
@@ -165,10 +208,19 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
          * favoriteCode.getSystem().getValue()+ "|"</code>
          */
 
-        Response response =
-                target.path("Patient").queryParam("family", family).queryParam("favorite-color", favoriteColor).queryParam("favorite-number", favoriteNumber.getValue()).queryParam("favorite-code", favoriteCode.getCode().getValue()).queryParam("favorite-uri", favoriteUri.getValue()).queryParam("favorite-quantity", favoriteQuantity.getValue().getValue().toString()
-                        + "||"
-                        + favoriteQuantity.getUnit().getValue()).queryParam("favorite-date", favoriteDate.getValue()).request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+        Response response = target.path("Patient")
+                .queryParam("family", family)
+                .queryParam("favorite-color", favoriteColor)
+                .queryParam("favorite-number", favoriteNumber.getValue())
+                .queryParam("favorite-code", favoriteCode.getCode().getValue())
+                .queryParam("favorite-uri", favoriteUri.getValue())
+                .queryParam("favorite-quantity", favoriteQuantity.getValue().getValue().toString()
+                        + "||" + favoriteQuantity.getUnit().getValue())
+                .queryParam("favorite-date", favoriteDate.getValue())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get();
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -179,11 +231,15 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
             SearchAllTest.generateOutput(bundle);
         }
         assertTrue(bundle.getEntry().size() >= 1);
-        
+
         // Testing the behavior specific to the URI patterns
         // Response should be empty as the URI value is not an exact match
-        response =
-                target.path("Patient").queryParam("favorite-uri", favoriteUri.getValue().substring(0,10)).request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+        response = target.path("Patient")
+                .queryParam("favorite-uri", favoriteUri.getValue().substring(0,10))
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get();
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
@@ -196,8 +252,12 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         assertTrue(bundle.getEntry().size() == 0);
 
         // Response should be empty as the URI value is not an exact match
-        response =
-                target.path("Patient").queryParam("favorite-uri", favoriteUri.getValue()).request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+        response = target.path("Patient")
+                .queryParam("favorite-uri", favoriteUri.getValue())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get();
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
@@ -209,15 +269,18 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         }
         assertTrue(bundle.getEntry().size() > 0);
     }
-    
+
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatientWithExtensions" })
     public void testSearchPatientWithBaseParametersAndExtensionsWithAbove() {
         WebTarget target = getWebTarget();
         Uri favoriteUri = (Uri) savedCreatedPatientWithExtensions.getExtension().get(3).getValue();
 
-        Response response =
-                target.path("Patient").queryParam("favorite-uri:above", favoriteUri.getValue() + "/12345/12345")
-                .request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+        Response response = target.path("Patient")
+                .queryParam("favorite-uri:above", favoriteUri.getValue() + "/12345/12345")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get();
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -227,17 +290,20 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         if (DEBUG_SEARCH) {
             SearchAllTest.generateOutput(bundle);
         }
-        
+
         assertTrue(bundle.getEntry().size() > 0);
     }
-    
+
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatientWithExtensions" })
     public void testSearchPatientWithBaseParametersAndExtensionsWithBelow() {
         WebTarget target = getWebTarget();
 
-        Response response =
-                target.path("Patient").queryParam("favorite-uri:below", "http://www.ibm.co")
-                .request(FHIRMediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
+        Response response = target.path("Patient")
+                .queryParam("favorite-uri:below", "http://www.ibm.co")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get();
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -247,7 +313,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         if (DEBUG_SEARCH) {
             SearchAllTest.generateOutput(bundle);
         }
-        
+
         assertTrue(bundle.getEntry().size() == 0);
     }
 }

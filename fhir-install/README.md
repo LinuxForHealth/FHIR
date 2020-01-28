@@ -15,7 +15,7 @@ Using Docker Terminal, access the fhir-install directory and run:
 docker build -t fhir-server . --squash
 ```
 ## Run
- 
+
 Once the image is built, start it with:
 
 ```sh
