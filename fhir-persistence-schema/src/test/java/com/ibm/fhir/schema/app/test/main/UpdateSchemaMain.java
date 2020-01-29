@@ -4,19 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.schema.app.test;
+package com.ibm.fhir.schema.app.test.main;
 
 import com.ibm.fhir.schema.app.Main;
+import com.ibm.fhir.schema.app.test.main.helper.TestHelper;
 
-public class CreateSchemasMain {
-
+public class UpdateSchemaMain {
     public static void main(String[] args) {
         String[] arguments = {
                 "--prop-file", TestHelper.absolutePathToProperties(),
                 "--pool-size", "2",
                 "--schema-name", "FHIRDATA",
-                "--create-schemas",
-                "--dry-run"
+                "--update-schema"
         };
         Main.main(arguments);
     }

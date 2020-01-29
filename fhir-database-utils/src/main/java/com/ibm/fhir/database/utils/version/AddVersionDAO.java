@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
@@ -21,6 +23,8 @@ import com.ibm.fhir.database.utils.model.InsertStatement;
  * so if it already exists, it's a NOP.
  */
 public class AddVersionDAO implements IDatabaseStatement {
+    private static final Logger logger = Logger.getLogger(AddVersionDAO.class.getName());
+
     // The admin schema holding the history table
     private final String adminSchemaName;
 
@@ -60,6 +64,7 @@ public class AddVersionDAO implements IDatabaseStatement {
                 ps.setInt(4, version);
                 ps.executeUpdate();
             } catch (SQLException x) {
+                logger.log(Level.FINE, "Add Version DAO Failed", x);
                 // suppress any complaints about duplicates because we want this to
                 // be idempotent
                 if (!translator.isDuplicate(x)) {

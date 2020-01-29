@@ -37,28 +37,30 @@ public class DryRunContainer {
     }
 
     public void print(String separator, PrintStream out) {
-        // The Statements from the Simulation are: 
-        out.println("-- [DRY RUN] Output Start");
-        for (Entry<String, List<Object>> entry : statements.entrySet()) {
-            if (entry.getKey().isEmpty()) {
-                out.println();
-            } else if (entry.getKey().startsWith("--")) {
-                out.println(entry.getKey());
-            } else if (!entry.getKey().startsWith("SELECT") || SELECT) {
-                out.println(entry.getKey() + separator);
-                if (entry.getValue() != null) {
-                    out.print("-- Arguments [");
-                    StringJoiner args = new StringJoiner(",");
-                    for (Object o : entry.getValue()) {
-                        args.add(o.toString());
+        if (dryRun) {
+            // The Statements from the Simulation are: 
+            out.println("-- [DRY RUN] Output Start");
+            for (Entry<String, List<Object>> entry : statements.entrySet()) {
+                if (entry.getKey().isEmpty()) {
+                    out.println();
+                } else if (entry.getKey().startsWith("--")) {
+                    out.println(entry.getKey());
+                } else if (!entry.getKey().startsWith("SELECT") || SELECT) {
+                    out.println(entry.getKey() + separator);
+                    if (entry.getValue() != null) {
+                        out.print("-- Arguments [");
+                        StringJoiner args = new StringJoiner(",");
+                        for (Object o : entry.getValue()) {
+                            args.add(o.toString());
+                        }
+                        out.print(args.toString());
+                        out.println("]");
                     }
-                    out.print(args.toString());
-                    out.println("]");
                 }
             }
+            out.println();
+            out.println("-- [DRY RUN] Output Done");
         }
-        out.println();
-        out.println("-- [DRY RUN] Output Done");
     }
 
     /**

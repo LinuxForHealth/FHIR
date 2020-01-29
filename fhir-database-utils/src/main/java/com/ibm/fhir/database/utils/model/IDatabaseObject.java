@@ -19,7 +19,6 @@ import com.ibm.fhir.task.api.ITaskGroup;
  * Defines the Database Object's expected methods. 
  */
 public interface IDatabaseObject {
-
     /**
      * Getter for the schema version number this object applies to
      * @return
@@ -117,5 +116,4 @@ public interface IDatabaseObject {
      * @param out
      */
     public void fetchDependenciesTo(Collection<IDatabaseObject> out);
-    
 }

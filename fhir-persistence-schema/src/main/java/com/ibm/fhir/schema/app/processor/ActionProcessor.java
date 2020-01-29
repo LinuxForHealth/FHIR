@@ -61,7 +61,9 @@ public class ActionProcessor {
     }
 
     public void process(ISchemaAction action) throws Exception {
-        try (Connection c = createConnection()) {
+        try {
+            Connection c = createConnection();
+            // Try -- configureConnectionPool();
             try {
                 JdbcTarget target = new JdbcTarget(c);
                 Db2Adapter adapter = new Db2Adapter(target);

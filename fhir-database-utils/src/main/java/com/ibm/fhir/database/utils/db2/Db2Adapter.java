@@ -288,7 +288,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         ddl.append("]");
 
         runStatement(ddl.toString());
-
     }
 
     @Override
@@ -366,7 +365,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     @Override
     public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId,
             String tenantStagingTable) {
-
         Map<String, PartitionInfo> partitionInfoMap = new HashMap<>();
         loadPartitionInfoMap(partitionInfoMap, schemaName);
 
@@ -387,9 +385,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     }
 
     protected void removeTenantPartition(String schemaName, String tableName, String partitionName,
-            String targetTableName,
-            String tenantStagingTable) {
-
+            String targetTableName, String tenantStagingTable) {
         // Detach the given partition of the table into the targetTableName (within the same schema).
         detachPartition(schemaName, tableName, partitionName, targetTableName);
 
@@ -432,12 +428,12 @@ public class Db2Adapter extends CommonDatabaseAdapter {
 
     @Override
     public void createFhirSchemas(String schemaName, String adminSchemaName) {
-        DryRunContainer.getSingleInstance().addComment("CREATE FHIR SCHEMAS");
         try {
             String ddl = "CREATE SCHEMA " + schemaName;
             if (!DryRunContainer.getSingleInstance().isDryRun()) {
                 runStatement(ddl);
             } else {
+                DryRunContainer.getSingleInstance().addComment("CREATE FHIR SCHEMAS");
                 DryRunContainer.getSingleInstance().add(ddl, null);
             }
         } catch (DuplicateNameException e) {

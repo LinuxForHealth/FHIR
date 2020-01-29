@@ -109,7 +109,6 @@ public class PhysicalDataModel implements IDataModel {
         for (IDatabaseObject obj : allObjects) {
             obj.collect(tc, target, tp, vhs);
         }
-
     }
 
     /**
