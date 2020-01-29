@@ -152,7 +152,10 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // Make sure there's a tablespace available for this tenant before we
         // try to create the actual partitions
         final String tablespaceName = "TS_TENANT" + newTenantId;
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionProvider)) {
+        try (ITransaction tx = 
+                (TransactionFactory.getTransaction() != null) ? 
+                        TransactionFactory.getTransaction()
+                        : TransactionFactory.openTransaction(connectionProvider);) {
             try {
                 logger.info("Creating tablespace: " + tablespaceName);
                 Db2CreateTablespace createTablespace = new Db2CreateTablespace(tablespaceName, extentSizeKB);

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,15 +32,14 @@ import com.ibm.fhir.database.utils.api.ITransaction;
  * <br>
  * To be useable in a JEE context, a light refactor is needed so that an alternative
  * solution can be implemented to use UserTransaction.
- *<br>
+ * <br>
  */
 public class TransactionFactory {
-
     // thread-safe lazy instantiation implementation of the singleton pattern
     private static class Holder {
         private static final TransactionFactory INSTANCE = new TransactionFactory();
     }
-    
+
     // To record the open transaction on this thread
     private ThreadLocal<SimpleTransaction> active = new ThreadLocal<>();
 
@@ -53,6 +52,7 @@ public class TransactionFactory {
 
     /**
      * Singleton instance getter
+     * 
      * @return
      */
     public static TransactionFactory getInstance() {
@@ -61,29 +61,32 @@ public class TransactionFactory {
 
     /**
      * Open a transaction on this thread
+     * 
      * @return
      */
     public static ITransaction openTransaction(IConnectionProvider cp) {
         return getInstance().openTransactionForThread(cp);
     }
-    
+
     /**
      * Getter for the current transaction on this thread
+     * 
      * @return
      */
     private SimpleTransaction getTransactionForThread() {
         return active.get();
     }
-    
+
     /**
      * Remove the transaction from the current thread
      */
     private void clearTransactionForThread() {
         active.remove();
     }
-    
+
     /**
      * Open a new transaction for this thread.
+     * 
      * @return
      * @throws IllegalStateException if a transaction is already open
      */
@@ -94,15 +97,16 @@ public class TransactionFactory {
             // when it was opened
             throw new IllegalStateException("Transaction is already open");
         }
-        
+
         result = new SimpleTransaction(cp);
         active.set(result);
-        
+
         return result;
     }
 
     /**
      * Get the current transaction.
+     * 
      * @return the transaction currently open on this thread
      * @throws IllegalStateException if no transaction is open
      */
@@ -113,7 +117,7 @@ public class TransactionFactory {
         }
         return result;
     }
-    
+
     /**
      * Remove the transaction from the current thread. Called from
      * {@link SimpleTransaction#close()}.

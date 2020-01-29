@@ -48,5 +48,6 @@ public class AllocateTenantAction implements ISchemaAction {
         // The tenant-id is important because this is also used to identify the partition number
         logger.info("Tenant Id[" + actionBean.getTenantName() + "] = " + tenantId);
         actionBean.setTenantId(tenantId);
+        actionBean.setTenantKey(tenantKey);
     }
 }

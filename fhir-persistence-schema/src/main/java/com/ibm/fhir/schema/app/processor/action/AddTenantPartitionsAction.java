@@ -34,6 +34,6 @@ public class AddTenantPartitionsAction implements ISchemaAction {
         // that logic out of the adapter and handle it at a higher level. Note...the extent size used
         // for the partitions needs to match the extent size of the original table tablespace (FHIR_TS)
         // so this must be constant.
-        pdm.addTenantPartitions(adapter, actionBean.getSchemaName(), actionBean.getTenantId(),FHIR_TS_EXTENT_KB);
+        pdm.addTenantPartitions(adapter, actionBean.getSchemaName(), actionBean.getTenantId(), FHIR_TS_EXTENT_KB);
     }
 }
