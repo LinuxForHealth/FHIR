@@ -203,7 +203,7 @@ public class ProcessFeature {
         processor.process(versionHistoryServiceAction);
 
         ApplyModelAction applyModelAction = new ApplyModelAction();
-        processor.process(applyModelAction);
+        processor.processTransaction(applyModelAction);
     }
 
     /**

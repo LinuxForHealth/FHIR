@@ -13,10 +13,12 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.app.feature.ExitFeature;
 import com.ibm.fhir.schema.app.processor.SchemaUtil;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
+import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 
 public class ApplyModelAction implements ISchemaAction {
@@ -30,20 +32,35 @@ public class ApplyModelAction implements ISchemaAction {
     public void run(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
             ITransactionProvider transactionProvider) throws SchemaActionException {
         logger.info("Collecting model update tasks");
-        actionBean.getPhysicalDataModel().collect(actionBean.getCollector(), adapter, transactionProvider,
-                actionBean.getVersionHistoryService());
+        VersionHistoryService vhs = actionBean.getVersionHistoryService();
+        ITaskCollector collector = actionBean.getCollector();
+        checkValid(vhs, collector);
+
+        actionBean.getPhysicalDataModel().collect(collector, adapter, transactionProvider, vhs);
 
         // FHIR in the hole!
         logger.info("Starting model updates");
         actionBean.getCollector().startAndWait();
 
-        Collection<ITaskGroup> failedTaskGroups = actionBean.getCollector().getFailedTaskGroups();
+        Collection<ITaskGroup> failedTaskGroups = collector.getFailedTaskGroups();
         if (!failedTaskGroups.isEmpty()) {
             actionBean.setExitStatus(ExitFeature.EXIT_RUNTIME_ERROR);
 
             final String failedStr =
                     failedTaskGroups.stream().map(SchemaUtil::mapToId).collect(Collectors.joining(","));
             logger.severe("List of failed task groups: " + failedStr);
+        } else {
+            logger.info("End model updates");
+        }
+    }
+
+    public void checkValid(VersionHistoryService vhs, ITaskCollector collector) {
+        if (vhs == null) {
+            logger.severe("Version History Service is null");
+        }
+
+        if (collector == null) {
+            logger.severe("Collector is null");
         }
     }
 }
