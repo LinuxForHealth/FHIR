@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,6 @@ import com.ibm.fhir.database.utils.api.IVersionHistoryService;
  * A collection of {@link IDatabaseObject} which are applied in order within one transaction
  */
 public class ObjectGroup extends BaseObject {
-
     // the list of objects in our group
     private final List<IDatabaseObject> group = new ArrayList<>();
     

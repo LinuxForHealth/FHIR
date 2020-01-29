@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -38,8 +38,7 @@ import com.ibm.fhir.database.utils.transaction.TransactionFactory;
 
 /**
  * Implementation of our database adapter which provides implementation of
- * control
- * functions specific to DB2 for things like schema and partition management
+ * control functions specific to DB2 for things like schema and partition management
  */
 public class Db2Adapter extends CommonDatabaseAdapter {
     private static final Logger logger = Logger.getLogger(Db2Adapter.class.getName());
@@ -152,9 +151,8 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // Make sure there's a tablespace available for this tenant before we
         // try to create the actual partitions
         final String tablespaceName = "TS_TENANT" + newTenantId;
-        try (ITransaction tx = 
-                (TransactionFactory.getTransaction(true) != null) ? 
-                        TransactionFactory.getTransaction(true)
+        try (ITransaction tx =
+                (TransactionFactory.getTransaction(true) != null) ? TransactionFactory.getTransaction(true)
                         : TransactionFactory.openTransaction(connectionProvider);) {
             try {
                 logger.info("Creating tablespace: " + tablespaceName);
