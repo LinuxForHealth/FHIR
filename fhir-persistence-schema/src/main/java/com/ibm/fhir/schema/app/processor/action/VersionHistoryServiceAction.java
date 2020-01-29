@@ -18,7 +18,7 @@ import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
 
 /**
- * Create the Version History Service local objects. 
+ * Create the Version History Service local objects.
  */
 public class VersionHistoryServiceAction implements ISchemaAction {
     private static final Logger logger = Logger.getLogger(VersionHistoryServiceAction.class.getName());
@@ -30,15 +30,17 @@ public class VersionHistoryServiceAction implements ISchemaAction {
     @Override
     public void run(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
             ITransactionProvider transactionProvider) throws SchemaActionException {
-        VersionHistoryService vhs =
-                new VersionHistoryService(actionBean.getAdminSchemaName(), actionBean.getSchemaName());
+        String adminSchema = actionBean.getAdminSchemaName();
+        String schema = actionBean.getSchemaName();
+
+        VersionHistoryService vhs = new VersionHistoryService(adminSchema, schema);
         vhs.setTransactionProvider(transactionProvider);
         vhs.setTarget(adapter);
         try {
             vhs.init();
             actionBean.setVersionHistoryService(vhs);
         } catch (UndefinedNameException une) {
-            logger.warning("The Version History Service is not found");
+            logger.warning("The Version History Service tables [VERSION_HISTORY] is not found");
             actionBean.setExitStatus(ExitFeature.EXIT_RUNTIME_ERROR);
             throw new SchemaActionException();
         }

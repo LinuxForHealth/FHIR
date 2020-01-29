@@ -84,12 +84,12 @@ public class DatabaseSupport {
                 return new ITransaction() {
                     @Override
                     public void setRollbackOnly() {
-
+                        // No Operation
                     }
 
                     @Override
                     public void close() throws DataAccessException {
-
+                        // No Operation
                     }
                 };
             }

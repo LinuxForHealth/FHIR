@@ -202,7 +202,7 @@ public class ProcessFeature {
 
         // Current version history for the data schema
         VersionHistoryServiceAction versionHistoryServiceAction = new VersionHistoryServiceAction();
-        processor.process(versionHistoryServiceAction);
+        processor.processWithoutTransaction(versionHistoryServiceAction);
 
         ApplyModelAction applyModelAction = new ApplyModelAction();
         processor.processTransaction(applyModelAction);

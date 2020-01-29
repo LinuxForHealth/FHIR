@@ -24,10 +24,10 @@ public class VersionHistoryService implements IVersionHistoryService {
 
     // The name of the admin schema we are working with
     private final String adminSchemaName;
-    
+
     // The name of the data schema we are working with
     private final String schemaName;
-    
+
     // Allows us to start a transaction
     private ITransactionProvider transactionProvider;
 
@@ -35,23 +35,25 @@ public class VersionHistoryService implements IVersionHistoryService {
     private IDatabaseAdapter target;
 
     // The map of version history information loaded from the database
-    private Map<String,Integer> versionHistoryMap;
-    
+    private Map<String, Integer> versionHistoryMap;
+
     public VersionHistoryService(String adminSchemaName, String schemaName) {
         this.adminSchemaName = adminSchemaName;
-        this.schemaName = schemaName;
+        this.schemaName      = schemaName;
     }
-    
+
     /**
      * For injection of the {@link IConnectionProvider}
+     * 
      * @param tp
      */
     public void setTransactionProvider(ITransactionProvider tp) {
         this.transactionProvider = tp;
     }
-   
+
     /**
      * For injection of the {@link IDatabaseTarget}
+     * 
      * @param tgt
      */
     public void setTarget(IDatabaseAdapter tgt) {
@@ -69,11 +71,11 @@ public class VersionHistoryService implements IVersionHistoryService {
      * already been applied, so won't try again.
      */
     public void init() {
-        // defend
+        // defensive
         if (this.target == null) {
             throw new IllegalStateException("Programming error - must setTarget before calling init");
         }
-        
+
         if (transactionProvider != null) {
             try (ITransaction tx = transactionProvider.getTransaction()) {
                 try {
@@ -81,33 +83,31 @@ public class VersionHistoryService implements IVersionHistoryService {
                     // hidden inside the target adapter implementation
                     GetLatestVersionDAO dao = new GetLatestVersionDAO(adminSchemaName, schemaName);
                     this.versionHistoryMap = target.runStatement(dao);
-                }
-                catch (DataAccessException x) {
+                } catch (DataAccessException x) {
                     // Something went wrong, so mark the transaction as failed
                     tx.setRollbackOnly();
                     throw x;
                 }
             }
-        }
-        else {
+        } else {
             // Assume the parent is responsible for handling the transaction
             GetLatestVersionDAO dao = new GetLatestVersionDAO(adminSchemaName, schemaName);
             this.versionHistoryMap = target.runStatement(dao);
         }
     }
 
-
     /**
      * Insert all the entries in the versionHistoryMap. This must be called in the
      * context of an existing transaction
+     * 
      * @param versionHistories
      */
     public void insertVersionHistoriesInTx(Collection<TypeNameVersion> versionHistories) {
-        for (TypeNameVersion tuple: versionHistories) {
+        for (TypeNameVersion tuple : versionHistories) {
             insertVersionHistoryInTx(tuple.getSchema(), tuple.getType(), tuple.getName(), tuple.getVersion());
         }
     }
-    
+
     /**
      * Insert the version history for the objectType/objectName/version.
      * 
@@ -120,18 +120,18 @@ public class VersionHistoryService implements IVersionHistoryService {
         AddVersionDAO dao = new AddVersionDAO(adminSchemaName, objectSchema, objectType, objectName, version);
         target.runStatement(dao);
     }
-    
+
     /**
      * Insert all the entries in the versionHistoryMap in a new transaction (useful
      * for testing).
+     * 
      * @param versionHistories
      */
     public void insertVersionHistory(Collection<TypeNameVersion> versionHistories) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
                 insertVersionHistoriesInTx(versionHistories);
-            }
-            catch (DataAccessException x) {
+            } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
                 throw x;
@@ -151,32 +151,32 @@ public class VersionHistoryService implements IVersionHistoryService {
     public static TypeNameVersion createTypeNameVersion(String objectSchema, String type, String name, int version) {
         return new TypeNameVersion(objectSchema, type, name, version);
     }
-    
+
     public static class TypeNameVersion {
         private final String schema;
         private final String type;
         private final String name;
         private final int version;
-        
+
         private TypeNameVersion(String schema, String type, String name, int version) {
-            this.schema = schema;
-            this.type = type;
-            this.name = name;
+            this.schema  = schema;
+            this.type    = type;
+            this.name    = name;
             this.version = version;
         }
-        
+
         private String getSchema() {
             return this.schema;
         }
-        
+
         private String getType() {
             return this.type;
         }
-        
+
         private String getName() {
             return this.name;
         }
-        
+
         private int getVersion() {
             return this.version;
         }

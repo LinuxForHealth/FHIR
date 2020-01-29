@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,6 @@ package com.ibm.fhir.database.utils.api;
  * is closed, making it nice and neat to use with try-with-resource.
  */
 public interface ITransaction extends AutoCloseable {
-
     /**
      * Mark the transaction as failed, so that we we end it, we'll rollback
      */

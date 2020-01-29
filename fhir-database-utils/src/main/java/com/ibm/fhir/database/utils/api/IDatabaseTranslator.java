@@ -15,7 +15,6 @@ import java.util.Properties;
  * tweak the SQL in order to support all the unit tests we want/need
  */
 public interface IDatabaseTranslator {
-
     /**
      * Are we working with a Derby database
      * 

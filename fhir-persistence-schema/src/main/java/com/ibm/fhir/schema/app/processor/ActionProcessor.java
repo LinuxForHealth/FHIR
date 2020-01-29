@@ -65,6 +65,12 @@ public class ActionProcessor {
         this.transactionProvider = new SimpleTransactionProvider(this.connectionPool);
     }
 
+    /**
+     * processes with a single connection
+     * 
+     * @param action
+     * @throws Exception
+     */
     public void process(ISchemaAction action) throws Exception {
         try {
             if (c == null) {
@@ -87,13 +93,19 @@ public class ActionProcessor {
         }
     }
 
+    /**
+     * processes with a simple transaction provider 
+     * 
+     * @param action
+     * @throws SchemaActionException
+     */
     public void processTransaction(ISchemaAction action) throws SchemaActionException {
         if (actionBean.getDryRun()) {
             DryRunContainer.getSingleInstance().setDryRun(actionBean.getDryRun());
         }
 
         // Configure the connection pool
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool, true)) {
             try {
                 Db2Adapter adapter = new Db2Adapter(connectionPool);
                 action.run(actionBean, null, adapter, transactionProvider);
@@ -102,6 +114,24 @@ public class ActionProcessor {
                 tx.setRollbackOnly();
                 throw x;
             }
+        }
+    }
+
+    /**
+     * processes without a transaction, and the transaction is within the action itself. 
+     * 
+     * @param action
+     * @throws SchemaActionException
+     */
+    public void processWithoutTransaction(ISchemaAction action) throws SchemaActionException {
+        if (actionBean.getDryRun()) {
+            DryRunContainer.getSingleInstance().setDryRun(actionBean.getDryRun());
+        }
+        try {
+            Db2Adapter adapter = new Db2Adapter(connectionPool);
+            action.run(actionBean, null, adapter, transactionProvider);
+        } catch (DataAccessException x) {
+            throw x;
         }
     }
 

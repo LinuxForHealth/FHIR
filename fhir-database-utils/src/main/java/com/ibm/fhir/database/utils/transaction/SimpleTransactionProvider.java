@@ -31,5 +31,4 @@ public class SimpleTransactionProvider implements ITransactionProvider {
         // been configured with
         return TransactionFactory.openTransaction(this.connectionProvider);
     }
-
 }

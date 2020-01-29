@@ -11,7 +11,6 @@ package com.ibm.fhir.database.utils.api;
  * types like varbinary/varchar as bit data etc.
  */
 public interface IDatabaseTypeAdapter {
-
     /**
      * Generate a clause for binary data type
      * @param size

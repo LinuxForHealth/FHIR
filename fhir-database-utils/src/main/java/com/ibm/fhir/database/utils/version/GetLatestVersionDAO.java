@@ -55,15 +55,16 @@ public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer
         try (PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, adminSchemaName);
             ps.setString(2, schemaName);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                String schema = rs.getString(1);
-                String type = rs.getString(2);
-                String name = rs.getString(3);
-                int version = rs.getInt(4);
-                
-                String schemaTypeName = schema + ":" + type + ":" + name; 
-                result.put(schemaTypeName, version);
+            try(ResultSet rs = ps.executeQuery();){
+                while (rs.next()) {
+                    String schema = rs.getString(1);
+                    String type = rs.getString(2);
+                    String name = rs.getString(3);
+                    int version = rs.getInt(4);
+                    
+                    String schemaTypeName = schema + ":" + type + ":" + name; 
+                    result.put(schemaTypeName, version);
+                }
             }
         }
         catch (SQLException x) {

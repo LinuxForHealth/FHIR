@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,24 +14,19 @@ import com.ibm.fhir.database.utils.api.ITransactionProvider;
  * A transaction provider stub useful for unit tests where we don't actually
  * need real transactions
  */
-public class TransactionProviderTest implements ITransactionProvider {
-
+public class TestTransactionProvider implements ITransactionProvider {
     @Override
     public ITransaction getTransaction() {
         return new ITransaction() {
-
             @Override
             public void setRollbackOnly() {
-                // TODO Auto-generated method stub
-
+                // No Operation
             }
 
             @Override
             public void close() throws DataAccessException {
-                // TODO Auto-generated method stub
-
+                // No Operation
             }
         };
     }
-
 }

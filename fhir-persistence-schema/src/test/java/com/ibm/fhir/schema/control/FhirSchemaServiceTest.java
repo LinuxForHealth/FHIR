@@ -71,7 +71,7 @@ public class FhirSchemaServiceTest {
         ITaskCollector collector = taskService.makeTaskCollector(pool);
         PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
         Db2Adapter adapter = new Db2Adapter(tgt);
-        model.collect(collector, adapter, new TransactionProviderTest(), vhs);
+        model.collect(collector, adapter, new TestTransactionProvider(), vhs);
 
         // FHIR in the hole!
         collector.startAndWait();

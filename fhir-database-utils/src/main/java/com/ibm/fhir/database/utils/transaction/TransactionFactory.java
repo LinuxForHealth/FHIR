@@ -69,6 +69,16 @@ public class TransactionFactory {
     }
 
     /**
+     * Open a transaction on this thread
+     * 
+     * @param 
+     * @return
+     */
+    public static ITransaction openTransaction(IConnectionProvider cp, boolean override) {
+        return getInstance().openTransactionForThread(cp, override);
+    }
+
+    /**
      * Getter for the current transaction on this thread
      * 
      * @return
@@ -84,23 +94,25 @@ public class TransactionFactory {
         active.remove();
     }
 
+    private ITransaction openTransactionForThread(IConnectionProvider cp) {
+        return openTransactionForThread(cp, false);
+    }
+
     /**
      * Open a new transaction for this thread.
      * 
      * @return
      * @throws IllegalStateException if a transaction is already open
      */
-    private ITransaction openTransactionForThread(IConnectionProvider cp) {
+    private ITransaction openTransactionForThread(IConnectionProvider cp, boolean override) {
         SimpleTransaction result = getTransactionForThread();
-        if (result != null) {
-            // to get fancy, we could have the transaction record the stack trace for
-            // when it was opened
+        if (!override && result != null) {
+            // to get fancy, we could have the transaction record the stack trace for when it was opened
             throw new IllegalStateException("Transaction is already open");
         }
 
         result = new SimpleTransaction(cp);
         active.set(result);
-
         return result;
     }
 
@@ -113,7 +125,7 @@ public class TransactionFactory {
     public static ITransaction getTransaction() {
         return getTransaction(false);
     }
-    
+
     public static ITransaction getTransaction(boolean override) {
         ITransaction result = getInstance().getTransactionForThread();
         if (!override && result == null) {

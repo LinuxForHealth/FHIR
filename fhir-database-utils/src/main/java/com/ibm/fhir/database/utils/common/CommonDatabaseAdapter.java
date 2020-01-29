@@ -215,7 +215,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
                 } catch (SQLException x) {
                     throw translator.translate(x);
                 }
-
             } else {
                 target.runStatement(this.translator, ddl);
             }

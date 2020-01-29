@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -143,5 +143,4 @@ public class DateMath {
         }
         return (d1.after(d2)) ? d1 : d2;        
     }
-
 }
