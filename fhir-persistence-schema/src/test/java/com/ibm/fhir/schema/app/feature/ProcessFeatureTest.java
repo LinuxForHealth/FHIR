@@ -6,14 +6,12 @@
 
 package com.ibm.fhir.schema.app.feature;
 
-import static org.testng.Assert.assertEquals;
-
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 
 /**
- * 
+ * ProcessFeature Test
  */
 public class ProcessFeatureTest {
     @Test(expectedExceptions = { IllegalArgumentException.class })

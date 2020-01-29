@@ -49,9 +49,8 @@ public class SchemaUtil {
                 for (URL u : classpath) {
                     logger.fine("  " + u.getFile());
                 }
-            } else {
-                logger.fine("  " + System.getProperty("java.class.path"));
             }
+            logger.fine("[java.class.path] -> " + System.getProperty("java.class.path"));
         }
     }
 
@@ -96,7 +95,6 @@ public class SchemaUtil {
     public static String getRandomKey() {
         byte[] buffer = new byte[32];
         random.nextBytes(buffer);
-
         Encoder enc = Base64.getEncoder();
         return enc.encodeToString(buffer);
     }

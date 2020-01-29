@@ -65,7 +65,6 @@ public class AddVersionDAO implements IDatabaseStatement {
                 if (!translator.isDuplicate(x)) {
                     throw translator.translate(x);
                 }
-                x.printStackTrace();
             }
         }
     }

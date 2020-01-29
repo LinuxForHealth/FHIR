@@ -28,7 +28,6 @@ import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException
  * </pre>
  */
 public class CreateSchemaAction implements ISchemaAction {
-
     public CreateSchemaAction() {
         // No Operation
     }

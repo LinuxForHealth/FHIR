@@ -56,17 +56,24 @@ public class ApplyModelAction implements ISchemaAction {
         }
     }
 
+    /**
+     * checks if the dependent elements are valid. 
+     * 
+     * @param vhs
+     * @param collector
+     * @param pdm
+     */
     public void checkValid(VersionHistoryService vhs, ITaskCollector collector, PhysicalDataModel pdm) {
         if (vhs == null) {
-            logger.severe("Version History Service is null");
+            throw new IllegalArgumentException("Version History Service is null");
         }
 
         if (collector == null) {
-            logger.severe("Collector is null");
+            throw new IllegalArgumentException("Collector is null");
         }
-        
+
         if (pdm == null) {
-            logger.severe("PhysicalDataModel is null");
+            throw new IllegalArgumentException("PhysicalDataModel is null");
         }
     }
 }
