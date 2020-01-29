@@ -12,6 +12,7 @@ import java.util.List;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
+import com.ibm.fhir.server.helper.FHIRServerUtils;
 
 /**
  * Constants for BulkData operations
@@ -35,7 +36,9 @@ public class BulkDataConstants {
     public static final String PARAM_GROUP_ID = "groupId";
     public static final String PARAM_JOB = "job";
 
-    public static final SecretKeySpec JOB_ENCRYPTION_KEY = BulkDataConfigUtil.getJobIdEncryptionKey();
+    // Encryption key used for JavaBatch Job ID
+    public static final SecretKeySpec BATCHJOBID_ENCRYPTION_KEY =
+            BulkDataConfigUtil.getBatchJobIdEncryptionKey(FHIRServerUtils.getJNDIValue("config/bulkDataBatchJobIdEncryptionKey", null));
 
     // Status
     public static final List<String> SUCCESS_STATUS = Collections.unmodifiableList(Arrays.asList("COMPLETED"));

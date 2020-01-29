@@ -24,7 +24,6 @@ import javax.json.JsonReader;
 import javax.json.JsonReaderFactory;
 
 import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
-import com.ibm.fhir.server.helper.FHIRServerUtils;
 
 /**
  * bulkdata.json is picked up from the given file, and loaded into an intermediate map.
@@ -141,18 +140,22 @@ public class BulkDataConfigUtil {
     }
 
 
-    public static SecretKeySpec getJobIdEncryptionKey() {
-        String jobEncryptionKey = FHIRServerUtils.getJNDIValue("config/bulkdatajobencryptionkey", "change-password-2");
-        try {
-            byte[] keyBytes = jobEncryptionKey.getBytes("UTF-8");
-            MessageDigest sha = MessageDigest.getInstance("SHA-1");
-            keyBytes = sha.digest(keyBytes);
-            keyBytes = Arrays.copyOf(keyBytes, 16);
-            return new SecretKeySpec(keyBytes, "AES");
+    public static SecretKeySpec getBatchJobIdEncryptionKey(String strJobIdEncryptionKey) {
+        SecretKeySpec secretKey = null;
+
+        if (strJobIdEncryptionKey != null && !strJobIdEncryptionKey.isEmpty()) {
+            try {
+                byte[] keyBytes = strJobIdEncryptionKey.getBytes("UTF-8");
+                keyBytes = Arrays.copyOf(MessageDigest.getInstance("SHA-1").digest(keyBytes), 16);
+                secretKey = new SecretKeySpec(keyBytes, "AES");
+            } catch (Exception e) {
+                log.log(Level.WARNING, "Fail to generate encryption key from config!", e);
+            }
         }
-        catch (Exception e) {
-            log.warning("Fail to get encryption key for javabatch job!");
-            return null;
+
+        if (secretKey == null) {
+            log.warning("Failed to get encryption key, JavaBatch Job ids will not be encrypted!");
         }
+        return secretKey;
     }
 }

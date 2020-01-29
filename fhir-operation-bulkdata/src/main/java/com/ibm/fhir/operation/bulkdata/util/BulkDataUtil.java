@@ -7,6 +7,7 @@ package com.ibm.fhir.operation.bulkdata.util;
 
 import static com.ibm.fhir.model.type.String.string;
 
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
+import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
@@ -271,7 +273,7 @@ public class BulkDataUtil {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 if (BulkDataConstants.PARAM_JOB.equals(parameter.getName().getValue())
                         && parameter.getValue() != null && parameter.getValue().is(com.ibm.fhir.model.type.String.class)) {
-                    String job = decryptStr(parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue());
+                    String job = decryptBatchJobId(parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue(), BulkDataConstants.BATCHJOBID_ENCRYPTION_KEY);
 
                     // The job is never going to be empty or null as STRING is never empty at this point.
                     if (job.contains("/") || job.contains("?")) {
@@ -287,31 +289,35 @@ public class BulkDataUtil {
     }
 
 
-    public static String encryptStr(String strToEncrypt)
-    {
-        if (BulkDataConstants.JOB_ENCRYPTION_KEY == null) {
+    public static String encryptBatchJobId(String strToEncrypt, SecretKeySpec key) {
+        // Encrypt and UrlEncode the batch job id.
+        if (key == null) {
             return strToEncrypt;
         } else {
             try
             {
                 Cipher cp = Cipher.getInstance("AES/ECB/PKCS5Padding");
-                cp.init(Cipher.ENCRYPT_MODE, BulkDataConstants.JOB_ENCRYPTION_KEY);
-                return Base64.getEncoder().encodeToString(cp.doFinal(strToEncrypt.getBytes("UTF-8")));
+                cp.init(Cipher.ENCRYPT_MODE, key);
+                return java.net.URLEncoder.encode(Base64.getEncoder().encodeToString(cp.doFinal(strToEncrypt.getBytes("UTF-8"))), StandardCharsets.UTF_8.name());
             } catch (Exception e) {
                 return strToEncrypt;
             }
         }
     }
 
-    public static String decryptStr(String strToDecrypt)
-    {
-        try
-        {
-            Cipher cp = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-            cp.init(Cipher.DECRYPT_MODE, BulkDataConstants.JOB_ENCRYPTION_KEY);
-            return new String(cp.doFinal(Base64.getDecoder().decode(strToDecrypt)));
-        } catch (Exception e) {
+    public static String decryptBatchJobId(String strToDecrypt, SecretKeySpec key) {
+        // Decrypt to get the batch job id
+        if (key == null) {
             return strToDecrypt;
+        } else {
+            try
+            {
+                Cipher cp = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+                cp.init(Cipher.DECRYPT_MODE, key);
+                return new String(cp.doFinal(Base64.getDecoder().decode(strToDecrypt)));
+            } catch (Exception e) {
+                return strToDecrypt;
+            }
         }
     }
 }
