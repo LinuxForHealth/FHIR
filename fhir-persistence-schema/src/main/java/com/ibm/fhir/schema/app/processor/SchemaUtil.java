@@ -80,6 +80,13 @@ public class SchemaUtil {
      */
     public static void configureLogger(final String logDir) {
         String tmpLogDir = ".";
+
+        final String TARGET = "./target/";
+        File tgt = new File(TARGET);
+        if (tgt.exists()) {
+            tmpLogDir = TARGET;
+        }
+
         if (logDir != null && !logDir.isEmpty()) {
             tmpLogDir = logDir;
         }

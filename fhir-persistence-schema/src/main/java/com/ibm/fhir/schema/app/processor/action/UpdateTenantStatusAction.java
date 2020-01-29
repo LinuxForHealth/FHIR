@@ -37,6 +37,6 @@ public class UpdateTenantStatusAction implements ISchemaAction {
     public void run(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
             ITransactionProvider transactionProvider) throws SchemaActionException {
         adapter.updateTenantStatus(actionBean.getAdminSchemaName(), actionBean.getTenantId(), actionBean.getStatus());
-        logger.info("Update Tenant Status: " + actionBean.getTenantName() + "] " + actionBean.getStatus());
+        logger.info("Update Tenant Status: [" + actionBean.getTenantName() + "] " + actionBean.getStatus());
     }
 }

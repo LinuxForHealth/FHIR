@@ -111,8 +111,12 @@ public class TransactionFactory {
      * @throws IllegalStateException if no transaction is open
      */
     public static ITransaction getTransaction() {
+        return getTransaction(false);
+    }
+    
+    public static ITransaction getTransaction(boolean override) {
         ITransaction result = getInstance().getTransactionForThread();
-        if (result == null) {
+        if (!override && result == null) {
             throw new IllegalStateException("No transaction is open");
         }
         return result;

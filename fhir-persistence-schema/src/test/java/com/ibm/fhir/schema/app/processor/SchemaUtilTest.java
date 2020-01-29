@@ -30,7 +30,6 @@ public class SchemaUtilTest {
     @Test
     public void testSchemaUtil() {
         ITaskGroup group = new ITaskGroup() {
-
             @Override
             public String getTaskId() {
                 return "TEST_ID";
@@ -45,7 +44,6 @@ public class SchemaUtilTest {
             public void taskCompletionCallback(ITaskGroup taskGroup) {
                 // No Operation
             }
-
         };
 
         String taskId = SchemaUtil.mapToId(group);
@@ -245,7 +243,7 @@ public class SchemaUtilTest {
         SchemaUtil.loadDriver(translator);
         fail();
     }
-    
+
     @Test
     public void testConfigureLogger() {
         SchemaUtil.configureLogger();
@@ -254,14 +252,14 @@ public class SchemaUtilTest {
         SchemaUtil.configureLogger();
         assert true;
     }
-    
+
     @Test
     public void testRandomKey() {
         String output = SchemaUtil.getRandomKey();
         assertNotNull(output);
         assertFalse(output.isEmpty());
     }
-    
+
     @Test
     public void testLogClasspath() {
         Logger rootLogger = Logger.getLogger(SchemaUtil.class.getCanonicalName());

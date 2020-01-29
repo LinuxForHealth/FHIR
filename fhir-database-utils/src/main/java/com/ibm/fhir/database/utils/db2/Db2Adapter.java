@@ -153,8 +153,8 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         // try to create the actual partitions
         final String tablespaceName = "TS_TENANT" + newTenantId;
         try (ITransaction tx = 
-                (TransactionFactory.getTransaction() != null) ? 
-                        TransactionFactory.getTransaction()
+                (TransactionFactory.getTransaction(true) != null) ? 
+                        TransactionFactory.getTransaction(true)
                         : TransactionFactory.openTransaction(connectionProvider);) {
             try {
                 logger.info("Creating tablespace: " + tablespaceName);
