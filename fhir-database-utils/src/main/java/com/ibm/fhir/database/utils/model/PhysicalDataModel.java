@@ -261,30 +261,30 @@ public class PhysicalDataModel implements IDataModel {
      * @return
      */
     public ProcedureDef addProcedure(String schemaName, String objectName, int version,
-            Supplier<String> templateProvider,
-            Collection<IDatabaseObject> dependencies, Collection<GroupPrivilege> privileges) {
+            Supplier<String> templateProvider, Collection<IDatabaseObject> dependencies,
+            Collection<GroupPrivilege> privileges) {
         ProcedureDef proc = new ProcedureDef(schemaName, objectName, version, templateProvider);
         privileges.forEach(p -> p.addToObject(proc));
 
         if (dependencies != null) {
             proc.addDependencies(dependencies);
         }
+
         allObjects.add(proc);
         procedures.add(proc);
-
         return proc;
     }
 
     public void removeTenantPartitions(IDatabaseAdapter adapter, String schemaName, int tenantId) {
-
+        // No Operation
     }
 
     public void dropOldTenantTables() {
-
+        // No Operation
     }
 
     public void dropTenantTablespace() {
-
+        // No Operation
     }
 
     @Override

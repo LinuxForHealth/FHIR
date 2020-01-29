@@ -37,5 +37,7 @@ public class SchemaPrinterTest {
         assertTrue(schema.delete());
         File stored_procedures = new File("stored-procedures.sql");
         assertTrue(stored_procedures.delete());
+        
+        //SchemaPrinter.PrintCallableStatement
     }
 }

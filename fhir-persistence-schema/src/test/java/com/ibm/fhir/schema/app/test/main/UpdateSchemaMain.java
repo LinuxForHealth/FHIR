@@ -17,7 +17,7 @@ public class UpdateSchemaMain {
         String[] arguments = {
                 "--prop-file", TestHelper.absolutePathToProperties(),
                 "--pool-size", "2",
-                "--schema-name", "FHIRDATA1",
+                "--schema-name", "FHIRDATA",
                 "--update-schema"
         };
         Main.main(arguments);
