@@ -10,11 +10,6 @@ package com.ibm.fhir.schema.control;
  * Constants related to Schema creation and updating.
  */
 public class FhirSchemaConstants {
-
-    private FhirSchemaConstants() {
-        // No Operation
-    }
-
     // Standard connection/thread pool size
     public static final int DEFAULT_POOL_SIZE = 80;
 
@@ -119,4 +114,8 @@ public class FhirSchemaConstants {
     // Initial partition range values for table create
     public static final int PART_LOWER = 0;
     public static final int PART_UPPER = 0;
+    
+    private FhirSchemaConstants() {
+        // No Operation
+    }
 }

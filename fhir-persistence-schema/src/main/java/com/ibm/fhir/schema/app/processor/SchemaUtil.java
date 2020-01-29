@@ -44,9 +44,13 @@ public class SchemaUtil {
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("CLASSPATH: ");
             ClassLoader cl = ClassLoader.getSystemClassLoader();
-            URL[] classpath = ((URLClassLoader) cl).getURLs();
-            for (URL u : classpath) {
-                logger.fine("  " + u.getFile());
+            if (cl instanceof URLClassLoader) {
+                URL[] classpath = ((URLClassLoader) cl).getURLs();
+                for (URL u : classpath) {
+                    logger.fine("  " + u.getFile());
+                }
+            } else {
+                logger.fine("  " + System.getProperty("java.class.path"));
             }
         }
     }

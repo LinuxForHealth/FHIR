@@ -11,24 +11,24 @@ import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
-import com.ibm.fhir.database.utils.api.TenantStatus;
+import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
 
 /**
- * UpdateTenantStatusAction Test
+ * GrantPrivilegesAction Test
  */
-public class UpdateTenantStatusActionTest {
+public class GrantPrivelegesActionTest {
     @Test
-    public void testUpdateTenantStatusAction() throws SchemaActionException {
+    public void testGrantPrivilegesAction() throws SchemaActionException {
         ActionBean actionBean = new ActionBean();
         actionBean.setTenantId(1);
         actionBean.setAdminSchemaName("ADMIN_SCHEMA");
-        actionBean.setStatus(TenantStatus.ALLOCATED);
-        IDatabaseAdapter adapter = DatabaseSupport.generateTenantAdapter();
-
-        UpdateTenantStatusAction action = new UpdateTenantStatusAction();
-        action.run(actionBean, null, adapter, null);
+        actionBean.setSchemaName("FHIR_SCHEMA");
+        IDatabaseAdapter adapter = DatabaseSupport.generateMapAdapter(null); //DatabaseSupport.generateUndefinedName()
+        ITransactionProvider transactionProvider = DatabaseSupport.generateTransactionProvider();
+        GrantPrivilegesAction action = new GrantPrivilegesAction();
+        action.run(actionBean, null, adapter, transactionProvider);
         assertNotNull(actionBean.getAdminSchemaName());
     }
 }

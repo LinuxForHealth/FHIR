@@ -16,7 +16,6 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 
 public class GrantPrivilegesAction implements ISchemaAction {
-
     public GrantPrivilegesAction() {
         // No Operation 
     }

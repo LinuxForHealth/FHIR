@@ -19,14 +19,13 @@ import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 import com.ibm.fhir.task.core.service.TaskService;
 
 /**
- * --prop-file /Users/paulbastide/git/wffh/FHIR/fhir-persistence-schema/db2.properties
+ * --prop-file /fhir-persistence-schema/db2.properties
 --pool-size 2
 --schema-name FHIRDATA
 --update-schema
 --dry-run
  */
 public class UpdateSchemaAction implements ISchemaAction {
-
     public UpdateSchemaAction() {
         // No Operation
     }

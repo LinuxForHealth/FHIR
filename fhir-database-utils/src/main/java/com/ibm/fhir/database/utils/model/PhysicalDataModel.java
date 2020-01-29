@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,7 +53,7 @@ public class PhysicalDataModel implements IDataModel {
      * Default constructor. No federated models
      */
     public PhysicalDataModel() {
-
+        // No Operation
     }
 
     /**
@@ -403,5 +403,4 @@ public class PhysicalDataModel implements IDataModel {
             obj.grant(target, groupName, username);
         }
     }
-
 }
