@@ -35,7 +35,7 @@ public class ActionProcessor {
     private PoolConnectionProvider connectionPool;
     private ITransactionProvider transactionProvider;
 
-    private IDatabaseTranslator translator;
+    private IDatabaseTranslator translator = new Db2Translator();
 
     private ActionBean actionBean;
 
