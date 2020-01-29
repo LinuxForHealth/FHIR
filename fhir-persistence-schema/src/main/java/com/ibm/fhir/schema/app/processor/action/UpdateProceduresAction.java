@@ -15,7 +15,6 @@ import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 
 public class UpdateProceduresAction implements ISchemaAction {
-
     public UpdateProceduresAction() {
         // No Operation
     }
@@ -23,7 +22,6 @@ public class UpdateProceduresAction implements ISchemaAction {
     @Override
     public void run(ActionBean actionBean, IDatabaseTarget target, IDatabaseAdapter adapter,
             ITransactionProvider transactionProvider) throws SchemaActionException {
-
         FhirSchemaGenerator gen = new FhirSchemaGenerator(actionBean.getAdminSchemaName(), actionBean.getSchemaName());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);

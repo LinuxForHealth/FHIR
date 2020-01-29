@@ -20,7 +20,7 @@ import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException
  */
 public class UpdateTenantStatusActionTest {
     @Test
-    public void testUpdateTenantStatusActionTest() throws SchemaActionException {
+    public void testUpdateTenantStatusAction() throws SchemaActionException {
         ActionBean actionBean = new ActionBean();
         actionBean.setTenantId(1);
         actionBean.setAdminSchemaName("ADMIN_SCHEMA");

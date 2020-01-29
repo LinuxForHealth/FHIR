@@ -29,17 +29,22 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 import java.util.function.Supplier;
 
+import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.ITransaction;
+import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.TenantStatus;
+import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
@@ -61,6 +66,233 @@ public class DatabaseSupport {
         Throwable cause = new SQLWarning();
         SQLException sqlException = new SQLException(reason, sqlState, vendorCode, cause);
         return sqlException;
+    }
+
+    public static ITransactionProvider generateTransactionProvider() {
+        return new ITransactionProvider() {
+            @Override
+            public ITransaction getTransaction() {
+                return new ITransaction() {
+                    @Override
+                    public void setRollbackOnly() {
+
+                    }
+
+                    @Override
+                    public void close() throws DataAccessException {
+
+                    }
+                };
+            }
+        };
+    }
+
+    public static IDatabaseAdapter generateMapAdapter(SQLException exception) {
+        return new IDatabaseAdapter() {
+            @Override
+            public IDatabaseTranslator getTranslator() {
+                return null;
+            }
+
+            @Override
+            public void createTablespace(String tablespaceName) {
+
+            }
+
+            @Override
+            public void createTablespace(String tablespaceName, int extentSizeKB) {
+
+            }
+
+            @Override
+            public void dropTablespace(String tablespaceName) {
+
+            }
+
+            @Override
+            public void detachPartition(String schemaName, String tableName, String partitionName,
+                    String newTableName) {
+
+            }
+
+            @Override
+            public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns,
+                    PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName) {
+
+            }
+
+            @Override
+            public void createRowType(String schemaName, String typeName, List<ColumnBase> columns) {
+
+            }
+
+            @Override
+            public void createArrType(String schemaName, String typeName, String valueType, int arraySize) {
+
+            }
+
+            @Override
+            public void dropType(String schemaName, String typeName) {
+
+            }
+
+            @Override
+            public void createProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
+
+            }
+
+            @Override
+            public void dropProcedure(String schemaName, String procedureName) {
+
+            }
+
+            @Override
+            public void createUniqueIndex(String schemaName, String tableName, String indexName,
+                    String tenantColumnName, List<String> indexColumns, List<String> includeColumns) {
+
+            }
+
+            @Override
+            public void createUniqueIndex(String schemaName, String tableName, String indexName,
+                    String tenantColumnName, List<String> indexColumns) {
+
+            }
+
+            @Override
+            public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
+                    List<String> indexColumns) {
+
+            }
+
+            @Override
+            public void createIntVariable(String schemaName, String variableName) {
+
+            }
+
+            @Override
+            public void createPermission(String schemaName, String permissionName, String tableName, String predicate) {
+
+            }
+
+            @Override
+            public void activateRowAccessControl(String schemaName, String tableName) {
+
+            }
+
+            @Override
+            public void deactivateRowAccessControl(String schemaName, String tableName) {
+
+            }
+
+            @Override
+            public void setIntVariable(String schemaName, String variableName, int value) {
+
+            }
+
+            @Override
+            public void dropTable(String schemaName, String name) {
+
+            }
+
+            @Override
+            public void dropPermission(String schemaName, String permissionName) {
+
+            }
+
+            @Override
+            public void dropVariable(String schemaName, String variableName) {
+
+            }
+
+            @Override
+            public void createForeignKeyConstraint(String constraintName, String schemaName, String name,
+                    String targetSchema, String targetTable, String tenantColumnName, List<String> columns) {
+
+            }
+
+            @Override
+            public int allocateTenant(String adminSchemaName, String schemaName, String tenantName, String tenantKey,
+                    String tenantSalt, String idSequenceName) {
+                return 0;
+            }
+
+            @Override
+            public int findTenantId(String adminSchemaName, String tenantName) {
+                return 0;
+            }
+
+            @Override
+            public void createTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId,
+                    int extentSizeKB) {
+
+            }
+
+            @Override
+            public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId,
+                    String tenantStagingTable) {
+
+            }
+
+            @Override
+            public void updateTenantStatus(String adminSchemaName, int tenantId, TenantStatus status) {
+
+            }
+
+            @Override
+            public void createSequence(String schemaName, String sequenceName, int cache) {
+
+            }
+
+            @Override
+            public void dropSequence(String schemaName, String sequenceName) {
+
+            }
+
+            @Override
+            public void grantObjectPrivileges(String schemaName, String tableName, Collection<Privilege> privileges,
+                    String toUser) {
+            }
+
+            @Override
+            public void grantProcedurePrivileges(String schemaName, String procedureName,
+                    Collection<Privilege> privileges, String toUser) {
+            }
+
+            @Override
+            public void grantVariablePrivileges(String schemaName, String variableName,
+                    Collection<Privilege> privileges, String toUser) {
+            }
+
+            @Override
+            public void grantSequencePrivileges(String schemaName, String objectName, Collection<Privilege> group,
+                    String toUser) {
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            public <T> T runStatement(IDatabaseSupplier<T> supplier) {
+                if (exception != null) {
+                    throw new UndefinedNameException(exception);
+                }
+                return (T) Collections.emptyMap();
+            }
+
+            @Override
+            public void runStatement(IDatabaseStatement statement) {
+
+            }
+
+            @Override
+            public boolean doesTableExist(String schemaName, String objectName) {
+                return false;
+            }
+
+            @Override
+            public void createFhirSchemas(String schemaName, String adminSchemaName) {
+
+            }
+
+        };
     }
 
     public static IDatabaseAdapter generateTenantAdapter() {
