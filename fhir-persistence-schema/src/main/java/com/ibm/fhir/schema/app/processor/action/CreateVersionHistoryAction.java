@@ -17,7 +17,6 @@ import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException
  * creates the version history tables
  */
 public class CreateVersionHistoryAction implements ISchemaAction {
-
     public CreateVersionHistoryAction() {
         // No Operation
     }

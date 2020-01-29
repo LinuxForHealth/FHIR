@@ -20,10 +20,10 @@ import com.ibm.fhir.task.core.service.TaskService;
 
 /**
  * --prop-file /fhir-persistence-schema/db2.properties
---pool-size 2
---schema-name FHIRDATA
---update-schema
---dry-run
+ * --pool-size 2
+ * --schema-name FHIRDATA
+ * --update-schema
+ * --dry-run
  */
 public class UpdateSchemaAction implements ISchemaAction {
     public UpdateSchemaAction() {
@@ -37,6 +37,7 @@ public class UpdateSchemaAction implements ISchemaAction {
         FhirSchemaGenerator gen = new FhirSchemaGenerator(actionBean.getAdminSchemaName(), actionBean.getSchemaName());
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
+        actionBean.setPhysicalDataModel(pdm);
 
         // The objects are applied in parallel, which relies on each object
         // expressing its dependencies correctly. Changes are only applied

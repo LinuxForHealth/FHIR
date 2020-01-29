@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.app.feature.ExitFeature;
 import com.ibm.fhir.schema.app.processor.SchemaUtil;
@@ -34,9 +35,10 @@ public class ApplyModelAction implements ISchemaAction {
         logger.info("Collecting model update tasks");
         VersionHistoryService vhs = actionBean.getVersionHistoryService();
         ITaskCollector collector = actionBean.getCollector();
-        checkValid(vhs, collector);
+        PhysicalDataModel pdm = actionBean.getPhysicalDataModel();
 
-        actionBean.getPhysicalDataModel().collect(collector, adapter, transactionProvider, vhs);
+        checkValid(vhs, collector, pdm);
+        pdm.collect(collector, adapter, transactionProvider, vhs);
 
         // FHIR in the hole!
         logger.info("Starting model updates");
@@ -54,13 +56,17 @@ public class ApplyModelAction implements ISchemaAction {
         }
     }
 
-    public void checkValid(VersionHistoryService vhs, ITaskCollector collector) {
+    public void checkValid(VersionHistoryService vhs, ITaskCollector collector, PhysicalDataModel pdm) {
         if (vhs == null) {
             logger.severe("Version History Service is null");
         }
 
         if (collector == null) {
             logger.severe("Collector is null");
+        }
+        
+        if (pdm == null) {
+            logger.severe("PhysicalDataModel is null");
         }
     }
 }
