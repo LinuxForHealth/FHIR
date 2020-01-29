@@ -360,6 +360,48 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
         assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
         exportStatusUrl = contentLocation;
-        checkBaseExportStatus();
+        checkGroupExportStatus();
+    }
+
+    private void checkGroupExportStatus() throws InterruptedException {
+        Response response;
+        do {
+            response =
+                doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON);
+            // 202 accept means the request is still under processing
+            // 200 mean export is finished
+            assertTrue(response.getStatus() == 200 || response.getStatus() == 202);
+            Thread.sleep(5000);
+        } while (response.getStatus() == 202);
+
+        assertEquals(response.getStatus(), 200);
+        // Export finished successfully, we should be about to find the "output" part in the message body
+        // which includes all the COS objects download urls.
+        String body = response.readEntity(String.class);
+        assertTrue(body.contains("output"));
+        // Find and try the first download link
+        String downloadUrl = body.substring(body.lastIndexOf("\"output\" :"));
+        int endIndex = downloadUrl.indexOf(".ndjson") + 7;
+        downloadUrl = downloadUrl.substring(downloadUrl.indexOf("https"), endIndex);
+        System.out.println("downloadUrl = " + downloadUrl);
+        WebTarget client = ClientBuilder.newClient().target(downloadUrl);
+        response = client.request().get(Response.class);
+        assertEquals(response.getStatus(), 200);
+        // Verify to make sure there are Groups, Condition and Observation in the output
+        // (1) Verify that there is one condition exported
+        assertTrue(body.contains("Condition_1.ndjson"));
+        String conditionStr = body.substring(body.lastIndexOf("Condition_1.ndjson"));
+        conditionStr = conditionStr.substring(0, conditionStr.indexOf("}") + 1);
+        assertTrue(conditionStr.contains("\"count\": 1}"));
+        // (2) Verify that there is one observation exported
+        assertTrue(body.contains("Observation_1.ndjson"));
+        String observationStr = body.substring(body.lastIndexOf("Observation_1.ndjson"));
+        observationStr = observationStr.substring(0, observationStr.indexOf("}") + 1);
+        assertTrue(observationStr.contains("\"count\": 1}"));
+        // (3) Verify that there are 2 groups exported
+        assertTrue(body.contains("Group_1.ndjson"));
+        String groupStr = body.substring(body.lastIndexOf("Group_1.ndjson"));
+        groupStr = groupStr.substring(0, groupStr.indexOf("}") + 1);
+        assertTrue(groupStr.contains("\"count\": 2}"));
     }
 }
