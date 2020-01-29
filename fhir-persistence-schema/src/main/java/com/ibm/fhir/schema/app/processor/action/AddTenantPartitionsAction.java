@@ -6,17 +6,17 @@
 
 package com.ibm.fhir.schema.app.processor.action;
 
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_TS_EXTENT_KB;
+
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
-import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 
 public class AddTenantPartitionsAction implements ISchemaAction {
-
     public AddTenantPartitionsAction() {
         // No Operation
     }
@@ -34,7 +34,6 @@ public class AddTenantPartitionsAction implements ISchemaAction {
         // that logic out of the adapter and handle it at a higher level. Note...the extent size used
         // for the partitions needs to match the extent size of the original table tablespace (FHIR_TS)
         // so this must be constant.
-        pdm.addTenantPartitions(adapter, actionBean.getSchemaName(), actionBean.getTenantId(),
-                FhirSchemaConstants.FHIR_TS_EXTENT_KB);
+        pdm.addTenantPartitions(adapter, actionBean.getSchemaName(), actionBean.getTenantId(),FHIR_TS_EXTENT_KB);
     }
 }

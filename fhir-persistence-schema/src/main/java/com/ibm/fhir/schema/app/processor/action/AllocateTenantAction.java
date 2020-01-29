@@ -14,7 +14,7 @@ import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.schema.app.processor.SchemaUtil;
 import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
-import com.ibm.fhir.schema.control.FhirSchemaConstants;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SEQUENCE;
 
 public class AllocateTenantAction implements ISchemaAction {
     private static final Logger logger = Logger.getLogger(AllocateTenantAction.class.getName());
@@ -43,9 +43,7 @@ public class AllocateTenantAction implements ISchemaAction {
 
         int tenantId =
                 adapter.allocateTenant(actionBean.getAdminSchemaName(), actionBean.getSchemaName(),
-                        actionBean.getTenantName(),
-                        tenantKey, tenantSalt,
-                        FhirSchemaConstants.TENANT_SEQUENCE);
+                        actionBean.getTenantName(), tenantKey, tenantSalt, TENANT_SEQUENCE);
 
         // The tenant-id is important because this is also used to identify the partition number
         logger.info("Tenant Id[" + actionBean.getTenantName() + "] = " + tenantId);

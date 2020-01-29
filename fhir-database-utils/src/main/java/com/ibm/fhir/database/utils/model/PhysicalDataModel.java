@@ -221,10 +221,9 @@ public class PhysicalDataModel implements IDataModel {
      * @param extentSizeKB
      */
     public void addTenantPartitions(IDatabaseAdapter adapter, String schemaName, int tenantId, int extentSizeKB) {
-        final String tenantIdColumn = "MT_ID";
-
         // We have to delegate all the fun to the adapter, which knows how
         // to manage this most efficiently
+        final String tenantIdColumn = "MT_ID";
         adapter.createTenantPartitions(getTenantPartitionedTables(tenantIdColumn), schemaName, tenantId, extentSizeKB);
     }
 

@@ -16,8 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
-import com.ibm.fhir.database.utils.dryrun.DryRunContainer;
+import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -27,6 +26,8 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
+import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
+import com.ibm.fhir.database.utils.dryrun.DryRunContainer;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
@@ -421,7 +422,11 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
          */
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 1 CACHE " + cache + " NO CYCLE";
-        runStatement(ddl);
+        try {
+            runStatement(ddl);
+        } catch (DuplicateNameException x) {
+            logger.info("SEQUENCE [" + sname + "] already exists");
+        }
     }
 
     @Override

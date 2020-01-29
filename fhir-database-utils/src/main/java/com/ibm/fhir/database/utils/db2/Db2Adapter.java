@@ -104,7 +104,11 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     public void createIntVariable(String schemaName, String variableName) {
         final String qualifiedName = DataDefinitionUtil.getQualifiedName(schemaName, variableName);
         String ddl = "CREATE VARIABLE " + qualifiedName + " INT DEFAULT NULL";
-        runStatement(ddl);
+        try {
+            runStatement(ddl);
+        } catch (DuplicateNameException dne) {
+            logger.info("Variable [" + qualifiedName + "]exists");
+        }
     }
 
     @Override

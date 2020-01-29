@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
@@ -37,6 +38,8 @@ public class ActionProcessor {
 
     private IDatabaseTranslator translator = new Db2Translator();
 
+    private Connection c;
+
     private ActionBean actionBean;
 
     public ActionProcessor(ActionBean actionBean) {
@@ -45,6 +48,8 @@ public class ActionProcessor {
             Db2Translator t = new Db2Translator();
             t.setDryRun(Boolean.TRUE);
             translator = t;
+        } else {
+            configureConnectionPool();
         }
     }
 
@@ -62,8 +67,9 @@ public class ActionProcessor {
 
     public void process(ISchemaAction action) throws Exception {
         try {
-            Connection c = createConnection();
-            // Try -- configureConnectionPool();
+            if (c == null) {
+                c = createConnection();
+            }
             try {
                 JdbcTarget target = new JdbcTarget(c);
                 Db2Adapter adapter = new Db2Adapter(target);
@@ -87,7 +93,6 @@ public class ActionProcessor {
         }
 
         // Configure the connection pool
-        configureConnectionPool();
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 Db2Adapter adapter = new Db2Adapter(connectionPool);
@@ -120,5 +125,18 @@ public class ActionProcessor {
             throw translator.translate(x);
         }
         return connection;
+    }
+
+    /**
+     * close connection
+     */
+    public void close() {
+        if (c != null) {
+            try {
+                c.close();
+            } catch (Exception e) {
+                logger.log(Level.WARNING, "Unable to close Connection");
+            }
+        }
     }
 }

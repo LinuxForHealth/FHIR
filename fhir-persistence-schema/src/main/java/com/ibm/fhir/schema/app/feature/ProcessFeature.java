@@ -83,6 +83,8 @@ public class ProcessFeature {
         if (actionBean.getGrantTo() != null) {
             grantPrivileges();
         }
+        
+        processor.close();
 
         long elapsed = System.nanoTime() - start;
         logger.info(String.format("Processing took: %7.3f s", elapsed / NANOS));
@@ -150,7 +152,7 @@ public class ProcessFeature {
 
         // Add Tenant Partition Action.
         AddTenantPartitionsAction addTenantPartitionsAction = new AddTenantPartitionsAction();
-        processor.process(addTenantPartitionsAction);
+        processor.processTransaction(addTenantPartitionsAction);
 
         // Fill any static data tables (which are also partitioned by tenant)
         PopulateStaticTablesAction actionStatic = new PopulateStaticTablesAction();
