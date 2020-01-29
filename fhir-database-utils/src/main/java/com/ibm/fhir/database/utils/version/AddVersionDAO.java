@@ -40,7 +40,6 @@ public class AddVersionDAO implements IDatabaseStatement {
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-
         final InsertStatement ins =
                 InsertStatement.builder(adminSchemaName, SchemaConstants.VERSION_HISTORY)
                         .addColumn(SchemaConstants.SCHEMA_NAME)
@@ -66,6 +65,7 @@ public class AddVersionDAO implements IDatabaseStatement {
                 if (!translator.isDuplicate(x)) {
                     throw translator.translate(x);
                 }
+                x.printStackTrace();
             }
         }
     }
