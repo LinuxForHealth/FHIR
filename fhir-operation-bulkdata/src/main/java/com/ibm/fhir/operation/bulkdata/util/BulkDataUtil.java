@@ -294,8 +294,7 @@ public class BulkDataUtil {
         if (key == null) {
             return strToEncrypt;
         } else {
-            try
-            {
+            try {
                 // Use light weight encryption without salt to simplify both the encryption/decryption and also config.
                 Cipher cp = Cipher.getInstance("AES/ECB/PKCS5Padding");
                 cp.init(Cipher.ENCRYPT_MODE, key);
@@ -312,8 +311,8 @@ public class BulkDataUtil {
         if (key == null) {
             return strToDecrypt;
         } else {
-            try
-            {
+            try {
+                // Use light weight encryption without salt to simplify both the encryption/decryption and also config.
                 Cipher cp = Cipher.getInstance("AES/ECB/PKCS5PADDING");
                 cp.init(Cipher.DECRYPT_MODE, key);
                 // The encrypted job id has already been urldecoded by liberty runtime before reaching this function,
