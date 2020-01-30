@@ -15,6 +15,8 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.net.URI;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,6 +28,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.PathSegment;
@@ -44,14 +47,48 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.PositiveInt;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
+import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.context.FHIROperationContext.Type;
 
 /**
- * 
+ *
  */
 public class BulkDataUtilTest {
+
+    @Test
+    public void testBatchJobIdEnDecryption() throws Exception {
+        String jobId = "100";
+        SecretKeySpec secretKey = BulkDataConfigUtil.getBatchJobIdEncryptionKey("test-key");
+        assertNotNull(secretKey);
+
+        String encryptedJobId = BulkDataUtil.encryptBatchJobId(jobId, secretKey);
+        assertNotNull(encryptedJobId);
+        assertFalse(encryptedJobId.equals(jobId));
+
+        encryptedJobId = URLDecoder.decode(encryptedJobId, StandardCharsets.UTF_8.toString());
+        assertNotNull(encryptedJobId);
+
+        String decryptedJobId = BulkDataUtil.decryptBatchJobId(encryptedJobId, secretKey);
+        assertNotNull(decryptedJobId);
+        assertEquals(decryptedJobId, jobId);
+    }
+
+    @Test
+    public void testBatchJobIdEnDecryption_With_NullKey() throws Exception {
+        String jobId = "100";
+        SecretKeySpec secretKey = BulkDataConfigUtil.getBatchJobIdEncryptionKey(null);
+        assertNull(secretKey);
+
+        String encryptedJobId = BulkDataUtil.encryptBatchJobId(jobId, secretKey);
+        assertNotNull(encryptedJobId);
+        assertEquals(encryptedJobId, jobId);
+
+        String decryptedJobId = BulkDataUtil.decryptBatchJobId(encryptedJobId, secretKey);
+        assertNotNull(decryptedJobId);
+        assertEquals(decryptedJobId, jobId);
+    }
 
     @Test
     public void testCheckExportTypeInstance() {
@@ -124,14 +161,14 @@ public class BulkDataUtilTest {
         assertEquals(type.getType(), "application");
         assertEquals(type.getSubtype(), "fhir+ndjson");
 
-        // No Format 
+        // No Format
         _mvm.clear();
         type = BulkDataUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
         assertNotNull(type);
         assertEquals(type.getType(), "application");
         assertEquals(type.getSubtype(), "fhir+ndjson");
 
-        // Empty 
+        // Empty
         try {
             _mvm.clear();
             _mvm.put("_outputFormat", Collections.emptyList());
@@ -141,7 +178,7 @@ public class BulkDataUtilTest {
             assertNotNull(e);
         }
 
-        // multiple values 
+        // multiple values
         try {
             _mvm.clear();
             _mvm.put("_outputFormat", Arrays.asList("application/ndjson", "ndjson"));
@@ -171,7 +208,7 @@ public class BulkDataUtilTest {
             assertNotNull(e);
         }
 
-        //  Liberty Encoded + to ' ' 
+        //  Liberty Encoded + to ' '
         _mvm.clear();
         _mvm.put("_outputFormat", Arrays.asList("application/fhir ndjson"));
         type = BulkDataUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));

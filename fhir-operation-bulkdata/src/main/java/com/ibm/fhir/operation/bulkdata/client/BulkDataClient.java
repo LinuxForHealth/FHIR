@@ -230,7 +230,9 @@ public class BulkDataClient {
 
         String hostname = properties.get(BulkDataConfigUtil.SERVER_HOSTNAME);
         String contextRoot = properties.get(BulkDataConfigUtil.CONTEXT_ROOT);
-        return "https://" + hostname + contextRoot + "/$export-status?job=" + jobId;
+
+        return "https://" + hostname + contextRoot + "/$export-status?job="
+            + BulkDataUtil.encryptBatchJobId(jobId, BulkDataConstants.BATCHJOBID_ENCRYPTION_KEY);
     }
 
     /**
@@ -309,7 +311,7 @@ public class BulkDataClient {
                     BulkExportJobExecutionResponse.Parser.parse(responseStr);
             verifyTenant(response.getJobParameters());
 
-            // The tenant is known, and now we need to query to delete the Job. 
+            // The tenant is known, and now we need to query to delete the Job.
             r = target.request().delete();
             if (r.getStatus() != HttpStatus.SC_NO_CONTENT) {
                 throw BulkDataUtil.buildOperationException("the content is not abandonded.");
@@ -323,7 +325,7 @@ public class BulkDataClient {
 
     /**
      * verifies the tenant based on the job parameters.
-     * 
+     *
      * @param jobParameters
      * @throws FHIROperationException
      */
