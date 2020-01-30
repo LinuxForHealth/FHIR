@@ -296,8 +296,10 @@ public class BulkDataUtil {
         } else {
             try
             {
+                // Use light weight encryption without salt to simplify both the encryption/decryption and also config.
                 Cipher cp = Cipher.getInstance("AES/ECB/PKCS5Padding");
                 cp.init(Cipher.ENCRYPT_MODE, key);
+                // The encrypted job id is used in the polling content location url directly, so urlencode here.
                 return java.net.URLEncoder.encode(Base64.getEncoder().encodeToString(cp.doFinal(strToEncrypt.getBytes("UTF-8"))), StandardCharsets.UTF_8.name());
             } catch (Exception e) {
                 return strToEncrypt;
@@ -306,7 +308,7 @@ public class BulkDataUtil {
     }
 
     public static String decryptBatchJobId(String strToDecrypt, SecretKeySpec key) {
-        // Decrypt to get the batch job id
+        // Decrypt to get the batch job id.
         if (key == null) {
             return strToDecrypt;
         } else {
@@ -314,6 +316,8 @@ public class BulkDataUtil {
             {
                 Cipher cp = Cipher.getInstance("AES/ECB/PKCS5PADDING");
                 cp.init(Cipher.DECRYPT_MODE, key);
+                // The encrypted job id has already been urldecoded by liberty runtime before reaching this function,
+                // so, we don't do urldecode here.
                 return new String(cp.doFinal(Base64.getDecoder().decode(strToDecrypt)));
             } catch (Exception e) {
                 return strToDecrypt;

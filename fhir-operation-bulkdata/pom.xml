@@ -34,10 +34,5 @@
             <artifactId>jsonassert</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-server</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 </project>

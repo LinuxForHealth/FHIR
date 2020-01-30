@@ -57,7 +57,6 @@ public class BulkDataConfigUtil {
     public static final String BATCH_USER = "batch-user";
     public static final String BATCH_USER_PASS = "batch-user-password";
     public static final String BATCH_URL = "batch-uri";
-
     public static final String BATCH_TRUSTSTORE = "batch-truststore";
     public static final String BATCH_TRUSTSTORE_PASS = "batch-truststore-password";
 
