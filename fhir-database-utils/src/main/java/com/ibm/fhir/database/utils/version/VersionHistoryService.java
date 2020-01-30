@@ -21,7 +21,6 @@ import com.ibm.fhir.database.utils.api.IVersionHistoryService;
  * Encapsulation of the transaction needed to read the version history table
  */
 public class VersionHistoryService implements IVersionHistoryService {
-
     // The name of the admin schema we are working with
     private final String adminSchemaName;
 

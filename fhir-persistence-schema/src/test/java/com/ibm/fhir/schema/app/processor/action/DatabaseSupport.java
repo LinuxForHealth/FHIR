@@ -301,6 +301,12 @@ public class DatabaseSupport {
 
             }
 
+            @Override
+            public void dropIndex(String schemaName, String indexName) {
+                // TODO Auto-generated method stub
+                
+            }
+
         };
     }
 
@@ -504,6 +510,12 @@ public class DatabaseSupport {
             @Override
             public void createFhirSchemas(String schemaName, String adminSchemaName) {
 
+            }
+
+            @Override
+            public void dropIndex(String schemaName, String indexName) {
+                // TODO Auto-generated method stub
+                
             }
 
         };

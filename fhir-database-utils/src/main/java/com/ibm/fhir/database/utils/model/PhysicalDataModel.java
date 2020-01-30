@@ -98,16 +98,15 @@ public class PhysicalDataModel implements IDataModel {
      * execute them in parallel. This greatly reduces the amount of
      * time it takes to provision a schema.
      * 
-     * @param tc     collects and manages the object creation tasks and their
-     *               dependencies
-     * @param target the target database adapter
+     * @param tc  collects and manages the object creation tasks and their
+     *            dependencies
+     * @param tgt the target database adapter
      * @param tp
      * @param vhs
      */
-    public void collect(ITaskCollector tc, IDatabaseAdapter target, ITransactionProvider tp,
-            IVersionHistoryService vhs) {
+    public void collect(ITaskCollector tc, IDatabaseAdapter tgt, ITransactionProvider tp, IVersionHistoryService vhs) {
         for (IDatabaseObject obj : allObjects) {
-            obj.collect(tc, target, tp, vhs);
+            obj.collect(tc, tgt, tp, vhs);
         }
     }
 
@@ -201,7 +200,6 @@ public class PhysicalDataModel implements IDataModel {
      */
     public Collection<Table> getTenantPartitionedTables(String partitionColumn) {
         List<Table> result = new ArrayList<>();
-
         for (Table t : this.tables.values()) {
             String cn = t.getTenantColumnName();
             if (cn != null && cn.equals(partitionColumn)) {
@@ -299,6 +297,14 @@ public class PhysicalDataModel implements IDataModel {
         }
 
         return result;
+    }
+
+    /**
+     * returns the list of tables
+     * @return
+     */
+    public Map<String, Table> getTables(){
+        return tables;
     }
 
     /**

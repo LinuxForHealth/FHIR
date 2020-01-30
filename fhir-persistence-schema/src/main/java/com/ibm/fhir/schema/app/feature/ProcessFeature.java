@@ -21,6 +21,7 @@ import com.ibm.fhir.schema.app.processor.action.CreateVersionHistoryAction;
 import com.ibm.fhir.schema.app.processor.action.DropSchemaAction;
 import com.ibm.fhir.schema.app.processor.action.DropTenantAction;
 import com.ibm.fhir.schema.app.processor.action.GrantPrivilegesAction;
+import com.ibm.fhir.schema.app.processor.action.MigrateSchemaAction;
 import com.ibm.fhir.schema.app.processor.action.PopulateStaticTablesAction;
 import com.ibm.fhir.schema.app.processor.action.TestTenantAction;
 import com.ibm.fhir.schema.app.processor.action.UpdateProceduresAction;
@@ -83,7 +84,7 @@ public class ProcessFeature {
         if (actionBean.getGrantTo() != null) {
             grantPrivileges();
         }
-        
+
         processor.close();
 
         long elapsed = System.nanoTime() - start;
@@ -193,16 +194,19 @@ public class ProcessFeature {
      * @throws SchemaActionException
      */
     protected void updateSchema() throws Exception {
+        // Current version history for the data schema
+        VersionHistoryServiceAction versionHistoryServiceAction = new VersionHistoryServiceAction();
+        processor.processWithoutTransaction(versionHistoryServiceAction);
+
         UpdateSchemaAction action = new UpdateSchemaAction();
         processor.processTransaction(action);
+
+        MigrateSchemaAction migrateServiceAction = new MigrateSchemaAction();
+        processor.process(migrateServiceAction);
 
         // Create a Version History Table 
         CreateVersionHistoryAction createVersionHistoryAction = new CreateVersionHistoryAction();
         processor.process(createVersionHistoryAction);
-
-        // Current version history for the data schema
-        VersionHistoryServiceAction versionHistoryServiceAction = new VersionHistoryServiceAction();
-        processor.processWithoutTransaction(versionHistoryServiceAction);
 
         ApplyModelAction applyModelAction = new ApplyModelAction();
         processor.processTransaction(applyModelAction);

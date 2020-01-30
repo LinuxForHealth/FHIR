@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * Base class for the schema object builders which also carry a version (change) number
  */
 public class VersionedSchemaObject {
-
     // The database schema in which the object will be created
     private final String schemaName;
 
@@ -21,16 +20,17 @@ public class VersionedSchemaObject {
 
     // The version, which can be changed during building
     private int version = 1;
-    
+
     public VersionedSchemaObject(String schemaName, String objectName) {
         DataDefinitionUtil.assertValidNames(schemaName, objectName);
         this.schemaName = schemaName;
         this.objectName = objectName;
     }
-    
+
     /**
      * Setter to override the default version number for this object
      * (usually used for alter statements, or new tables and indexes)
+     * 
      * @param v
      */
     protected void setVersionValue(int v) {
@@ -39,14 +39,16 @@ public class VersionedSchemaObject {
 
     /**
      * Getter for the object's version (change) number
+     * 
      * @return
      */
     public int getVersion() {
-        return this.version;
+        return version;
     }
 
     /**
      * Getter for the object's schema name
+     * 
      * @return
      */
     public String getSchemaName() {
@@ -55,12 +57,13 @@ public class VersionedSchemaObject {
 
     /**
      * Getter for the object's name
+     * 
      * @return
      */
     public String getObjectName() {
         return this.objectName;
     }
-    
+
     public String getQualifiedName() {
         return DataDefinitionUtil.getQualifiedName(schemaName, objectName);
     }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
@@ -23,27 +24,26 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * An immutable definition of a table
  */
 public class Table extends BaseObject {
-    
     // The list of columns in this table
     private final List<ColumnBase> columns = new ArrayList<>();
-    
+
     // The primary key definition for this table (optional)
     private final PrimaryKeyDef primaryKey;
-    
+
     // The identity definition for this table (optional)
     private final IdentityDef identity;
-    
+
     // All the indexes defined for this table
     private final List<IndexDef> indexes = new ArrayList<>();
-    
+
     // All the FK constraints used by this table
     private final List<ForeignKeyConstraint> fkConstraints = new ArrayList<>();
-    
+
     // enable access control
     private final SessionVariableDef accessControlVar;
-    
+
     private final Tablespace tablespace;
-    
+
     // The column to use when making this table multi-tenant (if supported by the the target)
     private final String tenantColumnName;
 
@@ -65,28 +65,29 @@ public class Table extends BaseObject {
      * @param tags
      * @param privileges
      */
-    public Table(String schemaName, String name, int version, String tenantColumnName, Collection<ColumnBase> columns, PrimaryKeyDef pk, 
-            IdentityDef identity, Collection<IndexDef> indexes, Collection<ForeignKeyConstraint> fkConstraints,
-            SessionVariableDef accessControlVar, Tablespace tablespace, List<IDatabaseObject> dependencies, Map<String,String> tags,
-            Collection<GroupPrivilege> privileges) {
+    public Table(String schemaName, String name, int version, String tenantColumnName, Collection<ColumnBase> columns,
+            PrimaryKeyDef pk, IdentityDef identity, Collection<IndexDef> indexes,
+            Collection<ForeignKeyConstraint> fkConstraints, SessionVariableDef accessControlVar, Tablespace tablespace,
+            List<IDatabaseObject> dependencies, Map<String, String> tags, Collection<GroupPrivilege> privileges) {
         super(schemaName, name, DatabaseObjectType.TABLE, version);
         this.tenantColumnName = tenantColumnName;
         this.columns.addAll(columns);
         this.primaryKey = pk;
-        this.identity = identity;
+        this.identity   = identity;
         this.indexes.addAll(indexes);
         this.fkConstraints.addAll(fkConstraints);
         this.accessControlVar = accessControlVar;
-        this.tablespace = tablespace;
-        
+        this.tablespace       = tablespace;
+
         addDependencies(dependencies);
-        
+
         addTags(tags);
         privileges.forEach(p -> p.addToObject(this));
     }
-    
+
     /**
      * Getter for the primary key definition, or null if there isn't one
+     * 
      * @return
      */
     public PrimaryKeyDef getPrimaryKey() {
@@ -95,6 +96,7 @@ public class Table extends BaseObject {
 
     /**
      * Getter for the identity definition, or null if there isn't one
+     * 
      * @return
      */
     public IdentityDef getIdentity() {
@@ -103,6 +105,7 @@ public class Table extends BaseObject {
 
     /**
      * Getter for the optional tenant id column name
+     * 
      * @return
      */
     public String getTenantColumnName() {
@@ -112,20 +115,33 @@ public class Table extends BaseObject {
     @Override
     public void apply(IDatabaseAdapter target) {
         final String tsName = this.tablespace == null ? null : this.tablespace.getName();
-        target.createTable(getSchemaName(), getObjectName(), this.tenantColumnName, this.columns, this.primaryKey, this.identity, tsName);
+        
+        boolean tableExists = false;
+        try {
+            target.createTable(getSchemaName(), getObjectName(), this.tenantColumnName, this.columns, this.primaryKey,
+                    this.identity, tsName);
+        } catch (DuplicateNameException dne) {
+            // At this point, the table exists, and we know, update-schema means we'll have to do some  cleanups.  
+            tableExists = true;
+        }
 
         // Now add any indexes associated with this table
-        for (IndexDef idx: this.indexes) {
+        for (IndexDef idx : this.indexes) {
             idx.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target);
         }
 
         // Foreign key constraints
-        for (ForeignKeyConstraint fkc: this.fkConstraints) {
-            fkc.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target);
+        for (ForeignKeyConstraint fkc : this.fkConstraints) {
+            try {
+                fkc.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target);
+            } catch (DuplicateNameException dne) {
+                // At this point, the table exists, and we know, update-schema means we'll have to do some  cleanups.  
+                //TODO: Log out
+            }
         }
 
         // Apply tenant access control if required
-        if (this.accessControlVar != null) {
+        if (this.accessControlVar != null && !tableExists) {
             // The accessControlVar represents a DB2 session variable. Programs must set this value
             // for the current tenant when executing any SQL (both reads and writes) on
             // tables with this access control enabled
@@ -135,19 +151,20 @@ public class Table extends BaseObject {
             target.createPermission(getSchemaName(), tenantPermission, getObjectName(), predicate);
             target.activateRowAccessControl(getSchemaName(), getObjectName());
         }
+
     }
 
     @Override
     public void drop(IDatabaseAdapter target) {
         if (this.accessControlVar != null) {
             target.deactivateRowAccessControl(getSchemaName(), getObjectName());
-            
+
             final String tenantPermission = getObjectName() + "_TENANT";
             target.dropPermission(getSchemaName(), tenantPermission);
         }
         target.dropTable(getSchemaName(), getObjectName());
     }
-    
+
     /**
      * Create a builder for {@link Table}.
      * 
@@ -163,64 +180,68 @@ public class Table extends BaseObject {
      * Builder for table
      */
     public static class Builder extends VersionedSchemaObject {
-        
         // LinkedHashSet so we can remember order
         private LinkedHashSet<ColumnDef> columns = new LinkedHashSet<>();
+        private List<ColumnDef> droppedColumns = new ArrayList<>();
 
         // The definition of the primary key, or null if there isn't one
         private PrimaryKeyDef primaryKey;
-        
+
         // The definition of the identity column for the table, or null if there isn't one
         private IdentityDef identity;
-        
+
         // All the indexes defined for the table we are building
-        private Map<String,IndexDef> indexes = new HashMap<>();
-        
+        private Map<String, IndexDef> indexes = new HashMap<>();
+
         // All the foreign key constraints defined for this table
         private Map<String, ForeignKeyConstraint> fkConstraints = new HashMap<>();
-        
+
         // other dependencies of this table
         private Set<IDatabaseObject> dependencies = new HashSet<>();
 
         // Is this table multi-tenant when supported?
         private String tenantColumnName;
-        
+
         // A map of tags
-        private Map<String,String> tags = new HashMap<>();
+        private Map<String, String> tags = new HashMap<>();
 
         // The tablespace to use for this table [optional]
         private Tablespace tablespace;
-        
+
         // The variable to use for access control (when set)
         private SessionVariableDef accessControlVar;
 
         // Privileges to be granted on this table
         private List<GroupPrivilege> privileges = new ArrayList<>();
-        
+
         // schema version
-        private int version = 1;
-        
+        private int tableVersion = 1;
+
         /**
          * Private constructor to force creation through factory method
+         * 
          * @param schemaName
          * @param tableName
          */
         private Builder(String schemaName, String tableName) {
             super(schemaName, tableName);
         }
-        
+
         /**
          * Set the version
+         * 
          * @param v
          * @return
          */
         public Builder setVersion(int v) {
             setVersionValue(v);
+            this.tableVersion = v;
             return this;
         }
 
         /**
          * Setter for the tablespace
+         * 
          * @param ts
          * @return
          */
@@ -228,13 +249,13 @@ public class Table extends BaseObject {
             this.tablespace = ts;
             return this;
         }
-        
+
         public Builder addIntColumn(String columnName, boolean nullable) {
             ColumnDef cd = new ColumnDef(columnName);
             if (columns.contains(cd)) {
                 throw new IllegalArgumentException("Duplicate column: " + columnName);
             }
-            
+
             cd.setNullable(nullable);
             cd.setColumnType(ColumnType.INT);
             columns.add(cd);
@@ -246,7 +267,7 @@ public class Table extends BaseObject {
             if (columns.contains(cd)) {
                 throw new IllegalArgumentException("Duplicate column: " + columnName);
             }
-            
+
             cd.setNullable(nullable);
             cd.setColumnType(ColumnType.BIGINT);
             columns.add(cd);
@@ -258,7 +279,7 @@ public class Table extends BaseObject {
             if (columns.contains(cd)) {
                 throw new IllegalArgumentException("Duplicate column: " + columnName);
             }
-            
+
             cd.setNullable(nullable);
             cd.setColumnType(ColumnType.DOUBLE);
             columns.add(cd);
@@ -270,23 +291,37 @@ public class Table extends BaseObject {
             if (columns.contains(cd)) {
                 throw new IllegalArgumentException("Duplicate column: " + columnName);
             }
-            
+
             cd.setNullable(nullable);
             cd.setColumnType(ColumnType.TIMESTAMP);
             columns.add(cd);
             return this;
         }
-        
+
         public Builder addTimestampColumn(String columnName, int numberOfFractionalSecondDigits, boolean nullable) {
             ColumnDef cd = new ColumnDef(columnName);
             if (columns.contains(cd)) {
                 throw new IllegalArgumentException("Duplicate column: " + columnName);
             }
-            
+
             cd.setNullable(nullable);
             cd.setColumnType(ColumnType.TIMESTAMP);
             cd.setPrecision(numberOfFractionalSecondDigits);
             columns.add(cd);
+            return this;
+        }
+
+        public Builder addTimestampColumn(Boolean dropped, String columnName, int numberOfFractionalSecondDigits,
+                boolean nullable) {
+            ColumnDef cd = new ColumnDef(columnName);
+            if (columns.contains(cd)) {
+                throw new IllegalArgumentException("Duplicate column: " + columnName);
+            }
+
+            cd.setNullable(nullable);
+            cd.setColumnType(ColumnType.TIMESTAMP);
+            cd.setPrecision(numberOfFractionalSecondDigits);
+            droppedColumns.add(cd);
             return this;
         }
 
@@ -295,7 +330,7 @@ public class Table extends BaseObject {
             if (columns.contains(cd)) {
                 throw new IllegalArgumentException("Duplicate column: " + columnName);
             }
-            
+
             cd.setNullable(nullable);
             cd.setColumnType(ColumnType.VARCHAR);
             cd.setSize(size);
@@ -305,6 +340,7 @@ public class Table extends BaseObject {
 
         /**
          * Add a VARBINARY(nn) column
+         * 
          * @param columnName
          * @param size
          * @param nullable
@@ -315,7 +351,7 @@ public class Table extends BaseObject {
             if (columns.contains(cd)) {
                 throw new IllegalArgumentException("Duplicate column: " + columnName);
             }
-            
+
             cd.setNullable(nullable);
             cd.setColumnType(ColumnType.VARBINARY);
             cd.setSize(size);
@@ -325,6 +361,7 @@ public class Table extends BaseObject {
 
         /**
          * Add char (fixed-width) column
+         * 
          * @param columnName
          * @param size
          * @param nullable
@@ -335,7 +372,7 @@ public class Table extends BaseObject {
             if (columns.contains(cd)) {
                 throw new IllegalArgumentException("Duplicate column: " + columnName);
             }
-            
+
             cd.setNullable(nullable);
             cd.setColumnType(ColumnType.CHAR);
             cd.setSize(size);
@@ -348,7 +385,7 @@ public class Table extends BaseObject {
             if (columns.contains(cd)) {
                 throw new IllegalArgumentException("Duplicate column: " + columnName);
             }
-            
+
             cd.setNullable(nullable);
             cd.setColumnType(ColumnType.BLOB);
             cd.setSize(size);
@@ -359,6 +396,7 @@ public class Table extends BaseObject {
 
         /**
          * Set one of the columns to be the identity column for the table
+         * 
          * @param constraintName
          * @param columns
          * @return
@@ -370,6 +408,7 @@ public class Table extends BaseObject {
 
         /**
          * Add a primary key constraint to the table
+         * 
          * @param constraintName
          * @param columns
          * @return
@@ -385,15 +424,16 @@ public class Table extends BaseObject {
 
         /**
          * Add an index to the table using the list of column names
+         * 
          * @param indexName
          * @param columns
          * @return
          */
-        public Builder addIndex(String indexName, String...columns) {
+        public Builder addIndex(String indexName, String... columns) {
             if (this.indexes.containsKey(indexName)) {
                 throw new IllegalStateException("Duplicate index name: " + indexName);
             }
-            
+
             // Make sure all the given column names are valid for this table
             checkColumns(columns);
             indexes.put(indexName, new IndexDef(indexName, Arrays.asList(columns), false));
@@ -402,11 +442,12 @@ public class Table extends BaseObject {
 
         /**
          * Add a unique index to the table using the list of column names
+         * 
          * @param indexName
          * @param columns
          * @return
          */
-        public Builder addUniqueIndex(String indexName, String...columns) {
+        public Builder addUniqueIndex(String indexName, String... columns) {
             if (this.indexes.containsKey(indexName)) {
                 throw new IllegalStateException("Duplicate index name: " + indexName);
             }
@@ -417,12 +458,14 @@ public class Table extends BaseObject {
 
         /**
          * Add a unique index with include columns
+         * 
          * @param indexName
          * @param indexColumns
          * @param includeColumns
          * @return
          */
-        public Builder addUniqueIndex(String indexName, Collection<String> indexColumns, Collection<String> includeColumns) {
+        public Builder addUniqueIndex(String indexName, Collection<String> indexColumns,
+                Collection<String> includeColumns) {
             if (this.indexes.containsKey(indexName)) {
                 throw new IllegalStateException("Duplicate index name: " + indexName);
             }
@@ -434,6 +477,7 @@ public class Table extends BaseObject {
 
         /**
          * Add a unique constraint to the table/column
+         * 
          * @param constraintName
          * @param columnName
          * @return
@@ -441,7 +485,7 @@ public class Table extends BaseObject {
         public Builder addUniqueConstraint(String constraintName, String columnName) {
             throw new IllegalArgumentException("not yet supported");
         }
-        
+
         /**
          * Add a foreign key constraint pointing to the target table. The list of columns
          * is expected to match the primary key definition on the target
@@ -452,74 +496,82 @@ public class Table extends BaseObject {
          * @param columns
          * @return
          */
-        public Builder addForeignKeyConstraint(String constraintName, String targetSchema, String targetTable, String... columns) {
-            this.fkConstraints.put(constraintName, new ForeignKeyConstraint(constraintName, targetSchema, targetTable, Arrays.asList(columns)));
+        public Builder addForeignKeyConstraint(String constraintName, String targetSchema, String targetTable,
+                String... columns) {
+            this.fkConstraints.put(constraintName,
+                    new ForeignKeyConstraint(constraintName, targetSchema, targetTable, Arrays.asList(columns)));
             return this;
         }
 
         /**
          * Check each of the columns in the given array are valid column names
+         * 
          * @param columns
          */
         protected void checkColumns(String[] columns) {
             checkColumns(Arrays.asList(columns));
         }
-        
+
         /**
          * Check each of the columns in the given array are valid column names
+         * 
          * @param columns
          */
         protected void checkColumns(Collection<String> columns) {
-            for (String columnName: columns) {
+            for (String columnName : columns) {
                 ColumnDef cd = new ColumnDef(columnName);
                 if (!this.columns.contains(cd)) {
                     throw new IllegalArgumentException("Invalid column name: " + columnName);
                 }
             }
         }
-        
+
         /**
          * Build the immutable table object based on the current configuration
+         * 
          * @param dataModel
          * @return
          */
         public Table build(IDataModel dataModel) {
-            
+
             // Check the FK references are valid
             List<IDatabaseObject> allDependencies = new ArrayList<>();
             allDependencies.addAll(this.dependencies);
-            for (ForeignKeyConstraint c: this.fkConstraints.values()) {
-                
+            for (ForeignKeyConstraint c : this.fkConstraints.values()) {
+
                 Table target = dataModel.findTable(c.getTargetSchema(), c.getTargetTable());
                 if (target == null) {
                     String targetName = DataDefinitionUtil.getQualifiedName(c.getTargetSchema(), c.getTargetTable());
-                    throw new IllegalArgumentException("Invalid foreign key constraint " + c.getConstraintName() + ": target table does not exist: " + targetName);
+                    throw new IllegalArgumentException("Invalid foreign key constraint " + c.getConstraintName()
+                            + ": target table does not exist: " + targetName);
                 }
                 allDependencies.add(target);
             }
-            
+
             if (this.tablespace != null) {
                 allDependencies.add(tablespace);
             }
-            
+
             // Our schema objects are immutable by design, so all initialization takes place
             // through the constructor
-            return new Table(getSchemaName(), getObjectName(), this.version, this.tenantColumnName, buildColumns(), this.primaryKey, this.identity, this.indexes.values(),
-                    this.fkConstraints.values(), this.accessControlVar, this.tablespace, allDependencies, tags, privileges);
-            
+            return new Table(getSchemaName(), getObjectName(), this.tableVersion, this.tenantColumnName,
+                            buildColumns(new ArrayList<ColumnDef>(columns), false), this.primaryKey, this.identity,
+                            this.indexes.values(), this.fkConstraints.values(), this.accessControlVar, this.tablespace,
+                            allDependencies, tags, privileges);
         }
-        
+
         /**
          * Create the columns for the table based on the definitions that have been added
+         * 
          * @return
          */
-        protected List<ColumnBase> buildColumns() {
-            if (this.columns.isEmpty()) {
+        protected List<ColumnBase> buildColumns(List<ColumnDef> columnDefs, boolean isDropped) {
+            if (columnDefs.isEmpty() && !isDropped) {
                 throw new IllegalStateException("no columns for table: " + getQualifiedName());
             }
-            List<ColumnBase> result = new ArrayList<>();
 
-            for (ColumnDef cd: this.columns) {
+            List<ColumnBase> result = new ArrayList<>();
+            for (ColumnDef cd : columnDefs) {
                 ColumnBase column;
                 switch (cd.getColumnType()) {
                 case BIGINT:
@@ -538,19 +590,19 @@ public class Table extends BaseObject {
                     if (cd.getSize() > Integer.MAX_VALUE) {
                         throw new IllegalStateException("Invalid size for column: " + cd.getName());
                     }
-                    column = new VarcharColumn(cd.getName(), (int)cd.getSize(), cd.isNullable());
+                    column = new VarcharColumn(cd.getName(), (int) cd.getSize(), cd.isNullable());
                     break;
                 case VARBINARY:
                     if (cd.getSize() > Integer.MAX_VALUE) {
                         throw new IllegalStateException("Invalid size for column: " + cd.getName());
                     }
-                    column = new VarbinaryColumn(cd.getName(), (int)cd.getSize(), cd.isNullable());
+                    column = new VarbinaryColumn(cd.getName(), (int) cd.getSize(), cd.isNullable());
                     break;
                 case CHAR:
                     if (cd.getSize() > Integer.MAX_VALUE) {
                         throw new IllegalStateException("Invalid size for column: " + cd.getName());
                     }
-                    column = new CharColumn(cd.getName(), (int)cd.getSize(), cd.isNullable());
+                    column = new CharColumn(cd.getName(), (int) cd.getSize(), cd.isNullable());
                     break;
                 case BLOB:
                     column = new BlobColumn(cd.getName(), cd.getSize(), cd.getInlineSize(), cd.isNullable());
@@ -560,19 +612,16 @@ public class Table extends BaseObject {
                 }
                 result.add(column);
             }
-            
             return result;
         }
-        
+
         /**
          * Switch on access control for this table
          */
         public Builder enableAccessControl(SessionVariableDef var) {
             this.accessControlVar = var;
-            
             // Add the session variable as a dependency for this table
             this.dependencies.add(var);
-            
             return this;
         }
 
@@ -585,26 +634,28 @@ public class Table extends BaseObject {
             this.tags.put(tagName, tagValue);
             return this;
         }
-        
+
         public Builder addPrivilege(String groupName, Privilege p) {
             this.privileges.add(new GroupPrivilege(groupName, p));
             return this;
         }
-        
+
         /**
          * Add the collection of group privileges to this table
+         * 
          * @param gps
          * @return
          */
         public Builder addPrivileges(Collection<GroupPrivilege> gps) {
             this.privileges.addAll(gps);
             return this;
-        }       
-        
+        }
+
         /**
          * Setter to configure this table for multitenancy. Multitenancy support depends on the target
          * ...which in this case means DB2 supports it (using partitioning) but Derby does not...so for
          * Derby, we don't create the extra column or FK relationships back to the TENANTS table.
+         * 
          * @return
          */
         public Builder setTenantColumnName(String name) {
@@ -615,11 +666,11 @@ public class Table extends BaseObject {
 
     /**
      * return true if the table already exists in the target
+     * 
      * @param target
      * @return
      */
     public boolean exists(IDatabaseAdapter target) {
         return target.doesTableExist(getSchemaName(), getObjectName());
     }
-    
 }

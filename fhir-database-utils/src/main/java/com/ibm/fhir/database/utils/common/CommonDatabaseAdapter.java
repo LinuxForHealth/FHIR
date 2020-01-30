@@ -505,4 +505,15 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         logger.info("Applying: " + grant); // Grants are very useful to see logged
         runStatement(grant);
     }
+
+    @Override
+    public void dropIndex(String schemaName, String indexName) {
+        String ddl = "DROP INDEX " + schemaName + "." + indexName;
+        if (!DryRunContainer.getSingleInstance().isDryRun()) {
+            runStatement(ddl);
+        } else {
+            DryRunContainer.getSingleInstance().addComment("DROP INDEX");
+            DryRunContainer.getSingleInstance().add(ddl, null);
+        }
+    }
 }

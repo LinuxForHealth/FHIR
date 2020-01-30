@@ -114,6 +114,8 @@ public class FhirSchemaConstants {
     // Initial partition range values for table create
     public static final int PART_LOWER = 0;
     public static final int PART_UPPER = 0;
+
+    public static final Boolean DROPPED = Boolean.TRUE;
     
     private FhirSchemaConstants() {
         // No Operation

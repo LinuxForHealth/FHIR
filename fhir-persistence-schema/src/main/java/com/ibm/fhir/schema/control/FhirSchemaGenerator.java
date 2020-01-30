@@ -11,7 +11,6 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_NAME;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_END;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_START;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_REF_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_SEQUENCE;
@@ -95,7 +94,6 @@ public class FhirSchemaGenerator {
     public static final String SET_TENANT = "SET_TENANT";
 
     // ADMIN SCHEMA CONTENT
-
     // Sequence used by the admin tenant tables
     private Sequence tenantSequence;
 
@@ -259,7 +257,6 @@ public class FhirSchemaGenerator {
      * @param model
      */
     protected void addTenantTable(PhysicalDataModel model) {
-
         this.tenantsTable =
                 Table.builder(adminSchemaName, TENANTS)
                         .addIntColumn(MT_ID, false)
@@ -284,7 +281,6 @@ public class FhirSchemaGenerator {
      * @param model
      */
     protected void addTenantKeysTable(PhysicalDataModel model) {
-
         this.tenantKeysTable =
                 Table.builder(adminSchemaName, TENANT_KEYS)
                         .addIntColumn(TENANT_KEY_ID, false) // PK
@@ -441,7 +437,6 @@ public class FhirSchemaGenerator {
      * @return Table the table that was added to the PhysicalDataModel
      */
     public Table addResourceTokenValues(PhysicalDataModel pdm) {
-
         final String tableName = TOKEN_VALUES;
         final int tvb = MAX_TOKEN_VALUE_BYTES;
 
@@ -520,6 +515,13 @@ public class FhirSchemaGenerator {
      * @return Table the table that was added to the PhysicalDataModel
      */
     public Table addResourceDateValues(PhysicalDataModel model) {
+        /*
+         * Changes from Version 1 to 2:
+         * DROPPED IDX + tableName + "_PVR"
+         * DROPPED IDX + tableName + "_RPV"
+         * ALTER TABLE DATE_VALUE is removed
+         */
+
         final String tableName = DATE_VALUES;
         final String logicalResourcesTable = LOGICAL_RESOURCES;
 
@@ -527,12 +529,9 @@ public class FhirSchemaGenerator {
                 Table.builder(schemaName, tableName)
                         .setTenantColumnName(MT_ID)
                         .addIntColumn(PARAMETER_NAME_ID, false)
-                        .addTimestampColumn(DATE_VALUE, 6, true)
                         .addTimestampColumn(DATE_START, 6, true)
                         .addTimestampColumn(DATE_END, 6, true)
                         .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
-                        .addIndex(IDX + tableName + "_PVR", PARAMETER_NAME_ID, DATE_VALUE, LOGICAL_RESOURCE_ID)
-                        .addIndex(IDX + tableName + "_RPV", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, DATE_VALUE)
                         .addIndex(IDX + tableName + "_PSER", PARAMETER_NAME_ID, DATE_START, DATE_END,
                                 LOGICAL_RESOURCE_ID)
                         .addIndex(IDX + tableName + "_PESR", PARAMETER_NAME_ID, DATE_END, DATE_START,
@@ -545,6 +544,7 @@ public class FhirSchemaGenerator {
                         .setTablespace(fhirTablespace)
                         .addPrivileges(resourceTablePrivileges)
                         .enableAccessControl(this.sessionVariable)
+                        .setVersion(2) // New Version (Important to Trigger processing)
                         .build(model);
 
         tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -570,7 +570,6 @@ public class FhirSchemaGenerator {
      * @param model
      */
     protected void addResourceTypes(PhysicalDataModel model) {
-
         resourceTypesTable =
                 Table.builder(schemaName, RESOURCE_TYPES)
                         .setTenantColumnName(MT_ID)
@@ -638,7 +637,6 @@ public class FhirSchemaGenerator {
      * @param model
      */
     protected void addParameterNames(PhysicalDataModel model) {
-
         // The index which also used by the database to support the primary key constraint
         String[] prfIndexCols = { PARAMETER_NAME };
         String[] prfIncludeCols = { PARAMETER_NAME_ID };

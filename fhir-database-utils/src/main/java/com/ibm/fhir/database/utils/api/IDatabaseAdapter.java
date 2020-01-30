@@ -158,6 +158,14 @@ public interface IDatabaseAdapter {
      */
     public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
             List<String> indexColumns);
+    
+    /**
+     * drops the given index in the schema
+     * 
+     * @param schemaName
+     * @param indexName
+     */
+    public void dropIndex(String schemaName, String indexName);
 
     /**
      * <pre>
