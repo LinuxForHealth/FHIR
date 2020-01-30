@@ -169,7 +169,7 @@ public class ParameterExtractionTest {
         for (ExtractedParameterValue param : params) {
             assertTrue(param instanceof DateParmVal);
             DateParmVal dateParam = (DateParmVal) param;
-            assertEquals(timestampToString(dateParam.getValueDate()), SAMPLE_DATE_START);
+            assertEquals(timestampToString(dateParam.getValueDateStart()), SAMPLE_DATE_START);
         }
     }
     
@@ -184,7 +184,7 @@ public class ParameterExtractionTest {
         DateTime.of("2016-01-01T10:10:10.1+04:00").accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         for (ExtractedParameterValue param : params) {
-            assertEquals(timestampToString(((DateParmVal) param).getValueDate()), "2016-01-01T06:10:10.100000Z");
+            assertEquals(timestampToString(((DateParmVal) param).getValueDateStart()), "2016-01-01T06:10:10.100000Z");
         }
     }
     
@@ -228,7 +228,7 @@ public class ParameterExtractionTest {
         now.accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(timestampToString(((DateParmVal) params.get(0)).getValueDate()), TIMESTAMP_FORMATTER.format(now.getValue()));
+        assertEquals(timestampToString(((DateParmVal) params.get(0)).getValueDateStart()), TIMESTAMP_FORMATTER.format(now.getValue()));
     }
     
     @Test

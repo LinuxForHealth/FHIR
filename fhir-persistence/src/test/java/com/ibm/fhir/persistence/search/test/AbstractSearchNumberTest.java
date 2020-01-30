@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,6 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.test.TestUtil;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 
 /**
@@ -51,14 +50,16 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("integer", "ap12");
     }
 
-    @Test(expectedExceptions = { FHIRPersistenceException.class })
+    @Test
     public void testSearchNumber_integer_eb() throws Exception {
-        assertSearchReturnsSavedResource("integer", "eb12");
+        // using the implicit range to check ends before
+        assertSearchReturnsSavedResource("integer", "eb13");
     }
 
-    @Test(expectedExceptions = { FHIRPersistenceException.class })
+    @Test
     public void testSearchNumber_integer_sa() throws Exception {
-        assertSearchReturnsSavedResource("integer", "sa12");
+        // using the implicit range to check starts after
+        assertSearchReturnsSavedResource("integer", "sa11");
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Search Configuration Overview
-date:   2019-10-09 08:37:05 -0400
+date:   2020-01-15 08:37:05 -0400
 permalink: /FHIRSearchConfiguration/
 markdown: kramdown
 ---
@@ -26,20 +26,18 @@ There are three layers of search parameter configuration.
 - default 
 - tenant-specific
 
-The specification defined SearchParameters are embedded as [a JSON file](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/search-parameters.json) in the `fhir-search` module. This file has a twin [JSON file](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/valuetypes-default.json) which maps each SearchParameter attribute to one or more expected target data types. 
+The specification defined SearchParameters are embedded as [a JSON file](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/search-parameters.json) in the `fhir-search` module.
 
 Note, the search-parameters.json and search-parameters.xml in the `fhir-search` module match the latest definition resource from the [FHIR download site](http://hl7.org/fhir/r4/downloads.html). 
 
-The valuetypes JSON is an implementation-specific config file that enables the server to take datatype-specific actions when the extracted attributes are stored or searched.
+The default and tenant level configurations are put in the `default` and tenant-specific (e.g. `tenant1`) config folders respectively. These folders are populated with `extension-search-parameters.json`.
 
-The default and tenant level configurations are put in the `default` and tenant-specific (e.g. `tenant1`) config folders respectively. These folders are populated with `extension-search-parameters.json` and `extension-search-parameters-valuetypes.json`.  
-
-The IBM FHIR Server configuration prefers the JSON formatted configuration documents, and implements caching via [TenantSpecificSearchParameterCache.java](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/java/com/ibm/fhir/search/parameters/cache/TenantSpecificSearchParameterCache.java) and [TenantSpecificValueTypesCache.java](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/java/com/ibm/fhir/search/valuetypes/cache/TenantSpecificValueTypesCache.java). 
+The IBM FHIR Server configuration prefers the JSON formatted configuration documents, and implements caching via [TenantSpecificSearchParameterCache.java](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/java/com/ibm/fhir/search/parameters/cache/TenantSpecificSearchParameterCache.java). 
 
 The IBM FHIR Server supports compartment searches based on the CompartmentDefinition resources found at [fhir-search/src/main/resources/compartments.json](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/compartments.json).  These definitions come directly from the specification and the server provides no corresponding default or tenant-level configuration. 
 
 ### 1.1 Configuration per Tenant 
-To configure tenant-specific search parameters, create a file called `extension-search-parameters.json` and `extension-search-parameters-valuetypes.json`, placing it in the `${server.config.dir}/config/<tenant-id>` directory. For example, the `${server.config.dir}/config/acme/extension-search-parameters.json` file would contain the search parameters for the `acme` tenant, while `${server.config.dir}/config/qpharma/extension-search-parameters.json` would contain search parameters used by the `qpharma` tenant.
+To configure tenant-specific search parameters, create a file called `extension-search-parameters.json`, placing it in the `${server.config.dir}/config/<tenant-id>` directory. For example, the `${server.config.dir}/config/acme/extension-search-parameters.json` file would contain the search parameters for the `acme` tenant, while `${server.config.dir}/config/qpharma/extension-search-parameters.json` would contain search parameters used by the `qpharma` tenant.
 
 When the FHIR server processes a request associated with the `acme` tenant, the server is only aware of the set of built-in search parameters (defined by the HL7 FHIR specification) plus the user-defined search parameters defined in the `acme` tenant's extension-search-parameters.json file. Likewise, when processing a request associated with the `qpharma` tenant, the server is only aware of the built-in search parameters plus the user-defined search parameters defined in the `qpharma` tenant's `extension-search-parameters.json` file.
 
@@ -100,34 +98,17 @@ The `fhir-search` module requires that the [expression](https://www.hl7.org/fhir
 
 A few things to note are: 
 - This SearchParameter includes an xpath element for completeness, but the IBM FHIR Server does not use the XPath during extraction; it only uses the expression (FHIRPath).
-- The SearchParameter with a path including `value` use the Choice data types which are determined based on the SearchParameter type and the Resource's data type (using the extension-search-parameters-valuetypes.json). 
+- The SearchParameter with a path including `value` use the Choice data types which are determined based on the SearchParameter type . 
 - Each time a resource is created or updated, the FHIR server evaluates the FHIRPath expression applicable to the resource type and indexes the values of the matching elements, making these available via a search where the query parameter name matches the `code` element on the `SearchParameter` definition.
 
 In the preceding example, extension elements (on a Patient resource) with a url of `http://ibm.com/fhir/extension/Patient/favorite-color` are indexed by the `favorite-color` search parameter. To search for Patients with a favorite color of "pink", users could send an HTTP GET request to a URL like `[base]/api/v1/Patient?favorite-color:exact=pink`.
 
 For more information on search parameters, see the HL7 FHIR specification.
 
-#### 1.1.2 Search Parameters Configuration: extension-search-parameters-valuetypes.json
-The extension-search-parameters-valuetypes.json must be configured in concert with each search parameter to identify the expected data type(s) for the element(s) selected by that search parameter's expression. 
+#### 1.1.2 Recommendations
+When creating the SearchParameter FHIRPath expression, one should test the FHIRPath expression and test the search parameter. 
 
-For each Search Parameter, there needs to be an entry with the following fields:
-    - `resourceType` - the FHIR resource type. 
-    - `name` - the SearchParameter code that matches to this mapping. 
-    - `targetClasses` - an array of fhir-model simple Class names that correspond to the expected data types for this search parameter. 
-
-```
-{
-    "value-types": "default-extensions",
-    "mappings": [{
-        "resourceType": "Patient",
-        "name": "favorite-color",
-        "targetClasses": ["String"]
-    }]
-}
-```
-
-#### 1.1.3 Test
-When creating a SearchParameter extension, it is recommended that the FHIRPath expression is checked for validity. Many examples exist in the module `fhir-search`. 
+If a search parameter expression extracts an element with a data type that is incompatible with the declared search parameter type, the server skips the value and logs a message. For choice elements, like Extension.value, its recommended to restrict the expression to values of the desired type by using the `as` function. For example, to select only Decimal values from the http://example.org/demical extension, use an expressions like Basic.extension.where(url='http://example.org/decimal').value.as(Decimal).
 
 ### 1.2 Configuration: Filtering of search parameters
 The FHIR server supports the filtering of built-in search parameters (that is, search parameters defined by the HL7 FHIR specification for each resource type). The default behavior of the FHIR server is to consider all built-in search parameters when storing resources or performing search results, but you can configure inclusion filters to restrict the FHIR server's view to specific search parameters on a resource type basis. This filtering feature does not apply to user-defined search parameters in the extension-search-parameters.json file. User-defined search parameters are always included in the FHIR server's view regardless of the configured inclusion filters.
