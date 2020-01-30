@@ -240,6 +240,12 @@ public class QuerySegmentAggregator {
 
         // Processes through EACH register parameter extracting the integer value
         Map<String, Integer> resourceNameMap = resourceDao.readAllResourceTypeNames();
+        if (resourceNameMap.size() == 0) {
+            // Special condition where we have no registered resources and therefore no data.
+            // This is only used in COUNT
+            queryString.append("SELECT LR.LOGICAL_RESOURCE_ID AS CNT FROM LOGICAL_RESOURCES LR");
+        }
+
         for (Map.Entry<String, Integer> resourceEntry : resourceNameMap.entrySet()) {
             String resourceTypeName = resourceEntry.getKey();
 
