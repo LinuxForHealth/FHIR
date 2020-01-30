@@ -8,21 +8,18 @@ package com.ibm.fhir.operation.bulkdata.processor.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
-import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
-import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
-import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
 import com.ibm.fhir.operation.bulkdata.processor.ExportImportBulkData;
 import com.ibm.fhir.operation.context.FHIROperationContext;
@@ -35,10 +32,8 @@ import com.ibm.fhir.rest.FHIRResourceHelpers;
 public class DummyImportExportImpl implements ExportImportBulkData {
     private static AtomicInteger jobCounter = new AtomicInteger(0);
 
-    private BulkDataTenantSpecificCache cache;
-
-    public DummyImportExportImpl(BulkDataTenantSpecificCache cache) {
-        this.cache = cache;
+    public DummyImportExportImpl() {
+        
     }
 
     @Override
@@ -48,18 +43,13 @@ public class DummyImportExportImpl implements ExportImportBulkData {
         try {
             int count = jobCounter.incrementAndGet();
             if (count % 3 == 0) {
-                FHIRRequestContext requestContext = FHIRRequestContext.get();
-                Map<String, String> properties = cache.getCachedObjectForTenant(requestContext.getTenantId());
-
                 if (ExportType.GROUP.equals(exportType)) {
                     if (logicalId == null || logicalId.isEmpty()) {
                         throw new FHIROperationException("Group export requires group id!");
                     }
                 }
 
-                String hostname = properties.get(BulkDataConfigUtil.SERVER_HOSTNAME);
-                String contextRoot = properties.get(BulkDataConfigUtil.CONTEXT_ROOT);
-                String url = "https://" + hostname + contextRoot + "/$export-status?job=" + count;
+                String url = generateBaseUri(operationContext) + "$export-status?job=" + count;
 
                 Response response = Response.status(Status.ACCEPTED).header("Content-Location", url).build();
                 operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, Response.Status.ACCEPTED);
@@ -72,6 +62,13 @@ public class DummyImportExportImpl implements ExportImportBulkData {
         } catch (Exception e) {
             throw new FHIROperationException("$export operation", e);
         }
+    }
+
+    public String generateBaseUri(FHIROperationContext operationContext) {
+        // Grab the URI
+        UriInfo uriInfo = (UriInfo) operationContext.getProperty(FHIROperationContext.PROPNAME_URI_INFO);
+        String baseUri = uriInfo.getBaseUri().toString();
+        return baseUri;
     }
 
     @Override
