@@ -141,7 +141,7 @@ public class DummyImportExportImplTest {
             }
             idx++;
         }
-        assertTrue(idx < 4);
+        assertTrue(idx <= 4);
     }
     
     @Test
@@ -163,7 +163,7 @@ public class DummyImportExportImplTest {
             }
             idx++;
         }
-        assertTrue(idx < 4);
+        assertTrue(idx <= 4);
     }
 
     @Test(expectedExceptions = { FHIROperationException.class })
