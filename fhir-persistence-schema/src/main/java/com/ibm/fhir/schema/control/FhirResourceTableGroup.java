@@ -352,13 +352,15 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
 CREATE TABLE device_date_values  (
   row_id                BIGINT             NOT NULL,
   parameter_name_id         INT NOT NULL,
+  date_value          TIMESTAMP,
   date_start          TIMESTAMP,
   date_end            TIMESTAMP,
   resource_id            BIGINT NOT NULL
 )
 ;
 
-
+CREATE INDEX idx_device_date_values_pvr ON device_date_values(parameter_name_id, date_value, resource_id);
+CREATE INDEX idx_device_date_values_rpv  ON device_date_values(resource_id, parameter_name_id, date_value);
 CREATE INDEX idx_device_date_values_pser ON device_date_values(parameter_name_id, date_start, date_end, resource_id);
 CREATE INDEX idx_device_date_values_pesr ON device_date_values(parameter_name_id, date_end, date_start, resource_id);
 CREATE INDEX idx_device_date_values_rpse   ON device_date_values(resource_id, parameter_name_id, date_start, date_end);
@@ -377,9 +379,12 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
+                .addTimestampColumn(      "DATE_VALUE",      true)
                 .addTimestampColumn(      DATE_START,      true)
                 .addTimestampColumn(        DATE_END,      true)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addIndex(IDX + tableName + "_PVR", PARAMETER_NAME_ID, "DATE_VALUE", LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_RPV", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, "DATE_VALUE")
                 .addIndex(IDX + tableName + "_PSER", PARAMETER_NAME_ID, DATE_START, DATE_END, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_PESR", PARAMETER_NAME_ID, DATE_END, DATE_START, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_RPSE", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, DATE_START, DATE_END)
