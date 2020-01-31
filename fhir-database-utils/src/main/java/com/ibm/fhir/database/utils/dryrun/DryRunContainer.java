@@ -60,6 +60,7 @@ public class DryRunContainer {
             }
             out.println();
             out.println("-- [DRY RUN] Output Done");
+            out.flush(); // Flush so the sync of the various loggers doesn't interfere
         }
     }
 

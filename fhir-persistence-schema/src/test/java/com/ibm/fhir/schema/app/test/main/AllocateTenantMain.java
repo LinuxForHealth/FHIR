@@ -14,8 +14,8 @@ public class AllocateTenantMain {
         String[] arguments = {
                 "--prop-file", TestHelper.absolutePathToProperties(),
                 "--pool-size", "5",
-                "--schema-name", "FHIRDATA1",
-                "--allocate-tenant", "default2"
+                "--schema-name", "FHIRDATA",
+                "--allocate-tenant", "default"
         };
         Main.main(arguments);
     }

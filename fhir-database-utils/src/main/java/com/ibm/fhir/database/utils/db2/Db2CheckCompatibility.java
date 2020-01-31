@@ -9,6 +9,7 @@ package com.ibm.fhir.database.utils.db2;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.Instant;
 import java.util.Arrays;
@@ -51,7 +52,7 @@ public class Db2CheckCompatibility implements IDatabaseStatement {
                 // JDBC-4.2 supports direct use of java.time (THANK YOU!)
                 // Unfortunately as of Data Server Driver Package v11.1.3.3,
                 // this still doesn't work for DB2
-                ps.setObject(1, now, Types.TIMESTAMP);
+                ps.setObject(1, Timestamp.from(now), Types.TIMESTAMP);
                 ps.executeQuery();
             } catch (SQLException x) {
                 throw translator.translate(x);

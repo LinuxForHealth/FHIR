@@ -167,12 +167,11 @@ public class ProcessFeature {
 
     /**
      * checks the compatibility action
-     * 
-     * @throws SchemaActionException
+     * @throws Exception 
      */
-    protected boolean checkCompatibility(ActionBean actionBean) throws SchemaActionException {
+    protected boolean checkCompatibility(ActionBean actionBean) throws Exception {
         CheckCompatibilityAction action = new CheckCompatibilityAction();
-        processor.processTransaction(action);
+        processor.process(action);
         return actionBean.isCompatible();
     }
 
@@ -194,6 +193,10 @@ public class ProcessFeature {
      * @throws SchemaActionException
      */
     protected void updateSchema() throws Exception {
+        // Create a Version History Table 
+        CreateVersionHistoryAction createVersionHistoryAction = new CreateVersionHistoryAction();
+        processor.process(createVersionHistoryAction);
+
         // Current version history for the data schema
         VersionHistoryServiceAction versionHistoryServiceAction = new VersionHistoryServiceAction();
         processor.processWithoutTransaction(versionHistoryServiceAction);
@@ -203,10 +206,6 @@ public class ProcessFeature {
 
         MigrateSchemaAction migrateServiceAction = new MigrateSchemaAction();
         processor.process(migrateServiceAction);
-
-        // Create a Version History Table 
-        CreateVersionHistoryAction createVersionHistoryAction = new CreateVersionHistoryAction();
-        processor.process(createVersionHistoryAction);
 
         ApplyModelAction applyModelAction = new ApplyModelAction();
         processor.processTransaction(applyModelAction);
