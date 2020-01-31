@@ -14,17 +14,16 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  * This class defines the Data Transfer Object representing a row in the X_DATE_VALUES tables.
  */
 public class DateParmVal implements ExtractedParameterValue {
-    
+
     private String resourceType;
     private String name;
-    private Timestamp valueDate;
     private Timestamp valueDateStart;
     private Timestamp valueDateEnd;
-    
+
     // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
     private String base;
-    
-    public enum TimeType{
+
+    public enum TimeType {
         YEAR,
         YEAR_MONTH,
         LOCAL_DATE,
@@ -61,14 +60,6 @@ public class DateParmVal implements ExtractedParameterValue {
         return name;
     }
 
-    public Timestamp getValueDate() {
-        return valueDate;
-    }
-
-    public void setValueDate(Timestamp valueDate) {
-        this.valueDate = valueDate;
-    }
-
     public String getResourceType() {
         return resourceType;
     }
@@ -100,7 +91,7 @@ public class DateParmVal implements ExtractedParameterValue {
 
     @Override
     public String toString() {
-        return "DateParmVal [resourceType=" + resourceType + ", name=" + name + ", valueDate=" + valueDate
+        return "DateParmVal [resourceType=" + resourceType + ", name=" + name
                 + ", valueDateStart=" + valueDateStart + ", valueDateEnd=" + valueDateEnd + ", base=" + base + "]";
     }
 }

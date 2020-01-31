@@ -113,8 +113,6 @@ For range targets (parameter values extracted from Range, Date/Period, and DateT
 
 For example, a search like `Observation?date=2018-10-29T12:00:00Z` would *not* match an Observation with an effectivePeriod of `start=2018-10-29` and `end=2018-10-30` because "the search range does not fully contain the range of the target value." Similarly, a search like `range=5||mg` would not match a range value with `low = 1 mg` and `high = 10 mg`. To obtain all range values which contain a specific value, use the `ap` prefix which is defined to match when "the range of the search value overlaps with the range of the target value."
 
-The `sa` and `eb` prefixes are not supported for searches which target values of type integer (or derived types).
-
 If not specified on a query string, the default prefix is `eq`.
 
 ### Searching on Date
