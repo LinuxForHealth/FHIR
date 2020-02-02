@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -48,7 +48,8 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
     protected void doVisitEnd(String elementName, int elementIndex, Resource resource) {}
     protected void doVisitStart(String elementName, int elementIndex, Element element) {}
     protected void doVisitStart(String elementName, int elementIndex, Resource resource) {}
-    
+    protected void doVisitListStart(String elementName, List<? extends Visitable> visitables, Class<?> type) {}
+    protected void doVisitListEnd(String elementName, List<? extends Visitable> visitables, Class<?> type) {}
     /**
      * Retrieve a copy of the resource last visited.
      * 
@@ -108,7 +109,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
                 listWrapper.dirty(true);
             }
             // No way to know if one of the other elements in the list will be dirty so we need to build them all
-            listWrapper.getList().add(wrapper.getBuilder().build());
+            listWrapper.getList().add((Visitable) wrapper.getBuilder().build());
         } else {
             if (builderStack.isEmpty()) {
                 if (wrapper.isDirty()) {
@@ -150,13 +151,21 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
                 (parentBuilder instanceof Parameters.Parameter.Builder && "resource".contentEquals(elementName));
     }
     
+    /**
+     * Subclasses may override doVisitListStart
+     */
     @Override
     public void visitStart(String elementName, List<? extends Visitable> visitables, Class<?> type) {
-        listStack.push(new ListWrapper(new ArrayList<Object>()));
+        doVisitListStart(elementName, visitables, type);
+        listStack.push(new ListWrapper(new ArrayList<>()));
     }
     
+    /**
+     * Subclasses may override doVisitListEnd
+     */
     @Override
     public void visitEnd(String elementName, List<? extends Visitable> visitables, Class<?> type) {
+        doVisitListEnd(elementName, visitables, type);
         ListWrapper listWrapper = listStack.pop();
         if (listWrapper.isDirty()) {
             BuilderWrapper parent = builderStack.peek();
@@ -195,8 +204,45 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
         return builderStack.peek().getBuilder();
     }
     
+    protected List<Visitable> getList() {
+        return listStack.peek().getList();
+    }
+    
+    protected void replace(Resource.Builder builder) {
+        builderStack.pop();
+        builderStack.push(new ResourceWrapper(builder));
+        markDirty();
+    }
+    
+    protected void replace(Element.Builder builder) {
+        builderStack.pop();
+        builderStack.push(new ElementWrapper(builder));
+        markDirty();
+    }
+    
+    protected void delete() {
+        builderStack.pop();
+        builderStack.push(new BuilderWrapper() {
+            // Replace the current BuilderWrapper with with that just builds nulls
+            @Override
+            public Builder<? extends Visitable> getBuilder() {
+                return new Builder<Visitable>() {
+                    @Override
+                    public Visitable build() {
+                        return null;
+                    }
+                };
+            }
+        });
+        markDirty();
+    }
+    
     protected void markDirty() {
         builderStack.peek().dirty(true);
+    }
+
+    protected void markListDirty() {
+        listStack.peek().dirty(true);
     }
 
     private abstract class Markable {
@@ -212,19 +258,19 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
     }
     
     private class ListWrapper extends Markable {
-        private final List<Object> list;
+        private final List<Visitable> list;
         
-        public ListWrapper(List<Object> list) {
+        public ListWrapper(List<Visitable> list) {
             this.list = list;
         }
         
-        public List<Object> getList() {
+        public List<Visitable> getList() {
             return list;
         }
     }
     
     private abstract class BuilderWrapper extends Markable {
-        public abstract Builder<?> getBuilder();
+        public abstract Builder<? extends Visitable> getBuilder();
     }
     
     private class ElementWrapper extends BuilderWrapper {

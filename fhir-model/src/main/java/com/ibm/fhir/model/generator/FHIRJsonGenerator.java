@@ -340,25 +340,27 @@ public class FHIRJsonGenerator extends FHIRAbstractGenerator {
         
         @Override
         public void visitEnd(java.lang.String elementName, List<? extends Visitable> visitables, Class<?> type) {
-            generator.writeEnd();
-            if (isPrimitiveType(type) && hasIdOrExtension(visitables)) {
-                generator.writeStartArray("_" + elementName);
-                for (Visitable visitable : visitables) {
-                    if (hasIdOrExtension((Element) visitable)) {
-                        generator.writeStartObject();
-                        generate((Element) visitable);
-                        generator.writeEnd();
-                    } else {
-                        generator.writeNull();
-                    }
-                }
+            if (!visitables.isEmpty()) {
                 generator.writeEnd();
+                if (isPrimitiveType(type) && hasIdOrExtension(visitables)) {
+                    generator.writeStartArray("_" + elementName);
+                    for (Visitable visitable : visitables) {
+                        if (hasIdOrExtension((Element) visitable)) {
+                            generator.writeStartObject();
+                            generate((Element) visitable);
+                            generator.writeEnd();
+                        } else {
+                            generator.writeNull();
+                        }
+                    }
+                    generator.writeEnd();
+                }
             }
         }
         
         @Override
         public void doVisitEnd(java.lang.String elementName, int elementIndex, Resource resource) {
-            generator.writeEnd();
+                generator.writeEnd();
         }
         
         @Override
@@ -376,7 +378,9 @@ public class FHIRJsonGenerator extends FHIRAbstractGenerator {
         
         @Override
         public void visitStart(java.lang.String elementName, List<? extends Visitable> visitables, Class<?> type) {
-            writeStartArray(elementName);
+            if (!visitables.isEmpty()) {
+                writeStartArray(elementName);
+            }
         }
     
         @Override
