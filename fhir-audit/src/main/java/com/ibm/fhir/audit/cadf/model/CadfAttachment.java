@@ -136,6 +136,9 @@ public class CadfAttachment {
 
         public static void generate(CadfAttachment obj, JsonGenerator generator)
                 throws IOException {
+            if (obj == null) {
+                return;
+            }
             generator.writeStartObject();
 
             if (obj.getName() != null) {

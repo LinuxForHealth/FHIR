@@ -33,7 +33,7 @@ public final class CadfReason {
 
     /**
      * Create a CADF Reason object
-     * 
+     *
      * @param reasonType - String. The reason code domain URI. Must be present if
      *                   reasonCode is present.
      * @param reasonCode - String. Detailed result code as described by the domain
@@ -72,7 +72,7 @@ public final class CadfReason {
     /**
      * Validate contents of the Reason type.
      * The logic is determined by the CADF specification.
-     * 
+     *
      * @return This object for chaining.
      * @throws IllegalStateException when the properties do not meet the
      *                               specification.
@@ -138,6 +138,9 @@ public final class CadfReason {
 
         public static void generate(CadfReason obj, JsonGenerator generator)
                 throws IOException {
+            if (obj == null) {
+                return;
+            }
             if (obj.getReasonType() != null) {
                 generator.write("reasonType", obj.getReasonType());
             }
@@ -178,7 +181,7 @@ public final class CadfReason {
                 throw new FHIRException("Problem parsing the CadfReason", e);
             }
         }
-        
+
         public static CadfReason parse(JsonObject jsonObject)
                 throws FHIRException {
             CadfReason.Builder builder =
@@ -205,7 +208,7 @@ public final class CadfReason {
             }
 
             return builder.build();
-            
+
         }
     }
 
