@@ -9,7 +9,6 @@ package com.ibm.fhir.search.parameters;
 import static com.ibm.fhir.search.SearchConstants.NL;
 
 import java.math.BigDecimal;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +17,6 @@ import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
-import com.ibm.fhir.search.date.DateTimeHandler;
 
 /**
  * general type of parameter. 
@@ -124,12 +122,6 @@ public class QueryParameter {
             String valueString = value.getValueString();
             if (valueString != null) {
                 buffer.append("    valueString: " + valueString);
-                buffer.append(NL);
-            }
-
-            TemporalAccessor valueDate = value.getValueDate();
-            if (valueDate != null) {
-                buffer.append("    valueDate: " + DateTimeHandler.serialize(valueDate));
                 buffer.append(NL);
             }
 

@@ -10,11 +10,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.crypto.spec.SecretKeySpec;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
@@ -53,7 +56,6 @@ public class BulkDataConfigUtil {
     public static final String BATCH_USER_PASS = "batch-user-password";
     public static final String BATCH_URL = "batch-uri";
     public static final String BASE_URI = "base-uri";
-
     public static final String BATCH_TRUSTSTORE = "batch-truststore";
     public static final String BATCH_TRUSTSTORE_PASS = "batch-truststore-password";
 
@@ -68,8 +70,8 @@ public class BulkDataConfigUtil {
     }
 
     /**
-     * populates from a configuration file 
-     * 
+     * populates from a configuration file
+     *
      * @param f
      * @return
      */
@@ -131,5 +133,25 @@ public class BulkDataConfigUtil {
         } else {
             log.warning("Value not found in bulkdata.json '" + name + "'");
         }
+    }
+
+
+    public static SecretKeySpec getBatchJobIdEncryptionKey(String strJobIdEncryptionKey) {
+        SecretKeySpec secretKey = null;
+
+        if (strJobIdEncryptionKey != null && !strJobIdEncryptionKey.isEmpty()) {
+            try {
+                byte[] keyBytes = strJobIdEncryptionKey.getBytes("UTF-8");
+                keyBytes = Arrays.copyOf(MessageDigest.getInstance("SHA-1").digest(keyBytes), 16);
+                secretKey = new SecretKeySpec(keyBytes, "AES");
+            } catch (Exception e) {
+                log.log(Level.WARNING, "Fail to generate encryption key from config!", e);
+            }
+        }
+
+        if (secretKey == null) {
+            log.warning("Failed to get encryption key, JavaBatch Job ids will not be encrypted!");
+        }
+        return secretKey;
     }
 }

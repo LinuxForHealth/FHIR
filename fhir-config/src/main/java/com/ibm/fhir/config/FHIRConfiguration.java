@@ -30,9 +30,9 @@ public class FHIRConfiguration {
     public static final String PROPERTY_DEFAULT_PRETTY_PRINT = "fhirServer/core/defaultPrettyPrint";
     public static final String PROPERTY_DEFAULT_HANDLING = "fhirServer/core/defaultHandling";
     public static final String PROPERTY_ALLOW_CLIENT_HANDLING_PREF = "fhirServer/core/allowClientHandlingPref";
-    
+
     public static final String PROPERTY_SEARCH_PARAMETER_FILTER = "fhirServer/searchParameterFilter";
-    
+
     // Auth and security properties
     public static final String PROPERTY_TRUSTSTORE_LOCATION = "fhirServer/core/truststoreLocation";
     public static final String PROPERTY_TRUSTSTORE_PASSWORD = "fhirServer/core/truststorePassword";
@@ -43,7 +43,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_AUTHFILTER_ENABLED = "fhirServer/authFilter/enabled";
     public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN = "fhirServer/authFilter/authorizedClientCertClientCN";
     public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU = "fhirServer/authFilter/authorizedClientCertIssuerOU";
-    
+
     // Audit config properties
     public static final String PROPERTY_AUDIT_SERVICE_CLASS_NAME = "fhirServer/audit/serviceClassName";
     public static final String PROPERTY_AUDIT_SERVICE_PROPERTIES = "fhirServer/audit/serviceProperties";
@@ -65,9 +65,12 @@ public class FHIRConfiguration {
     public static final String PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE = "fhirServer/persistence/jdbc/enableCodeSystemsCache";
     public static final String PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE = "fhirServer/persistence/jdbc/enableParameterNamesCache";
     public static final String PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE = "fhirServer/persistence/jdbc/enableResourceTypesCache";
-    
+
     // fhir-search - Bounding area
     public static final String PROPERTY_SEARCH_BOUNDING_AREA_RADIUS_TYPE = "fhirServer/search/useBoundingRadius";
+
+    // bulkdata - JavaBatch Job id encryption key
+    public static final String PROPERTY_BULKDATA_BATCHJOBID_ENCRYPTION_KEY = "fhirServer/bulkdata/bulkDataBatchJobIdEncryptionKey";
 
     // Custom header names
     public static final String DEFAULT_TENANT_ID_HEADER_NAME = "X-FHIR-TENANT-ID";
@@ -89,7 +92,7 @@ public class FHIRConfiguration {
      * This is our in-memory cache of PropertyGroup's keyed by tenant-id.
      */
     private TenantSpecificPropertyGroupCache configCache = new TenantSpecificPropertyGroupCache();
-    
+
     /**
      * This method is used to configure an explicit top-level directory where FHIR Server configuration
      * information is expected to reside.
@@ -98,7 +101,7 @@ public class FHIRConfiguration {
      * to find config files whose names are of the form: {@code "/mydir/config/<tenant-id>/fhir-server-config.json"}
      * <p>
      * The default location for config files is the current working directory (i.e. "" - the empty string).
-     * @param s the new config home directory name 
+     * @param s the new config home directory name
      */
     public static void setConfigHome(String s) {
         if (s == null) {
@@ -107,10 +110,10 @@ public class FHIRConfiguration {
         if (!s.isEmpty() && !s.endsWith(File.separator)) {
             s += File.separator;
         }
-        
+
         configHome = s;
     }
-    
+
     /**
      * Returns the "home" directory for FHIR Server configuration information (this directory will contain
      * the "config" directory, etc.).
@@ -124,7 +127,7 @@ public class FHIRConfiguration {
 
     /**
      * Retrieves the FHIR Server configuration and returns it as a PropertyGroup.
-     * 
+     *
      * @throws FileNotFoundException
      */
     public PropertyGroup loadConfiguration() throws Exception {
@@ -133,7 +136,7 @@ public class FHIRConfiguration {
 
     /**
      * Loads the configuration for the specified tenant id.
-     * 
+     *
      * @param tenantId
      *            a shortname representing the tenant whose configuration will be loaded
      * @return the top-level property group representing this tenant's configuration
@@ -152,7 +155,7 @@ public class FHIRConfiguration {
             configCache.clearCache();
         }
     }
-    
+
     /**
      * This method returns the list of tenant id's for which a configuration exists.
      * @return
@@ -180,7 +183,7 @@ public class FHIRConfiguration {
                     }
                 }
             }
-            
+
             log.fine("Returning list of tenant ids: " + result.toString());
 
             return result;

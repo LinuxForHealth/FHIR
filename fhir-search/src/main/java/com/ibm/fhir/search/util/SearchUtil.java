@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -60,10 +60,9 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.parameters.cache.TenantSpecificSearchParameterCache;
 import com.ibm.fhir.search.sort.Sort;
 import com.ibm.fhir.search.uri.UriBuilder;
-import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 
 /**
- * Search Utility<br/>
+ * Search Utility<br>
  * This class uses FHIRPath Expressions (and currently does not support XPath)
  * and uses init to activate the Parameters/Compartments/ValueTypes components.
  */
@@ -144,9 +143,6 @@ public class SearchUtil {
 
         // Loads the Parameters into a map
         ParametersUtil.init();
-
-        // Loads the ValueTypesFactory
-        ValueTypesFactory.init();
     }
 
     /**

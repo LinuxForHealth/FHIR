@@ -227,8 +227,10 @@ public class BulkDataClient {
         // From the response
         String jobId = Integer.toString(response.getInstanceId());
 
+
         String baseUri = properties.get(BulkDataConfigUtil.BASE_URI);
-        return baseUri + "$export-status?job=" + jobId;
+        return baseUri + "$export-status?job=" + 
+                BulkDataUtil.encryptBatchJobId(jobId, BulkDataConstants.BATCHJOBID_ENCRYPTION_KEY);
     }
 
     /**
@@ -306,7 +308,7 @@ public class BulkDataClient {
             BulkExportJobExecutionResponse response = BulkExportJobExecutionResponse.Parser.parse(responseStr);
             verifyTenant(response.getJobParameters());
 
-            // The tenant is known, and now we need to query to delete the Job. 
+            // The tenant is known, and now we need to query to delete the Job.
             r = target.request().delete();
             if (r.getStatus() != HttpStatus.SC_NO_CONTENT) {
                 throw BulkDataUtil.buildOperationException("the content is not abandonded.");
@@ -320,7 +322,7 @@ public class BulkDataClient {
 
     /**
      * verifies the tenant based on the job parameters.
-     * 
+     *
      * @param jobParameters
      * @throws FHIROperationException
      */
