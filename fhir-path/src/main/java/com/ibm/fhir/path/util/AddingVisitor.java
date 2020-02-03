@@ -6,6 +6,7 @@
 package com.ibm.fhir.path.util;
 
 import java.util.List;
+import java.util.Stack;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Element;
@@ -14,6 +15,8 @@ import com.ibm.fhir.model.visitor.CopyingVisitor;
 import com.ibm.fhir.model.visitor.Visitable;
 
 public class AddingVisitor<T extends Visitable> extends CopyingVisitor<T> {
+    private Stack<Visitable> visitStack;
+    
     private Visitable parent;
     private String elementNameToAdd;
     private Visitable value;
@@ -24,19 +27,27 @@ public class AddingVisitor<T extends Visitable> extends CopyingVisitor<T> {
      * @param value
      */
     public AddingVisitor(Visitable parent, String elementName, Visitable value) {
+        this.visitStack = new Stack<Visitable>();
         this.parent = parent;
         this.elementNameToAdd = elementName;
         this.value = value;
     }
     
     @Override
+    protected void doVisitStart(String elementName, int elementIndex, Resource resource) {
+        visitStack.push(resource);
+    }
+    
+    @Override
+    protected void doVisitStart(String elementName, int elementIndex, Element element) {
+        visitStack.push(element);
+    }
+    
+    @Override
     protected void doVisitListEnd(String elementName, List<? extends Visitable> visitables, Class<?> type) {
-        if (type.isAssignableFrom(value.getClass()) && elementName.equals(this.elementNameToAdd)) {
-            // XXX: assuming that we have the right parent is potentially dangerous
-            if (getBuilder().build().equals(parent)) {
-                getList().add(value);
-                markListDirty();
-            }
+        if (visitStack.peek() == parent && type.isAssignableFrom(value.getClass()) && elementName.equals(this.elementNameToAdd)) {
+            getList().add(value);
+            markListDirty();
         }
     }
     
@@ -52,6 +63,7 @@ public class AddingVisitor<T extends Visitable> extends CopyingVisitor<T> {
                 throw new IllegalStateException("Add cannot replace an existing value");
             }
         }
+        visitStack.pop();
     }
     
     @Override
@@ -66,5 +78,6 @@ public class AddingVisitor<T extends Visitable> extends CopyingVisitor<T> {
                 throw new IllegalStateException("Add cannot replace an existing value");
             }
         }
+        visitStack.pop();
     }
 }

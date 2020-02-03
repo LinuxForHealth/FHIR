@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -360,7 +360,7 @@ public class FHIRJsonGenerator extends FHIRAbstractGenerator {
         
         @Override
         public void doVisitEnd(java.lang.String elementName, int elementIndex, Resource resource) {
-                generator.writeEnd();
+            generator.writeEnd();
         }
         
         @Override
