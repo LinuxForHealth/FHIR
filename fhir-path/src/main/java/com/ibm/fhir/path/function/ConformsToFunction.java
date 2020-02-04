@@ -8,6 +8,7 @@ package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
+import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.evaluatesToBoolean;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getSingleton;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getStringValue;
@@ -50,6 +51,10 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        if (context.isEmpty()) {
+            return empty();
+        }
+        
         if (!hasResourceNode(context) && !hasElementNode(context)) {
             throw new IllegalArgumentException("The 'conformsTo' function can only be invoked on a Resource or Element node");
         }
