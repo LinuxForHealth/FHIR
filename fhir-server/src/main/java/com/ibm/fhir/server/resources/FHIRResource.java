@@ -117,6 +117,7 @@ import com.ibm.fhir.operation.FHIROperation;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.fhir.operation.util.FHIROperationUtil;
+import com.ibm.fhir.path.patch.FHIRPathPatch;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
@@ -444,6 +445,54 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     @PATCH
+    @Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, FHIRMediaType.APPLICATION_FHIR_XML})
+    @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
+    @Path("{type}/{id}")
+    public Response patch(@PathParam("type") String type, @PathParam("id") String id, Parameters parameters) {
+        Response.Status status;
+
+        log.entering(this.getClass().getName(), "patch(String,String,Parameters)");
+        FHIRRestOperationResponse ior = null;
+        try {
+            checkInitComplete();
+
+            FHIRPatch patch;
+            try {
+                patch = new FHIRPathPatch(parameters);
+            } catch(IllegalArgumentException e) {
+                throw buildRestException(e.getMessage(), Status.BAD_REQUEST, IssueType.INVALID);
+            }
+
+            ior = doPatch(type, id, patch, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null, null);
+
+            ResponseBuilder response =
+                    Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
+            status = ior.getStatus();
+            response.status(status);
+
+            Resource resource = ior.getResource();
+            if (resource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(resource);
+            } else if (ior.getOperationOutcome() != null && 
+                       HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(ior.getOperationOutcome());
+            }
+            response = addHeaders(response, resource);
+            return response.build();
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+            return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
+        } catch (FHIRHttpException e) {
+            return exceptionResponse(e);
+        } catch (FHIROperationException e) {
+            return exceptionResponse(e);
+        } catch (Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            log.exiting(this.getClass().getName(), "patch(String,String,JsonArray)");
+        }
+    }
+
+    @PATCH
     @Consumes({ FHIRMediaType.APPLICATION_JSON_PATCH })
     @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
     @Path("{type}")
@@ -460,6 +509,71 @@ public class FHIRResource implements FHIRResourceHelpers {
             checkInitComplete();
 
             FHIRPatch patch = createPatch(array);
+
+            String searchQueryString = httpServletRequest.getQueryString();
+            if (searchQueryString == null || searchQueryString.isEmpty()) {
+                createAuditLogRecord = true;
+                String msg =
+                        "Cannot PATCH to resource type endpoint unless a search query string is provided for a conditional patch.";
+                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
+            }
+
+            ior = doPatch(type, null, patch, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), searchQueryString, null);
+
+            ResponseBuilder response =
+                    Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
+            status = ior.getStatus();
+            response.status(status);
+
+            Resource resource = ior.getResource();
+            if (resource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(resource);
+            } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(ior.getOperationOutcome());
+            }
+
+            response = addHeaders(response, ior.getResource());
+
+            if (createAuditLogRecord) {
+                RestAuditLogger.logPatch(httpServletRequest, (ior != null ? ior.getPrevResource()
+                        : null), (ior != null ? ior.getResource()
+                                : null), startTime, new Date(), status);
+            }
+
+            return response.build();
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+            status = Response.Status.METHOD_NOT_ALLOWED;
+            return exceptionResponse(e, status);
+        } catch (FHIRHttpException e) {
+            status = e.getHttpStatus();
+            return exceptionResponse(e);
+        } catch (FHIROperationException e) {
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e);
+        } catch (Exception e) {
+            return exceptionResponse(e, status);
+        } finally {
+            log.exiting(this.getClass().getName(), "conditionalPatch(String,String,JsonArray)");
+        }
+    }
+
+    @PATCH
+    @Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, FHIRMediaType.APPLICATION_FHIR_XML})
+    @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
+    @Path("{type}")
+    public Response conditionalPatch(@PathParam("type") String type, Parameters parameters) {
+        Date startTime = new Date();
+        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+
+        log.entering(this.getClass().getName(), "conditionalPatch(String,String,Parameters)");
+
+        FHIRRestOperationResponse ior = null;
+        boolean createAuditLogRecord = false;
+
+        try {
+            checkInitComplete();
+
+            FHIRPatch patch = new FHIRPathPatch(parameters);
 
             String searchQueryString = httpServletRequest.getQueryString();
             if (searchQueryString == null || searchQueryString.isEmpty()) {

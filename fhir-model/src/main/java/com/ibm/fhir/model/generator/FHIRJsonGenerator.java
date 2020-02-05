@@ -54,17 +54,17 @@ import com.ibm.fhir.model.visitor.Visitable;
 public class FHIRJsonGenerator extends FHIRAbstractGenerator {
     private static final JsonGeneratorFactory GENERATOR_FACTORY = Json.createGeneratorFactory(null);
     private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY = createPrettyPrintingGeneratorFactory();
-        
+
     private final boolean prettyPrinting;
 
     protected FHIRJsonGenerator() {
         this(false);
     }
-    
+
     protected FHIRJsonGenerator(boolean prettyPrinting) {
         this.prettyPrinting = prettyPrinting;
     }
-    
+
     @Override
     public void generate(Visitable visitable, OutputStream out) throws FHIRGeneratorException {
         GeneratingVisitor visitor = null;

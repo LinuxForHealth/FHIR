@@ -132,7 +132,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
                                 || (visited instanceof Resource && isResourceContainer(parentBuilder, elementName))) {
                             mt = MethodType.methodType(parentBuilder.getClass(), elementOrResource);
                         } else {
-                            mt = MethodType.methodType(parentBuilder.getClass(), obj.getClass());
+                            mt = MethodType.methodType(parentBuilder.getClass(), visited.getClass());
                         }
                         methodHandle = MethodHandles.publicLookup().findVirtual(parentBuilder.getClass(), setterName(elementName), mt);
                         methodHandle.invoke(parentBuilder, obj);

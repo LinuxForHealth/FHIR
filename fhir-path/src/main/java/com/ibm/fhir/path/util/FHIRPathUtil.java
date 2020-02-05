@@ -568,7 +568,7 @@ public final class FHIRPathUtil {
      * @throws FHIRPathException 
      * @throws FHIRPatchException 
      */
-    public static <T extends Visitable> T add(T elementOrResource, String fhirPath, String elementName, Element value) throws FHIRPathException, FHIRPatchException {
+    public static <T extends Visitable> T add(T elementOrResource, String fhirPath, String elementName, Visitable value) throws FHIRPathException, FHIRPatchException {
         FHIRPathNode node = evaluateToSingle(elementOrResource, fhirPath);
         Visitable parent = node.isResourceNode() ? 
                 node.asResourceNode().resource() : node.asElementNode().element();
@@ -612,7 +612,7 @@ public final class FHIRPathUtil {
      * @throws FHIRPathException 
      * @throws FHIRPatchException 
      */
-    public static <T extends Visitable> T replace(T elementOrResource, String fhirPath, String elementName, Element value) throws FHIRPathException, FHIRPatchException {
+    public static <T extends Visitable> T replace(T elementOrResource, String fhirPath, String elementName, Visitable value) throws FHIRPathException, FHIRPatchException {
         FHIRPathNode node = evaluateToSingle(elementOrResource, fhirPath);
         Visitable toReplace = node.isResourceNode() ? 
                 node.asResourceNode().resource() : node.asElementNode().element();
@@ -658,7 +658,8 @@ public final class FHIRPathUtil {
      * @throws FHIRPathException 
      * @throws FHIRPatchException 
      */
-    public static <T extends Visitable> T insert(T elementOrResource, String fhirPath, String elementName, int index, Element value) throws FHIRPathException, FHIRPatchException {
+    public static <T extends Visitable> T insert(T elementOrResource, String fhirPath, String elementName, int index, Visitable value) 
+            throws FHIRPathException, FHIRPatchException {
         Collection<FHIRPathNode> nodes = evaluator.evaluate(elementOrResource, fhirPath);
         if (index > nodes.size()) {
             throw new FHIRPatchException("index must be equal or less than the number of elements in the list", fhirPath);

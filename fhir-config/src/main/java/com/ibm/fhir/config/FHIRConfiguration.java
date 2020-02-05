@@ -89,7 +89,7 @@ public class FHIRConfiguration {
      * This is our in-memory cache of PropertyGroup's keyed by tenant-id.
      */
     private TenantSpecificPropertyGroupCache configCache = new TenantSpecificPropertyGroupCache();
-    
+
     /**
      * This method is used to configure an explicit top-level directory where FHIR Server configuration
      * information is expected to reside.
@@ -107,10 +107,10 @@ public class FHIRConfiguration {
         if (!s.isEmpty() && !s.endsWith(File.separator)) {
             s += File.separator;
         }
-        
+
         configHome = s;
     }
-    
+
     /**
      * Returns the "home" directory for FHIR Server configuration information (this directory will contain
      * the "config" directory, etc.).
@@ -152,7 +152,7 @@ public class FHIRConfiguration {
             configCache.clearCache();
         }
     }
-    
+
     /**
      * This method returns the list of tenant id's for which a configuration exists.
      * @return
@@ -180,7 +180,7 @@ public class FHIRConfiguration {
                     }
                 }
             }
-            
+
             log.fine("Returning list of tenant ids: " + result.toString());
 
             return result;
