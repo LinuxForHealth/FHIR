@@ -6,29 +6,24 @@
 
 package com.ibm.fhir.path.patch;
 
-import java.util.Objects;
-
 import com.ibm.fhir.model.patch.exception.FHIRPatchException;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.util.FHIRPathUtil;
 
-public class FHIRPatchAdd extends FHIRPathPatchOperation {
+public class FHIRPathPatchDelete extends FHIRPathPatchOperation {
     String fhirPath;
-    String name;
-    Element value;
+    String elementName;
 
-    public FHIRPatchAdd(String fhirPath, String name, Element value) {
-        this.fhirPath = Objects.requireNonNull(fhirPath);
-        this.name = Objects.requireNonNull(name);
-        this.value = Objects.requireNonNull(value);
+    public FHIRPathPatchDelete(String fhirPath) {
+        this.fhirPath = fhirPath;
+        this.elementName = getElementName(fhirPath);
     }
 
     @Override
     public <T extends Resource> T apply(T resource) throws FHIRPatchException {
         try {
-            return FHIRPathUtil.add(resource, fhirPath, name, value);
+            return FHIRPathUtil.delete(resource, fhirPath, elementName);
         } catch (FHIRPathException e) {
             throw new FHIRPatchException("Error executing fhirPath", fhirPath);
         }

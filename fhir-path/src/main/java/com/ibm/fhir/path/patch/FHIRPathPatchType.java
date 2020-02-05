@@ -8,7 +8,7 @@ package com.ibm.fhir.path.patch;
 /**
  * The list of allowed FHIRPath Patch operation types
  */
-public enum FHIRPatchType {
+public enum FHIRPathPatchType {
     /**
      * The content will be appended to the element identified in the path, using the name specified.
      * Add can used for non-repeating elements as long as they do not already exist.
@@ -39,7 +39,7 @@ public enum FHIRPatchType {
 
     private final String value;
 
-    FHIRPatchType(String value) {
+    FHIRPathPatchType(String value) {
         this.value = value;
     }
 
@@ -47,8 +47,8 @@ public enum FHIRPatchType {
         return value;
     }
 
-    public static FHIRPatchType from(String value) {
-        for (FHIRPatchType t : FHIRPatchType.values()) {
+    public static FHIRPathPatchType from(String value) {
+        for (FHIRPathPatchType t : FHIRPathPatchType.values()) {
             if (t.value.equals(value)) {
                 return t;
             }

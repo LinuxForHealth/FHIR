@@ -26,7 +26,7 @@ public abstract class FHIRPathPatchOperation implements FHIRPatch {
      */
     public static FHIRPathPatchOperation parse(Parameter operation) {
         boolean foundType = false, foundPath = false, foundName = false, foundValue = false, foundIndex = false, foundSource = false, foundDestination = false;
-        FHIRPatchType type = null;
+        FHIRPathPatchType type = null;
         String fhirPath = null;
         String name = null;
         Element value = null;
@@ -39,7 +39,7 @@ public abstract class FHIRPathPatchOperation implements FHIRPatch {
             switch (partName) {
             case TYPE:
                 Code valueCode = validatePartAndGetValue(foundType, part, Code.class);
-                type = FHIRPatchType.from(valueCode.getValue());
+                type = FHIRPathPatchType.from(valueCode.getValue());
                 foundType = true;
                 break;
             case PATH:
@@ -78,11 +78,11 @@ public abstract class FHIRPathPatchOperation implements FHIRPatch {
         }
         try {
             switch (type) {
-            case ADD:       return new FHIRPatchAdd(fhirPath, name, value);
-            case DELETE:    return new FHIRPatchDelete(fhirPath);
-            case INSERT:    return new FHIRPatchInsert(fhirPath, value, index);
-            case MOVE:      return new FHIRPatchMove(fhirPath, source, destination);
-            case REPLACE:   return new FHIRPatchReplace(fhirPath, value);
+            case ADD:       return new FHIRPathPatchAdd(fhirPath, name, value);
+            case DELETE:    return new FHIRPathPatchDelete(fhirPath);
+            case INSERT:    return new FHIRPathPatchInsert(fhirPath, value, index);
+            case MOVE:      return new FHIRPathPatchMove(fhirPath, source, destination);
+            case REPLACE:   return new FHIRPathPatchReplace(fhirPath, value);
             default:
                 throw new IllegalArgumentException("Invalid FHIRPath patch operation type: " + type.name());
             }

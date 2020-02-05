@@ -14,23 +14,21 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.util.FHIRPathUtil;
 
-public class FHIRPatchInsert extends FHIRPathPatchOperation {
+public class FHIRPathPatchReplace extends FHIRPathPatchOperation {
     String fhirPath;
     Element value;
-    int index;
     String elementName;
 
-    public FHIRPatchInsert(String fhirPath, Element value, Integer index) {
+    public FHIRPathPatchReplace(String fhirPath, Element value) {
         this.fhirPath = Objects.requireNonNull(fhirPath);
         this.value = Objects.requireNonNull(value);
-        this.index = Objects.requireNonNull(index);
         this.elementName = getElementName(fhirPath);
     }
 
     @Override
     public <T extends Resource> T apply(T resource) throws FHIRPatchException {
         try {
-            return FHIRPathUtil.insert(resource, fhirPath, elementName, index, value);
+            return FHIRPathUtil.replace(resource, fhirPath, elementName, value);
         } catch (FHIRPathException e) {
             throw new FHIRPatchException("Error executing fhirPath", fhirPath);
         }
