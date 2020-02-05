@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Stack;
 
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.visitor.CopyingVisitor;
@@ -32,7 +33,8 @@ public class ReplacingVisitor<T extends Visitable> extends CopyingVisitor<T> {
         this.parent = parent;
         this.elementNameToReplace = elementName;
         this.oldValue = oldValue;
-        this.newValue = newValue;
+        this.newValue = newValue instanceof Code ?
+                convertToCodeSubtype(parent, elementName, (Code)newValue) : newValue;
     }
 
     @Override

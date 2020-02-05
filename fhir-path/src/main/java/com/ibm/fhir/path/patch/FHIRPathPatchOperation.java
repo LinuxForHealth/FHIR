@@ -51,6 +51,9 @@ public abstract class FHIRPathPatchOperation implements FHIRPatch {
                 foundName = true;
                 break;
             case VALUE:
+                if (part.getValue() == null) {
+                    throw new UnsupportedOperationException("Nested value patches are not yet supported");
+                }
                 value = validatePartAndGetValue(foundValue, part, Element.class);
                 foundValue = true;
                 break;

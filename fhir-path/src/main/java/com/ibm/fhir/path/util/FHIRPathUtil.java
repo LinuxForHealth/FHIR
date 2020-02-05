@@ -573,7 +573,7 @@ public final class FHIRPathUtil {
         Visitable parent = node.isResourceNode() ? 
                 node.asResourceNode().resource() : node.asElementNode().element();
 
-        AddingVisitor<T> addingVisitor = new AddingVisitor<T>(parent, elementName, value);
+        AddingVisitor<T> addingVisitor = new AddingVisitor<>(parent, elementName, value);
 
         try {
             elementOrResource.accept(addingVisitor);

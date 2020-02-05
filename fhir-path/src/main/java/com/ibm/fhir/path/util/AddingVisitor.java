@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Stack;
 
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.visitor.CopyingVisitor;
@@ -30,7 +31,8 @@ public class AddingVisitor<T extends Visitable> extends CopyingVisitor<T> {
         this.visitStack = new Stack<Visitable>();
         this.parent = parent;
         this.elementNameToAdd = elementName;
-        this.value = value;
+        this.value = value instanceof Code ?
+                convertToCodeSubtype(parent, elementName, (Code)value) : value;
     }
     
     @Override

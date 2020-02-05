@@ -19,6 +19,7 @@ import com.ibm.fhir.model.builder.Builder;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.util.ModelSupport;
 
@@ -243,6 +244,21 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
 
     protected void markListDirty() {
         listStack.peek().dirty(true);
+    }
+
+    protected Code convertToCodeSubtype(Visitable parent, String elementName, Code value) {
+        Class<?> targetType = ModelSupport.getElementType(parent.getClass(), elementName);
+        if (value.getClass() != targetType) {
+            MethodType mt = MethodType.methodType(targetType, String.class);
+            try {
+                MethodHandle methodHandle = MethodHandles.publicLookup().findStatic(targetType, "of", mt);
+                value = (Code) methodHandle.invoke(((Code)value).getValue());
+            } catch (Throwable e) {
+                throw new IllegalArgumentException("Value of type '" + value.getClass() + 
+                    "' cannot be used to populate target of type '" + targetType + "'");
+            }
+        }
+        return value;
     }
 
     private abstract class Markable {
