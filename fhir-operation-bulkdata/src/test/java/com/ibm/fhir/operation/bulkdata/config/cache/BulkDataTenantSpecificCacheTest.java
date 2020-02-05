@@ -20,7 +20,6 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
-import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.processor.ExportImportBulkData;
@@ -82,7 +81,7 @@ public class BulkDataTenantSpecificCacheTest {
         String fileName = cache.getCacheEntryFilename("default");
         assertEquals(fileName, "target/test-classes/testdata/config/default/bulkdata.json");
         Map<String, String> props = cache.getCachedObjectForTenant("default");
-        assertEquals(props.size(), 20);
+        assertEquals(props.size(), 18);
     }
 
     @Test
@@ -101,12 +100,13 @@ public class BulkDataTenantSpecificCacheTest {
         assertTrue(eibd instanceof DummyImportExportImpl);
     }
 
-    @Test(expectedExceptions = { FHIROperationException.class })
+    @Test
     public void testBulkDataTenantSpecificCacheDefaultNotFound() throws Exception {
         BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
         String fileName = cache.getCacheEntryFilename("french");
         assertEquals(fileName, "target/test-classes/testdata/config/french/bulkdata.json");
-        cache.getCachedObjectForTenant("french");
+        Map<String,String> props = cache.getCachedObjectForTenant("french");
+        assertNull(props);
     }
 
     @Test

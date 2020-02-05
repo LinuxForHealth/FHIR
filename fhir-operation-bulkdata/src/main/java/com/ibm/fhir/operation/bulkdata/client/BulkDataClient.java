@@ -222,17 +222,15 @@ public class BulkDataClient {
             log.warning("JSON -> \n" + responseStr);
         }
 
-        BulkExportJobInstanceResponse response =
-                BulkExportJobInstanceResponse.Parser.parse(responseStr);
+        BulkExportJobInstanceResponse response = BulkExportJobInstanceResponse.Parser.parse(responseStr);
 
         // From the response
         String jobId = Integer.toString(response.getInstanceId());
 
-        String hostname = properties.get(BulkDataConfigUtil.SERVER_HOSTNAME);
-        String contextRoot = properties.get(BulkDataConfigUtil.CONTEXT_ROOT);
 
-        return "https://" + hostname + contextRoot + "/$export-status?job="
-            + BulkDataUtil.encryptBatchJobId(jobId, BulkDataConstants.BATCHJOBID_ENCRYPTION_KEY);
+        String baseUri = properties.get(BulkDataConfigUtil.BASE_URI);
+        return baseUri + "$export-status?job=" + 
+                BulkDataUtil.encryptBatchJobId(jobId, BulkDataConstants.BATCHJOBID_ENCRYPTION_KEY);
     }
 
     /**
@@ -307,8 +305,7 @@ public class BulkDataClient {
         }
 
         try {
-            BulkExportJobExecutionResponse response =
-                    BulkExportJobExecutionResponse.Parser.parse(responseStr);
+            BulkExportJobExecutionResponse response = BulkExportJobExecutionResponse.Parser.parse(responseStr);
             verifyTenant(response.getJobParameters());
 
             // The tenant is known, and now we need to query to delete the Job.
@@ -354,7 +351,7 @@ public class BulkDataClient {
         String bucket = properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET);
 
         // Request
-        String request = "/$export?_type=" + resourceTypes;
+        String request = "$export?_type=" + resourceTypes;
         result.setRequest(request);
         result.setRequiresAccessToken(false);
 

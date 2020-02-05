@@ -37,8 +37,6 @@ public class BulkDataConfigUtil {
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
     public static final String APPLICATION_NAME = "applicationName";
-    public static final String SERVER_HOSTNAME = "serverHostname";
-    public static final String CONTEXT_ROOT = "contextRoot";
     public static final String MODULE_NAME = "moduleName";
     public static final String JOB_XML_NAME = "jobXMLName";
     public static final String JOB_PARAMETERS = "jobParameters";
@@ -57,6 +55,7 @@ public class BulkDataConfigUtil {
     public static final String BATCH_USER = "batch-user";
     public static final String BATCH_USER_PASS = "batch-user-password";
     public static final String BATCH_URL = "batch-uri";
+    public static final String BASE_URI = "base-uri";
     public static final String BATCH_TRUSTSTORE = "batch-truststore";
     public static final String BATCH_TRUSTSTORE_PASS = "batch-truststore-password";
 
@@ -84,8 +83,6 @@ public class BulkDataConfigUtil {
                 JsonObject jsonObject = jsonReader.readObject();
 
                 addToMap(jsonObject, configs, APPLICATION_NAME);
-                addToMap(jsonObject, configs, SERVER_HOSTNAME);
-                addToMap(jsonObject, configs, CONTEXT_ROOT);
                 addToMap(jsonObject, configs, MODULE_NAME);
                 addToMap(jsonObject, configs, JOB_XML_NAME);
 
