@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,7 +47,7 @@ import com.ibm.fhir.path.exception.FHIRPathException;
 
 /**
  * Executes all the FHIRPath tests shipped with the FHIRPath specification
- * @see <a href="http://build.fhir.org/ig/HL7/FHIRPath/branches/master/N1/tests.html">http://build.fhir.org/ig/HL7/FHIRPath/branches/master/N1/tests.html</a>
+ * @see <a href="http://hl7.org/fhirpath/N1/tests.html">http://hl7.org/fhirpath/N1/tests.html</a>
  */
 public class FHIRPathSpecTest implements ITest {
     protected final FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -303,14 +303,14 @@ public class FHIRPathSpecTest implements ITest {
             FHIRPathEvaluator.DEBUG = true;
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
             Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.active.type().name = 'boolean'");
-            System.out.println("result: " + result);            
+            System.out.println("result: " + result);
         }
         try (InputStream in = FHIRPathSpecTest.class.getClassLoader().getResourceAsStream("FHIRPath/input/observation-example.xml")) {
             Observation observation = FHIRParser.parser(Format.XML).parse(in);
             FHIRPathEvaluator.DEBUG = true;
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
             Collection<FHIRPathNode> result = evaluator.evaluate(observation, "(Observation.value as Period).unit");
-            System.out.println("result: " + result);            
+            System.out.println("result: " + result);
         }
     }
 }

@@ -56,6 +56,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.visitor.Visitable;
 import com.ibm.fhir.path.FHIRPathBaseVisitor;
 import com.ibm.fhir.path.FHIRPathBooleanValue;
 import com.ibm.fhir.path.FHIRPathDateTimeValue;
@@ -95,6 +96,19 @@ public class FHIRPathEvaluator {
     
     public Collection<FHIRPathNode> evaluate(String expr) throws FHIRPathException {
         return evaluate(new EvaluationContext(), expr, empty());
+    }
+    
+    public Collection<FHIRPathNode> evaluate(Visitable resourceOrElement, String expr) throws FHIRPathException {
+        Objects.requireNonNull("resourceOrElement cannot be null");
+
+        if (resourceOrElement instanceof Resource) {
+            return evaluate((Resource) resourceOrElement, expr);
+        } else if (resourceOrElement instanceof Element) {
+            return evaluate((Element) resourceOrElement, expr);
+        }
+
+        throw new IllegalArgumentException("FHIRPath Context cannot be established for object of type " + 
+                resourceOrElement.getClass().getName());
     }
     
     public Collection<FHIRPathNode> evaluate(Resource resource, String expr) throws FHIRPathException {
