@@ -81,7 +81,7 @@
             "code": "decimal",
             "base": ["Basic"],
             "type": "number",
-            "expression": "Basic.extension.where(url='http://example.org/decimal').value",
+            "expression": "Basic.extension.where(url='http://example.org/decimal').value.as(Decimal)",
             "xpath": "f:Basic/f:extension[@url='http://example.org/decimal']/f:valueDecimal",
             "xpathUsage": "normal"
         }
@@ -337,7 +337,7 @@
             "code": "precision",
             "base": ["Basic"],
             "type": "number",
-            "expression": "Basic.extension.where(url='http://example.org/precision').value",
+            "expression": "Basic.extension.where(url='http://example.org/precision').value.as(Decimal)",
             "xpath": "f:Basic/f:extension[@url='http://example.org/precision']/f:valueDecimal",
             "xpathUsage": "normal"
         }

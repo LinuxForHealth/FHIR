@@ -46,6 +46,6 @@ public class BulkDataFactory {
         } catch (Exception e) {
             log.log(Level.WARNING, "found no tenant specific bulkdata.json", e);
         }
-        return new DummyImportExportImpl(cache);
+        return new DummyImportExportImpl();
     }
 }

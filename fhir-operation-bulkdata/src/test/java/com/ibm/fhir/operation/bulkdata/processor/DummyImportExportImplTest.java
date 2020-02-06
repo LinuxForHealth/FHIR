@@ -32,7 +32,6 @@ import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
-import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
 import com.ibm.fhir.operation.bulkdata.processor.impl.DummyImportExportImpl;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
@@ -40,10 +39,9 @@ import com.ibm.fhir.rest.FHIRResourceHelpers;
 import com.ibm.fhir.rest.FHIRRestOperationResponse;
 
 /**
- * 
+ * Test DummyImportExportImpl
  */
 public class DummyImportExportImplTest {
-
     @BeforeClass
     public void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes/testdata");
@@ -57,8 +55,7 @@ public class DummyImportExportImplTest {
 
         FHIRRequestContext.set(new FHIRRequestContext("default"));
 
-        BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
-        DummyImportExportImpl impl = new DummyImportExportImpl(cache);
+        DummyImportExportImpl impl = new DummyImportExportImpl();
         Parameters parmetersOut =
                 impl.export(logicalId, ExportType.GROUP, MediaType.valueOf("application/fhir+ndjson"), Instant.now(),
                         null, null, operationContext, resourceHelper);
@@ -73,8 +70,7 @@ public class DummyImportExportImplTest {
 
         FHIRRequestContext.set(new FHIRRequestContext("default"));
 
-        BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
-        DummyImportExportImpl impl = new DummyImportExportImpl(cache);
+        DummyImportExportImpl impl = new DummyImportExportImpl();
         int idx = 1;
         FHIROperationException e = null;
         while (idx != 4) {
@@ -104,8 +100,7 @@ public class DummyImportExportImplTest {
 
         FHIRRequestContext.set(new FHIRRequestContext("default"));
 
-        BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
-        DummyImportExportImpl impl = new DummyImportExportImpl(cache);
+        DummyImportExportImpl impl = new DummyImportExportImpl();
         int idx = 1;
         FHIROperationException e = null;
         while (idx != 4) {
@@ -135,8 +130,7 @@ public class DummyImportExportImplTest {
 
         FHIRRequestContext.set(new FHIRRequestContext("default"));
 
-        BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
-        DummyImportExportImpl impl = new DummyImportExportImpl(cache);
+        DummyImportExportImpl impl = new DummyImportExportImpl();
         int idx = 1;
         while (idx != 4) {
             try {
@@ -147,7 +141,7 @@ public class DummyImportExportImplTest {
             }
             idx++;
         }
-        assertTrue(idx < 4);
+        assertTrue(idx <= 4);
     }
     
     @Test
@@ -158,8 +152,7 @@ public class DummyImportExportImplTest {
 
         FHIRRequestContext.set(new FHIRRequestContext("default"));
 
-        BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
-        DummyImportExportImpl impl = new DummyImportExportImpl(cache);
+        DummyImportExportImpl impl = new DummyImportExportImpl();
         int idx = 1;
         while (idx != 4) {
             try {
@@ -170,7 +163,7 @@ public class DummyImportExportImplTest {
             }
             idx++;
         }
-        assertTrue(idx < 4);
+        assertTrue(idx <= 4);
     }
 
     @Test(expectedExceptions = { FHIROperationException.class })
@@ -187,8 +180,7 @@ public class DummyImportExportImplTest {
         builder.parameter(pss);
         Parameters parameters = builder.build();
 
-        BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
-        DummyImportExportImpl impl = new DummyImportExportImpl(cache);
+        DummyImportExportImpl impl = new DummyImportExportImpl();
         impl.importBulkData(logicalId, parameters, operationContext, resourceHelper);
     }
 
@@ -196,8 +188,7 @@ public class DummyImportExportImplTest {
     public void testDeleteJobFailed() throws FHIROperationException {
         String logicalId = "1";
         FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
-        BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
-        DummyImportExportImpl impl = new DummyImportExportImpl(cache);
+        DummyImportExportImpl impl = new DummyImportExportImpl();
         impl.delete(logicalId, operationContext);
     }
 
@@ -205,8 +196,7 @@ public class DummyImportExportImplTest {
     public void testDeleteJobSuccess() throws FHIROperationException {
         String logicalId = "2";
         FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
-        BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
-        DummyImportExportImpl impl = new DummyImportExportImpl(cache);
+        DummyImportExportImpl impl = new DummyImportExportImpl();
         Parameters parameters = impl.delete(logicalId, operationContext);
         assertNotNull(parameters);
     }
@@ -215,8 +205,7 @@ public class DummyImportExportImplTest {
     public void testStatusFailed() throws FHIROperationException {
         String logicalId = "2";
         FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
-        BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
-        DummyImportExportImpl impl = new DummyImportExportImpl(cache);
+        DummyImportExportImpl impl = new DummyImportExportImpl();
         impl.status(logicalId, operationContext);
     }
 
@@ -224,8 +213,7 @@ public class DummyImportExportImplTest {
     public void testStatusSuccess() throws FHIROperationException {
         String logicalId = "1";
         FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
-        BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
-        DummyImportExportImpl impl = new DummyImportExportImpl(cache);
+        DummyImportExportImpl impl = new DummyImportExportImpl();
         Parameters parameters = impl.status(logicalId, operationContext);
         assertNotNull(parameters);
     }
@@ -234,8 +222,7 @@ public class DummyImportExportImplTest {
     public void testStatusSuccessRetry() throws FHIROperationException {
         String logicalId = "3";
         FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
-        BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
-        DummyImportExportImpl impl = new DummyImportExportImpl(cache);
+        DummyImportExportImpl impl = new DummyImportExportImpl();
         Parameters parameters = impl.status(logicalId, operationContext);
         assertNotNull(parameters);
     }

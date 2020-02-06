@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
 
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -58,6 +59,8 @@ public class CosExportImpl implements ExportImportBulkData {
                 tmpProperties.put(BulkDataConstants.PARAM_GROUP_ID, logicalId);
             }
 
+            addBaseUri(operationContext, tmpProperties);
+
             // Submit Job
             BulkDataClient client = new BulkDataClient(tmpProperties);
             // If we add multiple formats, shove the mediatype into a properties map. 
@@ -81,6 +84,13 @@ public class CosExportImpl implements ExportImportBulkData {
         }
     }
 
+    public void addBaseUri(FHIROperationContext operationContext, Map<String, String> tmpProperties) {
+        // Grab the URI
+        UriInfo uriInfo = (UriInfo) operationContext.getProperty(FHIROperationContext.PROPNAME_URI_INFO);
+        String baseUri = uriInfo.getBaseUri().toString();
+        tmpProperties.put("base-uri", baseUri);
+    }
+
     @Override
     public Parameters status(String job, FHIROperationContext operationContext) throws FHIROperationException {
         try {
@@ -88,7 +98,10 @@ public class CosExportImpl implements ExportImportBulkData {
             Map<String, String> properties = cache.getCachedObjectForTenant(requestContext.getTenantId());
 
             // Check on the Job's Status
-            BulkDataClient client = new BulkDataClient(properties);
+            Map<String, String> tmpProperties = new HashMap<>();
+            tmpProperties.putAll(properties);
+            addBaseUri(operationContext, tmpProperties);
+            BulkDataClient client = new BulkDataClient(tmpProperties);
             PollingLocationResponse pollingResponse = client.status(job);
 
             /*
@@ -128,7 +141,10 @@ public class CosExportImpl implements ExportImportBulkData {
             Map<String, String> properties = cache.getCachedObjectForTenant(requestContext.getTenantId());
 
             // Send the DELETE
-            BulkDataClient client = new BulkDataClient(properties);
+            Map<String, String> tmpProperties = new HashMap<>();
+            tmpProperties.putAll(properties);
+            addBaseUri(operationContext, tmpProperties);
+            BulkDataClient client = new BulkDataClient(tmpProperties);
             client.delete(job);
 
             // Set to accepted for signaling purposes, it does not OVERRIDE the above Status
@@ -149,9 +165,10 @@ public class CosExportImpl implements ExportImportBulkData {
         try {
             FHIRRequestContext requestContext = FHIRRequestContext.get();
             Map<String, String> properties = cache.getCachedObjectForTenant(requestContext.getTenantId());
-
+            
             Map<String, String> tmpProperties = new HashMap<>();
             tmpProperties.putAll(properties);
+            addBaseUri(operationContext, tmpProperties);
 
             /*
              * The framework is in place. However, the deserialized $import operation request format is not balloted

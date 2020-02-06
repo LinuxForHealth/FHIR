@@ -88,9 +88,10 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
 
 9.  After you start the server, you can verify that it's running properly by invoking the `$healthcheck` endpoint like this:
     ```
-    curl -k -u <username> https://<host>:<port>/fhir-server/api/v4/$endpoint
+    curl -k -u <username> 'https://<host>:<port>/fhir-server/api/v4/$healthcheck'
     ```
-    where `<username>` is one of the users configured in `server.xml` (default is `fhiruser`).
+    where `<username>` is one of the users configured in `server.xml` (default is `fhiruser`).  
+    Note: Use single quotes around the URL to prevent $healthcheck from being evaluated as an environment variable on unix-based operating systems.  
     The preceding command should produce output similar to the following:
     ```
     {
@@ -201,10 +202,11 @@ If you configure the FHIR server to use an IBM Db2 database, you must
 
 1. create the database if it doesn't already exist; and  
 
-2. execute `com.ibm.fhir.schema.app.Main` from the `fhir-persistence-schema` jar file to create the necessary schema (tables, indexes, and other elements).
+2. execute `com.ibm.fhir.schema.app.Main` from `fhir-persistence-schema` to create the necessary schema (tables, indexes, and other elements).
 
-For a detailed guide on configuring IBM Db2 on Cloud for the IBM FHIR Server, see [DB2OnCloudSetup](https://ibm.github.io/FHIR/DB2OnCloudSetup).
-TODO: improve documentation on installing the database schema.
+An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/master/fhir-persistence-schema.
+
+For a detailed guide on configuring IBM Db2 on Cloud for the IBM FHIR Server, see [DB2OnCloudSetup](https://ibm.github.io/FHIR/guides/DB2OnCloudSetup).
 
 #### 3.4.1.2 FHIR server configuration
 To configure the FHIR server to use the JDBC persistence layer, complete the following steps:

@@ -17,7 +17,6 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_RESOURCE_I
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATA;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_END;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_START;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.IDX;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PK;
@@ -380,12 +379,12 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
-                .addTimestampColumn(      DATE_VALUE,      true)
+                .addTimestampColumn(      "DATE_VALUE",      true)
                 .addTimestampColumn(      DATE_START,      true)
                 .addTimestampColumn(        DATE_END,      true)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
-                .addIndex(IDX + tableName + "_PVR", PARAMETER_NAME_ID, DATE_VALUE, LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_RPV", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, DATE_VALUE)
+                .addIndex(IDX + tableName + "_PVR", PARAMETER_NAME_ID, "DATE_VALUE", LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_RPV", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, "DATE_VALUE")
                 .addIndex(IDX + tableName + "_PSER", PARAMETER_NAME_ID, DATE_START, DATE_END, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_PESR", PARAMETER_NAME_ID, DATE_END, DATE_START, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_RPSE", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, DATE_START, DATE_END)

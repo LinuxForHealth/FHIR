@@ -95,6 +95,7 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
@@ -117,6 +118,7 @@ import com.ibm.fhir.operation.FHIROperation;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.fhir.operation.util.FHIROperationUtil;
+import com.ibm.fhir.path.patch.FHIRPathPatch;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
@@ -444,6 +446,54 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     @PATCH
+    @Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, FHIRMediaType.APPLICATION_FHIR_XML})
+    @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
+    @Path("{type}/{id}")
+    public Response patch(@PathParam("type") String type, @PathParam("id") String id, Parameters parameters) {
+        Response.Status status;
+
+        log.entering(this.getClass().getName(), "patch(String,String,Parameters)");
+        FHIRRestOperationResponse ior = null;
+        try {
+            checkInitComplete();
+
+            FHIRPatch patch;
+            try {
+                patch = new FHIRPathPatch(parameters);
+            } catch(IllegalArgumentException e) {
+                throw buildRestException(e.getMessage(), Status.BAD_REQUEST, IssueType.INVALID);
+            }
+
+            ior = doPatch(type, id, patch, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null, null);
+
+            ResponseBuilder response =
+                    Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
+            status = ior.getStatus();
+            response.status(status);
+
+            Resource resource = ior.getResource();
+            if (resource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(resource);
+            } else if (ior.getOperationOutcome() != null && 
+                       HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(ior.getOperationOutcome());
+            }
+            response = addHeaders(response, resource);
+            return response.build();
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+            return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
+        } catch (FHIRHttpException e) {
+            return exceptionResponse(e);
+        } catch (FHIROperationException e) {
+            return exceptionResponse(e);
+        } catch (Exception e) {
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+        } finally {
+            log.exiting(this.getClass().getName(), "patch(String,String,JsonArray)");
+        }
+    }
+
+    @PATCH
     @Consumes({ FHIRMediaType.APPLICATION_JSON_PATCH })
     @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
     @Path("{type}")
@@ -460,6 +510,71 @@ public class FHIRResource implements FHIRResourceHelpers {
             checkInitComplete();
 
             FHIRPatch patch = createPatch(array);
+
+            String searchQueryString = httpServletRequest.getQueryString();
+            if (searchQueryString == null || searchQueryString.isEmpty()) {
+                createAuditLogRecord = true;
+                String msg =
+                        "Cannot PATCH to resource type endpoint unless a search query string is provided for a conditional patch.";
+                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.INVALID);
+            }
+
+            ior = doPatch(type, null, patch, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), searchQueryString, null);
+
+            ResponseBuilder response =
+                    Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
+            status = ior.getStatus();
+            response.status(status);
+
+            Resource resource = ior.getResource();
+            if (resource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(resource);
+            } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
+                response.entity(ior.getOperationOutcome());
+            }
+
+            response = addHeaders(response, ior.getResource());
+
+            if (createAuditLogRecord) {
+                RestAuditLogger.logPatch(httpServletRequest, (ior != null ? ior.getPrevResource()
+                        : null), (ior != null ? ior.getResource()
+                                : null), startTime, new Date(), status);
+            }
+
+            return response.build();
+        } catch (FHIRPersistenceResourceNotFoundException e) {
+            status = Response.Status.METHOD_NOT_ALLOWED;
+            return exceptionResponse(e, status);
+        } catch (FHIRHttpException e) {
+            status = e.getHttpStatus();
+            return exceptionResponse(e);
+        } catch (FHIROperationException e) {
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e);
+        } catch (Exception e) {
+            return exceptionResponse(e, status);
+        } finally {
+            log.exiting(this.getClass().getName(), "conditionalPatch(String,String,JsonArray)");
+        }
+    }
+
+    @PATCH
+    @Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, FHIRMediaType.APPLICATION_FHIR_XML})
+    @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
+    @Path("{type}")
+    public Response conditionalPatch(@PathParam("type") String type, Parameters parameters) {
+        Date startTime = new Date();
+        Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
+
+        log.entering(this.getClass().getName(), "conditionalPatch(String,String,Parameters)");
+
+        FHIRRestOperationResponse ior = null;
+        boolean createAuditLogRecord = false;
+
+        try {
+            checkInitComplete();
+
+            FHIRPatch patch = new FHIRPathPatch(parameters);
 
             String searchQueryString = httpServletRequest.getQueryString();
             if (searchQueryString == null || searchQueryString.isEmpty()) {
@@ -3592,9 +3707,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             List<SearchParameter> searchParameters = SearchUtil.getSearchParameters(resourceType);
             if (searchParameters != null) {
                 for (SearchParameter searchParameter : searchParameters) {
-                    // Issue 202: the name here is a natural language name, and intentionally not replaced with code.
+                    // The name here is a natural language name, and intentionally not replaced with code.
                     Rest.Resource.SearchParam.Builder conformanceSearchParamBuilder =
-                            Rest.Resource.SearchParam.builder().name(searchParameter.getName()).type(searchParameter.getType());
+                            Rest.Resource.SearchParam.builder()
+                                .name(searchParameter.getName())
+                                .type(searchParameter.getType());
                     if (searchParameter.getDescription() != null) {
                         conformanceSearchParamBuilder.documentation(searchParameter.getDescription());
                     }
@@ -3607,16 +3724,16 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             // Build the ConformanceResource for this resource type.
             Rest.Resource cr = Rest.Resource.builder()
-                                         .type(ResourceType.of(resourceType))
-                                         .profile(Canonical.of("http://hl7.org/fhir/profiles/" + resourceType))
-                                         .interaction(interactions)
-                                         .conditionalCreate(com.ibm.fhir.model.type.Boolean.of(true))
-                                         .conditionalUpdate(com.ibm.fhir.model.type.Boolean.of(true))
-                                         .updateCreate(com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled()))
-                                         .conditionalDelete(ConditionalDeleteStatus.SINGLE)
-                                         .conditionalRead(ConditionalReadStatus.FULL_SUPPORT)
-                                         .searchParam(conformanceSearchParams)
-                                         .build();
+                    .type(ResourceType.of(resourceType))
+                    .profile(Canonical.of("http://hl7.org/fhir/profiles/" + resourceType))
+                    .interaction(interactions)
+                    .conditionalCreate(com.ibm.fhir.model.type.Boolean.of(true))
+                    .conditionalUpdate(com.ibm.fhir.model.type.Boolean.of(true))
+                    .updateCreate(com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled()))
+                    .conditionalDelete(ConditionalDeleteStatus.SINGLE)
+                    .conditionalRead(ConditionalReadStatus.FULL_SUPPORT)
+                    .searchParam(conformanceSearchParams)
+                    .build();
 
             resources.add(cr);
         }
@@ -3649,11 +3766,31 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         String regURL = regURLTemplate.replaceAll("<host>", actualHost);
 
-        CapabilityStatement.Rest.Security restSecurity =
-                CapabilityStatement.Rest.Security.builder().service(CodeableConcept.builder().coding(Coding.builder().code(Code.of("SMART-on-FHIR")).system(Uri.of("http://terminology.hl7.org/CodeSystem/restful-security-service")).build()).text(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)")).build()).extension(Extension.builder().url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris").extension(Extension.builder().url("token").value(Url.of(tokenURL)).build(), Extension.builder().url("authorize").value(Url.of(authURL)).build(), Extension.builder().url("register").value(Url.of(regURL)).build()).build()).build();
+        CapabilityStatement.Rest.Security restSecurity = CapabilityStatement.Rest.Security.builder()
+                .service(CodeableConcept.builder()
+                    .coding(Coding.builder()
+                        .code(Code.of("SMART-on-FHIR"))
+                        .system(Uri.of("http://terminology.hl7.org/CodeSystem/restful-security-service"))
+                        .build())
+                    .text(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)"))
+                    .build())
+                .extension(Extension.builder()
+                    .url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
+                    .extension(
+                        Extension.builder().url("token").value(Url.of(tokenURL)).build(), 
+                        Extension.builder().url("authorize").value(Url.of(authURL)).build(),
+                        Extension.builder().url("register").value(Url.of(regURL)).build())
+                    .build())
+                .build();
 
-        CapabilityStatement.Rest rest =
-                CapabilityStatement.Rest.builder().mode(RestfulCapabilityMode.SERVER).security(restSecurity).resource(resources).interaction(CapabilityStatement.Rest.Interaction.builder().code(transactionMode).build()).build();
+        CapabilityStatement.Rest rest = CapabilityStatement.Rest.builder()
+                .mode(RestfulCapabilityMode.SERVER)
+                .security(restSecurity)
+                .resource(resources)
+                .interaction(CapabilityStatement.Rest.Interaction.builder()
+                    .code(transactionMode)
+                    .build())
+                .build();
 
         FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
         String buildDescription = FHIR_SERVER_NAME + " version " + buildInfo.getBuildVersion()
@@ -3673,16 +3810,20 @@ public class FHIRResource implements FHIRResourceHelpers {
                 .date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC)))
                 .kind(CapabilityStatementKind.CAPABILITY)
                 .fhirVersion(FHIRVersion.VERSION_4_0_1)
-                .format(format).patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH))
+                .format(format)
+                .patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH),
+                             Code.of(FHIRMediaType.APPLICATION_FHIR_JSON),
+                             Code.of(FHIRMediaType.APPLICATION_FHIR_XML))
                 .version(string(buildInfo.getBuildVersion()))
                 .name(string(FHIR_SERVER_NAME))
-                .description(com.ibm.fhir.model.type.Markdown.of(buildDescription))
-                .copyright(com.ibm.fhir.model.type.Markdown.of(FHIR_COPYRIGHT))
+                .description(Markdown.of(buildDescription))
+                .copyright(Markdown.of(FHIR_COPYRIGHT))
                 .publisher(string("IBM Corporation"))
                 .software(CapabilityStatement.Software.builder()
                           .name(string(FHIR_SERVER_NAME))
                           .version(string(buildInfo.getBuildVersion()))
-                          .id(buildInfo.getBuildId()).build())
+                          .id(buildInfo.getBuildId())
+                          .build())
                 .rest(rest)
                 .build();
 

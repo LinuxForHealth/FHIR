@@ -515,7 +515,8 @@ public final class ModelSupport {
     }
 
     /**
-     * @return the model class for the element with name elementName on the passed modelClass
+     * @return the model class for the element with name elementName on the passed modelClass or
+     *         null if the passed modelClass does not have an element {@code elementName}
      */
     public static Class<?> getElementType(Class<?> modelClass, String elementName) {
         ElementInfo elementInfo = getElementInfo(modelClass, elementName);
