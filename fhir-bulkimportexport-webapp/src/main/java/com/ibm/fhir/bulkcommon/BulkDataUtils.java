@@ -10,6 +10,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -41,8 +44,8 @@ import com.ibm.fhir.model.resource.Resource;
  *
  */
 
-public class COSUtils {
-    private final static Logger logger = Logger.getLogger(COSUtils.class.getName());
+public class BulkDataUtils {
+    private final static Logger logger = Logger.getLogger(BulkDataUtils.class.getName());
 
     /**
      * Logging helper.
@@ -122,7 +125,64 @@ public class COSUtils {
             }
 
         } catch (Exception ioe) {
-            logger.warning("processCosObject: " + "Error proccesing file " + itemName + " - " + ioe.getMessage());
+            logger.warning("readFhirResourceFromObjectStore: " + "Error proccesing file " + itemName + " - " + ioe.getMessage());
+            exported = 0;
+        }
+        return exported;
+    }
+
+
+    public static int readFhirResourceFromLocalFile(String filePath, int numOfLinesToSkip, List<Resource> fhirResources) {
+        int exported = 0;
+        int lineRed = 0;
+        try (BufferedReader resReader = Files.newBufferedReader(Paths.get(filePath))) {
+            while (resReader.ready()) {
+                String resLine = resReader.readLine();
+                lineRed++;
+                if (resLine == null) {
+                    break;
+                }
+                if (lineRed <= numOfLinesToSkip) {
+                    continue;
+                }
+                fhirResources.add(FHIRParser.parser(Format.JSON).parse(new StringReader(resLine)));
+                exported++;
+                if (exported == Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD) {
+                    break;
+                }
+            }
+
+        } catch (Exception ioe) {
+            logger.warning("readFhirResourceFromLocalFile: " + "Error proccesing file " + filePath + " - " + ioe.getMessage());
+            exported = 0;
+        }
+        return exported;
+    }
+
+
+    public static int readFhirResourceFromHttps(String dataUrl, int numOfLinesToSkip, List<Resource> fhirResources) {
+        int exported = 0;
+        int lineRed = 0;
+
+        try (BufferedReader resReader = new BufferedReader(new InputStreamReader(new URL(dataUrl).openConnection().getInputStream()))) {
+            while (resReader.ready()) {
+                String resLine = resReader.readLine();
+                lineRed++;
+                if (resLine == null) {
+                    break;
+                }
+                if (lineRed <= numOfLinesToSkip) {
+                    continue;
+                }
+                fhirResources.add(FHIRParser.parser(Format.JSON).parse(new StringReader(resLine)));
+                exported++;
+                if (exported == Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD) {
+                    break;
+                }
+            }
+
+        } catch (Exception ioe) {
+            logger.warning("readFhirResourceFromHttps: " + "Error proccesing file " + dataUrl + " - " + ioe.getMessage());
             exported = 0;
         }
         return exported;

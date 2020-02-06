@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -49,6 +49,13 @@ public class ChunkWriter extends AbstractItemWriter {
     String fhirDatastoreId;
 
     /**
+     * Fhir resource type to process.
+     */
+    @Inject
+    @BatchProperty(name = "import.partiton.resourcetype")
+    String importPartitionResourceType;
+
+    /**
      * @see javax.batch.api.chunk.AbstractItemWriter#AbstractItemWriter()
      */
     public ChunkWriter() {
@@ -93,7 +100,7 @@ public class ChunkWriter extends AbstractItemWriter {
         }
         CheckPointData chunkData = (CheckPointData) stepCtx.getTransientUserData();
         chunkData.setNumOfLinesToSkip(chunkData.getNumOfLinesToSkip() + imported);
-        logger.info("writeItems: Imported " + imported + "fhir resources from " +  chunkData.getImportPartitionWorkitem());
+        logger.info("writeItems: Imported " + imported + " " + importPartitionResourceType + " from " +  chunkData.getImportPartitionWorkitem());
     }
 
 }

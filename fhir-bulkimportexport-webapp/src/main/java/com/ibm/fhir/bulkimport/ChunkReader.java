@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,7 +17,7 @@ import javax.batch.runtime.context.StepContext;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
-import com.ibm.fhir.bulkcommon.COSUtils;
+import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.model.resource.Resource;
 
 /**
@@ -31,6 +31,13 @@ public class ChunkReader extends AbstractItemReader {
 
     @Inject
     StepContext stepCtx;
+
+    /**
+     * The data source storage type.
+     */
+    @Inject
+    @BatchProperty(name = "fhir.storagetype")
+    String dataSourceStorageType;
 
     /**
      * The IBM COS API key or S3 access key.
@@ -81,6 +88,13 @@ public class ChunkReader extends AbstractItemReader {
     @BatchProperty(name = "import.partiton.workitem")
     String importPartitionWorkitem;
 
+    /**
+     * Fhir resource type to process.
+     */
+    @Inject
+    @BatchProperty(name = "import.partiton.resourcetype")
+    String importPartitionResourceType;
+
     public ChunkReader() {
         super();
     }
@@ -90,7 +104,7 @@ public class ChunkReader extends AbstractItemReader {
         List<Resource> loadedFhirResources = new ArrayList<Resource>();
         logger.info("readItem: get work item:" + importPartitionWorkitem);
 
-        cosClient = COSUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
+        cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
                 cosLocation);
         if (cosClient == null) {
             logger.warning("readItem: Failed to get CosClient!");
@@ -107,8 +121,23 @@ public class ChunkReader extends AbstractItemReader {
             numOfLinesToSkip = chunkData.getNumOfLinesToSkip();
         }
 
-        int imported = COSUtils.readFhirResourceFromObjectStore(cosClient, cosBucketName, importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources);
-        logger.info("readItem: loaded " + imported + " fhir resources from " + importPartitionWorkitem);
+        int imported = 0;
+
+        switch (BulkImportDataSourceStorageType.from(dataSourceStorageType)) {
+        case HTTPS:
+            imported = BulkDataUtils.readFhirResourceFromHttps(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources);
+            break;
+        case FILE:
+            imported = BulkDataUtils.readFhirResourceFromLocalFile(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources);
+            break;
+        case AWSS3:
+        case IBMCOS:
+            imported = BulkDataUtils.readFhirResourceFromObjectStore(cosClient, cosBucketName, importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources);
+            break;
+        default:
+            break;
+        }
+        logger.info("readItem: loaded " + imported + " " + importPartitionResourceType + " from " + importPartitionWorkitem);
         if (imported == 0) {
             return null;
         } else {
