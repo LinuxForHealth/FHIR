@@ -11,26 +11,29 @@ import java.util.logging.Logger;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemWriter;
+import javax.batch.runtime.context.StepContext;
 import javax.inject.Inject;
 
-import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
-import com.ibm.fhir.bulkcommon.COSUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
+import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 
 /**
  * Bulk import Chunk implementation - the Writer.
- * 
- * @author Albert Wang
+ *
  */
 public class ChunkWriter extends AbstractItemWriter {
     private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
-    private AmazonS3 cosClient = null;
+
+    @Inject
+    StepContext stepCtx;
+
     /**
      * Fhir tenant id.
      */
@@ -46,48 +49,6 @@ public class ChunkWriter extends AbstractItemWriter {
     String fhirDatastoreId;
 
     /**
-     * The IBM COS API key or S3 access key.
-     */
-    @Inject
-    @BatchProperty(name = "cos.api.key")
-    String cosApiKeyProperty;
-
-    /**
-     * The IBM COS service instance id or s3 secret key.
-     */
-    @Inject
-    @BatchProperty(name = "cos.srvinst.id")
-    String cosSrvinstId;
-
-    /**
-     * The Cos End point URL.
-     */
-    @Inject
-    @BatchProperty(name = "cos.endpointurl")
-    String cosEndpintUrl;
-
-    /**
-     * The Cos End point URL.
-     */
-    @Inject
-    @BatchProperty(name = "cos.location")
-    String cosLocation;
-
-    /**
-     * The Cos bucket name.
-     */
-    @Inject
-    @BatchProperty(name = "cos.bucket.name")
-    String cosBucketName;
-
-    /**
-     * If use IBM credential.
-     */
-    @Inject
-    @BatchProperty(name = "cos.credential.ibm")
-    String cosCredentialIbm;
-
-    /**
      * @see javax.batch.api.chunk.AbstractItemWriter#AbstractItemWriter()
      */
     public ChunkWriter() {
@@ -96,8 +57,9 @@ public class ChunkWriter extends AbstractItemWriter {
 
     /**
      * @throws Exception
-     * @see {@link javax.batch.api.chunk.AbstractItemWriter#writeItems(List)} 
+     * @see {@link javax.batch.api.chunk.AbstractItemWriter#writeItems(List)}
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void writeItems(List<java.lang.Object> arg0) throws Exception {
         if (fhirTenant == null) {
@@ -108,14 +70,6 @@ public class ChunkWriter extends AbstractItemWriter {
             fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
             logger.info("writeItems: Set DatastoreId to default!");
         }
-        cosClient = COSUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
-                cosLocation);
-        if (cosClient == null) {
-            logger.warning("writeItems: Failed to get CosClient!");
-            return;
-        } else {
-            logger.finer("writeItems: Got CosClient successfully!");
-        }
 
         FHIRConfiguration.setConfigHome("./");
         FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
@@ -123,17 +77,23 @@ public class ChunkWriter extends AbstractItemWriter {
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
         FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
+        FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
 
         int imported = 0;
         for (Object objResJasonList : arg0) {
-            List<String> resCosObjectNameList = (List<String>) objResJasonList;
+            List<Resource> fhirResourceList = (List<Resource>) objResJasonList;
 
-            for (String resCosObjectName : resCosObjectNameList) {
-                imported += COSUtils.processCosObject(cosClient, cosBucketName, resCosObjectName, fhirPersistence,
-                        persistenceContext);
-                logger.info("writeItems: SubTotal Import - " + imported);
+            for (Resource fhirResource : fhirResourceList) {
+
+                txn.begin();
+                fhirPersistence.update(persistenceContext, fhirResource.getId(), fhirResource);
+                txn.commit();
+                imported++;
             }
         }
+        CheckPointData chunkData = (CheckPointData) stepCtx.getTransientUserData();
+        chunkData.setNumOfLinesToSkip(chunkData.getNumOfLinesToSkip() + imported);
+        logger.info("writeItems: Imported " + imported + "fhir resources from " +  chunkData.getImportPartitionWorkitem());
     }
 
 }

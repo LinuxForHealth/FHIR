@@ -13,25 +13,24 @@ import java.util.logging.Logger;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemReader;
+import javax.batch.runtime.context.StepContext;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
-import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Request;
-import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Result;
-import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectSummary;
 import com.ibm.fhir.bulkcommon.COSUtils;
-import com.ibm.fhir.bulkcommon.Constants;
+import com.ibm.fhir.model.resource.Resource;
 
 /**
  * Bulk import Chunk implementation - the Reader.
  *
  */
 public class ChunkReader extends AbstractItemReader {
-    private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
+    private static final Logger logger = Logger.getLogger(ChunkReader.class.getName());
     private AmazonS3 cosClient = null;
+    private int numOfLinesToSkip = 0;
 
-    int pageNum = 0;
-    String nextToken = null;
+    @Inject
+    StepContext stepCtx;
 
     /**
      * The IBM COS API key or S3 access key.
@@ -69,20 +68,6 @@ public class ChunkReader extends AbstractItemReader {
     String cosBucketName;
 
     /**
-     * The Cos bucket name.
-     */
-    @Inject
-    @BatchProperty(name = "cos.read.maxobjects")
-    String maxCOSObjectsPerRead;
-
-    /**
-     * The Cos object name.
-     */
-    @Inject
-    @BatchProperty(name = "cos.bucket.objectname")
-    String cosBucketObjectName;
-
-    /**
      * If use IBM credential.
      */
     @Inject
@@ -90,88 +75,54 @@ public class ChunkReader extends AbstractItemReader {
     String cosCredentialIbm;
 
     /**
-     * @see AbstractItemReader#AbstractItemReader()
+     * Work item to process.
      */
+    @Inject
+    @BatchProperty(name = "import.partiton.workitem")
+    String importPartitionWorkitem;
+
     public ChunkReader() {
         super();
     }
 
-    /**
-     * @throws Exception
-     * @see AbstractItemReader#readItem()
-     */
     @Override
     public Object readItem() throws Exception {
-        List<String> resCosObjectNameList = new ArrayList<String>();
+        List<Resource> loadedFhirResources = new ArrayList<Resource>();
+        logger.info("readItem: get work item:" + importPartitionWorkitem);
+
         cosClient = COSUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
                 cosLocation);
-
         if (cosClient == null) {
             logger.warning("readItem: Failed to get CosClient!");
             return null;
         } else {
-            logger.finer("readItem: Succeed get CosClient!");
-        }
-        if (cosBucketName == null) {
-            cosBucketName = "fhir-bulkImExport-Connectathon";
-        }
-        cosBucketName = cosBucketName.toLowerCase();
-        if (!cosClient.doesBucketExist(cosBucketName)) {
-            logger.warning("readItem: Bucket '" + cosBucketName + "' not found!");
-            COSUtils.listBuckets(cosClient);
-            return null;
-        }
-        // Control the number of COS objects to read in each "item".
-        int maxKeys = Constants.DEFAULT_NUMOFOBJECTS_PERREAD;
-        if (maxCOSObjectsPerRead != null) {
-            try {
-                maxKeys = Integer.parseInt(maxCOSObjectsPerRead);
-                logger.info("readItem: Number of COS Objects in each read - " + maxKeys + ".");
-            } catch (Exception e) {
-                logger.warning("readItem: Set Number of COS Objects in each read to default("
-                        + Constants.DEFAULT_NUMOFOBJECTS_PERREAD + ").");
-            }
+            logger.finer("readItem: Got CosClient successfully!");
         }
 
-        if (nextToken != null && nextToken.contentEquals("ALLDONE")) {
-            return null;
-        }
-
-        ListObjectsV2Request request = new ListObjectsV2Request().withBucketName(cosBucketName).withMaxKeys(maxKeys)
-                .withContinuationToken(nextToken);
-        ListObjectsV2Result result = cosClient.listObjectsV2(request);
-        for (S3ObjectSummary objectSummary : result.getObjectSummaries()) {
-            boolean isToBeProccessed = false;
-            if (cosBucketObjectName != null && cosBucketObjectName.trim().length() > 0) {
-                if (objectSummary.getKey().startsWith(cosBucketObjectName.trim())) {
-                    isToBeProccessed = true;
-                }
-            } else {
-                isToBeProccessed = true;
-            }
-            if (isToBeProccessed) {
-                logger.info("readItem: COS Object(" + objectSummary.getKey() + ") - " + objectSummary.getSize()
-                        + " bytes.");
-                if (objectSummary.getSize() > 0) {
-                    resCosObjectNameList.add(objectSummary.getKey());
-                }
-            }
-        }
-
-        if (result.isTruncated()) {
-            nextToken = result.getNextContinuationToken();
+        CheckPointData chunkData = (CheckPointData) stepCtx.getTransientUserData();
+        if (chunkData == null) {
+            chunkData = new CheckPointData(importPartitionWorkitem, numOfLinesToSkip);
+            stepCtx.setTransientUserData(chunkData);
         } else {
-            // Use this special token to sign the end of the import.
-            nextToken = "ALLDONE";
+            numOfLinesToSkip = chunkData.getNumOfLinesToSkip();
         }
 
-        return resCosObjectNameList;
+        int imported = COSUtils.readFhirResourceFromObjectStore(cosClient, cosBucketName, importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources);
+        logger.info("readItem: loaded " + imported + " fhir resources from " + importPartitionWorkitem);
+        if (imported == 0) {
+            return null;
+        } else {
+            return loadedFhirResources;
+        }
     }
 
     @Override
     public void open(Serializable checkpoint) throws Exception {
         if (checkpoint != null) {
-            nextToken = (String) checkpoint;
+            CheckPointData checkPointData = (CheckPointData) checkpoint;
+            importPartitionWorkitem = checkPointData.getImportPartitionWorkitem();
+            numOfLinesToSkip = checkPointData.getNumOfLinesToSkip();
+            stepCtx.setTransientUserData(checkPointData);
         }
     }
 
@@ -182,7 +133,7 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public Serializable checkpointInfo() throws Exception {
-        return nextToken;
+        return (CheckPointData) stepCtx.getTransientUserData();
     }
 
 }

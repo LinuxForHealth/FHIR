@@ -35,9 +35,6 @@ import com.ibm.cloud.objectstorage.services.s3.model.UploadPartResult;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
-import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 
 /**
  * Utility functions for IBM COS.
@@ -102,35 +99,32 @@ public class COSUtils {
         }
     }
 
-    public static int processCosObject(AmazonS3 cosClient, String bucketName, String itemName,
-            FHIRPersistence fhirPersistence, FHIRPersistenceContext persistenceContext) throws Exception {
+    public static int readFhirResourceFromObjectStore(AmazonS3 cosClient, String bucketName, String itemName,
+           int numOfLinesToSkip, List<Resource> fhirResources) {
         int exported = 0;
+        int lineRed = 0;
         S3Object item = cosClient.getObject(new GetObjectRequest(bucketName, itemName));
-        FHIRTransactionHelper txn = null;
         try (BufferedReader resReader = new BufferedReader(new InputStreamReader(item.getObjectContent()))) {
-
             while (resReader.ready()) {
                 String resLine = resReader.readLine();
+                lineRed++;
                 if (resLine == null) {
                     break;
                 }
-                Resource fhirRes = FHIRParser.parser(Format.JSON).parse(new StringReader(resLine));
-
-                txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-                txn.begin();
-                fhirPersistence.update(persistenceContext, fhirRes.getId(), fhirRes);
-                txn.commit();
+                if (lineRed <= numOfLinesToSkip) {
+                    continue;
+                }
+                fhirResources.add(FHIRParser.parser(Format.JSON).parse(new StringReader(resLine)));
                 exported++;
+                if (exported == Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD) {
+                    break;
+                }
             }
 
         } catch (Exception ioe) {
             logger.warning("processCosObject: " + "Error proccesing file " + itemName + " - " + ioe.getMessage());
-            if (txn != null) {
-                txn.rollback();
-            }
-            throw ioe;
+            exported = 0;
         }
-
         return exported;
     }
 

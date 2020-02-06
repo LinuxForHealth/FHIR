@@ -27,4 +27,8 @@ public class Constants {
     public static final int DEFAULT_MAXCOSFILE_SIZE = 104857600;
     public static final String FHIR_SEARCH_LASTUPDATED = "_lastUpdated";
     public static final byte[] NDJSON_LINESEPERATOR = "\r\n".getBytes();
+
+    public static final int IMPORT_MAX_PARTITIONPROCESSING_THREADNUMBER = 10;
+    public static final String IMPORT_PARTITTION_WORKITEM = "import.partiton.workitem";
+    public static final int IMPORT_NUMOFFHIRRESOURCES_PERREAD = 1000;
 }

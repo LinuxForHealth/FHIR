@@ -7,28 +7,36 @@
         <chunk checkpoint-policy="item" item-count="#{jobProperties['fhir.cosreadsperdbbatch']}">
             <reader ref="com.ibm.fhir.bulkimport.ChunkReader">
                 <properties>
+                    <property name="import.partiton.workitem" value="#{partitionPlan['import.partiton.workitem']}"/>
                     <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
                     <property name="cos.srvinst.id" value="#{jobParameters['cos.srvinst.id']}"/>
                     <property name="cos.endpointurl" value="#{jobParameters['cos.endpointurl']}"/>
                     <property name="cos.location" value="#{jobParameters['cos.location']}"/>
                     <property name="cos.credential.ibm" value="#{jobParameters['cos.credential.ibm']}"/>
                     <property name="cos.bucket.name" value="#{jobParameters['cos.bucket.name']}"/>
-                    <property name="cos.read.maxobjects" value="#{jobParameters['cos.read.maxobjects']}"/>
-                    <property name="cos.bucket.objectname" value="#{jobParameters['cos.bucket.objectname']}"/>
+                    <property name="fhir.storagetype" value="#{jobParameters['fhir.storagetype']}"/>
                 </properties>
             </reader>
             <writer ref="com.ibm.fhir.bulkimport.ChunkWriter">
                 <properties >
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                     <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
+                </properties>     
+            </writer>
+        </chunk>
+        <partition>
+            <mapper ref="com.ibm.fhir.bulkimport.ImportPartitionMapper">
+                <properties>
                     <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
                     <property name="cos.srvinst.id" value="#{jobParameters['cos.srvinst.id']}"/>
                     <property name="cos.endpointurl" value="#{jobParameters['cos.endpointurl']}"/>
                     <property name="cos.location" value="#{jobParameters['cos.location']}"/>
                     <property name="cos.credential.ibm" value="#{jobParameters['cos.credential.ibm']}"/>
                     <property name="cos.bucket.name" value="#{jobParameters['cos.bucket.name']}"/>
-                </properties>     
-            </writer>
-        </chunk>
+                    <property name="cos.bucket.objectname" value="#{jobParameters['cos.bucket.objectname']}"/>
+                    <property name="fhir.storagetype" value="#{jobParameters['fhir.storagetype']}"/>
+                </properties>
+            </mapper>
+        </partition>
     </step>
 </job>

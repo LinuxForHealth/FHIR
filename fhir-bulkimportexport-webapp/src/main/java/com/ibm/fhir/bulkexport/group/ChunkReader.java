@@ -196,7 +196,7 @@ public class ChunkReader extends AbstractItemReader {
                 patients.add(member);
             } else if (refValue.startsWith("Group")) {
                 Group group2 = findGroupByID(fhirTenant, fhirDatastoreId, refValue.substring(6));
-                if (!groupsInPath.contains(group.getId())) {
+                if (!groupsInPath.contains(group2.getId())) {
                     expandGroup2Patients(fhirTenant, fhirDatastoreId, group2, patients, groupsInPath);
                 }
             }
