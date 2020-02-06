@@ -176,6 +176,7 @@ jobs:
     - name: Server Integration Tests
       shell: powershell
       run: |
+        $ErrorActionPreference = "Stop"
         & build/pre-integration-test.ps1
         & build/tests.ps1
         & build/post-integration-test.ps1
