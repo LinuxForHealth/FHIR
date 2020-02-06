@@ -57,7 +57,7 @@ import com.ibm.fhir.model.type.code.HTTPVerb;
 public class BundleTest extends FHIRServerTestBase {
     // Set this to true to have the request and response bundles displayed on the
     // console.
-    private boolean debug = false;
+    private boolean DEBUG = true;
 
     // Set this to true to have the request and response bundles pretty printed on
     // the console when debug = true
@@ -1700,9 +1700,9 @@ public class BundleTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "batch" })
-    public void testBatchLocalRefsError1() throws Exception {
+    public void testBatchErrorDuplicateUrl() throws Exception {
         // duplicate fullUrl values
-        String method = "testBatchLocalRefsError1";
+        String method = "testBatchErrorDuplicateUrl";
         WebTarget target = getWebTarget();
 
         Bundle bundle = buildBundle(BundleType.BATCH);
@@ -1710,14 +1710,8 @@ public class BundleTest extends FHIRServerTestBase {
         // Add 2 POST entries to create the Patient resources but use duplicate fullUrl
         // values.
         String patientLocalRef = "urn:Patient_X";
+        Patient patient = TestUtil.readExampleResource("/json/ibm/minimal/Patient-1.json");
         for (int i = 1; i <= 2; i++) {
-            Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
-
-            HumanName newName = HumanName.builder().family(string("Doe_" + Integer.toString(i))).given(string("John"))
-                    .build();
-            List<HumanName> emptyList = new ArrayList<HumanName>();
-            patient = patient.toBuilder().name(emptyList).name(newName).build();
-
             bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
         }
 
@@ -1735,40 +1729,6 @@ public class BundleTest extends FHIRServerTestBase {
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertBadResponse(responseBundle.getEntry().get(1), Status.BAD_REQUEST.getStatusCode(),
                 "Duplicate local identifier encountered in bundled request entry:");
-    }
-
-    @Test(groups = { "batch" })
-    public void testBatchLocalRefsError2() throws Exception {
-        // use reference before it's defined
-        String method = "testBatchLocalRefsError2";
-        WebTarget target = getWebTarget();
-
-        Bundle bundle = buildBundle(BundleType.BATCH);
-
-        String patientLocalRef = "urn:Patient_1";
-
-        // Add a POST entry to create an Observation that will reference the Patient via
-        // a local reference.
-        Observation obs = TestUtil.readLocalResource("Observation1.json");
-        obs = obs.toBuilder().subject(Reference.builder().reference(string(patientLocalRef)).build()).build();
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, obs);
-
-        // Add a POST entry to create the Patient.
-        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
-
-        printBundle(method, "request", bundle);
-
-        Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.request().post(entity, Response.class);
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        
-        Bundle responseBundle = getEntityWithExtraWork(response,method);
-
-        // Verify that the observation request failed, and the patient request succeeded
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(),
-                "is undefined in the request bundle");
-        assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
     }
 
     @Test(groups = { "transaction" })
@@ -1864,50 +1824,6 @@ public class BundleTest extends FHIRServerTestBase {
             String actualOrgReference = orgRef.getReference().getValue();
             assertEquals(expectedOrgReference, actualOrgReference);
         }
-    }
-
-    @Test(groups = { "transaction" })
-    public void testTransactionLocalRefsError1() throws Exception {
-        // reference undefined resource
-        String method = "testTransactionLocalRefsError1";
-        WebTarget target = getWebTarget();
-
-        Bundle bundle = buildBundle(BundleType.TRANSACTION);
-
-        // Add a POST entry to create a Patient
-        String patientLocalRef = "urn:uuid:" + UUID.randomUUID().toString();
-        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
-
-        // Add a POST entry to create an Observation resource
-        // Create an Observation that will reference the Patient via a local reference.
-        Observation obs = TestUtil.readLocalResource("Observation1.json");
-        obs = obs.toBuilder().subject(Reference.builder().reference(string("urn:BAD_REFERENCE")).build()).build();
-
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Observation", null, obs);
-
-        printBundle(method, "request", bundle);
-
-        Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.request().post(entity, Response.class);
-        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        
-        Bundle responseBundle = getEntityWithExtraWork(response,method);
-
-        // Verify that response bundle.
-        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
-
-        // Verify that the observation request failed.
-//        assertBadResponse(responseBundle.getEntry().get(1), Status.BAD_REQUEST.getStatusCode(),
-//                "is undefined in the request bundle");
-
-        // Verify that we cannot do a 'read' on the Patient.
-        Bundle.Entry patientEntry = responseBundle.getEntry().get(0);
-        assertNotNull(patientEntry);
-        String patientId = patientEntry.getResponse().getId();
-        FHIRResponse apiResponse = client.read("Patient", patientId);
-        assertNotNull(apiResponse);
-        assertEquals(Status.NOT_FOUND.getStatusCode(), apiResponse.getStatus());
     }
 
     @Test(groups = { "batch" })
@@ -2546,7 +2462,7 @@ public class BundleTest extends FHIRServerTestBase {
     }
 
     private void printBundle(String method, String bundleType, Bundle bundle) throws FHIRException {
-        if (debug) {
+        if (DEBUG) {
             System.out.println(method + " " + bundleType + " bundle contents:\n"
                     + TestUtil.writeResource(bundle, Format.JSON, prettyPrint));
         }

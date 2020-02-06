@@ -16,10 +16,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.visitor.DefaultVisitor;
+import com.ibm.fhir.model.visitor.Visitable;
 
+/**
+ * Visits a Resource or Element and collects all of its descendants of a given type into a single list
+ * 
+ * @param <T> The type of object to collect
+ * @implNote The order of the list will be consistent with a depth-first traversal of the visited object
+ */
 public class CollectingVisitor<T> extends DefaultVisitor {
     protected final List<T> result = new ArrayList<>();
     protected final Class<T> type;
@@ -40,13 +45,9 @@ public class CollectingVisitor<T> extends DefaultVisitor {
     }
 
     @Override
-    public void visitStart(java.lang.String elementName, int elementIndex, Element element) {
-        collect(element);
-    }
-
-    @Override
-    public void visitStart(java.lang.String elementName, int elementIndex, Resource resource) {
-        collect(resource);
+    public boolean visit(java.lang.String elementName, int elementIndex, Visitable visitable) {
+        collect(visitable);
+        return true;
     }
 
     @Override

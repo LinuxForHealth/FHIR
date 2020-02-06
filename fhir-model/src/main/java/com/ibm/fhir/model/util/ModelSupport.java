@@ -602,6 +602,8 @@ public final class ModelSupport {
 
     /**
      * @return the name of the FHIR data type which corresponds to the passed type
+     * @implNote primitive types will start with a lowercase letter,
+     *           complex types and resources with an uppercaseletter
      */
     public static String getTypeName(Class<?> type) {
         String typeName = type.getSimpleName();
@@ -615,6 +617,8 @@ public final class ModelSupport {
 
     /**
      * @return the set of FHIR data type names for the passed modelClass and its supertypes
+     * @implNote primitive types will start with a lowercase letter,
+     *           complex types and resources with an uppercaseletter
      */
     public static Set<String> getTypeNames(Class<?> modelClass) {
         Set<String> typeNames = new HashSet<>();
