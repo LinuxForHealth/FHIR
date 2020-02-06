@@ -6,12 +6,16 @@
 
 package com.ibm.fhir.path.patch;
 
+import static com.ibm.fhir.model.type.String.string;
+
 import com.ibm.fhir.model.patch.exception.FHIRPatchException;
+import com.ibm.fhir.model.resource.Parameters.Parameter;
+import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.util.FHIRPathUtil;
 
-public class FHIRPathPatchDelete extends FHIRPathPatchOperation {
+class FHIRPathPatchDelete extends FHIRPathPatchOperation {
     String fhirPath;
     String elementName;
 
@@ -27,5 +31,20 @@ public class FHIRPathPatchDelete extends FHIRPathPatchOperation {
         } catch (FHIRPathException e) {
             throw new FHIRPatchException("Error executing fhirPath", fhirPath);
         }
+    }
+
+    @Override
+    public Parameter toParameter() {
+        return Parameter.builder()
+                .name(string(OPERATION))
+                .part(Parameter.builder()
+                    .name(string(TYPE))
+                    .value(Code.of(FHIRPathPatchType.DELETE.value()))
+                    .build())
+                .part(Parameter.builder()
+                    .name(string(PATH))
+                    .value(string(fhirPath))
+                    .build())
+                .build();
     }
 }
