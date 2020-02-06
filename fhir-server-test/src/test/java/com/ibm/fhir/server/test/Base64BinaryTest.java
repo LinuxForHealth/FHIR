@@ -112,7 +112,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         if (DEBUG) {
-            FHIRUtil.write(docRef, Format.JSON, System.out);
+            FHIRGenerator.generator(Format.JSON).generate(docRef, System.out);
         }
 
         // Retrieve the DocumentReference
@@ -122,7 +122,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         DocumentReference responseDocRef = response.readEntity(DocumentReference.class);
 
         if (DEBUG) {
-            FHIRUtil.write(responseDocRef, Format.JSON, System.out);
+            FHIRGenerator.generator(Format.JSON).generate(responseDocRef, System.out);
         }
 
         // Compare original and retrieved values.

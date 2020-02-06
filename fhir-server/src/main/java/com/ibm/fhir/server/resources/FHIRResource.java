@@ -114,6 +114,7 @@ import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
 import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.model.util.ReferenceMappingVisitor;
 import com.ibm.fhir.operation.FHIROperation;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.registry.FHIROperationRegistry;
@@ -148,7 +149,6 @@ import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.helper.FHIRUrlParser;
 import com.ibm.fhir.server.listener.FHIRServletContextListener;
 import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
-import com.ibm.fhir.server.util.ReferenceMappingVisitor;
 import com.ibm.fhir.server.util.RestAuditLogger;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
@@ -474,7 +474,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             Resource resource = ior.getResource();
             if (resource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
                 response.entity(resource);
-            } else if (ior.getOperationOutcome() != null && 
+            } else if (ior.getOperationOutcome() != null &&
                        HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
                 response.entity(ior.getOperationOutcome());
             }
@@ -2839,14 +2839,14 @@ public class FHIRResource implements FHIRResourceHelpers {
             Map<String, String> localRefMap = new HashMap<>();
 
             // Next, process entries in the correct order.
-            responseBundle =
-                    processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.DELETE, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
-            responseBundle =
-                    processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.POST, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
-            responseBundle =
-                    processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.PUT, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
-            responseBundle =
-                    processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.GET, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
+            responseBundle = processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.DELETE,
+                    txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
+            responseBundle = processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.POST,
+                    txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
+            responseBundle = processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.PUT,
+                    txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
+            responseBundle = processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.GET,
+                    txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
 
             if (txn != null) {
                 log.fine("Committing transaction for transaction bundle, txn-correlation-id="
@@ -2883,9 +2883,9 @@ public class FHIRResource implements FHIRResourceHelpers {
      *            the HTTP method (GET, POST, PUT, etc.) to be processed
      */
     private Bundle processEntriesForMethod(Bundle requestBundle, Bundle responseBundle,
-        HTTPVerb httpMethod, boolean failFast, Map<String, String> localRefMap,
-        Map<String, String> bundleRequestProperties, String bundleRequestCorrelationId)
-        throws Exception {
+            HTTPVerb httpMethod, boolean failFast, Map<String, String> localRefMap,
+            Map<String, String> bundleRequestProperties, String bundleRequestCorrelationId)
+            throws Exception {
         log.entering(this.getClass().getName(), "processEntriesForMethod", new Object[] {
                 "httpMethod", httpMethod });
         try {
@@ -3131,14 +3131,6 @@ public class FHIRResource implements FHIRResourceHelpers {
                             ReferenceMappingVisitor<Resource> visitor =
                                     new ReferenceMappingVisitor<Resource>(localRefMap);
                             resource.accept(visitor);
-                            final String errorMsg = visitor.getErrorMsg();
-                            if (errorMsg != null) {
-                                final String location = "<empty>";
-                                OperationOutcome.Issue ooi =
-                                        FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.INVALID, errorMsg, location);
-
-                                throw new FHIRHttpException(errorMsg, Status.BAD_REQUEST).withIssue(ooi);
-                            }
                             resource = visitor.getResult();
 
                             // Perform the 'create' operation.
@@ -3197,14 +3189,6 @@ public class FHIRResource implements FHIRResourceHelpers {
                         ReferenceMappingVisitor<Resource> visitor =
                                 new ReferenceMappingVisitor<Resource>(localRefMap);
                         resource.accept(visitor);
-                        final String errorMsg = visitor.getErrorMsg();
-                        if (errorMsg != null) {
-                            final String location = "<empty>";
-                            OperationOutcome.Issue ooi =
-                                    FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.INVALID, errorMsg, location);
-
-                            throw new FHIRHttpException(errorMsg, Status.BAD_REQUEST).withIssue(ooi);
-                        }
                         resource = visitor.getResult();
 
                         // Perform the 'update' operation.
@@ -3699,12 +3683,12 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         // Build the list of supported resources.
         List<Rest.Resource> resources = new ArrayList<>();
-        List<String> resourceTypes = FHIRUtil.getResourceTypeNames();
-        for (String resourceType : resourceTypes) {
-
+        ResourceType.ValueSet[] resourceTypes = ResourceType.ValueSet.values();
+        for (ResourceType.ValueSet resourceType : resourceTypes) {
+            String resourceTypeName = resourceType.value();
             // Build the set of ConformanceSearchParams for this resource type.
             List<Rest.Resource.SearchParam> conformanceSearchParams = new ArrayList<>();
-            List<SearchParameter> searchParameters = SearchUtil.getSearchParameters(resourceType);
+            List<SearchParameter> searchParameters = SearchUtil.getSearchParameters(resourceTypeName);
             if (searchParameters != null) {
                 for (SearchParameter searchParameter : searchParameters) {
                     // The name here is a natural language name, and intentionally not replaced with code.
@@ -3725,7 +3709,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Build the ConformanceResource for this resource type.
             Rest.Resource cr = Rest.Resource.builder()
                     .type(ResourceType.of(resourceType))
-                    .profile(Canonical.of("http://hl7.org/fhir/profiles/" + resourceType))
+                    .profile(Canonical.of("http://hl7.org/fhir/profiles/" + resourceTypeName))
                     .interaction(interactions)
                     .conditionalCreate(com.ibm.fhir.model.type.Boolean.of(true))
                     .conditionalUpdate(com.ibm.fhir.model.type.Boolean.of(true))
@@ -3777,7 +3761,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 .extension(Extension.builder()
                     .url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
                     .extension(
-                        Extension.builder().url("token").value(Url.of(tokenURL)).build(), 
+                        Extension.builder().url("token").value(Url.of(tokenURL)).build(),
                         Extension.builder().url("authorize").value(Url.of(authURL)).build(),
                         Extension.builder().url("register").value(Url.of(regURL)).build())
                     .build())
