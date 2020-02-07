@@ -66,8 +66,8 @@ public class FHIRPathUtilTest {
                 .build();
 
         Patient fhirpathPatient = Patient.builder().id("test").build();
-        fhirpathPatient = FHIRPathUtil.insert(fhirpathPatient, "Patient.name", "name", 0, name2);
-        fhirpathPatient = FHIRPathUtil.insert(fhirpathPatient, "Patient.name", "name", 0, name1);
+        fhirpathPatient = FHIRPathUtil.add(fhirpathPatient, "Patient", "name", name2);
+        fhirpathPatient = FHIRPathUtil.insert(fhirpathPatient, "Patient.name", 0, name1);
 
         assertEquals(fhirpathPatient, builderPatient);
     }
@@ -89,8 +89,8 @@ public class FHIRPathUtilTest {
                 .name(Collections.emptySet())
                 .build();
 
-        Patient fhirpathPatient = FHIRPathUtil.delete(patient, "Patient.deceased", "deceased");
-        fhirpathPatient = FHIRPathUtil.delete(fhirpathPatient, "Patient.name[0]", "name");
+        Patient fhirpathPatient = FHIRPathUtil.delete(patient, "Patient.deceased");
+        fhirpathPatient = FHIRPathUtil.delete(fhirpathPatient, "Patient.name[0]");
 
         assertEquals(fhirpathPatient, builderPatient);
     }
@@ -113,8 +113,8 @@ public class FHIRPathUtilTest {
                         .build()))
                 .build();
 
-        Patient fhirpathPatient = FHIRPathUtil.replace(patient, "Patient.deceased", "deceased", Boolean.FALSE);
-        fhirpathPatient = FHIRPathUtil.replace(fhirpathPatient, "Patient.name[0].given[0]", "given", string("Jane"));
+        Patient fhirpathPatient = FHIRPathUtil.replace(patient, "Patient.deceased", Boolean.FALSE);
+        fhirpathPatient = FHIRPathUtil.replace(fhirpathPatient, "Patient.name[0].given[0]", string("Jane"));
 
         assertEquals(fhirpathPatient, builderPatient);
     }
@@ -136,7 +136,7 @@ public class FHIRPathUtilTest {
         Patient fhirpathPatient = Patient.builder()
                 .name(name2, name1)
                 .build();
-        fhirpathPatient = FHIRPathUtil.move(fhirpathPatient, "Patient.name", "name", 1, 0);
+        fhirpathPatient = FHIRPathUtil.move(fhirpathPatient, "Patient.name", 1, 0);
 
         assertEquals(fhirpathPatient, builderPatient);
     }

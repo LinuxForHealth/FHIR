@@ -21,19 +21,17 @@ class FHIRPathPatchMove extends FHIRPathPatchOperation {
     String fhirPath;
     int source;
     int destination;
-    String elementName;
 
     public FHIRPathPatchMove(String fhirPath, Integer source, Integer destination) {
         this.fhirPath = Objects.requireNonNull(fhirPath);
         this.source = Objects.requireNonNull(source);
         this.destination = Objects.requireNonNull(destination);
-        this.elementName = getElementName(fhirPath);
     }
 
     @Override
     public <T extends Resource> T apply(T resource) throws FHIRPatchException {
         try {
-            return FHIRPathUtil.move(resource, fhirPath, elementName, source, destination);
+            return FHIRPathUtil.move(resource, fhirPath, source, destination);
         } catch (FHIRPathException e) {
             throw new FHIRPatchException("Error executing fhirPath", fhirPath);
         }

@@ -6,6 +6,7 @@
 package com.ibm.fhir.path.util;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Stack;
 
 import com.ibm.fhir.model.resource.Resource;
@@ -13,7 +14,7 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.visitor.CopyingVisitor;
 import com.ibm.fhir.model.visitor.Visitable;
 
-public class MovingVisitor<T extends Visitable> extends CopyingVisitor<T> {
+class MovingVisitor<T extends Visitable> extends CopyingVisitor<T> {
     private Stack<Visitable> visitStack;
     
     private Visitable parent;
@@ -29,8 +30,8 @@ public class MovingVisitor<T extends Visitable> extends CopyingVisitor<T> {
      */
     public MovingVisitor(Visitable parent, String elementName, int sourceIndex, int targetIndex) {
         this.visitStack = new Stack<Visitable>();
-        this.parent = parent;
-        this.elementName = elementName;
+        this.parent = Objects.requireNonNull(parent);
+        this.elementName = Objects.requireNonNull(elementName);
         this.sourceIndex = sourceIndex;
         this.targetIndex = targetIndex;
     }

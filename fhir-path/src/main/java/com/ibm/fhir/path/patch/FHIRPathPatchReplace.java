@@ -21,18 +21,16 @@ import com.ibm.fhir.path.util.FHIRPathUtil;
 class FHIRPathPatchReplace extends FHIRPathPatchOperation {
     String fhirPath;
     Element value;
-    String elementName;
 
     public FHIRPathPatchReplace(String fhirPath, Element value) {
         this.fhirPath = Objects.requireNonNull(fhirPath);
         this.value = Objects.requireNonNull(value);
-        this.elementName = getElementName(fhirPath);
     }
 
     @Override
     public <T extends Resource> T apply(T resource) throws FHIRPatchException {
         try {
-            return FHIRPathUtil.replace(resource, fhirPath, elementName, value);
+            return FHIRPathUtil.replace(resource, fhirPath, value);
         } catch (FHIRPathException e) {
             throw new FHIRPatchException("Error executing fhirPath", fhirPath);
         }

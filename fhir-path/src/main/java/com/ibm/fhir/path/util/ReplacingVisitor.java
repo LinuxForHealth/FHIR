@@ -6,6 +6,7 @@
 package com.ibm.fhir.path.util;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Stack;
 
 import com.ibm.fhir.model.resource.Resource;
@@ -15,7 +16,7 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.visitor.CopyingVisitor;
 import com.ibm.fhir.model.visitor.Visitable;
 
-public class ReplacingVisitor<T extends Visitable> extends CopyingVisitor<T> {
+class ReplacingVisitor<T extends Visitable> extends CopyingVisitor<T> {
     private Stack<Visitable> visitStack;
 
     private Visitable parent;
@@ -30,10 +31,10 @@ public class ReplacingVisitor<T extends Visitable> extends CopyingVisitor<T> {
      */
     public ReplacingVisitor(Visitable parent, String elementName, Visitable oldValue, Visitable newValue) {
         this.visitStack = new Stack<Visitable>();
-        this.parent = parent;
-        this.elementNameToReplace = elementName;
-        this.oldValue = oldValue;
-        this.newValue = newValue instanceof Code ?
+        this.parent = Objects.requireNonNull(parent);
+        this.elementNameToReplace = Objects.requireNonNull(elementName);
+        this.oldValue = Objects.requireNonNull(oldValue);
+        this.newValue = Objects.requireNonNull(newValue) instanceof Code ?
                 convertToCodeSubtype(parent, elementName, (Code)newValue) : newValue;
     }
 

@@ -22,19 +22,17 @@ class FHIRPathPatchInsert extends FHIRPathPatchOperation {
     String fhirPath;
     Element value;
     int index;
-    String elementName;
 
     public FHIRPathPatchInsert(String fhirPath, Element value, Integer index) {
         this.fhirPath = Objects.requireNonNull(fhirPath);
         this.value = Objects.requireNonNull(value);
         this.index = Objects.requireNonNull(index);
-        this.elementName = getElementName(fhirPath);
     }
 
     @Override
     public <T extends Resource> T apply(T resource) throws FHIRPatchException {
         try {
-            return FHIRPathUtil.insert(resource, fhirPath, elementName, index, value);
+            return FHIRPathUtil.insert(resource, fhirPath, index, value);
         } catch (FHIRPathException e) {
             throw new FHIRPatchException("Error executing fhirPath", fhirPath);
         }
