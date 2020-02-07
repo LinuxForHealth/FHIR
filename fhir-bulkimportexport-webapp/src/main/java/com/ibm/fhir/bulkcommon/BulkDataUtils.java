@@ -102,92 +102,6 @@ public class BulkDataUtils {
         }
     }
 
-    public static int readFhirResourceFromObjectStore(AmazonS3 cosClient, String bucketName, String itemName,
-           int numOfLinesToSkip, List<Resource> fhirResources) {
-        int exported = 0;
-        int lineRed = 0;
-        S3Object item = cosClient.getObject(new GetObjectRequest(bucketName, itemName));
-        try (BufferedReader resReader = new BufferedReader(new InputStreamReader(item.getObjectContent()))) {
-            while (resReader.ready()) {
-                String resLine = resReader.readLine();
-                lineRed++;
-                if (resLine == null) {
-                    break;
-                }
-                if (lineRed <= numOfLinesToSkip) {
-                    continue;
-                }
-                fhirResources.add(FHIRParser.parser(Format.JSON).parse(new StringReader(resLine)));
-                exported++;
-                if (exported == Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD) {
-                    break;
-                }
-            }
-
-        } catch (Exception ioe) {
-            logger.warning("readFhirResourceFromObjectStore: " + "Error proccesing file " + itemName + " - " + ioe.getMessage());
-            exported = 0;
-        }
-        return exported;
-    }
-
-
-    public static int readFhirResourceFromLocalFile(String filePath, int numOfLinesToSkip, List<Resource> fhirResources) {
-        int exported = 0;
-        int lineRed = 0;
-        try (BufferedReader resReader = Files.newBufferedReader(Paths.get(filePath))) {
-            while (resReader.ready()) {
-                String resLine = resReader.readLine();
-                lineRed++;
-                if (resLine == null) {
-                    break;
-                }
-                if (lineRed <= numOfLinesToSkip) {
-                    continue;
-                }
-                fhirResources.add(FHIRParser.parser(Format.JSON).parse(new StringReader(resLine)));
-                exported++;
-                if (exported == Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD) {
-                    break;
-                }
-            }
-
-        } catch (Exception ioe) {
-            logger.warning("readFhirResourceFromLocalFile: " + "Error proccesing file " + filePath + " - " + ioe.getMessage());
-            exported = 0;
-        }
-        return exported;
-    }
-
-
-    public static int readFhirResourceFromHttps(String dataUrl, int numOfLinesToSkip, List<Resource> fhirResources) {
-        int exported = 0;
-        int lineRed = 0;
-
-        try (BufferedReader resReader = new BufferedReader(new InputStreamReader(new URL(dataUrl).openConnection().getInputStream()))) {
-            while (resReader.ready()) {
-                String resLine = resReader.readLine();
-                lineRed++;
-                if (resLine == null) {
-                    break;
-                }
-                if (lineRed <= numOfLinesToSkip) {
-                    continue;
-                }
-                fhirResources.add(FHIRParser.parser(Format.JSON).parse(new StringReader(resLine)));
-                exported++;
-                if (exported == Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD) {
-                    break;
-                }
-            }
-
-        } catch (Exception ioe) {
-            logger.warning("readFhirResourceFromHttps: " + "Error proccesing file " + dataUrl + " - " + ioe.getMessage());
-            exported = 0;
-        }
-        return exported;
-    }
-
     public static void finishMultiPartUpload(AmazonS3 cosClient, String bucketName, String itemName, String uploadID,
             List<PartETag> dataPacks) throws Exception {
         try {
@@ -211,6 +125,64 @@ public class BulkDataUtils {
         for (final Bucket bucket : bucketList) {
             log("listBuckets", bucket.getName());
         }
+    }
+
+    private static int getFhirResourceFromBufferReader(BufferedReader resReader, int numOfLinesToSkip, List<Resource> fhirResources) throws Exception {
+        int exported = 0;
+        int lineRed = 0;
+        while (resReader.ready()) {
+            String resLine = resReader.readLine();
+            lineRed++;
+            if (resLine == null) {
+                break;
+            }
+            if (lineRed <= numOfLinesToSkip) {
+                continue;
+            }
+            fhirResources.add(FHIRParser.parser(Format.JSON).parse(new StringReader(resLine)));
+            exported++;
+            if (exported == Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD) {
+                break;
+            }
+        }
+        return exported;
+    }
+
+    public static int readFhirResourceFromObjectStore(AmazonS3 cosClient, String bucketName, String itemName,
+           int numOfLinesToSkip, List<Resource> fhirResources) {
+        int exported;
+        S3Object item = cosClient.getObject(new GetObjectRequest(bucketName, itemName));
+        try (BufferedReader resReader = new BufferedReader(new InputStreamReader(item.getObjectContent()))) {
+            exported = getFhirResourceFromBufferReader(resReader, numOfLinesToSkip, fhirResources);
+        } catch (Exception ioe) {
+            logger.warning("readFhirResourceFromObjectStore: " + "Error proccesing file " + itemName + " - " + ioe.getMessage());
+            exported = 0;
+        }
+        return exported;
+    }
+
+
+    public static int readFhirResourceFromLocalFile(String filePath, int numOfLinesToSkip, List<Resource> fhirResources) {
+        int exported;
+        try (BufferedReader resReader = Files.newBufferedReader(Paths.get(filePath))) {
+            exported = getFhirResourceFromBufferReader(resReader, numOfLinesToSkip, fhirResources);
+        } catch (Exception ioe) {
+            logger.warning("readFhirResourceFromLocalFile: " + "Error proccesing file " + filePath + " - " + ioe.getMessage());
+            exported = 0;
+        }
+        return exported;
+    }
+
+
+    public static int readFhirResourceFromHttps(String dataUrl, int numOfLinesToSkip, List<Resource> fhirResources) {
+        int exported;
+        try (BufferedReader resReader = new BufferedReader(new InputStreamReader(new URL(dataUrl).openConnection().getInputStream()))) {
+            exported = getFhirResourceFromBufferReader(resReader, numOfLinesToSkip, fhirResources);
+        } catch (Exception ioe) {
+            logger.warning("readFhirResourceFromHttps: " + "Error proccesing file " + dataUrl + " - " + ioe.getMessage());
+            exported = 0;
+        }
+        return exported;
     }
 
 }
