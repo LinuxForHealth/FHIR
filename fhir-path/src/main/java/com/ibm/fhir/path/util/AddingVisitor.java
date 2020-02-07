@@ -61,7 +61,7 @@ class AddingVisitor<T extends Visitable> extends CopyingVisitor<T> {
                 value.accept(this.elementNameToAdd, this);
             } else if (resource == value) {
                 markDirty();
-            } else if (elementName.equals(this.elementNameToAdd)) {
+            } else if (visitStack.peek() == parent && elementName.equals(this.elementNameToAdd)) {
                 // XXX: assuming that we have the right parent is potentially dangerous
                 throw new IllegalStateException("Add cannot replace an existing value");
             }
@@ -76,7 +76,7 @@ class AddingVisitor<T extends Visitable> extends CopyingVisitor<T> {
                 value.accept(this.elementNameToAdd, this);
             } else if (element == value) {
                 markDirty();
-            } else if (elementName.equals(this.elementNameToAdd)) {
+            } else if (visitStack.peek() == parent && elementName.equals(this.elementNameToAdd)) {
                 // XXX: assuming that we have the right parent is potentially dangerous
                 throw new IllegalStateException("Add cannot replace an existing value");
             }

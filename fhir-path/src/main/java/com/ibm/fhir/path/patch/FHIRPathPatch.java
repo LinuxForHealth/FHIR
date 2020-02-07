@@ -122,6 +122,7 @@ public class FHIRPathPatch implements FHIRPatch {
     
     /**
      * Parse the passed Parameter and add it to the builder
+     * 
      * @throws IllegalArgumentException if the Parameter object does not represent a valid FHIRPath Patch operation
      */
     private static FHIRPathPatchOperation addOperation(Builder builder, Parameter operation) {
