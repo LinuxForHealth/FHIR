@@ -309,8 +309,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return parseMessageDefinition(elementName, jsonObject, elementIndex);
         case "MessageHeader":
             return parseMessageHeader(elementName, jsonObject, elementIndex);
-        case "MetadataResource":
-            return parseMetadataResource(elementName, jsonObject, elementIndex);
         case "MolecularSequence":
             return parseMolecularSequence(elementName, jsonObject, elementIndex);
         case "NamingSystem":
@@ -14477,47 +14475,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         if (tagArray != null) {
             for (int i = 0; i < tagArray.size(); i++) {
                 builder.tag(parseCoding("tag", tagArray.getJsonObject(i), i));
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    private MetadataResource parseMetadataResource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
-            checkForUnrecognizedElements(MetadataResource.class, jsonObject);
-        }
-        MetadataResource.Builder builder = MetadataResource.builder();
-        parseDomainResource(builder, jsonObject);
-        builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
-        builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
-        builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
-        builder.title(parseString("title", getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
-        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
-        builder.experimental(parseBoolean("experimental", getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
-        builder.date(parseDateTime("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
-        builder.publisher(parseString("publisher", getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
-        JsonArray contactArray = getJsonArray(jsonObject, "contact");
-        if (contactArray != null) {
-            for (int i = 0; i < contactArray.size(); i++) {
-                builder.contact(parseContactDetail("contact", contactArray.getJsonObject(i), i));
-            }
-        }
-        builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
-        JsonArray useContextArray = getJsonArray(jsonObject, "useContext");
-        if (useContextArray != null) {
-            for (int i = 0; i < useContextArray.size(); i++) {
-                builder.useContext(parseUsageContext("useContext", useContextArray.getJsonObject(i), i));
-            }
-        }
-        JsonArray jurisdictionArray = getJsonArray(jsonObject, "jurisdiction");
-        if (jurisdictionArray != null) {
-            for (int i = 0; i < jurisdictionArray.size(); i++) {
-                builder.jurisdiction(parseCodeableConcept("jurisdiction", jurisdictionArray.getJsonObject(i), i));
             }
         }
         stackPop();

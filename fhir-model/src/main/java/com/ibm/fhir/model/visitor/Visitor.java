@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -826,12 +826,6 @@ public interface Visitor {
      *     true if the children of this meta should be visited; otherwise false
      */
     boolean visit(java.lang.String elementName, int elementIndex, Meta meta);
-
-    /**
-     * @return
-     *     true if the children of this metadataResource should be visited; otherwise false
-     */
-    boolean visit(java.lang.String elementName, int elementIndex, MetadataResource metadataResource);
 
     /**
      * @return
