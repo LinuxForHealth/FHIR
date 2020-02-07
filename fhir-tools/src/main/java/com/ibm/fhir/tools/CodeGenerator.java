@@ -39,6 +39,7 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.JsonString;
 import javax.json.JsonValue;
 import javax.lang.model.SourceVersion;
 
@@ -804,7 +805,7 @@ public class CodeGenerator {
         
         String packageName = null;
         String kind = structureDefinition.getString("kind");
-        if ("resource".equals(kind) || "logical".equals(kind)) {
+        if ("resource".equals(kind)) {
             packageName = "com.ibm.fhir.model.resource";
             resourceClassNames.add(className);
         } else {
@@ -3741,6 +3742,10 @@ public class CodeGenerator {
     
             for (JsonValue entry : bundle.getJsonArray("entry")) {
                 JsonObject resource = entry.asJsonObject().getJsonObject("resource");
+                JsonString kind = resource.getJsonString("kind");
+                if (kind != null && "logical".equals(kind.getString())) {
+                    continue;
+                }
                 if (resourceType.equals(resource.getString("resourceType"))) {
                     resources.add(resource);
                 }

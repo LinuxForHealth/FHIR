@@ -278,8 +278,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
             return parseMessageDefinition(elementName, reader, elementIndex);
         case "MessageHeader":
             return parseMessageHeader(elementName, reader, elementIndex);
-        case "MetadataResource":
-            return parseMetadataResource(elementName, reader, elementIndex);
         case "MolecularSequence":
             return parseMolecularSequence(elementName, reader, elementIndex);
         case "NamingSystem":
@@ -32186,113 +32184,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "tag":
                     position = checkElementOrder("tag", 6, position, true);
                     builder.tag(parseCoding("tag", reader, tagElementIndex++));
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MetadataResource parseMetadataResource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MetadataResource.Builder builder = MetadataResource.builder();
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "url":
-                    position = checkElementOrder("url", 8, position, false);
-                    builder.url(parseUri("url", reader, -1));
-                    break;
-                case "version":
-                    position = checkElementOrder("version", 9, position, false);
-                    builder.version(parseString("version", reader, -1));
-                    break;
-                case "name":
-                    position = checkElementOrder("name", 10, position, false);
-                    builder.name(parseString("name", reader, -1));
-                    break;
-                case "title":
-                    position = checkElementOrder("title", 11, position, false);
-                    builder.title(parseString("title", reader, -1));
-                    break;
-                case "status":
-                    position = checkElementOrder("status", 12, position, false);
-                    builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", reader, -1));
-                    break;
-                case "experimental":
-                    position = checkElementOrder("experimental", 13, position, false);
-                    builder.experimental(parseBoolean("experimental", reader, -1));
-                    break;
-                case "date":
-                    position = checkElementOrder("date", 14, position, false);
-                    builder.date(parseDateTime("date", reader, -1));
-                    break;
-                case "publisher":
-                    position = checkElementOrder("publisher", 15, position, false);
-                    builder.publisher(parseString("publisher", reader, -1));
-                    break;
-                case "contact":
-                    position = checkElementOrder("contact", 16, position, true);
-                    builder.contact(parseContactDetail("contact", reader, contactElementIndex++));
-                    break;
-                case "description":
-                    position = checkElementOrder("description", 17, position, false);
-                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
-                    break;
-                case "useContext":
-                    position = checkElementOrder("useContext", 18, position, true);
-                    builder.useContext(parseUsageContext("useContext", reader, useContextElementIndex++));
-                    break;
-                case "jurisdiction":
-                    position = checkElementOrder("jurisdiction", 19, position, true);
-                    builder.jurisdiction(parseCodeableConcept("jurisdiction", reader, jurisdictionElementIndex++));
                     break;
                 default:
                     throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
