@@ -44,6 +44,41 @@ public class FHIRPathUtilTest {
         assertEquals(fhirpathPatient, builderPatient);
     }
 
+    @Test
+    void testAddDuplicate() throws Exception {
+        HumanName name1 = HumanName.builder()
+                .given(string("John"))
+                .family(string("Smith"))
+                .build();
+
+        HumanName name2 = HumanName.builder()
+                .given(string("John"))
+                .family(string("Smith"))
+                .suffix(Collections.singleton(string("II")))
+                .build();
+        Patient builderPatient = Patient.builder()
+                .id("test")
+                .name(name1, name2)
+                .build();
+
+        Patient fhirpathPatient = Patient.builder()
+                .id("test")
+                // note that the same exact object is added twice
+                .name(name1, name1)
+                .build();
+        fhirpathPatient = FHIRPathUtil.add(fhirpathPatient, "Patient.name[1]", "suffix", string("II"));
+        assertEquals(fhirpathPatient, builderPatient);
+
+
+        fhirpathPatient = Patient.builder().id("test").build();
+        // note that the same exact object is added twice
+        fhirpathPatient = FHIRPathUtil.add(fhirpathPatient, "Patient", "name", name1);
+        fhirpathPatient = FHIRPathUtil.add(fhirpathPatient, "Patient", "name", name1);
+        fhirpathPatient = FHIRPathUtil.add(fhirpathPatient, "Patient.name[1]", "suffix", string("II"));
+
+        assertEquals(fhirpathPatient, builderPatient);
+    }
+
     @Test(expectedExceptions = FHIRPatchException.class)
     void testAddExisting() throws Exception {
         Patient fhirpathPatient = Patient.builder().deceased(Boolean.FALSE).build();

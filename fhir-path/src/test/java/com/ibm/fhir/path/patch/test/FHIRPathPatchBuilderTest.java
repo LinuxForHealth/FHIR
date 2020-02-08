@@ -82,7 +82,6 @@ public class FHIRPathPatchBuilderTest {
                 .add("Patient.name[0]", "extension", Extension.builder().url("myExtension").build())
                 .add("Patient.name[0].extension", "extension", Extension.builder().url("lunchTime").build())
                 .add("Patient.name[0].extension.extension", "value", Time.of("12:00:00"))
-                .add("Patient.identifier", "value", string("it-me"))
                 .add("Patient", "active", com.ibm.fhir.model.type.Boolean.TRUE)
                 .build()
                 .apply(patient);

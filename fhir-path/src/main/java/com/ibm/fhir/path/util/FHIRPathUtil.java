@@ -575,7 +575,7 @@ public final class FHIRPathUtil {
         Visitable parent = node.isResourceNode() ? 
                 node.asResourceNode().resource() : node.asElementNode().element();
 
-        AddingVisitor<T> addingVisitor = new AddingVisitor<>(parent, elementName, value);
+        AddingVisitor<T> addingVisitor = new AddingVisitor<>(parent, node.path(), elementName, value);
 
         try {
             elementOrResource.accept(addingVisitor);
@@ -593,16 +593,7 @@ public final class FHIRPathUtil {
      */
     public static <T extends Visitable> T delete(T elementOrResource, String fhirPath) throws FHIRPathException, FHIRPatchException {
         FHIRPathNode node = evaluateToSingle(elementOrResource, fhirPath);
-        String elementName = node.name();
-        Visitable toDelete = node.isResourceNode() ? 
-                node.asResourceNode().resource() : node.asElementNode().element();
-
-        FHIRPathTree tree = evaluator.getEvaluationContext().getTree();
-        FHIRPathNode parentNode = tree.getParent(node);
-        Visitable parent = parentNode.isResourceNode() ? 
-                parentNode.asResourceNode().resource() : parentNode.asElementNode().element();
-
-        DeletingVisitor<T> deletingVisitor = new DeletingVisitor<T>(parent, elementName, toDelete);
+        DeletingVisitor<T> deletingVisitor = new DeletingVisitor<T>(node.path());
 
         try {
             elementOrResource.accept(deletingVisitor);
@@ -622,17 +613,13 @@ public final class FHIRPathUtil {
     public static <T extends Visitable> T replace(T elementOrResource, String fhirPath, Visitable value) throws FHIRPathException, FHIRPatchException {
         FHIRPathNode node = evaluateToSingle(elementOrResource, fhirPath);
         String elementName = node.name();
-        Visitable toReplace = node.isResourceNode() ? 
-                node.asResourceNode().resource() : node.asElementNode().element();
-        
-        ModelSupport.getTypeName(toReplace.getClass());
-        
+
         FHIRPathTree tree = evaluator.getEvaluationContext().getTree();
         FHIRPathNode parentNode = tree.getParent(node);
         Visitable parent = parentNode.isResourceNode() ? 
                 parentNode.asResourceNode().resource() : parentNode.asElementNode().element();
 
-        ReplacingVisitor<T> replacingVisitor = new ReplacingVisitor<T>(parent, elementName, toReplace, value);
+        ReplacingVisitor<T> replacingVisitor = new ReplacingVisitor<T>(parent, elementName, node.path(), value);
 
         try {
             elementOrResource.accept(replacingVisitor);
@@ -678,9 +665,11 @@ public final class FHIRPathUtil {
         String elementName = getCommonName(fhirPath, nodes);
 
         FHIRPathTree tree = evaluator.getEvaluationContext().getTree();
-        Visitable parent = getCommonParent(fhirPath, nodes, tree);
+        FHIRPathNode parentNode = getCommonParent(fhirPath, nodes, tree);
+        Visitable parent = parentNode.isResourceNode() ? 
+                parentNode.asResourceNode().resource() : parentNode.asElementNode().element();
 
-        InsertingVisitor<T> insertingVisitor = new InsertingVisitor<T>(parent, elementName, index, value);
+        InsertingVisitor<T> insertingVisitor = new InsertingVisitor<T>(parent, parentNode.path(), elementName, index, value);
 
         try {
             elementOrResource.accept(insertingVisitor);
@@ -709,9 +698,9 @@ public final class FHIRPathUtil {
         String elementName = getCommonName(fhirPath, nodes);
         
         FHIRPathTree tree = evaluator.getEvaluationContext().getTree();
-        Visitable parent = getCommonParent(fhirPath, nodes, tree);
+        FHIRPathNode parent = getCommonParent(fhirPath, nodes, tree);
         
-        MovingVisitor<T> movingVisitor = new MovingVisitor<T>(parent, elementName, source, target);
+        MovingVisitor<T> movingVisitor = new MovingVisitor<T>(parent.path(), elementName, source, target);
         
         try {
             elementOrResource.accept(movingVisitor);
@@ -753,21 +742,19 @@ public final class FHIRPathUtil {
      * @return
      * @throws FHIRPatchException if the selected nodes have different parents
      */
-    private static Visitable getCommonParent(String fhirPath, Collection<FHIRPathNode> nodes, FHIRPathTree tree)
+    private static FHIRPathNode getCommonParent(String fhirPath, Collection<FHIRPathNode> nodes, FHIRPathTree tree)
             throws FHIRPatchException {
-        Visitable parent = null;
+        FHIRPathNode parent = null;
         for (FHIRPathNode fhirPathNode : nodes) {
             FHIRPathNode parentNode = tree.getParent(fhirPathNode);
-            Visitable currentParent = parentNode.isResourceNode() ? 
-                    parentNode.asResourceNode().resource() : parentNode.asElementNode().element();
 
             if (parent != null) {
-                if (parent != currentParent) {
+                if (parent != parentNode) {
                     throw new FHIRPatchException("The FHIRPath expression must return a set of nodes with a "
                             + "single parent", fhirPath);
                 }
             } else {
-                parent = currentParent;
+                parent = parentNode;
             }
         }
         return parent;
