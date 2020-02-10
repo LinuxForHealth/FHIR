@@ -87,10 +87,10 @@
                     "connectionProperties": {
                         "serverName": "localhost",
                         "portNumber": 50001,
-                        "user": "db2inst1",
+                        "user": "FHIRSERVER",
                         "password": "change-password",
                         "databaseName": "FHIRDB",
-                        "currentSchema": "FHIR1",
+                        "currentSchema": "FHIRDATA",
                         "driverType": 4,
                         "sslConnection": true,
                         "sslTrustStoreLocation": "resources/security/fhirTruststore.jks",
