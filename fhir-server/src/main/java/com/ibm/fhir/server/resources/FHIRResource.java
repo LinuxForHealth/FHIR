@@ -459,7 +459,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIRPatch patch;
             try {
-                patch = new FHIRPathPatch(parameters);
+                patch = FHIRPathPatch.from(parameters);
             } catch(IllegalArgumentException e) {
                 throw buildRestException(e.getMessage(), Status.BAD_REQUEST, IssueType.INVALID);
             }
@@ -574,7 +574,12 @@ public class FHIRResource implements FHIRResourceHelpers {
         try {
             checkInitComplete();
 
-            FHIRPatch patch = new FHIRPathPatch(parameters);
+            FHIRPatch patch;
+            try {
+                patch = FHIRPathPatch.from(parameters);
+            } catch(IllegalArgumentException e) {
+                throw buildRestException(e.getMessage(), Status.BAD_REQUEST, IssueType.INVALID);
+            }
 
             String searchQueryString = httpServletRequest.getQueryString();
             if (searchQueryString == null || searchQueryString.isEmpty()) {
