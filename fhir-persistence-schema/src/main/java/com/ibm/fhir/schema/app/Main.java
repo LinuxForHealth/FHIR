@@ -62,11 +62,10 @@ import com.ibm.fhir.task.api.ITaskGroup;
 import com.ibm.fhir.task.core.service.TaskService;
 
 /**
- * Utility app to connect to a DB2 database and create/update the FHIR schema.
+ * Utility app to connect to a Db2 database and create/update the FHIR schema.
  * The DDL processing is idempotent, with only the necessary changes applied.
  * <br>
- * This utility also includes an option to exercise the tenant partitioning
- * code.
+ * This utility also includes an option to exercise the tenant partitioning code.
  */
 public class Main {
 
@@ -97,7 +96,7 @@ public class Main {
 
     // By default, the dryRun option is OFF, and FALSE
     // When overridden, it simulates the actions. 
-    private Boolean dryRun = Boolean.FALSE;
+    private Boolean dryRun = false;
 
     // The database user we will grant tenant data access privileges to
     private String grantTo;
@@ -115,7 +114,7 @@ public class Main {
     // What status to leave with
     private int exitStatus = EXIT_OK;
 
-    // This utility is designed to work with a DB2 database
+    // This utility is designed to work with a Db2 database
     private IDatabaseTranslator translator = new Db2Translator();
 
     // The connection pool and transaction provider to support concurrent operations
