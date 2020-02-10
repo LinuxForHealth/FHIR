@@ -111,7 +111,7 @@ public class FHIRPathPatch implements FHIRPatch {
         Builder builder = FHIRPathPatch.builder();
         
         for (Parameter param : params.getParameter()) {
-            if (!"operation".equals(param.getName().getValue())) {
+            if (!FHIRPathPatchOperation.OPERATION.equals(param.getName().getValue())) {
                 throw new IllegalArgumentException("Each FHIRPath patch operation must have a name of 'operation'");
             }
             addOperation(builder, param);
