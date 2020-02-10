@@ -26,27 +26,50 @@ import com.ibm.fhir.path.patch.FHIRPathPatch;
 
 public class FHIRPathPatchBuilderTest {
     @Test
-    private void patchBuilderTest() throws Exception {
+    private void patchBuilderTestIncremental() throws Exception {
         Patient patient = Patient.builder().id("test").build();
         
-        Patient patchedPatient = addViaPatch(patient);
+        Patient patchedPatient = buildAdd().apply(patient);
         patient = addViaBuilder(patient);
         assertEquals(patchedPatient, patient);
         
-        patchedPatient = deleteViaPatch(patient);
+        patchedPatient = buildDelete().apply(patient);
         patient = deleteViaBuilder(patient);
         assertEquals(patchedPatient, patient);
         
-        patchedPatient = insertViaPatch(patient);
+        patchedPatient = buildInsert().apply(patient);
         patient = insertViaBuilder(patient);
         assertEquals(patchedPatient, patient);
         
-        patchedPatient = moveViaPatch(patient);
+        patchedPatient = buildMove().apply(patient);
         patient = moveViaBuilder(patient);
         assertEquals(patchedPatient, patient);
         
-        patchedPatient = replaceViaPatch(patient);
+        patchedPatient = buildReplace().apply(patient);
         patient = replaceViaBuilder(patient);
+        assertEquals(patchedPatient, patient);
+    }
+    
+    @Test
+    private void patchBuilderTestAll() throws Exception {
+        Patient patient = Patient.builder().id("test").build();
+        
+        FHIRPathPatch allPatch = FHIRPathPatch.builder()
+            .from(buildAdd())
+            .from(buildDelete())
+            .from(buildInsert())
+            .from(buildMove())
+            .from(buildReplace())
+            .build();
+        
+        Patient patchedPatient = allPatch.apply(patient);
+        
+        patient = addViaBuilder(patient);
+        patient = deleteViaBuilder(patient);
+        patient = insertViaBuilder(patient);
+        patient = moveViaBuilder(patient);
+        patient = replaceViaBuilder(patient);
+        
         assertEquals(patchedPatient, patient);
     }
 
@@ -72,7 +95,7 @@ public class FHIRPathPatchBuilderTest {
                 .build();
     }
 
-    private Patient addViaPatch(Patient patient) throws FHIRPatchException {
+    private FHIRPathPatch buildAdd() throws FHIRPatchException {
         return FHIRPathPatch.builder()
                 .add("Patient", "identifier", Identifier.builder().system(Uri.of("mySystem")).build())
                 .add("Patient.identifier", "value", string("it-me"))
@@ -83,8 +106,7 @@ public class FHIRPathPatchBuilderTest {
                 .add("Patient.name[0].extension", "extension", Extension.builder().url("lunchTime").build())
                 .add("Patient.name[0].extension.extension", "value", Time.of("12:00:00"))
                 .add("Patient", "active", com.ibm.fhir.model.type.Boolean.TRUE)
-                .build()
-                .apply(patient);
+                .build();
     }
     
     private Patient deleteViaBuilder(Patient patient) {
@@ -94,12 +116,11 @@ public class FHIRPathPatchBuilderTest {
                 .build();
     }
 
-    private Patient deleteViaPatch(Patient patient) throws FHIRPatchException {
+    private FHIRPathPatch buildDelete() throws FHIRPatchException {
         return FHIRPathPatch.builder()
                 .delete("Patient.active")
                 .delete("Patient.identifier")
-                .build()
-                .apply(patient);
+                .build();
     }
 
     private Patient insertViaBuilder(Patient patient) {
@@ -115,13 +136,12 @@ public class FHIRPathPatchBuilderTest {
                 .build();
     }
 
-    private Patient insertViaPatch(Patient patient) throws FHIRPatchException {
+    private FHIRPathPatch buildInsert() throws FHIRPatchException {
         return FHIRPathPatch.builder()
                 .insert("Patient.name", HumanName.builder().family(string("Inserted")).build(), 2)
                 .insert("Patient.name[0].extension", 
                         Extension.builder().url("inserted").value(string("value")).build(), 0)
-                .build()
-                .apply(patient);
+                .build();
     }
 
     private Patient moveViaBuilder(Patient patient) {
@@ -131,11 +151,10 @@ public class FHIRPathPatchBuilderTest {
         return patient.toBuilder().name(names).build();
     }
 
-    private Patient moveViaPatch(Patient patient) throws FHIRPatchException {
+    private FHIRPathPatch buildMove() throws FHIRPatchException {
         return FHIRPathPatch.builder()
                 .move("Patient.name", 0, 2)
-                .build()
-                .apply(patient);
+                .build();
     }
 
     private Patient replaceViaBuilder(Patient patient) {
@@ -144,10 +163,9 @@ public class FHIRPathPatchBuilderTest {
         return patient.toBuilder().name(names).build();
     }
 
-    private Patient replaceViaPatch(Patient patient) throws FHIRPatchException {
+    private FHIRPathPatch buildReplace() throws FHIRPatchException {
         return FHIRPathPatch.builder()
                 .replace("Patient.name[0].family", string("UpdatedLast"))
-                .build()
-                .apply(patient);
+                .build();
     }
 }

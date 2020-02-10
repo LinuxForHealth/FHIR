@@ -60,28 +60,51 @@ public class FHIRPathPatch implements FHIRPatch {
             // hidden constructor
         }
     
+        /**
+         * Add an add operation to the FHIRPathPatch
+         */
         public Builder add(String path, String elementName, Element element) {
             operations.add(new FHIRPathPatchAdd(path, elementName, element));
             return this;
         }
         
+        /**
+         * Add a delete operation to the FHIRPathPatch
+         */
         public Builder delete(String path) {
             operations.add(new FHIRPathPatchDelete(path));
             return this;
         }
         
+        /**
+         * Add an insert operation to the FHIRPathPatch
+         */
         public Builder insert(String path, Element element, Integer index) {
             operations.add(new FHIRPathPatchInsert(path, element, index));
             return this;
         }
         
+        /**
+         * Add a move operation to the FHIRPathPatch
+         */
         public Builder move(String path, Integer source, Integer destination) {
             operations.add(new FHIRPathPatchMove(path, source, destination));
             return this;
         }
         
+        /**
+         * Add an add operation to the FHIRPathPatch
+         */
         public Builder replace(String path, Element element) {
             operations.add(new FHIRPathPatchReplace(path, element));
+            return this;
+        }
+        
+        /**
+         * Add all patch operations from the passed FHIRPathPatch
+         */
+        public Builder from(FHIRPathPatch patch) {
+            operations.addAll(patch.operations);
             return this;
         }
         
@@ -93,11 +116,6 @@ public class FHIRPathPatch implements FHIRPatch {
          */
         public FHIRPathPatch build() {
             return new FHIRPathPatch(this);
-        }
-
-        protected Builder from(FHIRPathPatch patch) {
-            operations.addAll(patch.operations);
-            return this;
         }
     }
     
