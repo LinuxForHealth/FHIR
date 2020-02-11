@@ -31,7 +31,9 @@ public class Constants {
     public static final int IMPORT_MAX_PARTITIONPROCESSING_THREADNUMBER = 10;
     public static final String IMPORT_PARTITTION_WORKITEM = "import.partiton.workitem";
     public static final String IMPORT_PARTITTION_RESOURCE_TYPE = "import.partiton.resourcetype";
-    public static final int IMPORT_NUMOFFHIRRESOURCES_PERREAD = 1000;
+    public static final int IMPORT_NUMOFFHIRRESOURCES_PERREAD = 100;
     public static final String IMPORT_INPUT_RESOURCE_TYPE = "type";
     public static final String IMPORT_INPUT_RESOURCE_URL = "url";
+    // Control if push OperationOutcomes to COS/S3.
+    public static final boolean IMPORT_IS_COLLECT_OPERATIONOUTCOMES = true;
 }

@@ -241,9 +241,6 @@ public class ImportPartitionMapper implements PartitionMapper {
      }
 
 
-    /**
-     * @see PartitionMapper#mapPartitions()
-     */
     @Override
     public PartitionPlan mapPartitions() {
         JsonReader reader = Json.createReader(new StringReader(

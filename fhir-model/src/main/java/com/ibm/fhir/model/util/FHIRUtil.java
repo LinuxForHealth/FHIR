@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,23 +19,25 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.crypto.KeyGenerator;
 import javax.json.Json;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
@@ -56,122 +58,27 @@ import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.Address;
-import com.ibm.fhir.model.type.Age;
-import com.ibm.fhir.model.type.Annotation;
-import com.ibm.fhir.model.type.Attachment;
-import com.ibm.fhir.model.type.Base64Binary;
-import com.ibm.fhir.model.type.Canonical;
-import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.ContactDetail;
-import com.ibm.fhir.model.type.ContactPoint;
-import com.ibm.fhir.model.type.Contributor;
-import com.ibm.fhir.model.type.Count;
-import com.ibm.fhir.model.type.DataRequirement;
-import com.ibm.fhir.model.type.Date;
-import com.ibm.fhir.model.type.DateTime;
-import com.ibm.fhir.model.type.Decimal;
-import com.ibm.fhir.model.type.Distance;
-import com.ibm.fhir.model.type.Dosage;
-import com.ibm.fhir.model.type.Duration;
-import com.ibm.fhir.model.type.Expression;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Id;
-import com.ibm.fhir.model.type.Identifier;
-import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Meta;
-import com.ibm.fhir.model.type.Money;
-import com.ibm.fhir.model.type.MoneyQuantity;
-import com.ibm.fhir.model.type.Oid;
-import com.ibm.fhir.model.type.ParameterDefinition;
-import com.ibm.fhir.model.type.Period;
-import com.ibm.fhir.model.type.PositiveInt;
-import com.ibm.fhir.model.type.Quantity;
-import com.ibm.fhir.model.type.Range;
-import com.ibm.fhir.model.type.Ratio;
 import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.type.RelatedArtifact;
-import com.ibm.fhir.model.type.SampledData;
-import com.ibm.fhir.model.type.Signature;
-import com.ibm.fhir.model.type.SimpleQuantity;
-import com.ibm.fhir.model.type.Time;
-import com.ibm.fhir.model.type.Timing;
-import com.ibm.fhir.model.type.TriggerDefinition;
-import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.Url;
-import com.ibm.fhir.model.type.UsageContext;
-import com.ibm.fhir.model.type.Uuid;
-import com.ibm.fhir.model.type.Xhtml;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.visitor.Visitable;
 
 /**
- * Utility methods for working with the FHIR object model. 
+ * Utility methods for working with the FHIR object model.
  */
 public class FHIRUtil {
+    private static final SecureRandom RANDOM = new SecureRandom();
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
     public static final Pattern REFERENCE_PATTERN = buildReferencePattern();
     private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
     private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
-    private static final Set<Class<?>> CHOICE_ELEMENT_TYPES = new HashSet<>(Arrays.asList(
-        Base64Binary.class,
-        com.ibm.fhir.model.type.Boolean.class,
-        Canonical.class,
-        Code.class,
-        Date.class,
-        DateTime.class,
-        Decimal.class,
-        Id.class,
-        Instant.class,
-        com.ibm.fhir.model.type.Integer.class,
-        Markdown.class,
-        Oid.class,
-        PositiveInt.class,
-        com.ibm.fhir.model.type.String.class,
-        Time.class,
-        UnsignedInt.class,
-        Uri.class,
-        Url.class,
-        Uuid.class,
-        Address.class,
-        Age.class,
-        Annotation.class,
-        Attachment.class,
-        CodeableConcept.class,
-        Coding.class,
-        ContactPoint.class,
-        Count.class,
-        Distance.class,
-        Duration.class,
-        HumanName.class,
-        Identifier.class,
-        Money.class,
-        MoneyQuantity.class, // profiled type
-        Period.class,
-        Quantity.class,
-        Range.class,
-        Ratio.class,
-        Reference.class,
-        SampledData.class,
-        SimpleQuantity.class, // profiled type
-        Signature.class,
-        Timing.class,
-        ContactDetail.class,
-        Contributor.class,
-        DataRequirement.class,
-        Expression.class,
-        ParameterDefinition.class,
-        RelatedArtifact.class,
-        TriggerDefinition.class,
-        UsageContext.class,
-        Dosage.class));
     private static final Map<String, String> CONCRETE_TYPE_NAME_MAP = buildConcreteTypeNameMap();
     private static final OperationOutcome ALL_OK = OperationOutcome.builder()
         .issue(Issue.builder()
@@ -192,12 +99,12 @@ public class FHIRUtil {
     public static void init() {
         // allows us to initialize this class during startup
     }
-    
+
     /**
      * Converts a Visitable (Element or Resource) instance to a string using a FHIRGenerator.
-     * 
+     *
      * <p>The toString format (JSON or XML) can be specified through {@link FHIRModel#setToStringFormat(Format)}.
-     * 
+     *
      * @param visitable
      *     the Element or Resource instance to be converted
      * @return
@@ -228,7 +135,7 @@ public class FHIRUtil {
 
     /**
      * Get the name of the concrete type associated with a data type
-     * 
+     *
      * @param typeName
      *            the type name
      * @return the name of the concrete type (if one exists) (e.g. Quantity for SimpleQuantity) otherwise, return input
@@ -295,7 +202,7 @@ public class FHIRUtil {
     /**
      * Read JSON from InputStream {@code stream} and parse it into a FHIR resource. Non-mandatory elements which are not
      * in {@code elementsToInclude} will be filtered out.
-     * 
+     *
      * @param resourceType
      * @param in
      * @param elementsToInclude
@@ -311,7 +218,7 @@ public class FHIRUtil {
 
     /**
      * Read a FHIR resource from {@code reader} in the requested {@code format}.
-     * 
+     *
      * @deprecated use {@link FHIRParser} directly
      */
     @Deprecated
@@ -321,7 +228,7 @@ public class FHIRUtil {
 
     /**
      * Read a FHIR resource from {@code in} in the requested {@code format}.
-     * 
+     *
      * @deprecated use {@link FHIRParser} directly
      */
     @Deprecated
@@ -332,7 +239,7 @@ public class FHIRUtil {
     /**
      * Read JSON from {@link java.io.Reader#read()} and parse it into a FHIR resource. Non-mandatory elements which are not in
      * elementsToInclude will be filtered out.
-     * 
+     *
      * @param resourceType
      * @param reader
      * @param elementsToInclude
@@ -357,7 +264,7 @@ public class FHIRUtil {
     /**
      * Write a resource in XML or JSON to a given output stream, without pretty-printing. This method will close the
      * output stream after writing to it, so passing System.out / System.err is discouraged.
-     * 
+     *
      * @deprecated use {@link FHIRGenerator} directly
      */
     @Deprecated
@@ -368,7 +275,7 @@ public class FHIRUtil {
     /**
      * Write a resource in XML or JSON to a given output stream, with an option to pretty-print the output. This method
      * will close the output stream after writing to it, so passing System.out / System.err is discouraged.
-     * 
+     *
      * @deprecated use {@link FHIRGenerator} directly
      */
     @Deprecated
@@ -379,7 +286,7 @@ public class FHIRUtil {
     /**
      * Write a resource in XML or JSON using the passed writer, without pretty-printing. This method will close the
      * writer after writing to it.
-     * 
+     *
      * @deprecated use {@link FHIRGenerator} directly
      */
     @Deprecated
@@ -390,7 +297,7 @@ public class FHIRUtil {
     /**
      * Write a resource in XML or JSON using the passed writer, with an option to pretty-print the output. This method
      * will close the writer after writing to it.
-     * 
+     *
      * @deprecated use {@link FHIRGenerator} directly
      */
     @Deprecated
@@ -493,7 +400,7 @@ public class FHIRUtil {
 
     /**
      * Build an OperationOutcome for the specified exception.
-     * 
+     *
      * @param issueType
      *            defaults to IssueTypeList.EXCEPTION
      * @param severity
@@ -535,7 +442,7 @@ public class FHIRUtil {
      * Resolve reference {@code ref} to a bundle entry or a resource contained within {@code resource} and return the
      * corresponding resource container. Resolving {@code ref} to a resource that exists outside of the bundle is not
      * yet supported, but this support may be added in the future.
-     * 
+     *
      * @throws Exception
      *             if the resource could not be found, the reference has no value, or the value does not match the
      *             expected format for a reference
@@ -562,7 +469,7 @@ public class FHIRUtil {
 
     /**
      * Resolve the reference {@code ref} to a bundle entry and return the corresponding resource container
-     * 
+     *
      * @see https://www.hl7.org/fhir/r4/references.html#contained
      * @throws Exception
      *             if the resource could not be found, the reference has no value, or the value does not match the
@@ -590,7 +497,7 @@ public class FHIRUtil {
 
     /**
      * Resolve the reference {@code ref} to an entry within {@code bundle} and return the corresponding resource
-     * 
+     *
      * @see https://www.hl7.org/fhir/r4/bundle.html#references
      * @param resourceType
      * @param bundle
@@ -612,7 +519,7 @@ public class FHIRUtil {
 
     /**
      * Resolve the reference {@code ref} to an entry within {@code bundle}
-     * 
+     *
      * @see https://www.hl7.org/fhir/r4/bundle.html#references
      * @param bundle
      * @param sourceEntry
@@ -693,7 +600,7 @@ public class FHIRUtil {
 
     /**
      * Returns the string value of the specified extension element within the specified resource.
-     * 
+     *
      * @param resource
      * @param extensionUrl
      * @return the value of the first such extension with a valueString or null if the resource has no such extensions
@@ -711,7 +618,7 @@ public class FHIRUtil {
         }
         return null;
     }
-    
+
     public static boolean hasTag(Resource resource, Coding tag) {
         Objects.requireNonNull(resource);
         Objects.requireNonNull(tag);
@@ -721,16 +628,16 @@ public class FHIRUtil {
         for (Coding t : resource.getMeta().getTag()) {
             // compare tags based on system/code
             // version and display are ignored
-            if (tag.getSystem() != null && 
-                tag.getSystem().equals(t.getSystem()) && 
-                tag.getCode() != null && 
+            if (tag.getSystem() != null &&
+                tag.getSystem().equals(t.getSystem()) &&
+                tag.getCode() != null &&
                 tag.getCode().equals(t.getCode())) {
                 return true;
             }
         }
         return false;
     }
-    
+
     /**
      * Return a copy of resource {@code resource} with tag {@code tag}
      * @param <T>
@@ -759,8 +666,8 @@ public class FHIRUtil {
     }
 
     /**
-     * Returns the resource type (as a String) of the specified resource. 
-     * 
+     * Returns the resource type (as a String) of the specified resource.
+     *
      * @param resource
      *            the resource
      * @return the name of the resource type associated with the resource
@@ -777,7 +684,7 @@ public class FHIRUtil {
 
     /**
      * Determine if the given severity should be treated as a failure
-     * 
+     *
      * @param severity
      * @return
      */
@@ -790,4 +697,24 @@ public class FHIRUtil {
             return true;
         }
     }
+
+    /**
+     * Generate a random AES key or 32 byte value encoded as a Base64 string.
+     *
+     * @return
+     */
+    public static String getRandomKey(String key) {
+        KeyGenerator keyGen;
+        try {
+            keyGen = KeyGenerator.getInstance(key);
+            keyGen.init(256);
+            return Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
+        } catch (NoSuchAlgorithmException e) {
+            byte[] buffer = new byte[32];
+            RANDOM.setSeed(System.currentTimeMillis());
+            RANDOM.nextBytes(buffer);
+            return Base64.getEncoder().encodeToString(buffer);
+        }
+    }
+
 }

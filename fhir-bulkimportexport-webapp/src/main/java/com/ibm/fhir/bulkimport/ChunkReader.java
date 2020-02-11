@@ -47,35 +47,35 @@ public class ChunkReader extends AbstractItemReader {
     String cosApiKeyProperty;
 
     /**
-     * The IBM COS service instance id or s3 secret key.
+     * The IBM COS service instance id or S3 secret key.
      */
     @Inject
     @BatchProperty(name = "cos.srvinst.id")
     String cosSrvinstId;
 
     /**
-     * The Cos End point URL.
+     * The IBM COS or S3 End point URL.
      */
     @Inject
     @BatchProperty(name = "cos.endpointurl")
     String cosEndpintUrl;
 
     /**
-     * The Cos End point URL.
+     * The IBM COS or S3 location.
      */
     @Inject
     @BatchProperty(name = "cos.location")
     String cosLocation;
 
     /**
-     * The Cos bucket name.
+     * The IBM COS or S3 bucket name to import from.
      */
     @Inject
     @BatchProperty(name = "cos.bucket.name")
     String cosBucketName;
 
     /**
-     * If use IBM credential.
+     * If use IBM credential or S3 secret keys.
      */
     @Inject
     @BatchProperty(name = "cos.credential.ibm")
@@ -102,23 +102,14 @@ public class ChunkReader extends AbstractItemReader {
     @Override
     public Object readItem() throws Exception {
         List<Resource> loadedFhirResources = new ArrayList<Resource>();
-        logger.info("readItem: get work item:" + importPartitionWorkitem);
+        logger.info("readItem: get work item:" + importPartitionWorkitem + " resource type: " + importPartitionResourceType);
 
-        cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
-                cosLocation);
-        if (cosClient == null) {
-            logger.warning("readItem: Failed to get CosClient!");
-            return null;
-        } else {
-            logger.finer("readItem: Got CosClient successfully!");
-        }
-
-        CheckPointData chunkData = (CheckPointData) stepCtx.getTransientUserData();
+        ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
         if (chunkData == null) {
-            chunkData = new CheckPointData(importPartitionWorkitem, numOfLinesToSkip);
+            chunkData = new ImportTransientUserData(importPartitionWorkitem, numOfLinesToSkip, importPartitionResourceType);
             stepCtx.setTransientUserData(chunkData);
         } else {
-            numOfLinesToSkip = chunkData.getNumOfLinesToSkip();
+            numOfLinesToSkip = chunkData.getNumOfProcessedResources();
         }
 
         int imported = 0;
@@ -132,12 +123,21 @@ public class ChunkReader extends AbstractItemReader {
             break;
         case AWSS3:
         case IBMCOS:
+            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
+                    cosLocation);
+            if (cosClient == null) {
+                logger.warning("readItem: Failed to get CosClient!");
+                return null;
+            } else {
+                logger.finer("readItem: Got CosClient successfully!");
+            }
             imported = BulkDataUtils.readFhirResourceFromObjectStore(cosClient, cosBucketName, importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources);
             break;
         default:
             break;
         }
         logger.info("readItem: loaded " + imported + " " + importPartitionResourceType + " from " + importPartitionWorkitem);
+        chunkData.setNumOfToBeImported(imported);
         if (imported == 0) {
             return null;
         } else {
@@ -148,10 +148,11 @@ public class ChunkReader extends AbstractItemReader {
     @Override
     public void open(Serializable checkpoint) throws Exception {
         if (checkpoint != null) {
-            CheckPointData checkPointData = (CheckPointData) checkpoint;
+            ImportCheckPointData checkPointData = (ImportCheckPointData) checkpoint;
             importPartitionWorkitem = checkPointData.getImportPartitionWorkitem();
-            numOfLinesToSkip = checkPointData.getNumOfLinesToSkip();
-            stepCtx.setTransientUserData(checkPointData);
+            numOfLinesToSkip = checkPointData.getNumOfProcessedResources();
+
+            stepCtx.setTransientUserData(ImportTransientUserData.fromImportCheckPointData(checkPointData));
         }
     }
 
@@ -162,7 +163,7 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public Serializable checkpointInfo() throws Exception {
-        return (CheckPointData) stepCtx.getTransientUserData();
+        return ImportCheckPointData.fromImportTransientUserData((ImportTransientUserData)stepCtx.getTransientUserData());
     }
 
 }
