@@ -77,7 +77,6 @@ public class FHIRParserBenchmark {
     }
     
     public static void main(String[] args) throws Exception {
-//        new FHIRBenchmarkRunner(FHIRParserBenchmark.class).runAll();
         new FHIRBenchmarkRunner(FHIRParserBenchmark.class).run();
     }
 }
