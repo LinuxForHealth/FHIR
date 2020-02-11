@@ -22,6 +22,8 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
 
 /**
@@ -354,5 +356,38 @@ public final class ValidationSupport {
         if (!elements.isEmpty()) {
             throw new IllegalStateException(String.format("Element: '%s' is prohibited.", elementName));
         }
+    }
+    
+    /**
+     * @throws IllegalStateExeption if the codeableConcept has coding elements that do not include codes from the required binding
+     */
+    public static void checkCodeableConcept(CodeableConcept codeableConcept, String elementName, String system, String... codes) {
+        if (codeableConcept != null && !codeableConcept.getCoding().isEmpty() && hasCodingWithSystemAndCodeValues(codeableConcept)) {
+            List<String> codeList = Arrays.asList(codes);
+            for (Coding coding : codeableConcept.getCoding()) {
+                if (hasSystemAndCodeValues(coding) && 
+                        system.equals(coding.getSystem().getValue()) && 
+                        codeList.contains(coding.getCode().getValue())) {
+                    return;
+                }
+            }
+            throw new IllegalStateException(String.format("Element: '%s' must contain a valid code from system: '%s'", elementName, system));
+        }
+    }
+    
+    private static boolean hasCodingWithSystemAndCodeValues(CodeableConcept codeableConcept) {
+        for (Coding coding : codeableConcept.getCoding()) {
+            if (hasSystemAndCodeValues(coding)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private static boolean hasSystemAndCodeValues(Coding coding) {
+        return coding.getSystem() != null && 
+                coding.getSystem().getValue() != null && 
+                coding.getCode() != null && 
+                coding.getCode().getValue() != null;
     }
 }

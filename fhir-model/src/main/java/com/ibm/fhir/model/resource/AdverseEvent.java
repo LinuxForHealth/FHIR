@@ -143,6 +143,8 @@ public class AdverseEvent extends DomainResource {
         subjectMedicalHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subjectMedicalHistory, "subjectMedicalHistory"));
         referenceDocument = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referenceDocument, "referenceDocument"));
         study = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.study, "study"));
+        ValidationSupport.checkCodeableConcept(severity, "severity", "http://terminology.hl7.org/CodeSystem/adverse-event-severity", "mild", "moderate", "severe");
+        ValidationSupport.checkCodeableConcept(outcome, "outcome", "http://terminology.hl7.org/CodeSystem/adverse-event-outcome", "resolved", "recovering", "ongoing", "resolvedWithSequelae", "fatal", "unknown");
         ValidationSupport.requireChildren(this);
     }
 

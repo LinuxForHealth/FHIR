@@ -147,6 +147,8 @@ public class AllergyIntolerance extends DomainResource {
         lastOccurrence = builder.lastOccurrence;
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         reaction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reaction, "reaction"));
+        ValidationSupport.checkCodeableConcept(clinicalStatus, "clinicalStatus", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical", "active", "inactive", "resolved");
+        ValidationSupport.checkCodeableConcept(verificationStatus, "verificationStatus", "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification", "unconfirmed", "confirmed", "refuted", "entered-in-error");
         ValidationSupport.requireChildren(this);
     }
 

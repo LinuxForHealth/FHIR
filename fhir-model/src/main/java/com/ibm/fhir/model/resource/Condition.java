@@ -169,6 +169,8 @@ public class Condition extends DomainResource {
         stage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.stage, "stage"));
         evidence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evidence, "evidence"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.checkCodeableConcept(clinicalStatus, "clinicalStatus", "http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "recurrence", "relapse", "inactive", "remission", "resolved");
+        ValidationSupport.checkCodeableConcept(verificationStatus, "verificationStatus", "http://terminology.hl7.org/CodeSystem/condition-ver-status", "unconfirmed", "provisional", "differential", "confirmed", "refuted", "entered-in-error");
         ValidationSupport.requireChildren(this);
     }
 
