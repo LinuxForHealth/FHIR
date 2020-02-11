@@ -45,7 +45,7 @@ public class ImportPartitionMapper implements PartitionMapper {
      * e.g, https, file, aws-s3, ibm-cos
      */
     @Inject
-    @BatchProperty(name = "fhir.storagetype")
+    @BatchProperty(name = Constants.IMPORT_FHIR_STORAGE_TYPE)
     String dataSourceStorageType;
 
     /**
@@ -91,42 +91,42 @@ public class ImportPartitionMapper implements PartitionMapper {
      * The IBM COS API key or S3 access key.
      */
     @Inject
-    @BatchProperty(name = "cos.api.key")
+    @BatchProperty(name = Constants.COS_API_KEY)
     String cosApiKeyProperty;
 
     /**
-     * The IBM COS service instance id or s3 secret key.
+     * The IBM COS service instance id or S3 secret key.
      */
     @Inject
-    @BatchProperty(name = "cos.srvinst.id")
+    @BatchProperty(name = Constants.COS_SRVINST_ID)
     String cosSrvinstId;
 
     /**
-     * The Cos End point URL.
+     * The IBM COS or S3 End point URL.
      */
     @Inject
-    @BatchProperty(name = "cos.endpointurl")
+    @BatchProperty(name = Constants.COS_ENDPOINT_URL)
     String cosEndpintUrl;
 
     /**
-     * The Cos End point URL.
+     * The IBM COS or S3 location.
      */
     @Inject
-    @BatchProperty(name = "cos.location")
+    @BatchProperty(name = Constants.COS_LOCATION)
     String cosLocation;
 
     /**
-     * The Cos bucket name.
+     * The IBM COS or S3 bucket name to import from.
      */
     @Inject
-    @BatchProperty(name = "cos.bucket.name")
+    @BatchProperty(name = Constants.COS_BUCKET_NAME)
     String cosBucketName;
 
     /**
      * If use IBM credential.
      */
     @Inject
-    @BatchProperty(name = "cos.credential.ibm")
+    @BatchProperty(name = Constants.COS_IS_IBM_CREDENTIAL)
     String cosCredentialIbm;
 
     public ImportPartitionMapper() {

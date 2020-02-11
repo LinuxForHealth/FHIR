@@ -18,6 +18,7 @@ import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.fhir.bulkcommon.BulkDataUtils;
+import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.model.resource.Resource;
 
 /**
@@ -36,63 +37,63 @@ public class ChunkReader extends AbstractItemReader {
      * The data source storage type.
      */
     @Inject
-    @BatchProperty(name = "fhir.storagetype")
+    @BatchProperty(name = Constants.IMPORT_FHIR_STORAGE_TYPE)
     String dataSourceStorageType;
 
     /**
      * The IBM COS API key or S3 access key.
      */
     @Inject
-    @BatchProperty(name = "cos.api.key")
+    @BatchProperty(name = Constants.COS_API_KEY)
     String cosApiKeyProperty;
 
     /**
      * The IBM COS service instance id or S3 secret key.
      */
     @Inject
-    @BatchProperty(name = "cos.srvinst.id")
+    @BatchProperty(name = Constants.COS_SRVINST_ID)
     String cosSrvinstId;
 
     /**
      * The IBM COS or S3 End point URL.
      */
     @Inject
-    @BatchProperty(name = "cos.endpointurl")
+    @BatchProperty(name = Constants.COS_ENDPOINT_URL)
     String cosEndpintUrl;
 
     /**
      * The IBM COS or S3 location.
      */
     @Inject
-    @BatchProperty(name = "cos.location")
+    @BatchProperty(name = Constants.COS_LOCATION)
     String cosLocation;
 
     /**
      * The IBM COS or S3 bucket name to import from.
      */
     @Inject
-    @BatchProperty(name = "cos.bucket.name")
+    @BatchProperty(name = Constants.COS_BUCKET_NAME)
     String cosBucketName;
 
     /**
      * If use IBM credential or S3 secret keys.
      */
     @Inject
-    @BatchProperty(name = "cos.credential.ibm")
+    @BatchProperty(name = Constants.COS_IS_IBM_CREDENTIAL)
     String cosCredentialIbm;
 
     /**
      * Work item to process.
      */
     @Inject
-    @BatchProperty(name = "import.partiton.workitem")
+    @BatchProperty(name = Constants.IMPORT_PARTITTION_WORKITEM)
     String importPartitionWorkitem;
 
     /**
      * Fhir resource type to process.
      */
     @Inject
-    @BatchProperty(name = "import.partiton.resourcetype")
+    @BatchProperty(name = Constants.IMPORT_PARTITTION_RESOURCE_TYPE)
     String importPartitionResourceType;
 
     public ChunkReader() {

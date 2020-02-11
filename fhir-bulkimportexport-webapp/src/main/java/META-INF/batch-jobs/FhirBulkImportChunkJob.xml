@@ -18,7 +18,7 @@
                     <property name="cos.location" value="#{jobParameters['cos.location']}"/>
                     <property name="cos.credential.ibm" value="#{jobParameters['cos.credential.ibm']}"/>
                     <property name="cos.bucket.name" value="#{jobParameters['cos.bucket.name']}"/>
-                    <property name="fhir.storagetype" value="#{jobParameters['fhir.storagetype']}"/>
+                    <property name="import.fhir.storagetype" value="#{jobParameters['import.fhir.storagetype']}"/>
                 </properties>
             </reader>
             <writer ref="com.ibm.fhir.bulkimport.ChunkWriter">
@@ -45,7 +45,7 @@
                     <property name="cos.credential.ibm" value="#{jobParameters['cos.credential.ibm']}"/>
                     <property name="cos.bucket.name" value="#{jobParameters['cos.bucket.name']}"/>
                     <property name="fhir.dataSourcesInfo" value="#{jobParameters['fhir.dataSourcesInfo']}"/>
-                    <property name="fhir.storagetype" value="#{jobParameters['fhir.storagetype']}"/>
+                    <property name="import.fhir.storagetype" value="#{jobParameters['import.fhir.storagetype']}"/>
                 </properties>
             </mapper>
             <collector ref="com.ibm.fhir.bulkimport.ImportPartitionCollector">
