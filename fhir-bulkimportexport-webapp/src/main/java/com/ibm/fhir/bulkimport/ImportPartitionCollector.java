@@ -87,7 +87,7 @@ public class ImportPartitionCollector implements PartitionCollector {
                 if (partitionSummaryData.getBufferStream4Import().size() > 0) {
                     if (partitionSummaryData.getUploadId4OperationOutcomes()  == null) {
                         partitionSummaryData.setUploadId4OperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
-                                cosOperationOutcomesBucketName, partitionSummaryData.getUniqueID4ImportOperationOutcomes()));
+                                cosOperationOutcomesBucketName, partitionSummaryData.getUniqueID4ImportOperationOutcomes(), true));
                     }
 
                     partitionSummaryData.getDataPacks4OperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
@@ -109,7 +109,7 @@ public class ImportPartitionCollector implements PartitionCollector {
                 if (partitionSummaryData.getBufferStream4ImportError().size() > 0) {
                     if (partitionSummaryData.getUploadId4FailureOperationOutcomes()  == null) {
                         partitionSummaryData.setUploadId4FailureOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
-                                cosOperationOutcomesBucketName, partitionSummaryData.getUniqueID4ImportFailureOperationOutcomes()));
+                                cosOperationOutcomesBucketName, partitionSummaryData.getUniqueID4ImportFailureOperationOutcomes(), true));
                     }
 
                     partitionSummaryData.getDataPacks4FailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,

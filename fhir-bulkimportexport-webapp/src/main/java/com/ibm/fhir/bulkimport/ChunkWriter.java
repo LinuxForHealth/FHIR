@@ -185,7 +185,7 @@ public class ChunkWriter extends AbstractItemWriter {
         if (chunkData.getBufferStream4Import().size() > Constants.COS_PART_MINIMALSIZE) {
             if (chunkData.getUploadId4OperationOutcomes()  == null) {
                 chunkData.setUploadId4OperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
-                        cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportOperationOutcomes()));
+                        cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportOperationOutcomes(), true));
             }
 
             chunkData.getDataPacks4OperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
@@ -202,7 +202,7 @@ public class ChunkWriter extends AbstractItemWriter {
         if (chunkData.getBufferStream4ImportError().size() > Constants.COS_PART_MINIMALSIZE) {
             if (chunkData.getUploadId4FailureOperationOutcomes()  == null) {
                 chunkData.setUploadId4FailureOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
-                        cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportFailureOperationOutcomes()));
+                        cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportFailureOperationOutcomes(), true));
             }
 
             chunkData.getDataPacks4FailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,

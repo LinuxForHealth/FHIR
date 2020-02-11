@@ -128,7 +128,7 @@ public class ChunkWriter extends AbstractItemWriter {
         }
         if (chunkData.isSingleCosObject()) {
             if (chunkData.getUploadId() == null) {
-                chunkData.setUploadId(BulkDataUtils.startPartUpload(cosClient, cosBucketName, cosBucketObjectName));
+                chunkData.setUploadId(BulkDataUtils.startPartUpload(cosClient, cosBucketName, cosBucketObjectName, false));
             }
 
             chunkData.getCosDataPacks().add(BulkDataUtils.multiPartUpload(cosClient, cosBucketName, cosBucketObjectName,

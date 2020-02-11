@@ -27,6 +27,7 @@ import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3ClientBuilder;
 import com.ibm.cloud.objectstorage.services.s3.model.AbortMultipartUploadRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.Bucket;
+import com.ibm.cloud.objectstorage.services.s3.model.CannedAccessControlList;
 import com.ibm.cloud.objectstorage.services.s3.model.CompleteMultipartUploadRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.GetObjectRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.InitiateMultipartUploadRequest;
@@ -54,12 +55,16 @@ public class BulkDataUtils {
         logger.info(method + ": " + String.valueOf(msg));
     }
 
-    public static String startPartUpload(AmazonS3 cosClient, String bucketName, String itemName) throws Exception {
+    public static String startPartUpload(AmazonS3 cosClient, String bucketName, String itemName, boolean isPublicAccess) throws Exception {
         try {
             log("startPartUpload", "Start multi-part upload for " + itemName + " to bucket - " + bucketName);
 
-            InitiateMultipartUploadResult mpResult = cosClient
-                    .initiateMultipartUpload(new InitiateMultipartUploadRequest(bucketName, itemName));
+            InitiateMultipartUploadRequest initMultipartUploadReq = new InitiateMultipartUploadRequest(bucketName, itemName);
+            if (isPublicAccess) {
+                initMultipartUploadReq.setCannedACL(CannedAccessControlList.PublicRead);
+            }
+
+            InitiateMultipartUploadResult mpResult = cosClient.initiateMultipartUpload(initMultipartUploadReq);
             return mpResult.getUploadId();
         } catch (Exception sdke) {
             log("startPartUpload", "Upload start Error - " + sdke.getMessage());
