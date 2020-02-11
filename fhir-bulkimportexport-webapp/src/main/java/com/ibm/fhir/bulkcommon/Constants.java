@@ -30,7 +30,7 @@ public class Constants {
     public static final byte[] NDJSON_LINESEPERATOR = "\r\n".getBytes();
 
     public static final int IMPORT_MAX_PARTITIONPROCESSING_THREADNUMBER = 10;
-    public static final int IMPORT_NUMOFFHIRRESOURCES_PERREAD = 100;
+    public static final int IMPORT_NUMOFFHIRRESOURCES_PERREAD = 1000;
     public static final String IMPORT_INPUT_RESOURCE_TYPE = "type";
     public static final String IMPORT_INPUT_RESOURCE_URL = "url";
 
