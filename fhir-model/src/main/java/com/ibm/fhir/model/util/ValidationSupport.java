@@ -371,7 +371,7 @@ public final class ValidationSupport {
                     return;
                 }
             }
-            throw new IllegalStateException(String.format("Element: '%s' must contain a valid code from valueSet: '%s'", elementName, valueSet));
+            throw new IllegalStateException(String.format("Element: '%s' must contain a valid code from value set: '%s'", elementName, valueSet));
         }
     }
     
