@@ -361,7 +361,7 @@ public final class ValidationSupport {
     /**
      * @throws IllegalStateExeption if the codeableConcept has coding elements that do not include codes from the required binding
      */
-    public static void checkCodeableConcept(CodeableConcept codeableConcept, String elementName, String system, String... codes) {
+    public static void checkCodeableConcept(CodeableConcept codeableConcept, String elementName, String valueSet, String system, String... codes) {
         if (codeableConcept != null && !codeableConcept.getCoding().isEmpty() && hasCodingWithSystemAndCodeValues(codeableConcept)) {
             List<String> codeList = Arrays.asList(codes);
             for (Coding coding : codeableConcept.getCoding()) {
@@ -371,7 +371,7 @@ public final class ValidationSupport {
                     return;
                 }
             }
-            throw new IllegalStateException(String.format("Element: '%s' must contain a valid code from system: '%s'", elementName, system));
+            throw new IllegalStateException(String.format("Element: '%s' must contain a valid code from valueSet: '%s'", elementName, valueSet));
         }
     }
     

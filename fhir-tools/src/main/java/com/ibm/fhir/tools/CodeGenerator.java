@@ -1089,7 +1089,7 @@ public class CodeGenerator {
                     valueSet = tokens[0];
                     String system = getSystem(valueSet);
                     List<JsonObject> concepts = getConcepts(valueSet);
-                    cb.invoke("ValidationSupport", "checkCodeableConcept", args(fieldName, quote(elementName), quote(system), concepts.stream().map(concept -> quote(concept.getString("code"))).collect(Collectors.joining(", "))));
+                    cb.invoke("ValidationSupport", "checkCodeableConcept", args(fieldName, quote(elementName), quote(valueSet), quote(system), concepts.stream().map(concept -> quote(concept.getString("code"))).collect(Collectors.joining(", "))));
                 }
             }
             
