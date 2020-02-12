@@ -6,19 +6,15 @@
 package com.ibm.fhir.path.util;
 
 import java.util.List;
-import java.util.Stack;
+import java.util.Objects;
 
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.visitor.CopyingVisitor;
 import com.ibm.fhir.model.visitor.Visitable;
 
-public class InsertingVisitor<T extends Visitable> extends CopyingVisitor<T> {
-    private Stack<Visitable> visitStack;
-    
-    private Visitable parent;
-    private String elementName;
+class InsertingVisitor<T extends Visitable> extends CopyingVisitor<T> {
+    private String parentPath;
+    private String elementNameToInsert;
     private int index;
     private Visitable value;
 
@@ -28,43 +24,19 @@ public class InsertingVisitor<T extends Visitable> extends CopyingVisitor<T> {
      * @param index
      * @param value
      */
-    public InsertingVisitor(Visitable parent, String elementName, int index, Visitable value) {
-        this.visitStack = new Stack<Visitable>();
-        this.parent = parent;
-        this.elementName = elementName;
+    public InsertingVisitor(Visitable parent, String parentPath, String elementName, int index, Visitable value) {
+        this.parentPath = Objects.requireNonNull(parentPath);
+        this.elementNameToInsert = Objects.requireNonNull(elementName);
         this.index = index;
-        this.value = value instanceof Code ?
+        this.value = Objects.requireNonNull(value) instanceof Code ?
                 convertToCodeSubtype(parent, elementName, (Code)value) : value;
     }
 
     @Override
-    protected void doVisitStart(String elementName, int elementIndex, Resource resource) {
-        visitStack.push(resource);
-    }
-
-    @Override
-    protected void doVisitStart(String elementName, int elementIndex, Element element) {
-        visitStack.push(element);
-    }
-
-    @Override
     protected void doVisitListEnd(String elementName, List<? extends Visitable> visitables, Class<?> type) {
-        if (type.isAssignableFrom(value.getClass()) && elementName.equals(this.elementName)) {
-            // XXX: assuming that we have the right parent is potentially dangerous, but needed until parent is always non-null
-            if ((parent == null && index == 0) || visitStack.peek() == parent) {
-                getList().add(index, value);
-                markListDirty();
-            }
+        if (getPath().equals(parentPath) && elementName.equals(this.elementNameToInsert)) {
+            getList().add(index, value);
+            markListDirty();
         }
-    }
-
-    @Override
-    protected void doVisitEnd(String elementName, int elementIndex, Resource resource) {
-        visitStack.pop();
-    }
-
-    @Override
-    protected void doVisitEnd(String elementName, int elementIndex, Element element) {
-        visitStack.pop();
     }
 }

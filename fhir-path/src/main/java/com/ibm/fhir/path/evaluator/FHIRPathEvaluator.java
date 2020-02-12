@@ -98,6 +98,13 @@ public class FHIRPathEvaluator {
         return evaluate(new EvaluationContext(), expr, empty());
     }
     
+    /**
+     * @param resourceOrElement
+     * @param expr
+     * @return a potentially-empty non-null collection of FHIRPathNodes
+     * @throws FHIRPathException
+     * @throws NullPointerException if any of the passed arguments are null
+     */
     public Collection<FHIRPathNode> evaluate(Visitable resourceOrElement, String expr) throws FHIRPathException {
         Objects.requireNonNull("resourceOrElement cannot be null");
 
@@ -127,6 +134,14 @@ public class FHIRPathEvaluator {
         return evaluate(evaluationContext, expr, singleton(node));
     }
     
+    /**
+     * @param evaluationContext
+     * @param expr
+     * @param initialContext
+     * @return a potentially-empty non-null collection of FHIRPathNodes
+     * @throws FHIRPathException
+     * @throws NullPointerException if any of the passed arguments are null
+     */
     public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr, Collection<FHIRPathNode> initialContext) throws FHIRPathException {
         Objects.requireNonNull(evaluationContext);
         Objects.requireNonNull(initialContext);
@@ -144,7 +159,7 @@ public class FHIRPathEvaluator {
     
     private static ExpressionContext compile(String expr) {
         FHIRPathLexer lexer = new FHIRPathLexer(CharStreams.fromString(expr));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);        
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
         FHIRPathParser parser = new FHIRPathParser(tokens);
         return parser.expression();
     }

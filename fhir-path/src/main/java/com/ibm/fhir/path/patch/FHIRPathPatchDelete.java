@@ -6,26 +6,45 @@
 
 package com.ibm.fhir.path.patch;
 
+import static com.ibm.fhir.model.type.String.string;
+
+import java.util.Objects;
+
 import com.ibm.fhir.model.patch.exception.FHIRPatchException;
+import com.ibm.fhir.model.resource.Parameters.Parameter;
+import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.util.FHIRPathUtil;
 
-public class FHIRPathPatchDelete extends FHIRPathPatchOperation {
+class FHIRPathPatchDelete extends FHIRPathPatchOperation {
     String fhirPath;
-    String elementName;
 
     public FHIRPathPatchDelete(String fhirPath) {
-        this.fhirPath = fhirPath;
-        this.elementName = getElementName(fhirPath);
+        this.fhirPath = Objects.requireNonNull(fhirPath);
     }
 
     @Override
     public <T extends Resource> T apply(T resource) throws FHIRPatchException {
         try {
-            return FHIRPathUtil.delete(resource, fhirPath, elementName);
+            return FHIRPathUtil.delete(resource, fhirPath);
         } catch (FHIRPathException e) {
             throw new FHIRPatchException("Error executing fhirPath", fhirPath);
         }
+    }
+
+    @Override
+    public Parameter toParameter() {
+        return Parameter.builder()
+                .name(string(OPERATION))
+                .part(Parameter.builder()
+                    .name(string(TYPE))
+                    .value(Code.of(FHIRPathPatchType.DELETE.value()))
+                    .build())
+                .part(Parameter.builder()
+                    .name(string(PATH))
+                    .value(string(fhirPath))
+                    .build())
+                .build();
     }
 }

@@ -6,7 +6,7 @@
 package com.ibm.fhir.path.util;
 
 import java.util.List;
-import java.util.Stack;
+import java.util.Objects;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
@@ -15,71 +15,63 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.visitor.CopyingVisitor;
 import com.ibm.fhir.model.visitor.Visitable;
 
-public class AddingVisitor<T extends Visitable> extends CopyingVisitor<T> {
-    private Stack<Visitable> visitStack;
-    
-    private Visitable parent;
+class AddingVisitor<T extends Visitable> extends CopyingVisitor<T> {
+    private String path;
     private String elementNameToAdd;
+    private boolean isRepeatingElement;
     private Visitable value;
 
     /**
-     * @param parent
-     * @param elementName
-     * @param value
+     * @param parent the resource or element to add to
+     * @param parentPath a "simple" FHIRPath path to the parent of the element being added
+     * @param elementName the name of the element to add
+     * @param value the element to add
      */
-    public AddingVisitor(Visitable parent, String elementName, Visitable value) {
-        this.visitStack = new Stack<Visitable>();
-        this.parent = parent;
-        this.elementNameToAdd = elementName;
-        this.value = value instanceof Code ?
+    public AddingVisitor(Visitable parent, String parentPath, String elementName, Visitable value) {
+        this.path = Objects.requireNonNull(parentPath);
+        this.elementNameToAdd = Objects.requireNonNull(elementName);
+        this.isRepeatingElement = ModelSupport.isRepeatingElement(parent.getClass(), elementName);
+        this.value = Objects.requireNonNull(value) instanceof Code ?
                 convertToCodeSubtype(parent, elementName, (Code)value) : value;
     }
     
     @Override
-    protected void doVisitStart(String elementName, int elementIndex, Resource resource) {
-        visitStack.push(resource);
-    }
-    
-    @Override
-    protected void doVisitStart(String elementName, int elementIndex, Element element) {
-        visitStack.push(element);
-    }
-    
-    @Override
     protected void doVisitListEnd(String elementName, List<? extends Visitable> visitables, Class<?> type) {
-        if (visitStack.peek() == parent && type.isAssignableFrom(value.getClass()) && elementName.equals(this.elementNameToAdd)) {
+        if (getPath().equals(path) &&
+                type.isAssignableFrom(value.getClass()) &&
+                elementName.equals(this.elementNameToAdd)) {
             getList().add(value);
             markListDirty();
         }
     }
     
     @Override
-    protected void doVisitEnd(String elementName, int elementIndex, Resource resource) {
-        if (!ModelSupport.isRepeatingElement(parent.getClass(), this.elementNameToAdd)) {
-            if (resource == parent) {
-                value.accept(this.elementNameToAdd, this);
-            } else if (resource == value) {
+    public boolean visit(String elementName, int index, Visitable value) {
+        if (!isRepeatingElement) {
+            if (this.value == value) {
                 markDirty();
-            } else if (elementName.equals(this.elementNameToAdd)) {
-                // XXX: assuming that we have the right parent is potentially dangerous
-                throw new IllegalStateException("Add cannot replace an existing value");
+            } else if (getPath().equals(path + "." + elementNameToAdd)) {
+                throw new IllegalStateException("Add cannot replace an existing value at " + getPath());
             }
         }
-        visitStack.pop();
+        return true;
+    }
+    
+    @Override
+    protected void doVisitEnd(String elementName, int elementIndex, Resource resource) {
+        if (!isRepeatingElement) {
+            if (getPath().equals(path)) {
+                value.accept(this.elementNameToAdd, this);
+            }
+        }
     }
     
     @Override
     protected void doVisitEnd(String elementName, int elementIndex, Element element) {
-        if (!ModelSupport.isRepeatingElement(parent.getClass(), this.elementNameToAdd)) {
-            if (element == parent) {
+        if (!isRepeatingElement) {
+            if (getPath().equals(path)) {
                 value.accept(this.elementNameToAdd, this);
-            } else if (element == value) {
-                markDirty();
-            } else if (elementName.equals(this.elementNameToAdd)) {
-                // XXX: assuming that we have the right parent is potentially dangerous
-                throw new IllegalStateException("Add cannot replace an existing value");
             }
         }
-        visitStack.pop();
     }
 }

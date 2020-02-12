@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1367,16 +1367,6 @@ public class DefaultVisitor implements Visitor {
     @Override
     public boolean visit(java.lang.String elementName, int elementIndex, Meta meta) {
         return visit(elementName, elementIndex, (Element) meta);
-    }
-
-    /**
-     * Delegates to {@link #visit(elementName, elementIndex, DomainResource)}
-     * @return
-     *     {@inheritDoc}
-     */
-    @Override
-    public boolean visit(java.lang.String elementName, int elementIndex, MetadataResource metadataResource) {
-        return visit(elementName, elementIndex, (DomainResource) metadataResource);
     }
 
     /**

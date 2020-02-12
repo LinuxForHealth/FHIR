@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.path.patch.test;
 
+import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 
 import java.io.InputStream;
@@ -41,7 +42,10 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Parameters;
+import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Identifier;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.path.patch.FHIRPathPatch;
 
 public class FHIRPathPatchSpecTest implements ITest {
@@ -74,7 +78,9 @@ public class FHIRPathPatchSpecTest implements ITest {
             throw new SkipException("Skipping 'forwards' test " + testName);
         }
         try {
-            FHIRPathPatch patch = new FHIRPathPatch(params);
+            FHIRPathPatch patch = FHIRPathPatch.from(params);
+            assertEquals(patch.toParameters(), params);
+
             Resource actualOutput = patch.apply(input);
             assertEquals(actualOutput, expectedOutput);
         } catch(UnsupportedOperationException e) {
@@ -166,21 +172,16 @@ public class FHIRPathPatchSpecTest implements ITest {
         StringReader reader = new StringReader(writer.toString());
         return parser.parse(reader);
     }
-    
+
     public static void main(String[] args) throws Exception {
-        DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder = domFactory.newDocumentBuilder();
-        try (InputStream in = FHIRPathPatchSpecTest.class.getClassLoader().getResourceAsStream("patch\\fhir-path-tests.xml")) {
-            Document testDoc = documentBuilder.parse(in);
-            
-            NodeList cases = testDoc.getDocumentElement().getElementsByTagName("case");
-            for (int i = 0; i < cases.getLength(); i++) {
-                Node n = cases.item(i);
-                String testName = n.getAttributes().getNamedItem("name").getTextContent();
-                System.out.println(testName);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Patient patient = Patient.builder().id("test").build();
+        
+        FHIRPathPatch patch = FHIRPathPatch.builder()
+            .add("Patient", "identifier", Identifier.builder().system(Uri.of("mySystem")).build())
+            .add("Patient.identifier", "value", string("it-me"))
+            .add("Patient", "active", com.ibm.fhir.model.type.Boolean.TRUE)
+            .build();
+        
+        System.out.println(patch.apply(patient));
     }
 }

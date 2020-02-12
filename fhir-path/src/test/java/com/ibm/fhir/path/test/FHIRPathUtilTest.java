@@ -44,6 +44,41 @@ public class FHIRPathUtilTest {
         assertEquals(fhirpathPatient, builderPatient);
     }
 
+    @Test
+    void testAddDuplicate() throws Exception {
+        HumanName name1 = HumanName.builder()
+                .given(string("John"))
+                .family(string("Smith"))
+                .build();
+
+        HumanName name2 = HumanName.builder()
+                .given(string("John"))
+                .family(string("Smith"))
+                .suffix(Collections.singleton(string("II")))
+                .build();
+        Patient builderPatient = Patient.builder()
+                .id("test")
+                .name(name1, name2)
+                .build();
+
+        Patient fhirpathPatient = Patient.builder()
+                .id("test")
+                // note that the same exact object is added twice
+                .name(name1, name1)
+                .build();
+        fhirpathPatient = FHIRPathUtil.add(fhirpathPatient, "Patient.name[1]", "suffix", string("II"));
+        assertEquals(fhirpathPatient, builderPatient);
+
+
+        fhirpathPatient = Patient.builder().id("test").build();
+        // note that the same exact object is added twice
+        fhirpathPatient = FHIRPathUtil.add(fhirpathPatient, "Patient", "name", name1);
+        fhirpathPatient = FHIRPathUtil.add(fhirpathPatient, "Patient", "name", name1);
+        fhirpathPatient = FHIRPathUtil.add(fhirpathPatient, "Patient.name[1]", "suffix", string("II"));
+
+        assertEquals(fhirpathPatient, builderPatient);
+    }
+
     @Test(expectedExceptions = FHIRPatchException.class)
     void testAddExisting() throws Exception {
         Patient fhirpathPatient = Patient.builder().deceased(Boolean.FALSE).build();
@@ -66,8 +101,8 @@ public class FHIRPathUtilTest {
                 .build();
 
         Patient fhirpathPatient = Patient.builder().id("test").build();
-        fhirpathPatient = FHIRPathUtil.insert(fhirpathPatient, "Patient.name", "name", 0, name2);
-        fhirpathPatient = FHIRPathUtil.insert(fhirpathPatient, "Patient.name", "name", 0, name1);
+        fhirpathPatient = FHIRPathUtil.add(fhirpathPatient, "Patient", "name", name2);
+        fhirpathPatient = FHIRPathUtil.insert(fhirpathPatient, "Patient.name", 0, name1);
 
         assertEquals(fhirpathPatient, builderPatient);
     }
@@ -89,8 +124,8 @@ public class FHIRPathUtilTest {
                 .name(Collections.emptySet())
                 .build();
 
-        Patient fhirpathPatient = FHIRPathUtil.delete(patient, "Patient.deceased", "deceased");
-        fhirpathPatient = FHIRPathUtil.delete(fhirpathPatient, "Patient.name[0]", "name");
+        Patient fhirpathPatient = FHIRPathUtil.delete(patient, "Patient.deceased");
+        fhirpathPatient = FHIRPathUtil.delete(fhirpathPatient, "Patient.name[0]");
 
         assertEquals(fhirpathPatient, builderPatient);
     }
@@ -113,8 +148,8 @@ public class FHIRPathUtilTest {
                         .build()))
                 .build();
 
-        Patient fhirpathPatient = FHIRPathUtil.replace(patient, "Patient.deceased", "deceased", Boolean.FALSE);
-        fhirpathPatient = FHIRPathUtil.replace(fhirpathPatient, "Patient.name[0].given[0]", "given", string("Jane"));
+        Patient fhirpathPatient = FHIRPathUtil.replace(patient, "Patient.deceased", Boolean.FALSE);
+        fhirpathPatient = FHIRPathUtil.replace(fhirpathPatient, "Patient.name[0].given[0]", string("Jane"));
 
         assertEquals(fhirpathPatient, builderPatient);
     }
@@ -136,7 +171,7 @@ public class FHIRPathUtilTest {
         Patient fhirpathPatient = Patient.builder()
                 .name(name2, name1)
                 .build();
-        fhirpathPatient = FHIRPathUtil.move(fhirpathPatient, "Patient.name", "name", 1, 0);
+        fhirpathPatient = FHIRPathUtil.move(fhirpathPatient, "Patient.name", 1, 0);
 
         assertEquals(fhirpathPatient, builderPatient);
     }

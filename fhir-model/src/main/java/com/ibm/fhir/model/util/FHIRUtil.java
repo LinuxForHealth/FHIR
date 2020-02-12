@@ -12,11 +12,7 @@ import static com.ibm.fhir.model.FHIRModel.getToStringPrettyPrinting;
 import static com.ibm.fhir.model.type.String.string;
 import static java.util.Objects.nonNull;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.NoSuchAlgorithmException;
@@ -31,6 +27,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -49,11 +46,8 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.FHIRModel;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
-import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
-import com.ibm.fhir.model.parser.FHIRJsonParser;
-import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
@@ -65,6 +59,8 @@ import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.Uuid;
+import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
@@ -78,8 +74,6 @@ public class FHIRUtil {
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
     public static final Pattern REFERENCE_PATTERN = buildReferencePattern();
     private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
-    private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
-    private static final Map<String, String> CONCRETE_TYPE_NAME_MAP = buildConcreteTypeNameMap();
     private static final OperationOutcome ALL_OK = OperationOutcome.builder()
         .issue(Issue.builder()
         .severity(IssueSeverity.INFORMATION)
@@ -124,40 +118,7 @@ public class FHIRUtil {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
     }
-
-    @Deprecated
-    private static Map<String, String> buildConcreteTypeNameMap() {
-        Map<String, String> concreteTypeNameMap = new HashMap<>();
-        concreteTypeNameMap.put("SimpleQuantity", "Quantity");
-        concreteTypeNameMap.put("MoneyQuantity", "Quantity");
-        return concreteTypeNameMap;
-    }
-
-    /**
-     * Get the name of the concrete type associated with a data type
-     *
-     * @param typeName
-     *            the type name
-     * @return the name of the concrete type (if one exists) (e.g. Quantity for SimpleQuantity) otherwise, return input
-     *         parameter
-     * @deprecated use {@link ModelSupport#getConcreteType(Class)}
-     */
-    @Deprecated
-    public static String getConcreteTypeName(String typeName) {
-        if (isProfiledType(typeName)) {
-            return CONCRETE_TYPE_NAME_MAP.get(typeName);
-        }
-        return typeName;
-    }
-
-    /**
-     * @deprecated use {@link ModelSupport#isProfiledType(Class)}
-     */
-    @Deprecated
-    public static boolean isProfiledType(String typeName) {
-        return CONCRETE_TYPE_NAME_MAP.containsKey(typeName);
-    }
-
+  
     private static Pattern buildReferencePattern() {
         StringBuilder sb = new StringBuilder();
         sb.append("((http|https)://([A-Za-z0-9\\\\\\/\\.\\:\\%\\$\\-])*)?(");
@@ -166,143 +127,6 @@ public class FHIRUtil {
             .collect(Collectors.joining("|")));
         sb.append(")\\/[A-Za-z0-9\\-\\.]{1,64}(\\/_history\\/[A-Za-z0-9\\-\\.]{1,64})?");
         return Pattern.compile(sb.toString());
-    }
-
-    /**
-     * @deprecated use {@link ModelSupport#isResourceType(String)}
-     */
-    @Deprecated
-    public static boolean isStandardResourceType(String name) {
-        return RESOURCE_TYPE_MAP.containsKey(name);
-    }
-
-    /**
-     * @deprecated use {@link ModelSupport#getResourceType(String)}
-     */
-    @Deprecated
-    public static Class<?> getResourceType(String name) {
-        return RESOURCE_TYPE_MAP.get(name);
-    }
-
-    @Deprecated
-    private static Map<String, Class<?>> buildResourceTypeMap() {
-        Map<String, Class<?>> resourceTypeMap = new LinkedHashMap<>();
-        for (ResourceType.ValueSet value : ResourceType.ValueSet.values()) {
-            String resourceTypeName = value.value();
-            try {
-                Class<?> resourceTypeClass = Class.forName("com.ibm.fhir.model.resource." + resourceTypeName);
-                resourceTypeMap.put(resourceTypeName, resourceTypeClass);
-            } catch (Exception e) {
-                throw new Error(e);
-            }
-        }
-        return resourceTypeMap;
-    }
-
-    /**
-     * Read JSON from InputStream {@code stream} and parse it into a FHIR resource. Non-mandatory elements which are not
-     * in {@code elementsToInclude} will be filtered out.
-     *
-     * @param resourceType
-     * @param in
-     * @param elementsToInclude
-     *            a list of element names to include in the returned resource; null to skip filtering
-     * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in
-     *         the JSON)
-     * @deprecated use {@link FHIRParser} directly
-     */
-    @Deprecated
-    public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, InputStream in, List<String> elementsToInclude) throws FHIRParserException {
-        return FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elementsToInclude);
-    }
-
-    /**
-     * Read a FHIR resource from {@code reader} in the requested {@code format}.
-     *
-     * @deprecated use {@link FHIRParser} directly
-     */
-    @Deprecated
-    public static <T extends Resource> T read(Class<T> resourceType, Format format, Reader reader) throws FHIRParserException {
-        return FHIRParser.parser(format).parse(reader);
-    }
-
-    /**
-     * Read a FHIR resource from {@code in} in the requested {@code format}.
-     *
-     * @deprecated use {@link FHIRParser} directly
-     */
-    @Deprecated
-    public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream in) throws FHIRParserException {
-        return FHIRParser.parser(format).parse(in);
-    }
-
-    /**
-     * Read JSON from {@link java.io.Reader#read()} and parse it into a FHIR resource. Non-mandatory elements which are not in
-     * elementsToInclude will be filtered out.
-     *
-     * @param resourceType
-     * @param reader
-     * @param elementsToInclude
-     *            a list of element names to include in the returned resource; null to skip filtering
-     * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in
-     *         the JSON)
-     * @deprecated use {@link FHIRParser} directly
-     */
-    @Deprecated
-    public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, Reader reader, List<String> elementsToInclude) throws FHIRParserException {
-        return FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(reader, elementsToInclude);
-    }
-
-    /**
-     * @deprecated use {@link FHIRParser} directly
-     */
-    @Deprecated
-    public static <T extends Resource> T toResource(Class<T> resourceType, JsonObject jsonObject) throws FHIRParserException {
-        return FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parse(jsonObject);
-    }
-
-    /**
-     * Write a resource in XML or JSON to a given output stream, without pretty-printing. This method will close the
-     * output stream after writing to it, so passing System.out / System.err is discouraged.
-     *
-     * @deprecated use {@link FHIRGenerator} directly
-     */
-    @Deprecated
-    public static <T extends Resource> void write(T resource, Format format, OutputStream stream) throws FHIRGeneratorException {
-        write(resource, format, stream, false);
-    }
-
-    /**
-     * Write a resource in XML or JSON to a given output stream, with an option to pretty-print the output. This method
-     * will close the output stream after writing to it, so passing System.out / System.err is discouraged.
-     *
-     * @deprecated use {@link FHIRGenerator} directly
-     */
-    @Deprecated
-    public static <T extends Resource> void write(T resource, Format format, OutputStream stream, boolean formatted) throws FHIRGeneratorException {
-        FHIRGenerator.generator(format, formatted).generate(resource, stream);
-    }
-
-    /**
-     * Write a resource in XML or JSON using the passed writer, without pretty-printing. This method will close the
-     * writer after writing to it.
-     *
-     * @deprecated use {@link FHIRGenerator} directly
-     */
-    @Deprecated
-    public static <T extends Resource> void write(T resource, Format format, Writer writer) throws FHIRGeneratorException {
-        write(resource, format, writer, false);
-    }
-
-    /**
-     * Write a resource in XML or JSON using the passed writer, with an option to pretty-print the output. This method
-     * will close the writer after writing to it.
-     *
-     * @deprecated use {@link FHIRGenerator} directly
-     */
-    @Deprecated
-    public static <T extends Resource> void write(T resource, Format format, Writer writer, boolean prettyPrinting) throws FHIRGeneratorException {
-        FHIRGenerator.generator(format, prettyPrinting).generate(resource, writer);
     }
 
     // copy an immutable JsonObject into a mutable JsonObjectBuilder
@@ -671,15 +495,21 @@ public class FHIRUtil {
      * @param resource
      *            the resource
      * @return the name of the resource type associated with the resource
+     * @deprecated use {@link ModelSupport.getTypeName(Class<?>)}
      */
+    @Deprecated
     public static String getResourceTypeName(Resource resource) {
         return resource.getClass().getSimpleName();
     }
 
+    /**
+     * @return a list of all resource type names, including abstract supertypes
+     * @implNote this list does not include "logical" resources like {code MetadataResource}
+     */
     public static List<String> getResourceTypeNames() {
-        List<String> typeNameList = new ArrayList<String>();
-        typeNameList.addAll(RESOURCE_TYPE_MAP.keySet());
-        return typeNameList;
+        return Arrays.stream(ResourceType.ValueSet.values())
+                .map(ResourceType.ValueSet::value)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -716,5 +546,38 @@ public class FHIRUtil {
             return Base64.getEncoder().encodeToString(buffer);
         }
     }
+    
+    /**
+     * Create a self-contained bundle from the passed map of resources, replacing Resource.id values and 
+     * references with a generated UUID.
+     * 
+     * @param bundleType
+     *            The type of bundle to create
+     * @param resources
+     *            A mapping from String identifiers to Resources. For resources with no logical id, the key can be any
+     *            string
+     * @return a Bundle with the passed resources with ids and references replaced by UUIDs
+     */
+    public static Bundle createStandaloneBundle(BundleType bundleType, Map<String,Resource> resources) {
+        Map<String,String> localRefMap = new HashMap<>();
 
+        List<Entry> entries = new ArrayList<>();
+        for (String key : resources.keySet()) {
+            Uuid uuid = Uuid.of("urn:uuid:" + UUID.randomUUID());
+            localRefMap.put(key, uuid.getValue());
+            entries.add(Entry.builder()
+                .fullUrl(uuid)
+                .resource(resources.get(key))
+                .build());
+        }
+
+        Bundle bundle = Bundle.builder()
+            .type(bundleType)
+            .entry(entries)
+            .build();
+        
+        ReferenceMappingVisitor<Bundle> referenceMappingVisitor = new ReferenceMappingVisitor<>(localRefMap);
+        bundle.accept(referenceMappingVisitor);
+        return referenceMappingVisitor.getResult();
+    }
 }

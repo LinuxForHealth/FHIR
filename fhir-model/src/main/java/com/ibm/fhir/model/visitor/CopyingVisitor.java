@@ -6,12 +6,16 @@
 
 package com.ibm.fhir.model.visitor;
 
+import static com.ibm.fhir.model.util.ModelSupport.delimit;
+import static com.ibm.fhir.model.util.ModelSupport.isKeyword;
+
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 import javax.lang.model.SourceVersion;
 
@@ -35,13 +39,13 @@ import net.jcip.annotations.NotThreadSafe;
  *  
  * Note: this class is NOT threadsafe.  Only one object should be visited at a time.
  * 
- * @author lmsurpre
  * @param <T> The type to copy. Only visitables of this type should be visited.
  */
 @NotThreadSafe
 public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
+    private final Stack<String> pathStack = new Stack<>();
     private final Stack<BuilderWrapper> builderStack = new Stack<>();
-    private Stack<ListWrapper> listStack = new Stack<>();
+    private final Stack<ListWrapper> listStack = new Stack<>();
     private Object result;
     
     // subclasses may implement these to customize visit behavior without messing up our stacks
@@ -51,6 +55,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
     protected void doVisitStart(String elementName, int elementIndex, Resource resource) {}
     protected void doVisitListStart(String elementName, List<? extends Visitable> visitables, Class<?> type) {}
     protected void doVisitListEnd(String elementName, List<? extends Visitable> visitables, Class<?> type) {}
+
     /**
      * Retrieve a copy of the resource last visited.
      * 
@@ -61,17 +66,52 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
     public T getResult() {
         return (T)result;
     }
+
+    /**
+     * Get the FHIRPath path of the Resource or Element currently being visited.
+     * 
+     * This method is primarily for subclasses but can also be used externally to retrieve a path to the Resource
+     * or Element that was being visited when an Exception occurs.
+     * 
+     * @return The path of the Resource or Element currently being visited, the path that was being visited when an
+     *         exception was thrown, or null if there is no Resource or Element being visited. 
+     * @implSpec Path segments are appended in the visitStart methods and removed in the visitEnd methods.
+     */
+    public final String getPath() {
+        if (!pathStack.isEmpty()) {
+            return pathStack.stream().collect(Collectors.joining("."));
+        }
+        return null;
+    }
     
     public CopyingVisitor() {
         super(true);
     }
-    
+
+    /**
+     * Reset the state of the CopyingVisitor.
+     * 
+     * Invoke this method when visiting has failed and you want to clear the state in order to re-use the visitor.
+     */
+    public final void reset() {
+        if (!pathStack.isEmpty()) {
+            pathStack.clear();
+        }
+        if (!builderStack.isEmpty()) {
+            builderStack.clear();
+        }
+        if (!listStack.isEmpty()) {
+            listStack.clear();
+        }
+    }
+
     /**
      * Subclasses may override doVisitStart
      */
     @Override
     public final void visitStart(java.lang.String elementName, int index, Element element) {
         builderStack.push(new ElementWrapper(element.toBuilder()));
+        pathStackPush(elementName, index);
         doVisitStart(elementName, index, element);
     }
     
@@ -81,6 +121,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
     @Override
     public final void visitStart(java.lang.String elementName, int index, Resource resource) {
         builderStack.push(new ResourceWrapper(resource.toBuilder()));
+        pathStackPush(elementName, index);
         doVisitStart(elementName, index, resource);
     }
     
@@ -103,6 +144,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
     }
     
     private void _visitEnd(java.lang.String elementName, int index, Visitable visited, Class<? extends Visitable> elementOrResource) {
+        pathStackPop();
         BuilderWrapper wrapper = builderStack.pop();
         if (index != -1) {
             ListWrapper listWrapper = listStack.peek();
@@ -110,7 +152,10 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
                 listWrapper.dirty(true);
             }
             // No way to know if one of the other elements in the list will be dirty so we need to build them all
-            listWrapper.getList().add((Visitable) wrapper.getBuilder().build());
+            Visitable item = wrapper.getBuilder().build();
+            if (item != null) {
+                listWrapper.getList().add((Visitable) wrapper.getBuilder().build());
+            }
         } else {
             if (builderStack.isEmpty()) {
                 if (wrapper.isDirty()) {
@@ -199,6 +244,21 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
     }
     @Override
     public void postVisit(Resource resource) {
+    }
+    
+    private void pathStackPop() {
+        pathStack.pop();
+    }
+    
+    private void pathStackPush(String elementName, int index) {
+        if (isKeyword(elementName)) {
+            elementName = delimit(elementName);
+        }
+        if (index != -1) {
+            pathStack.push(elementName + "[" + index + "]");
+        } else {
+            pathStack.push(elementName);
+        }
     }
     
     protected Builder<?> getBuilder() {
