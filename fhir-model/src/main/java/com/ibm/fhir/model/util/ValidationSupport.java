@@ -398,7 +398,7 @@ public final class ValidationSupport {
     }
     
     /**
-     * @throws IllegalStateException if resource type found in reference URL does not match reference type specified or is not one of the allowed reference types for that element
+     * @throws IllegalStateException if the resource type found in reference URL does not match the specified Reference.type value or is not one of the allowed reference types for that element
      */
     public static void checkReferenceType(Reference reference, String elementName, String... referenceTypes) {
         boolean checkReferenceTypes = FHIRModelConfig.getCheckReferenceTypes();
