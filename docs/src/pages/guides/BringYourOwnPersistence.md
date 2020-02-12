@@ -104,7 +104,7 @@ FHIRPersistence implementations SHOULD use the value of the `fhirServer/persiste
 
 #### Delete
 Delete requests include a FHIRPersistenceContext, a Class object for the resource type being deleted, and the logical id of the resource to delete.
-FHIRPersistence implementations are expected to be version-aware and therefor must perform a "soft" delete. Therefor, implementations should handle the delete in a manner similar to update; setting the `Resource.meta.lastUpdate` and `Resource.meta.versionId` elements along with some marker flag to indicate that this resource has been deleted at this version.
+FHIRPersistence implementations are expected to be version-aware and therefore must perform a "soft" delete, handling the delete like an update by setting the `Resource.meta.lastUpdate` and `Resource.meta.versionId` elements along with some marker flag to indicate that this resource has been deleted at this version.
 
 For implementations that do not implement delete, FHIRPersistence includes a default implementation which throws a FHIRPersistenceNotSupportedException.
 
