@@ -71,6 +71,9 @@ public class ResearchSubject extends DomainResource {
         assignedArm = builder.assignedArm;
         actualArm = builder.actualArm;
         consent = builder.consent;
+        ValidationSupport.checkReferenceType(study, "study", "ResearchStudy");
+        ValidationSupport.checkReferenceType(individual, "individual", "Patient");
+        ValidationSupport.checkReferenceType(consent, "consent", "Consent");
         ValidationSupport.requireChildren(this);
     }
 

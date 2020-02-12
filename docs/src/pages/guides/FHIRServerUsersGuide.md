@@ -1336,6 +1336,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/dataSourceIdHeaderName`|string|The name of the request header that will be used to specify the datastore-id for each incoming FHIR REST API request. For headers with semicolon-delimited parts, setting a header name like `<headerName>:<partName>` will select the value from the part of header `<headerName>`'s value with a name of `<partName>` (e.g. setting `X-Test:part1` would select `someValue` from the header `X-Test: part1=someValue;part2=someOtherValue`).|
 |`fhirServer/core/defaultHandling`|string|The default handling preference of the server (`strict | lenient`) which determines how the server handles unrecognized search parameters and resource elements.|
 |`fhirServer/core/allowClientHandlingPref`|boolean|Indicates whether the client is allowed to override the server default handling preference using the `Prefer:handling` header value part.|
+|`fhirServer/core/checkReferenceTypes`|boolean|Indicates whether reference type checking is performed by the server during parsing / deserialization.|
 |`fhirServer/searchParameterFilter`|property list|A set of inclusion rules for search parameters. See [FHIR Search Configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-Configuration--Filtering-of-search-parameters) for more information.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
@@ -1366,6 +1367,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/dataSourceIdHeaderName`|`X-FHIR-DSID`|
 |`fhirServer/core/defaultHandling`|"strict"|
 |`fhirServer/core/allowClientHandlingPref`|true|
+|`fhirServer/core/checkReferenceTypes`|true|
 |`fhirServer/searchParameterFilter`|`"*": [*]`|
 |`fhirServer/notifications/common/includeResourceTypes`|["*"]|
 |`fhirServer/notifications/websocket/enabled`|false|
@@ -1395,6 +1397,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/dataSourceIdHeaderName`|N|N|
 |`fhirServer/core/defaultHandling`|Y|Y|
 |`fhirServer/core/allowClientHandlingPref`|Y|Y|
+|`fhirServer/core/checkReferenceTypes`|N|N|
 |`fhirServer/searchParameterFilter`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|Y|Y|

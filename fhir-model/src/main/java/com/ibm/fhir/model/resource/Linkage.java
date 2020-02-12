@@ -58,6 +58,7 @@ public class Linkage extends DomainResource {
         active = builder.active;
         author = builder.author;
         item = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.item, "item"));
+        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

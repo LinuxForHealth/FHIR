@@ -105,6 +105,7 @@ public class Slot extends DomainResource {
         end = ValidationSupport.requireNonNull(builder.end, "end");
         overbooked = builder.overbooked;
         comment = builder.comment;
+        ValidationSupport.checkReferenceType(schedule, "schedule", "Schedule");
         ValidationSupport.requireChildren(this);
     }
 

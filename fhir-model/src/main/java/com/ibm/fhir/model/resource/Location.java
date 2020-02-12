@@ -124,6 +124,8 @@ public class Location extends DomainResource {
         hoursOfOperation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.hoursOfOperation, "hoursOfOperation"));
         availabilityExceptions = builder.availabilityExceptions;
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
+        ValidationSupport.checkReferenceType(partOf, "partOf", "Location");
         ValidationSupport.requireChildren(this);
     }
 

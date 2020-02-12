@@ -98,6 +98,7 @@ public class Specimen extends DomainResource {
         container = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.container, "container"));
         condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Substance", "Location");
         ValidationSupport.requireChildren(this);
     }
 
@@ -984,6 +985,7 @@ public class Specimen extends DomainResource {
             method = builder.method;
             bodySite = builder.bodySite;
             fastingStatus = ValidationSupport.choiceElement(builder.fastingStatus, "fastingStatus", CodeableConcept.class, Duration.class);
+            ValidationSupport.checkReferenceType(collector, "collector", "Practitioner", "PractitionerRole");
             ValidationSupport.requireValueOrChildren(this);
         }
 

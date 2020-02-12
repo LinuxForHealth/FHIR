@@ -88,6 +88,8 @@ public class OrganizationAffiliation extends DomainResource {
         healthcareService = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.healthcareService, "healthcareService"));
         telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        ValidationSupport.checkReferenceType(organization, "organization", "Organization");
+        ValidationSupport.checkReferenceType(participatingOrganization, "participatingOrganization", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

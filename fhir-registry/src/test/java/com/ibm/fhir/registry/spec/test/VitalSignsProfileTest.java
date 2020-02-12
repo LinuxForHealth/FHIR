@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-import com.ibm.fhir.model.FHIRModel;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Element;
@@ -198,7 +198,7 @@ public class VitalSignsProfileTest {
     }
 
     public static void main(String[] args) {
-        FHIRModel.setToStringPrettyPrinting(false);
+        FHIRModelConfig.setToStringPrettyPrinting(false);
         
         StructureDefinition vitalSignsProfile = FHIRRegistry.getInstance().getResource(VITAL_SIGNS_PROFILE_URL, StructureDefinition.class);
     

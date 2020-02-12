@@ -87,6 +87,7 @@ public class Medication extends DomainResource {
         amount = builder.amount;
         ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
         batch = builder.batch;
+        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

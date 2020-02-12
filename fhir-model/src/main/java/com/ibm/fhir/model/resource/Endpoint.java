@@ -103,6 +103,7 @@ public class Endpoint extends DomainResource {
         payloadMimeType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payloadMimeType, "payloadMimeType"));
         address = ValidationSupport.requireNonNull(builder.address, "address");
         header = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.header, "header"));
+        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

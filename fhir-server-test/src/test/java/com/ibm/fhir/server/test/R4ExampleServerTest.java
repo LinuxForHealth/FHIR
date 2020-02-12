@@ -9,6 +9,7 @@ package com.ibm.fhir.server.test;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.examples.Index;
+import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.validation.test.ValidationProcessor;
@@ -23,6 +24,8 @@ public class R4ExampleServerTest extends FHIRServerTestBase {
      */
     @Test(groups = { "server-examples" })
     public void processExamples() throws Exception {
+        FHIRModelConfig.setCheckReferenceTypes(false);
+        
         DriverMetrics dm = new DriverMetrics();
 
         // Process each of the examples using the provided ExampleRequestProcessor. We want to

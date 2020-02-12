@@ -129,6 +129,10 @@ public class CoverageEligibilityResponse extends DomainResource {
         preAuthRef = builder.preAuthRef;
         form = builder.form;
         error = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.error, "error"));
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
+        ValidationSupport.checkReferenceType(request, "request", "CoverageEligibilityRequest");
+        ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1014,6 +1018,7 @@ public class CoverageEligibilityResponse extends DomainResource {
             inforce = builder.inforce;
             benefitPeriod = builder.benefitPeriod;
             item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+            ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1429,6 +1434,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                 authorizationRequired = builder.authorizationRequired;
                 authorizationSupporting = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.authorizationSupporting, "authorizationSupporting"));
                 authorizationUrl = builder.authorizationUrl;
+                ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole");
                 ValidationSupport.requireValueOrChildren(this);
             }
 

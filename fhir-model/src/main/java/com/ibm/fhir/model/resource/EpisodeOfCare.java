@@ -88,6 +88,9 @@ public class EpisodeOfCare extends DomainResource {
         careManager = builder.careManager;
         team = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.team, "team"));
         account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
+        ValidationSupport.checkReferenceType(careManager, "careManager", "Practitioner", "PractitionerRole");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1202,6 +1205,7 @@ public class EpisodeOfCare extends DomainResource {
             condition = ValidationSupport.requireNonNull(builder.condition, "condition");
             role = builder.role;
             rank = builder.rank;
+            ValidationSupport.checkReferenceType(condition, "condition", "Condition");
             ValidationSupport.requireValueOrChildren(this);
         }
 

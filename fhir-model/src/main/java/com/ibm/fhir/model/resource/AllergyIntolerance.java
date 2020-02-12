@@ -149,6 +149,10 @@ public class AllergyIntolerance extends DomainResource {
         reaction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reaction, "reaction"));
         ValidationSupport.checkCodeableConcept(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical", "active", "inactive", "resolved");
         ValidationSupport.checkCodeableConcept(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-verification", "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification", "unconfirmed", "confirmed", "refuted", "entered-in-error");
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
+        ValidationSupport.checkReferenceType(asserter, "asserter", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
         ValidationSupport.requireChildren(this);
     }
 

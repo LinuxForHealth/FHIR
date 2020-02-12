@@ -154,6 +154,7 @@ public class HealthcareService extends DomainResource {
         notAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.notAvailable, "notAvailable"));
         availabilityExceptions = builder.availabilityExceptions;
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        ValidationSupport.checkReferenceType(providedBy, "providedBy", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

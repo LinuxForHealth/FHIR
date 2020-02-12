@@ -20,8 +20,7 @@ cp -p ../target/fhir-server-distribution.zip $DIST
 echo "Copying fhir configuration files..."
 cp -pr ../../fhir-server/liberty-config/config $DIST
 cp -pr ../../fhir-server/liberty-config-tenants/config/* $DIST/config
-
-cp ../src/test/resources/fhir-server-config-db2.json $DIST/config/default/fhir-server-config.json
+cp -pr ../../fhir-server/liberty-config/config/default/fhir-server-config-db2.json $DIST/config/default/fhir-server-config.json
 
 echo "Copying fhir-persistence-schema tool..."
 cp -pr ../../fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar $SCHEMA

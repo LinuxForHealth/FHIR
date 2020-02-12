@@ -121,6 +121,10 @@ public class RiskAssessment extends DomainResource {
         prediction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prediction, "prediction"));
         mitigation = builder.mitigation;
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(condition, "condition", "Condition");
+        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Device");
         ValidationSupport.requireChildren(this);
     }
 

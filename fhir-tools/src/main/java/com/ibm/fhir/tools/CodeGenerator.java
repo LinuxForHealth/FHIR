@@ -1093,6 +1093,18 @@ public class CodeGenerator {
                 }
             }
             
+            for (JsonObject elementDefinition : elementDefinitions) {
+                String elementName = getElementName(elementDefinition, path);
+                String fieldName = getFieldName(elementName);
+                String fieldType = getFieldType(structureDefinition, elementDefinition);
+                if ("Reference".equals(fieldType)) {
+                    List<String> referenceTypes = getReferenceTypes(elementDefinition);
+                    if (!referenceTypes.isEmpty()) {
+                        cb.invoke("ValidationSupport", "checkReferenceType", args(fieldName, quote(elementName), referenceTypes.stream().map(type -> quote(type)).collect(Collectors.joining(", "))));
+                    }
+                }
+            }
+            
             if ((!isResource(structureDefinition) && 
                     !isAbstract(structureDefinition) && 
                     !isStringSubtype(structureDefinition) && 
@@ -1176,6 +1188,22 @@ public class CodeGenerator {
                 cb.newLine();
             }
         }
+    }
+
+    private List<String> getReferenceTypes(JsonObject elementDefinition) {
+        List<String> referenceTypes = new ArrayList<>();
+        for (JsonValue type : elementDefinition.getOrDefault("type", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+            for (JsonValue targetProfile : type.asJsonObject().getOrDefault("targetProfile", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+                String url = ((JsonString) targetProfile).getString();
+                if (url.startsWith("http://hl7.org/fhir/StructureDefinition/")) {
+                    String referenceType = url.substring("http://hl7.org/fhir/StructureDefinition/".length());
+                    if (!"Resource".equals(referenceType)) {
+                        referenceTypes.add(referenceType);
+                    }
+                }
+            }
+        }
+        return referenceTypes;
     }
 
     private void generateBindingAnnotation(JsonObject structureDefinition, CodeBuilder cb, String className, JsonObject elementDefinition) {

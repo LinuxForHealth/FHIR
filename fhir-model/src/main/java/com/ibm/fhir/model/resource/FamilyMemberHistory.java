@@ -154,6 +154,7 @@ public class FamilyMemberHistory extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.requireChildren(this);
     }
 

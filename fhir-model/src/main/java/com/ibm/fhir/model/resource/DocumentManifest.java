@@ -89,6 +89,7 @@ public class DocumentManifest extends DomainResource {
         description = builder.description;
         content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
         related = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.related, "related"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
         ValidationSupport.requireChildren(this);
     }
 

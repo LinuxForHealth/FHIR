@@ -98,6 +98,10 @@ public class MessageHeader extends DomainResource {
         response = builder.response;
         focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
         definition = builder.definition;
+        ValidationSupport.checkReferenceType(sender, "sender", "Practitioner", "PractitionerRole", "Organization");
+        ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
+        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole");
+        ValidationSupport.checkReferenceType(responsible, "responsible", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.requireChildren(this);
     }
 
@@ -813,6 +817,8 @@ public class MessageHeader extends DomainResource {
             target = builder.target;
             endpoint = ValidationSupport.requireNonNull(builder.endpoint, "endpoint");
             receiver = builder.receiver;
+            ValidationSupport.checkReferenceType(target, "target", "Device");
+            ValidationSupport.checkReferenceType(receiver, "receiver", "Practitioner", "PractitionerRole", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1522,6 +1528,7 @@ public class MessageHeader extends DomainResource {
             identifier = ValidationSupport.requireNonNull(builder.identifier, "identifier");
             code = ValidationSupport.requireNonNull(builder.code, "code");
             details = builder.details;
+            ValidationSupport.checkReferenceType(details, "details", "OperationOutcome");
             ValidationSupport.requireValueOrChildren(this);
         }
 
