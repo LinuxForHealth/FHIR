@@ -8,11 +8,8 @@ package com.ibm.fhir.search;
 
 /**
  * Search _summary Constants
- * 
- * @author AlbertWang
- *
  */
-public enum SummaryValueSet {    
+public enum SummaryValueSet {
         TRUE("true"),
         TEXT("text"),
         DATA("data"),

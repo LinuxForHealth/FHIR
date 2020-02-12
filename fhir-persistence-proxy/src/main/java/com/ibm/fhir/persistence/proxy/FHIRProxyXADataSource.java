@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -177,7 +177,6 @@ public class FHIRProxyXADataSource implements XADataSource {
             String dsId = FHIRRequestContext.get().getDataStoreId();
             if (FHIRConfiguration.DEFAULT_TENANT_ID.equals(tenantId) && FHIRConfiguration.DEFAULT_DATASTORE_ID.equals(dsId)) {
                 log.info("Initiating XA recovery process...");
-                // cacheAllConfiguredDataSources();
                 connection = new RMXAConnectionResource(this);
             } else {
                 throw new SQLException("The getXAConnection() method should be called only during XA recovery.");

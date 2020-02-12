@@ -1474,8 +1474,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             RestAuditLogger.logPatch(httpServletRequest, null, null, startTime, startTime, Response.Status.OK);
         } else {
             // At this time point, we don't have the updated resource, so use the input resource as the updated resource
-            // in
-            // the pending request.
+            // in the pending request.
             RestAuditLogger.logUpdate(httpServletRequest, newResource, newResource, startTime, startTime, Response.Status.OK);
         }
 
