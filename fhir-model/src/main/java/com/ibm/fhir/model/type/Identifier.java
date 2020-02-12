@@ -58,6 +58,7 @@ public class Identifier extends Element {
         value = builder.value;
         period = builder.period;
         assigner = builder.assigner;
+        ValidationSupport.checkReferenceType(assigner, "assigner", "Organization");
         ValidationSupport.requireValueOrChildren(this);
     }
 

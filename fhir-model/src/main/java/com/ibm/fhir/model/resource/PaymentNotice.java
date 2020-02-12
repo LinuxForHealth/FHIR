@@ -90,6 +90,10 @@ public class PaymentNotice extends DomainResource {
         recipient = ValidationSupport.requireNonNull(builder.recipient, "recipient");
         amount = ValidationSupport.requireNonNull(builder.amount, "amount");
         paymentStatus = builder.paymentStatus;
+        ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+        ValidationSupport.checkReferenceType(payment, "payment", "PaymentReconciliation");
+        ValidationSupport.checkReferenceType(payee, "payee", "Practitioner", "PractitionerRole", "Organization");
+        ValidationSupport.checkReferenceType(recipient, "recipient", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

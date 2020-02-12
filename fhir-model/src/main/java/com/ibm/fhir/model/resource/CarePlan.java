@@ -147,6 +147,9 @@ public class CarePlan extends DomainResource {
         goal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.goal, "goal"));
         activity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.activity, "activity"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(author, "author", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1471,6 +1474,7 @@ public class CarePlan extends DomainResource {
             progress = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.progress, "progress"));
             reference = builder.reference;
             detail = builder.detail;
+            ValidationSupport.checkReferenceType(reference, "reference", "Appointment", "CommunicationRequest", "DeviceRequest", "MedicationRequest", "NutritionOrder", "Task", "ServiceRequest", "VisionPrescription", "RequestGroup");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1954,6 +1958,7 @@ public class CarePlan extends DomainResource {
                 dailyAmount = builder.dailyAmount;
                 quantity = builder.quantity;
                 description = builder.description;
+                ValidationSupport.checkReferenceType(location, "location", "Location");
                 ValidationSupport.requireValueOrChildren(this);
             }
 

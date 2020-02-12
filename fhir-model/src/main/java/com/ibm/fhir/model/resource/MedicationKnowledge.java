@@ -123,6 +123,7 @@ public class MedicationKnowledge extends DomainResource {
         contraindication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contraindication, "contraindication"));
         regulatory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.regulatory, "regulatory"));
         kinetics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.kinetics, "kinetics"));
+        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1711,6 +1712,7 @@ public class MedicationKnowledge extends DomainResource {
             super(builder);
             type = builder.type;
             source = builder.source;
+            ValidationSupport.checkReferenceType(source, "source", "DocumentReference", "Media");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -4604,6 +4606,7 @@ public class MedicationKnowledge extends DomainResource {
             substitution = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.substitution, "substitution"));
             schedule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.schedule, "schedule"));
             maxDispense = builder.maxDispense;
+            ValidationSupport.checkReferenceType(regulatoryAuthority, "regulatoryAuthority", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

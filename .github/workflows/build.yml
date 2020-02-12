@@ -263,5 +263,5 @@ jobs:
       if: always()
       uses: actions/upload-artifact@master
       with:
-        name: integration-test-results-${{ matrix.java }}
+        name: integration-test-results-db2-${{ matrix.java }}
         path: integration-test-results

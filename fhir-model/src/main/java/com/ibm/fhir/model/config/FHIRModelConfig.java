@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.model;
+package com.ibm.fhir.model.config;
 
 import static java.util.Objects.requireNonNull;
 
@@ -18,7 +18,7 @@ import com.ibm.fhir.model.format.Format;
 /**
  * This class is used to manage runtime configuration for the FHIR model APIs.
  */
-public final class FHIRModel {
+public final class FHIRModelConfig {
     /**
      * The format (JSON or XML) to use with the toString method
      */
@@ -33,14 +33,20 @@ public final class FHIRModel {
      * Used to determine whether the toString method return value should be formatted
      */
     public static final String PROPERTY_TO_STRING_PRETTY_PRINTING = "com.ibm.fhir.model.toStringPrettyPrinting";
+    
+    /**
+     * Used to determine whether reference types are checked during object construction
+     */
+    public static final String PROPERTY_CHECK_REFERENCE_TYPES = "com.ibm.fhir.model.checkReferenceTypes";
 
     private static final Format DEFAULT_TO_STRING_FORMAT = Format.JSON;
     private static final int DEFAULT_TO_STRING_INDENT_AMOUNT = 2;
     private static final boolean DEFAULT_TO_STRING_PRETTY_PRINTING = true;
+    private static final boolean DEFAULT_CHECK_REFERENCE_TYPES = true;
 
     private static final Map<String, Object> properties = new ConcurrentHashMap<>();
    
-    private FHIRModel() { }
+    private FHIRModelConfig() { }
    
     public static void setToStringFormat(Format format) {
         setProperty(PROPERTY_TO_STRING_FORMAT, format);
@@ -64,6 +70,14 @@ public final class FHIRModel {
    
     public static boolean getToStringPrettyPrinting() {
         return getPropertyOrDefault(PROPERTY_TO_STRING_PRETTY_PRINTING, DEFAULT_TO_STRING_PRETTY_PRINTING, Boolean.class);
+    }
+    
+    public static void setCheckReferenceTypes(boolean checkReferenceTypes) {
+        setProperty(PROPERTY_CHECK_REFERENCE_TYPES, checkReferenceTypes);
+    }
+    
+    public static boolean getCheckReferenceTypes() {
+        return getPropertyOrDefault(PROPERTY_CHECK_REFERENCE_TYPES, DEFAULT_CHECK_REFERENCE_TYPES, Boolean.class);
     }
    
     public static void setProperty(String name, Object value) {

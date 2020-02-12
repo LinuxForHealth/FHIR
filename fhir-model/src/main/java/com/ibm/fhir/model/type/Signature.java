@@ -72,6 +72,8 @@ public class Signature extends Element {
         targetFormat = builder.targetFormat;
         sigFormat = builder.sigFormat;
         data = builder.data;
+        ValidationSupport.checkReferenceType(who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
+        ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
         ValidationSupport.requireValueOrChildren(this);
     }
 

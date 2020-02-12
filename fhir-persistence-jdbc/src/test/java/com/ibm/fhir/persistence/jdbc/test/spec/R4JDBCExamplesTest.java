@@ -18,6 +18,7 @@ import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.examples.Index;
+import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
@@ -36,6 +37,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
     private Properties properties;
 
     public R4JDBCExamplesTest() throws Exception {
+        FHIRModelConfig.setCheckReferenceTypes(false);
         this.properties = TestUtil.readTestProperties("test.jdbc.properties");
     }
 

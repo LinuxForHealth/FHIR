@@ -109,6 +109,8 @@ public class DeviceMetric extends DomainResource {
         category = ValidationSupport.requireNonNull(builder.category, "category");
         measurementPeriod = builder.measurementPeriod;
         calibration = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.calibration, "calibration"));
+        ValidationSupport.checkReferenceType(source, "source", "Device");
+        ValidationSupport.checkReferenceType(parent, "parent", "Device");
         ValidationSupport.requireChildren(this);
     }
 

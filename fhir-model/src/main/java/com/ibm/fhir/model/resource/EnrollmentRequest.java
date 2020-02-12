@@ -60,6 +60,10 @@ public class EnrollmentRequest extends DomainResource {
         provider = builder.provider;
         candidate = builder.candidate;
         coverage = builder.coverage;
+        ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
+        ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+        ValidationSupport.checkReferenceType(candidate, "candidate", "Patient");
+        ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
         ValidationSupport.requireChildren(this);
     }
 

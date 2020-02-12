@@ -143,6 +143,9 @@ public class Encounter extends DomainResource {
         location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
         serviceProvider = builder.serviceProvider;
         partOf = builder.partOf;
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        ValidationSupport.checkReferenceType(serviceProvider, "serviceProvider", "Organization");
+        ValidationSupport.checkReferenceType(partOf, "partOf", "Encounter");
         ValidationSupport.requireChildren(this);
     }
 
@@ -2021,6 +2024,7 @@ public class Encounter extends DomainResource {
             type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
             period = builder.period;
             individual = builder.individual;
+            ValidationSupport.checkReferenceType(individual, "individual", "Practitioner", "PractitionerRole", "RelatedPerson");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2342,6 +2346,7 @@ public class Encounter extends DomainResource {
             condition = ValidationSupport.requireNonNull(builder.condition, "condition");
             use = builder.use;
             rank = builder.rank;
+            ValidationSupport.checkReferenceType(condition, "condition", "Condition", "Procedure");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2692,6 +2697,8 @@ public class Encounter extends DomainResource {
             specialArrangement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialArrangement, "specialArrangement"));
             destination = builder.destination;
             dischargeDisposition = builder.dischargeDisposition;
+            ValidationSupport.checkReferenceType(origin, "origin", "Location", "Organization");
+            ValidationSupport.checkReferenceType(destination, "destination", "Location", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3242,6 +3249,7 @@ public class Encounter extends DomainResource {
             status = builder.status;
             physicalType = builder.physicalType;
             period = builder.period;
+            ValidationSupport.checkReferenceType(location, "location", "Location");
             ValidationSupport.requireValueOrChildren(this);
         }
 

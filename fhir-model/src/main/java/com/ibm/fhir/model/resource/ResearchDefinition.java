@@ -174,6 +174,10 @@ public class ResearchDefinition extends DomainResource {
         exposure = builder.exposure;
         exposureAlternative = builder.exposureAlternative;
         outcome = builder.outcome;
+        ValidationSupport.checkReferenceType(population, "population", "ResearchElementDefinition");
+        ValidationSupport.checkReferenceType(exposure, "exposure", "ResearchElementDefinition");
+        ValidationSupport.checkReferenceType(exposureAlternative, "exposureAlternative", "ResearchElementDefinition");
+        ValidationSupport.checkReferenceType(outcome, "outcome", "ResearchElementDefinition");
         ValidationSupport.requireChildren(this);
     }
 

@@ -124,6 +124,9 @@ public class SupplyRequest extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         deliverFrom = builder.deliverFrom;
         deliverTo = builder.deliverTo;
+        ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+        ValidationSupport.checkReferenceType(deliverFrom, "deliverFrom", "Organization", "Location");
+        ValidationSupport.checkReferenceType(deliverTo, "deliverTo", "Organization", "Location", "Patient");
         ValidationSupport.requireChildren(this);
     }
 

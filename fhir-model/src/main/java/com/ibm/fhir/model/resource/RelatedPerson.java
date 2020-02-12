@@ -95,6 +95,7 @@ public class RelatedPerson extends DomainResource {
         photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
         period = builder.period;
         communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.requireChildren(this);
     }
 

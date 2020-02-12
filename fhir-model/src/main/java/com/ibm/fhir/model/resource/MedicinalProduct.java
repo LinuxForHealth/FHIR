@@ -2237,6 +2237,7 @@ public class MedicinalProduct extends DomainResource {
             confidentialityIndicator = builder.confidentialityIndicator;
             manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
             regulator = builder.regulator;
+            ValidationSupport.checkReferenceType(regulator, "regulator", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

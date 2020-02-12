@@ -128,6 +128,9 @@ public class NutritionOrder extends DomainResource {
         supplement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supplement, "supplement"));
         enteralFormula = builder.enteralFormula;
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(orderer, "orderer", "Practitioner", "PractitionerRole");
         ValidationSupport.requireChildren(this);
     }
 

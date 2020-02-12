@@ -188,6 +188,10 @@ public class Immunization extends DomainResource {
         fundingSource = builder.fundingSource;
         reaction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reaction, "reaction"));
         protocolApplied = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.protocolApplied, "protocolApplied"));
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(location, "location", "Location");
+        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1579,6 +1583,7 @@ public class Immunization extends DomainResource {
             super(builder);
             function = builder.function;
             actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+            ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2170,6 +2175,7 @@ public class Immunization extends DomainResource {
             date = builder.date;
             detail = builder.detail;
             reported = builder.reported;
+            ValidationSupport.checkReferenceType(detail, "detail", "Observation");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2474,6 +2480,7 @@ public class Immunization extends DomainResource {
             targetDisease = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetDisease, "targetDisease"));
             doseNumber = ValidationSupport.requireChoiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
             seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
+            ValidationSupport.checkReferenceType(authority, "authority", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

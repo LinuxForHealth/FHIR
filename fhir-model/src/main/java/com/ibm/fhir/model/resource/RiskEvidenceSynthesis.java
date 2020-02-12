@@ -173,6 +173,9 @@ public class RiskEvidenceSynthesis extends DomainResource {
         sampleSize = builder.sampleSize;
         riskEstimate = builder.riskEstimate;
         certainty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.certainty, "certainty"));
+        ValidationSupport.checkReferenceType(population, "population", "EvidenceVariable");
+        ValidationSupport.checkReferenceType(exposure, "exposure", "EvidenceVariable");
+        ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
         ValidationSupport.requireChildren(this);
     }
 

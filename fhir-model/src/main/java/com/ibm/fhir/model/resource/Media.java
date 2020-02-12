@@ -155,6 +155,10 @@ public class Media extends DomainResource {
         duration = builder.duration;
         content = ValidationSupport.requireNonNull(builder.content, "content");
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Group", "Device", "Specimen", "Location");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(operator, "operator", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
+        ValidationSupport.checkReferenceType(device, "device", "Device", "DeviceMetric", "Device");
         ValidationSupport.requireChildren(this);
     }
 

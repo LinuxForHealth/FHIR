@@ -100,6 +100,8 @@ public class DetectedIssue extends DomainResource {
         detail = builder.detail;
         reference = builder.reference;
         mitigation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.mitigation, "mitigation"));
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1189,6 +1191,7 @@ public class DetectedIssue extends DomainResource {
             action = ValidationSupport.requireNonNull(builder.action, "action");
             date = builder.date;
             author = builder.author;
+            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole");
             ValidationSupport.requireValueOrChildren(this);
         }
 
