@@ -8,7 +8,7 @@ permalink: /BYOPersistence/
 
 ## Overview
 The IBM FHIR Server ships with a JDBC persistence layer that works with IBM Db2 and Apache Derby.
-However, based on the modular design, its possible add support for other relational databases and/or
+However, based on the modular design, its possible to add support for other relational databases and/or
 plug in any other persistence layer.
 
 ### Interfaces
