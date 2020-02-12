@@ -114,7 +114,7 @@ public final class CadfReporterStep {
      * Validate contents of the reporter step type.
      * The logic is determined by the CADF specification. In short, role and either
      * reporter resource or ID are required.
-     * 
+     *
      * @throws IllegalStateException when the properties do not meet the
      *                               specification.
      */
@@ -144,7 +144,7 @@ public final class CadfReporterStep {
          * addition to the OBSERVER) that modified or relayed the CADF Event Record and
          * any details regarding any modification it performed on the CADF Event Record
          * it is contained within.
-         * 
+         *
          * @param role - The role the REPORTER performed on the CADF Event Record
          *             (e.g., an "observer", "modifier" or "relay" role).
          * @see CadfEvent#getReporterchain()
@@ -199,7 +199,7 @@ public final class CadfReporterStep {
 
         /**
          * A convenience method to add one attachment at a time.
-         * 
+         *
          * @see #attachments(CadfAttachment[])
          */
         public Builder attachment(CadfAttachment attachment) {
@@ -232,7 +232,7 @@ public final class CadfReporterStep {
 
         /**
          * Build an immutable ReporterStep instance.
-         * 
+         *
          * @return ReporterStep
          * @throws IllegalStateException when the properties do not meet the
          *                               specification.
@@ -281,6 +281,10 @@ public final class CadfReporterStep {
 
         public static void generate(CadfReporterStep obj, JsonGenerator generator)
                 throws IOException {
+            // If the CADF reporter step is null, then simply skip it.
+            if (obj == null) {
+                return;
+            }
             generator.writeStartObject();
 
             if (obj.getReporter() != null) {
@@ -333,7 +337,7 @@ public final class CadfReporterStep {
                 throw new FHIRException("Problem parsing the CadfReporterStep", e);
             }
         }
-        
+
         public static CadfReporterStep parse(JsonObject jsonObject)
                 throws FHIRException, IOException, ClassNotFoundException {
             CadfReporterStep.Builder builder =

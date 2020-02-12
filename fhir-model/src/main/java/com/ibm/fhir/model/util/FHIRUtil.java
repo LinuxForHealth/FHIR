@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,8 +15,11 @@ import static java.util.Objects.nonNull;
 import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,6 +33,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.crypto.KeyGenerator;
 import javax.json.Json;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
@@ -62,9 +66,10 @@ import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.visitor.Visitable;
 
 /**
- * Utility methods for working with the FHIR object model. 
+ * Utility methods for working with the FHIR object model.
  */
 public class FHIRUtil {
+    private static final SecureRandom RANDOM = new SecureRandom();
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
     public static final Pattern REFERENCE_PATTERN = buildReferencePattern();
     private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
@@ -87,7 +92,7 @@ public class FHIRUtil {
     public static void init() {
         // allows us to initialize this class during startup
     }
-    
+
     /**
      * Converts a Visitable (Element or Resource) instance to a string using a FHIRGenerator.
      * 
@@ -218,7 +223,7 @@ public class FHIRUtil {
 
     /**
      * Build an OperationOutcome for the specified exception.
-     * 
+     *
      * @param issueType
      *            defaults to IssueTypeList.EXCEPTION
      * @param severity
@@ -260,7 +265,7 @@ public class FHIRUtil {
      * Resolve reference {@code ref} to a bundle entry or a resource contained within {@code resource} and return the
      * corresponding resource container. Resolving {@code ref} to a resource that exists outside of the bundle is not
      * yet supported, but this support may be added in the future.
-     * 
+     *
      * @throws Exception
      *             if the resource could not be found, the reference has no value, or the value does not match the
      *             expected format for a reference
@@ -287,7 +292,7 @@ public class FHIRUtil {
 
     /**
      * Resolve the reference {@code ref} to a bundle entry and return the corresponding resource container
-     * 
+     *
      * @see https://www.hl7.org/fhir/r4/references.html#contained
      * @throws Exception
      *             if the resource could not be found, the reference has no value, or the value does not match the
@@ -315,7 +320,7 @@ public class FHIRUtil {
 
     /**
      * Resolve the reference {@code ref} to an entry within {@code bundle} and return the corresponding resource
-     * 
+     *
      * @see https://www.hl7.org/fhir/r4/bundle.html#references
      * @param resourceType
      * @param bundle
@@ -337,7 +342,7 @@ public class FHIRUtil {
 
     /**
      * Resolve the reference {@code ref} to an entry within {@code bundle}
-     * 
+     *
      * @see https://www.hl7.org/fhir/r4/bundle.html#references
      * @param bundle
      * @param sourceEntry
@@ -418,7 +423,7 @@ public class FHIRUtil {
 
     /**
      * Returns the string value of the specified extension element within the specified resource.
-     * 
+     *
      * @param resource
      * @param extensionUrl
      * @return the value of the first such extension with a valueString or null if the resource has no such extensions
@@ -436,7 +441,7 @@ public class FHIRUtil {
         }
         return null;
     }
-    
+
     public static boolean hasTag(Resource resource, Coding tag) {
         Objects.requireNonNull(resource);
         Objects.requireNonNull(tag);
@@ -446,16 +451,16 @@ public class FHIRUtil {
         for (Coding t : resource.getMeta().getTag()) {
             // compare tags based on system/code
             // version and display are ignored
-            if (tag.getSystem() != null && 
-                tag.getSystem().equals(t.getSystem()) && 
-                tag.getCode() != null && 
+            if (tag.getSystem() != null &&
+                tag.getSystem().equals(t.getSystem()) &&
+                tag.getCode() != null &&
                 tag.getCode().equals(t.getCode())) {
                 return true;
             }
         }
         return false;
     }
-    
+
     /**
      * Return a copy of resource {@code resource} with tag {@code tag}
      * @param <T>
@@ -484,8 +489,8 @@ public class FHIRUtil {
     }
 
     /**
-     * Returns the resource type (as a String) of the specified resource. 
-     * 
+     * Returns the resource type (as a String) of the specified resource.
+     *
      * @param resource
      *            the resource
      * @return the name of the resource type associated with the resource
@@ -508,7 +513,7 @@ public class FHIRUtil {
 
     /**
      * Determine if the given severity should be treated as a failure
-     * 
+     *
      * @param severity
      * @return
      */
@@ -521,11 +526,30 @@ public class FHIRUtil {
             return true;
         }
     }
-    
+
     /**
-     * Create a self-contained bundle from the passed map of resources, replacing Resource.id values and 
+     * Generate a random AES key or 32 byte value encoded as a Base64 string.
+     *
+     * @return
+     */
+    public static String getRandomKey(String key) {
+        KeyGenerator keyGen;
+        try {
+            keyGen = KeyGenerator.getInstance(key);
+            keyGen.init(256);
+            return Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
+        } catch (NoSuchAlgorithmException e) {
+            byte[] buffer = new byte[32];
+            RANDOM.setSeed(System.currentTimeMillis());
+            RANDOM.nextBytes(buffer);
+            return Base64.getEncoder().encodeToString(buffer);
+        }
+    }
+
+    /**
+     * Create a self-contained bundle from the passed map of resources, replacing Resource.id values and
      * references with a generated UUID.
-     * 
+     *
      * @param bundleType
      *            The type of bundle to create
      * @param resources
@@ -550,7 +574,7 @@ public class FHIRUtil {
             .type(bundleType)
             .entry(entries)
             .build();
-        
+
         ReferenceMappingVisitor<Bundle> referenceMappingVisitor = new ReferenceMappingVisitor<>(localRefMap);
         bundle.accept(referenceMappingVisitor);
         return referenceMappingVisitor.getResult();

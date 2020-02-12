@@ -8,14 +8,11 @@ package com.ibm.fhir.operation.bulkdata.util;
 import static com.ibm.fhir.model.type.String.string;
 
 import java.nio.charset.StandardCharsets;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -39,30 +36,10 @@ import com.ibm.fhir.operation.context.FHIROperationContext;
  * BulkData Util captures common methods
  */
 public class BulkDataUtil {
-    // Random generator for COS path prefix
-    private static final SecureRandom RANDOM = new SecureRandom();
+
 
     private BulkDataUtil() {
         // No Operation
-    }
-
-    /**
-     * Generate a random AES key or 32 byte value encoded as a Base64 string.
-     *
-     * @return
-     */
-    public static String getRandomKey(String key) {
-        KeyGenerator keyGen;
-        try {
-            keyGen = KeyGenerator.getInstance(key);
-            keyGen.init(256);
-            return Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
-        } catch (NoSuchAlgorithmException e) {
-            byte[] buffer = new byte[32];
-            RANDOM.setSeed(System.currentTimeMillis());
-            RANDOM.nextBytes(buffer);
-            return Base64.getEncoder().encodeToString(buffer);
-        }
     }
 
     /**
