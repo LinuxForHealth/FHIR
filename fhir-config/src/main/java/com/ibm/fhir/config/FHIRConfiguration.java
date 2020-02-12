@@ -30,6 +30,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_DEFAULT_PRETTY_PRINT = "fhirServer/core/defaultPrettyPrint";
     public static final String PROPERTY_DEFAULT_HANDLING = "fhirServer/core/defaultHandling";
     public static final String PROPERTY_ALLOW_CLIENT_HANDLING_PREF = "fhirServer/core/allowClientHandlingPref";
+    public static final String PROPERTY_CHECK_REFERENCE_TYPES = "fhirServer/core/checkReferenceTypes";
 
     public static final String PROPERTY_SEARCH_PARAMETER_FILTER = "fhirServer/searchParameterFilter";
 
