@@ -23,7 +23,6 @@ import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -118,7 +117,7 @@ public class FHIRUtil {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
     }
-  
+
     private static Pattern buildReferencePattern() {
         StringBuilder sb = new StringBuilder();
         sb.append("((http|https)://([A-Za-z0-9\\\\\\/\\.\\:\\%\\$\\-])*)?(");
@@ -546,11 +545,11 @@ public class FHIRUtil {
             return Base64.getEncoder().encodeToString(buffer);
         }
     }
-    
+
     /**
-     * Create a self-contained bundle from the passed map of resources, replacing Resource.id values and 
+     * Create a self-contained bundle from the passed map of resources, replacing Resource.id values and
      * references with a generated UUID.
-     * 
+     *
      * @param bundleType
      *            The type of bundle to create
      * @param resources
@@ -575,7 +574,7 @@ public class FHIRUtil {
             .type(bundleType)
             .entry(entries)
             .build();
-        
+
         ReferenceMappingVisitor<Bundle> referenceMappingVisitor = new ReferenceMappingVisitor<>(localRefMap);
         bundle.accept(referenceMappingVisitor);
         return referenceMappingVisitor.getResult();
