@@ -2783,6 +2783,7 @@ public class CodeGenerator {
                 cb.lines(HEADER).newLine();
                 cb._package(packageName).newLine();
                 
+                cb._import("com.ibm.fhir.model.annotation.System");
                 cb._import("com.ibm.fhir.model.type.Code");
                 cb._import("com.ibm.fhir.model.type.Extension");
                 cb._import("com.ibm.fhir.model.type.String").newLine();
@@ -2792,6 +2793,8 @@ public class CodeGenerator {
                 
                 cb._import("javax.annotation.Generated").newLine();
                 
+                String system = getSystem(valueSet);
+                cb.annotation("System", quote(system));
                 cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
                 cb._class(mods("public"), bindingName, "Code");
                 

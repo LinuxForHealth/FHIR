@@ -38,6 +38,7 @@ import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
+import com.ibm.fhir.model.annotation.System;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Age;
@@ -877,5 +878,12 @@ public final class ModelSupport {
      */
     public static String delimit(String identifier) {
         return String.format("`%s`", identifier);
+    }
+    
+    public static String getSystem(Code code) {
+        if (code != null && code.getClass().isAnnotationPresent(System.class)) {
+            return code.getClass().getAnnotation(System.class).value();
+        }
+        return null;
     }
 }

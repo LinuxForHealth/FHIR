@@ -43,6 +43,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.SearchParamType;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.visitor.DefaultVisitor;
 import com.ibm.fhir.model.visitor.Visitable;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
@@ -160,7 +161,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 throw invalidComboException(searchParamType, code);
             }
             p.setName(searchParamCode);
-            // TODO: get the implicit code system
+            p.setValueSystem(ModelSupport.getSystem(code));
             p.setValueCode(code.getValue());
             result.add(p);
         }
