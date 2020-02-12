@@ -138,6 +138,7 @@ public final class CadfReason {
 
         public static void generate(CadfReason obj, JsonGenerator generator)
                 throws IOException {
+            // If the CADF reason is null, then simply skip it.
             if (obj == null) {
                 return;
             }

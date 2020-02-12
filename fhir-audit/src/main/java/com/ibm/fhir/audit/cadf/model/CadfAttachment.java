@@ -136,6 +136,7 @@ public class CadfAttachment {
 
         public static void generate(CadfAttachment obj, JsonGenerator generator)
                 throws IOException {
+            // If the CADF attachment is null, then simply skip it.
             if (obj == null) {
                 return;
             }

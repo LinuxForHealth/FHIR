@@ -377,6 +377,7 @@ public final class CadfResource {
         }
 
         public static void generate(CadfResource obj, JsonGenerator generator) throws IOException {
+            // If the CADF resource, e.g, observer, is null, then simply skip it.
             if (obj == null) {
                 return;
             }

@@ -281,6 +281,7 @@ public final class CadfReporterStep {
 
         public static void generate(CadfReporterStep obj, JsonGenerator generator)
                 throws IOException {
+            // If the CADF reporter step is null, then simply skip it.
             if (obj == null) {
                 return;
             }
