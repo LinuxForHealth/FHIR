@@ -151,6 +151,9 @@ public class Communication extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         payload = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payload, "payload"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(sender, "sender", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService");
         ValidationSupport.requireChildren(this);
     }
 

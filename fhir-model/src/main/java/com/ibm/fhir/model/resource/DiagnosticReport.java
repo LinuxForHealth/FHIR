@@ -125,6 +125,8 @@ public class DiagnosticReport extends DomainResource {
         conclusion = builder.conclusion;
         conclusionCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.conclusionCode, "conclusionCode"));
         presentedForm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.presentedForm, "presentedForm"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1235,6 +1237,7 @@ public class DiagnosticReport extends DomainResource {
             super(builder);
             comment = builder.comment;
             link = ValidationSupport.requireNonNull(builder.link, "link");
+            ValidationSupport.checkReferenceType(link, "link", "Media");
             ValidationSupport.requireValueOrChildren(this);
         }
 

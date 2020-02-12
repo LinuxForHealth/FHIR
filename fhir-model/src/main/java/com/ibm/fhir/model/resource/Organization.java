@@ -99,6 +99,7 @@ public class Organization extends DomainResource {
         partOf = builder.partOf;
         contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        ValidationSupport.checkReferenceType(partOf, "partOf", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

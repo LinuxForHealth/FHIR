@@ -1445,6 +1445,7 @@ public class Appointment extends DomainResource {
             required = builder.required;
             status = ValidationSupport.requireNonNull(builder.status, "status");
             period = builder.period;
+            ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
             ValidationSupport.requireValueOrChildren(this);
         }
 

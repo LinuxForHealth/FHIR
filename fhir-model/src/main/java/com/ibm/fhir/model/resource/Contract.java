@@ -182,6 +182,8 @@ public class Contract extends DomainResource {
         legal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.legal, "legal"));
         rule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rule, "rule"));
         legallyBinding = ValidationSupport.choiceElement(builder.legallyBinding, "legallyBinding", Attachment.class, Reference.class);
+        ValidationSupport.checkReferenceType(instantiatesCanonical, "instantiatesCanonical", "Contract");
+        ValidationSupport.checkReferenceType(author, "author", "Patient", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1864,6 +1866,7 @@ public class Contract extends DomainResource {
             publicationDate = builder.publicationDate;
             publicationStatus = ValidationSupport.requireNonNull(builder.publicationStatus, "publicationStatus");
             copyright = builder.copyright;
+            ValidationSupport.checkReferenceType(publisher, "publisher", "Practitioner", "PractitionerRole", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -5863,6 +5866,8 @@ public class Contract extends DomainResource {
                     recipient = builder.recipient;
                     linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
                     securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
+                    ValidationSupport.checkReferenceType(responsible, "responsible", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+                    ValidationSupport.checkReferenceType(recipient, "recipient", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -6623,6 +6628,8 @@ public class Contract extends DomainResource {
                 reasonLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonLinkId, "reasonLinkId"));
                 note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
                 securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
+                ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
+                ValidationSupport.checkReferenceType(performer, "performer", "RelatedPerson", "Patient", "Practitioner", "PractitionerRole", "CareTeam", "Device", "Substance", "Organization", "Location");
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -8058,6 +8065,7 @@ public class Contract extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             party = ValidationSupport.requireNonNull(builder.party, "party");
             signature = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.signature, "signature"));
+            ValidationSupport.checkReferenceType(party, "party", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
             ValidationSupport.requireValueOrChildren(this);
         }
 

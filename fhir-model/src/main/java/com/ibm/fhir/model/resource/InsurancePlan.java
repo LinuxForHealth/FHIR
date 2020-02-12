@@ -104,6 +104,8 @@ public class InsurancePlan extends DomainResource {
         network = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.network, "network"));
         coverage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.coverage, "coverage"));
         plan = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.plan, "plan"));
+        ValidationSupport.checkReferenceType(ownedBy, "ownedBy", "Organization");
+        ValidationSupport.checkReferenceType(administeredBy, "administeredBy", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

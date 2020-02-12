@@ -145,6 +145,10 @@ public class AdverseEvent extends DomainResource {
         study = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.study, "study"));
         ValidationSupport.checkCodeableConcept(severity, "severity", "http://hl7.org/fhir/ValueSet/adverse-event-severity", "http://terminology.hl7.org/CodeSystem/adverse-event-severity", "mild", "moderate", "severe");
         ValidationSupport.checkCodeableConcept(outcome, "outcome", "http://hl7.org/fhir/ValueSet/adverse-event-outcome", "http://terminology.hl7.org/CodeSystem/adverse-event-outcome", "resolved", "recovering", "ongoing", "resolvedWithSequelae", "fatal", "unknown");
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Practitioner", "RelatedPerson");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(location, "location", "Location");
+        ValidationSupport.checkReferenceType(recorder, "recorder", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1228,6 +1232,7 @@ public class AdverseEvent extends DomainResource {
             super(builder);
             instance = ValidationSupport.requireNonNull(builder.instance, "instance");
             causality = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.causality, "causality"));
+            ValidationSupport.checkReferenceType(instance, "instance", "Immunization", "Procedure", "Substance", "Medication", "MedicationAdministration", "MedicationStatement", "Device");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1535,6 +1540,7 @@ public class AdverseEvent extends DomainResource {
                 productRelatedness = builder.productRelatedness;
                 author = builder.author;
                 method = builder.method;
+                ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole");
                 ValidationSupport.requireValueOrChildren(this);
             }
 

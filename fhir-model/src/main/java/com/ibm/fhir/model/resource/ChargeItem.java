@@ -153,6 +153,12 @@ public class ChargeItem extends DomainResource {
         account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
+        ValidationSupport.checkReferenceType(performingOrganization, "performingOrganization", "Organization");
+        ValidationSupport.checkReferenceType(requestingOrganization, "requestingOrganization", "Organization");
+        ValidationSupport.checkReferenceType(costCenter, "costCenter", "Organization");
+        ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1496,6 +1502,7 @@ public class ChargeItem extends DomainResource {
             super(builder);
             function = builder.function;
             actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+            ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
             ValidationSupport.requireValueOrChildren(this);
         }
 

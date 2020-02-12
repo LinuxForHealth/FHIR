@@ -63,6 +63,7 @@ public class Basic extends DomainResource {
         subject = builder.subject;
         created = builder.created;
         author = builder.author;
+        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

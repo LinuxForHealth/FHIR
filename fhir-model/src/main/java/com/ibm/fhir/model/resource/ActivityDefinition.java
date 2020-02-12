@@ -246,6 +246,7 @@ public class ActivityDefinition extends DomainResource {
         observationResultRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.observationResultRequirement, "observationResultRequirement"));
         transform = builder.transform;
         dynamicValue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dynamicValue, "dynamicValue"));
+        ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.requireChildren(this);
     }
 

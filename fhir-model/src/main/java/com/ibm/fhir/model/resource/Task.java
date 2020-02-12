@@ -225,6 +225,10 @@ public class Task extends DomainResource {
         restriction = builder.restriction;
         input = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.input, "input"));
         output = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.output, "output"));
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(requester, "requester", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+        ValidationSupport.checkReferenceType(owner, "owner", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
+        ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.requireChildren(this);
     }
 

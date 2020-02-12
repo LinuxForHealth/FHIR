@@ -141,6 +141,8 @@ public class Composition extends DomainResource {
         relatesTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatesTo, "relatesTo"));
         event = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.event, "event"));
         section = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.section, "section"));
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1062,6 +1064,7 @@ public class Composition extends DomainResource {
             mode = ValidationSupport.requireNonNull(builder.mode, "mode");
             time = builder.time;
             party = builder.party;
+            ValidationSupport.checkReferenceType(party, "party", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

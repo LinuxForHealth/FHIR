@@ -860,6 +860,7 @@ public class Practitioner extends DomainResource {
             code = ValidationSupport.requireNonNull(builder.code, "code");
             period = builder.period;
             issuer = builder.issuer;
+            ValidationSupport.checkReferenceType(issuer, "issuer", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

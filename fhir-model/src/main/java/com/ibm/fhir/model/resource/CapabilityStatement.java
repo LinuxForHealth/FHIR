@@ -1945,6 +1945,7 @@ public class CapabilityStatement extends DomainResource {
             description = ValidationSupport.requireNonNull(builder.description, "description");
             url = builder.url;
             custodian = builder.custodian;
+            ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

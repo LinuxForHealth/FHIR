@@ -195,6 +195,12 @@ public class MedicationRequest extends DomainResource {
         priorPrescription = builder.priorPrescription;
         detectedIssue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detectedIssue, "detectedIssue"));
         eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson", "CareTeam");
+        ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole");
+        ValidationSupport.checkReferenceType(priorPrescription, "priorPrescription", "MedicationRequest");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1814,6 +1820,7 @@ public class MedicationRequest extends DomainResource {
             quantity = builder.quantity;
             expectedSupplyDuration = builder.expectedSupplyDuration;
             performer = builder.performer;
+            ValidationSupport.checkReferenceType(performer, "performer", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

@@ -144,6 +144,10 @@ public class MedicationDispense extends DomainResource {
         substitution = builder.substitution;
         detectedIssue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detectedIssue, "detectedIssue"));
         eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
+        ValidationSupport.checkReferenceType(location, "location", "Location");
+        ValidationSupport.checkReferenceType(destination, "destination", "Location");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1426,6 +1430,7 @@ public class MedicationDispense extends DomainResource {
             super(builder);
             function = builder.function;
             actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+            ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson");
             ValidationSupport.requireValueOrChildren(this);
         }
 

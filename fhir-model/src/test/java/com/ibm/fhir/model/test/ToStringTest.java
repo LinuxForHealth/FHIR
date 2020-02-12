@@ -11,7 +11,7 @@ import static com.ibm.fhir.model.type.Xhtml.xhtml;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.model.FHIRModel;
+import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
@@ -35,11 +35,11 @@ public class ToStringTest {
     public void testToStringMethod() throws Exception {
         Patient patient = buildPatient();
         
-        FHIRModel.setToStringPrettyPrinting(false);
+        FHIRModelConfig.setToStringPrettyPrinting(false);
         Assert.assertEquals(patient.getMeta().getVersionId().toString(), "{\"id\":\"1\"}");
         Assert.assertEquals(patient.getMeta().toString(), "{\"versionId\":\"1\",\"lastUpdated\":\"2019-01-01T12:00:00Z\"}");
         
-        FHIRModel.setToStringFormat(Format.XML);
+        FHIRModelConfig.setToStringFormat(Format.XML);
         Assert.assertEquals(patient.getMeta().getVersionId().toString(), "<id value=\"1\"/>");
         Assert.assertEquals(patient.getMeta().toString(), "<Meta><versionId value=\"1\"/><lastUpdated value=\"2019-01-01T12:00:00Z\"/></Meta>");
     }
@@ -48,7 +48,7 @@ public class ToStringTest {
     public static void main(java.lang.String[] args) {
         Patient patient = buildPatient();
         
-        FHIRModel.setToStringFormat(Format.XML);
+        FHIRModelConfig.setToStringFormat(Format.XML);
         
         Visitor visitor = new PathAwareVisitor() {
             @Override
@@ -66,21 +66,21 @@ public class ToStringTest {
         
         patient.accept(visitor);
         
-        FHIRModel.setToStringFormat(Format.JSON);
+        FHIRModelConfig.setToStringFormat(Format.JSON);
         
         patient.accept(visitor);
         
-        FHIRModel.setToStringPrettyPrinting(true);
+        FHIRModelConfig.setToStringPrettyPrinting(true);
         
         patient.accept(visitor);
         
-        FHIRModel.setToStringFormat(Format.XML);
-        FHIRModel.setToStringPrettyPrinting(false);
+        FHIRModelConfig.setToStringFormat(Format.XML);
+        FHIRModelConfig.setToStringPrettyPrinting(false);
         
         patient.accept(visitor);
         
-        FHIRModel.setToStringPrettyPrinting(true);
-        FHIRModel.setToStringIndentAmount(4);
+        FHIRModelConfig.setToStringPrettyPrinting(true);
+        FHIRModelConfig.setToStringIndentAmount(4);
         
         patient.accept(visitor);
     }

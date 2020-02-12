@@ -101,6 +101,9 @@ public class QuestionnaireResponse extends DomainResource {
         author = builder.author;
         source = builder.source;
         item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(author, "author", "Device", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization");
+        ValidationSupport.checkReferenceType(source, "source", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
         ValidationSupport.requireChildren(this);
     }
 

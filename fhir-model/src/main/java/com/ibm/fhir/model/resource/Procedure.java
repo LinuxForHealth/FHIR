@@ -190,6 +190,11 @@ public class Procedure extends DomainResource {
         focalDevice = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focalDevice, "focalDevice"));
         usedReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usedReference, "usedReference"));
         usedCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usedCode, "usedCode"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(recorder, "recorder", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
+        ValidationSupport.checkReferenceType(asserter, "asserter", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
+        ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1741,6 +1746,8 @@ public class Procedure extends DomainResource {
             function = builder.function;
             actor = ValidationSupport.requireNonNull(builder.actor, "actor");
             onBehalfOf = builder.onBehalfOf;
+            ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+            ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2047,6 +2054,7 @@ public class Procedure extends DomainResource {
             super(builder);
             action = builder.action;
             manipulated = ValidationSupport.requireNonNull(builder.manipulated, "manipulated");
+            ValidationSupport.checkReferenceType(manipulated, "manipulated", "Device");
             ValidationSupport.requireValueOrChildren(this);
         }
 

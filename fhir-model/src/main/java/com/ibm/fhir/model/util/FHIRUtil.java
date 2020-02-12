@@ -6,9 +6,9 @@
 
 package com.ibm.fhir.model.util;
 
-import static com.ibm.fhir.model.FHIRModel.getToStringFormat;
-import static com.ibm.fhir.model.FHIRModel.getToStringIndentAmount;
-import static com.ibm.fhir.model.FHIRModel.getToStringPrettyPrinting;
+import static com.ibm.fhir.model.config.FHIRModelConfig.getToStringFormat;
+import static com.ibm.fhir.model.config.FHIRModelConfig.getToStringIndentAmount;
+import static com.ibm.fhir.model.config.FHIRModelConfig.getToStringPrettyPrinting;
 import static com.ibm.fhir.model.type.String.string;
 import static java.util.Objects.nonNull;
 
@@ -38,7 +38,7 @@ import javax.json.JsonValue;
 
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.model.FHIRModel;
+import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.Bundle;
@@ -91,7 +91,7 @@ public class FHIRUtil {
     /**
      * Converts a Visitable (Element or Resource) instance to a string using a FHIRGenerator.
      * 
-     * <p>The toString format (JSON or XML) can be specified through {@link FHIRModel#setToStringFormat(Format)}.
+     * <p>The toString format (JSON or XML) can be specified through {@link FHIRModelConfig#setToStringFormat(Format)}.
      * 
      * @param visitable
      *     the Element or Resource instance to be converted
