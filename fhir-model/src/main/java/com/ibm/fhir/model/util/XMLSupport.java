@@ -20,6 +20,11 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
 public final class XMLSupport {
+    static {
+        System.setProperty("javax.xml.stream.XMLInputFactory", "com.sun.xml.internal.stream.XMLInputFactoryImpl");
+        System.setProperty("javax.xml.stream.XMLOutputFactory",  "com.sun.xml.internal.stream.XMLOutputFactoryImpl");
+    }
+    
     public static final String FHIR_NS_URI = "http://hl7.org/fhir";
     public static final String XHTML_NS_URI = "http://www.w3.org/1999/xhtml";
     
