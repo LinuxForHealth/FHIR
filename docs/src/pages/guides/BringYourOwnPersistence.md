@@ -3,7 +3,7 @@ layout: post
 title: Bring your own Persistence Layer
 description: Lean how to build and test a persistence layer for the IBM FHIR Server
 date:   2020-02-10 14:55:00 -0400
-permalink: /BYOPersistence/
+permalink: /BringYourOwnPersistence/
 ---
 
 ## Overview
@@ -24,6 +24,7 @@ When the default `com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory` is u
 ## Adding support for another relational database
 Adding a new relational database type is not for the faint of heart, but the IBM FHIR Server team is here to help!
 To add support for an alternative relational database, there are multiple projects to consider:
+
 1. `fhir-persistence-proxy`
 2. `fhir-database-utils`
 3. `fhir-persistence-schema`
@@ -35,8 +36,10 @@ The `fhir-database-utils` project provides generic utilities for defining a Phys
 
 The `fhir-persistence-schema` project is used to programmatically construct DDL statements and execute them against a target database. This project uses the generic utilities in `fhir-persistence-utils` to deploy both an admin schema (used for tenant provisioning and schema versioning) and an application schema for the FHIR data.
 Presently, this project is written for use with a Db2 database, but it should be possible to either:
+
 A. Print the DDL and manually tweak it for your desired database; or
 B. Add some kind of configuration to control which IDatabaseAdapter and IDatabaseTranslator are used.
+
 Note that the Db2 implementation makes use of stored procedures whereas the derby implementation is pure JDBC.
 
 Finally, the `fhir-persistence-jdbc` project provides the default implementation of the `FHIRPersistence` interface.
@@ -46,16 +49,17 @@ The project makes heavy use of Data Access Objects (DAO) and Data Transfer Objec
 Most FHIR projects are interoperability projects--the data already exists in some datastore.
 Due to performance considerations and the complexities of the FHIR API (especially search), we generally recommend converting that data to FHIR and storing it in the FHIR server's database. However, in some cases, it might be better to configure the FHIR server to work directly with an existing datastore or APIs.
 
-If you are using Maven, add the following dependencies to your persistence layer project:
+If you are using Maven, add the following dependencies to your persistence layer project (replacing the version variables with your desired version):
 ```
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-persistence</artifactId>
-            <version>${project.version}</version>
+            <version>${fhir.persistence.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-examples</artifactId>
+            <version>${fhir.examples.version}</version>
             <scope>test</scope>
         </dependency>
 ```
