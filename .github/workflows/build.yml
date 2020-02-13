@@ -51,6 +51,7 @@ jobs:
       env:
         BASE: origin/${{ github['base_ref'] }}
       run: |
+        mvn -version
         model_paths=(
           fhir-model
           fhir-examples
@@ -102,7 +103,7 @@ jobs:
         # Convert the PROFILES_ARR array to a comma-delimited string
         PROFILES=$(IFS=, ; echo "${PROFILES_ARR[*]}")
         echo "Using profiles ${PROFILES}"
-        mvn -B -T2C package --file fhir-parent -P "${PROFILES}" --no-transfer-progress
+        mvn -B -T2C package --file fhir-parent -P "${PROFILES}" --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240
   e2e-tests:
     runs-on: ubuntu-latest
     strategy:
