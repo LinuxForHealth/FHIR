@@ -880,6 +880,9 @@ public final class ModelSupport {
         return String.format("`%s`", identifier);
     }
     
+    /**
+     * @return the implicit system for @{code code} if present, otherwise null
+     */
     public static String getSystem(Code code) {
         if (code != null && code.getClass().isAnnotationPresent(System.class)) {
             return code.getClass().getAnnotation(System.class).value();
