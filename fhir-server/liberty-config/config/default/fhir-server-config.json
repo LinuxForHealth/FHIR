@@ -103,7 +103,6 @@
             "bulkDataBatchJobIdEncryptionKey": "change-password",
             "applicationName": "fhir-bulkimportexport-webapp",
             "moduleName": "fhir-bulkimportexport.war",
-            "jobXMLName": "FhirBulkExportChunkJob",
             "jobParameters": {
                 "cos.bucket.name": "fhir-r4-connectathon",
                 "cos.location": "us",
@@ -111,10 +110,7 @@
                 "fhir.tenant": "default",
                 "cos.credential.ibm": "Y",
                 "cos.api.key": "fake",
-                "cos.srvinst.id": "fake",
-                "cos.pagesperobject": "2",
-                "cos.read.maxobjects": "2",
-                "fhir.cosreadsperdbbatch": "2"
+                "cos.srvinst.id": "fake"
             },
             "implementation_type": "cos",
             "batch-uri": "https://localhost:9443/ibm/api/batch/jobinstances",

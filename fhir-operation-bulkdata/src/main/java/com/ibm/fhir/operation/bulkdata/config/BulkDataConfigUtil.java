@@ -33,9 +33,6 @@ public class BulkDataConfigUtil {
     public static final String JOB_PARAMETERS_IBM = "cos.credential.ibm";
     public static final String JOB_PARAMETERS_KEY = "cos.api.key";
     public static final String JOB_PARAMETERS_ID = "cos.srvinst.id";
-    public static final String JOB_PARAMETERS_PAGES = "cos.pagesperobject";
-    public static final String JOB_PARAMETERS_MAX = "cos.read.maxobjects";
-    public static final String JOB_PARAMETERS_COSREADPER = "fhir.cosreadsperdbbatch";
 
     public static final String BATCH_USER = "batch-user";
     public static final String BATCH_USER_PASS = "batch-user-password";
@@ -57,7 +54,6 @@ public class BulkDataConfigUtil {
         Map<String, String> properties = new HashMap<>();
         properties.put(APPLICATION_NAME, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_APPLICATIONNAME, null));
         properties.put(MODULE_NAME, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_MODULENAME, null));
-        properties.put(JOB_XML_NAME, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_JOBXMLNAME, null));
         properties.put(BATCH_USER, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHUSER, null));
         properties.put(BATCH_USER_PASS, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHUSERPWD, null));
         properties.put(BATCH_URL, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHURI, null));
@@ -74,9 +70,6 @@ public class BulkDataConfigUtil {
             properties.put(JOB_PARAMETERS_IBM, jobParameters.getStringProperty(JOB_PARAMETERS_IBM));
             properties.put(JOB_PARAMETERS_KEY, jobParameters.getStringProperty(JOB_PARAMETERS_KEY));
             properties.put(JOB_PARAMETERS_ID, jobParameters.getStringProperty(JOB_PARAMETERS_ID));
-            properties.put(JOB_PARAMETERS_PAGES, jobParameters.getStringProperty(JOB_PARAMETERS_PAGES));
-            properties.put(JOB_PARAMETERS_MAX, jobParameters.getStringProperty(JOB_PARAMETERS_MAX));
-            properties.put(JOB_PARAMETERS_COSREADPER, jobParameters.getStringProperty(JOB_PARAMETERS_COSREADPER));
         }
         return properties;
     }
