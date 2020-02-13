@@ -16,8 +16,6 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.AbstractOperation;
-import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
-import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataUtil;
 import com.ibm.fhir.operation.context.FHIROperationContext;
@@ -50,20 +48,19 @@ public class ExportStatusOperation extends AbstractOperation {
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
         if (logicalId == null && versionId == null && resourceType == null) {
-            BulkDataTenantSpecificCache cache = BulkDataConfigUtil.getInstance();
             String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
             if ("DELETE".equalsIgnoreCase(method)) {
                 // Assume GET or POST
                 String job = BulkDataUtil.checkAndValidateJob(parameters);
                 // For now, we're going to execute the status update, and check. 
                 // If Base, Export Status (Else Invalid)
-                return BulkDataFactory.getTenantInstance(cache).delete(job, operationContext);
+                return BulkDataFactory.getTenantInstance().delete(job, operationContext);
             } else {
                 // Assume GET or POST
                 String job = BulkDataUtil.checkAndValidateJob(parameters);
                 // For now, we're going to execute the status update, and check. 
                 // If Base, Export Status (Else Invalid)
-                return BulkDataFactory.getTenantInstance(cache).status(job, operationContext);
+                return BulkDataFactory.getTenantInstance().status(job, operationContext);
             }
         } else {
             // Unsupported on Resource Type

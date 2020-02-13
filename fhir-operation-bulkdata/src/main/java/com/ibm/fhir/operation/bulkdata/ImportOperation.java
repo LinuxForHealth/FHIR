@@ -15,8 +15,6 @@ import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.operation.AbstractOperation;
-import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
-import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataUtil;
 import com.ibm.fhir.operation.context.FHIROperationContext;
@@ -46,7 +44,6 @@ public class ImportOperation extends AbstractOperation {
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
         String jobId = BulkDataUtil.checkAndValidateJob(parameters);
-        BulkDataTenantSpecificCache cache = BulkDataConfigUtil.getInstance();
-        return BulkDataFactory.getTenantInstance(cache).importBulkData(jobId, parameters, operationContext, resourceHelper);
+        return BulkDataFactory.getTenantInstance().importBulkData(jobId, parameters, operationContext, resourceHelper);
     }
 }
