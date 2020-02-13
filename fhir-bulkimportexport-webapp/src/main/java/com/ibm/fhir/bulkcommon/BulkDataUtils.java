@@ -10,6 +10,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -24,6 +27,7 @@ import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3ClientBuilder;
 import com.ibm.cloud.objectstorage.services.s3.model.AbortMultipartUploadRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.Bucket;
+import com.ibm.cloud.objectstorage.services.s3.model.CannedAccessControlList;
 import com.ibm.cloud.objectstorage.services.s3.model.CompleteMultipartUploadRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.GetObjectRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.InitiateMultipartUploadRequest;
@@ -35,17 +39,14 @@ import com.ibm.cloud.objectstorage.services.s3.model.UploadPartResult;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
-import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 
 /**
  * Utility functions for IBM COS.
  *
  */
 
-public class COSUtils {
-    private final static Logger logger = Logger.getLogger(COSUtils.class.getName());
+public class BulkDataUtils {
+    private final static Logger logger = Logger.getLogger(BulkDataUtils.class.getName());
 
     /**
      * Logging helper.
@@ -54,12 +55,16 @@ public class COSUtils {
         logger.info(method + ": " + String.valueOf(msg));
     }
 
-    public static String startPartUpload(AmazonS3 cosClient, String bucketName, String itemName) throws Exception {
+    public static String startPartUpload(AmazonS3 cosClient, String bucketName, String itemName, boolean isPublicAccess) throws Exception {
         try {
             log("startPartUpload", "Start multi-part upload for " + itemName + " to bucket - " + bucketName);
 
-            InitiateMultipartUploadResult mpResult = cosClient
-                    .initiateMultipartUpload(new InitiateMultipartUploadRequest(bucketName, itemName));
+            InitiateMultipartUploadRequest initMultipartUploadReq = new InitiateMultipartUploadRequest(bucketName, itemName);
+            if (isPublicAccess) {
+                initMultipartUploadReq.setCannedACL(CannedAccessControlList.PublicRead);
+            }
+
+            InitiateMultipartUploadResult mpResult = cosClient.initiateMultipartUpload(initMultipartUploadReq);
             return mpResult.getUploadId();
         } catch (Exception sdke) {
             log("startPartUpload", "Upload start Error - " + sdke.getMessage());
@@ -102,38 +107,6 @@ public class COSUtils {
         }
     }
 
-    public static int processCosObject(AmazonS3 cosClient, String bucketName, String itemName,
-            FHIRPersistence fhirPersistence, FHIRPersistenceContext persistenceContext) throws Exception {
-        int exported = 0;
-        S3Object item = cosClient.getObject(new GetObjectRequest(bucketName, itemName));
-        FHIRTransactionHelper txn = null;
-        try (BufferedReader resReader = new BufferedReader(new InputStreamReader(item.getObjectContent()))) {
-
-            while (resReader.ready()) {
-                String resLine = resReader.readLine();
-                if (resLine == null) {
-                    break;
-                }
-                Resource fhirRes = FHIRParser.parser(Format.JSON).parse(new StringReader(resLine));
-
-                txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-                txn.begin();
-                fhirPersistence.update(persistenceContext, fhirRes.getId(), fhirRes);
-                txn.commit();
-                exported++;
-            }
-
-        } catch (Exception ioe) {
-            logger.warning("processCosObject: " + "Error proccesing file " + itemName + " - " + ioe.getMessage());
-            if (txn != null) {
-                txn.rollback();
-            }
-            throw ioe;
-        }
-
-        return exported;
-    }
-
     public static void finishMultiPartUpload(AmazonS3 cosClient, String bucketName, String itemName, String uploadID,
             List<PartETag> dataPacks) throws Exception {
         try {
@@ -159,4 +132,61 @@ public class COSUtils {
         }
     }
 
+    private static int getFhirResourceFromBufferReader(BufferedReader resReader, int numOfLinesToSkip, List<Resource> fhirResources) throws Exception {
+        int exported = 0;
+        int lineRed = 0;
+        while (resReader.ready()) {
+            String resLine = resReader.readLine();
+            lineRed++;
+            if (resLine == null) {
+                break;
+            }
+            if (lineRed <= numOfLinesToSkip) {
+                continue;
+            }
+            fhirResources.add(FHIRParser.parser(Format.JSON).parse(new StringReader(resLine)));
+            exported++;
+            if (exported == Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD) {
+                break;
+            }
+        }
+        return exported;
+    }
+
+    public static int readFhirResourceFromObjectStore(AmazonS3 cosClient, String bucketName, String itemName,
+           int numOfLinesToSkip, List<Resource> fhirResources) {
+        int exported;
+        S3Object item = cosClient.getObject(new GetObjectRequest(bucketName, itemName));
+        try (BufferedReader resReader = new BufferedReader(new InputStreamReader(item.getObjectContent()))) {
+            exported = getFhirResourceFromBufferReader(resReader, numOfLinesToSkip, fhirResources);
+        } catch (Exception ioe) {
+            logger.warning("readFhirResourceFromObjectStore: " + "Error proccesing file " + itemName + " - " + ioe.getMessage());
+            exported = 0;
+        }
+        return exported;
+    }
+
+
+    public static int readFhirResourceFromLocalFile(String filePath, int numOfLinesToSkip, List<Resource> fhirResources) {
+        int exported;
+        try (BufferedReader resReader = Files.newBufferedReader(Paths.get(filePath))) {
+            exported = getFhirResourceFromBufferReader(resReader, numOfLinesToSkip, fhirResources);
+        } catch (Exception ioe) {
+            logger.warning("readFhirResourceFromLocalFile: " + "Error proccesing file " + filePath + " - " + ioe.getMessage());
+            exported = 0;
+        }
+        return exported;
+    }
+
+
+    public static int readFhirResourceFromHttps(String dataUrl, int numOfLinesToSkip, List<Resource> fhirResources) {
+        int exported;
+        try (BufferedReader resReader = new BufferedReader(new InputStreamReader(new URL(dataUrl).openConnection().getInputStream()))) {
+            exported = getFhirResourceFromBufferReader(resReader, numOfLinesToSkip, fhirResources);
+        } catch (Exception ioe) {
+            logger.warning("readFhirResourceFromHttps: " + "Error proccesing file " + dataUrl + " - " + ioe.getMessage());
+            exported = 0;
+        }
+        return exported;
+    }
 }

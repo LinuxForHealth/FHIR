@@ -92,7 +92,7 @@ public class CadfEvent {
 
     /**
      * Return the event ID
-     * 
+     *
      * @return String value of the event ID
      */
     public String getId() {
@@ -102,7 +102,7 @@ public class CadfEvent {
     /**
      * Format time intervals (durations) according to the XML Schema v2
      * specifications. https://www.w3.org/TR/xmlschema-2/#duration
-     * 
+     *
      * @param duration in milliseconds
      * @return String representation of the duration according to the XML Schema 2
      *         specification.
@@ -118,7 +118,7 @@ public class CadfEvent {
     /**
      * Validate contents of the CADF event so far.
      * The logic is determined by the CADF specification.
-     * 
+     *
      * @throws IllegalStateException when the event does not meet the specification.
      */
     private void validate() throws IllegalStateException {
@@ -372,13 +372,13 @@ public class CadfEvent {
         private ArrayList<CadfReporterStep> reporterchain;
 
         public Builder() {
-            // No Operation 
+            // No Operation
         }
 
         /**
          * CadfEvent builder constructor. Supply initial values for the event
          * definition.
-         * 
+         *
          * @param id        -- String. Globally unique identifier for the event. If null
          *                  value is provided, the identifier is generated
          *                  automatically.
@@ -437,7 +437,7 @@ public class CadfEvent {
          * optional, it is required in the JSON representation of the event.
          * Subsequently, if it is not set, {@link #build()} will throw an
          * {@link IllegalStateException}
-         * 
+         *
          * @param typeUri
          * @return Builder
          */
@@ -450,7 +450,7 @@ public class CadfEvent {
          * A convenience method to set the event reason. Instantiates a new
          * {@link CadfReason} object using the supplied values. Reason is a required
          * property if the event type is "control", otherwise it is optional.
-         * 
+         *
          * @param reasonType
          * @param reasonCode
          * @param policyType
@@ -468,7 +468,7 @@ public class CadfEvent {
          * policy data that provides an additional level of detail to the outcome value.
          * Reason is a required property if the event type is "control", otherwise it is
          * optional.
-         * 
+         *
          * @param reason
          * @return Builder
          * @see CadfReason
@@ -480,7 +480,7 @@ public class CadfEvent {
 
         /**
          * Sets a descriptive name for the event. Optional.
-         * 
+         *
          * @param name -- event descriptive name.
          * @return Builder
          */
@@ -492,7 +492,7 @@ public class CadfEvent {
         /**
          * This optional property describes domain-relative severity assigned to the
          * event by OBSERVER.
-         * 
+         *
          * @param severity -- Severity descriptor.
          * @return Builder
          */
@@ -506,7 +506,7 @@ public class CadfEvent {
          * activities. It is typically used in the second of a pair of events marking
          * the start and end of such activity. Value as defined by xs:duration per
          * XMLSchema2
-         * 
+         *
          * @param duration -- String in the format [-]PnYnMnD[TnHnMnS]
          * @return Builder
          */
@@ -522,7 +522,7 @@ public class CadfEvent {
          * //GRC20.gov/cloud/security/pci-dss?value=enabled In this example
          * "//GRC20.gov/cloud/security/" is the namespace, "pci-dss" is the tag name and
          * "enabled" is the value.
-         * 
+         *
          * @param tags -- Array of strings, each in the format
          *             [//namespace/]tag-name[?value=tag-value]
          * @return Builder
@@ -535,7 +535,7 @@ public class CadfEvent {
         /**
          * A convenience method allowing to add one tag at a time as opposed to an
          * array.
-         * 
+         *
          * @see #tags(String[])
          * @param tag -- A String in the format
          *            [//namespace/]tag-name[?value=tag-value]
@@ -620,7 +620,7 @@ public class CadfEvent {
 
         /**
          * A convenience method to add one measurement at a time.
-         * 
+         *
          * @see #measurements(CadfMeasurement[])
          */
         public Builder measurement(CadfMeasurement measurement) {
@@ -642,7 +642,7 @@ public class CadfEvent {
 
         /**
          * A convenience method to add one attachment at a time.
-         * 
+         *
          * @see #attachments(CadfAttachment[])
          */
         public Builder attachment(CadfAttachment attachment) {
@@ -765,7 +765,9 @@ public class CadfEvent {
             if (obj.getTags() != null) {
                 generator.writeStartArray("tags");
                 for (String tag : obj.getTags()) {
-                    generator.write(tag);
+                    if (tag != null) {
+                        generator.write(tag);
+                    }
                 }
                 generator.writeEnd();
             }
@@ -773,7 +775,9 @@ public class CadfEvent {
             if (obj.getAttachments() != null) {
                 generator.writeStartArray("attachments");
                 for (CadfAttachment attachment : obj.getAttachments()) {
-                    CadfAttachment.Writer.generate(attachment, generator);
+                    if (attachment != null) {
+                        CadfAttachment.Writer.generate(attachment, generator);
+                    }
                 }
                 generator.writeEnd();
             }
@@ -781,34 +785,44 @@ public class CadfEvent {
             if (obj.getMeasurements() != null) {
                 generator.writeStartArray("measurements");
                 for (CadfMeasurement measurement : obj.getMeasurements()) {
-                    CadfMeasurement.Writer.generate(measurement, generator);
+                    if (measurement != null) {
+                        CadfMeasurement.Writer.generate(measurement, generator);
+                    }
                 }
                 generator.writeEnd();
             }
 
             if (obj.getReporterchain() != null) {
                 generator.writeStartArray("reporterchain");
-                for (CadfReporterStep measurement : obj.getReporterchain()) {
-                    CadfReporterStep.Writer.generate(measurement, generator);
+                for (CadfReporterStep reportStep : obj.getReporterchain()) {
+                    if (reportStep  != null) {
+                        CadfReporterStep.Writer.generate(reportStep, generator);
+                    }
                 }
                 generator.writeEnd();
             }
 
             if (obj.getInitiator() != null) {
                 generator.writeStartObject("initiator");
-                CadfResource.Writer.generate(obj.getInitiator(), generator);
+                if (obj.getInitiator() !=null) {
+                    CadfResource.Writer.generate(obj.getInitiator(), generator);
+                }
                 generator.writeEnd();
             }
 
             if (obj.getObserver() != null) {
                 generator.writeStartObject("observer");
-                CadfResource.Writer.generate(obj.getObserver(), generator);
+                if (obj.getObserver() != null) {
+                    CadfResource.Writer.generate(obj.getObserver(), generator);
+                }
                 generator.writeEnd();
             }
 
             if (obj.getReason() != null) {
                 generator.writeStartObject("reason");
-                CadfReason.Writer.generate(obj.getReason(), generator);
+                if (obj.getReason() != null) {
+                    CadfReason.Writer.generate(obj.getReason(), generator);
+                }
                 generator.writeEnd();
             }
 
@@ -941,17 +955,17 @@ public class CadfEvent {
                 JsonObject tmp = jsonObject.getJsonObject("initiator");
                 builder.initiator(CadfResource.Parser.parse(tmp));
             }
-            
+
             if (jsonObject.get("observer") != null) {
                 JsonObject tmp = jsonObject.getJsonObject("observer");
                 builder.observer(CadfResource.Parser.parse(tmp));
             }
-            
+
             if (jsonObject.get("reason") != null) {
                 JsonObject tmp = jsonObject.getJsonObject("reason");
                 builder.reason(CadfReason.Parser.parse(tmp));
             }
-            
+
             return builder.build();
         }
     }

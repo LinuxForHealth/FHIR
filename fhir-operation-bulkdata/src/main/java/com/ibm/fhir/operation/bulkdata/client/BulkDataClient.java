@@ -36,6 +36,7 @@ import com.ibm.fhir.client.impl.FHIRBasicAuthenticator;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
@@ -180,7 +181,7 @@ public class BulkDataClient {
         builder.cosSrvInstId(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT));
 
         // Fetch a string generated from random 32 bytes
-        builder.cosBucketPathPrefix(BulkDataUtil.getRandomKey("AES"));
+        builder.cosBucketPathPrefix(FHIRUtil.getRandomKey("AES"));
 
         // Export Type - FHIR
         switch (exportType) {
@@ -229,7 +230,7 @@ public class BulkDataClient {
 
 
         String baseUri = properties.get(BulkDataConfigUtil.BASE_URI);
-        return baseUri + "$export-status?job=" + 
+        return baseUri + "$export-status?job=" +
                 BulkDataUtil.encryptBatchJobId(jobId, BulkDataConstants.BATCHJOBID_ENCRYPTION_KEY);
     }
 

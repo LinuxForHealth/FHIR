@@ -9,10 +9,6 @@ package com.ibm.fhir.search.parameters;
 /**
  * Instances of this class encapsulate data elements related to the FHIR _include and _revinclude search result
  * parameters.
- * 
- * @author markd
- * @author pbastide
- *
  */
 public class InclusionParameter {
 
@@ -85,9 +81,6 @@ public class InclusionParameter {
         return true;
     }
 
-    /*
-     * issue 49: added toString
-     */
     @Override
     public String toString() {
         return "InclusionParameter [joinResourceType=" + joinResourceType + ", searchParameter=" + searchParameter + ", searchParameterTargetType="

@@ -61,7 +61,7 @@ public final class CadfResource {
     /**
      * Return the resource ID. It can be used to reference the resource from other
      * events in the same log.
-     * 
+     *
      * @return Resource ID string
      */
     public String getId() {
@@ -126,7 +126,7 @@ public final class CadfResource {
      * Validate contents of the resource.
      * The logic is determined by the CADF specification. In short, ID, type, and
      * one of the geolocation properties are required
-     * 
+     *
      * @throws IllegalStateException when the properties do not meet the
      *                               specification.
      */
@@ -155,12 +155,12 @@ public final class CadfResource {
         private ArrayList<CadfAttachment> attachments;
 
         private Builder() {
-            // No Operation 
+            // No Operation
         }
 
         /**
          * Creates an instance of the CadfResource builder.
-         * 
+         *
          * @param id      - String. Resource identifier.
          * @param typeURI - CadfEvent.ResourceType. Resource classification in the CADF
          *                taxonomy.
@@ -173,7 +173,7 @@ public final class CadfResource {
 
         /**
          * Set the optional local name for the resource (not necessarily unique)
-         * 
+         *
          * @param name
          * @return Builder
          */
@@ -184,7 +184,7 @@ public final class CadfResource {
 
         /**
          * Set the optional local name for the resource (not necessarily unique)
-         * 
+         *
          * @param name
          * @return Builder
          */
@@ -195,7 +195,7 @@ public final class CadfResource {
 
         /**
          * Set the optional information about the (network) host of the resource
-         * 
+         *
          * @param host
          * @return Builder
          */
@@ -212,7 +212,7 @@ public final class CadfResource {
         /**
          * Set the optional name of the domain that qualifies the name of the resource
          * (e.g., a path name, a container name, etc.).
-         * 
+         *
          * @param domain
          * @return Builder
          */
@@ -224,7 +224,7 @@ public final class CadfResource {
         /**
          * Set the optional optional security credentials associated with the resource’s
          * identity.
-         * 
+         *
          * @see {@link CadfCredential}
          * @param cred
          * @return Builder
@@ -243,7 +243,7 @@ public final class CadfResource {
          * (e.g., a CADF Geolocation already defined at the CADF Log or Report level
          * that also contains the CADF Resource definition). This property is required
          * if the geolocation property is not used.
-         * 
+         *
          * @param geolocId
          * @return Builder
          */
@@ -256,7 +256,7 @@ public final class CadfResource {
          * Set the property describing the geographic location of the resource using a
          * CADF Geolocation data type. This property is required if the geolocationId
          * property is not used.
-         * 
+         *
          * @see {@link CadfGeolocation}
          * @param geoloc
          * @return Builder
@@ -288,7 +288,7 @@ public final class CadfResource {
 
         /**
          * A convenience method to add one attachment at a time.
-         * 
+         *
          * @see #attachments(CadfAttachment[])
          */
         public Builder attachment(CadfAttachment attachment) {
@@ -318,7 +318,7 @@ public final class CadfResource {
 
         /**
          * A convenience method to add one address at a time.
-         * 
+         *
          * @see #addresses(CadfEndpoint[])
          */
         public Builder address(CadfEndpoint address) {
@@ -331,7 +331,7 @@ public final class CadfResource {
 
         /**
          * Build an immutable ReporterStep instance.
-         * 
+         *
          * @return ReporterStep
          * @throws IllegalStateException when the properties do not meet the
          *                               specification.
@@ -377,6 +377,10 @@ public final class CadfResource {
         }
 
         public static void generate(CadfResource obj, JsonGenerator generator) throws IOException {
+            // If the CADF resource, e.g, observer, is null, then simply skip it.
+            if (obj == null) {
+                return;
+            }
             if (obj.getId() != null) {
                 generator.write("id", obj.getId());
             }

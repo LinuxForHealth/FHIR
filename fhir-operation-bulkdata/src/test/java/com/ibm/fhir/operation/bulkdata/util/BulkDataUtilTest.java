@@ -142,14 +142,6 @@ public class BulkDataUtilTest {
     }
 
     @Test
-    public void testGetRandomKey() {
-        String output = BulkDataUtil.getRandomKey("AES");
-        assertFalse(output.isEmpty());
-        output = BulkDataUtil.getRandomKey("FANCY_KEYS");
-        assertFalse(output.isEmpty());
-    }
-
-    @Test
     public void testCheckAndConvertToMediaType() throws FHIROperationException {
         // QueryParameters Map
         Map<String, List<String>> _mvm = new HashMap<String, List<String>>();

@@ -149,7 +149,9 @@ public class CadfMeasurement {
 
         public static void generate(CadfMeasurement obj, JsonGenerator generator)
                 throws IOException {
-
+            if (obj == null) {
+                return;
+            }
             generator.writeStartObject();
 
             if (obj.getResult() != null) {
