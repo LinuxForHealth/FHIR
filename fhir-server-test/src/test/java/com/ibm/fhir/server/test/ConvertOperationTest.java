@@ -33,6 +33,8 @@ public class ConvertOperationTest extends FHIRServerTestBase {
             
             // input is JSON
             assertTrue(input.startsWith("{"));
+            
+            // parse and deserialize JSON input
             Patient patientFromJson = FHIRParser.parser(Format.JSON).parse(new StringReader(input));
             assertNotNull(patientFromJson);
             
@@ -47,10 +49,12 @@ public class ConvertOperationTest extends FHIRServerTestBase {
             
             // output is XML
             assertTrue(output.startsWith("<"));
+            
+            // parse and deserialize XML output
             Patient patientFromXML = FHIRParser.parser(Format.XML).parse(new StringReader(output));
             assertNotNull(patientFromXML);
             
-            assertTrue(patientFromJson.equals(patientFromXML));
+            assertTrue(patientFromXML.equals(patientFromJson));
         }
     }
     
@@ -62,6 +66,8 @@ public class ConvertOperationTest extends FHIRServerTestBase {
             
             // input is XML
             assertTrue(input.startsWith("<"));
+            
+            // parse and deserialize XML input
             Patient patientFromXML = FHIRParser.parser(Format.XML).parse(new StringReader(input));
             assertNotNull(patientFromXML);
             
@@ -76,10 +82,12 @@ public class ConvertOperationTest extends FHIRServerTestBase {
             
             // output is JSON
             assertTrue(output.startsWith("{"));
+            
+            // parse and deserialize JSON output
             Patient patientFromJson = FHIRParser.parser(Format.JSON).parse(new StringReader(output));
             assertNotNull(patientFromJson);
             
-            assertTrue(patientFromXML.equals(patientFromJson));
+            assertTrue(patientFromJson.equals(patientFromXML));
         }
     }
 }
