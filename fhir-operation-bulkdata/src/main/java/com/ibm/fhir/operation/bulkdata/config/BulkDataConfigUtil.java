@@ -5,41 +5,26 @@
  */
 package com.ibm.fhir.operation.bulkdata.config;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.crypto.spec.SecretKeySpec;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
 
-import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.PropertyGroup;
 
-/**
- * bulkdata.json is picked up from the given file, and loaded into an intermediate map.
- */
 public class BulkDataConfigUtil {
     private static final String CLASSNAME = BulkDataConfigUtil.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
-
-    private static BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
-
-    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
-
+    
     public static final String APPLICATION_NAME = "applicationName";
     public static final String MODULE_NAME = "moduleName";
     public static final String JOB_XML_NAME = "jobXMLName";
-    public static final String JOB_PARAMETERS = "jobParameters";
 
     public static final String JOB_PARAMETERS_BUCKET = "cos.bucket.name";
     public static final String JOB_PARAMETERS_LOCATION = "cos.location";
@@ -65,74 +50,35 @@ public class BulkDataConfigUtil {
         // No Operation
     }
 
-    public static BulkDataTenantSpecificCache getInstance() {
-        return cache;
-    }
-
     /**
-     * populates from a configuration file
-     *
-     * @param f
-     * @return
+     * Get JavaBatch Job configuration from server configure. 
      */
-    public static Map<String, String> populateConfiguration(File f) {
-        Map<String, String> configs = new LinkedHashMap<>();
-        try (FileInputStream stream = new FileInputStream(f)) {
-            try (JsonReader jsonReader =
-                    JSON_READER_FACTORY.createReader(stream, StandardCharsets.UTF_8)) {
-                JsonObject jsonObject = jsonReader.readObject();
+    public static Map<String, String> getBatchJobConfig() throws Exception {
+        Map<String, String> properties = new HashMap<>();
+        properties.put(APPLICATION_NAME, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_APPLICATIONNAME, null));
+        properties.put(MODULE_NAME, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_MODULENAME, null));
+        properties.put(JOB_XML_NAME, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_JOBXMLNAME, null));
+        properties.put(BATCH_USER, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHUSER, null));
+        properties.put(BATCH_USER_PASS, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHUSERPWD, null));
+        properties.put(BATCH_URL, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHURI, null));
+        properties.put(BATCH_TRUSTSTORE, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTORE, null));
+        properties.put(BATCH_TRUSTSTORE_PASS, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTOREPWD, null));
+        properties.put(IMPLEMENTATION_TYPE, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_IMPTYPE, null));
 
-                addToMap(jsonObject, configs, APPLICATION_NAME);
-                addToMap(jsonObject, configs, MODULE_NAME);
-                addToMap(jsonObject, configs, JOB_XML_NAME);
-
-                addToMap(jsonObject, configs, IMPLEMENTATION_TYPE);
-
-                addToMap(jsonObject, configs, BATCH_USER);
-                addToMap(jsonObject, configs, BATCH_USER_PASS);
-                addToMap(jsonObject, configs, BATCH_URL);
-                addToMap(jsonObject, configs, BATCH_TRUSTSTORE);
-                addToMap(jsonObject, configs, BATCH_TRUSTSTORE_PASS);
-
-                addChildrenToMap(jsonObject, configs, JOB_PARAMETERS, JOB_PARAMETERS_BUCKET);
-                addChildrenToMap(jsonObject, configs, JOB_PARAMETERS, JOB_PARAMETERS_LOCATION);
-                addChildrenToMap(jsonObject, configs, JOB_PARAMETERS, JOB_PARAMETERS_ENDPOINT);
-                addChildrenToMap(jsonObject, configs, JOB_PARAMETERS, JOB_PARAMETERS_IBM);
-                addChildrenToMap(jsonObject, configs, JOB_PARAMETERS, JOB_PARAMETERS_KEY);
-                addChildrenToMap(jsonObject, configs, JOB_PARAMETERS, JOB_PARAMETERS_ID);
-                addChildrenToMap(jsonObject, configs, JOB_PARAMETERS, JOB_PARAMETERS_PAGES);
-                addChildrenToMap(jsonObject, configs, JOB_PARAMETERS, JOB_PARAMETERS_MAX);
-                addChildrenToMap(jsonObject, configs, JOB_PARAMETERS, JOB_PARAMETERS_COSREADPER);
-
-            }
-
-        } catch (FileNotFoundException e) {
-            // This exception is highly unlikely, but still possible.
-            log.warning("The file is not found for bulkdata.json");
-        } catch (IOException e) {
-            // This exception is highly unlikely, but still possible.
-            log.log(Level.WARNING, "The file is not found for bulkdata.json", e);
+        PropertyGroup jobParameters = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_PARAMETERS);
+        if (jobParameters != null) {
+            properties.put(JOB_PARAMETERS_BUCKET, jobParameters.getStringProperty(JOB_PARAMETERS_BUCKET));
+            properties.put(JOB_PARAMETERS_LOCATION, jobParameters.getStringProperty(JOB_PARAMETERS_LOCATION));
+            properties.put(JOB_PARAMETERS_ENDPOINT, jobParameters.getStringProperty(JOB_PARAMETERS_ENDPOINT));
+            properties.put(JOB_PARAMETERS_TENANT, jobParameters.getStringProperty(JOB_PARAMETERS_TENANT));
+            properties.put(JOB_PARAMETERS_IBM, jobParameters.getStringProperty(JOB_PARAMETERS_IBM));
+            properties.put(JOB_PARAMETERS_KEY, jobParameters.getStringProperty(JOB_PARAMETERS_KEY));
+            properties.put(JOB_PARAMETERS_ID, jobParameters.getStringProperty(JOB_PARAMETERS_ID));
+            properties.put(JOB_PARAMETERS_PAGES, jobParameters.getStringProperty(JOB_PARAMETERS_PAGES));
+            properties.put(JOB_PARAMETERS_MAX, jobParameters.getStringProperty(JOB_PARAMETERS_MAX));
+            properties.put(JOB_PARAMETERS_COSREADPER, jobParameters.getStringProperty(JOB_PARAMETERS_COSREADPER));
         }
-        return configs;
-    }
-
-    private static void addChildrenToMap(JsonObject jsonObject, Map<String, String> configs, String jobParameters,
-            String paramName) {
-        if (jsonObject.containsKey(jobParameters)) {
-            JsonObject obj = jsonObject.getJsonObject(jobParameters);
-            addToMap(obj, configs, paramName);
-        } else {
-            log.warning("JobParameters obj not found in bulkdata.json ");
-        }
-    }
-
-    public static void addToMap(JsonObject jsonObject, Map<String, String> configs, String name) {
-        if (jsonObject.containsKey(name)) {
-            String value = jsonObject.getString(name);
-            configs.put(name, value);
-        } else {
-            log.warning("Value not found in bulkdata.json '" + name + "'");
-        }
+        return properties;
     }
 
 
