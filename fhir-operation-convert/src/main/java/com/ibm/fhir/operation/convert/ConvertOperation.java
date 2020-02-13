@@ -43,8 +43,7 @@ public class ConvertOperation extends AbstractOperation {
             if (inputParameter == null) {
                 throw buildExceptionWithIssue("Input parameter 'input' is required for the $convert operation", IssueType.INVALID);
             }
-            Resource resource = inputParameter.getResource();
-            return FHIROperationUtil.getOutputParameters("output", resource);
+            return FHIROperationUtil.getOutputParameters("output", inputParameter.getResource());
         } catch (FHIROperationException e) {
             throw e;
         } catch (Exception e) {
