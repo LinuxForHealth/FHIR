@@ -865,7 +865,7 @@ public final class ModelSupport {
     }
 
     /**
-     * @return true if @{code identifier} is a reserved keyword in FHIRPath version N1
+     * @return true if {@code identifier} is a reserved keyword in FHIRPath version N1
      * @see <a href="http://hl7.org/fhirpath/2018Sep/index.html#keywords">http://hl7.org/fhirpath/2018Sep/index.html#keywords</a>
      */
     public static boolean isKeyword(String identifier) {
@@ -881,7 +881,7 @@ public final class ModelSupport {
     }
     
     /**
-     * @return the implicit system for @{code code} if present, otherwise null
+     * @return the implicit system for {@code code} if present, otherwise null
      */
     public static String getSystem(Code code) {
         if (code != null && code.getClass().isAnnotationPresent(System.class)) {
