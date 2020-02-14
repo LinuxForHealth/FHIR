@@ -66,15 +66,11 @@ public class NumberParmBehaviorUtilTest {
 
     private void runLowerUpperTest(String value, String lower, String upper) {
         BigDecimal decimal = new BigDecimal(value);
-        String actualLower = Double.toString(NumberParmBehaviorUtil.generateLowerBound(decimal).doubleValue());
+        String actualLower = NumberParmBehaviorUtil.generateLowerBound(decimal).toPlainString();
         assertEquals(actualLower, lower);
 
-        String actualUpper = Double.toString(NumberParmBehaviorUtil.generateUpperBound(decimal).doubleValue());
+        String actualUpper = NumberParmBehaviorUtil.generateUpperBound(decimal).toPlainString();
         assertEquals(actualUpper, upper);
-    }
-
-    public void runSignificantDigitsTest(String value, int significantDigits) {
-        assertEquals(NumberParmBehaviorUtil.calculateSignificantFigures(new BigDecimal(value)), significantDigits);
     }
 
     private void runTest(QueryParameter queryParm, List<Object> expectedBindVariables, String expectedSql,
@@ -324,77 +320,67 @@ public class NumberParmBehaviorUtilTest {
 
     @Test
     public void testLowerAndUpperBounds() {
-        // [parameter]=1.00
-        // range [0.005 ... 1.005)
+        // Value: 1.00
+        // range [0.995 ... 1.005)
         runLowerUpperTest("1.00", "0.995", "1.005");
 
-        // [parameter]=100.00
+        // Value: 100.00
         // significant figures precision = 5
         // range [99.995 ... 100.005)
         runLowerUpperTest("100.00", "99.995", "100.005");
 
-        // [parameter]=100
+        // Value: 100
         // significant figures precision = 3 
         // range [99.5 ... 100.5)
         runLowerUpperTest("100", "99.5", "100.5");
 
-        // [parameter]=1e2
+        // Value: 1e-3
+        // significant figures precision = 1
+        // Implied Range: [0.0005 ... 0.0015)
+        runLowerUpperTest("1e-3", "0.0005", "0.0015");
+
+        // Value: 1e-2
+        // significant figures precision = 1
+        // Implied Range: [50 ... 150)
+        runLowerUpperTest("1e-2", "0.005", "0.015");
+
+        // Value: 1e-1
+        // range [5 ... 15)
+        runLowerUpperTest("1e-1", "0.05", "0.15");
+
+        // Value: 1e0
+        // range [0.5 ... 1.5)
+        runLowerUpperTest("1e0", "0.5", "1.5");
+
+        // Value: 1e1
+        // range [5 ... 15)
+        runLowerUpperTest("1e1", "5", "15");
+
         // Value: 1e2
         // significant figures precision = 1
-        // Implied Range: [95 ... 105)
-        runLowerUpperTest("1e2", "95.0", "105.0");
-
-        // [parameter]=1e3
-        // Value: 1e3
-        // Implied Range: [999.5 ... 100.5)
-        runLowerUpperTest("1e3", "999.5", "1000.5");
-
-        // [parameter]=1.0e2
-        // Value: 1.0e2
         // Implied Range: [50 ... 150)
-        runLowerUpperTest("1.0e2", "50.0", "150.0");
+        runLowerUpperTest("1e2", "50", "150");
 
-        // [parameter]=1.00e2
+        // Value: 1e3
+        // significant figures precision = 1
+        // Implied Range: [500 ... 1500)
+        runLowerUpperTest("1e3", "500", "1500");
+
+        // Value: 1.0e1
+        // Implied Range: [9.5 ... 10.5)
+        runLowerUpperTest("1.0e1", "9.5", "10.5");
+
+        // Value: 1.0e2
+        // Implied Range: [95 ... 105)
+        runLowerUpperTest("1.0e2", "95", "105");
+
         // Value: 1.00e2
         // Implied Range: [99.5 ... 100.5)
         runLowerUpperTest("1.00e2", "99.5", "100.5");
 
-        // [parameter]=1.02e2
-        // Value: 1.02e2
-        // Implied Range: [105.0 ... 115.0)
-        runLowerUpperTest("1.1e2", "60.0", "160.0");
-    }
-
-    @Test
-    public void testSignificantFiguresPrecision() {
-        runSignificantDigitsTest("100.00", 5);
-        runSignificantDigitsTest("100", 3);
-
-        // Based on examples from https://en.wikipedia.org/wiki/Significant_figures
-        runSignificantDigitsTest("12.3450", 6);
-        runSignificantDigitsTest("12.345", 5);
-        runSignificantDigitsTest("12.34", 4);
-        runSignificantDigitsTest("12.3", 3);
-        runSignificantDigitsTest("12.", 2);
-
-        // Different than the standard approach, we're going for 2. 
-        runSignificantDigitsTest("10", 2);
-
-        runSignificantDigitsTest("0.01234500", 7);
-        runSignificantDigitsTest("0.0123450", 6);
-        runSignificantDigitsTest("0.012345", 5);
-        runSignificantDigitsTest("0.01234", 4);
-        runSignificantDigitsTest("0.0123", 3);
-        runSignificantDigitsTest("0.012", 2);
-        runSignificantDigitsTest("0.01", 1);
-        runSignificantDigitsTest("0.0", 1);
-        runSignificantDigitsTest("0", 1);
-
-        // Demonstrates significant digits as in the specification.
-        runSignificantDigitsTest("1e1", 0);
-        runSignificantDigitsTest("1e2", -1);
-        runSignificantDigitsTest("1e3", -2);
-        runSignificantDigitsTest("1e4", -3);
+        // Value: 1.1e2
+        // Implied Range: [105 ... 115)
+        runLowerUpperTest("1.1e2", "105", "115");
     }
 
     @Test(expectedExceptions = {})
@@ -451,8 +437,8 @@ public class NumberParmBehaviorUtilTest {
         QueryParameter queryParm =
                 generateParameter(SearchConstants.Prefix.EQ, null, "window-end", new String[] { "1e2" });
         List<Object> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("95"));
-        expectedBindVariables.add(new BigDecimal("105"));
+        expectedBindVariables.add(new BigDecimal("5e1"));
+        expectedBindVariables.add(new BigDecimal("1.5e2"));
         String expectedSql = " AND (MolecularSequence.NUMBER_VALUE > ? AND MolecularSequence.NUMBER_VALUE <= ?))";
         runTest(queryParm, expectedBindVariables, expectedSql, "MolecularSequence", MolecularSequence.class);
     }
@@ -463,8 +449,8 @@ public class NumberParmBehaviorUtilTest {
         QueryParameter queryParm =
                 generateParameter(SearchConstants.Prefix.NE, null, "window-end", new String[] { "1e2" });
         List<Object> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("95"));
-        expectedBindVariables.add(new BigDecimal("105"));
+        expectedBindVariables.add(new BigDecimal("5e1"));
+        expectedBindVariables.add(new BigDecimal("1.5e2"));
         String expectedSql = " AND (MolecularSequence.NUMBER_VALUE <= ? OR MolecularSequence.NUMBER_VALUE > ?))";
         runTest(queryParm, expectedBindVariables, expectedSql, "MolecularSequence", MolecularSequence.class);
     }

@@ -27,11 +27,10 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
-import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.QuantityParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 public class QuantityParmBehaviorUtilTest {
     private static final Logger log = java.util.logging.Logger.getLogger(QuantityParmBehaviorUtilTest.class.getName());
@@ -80,10 +79,6 @@ public class QuantityParmBehaviorUtilTest {
     private void runTest(QueryParameter queryParm, List<Object> expectedBindVariables, String expectedSql, boolean sendNull)
             throws Exception {
         runTest(queryParm, expectedBindVariables, expectedSql, "Basic", sendNull);
-    }
-
-    public void runSignificantDigitsTest(String value, int significantDigits) {
-        assertEquals(NumberParmBehaviorUtil.calculateSignificantFigures(new BigDecimal(value)), significantDigits);
     }
 
     private void runTest(QueryParameter queryParm, List<Object> expectedBindVariables, String expectedSql,

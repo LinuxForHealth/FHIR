@@ -171,59 +171,12 @@ public class NumberParmBehaviorUtil {
     }
 
     public static BigDecimal generateLowerBound(BigDecimal original) {
-
-        int factor = calculateSignificantFigures(original);
-        if (factor < 0) {
-            factor = Math.abs(factor) - 1;
-        } else {
-            factor = original.scale() + 1;
-
-            // Mutate it to the ORIGINAL string
-            String t = "" + original;
-            int loc = t.indexOf('E');
-            if (loc > -1) {
-                factor = -1 * (loc - 2);
-            }
-        }
-
-        BigDecimal scaleFactor = new BigDecimal("5e" + -1 * factor);
-        return original.subtract(scaleFactor);
+        BigDecimal factor = new BigDecimal("5e" + -1 * (original.scale() + 1));
+        return original.subtract(factor);
     }
 
     public static BigDecimal generateUpperBound(BigDecimal original) {
-        int factor = calculateSignificantFigures(original);
-        if (factor < 0) {
-            factor = Math.abs(factor) - 1;
-        } else {
-            factor = original.scale() + 1;
-
-            // Mutate it to the ORIGINAL string
-            String t = "" + original;
-            int loc = t.indexOf('E');
-            if (loc > -1) {
-                factor = -1 * (loc - 2);
-            }
-        }
-        BigDecimal scaleFactor = new BigDecimal("5e" + -1 * factor);
-        return original.add(scaleFactor);
-    }
-
-    /**
-     * calculates the significant figures
-     * based on
-     * <a href="https://en.wikipedia.org/wiki/Significant_figures">Significant
-     * Figures</a>
-     * 
-     * @param original
-     * @return
-     */
-    public static int calculateSignificantFigures(BigDecimal original) {
-        int count = original.precision();
-        if (original.scale() <= 0) {
-            // Common pattern is to strip zeros... <code>.stripTrailingZeros()</code> 
-            // We don't per the pattern in FHIR. 
-            count += original.scale();
-        }
-        return count;
+        BigDecimal factor = new BigDecimal("5e" + -1 * (original.scale() + 1));
+        return original.add(factor);
     }
 }
