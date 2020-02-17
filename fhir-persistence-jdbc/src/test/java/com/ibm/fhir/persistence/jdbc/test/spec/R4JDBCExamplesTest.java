@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,7 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 import com.ibm.fhir.validation.test.ValidationProcessor;
@@ -123,7 +124,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
     @Override
     public void bootstrapDatabase() throws Exception {
         // Create the derby database
-        this.database = new DerbyFhirDatabase();
+        this.database = new DerbyInitializer().bootstrapDb();
     }
 
     @AfterClass
