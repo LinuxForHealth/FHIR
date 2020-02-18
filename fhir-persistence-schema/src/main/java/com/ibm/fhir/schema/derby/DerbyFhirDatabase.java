@@ -29,9 +29,19 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     // The wrapper for managing a derby in-memory instance
     final DerbyMaster derby;
 
+    /**
+     * The default constructor will initialize the database at "derby/fhirDB".
+     */
     public DerbyFhirDatabase() throws SQLException {
-        logger.info("Creating Derby database for FHIR: " + DATABASE_NAME);
-        derby = new DerbyMaster(DATABASE_NAME);
+        this(DATABASE_NAME);
+    }
+
+    /**
+     * Construct a Derby database at the specified path and deploy the IBM FHIR Server schema.
+     */
+    public DerbyFhirDatabase(String dbPath) throws SQLException {
+        logger.info("Creating Derby database for FHIR: " + dbPath);
+        derby = new DerbyMaster(dbPath);
 
         // Lambdas are quite tasty for this sort of thing
         derby.runWithAdapter(adapter -> CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter));
