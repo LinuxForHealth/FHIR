@@ -177,6 +177,7 @@ public final class ModelSupport {
         dataTypes.add(SubstanceAmount.class);
         DATA_TYPES = Collections.unmodifiableSet(dataTypes);
     }
+    private static final Map<String, Class<?>> DATA_TYPE_MAP = buildDataTypeMap();
     private static final Set<String> KEYWORDS = new HashSet<>(Arrays.asList(
         "$index", 
         "$this", 
@@ -305,6 +306,14 @@ public final class ModelSupport {
         public Set<String> getChoiceElementNames() {
             return choiceElementNames;
         }
+    }
+
+    private static Map<String, Class<?>> buildDataTypeMap() {
+        Map<String, Class<?>> dataTypeMap = new LinkedHashMap<>();
+        for (Class<?> dataType : DATA_TYPES) {
+            dataTypeMap.put(getTypeName(dataType), dataType);
+        }
+        return Collections.unmodifiableMap(dataTypeMap);
     }
 
     private static Map<Class<?>, Class<?>> buildConcreteTypeMap() {
@@ -888,5 +897,12 @@ public final class ModelSupport {
             return code.getClass().getAnnotation(System.class).value();
         }
         return null;
+    }
+
+    /**
+     * @return the data type class associated with {@code typeName} parameter if exists, otherwise null
+     */
+    public static Class<?> getDataType(String typeName) {
+        return DATA_TYPE_MAP.get(typeName);
     }
 }
