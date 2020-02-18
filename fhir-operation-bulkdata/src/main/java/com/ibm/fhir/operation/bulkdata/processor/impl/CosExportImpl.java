@@ -14,17 +14,15 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
-import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.client.BulkDataClient;
-import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
 import com.ibm.fhir.operation.bulkdata.processor.ExportImportBulkData;
 import com.ibm.fhir.operation.context.FHIROperationContext;
@@ -35,10 +33,10 @@ public class CosExportImpl implements ExportImportBulkData {
     private static final String CLASSNAME = CosExportImpl.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
 
-    private BulkDataTenantSpecificCache cache = null;
+    private Map<String, String> properties = null;
 
-    public CosExportImpl(BulkDataTenantSpecificCache cache) {
-        this.cache = cache;
+    public CosExportImpl(Map<String, String> properties) {
+        this.properties = properties;
         log.fine("Using the COS Implementation");
     }
 
@@ -47,9 +45,6 @@ public class CosExportImpl implements ExportImportBulkData {
             Instant since, List<String> types, List<String> typeFilters, FHIROperationContext operationContext,
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
-            FHIRRequestContext requestContext = FHIRRequestContext.get();
-            Map<String, String> properties = cache.getCachedObjectForTenant(requestContext.getTenantId());
-
             Map<String, String> tmpProperties = new HashMap<>();
             tmpProperties.putAll(properties);
             if (ExportType.GROUP.equals(exportType)) {
@@ -94,9 +89,6 @@ public class CosExportImpl implements ExportImportBulkData {
     @Override
     public Parameters status(String job, FHIROperationContext operationContext) throws FHIROperationException {
         try {
-            FHIRRequestContext requestContext = FHIRRequestContext.get();
-            Map<String, String> properties = cache.getCachedObjectForTenant(requestContext.getTenantId());
-
             // Check on the Job's Status
             Map<String, String> tmpProperties = new HashMap<>();
             tmpProperties.putAll(properties);
@@ -137,9 +129,6 @@ public class CosExportImpl implements ExportImportBulkData {
     public Parameters delete(String job, FHIROperationContext operationContext)
             throws FHIROperationException {
         try {
-            FHIRRequestContext requestContext = FHIRRequestContext.get();
-            Map<String, String> properties = cache.getCachedObjectForTenant(requestContext.getTenantId());
-
             // Send the DELETE
             Map<String, String> tmpProperties = new HashMap<>();
             tmpProperties.putAll(properties);
@@ -162,10 +151,7 @@ public class CosExportImpl implements ExportImportBulkData {
     @Override
     public Parameters importBulkData(String logicalId, Parameters parameters, FHIROperationContext operationContext,
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        try {
-            FHIRRequestContext requestContext = FHIRRequestContext.get();
-            Map<String, String> properties = cache.getCachedObjectForTenant(requestContext.getTenantId());
-            
+        try {            
             Map<String, String> tmpProperties = new HashMap<>();
             tmpProperties.putAll(properties);
             addBaseUri(operationContext, tmpProperties);
