@@ -900,7 +900,7 @@ public final class ModelSupport {
     }
 
     /**
-     * @return the data type class associated with {@code typeName) parameter if exists, otherwise null
+     * @return the data type class associated with {@code typeName} parameter if exists, otherwise null
      */
     public static Class<?> getDataType(String typeName) {
         return DATA_TYPE_MAP.get(typeName);
