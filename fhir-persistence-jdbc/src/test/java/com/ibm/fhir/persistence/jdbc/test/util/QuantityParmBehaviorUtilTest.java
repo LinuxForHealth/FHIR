@@ -23,14 +23,16 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
+import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.QuantityParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
+import com.ibm.fhir.search.parameters.QueryParameter;
 
 public class QuantityParmBehaviorUtilTest {
     private static final Logger log = java.util.logging.Logger.getLogger(QuantityParmBehaviorUtilTest.class.getName());
@@ -394,7 +396,7 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
-                " AND (((Basic.QUANTITY_VALUE > ? OR Basic.QUANTITY_VALUE_LOW > ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                " AND ((Basic.QUANTITY_VALUE_LOW > ? AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -407,7 +409,7 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
         expectedSql =
-                " AND (((Basic.QUANTITY_VALUE < ? OR Basic.QUANTITY_VALUE_HIGH < ?) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+                " AND ((Basic.QUANTITY_VALUE_HIGH < ? AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -425,12 +427,12 @@ public class QuantityParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal(99.5));
         expectedBindVariables.add(new BigDecimal(100.5));
-        expectedBindVariables.add(new BigDecimal(100));
-        expectedBindVariables.add(new BigDecimal(100));
+        expectedBindVariables.add(new BigDecimal(99.5));
+        expectedBindVariables.add(new BigDecimal(100.5));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
-        String expectedSql =
-                " AND ((((Basic.QUANTITY_VALUE > ? AND Basic.QUANTITY_VALUE <= ?) OR (Basic.QUANTITY_VALUE_LOW < ? AND Basic.QUANTITY_VALUE_HIGH >= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+        String expectedSql = " AND ((((Basic.QUANTITY_VALUE >= ? AND Basic.QUANTITY_VALUE < ?) "
+                + "OR (Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_HIGH <= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -486,20 +488,23 @@ public class QuantityParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("99.5"));
         expectedBindVariables.add(new BigDecimal("100.5"));
-        expectedBindVariables.add(new BigDecimal("100"));
-        expectedBindVariables.add(new BigDecimal("100"));
+        expectedBindVariables.add(new BigDecimal("99.5"));
+        expectedBindVariables.add(new BigDecimal("100.5"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
 
         expectedBindVariables.add(new BigDecimal("0.995"));
         expectedBindVariables.add(new BigDecimal("1.005"));
-        expectedBindVariables.add(new BigDecimal("1.00"));
-        expectedBindVariables.add(new BigDecimal("1.00"));
+        expectedBindVariables.add(new BigDecimal("0.995"));
+        expectedBindVariables.add(new BigDecimal("1.005"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
 
-        String expectedSql =
-                " AND ((((Basic.QUANTITY_VALUE > ? AND Basic.QUANTITY_VALUE <= ?) OR (Basic.QUANTITY_VALUE_LOW < ? AND Basic.QUANTITY_VALUE_HIGH >= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?) OR (((Basic.QUANTITY_VALUE > ? AND Basic.QUANTITY_VALUE <= ?) OR (Basic.QUANTITY_VALUE_LOW < ? AND Basic.QUANTITY_VALUE_HIGH >= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+        String expectedSql = " AND ((((Basic.QUANTITY_VALUE >= ? AND Basic.QUANTITY_VALUE < ?) OR "
+                + "(Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_HIGH <= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?) "
+                + "OR "
+                + "(((Basic.QUANTITY_VALUE >= ? AND Basic.QUANTITY_VALUE < ?) OR "
+                + "(Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_HIGH <= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -527,13 +532,11 @@ public class QuantityParmBehaviorUtilTest {
         String tableAlias = "Basic";
         BigDecimal lowerBound = new BigDecimal("1");
         BigDecimal upperBound = new BigDecimal("2");
-        BigDecimal value = new BigDecimal("3");
-        QuantityParmBehaviorUtil util = new QuantityParmBehaviorUtil();
-        util.buildEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias,
-                lowerBound, upperBound, value);
+        NumberParmBehaviorUtil.buildEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, JDBCConstants.QUANTITY_VALUE,
+                lowerBound, upperBound);
 
         assertEquals(whereClauseSegment.toString(),
-                "((Basic.QUANTITY_VALUE > ? AND Basic.QUANTITY_VALUE <= ?) OR (Basic.QUANTITY_VALUE_LOW < ? AND Basic.QUANTITY_VALUE_HIGH >= ?))");
+                "((Basic.QUANTITY_VALUE >= ? AND Basic.QUANTITY_VALUE < ?) OR (Basic.QUANTITY_VALUE_LOW >= ? AND Basic.QUANTITY_VALUE_HIGH <= ?))");
     }
 
     @Test
@@ -545,12 +548,13 @@ public class QuantityParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal(99.5));
         expectedBindVariables.add(new BigDecimal(100.5));
-        expectedBindVariables.add(new BigDecimal(100));
-        expectedBindVariables.add(new BigDecimal(100));
+        expectedBindVariables.add(new BigDecimal(99.5));
+        expectedBindVariables.add(new BigDecimal(100.5));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
-        String expectedSql =
-                " AND ((((Basic.QUANTITY_VALUE <= ? OR Basic.QUANTITY_VALUE > ?) OR (Basic.QUANTITY_VALUE_LOW <= ? OR Basic.QUANTITY_VALUE_HIGH > ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+
+        String expectedSql = " AND ((((Basic.QUANTITY_VALUE < ? OR Basic.QUANTITY_VALUE >= ?) "
+                + "OR (Basic.QUANTITY_VALUE_LOW < ? OR Basic.QUANTITY_VALUE_HIGH > ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -565,12 +569,13 @@ public class QuantityParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal(89.5));
         expectedBindVariables.add(new BigDecimal(110.5));
-        expectedBindVariables.add(new BigDecimal(100));
-        expectedBindVariables.add(new BigDecimal(100));
+        expectedBindVariables.add(new BigDecimal(100.5));
+        expectedBindVariables.add(new BigDecimal(99.5));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
-        String expectedSql =
-                " AND ((((Basic.QUANTITY_VALUE > ? AND Basic.QUANTITY_VALUE <= ?) OR (Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH >= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+
+        String expectedSql = " AND ((((Basic.QUANTITY_VALUE >= ? AND Basic.QUANTITY_VALUE < ?) "
+                + "OR (Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH >= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -585,12 +590,13 @@ public class QuantityParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("0.4"));
         expectedBindVariables.add(new BigDecimal("1.6"));
-        expectedBindVariables.add(new BigDecimal("1"));
-        expectedBindVariables.add(new BigDecimal("1"));
+        expectedBindVariables.add(new BigDecimal("1.5"));
+        expectedBindVariables.add(new BigDecimal("0.5"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
-        String expectedSql =
-                " AND ((((Basic.QUANTITY_VALUE > ? AND Basic.QUANTITY_VALUE <= ?) OR (Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH >= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+
+        String expectedSql = " AND ((((Basic.QUANTITY_VALUE >= ? AND Basic.QUANTITY_VALUE < ?) "
+                + "OR (Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH >= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -606,13 +612,12 @@ public class QuantityParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal(89.5));
         expectedBindVariables.add(new BigDecimal(110.5));
-        expectedBindVariables.add(new BigDecimal(100));
-        expectedBindVariables.add(new BigDecimal(100));
+        expectedBindVariables.add(new BigDecimal(99.5));
+        expectedBindVariables.add(new BigDecimal(100.5));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
-        String expectedSql =
-                " AND ((((Basic.QUANTITY_VALUE > ? AND Basic.QUANTITY_VALUE <= ?) OR (Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH >= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
-
+        String expectedSql = " AND ((((Basic.QUANTITY_VALUE >= ? AND Basic.QUANTITY_VALUE < ?) "
+                + "OR (Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH >= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
@@ -635,15 +640,21 @@ public class QuantityParmBehaviorUtilTest {
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
 
+        expectedBindVariables.add(new BigDecimal("89.5"));
+        expectedBindVariables.add(new BigDecimal("110.5"));
+        expectedBindVariables.add(new BigDecimal("99.5"));
+        expectedBindVariables.add(new BigDecimal("100.5"));
         expectedBindVariables.add(new BigDecimal("89.995"));
         expectedBindVariables.add(new BigDecimal("110.005"));
-        expectedBindVariables.add(new BigDecimal("100.00"));
-        expectedBindVariables.add(new BigDecimal("100.00"));
+        expectedBindVariables.add(new BigDecimal("100.005"));
+        expectedBindVariables.add(new BigDecimal("99.995"));
         expectedBindVariables.add(1);
         expectedBindVariables.add("code");
-
-        String expectedSql =
-                " AND ((((Basic.QUANTITY_VALUE > ? AND Basic.QUANTITY_VALUE <= ?) OR (Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH >= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?) OR (((Basic.QUANTITY_VALUE > ? AND Basic.QUANTITY_VALUE <= ?) OR (Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH >= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
+        String expectedSql = " AND ((((Basic.QUANTITY_VALUE >= ? AND Basic.QUANTITY_VALUE < ?) OR "
+                + "(Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH >= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?) "
+                + "OR "
+                + "(((Basic.QUANTITY_VALUE >= ? AND Basic.QUANTITY_VALUE < ?) OR "
+                + "(Basic.QUANTITY_VALUE_LOW <= ? AND Basic.QUANTITY_VALUE_HIGH >= ?)) AND Basic.CODE_SYSTEM_ID = ? AND Basic.CODE = ?)))";
         runTest(queryParm,
                 expectedBindVariables,
                 expectedSql, false);
