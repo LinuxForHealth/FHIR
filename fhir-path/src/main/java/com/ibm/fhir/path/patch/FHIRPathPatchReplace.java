@@ -42,7 +42,7 @@ class FHIRPathPatchReplace extends FHIRPathPatchOperation {
                 .name(string(OPERATION))
                 .part(Parameter.builder()
                     .name(string(TYPE))
-                    .value(Code.of(FHIRPathPatchType.ADD.value()))
+                    .value(Code.of(FHIRPathPatchType.REPLACE.value()))
                     .build())
                 .part(Parameter.builder()
                     .name(string(PATH))
