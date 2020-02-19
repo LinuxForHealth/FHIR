@@ -79,7 +79,9 @@ public class FHIRPathPatchSpecTest implements ITest {
         }
         try {
             FHIRPathPatch patch = FHIRPathPatch.from(params);
-            assertEquals(patch.toParameters(), params);
+            // Set the id to match the expected parameters object so we can do a normal compare
+            Parameters serializedPatch = patch.toParameters().toBuilder().id(params.getId()).build();
+            assertEquals(serializedPatch, params);
 
             Resource actualOutput = patch.apply(input);
             assertEquals(actualOutput, expectedOutput);
@@ -117,7 +119,7 @@ public class FHIRPathPatchSpecTest implements ITest {
         domFactory.setIgnoringElementContentWhitespace(true);
         domFactory.setNamespaceAware(true);
         DocumentBuilder documentBuilder = domFactory.newDocumentBuilder();
-        try (InputStream in = FHIRPathPatchSpecTest.class.getClassLoader().getResourceAsStream("patch\\fhir-path-tests.xml")) {
+        try (InputStream in = FHIRPathPatchSpecTest.class.getClassLoader().getResourceAsStream("fhir-path-patch-tests.xml")) {
             Document testDoc = documentBuilder.parse(in);
             
             NodeList cases = testDoc.getDocumentElement().getElementsByTagName("case");

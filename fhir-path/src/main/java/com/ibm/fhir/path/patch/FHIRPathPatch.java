@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.patch.exception.FHIRPatchException;
@@ -38,7 +39,7 @@ public class FHIRPathPatch implements FHIRPatch {
      * Convert the FHIRPathPatch to a FHIR Parameters resource
      */
     public Parameters toParameters() {
-        Parameters.Builder builder = Parameters.builder();
+        Parameters.Builder builder = Parameters.builder().id(UUID.randomUUID().toString());
         for (FHIRPathPatchOperation operation : operations) {
             builder.parameter(operation.toParameter());
         }
@@ -127,14 +128,14 @@ public class FHIRPathPatch implements FHIRPatch {
     public static FHIRPathPatch from(Parameters params) {
         Objects.requireNonNull(params);
         Builder builder = FHIRPathPatch.builder();
-        
+
         for (Parameter param : params.getParameter()) {
             if (!FHIRPathPatchOperation.OPERATION.equals(param.getName().getValue())) {
                 throw new IllegalArgumentException("Each FHIRPath patch operation must have a name of 'operation'");
             }
             addOperation(builder, param);
         }
-        
+
         return builder.build();
     }
     
@@ -143,7 +144,7 @@ public class FHIRPathPatch implements FHIRPatch {
      * 
      * @throws IllegalArgumentException if the Parameter object does not represent a valid FHIRPath Patch operation
      */
-    private static FHIRPathPatchOperation addOperation(Builder builder, Parameter operation) {
+    private static void addOperation(Builder builder, Parameter operation) {
         boolean foundType = false, foundPath = false, foundName = false, foundValue = false, foundIndex = false, foundSource = false, foundDestination = false;
         FHIRPathPatchType type = null;
         String fhirPath = null;
@@ -197,11 +198,21 @@ public class FHIRPathPatch implements FHIRPatch {
         }
         try {
             switch (type) {
-            case ADD:       builder.add(fhirPath, name, value);
-            case DELETE:    builder.delete(fhirPath);
-            case INSERT:    builder.insert(fhirPath, value, index);
-            case MOVE:      builder.move(fhirPath, source, destination);
-            case REPLACE:   builder.replace(fhirPath, value);
+            case ADD:
+                builder.add(fhirPath, name, value);
+                break;
+            case DELETE:
+                builder.delete(fhirPath);
+                break;
+            case INSERT:
+                builder.insert(fhirPath, value, index);
+                break;
+            case MOVE:
+                builder.move(fhirPath, source, destination);
+                break;
+            case REPLACE:
+                builder.replace(fhirPath, value);
+                break;
             default:
                 throw new IllegalArgumentException("Invalid FHIRPath patch operation type: " + type.name());
             }
