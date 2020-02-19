@@ -107,7 +107,10 @@ To use the artifacts from a Maven project:
 |fhir-benchmark|Java Microbenchmark Harness (JMH) tests for measuring read/write/validation performance for the IBM FHIR Server and the HL7 FHIR Java Reference Implementation|false|
 
 ### Contributing to the IBM FHIR Server
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+The IBM FHIR Server is under active development. To help develop the server, clone or download the project and build it using Maven.
+See [Setting up for development](https://github.com/IBM/FHIR/wiki/Setting-up-for-development) for more information.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contributing your changes back to the project.
 
 ### License
 The IBM FHIR Server is licensed under the Apache 2.0 license. Full license text is
