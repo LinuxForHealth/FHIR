@@ -4212,6 +4212,20 @@ public class FHIRResource implements FHIRResourceHelpers {
         String requestUriHeader = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_ORIGINAL_REQUEST_URI_HEADER_NAME, null);
         if (requestUriHeader != null) {
             requestUri = httpServletRequest.getHeader(requestUriHeader);
+            if (requestUri != null && !requestUri.isEmpty()) {
+                // Try to parse it as a URI to ensure its valid
+                try {
+                    URI originalRequestUri = new URI(requestUri);
+                    // If its not absolute, then construct an absolute URI (or else JAX-RS will append the path to the current baseUri)
+                    if (!originalRequestUri.isAbsolute()) {
+                        requestUri = uriInfo.getBaseUriBuilder()
+                            .replacePath(originalRequestUri.getPath()).build().toString();
+                    }
+                } catch (Exception e) {
+                    log.log(Level.WARNING, "Error while computing the original request URI", e);
+                    requestUri = null;
+                }
+            }
         }
         
         // If there was no configured header or the header wasn't present, construct it from the HttpServletRequest
