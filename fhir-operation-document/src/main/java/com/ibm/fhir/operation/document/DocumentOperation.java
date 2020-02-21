@@ -226,7 +226,7 @@ public class DocumentOperation extends AbstractOperation {
         }
     }
     
-    public static Uri uri(String uri) {
+    private static Uri uri(String uri) {
         return Uri.builder().value(uri).build();
     }
 }

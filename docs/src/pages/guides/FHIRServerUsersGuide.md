@@ -50,8 +50,8 @@ View information about recent changes that were made to this document. For more 
 ## 2.1 Installing a new server
 0.  Prereqs: The IBM FHIR Server requires Java 8 or higher and has been tested with OpenJDK 8, OpenJDK 11, and the IBM SDK, Java Technology Edition, Version 8. To install Java on your system, we recommend downloading and installing OpenJDK 8 from https://adoptopenjdk.net/.
 
-1.  To install the FHIR server, download or build the `fhir-install` zip installer (e.g. `fhir-server-distribution.zip`).
-Releases are available from the [Releases tab](https://github.com/ibm/fhir/releases). Alternatively, the Maven build creates the zip package under `fhir-install/target`.
+1.  To install the FHIR server, build or download the `fhir-install` zip installer (e.g. `fhir-server-distribution.zip` or `fhir-install-4.0.0-rc1-20191014-1610`).
+The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases will be made available from the [Releases tab](https://github.com/ibm/fhir/releases).
 
 2.  Unzip the `.zip` package into a clean directory (referred to as `fhir-installer` here):
     ```
@@ -88,10 +88,11 @@ Releases are available from the [Releases tab](https://github.com/ibm/fhir/relea
 
 9.  After you start the server, you can verify that it's running properly by invoking the `$healthcheck` endpoint like this:
     ```
-    curl -k -u <username> 'https://<host>:<port>/fhir-server/api/v4/$healthcheck'
+    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/$healthcheck'
     ```
     where `<username>` is one of the users configured in `server.xml` (default is `fhiruser`).  
-    Note: Use single quotes around the URL to prevent $healthcheck from being evaluated as an environment variable on unix-based operating systems.  
+    Use single quotes around the URL to prevent $healthcheck from being evaluated as an environment variable on unix-based operating systems.
+
     The preceding command should produce output similar to the following:
     ```
     {
@@ -1334,6 +1335,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultPrettyPrint`|boolean|A boolean flag which indicates whether "Pretty Printing" should be used by default. Applies to both XML and JSON.|
 |`fhirServer/core/tenantIdHeaderName`|string|The name of the request header that will be used to specify the tenant-id for each incoming FHIR REST API request. For headers with semicolon-delimited parts, setting a header name like `<headerName>:<partName>` will select the value from the part of header `<headerName>`'s value with a name of `<partName>` (e.g. setting `X-Test:part1` would select `someValue` from the header `X-Test: part1=someValue;part2=someOtherValue`).|
 |`fhirServer/core/dataSourceIdHeaderName`|string|The name of the request header that will be used to specify the datastore-id for each incoming FHIR REST API request. For headers with semicolon-delimited parts, setting a header name like `<headerName>:<partName>` will select the value from the part of header `<headerName>`'s value with a name of `<partName>` (e.g. setting `X-Test:part1` would select `someValue` from the header `X-Test: part1=someValue;part2=someOtherValue`).|
+|`fhirServer/core/originalRequestUriHeaderName`|string|The name of the request header that will be used to indicate the original, end-user-facing, request URI for a given request. This optional config parameter is provided for cases where the server is deployed behind a reverse proxy that overwrites the host and/or path portions of the original request.|
 |`fhirServer/core/defaultHandling`|string|The default handling preference of the server (`strict | lenient`) which determines how the server handles unrecognized search parameters and resource elements.|
 |`fhirServer/core/allowClientHandlingPref`|boolean|Indicates whether the client is allowed to override the server default handling preference using the `Prefer:handling` header value part.|
 |`fhirServer/core/checkReferenceTypes`|boolean|Indicates whether reference type checking is performed by the server during parsing / deserialization.|
@@ -1365,6 +1367,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultPrettyPrint`|false|
 |`fhirServer/core/tenantIdHeaderName`|X-FHIR-TENANT-ID|
 |`fhirServer/core/dataSourceIdHeaderName`|X-FHIR-DSID|
+|`fhirServer/core/originalRequestUriHeaderName`|null|
 |`fhirServer/core/defaultHandling`|strict|
 |`fhirServer/core/allowClientHandlingPref`|true|
 |`fhirServer/core/checkReferenceTypes`|true|
@@ -1395,6 +1398,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultPrettyPrint`|Y|Y|
 |`fhirServer/core/tenantIdHeaderName`|N|N|
 |`fhirServer/core/dataSourceIdHeaderName`|N|N|
+|`fhirServer/core/originalRequestUriHeaderName`|Y|Y|
 |`fhirServer/core/defaultHandling`|Y|Y|
 |`fhirServer/core/allowClientHandlingPref`|Y|Y|
 |`fhirServer/core/checkReferenceTypes`|N|N|

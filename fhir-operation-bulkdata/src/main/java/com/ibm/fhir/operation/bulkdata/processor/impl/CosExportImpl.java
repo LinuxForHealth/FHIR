@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
@@ -73,16 +72,15 @@ public class CosExportImpl implements ExportImportBulkData {
         } catch (Exception e) {
             // Conditionally output the log detail:
             if (log.isLoggable(Level.FINE)) {
-                log.fine("Exception is " + e.getMessage());
+                log.log(Level.FINE, "Exception is " + e.getMessage(), e);
             }
-            throw new FHIROperationException("", e);
+            throw new FHIROperationException("Error while processing the $export request", e);
         }
     }
 
     public void addBaseUri(FHIROperationContext operationContext, Map<String, String> tmpProperties) {
         // Grab the URI
-        UriInfo uriInfo = (UriInfo) operationContext.getProperty(FHIROperationContext.PROPNAME_URI_INFO);
-        String baseUri = uriInfo.getBaseUri().toString();
+        String baseUri = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI);
         tmpProperties.put("base-uri", baseUri);
     }
 
