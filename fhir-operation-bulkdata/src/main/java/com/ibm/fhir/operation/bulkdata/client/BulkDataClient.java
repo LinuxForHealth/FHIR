@@ -36,6 +36,7 @@ import com.ibm.fhir.client.impl.FHIRBasicAuthenticator;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
@@ -252,7 +253,7 @@ public class BulkDataClient {
 
         if (responseStr == null || responseStr.isEmpty()
                 || responseStr.startsWith("Unexpected request/response.")) {
-            throw BulkDataUtil.buildOperationException("Invalid job id sent to the server to $export-status");
+            throw BulkDataUtil.buildOperationException("Invalid job id sent to $export-status", IssueType.INVALID);
         }
 
         PollingLocationResponse result = null;
@@ -269,16 +270,24 @@ public class BulkDataClient {
 
             String batchStatus = response.getBatchStatus();
             if (batchStatus == null) {
-                throw BulkDataUtil.buildOperationException("batch status check is null");
+                throw BulkDataUtil.buildOperationException("Error while reading the bulk export status", IssueType.INVALID);
             } else if (BulkDataConstants.SUCCESS_STATUS.contains(batchStatus)) {
                 result = process(response);
             } else if (BulkDataConstants.FAILED_STATUS.contains(batchStatus)) {
-                throw BulkDataUtil.buildOperationException("batch status check is failed");
+                /* 
+                 * In the case of a partial success, the server SHALL use a 200 status code instead of 4XX or 5XX. 
+                 * The choice of when to determine that an export job has failed in its entirety (error status) vs 
+                 * returning a partial success (complete status) is left up to the implementer.
+                 * 
+                 * XXX Can we do something better like return a 2XX response with a link to a file that explains the error?
+                 * What if we couldn't connect with S3 / Cloud object store in the first place?
+                 */
+                throw BulkDataUtil.buildOperationException("The export job has failed", IssueType.EXCEPTION);
             }
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception ex) {
-            throw BulkDataUtil.buildOperationException("dredded general exception on status check");
+            throw BulkDataUtil.buildOperationException("An unexpected error has ocurred while checking the export status", IssueType.TRANSIENT);
         }
 
         return result;
@@ -302,7 +311,7 @@ public class BulkDataClient {
 
         if (responseStr == null || responseStr.isEmpty()
                 || responseStr.startsWith("Unexpected request/response.")) {
-            throw BulkDataUtil.buildOperationException("Invalid job id sent to the server to $export-status");
+            throw BulkDataUtil.buildOperationException("Invalid job id sent to $export-status", IssueType.INVALID);
         }
 
         try {
@@ -312,12 +321,12 @@ public class BulkDataClient {
             // The tenant is known, and now we need to query to delete the Job.
             r = target.request().delete();
             if (r.getStatus() != HttpStatus.SC_NO_CONTENT) {
-                throw BulkDataUtil.buildOperationException("the content is not abandonded.");
+                throw BulkDataUtil.buildOperationException("Deleting the job has failed; the content is not abandonded", IssueType.EXCEPTION);
             }
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception ex) {
-            throw BulkDataUtil.buildOperationException("dredded general exception on status check");
+            throw BulkDataUtil.buildOperationException("An unexpected error has ocurred while deleting the export job", IssueType.TRANSIENT);
         }
     }
 
@@ -333,7 +342,7 @@ public class BulkDataClient {
                 || !jobParameters.getFhirTenant().equals(fhirTenant)) {
             log.warning(
                     "Tenant not authorized to access job [" + fhirTenant + "] jobParameter [" + jobParameters + "]");
-            throw BulkDataUtil.buildOperationException("Tenant not authorized to access job");
+            throw BulkDataUtil.buildOperationException("Tenant not authorized to access job", IssueType.FORBIDDEN);
         }
     }
 
