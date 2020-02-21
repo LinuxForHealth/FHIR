@@ -231,7 +231,7 @@ public class BulkDataClient {
 
 
         String baseUri = properties.get(BulkDataConfigUtil.BASE_URI);
-        return baseUri + "$export-status?job=" +
+        return baseUri + "/$export-status?job=" +
                 BulkDataUtil.encryptBatchJobId(jobId, BulkDataConstants.BATCHJOBID_ENCRYPTION_KEY);
     }
 

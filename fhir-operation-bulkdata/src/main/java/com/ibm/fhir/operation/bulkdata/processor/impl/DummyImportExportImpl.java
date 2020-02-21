@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
@@ -66,9 +65,7 @@ public class DummyImportExportImpl implements ExportImportBulkData {
 
     public String generateBaseUri(FHIROperationContext operationContext) {
         // Grab the URI
-        UriInfo uriInfo = (UriInfo) operationContext.getProperty(FHIROperationContext.PROPNAME_URI_INFO);
-        String baseUri = uriInfo.getBaseUri().toString();
-        return baseUri;
+        return (String) operationContext.getProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI);
     }
 
     @Override

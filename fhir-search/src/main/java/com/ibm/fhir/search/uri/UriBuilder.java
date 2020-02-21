@@ -101,12 +101,10 @@ public class UriBuilder {
         queryString.append(SearchConstants.EQUALS_CHAR);
         queryString.append(context.getPageNumber());
 
-        URI selfUri =
-                new URI(requestUri.getScheme(), requestUri.getAuthority(), requestUri.getPath(), queryString.toString(),
-                        null);
+        URI selfUri = new URI(requestUri.getScheme(), requestUri.getAuthority(), requestUri.getPath(), 
+                queryString.toString(), null);
 
         return selfUri.toString();
-
     }
 
     private void appendResourceTypesParameter() {
