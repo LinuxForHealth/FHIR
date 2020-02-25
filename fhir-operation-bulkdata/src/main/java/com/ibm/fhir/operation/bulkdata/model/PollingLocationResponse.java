@@ -17,6 +17,7 @@ public class PollingLocationResponse {
     private String request;
     private Boolean requiresAccessToken;
     private List<Output> output;
+    private List<Output> error;
 
     public String getTransactionTime() {
         return transactionTime;
@@ -48,6 +49,14 @@ public class PollingLocationResponse {
 
     public void setOutput(List<Output> output) {
         this.output = output;
+    }
+    
+    public List<Output> getError() {
+        return error;
+    }
+
+    public void setError(List<Output> error) {
+        this.error = error;
     }
 
     public static class Output {

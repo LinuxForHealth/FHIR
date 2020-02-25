@@ -42,7 +42,7 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 
 public class FHIRPatchTest extends FHIRServerTestBase {    
     @Test(groups = { "fhir-patch" })
-    public void testPatchAddOperation() throws Exception {
+    public void testJSONPatchAddOperation() throws Exception {
         WebTarget target = getWebTarget();
         
         // Build a new Patient and then call the 'create' API.
@@ -85,7 +85,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
     }
     
     @Test(groups = { "fhir-patch" })
-    public void testPatchRemoveOperation() throws Exception {
+    public void testJSONPatchRemoveOperation() throws Exception {
         WebTarget target = getWebTarget();
         
         // Build a new Patient and then call the 'create' API.
@@ -124,7 +124,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "fhir-patch" })
-    public void testPatchReplaceOperation() throws Exception {
+    public void testJSONPatchReplaceOperation() throws Exception {
         WebTarget target = getWebTarget();
         
         // Build a new Patient and then call the 'create' API.
@@ -163,7 +163,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "fhir-patch" })
-    public void testPatchCopyOperation() throws Exception {
+    public void testJSONPatchCopyOperation() throws Exception {
         WebTarget target = getWebTarget();
         
         // Build a new Patient and then call the 'create' API.
@@ -206,7 +206,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
     }
     
     @Test(groups = { "fhir-patch" })
-    public void testPatchMoveOperation() throws Exception {
+    public void testJSONPatchMoveOperation() throws Exception {
         WebTarget target = getWebTarget();
         
         // Build a new Patient and then call the 'create' API.

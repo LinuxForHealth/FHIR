@@ -1,20 +1,20 @@
 ---
 layout: post
-title:  Setup for IBM DB2 on Cloud
-description: Setup for IBM DB2 on Cloud
+title:  Setup for IBM Db2 on Cloud
+description: Setup for IBM Db2 on Cloud
 date:   2019-10-08 09:59:05 -0400
 permalink: /db2oncloudsetup/
 ---
 
-## Using DB2 For Persistence
+## Using Db2 for persistence
 
-### Create a DB2 Instance
+### Create a Db2 instance
 
 Log in to your IBM Cloud account https://cloud.ibm.com/.
 
 Click `Create resource`.
 
-Choose DB2 (transactional).
+Choose Db2 (transactional).
 
 Select the instance size. Flex is the best choice for a basic production workload.
 
@@ -26,7 +26,7 @@ If you chose Flex, you may want to scale the instance after it has been created 
 
 ### Create the Administrator Credential
 
-The administrator will be BLUADMIN but you need to create a credential. Open the `Service credentials` panel for the DB2 instance resource you just created. If you don't yet have any service credentials in the table at the bottom of the page, create a new one by clicking the `New credential (+)` button. Any name will do.
+The administrator will be BLUADMIN but you need to create a credential. Open the `Service credentials` panel for the Db2 instance resource you just created. If you don't yet have any service credentials in the table at the bottom of the page, create a new one by clicking the `New credential (+)` button. Any name will do.
 
 To access the credential, select View Credentials for the entry you just created. The result will be a block of JSON full of secrets (blanked out here):
 
@@ -52,7 +52,7 @@ These properties will be needed to deploy and manage the FHIR schema.
 
 ### FHIRSERVER User and API Key
 
-The BLUADMIN user is used to deploy the initial schema objects (tables, indexes, stored procedures etc). Following the least-privilege principle, the FHIR server itself does not use BLUADMIN. The FHIR server uses an API Key associated with an IAM Service Id. This Service Id is mapped to a DB2 user which is granted explicit privileges to the tables and stored procedures.
+The BLUADMIN user is used to deploy the initial schema objects (tables, indexes, stored procedures etc). Following the least-privilege principle, the FHIR server itself does not use BLUADMIN. The FHIR server uses an API Key associated with an IAM Service Id. This Service Id is mapped to a Db2 user which is granted explicit privileges to the tables and stored procedures.
 
 ```
     API KEY -------> Service Id -------> DB2 User ------> SELECT/UPDATE/EXECUTE etc Privileges
@@ -73,9 +73,9 @@ Select Create (+) to add a new API key. Copy or download the key. If you mess up
 
 The API key will be used in the database configuration section of the fhir-server-config.json file.
 
-Before the API key can be used, we need to create a DB2 user and associate it with the new ServiceId.
+Before the API key can be used, we need to create a Db2 user and associate it with the new ServiceId.
 
-Navigate to the IBM Cloud DB2 resource page for your instance and select Manage. Click Open Console to access the IBM Db2 on Cloud console.
+Navigate to the IBM Cloud Db2 resource page for your instance and select Manage. Click Open Console to access the IBM Db2 on Cloud console.
 
 Select SETTINGS > Manage Users.
 
@@ -96,13 +96,13 @@ You should now be able to connect to the database as the FHIRSERVER user using o
 
 ### Testing the Connection
 
-The DB2 driver jar contains a main which can be executed to test the connection - very convenient for checking the API-key/Service-Id/DB2-User-Id configuration is correct.
+The Db2 driver jar contains a main which can be executed to test the connection - very convenient for checking the API-key/Service-Id/Db2-User-Id configuration is correct.
 
 ```
 java -cp /path/to/db2jcc4.jar com.ibm.db2.jcc.DB2Jcc  -url "jdbc:db2://<DB2-HOSTNAME>:50001/BLUDB:apiKey=<API-KEY>;securityMechanism=15;sslConnection=true;sslTrustStoreLocation=/path/to/truststore.jks;sslTrustStorePassword=<TRUSTSTORE-PASSWORD>;"
 
 
-        <DB-HOSTNAME>: the hostname of your DB2 service from the Service Credentials page
+        <DB-HOSTNAME>: the hostname of your Db2 service from the Service Credentials page
             <API-KEY>: the API key value created in the previous section
 <TRUSTSTORE-PASSWORD>: the password for your truststore
 
@@ -110,13 +110,13 @@ java -cp /path/to/db2jcc4.jar com.ibm.db2.jcc.DB2Jcc  -url "jdbc:db2://<DB2-HOST
 
 Notes:
   1. Don't forget the trailing `;` in the URL. Some of the documented examples don't include it, but it is required in order for the connection to work, although this may be fixed in a future driver release. This only affects this test URL, not the actual FHIR server configuration.
-  2. When using an API Key, no username needs to be provided. This is because the API Key maps to a ServiceId, and that ServiceId is mapped to the DB2 user.
+  2. When using an API Key, no username needs to be provided. This is because the API Key maps to a ServiceId, and that ServiceId is mapped to the Db2 user.
 
 ### Configuring a Liberty Datasource with API Key
 
-The FHIR export feature utilizes Java Batch (JSR-352) provided by the batch-1.0 feature in Liberty Profile. The JPA persistence layer can be configured to use DB2 as follows:
+The FHIR export feature utilizes Java Batch (JSR-352) provided by the batch-1.0 feature in Liberty Profile. The JPA persistence layer can be configured to use Db2 as follows:
 
-Create a DB2 user (e.g. FHIRBATCH) and associate it with a ServiceId (no need to create an Administration user, a simple user has sufficient privileges). Using a valid API-KEY for the given ServiceId, configure a new datasource and the Java Batch persistence layer as follows:
+Create a Db2 user (e.g. FHIRBATCH) and associate it with a ServiceId (no need to create an Administration user, a simple user has sufficient privileges). Using a valid API-KEY for the given ServiceId, configure a new datasource and the Java Batch persistence layer as follows:
 
 ```
 
@@ -132,7 +132,7 @@ Create a DB2 user (e.g. FHIRBATCH) and associate it with a ServiceId (no need to
             currentSchema="JBATCH"
             driverType="4" sslConnection="true" sslTrustStoreLocation="resources/security/dbTruststore.jks" sslTrustStorePassword="<TRUSTSTORE-PASSWORD>"/>
     </dataSource>
-    
+
     <batchPersistence jobStoreRef="BatchDatabaseStore" />
     <databaseStore id="BatchDatabaseStore" dataSourceRef="fhirbatchDS" schema="JBATCH" tablePrefix="" />
 ```
@@ -173,7 +173,7 @@ Note that no username properties are given, because the authentication module on
 
 ### SSL Certificate
 
-The DB2 certificate should be added to the Liberty Profile truststore. *Be sure to use the same Java runtime that Liberty Profile uses when manipulating any keystores.*
+The Db2 certificate should be added to the Liberty Profile truststore. *Be sure to use the same Java runtime that Liberty Profile uses when manipulating any keystores.*
 
 
 ### Encrypt Secrets

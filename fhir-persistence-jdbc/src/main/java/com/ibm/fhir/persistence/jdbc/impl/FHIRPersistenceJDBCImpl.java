@@ -282,9 +282,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.FHIRPersistence#update(com.ibm.fhir.persistence.context.FHIRPersistenceContext, java.lang.String, com.ibm.fhir.model.Resource)
-     */
     @Override
     public <T extends Resource> SingleResourceResult<T> update(FHIRPersistenceContext context, String logicalId, T resource) throws FHIRPersistenceException {
         final String METHODNAME = "update";
@@ -345,7 +342,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             Instant lastUpdated = Instant.now(ZoneOffset.UTC);
             
             // Set the resource id and meta fields.
-            resultBuilder.id(logicalId);
+//            resultBuilder.id(logicalId);
             Meta meta = resource.getMeta();
             Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
             metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
@@ -666,7 +663,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 break;
             default:
                 break;
-                
             }
 
             if (summaryElements != null) {
@@ -674,7 +670,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 elements.addAll(summaryElements);
             }
         }
-                
+
         try {
             resourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
             if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
@@ -700,18 +696,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
-        }        
+        }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.FHIRPersistence#history(com.ibm.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class, java.lang.String)
-     */
     @Override
     public <T extends Resource> MultiResourceResult<T> history(FHIRPersistenceContext context, Class<T> resourceType,
             String logicalId) throws FHIRPersistenceException {
         final String METHODNAME = "history";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         List<T> resources = new ArrayList<>();
         MultiResourceResult.Builder<T> resultBuilder = new MultiResourceResult.Builder<>();
         List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList;
@@ -721,7 +714,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         Instant since;
         Timestamp fromDateTime = null;
         int offset;
-                
+
         try {
             historyContext = context.getHistoryContext();
             historyContext.setDeletedResources(deletedResourceVersions);

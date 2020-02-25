@@ -21,8 +21,6 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.AbstractOperation;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
-import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
-import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataUtil;
 import com.ibm.fhir.operation.context.FHIROperationContext;
@@ -60,20 +58,17 @@ public class ExportOperation extends AbstractOperation {
         List<String> typeFilters = BulkDataUtil.checkAndValidateTypeFilters(parameters);
 
         // If Patient - Export Patient Filter Resources
-        BulkDataTenantSpecificCache cache = BulkDataConfigUtil.getInstance();
         Parameters response = null;
-        BulkDataConstants.ExportType exportType =
-                BulkDataUtil.checkExportType(operationContext.getType(), resourceType);
+        BulkDataConstants.ExportType exportType = BulkDataUtil.checkExportType(operationContext.getType(), resourceType);
 
         if (!ExportType.INVALID.equals(exportType)) {
             // For System $export, resource type(s) is required.
             if (ExportType.SYSTEM.equals(exportType) && types == null) {
-                throw BulkDataUtil.buildOperationException("Missing resource type(s)!");
+                throw BulkDataUtil.buildOperationException("Missing resource type(s)!", IssueType.INVALID);
             }
 
-            response =
-                    BulkDataFactory.getTenantInstance(cache).export(logicalId, exportType, outputFormat, since, types, typeFilters,
-                            operationContext, resourceHelper);
+            response = BulkDataFactory.getTenantInstance().export(logicalId, exportType, outputFormat, since, types, 
+                    typeFilters, operationContext, resourceHelper);
         } else {
             // Unsupported on instance, specific types other than group/patient/system
             throw buildExceptionWithIssue(

@@ -1587,8 +1587,7 @@ public class SearchUtil {
             throws URISyntaxException {
         /*
          * the bulk of this method was refactored into UriBuilder.java the signature is
-         * maintained here for backwards
-         * compatibility, and as a simple helper function.
+         * maintained here for backwards compatibility, and as a simple helper function.
          */
         return UriBuilder.builder().context(context).requestUri(requestUriString).toSearchSelfUri();
     }

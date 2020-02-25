@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.model.type.code;
 
+import com.ibm.fhir.model.annotation.System;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.String;
@@ -15,6 +16,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+@System("http://terminology.hl7.org/CodeSystem/medication-admin-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImmunizationEvaluationStatus extends Code {
     public static final ImmunizationEvaluationStatus COMPLETED = ImmunizationEvaluationStatus.builder().value(ValueSet.COMPLETED).build();

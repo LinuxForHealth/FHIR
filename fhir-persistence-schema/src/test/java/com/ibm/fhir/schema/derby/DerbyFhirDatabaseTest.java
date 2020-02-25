@@ -14,10 +14,11 @@ import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
  * Unit test for the DerbyFhirDatabase utility
  */
 public class DerbyFhirDatabaseTest {
+    private static final String DB_NAME = "target/derby/fhirDB";
 
     @Test
     public void testFhirSchema() throws Exception {
-        try (DerbyFhirDatabase db = new DerbyFhirDatabase()) {
+        try (DerbyFhirDatabase db = new DerbyFhirDatabase(DB_NAME)) {
             System.out.println("FHIR database create successfully.");
         }
     }

@@ -24,6 +24,7 @@ public class FHIRConfiguration {
     public static final String DEFAULT_DATASTORE_ID = "default";
 
     // Core server properties
+    public static final String PROPERTY_ORIGINAL_REQUEST_URI_HEADER_NAME = "fhirServer/core/originalRequestUriHeaderName";
     public static final String PROPERTY_TENANT_ID_HEADER_NAME = "fhirServer/core/tenantIdHeaderName";
     public static final String PROPERTY_DATASTORE_ID_HEADER_NAME = "fhirServer/core/datastoreIdHeaderName";
     public static final String PROPERTY_DEFAULT_TENANT_ID = "fhirServer/core/defaultTenantId";
@@ -70,8 +71,20 @@ public class FHIRConfiguration {
     // fhir-search - Bounding area
     public static final String PROPERTY_SEARCH_BOUNDING_AREA_RADIUS_TYPE = "fhirServer/search/useBoundingRadius";
 
-    // bulkdata - JavaBatch Job id encryption key
+    // bulkdata
+    // JavaBatch Job id encryption key
     public static final String PROPERTY_BULKDATA_BATCHJOBID_ENCRYPTION_KEY = "fhirServer/bulkdata/bulkDataBatchJobIdEncryptionKey";
+    // JavaBatch Job parameters
+    public static final String PROPERTY_BULKDATA_BATCHJOB_PARAMETERS  = "fhirServer/bulkdata/jobParameters";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_APPLICATIONNAME = "fhirServer/bulkdata/applicationName";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_MODULENAME = "fhirServer/bulkdata/moduleName";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_JOBXMLNAME = "fhirServer/bulkdata/jobXMLName";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_IMPTYPE = "fhirServer/bulkdata/implementation_type";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHURI = "fhirServer/bulkdata/batch-uri";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHUSER = "fhirServer/bulkdata/batch-user";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHUSERPWD = "fhirServer/bulkdata/batch-user-password";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTORE = "fhirServer/bulkdata/batch-truststore";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTOREPWD = "fhirServer/bulkdata/batch-truststore-password";
 
     // Custom header names
     public static final String DEFAULT_TENANT_ID_HEADER_NAME = "X-FHIR-TENANT-ID";
