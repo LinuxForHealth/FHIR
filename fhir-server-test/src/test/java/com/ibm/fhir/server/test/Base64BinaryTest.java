@@ -42,7 +42,6 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Signature;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.DocumentReferenceStatus;
-import com.ibm.fhir.model.util.FHIRUtil;
 
 /**
  * This class contains tests for deserializing Base64 encoded binary data. This
@@ -209,7 +208,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
                         .value(Signature.builder()
                                 .type(listCoding)
                                 .when(Instant.of(ZonedDateTime.now()))
-                                .who(Reference.builder().type(Uri.of("1.2.840.10065.1.12.1.1"))
+                                .who(Reference.builder().type(Uri.of("Patient"))
                                         .reference(string("Patient/777")).build())
                                 .data(Base64Binary.builder().value(valueSignature).build()).build())
                         .build())
@@ -256,7 +255,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         listAgents.add(AuditEvent.Agent.builder()
                 .requestor(com.ibm.fhir.model.type.Boolean.FALSE)
                 .build());
-        
+
         AuditEvent auditEvent = AuditEvent.builder()
                 .type(Coding.builder().code(Code.of("99")).build())
                 .recorded(Instant.of(ZonedDateTime.now()))
