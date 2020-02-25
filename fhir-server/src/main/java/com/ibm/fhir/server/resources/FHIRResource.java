@@ -4266,10 +4266,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             if (resourceNamePathLocation != -1) {
                 baseUri = requestUri.substring(0, resourceNamePathLocation);
             } else {
-                String errMsg = "Error constructing the base URL of the server; "
-                        + "expected Resource type name was not found in the request uri '"
-                        + requestUri + "'";
-                log.log(Level.WARNING, errMsg);
+                // Assume the request was a batch/transaction and just use the requestUri as the base
+                baseUri = requestUri;
             }
         } else {
             if (baseUri.endsWith("/_history")) {
