@@ -34,6 +34,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.InitiateMultipartUploadRequ
 import com.ibm.cloud.objectstorage.services.s3.model.InitiateMultipartUploadResult;
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
+import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
 import com.ibm.cloud.objectstorage.services.s3.model.UploadPartRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.UploadPartResult;
 import com.ibm.fhir.model.format.Format;
@@ -157,8 +158,11 @@ public class BulkDataUtils {
            int numOfLinesToSkip, List<Resource> fhirResources) {
         int exported;
         S3Object item = cosClient.getObject(new GetObjectRequest(bucketName, itemName));
-        try (BufferedReader resReader = new BufferedReader(new InputStreamReader(item.getObjectContent()))) {
+        try (S3ObjectInputStream s3InStream = item.getObjectContent();
+             BufferedReader resReader = new BufferedReader(new InputStreamReader(s3InStream))) {
             exported = getFhirResourceFromBufferReader(resReader, numOfLinesToSkip, fhirResources);
+            // Notify s3 client to abort and prevent the server from keeping on sending data.
+            s3InStream.abort();
         } catch (Exception ioe) {
             logger.warning("readFhirResourceFromObjectStore: " + "Error proccesing file " + itemName + " - " + ioe.getMessage());
             exported = 0;
