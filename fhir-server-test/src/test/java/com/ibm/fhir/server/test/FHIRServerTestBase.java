@@ -42,15 +42,16 @@ import com.ibm.fhir.client.FHIRClientFactory;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.FHIRUtilities;
+import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.resource.CapabilityStatement;
-import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
+import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
-import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Reference;
@@ -81,7 +82,7 @@ public abstract class FHIRServerTestBase {
     private static final String DEFAULT_KEYSTORE_PASSWORD = "change-password";
     private static final String DEFAULT_USERNAME = "fhiruser";
     private static final String DEFAULT_PASSWORD = "change-password";
-    
+
     // Constants that define test property names.
     private static final String PROPNAME_WEBSOCKET_URL = "test.websocket.url";
     private static final String PROPNAME_KAFKA_CONNINFO = "test.kafka.connectionInfo";
@@ -102,7 +103,7 @@ public abstract class FHIRServerTestBase {
     private String tsPassword = null;
     private String ksLocation = null;
     private String ksPassword = null;
-    
+
     protected static final String MEDIATYPE_JSON = FHIRMediaType.APPLICATION_JSON;
     protected static final String MEDIATYPE_JSON_FHIR = FHIRMediaType.APPLICATION_FHIR_JSON;
     protected static final String MEDIATYPE_XML = FHIRMediaType.APPLICATION_XML;
@@ -111,8 +112,9 @@ public abstract class FHIRServerTestBase {
     private CapabilityStatement conformanceStmt = null;
 
     public FHIRServerTestBase() {
+        FHIRModelConfig.setCheckReferenceTypes(false);
     }
-    
+
     protected String getWebSocketURL() {
         return websocketUrl;
     }
@@ -148,7 +150,7 @@ public abstract class FHIRServerTestBase {
     private String getKsPassword() {
         return ksPassword;
     }
-    
+
     /**
      * We'll resolve all the supported test properties. We have two ways of setting
      * properties: 1) store them in a file called "test.properties" which is in the
@@ -169,7 +171,7 @@ public abstract class FHIRServerTestBase {
         } catch (Exception e) {
             // Ignore any errors while trying to load the file.
         }
-        
+
         setUp(properties);
     }
 
@@ -251,6 +253,7 @@ public abstract class FHIRServerTestBase {
         try {
             FHIRNotificationServiceClientEndpoint endpoint = new FHIRNotificationServiceClientEndpoint();
             ClientEndpointConfig config = ClientEndpointConfig.Builder.create().configurator(new Configurator() {
+                @Override
                 public void beforeRequest(Map<String, List<String>> headers) {
                     String userpw = getFhirUser() + ":" + getFhirPassword();
                     String encoding = Base64.getEncoder().encodeToString(userpw.getBytes());
@@ -259,7 +262,7 @@ public abstract class FHIRServerTestBase {
                     headers.put("Authorization", values);
                 }
             }).build();
-            
+
             String webSocketURL = getWebSocketURL();
             if (webSocketURL.startsWith("wss")) {
                 String tsLoc = getAbsoluteFilename(getTsLocation());
@@ -283,11 +286,11 @@ public abstract class FHIRServerTestBase {
                         false);
                 sslEngineConfigurator.setHostVerificationEnabled(false);
                 config.getUserProperties().put(PROPNAME_SSL_ENGINE_CONFIGURATOR, sslEngineConfigurator);
-                
+
             }
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             Session session = container.connectToServer(endpoint, config, new URI(webSocketURL));
-            
+
             // Add a Delay
             int count = 10;
             while ( !session.isOpen() && count > 0) {
@@ -295,7 +298,7 @@ public abstract class FHIRServerTestBase {
                 Thread.sleep(1000l);
                 count--;
             }
-            
+
             endpoint.setSession(session);
             return endpoint;
         } catch (Exception e) {
@@ -602,22 +605,22 @@ public abstract class FHIRServerTestBase {
         }
         return tokens;
     }
-    
+
     protected Patient setUniqueFamilyName(Patient patient, String uniqueName) {
         List<com.ibm.fhir.model.type.String> familyList = new ArrayList<com.ibm.fhir.model.type.String>();
         familyList.add(string(uniqueName));
         List <HumanName> nameList = new ArrayList<HumanName>();
         for(HumanName humanName: patient.getName()) {
-            nameList.add(HumanName.builder().family(string(uniqueName)).given(humanName.getGiven()).build());           
+            nameList.add(HumanName.builder().family(string(uniqueName)).given(humanName.getGiven()).build());
         }
-        
-        
+
+
         patient = patient.toBuilder().name(nameList).build();
         return patient;
     }
 
     public void checkForIssuesWithValidation(Resource resource, boolean failOnValidationException, boolean failOnWarning) {
-        
+
         List<Issue> issues = Collections.emptyList();
         try {
             issues = FHIRValidator.validator().validate(resource);
@@ -626,35 +629,35 @@ public abstract class FHIRServerTestBase {
                 fail("Unable to validate the resource", e);
             }
         }
-        
+
         if (!issues.isEmpty()) {
             System.out.println("Printing Issue with Validation");
             int nonWarning = 0;
             int allOtherIssues = 0;
             for (Issue issue : issues) {
-                if(IssueSeverity.ERROR.getValue().compareTo(issue.getSeverity().getValue()) == 0 
+                if(IssueSeverity.ERROR.getValue().compareTo(issue.getSeverity().getValue()) == 0
                         || IssueSeverity.FATAL.getValue().compareTo(issue.getSeverity().getValue()) == 0 ) {
                     nonWarning++;
                 } else {
                     allOtherIssues++;
                 }
                 System.out.println("severity: " + issue.getSeverity().getValue() + ", details: " + issue.getDetails().getText().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
-                
+
             }
-            
+
             System.out.println("count = [" + issues.size() + "]");
             assertEquals(nonWarning,0);
-            
+
             if(failOnWarning) {
                 assertEquals(allOtherIssues,0);
             }
-        } 
+        }
         else {
             assertTrue("Passed with no issues in validation", true);
         }
-        
+
     }
-    
+
     /**
      * Parses a location URI into the resourceType, resourceId, and (optionally) the version id.
      * @param location
@@ -688,7 +691,7 @@ public abstract class FHIRServerTestBase {
         }
         return result;
     }
-    
+
     protected Condition buildCondition(String patientId, String fileName) throws Exception {
         Condition condition = TestUtil.readLocalResource(fileName);
         condition = condition.toBuilder().subject(Reference.builder().reference(string("Patient/" + patientId)).build()).build();
