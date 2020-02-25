@@ -41,12 +41,15 @@ public class AllocateTenantAction implements ISchemaAction {
         // this transaction must come from the same pool
         logger.info("Allocating new tenant: " + actionBean.getTenantName() + " [key=" + tenantKey + "]");
 
+        String adminSchema = actionBean.getAdminSchemaName();
+        String schemaName = actionBean.getSchemaName();
+        String tenantName = actionBean.getTenantName();
         int tenantId =
-                adapter.allocateTenant(actionBean.getAdminSchemaName(), actionBean.getSchemaName(),
-                        actionBean.getTenantName(), tenantKey, tenantSalt, TENANT_SEQUENCE);
+                adapter.allocateTenant(adminSchema, schemaName, tenantName, tenantKey, tenantSalt, TENANT_SEQUENCE);
 
         // The tenant-id is important because this is also used to identify the partition number
         logger.info("Tenant Id[" + actionBean.getTenantName() + "] = " + tenantId);
+
         actionBean.setTenantId(tenantId);
         actionBean.setTenantKey(tenantKey);
     }

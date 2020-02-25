@@ -9,13 +9,13 @@ package com.ibm.fhir.schema.app.test.main;
 import com.ibm.fhir.schema.app.Main;
 import com.ibm.fhir.schema.app.test.main.helper.TestHelper;
 
-public class AllocateTenantMain {
+public class AddKeyForTenantMain {
     public static void main(String[] args) {
         String[] arguments = {
                 "--prop-file", TestHelper.absolutePathToProperties(),
-                "--pool-size", "20",
+                "--pool-size", "5",
                 "--schema-name", "FHIRDATA",
-                "--allocate-tenant", "default3"
+                "--add-tenant-key", "default"
         };
         Main.main(arguments);
     }

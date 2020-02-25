@@ -15,6 +15,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.dryrun.DryRunContainer;
 import com.ibm.fhir.database.utils.model.Tenant;
 
 /**
@@ -43,7 +44,6 @@ public class GetTenantDAO implements IDatabaseSupplier<Tenant> {
          * Execute the encapsulated query against the database and stream the result
          * data to the configured target
          */
-
         final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "TENANTS");
         final String SQL = "SELECT mt_id, tenant_status " + "     FROM " + tableName
                 + " WHERE tenant_name = ?";
@@ -58,6 +58,13 @@ public class GetTenantDAO implements IDatabaseSupplier<Tenant> {
                 result.setTenantStatus(TenantStatus.valueOf(rs.getString(2)));
                 return result;
             } else {
+                if(DryRunContainer.getSingleInstance().isDryRun()) {
+                    Tenant result = new Tenant();
+                    result.setTenantName(tenantName);
+                    result.setTenantId(-100);
+                    result.setTenantStatus(TenantStatus.PROVISIONING);
+                    return result;
+                } 
                 return null;
             }
         } catch (SQLException x) {

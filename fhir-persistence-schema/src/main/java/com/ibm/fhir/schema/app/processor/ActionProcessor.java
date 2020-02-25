@@ -106,9 +106,14 @@ public class ActionProcessor {
 
         // Configure the connection pool
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool, true)) {
+            if (c == null) {
+                c = createConnection();
+            }
+            JdbcTarget target = new JdbcTarget(c);
+            
             try {
                 Db2Adapter adapter = new Db2Adapter(connectionPool);
-                action.run(actionBean, null, adapter, transactionProvider);
+                action.run(actionBean, target, adapter, transactionProvider);
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
