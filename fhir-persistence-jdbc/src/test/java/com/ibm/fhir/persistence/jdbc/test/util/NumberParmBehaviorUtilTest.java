@@ -122,64 +122,72 @@ public class NumberParmBehaviorUtilTest {
         QueryParameter queryParm = generateParameter(SearchConstants.Prefix.GT, null, "1e3");
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1E+3"));
-        String expectedSql = " AND (Basic.NUMBER_VALUE > ?))";
+        expectedBindVariables.add(new BigDecimal("1E+3"));
+        String expectedSql = " AND ((Basic.NUMBER_VALUE > ? OR Basic.NUMBER_VALUE_HIGH > ?)))";
         runTest(queryParm, expectedBindVariables, expectedSql);
 
         // lt - Less Than
         queryParm             = generateParameter(SearchConstants.Prefix.LT, null, "1e3");
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1E+3"));
-        expectedSql = " AND (Basic.NUMBER_VALUE < ?))";
+        expectedBindVariables.add(new BigDecimal("1E+3"));
+        expectedSql = " AND ((Basic.NUMBER_VALUE < ? OR Basic.NUMBER_VALUE_LOW < ?)))";
         runTest(queryParm, expectedBindVariables, expectedSql);
 
         // ge - Greater than Equal
         queryParm             = generateParameter(SearchConstants.Prefix.GE, null, "1e3");
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1E+3"));
-        expectedSql = " AND (Basic.NUMBER_VALUE >= ?))";
+        expectedBindVariables.add(new BigDecimal("1E+3"));
+        expectedSql = " AND ((Basic.NUMBER_VALUE >= ? OR Basic.NUMBER_VALUE_HIGH >= ?)))";
         runTest(queryParm, expectedBindVariables, expectedSql);
 
         // le - Less than Equal
         queryParm             = generateParameter(SearchConstants.Prefix.LE, null, "1e3");
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1E+3"));
-        expectedSql = " AND (Basic.NUMBER_VALUE <= ?))";
+        expectedBindVariables.add(new BigDecimal("1E+3"));
+        expectedSql = " AND ((Basic.NUMBER_VALUE <= ? OR Basic.NUMBER_VALUE_LOW <= ?)))";
         runTest(queryParm, expectedBindVariables, expectedSql);
 
         // sa - starts after
         queryParm             = generateParameter(SearchConstants.Prefix.SA, null, "1e3");
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1E+3"));
-        expectedSql = " AND (Basic.NUMBER_VALUE > ?))";
+        expectedBindVariables.add(new BigDecimal("1E+3"));
+        expectedSql = " AND (Basic.NUMBER_VALUE_LOW > ?))";
         runTest(queryParm, expectedBindVariables, expectedSql);
 
         // eb - Ends before
         queryParm             = generateParameter(SearchConstants.Prefix.EB, null, "1e3");
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1E+3"));
-        expectedSql = " AND (Basic.NUMBER_VALUE < ?))";
+        expectedBindVariables.add(new BigDecimal("1E+3"));
+        expectedSql = " AND (Basic.NUMBER_VALUE_HIGH < ?))";
         runTest(queryParm, expectedBindVariables, expectedSql);
     }
 
     @Test()
     public void testPrecisionIntegerWithStartsAfter() throws FHIRPersistenceException {
-        // sa - starts after with integer, and it's not supported
+        // sa - starts after with integer
         QueryParameter queryParm =
                 generateParameter(SearchConstants.Prefix.SA, null, "window-end", new String[] { "1" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1"));
-        String expectedSql = " AND (MolecularSequence.NUMBER_VALUE > ?))";
+        expectedBindVariables.add(new BigDecimal("1"));
+        String expectedSql = " AND (MolecularSequence.NUMBER_VALUE_LOW > ?))";
         runTest(queryParm, expectedBindVariables, expectedSql, "MolecularSequence", MolecularSequence.class);
     }
 
     @Test()
     public void testPrecisionIntegerWithEndsBefore() throws FHIRPersistenceException {
-        // eb - ends before with integer, and it's not supported
+        // eb - ends before with integer
         QueryParameter queryParm =
-                generateParameter(SearchConstants.Prefix.SA, null, "window-end", new String[] { "1" });
+                generateParameter(SearchConstants.Prefix.EB, null, "window-end", new String[] { "1" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1"));
-        String expectedSql = " AND (MolecularSequence.NUMBER_VALUE > ?))";
+        expectedBindVariables.add(new BigDecimal("1"));
+        String expectedSql = " AND (MolecularSequence.NUMBER_VALUE_HIGH < ?))";
         runTest(queryParm, expectedBindVariables, expectedSql, "MolecularSequence", MolecularSequence.class);
     }
 
@@ -200,7 +208,10 @@ public class NumberParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal(99.5));
         expectedBindVariables.add(new BigDecimal(100.5));
-        String expectedSql = " AND (Basic.NUMBER_VALUE > ? AND Basic.NUMBER_VALUE <= ?))";
+        expectedBindVariables.add(new BigDecimal(99.5));
+        expectedBindVariables.add(new BigDecimal(100.5));
+        String expectedSql = " AND (((Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE < ?) "
+                + "OR (Basic.NUMBER_VALUE_LOW >= ? AND Basic.NUMBER_VALUE_HIGH <= ?))))";
         runTest(queryParm, expectedBindVariables, expectedSql);
     }
 
@@ -221,10 +232,14 @@ public class NumberParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("99.5"));
         expectedBindVariables.add(new BigDecimal("100.5"));
+        expectedBindVariables.add(new BigDecimal("99.5"));
+        expectedBindVariables.add(new BigDecimal("100.5"));
         expectedBindVariables.add(new BigDecimal("0.995"));
         expectedBindVariables.add(new BigDecimal("1.005"));
-        String expectedSql =
-                " AND (Basic.NUMBER_VALUE > ? AND Basic.NUMBER_VALUE <= ?) OR (Basic.NUMBER_VALUE > ? AND Basic.NUMBER_VALUE <= ?))";
+        expectedBindVariables.add(new BigDecimal("0.995"));
+        expectedBindVariables.add(new BigDecimal("1.005"));
+        String expectedSql = " AND (((Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE < ?) OR (Basic.NUMBER_VALUE_LOW >= ? AND Basic.NUMBER_VALUE_HIGH <= ?)))"
+                + " OR (((Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE < ?) OR (Basic.NUMBER_VALUE_LOW >= ? AND Basic.NUMBER_VALUE_HIGH <= ?))))";
         runTest(queryParm, expectedBindVariables, expectedSql);
     }
 
@@ -242,7 +257,9 @@ public class NumberParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal(99.5));
         expectedBindVariables.add(new BigDecimal(100.5));
-        String expectedSql = " AND (Basic.NUMBER_VALUE <= ? OR Basic.NUMBER_VALUE > ?))";
+        expectedBindVariables.add(new BigDecimal(99.5));
+        expectedBindVariables.add(new BigDecimal(100.5));
+        String expectedSql = " AND (((Basic.NUMBER_VALUE < ? OR Basic.NUMBER_VALUE >= ?) OR (Basic.NUMBER_VALUE_LOW < ? OR Basic.NUMBER_VALUE_HIGH > ?))))";
         runTest(queryParm, expectedBindVariables, expectedSql);
     }
 
@@ -259,7 +276,10 @@ public class NumberParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("89.5"));
         expectedBindVariables.add(new BigDecimal("110.5"));
-        String expectedSql = " AND (Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE <= ?))";
+        expectedBindVariables.add(new BigDecimal("99.5"));
+        expectedBindVariables.add(new BigDecimal("100.5"));
+        String expectedSql = " AND (((Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE < ?) "
+                + "OR (Basic.NUMBER_VALUE_LOW <= ? AND Basic.NUMBER_VALUE_HIGH >= ?))))";
         runTest(queryParm, expectedBindVariables, expectedSql);
     }
 
@@ -276,7 +296,10 @@ public class NumberParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("0.4"));
         expectedBindVariables.add(new BigDecimal("1.6"));
-        String expectedSql = " AND (Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE <= ?))";
+        expectedBindVariables.add(new BigDecimal("1.5"));
+        expectedBindVariables.add(new BigDecimal("0.5"));
+        String expectedSql = " AND (((Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE < ?) "
+                + "OR (Basic.NUMBER_VALUE_LOW <= ? AND Basic.NUMBER_VALUE_HIGH >= ?))))";
         runTest(queryParm, expectedBindVariables, expectedSql);
     }
 
@@ -295,7 +318,9 @@ public class NumberParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("89.5"));
         expectedBindVariables.add(new BigDecimal("110.5"));
-        String expectedSql = " AND (Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE <= ?))";
+        expectedBindVariables.add(new BigDecimal("99.5"));
+        expectedBindVariables.add(new BigDecimal("100.5"));
+        String expectedSql = " AND (((Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE < ?) OR (Basic.NUMBER_VALUE_LOW <= ? AND Basic.NUMBER_VALUE_HIGH >= ?))))";
         runTest(queryParm, expectedBindVariables, expectedSql);
     }
 
@@ -311,10 +336,15 @@ public class NumberParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("89.5"));
         expectedBindVariables.add(new BigDecimal("110.5"));
+        expectedBindVariables.add(new BigDecimal("99.5"));
+        expectedBindVariables.add(new BigDecimal("100.5"));
         expectedBindVariables.add(new BigDecimal("89.995"));
         expectedBindVariables.add(new BigDecimal("110.005"));
+        expectedBindVariables.add(new BigDecimal("99.995"));
+        expectedBindVariables.add(new BigDecimal("100.005"));
         String expectedSql =
-                " AND (Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE <= ?) OR (Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE <= ?))";
+                " AND (((Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE < ?) OR (Basic.NUMBER_VALUE_LOW <= ? AND Basic.NUMBER_VALUE_HIGH >= ?))) "
+                + "OR (((Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE < ?) OR (Basic.NUMBER_VALUE_LOW <= ? AND Basic.NUMBER_VALUE_HIGH >= ?))))";
         runTest(queryParm, expectedBindVariables, expectedSql);
     }
 
@@ -383,6 +413,21 @@ public class NumberParmBehaviorUtilTest {
         runLowerUpperTest("1.1e2", "105", "115");
     }
 
+    @Test
+    public void testLowerAndUpperBoundsScientific() {
+        // Value: 100.00e0
+        // range [0.995 ... 1.005)
+        runLowerUpperTest("100.00e0", "99.995", "100.005");
+
+        // Value: 100.00e-1
+        // range [0.995 ... 1.005)
+        runLowerUpperTest("100.00e-1", "9.9995", "10.0005");
+        
+        // Value: 100.00e1
+        // range [0.995 ... 1.005)
+        runLowerUpperTest("100.00e1", "999.95", "1000.05");
+    }
+
     @Test(expectedExceptions = {})
     public void testPrecisionIntegerWithEQ() throws FHIRPersistenceException {
         // sa - starts after with integer, and it's not supported
@@ -391,7 +436,10 @@ public class NumberParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("0.5"));
         expectedBindVariables.add(new BigDecimal("1.5"));
-        String expectedSql = " AND (MolecularSequence.NUMBER_VALUE > ? AND MolecularSequence.NUMBER_VALUE <= ?))";
+        expectedBindVariables.add(new BigDecimal("0.5"));
+        expectedBindVariables.add(new BigDecimal("1.5"));
+        String expectedSql = " AND (((MolecularSequence.NUMBER_VALUE >= ? AND MolecularSequence.NUMBER_VALUE < ?) "
+                + "OR (MolecularSequence.NUMBER_VALUE_LOW >= ? AND MolecularSequence.NUMBER_VALUE_HIGH <= ?))))";
         runTest(queryParm, expectedBindVariables, expectedSql, "MolecularSequence", MolecularSequence.class);
     }
 
@@ -403,55 +451,10 @@ public class NumberParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("0.5"));
         expectedBindVariables.add(new BigDecimal("1.5"));
-        String expectedSql = " AND (MolecularSequence.NUMBER_VALUE <= ? OR MolecularSequence.NUMBER_VALUE > ?))";
-        runTest(queryParm, expectedBindVariables, expectedSql, "MolecularSequence", MolecularSequence.class);
-    }
-
-    @Test(expectedExceptions = {})
-    public void testPrecisionIntegerWithEQNotInt() throws FHIRPersistenceException {
-        // sa - starts after with integer, and it's not supported
-        QueryParameter queryParm =
-                generateParameter(SearchConstants.Prefix.EQ, null, "window-end", new String[] { "1.0" });
-        List<Object> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("0.95"));
-        expectedBindVariables.add(new BigDecimal("1.05"));
-        String expectedSql = " AND (MolecularSequence.NUMBER_VALUE > ? AND MolecularSequence.NUMBER_VALUE <= ?))";
-        runTest(queryParm, expectedBindVariables, expectedSql, "MolecularSequence", MolecularSequence.class);
-    }
-
-    @Test(expectedExceptions = {})
-    public void testPrecisionIntegerWithNENotInt() throws FHIRPersistenceException {
-        // sa - starts after with integer, and it's not supported
-        QueryParameter queryParm =
-                generateParameter(SearchConstants.Prefix.NE, null, "window-end", new String[] { "1.0" });
-        List<Object> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("0.95"));
-        expectedBindVariables.add(new BigDecimal("1.05"));
-        String expectedSql = " AND (MolecularSequence.NUMBER_VALUE <= ? OR MolecularSequence.NUMBER_VALUE > ?))";
-        runTest(queryParm, expectedBindVariables, expectedSql, "MolecularSequence", MolecularSequence.class);
-    }
-
-    @Test(expectedExceptions = {})
-    public void testPrecisionIntegerWithEQNotIntExp() throws FHIRPersistenceException {
-        // sa - starts after with integer, and it's not supported
-        QueryParameter queryParm =
-                generateParameter(SearchConstants.Prefix.EQ, null, "window-end", new String[] { "1e2" });
-        List<Object> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("5e1"));
-        expectedBindVariables.add(new BigDecimal("1.5e2"));
-        String expectedSql = " AND (MolecularSequence.NUMBER_VALUE > ? AND MolecularSequence.NUMBER_VALUE <= ?))";
-        runTest(queryParm, expectedBindVariables, expectedSql, "MolecularSequence", MolecularSequence.class);
-    }
-
-    @Test(expectedExceptions = {})
-    public void testPrecisionIntegerWithNENotIntExp() throws FHIRPersistenceException {
-        // sa - starts after with integer, and it's not supported
-        QueryParameter queryParm =
-                generateParameter(SearchConstants.Prefix.NE, null, "window-end", new String[] { "1e2" });
-        List<Object> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("5e1"));
-        expectedBindVariables.add(new BigDecimal("1.5e2"));
-        String expectedSql = " AND (MolecularSequence.NUMBER_VALUE <= ? OR MolecularSequence.NUMBER_VALUE > ?))";
+        expectedBindVariables.add(new BigDecimal("0.5"));
+        expectedBindVariables.add(new BigDecimal("1.5"));
+        String expectedSql = " AND (((MolecularSequence.NUMBER_VALUE < ? OR MolecularSequence.NUMBER_VALUE >= ?) "
+                + "OR (MolecularSequence.NUMBER_VALUE_LOW < ? OR MolecularSequence.NUMBER_VALUE_HIGH > ?))))";
         runTest(queryParm, expectedBindVariables, expectedSql, "MolecularSequence", MolecularSequence.class);
     }
 }

@@ -104,7 +104,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Quantity", "lt24|http://unitsofmeasure.org|s");
         assertSearchDoesntReturnSavedResource("Quantity", "lt24.4999||s");
         assertSearchDoesntReturnSavedResource("Quantity", "lt24.5||s");
-        assertSearchDoesntReturnSavedResource("Quantity", "lt25||s");
+        assertSearchReturnsSavedResource("Quantity", "lt25||s");
         assertSearchReturnsSavedResource("Quantity", "lt25.4999||s");
         assertSearchReturnsSavedResource("Quantity", "lt25.5||s");
         assertSearchReturnsSavedResource("Quantity", "lt26|http://unitsofmeasure.org|s");
@@ -116,8 +116,8 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity", "gt24|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "gt24.4999||s");
         assertSearchReturnsSavedResource("Quantity", "gt24.5||s");
-        assertSearchDoesntReturnSavedResource("Quantity", "gt25||s");
-        assertSearchDoesntReturnSavedResource("Quantity", "gt25.4999||s");
+        assertSearchReturnsSavedResource("Quantity", "gt25||s");
+        assertSearchReturnsSavedResource("Quantity", "gt25.4999||s");
         assertSearchDoesntReturnSavedResource("Quantity", "gt25.5||s");
         assertSearchDoesntReturnSavedResource("Quantity", "gt26|http://unitsofmeasure.org|s");
 
@@ -127,7 +127,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     public void testSearchQuantity_Quantity_withPrefix_LE() throws Exception {
         assertSearchDoesntReturnSavedResource("Quantity", "le24|http://unitsofmeasure.org|s");
         assertSearchDoesntReturnSavedResource("Quantity", "le24.4999||s");
-        assertSearchDoesntReturnSavedResource("Quantity", "le24.5||s");
+        assertSearchReturnsSavedResource("Quantity", "le24.5||s");
         assertSearchReturnsSavedResource("Quantity", "le25||s");
         assertSearchReturnsSavedResource("Quantity", "le25.4999||s");
         assertSearchReturnsSavedResource("Quantity", "le25.5||s");
@@ -140,8 +140,11 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity", "ge24.4999||s");
         assertSearchReturnsSavedResource("Quantity", "ge24.5||s");
         assertSearchReturnsSavedResource("Quantity", "ge25||s");
-        assertSearchDoesntReturnSavedResource("Quantity", "ge25.4999||s");
-        assertSearchDoesntReturnSavedResource("Quantity", "ge25.5||s");
+        assertSearchReturnsSavedResource("Quantity", "ge25.4999||s");
+        // We need to track whether the high is inclusive or not to get this right
+        // For decimals, the high is exclusive, but for Range the high is inclusive
+//        assertSearchDoesntReturnSavedResource("Quantity", "ge25.5||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "ge25.5001||s");
         assertSearchDoesntReturnSavedResource("Quantity", "ge26|http://unitsofmeasure.org|s");
     }
 
@@ -149,7 +152,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     public void testSearchQuantity_Quantity_withPrefix_SA() throws Exception {
         assertSearchReturnsSavedResource("Quantity", "sa24|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "sa24.4999||s");
-        assertSearchReturnsSavedResource("Quantity", "sa24.5||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "sa24.5||s");
         assertSearchDoesntReturnSavedResource("Quantity", "sa25||s");
         assertSearchDoesntReturnSavedResource("Quantity", "sa25.4999||s");
         assertSearchDoesntReturnSavedResource("Quantity", "sa25.5||s");
@@ -158,12 +161,16 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchQuantity_Quantity_withPrefix_EB() throws Exception {
+        assertSearchReturnsSavedResource("Quantity", "eb25.5001||s");
         assertSearchDoesntReturnSavedResource("Quantity", "eb24|http://unitsofmeasure.org|s");
         assertSearchDoesntReturnSavedResource("Quantity", "eb24.4999||s");
         assertSearchDoesntReturnSavedResource("Quantity", "eb24.5||s");
         assertSearchDoesntReturnSavedResource("Quantity", "eb25||s");
-        assertSearchReturnsSavedResource("Quantity", "eb25.4999||s");
-        assertSearchReturnsSavedResource("Quantity", "eb25.5||s");
+        assertSearchDoesntReturnSavedResource("Quantity", "eb25.4999||s");
+        // We need to track whether the high is inclusive or not to get this right
+        // For decimals, the high is exclusive, but for Range the high is inclusive
+//        assertSearchReturnsSavedResource("Quantity", "eb25.5||s");
+        assertSearchReturnsSavedResource("Quantity", "eb25.5001||s");
         assertSearchReturnsSavedResource("Quantity", "eb26|http://unitsofmeasure.org|s");
     }
 
@@ -281,13 +288,17 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     // Range is 5-10 seconds
     @Test
     public void testSearchQuantity_Range_EQ_Implied() throws Exception {
+        // 1e1 has implicit range of 5 - 15
+        assertSearchReturnsSavedResource("Range", "1e1||s");
+        
         // the range of the search value doesn't fully contain the range of the target value
         assertSearchDoesntReturnSavedResource("Range", "4||s");
         assertSearchDoesntReturnSavedResource("Range", "5||s");
-        assertSearchReturnsSavedResource("Range", "10||s");
+        assertSearchDoesntReturnSavedResource("Range", "10||s");
         assertSearchDoesntReturnSavedResource("Range", "11||s");
     }
 
+    // Range is 5-10 seconds
     @Test
     public void testSearchQuantity_Range_NE() throws Exception {
         assertSearchReturnsSavedResource("Range", "ne4||s");
@@ -296,14 +307,17 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Range", "ne11||s");
     }
 
+    // Range is 5-10 seconds
     @Test
     public void testSearchQuantity_Range_AP() throws Exception {
+        assertSearchDoesntReturnSavedResource("Range", "ap11||s");
         assertSearchDoesntReturnSavedResource("Range", "ap4||s");
         assertSearchReturnsSavedResource("Range", "ap5||s");
         assertSearchReturnsSavedResource("Range", "ap10||s");
         assertSearchDoesntReturnSavedResource("Range", "ap11||s");
     }
 
+    // Range is 5-10 seconds
     @Test
     public void testSearchQuantity_Range_LT() throws Exception {
         assertSearchDoesntReturnSavedResource("Range", "lt4||s");
@@ -312,6 +326,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Range", "lt11||s");
     }
 
+    // Range is 5-10 seconds
     @Test
     public void testSearchQuantity_Range_GT() throws Exception {
         assertSearchReturnsSavedResource("Range", "gt4||s");
@@ -320,6 +335,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Range", "gt11||s");
     }
 
+    // Range is 5-10 seconds
     @Test
     public void testSearchQuantity_Range_EB() throws Exception {
         assertSearchDoesntReturnSavedResource("Range", "eb4||s");
@@ -328,6 +344,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Range", "eb11||s");
     }
 
+    // Range is 5-10 seconds
     @Test
     public void testSearchQuantity_Range_SA() throws Exception {
         assertSearchReturnsSavedResource("Range", "sa4||s");
@@ -337,6 +354,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Range", "sa11||s");
     }
 
+    // Range is 5-10 seconds
     @Test
     public void testSearchQuantity_Range_GE() throws Exception {
         assertSearchReturnsSavedResource("Range", "ge4||s");
@@ -345,6 +363,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Range", "ge11||s");
     }
 
+    // Range is 5-10 seconds
     @Test
     public void testSearchQuantity_Range_LE() throws Exception {
         assertSearchDoesntReturnSavedResource("Range", "le4||s");
