@@ -18,11 +18,10 @@ import com.ibm.fhir.schema.app.processor.action.bean.ActionBean;
 import com.ibm.fhir.schema.app.processor.action.exceptions.SchemaActionException;
 
 /**
- * Utility app to connect to a DB2 database and create/update the FHIR schema.
+ * Utility app to connect to a Db2 database and create/update the FHIR schema.
  * The DDL processing is idempotent, with only the necessary changes applied.
  * <br>
- * This utility also includes an option to exercise the tenant partitioning
- * code.
+ * This utility also includes an option to exercise the tenant partitioning code.
  */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());

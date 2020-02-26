@@ -9,9 +9,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
-import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
 import com.ibm.fhir.operation.bulkdata.processor.impl.CosExportImpl;
 import com.ibm.fhir.operation.bulkdata.processor.impl.DummyImportExportImpl;
 
@@ -34,18 +32,17 @@ public class BulkDataFactory {
         // No Op
     }
 
-    public static ExportImportBulkData getTenantInstance(BulkDataTenantSpecificCache cache) {
+    public static ExportImportBulkData getTenantInstance() {
         try {
-            String tenantId = FHIRRequestContext.get().getTenantId();
-            Map<String, String> properties = cache.getCachedObjectForTenant(tenantId);
+            Map<String, String> properties = BulkDataConfigUtil.getBatchJobConfig();
             String impl = properties.get(BulkDataConfigUtil.IMPLEMENTATION_TYPE);
 
             if ("cos".compareTo(impl) == 0) {
-                return new CosExportImpl(cache);
+                return new CosExportImpl(properties);
             }
         } catch (Exception e) {
             log.log(Level.WARNING, "found no tenant specific bulkdata.json", e);
         }
-        return new DummyImportExportImpl(cache);
+        return new DummyImportExportImpl();
     }
 }

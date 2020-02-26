@@ -1,0 +1,4 @@
+Renamed file from "patch\fhir-path-tests.xml" to "fhir-path-patch-tests.xml" to avoid git error: invalid path 'fhir-path/src/test/resources/patch\fhir-path-tests.CHANGELOG'
+To workaround global-1 I added a Resource.id to all FHIR Resources in the file (except the "Full Resource" test case which already had one)
+I commented out the Patient.text.div replace operation in the test case Full Resource
+Replace tabs with spaces and remove trailing whitespace

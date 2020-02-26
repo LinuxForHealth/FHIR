@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -54,17 +54,17 @@ import com.ibm.fhir.model.visitor.Visitable;
 public class FHIRJsonGenerator extends FHIRAbstractGenerator {
     private static final JsonGeneratorFactory GENERATOR_FACTORY = Json.createGeneratorFactory(null);
     private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY = createPrettyPrintingGeneratorFactory();
-        
+
     private final boolean prettyPrinting;
 
     protected FHIRJsonGenerator() {
         this(false);
     }
-    
+
     protected FHIRJsonGenerator(boolean prettyPrinting) {
         this.prettyPrinting = prettyPrinting;
     }
-    
+
     @Override
     public void generate(Visitable visitable, OutputStream out) throws FHIRGeneratorException {
         GeneratingVisitor visitor = null;
@@ -340,19 +340,21 @@ public class FHIRJsonGenerator extends FHIRAbstractGenerator {
         
         @Override
         public void visitEnd(java.lang.String elementName, List<? extends Visitable> visitables, Class<?> type) {
-            generator.writeEnd();
-            if (isPrimitiveType(type) && hasIdOrExtension(visitables)) {
-                generator.writeStartArray("_" + elementName);
-                for (Visitable visitable : visitables) {
-                    if (hasIdOrExtension((Element) visitable)) {
-                        generator.writeStartObject();
-                        generate((Element) visitable);
-                        generator.writeEnd();
-                    } else {
-                        generator.writeNull();
-                    }
-                }
+            if (!visitables.isEmpty()) {
                 generator.writeEnd();
+                if (isPrimitiveType(type) && hasIdOrExtension(visitables)) {
+                    generator.writeStartArray("_" + elementName);
+                    for (Visitable visitable : visitables) {
+                        if (hasIdOrExtension((Element) visitable)) {
+                            generator.writeStartObject();
+                            generate((Element) visitable);
+                            generator.writeEnd();
+                        } else {
+                            generator.writeNull();
+                        }
+                    }
+                    generator.writeEnd();
+                }
             }
         }
         
@@ -376,7 +378,9 @@ public class FHIRJsonGenerator extends FHIRAbstractGenerator {
         
         @Override
         public void visitStart(java.lang.String elementName, List<? extends Visitable> visitables, Class<?> type) {
-            writeStartArray(elementName);
+            if (!visitables.isEmpty()) {
+                writeStartArray(elementName);
+            }
         }
     
         @Override

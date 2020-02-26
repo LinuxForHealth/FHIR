@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -90,6 +90,7 @@ public class Provenance extends DomainResource {
         agent = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.agent, "agent"));
         entity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entity, "entity"));
         signature = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.signature, "signature"));
+        ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.requireChildren(this);
     }
 
@@ -875,6 +876,8 @@ public class Provenance extends DomainResource {
             role = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.role, "role"));
             who = ValidationSupport.requireNonNull(builder.who, "who");
             onBehalfOf = builder.onBehalfOf;
+            ValidationSupport.checkReferenceType(who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
+            ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

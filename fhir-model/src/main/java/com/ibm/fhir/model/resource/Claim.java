@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -165,6 +165,14 @@ public class Claim extends DomainResource {
         accident = builder.accident;
         item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
         total = builder.total;
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
+        ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
+        ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+        ValidationSupport.checkReferenceType(prescription, "prescription", "DeviceRequest", "MedicationRequest", "VisionPrescription");
+        ValidationSupport.checkReferenceType(originalPrescription, "originalPrescription", "DeviceRequest", "MedicationRequest", "VisionPrescription");
+        ValidationSupport.checkReferenceType(referral, "referral", "ServiceRequest");
+        ValidationSupport.checkReferenceType(facility, "facility", "Location");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1501,6 +1509,7 @@ public class Claim extends DomainResource {
             claim = builder.claim;
             relationship = builder.relationship;
             reference = builder.reference;
+            ValidationSupport.checkReferenceType(claim, "claim", "Claim");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1797,6 +1806,7 @@ public class Claim extends DomainResource {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
             party = builder.party;
+            ValidationSupport.checkReferenceType(party, "party", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2083,6 +2093,7 @@ public class Claim extends DomainResource {
             responsible = builder.responsible;
             role = builder.role;
             qualification = builder.qualification;
+            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3743,6 +3754,8 @@ public class Claim extends DomainResource {
             businessArrangement = builder.businessArrangement;
             preAuthRef = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.preAuthRef, "preAuthRef"));
             claimResponse = builder.claimResponse;
+            ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
+            ValidationSupport.checkReferenceType(claimResponse, "claimResponse", "ClaimResponse");
             ValidationSupport.requireValueOrChildren(this);
         }
 

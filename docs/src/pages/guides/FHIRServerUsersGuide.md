@@ -88,10 +88,11 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
 
 9.  After you start the server, you can verify that it's running properly by invoking the `$healthcheck` endpoint like this:
     ```
-    curl -k -u <username> 'https://<host>:<port>/fhir-server/api/v4/$healthcheck'
+    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/$healthcheck'
     ```
     where `<username>` is one of the users configured in `server.xml` (default is `fhiruser`).  
-    Note: Use single quotes around the URL to prevent $healthcheck from being evaluated as an environment variable on unix-based operating systems.  
+    Use single quotes around the URL to prevent $healthcheck from being evaluated as an environment variable on unix-based operating systems.
+
     The preceding command should produce output similar to the following:
     ```
     {
@@ -1133,7 +1134,7 @@ The *fhir-bulkimportexport-webapp* module is a wrapper for the whole BulkData we
     </webApplication>
 ```
 
-BulkData web application writes the exported FHIR resources to an IBM Cloud Object Storage (COS) or Amazon S3 bucket, as configured in the per-tenant bulkdata.json configuration file. The bulkdata.json file is stored in the tenant configuration directory of each fhir-server instance. The following is a bulkdata.json which is configured to export the FHIR resources into fhir-bulkdata-sample bucket of IBM COS: 
+BulkData web application writes the exported FHIR resources to an IBM Cloud Object Storage (COS) or Amazon S3 bucket, as configured in the per-tenant bulkdata.json configuration file. The bulkdata.json file is stored in the tenant configuration directory of each fhir-server instance. The following is a bulkdata.json which is configured to export the FHIR resources into fhir-bulkdata-sample bucket of IBM COS:
 
 ```json
 {
@@ -1191,23 +1192,23 @@ Following is the beautified response of sample polling location request after th
 "request": "/$export?_type=",
 "requiresAccessToken": false,
 "output" : [
-  { "type" : "AllergyIntolerance", 
-      "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-bulkimexport-connectathon/6SfXzbGvYl1nTjGbf5qeqJDFNjyljiGdKxXEJb4yJn8=/AllergyIntolerance_1.ndjson", 
+  { "type" : "AllergyIntolerance",
+      "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-bulkimexport-connectathon/6SfXzbGvYl1nTjGbf5qeqJDFNjyljiGdKxXEJb4yJn8=/AllergyIntolerance_1.ndjson",
     "count": 20},
-  { "type" : "AllergyIntolerance", 
-      "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-bulkimexport-connectathon/6SfXzbGvYl1nTjGbf5qeqJDFNjyljiGdKxXEJb4yJn8=/AllergyIntolerance_2.ndjson", 
+  { "type" : "AllergyIntolerance",
+      "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-bulkimexport-connectathon/6SfXzbGvYl1nTjGbf5qeqJDFNjyljiGdKxXEJb4yJn8=/AllergyIntolerance_2.ndjson",
     "count": 8},
-  { "type" : "Observation", 
-      "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-bulkimexport-connectathon/6SfXzbGvYl1nTjGbf5qeqJDFNjyljiGdKxXEJb4yJn8=/Observation_1.ndjson", 
+  { "type" : "Observation",
+      "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-bulkimexport-connectathon/6SfXzbGvYl1nTjGbf5qeqJDFNjyljiGdKxXEJb4yJn8=/Observation_1.ndjson",
     "count": 234},
-  { "type" : "Observation", 
-      "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-bulkimexport-connectathon/6SfXzbGvYl1nTjGbf5qeqJDFNjyljiGdKxXEJb4yJn8=/Observation_2.ndjson", 
+  { "type" : "Observation",
+      "url": "https://s3.us-south.cloud-object-storage.appdomain.cloud/fhir-bulkimexport-connectathon/6SfXzbGvYl1nTjGbf5qeqJDFNjyljiGdKxXEJb4yJn8=/Observation_2.ndjson",
     "count": 81}]
 }
 ```
 
 The exported ndjson file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.  
-  
+
 JavaBatch feature must be enabled in server.xml as following for liberty server:
 
 ```xml
@@ -1218,12 +1219,12 @@ JavaBatch feature must be enabled in server.xml as following for liberty server:
         ...
     </featureManager>
 ```
-The JavaBatch user is configured in server.xml and the bulkdata.json: 
+The JavaBatch user is configured in server.xml and the bulkdata.json:
 
 ```xml    
 <authorization-roles id="com.ibm.ws.batch">
-	<security-role name="batchAdmin">	
-		<user name="fhiradmin"/>	
+	<security-role name="batchAdmin">
+		<user name="fhiradmin"/>
 	</security-role>
 	<security-role name="batchSubmitter">
 		<user name="fhiruser"/>
@@ -1334,8 +1335,10 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultPrettyPrint`|boolean|A boolean flag which indicates whether "Pretty Printing" should be used by default. Applies to both XML and JSON.|
 |`fhirServer/core/tenantIdHeaderName`|string|The name of the request header that will be used to specify the tenant-id for each incoming FHIR REST API request. For headers with semicolon-delimited parts, setting a header name like `<headerName>:<partName>` will select the value from the part of header `<headerName>`'s value with a name of `<partName>` (e.g. setting `X-Test:part1` would select `someValue` from the header `X-Test: part1=someValue;part2=someOtherValue`).|
 |`fhirServer/core/dataSourceIdHeaderName`|string|The name of the request header that will be used to specify the datastore-id for each incoming FHIR REST API request. For headers with semicolon-delimited parts, setting a header name like `<headerName>:<partName>` will select the value from the part of header `<headerName>`'s value with a name of `<partName>` (e.g. setting `X-Test:part1` would select `someValue` from the header `X-Test: part1=someValue;part2=someOtherValue`).|
+|`fhirServer/core/originalRequestUriHeaderName`|string|The name of the request header that will be used to indicate the original, end-user-facing, request URI for a given request. This optional config parameter is provided for cases where the server is deployed behind a reverse proxy that overwrites the host and/or path portions of the original request.|
 |`fhirServer/core/defaultHandling`|string|The default handling preference of the server (`strict | lenient`) which determines how the server handles unrecognized search parameters and resource elements.|
 |`fhirServer/core/allowClientHandlingPref`|boolean|Indicates whether the client is allowed to override the server default handling preference using the `Prefer:handling` header value part.|
+|`fhirServer/core/checkReferenceTypes`|boolean|Indicates whether reference type checking is performed by the server during parsing / deserialization.|
 |`fhirServer/searchParameterFilter`|property list|A set of inclusion rules for search parameters. See [FHIR Search Configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-Configuration--Filtering-of-search-parameters) for more information.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
@@ -1362,15 +1365,17 @@ This section contains reference information about each of the configuration prop
 | Property Name                 | Default value   |
 |-------------------------------| ----------------|
 |`fhirServer/core/defaultPrettyPrint`|false|
-|`fhirServer/core/tenantIdHeaderName`|`X-FHIR-TENANT-ID`|
-|`fhirServer/core/dataSourceIdHeaderName`|`X-FHIR-DSID`|
-|`fhirServer/core/defaultHandling`|"strict"|
+|`fhirServer/core/tenantIdHeaderName`|X-FHIR-TENANT-ID|
+|`fhirServer/core/dataSourceIdHeaderName`|X-FHIR-DSID|
+|`fhirServer/core/originalRequestUriHeaderName`|null|
+|`fhirServer/core/defaultHandling`|strict|
 |`fhirServer/core/allowClientHandlingPref`|true|
+|`fhirServer/core/checkReferenceTypes`|true|
 |`fhirServer/searchParameterFilter`|`"*": [*]`|
-|`fhirServer/notifications/common/includeResourceTypes`|["*"]|
+|`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
 |`fhirServer/notifications/websocket/enabled`|false|
 |`fhirServer/notifications/kafka/enabled`|false|
-|`fhirServer/notifications/kafka/topicName`|`fhirNotifications`|
+|`fhirServer/notifications/kafka/topicName`|fhirNotifications|
 |`fhirServer/notifications/kafka/connectionProperties`|`{}`|
 |`fhirServer/persistence/factoryClassname`|com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory|
 |`fhirServer/persistence/common/updateCreateEnabled`|true|
@@ -1391,10 +1396,12 @@ This section contains reference information about each of the configuration prop
 | Property Name                 | Tenant-specific? | Dynamic? |
 |-------------------------------|------------------|----------|
 |`fhirServer/core/defaultPrettyPrint`|Y|Y|
-|`fhirServer/core/tenantIdHeaderName`|N|Y|
+|`fhirServer/core/tenantIdHeaderName`|N|N|
 |`fhirServer/core/dataSourceIdHeaderName`|N|N|
+|`fhirServer/core/originalRequestUriHeaderName`|Y|Y|
 |`fhirServer/core/defaultHandling`|Y|Y|
 |`fhirServer/core/allowClientHandlingPref`|Y|Y|
+|`fhirServer/core/checkReferenceTypes`|N|N|
 |`fhirServer/searchParameterFilter`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|Y|Y|

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -99,6 +99,7 @@ public class Organization extends DomainResource {
         partOf = builder.partOf;
         contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        ValidationSupport.checkReferenceType(partOf, "partOf", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

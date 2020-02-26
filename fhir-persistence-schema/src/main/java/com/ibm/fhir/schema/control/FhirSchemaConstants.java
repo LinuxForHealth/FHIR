@@ -86,6 +86,8 @@ public class FhirSchemaConstants {
     public static final String DATE_START = "DATE_START";
     public static final String DATE_END = "DATE_END";
     public static final String NUMBER_VALUE = "NUMBER_VALUE";
+    public static final String NUMBER_VALUE_LOW = "NUMBER_VALUE_LOW";
+    public static final String NUMBER_VALUE_HIGH = "NUMBER_VALUE_HIGH";
     public static final String LATITUDE_VALUE = "LATITUDE_VALUE";
     public static final String LONGITUDE_VALUE = "LONGITUDE_VALUE";
 

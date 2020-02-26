@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -841,6 +841,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
             collector = builder.collector;
             source = builder.source;
             collected = ValidationSupport.choiceElement(builder.collected, "collected", DateTime.class, Period.class);
+            ValidationSupport.checkReferenceType(collector, "collector", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(source, "source", "Patient", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1150,6 +1152,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
             procedure = builder.procedure;
             additive = builder.additive;
             time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
+            ValidationSupport.checkReferenceType(additive, "additive", "Substance");
             ValidationSupport.requireValueOrChildren(this);
         }
 

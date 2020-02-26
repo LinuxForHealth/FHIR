@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -85,6 +85,8 @@ public class AppointmentResponse extends DomainResource {
         actor = builder.actor;
         participantStatus = ValidationSupport.requireNonNull(builder.participantStatus, "participantStatus");
         comment = builder.comment;
+        ValidationSupport.checkReferenceType(appointment, "appointment", "Appointment");
+        ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
         ValidationSupport.requireChildren(this);
     }
 

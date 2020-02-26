@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.model.type.code;
 
+import com.ibm.fhir.model.annotation.System;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.String;
@@ -15,6 +16,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+@System("http://hl7.org/fhir/event-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ClinicalImpressionStatus extends Code {
     public static final ClinicalImpressionStatus IN_PROGRESS = ClinicalImpressionStatus.builder().value(ValueSet.IN_PROGRESS).build();

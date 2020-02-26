@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,16 +28,15 @@ public abstract class AbstractVisitable implements Visitable {
     }
 
     protected void accept(List<? extends Visitable> visitables, java.lang.String elementName, Visitor visitor, Class<?> type) {
+        visitor.visitStart(elementName, visitables, type);
         if (!visitables.isEmpty()) {
-            visitor.visitStart(elementName, visitables, type);
             int elementIndex = 0;
             for (Visitable visitable : visitables) {
-//              visitable.accept(visitor);
                 visitable.accept(elementName, elementIndex, visitor);
                 elementIndex++;
             }
-            visitor.visitEnd(elementName, visitables, type);
         }
+        visitor.visitEnd(elementName, visitables, type);
     }
     
     protected void accept(BigDecimal value, java.lang.String elementName, Visitor visitor) {

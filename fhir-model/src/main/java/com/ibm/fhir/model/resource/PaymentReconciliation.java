@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -106,6 +106,9 @@ public class PaymentReconciliation extends DomainResource {
         detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
         formCode = builder.formCode;
         processNote = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processNote, "processNote"));
+        ValidationSupport.checkReferenceType(paymentIssuer, "paymentIssuer", "Organization");
+        ValidationSupport.checkReferenceType(request, "request", "Task");
+        ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.requireChildren(this);
     }
 
@@ -963,6 +966,9 @@ public class PaymentReconciliation extends DomainResource {
             responsible = builder.responsible;
             payee = builder.payee;
             amount = builder.amount;
+            ValidationSupport.checkReferenceType(submitter, "submitter", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(responsible, "responsible", "PractitionerRole");
+            ValidationSupport.checkReferenceType(payee, "payee", "Practitioner", "PractitionerRole", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

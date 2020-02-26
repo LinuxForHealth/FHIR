@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -188,6 +188,10 @@ public class Observation extends DomainResource {
         hasMember = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.hasMember, "hasMember"));
         derivedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFrom, "derivedFrom"));
         component = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.component, "component"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
+        ValidationSupport.checkReferenceType(device, "device", "Device", "DeviceMetric");
         ValidationSupport.requireChildren(this);
     }
 

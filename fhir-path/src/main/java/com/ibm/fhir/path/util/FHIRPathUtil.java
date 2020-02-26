@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  * 
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,8 +33,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import com.ibm.fhir.model.patch.exception.FHIRPatchException;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ModelSupport.ElementInfo;
+import com.ibm.fhir.model.visitor.Visitable;
 import com.ibm.fhir.path.ClassInfo;
 import com.ibm.fhir.path.ClassInfoElement;
 import com.ibm.fhir.path.FHIRPathBooleanValue;
@@ -49,12 +51,17 @@ import com.ibm.fhir.path.FHIRPathResourceNode;
 import com.ibm.fhir.path.FHIRPathStringValue;
 import com.ibm.fhir.path.FHIRPathSystemValue;
 import com.ibm.fhir.path.FHIRPathTemporalValue;
+import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.SimpleTypeInfo;
 import com.ibm.fhir.path.TupleTypeInfo;
 import com.ibm.fhir.path.TupleTypeInfoElement;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
+import com.ibm.fhir.path.exception.FHIRPathException;
 
 public final class FHIRPathUtil {
+    private static FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+    
     public static final Set<String> STRING_TRUE_VALUES = new HashSet<>(Arrays.asList("true", "t", "yes", "y", "1", "1.0"));
     public static final Set<String> STRING_FALSE_VALUES = new HashSet<>(Arrays.asList("false", "f", "no", "n", "0", "0.0"));
     public static final Integer INTEGER_TRUE = 1;
@@ -280,6 +287,9 @@ public final class FHIRPathUtil {
         return nodes.size() == 1;
     }
 
+    /**
+     * @throws IllegalArgumentException if the passed collection is not a singleton
+     */
     public static FHIRPathNode getSingleton(Collection<FHIRPathNode> nodes) {
         if (!isSingleton(nodes)) {
             throw new IllegalArgumentException();
@@ -340,29 +350,29 @@ public final class FHIRPathUtil {
 
     public static TemporalAmount getTemporalAmount(FHIRPathQuantityValue quantityValue) {
         int value = quantityValue.value().intValue();
-        String unit = quantityValue.unit();        
+        String unit = quantityValue.unit();
         switch (unit) {
         case "year":
         case "years":
-            return Period.ofYears(value);            
+            return Period.ofYears(value);
         case "month":
         case "months":
-            return Period.ofMonths(value);            
+            return Period.ofMonths(value);
         case "week":
         case "weeks":
-            return Period.ofWeeks(value);            
+            return Period.ofWeeks(value);
         case "day":
         case "days":
-            return Period.ofDays(value);            
+            return Period.ofDays(value);
         case "hour":
         case "hours":
-            return Duration.ofHours(value);            
+            return Duration.ofHours(value);
         case "minute":
         case "minutes":
-            return Duration.ofMinutes(value);            
+            return Duration.ofMinutes(value);
         case "second":
         case "seconds":
-            return Duration.ofSeconds(value);            
+            return Duration.ofSeconds(value);
         case "millisecond":
         case "milliseconds":
             return Duration.ofMillis(value);
@@ -551,5 +561,202 @@ public final class FHIRPathUtil {
             }
         }
         return sb.toString();
+    }
+    
+    /**
+     * The content will be appended to the element identified in the path, using the name specified.
+     * Add can used for non-repeating elements as long as they do not already exist.
+     * @throws FHIRPathException 
+     * @throws FHIRPatchException 
+     * @throws NullPointerException if any of the passed arguments are null
+     */
+    public static <T extends Visitable> T add(T elementOrResource, String fhirPath, String elementName, Visitable value) throws FHIRPathException, FHIRPatchException {
+        FHIRPathNode node = evaluateToSingle(elementOrResource, fhirPath);
+        Visitable parent = node.isResourceNode() ? 
+                node.asResourceNode().resource() : node.asElementNode().element();
+
+        AddingVisitor<T> addingVisitor = new AddingVisitor<>(parent, node.path(), elementName, value);
+
+        try {
+            elementOrResource.accept(addingVisitor);
+        } catch (IllegalStateException e) {
+            throw new FHIRPatchException("An error occurred while adding the value", fhirPath, e);
+        }
+        return addingVisitor.getResult();
+    }
+    
+    /**
+     * Only a single element can be deleted
+     * @throws FHIRPathException 
+     * @throws FHIRPatchException 
+     * @throws NullPointerException if any of the passed arguments are null
+     */
+    public static <T extends Visitable> T delete(T elementOrResource, String fhirPath) throws FHIRPathException, FHIRPatchException {
+        FHIRPathNode node = evaluateToSingle(elementOrResource, fhirPath);
+        DeletingVisitor<T> deletingVisitor = new DeletingVisitor<T>(node.path());
+
+        try {
+            elementOrResource.accept(deletingVisitor);
+        } catch (IllegalStateException e) {
+            throw new FHIRPatchException("An error occurred while deleting the value", fhirPath, e);
+        }
+        return deletingVisitor.getResult();
+    }
+
+    /**
+     * @param fhirPath
+     * @param value
+     * @throws FHIRPathException 
+     * @throws FHIRPatchException 
+     * @throws NullPointerException if any of the passed arguments are null
+     */
+    public static <T extends Visitable> T replace(T elementOrResource, String fhirPath, Visitable value) throws FHIRPathException, FHIRPatchException {
+        FHIRPathNode node = evaluateToSingle(elementOrResource, fhirPath);
+        String elementName = node.name();
+
+        FHIRPathTree tree = evaluator.getEvaluationContext().getTree();
+        FHIRPathNode parentNode = tree.getParent(node);
+        Visitable parent = parentNode.isResourceNode() ? 
+                parentNode.asResourceNode().resource() : parentNode.asElementNode().element();
+
+        ReplacingVisitor<T> replacingVisitor = new ReplacingVisitor<T>(parent, elementName, node.path(), value);
+
+        try {
+            elementOrResource.accept(replacingVisitor);
+        } catch (IllegalStateException e) {
+            throw new FHIRPatchException("An error occurred while replacing the value", fhirPath, e);
+        }
+        return replacingVisitor.getResult();
+    }
+
+    private static FHIRPathNode evaluateToSingle(Visitable elementOrResource, String fhirPath) throws FHIRPathException, FHIRPatchException {
+        /*
+         * 1. The FHIRPath statement must return a single element.
+         * 2. The FHIRPath statement SHALL NOT cross resources using the resolve() function 
+         *    (e.g. like Observation.subject.resolve().identifier).
+         *    Resolve() SHALL only be used to refer to contained resource within the resource being patched.
+         *    Servers SHALL NOT allow patch operations to alter other resources than the nominated target, 
+         *    and SHOULD return an error if the patch operation tries.
+         * 3. The type of the value must be correct for the place at which it will be added/inserted.
+         *    Servers SHALL return an error if the type is wrong.
+         * 4. Servers SHALL return an error if the outcome of the patch operation is a not a valid resource.
+         * 5. Except for the delete operation, it is an error if no element matches the specified path.
+         */
+        Collection<FHIRPathNode> nodes = evaluator.evaluate(elementOrResource, fhirPath);
+        return getSingleton(nodes);
+    }
+
+    /**
+     * The content will be inserted into the nominated list at the index specified (0 based).
+     * The index is mandatory and must be equal or less than the number of elements in the list.
+     * Note: add is easier than insert at the end of the list.
+     * @throws FHIRPathException 
+     * @throws FHIRPatchException 
+     * @throws NullPointerException if any of the passed arguments are null
+     */
+    public static <T extends Visitable> T insert(T elementOrResource, String fhirPath, int index, Visitable value) 
+            throws FHIRPathException, FHIRPatchException {
+        Collection<FHIRPathNode> nodes = evaluator.evaluate(elementOrResource, fhirPath);
+        if (index > nodes.size()) {
+            throw new FHIRPatchException("Index must be equal or less than the number of elements in the list", fhirPath);
+        } else if (nodes.size() == 0) {
+            throw new FHIRPatchException("Cannot insert the first element of an empty list; use 'add' instead", fhirPath);
+        }
+        String elementName = getCommonName(fhirPath, nodes);
+
+        FHIRPathTree tree = evaluator.getEvaluationContext().getTree();
+        FHIRPathNode parentNode = getCommonParent(fhirPath, nodes, tree);
+        Visitable parent = parentNode.isResourceNode() ? 
+                parentNode.asResourceNode().resource() : parentNode.asElementNode().element();
+
+        InsertingVisitor<T> insertingVisitor = new InsertingVisitor<T>(parent, parentNode.path(), elementName, index, value);
+
+        try {
+            elementOrResource.accept(insertingVisitor);
+        } catch (IllegalStateException e) {
+            throw new FHIRPatchException("An error occurred while inserting the value", fhirPath, e);
+        }
+        return insertingVisitor.getResult();
+    }
+
+    /**
+     * Move an element within a single list
+     * @throws FHIRPathException 
+     * @throws FHIRPatchException 
+     * @throws NullPointerException if any of the passed arguments are null
+     */
+    public static <T extends Visitable> T move(T elementOrResource, String fhirPath, int source, int target) 
+            throws FHIRPathException, FHIRPatchException {
+        Collection<FHIRPathNode> nodes = evaluator.evaluate(elementOrResource, fhirPath);
+        if (source > nodes.size() || target > nodes.size()) {
+            throw new FHIRPatchException("Source and target indices must be less than or equal to"
+                    + " the number of elements selected by the FHIRPath expression", fhirPath);
+        } else if (source == target) {
+            return elementOrResource;
+        }
+        // The statements above rule out any chance of nodes being empty at this point
+        String elementName = getCommonName(fhirPath, nodes);
+        
+        FHIRPathTree tree = evaluator.getEvaluationContext().getTree();
+        FHIRPathNode parent = getCommonParent(fhirPath, nodes, tree);
+        
+        MovingVisitor<T> movingVisitor = new MovingVisitor<T>(parent.path(), elementName, source, target);
+        
+        try {
+            elementOrResource.accept(movingVisitor);
+        } catch (IllegalStateException e) {
+            throw new FHIRPatchException("An error occurred while moving the value", fhirPath, e);
+        }
+        return movingVisitor.getResult();
+    }
+
+    /**
+     * Verifies that all the nodes have a common name and returns it
+     * 
+     * @throws FHIRPatchException if the nodes have names that differ
+     */
+    private static String getCommonName(String fhirPath, Collection<FHIRPathNode> nodes) throws FHIRPatchException {
+        String name = null;
+        for (FHIRPathNode fhirPathNode : nodes) {
+            String currentName = fhirPathNode.name();
+
+            if (name != null) {
+                if (!name.equals(currentName)) {
+                    throw new FHIRPatchException("The FHIRPath expression must return a set of nodes with a "
+                            + "single parent", fhirPath);
+                }
+            } else {
+                name = currentName;
+            }
+        }
+        return name;
+    }
+
+    /**
+     * @param fhirPath
+     *            The fhirPath executed to produce the nodes (only used for the error message)
+     * @param nodes
+     *            The nodes selected by the fhirPath expression
+     * @param tree
+     *            The tree computed for the FHIRPath EvaluationContext
+     * @return
+     * @throws FHIRPatchException if the selected nodes have different parents
+     */
+    private static FHIRPathNode getCommonParent(String fhirPath, Collection<FHIRPathNode> nodes, FHIRPathTree tree)
+            throws FHIRPatchException {
+        FHIRPathNode parent = null;
+        for (FHIRPathNode fhirPathNode : nodes) {
+            FHIRPathNode parentNode = tree.getParent(fhirPathNode);
+
+            if (parent != null) {
+                if (parent != parentNode) {
+                    throw new FHIRPatchException("The FHIRPath expression must return a set of nodes with a "
+                            + "single parent", fhirPath);
+                }
+            } else {
+                parent = parentNode;
+            }
+        }
+        return parent;
     }
 }

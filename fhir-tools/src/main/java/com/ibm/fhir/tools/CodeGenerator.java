@@ -39,6 +39,7 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.JsonString;
 import javax.json.JsonValue;
 import javax.lang.model.SourceVersion;
 
@@ -804,7 +805,7 @@ public class CodeGenerator {
         
         String packageName = null;
         String kind = structureDefinition.getString("kind");
-        if ("resource".equals(kind) || "logical".equals(kind)) {
+        if ("resource".equals(kind)) {
             packageName = "com.ibm.fhir.model.resource";
             resourceClassNames.add(className);
         } else {
@@ -1077,6 +1078,33 @@ public class CodeGenerator {
                 cb.invoke("ValidationSupport", "checkUri", args("url"));
             }
             
+            for (JsonObject elementDefinition : elementDefinitions) {
+                String elementName = getElementName(elementDefinition, path);
+                String fieldName = getFieldName(elementName);
+                String fieldType = getFieldType(structureDefinition, elementDefinition);
+                if ("CodeableConcept".equals(fieldType) && hasRequiredBinding(elementDefinition)) {
+                    JsonObject binding = getBinding(elementDefinition);
+                    String valueSet = binding.getString("valueSet");
+                    String[] tokens = valueSet.split("\\|");
+                    valueSet = tokens[0];
+                    String system = getSystem(valueSet);
+                    List<JsonObject> concepts = getConcepts(valueSet);
+                    cb.invoke("ValidationSupport", "checkCodeableConcept", args(fieldName, quote(elementName), quote(valueSet), quote(system), concepts.stream().map(concept -> quote(concept.getString("code"))).collect(Collectors.joining(", "))));
+                }
+            }
+            
+            for (JsonObject elementDefinition : elementDefinitions) {
+                String elementName = getElementName(elementDefinition, path);
+                String fieldName = getFieldName(elementName);
+                String fieldType = getFieldType(structureDefinition, elementDefinition);
+                if ("Reference".equals(fieldType)) {
+                    List<String> referenceTypes = getReferenceTypes(elementDefinition);
+                    if (!referenceTypes.isEmpty()) {
+                        cb.invoke("ValidationSupport", "checkReferenceType", args(fieldName, quote(elementName), referenceTypes.stream().map(type -> quote(type)).collect(Collectors.joining(", "))));
+                    }
+                }
+            }
+            
             if ((!isResource(structureDefinition) && 
                     !isAbstract(structureDefinition) && 
                     !isStringSubtype(structureDefinition) && 
@@ -1160,6 +1188,22 @@ public class CodeGenerator {
                 cb.newLine();
             }
         }
+    }
+
+    private List<String> getReferenceTypes(JsonObject elementDefinition) {
+        List<String> referenceTypes = new ArrayList<>();
+        for (JsonValue type : elementDefinition.getOrDefault("type", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+            for (JsonValue targetProfile : type.asJsonObject().getOrDefault("targetProfile", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+                String url = ((JsonString) targetProfile).getString();
+                if (url.startsWith("http://hl7.org/fhir/StructureDefinition/")) {
+                    String referenceType = url.substring("http://hl7.org/fhir/StructureDefinition/".length());
+                    if (!"Resource".equals(referenceType)) {
+                        referenceTypes.add(referenceType);
+                    }
+                }
+            }
+        }
+        return referenceTypes;
     }
 
     private void generateBindingAnnotation(JsonObject structureDefinition, CodeBuilder cb, String className, JsonObject elementDefinition) {
@@ -1523,6 +1567,7 @@ public class CodeGenerator {
         if ("Resource".equals(name) || "Element".equals(name)) {
             imports.add("com.ibm.fhir.model.visitor.AbstractVisitable");
         }
+        
         if (!isAbstract(structureDefinition) && !isCodeSubtype(className)) {
             imports.add("com.ibm.fhir.model.visitor.Visitor");
         }
@@ -2738,6 +2783,7 @@ public class CodeGenerator {
                 cb.lines(HEADER).newLine();
                 cb._package(packageName).newLine();
                 
+                cb._import("com.ibm.fhir.model.annotation.System");
                 cb._import("com.ibm.fhir.model.type.Code");
                 cb._import("com.ibm.fhir.model.type.Extension");
                 cb._import("com.ibm.fhir.model.type.String").newLine();
@@ -2747,6 +2793,8 @@ public class CodeGenerator {
                 
                 cb._import("javax.annotation.Generated").newLine();
                 
+                String system = getSystem(valueSet);
+                cb.annotation("System", quote(system));
                 cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
                 cb._class(mods("public"), bindingName, "Code");
                 
@@ -3131,19 +3179,32 @@ public class CodeGenerator {
     private List<JsonObject> getConcepts(String url) {
         List<JsonObject> concepts = new ArrayList<>();
         JsonObject valueSet = valueSetMap.get(url);
-        JsonObject compose = valueSet.getJsonObject("compose");
-        for (JsonValue include : compose.getJsonArray("include")) {
-            if (include.asJsonObject().containsKey("concept")) {
-                concepts.addAll(getConcepts(include.asJsonObject().getJsonArray("concept")));
-            } else {
-                String system = include.asJsonObject().getString("system");
-                JsonObject codeSystem = codeSystemMap.get(system);
-                if (codeSystem != null) {
-                    concepts.addAll(getConcepts(codeSystem.getJsonArray(("concept"))));
+        if (valueSet != null) {
+            JsonObject compose = valueSet.getJsonObject("compose");
+            for (JsonValue include : compose.getJsonArray("include")) {
+                if (include.asJsonObject().containsKey("concept")) {
+                    concepts.addAll(getConcepts(include.asJsonObject().getJsonArray("concept")));
+                } else {
+                    String system = include.asJsonObject().getString("system");
+                    JsonObject codeSystem = codeSystemMap.get(system);
+                    if (codeSystem != null) {
+                        concepts.addAll(getConcepts(codeSystem.getJsonArray(("concept"))));
+                    }
                 }
             }
         }
         return concepts;
+    }
+    
+    private String getSystem(String url) {
+        JsonObject valueSet = valueSetMap.get(url);
+        if (valueSet != null) {
+            JsonObject compose = valueSet.getJsonObject("compose");
+            for (JsonValue include : compose.getJsonArray("include")) {
+                return include.asJsonObject().getString("system");                
+            }
+        }
+        return null;
     }
     
     private List<JsonObject> getConcepts(JsonArray conceptArray) {
@@ -3475,9 +3536,9 @@ public class CodeGenerator {
 
     private boolean hasRequiredBinding(JsonObject elementDefinition) {
         JsonObject binding = getBinding(elementDefinition);
-        if (binding != null) {
+        if (binding != null && binding.containsKey("valueSet") && binding.containsKey("strength")) {
             String valueSet = binding.getString("valueSet");
-            String [] tokens = valueSet.split("\\|");
+            String[] tokens = valueSet.split("\\|");
             valueSet = tokens[0];
             return "required".equals(binding.getString("strength")) && hasConcepts(valueSet);
         }
@@ -3741,6 +3802,10 @@ public class CodeGenerator {
     
             for (JsonValue entry : bundle.getJsonArray("entry")) {
                 JsonObject resource = entry.asJsonObject().getJsonObject("resource");
+                JsonString kind = resource.getJsonString("kind");
+                if (kind != null && "logical".equals(kind.getString())) {
+                    continue;
+                }
                 if (resourceType.equals(resource.getString("resourceType"))) {
                     resources.add(resource);
                 }

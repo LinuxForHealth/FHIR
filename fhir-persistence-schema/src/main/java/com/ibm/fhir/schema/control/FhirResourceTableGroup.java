@@ -34,6 +34,8 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.LONGITUDE_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.NUMBER_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.NUMBER_VALUE_LOW;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.NUMBER_VALUE_HIGH;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAMES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PATIENT_CURRENT_REFS;
@@ -454,25 +456,26 @@ public class FhirResourceTableGroup {
         final String tableName = prefix + "_NUMBER_VALUES";
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
-        Table tbl =
-                Table.builder(schemaName, tableName)
-                        .addTag(RESOURCE_TYPE, prefix)
-                        .setTenantColumnName(MT_ID)
-                        .addBigIntColumn(ROW_ID, false)
-                        .addIntColumn(PARAMETER_NAME_ID, false)
-                        .addDoubleColumn(NUMBER_VALUE, true)
-                        .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
-                        .addIndex(IDX + tableName + "_PNNV", PARAMETER_NAME_ID, NUMBER_VALUE, LOGICAL_RESOURCE_ID)
-                        .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, NUMBER_VALUE)
-                        .addPrimaryKey(PK + tableName, ROW_ID)
-                        .setIdentityColumn(ROW_ID, Generated.BY_DEFAULT)
-                        .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
-                        .addForeignKeyConstraint(FK + tableName + "_RID", schemaName, logicalResourcesTable,
-                                LOGICAL_RESOURCE_ID)
-                        .setTablespace(fhirTablespace)
-                        .addPrivileges(resourceTablePrivileges)
-                        .enableAccessControl(this.sessionVariable)
-                        .build(model);
+        Table tbl = Table.builder(schemaName, tableName)
+                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(             ROW_ID,      false)
+                .addIntColumn(     PARAMETER_NAME_ID,      false)
+                .addDoubleColumn(       NUMBER_VALUE,       true)
+                .addDoubleColumn(   NUMBER_VALUE_LOW,       true)
+                .addDoubleColumn(  NUMBER_VALUE_HIGH,       true)
+                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
+                .addIndex(IDX + tableName + "_PNNV", PARAMETER_NAME_ID, NUMBER_VALUE, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, NUMBER_VALUE)
+                .addPrimaryKey(PK + tableName, ROW_ID)
+                .setIdentityColumn(ROW_ID, Generated.BY_DEFAULT)
+                .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
+                .addForeignKeyConstraint(FK + tableName + "_RID", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(model)
+                ;
 
         group.add(tbl);
         model.addTable(tbl);

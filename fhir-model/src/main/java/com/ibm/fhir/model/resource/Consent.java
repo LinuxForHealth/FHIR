@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -153,6 +153,7 @@ public class Consent extends DomainResource {
         policyRule = builder.policyRule;
         verification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.verification, "verification"));
         provision = builder.provision;
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1280,6 +1281,7 @@ public class Consent extends DomainResource {
             verified = ValidationSupport.requireNonNull(builder.verified, "verified");
             verifiedWith = builder.verifiedWith;
             verificationDate = builder.verificationDate;
+            ValidationSupport.checkReferenceType(verifiedWith, "verifiedWith", "Patient", "RelatedPerson");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2347,6 +2349,7 @@ public class Consent extends DomainResource {
                 super(builder);
                 role = ValidationSupport.requireNonNull(builder.role, "role");
                 reference = ValidationSupport.requireNonNull(builder.reference, "reference");
+                ValidationSupport.checkReferenceType(reference, "reference", "Device", "Group", "CareTeam", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
                 ValidationSupport.requireValueOrChildren(this);
             }
 

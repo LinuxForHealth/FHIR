@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
  */
 public interface FHIRDbDAO {
 
-    public static final String FHIRDB_JNDI_NAME_DEFAULT = "jdbc/fhirDB";
+    public static final String FHIRDB_JNDI_NAME_DEFAULT = "jdbc/fhirProxyDataSource";
     public static final String PROPERTY_DB_DRIVER = "dbDriverName";
     public static final String PROPERTY_DB_URL = "dbUrl";
     public static final String PROPERTY_DB2_USER = "user";

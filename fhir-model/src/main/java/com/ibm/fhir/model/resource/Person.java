@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -79,6 +79,7 @@ public class Person extends DomainResource {
         managingOrganization = builder.managingOrganization;
         active = builder.active;
         link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.requireChildren(this);
     }
 
@@ -794,6 +795,7 @@ public class Person extends DomainResource {
             super(builder);
             target = ValidationSupport.requireNonNull(builder.target, "target");
             assurance = builder.assurance;
+            ValidationSupport.checkReferenceType(target, "target", "Patient", "Practitioner", "RelatedPerson", "Person");
             ValidationSupport.requireValueOrChildren(this);
         }
 

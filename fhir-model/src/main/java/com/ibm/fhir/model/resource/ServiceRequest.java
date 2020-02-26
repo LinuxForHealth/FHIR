@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -229,6 +229,9 @@ public class ServiceRequest extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         patientInstruction = builder.patientInstruction;
         relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Location", "Device");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
         ValidationSupport.requireChildren(this);
     }
 

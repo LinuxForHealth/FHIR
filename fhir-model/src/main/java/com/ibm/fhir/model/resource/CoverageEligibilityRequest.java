@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -111,6 +111,11 @@ public class CoverageEligibilityRequest extends DomainResource {
         supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
         insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
         item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
+        ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+        ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
+        ValidationSupport.checkReferenceType(facility, "facility", "Location");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1287,6 +1292,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             focal = builder.focal;
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
             businessArrangement = builder.businessArrangement;
+            ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1620,6 +1626,8 @@ public class CoverageEligibilityRequest extends DomainResource {
             facility = builder.facility;
             diagnosis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosis, "diagnosis"));
             detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
+            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(facility, "facility", "Location", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

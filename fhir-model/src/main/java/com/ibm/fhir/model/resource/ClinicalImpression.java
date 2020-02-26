@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -126,6 +126,10 @@ public class ClinicalImpression extends DomainResource {
         prognosisReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prognosisReference, "prognosisReference"));
         supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(assessor, "assessor", "Practitioner", "PractitionerRole");
+        ValidationSupport.checkReferenceType(previous, "previous", "ClinicalImpression");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1560,6 +1564,7 @@ public class ClinicalImpression extends DomainResource {
             itemCodeableConcept = builder.itemCodeableConcept;
             itemReference = builder.itemReference;
             basis = builder.basis;
+            ValidationSupport.checkReferenceType(itemReference, "itemReference", "Condition", "Observation", "Media");
             ValidationSupport.requireValueOrChildren(this);
         }
 

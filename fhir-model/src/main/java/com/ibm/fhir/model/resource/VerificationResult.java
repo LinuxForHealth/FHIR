@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -997,6 +997,7 @@ public class VerificationResult extends DomainResource {
             validationDate = builder.validationDate;
             canPushUpdates = builder.canPushUpdates;
             pushTypeAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.pushTypeAvailable, "pushTypeAvailable"));
+            ValidationSupport.checkReferenceType(who, "who", "Organization", "Practitioner", "PractitionerRole");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1493,6 +1494,8 @@ public class VerificationResult extends DomainResource {
             proxyIdentityCertificate = builder.proxyIdentityCertificate;
             proxySignature = builder.proxySignature;
             sourceSignature = builder.sourceSignature;
+            ValidationSupport.checkReferenceType(who, "who", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Organization", "Practitioner", "PractitionerRole");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1940,6 +1943,7 @@ public class VerificationResult extends DomainResource {
             organization = ValidationSupport.requireNonNull(builder.organization, "organization");
             identityCertificate = builder.identityCertificate;
             attestationSignature = builder.attestationSignature;
+            ValidationSupport.checkReferenceType(organization, "organization", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

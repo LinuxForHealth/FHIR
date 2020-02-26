@@ -5,7 +5,8 @@
             "truststoreLocation": "resources/security/fhirTruststore.jks",
             "truststorePassword": "change-password",
             "tenantIdHeaderName": "X-FHIR-TENANT-ID",
-            "datastoreIdHeaderName": "X-FHIR-DSID"
+            "datastoreIdHeaderName": "X-FHIR-DSID",
+            "checkReferenceTypes": false
         },
         "audit": {
             "serviceClassName" : "com.ibm.fhir.audit.logging.impl.DisabledAuditLogService",

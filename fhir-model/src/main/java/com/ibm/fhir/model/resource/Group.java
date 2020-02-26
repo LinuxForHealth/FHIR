@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -100,6 +100,7 @@ public class Group extends DomainResource {
         managingEntity = builder.managingEntity;
         characteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.characteristic, "characteristic"));
         member = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.member, "member"));
+        ValidationSupport.checkReferenceType(managingEntity, "managingEntity", "Organization", "RelatedPerson", "Practitioner", "PractitionerRole");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1142,6 +1143,7 @@ public class Group extends DomainResource {
             entity = ValidationSupport.requireNonNull(builder.entity, "entity");
             period = builder.period;
             inactive = builder.inactive;
+            ValidationSupport.checkReferenceType(entity, "entity", "Patient", "Practitioner", "PractitionerRole", "Device", "Medication", "Substance", "Group");
             ValidationSupport.requireValueOrChildren(this);
         }
 

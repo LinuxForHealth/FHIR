@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -90,6 +90,9 @@ public class MedicinalProductAuthorization extends DomainResource {
         holder = builder.holder;
         regulator = builder.regulator;
         procedure = builder.procedure;
+        ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "MedicinalProductPackaged");
+        ValidationSupport.checkReferenceType(holder, "holder", "Organization");
+        ValidationSupport.checkReferenceType(regulator, "regulator", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

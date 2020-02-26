@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -71,6 +71,7 @@ public class MedicinalProductPackaged extends DomainResource {
         manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
         batchIdentifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.batchIdentifier, "batchIdentifier"));
         packageItem = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.packageItem, "packageItem"));
+        ValidationSupport.checkReferenceType(marketingAuthorization, "marketingAuthorization", "MedicinalProductAuthorization");
         ValidationSupport.requireChildren(this);
     }
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -109,6 +109,7 @@ public class TestReport extends DomainResource {
         setup = builder.setup;
         test = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.test, "test"));
         teardown = builder.teardown;
+        ValidationSupport.checkReferenceType(testScript, "testScript", "TestScript");
         ValidationSupport.requireChildren(this);
     }
 

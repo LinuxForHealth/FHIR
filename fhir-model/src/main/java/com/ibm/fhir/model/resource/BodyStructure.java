@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -84,6 +84,7 @@ public class BodyStructure extends DomainResource {
         description = builder.description;
         image = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.image, "image"));
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.requireChildren(this);
     }
 

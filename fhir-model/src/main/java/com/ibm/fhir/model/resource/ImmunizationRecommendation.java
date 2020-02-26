@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -71,6 +71,8 @@ public class ImmunizationRecommendation extends DomainResource {
         date = ValidationSupport.requireNonNull(builder.date, "date");
         authority = builder.authority;
         recommendation = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.recommendation, "recommendation"));
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(authority, "authority", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

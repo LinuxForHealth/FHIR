@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1945,6 +1945,7 @@ public class CapabilityStatement extends DomainResource {
             description = ValidationSupport.requireNonNull(builder.description, "description");
             url = builder.url;
             custodian = builder.custodian;
+            ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

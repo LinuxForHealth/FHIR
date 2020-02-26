@@ -31,7 +31,7 @@ public final class BenchmarkUtil {
      * @return the list of spec examples for which we have both an XML and JSON variant 
      */
     private static List<String> buildSpecExampleNames() {
-        try (Reader jsonReader = ExamplesUtil.resourceReader("json/spec.txt"); Reader xmlReader = ExamplesUtil.resourceReader("xml/spec.txt")) {
+        try (Reader jsonReader = ExamplesUtil.resourceReader("spec-json.txt"); Reader xmlReader = ExamplesUtil.resourceReader("spec-xml.txt")) {
             Set<String> jsonExampleNames = new BufferedReader(jsonReader)
                     .lines()
                     .filter(line -> line.startsWith("OK"))

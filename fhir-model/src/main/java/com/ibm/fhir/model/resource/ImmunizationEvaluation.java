@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -108,6 +108,9 @@ public class ImmunizationEvaluation extends DomainResource {
         series = builder.series;
         doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
         seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(authority, "authority", "Organization");
+        ValidationSupport.checkReferenceType(immunizationEvent, "immunizationEvent", "Immunization");
         ValidationSupport.requireChildren(this);
     }
 

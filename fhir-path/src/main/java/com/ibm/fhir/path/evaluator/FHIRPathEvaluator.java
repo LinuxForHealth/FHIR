@@ -56,6 +56,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.visitor.Visitable;
 import com.ibm.fhir.path.FHIRPathBaseVisitor;
 import com.ibm.fhir.path.FHIRPathBooleanValue;
 import com.ibm.fhir.path.FHIRPathDateTimeValue;
@@ -97,6 +98,26 @@ public class FHIRPathEvaluator {
         return evaluate(new EvaluationContext(), expr, empty());
     }
     
+    /**
+     * @param resourceOrElement
+     * @param expr
+     * @return a potentially-empty non-null collection of FHIRPathNodes
+     * @throws FHIRPathException
+     * @throws NullPointerException if any of the passed arguments are null
+     */
+    public Collection<FHIRPathNode> evaluate(Visitable resourceOrElement, String expr) throws FHIRPathException {
+        Objects.requireNonNull("resourceOrElement cannot be null");
+
+        if (resourceOrElement instanceof Resource) {
+            return evaluate((Resource) resourceOrElement, expr);
+        } else if (resourceOrElement instanceof Element) {
+            return evaluate((Element) resourceOrElement, expr);
+        }
+
+        throw new IllegalArgumentException("FHIRPath Context cannot be established for object of type " + 
+                resourceOrElement.getClass().getName());
+    }
+    
     public Collection<FHIRPathNode> evaluate(Resource resource, String expr) throws FHIRPathException {
         return evaluate(new EvaluationContext(resource), expr);
     }
@@ -113,6 +134,14 @@ public class FHIRPathEvaluator {
         return evaluate(evaluationContext, expr, singleton(node));
     }
     
+    /**
+     * @param evaluationContext
+     * @param expr
+     * @param initialContext
+     * @return a potentially-empty non-null collection of FHIRPathNodes
+     * @throws FHIRPathException
+     * @throws NullPointerException if any of the passed arguments are null
+     */
     public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr, Collection<FHIRPathNode> initialContext) throws FHIRPathException {
         Objects.requireNonNull(evaluationContext);
         Objects.requireNonNull(initialContext);
@@ -130,7 +159,7 @@ public class FHIRPathEvaluator {
     
     private static ExpressionContext compile(String expr) {
         FHIRPathLexer lexer = new FHIRPathLexer(CharStreams.fromString(expr));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);        
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
         FHIRPathParser parser = new FHIRPathParser(tokens);
         return parser.expression();
     }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -116,6 +116,9 @@ public class MeasureReport extends DomainResource {
         improvementNotation = builder.improvementNotation;
         group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
         evaluatedResource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evaluatedResource, "evaluatedResource"));
+        ValidationSupport.checkCodeableConcept(improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Location", "Device", "RelatedPerson", "Group");
+        ValidationSupport.checkReferenceType(reporter, "reporter", "Practitioner", "PractitionerRole", "Location", "Organization");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1219,6 +1222,7 @@ public class MeasureReport extends DomainResource {
                 code = builder.code;
                 count = builder.count;
                 subjectResults = builder.subjectResults;
+                ValidationSupport.checkReferenceType(subjectResults, "subjectResults", "List");
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -2457,6 +2461,7 @@ public class MeasureReport extends DomainResource {
                         code = builder.code;
                         count = builder.count;
                         subjectResults = builder.subjectResults;
+                        ValidationSupport.checkReferenceType(subjectResults, "subjectResults", "List");
                         ValidationSupport.requireValueOrChildren(this);
                     }
 

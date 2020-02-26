@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -109,6 +109,8 @@ public class DeviceMetric extends DomainResource {
         category = ValidationSupport.requireNonNull(builder.category, "category");
         measurementPeriod = builder.measurementPeriod;
         calibration = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.calibration, "calibration"));
+        ValidationSupport.checkReferenceType(source, "source", "Device");
+        ValidationSupport.checkReferenceType(parent, "parent", "Device");
         ValidationSupport.requireChildren(this);
     }
 

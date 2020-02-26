@@ -8,14 +8,11 @@ package com.ibm.fhir.operation.bulkdata.util;
 import static com.ibm.fhir.model.type.String.string;
 
 import java.nio.charset.StandardCharsets;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -39,30 +36,10 @@ import com.ibm.fhir.operation.context.FHIROperationContext;
  * BulkData Util captures common methods
  */
 public class BulkDataUtil {
-    // Random generator for COS path prefix
-    private static final SecureRandom RANDOM = new SecureRandom();
+
 
     private BulkDataUtil() {
         // No Operation
-    }
-
-    /**
-     * Generate a random AES key or 32 byte value encoded as a Base64 string.
-     *
-     * @return
-     */
-    public static String getRandomKey(String key) {
-        KeyGenerator keyGen;
-        try {
-            keyGen = KeyGenerator.getInstance(key);
-            keyGen.init(256);
-            return Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
-        } catch (NoSuchAlgorithmException e) {
-            byte[] buffer = new byte[32];
-            RANDOM.setSeed(System.currentTimeMillis());
-            RANDOM.nextBytes(buffer);
-            return Base64.getEncoder().encodeToString(buffer);
-        }
     }
 
     /**
@@ -109,7 +86,7 @@ public class BulkDataUtil {
         if (qps != null) {
             if (qps.isEmpty() || qps.size() != 1) {
                 throw buildOperationException(
-                        "_outputFormat cardinality expectation for $apply operation parameter is 0..1 ");
+                        "_outputFormat cardinality expectation for $apply operation parameter is 0..1 ", IssueType.INVALID);
             }
 
             String format = qps.get(0);
@@ -122,22 +99,22 @@ public class BulkDataUtil {
 
                 format = notDecodedQps.get(0);
                 if (!BulkDataConstants.EXPORT_FORMATS.contains(format)) {
-                    throw buildOperationException("Invalid requested format.");
+                    throw buildOperationException("Invalid requested format.", IssueType.INVALID);
                 }
             }
         }
         return value;
     }
 
-    public static FHIROperationException buildOperationException(String errMsg) {
+    public static FHIROperationException buildOperationException(String errMsg, IssueType issueType) {
         FHIROperationException operationException = new FHIROperationException(errMsg);
 
         List<Issue> issues = new ArrayList<>();
-        Issue.Builder builder = Issue.builder();
-        builder.code(IssueType.INVALID);
-        builder.diagnostics(string(errMsg));
-        builder.severity(IssueSeverity.ERROR);
-        issues.add(builder.build());
+        issues.add(Issue.builder()
+                .code(issueType)
+                .diagnostics(string(errMsg))
+                .severity(IssueSeverity.ERROR)
+                .build());
 
         operationException.setIssues(issues);
         return operationException;
@@ -201,12 +178,12 @@ public class BulkDataUtil {
                                 result.add(type);
                             } else {
                                 throw buildOperationException(
-                                        "invalid resource type sent as a parameter to $export operation");
+                                        "invalid resource type sent as a parameter to $export operation", IssueType.INVALID);
                             }
                         }
                     } else {
                         throw buildOperationException(
-                                "invalid resource type sent as a parameter to $export operation");
+                                "invalid resource type sent as a parameter to $export operation", IssueType.INVALID);
                     }
                 }
             }
@@ -240,14 +217,14 @@ public class BulkDataUtil {
                                 result.add(typeFilter);
                             } else {
                                 throw buildOperationException(
-                                        "invalid typeFilter sent as a parameter to $export operation");
+                                        "invalid typeFilter sent as a parameter to $export operation", IssueType.INVALID);
                             }
                         }
                         return result;
                     }
                     // Result must have NOT been returned.
                     throw buildOperationException(
-                            "invalid typeFilter parameter type sent to $export operation");
+                            "invalid typeFilter parameter type sent to $export operation", IssueType.INVALID);
                 }
             }
         }

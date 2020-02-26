@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -150,6 +150,7 @@ public class Evidence extends DomainResource {
         exposureBackground = ValidationSupport.requireNonNull(builder.exposureBackground, "exposureBackground");
         exposureVariant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.exposureVariant, "exposureVariant"));
         outcome = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcome, "outcome"));
+        ValidationSupport.checkReferenceType(exposureBackground, "exposureBackground", "EvidenceVariable");
         ValidationSupport.requireChildren(this);
     }
 

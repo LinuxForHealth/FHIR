@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -137,6 +137,9 @@ public class RequestGroup extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(author, "author", "Device", "Practitioner", "PractitionerRole");
         ValidationSupport.requireChildren(this);
     }
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -181,6 +181,10 @@ public class EffectEvidenceSynthesis extends DomainResource {
         resultsByExposure = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resultsByExposure, "resultsByExposure"));
         effectEstimate = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.effectEstimate, "effectEstimate"));
         certainty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.certainty, "certainty"));
+        ValidationSupport.checkReferenceType(population, "population", "EvidenceVariable");
+        ValidationSupport.checkReferenceType(exposure, "exposure", "EvidenceVariable");
+        ValidationSupport.checkReferenceType(exposureAlternative, "exposureAlternative", "EvidenceVariable");
+        ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
         ValidationSupport.requireChildren(this);
     }
 
@@ -2124,6 +2128,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             exposureState = builder.exposureState;
             variantState = builder.variantState;
             riskEvidenceSynthesis = ValidationSupport.requireNonNull(builder.riskEvidenceSynthesis, "riskEvidenceSynthesis");
+            ValidationSupport.checkReferenceType(riskEvidenceSynthesis, "riskEvidenceSynthesis", "RiskEvidenceSynthesis");
             ValidationSupport.requireValueOrChildren(this);
         }
 

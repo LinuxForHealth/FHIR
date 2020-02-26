@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -99,6 +99,10 @@ public class Invoice extends DomainResource {
         totalGross = builder.totalGross;
         paymentTerms = builder.paymentTerms;
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        ValidationSupport.checkReferenceType(recipient, "recipient", "Organization", "Patient", "RelatedPerson");
+        ValidationSupport.checkReferenceType(issuer, "issuer", "Organization");
+        ValidationSupport.checkReferenceType(account, "account", "Account");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1004,6 +1008,7 @@ public class Invoice extends DomainResource {
             super(builder);
             role = builder.role;
             actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+            ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "Organization", "Patient", "PractitionerRole", "Device", "RelatedPerson");
             ValidationSupport.requireValueOrChildren(this);
         }
 

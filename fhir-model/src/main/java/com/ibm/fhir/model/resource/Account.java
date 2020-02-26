@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -90,6 +90,8 @@ public class Account extends DomainResource {
         description = builder.description;
         guarantor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.guarantor, "guarantor"));
         partOf = builder.partOf;
+        ValidationSupport.checkReferenceType(owner, "owner", "Organization");
+        ValidationSupport.checkReferenceType(partOf, "partOf", "Account");
         ValidationSupport.requireChildren(this);
     }
 
@@ -830,6 +832,7 @@ public class Account extends DomainResource {
             super(builder);
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
             priority = builder.priority;
+            ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1105,6 +1108,7 @@ public class Account extends DomainResource {
             party = ValidationSupport.requireNonNull(builder.party, "party");
             onHold = builder.onHold;
             period = builder.period;
+            ValidationSupport.checkReferenceType(party, "party", "Patient", "RelatedPerson", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

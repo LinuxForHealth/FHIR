@@ -51,6 +51,7 @@ jobs:
       env:
         BASE: origin/${{ github['base_ref'] }}
       run: |
+        mvn -version
         model_paths=(
           fhir-model
           fhir-examples
@@ -102,7 +103,7 @@ jobs:
         # Convert the PROFILES_ARR array to a comma-delimited string
         PROFILES=$(IFS=, ; echo "${PROFILES_ARR[*]}")
         echo "Using profiles ${PROFILES}"
-        mvn -B -T2C package --file fhir-parent -P "${PROFILES}" --no-transfer-progress
+        mvn -B -T2C package --file fhir-parent -P "${PROFILES}" --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240
   e2e-tests:
     runs-on: ubuntu-latest
     strategy:
@@ -127,7 +128,7 @@ jobs:
           export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
           JAVADOC_GOAL=" -Pvalidate-javadoc javadoc:javadoc "
         fi
-        mvn -B ${JAVADOC_GOAL} install --file fhir-parent -DskipTests -P integration --no-transfer-progress
+        mvn -B ${JAVADOC_GOAL} install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240
     - name: Server Integration Tests
       env:
         # debian-based linux uses C.UTF-8 by default and Derby doesn't like that
@@ -136,7 +137,7 @@ jobs:
         export WORKSPACE=${GITHUB_WORKSPACE}
         build/pre-integration-test.sh
         env
-        mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress
+        mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240
         build/post-integration-test.sh
     - name: Gather error logs
       if: failure()
@@ -176,6 +177,7 @@ jobs:
     - name: Server Integration Tests
       shell: powershell
       run: |
+        $ErrorActionPreference = "Stop"
         & build/pre-integration-test.ps1
         & build/tests.ps1
         & build/post-integration-test.ps1
@@ -262,5 +264,5 @@ jobs:
       if: always()
       uses: actions/upload-artifact@master
       with:
-        name: integration-test-results-${{ matrix.java }}
+        name: integration-test-results-db2-${{ matrix.java }}
         path: integration-test-results

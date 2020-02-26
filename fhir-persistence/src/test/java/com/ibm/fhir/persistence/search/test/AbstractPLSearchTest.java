@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -113,7 +113,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
      */
     protected void assertSearchReturnsSavedResource(String searchParamName, String queryValue) throws Exception {
         assertTrue("Expected resource was not returned from the search",
-            searchReturnsResource(searchParamName, queryValue, savedResource));
+                searchReturnsResource(searchParamName, queryValue, savedResource));
     }
 
     /**
@@ -122,7 +122,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
      */
     protected void assertSearchDoesntReturnSavedResource(String searchParamName, String queryValue) throws Exception {
         assertFalse("Unexpected resource was returned from the search",
-            searchReturnsResource(searchParamName, queryValue, savedResource));
+                searchReturnsResource(searchParamName, queryValue, savedResource));
     }
 
     /**

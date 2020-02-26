@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -103,6 +103,7 @@ public class Endpoint extends DomainResource {
         payloadMimeType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payloadMimeType, "payloadMimeType"));
         address = ValidationSupport.requireNonNull(builder.address, "address");
         header = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.header, "header"));
+        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

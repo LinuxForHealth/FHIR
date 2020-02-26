@@ -38,6 +38,7 @@ import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
+import com.ibm.fhir.model.annotation.System;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Age;
@@ -176,6 +177,7 @@ public final class ModelSupport {
         dataTypes.add(SubstanceAmount.class);
         DATA_TYPES = Collections.unmodifiableSet(dataTypes);
     }
+    private static final Map<String, Class<?>> DATA_TYPE_MAP = buildDataTypeMap();
     private static final Set<String> KEYWORDS = new HashSet<>(Arrays.asList(
         "$index", 
         "$this", 
@@ -304,6 +306,14 @@ public final class ModelSupport {
         public Set<String> getChoiceElementNames() {
             return choiceElementNames;
         }
+    }
+
+    private static Map<String, Class<?>> buildDataTypeMap() {
+        Map<String, Class<?>> dataTypeMap = new LinkedHashMap<>();
+        for (Class<?> dataType : DATA_TYPES) {
+            dataTypeMap.put(getTypeName(dataType), dataType);
+        }
+        return Collections.unmodifiableMap(dataTypeMap);
     }
 
     private static Map<Class<?>, Class<?>> buildConcreteTypeMap() {
@@ -515,7 +525,8 @@ public final class ModelSupport {
     }
 
     /**
-     * @return the model class for the element with name elementName on the passed modelClass
+     * @return the model class for the element with name elementName on the passed modelClass or
+     *         null if the passed modelClass does not have an element {@code elementName}
      */
     public static Class<?> getElementType(Class<?> modelClass, String elementName) {
         ElementInfo elementInfo = getElementInfo(modelClass, elementName);
@@ -601,6 +612,8 @@ public final class ModelSupport {
 
     /**
      * @return the name of the FHIR data type which corresponds to the passed type
+     * @implNote primitive types will start with a lowercase letter,
+     *           complex types and resources with an uppercaseletter
      */
     public static String getTypeName(Class<?> type) {
         String typeName = type.getSimpleName();
@@ -614,6 +627,8 @@ public final class ModelSupport {
 
     /**
      * @return the set of FHIR data type names for the passed modelClass and its supertypes
+     * @implNote primitive types will start with a lowercase letter,
+     *           complex types and resources with an uppercaseletter
      */
     public static Set<String> getTypeNames(Class<?> modelClass) {
         Set<String> typeNames = new HashSet<>();
@@ -859,7 +874,7 @@ public final class ModelSupport {
     }
 
     /**
-     * @return true if @{code identifier} is a reserved keyword in FHIRPath version N1
+     * @return true if {@code identifier} is a reserved keyword in FHIRPath version N1
      * @see <a href="http://hl7.org/fhirpath/2018Sep/index.html#keywords">http://hl7.org/fhirpath/2018Sep/index.html#keywords</a>
      */
     public static boolean isKeyword(String identifier) {
@@ -872,5 +887,22 @@ public final class ModelSupport {
      */
     public static String delimit(String identifier) {
         return String.format("`%s`", identifier);
+    }
+    
+    /**
+     * @return the implicit system for {@code code} if present, otherwise null
+     */
+    public static String getSystem(Code code) {
+        if (code != null && code.getClass().isAnnotationPresent(System.class)) {
+            return code.getClass().getAnnotation(System.class).value();
+        }
+        return null;
+    }
+
+    /**
+     * @return the data type class associated with {@code typeName} parameter if exists, otherwise null
+     */
+    public static Class<?> getDataType(String typeName) {
+        return DATA_TYPE_MAP.get(typeName);
     }
 }

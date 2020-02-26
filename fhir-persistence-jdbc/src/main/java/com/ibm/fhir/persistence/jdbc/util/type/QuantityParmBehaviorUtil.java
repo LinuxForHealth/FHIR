@@ -12,18 +12,11 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GT;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LT;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE_HIGH;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE_LOW;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,8 +29,7 @@ import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 /**
- * <a href="https://hl7.org/fhir/search.html#quantity>FHIR Specification: Search
- * - Quantity</a>
+ * <a href="https://hl7.org/fhir/search.html#quantity>FHIR Search - Quantity</a>
  * <br>
  * This utility encapsulates the logic specific to fhir-search related to
  * quantity.
@@ -76,14 +68,14 @@ public class QuantityParmBehaviorUtil {
 
                 // If multiple values are present, we need to OR them together.
                 if (parmValueProcessed) {
-                    // OR
+                    // ) OR (
                     whereClauseSegment.append(RIGHT_PAREN).append(OR).append(LEFT_PAREN);
                 } else {
                     // Signal to the downstream to treat any subsequent value as an OR condition 
                     parmValueProcessed = true;
                 }
 
-                addValue(whereClauseSegment, bindVariables, tableAlias, prefix, value.getValueNumber());
+                NumberParmBehaviorUtil.addValue(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, prefix, value.getValueNumber());
                 addSystemIfPresent(parameterDao, whereClauseSegment, tableAlias, bindVariables,
                         value.getValueSystem());
                 addCodeIfPresent(whereClauseSegment, tableAlias, bindVariables,
@@ -170,180 +162,5 @@ public class QuantityParmBehaviorUtil {
 
     public boolean isPresent(String value) {
         return value != null && !value.isEmpty();
-    }
-
-    /**
-     * the build common clause considers _VALUE_*** and _VALUE when querying the
-     * data.
-     * <br>
-     * The data should not result in a duplication as the OR condition short
-     * circuits double matches.
-     * If one exists, great, we'll return it, else we'll peek at the other column.
-     * <br>
-     * 
-     * @param whereClauseSegment
-     * @param bindVariables
-     * @param tableAlias
-     * @param columnName
-     * @param columnNameLowOrHigh
-     * @param operator
-     * @param value
-     */
-    public void buildCommonClause(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
-            String columnName, String columnNameLowOrHigh, String operator, BigDecimal value, BigDecimal bound) {
-        whereClauseSegment
-                .append(LEFT_PAREN)
-                .append(tableAlias).append(DOT).append(columnName).append(operator).append(BIND_VAR)
-                .append(OR)
-                .append(tableAlias).append(DOT).append(columnNameLowOrHigh).append(operator).append(BIND_VAR)
-                .append(RIGHT_PAREN);
-
-        bindVariables.add(value);
-        bindVariables.add(bound);
-    }
-    
-    public void buildEqualsRangeClause(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
-           BigDecimal lowerBound, BigDecimal upperBound, BigDecimal value) {
-        whereClauseSegment
-            .append(LEFT_PAREN)
-            .append(LEFT_PAREN)
-                    .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(GT).append(BIND_VAR)
-                    .append(AND)
-                    .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(LTE).append(BIND_VAR)
-                .append(RIGHT_PAREN)
-                .append(OR)
-                .append(LEFT_PAREN)
-                    .append(tableAlias).append(DOT).append(QUANTITY_VALUE_LOW).append(LT).append(BIND_VAR)
-                    .append(AND)
-                    .append(tableAlias).append(DOT).append(QUANTITY_VALUE_HIGH).append(GTE).append(BIND_VAR)
-                .append(RIGHT_PAREN).append(RIGHT_PAREN);
-
-        bindVariables.add(lowerBound);
-        bindVariables.add(upperBound);
-        bindVariables.add(value);
-        bindVariables.add(value);
-    }
-    
-    public void buildApproxRangeClause(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
-            BigDecimal lowerBound, BigDecimal upperBound, BigDecimal value) {
-         whereClauseSegment
-             .append(LEFT_PAREN)
-             .append(LEFT_PAREN)
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(GT).append(BIND_VAR)
-                     .append(AND)
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(LTE).append(BIND_VAR)
-                 .append(RIGHT_PAREN)
-                 .append(OR)
-                 .append(LEFT_PAREN)
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE_LOW).append(LTE).append(BIND_VAR)
-                     .append(AND)
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE_HIGH).append(GTE).append(BIND_VAR)
-                 .append(RIGHT_PAREN).append(RIGHT_PAREN);
-
-         bindVariables.add(lowerBound);
-         bindVariables.add(upperBound);
-         bindVariables.add(value);
-         bindVariables.add(value);
-     }
-    
-    public void buildNotEqualsRangeClause(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
-            BigDecimal lowerBound, BigDecimal upperBound, BigDecimal value) {
-         whereClauseSegment
-             .append(LEFT_PAREN)
-             .append(LEFT_PAREN)
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(LTE).append(BIND_VAR)
-                     .append(OR)
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE).append(GT).append(BIND_VAR)
-                 .append(RIGHT_PAREN)
-                 .append(OR)
-                 .append(LEFT_PAREN)
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE_LOW).append(LTE).append(BIND_VAR)
-                     .append(OR)
-                     .append(tableAlias).append(DOT).append(QUANTITY_VALUE_HIGH).append(GT).append(BIND_VAR)
-                 .append(RIGHT_PAREN).append(RIGHT_PAREN);
-
-         bindVariables.add(lowerBound);
-         bindVariables.add(upperBound);
-         bindVariables.add(value);
-         bindVariables.add(value);
-     }
-
-    /**
-     * Append the condition and bind the variables according to the semantics of the
-     * passed prefix
-     * adds the value to the whereClause.
-     * 
-     * @param whereClauseSegment
-     * @param bindVariables
-     * @param tableAlias
-     * @param prefix
-     * @param value
-     */
-    public void addValue(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
-            Prefix prefix, BigDecimal value) {
-
-        BigDecimal lowerBound = NumberParmBehaviorUtil.generateLowerBound(value);
-        BigDecimal upperBound = NumberParmBehaviorUtil.generateUpperBound(value);
-
-        switch (prefix) {
-        case EB:
-            // EB - Ends Before
-            // the range of the search value does not overlap with the range of the target value,
-            // and the range above the search value contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_HIGH,
-                    LT, value, value);
-            break;
-        case SA:
-            // SA - Starts After
-            // the range of the search value does not overlap with the range of the target value,
-            // and the range below the search value contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_LOW,
-                    GT, value, value);
-            break;
-        case GE:
-            // GE - Greater Than Equal
-            // the range above the search value intersects (i.e. overlaps) with the range of the target value,
-            // or the range of the search value fully contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_HIGH,
-                    GTE, value, value);
-            break;
-        case GT:
-            // GT - Greater Than
-            // the range above the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_HIGH,
-                    GT, value, value);
-            break;
-        case LE:
-            // LE - Less Than Equal
-            // the range below the search value intersects (i.e. overlaps) with the range of the target value
-            // or the range of the search value fully contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_LOW,
-                    LTE, value, value);
-            break;
-        case LT:
-            // LT - Less Than
-            // the range below the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, QUANTITY_VALUE, QUANTITY_VALUE_LOW,
-                    LT, value, value);
-            break;
-        case AP:
-            // AP - Approximate - Relative
-            // -10% of the Lower Bound
-            // +10% of the Upper Bound
-            BigDecimal factor = value.multiply(NumberParmBehaviorUtil.FACTOR);
-            buildApproxRangeClause(whereClauseSegment, bindVariables, tableAlias, lowerBound.subtract(factor), upperBound.add(factor), value);
-            break;
-        case NE:
-            // NE:  Upper and Lower Bounds - Range Based Search
-            // the range of the search value does not fully contain the range of the target value
-            buildNotEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, lowerBound, upperBound, value);
-            break;
-        case EQ:
-        default:
-            // EQ:  Upper and Lower Bounds - Range Based Search
-            // the range of the search value fully contains the range of the target value
-            buildEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, lowerBound, upperBound, value);
-            break;
-        }
     }
 }

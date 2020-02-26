@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -175,6 +175,10 @@ public class ClaimResponse extends DomainResource {
         communicationRequest = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communicationRequest, "communicationRequest"));
         insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
         error = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.error, "error"));
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
+        ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
+        ValidationSupport.checkReferenceType(request, "request", "Claim");
         ValidationSupport.requireChildren(this);
     }
 
@@ -6227,6 +6231,8 @@ public class ClaimResponse extends DomainResource {
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
             businessArrangement = builder.businessArrangement;
             claimResponse = builder.claimResponse;
+            ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
+            ValidationSupport.checkReferenceType(claimResponse, "claimResponse", "ClaimResponse");
             ValidationSupport.requireValueOrChildren(this);
         }
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -860,6 +860,7 @@ public class Practitioner extends DomainResource {
             code = ValidationSupport.requireNonNull(builder.code, "code");
             period = builder.period;
             issuer = builder.issuer;
+            ValidationSupport.checkReferenceType(issuer, "issuer", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

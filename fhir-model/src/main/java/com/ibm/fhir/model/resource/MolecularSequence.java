@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -127,6 +127,10 @@ public class MolecularSequence extends DomainResource {
         repository = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.repository, "repository"));
         pointer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.pointer, "pointer"));
         structureVariant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.structureVariant, "structureVariant"));
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
+        ValidationSupport.checkReferenceType(device, "device", "Device");
+        ValidationSupport.checkReferenceType(performer, "performer", "Organization");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1111,6 +1115,7 @@ public class MolecularSequence extends DomainResource {
             strand = builder.strand;
             windowStart = builder.windowStart;
             windowEnd = builder.windowEnd;
+            ValidationSupport.checkReferenceType(referenceSeqPointer, "referenceSeqPointer", "MolecularSequence");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1617,6 +1622,7 @@ public class MolecularSequence extends DomainResource {
             referenceAllele = builder.referenceAllele;
             cigar = builder.cigar;
             variantPointer = builder.variantPointer;
+            ValidationSupport.checkReferenceType(variantPointer, "variantPointer", "Observation");
             ValidationSupport.requireValueOrChildren(this);
         }
 

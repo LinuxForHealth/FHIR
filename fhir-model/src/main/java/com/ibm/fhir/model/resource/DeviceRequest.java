@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -162,6 +162,10 @@ public class DeviceRequest extends DomainResource {
         supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Location", "Device");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(requester, "requester", "Device", "Practitioner", "PractitionerRole", "Organization");
+        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
         ValidationSupport.requireChildren(this);
     }
 

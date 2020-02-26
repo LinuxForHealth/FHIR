@@ -200,6 +200,8 @@ public class ParameterExtractionTest {
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(((NumberParmVal) params.get(0)).getValueNumber().doubleValue(), 99.99);
+        assertEquals(((NumberParmVal) params.get(0)).getValueNumberLow().doubleValue(), 99.985);
+        assertEquals(((NumberParmVal) params.get(0)).getValueNumberHigh().doubleValue(), 99.995);
     }
     
     @Test

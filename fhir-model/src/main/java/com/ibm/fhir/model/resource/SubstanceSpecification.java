@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -103,6 +103,11 @@ public class SubstanceSpecification extends DomainResource {
         polymer = builder.polymer;
         protein = builder.protein;
         sourceMaterial = builder.sourceMaterial;
+        ValidationSupport.checkReferenceType(referenceInformation, "referenceInformation", "SubstanceReferenceInformation");
+        ValidationSupport.checkReferenceType(nucleicAcid, "nucleicAcid", "SubstanceNucleicAcid");
+        ValidationSupport.checkReferenceType(polymer, "polymer", "SubstancePolymer");
+        ValidationSupport.checkReferenceType(protein, "protein", "SubstanceProtein");
+        ValidationSupport.checkReferenceType(sourceMaterial, "sourceMaterial", "SubstanceSourceMaterial");
         ValidationSupport.requireChildren(this);
     }
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -82,6 +82,7 @@ public class CatalogEntry extends DomainResource {
         additionalCharacteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalCharacteristic, "additionalCharacteristic"));
         additionalClassification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalClassification, "additionalClassification"));
         relatedEntry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedEntry, "relatedEntry"));
+        ValidationSupport.checkReferenceType(referencedItem, "referencedItem", "Medication", "Device", "Organization", "Practitioner", "PractitionerRole", "HealthcareService", "ActivityDefinition", "PlanDefinition", "SpecimenDefinition", "ObservationDefinition", "Binary");
         ValidationSupport.requireChildren(this);
     }
 
@@ -922,6 +923,7 @@ public class CatalogEntry extends DomainResource {
             super(builder);
             relationtype = ValidationSupport.requireNonNull(builder.relationtype, "relationtype");
             item = ValidationSupport.requireNonNull(builder.item, "item");
+            ValidationSupport.checkReferenceType(item, "item", "CatalogEntry");
             ValidationSupport.requireValueOrChildren(this);
         }
 

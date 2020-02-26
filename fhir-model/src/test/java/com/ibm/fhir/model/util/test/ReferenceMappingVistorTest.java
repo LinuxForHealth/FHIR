@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.test;
+package com.ibm.fhir.model.util.test;
 
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.AssertJUnit.assertNotSame;
@@ -32,7 +32,7 @@ import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
-import com.ibm.fhir.server.util.ReferenceMappingVisitor;
+import com.ibm.fhir.model.util.ReferenceMappingVisitor;
 
 public class ReferenceMappingVistorTest {
     public boolean DEBUG = false;

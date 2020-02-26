@@ -60,17 +60,11 @@ public class FHIRPersistenceHelper implements PersistenceHelper {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.helper.PersistenceHelper#getFHIRPersistenceImplementation()
-     */
     @Override
     public FHIRPersistence getFHIRPersistenceImplementation() throws FHIRPersistenceException {
         return getFHIRPersistenceImplementation(PROPERTY_PERSISTENCE_FACTORY);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.helper.PersistenceHelper#getFHIRPersistenceImplementation(java.lang.String)
-     */
     @Override
     public FHIRPersistence getFHIRPersistenceImplementation(String factoryPropertyName) throws FHIRPersistenceException {
         log.entering(this.getClass().getName(), "getFHIRPersistenceImplementation");

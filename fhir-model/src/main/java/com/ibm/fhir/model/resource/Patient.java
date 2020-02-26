@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -118,6 +118,7 @@ public class Patient extends DomainResource {
         generalPractitioner = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.generalPractitioner, "generalPractitioner"));
         managingOrganization = builder.managingOrganization;
         link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1134,6 +1135,7 @@ public class Patient extends DomainResource {
             gender = builder.gender;
             organization = builder.organization;
             period = builder.period;
+            ValidationSupport.checkReferenceType(organization, "organization", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1873,6 +1875,7 @@ public class Patient extends DomainResource {
             super(builder);
             other = ValidationSupport.requireNonNull(builder.other, "other");
             type = ValidationSupport.requireNonNull(builder.type, "type");
+            ValidationSupport.checkReferenceType(other, "other", "Patient", "RelatedPerson");
             ValidationSupport.requireValueOrChildren(this);
         }
 

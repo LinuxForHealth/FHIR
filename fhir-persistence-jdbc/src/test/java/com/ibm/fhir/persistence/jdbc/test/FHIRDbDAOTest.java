@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,8 +18,6 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
 
 /**
  * This class tests the functions of the FHIR DB Data Access Object class.
- * @author markd
- *
  */
 public class FHIRDbDAOTest {
     /**
@@ -32,7 +30,7 @@ public class FHIRDbDAOTest {
         
         Properties props = new Properties();
         props.setProperty(FHIRDbDAO.PROPERTY_DB_DRIVER, "org.apache.derby.jdbc.EmbeddedDriver");
-        props.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/fhirDB;create=true");
+        props.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/derby/fhirDB;create=true");
         // Set the schemaName to the derby default so that it won't try using a non-existent FHIRDATA schema
         props.setProperty("schemaName", "APP");
         FHIRDbDAO dao = new FHIRDbDAOImpl(props);
