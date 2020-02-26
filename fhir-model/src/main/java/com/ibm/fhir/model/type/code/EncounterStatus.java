@@ -70,6 +70,10 @@ public class EncounterStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static EncounterStatus of(ValueSet value) {
         switch (value) {
         case PLANNED:

@@ -45,6 +45,10 @@ public class SpecimenStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static SpecimenStatus of(ValueSet value) {
         switch (value) {
         case AVAILABLE:

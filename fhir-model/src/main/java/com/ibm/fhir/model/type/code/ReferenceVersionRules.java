@@ -40,6 +40,10 @@ public class ReferenceVersionRules extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static ReferenceVersionRules of(ValueSet value) {
         switch (value) {
         case EITHER:

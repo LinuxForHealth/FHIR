@@ -50,6 +50,10 @@ public class AccountStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static AccountStatus of(ValueSet value) {
         switch (value) {
         case ACTIVE:

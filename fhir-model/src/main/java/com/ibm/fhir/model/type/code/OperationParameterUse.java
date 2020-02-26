@@ -35,6 +35,10 @@ public class OperationParameterUse extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static OperationParameterUse of(ValueSet value) {
         switch (value) {
         case IN:

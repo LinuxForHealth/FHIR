@@ -85,6 +85,10 @@ public class SearchModifierCode extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static SearchModifierCode of(ValueSet value) {
         switch (value) {
         case MISSING:

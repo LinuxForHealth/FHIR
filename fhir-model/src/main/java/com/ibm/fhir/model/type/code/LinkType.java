@@ -45,6 +45,10 @@ public class LinkType extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static LinkType of(ValueSet value) {
         switch (value) {
         case REPLACED_BY:

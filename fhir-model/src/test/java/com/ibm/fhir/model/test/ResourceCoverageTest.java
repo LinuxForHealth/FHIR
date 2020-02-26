@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -97,6 +98,7 @@ public class ResourceCoverageTest {
 
     @Test
     public void testResources() throws Exception {
+        FHIRModelConfig.setCheckReferenceTypes(false);
         List<String> SKIP = Arrays.asList("DomainResource", "Resource", "Builder");
         ValueSet[] values = ResourceType.ValueSet.values();
         for (ValueSet valueSet : values) {
@@ -128,6 +130,7 @@ public class ResourceCoverageTest {
 
     @Test
     public void testResourcesWithXml() throws Exception {
+        FHIRModelConfig.setCheckReferenceTypes(false);
         List<String> SKIP = Arrays.asList("DomainResource", "Resource", "Builder");
         ValueSet[] values = ResourceType.ValueSet.values();
         for (ValueSet valueSet : values) {

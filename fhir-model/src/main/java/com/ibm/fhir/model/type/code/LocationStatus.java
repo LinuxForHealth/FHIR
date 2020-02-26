@@ -40,6 +40,10 @@ public class LocationStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static LocationStatus of(ValueSet value) {
         switch (value) {
         case ACTIVE:

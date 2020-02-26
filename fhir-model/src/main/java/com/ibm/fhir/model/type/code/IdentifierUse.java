@@ -50,6 +50,10 @@ public class IdentifierUse extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static IdentifierUse of(ValueSet value) {
         switch (value) {
         case USUAL:

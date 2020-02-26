@@ -35,6 +35,10 @@ public class OperationKind extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static OperationKind of(ValueSet value) {
         switch (value) {
         case OPERATION:

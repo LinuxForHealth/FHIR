@@ -55,6 +55,10 @@ public class ActionSelectionBehavior extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static ActionSelectionBehavior of(ValueSet value) {
         switch (value) {
         case ANY:
