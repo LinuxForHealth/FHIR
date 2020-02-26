@@ -35,6 +35,10 @@ public class SortDirection extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static SortDirection of(ValueSet value) {
         switch (value) {
         case ASCENDING:

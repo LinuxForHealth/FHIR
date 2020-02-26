@@ -40,6 +40,10 @@ public class TestReportParticipantType extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static TestReportParticipantType of(ValueSet value) {
         switch (value) {
         case TEST_ENGINE:

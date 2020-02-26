@@ -65,6 +65,10 @@ public class TriggerType extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static TriggerType of(ValueSet value) {
         switch (value) {
         case NAMED_EVENT:

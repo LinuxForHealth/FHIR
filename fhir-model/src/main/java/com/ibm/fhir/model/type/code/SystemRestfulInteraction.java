@@ -33,6 +33,10 @@ public class SystemRestfulInteraction extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static SystemRestfulInteraction of(ValueSet value) {
         switch (value) {
         case TRANSACTION:

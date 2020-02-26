@@ -40,6 +40,10 @@ public class TestReportResult extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static TestReportResult of(ValueSet value) {
         switch (value) {
         case PASS:

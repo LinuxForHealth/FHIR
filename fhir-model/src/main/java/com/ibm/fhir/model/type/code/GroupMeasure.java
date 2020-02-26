@@ -55,6 +55,10 @@ public class GroupMeasure extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static GroupMeasure of(ValueSet value) {
         switch (value) {
         case MEAN:

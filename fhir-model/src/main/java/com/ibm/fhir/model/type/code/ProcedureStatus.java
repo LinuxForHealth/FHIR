@@ -65,6 +65,10 @@ public class ProcedureStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static ProcedureStatus of(ValueSet value) {
         switch (value) {
         case PREPARATION:

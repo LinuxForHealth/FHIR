@@ -50,6 +50,10 @@ public class ContactPointUse extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static ContactPointUse of(ValueSet value) {
         switch (value) {
         case HOME:

@@ -45,6 +45,10 @@ public class RequestPriority extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static RequestPriority of(ValueSet value) {
         switch (value) {
         case ROUTINE:

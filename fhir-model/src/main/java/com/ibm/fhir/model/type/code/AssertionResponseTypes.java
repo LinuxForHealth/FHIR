@@ -85,6 +85,10 @@ public class AssertionResponseTypes extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static AssertionResponseTypes of(ValueSet value) {
         switch (value) {
         case OKAY:

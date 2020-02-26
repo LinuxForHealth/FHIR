@@ -75,6 +75,10 @@ public class DiagnosticReportStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static DiagnosticReportStatus of(ValueSet value) {
         switch (value) {
         case REGISTERED:
