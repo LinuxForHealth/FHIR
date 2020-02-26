@@ -35,6 +35,10 @@ public class ExposureState extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static ExposureState of(ValueSet value) {
         switch (value) {
         case EXPOSURE:

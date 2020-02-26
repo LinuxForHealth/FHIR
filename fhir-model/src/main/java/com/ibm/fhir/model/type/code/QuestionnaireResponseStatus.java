@@ -50,6 +50,10 @@ public class QuestionnaireResponseStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static QuestionnaireResponseStatus of(ValueSet value) {
         switch (value) {
         case IN_PROGRESS:

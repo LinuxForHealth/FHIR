@@ -45,6 +45,10 @@ public class NarrativeStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static NarrativeStatus of(ValueSet value) {
         switch (value) {
         case GENERATED:

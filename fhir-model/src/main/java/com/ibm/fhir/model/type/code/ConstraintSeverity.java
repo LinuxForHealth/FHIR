@@ -35,6 +35,10 @@ public class ConstraintSeverity extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static ConstraintSeverity of(ValueSet value) {
         switch (value) {
         case ERROR:

@@ -45,6 +45,10 @@ public class IdentityAssuranceLevel extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static IdentityAssuranceLevel of(ValueSet value) {
         switch (value) {
         case LEVEL1:

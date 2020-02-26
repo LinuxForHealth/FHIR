@@ -45,6 +45,10 @@ public class DeviceMetricCategory extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static DeviceMetricCategory of(ValueSet value) {
         switch (value) {
         case MEASUREMENT:

@@ -55,6 +55,10 @@ public class DeviceUseStatementStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static DeviceUseStatementStatus of(ValueSet value) {
         switch (value) {
         case ACTIVE:

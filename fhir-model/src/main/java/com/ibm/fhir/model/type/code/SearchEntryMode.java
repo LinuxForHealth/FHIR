@@ -40,6 +40,10 @@ public class SearchEntryMode extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static SearchEntryMode of(ValueSet value) {
         switch (value) {
         case MATCH:

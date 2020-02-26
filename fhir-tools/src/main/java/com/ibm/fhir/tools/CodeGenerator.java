@@ -2816,6 +2816,10 @@ public class CodeGenerator {
                     ._super(args("builder"))
                 .end().newLine();
                 
+                cb.method(mods("public"), "ValueSet", "getValueAsEnumConstant")
+                    ._return("(value != null) ? ValueSet.from(value) : null")
+                .end().newLine();
+                
                 cb.method(mods("public", "static"), bindingName, "of", args("ValueSet value"))
                     ._switch("value");
                     for (JsonObject concept : concepts) {

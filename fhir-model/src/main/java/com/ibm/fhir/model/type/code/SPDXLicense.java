@@ -1755,6 +1755,10 @@ public class SPDXLicense extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static SPDXLicense of(ValueSet value) {
         switch (value) {
         case LICENSE_NOT_OPEN_SOURCE:

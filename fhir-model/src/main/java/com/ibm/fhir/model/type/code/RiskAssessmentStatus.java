@@ -65,6 +65,10 @@ public class RiskAssessmentStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static RiskAssessmentStatus of(ValueSet value) {
         switch (value) {
         case REGISTERED:

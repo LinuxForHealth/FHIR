@@ -60,6 +60,10 @@ public class DaysOfWeek extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static DaysOfWeek of(ValueSet value) {
         switch (value) {
         case MON:

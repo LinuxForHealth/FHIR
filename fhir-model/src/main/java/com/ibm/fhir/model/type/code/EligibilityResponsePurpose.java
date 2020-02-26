@@ -45,6 +45,10 @@ public class EligibilityResponsePurpose extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static EligibilityResponsePurpose of(ValueSet value) {
         switch (value) {
         case AUTH_REQUIREMENTS:

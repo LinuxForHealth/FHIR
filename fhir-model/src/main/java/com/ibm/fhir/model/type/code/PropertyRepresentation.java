@@ -50,6 +50,10 @@ public class PropertyRepresentation extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static PropertyRepresentation of(ValueSet value) {
         switch (value) {
         case XML_ATTR:

@@ -50,6 +50,10 @@ public class AuditEventAgentNetworkType extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static AuditEventAgentNetworkType of(ValueSet value) {
         switch (value) {
         case TYPE_1:
