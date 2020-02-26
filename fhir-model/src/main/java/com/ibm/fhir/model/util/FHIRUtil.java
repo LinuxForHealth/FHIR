@@ -53,6 +53,7 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Meta;
@@ -144,16 +145,16 @@ public class FHIRUtil {
     }
 
     public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity severity, IssueType code, String details,
-        String expression) {
+            String expression) {
         if (expression == null || expression.isEmpty()) {
             expression = "<no expression>";
         }
         return OperationOutcome.Issue.builder()
-                    .severity(severity)
-                    .code(code)
-                    .details(CodeableConcept.builder().text(string(details)).build())
-                    .expression(Collections.singletonList(string(expression)))
-                    .build();
+                .severity(severity)
+                .code(code)
+                .details(CodeableConcept.builder().text(string(details)).build())
+                .expression(Collections.singletonList(string(expression)))
+                .build();
     }
 
     /**
@@ -433,9 +434,29 @@ public class FHIRUtil {
             if (DomainResource.class.isAssignableFrom(resource.getClass())) {
                 DomainResource dr = (DomainResource) resource;
                 for (Extension ext : dr.getExtension()) {
-                    if (ext.getUrl() != null && ext.getValue() != null && ext.getUrl().equals(extensionUrl)) {
+                    if (ext.getValue() != null && ext.getUrl().equals(extensionUrl) && 
+                            ext.getValue().is(com.ibm.fhir.model.type.String.class)) {
                         return ext.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
                     }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the string value of the specified extension element within the specified element.
+     *
+     * @param element
+     * @param extensionUrl
+     * @return the value of the first such extension with a valueString or null if the resource has no such extensions
+     */
+    public static String getExtensionStringValue(Element element, String extensionUrl) {
+        if (nonNull(element) && nonNull(extensionUrl)) {
+            for (Extension ext : element.getExtension()) {
+                if (ext.getValue() != null && ext.getUrl().equals(extensionUrl) && 
+                        ext.getValue().is(com.ibm.fhir.model.type.String.class)) {
+                    return ext.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
                 }
             }
         }

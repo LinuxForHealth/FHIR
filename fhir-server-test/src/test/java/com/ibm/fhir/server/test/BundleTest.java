@@ -586,7 +586,7 @@ public class BundleTest extends FHIRServerTestBase {
         
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
-        assertBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(),
+        assertBadResponse(responseBundle.getEntry().get(1), Status.PRECONDITION_FAILED.getStatusCode(),
                 "If-Match version '1' does not match current latest version of resource: 2");
     }
 
@@ -630,7 +630,7 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle responseBundle = getEntityWithExtraWork(response,method);
         
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(),
+        assertBadResponse(responseBundle.getEntry().get(0), Status.PRECONDITION_FAILED.getStatusCode(),
                 "If-Match version '1' does not match current latest version of resource: 3");
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
     }
@@ -675,9 +675,9 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle responseBundle = getEntityWithExtraWork(response,method);
         
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(),
+        assertBadResponse(responseBundle.getEntry().get(0), Status.PRECONDITION_FAILED.getStatusCode(),
                 "If-Match version '2' does not match current latest version of resource: 3");
-        assertBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(),
+        assertBadResponse(responseBundle.getEntry().get(1), Status.PRECONDITION_FAILED.getStatusCode(),
                 "If-Match version '2' does not match current latest version of resource: 3");
     }
 
@@ -1213,7 +1213,7 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle responseBundle = getEntityWithExtraWork(response,method);
         
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.CONFLICT.getStatusCode(),
+        assertBadResponse(responseBundle.getEntry().get(0), Status.PRECONDITION_FAILED.getStatusCode(),
                 "If-Match version '1' does not match current latest version of resource: 2");
 
         assertSearchResults(target, family1, 1);
@@ -1252,7 +1252,7 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle responseBundle = getEntityWithExtraWork(response,method);
         
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
-        assertBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(),
+        assertBadResponse(responseBundle.getEntry().get(1), Status.PRECONDITION_FAILED.getStatusCode(),
                 "If-Match version '1' does not match current latest version of resource: 2");
 
         assertSearchResults(target, family1, 1);
