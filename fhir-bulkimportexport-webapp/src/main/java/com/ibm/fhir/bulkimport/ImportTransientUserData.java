@@ -13,8 +13,8 @@ import java.util.List;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 
-public class ImportTransientUserData extends ImportCheckPointData{
-    private static final long serialVersionUID = 1L;
+public class ImportTransientUserData extends ImportCheckPointData {
+    private static final long serialVersionUID = -2642411992044844735L;
     // Used for import OperationOutcomes, Bulk data import API defines optional links to the OperationOutcomes for each import data source,
     // Data in this buffer stream will be uploaded to storage like IBM COS and allow user to download via the link mentioned above.
     private ByteArrayOutputStream bufferStream4ImportError = new ByteArrayOutputStream();
