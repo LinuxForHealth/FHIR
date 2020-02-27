@@ -23,6 +23,7 @@ import com.ibm.fhir.model.type.Reference;
 public class CheckReferenceTypeTest {
     @Test
     public void testCheckReferenceType() throws Exception {
+        FHIRModelConfig.setCheckReferenceTypes(true);
         try (Reader reader = ExamplesUtil.resourceReader("json/ibm/minimal/Observation-1.json")) {
             Observation observation = FHIRParser.parser(Format.JSON).parse(reader);
             
