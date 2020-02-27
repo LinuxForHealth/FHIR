@@ -457,7 +457,7 @@ public class FhirResourceTableGroup {
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
+                .addTag( RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
