@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -44,10 +43,6 @@ import com.ibm.fhir.model.type.code.ResourceType.ValueSet;
  * This class exercises the getters in the resource package.
  */
 public class ResourceCoverageTest {
-
-    public ResourceCoverageTest() {
-        FHIRModelConfig.setCheckReferenceTypes(false);
-    }
 
     public static byte[] PAYLOAD = "THIS IS A FAKE PAYLOAD".getBytes();
 
