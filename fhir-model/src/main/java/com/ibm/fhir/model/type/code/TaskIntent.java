@@ -46,6 +46,10 @@ public class TaskIntent extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static TaskIntent of(ValueSet value) {
         switch (value) {
         case UNKNOWN:

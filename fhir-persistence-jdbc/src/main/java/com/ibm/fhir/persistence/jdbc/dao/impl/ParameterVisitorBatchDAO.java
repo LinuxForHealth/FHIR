@@ -125,9 +125,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         strings = c.prepareStatement(insertString);
 
         insertNumber = multitenant ?
-                "INSERT INTO " + tablePrefix + "_number_values (mt_id, parameter_name_id, number_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?)"
+                "INSERT INTO " + tablePrefix + "_number_values (mt_id, parameter_name_id, number_value, number_value_low, number_value_high, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
                 :
-                "INSERT INTO " + tablePrefix + "_number_values (parameter_name_id, number_value, logical_resource_id) VALUES (?,?,?)";
+                "INSERT INTO " + tablePrefix + "_number_values (parameter_name_id, number_value, number_value_low, number_value_high, logical_resource_id) VALUES (?,?,?,?,?)";
         numbers = c.prepareStatement(insertNumber);
 
         insertDate = multitenant ?
@@ -290,7 +290,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                         + value + " [" + valueLow + ", " + valueHigh + "]");
             }
 
-            setNumberParms(numbers, parameterNameId, value);
+            setNumberParms(numbers, parameterNameId, value, valueLow, valueHigh);
             numbers.addBatch();
 
             if (++numberCount == this.batchSize) {
@@ -303,10 +303,12 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         }
     }
 
-    private void setNumberParms(PreparedStatement insert, int parameterNameId, BigDecimal value) throws SQLException {
+    private void setNumberParms(PreparedStatement insert, int parameterNameId, BigDecimal value, BigDecimal valueLow, BigDecimal valueHigh) throws SQLException {
         insert.setInt(1, parameterNameId);
         insert.setBigDecimal(2, value);
-        insert.setLong(3, logicalResourceId);
+        insert.setBigDecimal(3, valueLow);
+        insert.setBigDecimal(4, valueHigh);
+        insert.setLong(5, logicalResourceId);
     }
 
     @Override
@@ -531,7 +533,8 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
                 if (val instanceof NumberParmVal) {
                     try (PreparedStatement insert = connection.prepareStatement(insertNumber, Statement.RETURN_GENERATED_KEYS)) {
-                        setNumberParms(insert, parameterNameId, ((NumberParmVal) val).getValueNumber());
+                        NumberParmVal number = (NumberParmVal) val;
+                        setNumberParms(insert, parameterNameId, number.getValueNumber(), number.getValueNumberLow(), number.getValueNumberHigh());
                         insert.executeUpdate();
                         // closing the insert statement also closes the resultset
                         ResultSet rs = insert.getGeneratedKeys();

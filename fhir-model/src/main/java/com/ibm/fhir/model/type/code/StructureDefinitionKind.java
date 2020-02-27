@@ -45,6 +45,10 @@ public class StructureDefinitionKind extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static StructureDefinitionKind of(ValueSet value) {
         switch (value) {
         case PRIMITIVE_TYPE:

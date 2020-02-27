@@ -53,6 +53,7 @@ import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
+import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
 import com.ibm.fhir.search.date.DateTimeHandler;
 
 /**
@@ -204,7 +205,10 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 throw invalidComboException(searchParamType, decimal);
             }
             p.setName(searchParamCode);
-            p.setValueNumber(decimal.getValue());
+            BigDecimal value = decimal.getValue();
+            p.setValueNumber(value);
+            p.setValueNumberLow(NumberParmBehaviorUtil.generateLowerBound(value));
+            p.setValueNumberHigh(NumberParmBehaviorUtil.generateUpperBound(value));
             result.add(p);
         }
         return false;
@@ -248,8 +252,10 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 throw invalidComboException(searchParamType, integer);
             }
             p.setName(searchParamCode);
-            // TODO: consider moving integer values to separate column so they can be searched different from decimals
-            p.setValueNumber(new BigDecimal(integer.getValue()));
+            BigDecimal value = new BigDecimal(integer.getValue());
+            p.setValueNumber(value);
+            p.setValueNumberLow(value);
+            p.setValueNumberHigh(value);
             result.add(p);
         }
         return false;
@@ -498,12 +504,16 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         if (quantity.getValue() != null && quantity.getValue().hasValue()) {
             BigDecimal value = quantity.getValue().getValue();
+            BigDecimal valueLow = NumberParmBehaviorUtil.generateLowerBound(value);
+            BigDecimal valueHigh = NumberParmBehaviorUtil.generateUpperBound(value);
 
             // see https://gforge.hl7.org/gf/project/fhir/tracker/?action=TrackerItemEdit&tracker_item_id=19597
             if (quantity.getCode() != null && quantity.getCode().hasValue()) {
                 QuantityParmVal p = new QuantityParmVal();
                 p.setName(searchParamCode);
                 p.setValueNumber(value);
+                p.setValueNumberLow(valueLow);
+                p.setValueNumberHigh(valueHigh);
                 p.setValueCode(quantity.getCode().getValue());
                 if (quantity.getSystem() != null) {
                     p.setValueSystem(quantity.getSystem().getValue());
@@ -517,6 +527,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                     QuantityParmVal p = new QuantityParmVal();
                     p.setName(searchParamCode);
                     p.setValueNumber(value);
+                    p.setValueNumberLow(valueLow);
+                    p.setValueNumberHigh(valueHigh);
                     p.setValueCode(displayUnit);
                     result.add(p);
                 }

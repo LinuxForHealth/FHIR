@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,8 +30,8 @@ public class JDBCConstants {
     public static final String CODE = "CODE";
     public static final String NUMBER_VALUE = "NUMBER_VALUE";
     public static final String QUANTITY_VALUE = "QUANTITY_VALUE";
-    public static final String QUANTITY_VALUE_LOW = "QUANTITY_VALUE_LOW";
-    public static final String QUANTITY_VALUE_HIGH = "QUANTITY_VALUE_HIGH";
+    public static final String _LOW = "_LOW";
+    public static final String _HIGH = "_HIGH";
     public static final String DATE_START = "DATE_START";
     public static final String DATE_END = "DATE_END";
     public static final String LATITUDE_VALUE = "LATITUDE_VALUE";

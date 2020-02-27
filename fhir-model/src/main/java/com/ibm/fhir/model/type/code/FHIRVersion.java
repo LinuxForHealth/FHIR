@@ -135,6 +135,10 @@ public class FHIRVersion extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static FHIRVersion of(ValueSet value) {
         switch (value) {
         case VERSION_0_01:

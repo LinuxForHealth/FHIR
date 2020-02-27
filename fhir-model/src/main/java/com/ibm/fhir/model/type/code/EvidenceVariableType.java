@@ -40,6 +40,10 @@ public class EvidenceVariableType extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static EvidenceVariableType of(ValueSet value) {
         switch (value) {
         case DICHOTOMOUS:

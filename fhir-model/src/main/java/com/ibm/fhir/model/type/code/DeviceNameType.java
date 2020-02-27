@@ -55,6 +55,10 @@ public class DeviceNameType extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static DeviceNameType of(ValueSet value) {
         switch (value) {
         case UDI_LABEL_NAME:

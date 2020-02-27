@@ -23,10 +23,9 @@ public class JDBCSearchNumberTest extends AbstractSearchNumberTest {
 
     @Override
     public void bootstrapDatabase() throws Exception {
-        DerbyInitializer derbyInit;
         String dbDriverName = this.testProps.getProperty("dbDriverName");
         if (dbDriverName != null && dbDriverName.contains("derby")) {
-            derbyInit = new DerbyInitializer(this.testProps);
+            DerbyInitializer derbyInit = new DerbyInitializer(this.testProps);
             derbyInit.bootstrapDb();
         }
     }

@@ -35,6 +35,10 @@ public class VisionEyes extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static VisionEyes of(ValueSet value) {
         switch (value) {
         case RIGHT:

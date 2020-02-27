@@ -50,6 +50,10 @@ public class SubscriptionChannelType extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static SubscriptionChannelType of(ValueSet value) {
         switch (value) {
         case REST_HOOK:

@@ -35,6 +35,10 @@ public class RestfulCapabilityMode extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static RestfulCapabilityMode of(ValueSet value) {
         switch (value) {
         case CLIENT:
