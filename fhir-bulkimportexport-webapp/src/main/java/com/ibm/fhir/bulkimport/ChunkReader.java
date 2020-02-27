@@ -117,10 +117,12 @@ public class ChunkReader extends AbstractItemReader {
 
         switch (BulkImportDataSourceStorageType.from(dataSourceStorageType)) {
         case HTTPS:
-            imported = BulkDataUtils.readFhirResourceFromHttps(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources);
+            imported = BulkDataUtils.readFhirResourceFromHttps(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources,
+                    Constants.IMPORT_IS_REUSE_INPUTSTREAM, chunkData);
             break;
         case FILE:
-            imported = BulkDataUtils.readFhirResourceFromLocalFile(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources);
+            imported = BulkDataUtils.readFhirResourceFromLocalFile(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources,
+                    Constants.IMPORT_IS_REUSE_INPUTSTREAM, chunkData);
             break;
         case AWSS3:
         case IBMCOS:
@@ -132,7 +134,8 @@ public class ChunkReader extends AbstractItemReader {
             } else {
                 logger.finer("readItem: Got CosClient successfully!");
             }
-            imported = BulkDataUtils.readFhirResourceFromObjectStore(cosClient, cosBucketName, importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources);
+            imported = BulkDataUtils.readFhirResourceFromObjectStore(cosClient, cosBucketName, importPartitionWorkitem,
+                    numOfLinesToSkip, loadedFhirResources, Constants.IMPORT_IS_REUSE_INPUTSTREAM, chunkData);
             break;
         default:
             break;

@@ -127,6 +127,15 @@ public class ImportPartitionCollector implements PartitionCollector {
                             partitionSummaryData.getUploadId4FailureOperationOutcomes(), partitionSummaryData.getDataPacks4FailureOperationOutcomes());
                 }
             }
+
+            if (partitionSummaryData.getBufferReader() != null) {
+                partitionSummaryData.getBufferReader().close();
+            }
+
+            if (partitionSummaryData.getInputStream() != null) {
+                partitionSummaryData.getInputStream().close();
+            }
+
             return ImportCheckPointData.fromImportTransientUserData(partitionSummaryData);
         } else {
             return null;

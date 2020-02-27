@@ -51,4 +51,6 @@ public class Constants {
 
     // Control if push OperationOutcomes to COS/S3.
     public static final boolean IMPORT_IS_COLLECT_OPERATIONOUTCOMES = false;
+    // Control if reuse the input stream of the data source across the chunks.
+    public static final boolean IMPORT_IS_REUSE_INPUTSTREAM = false;
 }
