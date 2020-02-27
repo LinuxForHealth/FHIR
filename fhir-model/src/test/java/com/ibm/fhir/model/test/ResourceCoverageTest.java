@@ -98,7 +98,7 @@ public class ResourceCoverageTest {
 
     @Test
     public void testResources() throws Exception {
-        FHIRModelConfig.setCheckReferenceTypes(false); 
+        FHIRModelConfig.setCheckReferenceTypes(false);
         List<String> SKIP = Arrays.asList("DomainResource", "Resource", "Builder");
         ValueSet[] values = ResourceType.ValueSet.values();
         for (ValueSet valueSet : values) {
@@ -130,7 +130,7 @@ public class ResourceCoverageTest {
 
     @Test
     public void testResourcesWithXml() throws Exception {
-        FHIRModelConfig.setCheckReferenceTypes(false); 
+        FHIRModelConfig.setCheckReferenceTypes(false);
         List<String> SKIP = Arrays.asList("DomainResource", "Resource", "Builder");
         ValueSet[] values = ResourceType.ValueSet.values();
         for (ValueSet valueSet : values) {
