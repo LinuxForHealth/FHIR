@@ -70,6 +70,10 @@ public class RequestIntent extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static RequestIntent of(ValueSet value) {
         switch (value) {
         case PROPOSAL:

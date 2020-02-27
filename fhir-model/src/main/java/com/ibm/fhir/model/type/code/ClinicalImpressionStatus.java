@@ -31,6 +31,10 @@ public class ClinicalImpressionStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static ClinicalImpressionStatus of(ValueSet value) {
         switch (value) {
         case IN_PROGRESS:

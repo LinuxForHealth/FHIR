@@ -45,6 +45,10 @@ public class CompositionStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static CompositionStatus of(ValueSet value) {
         switch (value) {
         case PRELIMINARY:

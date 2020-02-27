@@ -45,6 +45,10 @@ public class NamingSystemIdentifierType extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static NamingSystemIdentifierType of(ValueSet value) {
         switch (value) {
         case OID:

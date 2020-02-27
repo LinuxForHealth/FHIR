@@ -100,6 +100,10 @@ public class ContractStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static ContractStatus of(ValueSet value) {
         switch (value) {
         case AMENDED:

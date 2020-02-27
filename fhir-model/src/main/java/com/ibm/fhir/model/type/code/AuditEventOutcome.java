@@ -45,6 +45,10 @@ public class AuditEventOutcome extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static AuditEventOutcome of(ValueSet value) {
         switch (value) {
         case OUTCOME_0:

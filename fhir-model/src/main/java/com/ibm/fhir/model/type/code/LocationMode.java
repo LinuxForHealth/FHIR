@@ -35,6 +35,10 @@ public class LocationMode extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static LocationMode of(ValueSet value) {
         switch (value) {
         case INSTANCE:

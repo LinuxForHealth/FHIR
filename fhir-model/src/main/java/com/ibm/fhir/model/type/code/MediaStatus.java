@@ -65,6 +65,10 @@ public class MediaStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static MediaStatus of(ValueSet value) {
         switch (value) {
         case PREPARATION:

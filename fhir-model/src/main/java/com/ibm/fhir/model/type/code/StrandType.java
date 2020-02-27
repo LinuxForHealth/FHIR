@@ -35,6 +35,10 @@ public class StrandType extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static StrandType of(ValueSet value) {
         switch (value) {
         case WATSON:

@@ -765,6 +765,10 @@ public class ResourceType extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static ResourceType of(ValueSet value) {
         switch (value) {
         case ACCOUNT:

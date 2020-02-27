@@ -60,6 +60,10 @@ public class SupplyRequestStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static SupplyRequestStatus of(ValueSet value) {
         switch (value) {
         case DRAFT:

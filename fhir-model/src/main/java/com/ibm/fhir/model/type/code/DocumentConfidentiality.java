@@ -37,6 +37,10 @@ public class DocumentConfidentiality extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static DocumentConfidentiality of(ValueSet value) {
         switch (value) {
         case U:

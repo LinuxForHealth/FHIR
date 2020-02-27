@@ -40,6 +40,10 @@ public class DocumentReferenceStatus extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static DocumentReferenceStatus of(ValueSet value) {
         switch (value) {
         case CURRENT:

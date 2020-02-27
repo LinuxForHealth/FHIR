@@ -55,6 +55,10 @@ public class Status extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static Status of(ValueSet value) {
         switch (value) {
         case ATTESTED:

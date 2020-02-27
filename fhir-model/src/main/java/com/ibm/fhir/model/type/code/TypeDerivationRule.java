@@ -35,6 +35,10 @@ public class TypeDerivationRule extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static TypeDerivationRule of(ValueSet value) {
         switch (value) {
         case SPECIALIZATION:

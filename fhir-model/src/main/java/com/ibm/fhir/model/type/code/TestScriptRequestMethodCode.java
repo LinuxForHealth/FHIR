@@ -60,6 +60,10 @@ public class TestScriptRequestMethodCode extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static TestScriptRequestMethodCode of(ValueSet value) {
         switch (value) {
         case DELETE:

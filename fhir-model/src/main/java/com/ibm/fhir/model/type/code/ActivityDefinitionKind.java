@@ -100,6 +100,10 @@ public class ActivityDefinitionKind extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static ActivityDefinitionKind of(ValueSet value) {
         switch (value) {
         case APPOINTMENT:

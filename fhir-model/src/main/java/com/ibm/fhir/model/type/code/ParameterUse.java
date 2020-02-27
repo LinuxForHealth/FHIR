@@ -35,6 +35,10 @@ public class ParameterUse extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static ParameterUse of(ValueSet value) {
         switch (value) {
         case IN:

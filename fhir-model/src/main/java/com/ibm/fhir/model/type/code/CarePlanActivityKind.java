@@ -41,6 +41,10 @@ public class CarePlanActivityKind extends Code {
         super(builder);
     }
 
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
+    }
+
     public static CarePlanActivityKind of(ValueSet value) {
         switch (value) {
         case APPOINTMENT:
