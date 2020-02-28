@@ -27,6 +27,7 @@ import javax.ws.rs.core.Response;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRParameters;
+import com.ibm.fhir.client.FHIRRequestHeader;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.format.Format;
@@ -54,6 +55,13 @@ public class SearchAllTest extends FHIRServerTestBase {
     private Instant lastUpdated;
     private Patient patient4DuplicationTest = null;
     private String strUniqueTag = UUID.randomUUID().toString();
+    private final String tenantName = "default";
+    private final String dataStoreId = "default";
+
+    private final FHIRRequestHeader headerTenant =
+            new FHIRRequestHeader("X-FHIR-TENANT-ID", tenantName);
+    private final FHIRRequestHeader headerDataStore =
+            new FHIRRequestHeader("X-FHIR-DSID", dataStoreId);
 
     @Test(groups = { "server-search-all" })
     public void testCreatePatient() throws Exception {
@@ -82,14 +90,20 @@ public class SearchAllTest extends FHIRServerTestBase {
         }
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Patient").request().post(entity, Response.class);
+        Response response = target.path("Patient").request()
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         // Get the patient's logical id value.
         patientId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response  = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        response  = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         patient4DuplicationTest = response.readEntity(Patient.class);
         TestUtil.assertResourceEquals(patient, patient4DuplicationTest);
@@ -108,6 +122,8 @@ public class SearchAllTest extends FHIRServerTestBase {
                 Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
                 target.path("Observation").request()
+                        .header("X-FHIR-TENANT-ID", tenantName)
+                        .header("X-FHIR-DSID", dataStoreId)
                         .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
     }
@@ -116,7 +132,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     public void testSearchAllUsingId() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_id", patientId);
-        FHIRResponse response = client.searchAll(parameters, false);
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -127,7 +143,8 @@ public class SearchAllTest extends FHIRServerTestBase {
     public void testSearchAllUsingLastUpdated() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_lastUpdated", lastUpdated.getValue().toString());
-        FHIRResponse response = client.searchAll(parameters, false);
+
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -138,7 +155,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     public void testSearchAllUsingTag() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", "tag");
-        FHIRResponse response = client.searchAll(parameters, false);
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -159,7 +176,7 @@ public class SearchAllTest extends FHIRServerTestBase {
 
         // Original - "http://ibm.com/fhir/security|security"
         parameters.searchParam("_security", "security");
-        FHIRResponse response = client.searchAll(parameters, false);
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
 
@@ -175,7 +192,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     public void testSearchAllUsingProfile() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_profile", "http://ibm.com/fhir/profile/Profile");
-        FHIRResponse response = client.searchAll(parameters, false);
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -212,7 +229,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         parameters.searchParam("_tag", "http://ibm.com/fhir/tag|tag88,tag2,tag");
         parameters.searchParam("_count", "1000");
         parameters.searchParam("_page", "1");
-        FHIRResponse response = client.searchAll(parameters, false);
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -221,7 +238,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertTrue(firstRunNumber >= 1);
         // Create one more patient with 2 tags: "tag" and "tag2".
         testCreatePatient();
-        response = client.searchAll(parameters, false);
+        response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         bundle = response.getResource(Bundle.class);
         // The second run should only have one more new record found.
@@ -234,7 +251,7 @@ public class SearchAllTest extends FHIRServerTestBase {
             }
             assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
         } else {
-            // Just in case there are more than 1000 matches, then simply verify that there is 
+            // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
             HashSet<String> resourceIdSet = new HashSet<String>();
             for (Entry entry : bundle.getEntry()) {
@@ -254,7 +271,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         parameters.searchParam("_tag", "http://ibm.com/fhir/tag|tag2,tag");
         parameters.searchParam("_count", "1000");
         parameters.searchParam("_page", "1");
-        FHIRResponse response = client.searchAll(parameters, false);
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -263,7 +280,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertTrue(firstRunNumber >= 1);
         // create one more patient with 2 tags: "tag" and "tag2".
         testCreatePatient();
-        response = client.searchAll(parameters, false);
+        response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         bundle = response.getResource(Bundle.class);
         // The second run should only have one more new record found.
@@ -276,7 +293,7 @@ public class SearchAllTest extends FHIRServerTestBase {
             }
             assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
         } else {
-            // Just in case there are more than 1000 matches, then simply verify that there is 
+            // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
             HashSet<String> resourceIdSet = new HashSet<String>();
             for (Entry entry : bundle.getEntry()) {
@@ -296,7 +313,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         parameters.searchParam("_tag", "http://ibm.com/fhir/tag|tag2,http://ibm.com/fhir/tag|tag");
         parameters.searchParam("_count", "1000");
         parameters.searchParam("_page", "1");
-        FHIRResponse response = client.searchAll(parameters, false);
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -305,7 +322,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertTrue(firstRunNumber >= 1);
         // Create one more patient with 2 tags: "tag" and "tag2".
         testCreatePatient();
-        response = client.searchAll(parameters, false);
+        response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         bundle = response.getResource(Bundle.class);
         // The second run should only have one more new record found.
@@ -318,7 +335,7 @@ public class SearchAllTest extends FHIRServerTestBase {
             }
             assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
         } else {
-            // Just in case there are more than 1000 matches, then simply verify that there is 
+            // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
             HashSet<String> resourceIdSet = new HashSet<String>();
             for (Entry entry : bundle.getEntry()) {
@@ -338,7 +355,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         parameters.searchParam("_tag", "tag");
         parameters.searchParam("_count", "1000");
         parameters.searchParam("_page", "1");
-        FHIRResponse response = client.searchAll(parameters, false);
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -347,7 +364,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertTrue(firstRunNumber >= 1);
         // Create one more patient with 2 tags: "tag" and "tag2".
         testCreatePatient();
-        response = client.searchAll(parameters, false);
+        response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         bundle = response.getResource(Bundle.class);
         // The second run should only have one more new record found.
@@ -360,7 +377,7 @@ public class SearchAllTest extends FHIRServerTestBase {
             }
             assertTrue(isResourceInResponse(patient4DuplicationTest, lstRes));
         } else {
-            // Just in case there are more than 1000 matches, then simply verify that there is 
+            // Just in case there are more than 1000 matches, then simply verify that there is
             // no duplicated resource in the search results, Just need to do the verification for the second run.
             HashSet<String> resourceIdSet = new HashSet<String>();
             for (Entry entry : bundle.getEntry()) {
@@ -390,7 +407,10 @@ public class SearchAllTest extends FHIRServerTestBase {
                         .build();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Patient").request().post(entity, Response.class);
+        Response response = target.path("Patient").request()
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         // Get the patient's logical id value.
@@ -410,13 +430,18 @@ public class SearchAllTest extends FHIRServerTestBase {
                 Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response2 =
                 target.path("Observation").request()
+                        .header("X-FHIR-TENANT-ID", tenantName)
+                        .header("X-FHIR-DSID", dataStoreId)
                         .post(entity2, Response.class);
         assertResponse(response2, Response.Status.CREATED.getStatusCode());
 
         // Create a Condition with subject points to the created patient.
         Condition condition = buildCondition(patientId2, "Condition.json");
         Entity<Condition> obs = Entity.entity(condition, FHIRMediaType.APPLICATION_FHIR_JSON);
-        response = target.path("Condition").request().post(obs, Response.class);
+        response = target.path("Condition").request()
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .post(obs, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
     }
@@ -427,7 +452,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     public void testSearchAll2UsingUniqueTag() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
-        FHIRResponse response = client.searchAll(parameters, true);
+        FHIRResponse response = client.searchAll(parameters, true, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -441,7 +466,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
         parameters.searchParam("_type", "Patient");
-        FHIRResponse response = client.searchAll(parameters, true);
+        FHIRResponse response = client.searchAll(parameters, true, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -456,7 +481,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         parameters.searchParam("_tag", strUniqueTag);
         parameters.searchParam("_type", "Patient,Observation");
         parameters.searchParam("_sort", "_lastUpdated");
-        FHIRResponse response = client.searchAll(parameters, true);
+        FHIRResponse response = client.searchAll(parameters, true, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -471,7 +496,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         parameters.searchParam("subject:Patient._tag", strUniqueTag);
         parameters.searchParam("_type", "Observation,Condition");
         parameters.searchParam("_sort", "_id");
-        FHIRResponse response = client.searchAll(parameters, true);
+        FHIRResponse response = client.searchAll(parameters, true, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -488,7 +513,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("subject:Practitioner.name", "John");
         parameters.searchParam("_type", "Account,Observation");
-        FHIRResponse response = client.searchAll(parameters, true);
+        FHIRResponse response = client.searchAll(parameters, true, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.getResponse().readEntity(OperationOutcome.class),
                 "Modifier resource type [Practitioner] is not allowed for search parameter [subject] of resource type [Observation]");
@@ -503,7 +528,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         parameters.searchParam("_type", "Patient,Observation");
         parameters.searchParam("_sort", "_lastUpdated");
         parameters.searchParam("_summary", "true");
-        FHIRResponse response = client.searchAll(parameters, true);
+        FHIRResponse response = client.searchAll(parameters, true, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -519,7 +544,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         parameters.searchParam("_type", "Patient,Observation");
         parameters.searchParam("_sort", "_lastUpdated");
         parameters.searchParam("_elements", "id");
-        FHIRResponse response = client.searchAll(parameters, true);
+        FHIRResponse response = client.searchAll(parameters, true, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -534,7 +559,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         parameters.searchParam("subject:Practitioner.name", "John");
         parameters.searchParam("_type", "Account,Observation");
         parameters.searchParam("_include", "Observation:subject");
-        FHIRResponse response = client.searchAll(parameters, true);
+        FHIRResponse response = client.searchAll(parameters, true, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.getResponse().readEntity(OperationOutcome.class),
                 "system search not supported with _include or _revinclude");
@@ -544,7 +569,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     public void testSearchAllUrlReflexsivityUsingLastUpdated() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_lastUpdated", "ge2000");
-        FHIRResponse response = client.searchAll(parameters, false);
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
@@ -552,8 +577,8 @@ public class SearchAllTest extends FHIRServerTestBase {
         List<Link> links = bundle.getLink();
 
         /*
-         * Runs through the links and checks for self and rel. 
-         * It subsequently connects to the self to verify it's 200. 
+         * Runs through the links and checks for self and rel.
+         * It subsequently connects to the self to verify it's 200.
          */
         boolean validSelf = false;
         boolean validRel = false;
@@ -574,7 +599,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     /*
-     * queries based on the URI the endpoint with the query parameter and value. 
+     * queries based on the URI the endpoint with the query parameter and value.
      */
     private void verifyReflexsiveUrl(String uri) throws Exception {
         FHIRParameters parameters = new FHIRParameters();
@@ -586,8 +611,8 @@ public class SearchAllTest extends FHIRServerTestBase {
             String value = queryParam.split("=")[1];
             parameters.searchParam(name,value);
         }
-        
-        FHIRResponse response = client.searchAll(parameters, false);
+
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
