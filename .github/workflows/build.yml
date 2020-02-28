@@ -179,10 +179,7 @@ jobs:
       run: |
         $ErrorActionPreference = "Stop"
         & build/pre-integration-test.ps1
-        & build/tests.ps1
-        if($LastExitCode -ne 0){
-          exit $LastExitCode
-        }
+        mvn -B test -DskipTests=false -f .\fhir-server-test\pom.xml -DskipWebSocketTest=true --no-transfer-progress 
         & build/post-integration-test.ps1
     - name: Gather error logs
       shell: powershell

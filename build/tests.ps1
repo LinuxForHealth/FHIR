@@ -6,6 +6,8 @@
 $ErrorActionPreference = 'Stop'
 Write-Host 'Performing Tests'
 & mvn -B test -DskipTests=false -f .\fhir-server-test\pom.xml -DskipWebSocketTest=true --no-transfer-progress 
+
+Write-Host 'LastExitCode: ' $LastExitCode
 if($LastExitCode -ne 0) { 
     exit -1
 }
