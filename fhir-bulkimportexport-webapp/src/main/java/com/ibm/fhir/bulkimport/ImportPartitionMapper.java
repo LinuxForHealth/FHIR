@@ -178,7 +178,7 @@ public class ImportPartitionMapper implements PartitionMapper {
              logger.finer("getFhirDataSources4ObjectStore: Succeed get BucketName!");
          }
          cosBucketName = cosBucketName.toLowerCase();
-         if (!cosClient.doesBucketExist(cosBucketName)) {
+         if (!cosClient.doesBucketExistV2(cosBucketName)) {
              logger.warning("getFhirDataSources4ObjectStore: Bucket '" + cosBucketName + "' not found!");
              BulkDataUtils.listBuckets(cosClient);
              return fhirDataSources;
