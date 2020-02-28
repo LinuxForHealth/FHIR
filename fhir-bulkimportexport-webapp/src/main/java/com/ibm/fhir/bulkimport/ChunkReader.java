@@ -9,6 +9,7 @@ package com.ibm.fhir.bulkimport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.batch.api.BatchProperty;
@@ -108,7 +109,9 @@ public class ChunkReader extends AbstractItemReader {
             return null;
         }
         List<Resource> loadedFhirResources = new ArrayList<Resource>();
-        logger.fine("readItem: get work item:" + importPartitionWorkitem + " resource type: " + importPartitionResourceType);
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("readItem: get work item:" + importPartitionWorkitem + " resource type: " + importPartitionResourceType);
+        }
 
         ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
         if (chunkData == null) {
@@ -145,7 +148,9 @@ public class ChunkReader extends AbstractItemReader {
         default:
             break;
         }
-        logger.fine("readItem: loaded " + imported + " " + importPartitionResourceType + " from " + importPartitionWorkitem);
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("readItem: loaded " + imported + " " + importPartitionResourceType + " from " + importPartitionWorkitem);
+        }
         chunkData.setNumOfToBeImported(imported);
         if (imported == 0) {
             return null;
