@@ -8,14 +8,17 @@ package com.ibm.fhir.bulkimport;
 
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.partition.PartitionCollector;
+import javax.batch.runtime.BatchStatus;
 import javax.batch.runtime.context.StepContext;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
+import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
 import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 
@@ -72,6 +75,23 @@ public class ImportPartitionCollector implements PartitionCollector {
     @Override
     public Serializable collectPartitionData() throws Exception{
         ImportTransientUserData partitionSummaryData  = (ImportTransientUserData)stepCtx.getTransientUserData();
+        BatchStatus batchStatus = stepCtx.getBatchStatus();
+
+        // If the job is being stopped or in other status except for "started", then do cleanup for the partition.
+        if (!batchStatus.equals(BatchStatus.STARTED)) {
+            if (partitionSummaryData.getInputStream() != null) {
+                if (partitionSummaryData.getInputStream() instanceof S3ObjectInputStream) {
+                    ((S3ObjectInputStream)partitionSummaryData.getInputStream()).abort();
+                }
+                partitionSummaryData.getInputStream().close();
+            }
+
+            if (partitionSummaryData.getBufferReader() != null) {
+                partitionSummaryData.getBufferReader().close();
+            }
+            return null;
+        }
+
         // This function is called at partition chunk check points and also at the end of partition processing.
         // So, check the NumOfToBeImported to make sure collect the statistic data for the partition only at the end,
         // also upload the remaining OperationComes to COS/S3 if any and finish the multiple-parts uploads.
@@ -94,8 +114,10 @@ public class ImportPartitionCollector implements PartitionCollector {
                             cosOperationOutcomesBucketName, partitionSummaryData.getUniqueID4ImportOperationOutcomes(),
                             partitionSummaryData.getUploadId4OperationOutcomes(), new ByteArrayInputStream(partitionSummaryData.getBufferStream4Import().toByteArray()),
                             partitionSummaryData.getBufferStream4Import().size(), partitionSummaryData.getPartNum4OperationOutcomes()));
-                    logger.info("pushImportOperationOutcomes2COS: " + partitionSummaryData.getBufferStream4Import().size()
+                    if (logger.isLoggable(Level.FINE)) {
+                        logger.fine("pushImportOperationOutcomes2COS: " + partitionSummaryData.getBufferStream4Import().size()
                             + " bytes were successfully appended to COS object - " + partitionSummaryData.getUniqueID4ImportOperationOutcomes());
+                    }
                     partitionSummaryData.setPartNum4OperationOutcomes(partitionSummaryData.getPartNum4OperationOutcomes() + 1);
                     partitionSummaryData.getBufferStream4Import().reset();
                 }
@@ -116,8 +138,10 @@ public class ImportPartitionCollector implements PartitionCollector {
                             cosOperationOutcomesBucketName, partitionSummaryData.getUniqueID4ImportFailureOperationOutcomes(),
                             partitionSummaryData.getUploadId4FailureOperationOutcomes(), new ByteArrayInputStream(partitionSummaryData.getBufferStream4ImportError().toByteArray()),
                             partitionSummaryData.getBufferStream4ImportError().size(), partitionSummaryData.getPartNum4FailureOperationOutcomes()));
-                    logger.info("pushImportOperationOutcomes2COS: " + partitionSummaryData.getBufferStream4ImportError().size()
+                    if (logger.isLoggable(Level.FINE)) {
+                        logger.fine("pushImportOperationOutcomes2COS: " + partitionSummaryData.getBufferStream4ImportError().size()
                             + " bytes were successfully appended to COS object - " + partitionSummaryData.getUniqueID4ImportFailureOperationOutcomes());
+                    }
                     partitionSummaryData.setPartNum4FailureOperationOutcomes(partitionSummaryData.getPartNum4FailureOperationOutcomes() + 1);
                     partitionSummaryData.getBufferStream4ImportError().reset();
                 }
@@ -127,6 +151,15 @@ public class ImportPartitionCollector implements PartitionCollector {
                             partitionSummaryData.getUploadId4FailureOperationOutcomes(), partitionSummaryData.getDataPacks4FailureOperationOutcomes());
                 }
             }
+
+            if (partitionSummaryData.getBufferReader() != null) {
+                partitionSummaryData.getBufferReader().close();
+            }
+
+            if (partitionSummaryData.getInputStream() != null) {
+                partitionSummaryData.getInputStream().close();
+            }
+
             return ImportCheckPointData.fromImportTransientUserData(partitionSummaryData);
         } else {
             return null;

@@ -31,6 +31,11 @@ public class ImportJobListener implements JobListener {
         // Used for generating performance measurement per each resource type.
         HashMap<String, ImportCheckPointData> importedResourceTypeSummaries = new HashMap<>();
 
+        // If the job is stopped before any partition is finished, then nothing to show.
+        if (partitionSummaries == null) {
+            return;
+        }
+
         for (ImportCheckPointData partitionSummary : partitionSummaries) {
             ImportCheckPointData partitionSummaryInMap = importedResourceTypeSummaries.get(partitionSummary.getImportPartitionResourceType());
             if (partitionSummaryInMap == null) {

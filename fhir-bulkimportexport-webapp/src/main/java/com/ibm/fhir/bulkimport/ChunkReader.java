@@ -9,10 +9,12 @@ package com.ibm.fhir.bulkimport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemReader;
+import javax.batch.runtime.BatchStatus;
 import javax.batch.runtime.context.StepContext;
 import javax.inject.Inject;
 
@@ -102,8 +104,14 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public Object readItem() throws Exception {
+        // If the job is being stopped or in other status except for "started", then stop the read.
+        if (!stepCtx.getBatchStatus().equals(BatchStatus.STARTED)) {
+            return null;
+        }
         List<Resource> loadedFhirResources = new ArrayList<Resource>();
-        logger.info("readItem: get work item:" + importPartitionWorkitem + " resource type: " + importPartitionResourceType);
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("readItem: get work item:" + importPartitionWorkitem + " resource type: " + importPartitionResourceType);
+        }
 
         ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
         if (chunkData == null) {
@@ -117,10 +125,12 @@ public class ChunkReader extends AbstractItemReader {
 
         switch (BulkImportDataSourceStorageType.from(dataSourceStorageType)) {
         case HTTPS:
-            imported = BulkDataUtils.readFhirResourceFromHttps(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources);
+            imported = BulkDataUtils.readFhirResourceFromHttps(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources,
+                    Constants.IMPORT_IS_REUSE_INPUTSTREAM, chunkData);
             break;
         case FILE:
-            imported = BulkDataUtils.readFhirResourceFromLocalFile(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources);
+            imported = BulkDataUtils.readFhirResourceFromLocalFile(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources,
+                    Constants.IMPORT_IS_REUSE_INPUTSTREAM, chunkData);
             break;
         case AWSS3:
         case IBMCOS:
@@ -132,12 +142,15 @@ public class ChunkReader extends AbstractItemReader {
             } else {
                 logger.finer("readItem: Got CosClient successfully!");
             }
-            imported = BulkDataUtils.readFhirResourceFromObjectStore(cosClient, cosBucketName, importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources);
+            imported = BulkDataUtils.readFhirResourceFromObjectStore(cosClient, cosBucketName, importPartitionWorkitem,
+                    numOfLinesToSkip, loadedFhirResources, Constants.IMPORT_IS_REUSE_INPUTSTREAM, chunkData);
             break;
         default:
             break;
         }
-        logger.info("readItem: loaded " + imported + " " + importPartitionResourceType + " from " + importPartitionWorkitem);
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("readItem: loaded " + imported + " " + importPartitionResourceType + " from " + importPartitionWorkitem);
+        }
         chunkData.setNumOfToBeImported(imported);
         if (imported == 0) {
             return null;
