@@ -180,6 +180,9 @@ jobs:
         $ErrorActionPreference = "Stop"
         & build/pre-integration-test.ps1
         & build/tests.ps1
+        if($LastExitCode -ne 0){
+          exit $LastExitCode
+        }
         & build/post-integration-test.ps1
     - name: Gather error logs
       shell: powershell
