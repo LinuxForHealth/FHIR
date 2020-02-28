@@ -5,6 +5,9 @@
 ###############################################################################
 $ErrorActionPreference = 'Stop'
 Write-Host 'Performing Tests'
-& mvn -B test -DskipTests=false -f .\fhir-server-test\pom.xml -DskipWebSocketTest=true --no-transfer-progress && exit 0
+& mvn -B test -DskipTests=false -f .\fhir-server-test\pom.xml -DskipWebSocketTest=true --no-transfer-progress
 
+if(!$?) { 
+    exit -1
+}
 # End of Script
