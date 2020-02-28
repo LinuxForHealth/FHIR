@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemReader;
+import javax.batch.runtime.BatchStatus;
 import javax.batch.runtime.context.StepContext;
 import javax.inject.Inject;
 
@@ -102,8 +103,12 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public Object readItem() throws Exception {
+        // If the job is being stopped or in other status except for "started", then stop the read.
+        if (!stepCtx.getBatchStatus().equals(BatchStatus.STARTED)) {
+            return null;
+        }
         List<Resource> loadedFhirResources = new ArrayList<Resource>();
-        logger.info("readItem: get work item:" + importPartitionWorkitem + " resource type: " + importPartitionResourceType);
+        logger.fine("readItem: get work item:" + importPartitionWorkitem + " resource type: " + importPartitionResourceType);
 
         ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
         if (chunkData == null) {
@@ -140,7 +145,7 @@ public class ChunkReader extends AbstractItemReader {
         default:
             break;
         }
-        logger.info("readItem: loaded " + imported + " " + importPartitionResourceType + " from " + importPartitionWorkitem);
+        logger.fine("readItem: loaded " + imported + " " + importPartitionResourceType + " from " + importPartitionWorkitem);
         chunkData.setNumOfToBeImported(imported);
         if (imported == 0) {
             return null;

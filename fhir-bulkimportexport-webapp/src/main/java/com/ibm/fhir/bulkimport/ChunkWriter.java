@@ -162,7 +162,7 @@ public class ChunkWriter extends AbstractItemWriter {
         chunkData.setNumOfProcessedResources(chunkData.getNumOfProcessedResources() + processedNum);
         chunkData.setNumOfImportedResources(chunkData.getNumOfImportedResources() + succeededNum);
         chunkData.setNumOfImportFailures(chunkData.getNumOfImportFailures() + failedNum);
-        logger.info("writeItems: processed " + processedNum + " " + importPartitionResourceType + " from " +  chunkData.getImportPartitionWorkitem());
+        logger.fine("writeItems: processed " + processedNum + " " + importPartitionResourceType + " from " +  chunkData.getImportPartitionWorkitem());
 
         if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
             pushImportOperationOutcomes2COS(chunkData);
@@ -192,7 +192,7 @@ public class ChunkWriter extends AbstractItemWriter {
                     cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportOperationOutcomes(),
                     chunkData.getUploadId4OperationOutcomes(), new ByteArrayInputStream(chunkData.getBufferStream4Import().toByteArray()),
                     chunkData.getBufferStream4Import().size(), chunkData.getPartNum4OperationOutcomes()));
-            logger.info("pushImportOperationOutcomes2COS: " + chunkData.getBufferStream4Import().size()
+            logger.fine("pushImportOperationOutcomes2COS: " + chunkData.getBufferStream4Import().size()
                     + " bytes were successfully appended to COS object - " + chunkData.getUniqueID4ImportOperationOutcomes());
             chunkData.setPartNum4OperationOutcomes(chunkData.getPartNum4OperationOutcomes() + 1);
             chunkData.getBufferStream4Import().reset();
@@ -209,7 +209,7 @@ public class ChunkWriter extends AbstractItemWriter {
                     cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportFailureOperationOutcomes(),
                     chunkData.getUploadId4FailureOperationOutcomes(), new ByteArrayInputStream(chunkData.getBufferStream4ImportError().toByteArray()),
                     chunkData.getBufferStream4ImportError().size(), chunkData.getPartNum4FailureOperationOutcomes()));
-            logger.info("pushImportOperationOutcomes2COS: " + chunkData.getBufferStream4ImportError().size()
+            logger.fine("pushImportOperationOutcomes2COS: " + chunkData.getBufferStream4ImportError().size()
                     + " bytes were successfully appended to COS object - " + chunkData.getUniqueID4ImportFailureOperationOutcomes());
             chunkData.setPartNum4FailureOperationOutcomes(chunkData.getPartNum4FailureOperationOutcomes() + 1);
             chunkData.getBufferStream4ImportError().reset();
