@@ -25,14 +25,13 @@ public class JDBCSearchReferenceTest extends AbstractSearchReferenceTest {
 
     @Override
     public void bootstrapDatabase() throws Exception {
-        DerbyInitializer derbyInit;
         String dbDriverName = this.testProps.getProperty("dbDriverName");
         if (dbDriverName != null && dbDriverName.contains("derby")) {
-            derbyInit = new DerbyInitializer(this.testProps);
+            DerbyInitializer derbyInit = new DerbyInitializer(this.testProps);
             derbyInit.bootstrapDb();
         }
     }
-    
+
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         return new FHIRPersistenceJDBCImpl(this.testProps);

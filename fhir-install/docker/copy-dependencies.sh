@@ -4,10 +4,12 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
+set -e
 
 echo "Removing old dependencies..."
 DIST="volumes/dist"
 rm -rf $DIST/* 2> /dev/null
+mkdir -p $DIST
 
 echo "Copying installation zip files..."
 cp -p ../target/fhir-server-distribution.zip $DIST

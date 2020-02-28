@@ -24,7 +24,6 @@ public class QueryParameterValue {
 
     private String valueString = null;
 
-    private Instant valueDate = null;
     private Instant valueDateLowerBound = null;
     private Instant valueDateUpperBound = null;
 
@@ -64,14 +63,6 @@ public class QueryParameterValue {
 
     public void setValueString(String valueString) {
         this.valueString = valueString;
-    }
-
-    public Instant getValueDate() {
-        return valueDate;
-    }
-
-    public void setValueDate(Instant valueDate) {
-        this.valueDate = valueDate;
     }
 
     public BigDecimal getValueNumber() {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -90,6 +90,11 @@ public class GuidanceResponse extends DomainResource {
         outputParameters = builder.outputParameters;
         result = builder.result;
         dataRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dataRequirement, "dataRequirement"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(performer, "performer", "Device");
+        ValidationSupport.checkReferenceType(outputParameters, "outputParameters", "Parameters");
+        ValidationSupport.checkReferenceType(result, "result", "CarePlan", "RequestGroup");
         ValidationSupport.requireChildren(this);
     }
 

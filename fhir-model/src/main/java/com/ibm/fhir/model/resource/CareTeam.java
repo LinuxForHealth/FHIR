@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -105,6 +105,8 @@ public class CareTeam extends DomainResource {
         managingOrganization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.managingOrganization, "managingOrganization"));
         telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.requireChildren(this);
     }
 
@@ -982,6 +984,8 @@ public class CareTeam extends DomainResource {
             member = builder.member;
             onBehalfOf = builder.onBehalfOf;
             period = builder.period;
+            ValidationSupport.checkReferenceType(member, "member", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Organization", "CareTeam");
+            ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 

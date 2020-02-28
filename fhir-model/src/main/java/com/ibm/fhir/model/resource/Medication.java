@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -87,6 +87,7 @@ public class Medication extends DomainResource {
         amount = builder.amount;
         ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
         batch = builder.batch;
+        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -85,6 +85,10 @@ public class SupplyDelivery extends DomainResource {
         supplier = builder.supplier;
         destination = builder.destination;
         receiver = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.receiver, "receiver"));
+        ValidationSupport.checkCodeableConcept(type, "type", "http://hl7.org/fhir/ValueSet/supplydelivery-type", "http://terminology.hl7.org/CodeSystem/supply-item-type", "medication", "device");
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(supplier, "supplier", "Practitioner", "PractitionerRole", "Organization");
+        ValidationSupport.checkReferenceType(destination, "destination", "Location");
         ValidationSupport.requireChildren(this);
     }
 

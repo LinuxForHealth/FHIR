@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,28 +16,19 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.AbstractOperation;
-import com.ibm.fhir.operation.bulkdata.config.cache.BulkDataTenantSpecificCache;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataUtil;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
 
 /**
- * Creates an Export of FHIR Data to NDJSON format
- * 
- * @link https://build.fhir.org/ig/HL7/bulk-data/index.html 
- *       BulkDataAccess IG: STU1
- * 
- *
- * @author pbastide
- *
+ * <a href="https://build.fhir.org/ig/HL7/bulk-data/index.html">BulkDataAccess IG: STU1 - Polling Response</a><br>
+ * There are two specific operations
+ * <li>status of a bulkdata export/import job</li>
+ * <li>delete a bulkdata export/import job</li>
  */
 public class ExportStatusOperation extends AbstractOperation {
-
     private static final String FILE = "export-status.json";
-    
-    // This is duplicate 'caching' as in the BulkData $export operation. 
-    private static BulkDataTenantSpecificCache cache = new BulkDataTenantSpecificCache();
 
     public ExportStatusOperation() {
         super();
@@ -45,9 +36,6 @@ public class ExportStatusOperation extends AbstractOperation {
 
     @Override
     protected OperationDefinition buildOperationDefinition() {
-        /**
-         * Loads the operation definition file. In this case, there are three files, and only one is loaded.
-         */
         try (InputStream in = getClass().getClassLoader().getResourceAsStream(FILE);) {
             return FHIRParser.parser(Format.JSON).parse(in);
         } catch (Exception e) {
@@ -56,32 +44,29 @@ public class ExportStatusOperation extends AbstractOperation {
     }
 
     @Override
-    protected Parameters doInvoke(FHIROperationContext operationContext,
-        Class<? extends Resource> resourceType, String logicalId, String versionId,
-        Parameters parameters,
-        FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        /*
-         * This call is enabled only at the root. 
-         */
-                
-        if(logicalId == null && versionId == null && resourceType == null) {
-            
-            // Eventually, Check if the operation's method is DELETE, and eventually branch 
-            
-            // 
-            String job = BulkDataUtil.checkAndValidateJob(parameters);
-            
-            // For now, we're going to execute the status update, and check. 
-            // If Base, Export Status (Else Invalid)
-            return BulkDataFactory.getExport(cache).statusExport(job, operationContext, cache);
-            
+    protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
+            String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
+            throws FHIROperationException {
+        if (logicalId == null && versionId == null && resourceType == null) {
+            String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
+            if ("DELETE".equalsIgnoreCase(method)) {
+                // Assume GET or POST
+                String job = BulkDataUtil.checkAndValidateJob(parameters);
+                // For now, we're going to execute the status update, and check. 
+                // If Base, Export Status (Else Invalid)
+                return BulkDataFactory.getTenantInstance().delete(job, operationContext);
+            } else {
+                // Assume GET or POST
+                String job = BulkDataUtil.checkAndValidateJob(parameters);
+                // For now, we're going to execute the status update, and check. 
+                // If Base, Export Status (Else Invalid)
+                return BulkDataFactory.getTenantInstance().status(job, operationContext);
+            }
         } else {
             // Unsupported on Resource Type
             // Root operation is only supported, and we signal it back here. 
             // Don't get fancy, just send it back. 
             throw buildExceptionWithIssue("Invalid call $export-status operation call", IssueType.INVALID);
         }
-        
     }
-    
 }

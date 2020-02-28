@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,15 +11,13 @@ import java.util.stream.Collectors;
 /**
  * ResponseMetadata to manipulate the response back to the client.
  * This response object is intent for the polling location.
- *
- *
  */
 public class PollingLocationResponse {
-
     private String transactionTime;
     private String request;
     private Boolean requiresAccessToken;
     private List<Output> output;
+    private List<Output> error;
 
     public String getTransactionTime() {
         return transactionTime;
@@ -52,19 +50,26 @@ public class PollingLocationResponse {
     public void setOutput(List<Output> output) {
         this.output = output;
     }
+    
+    public List<Output> getError() {
+        return error;
+    }
+
+    public void setError(List<Output> error) {
+        this.error = error;
+    }
 
     public static class Output {
-
-        public Output(String type, String url, String count) {
-            super();
-            this.type = type;
-            this.url = url;
-            this.count = count;
-        }
-
         private String type;
         private String url;
         private String count;
+
+        public Output(String type, String url, String count) {
+            super();
+            this.type  = type;
+            this.url   = url;
+            this.count = count;
+        }
 
         public String getType() {
             return type;
@@ -104,28 +109,28 @@ public class PollingLocationResponse {
 
         if (transactionTime != null) {
             builder.append("\"transactionTime\": \"");
-            builder.append(transactionTime);
+            builder.append(getTransactionTime());
             builder.append("\"");
             builder.append(",");
         }
 
         if (request != null) {
             builder.append("\"request\": \"");
-            builder.append(request);
+            builder.append(getRequest());
             builder.append("\"");
             builder.append(",");
         }
 
         if (requiresAccessToken != null) {
             builder.append("\"requiresAccessToken\": ");
-            builder.append(Boolean.toString(requiresAccessToken));
+            builder.append(Boolean.toString(getRequiresAccessToken()));
             builder.append("");
             builder.append(",");
         }
 
         builder.append("\"output\" : [");
-        if (output != null) {
-            builder.append(output.stream().map(s -> s.toString()).collect(Collectors.joining(",")));
+        if (getOutput() != null) {
+            builder.append(getOutput().stream().map(s -> s.toString()).collect(Collectors.joining(",")));
         }
         builder.append("]");
 
@@ -133,5 +138,4 @@ public class PollingLocationResponse {
         builder.append("}");
         return builder.toString();
     }
-
 }

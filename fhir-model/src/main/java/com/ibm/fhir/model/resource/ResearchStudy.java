@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -169,6 +169,8 @@ public class ResearchStudy extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         arm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.arm, "arm"));
         objective = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.objective, "objective"));
+        ValidationSupport.checkReferenceType(sponsor, "sponsor", "Organization");
+        ValidationSupport.checkReferenceType(principalInvestigator, "principalInvestigator", "Practitioner", "PractitionerRole");
         ValidationSupport.requireChildren(this);
     }
 

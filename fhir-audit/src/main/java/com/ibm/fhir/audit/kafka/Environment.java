@@ -38,7 +38,7 @@ public class Environment {
         logger.entering(CLASSNAME, METHODNAME);
 
         String kubEventStreamBinding = System.getenv(KUB_EVENTSTREAMS_BINDING);
-        logger.info(KUB_EVENTSTREAMS_BINDING + ": \n" + kubEventStreamBinding);
+        logger.fine(KUB_EVENTSTREAMS_BINDING + ": \n" + kubEventStreamBinding);
         return parseEventStreamsCredentials(kubEventStreamBinding);
     }
 

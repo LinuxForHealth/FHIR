@@ -3,8 +3,8 @@ name: Integration
 on:
   pull_request:
     paths-ignore:
-    - 'docs/**'
-    - '.github/site.yml'
+      - 'docs/**'
+      - '.github/site.yml'
 
 jobs:
   build-tools:
@@ -49,8 +49,9 @@ jobs:
       run: mvn -B install --file fhir-examples --no-transfer-progress
     - name: Build parent with tests
       env:
-        BASE: ${{ github['base_ref'] }}
+        BASE: origin/${{ github['base_ref'] }}
       run: |
+        mvn -version
         model_paths=(
           fhir-model
           fhir-examples
@@ -102,7 +103,7 @@ jobs:
         # Convert the PROFILES_ARR array to a comma-delimited string
         PROFILES=$(IFS=, ; echo "${PROFILES_ARR[*]}")
         echo "Using profiles ${PROFILES}"
-        mvn -B -T2C package --file fhir-parent -P "${PROFILES}" --no-transfer-progress
+        mvn -B -T2C package --file fhir-parent -P "${PROFILES}" --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240
   e2e-tests:
     runs-on: ubuntu-latest
     strategy:
@@ -127,7 +128,7 @@ jobs:
           export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
           JAVADOC_GOAL=" -Pvalidate-javadoc javadoc:javadoc "
         fi
-        mvn -B ${JAVADOC_GOAL} install --file fhir-parent -DskipTests -P integration --no-transfer-progress
+        mvn -B ${JAVADOC_GOAL} install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240
     - name: Server Integration Tests
       env:
         # debian-based linux uses C.UTF-8 by default and Derby doesn't like that
@@ -136,7 +137,7 @@ jobs:
         export WORKSPACE=${GITHUB_WORKSPACE}
         build/pre-integration-test.sh
         env
-        mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress
+        mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240
         build/post-integration-test.sh
     - name: Gather error logs
       if: failure()
@@ -155,7 +156,7 @@ jobs:
       with:
         name: integration-test-results-${{ matrix.java }}
         path: SIT/integration-test-results
-  e2e-tests-windows:
+  e2e-windows:
     runs-on: windows-latest
     strategy:
       matrix:
@@ -176,6 +177,7 @@ jobs:
     - name: Server Integration Tests
       shell: powershell
       run: |
+        $ErrorActionPreference = "Stop"
         & build/pre-integration-test.ps1
         & build/tests.ps1
         & build/post-integration-test.ps1
@@ -210,3 +212,57 @@ jobs:
       with:
         name: integration-test-results-windows-${{ matrix.java }}
         path: SIT/integration-test-results
+  e2e-db2:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 'openjdk11' ]
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up OpenJDK
+      uses: joschi/setup-jdk@v1
+      with:
+        java-version: ${{ matrix.java }}
+    - name: Build samples
+      run: mvn -B install --file fhir-examples --no-transfer-progress
+    - name: Build parent without tests
+      run: |
+        mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress
+    - name: Server Integration Tests
+      env:
+        # debian-based linux uses C.UTF-8 by default and Derby doesn't like that
+        LC_ALL: en_US.UTF-8
+      run: |
+        export WORKSPACE=${GITHUB_WORKSPACE}
+        build/pre-integration-test-docker.sh
+        env
+        mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress
+        build/post-integration-test-docker.sh
+    - name: Gather error logs
+      if: failure()
+      run: |
+        it_results=integration-test-results
+        rm -fr ${it_results} 2>/dev/null
+        mkdir -p ${it_results}/server-logs
+        mkdir -p ${it_results}/fhir-server-test
+        containerId=$(docker ps -a | grep fhir | cut -d ' ' -f 1)
+        if [[ -z "${containerId}" ]]; then
+            echo "Warning: Could not find fhir container!!!"
+        else
+            echo "fhir container id: $containerId"
+
+            # Grab the container's console log
+            docker logs $containerId  >& ${it_results}/docker-console.txt
+
+            echo "Gathering post-test server logs from docker container: $containerId"
+            docker cp -L $containerId:/logs ${it_results}/server-logs
+        fi
+        echo "Gathering integration test output"
+        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
+    - name: Upload logs
+      if: always()
+      uses: actions/upload-artifact@master
+      with:
+        name: integration-test-results-db2-${{ matrix.java }}
+        path: integration-test-results

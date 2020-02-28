@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -221,6 +221,16 @@ public class ExplanationOfBenefit extends DomainResource {
         processNote = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processNote, "processNote"));
         benefitPeriod = builder.benefitPeriod;
         benefitBalance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.benefitBalance, "benefitBalance"));
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
+        ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
+        ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+        ValidationSupport.checkReferenceType(prescription, "prescription", "MedicationRequest", "VisionPrescription");
+        ValidationSupport.checkReferenceType(originalPrescription, "originalPrescription", "MedicationRequest");
+        ValidationSupport.checkReferenceType(referral, "referral", "ServiceRequest");
+        ValidationSupport.checkReferenceType(facility, "facility", "Location");
+        ValidationSupport.checkReferenceType(claim, "claim", "Claim");
+        ValidationSupport.checkReferenceType(claimResponse, "claimResponse", "ClaimResponse");
         ValidationSupport.requireChildren(this);
     }
 
@@ -2187,6 +2197,7 @@ public class ExplanationOfBenefit extends DomainResource {
             claim = builder.claim;
             relationship = builder.relationship;
             reference = builder.reference;
+            ValidationSupport.checkReferenceType(claim, "claim", "Claim");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2482,6 +2493,7 @@ public class ExplanationOfBenefit extends DomainResource {
             super(builder);
             type = builder.type;
             party = builder.party;
+            ValidationSupport.checkReferenceType(party, "party", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2761,6 +2773,7 @@ public class ExplanationOfBenefit extends DomainResource {
             responsible = builder.responsible;
             role = builder.role;
             qualification = builder.qualification;
+            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -4411,6 +4424,7 @@ public class ExplanationOfBenefit extends DomainResource {
             focal = ValidationSupport.requireNonNull(builder.focal, "focal");
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
             preAuthRef = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.preAuthRef, "preAuthRef"));
+            ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
             ValidationSupport.requireValueOrChildren(this);
         }
 

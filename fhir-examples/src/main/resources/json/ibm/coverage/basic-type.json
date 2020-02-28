@@ -1,0 +1,55 @@
+{
+	"resourceType": "Basic",
+	"extension": [{
+		"url": "https://extension-base64",
+		"valueBase64Binary": "VEhJUyBJUyBBIEZBS0UgUEFZTE9BRA=="
+	},
+	{
+		"url": "https://extension-Boolean",
+		"valueBoolean": true
+	},
+	{
+		"url": "https://extension-Canonical",
+		"valueCanonical": "https://mycanonical"
+	},
+	{
+		"url": "https://extension-base64",
+		"valueBase64Binary": "VEhJUyBJUyBBIEZBS0UgUEFZTE9BRA=="
+	},
+	{
+		"url": "https://extension-ContactDetail",
+		"valueContactDetail": {
+			"name": "Patient P",
+			"telecom": [{
+				"value": "1-111-111-1111",
+				"use": "home"
+			}]
+		}
+	},
+	{
+		"url": "https://extension-Count",
+		"valueCount": {
+			"value": 10.0,
+			"comparator": ">=",
+			"unit": "kg"
+		}
+	},
+	{
+		"url": "https://extension-Distance",
+		"valueDistance": {
+			"value": 10.0,
+			"unit": "km"
+		}
+	},
+	{
+		"url": "https://extension-MoneyQuantity",
+		"valueQuantity": {
+			"value": 10.0,
+			"unit": "$"
+		}
+	}],
+	"code": {
+		"id": "1-2-3-4",
+		"text": "Demo"
+	}
+}

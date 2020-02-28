@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -905,6 +905,8 @@ public class AuditEvent extends DomainResource {
             media = builder.media;
             network = builder.network;
             purposeOfUse = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.purposeOfUse, "purposeOfUse"));
+            ValidationSupport.checkReferenceType(who, "who", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(location, "location", "Location");
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1787,6 +1789,7 @@ public class AuditEvent extends DomainResource {
             site = builder.site;
             observer = ValidationSupport.requireNonNull(builder.observer, "observer");
             type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+            ValidationSupport.checkReferenceType(observer, "observer", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
             ValidationSupport.requireValueOrChildren(this);
         }
 

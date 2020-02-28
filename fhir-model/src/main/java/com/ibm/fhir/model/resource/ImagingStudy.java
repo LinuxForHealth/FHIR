@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -136,6 +136,11 @@ public class ImagingStudy extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         description = builder.description;
         series = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.series, "series"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Device", "Group");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(referrer, "referrer", "Practitioner", "PractitionerRole");
+        ValidationSupport.checkReferenceType(procedureReference, "procedureReference", "Procedure");
+        ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.requireChildren(this);
     }
 
@@ -2005,6 +2010,7 @@ public class ImagingStudy extends DomainResource {
                 super(builder);
                 function = builder.function;
                 actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+                ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
                 ValidationSupport.requireValueOrChildren(this);
             }
 

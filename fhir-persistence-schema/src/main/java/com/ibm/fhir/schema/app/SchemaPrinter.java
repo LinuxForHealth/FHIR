@@ -56,7 +56,7 @@ import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 
 /**
  * The SchemaPrinter outputs the DDL into three files - schema.sql, grants.sql, stored-procedures.sql.<br>
- * These files are generated using Mock java.sql objects.  These mock objects follow through the code to<br>
+ * These files are generated using Mock java.sql objects. These mock objects follow through the code to<br>
  * capture the SQL as it flows to the prospective database:<br>
  * <ul>
  *  <li>Build a JDBCTarget with PrintConnection</li>

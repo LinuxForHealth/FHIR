@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -125,15 +125,15 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         strings = c.prepareStatement(insertString);
 
         insertNumber = multitenant ?
-                "INSERT INTO " + tablePrefix + "_number_values (mt_id, parameter_name_id, number_value, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?)"
+                "INSERT INTO " + tablePrefix + "_number_values (mt_id, parameter_name_id, number_value, number_value_low, number_value_high, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
                 :
-                "INSERT INTO " + tablePrefix + "_number_values (parameter_name_id, number_value, logical_resource_id) VALUES (?,?,?)";
+                "INSERT INTO " + tablePrefix + "_number_values (parameter_name_id, number_value, number_value_low, number_value_high, logical_resource_id) VALUES (?,?,?,?,?)";
         numbers = c.prepareStatement(insertNumber);
 
         insertDate = multitenant ?
-                "INSERT INTO " + tablePrefix + "_date_values (mt_id, parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
+                "INSERT INTO " + tablePrefix + "_date_values (mt_id, parameter_name_id, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
                 :
-                "INSERT INTO " + tablePrefix + "_date_values (parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (?,?,?,?,?)";
+                "INSERT INTO " + tablePrefix + "_date_values (parameter_name_id, date_start, date_end, logical_resource_id) VALUES (?,?,?,?)";
         dates = c.prepareStatement(insertDate);
 
         String insertToken = multitenant ?
@@ -175,9 +175,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
         // Resource level date attributes
         String insertResourceDate = multitenant ?
-                "INSERT INTO resource_date_values (mt_id, parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
+                "INSERT INTO resource_date_values (mt_id, parameter_name_id, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
                 :
-                "INSERT INTO resource_date_values (parameter_name_id, date_value, date_start, date_end, logical_resource_id) VALUES (?,?,?,?,?)";
+                "INSERT INTO resource_date_values (parameter_name_id, date_start, date_end, logical_resource_id) VALUES (?,?,?,?)";
         resourceDates = c.prepareStatement(insertResourceDate);
 
         // Resource level token attributes
@@ -290,7 +290,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                         + value + " [" + valueLow + ", " + valueHigh + "]");
             }
 
-            setNumberParms(numbers, parameterNameId, value);
+            setNumberParms(numbers, parameterNameId, value, valueLow, valueHigh);
             numbers.addBatch();
 
             if (++numberCount == this.batchSize) {
@@ -303,16 +303,17 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         }
     }
 
-    private void setNumberParms(PreparedStatement insert, int parameterNameId, BigDecimal value) throws SQLException {
+    private void setNumberParms(PreparedStatement insert, int parameterNameId, BigDecimal value, BigDecimal valueLow, BigDecimal valueHigh) throws SQLException {
         insert.setInt(1, parameterNameId);
         insert.setBigDecimal(2, value);
-        insert.setLong(3, logicalResourceId);
+        insert.setBigDecimal(3, valueLow);
+        insert.setBigDecimal(4, valueHigh);
+        insert.setLong(5, logicalResourceId);
     }
 
     @Override
     public void visit(DateParmVal param) throws FHIRPersistenceException {
         String parameterName = param.getName();
-        Timestamp date = param.getValueDate();
         Timestamp dateStart = param.getValueDateStart();
         Timestamp dateEnd = param.getValueDateEnd();
         try {
@@ -322,11 +323,11 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 // store in the base (resource) table
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("baseDateValue: " + parameterName + "[" + parameterNameId + "], "
-                            + date + " [" + dateStart + ", " + dateEnd + "]");
+                             + "[" + dateStart + ", " + dateEnd + "]");
                 }
 
                 // Insert record into the base level date attribute table
-                setDateParms(resourceDates, parameterNameId, date, dateStart, dateEnd);
+                setDateParms(resourceDates, parameterNameId, dateStart, dateEnd);
                 resourceDates.addBatch();
 
                 if (++resourceDateCount == this.batchSize) {
@@ -336,11 +337,11 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             }
             else {
                 if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("dateValue: " + parameterName + "[" + parameterNameId + "], value: [" 
-                            + date + "], period: [" + dateStart + ", " + dateEnd + "]");
+                    logger.fine("dateValue: " + parameterName + "[" + parameterNameId + "], "
+                            + "period: [" + dateStart + ", " + dateEnd + "]");
                 }
 
-                setDateParms(dates, parameterNameId, date, dateStart, dateEnd);
+                setDateParms(dates, parameterNameId, dateStart, dateEnd);
                 dates.addBatch();
 
                 if (++dateCount == this.batchSize) {
@@ -350,17 +351,16 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             }
         }
         catch (SQLException x) {
-            throw new FHIRPersistenceDataAccessException(parameterName + "={" + date + ", " + dateStart + ", " + dateEnd + "}", x);
+            throw new FHIRPersistenceDataAccessException(parameterName + "={" + dateStart + ", " + dateEnd + "}", x);
         }
 
     }
 
-    private void setDateParms(PreparedStatement insert, int parameterNameId, Timestamp date, Timestamp dateStart, Timestamp dateEnd) throws SQLException {
+    private void setDateParms(PreparedStatement insert, int parameterNameId, Timestamp dateStart, Timestamp dateEnd) throws SQLException {
         insert.setInt(1, parameterNameId);
-        insert.setTimestamp(2, date, UTC);
-        insert.setTimestamp(3, dateStart, UTC);
-        insert.setTimestamp(4, dateEnd, UTC);
-        insert.setLong(5, logicalResourceId);
+        insert.setTimestamp(2, dateStart, UTC);
+        insert.setTimestamp(3, dateEnd, UTC);
+        insert.setLong(4, logicalResourceId);
     }
 
     @Override
@@ -533,7 +533,8 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
                 if (val instanceof NumberParmVal) {
                     try (PreparedStatement insert = connection.prepareStatement(insertNumber, Statement.RETURN_GENERATED_KEYS)) {
-                        setNumberParms(insert, parameterNameId, ((NumberParmVal) val).getValueNumber());
+                        NumberParmVal number = (NumberParmVal) val;
+                        setNumberParms(insert, parameterNameId, number.getValueNumber(), number.getValueNumberLow(), number.getValueNumberHigh());
                         insert.executeUpdate();
                         // closing the insert statement also closes the resultset
                         ResultSet rs = insert.getGeneratedKeys();
@@ -548,7 +549,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 if (val instanceof DateParmVal) {
                     try (PreparedStatement insert = connection.prepareStatement(insertDate, Statement.RETURN_GENERATED_KEYS)) {
                         DateParmVal dVal = (DateParmVal) val;
-                        setDateParms(insert, parameterNameId, dVal.getValueDate(), dVal.getValueDateStart(), dVal.getValueDateEnd());
+                        setDateParms(insert, parameterNameId, dVal.getValueDateStart(), dVal.getValueDateEnd());
                         insert.executeUpdate();
                         // closing the insert statement also closes the resultset
                         ResultSet rs = insert.getGeneratedKeys();

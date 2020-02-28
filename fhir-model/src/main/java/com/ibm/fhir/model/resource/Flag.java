@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -86,6 +86,9 @@ public class Flag extends DomainResource {
         period = builder.period;
         encounter = builder.encounter;
         author = builder.author;
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Location", "Group", "Organization", "Practitioner", "PlanDefinition", "Medication", "Procedure");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(author, "author", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole");
         ValidationSupport.requireChildren(this);
     }
 

@@ -6,12 +6,15 @@
 
 package com.ibm.fhir.model.util;
 
+import static com.ibm.fhir.model.util.FHIRUtil.REFERENCE_PATTERN;
+
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -21,8 +24,12 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.Reference;
 
 /**
  * Static helper methods for validating model objects during construction
@@ -31,6 +38,7 @@ import com.ibm.fhir.model.type.Element;
  *          so that Builder.build() methods can throw the most appropriate exception without catching and wrapping
  */
 public final class ValidationSupport {
+    private static final int RESOURCE_TYPE_GROUP = 4;
     private static final int MIN_STRING_LENGTH = 1;
     private static final int MAX_STRING_LENGTH = 1048576; // 1024 * 1024 = 1MB
     private static final String FHIR_XHTML_XSD = "fhir-xhtml.xsd";
@@ -354,5 +362,86 @@ public final class ValidationSupport {
         if (!elements.isEmpty()) {
             throw new IllegalStateException(String.format("Element: '%s' is prohibited.", elementName));
         }
+    }
+    
+    /**
+     * @throws IllegalStateExeption if the codeableConcept has coding elements that do not include codes from the required binding
+     */
+    public static void checkCodeableConcept(CodeableConcept codeableConcept, String elementName, String valueSet, String system, String... codes) {
+        if (codeableConcept != null && !codeableConcept.getCoding().isEmpty() && hasCodingWithSystemAndCodeValues(codeableConcept)) {
+            List<String> codeList = Arrays.asList(codes);
+            for (Coding coding : codeableConcept.getCoding()) {
+                if (hasSystemAndCodeValues(coding) && 
+                        system.equals(coding.getSystem().getValue()) && 
+                        codeList.contains(coding.getCode().getValue())) {
+                    return;
+                }
+            }
+            throw new IllegalStateException(String.format("Element: '%s' must contain a valid code from value set: '%s'", elementName, valueSet));
+        }
+    }
+    
+    private static boolean hasCodingWithSystemAndCodeValues(CodeableConcept codeableConcept) {
+        for (Coding coding : codeableConcept.getCoding()) {
+            if (hasSystemAndCodeValues(coding)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private static boolean hasSystemAndCodeValues(Coding coding) {
+        return coding.getSystem() != null && 
+                coding.getSystem().getValue() != null && 
+                coding.getCode() != null && 
+                coding.getCode().getValue() != null;
+    }
+    
+    /**
+     * @throws IllegalStateException if the resource type found in reference URL does not match the specified Reference.type value or is not one of the allowed reference types for that element
+     */
+    public static void checkReferenceType(Reference reference, String elementName, String... referenceTypes) {
+        boolean checkReferenceTypes = FHIRModelConfig.getCheckReferenceTypes();
+        if (reference != null && checkReferenceTypes) {
+            String referenceReference = getReferenceReference(reference);
+            String referenceType = getReferenceType(reference);
+            
+            String resourceType = null;
+            
+            if (referenceReference != null && !referenceReference.startsWith("#")) {
+                Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
+                if (matcher.matches()) {
+                    resourceType = matcher.group(RESOURCE_TYPE_GROUP);
+                    if (referenceType != null && !resourceType.equals(referenceType)) {
+                        throw new IllegalStateException(String.format("Resource type found in reference URL: %s for element: '%s' does not match reference type: %s", resourceType, elementName, referenceType));
+                    }
+                }
+            }
+            
+            if (resourceType == null) {
+                resourceType = referenceType;
+            }
+            
+            if (resourceType != null) {
+                List<String> referenceTypeList = Arrays.asList(referenceTypes);
+                if (!referenceTypeList.contains(resourceType)) {
+                    throw new IllegalStateException(String.format("Resource type found in reference URL: %s for element: '%s' must be one of: %s", resourceType, elementName, referenceTypeList.toString()));
+                }
+            }
+        }
+    }
+    
+    private static String getReferenceReference(Reference reference) {
+        if (reference.getReference() != null && reference.getReference().getValue() != null) {
+            return reference.getReference().getValue();
+        }
+        return null;
+    }
+
+    private static String getReferenceType(Reference reference) {
+        if (reference.getType() != null && reference.getType().getValue() != null) {
+            return reference.getType().getValue();
+        }
+        return null;
     }
 }

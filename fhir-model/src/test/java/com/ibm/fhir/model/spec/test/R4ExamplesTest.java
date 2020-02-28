@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.examples.Index;
+import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.visitor.CopyingVisitor;
@@ -23,6 +24,7 @@ public class R4ExamplesTest {
     
     @BeforeClass
     public void setup() {
+        FHIRModelConfig.setCheckReferenceTypes(false);
         driver = new R4ExamplesDriver();
     }
 

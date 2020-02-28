@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,41 +33,26 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         FHIRRequestContext.get().setTenantId("token");
     }
 
-    // Searching strings as tokens is not currently supported
-//    @Test
-//    public void testSearchToken_string() throws Exception {
-//        assertSearchReturnsSavedResource("string", "testString");
-//        assertSearchReturnsSavedResource("string", "|testString");
-//    }
-    
+    @Test
+    public void testSearchToken_string() throws Exception {
+        assertSearchReturnsSavedResource("string", "testString");
+        assertSearchReturnsSavedResource("string", "|testString");
+    }
+
     @Test
     public void testSearchToken_boolean() throws Exception {
+        // For token parameters on elements of type ContactPoint, uri, or boolean, 
+        // the presence of the pipe symbol SHALL NOT be used - only the [parameter]=[code] form is allowed
         assertSearchReturnsSavedResource("boolean", "true");
         assertSearchDoesntReturnSavedResource("boolean", "false");
-        
-        // FHIR boolean values have an implicit code of http://hl7.org/fhir/special-values
-        // so I think the "|true" variant should return empty 
-        // and the "http://hl7.org/fhir/special-values|true" variant should return the resource.
-//        assertSearchDoesntReturnSavedResource("boolean", "|true");
-        assertSearchDoesntReturnSavedResource("boolean", "|false");
-        
-//        assertSearchReturnsSavedResource("boolean", "http://hl7.org/fhir/special-values|true");
-        assertSearchDoesntReturnSavedResource("boolean", "http://hl7.org/fhir/special-values|false");
     }
     
     @Test
     public void testSearchToken_boolean_chained() throws Exception {
+        // For token parameters on elements of type ContactPoint, uri, or boolean, 
+        // the presence of the pipe symbol SHALL NOT be used - only the [parameter]=[code] form is allowed
         assertSearchReturnsComposition("subject:Basic.boolean", "true");
         assertSearchDoesntReturnComposition("subject:Basic.boolean", "false");
-        
-        // FHIR boolean values have an implicit code of http://hl7.org/fhir/special-values
-        // so I think the "|true" variant should return empty 
-        // and the "http://hl7.org/fhir/special-values|true" variant should return the resource.
-//        assertSearchDoesntReturnComposition("subject:Basic.boolean", "|true");
-        assertSearchDoesntReturnComposition("subject:Basic.boolean", "|false");
-        
-//        assertSearchReturnsComposition("subject:Basic.boolean", "http://hl7.org/fhir/special-values|true");
-        assertSearchDoesntReturnComposition("subject:Basic.boolean", "http://hl7.org/fhir/special-values|false");
     }
     
     @Test
@@ -89,15 +74,6 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-boolean:missing", "false");
     }
 
-//    @Test
-//    public void testSearchToken_boolean_chained_missing() throws Exception {
-//        assertSearchReturnsComposition("subject:Basic.boolean:missing", "false");
-//        assertSearchDoesntReturnComposition("subject:Basic.boolean:missing", "true");
-//        
-//        assertSearchReturnsComposition("subject:Basic.missing-boolean:missing", "true");
-//        assertSearchDoesntReturnComposition("subject:Basic.missing-boolean:missing", "false");
-//    }
-    
     @Test
     public void testSearchToken_code() throws Exception {
         assertSearchReturnsSavedResource("code", "code");
@@ -120,20 +96,38 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     }
 
     /*
-     * Currently, documented in our conformance statement. We do not support
+     * Currently, as documented in our conformance statement, we do not support
      * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
      * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
      */
     
 //    @Test
+//    public void testSearchToken_boolean_chained_missing() throws Exception {
+//        assertSearchReturnsComposition("subject:Basic.boolean:missing", "false");
+//        assertSearchDoesntReturnComposition("subject:Basic.boolean:missing", "true");
+//
+//        assertSearchReturnsComposition("subject:Basic.missing-boolean:missing", "true");
+//        assertSearchDoesntReturnComposition("subject:Basic.missing-boolean:missing", "false");
+//    }
+//    
+//    @Test
 //    public void testSearchToken_code_chained_missing() throws Exception {
 //        assertSearchReturnsComposition("subject:Basic.code:missing", "false");
 //        assertSearchDoesntReturnComposition("subject:Basic.code:missing", "true");
-//        
+//
 //        assertSearchReturnsComposition("subject:Basic.missing-code:missing", "true");
 //        assertSearchDoesntReturnComposition("subject:Basic.missing-code:missing", "false");
 //    }
-    
+//    
+//    @Test
+//    public void testSearchToken_CodeableConcept_chained_missing() throws Exception {
+//        assertSearchReturnsComposition("subject:Basic.CodeableConcept:missing", "false");
+//        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept:missing", "true");
+//
+//        assertSearchReturnsComposition("subject:Basic.missing-CodeableConcept:missing", "true");
+//        assertSearchDoesntReturnComposition("subject:Basic.missing-CodeableConcept:missing", "false");
+//    }
+
     @Test
     public void testSearchToken_CodeableConcept() throws Exception {
         assertSearchReturnsSavedResource("CodeableConcept", "code");
@@ -188,15 +182,6 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-CodeableConcept:missing", "false");
     }
 
-//    @Test
-//    public void testSearchToken_CodeableConcept_chained_missing() throws Exception {
-//        assertSearchReturnsComposition("subject:Basic.CodeableConcept:missing", "false");
-//        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept:missing", "true");
-//        
-//        assertSearchReturnsComposition("subject:Basic.missing-CodeableConcept:missing", "true");
-//        assertSearchDoesntReturnComposition("subject:Basic.missing-CodeableConcept:missing", "false");
-//    }
-    
     @Test
     public void testSearchToken_Coding() throws Exception {
         assertSearchReturnsSavedResource("Coding", "code");

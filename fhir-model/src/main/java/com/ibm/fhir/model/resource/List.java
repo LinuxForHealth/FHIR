@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -132,6 +132,9 @@ public class List extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         entry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entry, "entry"));
         emptyReason = builder.emptyReason;
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(source, "source", "Practitioner", "PractitionerRole", "Patient", "Device");
         ValidationSupport.requireChildren(this);
     }
 

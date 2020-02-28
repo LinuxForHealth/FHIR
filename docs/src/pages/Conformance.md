@@ -21,6 +21,25 @@ The HL7 FHIR specification is more than just a data format. It defines an [HTTP 
 
 The IBM FHIR Server implements a linear versioning scheme for resources and fully implements the `vread` and `history` interactions, as well as version-aware updates.
 
+### HTTP Headers
+In addition to the content negotiation headers required in the FHIR specification, the IBM FHIR Server supports two client preferences via the `Prefer` header:
+* [return preference](https://www.hl7.org/fhir/http.html#ops)
+* [handling preference](https://www.hl7.org/fhir/search.html#errors)
+
+The default return preference is `minimal`.
+The default handling preference is configurable via the server's `fhirServer/core/defaultHandling` config property, but defaults to `strict`.
+Additionally, server administrators can configure whether or not to honor the client's handling preference by setting `fhirServer/core/allowClientHandlingPref` which defaults to `true`.
+For example, to ask the server to be lenient in processing a given request, but to return warnings for non-fatal errors, a client should set the Prefer header as follows:
+```
+Prefer: return=OperationOutcome; handling=lenient
+```
+
+In `lenient` mode, the client must [check the self uri](https://www.hl7.org/fhir/search.html#conformance) of a search response to determine which parameters were used in computing the response.
+
+Note: In addition to controlling whether or not the server returns an error for unexpected search parameters, the handling preference is also used to control whether or not the server will return an error for unexpected elements in the JSON representation of a Resource as defined at https://www.hl7.org/fhir/json.html.
+
+Finally, the IBM FHIR Server supports multi-tenancy through custom headers as defined at https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#49-multi-tenancy. By default, the server will look for a tenantId in a `X-FHIR-TENANT-ID` header and a datastoreId in the `X-FHIR-DSID` header, and use `default` for either one if the headers are not present.
+
 ### General parameters
 The `_format` parameter is supported and provides a useful mechanism for requesting a specific format (`XML` or `JSON`) in requests made from a browser. In the absence of either an `Accept` header or a `_format` query parameter, the server defaults to `application/fhir+json`.
 
@@ -112,8 +131,6 @@ As defined in the specification, the following prefixes are supported for Number
 For range targets (parameter values extracted from Range, Date/Period, and DateTime elements without fractional seconds), the prefixes are interpreted as according to https://www.hl7.org/fhir/R4/search.html#prefix.
 
 For example, a search like `Observation?date=2018-10-29T12:00:00Z` would *not* match an Observation with an effectivePeriod of `start=2018-10-29` and `end=2018-10-30` because "the search range does not fully contain the range of the target value." Similarly, a search like `range=5||mg` would not match a range value with `low = 1 mg` and `high = 10 mg`. To obtain all range values which contain a specific value, use the `ap` prefix which is defined to match when "the range of the search value overlaps with the range of the target value."
-
-The `sa` and `eb` prefixes are not supported for searches which target values of type integer (or derived types).
 
 If not specified on a query string, the default prefix is `eq`.
 

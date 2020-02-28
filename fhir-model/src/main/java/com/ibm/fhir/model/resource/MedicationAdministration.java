@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -140,6 +140,9 @@ public class MedicationAdministration extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         dosage = builder.dosage;
         eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+        ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
+        ValidationSupport.checkReferenceType(request, "request", "MedicationRequest");
         ValidationSupport.requireChildren(this);
     }
 
@@ -1295,6 +1298,7 @@ public class MedicationAdministration extends DomainResource {
             super(builder);
             function = builder.function;
             actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+            ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Device");
             ValidationSupport.requireValueOrChildren(this);
         }
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -72,6 +72,8 @@ public class Signature extends Element {
         targetFormat = builder.targetFormat;
         sigFormat = builder.sigFormat;
         data = builder.data;
+        ValidationSupport.checkReferenceType(who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
+        ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
         ValidationSupport.requireValueOrChildren(this);
     }
 

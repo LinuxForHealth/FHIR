@@ -37,7 +37,7 @@ public class FHIRPathEvaluatorBenchmark {
     private static final String EXPRESSION = "Bundle.entry.resource.where(birthDate < @1950-01-01)";
 
     @State(Scope.Benchmark)
-    public static class FHIRPathEvaluatorState {        
+    public static class FHIRPathEvaluatorState {
         public static final String SPEC_EXAMPLE_NAME = System.getProperty(PROPERTY_EXAMPLE_NAME);
         public static final String JSON_SPEC_EXAMPLE = BenchmarkUtil.getSpecExample(Format.JSON, SPEC_EXAMPLE_NAME);
         public static final String EXPRESSION = System.getProperty(PROPERTY_EXPRESSION);

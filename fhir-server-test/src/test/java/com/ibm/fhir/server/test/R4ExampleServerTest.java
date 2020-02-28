@@ -23,6 +23,7 @@ public class R4ExampleServerTest extends FHIRServerTestBase {
      */
     @Test(groups = { "server-examples" })
     public void processExamples() throws Exception {
+
         DriverMetrics dm = new DriverMetrics();
 
         // Process each of the examples using the provided ExampleRequestProcessor. We want to

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -83,6 +83,9 @@ public class VisionPrescription extends DomainResource {
         dateWritten = ValidationSupport.requireNonNull(builder.dateWritten, "dateWritten");
         prescriber = ValidationSupport.requireNonNull(builder.prescriber, "prescriber");
         lensSpecification = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.lensSpecification, "lensSpecification"));
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+        ValidationSupport.checkReferenceType(prescriber, "prescriber", "Practitioner", "PractitionerRole");
         ValidationSupport.requireChildren(this);
     }
 

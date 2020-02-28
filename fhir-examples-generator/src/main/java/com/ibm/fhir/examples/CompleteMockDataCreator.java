@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.examples;
 
+import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.type.Xhtml.xhtml;
 
 import java.io.IOException;
@@ -23,6 +24,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.xml.datatype.DatatypeConfigurationException;
 
 import com.ibm.fhir.model.builder.Builder;
+import com.ibm.fhir.model.resource.AdverseEvent;
+import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Appointment;
 import com.ibm.fhir.model.resource.AuditEvent;
 import com.ibm.fhir.model.resource.CarePlan;
@@ -30,16 +33,22 @@ import com.ibm.fhir.model.resource.Composition;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.CoverageEligibilityResponse;
 import com.ibm.fhir.model.resource.FamilyMemberHistory;
+import com.ibm.fhir.model.resource.InsurancePlan;
 import com.ibm.fhir.model.resource.Measure;
+import com.ibm.fhir.model.resource.MeasureReport;
 import com.ibm.fhir.model.resource.MessageDefinition;
+import com.ibm.fhir.model.resource.MolecularSequence;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Questionnaire;
 import com.ibm.fhir.model.resource.RiskAssessment;
+import com.ibm.fhir.model.resource.SupplyDelivery;
 import com.ibm.fhir.model.resource.Task;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Age;
 import com.ibm.fhir.model.type.Base64Binary;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DataRequirement;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
@@ -189,6 +198,142 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                     else if (builder instanceof RiskAssessment.Prediction.Builder && method.getName().equals("probability")) {
                         argument = Decimal.of(Math.random() * 100);
                     }
+
+                    // CodeableConcepts with required bindings
+                    else if (builder instanceof AdverseEvent.Builder && method.getName().equals("severity")) {
+                        String value = "mild";
+                        argument = CodeableConcept.builder()
+                                .coding(Coding.builder()
+                                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/adverse-event-severity"))
+                                    .version(string("4.0.1"))
+                                    .code(Code.of(value))
+                                    .display(string(titleCase(value)))
+                                    .userSelected(com.ibm.fhir.model.type.Boolean.FALSE)
+                                    .build())
+                                .text(string(value))
+                                .build();
+                    } else if (builder instanceof AdverseEvent.Builder && method.getName().equals("outcome")) {
+                        String value = "resolved";
+                        argument = CodeableConcept.builder()
+                                .coding(Coding.builder()
+                                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/adverse-event-outcome"))
+                                    .version(string("4.0.1"))
+                                    .code(Code.of(value))
+                                    .display(string(titleCase(value)))
+                                    .userSelected(com.ibm.fhir.model.type.Boolean.FALSE)
+                                    .build())
+                                .text(string(value))
+                                .build();
+                    } else if (builder instanceof AllergyIntolerance.Builder && method.getName().equals("clinicalStatus")) {
+                        String value = "active";
+                        argument = CodeableConcept.builder()
+                                .coding(Coding.builder()
+                                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical"))
+                                    .version(string("4.0.1"))
+                                    .code(Code.of(value))
+                                    .display(string(titleCase(value)))
+                                    .userSelected(com.ibm.fhir.model.type.Boolean.FALSE)
+                                    .build())
+                                .text(string(value))
+                                .build();
+                    } else if (builder instanceof AllergyIntolerance.Builder && method.getName().equals("verificationStatus")) {
+                        String value = "unconfirmed";
+                        argument = CodeableConcept.builder()
+                                .coding(Coding.builder()
+                                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/allergyintolerance-verification"))
+                                    .version(string("4.0.1"))
+                                    .code(Code.of(value))
+                                    .display(string(titleCase(value)))
+                                    .userSelected(com.ibm.fhir.model.type.Boolean.FALSE)
+                                    .build())
+                                .text(string(value))
+                                .build();
+                    } else if (builder instanceof Condition.Builder && method.getName().equals("clinicalStatus")) {
+                        String value = "active";
+                        argument = CodeableConcept.builder()
+                                .coding(Coding.builder()
+                                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/condition-clinical"))
+                                    .version(string("4.0.1"))
+                                    .code(Code.of(value))
+                                    .display(string(titleCase(value)))
+                                    .userSelected(com.ibm.fhir.model.type.Boolean.FALSE)
+                                    .build())
+                                .text(string(value))
+                                .build();
+                    } else if (builder instanceof Condition.Builder && method.getName().equals("verificationStatus")) {
+                        String value = "unconfirmed";
+                        argument = CodeableConcept.builder()
+                                .coding(Coding.builder()
+                                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/condition-ver-status"))
+                                    .version(string("4.0.1"))
+                                    .code(Code.of(value))
+                                    .display(string(titleCase(value)))
+                                    .userSelected(com.ibm.fhir.model.type.Boolean.FALSE)
+                                    .build())
+                                .text(string(value))
+                                .build();
+                    } else if (builder instanceof InsurancePlan.Plan.SpecificCost.Benefit.Cost.Builder && method.getName().equals("applicability")) {
+                        String value = "other";
+                        argument = CodeableConcept.builder()
+                                .coding(Coding.builder()
+                                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/applicability"))
+                                    .version(string("4.0.1"))
+                                    .code(Code.of(value))
+                                    .display(string(titleCase(value)))
+                                    .userSelected(com.ibm.fhir.model.type.Boolean.FALSE)
+                                    .build())
+                                .text(string(value))
+                                .build();
+                    } else if ((builder instanceof Measure.Builder || builder instanceof MeasureReport.Builder) && method.getName().equals("improvementNotation")) {
+                        String value = "increase";
+                        argument = CodeableConcept.builder()
+                                .coding(Coding.builder()
+                                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/measure-improvement-notation"))
+                                    .version(string("4.0.1"))
+                                    .code(Code.of(value))
+                                    .display(string("Increased score indicates improvement"))
+                                    .userSelected(com.ibm.fhir.model.type.Boolean.FALSE)
+                                    .build())
+                                .text(string(value))
+                                .build();
+                    } else if (builder instanceof MolecularSequence.StructureVariant.Builder && method.getName().equals("variantType")) {
+                        String value = "LA9658-1";
+                        argument = CodeableConcept.builder()
+                                .coding(Coding.builder()
+                                    .system(Uri.of("http://loinc.org"))
+                                    .version(string("2.67"))
+                                    .code(Code.of(value))
+                                    .display(string(value))
+                                    .userSelected(com.ibm.fhir.model.type.Boolean.FALSE)
+                                    .build())
+                                .text(string(value))
+                                .build();
+                    } else if (builder instanceof SupplyDelivery.Builder && method.getName().equals("type")) {
+                        String value = "medication";
+                        argument = CodeableConcept.builder()
+                                .coding(Coding.builder()
+                                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/supply-item-type"))
+                                    .version(string("4.0.1"))
+                                    .code(Code.of(value))
+                                    .display(string(value))
+                                    .userSelected(com.ibm.fhir.model.type.Boolean.FALSE)
+                                    .build())
+                                .text(string(value))
+                                .build();
+                    } else if (method.getName().equals("unitOfMeasure")) {
+                        String value = "mm[Hg]";
+                        argument = CodeableConcept.builder()
+                                .coding(Coding.builder()
+                                    .system(Uri.of("http://unitsofmeasure.org"))
+                                    .version(string("2.1"))
+                                    .code(Code.of(value))
+                                    .display(string(value))
+                                    .userSelected(com.ibm.fhir.model.type.Boolean.FALSE)
+                                    .build())
+                                .text(string(value))
+                                .build();
+                    }
+                    
                     /////////////////
                     // Everything else
                     /////////////////

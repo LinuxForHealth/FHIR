@@ -18,8 +18,7 @@ import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 
 /**
- * Derby implementation of the FHIR database useful for supporting
- * unit-tests.
+ * An Apache Derby implementation of the IBM FHIR Server database (useful for supporting unit tests).
  */
 public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     private static final Logger logger = Logger.getLogger(DerbyFhirDatabase.class.getName());
@@ -30,12 +29,19 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     // The wrapper for managing a derby in-memory instance
     final DerbyMaster derby;
 
-    // current connection cached for this thread
-    // <code>final ThreadLocal<ManagedConnection> currentConnection = new ThreadLocal<>();</code>
-
+    /**
+     * The default constructor will initialize the database at "derby/fhirDB".
+     */
     public DerbyFhirDatabase() throws SQLException {
-        logger.info("Creating Derby database for FHIR: " + DATABASE_NAME);
-        derby = new DerbyMaster(DATABASE_NAME);
+        this(DATABASE_NAME);
+    }
+
+    /**
+     * Construct a Derby database at the specified path and deploy the IBM FHIR Server schema.
+     */
+    public DerbyFhirDatabase(String dbPath) throws SQLException {
+        logger.info("Creating Derby database for FHIR: " + dbPath);
+        derby = new DerbyMaster(dbPath);
 
         // Lambdas are quite tasty for this sort of thing
         derby.runWithAdapter(adapter -> CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter));

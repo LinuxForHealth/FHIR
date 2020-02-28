@@ -190,23 +190,6 @@
     </dataSource>
     -->
 
-    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
-    <jdbcDriver libraryRef="fhirSharedLib" />
-    <properties.db2.jcc 
-        apiKey="${BATCH_DB_APIKEY}"
-        currentSchema="JBATCH" 
-        databaseName="BLUDB" 
-        driverType="4"
-        pluginName="IBMIAMauth" 
-        portNumber="50001"
-        securityMechanism="15" 
-        serverName="${BATCH_DB_HOSTNAME}"
-        sslConnection="true" />
-    </dataSource>  
-    
-    <batchPersistence jobStoreRef="BatchDatabaseStore"/>
-    <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="JBATCH" tablePrefix=""/>
-
     <webApplication id="fhir-bulkimportexport-webapp" location="fhir-bulkimportexport.war" name="fhir-bulkimportexport-webapp">
         <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
         <application-bnd>
@@ -215,5 +198,5 @@
             </security-role>
         </application-bnd>
     </webApplication>
-
+    <include optional="true" location="${server.config.dir}/batchDs.xml"/>
 </server>

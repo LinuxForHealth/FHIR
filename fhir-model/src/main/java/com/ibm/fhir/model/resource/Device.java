@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -123,6 +123,11 @@ public class Device extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         safety = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.safety, "safety"));
         parent = builder.parent;
+        ValidationSupport.checkReferenceType(definition, "definition", "DeviceDefinition");
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        ValidationSupport.checkReferenceType(owner, "owner", "Organization");
+        ValidationSupport.checkReferenceType(location, "location", "Location");
+        ValidationSupport.checkReferenceType(parent, "parent", "Device");
         ValidationSupport.requireChildren(this);
     }
 

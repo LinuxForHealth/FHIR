@@ -35,6 +35,8 @@ jobs:
         GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
         BINTRAY_USERNAME: ${{ secrets.BINTRAY_USERNAME }}
         BINTRAY_PASSWORD: ${{ secrets.BINTRAY_PASSWORD }}
+        CODECOV_RUNME: ${{ secrets.CODECOV_RUNME }}
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         CI: true
         JAVA_HOME: /opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
       run: |

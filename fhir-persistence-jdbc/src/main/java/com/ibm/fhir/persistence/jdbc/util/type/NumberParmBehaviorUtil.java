@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,31 +9,27 @@ package com.ibm.fhir.persistence.jdbc.util.type;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LTE;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NUMBER_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants._HIGH;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants._LOW;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Prefix;
-import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
-import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
 
 /**
  * Number Parameter Behavior Util encapsulates the logic specific to Prefix
@@ -41,8 +37,6 @@ import com.ibm.fhir.search.valuetypes.ValueTypesFactory;
  * therein.
  */
 public class NumberParmBehaviorUtil {
-    private static final Logger log = java.util.logging.Logger.getLogger(NumberParmBehaviorUtil.class.getName());
-
     protected static final BigDecimal FACTOR = new BigDecimal(".1");
 
     private NumberParmBehaviorUtil() {
@@ -74,118 +68,17 @@ public class NumberParmBehaviorUtil {
             String hash = prefix.value() + originalNumber.toPlainString();
             if (!seen.contains(hash)) {
                 seen.add(hash);
-                // Check for valid conditions and return if it needs to be treated as an INTEGER:
-                boolean isInteger = checkIntegerSearchWithSaEb(prefix, resourceType, queryParm, originalNumber);
 
                 // If multiple values are present, we need to OR them together.
                 if (parmValueProcessed) {
                     // ) OR (
-                    whereClauseSegment.append(RIGHT_PAREN)
-                            .append(OR)
-                            .append(LEFT_PAREN);
+                    whereClauseSegment.append(RIGHT_PAREN).append(OR).append(LEFT_PAREN);
                 } else {
                     // Signal to the downstream to treat any subsequent value as an OR condition 
                     parmValueProcessed = true;
                 }
 
-                // Branch behavior based on the type of prefix. 
-                // EQ/NE/AP have special handling
-                switch (prefix) {
-                case EQ:
-                    // eq - equals is a specific range search.
-                    if (isInteger) {
-                        bindVariables.add(originalNumber);
-                        whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
-                        whereClauseSegment.append(EQ).append(BIND_VAR);
-                    } else {
-                        // Not an Integer search. 
-                        // Bounds are based on precision.
-                        bindVariables.add(generateLowerBound(originalNumber));
-                        bindVariables.add(generateUpperBound(originalNumber));
-
-                        // <CODE>BASIC_NUMBER_VALUE > ? AND BASIC_NUMBER_VALUE <= ?</CODE> 
-                        whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
-                        whereClauseSegment.append(GT).append(BIND_VAR).append(AND);
-                        whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
-                        whereClauseSegment.append(LTE).append(BIND_VAR);
-                    }
-
-                    break;
-                case NE:
-                    // ne - not equals is a specific not in range search.
-                    if (isInteger) {
-                        bindVariables.add(originalNumber);
-                        whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
-                        whereClauseSegment.append(NE).append(BIND_VAR);
-                    } else {
-                        // Bounds are based on precision.
-
-                        bindVariables.add(generateLowerBound(originalNumber));
-                        bindVariables.add(generateUpperBound(originalNumber));
-
-                        // <CODE>BASIC_NUMBER_VALUE <= ? OR BASIC_NUMBER_VALUE > ?</CODE> 
-                        whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
-                        whereClauseSegment.append(LTE).append(BIND_VAR);
-                        whereClauseSegment.append(OR);
-                        whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
-                        whereClauseSegment.append(GT).append(BIND_VAR);
-                    }
-                    break;
-                case AP:
-                    // ap - approximate
-                    // -10% of the Lower Bound
-                    BigDecimal lowerBound = generateLowerBound(originalNumber);
-                    BigDecimal upperBound = generateUpperBound(originalNumber);
-                    BigDecimal factor = originalNumber.multiply(FACTOR);
-                    bindVariables.add(lowerBound.subtract(factor));
-                    // +10% of the UPPER Bound
-                    bindVariables.add(upperBound.add(factor));
-
-                    // <CODE>BASIC_NUMBER_VALUE >= ? AND BASIC_NUMBER_VALUE <= ?</CODE> 
-                    whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
-                    whereClauseSegment.append(GTE).append(BIND_VAR);
-                    whereClauseSegment.append(AND);
-                    whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE);
-                    whereClauseSegment.append(LTE).append(BIND_VAR);
-                    break;
-                default:
-                    // gt, lt, ge, le, sa, eb
-                    // take the default behavior.
-                    // Build this piece: p1.value_string {operator} search-attribute-value
-                    String operator = EQ;
-                    switch (prefix) {
-                    case EB:
-                        // EB - Ends Before
-                        operator = LT;
-                        break;
-                    case SA:
-                        // SA - Starts After
-                        operator = GT;
-                        break;
-                    case GE:
-                        // GE - Greater Than Equal
-                        operator = GTE;
-                        break;
-                    case GT:
-                        // GT - Greater Than
-                        operator = GT;
-                        break;
-                    case LE:
-                        // LE - Less Than Equal
-                        operator = LTE;
-                        break;
-                    case LT:
-                    default:
-                        // LT - Less Than
-                        operator = LT;
-                        break;
-                    }
-
-                    whereClauseSegment.append(tableAlias).append(DOT).append(NUMBER_VALUE).append(operator)
-                            .append(BIND_VAR);
-                    bindVariables.add(originalNumber);
-                    break;
-                }
+                addValue(whereClauseSegment, bindVariables, tableAlias, NUMBER_VALUE, prefix, value.getValueNumber());
             }
         }
 
@@ -194,119 +87,209 @@ public class NumberParmBehaviorUtil {
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
     }
 
-    public static BigDecimal generateLowerBound(BigDecimal original) {
+    /**
+     * Append the condition and bind the variables according to the semantics of the
+     * passed prefix
+     * adds the value to the whereClause.
+     * 
+     * @param whereClauseSegment
+     * @param bindVariables
+     * @param tableAlias
+     * @param prefix
+     * @param value
+     */
+    public static void addValue(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
+            String columnBase, Prefix prefix, BigDecimal value) {
 
-        int factor = calculateSignificantFigures(original);
-        if (factor < 0) {
-            factor = Math.abs(factor) - 1;
-        } else {
-            factor = original.scale() + 1;
+        BigDecimal lowerBound = generateLowerBound(value);
+        BigDecimal upperBound = generateUpperBound(value);
 
-            // Mutate it to the ORIGINAL string
-            String t = "" + original;
-            int loc = t.indexOf('E');
-            if (loc > -1) {
-                factor = -1 * (loc - 2);
-            }
+        switch (prefix) {
+        case EB:
+            // EB - Ends Before
+            // the range of the search value does not overlap with the range of the target value,
+            // and the range above the search value contains the range of the target value
+            buildEbOrSaClause(whereClauseSegment, bindVariables, tableAlias, columnBase, columnBase + _HIGH,
+                    LT, value, value);
+            break;
+        case SA:
+            // SA - Starts After
+            // the range of the search value does not overlap with the range of the target value,
+            // and the range below the search value contains the range of the target value
+            buildEbOrSaClause(whereClauseSegment, bindVariables, tableAlias, columnBase, columnBase + _LOW,
+                    GT, value, value);
+            break;
+        case GE:
+            // GE - Greater Than Equal
+            // the range above the search value intersects (i.e. overlaps) with the range of the target value,
+            // or the range of the search value fully contains the range of the target value
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, columnBase + _HIGH,
+                    GTE, value, value);
+            break;
+        case GT:
+            // GT - Greater Than
+            // the range above the search value intersects (i.e. overlaps) with the range of the target value
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, columnBase + _HIGH,
+                    GT, value, value);
+            break;
+        case LE:
+            // LE - Less Than Equal
+            // the range below the search value intersects (i.e. overlaps) with the range of the target value
+            // or the range of the search value fully contains the range of the target value
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, columnBase + _LOW,
+                    LTE, value, value);
+            break;
+        case LT:
+            // LT - Less Than
+            // the range below the search value intersects (i.e. overlaps) with the range of the target value
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, columnBase + _LOW,
+                    LT, value, value);
+            break;
+        case AP:
+            // AP - Approximate - Relative
+            // the range of the search value overlaps with the range of the target value
+            buildApproxRangeClause(whereClauseSegment, bindVariables, tableAlias, columnBase, lowerBound, upperBound, value);
+            break;
+        case NE:
+            // NE:  Upper and Lower Bounds - Range Based Search
+            // the range of the search value does not fully contain the range of the target value
+            buildNotEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, columnBase, lowerBound, upperBound);
+            break;
+        case EQ:
+        default:
+            // EQ:  Upper and Lower Bounds - Range Based Search
+            // the range of the search value fully contains the range of the target value
+            buildEqualsRangeClause(whereClauseSegment, bindVariables, tableAlias, columnBase, lowerBound, upperBound);
+            break;
         }
+    }
 
-        BigDecimal scaleFactor = new BigDecimal("5e" + -1 * factor);
+    /**
+     * the build common clause considers _VALUE_*** and _VALUE when querying the
+     * data.
+     * <br>
+     * The data should not result in a duplication as the OR condition short
+     * circuits double matches.
+     * If one exists, great, we'll return it, else we'll peek at the other column.
+     * <br>
+     * 
+     * @param whereClauseSegment
+     * @param bindVariables
+     * @param tableAlias
+     * @param columnName
+     * @param columnNameLowOrHigh
+     * @param operator
+     * @param value
+     */
+    public static void buildCommonClause(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
+            String columnName, String columnNameLowOrHigh, String operator, BigDecimal value, BigDecimal bound) {
+        whereClauseSegment
+                .append(LEFT_PAREN)
+                .append(tableAlias).append(DOT).append(columnName).append(operator).append(BIND_VAR)
+                .append(OR)
+                .append(tableAlias).append(DOT).append(columnNameLowOrHigh).append(operator).append(BIND_VAR)
+                .append(RIGHT_PAREN);
+
+        bindVariables.add(value);
+        bindVariables.add(bound);
+    }
+    
+    /**
+     * the build eb or sa clause considers only _VALUE_LOW and _VALUE_HIGH
+     * 
+     * @param whereClauseSegment
+     * @param bindVariables
+     * @param tableAlias
+     * @param columnName
+     * @param columnNameLowOrHigh
+     * @param operator
+     * @param value
+     */
+    public static void buildEbOrSaClause(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
+            String columnName, String columnNameLowOrHigh, String operator, BigDecimal value, BigDecimal bound) {
+        whereClauseSegment.append(tableAlias).append(DOT).append(columnNameLowOrHigh).append(operator).append(BIND_VAR);
+        bindVariables.add(value);
+    }
+    
+    public static void buildEqualsRangeClause(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
+           String columnBase, BigDecimal lowerBound, BigDecimal upperBound) {
+        whereClauseSegment
+            .append(LEFT_PAREN)
+                .append(LEFT_PAREN)
+                    .append(tableAlias).append(DOT).append(columnBase).append(GTE).append(BIND_VAR)
+                    .append(AND)
+                    .append(tableAlias).append(DOT).append(columnBase).append(LT).append(BIND_VAR)
+                .append(RIGHT_PAREN)
+                .append(OR)
+                .append(LEFT_PAREN)
+                    .append(tableAlias).append(DOT).append(columnBase + _LOW).append(GTE).append(BIND_VAR)
+                    .append(AND)
+                    .append(tableAlias).append(DOT).append(columnBase + _HIGH).append(LTE).append(BIND_VAR)
+                .append(RIGHT_PAREN)
+            .append(RIGHT_PAREN);
+
+        bindVariables.add(lowerBound);
+        bindVariables.add(upperBound);
+        bindVariables.add(lowerBound);
+        bindVariables.add(upperBound);
+    }
+    
+    public static void buildApproxRangeClause(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
+            String columnBase, BigDecimal lowerBound, BigDecimal upperBound, BigDecimal value) {
+        BigDecimal factor = value.multiply(FACTOR);
+        whereClauseSegment
+             .append(LEFT_PAREN)
+                 .append(LEFT_PAREN)
+                     .append(tableAlias).append(DOT).append(columnBase).append(GTE).append(BIND_VAR)
+                     .append(AND)
+                     .append(tableAlias).append(DOT).append(columnBase).append(LT).append(BIND_VAR)
+                 .append(RIGHT_PAREN)
+                 .append(OR)
+                 .append(LEFT_PAREN)
+                     .append(tableAlias).append(DOT).append(columnBase + _LOW).append(LTE).append(BIND_VAR)
+                     .append(AND)
+                     .append(tableAlias).append(DOT).append(columnBase + _HIGH).append(GTE).append(BIND_VAR)
+                 .append(RIGHT_PAREN)
+             .append(RIGHT_PAREN);
+
+        // -10% of the Lower Bound
+        bindVariables.add(lowerBound.subtract(factor));
+        // +10% of the Upper Bound
+        bindVariables.add(upperBound.add(factor));
+        bindVariables.add(upperBound);
+        bindVariables.add(lowerBound);
+    }
+    
+    public static void buildNotEqualsRangeClause(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
+            String columnBase, BigDecimal lowerBound, BigDecimal upperBound) {
+        whereClauseSegment
+             .append(LEFT_PAREN)
+                 .append(LEFT_PAREN)
+                     .append(tableAlias).append(DOT).append(columnBase).append(LT).append(BIND_VAR)
+                     .append(OR)
+                     .append(tableAlias).append(DOT).append(columnBase).append(GTE).append(BIND_VAR)
+                 .append(RIGHT_PAREN)
+                 .append(OR)
+                 .append(LEFT_PAREN)
+                     .append(tableAlias).append(DOT).append(columnBase + _LOW).append(LT).append(BIND_VAR)
+                     .append(OR)
+                     .append(tableAlias).append(DOT).append(columnBase + _HIGH).append(GT).append(BIND_VAR)
+                 .append(RIGHT_PAREN)
+             .append(RIGHT_PAREN);
+
+        bindVariables.add(lowerBound);
+        bindVariables.add(upperBound);
+        bindVariables.add(lowerBound);
+        bindVariables.add(upperBound);
+    }
+
+    public static BigDecimal generateLowerBound(BigDecimal original) {
+        BigDecimal scaleFactor = new BigDecimal("5e" + -1 * (original.scale() + 1));
         return original.subtract(scaleFactor);
     }
 
     public static BigDecimal generateUpperBound(BigDecimal original) {
-        int factor = calculateSignificantFigures(original);
-        if (factor < 0) {
-            factor = Math.abs(factor) - 1;
-        } else {
-            factor = original.scale() + 1;
-
-            // Mutate it to the ORIGINAL string
-            String t = "" + original;
-            int loc = t.indexOf('E');
-            if (loc > -1) {
-                factor = -1 * (loc - 2);
-            }
-        }
-        BigDecimal scaleFactor = new BigDecimal("5e" + -1 * factor);
+        BigDecimal scaleFactor = new BigDecimal("5e" + -1 * (original.scale() + 1));
         return original.add(scaleFactor);
-    }
-
-    /**
-     * calculates the significant figures
-     * based on
-     * <a href="https://en.wikipedia.org/wiki/Significant_figures">Significant
-     * Figures</a>
-     * 
-     * @param original
-     * @return
-     */
-    public static int calculateSignificantFigures(BigDecimal original) {
-        int count = original.precision();
-        if (original.scale() <= 0) {
-            // Common pattern is to strip zeros... <code>.stripTrailingZeros()</code> 
-            // We don't per the pattern in FHIR. 
-            count += original.scale();
-        }
-        return count;
-    }
-
-    /**
-     * per the specification we DO NOT process EB/SA integers.
-     * <a href="https://hl7.org/fhir/search.html#prefix">FHIR Specification: Search
-     * - Prefixes</a>
-     * <code> 
-     * sa (starts-after) and eb (ends-before) are not used with integer values but are used for decimals. 
-     * </code>
-     * 
-     * @param prefix
-     * @param resourceType
-     * @param queryParm
-     * @param originalNumber
-     * @return boolean indicating that an integer search is being run.
-     * @throws FHIRPersistenceException
-     */
-    public static boolean checkIntegerSearchWithSaEb(Prefix prefix, Class<?> resourceType, QueryParameter queryParm,
-            BigDecimal originalNumber)
-            throws FHIRPersistenceException {
-        boolean isIntegerSearch = false;
-        try {
-            isIntegerSearch = ValueTypesFactory.getValueTypesProcessor().isIntegerSearch(resourceType, queryParm);
-        } catch (FHIRSearchException e) {
-            log.log(Level.INFO, "Caught exception while checking the value types for parameter '"
-                    + queryParm.getCode() + "'; continuing...", e);
-            // do nothing
-        }
-
-        if (isIntegerSearch) {
-            if (prefix == Prefix.EB || prefix == Prefix.SA) {
-                throw new FHIRPersistenceException(
-                        "Search prefixes '" + Prefix.EB.value() + "' and '" + Prefix.SA.value()
-                                + "' are not supported for integer searches.");
-            } else {
-                /*
-                 * Per Specification: <br>
-                 * When a number search is used against a resource element that stores a simple
-                 * integer (e.g. ImmunizationRecommendation.recommendation.doseNumber), and the
-                 * search parameter is not expressed using the exponential forms, and does not
-                 * include any non-zero digits after a decimal point, the significance issues
-                 * cancel out and searching is based on exact matches. Note that if there are
-                 * non-zero digits after a decimal point, there cannot be any matches
-                 */
-
-                // Conditions:
-                // We know the target is an integer.
-                // if integer and ! exponential form ('E') and no non-zero
-                // if indexOf 'E' and indexOf '.' are zero... then it's a specific equals search
-
-                // we need to mutate into a string to test the conditions
-                String num = "" + originalNumber;
-                if (num.indexOf('E') > -1 || num.indexOf('.') > -1) {
-                    isIntegerSearch = false;
-                }
-            }
-        }
-
-        return isIntegerSearch;
     }
 }

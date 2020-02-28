@@ -39,13 +39,10 @@ import com.ibm.fhir.exception.FHIROperationException;
         "cos.srvinst.id": "crn:v1:bluemix:public:cloud-object-storage:global:a/fake::",
         "fhir.search.fromdate": "2019-08-01"
     }
-    }</pre>
- *
- *
- *
+    }
+ * </pre>
  */
 public class BulkExportJobInstanceRequest {
-
     private String applicationName;
     private String moduleName;
     private String jobXMLName;
@@ -83,13 +80,10 @@ public class BulkExportJobInstanceRequest {
         this.jobParameters = jobParameters;
     }
 
-
     /**
      * Builder is a convenience pattern to assemble to Java Object that reflects the BatchManagement pattern.
-     *
-     *
      */
-    public static class Builder {
+    public static class Builder implements JobParameter.Builder {
 
         private BulkExportJobInstanceRequest request = new BulkExportJobInstanceRequest();
         private JobParameter jobParameter = new JobParameter();
@@ -163,8 +157,18 @@ public class BulkExportJobInstanceRequest {
             return this;
         }
 
+        public Builder fhirPatientGroupId(String fhirPatientGroupId) {
+            jobParameter.setFhirPatientGroupId(fhirPatientGroupId);
+            return this;
+        }
+
         public Builder cosBucketPathPrefix(String cosBucketPathPrefix) {
             jobParameter.setCosBucketPathPrefix(cosBucketPathPrefix);
+            return this;
+        }
+
+        public Builder fhirTypeFilters(String fhirTypeFilters) {
+            jobParameter.setFhirTypeFilters(fhirTypeFilters);
             return this;
         }
 
@@ -181,8 +185,6 @@ public class BulkExportJobInstanceRequest {
 
     /**
      * Parser
-     *
-     *
      */
     public static class Parser {
 
@@ -193,117 +195,63 @@ public class BulkExportJobInstanceRequest {
         private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
         public static BulkExportJobInstanceRequest parse(InputStream in)
-            throws FHIROperationException {
+                throws FHIROperationException {
             try (JsonReader jsonReader =
                     JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
                 JsonObject jsonObject = jsonReader.readObject();
                 BulkExportJobInstanceRequest.Builder builder =
                         BulkExportJobInstanceRequest.builder();
 
-                String applicationName = jsonObject.getString("applicationName");
-                if (applicationName != null) {
+                if (jsonObject.containsKey("applicationName")) {
+                    String applicationName = jsonObject.getString("applicationName");
                     builder.applicationName(applicationName);
                 }
 
-                String moduleName = jsonObject.getString("moduleName");
-                if (moduleName != null) {
+                if (jsonObject.containsKey("moduleName")) {
+                    String moduleName = jsonObject.getString("moduleName");
                     builder.moduleName(moduleName);
                 }
 
-                String jobXMLName = jsonObject.getString("jobXMLName");
-                if (jobXMLName != null) {
+                if (jsonObject.containsKey("jobXMLName")) {
+                    String jobXMLName = jsonObject.getString("jobXMLName");
                     builder.jobXMLName(jobXMLName);
                 }
 
-                JsonObject obj = jsonObject.getJsonObject("jobParameters");
-                if (obj != null) {
-
-                    String fhirResourceType = obj.getString("fhir.resourcetype");
-                    if (fhirResourceType != null) {
-                        builder.fhirResourceType(fhirResourceType);
-                    }
-
-                    String fhirSearchFromdate = obj.getString("fhir.search.fromdate");
-                    if (fhirSearchFromdate != null) {
-                        builder.fhirSearchFromDate(fhirSearchFromdate);
-                    }
-
-                    String cosBucketName = obj.getString("cos.bucket.name");
-                    if (cosBucketName != null) {
-                        builder.cosBucketName(cosBucketName);
-                    }
-
-                    String cosLocation = obj.getString("cos.location");
-                    if (cosLocation != null) {
-                        builder.cosLocation(cosLocation);
-                    }
-
-                    String cosEndpointUrl = obj.getString("cos.endpointurl");
-                    if (cosEndpointUrl != null) {
-                        builder.cosEndpointUrl(cosEndpointUrl);
-                    }
-
-                    String cosCredentialIbm = obj.getString("cos.credential.ibm");
-                    if (cosCredentialIbm != null) {
-                        builder.cosCredentialIbm(cosCredentialIbm);
-                    }
-
-                    String cosApiKey = obj.getString("cos.api.key");
-                    if (cosApiKey != null) {
-                        builder.cosApiKey(cosApiKey);
-                    }
-
-                    String cosSrvinstId = obj.getString("cos.srvinst.id");
-                    if (cosSrvinstId != null) {
-                        builder.cosSrvInstId(cosSrvinstId);
-                    }
-
-                    String fhirTenant = obj.getString("fhir.tenant");
-                    if (fhirTenant != null) {
-                        builder.fhirTenant(fhirTenant);
-                    }
-
-                    String fhirDataStoreId = obj.getString("fhir.datastoreid");
-                    if (fhirDataStoreId != null) {
-                        builder.fhirDataStoreId(fhirDataStoreId);
-                    }
-
-                    String cosBucketPathPrefix = obj.getString("cos.bucket.pathprefix");
-                    if (cosBucketPathPrefix != null) {
-                        builder.cosBucketPathPrefix(cosBucketPathPrefix);
-                    }
+                if (jsonObject.containsKey("jobParameters")) {
+                    JsonObject obj = jsonObject.getJsonObject("jobParameters");
+                    JobParameter.Parser.parse(builder, obj);
                 }
 
                 return builder.build();
             } catch (Exception e) {
-                throw new FHIROperationException("Problem parsing the Bulk Export Job's instance request from the server", e);
+                throw new FHIROperationException(
+                        "Problem parsing the Bulk Export Job's instance request from the server", e);
             }
         }
-
     }
 
     /**
      * Generates JSON from this object.
-     *
-     *
      */
     public static class Writer {
-
         private static final Map<java.lang.String, Object> properties =
                 Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true);
         private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY =
                 Json.createGeneratorFactory(properties);
 
+        private Writer() {
+            // No Op
+        }
+
         /**
-         *
          * @param obj
          * @param withSensitive
-         *            - indicates it should or should not be included.
+         *                      - indicates it should or should not be included.
          * @return
          * @throws IOException
          */
         public static String generate(BulkExportJobInstanceRequest obj, boolean withSensitive)
-            throws IOException {
+                throws IOException {
             String o = "{}";
             try (StringWriter writer = new StringWriter();) {
                 try (JsonGenerator generator =
@@ -325,61 +273,7 @@ public class BulkExportJobInstanceRequest {
                     generator.writeStartObject("jobParameters");
 
                     JobParameter parameter = obj.getJobParameters();
-
-                    if (withSensitive) {
-                        if (parameter.getCosApiKey() != null) {
-                            generator.write("cos.api.key", parameter.getCosApiKey());
-                        }
-                    }
-
-                    if (withSensitive) {
-                        if (parameter.getCosBucketName() != null) {
-                            generator.write("cos.bucket.name", parameter.getCosBucketName());
-                        }
-                    }
-
-                    if (parameter.getCosCredentialIbm() != null) {
-                        generator.write("cos.credential.ibm", parameter.getCosCredentialIbm());
-                    }
-
-                    if (withSensitive) {
-                        if (parameter.getCosEndpointUrl() != null) {
-                            generator.write("cos.endpointurl", parameter.getCosEndpointUrl());
-                        }
-                    }
-                    if (parameter.getCosLocation() != null) {
-                        generator.write("cos.location", parameter.getCosLocation());
-                    }
-
-                    if (withSensitive) {
-                        if (parameter.getCosSrvInstId() != null) {
-                            generator.write("cos.srvinst.id", parameter.getCosSrvInstId());
-                        }
-                    }
-
-                    if (parameter.getFhirResourceType() != null) {
-                        generator.write("fhir.resourcetype", parameter.getFhirResourceType());
-                    }
-
-                    if (parameter.getFhirSearchFromDate() != null) {
-                        generator.write("fhir.search.fromdate", parameter.getFhirSearchFromDate());
-                    }
-
-                    if (parameter.getFhirTenant() != null) {
-                        generator.write("fhir.tenant", parameter.getFhirTenant());
-                    }
-
-                    if (withSensitive) {
-                        if (parameter.getCosBucketPathPrefix() != null) {
-                            generator.write("cos.bucket.pathprefix", parameter.getCosBucketPathPrefix());
-                        }
-                    }
-
-                    if (parameter.getFhirDataStoreId() != null) {
-                        generator.write("fhir.datastoreid", parameter.getFhirDataStoreId());
-                    }
-
-                    generator.writeEnd();
+                    JobParameter.Writer.generate(generator, parameter, withSensitive);
 
                     generator.writeEnd();
                 }
@@ -387,7 +281,5 @@ public class BulkExportJobInstanceRequest {
             }
             return o;
         }
-
     }
-
 }

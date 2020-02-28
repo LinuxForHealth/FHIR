@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.listener;
 
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_REFERENCE_TYPES;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_BOOTSTRAP_DB;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
@@ -31,6 +32,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
 import com.ibm.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
@@ -114,6 +116,9 @@ public class FHIRServletContextListener implements ServletContextListener {
             } else {
                 log.info("Bypassing Kafka notification init.");
             }
+            
+            Boolean checkReferenceTypes = fhirConfig.getBooleanProperty(PROPERTY_CHECK_REFERENCE_TYPES, Boolean.TRUE);
+            FHIRModelConfig.setCheckReferenceTypes(checkReferenceTypes);
 
             bootstrapDerbyDatabases(fhirConfig);
 

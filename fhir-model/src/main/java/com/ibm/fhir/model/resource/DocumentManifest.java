@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -89,6 +89,7 @@ public class DocumentManifest extends DomainResource {
         description = builder.description;
         content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
         related = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.related, "related"));
+        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
         ValidationSupport.requireChildren(this);
     }
 

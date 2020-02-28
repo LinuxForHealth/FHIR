@@ -46,6 +46,9 @@ public class FHIRValidator {
      * Validate a {@link Resource} against constraints in the base specification and 
      * resource-asserted profile references or specific profile references but not both. 
      * 
+     * <p>Resource-asserted profiles which are unknown to the server will be ignored. Conversely,
+     * unknown profiles passed explicitly as arguments will result in a FHIRValidationException.
+     * 
      * <p>Profile references that are passed into this method are only applicable to the outermost 
      * resource (not contained resources).
      * 
@@ -65,6 +68,9 @@ public class FHIRValidator {
     /**
      * Validate a {@link Resource} against constraints in the base specification and 
      * resource-asserted profile references and/or specific profile references. 
+     * 
+     * <p>Resource-asserted profiles which are unknown to the server will be ignored. Conversely,
+     * unknown profiles passed explicitly as arguments will result in a FHIRValidationException.
      * 
      * <p>Profile references that are passed into this method are only applicable to the outermost 
      * resource (not contained resources).
@@ -88,6 +94,9 @@ public class FHIRValidator {
      * Validate a resource, using an {@link EvaluationContext}, against constraints in the base specification and 
      * resource-asserted profile references or specific profile references but not both.
      * 
+     * <p>Resource-asserted profiles which are unknown to the server will be ignored. Conversely,
+     * unknown profiles passed explicitly as arguments will result in a FHIRValidationException.
+     * 
      * <p>Profile references that are passed into this method are only applicable to the outermost 
      * resource (not contained resources).
      * 
@@ -109,6 +118,9 @@ public class FHIRValidator {
     /**
      * Validate a resource, using an {@link EvaluationContext}, against constraints in the base specification and 
      * resource-asserted profile references and/or specific profile references.
+     * 
+     * <p>Resource-asserted profiles which are unknown to the server will be ignored. Conversely,
+     * unknown profiles passed explicitly as arguments will result in a FHIRValidationException.
      * 
      * <p>Profile references that are passed into this method are only applicable to the outermost 
      * resource (not contained resources).

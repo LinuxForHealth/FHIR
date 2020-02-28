@@ -24,12 +24,12 @@ import com.ibm.cloud.objectstorage.services.s3.model.CannedAccessControlList;
 import com.ibm.cloud.objectstorage.services.s3.model.CreateBucketRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.ObjectMetadata;
 import com.ibm.cloud.objectstorage.services.s3.model.PutObjectRequest;
-import com.ibm.fhir.bulkcommon.COSUtils;
+import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.bulkexport.common.TransientUserData;
 
 /**
- * Bulk system export Chunk implementation - the Writer.
+ * Bulk export Chunk implementation - the Writer.
  *
  */
 public class ChunkWriter extends AbstractItemWriter {
@@ -128,10 +128,10 @@ public class ChunkWriter extends AbstractItemWriter {
         }
         if (chunkData.isSingleCosObject()) {
             if (chunkData.getUploadId() == null) {
-                chunkData.setUploadId(COSUtils.startPartUpload(cosClient, cosBucketName, cosBucketObjectName));
+                chunkData.setUploadId(BulkDataUtils.startPartUpload(cosClient, cosBucketName, cosBucketObjectName, false));
             }
 
-            chunkData.getCosDataPacks().add(COSUtils.multiPartUpload(cosClient, cosBucketName, cosBucketObjectName,
+            chunkData.getCosDataPacks().add(BulkDataUtils.multiPartUpload(cosClient, cosBucketName, cosBucketObjectName,
                     chunkData.getUploadId(), in, dataLength, chunkData.getPartNum()));
             logger.info("pushFhirJsons2Cos: " + dataLength + " bytes were successfully appended to COS object - "
                     + cosBucketObjectName);
@@ -139,7 +139,7 @@ public class ChunkWriter extends AbstractItemWriter {
             chunkData.getBufferStream().reset();
 
             if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
-                COSUtils.finishMultiPartUpload(cosClient, cosBucketName, cosBucketObjectName, chunkData.getUploadId(),
+                BulkDataUtils.finishMultiPartUpload(cosClient, cosBucketName, cosBucketObjectName, chunkData.getUploadId(),
                         chunkData.getCosDataPacks());
                 jobContext.setExitStatus(cosBucketObjectName + "; " + ResourceTypes.get(chunkData.getIndexOfCurrentResourceType())
                     + "[" + chunkData.getCurrentPartResourceNum() + "]");
@@ -198,7 +198,7 @@ public class ChunkWriter extends AbstractItemWriter {
      */
     @Override
     public void writeItems(List<java.lang.Object> arg0) throws Exception {
-        cosClient = COSUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
+        cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
                 cosLocation);
 
         if (cosClient == null) {

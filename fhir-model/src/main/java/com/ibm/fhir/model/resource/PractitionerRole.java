@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -96,6 +96,8 @@ public class PractitionerRole extends DomainResource {
         notAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.notAvailable, "notAvailable"));
         availabilityExceptions = builder.availabilityExceptions;
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        ValidationSupport.checkReferenceType(practitioner, "practitioner", "Practitioner");
+        ValidationSupport.checkReferenceType(organization, "organization", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

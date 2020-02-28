@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -95,6 +95,7 @@ public class RelatedPerson extends DomainResource {
         photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
         period = builder.period;
         communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
+        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.requireChildren(this);
     }
 

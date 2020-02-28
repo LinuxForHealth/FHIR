@@ -5,7 +5,8 @@
             "truststoreLocation": "resources/security/fhirTruststore.jks",
             "truststorePassword": "change-password",
             "tenantIdHeaderName": "X-FHIR-TENANT-ID",
-            "datastoreIdHeaderName": "X-FHIR-DSID"
+            "datastoreIdHeaderName": "X-FHIR-DSID",
+            "checkReferenceTypes": false
         },
         "authFilter": {
             "enabled": false,
@@ -87,10 +88,10 @@
                     "connectionProperties": {
                         "serverName": "localhost",
                         "portNumber": 50001,
-                        "user": "db2inst1",
+                        "user": "FHIRSERVER",
                         "password": "change-password",
                         "databaseName": "FHIRDB",
-                        "currentSchema": "FHIR1",
+                        "currentSchema": "FHIRDATA",
                         "driverType": 4,
                         "sslConnection": true,
                         "sslTrustStoreLocation": "resources/security/fhirTruststore.jks",
@@ -98,6 +99,26 @@
                     }
                 }
             }
+        },
+        "bulkdata": {
+            "bulkDataBatchJobIdEncryptionKey": "change-password",
+            "applicationName": "fhir-bulkimportexport-webapp",
+            "moduleName": "fhir-bulkimportexport.war",
+            "jobParameters": {
+                "cos.bucket.name": "fhir-r4-connectathon",
+                "cos.location": "us",
+                "cos.endpointurl": "fake",
+                "fhir.tenant": "default",
+                "cos.credential.ibm": "Y",
+                "cos.api.key": "fake",
+                "cos.srvinst.id": "fake"
+            },
+            "implementation_type": "cos",
+            "batch-uri": "https://localhost:9443/ibm/api/batch/jobinstances",
+            "batch-user": "fhiradmin",
+            "batch-user-password": "change-password",
+            "batch-truststore": "resources/security/fhirTruststore.jks",
+            "batch-truststore-password": "change-password"
         }
     }
 }

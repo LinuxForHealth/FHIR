@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -172,7 +172,7 @@ public class MultiDataStoreTest extends FHIRServerTestBase {
         assertNotNull(observation);
         observation = observation.toBuilder().id(observationId).build();
 
-        FHIRRequestHeader[] headers = getHeaders("tenant1", "default");
+        FHIRRequestHeader[] headers = getHeaders("tenant1", "study1");
         FHIRResponse response = client.update(observation, headers);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
@@ -186,19 +186,15 @@ public class MultiDataStoreTest extends FHIRServerTestBase {
 
         verifyNoResource("Patient", patientId, "tenant1", "reference");
         verifyNoResource("Patient", patientId, "tenant1", "study1");
-        verifyNoResource("Patient", patientId, "tenant1", "default");
 
         verifyNoResource("Practitioner", practitionerId, "tenant1", "profile");
         verifyNoResource("Practitioner", practitionerId, "tenant1", "study1");
-        verifyNoResource("Practitioner", practitionerId, "tenant1", "default");
 
         verifyNoResource("MedicationAdministration", medadminId, "tenant1", "profile");
         verifyNoResource("MedicationAdministration", medadminId, "tenant1", "reference");
-        verifyNoResource("MedicationAdministration", medadminId, "tenant1", "default");
 
         verifyNoResource("Observation", observationId, "tenant1", "profile");
         verifyNoResource("Observation", observationId, "tenant1", "reference");
-        verifyNoResource("Observation", observationId, "tenant1", "study1");
     }
 
     private void verifyNoResource(String resourceType, String id, String tenantId, String dsId) throws Exception {

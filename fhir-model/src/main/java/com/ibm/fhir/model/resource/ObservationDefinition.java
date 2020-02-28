@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -103,6 +103,10 @@ public class ObservationDefinition extends DomainResource {
         normalCodedValueSet = builder.normalCodedValueSet;
         abnormalCodedValueSet = builder.abnormalCodedValueSet;
         criticalCodedValueSet = builder.criticalCodedValueSet;
+        ValidationSupport.checkReferenceType(validCodedValueSet, "validCodedValueSet", "ValueSet");
+        ValidationSupport.checkReferenceType(normalCodedValueSet, "normalCodedValueSet", "ValueSet");
+        ValidationSupport.checkReferenceType(abnormalCodedValueSet, "abnormalCodedValueSet", "ValueSet");
+        ValidationSupport.checkReferenceType(criticalCodedValueSet, "criticalCodedValueSet", "ValueSet");
         ValidationSupport.requireChildren(this);
     }
 

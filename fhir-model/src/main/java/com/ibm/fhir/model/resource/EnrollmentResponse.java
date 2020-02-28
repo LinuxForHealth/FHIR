@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -70,6 +70,9 @@ public class EnrollmentResponse extends DomainResource {
         created = builder.created;
         organization = builder.organization;
         requestProvider = builder.requestProvider;
+        ValidationSupport.checkReferenceType(request, "request", "EnrollmentRequest");
+        ValidationSupport.checkReferenceType(organization, "organization", "Organization");
+        ValidationSupport.checkReferenceType(requestProvider, "requestProvider", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.requireChildren(this);
     }
 

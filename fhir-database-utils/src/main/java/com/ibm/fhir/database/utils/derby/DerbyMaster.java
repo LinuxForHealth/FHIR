@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -78,12 +78,12 @@ public class DerbyMaster implements AutoCloseable {
     }
 
     /**
-     * Drop the contents of the database on disk. Must reside in the derby/ directory
+     * Drop the contents of the database on disk. Must contain 'derby/' in the path
      * as a simple check against accidentally wiping the wrong files
      * @param database
      */
     public static void dropDatabase(String database) {
-        if (!database.startsWith(DERBY_DIR)) {
+        if (!database.contains(DERBY_DIR)) {
             throw new IllegalArgumentException("Derby databases must start with: " + DERBY_DIR);
         }
 

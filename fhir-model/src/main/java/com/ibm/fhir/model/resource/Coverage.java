@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -117,6 +117,9 @@ public class Coverage extends DomainResource {
         costToBeneficiary = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.costToBeneficiary, "costToBeneficiary"));
         subrogation = builder.subrogation;
         contract = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contract, "contract"));
+        ValidationSupport.checkReferenceType(policyHolder, "policyHolder", "Patient", "RelatedPerson", "Organization");
+        ValidationSupport.checkReferenceType(subscriber, "subscriber", "Patient", "RelatedPerson");
+        ValidationSupport.checkReferenceType(beneficiary, "beneficiary", "Patient");
         ValidationSupport.requireChildren(this);
     }
 

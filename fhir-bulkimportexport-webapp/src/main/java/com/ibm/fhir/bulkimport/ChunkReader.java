@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,169 +9,164 @@ package com.ibm.fhir.bulkimport;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemReader;
+import javax.batch.runtime.BatchStatus;
+import javax.batch.runtime.context.StepContext;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
-import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Request;
-import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Result;
-import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectSummary;
-import com.ibm.fhir.bulkcommon.COSUtils;
+import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
+import com.ibm.fhir.model.resource.Resource;
 
 /**
  * Bulk import Chunk implementation - the Reader.
- * 
- * @author Albert Wang
+ *
  */
 public class ChunkReader extends AbstractItemReader {
-    private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
+    private static final Logger logger = Logger.getLogger(ChunkReader.class.getName());
     private AmazonS3 cosClient = null;
+    private int numOfLinesToSkip = 0;
 
-    int pageNum = 0;
-    String nextToken = null;
+    @Inject
+    StepContext stepCtx;
+
+    /**
+     * The data source storage type.
+     */
+    @Inject
+    @BatchProperty(name = Constants.IMPORT_FHIR_STORAGE_TYPE)
+    String dataSourceStorageType;
 
     /**
      * The IBM COS API key or S3 access key.
      */
     @Inject
-    @BatchProperty(name = "cos.api.key")
+    @BatchProperty(name = Constants.COS_API_KEY)
     String cosApiKeyProperty;
 
     /**
-     * The IBM COS service instance id or s3 secret key.
+     * The IBM COS service instance id or S3 secret key.
      */
     @Inject
-    @BatchProperty(name = "cos.srvinst.id")
+    @BatchProperty(name = Constants.COS_SRVINST_ID)
     String cosSrvinstId;
 
     /**
-     * The Cos End point URL.
+     * The IBM COS or S3 End point URL.
      */
     @Inject
-    @BatchProperty(name = "cos.endpointurl")
+    @BatchProperty(name = Constants.COS_ENDPOINT_URL)
     String cosEndpintUrl;
 
     /**
-     * The Cos End point URL.
+     * The IBM COS or S3 location.
      */
     @Inject
-    @BatchProperty(name = "cos.location")
+    @BatchProperty(name = Constants.COS_LOCATION)
     String cosLocation;
 
     /**
-     * The Cos bucket name.
+     * The IBM COS or S3 bucket name to import from.
      */
     @Inject
-    @BatchProperty(name = "cos.bucket.name")
+    @BatchProperty(name = Constants.COS_BUCKET_NAME)
     String cosBucketName;
 
     /**
-     * The Cos bucket name.
+     * If use IBM credential or S3 secret keys.
      */
     @Inject
-    @BatchProperty(name = "cos.read.maxobjects")
-    String maxCOSObjectsPerRead;
-
-    /**
-     * The Cos object name.
-     */
-    @Inject
-    @BatchProperty(name = "cos.bucket.objectname")
-    String cosBucketObjectName;
-
-    /**
-     * If use IBM credential.
-     */
-    @Inject
-    @BatchProperty(name = "cos.credential.ibm")
+    @BatchProperty(name = Constants.COS_IS_IBM_CREDENTIAL)
     String cosCredentialIbm;
 
     /**
-     * @see AbstractItemReader#AbstractItemReader()
+     * Work item to process.
      */
+    @Inject
+    @BatchProperty(name = Constants.IMPORT_PARTITTION_WORKITEM)
+    String importPartitionWorkitem;
+
+    /**
+     * Fhir resource type to process.
+     */
+    @Inject
+    @BatchProperty(name = Constants.IMPORT_PARTITTION_RESOURCE_TYPE)
+    String importPartitionResourceType;
+
     public ChunkReader() {
         super();
     }
 
-    /**
-     * @throws Exception
-     * @see AbstractItemReader#readItem()
-     */
+    @Override
     public Object readItem() throws Exception {
-        List<String> resCosObjectNameList = new ArrayList<String>();
-        cosClient = COSUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
-                cosLocation);
-
-        if (cosClient == null) {
-            logger.warning("readItem: Failed to get CosClient!");
+        // If the job is being stopped or in other status except for "started", then stop the read.
+        if (!stepCtx.getBatchStatus().equals(BatchStatus.STARTED)) {
             return null;
+        }
+        List<Resource> loadedFhirResources = new ArrayList<Resource>();
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("readItem: get work item:" + importPartitionWorkitem + " resource type: " + importPartitionResourceType);
+        }
+
+        ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
+        if (chunkData == null) {
+            chunkData = new ImportTransientUserData(importPartitionWorkitem, numOfLinesToSkip, importPartitionResourceType);
+            stepCtx.setTransientUserData(chunkData);
         } else {
-            logger.finer("readItem: Succeed get CosClient!");
-        }
-        if (cosBucketName == null) {
-            cosBucketName = "fhir-bulkImExport-Connectathon";
-        }
-        cosBucketName = cosBucketName.toLowerCase();
-        if (!cosClient.doesBucketExist(cosBucketName)) {
-            logger.warning("readItem: Bucket '" + cosBucketName + "' not found!");
-            COSUtils.listBuckets(cosClient);
-            return null;
-        }
-        // Control the number of COS objects to read in each "item".
-        int maxKeys = Constants.DEFAULT_NUMOFOBJECTS_PERREAD;
-        if (maxCOSObjectsPerRead != null) {
-            try {
-                maxKeys = Integer.parseInt(maxCOSObjectsPerRead);
-                logger.info("readItem: Number of COS Objects in each read - " + maxKeys + ".");
-            } catch (Exception e) {
-                logger.warning("readItem: Set Number of COS Objects in each read to default("
-                        + Constants.DEFAULT_NUMOFOBJECTS_PERREAD + ").");
-            }
+            numOfLinesToSkip = chunkData.getNumOfProcessedResources();
         }
 
-        if (nextToken != null && nextToken.contentEquals("ALLDONE")) {
-            return null;
-        }
+        int imported = 0;
 
-        ListObjectsV2Request request = new ListObjectsV2Request().withBucketName(cosBucketName).withMaxKeys(maxKeys)
-                .withContinuationToken(nextToken);
-        ListObjectsV2Result result = cosClient.listObjectsV2(request);
-        for (S3ObjectSummary objectSummary : result.getObjectSummaries()) {
-            boolean isToBeProccessed = false;
-            if (cosBucketObjectName != null && cosBucketObjectName.trim().length() > 0) {
-                if (objectSummary.getKey().startsWith(cosBucketObjectName.trim())) {
-                    isToBeProccessed = true;
-                }
+        switch (BulkImportDataSourceStorageType.from(dataSourceStorageType)) {
+        case HTTPS:
+            imported = BulkDataUtils.readFhirResourceFromHttps(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources,
+                    Constants.IMPORT_IS_REUSE_INPUTSTREAM, chunkData);
+            break;
+        case FILE:
+            imported = BulkDataUtils.readFhirResourceFromLocalFile(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources,
+                    Constants.IMPORT_IS_REUSE_INPUTSTREAM, chunkData);
+            break;
+        case AWSS3:
+        case IBMCOS:
+            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
+                    cosLocation);
+            if (cosClient == null) {
+                logger.warning("readItem: Failed to get CosClient!");
+                return null;
             } else {
-                isToBeProccessed = true;
+                logger.finer("readItem: Got CosClient successfully!");
             }
-            if (isToBeProccessed) {
-                logger.info("readItem: COS Object(" + objectSummary.getKey() + ") - " + objectSummary.getSize()
-                        + " bytes.");
-                if (objectSummary.getSize() > 0) {
-                    resCosObjectNameList.add(objectSummary.getKey());
-                }
-            }
+            imported = BulkDataUtils.readFhirResourceFromObjectStore(cosClient, cosBucketName, importPartitionWorkitem,
+                    numOfLinesToSkip, loadedFhirResources, Constants.IMPORT_IS_REUSE_INPUTSTREAM, chunkData);
+            break;
+        default:
+            break;
         }
-
-        if (result.isTruncated()) {
-            nextToken = result.getNextContinuationToken();
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("readItem: loaded " + imported + " " + importPartitionResourceType + " from " + importPartitionWorkitem);
+        }
+        chunkData.setNumOfToBeImported(imported);
+        if (imported == 0) {
+            return null;
         } else {
-            // Use this special token to sign the end of the import.
-            nextToken = "ALLDONE";
+            return loadedFhirResources;
         }
-
-        return resCosObjectNameList;
     }
 
     @Override
     public void open(Serializable checkpoint) throws Exception {
         if (checkpoint != null) {
-            nextToken = (String) checkpoint;
+            ImportCheckPointData checkPointData = (ImportCheckPointData) checkpoint;
+            importPartitionWorkitem = checkPointData.getImportPartitionWorkitem();
+            numOfLinesToSkip = checkPointData.getNumOfProcessedResources();
+
+            stepCtx.setTransientUserData(ImportTransientUserData.fromImportCheckPointData(checkPointData));
         }
     }
 
@@ -182,7 +177,7 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public Serializable checkpointInfo() throws Exception {
-        return nextToken;
+        return ImportCheckPointData.fromImportTransientUserData((ImportTransientUserData)stepCtx.getTransientUserData());
     }
 
 }

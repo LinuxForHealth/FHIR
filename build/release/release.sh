@@ -89,7 +89,7 @@ function deploy_via_curl {
 
             for ZIP_FILE in `find ${PROJ}/target -name '*.zip' -and -not -name '*-index.zip' -maxdepth 1 -exec basename {} \;`
             do 
-                echo " - Uploading jar: ${ZIP_FILE}"
+                echo " - Uploading zip: ${ZIP_FILE}"
                 FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${ZIP_FILE}"
                 STATUS=$(curl -T "${PROJ}/target/${ZIP_FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
                 echo "${STATUS} - Done uploading zip file to ${FILE_TARGET_PATH}"
@@ -98,6 +98,15 @@ function deploy_via_curl {
                     # File is too big (over 300M)
                     exit -413
                 fi
+            done
+
+            # Upload the POM file
+            for POM_FILE in `find ${PROJ}/ -name 'pom.xml' -maxdepth 1 -exec basename {} \;`
+            do 
+                echo " - Uploading pom: ${POM_FILE}"
+                FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}.pom"
+                STATUS=$(curl -T "${PROJ}/${POM_FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
+                echo "${STATUS} - Done uploading pom file to ${FILE_TARGET_PATH}"
             done
         fi
     done

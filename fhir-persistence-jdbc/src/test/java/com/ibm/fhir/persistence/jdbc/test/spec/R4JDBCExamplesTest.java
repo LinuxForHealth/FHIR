@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,12 +18,14 @@ import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.examples.Index;
+import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 import com.ibm.fhir.validation.test.ValidationProcessor;
@@ -36,6 +38,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
     private Properties properties;
 
     public R4JDBCExamplesTest() throws Exception {
+        FHIRModelConfig.setCheckReferenceTypes(false);
         this.properties = TestUtil.readTestProperties("test.jdbc.properties");
     }
 
@@ -121,7 +124,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
     @Override
     public void bootstrapDatabase() throws Exception {
         // Create the derby database
-        this.database = new DerbyFhirDatabase();
+        this.database = new DerbyInitializer().bootstrapDb();
     }
 
     @AfterClass

@@ -1,0 +1,23 @@
+{
+    "applicationName": "fhir-bulkimportexport-webapp",
+    "moduleName": "fhir-bulkimportexport.war",
+    "jobXMLName": "FhirBulkExportChunkJob",
+    "jobParameters": {
+        "cos.bucket.name": "fhir-r4-connectathon",
+        "cos.location": "us",
+        "cos.endpointurl": "fake",
+        "fhir.tenant": "default",
+        "cos.credential.ibm": "Y",
+        "cos.api.key": "fake",
+        "cos.srvinst.id": "fake",
+        "cos.pagesperobject": "2",
+        "cos.read.maxobjects": "2",
+        "fhir.cosreadsperdbbatch": "2"
+    },
+    "implementation_type": "dummy",
+    "batch-uri": "https://localhost:9443/ibm/api/batch/jobinstances",
+    "batch-user": "fhiradmin",
+    "batch-user-password": "change-password",
+    "batch-truststore": "resources/security/fhirTruststore.jks",
+    "batch-truststore-password": "change-password"
+}

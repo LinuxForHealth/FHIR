@@ -320,7 +320,6 @@ public class DateTimeHandler {
      */
     public static void parse(Prefix prefix, QueryParameterValue parameterValue, String v) throws FHIRSearchException {
         TemporalAccessor value = parse(v);
-        parameterValue.setValueDate(generateValue(value, v));
         parameterValue.setValueDateLowerBound(generateLowerBound(prefix, value, v));
         parameterValue.setValueDateUpperBound(generateUpperBound(prefix, value, v));
     }

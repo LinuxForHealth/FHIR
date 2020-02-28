@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.model.type.code;
 
+import com.ibm.fhir.model.annotation.System;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.String;
@@ -15,6 +16,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+@System("http://hl7.org/fhir/subscription-channel-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubscriptionChannelType extends Code {
     /**
@@ -46,6 +48,10 @@ public class SubscriptionChannelType extends Code {
 
     private SubscriptionChannelType(Builder builder) {
         super(builder);
+    }
+
+    public ValueSet getValueAsEnumConstant() {
+        return (value != null) ? ValueSet.from(value) : null;
     }
 
     public static SubscriptionChannelType of(ValueSet value) {
