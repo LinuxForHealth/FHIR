@@ -180,6 +180,13 @@ jobs:
         $ErrorActionPreference = "Stop"
         & build/pre-integration-test.ps1
         mvn.cmd -B test -DskipTests=false -f .\fhir-server-test\pom.xml -DskipWebSocketTest=true --no-transfer-progress 
+        If ( $LastExitCode > 0) {
+            Write-Host 'Performing Tests - Success'
+            exit 0
+        } else { 
+            Write-Host 'Performing Tests - Fail'
+            exit -1
+        }
         & build/post-integration-test.ps1
     - name: Gather error logs
       shell: powershell
