@@ -146,7 +146,6 @@ public class SearchAllTest extends FHIRServerTestBase {
         /*
          * "expression" : "Resource.meta.tag", <br/> "xpath" : "f:Resource/f:meta/f:tag",
          */
-        FHIRGenerator.generator(Format.JSON, true).generate(bundle, System.out);
         assertTrue(bundle.getEntry().size() >= 1);
     }
 
@@ -202,9 +201,7 @@ public class SearchAllTest extends FHIRServerTestBase {
 
     }
 
-    @Test(
-            groups = { "server-search-all" }, dependsOnMethods = {
-                    "testCreatePatient" })
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsing2TagsAndNoExistingTag() throws Exception {
         int firstRunNumber;
         FHIRParameters parameters = new FHIRParameters();
@@ -245,9 +242,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         }
     }
 
-    @Test(
-            groups = { "server-search-all" }, dependsOnMethods = {
-                    "testCreatePatient" })
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsing2Tags() throws Exception {
         int firstRunNumber;
         FHIRParameters parameters = new FHIRParameters();
@@ -287,9 +282,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         }
     }
 
-    @Test(
-            groups = { "server-search-all" }, dependsOnMethods = {
-                    "testCreatePatient" })
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsing2FullTags() throws Exception {
         int firstRunNumber;
         FHIRParameters parameters = new FHIRParameters();
@@ -329,9 +322,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         }
     }
 
-    @Test(
-            groups = { "server-search-all" }, dependsOnMethods = {
-                    "testCreatePatient" })
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingOneTag() throws Exception {
         int firstRunNumber;
         FHIRParameters parameters = new FHIRParameters();
@@ -421,9 +412,7 @@ public class SearchAllTest extends FHIRServerTestBase {
 
     }
 
-    @Test(
-            groups = { "server-search-all" }, dependsOnMethods = {
-                    "testCreatePatientAndObservationWithUniqueTag" })
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
     public void testSearchAll2UsingUniqueTag() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
@@ -434,9 +423,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertTrue(bundle.getEntry().size() == 2);
     }
 
-    @Test(
-            groups = { "server-search-all" }, dependsOnMethods = {
-                    "testCreatePatientAndObservationWithUniqueTag" })
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
     public void testSearchAll2UsingUniqueTag_OneType() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
@@ -448,9 +435,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertTrue(bundle.getEntry().size() == 1);
     }
 
-    @Test(
-            groups = { "server-search-all" }, dependsOnMethods = {
-                    "testCreatePatientAndObservationWithUniqueTag" })
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
     public void testSearchAll2UsingUniqueTag_TwoTypes() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
@@ -463,9 +448,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertTrue(bundle.getEntry().size() == 2);
     }
 
-    @Test(
-            groups = { "server-search-all" }, dependsOnMethods = {
-                    "testCreatePatientAndObservationWithUniqueTag" })
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
     public void testSearchAll2_TwoTypes_ChainedParameter() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("subject:Patient._tag", strUniqueTag);
@@ -481,9 +464,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertTrue(bundle.getLink().get(0).getUrl().getValue().contains("subject:Patient._tag"));
     }
 
-    @Test(
-            groups = { "server-search-all" }, dependsOnMethods = {
-                    "testCreatePatientAndObservationWithUniqueTag" })
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
     public void testSearchAll2_TwoTypes_InvalidChainedParameter() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("subject:Practitioner.name", "John");
@@ -494,9 +475,7 @@ public class SearchAllTest extends FHIRServerTestBase {
                 "Modifier resource type [Practitioner] is not allowed for search parameter [subject] of resource type [Observation]");
     }
 
-    @Test(
-            groups = { "server-search-all" }, dependsOnMethods = {
-                    "testCreatePatientAndObservationWithUniqueTag" })
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
     public void testSearchAll2UsingUniqueTag_TwoTypes_Summary() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
@@ -510,9 +489,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertTrue(bundle.getEntry().size() == 2);
     }
 
-    @Test(
-            groups = { "server-search-all" }, dependsOnMethods = {
-                    "testCreatePatientAndObservationWithUniqueTag" })
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
     public void testSearchAll2UsingUniqueTag_TwoTypes_elements() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", strUniqueTag);
@@ -526,9 +503,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         assertTrue(bundle.getEntry().size() == 2);
     }
 
-    @Test(
-            groups = { "server-search-all" }, dependsOnMethods = {
-                    "testCreatePatientAndObservationWithUniqueTag" })
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
     public void testSearchAll2_TwoTypes_InvalidInclude() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("subject:Practitioner.name", "John");
@@ -552,8 +527,8 @@ public class SearchAllTest extends FHIRServerTestBase {
         List<Link> links = bundle.getLink();
 
         /*
-         * Runs through the links and checks for self and rel. 
-         * It subsequently connects to the self to verify it's 200. 
+         * Runs through the links and checks for self and rel.
+         * It subsequently connects to the self to verify it's 200.
          */
         boolean validSelf = false;
         boolean validRel = false;
@@ -574,19 +549,19 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     /*
-     * queries based on the URI the endpoint with the query parameter and value. 
+     * queries based on the URI the endpoint with the query parameter and value.
      */
     private void verifyReflexsiveUrl(String uri) throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         WebTarget target = client.getWebTarget();
-        String queryParameterStrings = uri.replaceAll(target.getUri().toString() + "_search\\?","");
+        String queryParameterStrings = uri.replaceAll(target.getUri().toString() + "_search\\?", "");
         String[] queryParams = queryParameterStrings.split("&");
-        for(String queryParam : queryParams) {
+        for (String queryParam : queryParams) {
             String name = queryParam.split("=")[0];
             String value = queryParam.split("=")[1];
-            parameters.searchParam(name,value);
+            parameters.searchParam(name, value);
         }
-        
+
         FHIRResponse response = client.searchAll(parameters, false);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);

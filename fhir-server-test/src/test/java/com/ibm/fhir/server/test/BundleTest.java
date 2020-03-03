@@ -57,7 +57,7 @@ import com.ibm.fhir.model.type.code.HTTPVerb;
 public class BundleTest extends FHIRServerTestBase {
     // Set this to true to have the request and response bundles displayed on the
     // console.
-    private boolean DEBUG = true;
+    private boolean DEBUG = false;
 
     // Set this to true to have the request and response bundles pretty printed on
     // the console when debug = true
