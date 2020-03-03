@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -614,7 +614,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 }
             }
             else {
-                // issue fhir-527. Need to return not found
                 throw new FHIRPersistenceResourceNotFoundException("resource does not exist: " + resourceType.getSimpleName() + ":" + logicalId);
             }
         }
@@ -674,7 +673,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         try {
             resourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
             if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
-                throw new FHIRPersistenceResourceDeletedException("Resource '" + resourceType.getSimpleName() + "/" + logicalId + "' is deleted.");
+                throw new FHIRPersistenceResourceDeletedException("Resource '" +
+                        resourceType.getSimpleName() + "/" + logicalId + "' is deleted.");
             }
             resource = this.convertResourceDTO(resourceDTO, resourceType, elements);
             
@@ -692,7 +692,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a read operation.");
             log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
-
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -819,9 +818,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         return issues;
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.FHIRPersistence#vread(com.ibm.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class, java.lang.String, java.lang.String)
-     */
     @Override
     public <T extends Resource> SingleResourceResult<T> vread(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, String versionId) 
                         throws FHIRPersistenceException {
@@ -836,7 +832,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             version = Integer.parseInt(versionId);
             resourceDTO = this.getResourceDao().versionRead(logicalId, resourceType.getSimpleName(), version);
             if (resourceDTO != null && resourceDTO.isDeleted()) {
-                throw new FHIRPersistenceResourceDeletedException("Resource '" + resourceType.getSimpleName() + "/" + logicalId + "' version " + versionId + " is deleted.");
+                throw new FHIRPersistenceResourceDeletedException("Resource '" +
+                        resourceType.getSimpleName() + "/" + logicalId + "' version " + versionId + " is deleted.");
             }
             resource = this.convertResourceDTO(resourceDTO, resourceType, null);
             

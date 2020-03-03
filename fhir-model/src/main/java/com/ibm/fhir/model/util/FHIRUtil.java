@@ -53,6 +53,7 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Meta;
@@ -143,17 +144,21 @@ public class FHIRUtil {
         return buildOperationOutcomeIssue(IssueSeverity.FATAL, code, msg, "<empty>");
     }
 
+    public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity severity, IssueType code, String details) {
+        return buildOperationOutcomeIssue(severity, code, details, null);
+    }
+    
     public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity severity, IssueType code, String details,
-        String expression) {
+            String expression) {
         if (expression == null || expression.isEmpty()) {
             expression = "<no expression>";
         }
         return OperationOutcome.Issue.builder()
-                    .severity(severity)
-                    .code(code)
-                    .details(CodeableConcept.builder().text(string(details)).build())
-                    .expression(Collections.singletonList(string(expression)))
-                    .build();
+                .severity(severity)
+                .code(code)
+                .details(CodeableConcept.builder().text(string(details)).build())
+                .expression(Collections.singletonList(string(expression)))
+                .build();
     }
 
     /**
@@ -429,17 +434,44 @@ public class FHIRUtil {
      * @return the value of the first such extension with a valueString or null if the resource has no such extensions
      */
     public static String getExtensionStringValue(Resource resource, String extensionUrl) {
+        String value = null;
         if (nonNull(resource) && nonNull(extensionUrl)) {
-            if (DomainResource.class.isAssignableFrom(resource.getClass())) {
+            if (resource instanceof DomainResource) {
                 DomainResource dr = (DomainResource) resource;
-                for (Extension ext : dr.getExtension()) {
-                    if (ext.getUrl() != null && ext.getValue() != null && ext.getUrl().equals(extensionUrl)) {
-                        return ext.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
-                    }
-                }
+                value = getExtensionStringValue(extensionUrl, dr.getExtension());
             }
         }
-        return null;
+        return value;
+    }
+
+    /**
+     * Returns the string value of the specified extension element within the specified element.
+     *
+     * @param element
+     * @param extensionUrl
+     * @return the value of the first such extension with a valueString or null if the resource has no such extensions
+     */
+    public static String getExtensionStringValue(Element element, String extensionUrl) {
+        String value = null;
+        if (nonNull(element) && nonNull(extensionUrl)) {
+            value = getExtensionStringValue(extensionUrl, element.getExtension());
+        }
+        return value;
+    }
+
+    /**
+     * @return the value of the first extension with a valueString or null if the list has no such extensions
+     */
+    private static String getExtensionStringValue(String extensionUrl, List<Extension> extensions) {
+        String value = null;
+        for (Extension ext : extensions) {
+            if (ext.getValue() != null && ext.getUrl().equals(extensionUrl) && 
+                    ext.getValue().is(com.ibm.fhir.model.type.String.class)) {
+                value = ext.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
+                break;
+            }
+        }
+        return value;
     }
 
     public static boolean hasTag(Resource resource, Coding tag) {
