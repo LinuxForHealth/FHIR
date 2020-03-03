@@ -16,8 +16,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@Generated("com.ibm.fhir.tools.CodeGenerator")
 @System("http://hl7.org/fhir/action-selection-behavior")
+@Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ActionSelectionBehavior extends Code {
     /**
      * Any

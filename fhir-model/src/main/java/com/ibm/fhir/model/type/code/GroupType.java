@@ -16,8 +16,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@Generated("com.ibm.fhir.tools.CodeGenerator")
 @System("http://hl7.org/fhir/group-type")
+@Generated("com.ibm.fhir.tools.CodeGenerator")
 public class GroupType extends Code {
     /**
      * Person

@@ -16,8 +16,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@Generated("com.ibm.fhir.tools.CodeGenerator")
 @System("http://hl7.org/fhir/assert-response-code-types")
+@Generated("com.ibm.fhir.tools.CodeGenerator")
 public class AssertionResponseTypes extends Code {
     /**
      * okay

@@ -16,8 +16,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@Generated("com.ibm.fhir.tools.CodeGenerator")
 @System("http://hl7.org/fhir/concept-map-equivalence")
+@Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ConceptMapEquivalence extends Code {
     /**
      * Related To

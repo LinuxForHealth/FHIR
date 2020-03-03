@@ -2794,8 +2794,8 @@ public class CodeGenerator {
                 cb._import("javax.annotation.Generated").newLine();
                 
                 String system = getSystem(valueSet);
-                cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
                 cb.annotation("System", quote(system));
+                cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
                 cb._class(mods("public"), bindingName, "Code");
                 
                 List<JsonObject> concepts = getConcepts(valueSet);
@@ -2993,9 +2993,7 @@ public class CodeGenerator {
         }
         
         if (display != null || definition != null) {
-            cb.javadocStart();
-            cb.javadoc(Arrays.asList(sb.toString().split(System.lineSeparator())), false, false, true);
-            cb.javadocEnd();
+            cb.javadoc(Arrays.asList(sb.toString().split(System.lineSeparator())), true, true, true);
         }        
     }
 

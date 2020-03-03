@@ -16,8 +16,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@Generated("com.ibm.fhir.tools.CodeGenerator")
 @System("http://hl7.org/fhir/http-verb")
+@Generated("com.ibm.fhir.tools.CodeGenerator")
 public class HTTPVerb extends Code {
     /**
      * GET

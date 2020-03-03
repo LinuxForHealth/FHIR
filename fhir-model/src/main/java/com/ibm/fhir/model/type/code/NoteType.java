@@ -16,8 +16,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@Generated("com.ibm.fhir.tools.CodeGenerator")
 @System("http://hl7.org/fhir/note-type")
+@Generated("com.ibm.fhir.tools.CodeGenerator")
 public class NoteType extends Code {
     /**
      * Display

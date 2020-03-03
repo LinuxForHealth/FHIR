@@ -16,8 +16,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@Generated("com.ibm.fhir.tools.CodeGenerator")
 @System("http://hl7.org/fhir/event-status")
+@Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ClinicalImpressionStatus extends Code {
     public static final ClinicalImpressionStatus IN_PROGRESS = ClinicalImpressionStatus.builder().value(ValueSet.IN_PROGRESS).build();
 

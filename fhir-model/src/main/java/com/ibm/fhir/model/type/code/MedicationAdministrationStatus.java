@@ -16,8 +16,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@Generated("com.ibm.fhir.tools.CodeGenerator")
 @System("http://terminology.hl7.org/CodeSystem/medication-admin-status")
+@Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicationAdministrationStatus extends Code {
     /**
      * In Progress
