@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,8 @@ import com.ibm.fhir.bulkcommon.Constants;
 
 /**
  * Tool to break large COS file into multiple ones.
+ * This allows us to use multiple partitions (one for each generated COS file) for the Bulkdata import job to
+ * import the same type of FHIR resources in parallel to achieve better performance.
  */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
@@ -165,10 +167,7 @@ public class Main {
                 String resLine = resReader.readLine();
                 lineRed++;
                 if (resLine == null) {
-                    System.out.println("\n Count finished!!!!!");
                     break;
-                } else {
-                    System.out.print(".");
                 }
         }
         return lineRed;
@@ -187,10 +186,8 @@ public class Main {
                 String resLine = resReader.readLine();
                 lineRed++;
                 if (resLine == null) {
-                    System.out.println("\n Read finished!!!!!");
                     isMore2Read = false;
                 } else {
-                    System.out.print(".");
                     bufferStream.write(resLine.getBytes());
                     bufferStream.write(Constants.NDJSON_LINESEPERATOR);
                 }
@@ -212,7 +209,7 @@ public class Main {
                     if (segNum < numberOfFiles - 1 && lineRed == numOfRes4Seg
                             || !isMore2Read) {
                         BulkDataUtils.finishMultiPartUpload(cosClient, cosBucketName, segName, uploadId, dataPackTags);
-                        System.out.println("Finished writting for " + segName);
+                        logger.info("Finished writting for " + segName);
                         lineRed = 0;
                         segNum++;
                         uploadId = null;
@@ -240,8 +237,7 @@ public class Main {
             AmazonS3 cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKey, cosSrvinstId, cosEndpintUrl,
                     cosLocation);
             if (cosClient == null) {
-                logger.warning("Failed to get CosClient!");
-                System.exit(1);
+                throw new Exception("Failed to get CosClient!");
             }
 
             S3Object item = cosClient.getObject(new GetObjectRequest(cosBucketName, cosFile2Break));
@@ -249,8 +245,7 @@ public class Main {
                     BufferedReader resReader = new BufferedReader(new InputStreamReader(s3InStream))) {
                    totalNum = m.getFhirResourceNumberFromBufferReader(resReader);
                } catch (Exception ioe) {
-                   logger.warning("Error proccesing file " + cosFile2Break + " - " + ioe.getMessage());
-                   System.exit(1);
+                   throw ioe;
                }
 
             ByteArrayOutputStream bufferStream = new ByteArrayOutputStream();
@@ -261,18 +256,16 @@ public class Main {
                     BufferedReader resReader = new BufferedReader(new InputStreamReader(s3InStream))) {
                 m.writeFhirResourceFromBufferReader(resReader, cosClient, bufferStream, numOfRes4Seg);
                } catch (Exception ioe) {
-                   logger.warning("Error proccesing file " + cosFile2Break + " - " + ioe.getMessage());
-                   System.exit(1);
+                   throw ioe;
                }
 
             long end = System.nanoTime();
             logger.info(String.format("Total Resources: %d, Took: %6.3f seconds", totalNum, (end-start)/NANOS));
+            System.exit(0);
         }
         catch (Exception x) {
             logger.log(Level.SEVERE, "Failed to run", x);
-        }
-        finally {
-            System.exit(0);
+            System.exit(1);
         }
     }
 }

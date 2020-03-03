@@ -55,6 +55,8 @@ public class SearchAllTest extends FHIRServerTestBase {
     private Instant lastUpdated;
     private Patient patient4DuplicationTest = null;
     private String strUniqueTag = UUID.randomUUID().toString();
+    // By default, the tests runs on the default data store of the default tenant, can be changed to test
+    // other data store or other tenant.
     private final String tenantName = "default";
     private final String dataStoreId = "default";
 
