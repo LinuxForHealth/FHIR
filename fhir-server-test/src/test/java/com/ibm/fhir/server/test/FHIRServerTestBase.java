@@ -607,13 +607,10 @@ public abstract class FHIRServerTestBase {
     }
 
     protected Patient setUniqueFamilyName(Patient patient, String uniqueName) {
-        List<com.ibm.fhir.model.type.String> familyList = new ArrayList<com.ibm.fhir.model.type.String>();
-        familyList.add(string(uniqueName));
         List <HumanName> nameList = new ArrayList<HumanName>();
         for(HumanName humanName: patient.getName()) {
-            nameList.add(HumanName.builder().family(string(uniqueName)).given(humanName.getGiven()).build());
+            nameList.add(humanName.toBuilder().family(string(uniqueName)).build());
         }
-
 
         patient = patient.toBuilder().name(nameList).build();
         return patient;

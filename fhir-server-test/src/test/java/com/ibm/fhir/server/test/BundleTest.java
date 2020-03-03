@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.ws.rs.client.Entity;
@@ -50,6 +51,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
+import com.ibm.fhir.model.type.code.IssueType;
 
 /**
  * This class tests 'batch' and 'transaction' interactions.
@@ -170,7 +172,7 @@ public class BundleTest extends FHIRServerTestBase {
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
-                "Bundle parameter is missing or empty");
+                "Bundle.type must be either 'batch' or 'transaction'");
     }
 
     @Test(groups = { "batch" })
@@ -215,10 +217,16 @@ public class BundleTest extends FHIRServerTestBase {
     public void testMissingRequestField() throws Exception {
         WebTarget target = getWebTarget();
 
-        Entity<JsonObject> entity = Entity.entity(TestUtil.getEmptyBundleJsonObjectBuilder().build(), FHIRMediaType.APPLICATION_FHIR_JSON);
+        JsonObject incompleteEntry = Json.createObjectBuilder().add("fullUrl", "http://example.com").build();
+        JsonArray entryArray = Json.createArrayBuilder().add(incompleteEntry).build();
+        JsonObject bundleWithEntry = TestUtil.getEmptyBundleJsonObjectBuilder()
+                .add("entry", entryArray).build();
+        Entity<JsonObject> entity = Entity.entity(bundleWithEntry, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
-        assertTrue(response.getStatus() >= 400);
-
+        assertEquals(200, response.getStatus());
+        
+        Bundle responseBundle = response.readEntity(Bundle.class);
+        assertEquals("400", responseBundle.getEntry().get(0).getResponse().getStatus().getValue());
     }
 
     @Test(groups = { "batch" })
@@ -335,7 +343,7 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 1);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(),
+        assertBadResponse(responseBundle.getEntry().get(0), Status.NOT_FOUND.getStatusCode(),
                 "Unrecognized path in request URL");
     }
     
@@ -1210,12 +1218,12 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        Bundle responseBundle = getEntityWithExtraWork(response,method);
         
-        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.PRECONDITION_FAILED.getStatusCode(),
-                "If-Match version '1' does not match current latest version of resource: 2");
-
+        OperationOutcome oo = response.readEntity(OperationOutcome.class);
+        
+        assertNotNull(oo);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.CONFLICT);
+        
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
 
@@ -1249,12 +1257,12 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        Bundle responseBundle = getEntityWithExtraWork(response,method);
-        
-        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
-        assertBadResponse(responseBundle.getEntry().get(1), Status.PRECONDITION_FAILED.getStatusCode(),
-                "If-Match version '1' does not match current latest version of resource: 2");
 
+        OperationOutcome oo = response.readEntity(OperationOutcome.class);
+        
+        assertNotNull(oo);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.CONFLICT);
+        
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
 
@@ -1288,16 +1296,11 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        Bundle responseBundle = getEntityWithExtraWork(response,method);
-        
-        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
-        boolean foundError = assertOptionalBadResponse(responseBundle.getEntry().get(0),
-                Status.CONFLICT.getStatusCode(),
-                "If-Match version '1' does not match current latest version of resource: 2");
-        foundError = foundError
-                || assertOptionalBadResponse(responseBundle.getEntry().get(1), Status.CONFLICT.getStatusCode(),
-                        "If-Match version '1' does not match current latest version of resource: 2");
-        assertTrue(foundError);
+
+        OperationOutcome oo = response.readEntity(OperationOutcome.class);
+
+        assertNotNull(oo);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.CONFLICT);
 
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
@@ -1379,12 +1382,10 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        OperationOutcome oo = response.readEntity(OperationOutcome.class);
         
-        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 3);
-
-        assertSearchResults(target, uniqueFamily1, 0);
-        assertSearchResults(target, uniqueFamily2, 0);
+        assertNotNull(oo);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.INVALID);
     }
 
     @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionUpdates" })
@@ -1415,11 +1416,11 @@ public class BundleTest extends FHIRServerTestBase {
         Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        Bundle responseBundle = getEntityWithExtraWork(response,method);
-        
-        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 3);
-        assertBadResponse(responseBundle.getEntry().get(2), Status.BAD_REQUEST.getStatusCode(),
-                "Bundle.Entry.resource must contain an id field for a PUT operation");
+
+        OperationOutcome oo = response.readEntity(OperationOutcome.class);
+
+        assertNotNull(oo);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.INVALID);
 
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
@@ -1998,12 +1999,12 @@ public class BundleTest extends FHIRServerTestBase {
 
         Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
-        assertResponse(response, Response.Status.GONE.getStatusCode());
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         
-        Bundle responseBundle = getEntityWithExtraWork(response,method);
+        OperationOutcome oo = response.readEntity(OperationOutcome.class);
         
-        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 4);
-        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.GONE.getStatusCode());
+        assertNotNull(oo);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.DELETED);
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchCreates", "testTransactionCreates" })
@@ -2084,11 +2085,11 @@ public class BundleTest extends FHIRServerTestBase {
         FHIRResponse response = client.transaction(bundle);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
-        Bundle responseBundle = response.getResource(Bundle.class);
-        printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 1);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.PRECONDITION_FAILED.getStatusCode(),
-                "returned multiple matches");
+
+        OperationOutcome oo = response.getResource(OperationOutcome.class);
+        
+        assertNotNull(oo);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.MULTIPLE_MATCHES);
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testTransactionConditionalCreates" })
@@ -2106,11 +2107,11 @@ public class BundleTest extends FHIRServerTestBase {
         FHIRResponse response = client.transaction(bundle);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
-        Bundle responseBundle = response.getResource(Bundle.class);
-        printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 1);
-        assertBadResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(),
-                "Search parameter 'BAD' for resource type 'Patient' was not found.");
+        
+        OperationOutcome oo = response.getResource(OperationOutcome.class);
+        
+        assertNotNull(oo);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.INVALID);
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })

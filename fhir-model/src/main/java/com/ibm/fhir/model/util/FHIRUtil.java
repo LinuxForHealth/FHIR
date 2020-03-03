@@ -144,6 +144,10 @@ public class FHIRUtil {
         return buildOperationOutcomeIssue(IssueSeverity.FATAL, code, msg, "<empty>");
     }
 
+    public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity severity, IssueType code, String details) {
+        return buildOperationOutcomeIssue(severity, code, details, null);
+    }
+    
     public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity severity, IssueType code, String details,
             String expression) {
         if (expression == null || expression.isEmpty()) {

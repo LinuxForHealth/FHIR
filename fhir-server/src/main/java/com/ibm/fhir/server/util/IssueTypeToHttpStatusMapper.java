@@ -21,6 +21,12 @@ public class IssueTypeToHttpStatusMapper {
      * Custom extension used by the IBM FHIR Server for marking which precondition has failed (if any)
      */
     private static final String EXTENSION_URL_HTTP_FAILED_PRECONDITION = "http://ibm.com/fhir/extension/http-failed-precondition";
+    
+    /**
+     * Custom extension used by the IBM FHIR Server for marking what it was that wasn't supported:
+     * resource | interaction
+     */
+    private static final String EXTENSION_URL_NOT_SUPPORTED_DETAIL = "http://ibm.com/fhir/extension/not-supported-detail";
 
     /**
      * @return an HTTP response status based on the first issue contained within the OperationOutcome with a code;
@@ -47,6 +53,9 @@ public class IssueTypeToHttpStatusMapper {
                     if (issueType == IssueType.ValueSet.CONFLICT &&
                             FHIRUtil.getExtensionStringValue(code, EXTENSION_URL_HTTP_FAILED_PRECONDITION) != null) {
                         return Status.PRECONDITION_FAILED;
+                    } else if (issueType == IssueType.ValueSet.NOT_SUPPORTED &&
+                            "interaction".equals(FHIRUtil.getExtensionStringValue(code, EXTENSION_URL_NOT_SUPPORTED_DETAIL))) {
+                        return Status.BAD_REQUEST;
                     }
                     return issueTypeToResponseCode(issueType);
                 }
@@ -62,23 +71,23 @@ public class IssueTypeToHttpStatusMapper {
         case FORBIDDEN:
         case SUPPRESSED:
         case SECURITY:
-        case THROTTLED:     // Should this one be an HTTP 429 instead?
+        case THROTTLED:     // Consider HTTP 429?
             return Status.FORBIDDEN;
         case PROCESSING:
-        case BUSINESS_RULE: // Should we consider HTTP 422 for these?
-        case CODE_INVALID:  // Should we consider HTTP 422 for these?
-        case EXTENSION:     // Should we consider HTTP 422 for these?
-        case INVALID:       // Should we consider HTTP 422 for these?
-        case INVARIANT:     // Should we consider HTTP 422 for these?
-        case REQUIRED:      // Should we consider HTTP 422 for these?
-        case STRUCTURE:     // Should we consider HTTP 422 for these?
-        case VALUE:         // Should we consider HTTP 422 for these?
-        case TOO_COSTLY:    // Should we consider HTTP 403 for this?
+        case BUSINESS_RULE: // Consider HTTP 422?
+        case CODE_INVALID:  // Consider HTTP 422?
+        case EXTENSION:     // Consider HTTP 422?
+        case INVALID:       // Consider HTTP 422?
+        case INVARIANT:     // Consider HTTP 422?
+        case REQUIRED:      // Consider HTTP 422?
+        case STRUCTURE:     // Consider HTTP 422?
+        case VALUE:         // Consider HTTP 422?
+        case TOO_COSTLY:    // Consider HTTP 403?
+        case DUPLICATE:     // Consider HTTP 409?
             return Status.BAD_REQUEST;
         case DELETED:
             return Status.GONE;
         case CONFLICT:
-        case DUPLICATE:
             return Status.CONFLICT;
         case MULTIPLE_MATCHES:
             return Status.PRECONDITION_FAILED;

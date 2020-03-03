@@ -150,7 +150,7 @@ public interface ResourceDAO extends FHIRDbDAO {
     int searchCount(String sqlSelectCount) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
     
     /**
-     * Sets thc current persistence context
+     * Sets the current persistence context
      * @param context
      */
     void setPersistenceContext(FHIRPersistenceContext context);
