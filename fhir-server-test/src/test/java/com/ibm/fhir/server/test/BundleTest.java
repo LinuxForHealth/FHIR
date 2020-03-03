@@ -2433,35 +2433,6 @@ public class BundleTest extends FHIRServerTestBase {
         }
     }
 
-    private boolean assertOptionalBadResponse(Bundle.Entry entry, int expectedStatusCode, String expectedMsg) {
-        assertNotNull(entry);
-        Bundle.Entry.Response response = entry.getResponse();
-        assertNotNull(response);
-        // Don't do assert in followings because this is for checking optional bad response.
-        if (response.getStatus() != null && response.getStatus().getExtension().isEmpty()) {
-            if (Integer.toString(expectedStatusCode) != response.getStatus().getValue()) {
-                return true;
-            }
-            
-            Resource rc = entry.getResource();
-            if (rc == null) {
-                return true;
-            }
-            OperationOutcome oo = (OperationOutcome) response.getOutcome();
-            if (oo == null || oo.getIssue() == null || oo.getIssue().size() ==0){ 
-                return true;
-            }
-            if (expectedMsg != null) {
-                String msg = oo.getIssue().get(0).getDiagnostics().getValue();
-                if (msg == null || !msg.contains(expectedMsg)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     private void printBundle(String method, String bundleType, Bundle bundle) throws FHIRException {
         if (DEBUG) {
             System.out.println(method + " " + bundleType + " bundle contents:\n"

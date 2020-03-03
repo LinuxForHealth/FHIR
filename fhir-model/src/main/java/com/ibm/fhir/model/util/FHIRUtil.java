@@ -434,18 +434,14 @@ public class FHIRUtil {
      * @return the value of the first such extension with a valueString or null if the resource has no such extensions
      */
     public static String getExtensionStringValue(Resource resource, String extensionUrl) {
+        String value = null;
         if (nonNull(resource) && nonNull(extensionUrl)) {
-            if (DomainResource.class.isAssignableFrom(resource.getClass())) {
+            if (resource instanceof DomainResource) {
                 DomainResource dr = (DomainResource) resource;
-                for (Extension ext : dr.getExtension()) {
-                    if (ext.getValue() != null && ext.getUrl().equals(extensionUrl) && 
-                            ext.getValue().is(com.ibm.fhir.model.type.String.class)) {
-                        return ext.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
-                    }
-                }
+                value = getExtensionStringValue(extensionUrl, dr.getExtension());
             }
         }
-        return null;
+        return value;
     }
 
     /**
@@ -456,15 +452,26 @@ public class FHIRUtil {
      * @return the value of the first such extension with a valueString or null if the resource has no such extensions
      */
     public static String getExtensionStringValue(Element element, String extensionUrl) {
+        String value = null;
         if (nonNull(element) && nonNull(extensionUrl)) {
-            for (Extension ext : element.getExtension()) {
-                if (ext.getValue() != null && ext.getUrl().equals(extensionUrl) && 
-                        ext.getValue().is(com.ibm.fhir.model.type.String.class)) {
-                    return ext.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
-                }
+            value = getExtensionStringValue(extensionUrl, element.getExtension());
+        }
+        return value;
+    }
+
+    /**
+     * @return the value of the first extension with a valueString or null if the list has no such extensions
+     */
+    private static String getExtensionStringValue(String extensionUrl, List<Extension> extensions) {
+        String value = null;
+        for (Extension ext : extensions) {
+            if (ext.getValue() != null && ext.getUrl().equals(extensionUrl) && 
+                    ext.getValue().is(com.ibm.fhir.model.type.String.class)) {
+                value = ext.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
+                break;
             }
         }
-        return null;
+        return value;
     }
 
     public static boolean hasTag(Resource resource, Coding tag) {
