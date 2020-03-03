@@ -21,16 +21,22 @@ import javax.annotation.Generated;
 public class AggregationMode extends Code {
     /**
      * Contained
+     * 
+     * <p>The reference is a local reference to a contained resource.
      */
     public static final AggregationMode CONTAINED = AggregationMode.builder().value(ValueSet.CONTAINED).build();
 
     /**
      * Referenced
+     * 
+     * <p>The reference to a resource that has to be resolved externally to the resource that includes the reference.
      */
     public static final AggregationMode REFERENCED = AggregationMode.builder().value(ValueSet.REFERENCED).build();
 
     /**
      * Bundled
+     * 
+     * <p>The resource the reference points to will be found in the same bundle as the resource that includes the reference.
      */
     public static final AggregationMode BUNDLED = AggregationMode.builder().value(ValueSet.BUNDLED).build();
 
@@ -144,16 +150,22 @@ public class AggregationMode extends Code {
     public enum ValueSet {
         /**
          * Contained
+         * 
+         * <p>The reference is a local reference to a contained resource.
          */
         CONTAINED("contained"),
 
         /**
          * Referenced
+         * 
+         * <p>The reference to a resource that has to be resolved externally to the resource that includes the reference.
          */
         REFERENCED("referenced"),
 
         /**
          * Bundled
+         * 
+         * <p>The resource the reference points to will be found in the same bundle as the resource that includes the reference.
          */
         BUNDLED("bundled");
 

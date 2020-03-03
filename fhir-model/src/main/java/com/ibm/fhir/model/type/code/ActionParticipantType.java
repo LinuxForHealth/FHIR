@@ -21,21 +21,29 @@ import javax.annotation.Generated;
 public class ActionParticipantType extends Code {
     /**
      * Patient
+     * 
+     * <p>The participant is the patient under evaluation.
      */
     public static final ActionParticipantType PATIENT = ActionParticipantType.builder().value(ValueSet.PATIENT).build();
 
     /**
      * Practitioner
+     * 
+     * <p>The participant is a practitioner involved in the patient's care.
      */
     public static final ActionParticipantType PRACTITIONER = ActionParticipantType.builder().value(ValueSet.PRACTITIONER).build();
 
     /**
      * Related Person
+     * 
+     * <p>The participant is a person related to the patient.
      */
     public static final ActionParticipantType RELATED_PERSON = ActionParticipantType.builder().value(ValueSet.RELATED_PERSON).build();
 
     /**
      * Device
+     * 
+     * <p>The participant is a system or device used in the care of the patient.
      */
     public static final ActionParticipantType DEVICE = ActionParticipantType.builder().value(ValueSet.DEVICE).build();
 
@@ -151,21 +159,29 @@ public class ActionParticipantType extends Code {
     public enum ValueSet {
         /**
          * Patient
+         * 
+         * <p>The participant is the patient under evaluation.
          */
         PATIENT("patient"),
 
         /**
          * Practitioner
+         * 
+         * <p>The participant is a practitioner involved in the patient's care.
          */
         PRACTITIONER("practitioner"),
 
         /**
          * Related Person
+         * 
+         * <p>The participant is a person related to the patient.
          */
         RELATED_PERSON("related-person"),
 
         /**
          * Device
+         * 
+         * <p>The participant is a system or device used in the care of the patient.
          */
         DEVICE("device");
 

@@ -21,26 +21,37 @@ import javax.annotation.Generated;
 public class CareTeamStatus extends Code {
     /**
      * Proposed
+     * 
+     * <p>The care team has been drafted and proposed, but not yet participating in the coordination and delivery of patient 
+     * care.
      */
     public static final CareTeamStatus PROPOSED = CareTeamStatus.builder().value(ValueSet.PROPOSED).build();
 
     /**
      * Active
+     * 
+     * <p>The care team is currently participating in the coordination and delivery of care.
      */
     public static final CareTeamStatus ACTIVE = CareTeamStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Suspended
+     * 
+     * <p>The care team is temporarily on hold or suspended and not participating in the coordination and delivery of care.
      */
     public static final CareTeamStatus SUSPENDED = CareTeamStatus.builder().value(ValueSet.SUSPENDED).build();
 
     /**
      * Inactive
+     * 
+     * <p>The care team was, but is no longer, participating in the coordination and delivery of care.
      */
     public static final CareTeamStatus INACTIVE = CareTeamStatus.builder().value(ValueSet.INACTIVE).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The care team should have never existed.
      */
     public static final CareTeamStatus ENTERED_IN_ERROR = CareTeamStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -158,26 +169,37 @@ public class CareTeamStatus extends Code {
     public enum ValueSet {
         /**
          * Proposed
+         * 
+         * <p>The care team has been drafted and proposed, but not yet participating in the coordination and delivery of patient 
+         * care.
          */
         PROPOSED("proposed"),
 
         /**
          * Active
+         * 
+         * <p>The care team is currently participating in the coordination and delivery of care.
          */
         ACTIVE("active"),
 
         /**
          * Suspended
+         * 
+         * <p>The care team is temporarily on hold or suspended and not participating in the coordination and delivery of care.
          */
         SUSPENDED("suspended"),
 
         /**
          * Inactive
+         * 
+         * <p>The care team was, but is no longer, participating in the coordination and delivery of care.
          */
         INACTIVE("inactive"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The care team should have never existed.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

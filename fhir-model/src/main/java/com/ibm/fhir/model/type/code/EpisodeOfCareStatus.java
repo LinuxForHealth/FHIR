@@ -21,36 +21,56 @@ import javax.annotation.Generated;
 public class EpisodeOfCareStatus extends Code {
     /**
      * Planned
+     * 
+     * <p>This episode of care is planned to start at the date specified in the period.start. During this status, an 
+     * organization may perform assessments to determine if the patient is eligible to receive services, or be organizing to 
+     * make resources available to provide care services.
      */
     public static final EpisodeOfCareStatus PLANNED = EpisodeOfCareStatus.builder().value(ValueSet.PLANNED).build();
 
     /**
      * Waitlist
+     * 
+     * <p>This episode has been placed on a waitlist, pending the episode being made active (or cancelled).
      */
     public static final EpisodeOfCareStatus WAITLIST = EpisodeOfCareStatus.builder().value(ValueSet.WAITLIST).build();
 
     /**
      * Active
+     * 
+     * <p>This episode of care is current.
      */
     public static final EpisodeOfCareStatus ACTIVE = EpisodeOfCareStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * On Hold
+     * 
+     * <p>This episode of care is on hold; the organization has limited responsibility for the patient (such as while on 
+     * respite).
      */
     public static final EpisodeOfCareStatus ONHOLD = EpisodeOfCareStatus.builder().value(ValueSet.ONHOLD).build();
 
     /**
      * Finished
+     * 
+     * <p>This episode of care is finished and the organization is not expecting to be providing further care to the patient. 
+     * Can also be known as "closed", "completed" or other similar terms.
      */
     public static final EpisodeOfCareStatus FINISHED = EpisodeOfCareStatus.builder().value(ValueSet.FINISHED).build();
 
     /**
      * Cancelled
+     * 
+     * <p>The episode of care was cancelled, or withdrawn from service, often selected during the planned stage as the 
+     * patient may have gone elsewhere, or the circumstances have changed and the organization is unable to provide the care. 
+     * It indicates that services terminated outside the planned/expected workflow.
      */
     public static final EpisodeOfCareStatus CANCELLED = EpisodeOfCareStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>This instance should not have been part of this patient's medical record.
      */
     public static final EpisodeOfCareStatus ENTERED_IN_ERROR = EpisodeOfCareStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -172,36 +192,56 @@ public class EpisodeOfCareStatus extends Code {
     public enum ValueSet {
         /**
          * Planned
+         * 
+         * <p>This episode of care is planned to start at the date specified in the period.start. During this status, an 
+         * organization may perform assessments to determine if the patient is eligible to receive services, or be organizing to 
+         * make resources available to provide care services.
          */
         PLANNED("planned"),
 
         /**
          * Waitlist
+         * 
+         * <p>This episode has been placed on a waitlist, pending the episode being made active (or cancelled).
          */
         WAITLIST("waitlist"),
 
         /**
          * Active
+         * 
+         * <p>This episode of care is current.
          */
         ACTIVE("active"),
 
         /**
          * On Hold
+         * 
+         * <p>This episode of care is on hold; the organization has limited responsibility for the patient (such as while on 
+         * respite).
          */
         ONHOLD("onhold"),
 
         /**
          * Finished
+         * 
+         * <p>This episode of care is finished and the organization is not expecting to be providing further care to the patient. 
+         * Can also be known as "closed", "completed" or other similar terms.
          */
         FINISHED("finished"),
 
         /**
          * Cancelled
+         * 
+         * <p>The episode of care was cancelled, or withdrawn from service, often selected during the planned stage as the 
+         * patient may have gone elsewhere, or the circumstances have changed and the organization is unable to provide the care. 
+         * It indicates that services terminated outside the planned/expected workflow.
          */
         CANCELLED("cancelled"),
 
         /**
          * Entered in Error
+         * 
+         * <p>This instance should not have been part of this patient's medical record.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

@@ -21,11 +21,15 @@ import javax.annotation.Generated;
 public class CatalogEntryRelationType extends Code {
     /**
      * Triggers
+     * 
+     * <p>the related entry represents an activity that may be triggered by the current item.
      */
     public static final CatalogEntryRelationType TRIGGERS = CatalogEntryRelationType.builder().value(ValueSet.TRIGGERS).build();
 
     /**
      * Replaced By
+     * 
+     * <p>the related entry represents an item that replaces the current retired item.
      */
     public static final CatalogEntryRelationType IS_REPLACED_BY = CatalogEntryRelationType.builder().value(ValueSet.IS_REPLACED_BY).build();
 
@@ -137,11 +141,15 @@ public class CatalogEntryRelationType extends Code {
     public enum ValueSet {
         /**
          * Triggers
+         * 
+         * <p>the related entry represents an activity that may be triggered by the current item.
          */
         TRIGGERS("triggers"),
 
         /**
          * Replaced By
+         * 
+         * <p>the related entry represents an item that replaces the current retired item.
          */
         IS_REPLACED_BY("is-replaced-by");
 

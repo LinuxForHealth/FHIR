@@ -21,11 +21,15 @@ import javax.annotation.Generated;
 public class StructureMapInputMode extends Code {
     /**
      * Source Instance
+     * 
+     * <p>Names an input instance used a source for mapping.
      */
     public static final StructureMapInputMode SOURCE = StructureMapInputMode.builder().value(ValueSet.SOURCE).build();
 
     /**
      * Target Instance
+     * 
+     * <p>Names an instance that is being populated.
      */
     public static final StructureMapInputMode TARGET = StructureMapInputMode.builder().value(ValueSet.TARGET).build();
 
@@ -137,11 +141,15 @@ public class StructureMapInputMode extends Code {
     public enum ValueSet {
         /**
          * Source Instance
+         * 
+         * <p>Names an input instance used a source for mapping.
          */
         SOURCE("source"),
 
         /**
          * Target Instance
+         * 
+         * <p>Names an instance that is being populated.
          */
         TARGET("target");
 

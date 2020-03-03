@@ -21,41 +21,64 @@ import javax.annotation.Generated;
 public class MedicationRequestStatus extends Code {
     /**
      * Active
+     * 
+     * <p>The prescription is 'actionable', but not all actions that are implied by it have occurred yet.
      */
     public static final MedicationRequestStatus ACTIVE = MedicationRequestStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * On Hold
+     * 
+     * <p>Actions implied by the prescription are to be temporarily halted, but are expected to continue later. May also be 
+     * called 'suspended'.
      */
     public static final MedicationRequestStatus ON_HOLD = MedicationRequestStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Cancelled
+     * 
+     * <p>The prescription has been withdrawn before any administrations have occurred
      */
     public static final MedicationRequestStatus CANCELLED = MedicationRequestStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Completed
+     * 
+     * <p>All actions that are implied by the prescription have occurred.
      */
     public static final MedicationRequestStatus COMPLETED = MedicationRequestStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>Some of the actions that are implied by the medication request may have occurred. For example, the medication may 
+     * have been dispensed and the patient may have taken some of the medication. Clinical decision support systems should 
+     * take this status into account
      */
     public static final MedicationRequestStatus ENTERED_IN_ERROR = MedicationRequestStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Stopped
+     * 
+     * <p>Actions implied by the prescription are to be permanently halted, before all of the administrations occurred. This 
+     * should not be used if the original order was entered in error
      */
     public static final MedicationRequestStatus STOPPED = MedicationRequestStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * Draft
+     * 
+     * <p>The prescription is not yet 'actionable', e.g. it is a work in progress, requires sign-off, verification or needs 
+     * to be run through decision support process.
      */
     public static final MedicationRequestStatus DRAFT = MedicationRequestStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Unknown
+     * 
+     * <p>The authoring/source system does not know which of the status values currently applies for this observation. Note: 
+     * This concept is not to be used for 'other' - one of the listed statuses is presumed to apply, but the authoring/source 
+     * system does not know which.
      */
     public static final MedicationRequestStatus UNKNOWN = MedicationRequestStatus.builder().value(ValueSet.UNKNOWN).build();
 
@@ -179,41 +202,64 @@ public class MedicationRequestStatus extends Code {
     public enum ValueSet {
         /**
          * Active
+         * 
+         * <p>The prescription is 'actionable', but not all actions that are implied by it have occurred yet.
          */
         ACTIVE("active"),
 
         /**
          * On Hold
+         * 
+         * <p>Actions implied by the prescription are to be temporarily halted, but are expected to continue later. May also be 
+         * called 'suspended'.
          */
         ON_HOLD("on-hold"),
 
         /**
          * Cancelled
+         * 
+         * <p>The prescription has been withdrawn before any administrations have occurred
          */
         CANCELLED("cancelled"),
 
         /**
          * Completed
+         * 
+         * <p>All actions that are implied by the prescription have occurred.
          */
         COMPLETED("completed"),
 
         /**
          * Entered in Error
+         * 
+         * <p>Some of the actions that are implied by the medication request may have occurred. For example, the medication may 
+         * have been dispensed and the patient may have taken some of the medication. Clinical decision support systems should 
+         * take this status into account
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Stopped
+         * 
+         * <p>Actions implied by the prescription are to be permanently halted, before all of the administrations occurred. This 
+         * should not be used if the original order was entered in error
          */
         STOPPED("stopped"),
 
         /**
          * Draft
+         * 
+         * <p>The prescription is not yet 'actionable', e.g. it is a work in progress, requires sign-off, verification or needs 
+         * to be run through decision support process.
          */
         DRAFT("draft"),
 
         /**
          * Unknown
+         * 
+         * <p>The authoring/source system does not know which of the status values currently applies for this observation. Note: 
+         * This concept is not to be used for 'other' - one of the listed statuses is presumed to apply, but the authoring/source 
+         * system does not know which.
          */
         UNKNOWN("unknown");
 

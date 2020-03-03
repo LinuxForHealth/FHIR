@@ -21,16 +21,22 @@ import javax.annotation.Generated;
 public class Use extends Code {
     /**
      * Claim
+     * 
+     * <p>The treatment is complete and this represents a Claim for the services.
      */
     public static final Use CLAIM = Use.builder().value(ValueSet.CLAIM).build();
 
     /**
      * Preauthorization
+     * 
+     * <p>The treatment is proposed and this represents a Pre-authorization for the services.
      */
     public static final Use PREAUTHORIZATION = Use.builder().value(ValueSet.PREAUTHORIZATION).build();
 
     /**
      * Predetermination
+     * 
+     * <p>The treatment is proposed and this represents a Pre-determination for the services.
      */
     public static final Use PREDETERMINATION = Use.builder().value(ValueSet.PREDETERMINATION).build();
 
@@ -144,16 +150,22 @@ public class Use extends Code {
     public enum ValueSet {
         /**
          * Claim
+         * 
+         * <p>The treatment is complete and this represents a Claim for the services.
          */
         CLAIM("claim"),
 
         /**
          * Preauthorization
+         * 
+         * <p>The treatment is proposed and this represents a Pre-authorization for the services.
          */
         PREAUTHORIZATION("preauthorization"),
 
         /**
          * Predetermination
+         * 
+         * <p>The treatment is proposed and this represents a Pre-determination for the services.
          */
         PREDETERMINATION("predetermination");
 

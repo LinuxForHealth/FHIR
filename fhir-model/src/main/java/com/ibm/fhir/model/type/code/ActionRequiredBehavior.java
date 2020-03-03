@@ -21,16 +21,24 @@ import javax.annotation.Generated;
 public class ActionRequiredBehavior extends Code {
     /**
      * Must
+     * 
+     * <p>An action with this behavior must be included in the actions processed by the end user; the end user SHALL NOT 
+     * choose not to include this action.
      */
     public static final ActionRequiredBehavior MUST = ActionRequiredBehavior.builder().value(ValueSet.MUST).build();
 
     /**
      * Could
+     * 
+     * <p>An action with this behavior may be included in the set of actions processed by the end user.
      */
     public static final ActionRequiredBehavior COULD = ActionRequiredBehavior.builder().value(ValueSet.COULD).build();
 
     /**
      * Must Unless Documented
+     * 
+     * <p>An action with this behavior must be included in the set of actions processed by the end user, unless the end user 
+     * provides documentation as to why the action was not included.
      */
     public static final ActionRequiredBehavior MUST_UNLESS_DOCUMENTED = ActionRequiredBehavior.builder().value(ValueSet.MUST_UNLESS_DOCUMENTED).build();
 
@@ -144,16 +152,24 @@ public class ActionRequiredBehavior extends Code {
     public enum ValueSet {
         /**
          * Must
+         * 
+         * <p>An action with this behavior must be included in the actions processed by the end user; the end user SHALL NOT 
+         * choose not to include this action.
          */
         MUST("must"),
 
         /**
          * Could
+         * 
+         * <p>An action with this behavior may be included in the set of actions processed by the end user.
          */
         COULD("could"),
 
         /**
          * Must Unless Documented
+         * 
+         * <p>An action with this behavior must be included in the set of actions processed by the end user, unless the end user 
+         * provides documentation as to why the action was not included.
          */
         MUST_UNLESS_DOCUMENTED("must-unless-documented");
 

@@ -21,36 +21,55 @@ import javax.annotation.Generated;
 public class NutritionOrderStatus extends Code {
     /**
      * Draft
+     * 
+     * <p>The request has been created but is not yet complete or ready for action.
      */
     public static final NutritionOrderStatus DRAFT = NutritionOrderStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Active
+     * 
+     * <p>The request is in force and ready to be acted upon.
      */
     public static final NutritionOrderStatus ACTIVE = NutritionOrderStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * On Hold
+     * 
+     * <p>The request (and any implicit authorization to act) has been temporarily withdrawn but is expected to resume in the 
+     * future.
      */
     public static final NutritionOrderStatus ON_HOLD = NutritionOrderStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Revoked
+     * 
+     * <p>The request (and any implicit authorization to act) has been terminated prior to the known full completion of the 
+     * intended actions. No further activity should occur.
      */
     public static final NutritionOrderStatus REVOKED = NutritionOrderStatus.builder().value(ValueSet.REVOKED).build();
 
     /**
      * Completed
+     * 
+     * <p>The activity described by the request has been fully performed. No further activity will occur.
      */
     public static final NutritionOrderStatus COMPLETED = NutritionOrderStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>This request should never have existed and should be considered 'void'. (It is possible that real-world decisions 
+     * were based on it. If real-world activity has occurred, the status should be "revoked" rather than "entered-in-error".).
      */
     public static final NutritionOrderStatus ENTERED_IN_ERROR = NutritionOrderStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
+     * 
+     * <p>The authoring/source system does not know which of the status values currently applies for this request. Note: This 
+     * concept is not to be used for "other" - one of the listed statuses is presumed to apply, but the authoring/source 
+     * system does not know which.
      */
     public static final NutritionOrderStatus UNKNOWN = NutritionOrderStatus.builder().value(ValueSet.UNKNOWN).build();
 
@@ -172,36 +191,55 @@ public class NutritionOrderStatus extends Code {
     public enum ValueSet {
         /**
          * Draft
+         * 
+         * <p>The request has been created but is not yet complete or ready for action.
          */
         DRAFT("draft"),
 
         /**
          * Active
+         * 
+         * <p>The request is in force and ready to be acted upon.
          */
         ACTIVE("active"),
 
         /**
          * On Hold
+         * 
+         * <p>The request (and any implicit authorization to act) has been temporarily withdrawn but is expected to resume in the 
+         * future.
          */
         ON_HOLD("on-hold"),
 
         /**
          * Revoked
+         * 
+         * <p>The request (and any implicit authorization to act) has been terminated prior to the known full completion of the 
+         * intended actions. No further activity should occur.
          */
         REVOKED("revoked"),
 
         /**
          * Completed
+         * 
+         * <p>The activity described by the request has been fully performed. No further activity will occur.
          */
         COMPLETED("completed"),
 
         /**
          * Entered in Error
+         * 
+         * <p>This request should never have existed and should be considered 'void'. (It is possible that real-world decisions 
+         * were based on it. If real-world activity has occurred, the status should be "revoked" rather than "entered-in-error".).
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Unknown
+         * 
+         * <p>The authoring/source system does not know which of the status values currently applies for this request. Note: This 
+         * concept is not to be used for "other" - one of the listed statuses is presumed to apply, but the authoring/source 
+         * system does not know which.
          */
         UNKNOWN("unknown");
 

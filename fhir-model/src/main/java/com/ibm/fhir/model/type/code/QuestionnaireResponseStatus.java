@@ -21,26 +21,39 @@ import javax.annotation.Generated;
 public class QuestionnaireResponseStatus extends Code {
     /**
      * In Progress
+     * 
+     * <p>This QuestionnaireResponse has been partially filled out with answers but changes or additions are still expected 
+     * to be made to it.
      */
     public static final QuestionnaireResponseStatus IN_PROGRESS = QuestionnaireResponseStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * Completed
+     * 
+     * <p>This QuestionnaireResponse has been filled out with answers and the current content is regarded as definitive.
      */
     public static final QuestionnaireResponseStatus COMPLETED = QuestionnaireResponseStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Amended
+     * 
+     * <p>This QuestionnaireResponse has been filled out with answers, then marked as complete, yet changes or additions have 
+     * been made to it afterwards.
      */
     public static final QuestionnaireResponseStatus AMENDED = QuestionnaireResponseStatus.builder().value(ValueSet.AMENDED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>This QuestionnaireResponse was entered in error and voided.
      */
     public static final QuestionnaireResponseStatus ENTERED_IN_ERROR = QuestionnaireResponseStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Stopped
+     * 
+     * <p>This QuestionnaireResponse has been partially filled out with answers but has been abandoned. It is unknown whether 
+     * changes or additions are expected to be made to it.
      */
     public static final QuestionnaireResponseStatus STOPPED = QuestionnaireResponseStatus.builder().value(ValueSet.STOPPED).build();
 
@@ -158,26 +171,39 @@ public class QuestionnaireResponseStatus extends Code {
     public enum ValueSet {
         /**
          * In Progress
+         * 
+         * <p>This QuestionnaireResponse has been partially filled out with answers but changes or additions are still expected 
+         * to be made to it.
          */
         IN_PROGRESS("in-progress"),
 
         /**
          * Completed
+         * 
+         * <p>This QuestionnaireResponse has been filled out with answers and the current content is regarded as definitive.
          */
         COMPLETED("completed"),
 
         /**
          * Amended
+         * 
+         * <p>This QuestionnaireResponse has been filled out with answers, then marked as complete, yet changes or additions have 
+         * been made to it afterwards.
          */
         AMENDED("amended"),
 
         /**
          * Entered in Error
+         * 
+         * <p>This QuestionnaireResponse was entered in error and voided.
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Stopped
+         * 
+         * <p>This QuestionnaireResponse has been partially filled out with answers but has been abandoned. It is unknown whether 
+         * changes or additions are expected to be made to it.
          */
         STOPPED("stopped");
 

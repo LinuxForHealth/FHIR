@@ -21,31 +21,43 @@ import javax.annotation.Generated;
 public class HTTPVerb extends Code {
     /**
      * GET
+     * 
+     * <p>HTTP GET Command.
      */
     public static final HTTPVerb GET = HTTPVerb.builder().value(ValueSet.GET).build();
 
     /**
      * HEAD
+     * 
+     * <p>HTTP HEAD Command.
      */
     public static final HTTPVerb HEAD = HTTPVerb.builder().value(ValueSet.HEAD).build();
 
     /**
      * POST
+     * 
+     * <p>HTTP POST Command.
      */
     public static final HTTPVerb POST = HTTPVerb.builder().value(ValueSet.POST).build();
 
     /**
      * PUT
+     * 
+     * <p>HTTP PUT Command.
      */
     public static final HTTPVerb PUT = HTTPVerb.builder().value(ValueSet.PUT).build();
 
     /**
      * DELETE
+     * 
+     * <p>HTTP DELETE Command.
      */
     public static final HTTPVerb DELETE = HTTPVerb.builder().value(ValueSet.DELETE).build();
 
     /**
      * PATCH
+     * 
+     * <p>HTTP PATCH Command.
      */
     public static final HTTPVerb PATCH = HTTPVerb.builder().value(ValueSet.PATCH).build();
 
@@ -165,31 +177,43 @@ public class HTTPVerb extends Code {
     public enum ValueSet {
         /**
          * GET
+         * 
+         * <p>HTTP GET Command.
          */
         GET("GET"),
 
         /**
          * HEAD
+         * 
+         * <p>HTTP HEAD Command.
          */
         HEAD("HEAD"),
 
         /**
          * POST
+         * 
+         * <p>HTTP POST Command.
          */
         POST("POST"),
 
         /**
          * PUT
+         * 
+         * <p>HTTP PUT Command.
          */
         PUT("PUT"),
 
         /**
          * DELETE
+         * 
+         * <p>HTTP DELETE Command.
          */
         DELETE("DELETE"),
 
         /**
          * PATCH
+         * 
+         * <p>HTTP PATCH Command.
          */
         PATCH("PATCH");
 

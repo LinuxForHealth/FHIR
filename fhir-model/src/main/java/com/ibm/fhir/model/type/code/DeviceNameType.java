@@ -21,31 +21,43 @@ import javax.annotation.Generated;
 public class DeviceNameType extends Code {
     /**
      * UDI Label name
+     * 
+     * <p>UDI Label name.
      */
     public static final DeviceNameType UDI_LABEL_NAME = DeviceNameType.builder().value(ValueSet.UDI_LABEL_NAME).build();
 
     /**
      * User Friendly name
+     * 
+     * <p>User Friendly name.
      */
     public static final DeviceNameType USER_FRIENDLY_NAME = DeviceNameType.builder().value(ValueSet.USER_FRIENDLY_NAME).build();
 
     /**
      * Patient Reported name
+     * 
+     * <p>Patient Reported name.
      */
     public static final DeviceNameType PATIENT_REPORTED_NAME = DeviceNameType.builder().value(ValueSet.PATIENT_REPORTED_NAME).build();
 
     /**
      * Manufacturer name
+     * 
+     * <p>Manufacturer name.
      */
     public static final DeviceNameType MANUFACTURER_NAME = DeviceNameType.builder().value(ValueSet.MANUFACTURER_NAME).build();
 
     /**
      * Model name
+     * 
+     * <p>Model name.
      */
     public static final DeviceNameType MODEL_NAME = DeviceNameType.builder().value(ValueSet.MODEL_NAME).build();
 
     /**
      * other
+     * 
+     * <p>other.
      */
     public static final DeviceNameType OTHER = DeviceNameType.builder().value(ValueSet.OTHER).build();
 
@@ -165,31 +177,43 @@ public class DeviceNameType extends Code {
     public enum ValueSet {
         /**
          * UDI Label name
+         * 
+         * <p>UDI Label name.
          */
         UDI_LABEL_NAME("udi-label-name"),
 
         /**
          * User Friendly name
+         * 
+         * <p>User Friendly name.
          */
         USER_FRIENDLY_NAME("user-friendly-name"),
 
         /**
          * Patient Reported name
+         * 
+         * <p>Patient Reported name.
          */
         PATIENT_REPORTED_NAME("patient-reported-name"),
 
         /**
          * Manufacturer name
+         * 
+         * <p>Manufacturer name.
          */
         MANUFACTURER_NAME("manufacturer-name"),
 
         /**
          * Model name
+         * 
+         * <p>Model name.
          */
         MODEL_NAME("model-name"),
 
         /**
          * other
+         * 
+         * <p>other.
          */
         OTHER("other");
 

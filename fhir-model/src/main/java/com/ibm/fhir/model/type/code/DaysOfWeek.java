@@ -21,36 +21,50 @@ import javax.annotation.Generated;
 public class DaysOfWeek extends Code {
     /**
      * Monday
+     * 
+     * <p>Monday.
      */
     public static final DaysOfWeek MON = DaysOfWeek.builder().value(ValueSet.MON).build();
 
     /**
      * Tuesday
+     * 
+     * <p>Tuesday.
      */
     public static final DaysOfWeek TUE = DaysOfWeek.builder().value(ValueSet.TUE).build();
 
     /**
      * Wednesday
+     * 
+     * <p>Wednesday.
      */
     public static final DaysOfWeek WED = DaysOfWeek.builder().value(ValueSet.WED).build();
 
     /**
      * Thursday
+     * 
+     * <p>Thursday.
      */
     public static final DaysOfWeek THU = DaysOfWeek.builder().value(ValueSet.THU).build();
 
     /**
      * Friday
+     * 
+     * <p>Friday.
      */
     public static final DaysOfWeek FRI = DaysOfWeek.builder().value(ValueSet.FRI).build();
 
     /**
      * Saturday
+     * 
+     * <p>Saturday.
      */
     public static final DaysOfWeek SAT = DaysOfWeek.builder().value(ValueSet.SAT).build();
 
     /**
      * Sunday
+     * 
+     * <p>Sunday.
      */
     public static final DaysOfWeek SUN = DaysOfWeek.builder().value(ValueSet.SUN).build();
 
@@ -172,36 +186,50 @@ public class DaysOfWeek extends Code {
     public enum ValueSet {
         /**
          * Monday
+         * 
+         * <p>Monday.
          */
         MON("mon"),
 
         /**
          * Tuesday
+         * 
+         * <p>Tuesday.
          */
         TUE("tue"),
 
         /**
          * Wednesday
+         * 
+         * <p>Wednesday.
          */
         WED("wed"),
 
         /**
          * Thursday
+         * 
+         * <p>Thursday.
          */
         THU("thu"),
 
         /**
          * Friday
+         * 
+         * <p>Friday.
          */
         FRI("fri"),
 
         /**
          * Saturday
+         * 
+         * <p>Saturday.
          */
         SAT("sat"),
 
         /**
          * Sunday
+         * 
+         * <p>Sunday.
          */
         SUN("sun");
 

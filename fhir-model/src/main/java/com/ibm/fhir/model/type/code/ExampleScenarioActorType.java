@@ -21,11 +21,15 @@ import javax.annotation.Generated;
 public class ExampleScenarioActorType extends Code {
     /**
      * Person
+     * 
+     * <p>A person.
      */
     public static final ExampleScenarioActorType PERSON = ExampleScenarioActorType.builder().value(ValueSet.PERSON).build();
 
     /**
      * System
+     * 
+     * <p>A system.
      */
     public static final ExampleScenarioActorType ENTITY = ExampleScenarioActorType.builder().value(ValueSet.ENTITY).build();
 
@@ -137,11 +141,15 @@ public class ExampleScenarioActorType extends Code {
     public enum ValueSet {
         /**
          * Person
+         * 
+         * <p>A person.
          */
         PERSON("person"),
 
         /**
          * System
+         * 
+         * <p>A system.
          */
         ENTITY("entity");
 

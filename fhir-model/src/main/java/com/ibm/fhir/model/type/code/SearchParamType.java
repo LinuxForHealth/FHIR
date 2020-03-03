@@ -21,46 +21,68 @@ import javax.annotation.Generated;
 public class SearchParamType extends Code {
     /**
      * Number
+     * 
+     * <p>Search parameter SHALL be a number (a whole number, or a decimal).
      */
     public static final SearchParamType NUMBER = SearchParamType.builder().value(ValueSet.NUMBER).build();
 
     /**
      * Date/DateTime
+     * 
+     * <p>Search parameter is on a date/time. The date format is the standard XML format, though other formats may be 
+     * supported.
      */
     public static final SearchParamType DATE = SearchParamType.builder().value(ValueSet.DATE).build();
 
     /**
      * String
+     * 
+     * <p>Search parameter is a simple string, like a name part. Search is case-insensitive and accent-insensitive. May match 
+     * just the start of a string. String parameters may contain spaces.
      */
     public static final SearchParamType STRING = SearchParamType.builder().value(ValueSet.STRING).build();
 
     /**
      * Token
+     * 
+     * <p>Search parameter on a coded element or identifier. May be used to search through the text, display, code and 
+     * code/codesystem (for codes) and label, system and key (for identifier). Its value is either a string or a pair of 
+     * namespace and value, separated by a "|", depending on the modifier used.
      */
     public static final SearchParamType TOKEN = SearchParamType.builder().value(ValueSet.TOKEN).build();
 
     /**
      * Reference
+     * 
+     * <p>A reference to another resource (Reference or canonical).
      */
     public static final SearchParamType REFERENCE = SearchParamType.builder().value(ValueSet.REFERENCE).build();
 
     /**
      * Composite
+     * 
+     * <p>A composite search parameter that combines a search on two values together.
      */
     public static final SearchParamType COMPOSITE = SearchParamType.builder().value(ValueSet.COMPOSITE).build();
 
     /**
      * Quantity
+     * 
+     * <p>A search parameter that searches on a quantity.
      */
     public static final SearchParamType QUANTITY = SearchParamType.builder().value(ValueSet.QUANTITY).build();
 
     /**
      * URI
+     * 
+     * <p>A search parameter that searches on a URI (RFC 3986).
      */
     public static final SearchParamType URI = SearchParamType.builder().value(ValueSet.URI).build();
 
     /**
      * Special
+     * 
+     * <p>Special logic applies to this parameter per the description of the search parameter.
      */
     public static final SearchParamType SPECIAL = SearchParamType.builder().value(ValueSet.SPECIAL).build();
 
@@ -186,46 +208,68 @@ public class SearchParamType extends Code {
     public enum ValueSet {
         /**
          * Number
+         * 
+         * <p>Search parameter SHALL be a number (a whole number, or a decimal).
          */
         NUMBER("number"),
 
         /**
          * Date/DateTime
+         * 
+         * <p>Search parameter is on a date/time. The date format is the standard XML format, though other formats may be 
+         * supported.
          */
         DATE("date"),
 
         /**
          * String
+         * 
+         * <p>Search parameter is a simple string, like a name part. Search is case-insensitive and accent-insensitive. May match 
+         * just the start of a string. String parameters may contain spaces.
          */
         STRING("string"),
 
         /**
          * Token
+         * 
+         * <p>Search parameter on a coded element or identifier. May be used to search through the text, display, code and 
+         * code/codesystem (for codes) and label, system and key (for identifier). Its value is either a string or a pair of 
+         * namespace and value, separated by a "|", depending on the modifier used.
          */
         TOKEN("token"),
 
         /**
          * Reference
+         * 
+         * <p>A reference to another resource (Reference or canonical).
          */
         REFERENCE("reference"),
 
         /**
          * Composite
+         * 
+         * <p>A composite search parameter that combines a search on two values together.
          */
         COMPOSITE("composite"),
 
         /**
          * Quantity
+         * 
+         * <p>A search parameter that searches on a quantity.
          */
         QUANTITY("quantity"),
 
         /**
          * URI
+         * 
+         * <p>A search parameter that searches on a URI (RFC 3986).
          */
         URI("uri"),
 
         /**
          * Special
+         * 
+         * <p>Special logic applies to this parameter per the description of the search parameter.
          */
         SPECIAL("special");
 

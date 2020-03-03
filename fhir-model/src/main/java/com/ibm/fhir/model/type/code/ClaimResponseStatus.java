@@ -21,21 +21,29 @@ import javax.annotation.Generated;
 public class ClaimResponseStatus extends Code {
     /**
      * Active
+     * 
+     * <p>The instance is currently in-force.
      */
     public static final ClaimResponseStatus ACTIVE = ClaimResponseStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Cancelled
+     * 
+     * <p>The instance is withdrawn, rescinded or reversed.
      */
     public static final ClaimResponseStatus CANCELLED = ClaimResponseStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Draft
+     * 
+     * <p>A new instance the contents of which is not complete.
      */
     public static final ClaimResponseStatus DRAFT = ClaimResponseStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The instance was entered in error.
      */
     public static final ClaimResponseStatus ENTERED_IN_ERROR = ClaimResponseStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -151,21 +159,29 @@ public class ClaimResponseStatus extends Code {
     public enum ValueSet {
         /**
          * Active
+         * 
+         * <p>The instance is currently in-force.
          */
         ACTIVE("active"),
 
         /**
          * Cancelled
+         * 
+         * <p>The instance is withdrawn, rescinded or reversed.
          */
         CANCELLED("cancelled"),
 
         /**
          * Draft
+         * 
+         * <p>A new instance the contents of which is not complete.
          */
         DRAFT("draft"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The instance was entered in error.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

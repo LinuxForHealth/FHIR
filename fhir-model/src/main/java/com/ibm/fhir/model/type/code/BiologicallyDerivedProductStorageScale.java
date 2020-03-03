@@ -21,16 +21,22 @@ import javax.annotation.Generated;
 public class BiologicallyDerivedProductStorageScale extends Code {
     /**
      * Fahrenheit
+     * 
+     * <p>Fahrenheit temperature scale.
      */
     public static final BiologicallyDerivedProductStorageScale FARENHEIT = BiologicallyDerivedProductStorageScale.builder().value(ValueSet.FARENHEIT).build();
 
     /**
      * Celsius
+     * 
+     * <p>Celsius or centigrade temperature scale.
      */
     public static final BiologicallyDerivedProductStorageScale CELSIUS = BiologicallyDerivedProductStorageScale.builder().value(ValueSet.CELSIUS).build();
 
     /**
      * Kelvin
+     * 
+     * <p>Kelvin absolute thermodynamic temperature scale.
      */
     public static final BiologicallyDerivedProductStorageScale KELVIN = BiologicallyDerivedProductStorageScale.builder().value(ValueSet.KELVIN).build();
 
@@ -144,16 +150,22 @@ public class BiologicallyDerivedProductStorageScale extends Code {
     public enum ValueSet {
         /**
          * Fahrenheit
+         * 
+         * <p>Fahrenheit temperature scale.
          */
         FARENHEIT("farenheit"),
 
         /**
          * Celsius
+         * 
+         * <p>Celsius or centigrade temperature scale.
          */
         CELSIUS("celsius"),
 
         /**
          * Kelvin
+         * 
+         * <p>Kelvin absolute thermodynamic temperature scale.
          */
         KELVIN("kelvin");
 

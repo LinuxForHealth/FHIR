@@ -21,16 +21,22 @@ import javax.annotation.Generated;
 public class MeasureReportStatus extends Code {
     /**
      * Complete
+     * 
+     * <p>The report is complete and ready for use.
      */
     public static final MeasureReportStatus COMPLETE = MeasureReportStatus.builder().value(ValueSet.COMPLETE).build();
 
     /**
      * Pending
+     * 
+     * <p>The report is currently being generated.
      */
     public static final MeasureReportStatus PENDING = MeasureReportStatus.builder().value(ValueSet.PENDING).build();
 
     /**
      * Error
+     * 
+     * <p>An error occurred attempting to generate the report.
      */
     public static final MeasureReportStatus ERROR = MeasureReportStatus.builder().value(ValueSet.ERROR).build();
 
@@ -144,16 +150,22 @@ public class MeasureReportStatus extends Code {
     public enum ValueSet {
         /**
          * Complete
+         * 
+         * <p>The report is complete and ready for use.
          */
         COMPLETE("complete"),
 
         /**
          * Pending
+         * 
+         * <p>The report is currently being generated.
          */
         PENDING("pending"),
 
         /**
          * Error
+         * 
+         * <p>An error occurred attempting to generate the report.
          */
         ERROR("error");
 

@@ -21,56 +21,78 @@ import javax.annotation.Generated;
 public class AssertionOperatorType extends Code {
     /**
      * equals
+     * 
+     * <p>Default value. Equals comparison.
      */
     public static final AssertionOperatorType EQUALS = AssertionOperatorType.builder().value(ValueSet.EQUALS).build();
 
     /**
      * notEquals
+     * 
+     * <p>Not equals comparison.
      */
     public static final AssertionOperatorType NOT_EQUALS = AssertionOperatorType.builder().value(ValueSet.NOT_EQUALS).build();
 
     /**
      * in
+     * 
+     * <p>Compare value within a known set of values.
      */
     public static final AssertionOperatorType IN = AssertionOperatorType.builder().value(ValueSet.IN).build();
 
     /**
      * notIn
+     * 
+     * <p>Compare value not within a known set of values.
      */
     public static final AssertionOperatorType NOT_IN = AssertionOperatorType.builder().value(ValueSet.NOT_IN).build();
 
     /**
      * greaterThan
+     * 
+     * <p>Compare value to be greater than a known value.
      */
     public static final AssertionOperatorType GREATER_THAN = AssertionOperatorType.builder().value(ValueSet.GREATER_THAN).build();
 
     /**
      * lessThan
+     * 
+     * <p>Compare value to be less than a known value.
      */
     public static final AssertionOperatorType LESS_THAN = AssertionOperatorType.builder().value(ValueSet.LESS_THAN).build();
 
     /**
      * empty
+     * 
+     * <p>Compare value is empty.
      */
     public static final AssertionOperatorType EMPTY = AssertionOperatorType.builder().value(ValueSet.EMPTY).build();
 
     /**
      * notEmpty
+     * 
+     * <p>Compare value is not empty.
      */
     public static final AssertionOperatorType NOT_EMPTY = AssertionOperatorType.builder().value(ValueSet.NOT_EMPTY).build();
 
     /**
      * contains
+     * 
+     * <p>Compare value string contains a known value.
      */
     public static final AssertionOperatorType CONTAINS = AssertionOperatorType.builder().value(ValueSet.CONTAINS).build();
 
     /**
      * notContains
+     * 
+     * <p>Compare value string does not contain a known value.
      */
     public static final AssertionOperatorType NOT_CONTAINS = AssertionOperatorType.builder().value(ValueSet.NOT_CONTAINS).build();
 
     /**
      * evaluate
+     * 
+     * <p>Evaluate the FHIRPath expression as a boolean condition.
      */
     public static final AssertionOperatorType EVAL = AssertionOperatorType.builder().value(ValueSet.EVAL).build();
 
@@ -200,56 +222,78 @@ public class AssertionOperatorType extends Code {
     public enum ValueSet {
         /**
          * equals
+         * 
+         * <p>Default value. Equals comparison.
          */
         EQUALS("equals"),
 
         /**
          * notEquals
+         * 
+         * <p>Not equals comparison.
          */
         NOT_EQUALS("notEquals"),
 
         /**
          * in
+         * 
+         * <p>Compare value within a known set of values.
          */
         IN("in"),
 
         /**
          * notIn
+         * 
+         * <p>Compare value not within a known set of values.
          */
         NOT_IN("notIn"),
 
         /**
          * greaterThan
+         * 
+         * <p>Compare value to be greater than a known value.
          */
         GREATER_THAN("greaterThan"),
 
         /**
          * lessThan
+         * 
+         * <p>Compare value to be less than a known value.
          */
         LESS_THAN("lessThan"),
 
         /**
          * empty
+         * 
+         * <p>Compare value is empty.
          */
         EMPTY("empty"),
 
         /**
          * notEmpty
+         * 
+         * <p>Compare value is not empty.
          */
         NOT_EMPTY("notEmpty"),
 
         /**
          * contains
+         * 
+         * <p>Compare value string contains a known value.
          */
         CONTAINS("contains"),
 
         /**
          * notContains
+         * 
+         * <p>Compare value string does not contain a known value.
          */
         NOT_CONTAINS("notContains"),
 
         /**
          * evaluate
+         * 
+         * <p>Evaluate the FHIRPath expression as a boolean condition.
          */
         EVAL("eval");
 

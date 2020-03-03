@@ -21,21 +21,29 @@ import javax.annotation.Generated;
 public class CommunicationPriority extends Code {
     /**
      * Routine
+     * 
+     * <p>The request has normal priority.
      */
     public static final CommunicationPriority ROUTINE = CommunicationPriority.builder().value(ValueSet.ROUTINE).build();
 
     /**
      * Urgent
+     * 
+     * <p>The request should be actioned promptly - higher priority than routine.
      */
     public static final CommunicationPriority URGENT = CommunicationPriority.builder().value(ValueSet.URGENT).build();
 
     /**
      * ASAP
+     * 
+     * <p>The request should be actioned as soon as possible - higher priority than urgent.
      */
     public static final CommunicationPriority ASAP = CommunicationPriority.builder().value(ValueSet.ASAP).build();
 
     /**
      * STAT
+     * 
+     * <p>The request should be actioned immediately - highest possible priority. E.g. an emergency.
      */
     public static final CommunicationPriority STAT = CommunicationPriority.builder().value(ValueSet.STAT).build();
 
@@ -151,21 +159,29 @@ public class CommunicationPriority extends Code {
     public enum ValueSet {
         /**
          * Routine
+         * 
+         * <p>The request has normal priority.
          */
         ROUTINE("routine"),
 
         /**
          * Urgent
+         * 
+         * <p>The request should be actioned promptly - higher priority than routine.
          */
         URGENT("urgent"),
 
         /**
          * ASAP
+         * 
+         * <p>The request should be actioned as soon as possible - higher priority than urgent.
          */
         ASAP("asap"),
 
         /**
          * STAT
+         * 
+         * <p>The request should be actioned immediately - highest possible priority. E.g. an emergency.
          */
         STAT("stat");
 

@@ -21,16 +21,22 @@ import javax.annotation.Generated;
 public class QualityType extends Code {
     /**
      * INDEL Comparison
+     * 
+     * <p>INDEL Comparison.
      */
     public static final QualityType INDEL = QualityType.builder().value(ValueSet.INDEL).build();
 
     /**
      * SNP Comparison
+     * 
+     * <p>SNP Comparison.
      */
     public static final QualityType SNP = QualityType.builder().value(ValueSet.SNP).build();
 
     /**
      * UNKNOWN Comparison
+     * 
+     * <p>UNKNOWN Comparison.
      */
     public static final QualityType UNKNOWN = QualityType.builder().value(ValueSet.UNKNOWN).build();
 
@@ -144,16 +150,22 @@ public class QualityType extends Code {
     public enum ValueSet {
         /**
          * INDEL Comparison
+         * 
+         * <p>INDEL Comparison.
          */
         INDEL("indel"),
 
         /**
          * SNP Comparison
+         * 
+         * <p>SNP Comparison.
          */
         SNP("snp"),
 
         /**
          * UNKNOWN Comparison
+         * 
+         * <p>UNKNOWN Comparison.
          */
         UNKNOWN("unknown");
 

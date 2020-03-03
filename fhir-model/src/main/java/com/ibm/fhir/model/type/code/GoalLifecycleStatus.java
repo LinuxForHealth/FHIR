@@ -21,46 +21,64 @@ import javax.annotation.Generated;
 public class GoalLifecycleStatus extends Code {
     /**
      * Proposed
+     * 
+     * <p>A goal is proposed for this patient.
      */
     public static final GoalLifecycleStatus PROPOSED = GoalLifecycleStatus.builder().value(ValueSet.PROPOSED).build();
 
     /**
      * Planned
+     * 
+     * <p>A goal is planned for this patient.
      */
     public static final GoalLifecycleStatus PLANNED = GoalLifecycleStatus.builder().value(ValueSet.PLANNED).build();
 
     /**
      * Accepted
+     * 
+     * <p>A proposed goal was accepted or acknowledged.
      */
     public static final GoalLifecycleStatus ACCEPTED = GoalLifecycleStatus.builder().value(ValueSet.ACCEPTED).build();
 
     /**
      * Active
+     * 
+     * <p>The goal is being sought actively.
      */
     public static final GoalLifecycleStatus ACTIVE = GoalLifecycleStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * On Hold
+     * 
+     * <p>The goal remains a long term objective but is no longer being actively pursued for a temporary period of time.
      */
     public static final GoalLifecycleStatus ON_HOLD = GoalLifecycleStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Completed
+     * 
+     * <p>The goal is no longer being sought.
      */
     public static final GoalLifecycleStatus COMPLETED = GoalLifecycleStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Cancelled
+     * 
+     * <p>The goal has been abandoned.
      */
     public static final GoalLifecycleStatus CANCELLED = GoalLifecycleStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The goal was entered in error and voided.
      */
     public static final GoalLifecycleStatus ENTERED_IN_ERROR = GoalLifecycleStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Rejected
+     * 
+     * <p>A proposed goal was rejected.
      */
     public static final GoalLifecycleStatus REJECTED = GoalLifecycleStatus.builder().value(ValueSet.REJECTED).build();
 
@@ -186,46 +204,64 @@ public class GoalLifecycleStatus extends Code {
     public enum ValueSet {
         /**
          * Proposed
+         * 
+         * <p>A goal is proposed for this patient.
          */
         PROPOSED("proposed"),
 
         /**
          * Planned
+         * 
+         * <p>A goal is planned for this patient.
          */
         PLANNED("planned"),
 
         /**
          * Accepted
+         * 
+         * <p>A proposed goal was accepted or acknowledged.
          */
         ACCEPTED("accepted"),
 
         /**
          * Active
+         * 
+         * <p>The goal is being sought actively.
          */
         ACTIVE("active"),
 
         /**
          * On Hold
+         * 
+         * <p>The goal remains a long term objective but is no longer being actively pursued for a temporary period of time.
          */
         ON_HOLD("on-hold"),
 
         /**
          * Completed
+         * 
+         * <p>The goal is no longer being sought.
          */
         COMPLETED("completed"),
 
         /**
          * Cancelled
+         * 
+         * <p>The goal has been abandoned.
          */
         CANCELLED("cancelled"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The goal was entered in error and voided.
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Rejected
+         * 
+         * <p>A proposed goal was rejected.
          */
         REJECTED("rejected");
 

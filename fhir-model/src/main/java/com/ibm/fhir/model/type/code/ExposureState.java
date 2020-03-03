@@ -21,11 +21,16 @@ import javax.annotation.Generated;
 public class ExposureState extends Code {
     /**
      * Exposure
+     * 
+     * <p>used when the results by exposure is describing the results for the primary exposure of interest.
      */
     public static final ExposureState EXPOSURE = ExposureState.builder().value(ValueSet.EXPOSURE).build();
 
     /**
      * Exposure Alternative
+     * 
+     * <p>used when the results by exposure is describing the results for the alternative exposure state, control state or 
+     * comparator state.
      */
     public static final ExposureState EXPOSURE_ALTERNATIVE = ExposureState.builder().value(ValueSet.EXPOSURE_ALTERNATIVE).build();
 
@@ -137,11 +142,16 @@ public class ExposureState extends Code {
     public enum ValueSet {
         /**
          * Exposure
+         * 
+         * <p>used when the results by exposure is describing the results for the primary exposure of interest.
          */
         EXPOSURE("exposure"),
 
         /**
          * Exposure Alternative
+         * 
+         * <p>used when the results by exposure is describing the results for the alternative exposure state, control state or 
+         * comparator state.
          */
         EXPOSURE_ALTERNATIVE("exposure-alternative");
 

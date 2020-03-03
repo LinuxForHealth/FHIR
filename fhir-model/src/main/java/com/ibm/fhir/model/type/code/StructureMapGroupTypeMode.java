@@ -21,16 +21,22 @@ import javax.annotation.Generated;
 public class StructureMapGroupTypeMode extends Code {
     /**
      * Not a Default
+     * 
+     * <p>This group is not a default group for the types.
      */
     public static final StructureMapGroupTypeMode NONE = StructureMapGroupTypeMode.builder().value(ValueSet.NONE).build();
 
     /**
      * Default for Type Combination
+     * 
+     * <p>This group is a default mapping group for the specified types and for the primary source type.
      */
     public static final StructureMapGroupTypeMode TYPES = StructureMapGroupTypeMode.builder().value(ValueSet.TYPES).build();
 
     /**
      * Default for type + combination
+     * 
+     * <p>This group is a default mapping group for the specified types.
      */
     public static final StructureMapGroupTypeMode TYPE_AND_TYPES = StructureMapGroupTypeMode.builder().value(ValueSet.TYPE_AND_TYPES).build();
 
@@ -144,16 +150,22 @@ public class StructureMapGroupTypeMode extends Code {
     public enum ValueSet {
         /**
          * Not a Default
+         * 
+         * <p>This group is not a default group for the types.
          */
         NONE("none"),
 
         /**
          * Default for Type Combination
+         * 
+         * <p>This group is a default mapping group for the specified types and for the primary source type.
          */
         TYPES("types"),
 
         /**
          * Default for type + combination
+         * 
+         * <p>This group is a default mapping group for the specified types.
          */
         TYPE_AND_TYPES("type-and-types");
 

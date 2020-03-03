@@ -21,21 +21,31 @@ import javax.annotation.Generated;
 public class EncounterLocationStatus extends Code {
     /**
      * Planned
+     * 
+     * <p>The patient is planned to be moved to this location at some point in the future.
      */
     public static final EncounterLocationStatus PLANNED = EncounterLocationStatus.builder().value(ValueSet.PLANNED).build();
 
     /**
      * Active
+     * 
+     * <p>The patient is currently at this location, or was between the period specified.A system may update these records 
+     * when the patient leaves the location to either reserved, or completed.
      */
     public static final EncounterLocationStatus ACTIVE = EncounterLocationStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Reserved
+     * 
+     * <p>This location is held empty for this patient.
      */
     public static final EncounterLocationStatus RESERVED = EncounterLocationStatus.builder().value(ValueSet.RESERVED).build();
 
     /**
      * Completed
+     * 
+     * <p>The patient was at this location during the period specified.Not to be used when the patient is currently at the 
+     * location.
      */
     public static final EncounterLocationStatus COMPLETED = EncounterLocationStatus.builder().value(ValueSet.COMPLETED).build();
 
@@ -151,21 +161,31 @@ public class EncounterLocationStatus extends Code {
     public enum ValueSet {
         /**
          * Planned
+         * 
+         * <p>The patient is planned to be moved to this location at some point in the future.
          */
         PLANNED("planned"),
 
         /**
          * Active
+         * 
+         * <p>The patient is currently at this location, or was between the period specified.A system may update these records 
+         * when the patient leaves the location to either reserved, or completed.
          */
         ACTIVE("active"),
 
         /**
          * Reserved
+         * 
+         * <p>This location is held empty for this patient.
          */
         RESERVED("reserved"),
 
         /**
          * Completed
+         * 
+         * <p>The patient was at this location during the period specified.Not to be used when the patient is currently at the 
+         * location.
          */
         COMPLETED("completed");
 
