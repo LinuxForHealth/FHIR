@@ -83,13 +83,13 @@ public class FHIRClientImpl implements FHIRClient {
     private KeyStore keyStore = null;
 
     private boolean loggingEnabled = false;
-    
+
     private boolean hostnameVerificationEnabled = true;
-    
+
     private HTTPReturnPreference httpReturnPref = HTTPReturnPreference.MINIMAL;
-    
+
     private int httpTimeout;
-    
+
     // The tenantId to pass with the X-FHIR-TENANT-ID header
     private String tenantId;
 
@@ -199,7 +199,7 @@ public class FHIRClientImpl implements FHIRClient {
 
         return result;
     }
-    
+
     /**
      * This function will add a "Prefer" request header to the specified array of headers.
      * @param headers a possibly null array of FHIRRequestHeader objects
@@ -215,9 +215,9 @@ public class FHIRClientImpl implements FHIRClient {
                 }
             }
         }
-        
+
         FHIRRequestHeader preferHeader = new FHIRRequestHeader("Prefer", "return=" + returnPref.value());
-        
+
         // Create a new array that has room for the new "Prefer" header.
         int headersSize = (headers != null ? headers.length : 0);
         FHIRRequestHeader[] result = new FHIRRequestHeader[headersSize + 1];
@@ -226,10 +226,10 @@ public class FHIRClientImpl implements FHIRClient {
                 result[i] = headers[i];
             }
         }
-        
+
         // Add the new header at the end.
         result[result.length - 1] = preferHeader;
-        
+
         return result;
     }
 
@@ -452,10 +452,11 @@ public class FHIRClientImpl implements FHIRClient {
         } else {
             endpoint = endpoint.path("_search");
             builder = endpoint.request(getDefaultMimeType());
+            builder = addRequestHeaders(builder, headers);
             Entity<Form> entity = Entity.form(parameters.getParameterMap());
             response = builder.post(entity);
         }
-        
+
         return new FHIRResponseImpl(response);
     }
 
@@ -657,7 +658,7 @@ public class FHIRClientImpl implements FHIRClient {
 
     private FHIRResponse _bundle(Bundle bundle, BundleType bundleType, FHIRRequestHeader... headers) throws Exception {
         Bundle bundleNew = bundle.toBuilder().type(bundleType).build();
-        
+
         WebTarget endpoint = getWebTarget();
         Entity<Bundle> entity = Entity.entity(bundleNew, getDefaultMimeType());
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
@@ -724,7 +725,7 @@ public class FHIRClientImpl implements FHIRClient {
                 }
             }
         }
-        
+
         // Set the tenantId, if we have one
         if (tenantId != null) {
             builder = builder.header(FHIRConfiguration.DEFAULT_TENANT_ID_HEADER_NAME, tenantId);
@@ -767,15 +768,16 @@ public class FHIRClientImpl implements FHIRClient {
             // Add a hostname verifier if we're using an ssl transport.
             if (usingSSLTransport() && !isHostnameVerificationEnabled()) {
                 cb = cb.hostnameVerifier(new HostnameVerifier() {
+                    @Override
                     public boolean verify(String s, SSLSession sslSession) {
                         return true;
                     }
                 });
             }
-            
+
             // Set the http client's receive timeout setting
             cb.property("http.receive.timeout", getHttpTimeout()); // defaults to 60s
-            
+
             // true: If need, tell Apache CXF to use the Async HTTP conduit for PATCH operation as the
             // default HTTP conduit does not support PATCH
             // false(default): To avoid the http async client time out issue (http://mail-archives.apache.org
@@ -787,7 +789,7 @@ public class FHIRClientImpl implements FHIRClient {
             if (isLoggingEnabled()) {
                 cb.register(LoggingFeature.class);
             }
-            
+
             // Save off our cached Client instance.
             client = cb.build();
         }
@@ -876,11 +878,11 @@ public class FHIRClientImpl implements FHIRClient {
             }
 
             setLoggingEnabled(Boolean.parseBoolean(getProperty(PROPNAME_LOGGING_ENABLED, "false")));
-            
+
             setHostnameVerificationEnabled(Boolean.parseBoolean(getProperty(PROPNAME_HOSTNAME_VERIFICATION_ENABLED, "true")));
-            
+
             setHttpTimeout(Integer.parseUnsignedInt(getProperty(PROPNAME_HTTP_TIMEOUT, "60000")));
-            
+
             setTenantId(getProperty(PROPNAME_TENANT_ID, null));
         } catch (Throwable t) {
             throw new Exception("Unexpected error while processing client properties.", t);
@@ -934,7 +936,7 @@ public class FHIRClientImpl implements FHIRClient {
             }
         }
     }
-    
+
     /**
      * Setter for the tenantId
      */
@@ -1014,7 +1016,7 @@ public class FHIRClientImpl implements FHIRClient {
     private void setTrustStore(KeyStore trustStore) {
         this.trustStore = trustStore;
     }
-   
+
     private boolean isOAuth2Enabled() {
         return oAuth2Enabled;
     }
