@@ -140,7 +140,6 @@ public class ChunkWriter extends AbstractItemWriter {
             for (Resource fhirResource : fhirResourceList) {
                 try {
                     OperationOutcome operationOutcome = fhirPersistence.update(persistenceContext, fhirResource.getId(), fhirResource).getOutcome();
-                    System.out.println("processed resources number: " + processedNum);
                     processedNum++;
                     succeededNum++;
                     if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
