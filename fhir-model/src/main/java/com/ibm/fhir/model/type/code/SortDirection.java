@@ -21,11 +21,15 @@ import javax.annotation.Generated;
 public class SortDirection extends Code {
     /**
      * Ascending
+     * 
+     * <p>Sort by the value ascending, so that lower values appear first.
      */
     public static final SortDirection ASCENDING = SortDirection.builder().value(ValueSet.ASCENDING).build();
 
     /**
      * Descending
+     * 
+     * <p>Sort by the value descending, so that lower values appear last.
      */
     public static final SortDirection DESCENDING = SortDirection.builder().value(ValueSet.DESCENDING).build();
 
@@ -137,11 +141,15 @@ public class SortDirection extends Code {
     public enum ValueSet {
         /**
          * Ascending
+         * 
+         * <p>Sort by the value ascending, so that lower values appear first.
          */
         ASCENDING("ascending"),
 
         /**
          * Descending
+         * 
+         * <p>Sort by the value descending, so that lower values appear last.
          */
         DESCENDING("descending");
 

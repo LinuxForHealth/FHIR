@@ -21,21 +21,33 @@ import javax.annotation.Generated;
 public class ReferredDocumentStatus extends Code {
     /**
      * Preliminary
+     * 
+     * <p>This is a preliminary composition or document (also known as initial or interim). The content may be incomplete or 
+     * unverified.
      */
     public static final ReferredDocumentStatus PRELIMINARY = ReferredDocumentStatus.builder().value(ValueSet.PRELIMINARY).build();
 
     /**
      * Final
+     * 
+     * <p>This version of the composition is complete and verified by an appropriate person and no further work is planned. 
+     * Any subsequent updates would be on a new version of the composition.
      */
     public static final ReferredDocumentStatus FINAL = ReferredDocumentStatus.builder().value(ValueSet.FINAL).build();
 
     /**
      * Amended
+     * 
+     * <p>The composition content or the referenced resources have been modified (edited or added to) subsequent to being 
+     * released as "final" and the composition is complete and verified by an authorized person.
      */
     public static final ReferredDocumentStatus AMENDED = ReferredDocumentStatus.builder().value(ValueSet.AMENDED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The composition or document was originally created/issued in error, and this is an amendment that marks that the 
+     * entire series should not be considered as valid.
      */
     public static final ReferredDocumentStatus ENTERED_IN_ERROR = ReferredDocumentStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -151,21 +163,33 @@ public class ReferredDocumentStatus extends Code {
     public enum ValueSet {
         /**
          * Preliminary
+         * 
+         * <p>This is a preliminary composition or document (also known as initial or interim). The content may be incomplete or 
+         * unverified.
          */
         PRELIMINARY("preliminary"),
 
         /**
          * Final
+         * 
+         * <p>This version of the composition is complete and verified by an appropriate person and no further work is planned. 
+         * Any subsequent updates would be on a new version of the composition.
          */
         FINAL("final"),
 
         /**
          * Amended
+         * 
+         * <p>The composition content or the referenced resources have been modified (edited or added to) subsequent to being 
+         * released as "final" and the composition is complete and verified by an authorized person.
          */
         AMENDED("amended"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The composition or document was originally created/issued in error, and this is an amendment that marks that the 
+         * entire series should not be considered as valid.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

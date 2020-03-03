@@ -21,26 +21,36 @@ import javax.annotation.Generated;
 public class StructureMapSourceListMode extends Code {
     /**
      * First
+     * 
+     * <p>Only process this rule for the first in the list.
      */
     public static final StructureMapSourceListMode FIRST = StructureMapSourceListMode.builder().value(ValueSet.FIRST).build();
 
     /**
      * All but the first
+     * 
+     * <p>Process this rule for all but the first.
      */
     public static final StructureMapSourceListMode NOT_FIRST = StructureMapSourceListMode.builder().value(ValueSet.NOT_FIRST).build();
 
     /**
      * Last
+     * 
+     * <p>Only process this rule for the last in the list.
      */
     public static final StructureMapSourceListMode LAST = StructureMapSourceListMode.builder().value(ValueSet.LAST).build();
 
     /**
      * All but the last
+     * 
+     * <p>Process this rule for all but the last.
      */
     public static final StructureMapSourceListMode NOT_LAST = StructureMapSourceListMode.builder().value(ValueSet.NOT_LAST).build();
 
     /**
      * Enforce only one
+     * 
+     * <p>Only process this rule is there is only item.
      */
     public static final StructureMapSourceListMode ONLY_ONE = StructureMapSourceListMode.builder().value(ValueSet.ONLY_ONE).build();
 
@@ -158,26 +168,36 @@ public class StructureMapSourceListMode extends Code {
     public enum ValueSet {
         /**
          * First
+         * 
+         * <p>Only process this rule for the first in the list.
          */
         FIRST("first"),
 
         /**
          * All but the first
+         * 
+         * <p>Process this rule for all but the first.
          */
         NOT_FIRST("not_first"),
 
         /**
          * Last
+         * 
+         * <p>Only process this rule for the last in the list.
          */
         LAST("last"),
 
         /**
          * All but the last
+         * 
+         * <p>Process this rule for all but the last.
          */
         NOT_LAST("not_last"),
 
         /**
          * Enforce only one
+         * 
+         * <p>Only process this rule is there is only item.
          */
         ONLY_ONE("only_one");
 

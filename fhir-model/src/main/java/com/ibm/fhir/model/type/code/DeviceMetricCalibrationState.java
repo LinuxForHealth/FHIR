@@ -21,21 +21,29 @@ import javax.annotation.Generated;
 public class DeviceMetricCalibrationState extends Code {
     /**
      * Not Calibrated
+     * 
+     * <p>The metric has not been calibrated.
      */
     public static final DeviceMetricCalibrationState NOT_CALIBRATED = DeviceMetricCalibrationState.builder().value(ValueSet.NOT_CALIBRATED).build();
 
     /**
      * Calibration Required
+     * 
+     * <p>The metric needs to be calibrated.
      */
     public static final DeviceMetricCalibrationState CALIBRATION_REQUIRED = DeviceMetricCalibrationState.builder().value(ValueSet.CALIBRATION_REQUIRED).build();
 
     /**
      * Calibrated
+     * 
+     * <p>The metric has been calibrated.
      */
     public static final DeviceMetricCalibrationState CALIBRATED = DeviceMetricCalibrationState.builder().value(ValueSet.CALIBRATED).build();
 
     /**
      * Unspecified
+     * 
+     * <p>The state of calibration of this metric is unspecified.
      */
     public static final DeviceMetricCalibrationState UNSPECIFIED = DeviceMetricCalibrationState.builder().value(ValueSet.UNSPECIFIED).build();
 
@@ -151,21 +159,29 @@ public class DeviceMetricCalibrationState extends Code {
     public enum ValueSet {
         /**
          * Not Calibrated
+         * 
+         * <p>The metric has not been calibrated.
          */
         NOT_CALIBRATED("not-calibrated"),
 
         /**
          * Calibration Required
+         * 
+         * <p>The metric needs to be calibrated.
          */
         CALIBRATION_REQUIRED("calibration-required"),
 
         /**
          * Calibrated
+         * 
+         * <p>The metric has been calibrated.
          */
         CALIBRATED("calibrated"),
 
         /**
          * Unspecified
+         * 
+         * <p>The state of calibration of this metric is unspecified.
          */
         UNSPECIFIED("unspecified");
 

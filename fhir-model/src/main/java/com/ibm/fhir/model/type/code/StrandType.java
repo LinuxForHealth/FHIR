@@ -21,11 +21,15 @@ import javax.annotation.Generated;
 public class StrandType extends Code {
     /**
      * Watson strand of referenceSeq
+     * 
+     * <p>Watson strand of reference sequence.
      */
     public static final StrandType WATSON = StrandType.builder().value(ValueSet.WATSON).build();
 
     /**
      * Crick strand of referenceSeq
+     * 
+     * <p>Crick strand of reference sequence.
      */
     public static final StrandType CRICK = StrandType.builder().value(ValueSet.CRICK).build();
 
@@ -137,11 +141,15 @@ public class StrandType extends Code {
     public enum ValueSet {
         /**
          * Watson strand of referenceSeq
+         * 
+         * <p>Watson strand of reference sequence.
          */
         WATSON("watson"),
 
         /**
          * Crick strand of referenceSeq
+         * 
+         * <p>Crick strand of reference sequence.
          */
         CRICK("crick");
 

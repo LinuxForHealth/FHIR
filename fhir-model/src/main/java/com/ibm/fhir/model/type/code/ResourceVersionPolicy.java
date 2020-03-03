@@ -21,16 +21,22 @@ import javax.annotation.Generated;
 public class ResourceVersionPolicy extends Code {
     /**
      * No VersionId Support
+     * 
+     * <p>VersionId meta-property is not supported (server) or used (client).
      */
     public static final ResourceVersionPolicy NO_VERSION = ResourceVersionPolicy.builder().value(ValueSet.NO_VERSION).build();
 
     /**
      * Versioned
+     * 
+     * <p>VersionId meta-property is supported (server) or used (client).
      */
     public static final ResourceVersionPolicy VERSIONED = ResourceVersionPolicy.builder().value(ValueSet.VERSIONED).build();
 
     /**
      * VersionId tracked fully
+     * 
+     * <p>VersionId must be correct for updates (server) or will be specified (If-match header) for updates (client).
      */
     public static final ResourceVersionPolicy VERSIONED_UPDATE = ResourceVersionPolicy.builder().value(ValueSet.VERSIONED_UPDATE).build();
 
@@ -144,16 +150,22 @@ public class ResourceVersionPolicy extends Code {
     public enum ValueSet {
         /**
          * No VersionId Support
+         * 
+         * <p>VersionId meta-property is not supported (server) or used (client).
          */
         NO_VERSION("no-version"),
 
         /**
          * Versioned
+         * 
+         * <p>VersionId meta-property is supported (server) or used (client).
          */
         VERSIONED("versioned"),
 
         /**
          * VersionId tracked fully
+         * 
+         * <p>VersionId must be correct for updates (server) or will be specified (If-match header) for updates (client).
          */
         VERSIONED_UPDATE("versioned-update");
 

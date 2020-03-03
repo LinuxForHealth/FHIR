@@ -21,36 +21,50 @@ import javax.annotation.Generated;
 public class QuestionnaireItemOperator extends Code {
     /**
      * Exists
+     * 
+     * <p>True if whether an answer exists is equal to the enableWhen answer (which must be a boolean).
      */
     public static final QuestionnaireItemOperator EXISTS = QuestionnaireItemOperator.builder().value(ValueSet.EXISTS).build();
 
     /**
      * Equals
+     * 
+     * <p>True if whether at least one answer has a value that is equal to the enableWhen answer.
      */
     public static final QuestionnaireItemOperator EQUALS = QuestionnaireItemOperator.builder().value(ValueSet.EQUALS).build();
 
     /**
      * Not Equals
+     * 
+     * <p>True if whether at least no answer has a value that is equal to the enableWhen answer.
      */
     public static final QuestionnaireItemOperator NOT_EQUALS = QuestionnaireItemOperator.builder().value(ValueSet.NOT_EQUALS).build();
 
     /**
      * Greater Than
+     * 
+     * <p>True if whether at least no answer has a value that is greater than the enableWhen answer.
      */
     public static final QuestionnaireItemOperator GREATER_THAN = QuestionnaireItemOperator.builder().value(ValueSet.GREATER_THAN).build();
 
     /**
      * Less Than
+     * 
+     * <p>True if whether at least no answer has a value that is less than the enableWhen answer.
      */
     public static final QuestionnaireItemOperator LESS_THAN = QuestionnaireItemOperator.builder().value(ValueSet.LESS_THAN).build();
 
     /**
      * Greater or Equals
+     * 
+     * <p>True if whether at least no answer has a value that is greater or equal to the enableWhen answer.
      */
     public static final QuestionnaireItemOperator GREATER_OR_EQUALS = QuestionnaireItemOperator.builder().value(ValueSet.GREATER_OR_EQUALS).build();
 
     /**
      * Less or Equals
+     * 
+     * <p>True if whether at least no answer has a value that is less or equal to the enableWhen answer.
      */
     public static final QuestionnaireItemOperator LESS_OR_EQUALS = QuestionnaireItemOperator.builder().value(ValueSet.LESS_OR_EQUALS).build();
 
@@ -172,36 +186,50 @@ public class QuestionnaireItemOperator extends Code {
     public enum ValueSet {
         /**
          * Exists
+         * 
+         * <p>True if whether an answer exists is equal to the enableWhen answer (which must be a boolean).
          */
         EXISTS("exists"),
 
         /**
          * Equals
+         * 
+         * <p>True if whether at least one answer has a value that is equal to the enableWhen answer.
          */
         EQUALS("="),
 
         /**
          * Not Equals
+         * 
+         * <p>True if whether at least no answer has a value that is equal to the enableWhen answer.
          */
         NOT_EQUALS("!="),
 
         /**
          * Greater Than
+         * 
+         * <p>True if whether at least no answer has a value that is greater than the enableWhen answer.
          */
         GREATER_THAN(">"),
 
         /**
          * Less Than
+         * 
+         * <p>True if whether at least no answer has a value that is less than the enableWhen answer.
          */
         LESS_THAN("<"),
 
         /**
          * Greater or Equals
+         * 
+         * <p>True if whether at least no answer has a value that is greater or equal to the enableWhen answer.
          */
         GREATER_OR_EQUALS(">="),
 
         /**
          * Less or Equals
+         * 
+         * <p>True if whether at least no answer has a value that is less or equal to the enableWhen answer.
          */
         LESS_OR_EQUALS("<=");
 

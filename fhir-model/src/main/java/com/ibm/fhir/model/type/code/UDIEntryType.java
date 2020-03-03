@@ -21,31 +21,43 @@ import javax.annotation.Generated;
 public class UDIEntryType extends Code {
     /**
      * Barcode
+     * 
+     * <p>a barcodescanner captured the data from the device label.
      */
     public static final UDIEntryType BARCODE = UDIEntryType.builder().value(ValueSet.BARCODE).build();
 
     /**
      * RFID
+     * 
+     * <p>An RFID chip reader captured the data from the device label.
      */
     public static final UDIEntryType RFID = UDIEntryType.builder().value(ValueSet.RFID).build();
 
     /**
      * Manual
+     * 
+     * <p>The data was read from the label by a person and manually entered. (e.g. via a keyboard).
      */
     public static final UDIEntryType MANUAL = UDIEntryType.builder().value(ValueSet.MANUAL).build();
 
     /**
      * Card
+     * 
+     * <p>The data originated from a patient's implant card and was read by an operator.
      */
     public static final UDIEntryType CARD = UDIEntryType.builder().value(ValueSet.CARD).build();
 
     /**
      * Self Reported
+     * 
+     * <p>The data originated from a patient source and was not directly scanned or read from a label or card.
      */
     public static final UDIEntryType SELF_REPORTED = UDIEntryType.builder().value(ValueSet.SELF_REPORTED).build();
 
     /**
      * Unknown
+     * 
+     * <p>The method of data capture has not been determined.
      */
     public static final UDIEntryType UNKNOWN = UDIEntryType.builder().value(ValueSet.UNKNOWN).build();
 
@@ -165,31 +177,43 @@ public class UDIEntryType extends Code {
     public enum ValueSet {
         /**
          * Barcode
+         * 
+         * <p>a barcodescanner captured the data from the device label.
          */
         BARCODE("barcode"),
 
         /**
          * RFID
+         * 
+         * <p>An RFID chip reader captured the data from the device label.
          */
         RFID("rfid"),
 
         /**
          * Manual
+         * 
+         * <p>The data was read from the label by a person and manually entered. (e.g. via a keyboard).
          */
         MANUAL("manual"),
 
         /**
          * Card
+         * 
+         * <p>The data originated from a patient's implant card and was read by an operator.
          */
         CARD("card"),
 
         /**
          * Self Reported
+         * 
+         * <p>The data originated from a patient source and was not directly scanned or read from a label or card.
          */
         SELF_REPORTED("self-reported"),
 
         /**
          * Unknown
+         * 
+         * <p>The method of data capture has not been determined.
          */
         UNKNOWN("unknown");
 

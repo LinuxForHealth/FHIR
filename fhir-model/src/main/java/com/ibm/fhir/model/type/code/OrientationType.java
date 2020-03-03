@@ -21,11 +21,15 @@ import javax.annotation.Generated;
 public class OrientationType extends Code {
     /**
      * Sense orientation of referenceSeq
+     * 
+     * <p>Sense orientation of reference sequence.
      */
     public static final OrientationType SENSE = OrientationType.builder().value(ValueSet.SENSE).build();
 
     /**
      * Antisense orientation of referenceSeq
+     * 
+     * <p>Antisense orientation of reference sequence.
      */
     public static final OrientationType ANTISENSE = OrientationType.builder().value(ValueSet.ANTISENSE).build();
 
@@ -137,11 +141,15 @@ public class OrientationType extends Code {
     public enum ValueSet {
         /**
          * Sense orientation of referenceSeq
+         * 
+         * <p>Sense orientation of reference sequence.
          */
         SENSE("sense"),
 
         /**
          * Antisense orientation of referenceSeq
+         * 
+         * <p>Antisense orientation of reference sequence.
          */
         ANTISENSE("antisense");
 

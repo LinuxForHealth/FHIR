@@ -299,7 +299,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
                         .request()
                         .header("If-Match", ifMatchValue)
                         .put(entity, Response.class);
-        assertResponse(response, Response.Status.CONFLICT.getStatusCode());
+        assertResponse(response, Response.Status.PRECONDITION_FAILED.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "does not match current latest version of resource");
     }
 

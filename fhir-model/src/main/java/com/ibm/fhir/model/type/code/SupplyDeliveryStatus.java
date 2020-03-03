@@ -21,21 +21,30 @@ import javax.annotation.Generated;
 public class SupplyDeliveryStatus extends Code {
     /**
      * In Progress
+     * 
+     * <p>Supply has been requested, but not delivered.
      */
     public static final SupplyDeliveryStatus IN_PROGRESS = SupplyDeliveryStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * Delivered
+     * 
+     * <p>Supply has been delivered ("completed").
      */
     public static final SupplyDeliveryStatus COMPLETED = SupplyDeliveryStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Abandoned
+     * 
+     * <p>Delivery was not completed.
      */
     public static final SupplyDeliveryStatus ABANDONED = SupplyDeliveryStatus.builder().value(ValueSet.ABANDONED).build();
 
     /**
      * Entered In Error
+     * 
+     * <p>This electronic record should never have existed, though it is possible that real-world decisions were based on it. 
+     * (If real-world activity has occurred, the status should be "abandoned" rather than "entered-in-error".).
      */
     public static final SupplyDeliveryStatus ENTERED_IN_ERROR = SupplyDeliveryStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -151,21 +160,30 @@ public class SupplyDeliveryStatus extends Code {
     public enum ValueSet {
         /**
          * In Progress
+         * 
+         * <p>Supply has been requested, but not delivered.
          */
         IN_PROGRESS("in-progress"),
 
         /**
          * Delivered
+         * 
+         * <p>Supply has been delivered ("completed").
          */
         COMPLETED("completed"),
 
         /**
          * Abandoned
+         * 
+         * <p>Delivery was not completed.
          */
         ABANDONED("abandoned"),
 
         /**
          * Entered In Error
+         * 
+         * <p>This electronic record should never have existed, though it is possible that real-world decisions were based on it. 
+         * (If real-world activity has occurred, the status should be "abandoned" rather than "entered-in-error".).
          */
         ENTERED_IN_ERROR("entered-in-error");
 

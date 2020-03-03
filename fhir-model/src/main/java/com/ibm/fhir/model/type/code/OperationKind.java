@@ -21,11 +21,15 @@ import javax.annotation.Generated;
 public class OperationKind extends Code {
     /**
      * Operation
+     * 
+     * <p>This operation is invoked as an operation.
      */
     public static final OperationKind OPERATION = OperationKind.builder().value(ValueSet.OPERATION).build();
 
     /**
      * Query
+     * 
+     * <p>This operation is a named query, invoked using the search mechanism.
      */
     public static final OperationKind QUERY = OperationKind.builder().value(ValueSet.QUERY).build();
 
@@ -137,11 +141,15 @@ public class OperationKind extends Code {
     public enum ValueSet {
         /**
          * Operation
+         * 
+         * <p>This operation is invoked as an operation.
          */
         OPERATION("operation"),
 
         /**
          * Query
+         * 
+         * <p>This operation is a named query, invoked using the search mechanism.
          */
         QUERY("query");
 

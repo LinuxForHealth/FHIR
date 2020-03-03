@@ -21,21 +21,30 @@ import javax.annotation.Generated;
 public class IssueSeverity extends Code {
     /**
      * Fatal
+     * 
+     * <p>The issue caused the action to fail and no further checking could be performed.
      */
     public static final IssueSeverity FATAL = IssueSeverity.builder().value(ValueSet.FATAL).build();
 
     /**
      * Error
+     * 
+     * <p>The issue is sufficiently important to cause the action to fail.
      */
     public static final IssueSeverity ERROR = IssueSeverity.builder().value(ValueSet.ERROR).build();
 
     /**
      * Warning
+     * 
+     * <p>The issue is not important enough to cause the action to fail but may cause it to be performed suboptimally or in a 
+     * way that is not as desired.
      */
     public static final IssueSeverity WARNING = IssueSeverity.builder().value(ValueSet.WARNING).build();
 
     /**
      * Information
+     * 
+     * <p>The issue has no relation to the degree of success of the action.
      */
     public static final IssueSeverity INFORMATION = IssueSeverity.builder().value(ValueSet.INFORMATION).build();
 
@@ -151,21 +160,30 @@ public class IssueSeverity extends Code {
     public enum ValueSet {
         /**
          * Fatal
+         * 
+         * <p>The issue caused the action to fail and no further checking could be performed.
          */
         FATAL("fatal"),
 
         /**
          * Error
+         * 
+         * <p>The issue is sufficiently important to cause the action to fail.
          */
         ERROR("error"),
 
         /**
          * Warning
+         * 
+         * <p>The issue is not important enough to cause the action to fail but may cause it to be performed suboptimally or in a 
+         * way that is not as desired.
          */
         WARNING("warning"),
 
         /**
          * Information
+         * 
+         * <p>The issue has no relation to the degree of success of the action.
          */
         INFORMATION("information");
 

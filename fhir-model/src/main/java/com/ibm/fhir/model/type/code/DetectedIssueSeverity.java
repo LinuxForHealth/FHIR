@@ -21,16 +21,24 @@ import javax.annotation.Generated;
 public class DetectedIssueSeverity extends Code {
     /**
      * High
+     * 
+     * <p>Indicates the issue may be life-threatening or has the potential to cause permanent injury.
      */
     public static final DetectedIssueSeverity HIGH = DetectedIssueSeverity.builder().value(ValueSet.HIGH).build();
 
     /**
      * Moderate
+     * 
+     * <p>Indicates the issue may result in noticeable adverse consequences but is unlikely to be life-threatening or cause 
+     * permanent injury.
      */
     public static final DetectedIssueSeverity MODERATE = DetectedIssueSeverity.builder().value(ValueSet.MODERATE).build();
 
     /**
      * Low
+     * 
+     * <p>Indicates the issue may result in some adverse consequences but is unlikely to substantially affect the situation 
+     * of the subject.
      */
     public static final DetectedIssueSeverity LOW = DetectedIssueSeverity.builder().value(ValueSet.LOW).build();
 
@@ -144,16 +152,24 @@ public class DetectedIssueSeverity extends Code {
     public enum ValueSet {
         /**
          * High
+         * 
+         * <p>Indicates the issue may be life-threatening or has the potential to cause permanent injury.
          */
         HIGH("high"),
 
         /**
          * Moderate
+         * 
+         * <p>Indicates the issue may result in noticeable adverse consequences but is unlikely to be life-threatening or cause 
+         * permanent injury.
          */
         MODERATE("moderate"),
 
         /**
          * Low
+         * 
+         * <p>Indicates the issue may result in some adverse consequences but is unlikely to substantially affect the situation 
+         * of the subject.
          */
         LOW("low");
 

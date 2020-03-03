@@ -21,11 +21,15 @@ import javax.annotation.Generated;
 public class EnableWhenBehavior extends Code {
     /**
      * All
+     * 
+     * <p>Enable the question when all the enableWhen criteria are satisfied.
      */
     public static final EnableWhenBehavior ALL = EnableWhenBehavior.builder().value(ValueSet.ALL).build();
 
     /**
      * Any
+     * 
+     * <p>Enable the question when any of the enableWhen criteria are satisfied.
      */
     public static final EnableWhenBehavior ANY = EnableWhenBehavior.builder().value(ValueSet.ANY).build();
 
@@ -137,11 +141,15 @@ public class EnableWhenBehavior extends Code {
     public enum ValueSet {
         /**
          * All
+         * 
+         * <p>Enable the question when all the enableWhen criteria are satisfied.
          */
         ALL("all"),
 
         /**
          * Any
+         * 
+         * <p>Enable the question when any of the enableWhen criteria are satisfied.
          */
         ANY("any");
 

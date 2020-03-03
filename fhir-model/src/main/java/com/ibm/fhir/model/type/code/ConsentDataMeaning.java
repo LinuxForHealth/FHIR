@@ -21,21 +21,29 @@ import javax.annotation.Generated;
 public class ConsentDataMeaning extends Code {
     /**
      * Instance
+     * 
+     * <p>The consent applies directly to the instance of the resource.
      */
     public static final ConsentDataMeaning INSTANCE = ConsentDataMeaning.builder().value(ValueSet.INSTANCE).build();
 
     /**
      * Related
+     * 
+     * <p>The consent applies directly to the instance of the resource and instances it refers to.
      */
     public static final ConsentDataMeaning RELATED = ConsentDataMeaning.builder().value(ValueSet.RELATED).build();
 
     /**
      * Dependents
+     * 
+     * <p>The consent applies directly to the instance of the resource and instances that refer to it.
      */
     public static final ConsentDataMeaning DEPENDENTS = ConsentDataMeaning.builder().value(ValueSet.DEPENDENTS).build();
 
     /**
      * AuthoredBy
+     * 
+     * <p>The consent applies to instances of resources that are authored by.
      */
     public static final ConsentDataMeaning AUTHOREDBY = ConsentDataMeaning.builder().value(ValueSet.AUTHOREDBY).build();
 
@@ -151,21 +159,29 @@ public class ConsentDataMeaning extends Code {
     public enum ValueSet {
         /**
          * Instance
+         * 
+         * <p>The consent applies directly to the instance of the resource.
          */
         INSTANCE("instance"),
 
         /**
          * Related
+         * 
+         * <p>The consent applies directly to the instance of the resource and instances it refers to.
          */
         RELATED("related"),
 
         /**
          * Dependents
+         * 
+         * <p>The consent applies directly to the instance of the resource and instances that refer to it.
          */
         DEPENDENTS("dependents"),
 
         /**
          * AuthoredBy
+         * 
+         * <p>The consent applies to instances of resources that are authored by.
          */
         AUTHOREDBY("authoredby");
 

@@ -21,21 +21,29 @@ import javax.annotation.Generated;
 public class RemittanceOutcome extends Code {
     /**
      * Queued
+     * 
+     * <p>The Claim/Pre-authorization/Pre-determination has been received but processing has not begun.
      */
     public static final RemittanceOutcome QUEUED = RemittanceOutcome.builder().value(ValueSet.QUEUED).build();
 
     /**
      * Processing Complete
+     * 
+     * <p>The processing has completed without errors
      */
     public static final RemittanceOutcome COMPLETE = RemittanceOutcome.builder().value(ValueSet.COMPLETE).build();
 
     /**
      * Error
+     * 
+     * <p>One or more errors have been detected in the Claim
      */
     public static final RemittanceOutcome ERROR = RemittanceOutcome.builder().value(ValueSet.ERROR).build();
 
     /**
      * Partial Processing
+     * 
+     * <p>No errors have been detected in the Claim and some of the adjudication has been performed.
      */
     public static final RemittanceOutcome PARTIAL = RemittanceOutcome.builder().value(ValueSet.PARTIAL).build();
 
@@ -151,21 +159,29 @@ public class RemittanceOutcome extends Code {
     public enum ValueSet {
         /**
          * Queued
+         * 
+         * <p>The Claim/Pre-authorization/Pre-determination has been received but processing has not begun.
          */
         QUEUED("queued"),
 
         /**
          * Processing Complete
+         * 
+         * <p>The processing has completed without errors
          */
         COMPLETE("complete"),
 
         /**
          * Error
+         * 
+         * <p>One or more errors have been detected in the Claim
          */
         ERROR("error"),
 
         /**
          * Partial Processing
+         * 
+         * <p>No errors have been detected in the Claim and some of the adjudication has been performed.
          */
         PARTIAL("partial");
 

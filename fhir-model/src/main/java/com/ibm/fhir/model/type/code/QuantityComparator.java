@@ -21,21 +21,29 @@ import javax.annotation.Generated;
 public class QuantityComparator extends Code {
     /**
      * Less than
+     * 
+     * <p>The actual value is less than the given value.
      */
     public static final QuantityComparator LESS_THAN = QuantityComparator.builder().value(ValueSet.LESS_THAN).build();
 
     /**
      * Less or Equal to
+     * 
+     * <p>The actual value is less than or equal to the given value.
      */
     public static final QuantityComparator LESS_OR_EQUALS = QuantityComparator.builder().value(ValueSet.LESS_OR_EQUALS).build();
 
     /**
      * Greater or Equal to
+     * 
+     * <p>The actual value is greater than or equal to the given value.
      */
     public static final QuantityComparator GREATER_OR_EQUALS = QuantityComparator.builder().value(ValueSet.GREATER_OR_EQUALS).build();
 
     /**
      * Greater than
+     * 
+     * <p>The actual value is greater than the given value.
      */
     public static final QuantityComparator GREATER_THAN = QuantityComparator.builder().value(ValueSet.GREATER_THAN).build();
 
@@ -151,21 +159,29 @@ public class QuantityComparator extends Code {
     public enum ValueSet {
         /**
          * Less than
+         * 
+         * <p>The actual value is less than the given value.
          */
         LESS_THAN("<"),
 
         /**
          * Less or Equal to
+         * 
+         * <p>The actual value is less than or equal to the given value.
          */
         LESS_OR_EQUALS("<="),
 
         /**
          * Greater or Equal to
+         * 
+         * <p>The actual value is greater than or equal to the given value.
          */
         GREATER_OR_EQUALS(">="),
 
         /**
          * Greater than
+         * 
+         * <p>The actual value is greater than the given value.
          */
         GREATER_THAN(">");
 

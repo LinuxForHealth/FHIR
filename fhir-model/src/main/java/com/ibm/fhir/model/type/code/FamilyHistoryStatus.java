@@ -21,21 +21,30 @@ import javax.annotation.Generated;
 public class FamilyHistoryStatus extends Code {
     /**
      * Partial
+     * 
+     * <p>Some health information is known and captured, but not complete - see notes for details.
      */
     public static final FamilyHistoryStatus PARTIAL = FamilyHistoryStatus.builder().value(ValueSet.PARTIAL).build();
 
     /**
      * Completed
+     * 
+     * <p>All available related health information is captured as of the date (and possibly time) when the family member 
+     * history was taken.
      */
     public static final FamilyHistoryStatus COMPLETED = FamilyHistoryStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>This instance should not have been part of this patient's medical record.
      */
     public static final FamilyHistoryStatus ENTERED_IN_ERROR = FamilyHistoryStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Health Unknown
+     * 
+     * <p>Health information for this family member is unavailable/unknown.
      */
     public static final FamilyHistoryStatus HEALTH_UNKNOWN = FamilyHistoryStatus.builder().value(ValueSet.HEALTH_UNKNOWN).build();
 
@@ -151,21 +160,30 @@ public class FamilyHistoryStatus extends Code {
     public enum ValueSet {
         /**
          * Partial
+         * 
+         * <p>Some health information is known and captured, but not complete - see notes for details.
          */
         PARTIAL("partial"),
 
         /**
          * Completed
+         * 
+         * <p>All available related health information is captured as of the date (and possibly time) when the family member 
+         * history was taken.
          */
         COMPLETED("completed"),
 
         /**
          * Entered in Error
+         * 
+         * <p>This instance should not have been part of this patient's medical record.
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Health Unknown
+         * 
+         * <p>Health information for this family member is unavailable/unknown.
          */
         HEALTH_UNKNOWN("health-unknown");
 

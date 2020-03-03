@@ -21,16 +21,23 @@ import javax.annotation.Generated;
 public class FlagStatus extends Code {
     /**
      * Active
+     * 
+     * <p>A current flag that should be displayed to a user. A system may use the category to determine which user roles 
+     * should view the flag.
      */
     public static final FlagStatus ACTIVE = FlagStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Inactive
+     * 
+     * <p>The flag no longer needs to be displayed.
      */
     public static final FlagStatus INACTIVE = FlagStatus.builder().value(ValueSet.INACTIVE).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The flag was added in error and should no longer be displayed.
      */
     public static final FlagStatus ENTERED_IN_ERROR = FlagStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -144,16 +151,23 @@ public class FlagStatus extends Code {
     public enum ValueSet {
         /**
          * Active
+         * 
+         * <p>A current flag that should be displayed to a user. A system may use the category to determine which user roles 
+         * should view the flag.
          */
         ACTIVE("active"),
 
         /**
          * Inactive
+         * 
+         * <p>The flag no longer needs to be displayed.
          */
         INACTIVE("inactive"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The flag was added in error and should no longer be displayed.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

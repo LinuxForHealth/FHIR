@@ -21,26 +21,36 @@ import javax.annotation.Generated;
 public class PropertyRepresentation extends Code {
     /**
      * XML Attribute
+     * 
+     * <p>In XML, this property is represented as an attribute not an element.
      */
     public static final PropertyRepresentation XML_ATTR = PropertyRepresentation.builder().value(ValueSet.XML_ATTR).build();
 
     /**
      * XML Text
+     * 
+     * <p>This element is represented using the XML text attribute (primitives only).
      */
     public static final PropertyRepresentation XML_TEXT = PropertyRepresentation.builder().value(ValueSet.XML_TEXT).build();
 
     /**
      * Type Attribute
+     * 
+     * <p>The type of this element is indicated using xsi:type.
      */
     public static final PropertyRepresentation TYPE_ATTR = PropertyRepresentation.builder().value(ValueSet.TYPE_ATTR).build();
 
     /**
      * CDA Text Format
+     * 
+     * <p>Use CDA narrative instead of XHTML.
      */
     public static final PropertyRepresentation CDA_TEXT = PropertyRepresentation.builder().value(ValueSet.CDA_TEXT).build();
 
     /**
      * XHTML
+     * 
+     * <p>The property is represented using XHTML.
      */
     public static final PropertyRepresentation XHTML = PropertyRepresentation.builder().value(ValueSet.XHTML).build();
 
@@ -158,26 +168,36 @@ public class PropertyRepresentation extends Code {
     public enum ValueSet {
         /**
          * XML Attribute
+         * 
+         * <p>In XML, this property is represented as an attribute not an element.
          */
         XML_ATTR("xmlAttr"),
 
         /**
          * XML Text
+         * 
+         * <p>This element is represented using the XML text attribute (primitives only).
          */
         XML_TEXT("xmlText"),
 
         /**
          * Type Attribute
+         * 
+         * <p>The type of this element is indicated using xsi:type.
          */
         TYPE_ATTR("typeAttr"),
 
         /**
          * CDA Text Format
+         * 
+         * <p>Use CDA narrative instead of XHTML.
          */
         CDA_TEXT("cdaText"),
 
         /**
          * XHTML
+         * 
+         * <p>The property is represented using XHTML.
          */
         XHTML("xhtml");
 

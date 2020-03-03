@@ -21,21 +21,29 @@ import javax.annotation.Generated;
 public class DeviceMetricCalibrationType extends Code {
     /**
      * Unspecified
+     * 
+     * <p>Metric calibration method has not been identified.
      */
     public static final DeviceMetricCalibrationType UNSPECIFIED = DeviceMetricCalibrationType.builder().value(ValueSet.UNSPECIFIED).build();
 
     /**
      * Offset
+     * 
+     * <p>Offset metric calibration method.
      */
     public static final DeviceMetricCalibrationType OFFSET = DeviceMetricCalibrationType.builder().value(ValueSet.OFFSET).build();
 
     /**
      * Gain
+     * 
+     * <p>Gain metric calibration method.
      */
     public static final DeviceMetricCalibrationType GAIN = DeviceMetricCalibrationType.builder().value(ValueSet.GAIN).build();
 
     /**
      * Two Point
+     * 
+     * <p>Two-point metric calibration method.
      */
     public static final DeviceMetricCalibrationType TWO_POINT = DeviceMetricCalibrationType.builder().value(ValueSet.TWO_POINT).build();
 
@@ -151,21 +159,29 @@ public class DeviceMetricCalibrationType extends Code {
     public enum ValueSet {
         /**
          * Unspecified
+         * 
+         * <p>Metric calibration method has not been identified.
          */
         UNSPECIFIED("unspecified"),
 
         /**
          * Offset
+         * 
+         * <p>Offset metric calibration method.
          */
         OFFSET("offset"),
 
         /**
          * Gain
+         * 
+         * <p>Gain metric calibration method.
          */
         GAIN("gain"),
 
         /**
          * Two Point
+         * 
+         * <p>Two-point metric calibration method.
          */
         TWO_POINT("two-point");
 

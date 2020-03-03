@@ -21,16 +21,22 @@ import javax.annotation.Generated;
 public class ListStatus extends Code {
     /**
      * Current
+     * 
+     * <p>The list is considered to be an active part of the patient's record.
      */
     public static final ListStatus CURRENT = ListStatus.builder().value(ValueSet.CURRENT).build();
 
     /**
      * Retired
+     * 
+     * <p>The list is "old" and should no longer be considered accurate or relevant.
      */
     public static final ListStatus RETIRED = ListStatus.builder().value(ValueSet.RETIRED).build();
 
     /**
      * Entered In Error
+     * 
+     * <p>The list was never accurate. It is retained for medico-legal purposes only.
      */
     public static final ListStatus ENTERED_IN_ERROR = ListStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -144,16 +150,22 @@ public class ListStatus extends Code {
     public enum ValueSet {
         /**
          * Current
+         * 
+         * <p>The list is considered to be an active part of the patient's record.
          */
         CURRENT("current"),
 
         /**
          * Retired
+         * 
+         * <p>The list is "old" and should no longer be considered accurate or relevant.
          */
         RETIRED("retired"),
 
         /**
          * Entered In Error
+         * 
+         * <p>The list was never accurate. It is retained for medico-legal purposes only.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

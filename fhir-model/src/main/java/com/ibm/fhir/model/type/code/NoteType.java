@@ -21,16 +21,22 @@ import javax.annotation.Generated;
 public class NoteType extends Code {
     /**
      * Display
+     * 
+     * <p>Display the note.
      */
     public static final NoteType DISPLAY = NoteType.builder().value(ValueSet.DISPLAY).build();
 
     /**
      * Print (Form)
+     * 
+     * <p>Print the note on the form.
      */
     public static final NoteType PRINT = NoteType.builder().value(ValueSet.PRINT).build();
 
     /**
      * Print (Operator)
+     * 
+     * <p>Print the note for the operator.
      */
     public static final NoteType PRINTOPER = NoteType.builder().value(ValueSet.PRINTOPER).build();
 
@@ -144,16 +150,22 @@ public class NoteType extends Code {
     public enum ValueSet {
         /**
          * Display
+         * 
+         * <p>Display the note.
          */
         DISPLAY("display"),
 
         /**
          * Print (Form)
+         * 
+         * <p>Print the note on the form.
          */
         PRINT("print"),
 
         /**
          * Print (Operator)
+         * 
+         * <p>Print the note for the operator.
          */
         PRINTOPER("printoper");
 

@@ -21,61 +21,85 @@ import javax.annotation.Generated;
 public class AssertionResponseTypes extends Code {
     /**
      * okay
+     * 
+     * <p>Response code is 200.
      */
     public static final AssertionResponseTypes OKAY = AssertionResponseTypes.builder().value(ValueSet.OKAY).build();
 
     /**
      * created
+     * 
+     * <p>Response code is 201.
      */
     public static final AssertionResponseTypes CREATED = AssertionResponseTypes.builder().value(ValueSet.CREATED).build();
 
     /**
      * noContent
+     * 
+     * <p>Response code is 204.
      */
     public static final AssertionResponseTypes NO_CONTENT = AssertionResponseTypes.builder().value(ValueSet.NO_CONTENT).build();
 
     /**
      * notModified
+     * 
+     * <p>Response code is 304.
      */
     public static final AssertionResponseTypes NOT_MODIFIED = AssertionResponseTypes.builder().value(ValueSet.NOT_MODIFIED).build();
 
     /**
      * bad
+     * 
+     * <p>Response code is 400.
      */
     public static final AssertionResponseTypes BAD = AssertionResponseTypes.builder().value(ValueSet.BAD).build();
 
     /**
      * forbidden
+     * 
+     * <p>Response code is 403.
      */
     public static final AssertionResponseTypes FORBIDDEN = AssertionResponseTypes.builder().value(ValueSet.FORBIDDEN).build();
 
     /**
      * notFound
+     * 
+     * <p>Response code is 404.
      */
     public static final AssertionResponseTypes NOT_FOUND = AssertionResponseTypes.builder().value(ValueSet.NOT_FOUND).build();
 
     /**
      * methodNotAllowed
+     * 
+     * <p>Response code is 405.
      */
     public static final AssertionResponseTypes METHOD_NOT_ALLOWED = AssertionResponseTypes.builder().value(ValueSet.METHOD_NOT_ALLOWED).build();
 
     /**
      * conflict
+     * 
+     * <p>Response code is 409.
      */
     public static final AssertionResponseTypes CONFLICT = AssertionResponseTypes.builder().value(ValueSet.CONFLICT).build();
 
     /**
      * gone
+     * 
+     * <p>Response code is 410.
      */
     public static final AssertionResponseTypes GONE = AssertionResponseTypes.builder().value(ValueSet.GONE).build();
 
     /**
      * preconditionFailed
+     * 
+     * <p>Response code is 412.
      */
     public static final AssertionResponseTypes PRECONDITION_FAILED = AssertionResponseTypes.builder().value(ValueSet.PRECONDITION_FAILED).build();
 
     /**
      * unprocessable
+     * 
+     * <p>Response code is 422.
      */
     public static final AssertionResponseTypes UNPROCESSABLE = AssertionResponseTypes.builder().value(ValueSet.UNPROCESSABLE).build();
 
@@ -207,61 +231,85 @@ public class AssertionResponseTypes extends Code {
     public enum ValueSet {
         /**
          * okay
+         * 
+         * <p>Response code is 200.
          */
         OKAY("okay"),
 
         /**
          * created
+         * 
+         * <p>Response code is 201.
          */
         CREATED("created"),
 
         /**
          * noContent
+         * 
+         * <p>Response code is 204.
          */
         NO_CONTENT("noContent"),
 
         /**
          * notModified
+         * 
+         * <p>Response code is 304.
          */
         NOT_MODIFIED("notModified"),
 
         /**
          * bad
+         * 
+         * <p>Response code is 400.
          */
         BAD("bad"),
 
         /**
          * forbidden
+         * 
+         * <p>Response code is 403.
          */
         FORBIDDEN("forbidden"),
 
         /**
          * notFound
+         * 
+         * <p>Response code is 404.
          */
         NOT_FOUND("notFound"),
 
         /**
          * methodNotAllowed
+         * 
+         * <p>Response code is 405.
          */
         METHOD_NOT_ALLOWED("methodNotAllowed"),
 
         /**
          * conflict
+         * 
+         * <p>Response code is 409.
          */
         CONFLICT("conflict"),
 
         /**
          * gone
+         * 
+         * <p>Response code is 410.
          */
         GONE("gone"),
 
         /**
          * preconditionFailed
+         * 
+         * <p>Response code is 412.
          */
         PRECONDITION_FAILED("preconditionFailed"),
 
         /**
          * unprocessable
+         * 
+         * <p>Response code is 422.
          */
         UNPROCESSABLE("unprocessable");
 

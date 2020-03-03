@@ -21,21 +21,34 @@ import javax.annotation.Generated;
 public class AllergyIntoleranceCategory extends Code {
     /**
      * Food
+     * 
+     * <p>Any substance consumed to provide nutritional support for the body.
      */
     public static final AllergyIntoleranceCategory FOOD = AllergyIntoleranceCategory.builder().value(ValueSet.FOOD).build();
 
     /**
      * Medication
+     * 
+     * <p>Substances administered to achieve a physiological effect.
      */
     public static final AllergyIntoleranceCategory MEDICATION = AllergyIntoleranceCategory.builder().value(ValueSet.MEDICATION).build();
 
     /**
      * Environment
+     * 
+     * <p>Any substances that are encountered in the environment, including any substance not already classified as food, 
+     * medication, or biologic.
      */
     public static final AllergyIntoleranceCategory ENVIRONMENT = AllergyIntoleranceCategory.builder().value(ValueSet.ENVIRONMENT).build();
 
     /**
      * Biologic
+     * 
+     * <p>A preparation that is synthesized from living organisms or their products, especially a human or animal protein, 
+     * such as a hormone or antitoxin, that is used as a diagnostic, preventive, or therapeutic agent. Examples of biologic 
+     * medications include: vaccines; allergenic extracts, which are used for both diagnosis and treatment (for example, 
+     * allergy shots); gene therapies; cellular therapies. There are other biologic products, such as tissues, which are not 
+     * typically associated with allergies.
      */
     public static final AllergyIntoleranceCategory BIOLOGIC = AllergyIntoleranceCategory.builder().value(ValueSet.BIOLOGIC).build();
 
@@ -151,21 +164,34 @@ public class AllergyIntoleranceCategory extends Code {
     public enum ValueSet {
         /**
          * Food
+         * 
+         * <p>Any substance consumed to provide nutritional support for the body.
          */
         FOOD("food"),
 
         /**
          * Medication
+         * 
+         * <p>Substances administered to achieve a physiological effect.
          */
         MEDICATION("medication"),
 
         /**
          * Environment
+         * 
+         * <p>Any substances that are encountered in the environment, including any substance not already classified as food, 
+         * medication, or biologic.
          */
         ENVIRONMENT("environment"),
 
         /**
          * Biologic
+         * 
+         * <p>A preparation that is synthesized from living organisms or their products, especially a human or animal protein, 
+         * such as a hormone or antitoxin, that is used as a diagnostic, preventive, or therapeutic agent. Examples of biologic 
+         * medications include: vaccines; allergenic extracts, which are used for both diagnosis and treatment (for example, 
+         * allergy shots); gene therapies; cellular therapies. There are other biologic products, such as tissues, which are not 
+         * typically associated with allergies.
          */
         BIOLOGIC("biologic");
 

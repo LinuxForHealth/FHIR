@@ -21,21 +21,29 @@ import javax.annotation.Generated;
 public class SpecimenStatus extends Code {
     /**
      * Available
+     * 
+     * <p>The physical specimen is present and in good condition.
      */
     public static final SpecimenStatus AVAILABLE = SpecimenStatus.builder().value(ValueSet.AVAILABLE).build();
 
     /**
      * Unavailable
+     * 
+     * <p>There is no physical specimen because it is either lost, destroyed or consumed.
      */
     public static final SpecimenStatus UNAVAILABLE = SpecimenStatus.builder().value(ValueSet.UNAVAILABLE).build();
 
     /**
      * Unsatisfactory
+     * 
+     * <p>The specimen cannot be used because of a quality issue such as a broken container, contamination, or too old.
      */
     public static final SpecimenStatus UNSATISFACTORY = SpecimenStatus.builder().value(ValueSet.UNSATISFACTORY).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The specimen was entered in error and therefore nullified.
      */
     public static final SpecimenStatus ENTERED_IN_ERROR = SpecimenStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -151,21 +159,29 @@ public class SpecimenStatus extends Code {
     public enum ValueSet {
         /**
          * Available
+         * 
+         * <p>The physical specimen is present and in good condition.
          */
         AVAILABLE("available"),
 
         /**
          * Unavailable
+         * 
+         * <p>There is no physical specimen because it is either lost, destroyed or consumed.
          */
         UNAVAILABLE("unavailable"),
 
         /**
          * Unsatisfactory
+         * 
+         * <p>The specimen cannot be used because of a quality issue such as a broken container, contamination, or too old.
          */
         UNSATISFACTORY("unsatisfactory"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The specimen was entered in error and therefore nullified.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

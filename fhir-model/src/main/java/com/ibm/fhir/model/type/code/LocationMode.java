@@ -21,11 +21,16 @@ import javax.annotation.Generated;
 public class LocationMode extends Code {
     /**
      * Instance
+     * 
+     * <p>The Location resource represents a specific instance of a location (e.g. Operating Theatre 1A).
      */
     public static final LocationMode INSTANCE = LocationMode.builder().value(ValueSet.INSTANCE).build();
 
     /**
      * Kind
+     * 
+     * <p>The Location represents a class of locations (e.g. Any Operating Theatre) although this class of locations could be 
+     * constrained within a specific boundary (such as organization, or parent location, address etc.).
      */
     public static final LocationMode KIND = LocationMode.builder().value(ValueSet.KIND).build();
 
@@ -137,11 +142,16 @@ public class LocationMode extends Code {
     public enum ValueSet {
         /**
          * Instance
+         * 
+         * <p>The Location resource represents a specific instance of a location (e.g. Operating Theatre 1A).
          */
         INSTANCE("instance"),
 
         /**
          * Kind
+         * 
+         * <p>The Location represents a class of locations (e.g. Any Operating Theatre) although this class of locations could be 
+         * constrained within a specific boundary (such as organization, or parent location, address etc.).
          */
         KIND("kind");
 

@@ -21,31 +21,44 @@ import javax.annotation.Generated;
 public class EndpointStatus extends Code {
     /**
      * Active
+     * 
+     * <p>This endpoint is expected to be active and can be used.
      */
     public static final EndpointStatus ACTIVE = EndpointStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Suspended
+     * 
+     * <p>This endpoint is temporarily unavailable.
      */
     public static final EndpointStatus SUSPENDED = EndpointStatus.builder().value(ValueSet.SUSPENDED).build();
 
     /**
      * Error
+     * 
+     * <p>This endpoint has exceeded connectivity thresholds and is considered in an error state and should no longer be 
+     * attempted to connect to until corrective action is taken.
      */
     public static final EndpointStatus ERROR = EndpointStatus.builder().value(ValueSet.ERROR).build();
 
     /**
      * Off
+     * 
+     * <p>This endpoint is no longer to be used.
      */
     public static final EndpointStatus OFF = EndpointStatus.builder().value(ValueSet.OFF).build();
 
     /**
      * Entered in error
+     * 
+     * <p>This instance should not have been part of this patient's medical record.
      */
     public static final EndpointStatus ENTERED_IN_ERROR = EndpointStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Test
+     * 
+     * <p>This endpoint is not intended for production usage.
      */
     public static final EndpointStatus TEST = EndpointStatus.builder().value(ValueSet.TEST).build();
 
@@ -165,31 +178,44 @@ public class EndpointStatus extends Code {
     public enum ValueSet {
         /**
          * Active
+         * 
+         * <p>This endpoint is expected to be active and can be used.
          */
         ACTIVE("active"),
 
         /**
          * Suspended
+         * 
+         * <p>This endpoint is temporarily unavailable.
          */
         SUSPENDED("suspended"),
 
         /**
          * Error
+         * 
+         * <p>This endpoint has exceeded connectivity thresholds and is considered in an error state and should no longer be 
+         * attempted to connect to until corrective action is taken.
          */
         ERROR("error"),
 
         /**
          * Off
+         * 
+         * <p>This endpoint is no longer to be used.
          */
         OFF("off"),
 
         /**
          * Entered in error
+         * 
+         * <p>This instance should not have been part of this patient's medical record.
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Test
+         * 
+         * <p>This endpoint is not intended for production usage.
          */
         TEST("test");
 
