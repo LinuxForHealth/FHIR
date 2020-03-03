@@ -30,7 +30,9 @@ public class Constants {
     public static final byte[] NDJSON_LINESEPERATOR = "\r\n".getBytes();
 
     public static final int IMPORT_MAX_PARTITIONPROCESSING_THREADNUMBER = 10;
-    public static final int IMPORT_NUMOFFHIRRESOURCES_PERREAD = 1000;
+    // The number of resources to commit to DB in each batch, the slower the DB connection, the smaller
+    // this value should be set.
+    public static final int IMPORT_NUMOFFHIRRESOURCES_PERREAD = 20;
     public static final String IMPORT_INPUT_RESOURCE_TYPE = "type";
     public static final String IMPORT_INPUT_RESOURCE_URL = "url";
 

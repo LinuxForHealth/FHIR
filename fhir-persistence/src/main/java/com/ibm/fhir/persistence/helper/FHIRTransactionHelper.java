@@ -17,16 +17,16 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  */
 public class FHIRTransactionHelper {
     private static final Logger log = Logger.getLogger(FHIRTransactionHelper.class.getName());
-    
+
     private FHIRPersistenceTransaction txn;
     private boolean txnStarted;
     private boolean beginCalled;
-    
+
     public FHIRTransactionHelper(FHIRPersistenceTransaction txn) {
         this.txn = txn;
         txnStarted = false;
     }
-    
+
     /**
      * If a transaction has not yet been started on this thread, then start one.
      * @throws FHIRPersistenceException
@@ -38,12 +38,13 @@ public class FHIRTransactionHelper {
                 txn.begin();
                 txnStarted = true;
             } else {
-                log.fine("Transaction is already active on current thread...");
+                log.fine("Transaction is already active on current thread, get Db connection only ...");
+                txn.begin();
             }
             beginCalled = true;
         }
     }
-    
+
     /**
      * If we previously started a transaction on this thread using this helper instance,
      * then commit it now.
@@ -62,7 +63,7 @@ public class FHIRTransactionHelper {
             txn = null;
         }
     }
-    
+
     /**
      * If we previously started a transaction on this thread using this helper instance,
      * then perform a rollback now; otherwise, set the transaction as 'rollback only' to
@@ -86,6 +87,16 @@ public class FHIRTransactionHelper {
                 String msg = "Unexpected exception while trying to perform a transaction '" + operation + "': " + t.getMessage();
                 log.log(Level.SEVERE, msg, t);
             }
+        }
+    }
+
+    /**
+     * Use this only if the transaction is not started and managed by us, e.g, by JavaBatch framework.
+     */
+    public void commit2() throws FHIRPersistenceException {
+        // Close the db connection.
+        if (txn != null) {
+            txn.closeConnection();
         }
     }
 }
