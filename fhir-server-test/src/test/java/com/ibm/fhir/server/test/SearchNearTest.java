@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -112,7 +112,7 @@ public class SearchNearTest extends FHIRServerTestBase {
         parameters.searchParam("near", "40.256500|-80.694810|500.0|km,40.256500|-80.694810|500.0|km");
         parameters.searchParam("near", "42.256500|-83.694810|11.20|km");
         FHIRResponse response = client.search(Location.class.getSimpleName(), parameters);
-        SearchAllTest.generateOutput(response.getResource(Bundle.class));
+        
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
