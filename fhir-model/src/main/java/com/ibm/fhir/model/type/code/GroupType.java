@@ -16,36 +16,48 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/group-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/group-type")
 public class GroupType extends Code {
     /**
      * Person
+     * 
+     * <p>Group contains "person" Patient resources.
      */
     public static final GroupType PERSON = GroupType.builder().value(ValueSet.PERSON).build();
 
     /**
      * Animal
+     * 
+     * <p>Group contains "animal" Patient resources.
      */
     public static final GroupType ANIMAL = GroupType.builder().value(ValueSet.ANIMAL).build();
 
     /**
      * Practitioner
+     * 
+     * <p>Group contains healthcare practitioner resources (Practitioner or PractitionerRole).
      */
     public static final GroupType PRACTITIONER = GroupType.builder().value(ValueSet.PRACTITIONER).build();
 
     /**
      * Device
+     * 
+     * <p>Group contains Device resources.
      */
     public static final GroupType DEVICE = GroupType.builder().value(ValueSet.DEVICE).build();
 
     /**
      * Medication
+     * 
+     * <p>Group contains Medication resources.
      */
     public static final GroupType MEDICATION = GroupType.builder().value(ValueSet.MEDICATION).build();
 
     /**
      * Substance
+     * 
+     * <p>Group contains Substance resources.
      */
     public static final GroupType SUBSTANCE = GroupType.builder().value(ValueSet.SUBSTANCE).build();
 
@@ -165,31 +177,43 @@ public class GroupType extends Code {
     public enum ValueSet {
         /**
          * Person
+         * 
+         * <p>Group contains "person" Patient resources.
          */
         PERSON("person"),
 
         /**
          * Animal
+         * 
+         * <p>Group contains "animal" Patient resources.
          */
         ANIMAL("animal"),
 
         /**
          * Practitioner
+         * 
+         * <p>Group contains healthcare practitioner resources (Practitioner or PractitionerRole).
          */
         PRACTITIONER("practitioner"),
 
         /**
          * Device
+         * 
+         * <p>Group contains Device resources.
          */
         DEVICE("device"),
 
         /**
          * Medication
+         * 
+         * <p>Group contains Medication resources.
          */
         MEDICATION("medication"),
 
         /**
          * Substance
+         * 
+         * <p>Group contains Substance resources.
          */
         SUBSTANCE("substance");
 

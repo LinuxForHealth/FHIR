@@ -16,31 +16,44 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/provenance-entity-role")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/provenance-entity-role")
 public class ProvenanceEntityRole extends Code {
     /**
      * Derivation
+     * 
+     * <p>A transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a 
+     * new entity based on a pre-existing entity.
      */
     public static final ProvenanceEntityRole DERIVATION = ProvenanceEntityRole.builder().value(ValueSet.DERIVATION).build();
 
     /**
      * Revision
+     * 
+     * <p>A derivation for which the resulting entity is a revised version of some original.
      */
     public static final ProvenanceEntityRole REVISION = ProvenanceEntityRole.builder().value(ValueSet.REVISION).build();
 
     /**
      * Quotation
+     * 
+     * <p>The repeat of (some or all of) an entity, such as text or image, by someone who might or might not be its original 
+     * author.
      */
     public static final ProvenanceEntityRole QUOTATION = ProvenanceEntityRole.builder().value(ValueSet.QUOTATION).build();
 
     /**
      * Source
+     * 
+     * <p>A primary source for a topic refers to something produced by some agent with direct experience and knowledge about 
+     * the topic, at the time of the topic's study, without benefit from hindsight.
      */
     public static final ProvenanceEntityRole SOURCE = ProvenanceEntityRole.builder().value(ValueSet.SOURCE).build();
 
     /**
      * Removal
+     * 
+     * <p>A derivation for which the entity is removed from accessibility usually through the use of the Delete operation.
      */
     public static final ProvenanceEntityRole REMOVAL = ProvenanceEntityRole.builder().value(ValueSet.REMOVAL).build();
 
@@ -158,26 +171,39 @@ public class ProvenanceEntityRole extends Code {
     public enum ValueSet {
         /**
          * Derivation
+         * 
+         * <p>A transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a 
+         * new entity based on a pre-existing entity.
          */
         DERIVATION("derivation"),
 
         /**
          * Revision
+         * 
+         * <p>A derivation for which the resulting entity is a revised version of some original.
          */
         REVISION("revision"),
 
         /**
          * Quotation
+         * 
+         * <p>The repeat of (some or all of) an entity, such as text or image, by someone who might or might not be its original 
+         * author.
          */
         QUOTATION("quotation"),
 
         /**
          * Source
+         * 
+         * <p>A primary source for a topic refers to something produced by some agent with direct experience and knowledge about 
+         * the topic, at the time of the topic's study, without benefit from hindsight.
          */
         SOURCE("source"),
 
         /**
          * Removal
+         * 
+         * <p>A derivation for which the entity is removed from accessibility usually through the use of the Delete operation.
          */
         REMOVAL("removal");
 

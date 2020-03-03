@@ -16,16 +16,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/consent-provision-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/consent-provision-type")
 public class ConsentProvisionType extends Code {
     /**
      * Opt Out
+     * 
+     * <p>Consent is denied for actions meeting these rules.
      */
     public static final ConsentProvisionType DENY = ConsentProvisionType.builder().value(ValueSet.DENY).build();
 
     /**
      * Opt In
+     * 
+     * <p>Consent is provided for actions meeting these rules.
      */
     public static final ConsentProvisionType PERMIT = ConsentProvisionType.builder().value(ValueSet.PERMIT).build();
 
@@ -137,11 +141,15 @@ public class ConsentProvisionType extends Code {
     public enum ValueSet {
         /**
          * Opt Out
+         * 
+         * <p>Consent is denied for actions meeting these rules.
          */
         DENY("deny"),
 
         /**
          * Opt In
+         * 
+         * <p>Consent is provided for actions meeting these rules.
          */
         PERMIT("permit");
 

@@ -16,46 +16,66 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/CodeSystem/medicationrequest-intent")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/CodeSystem/medicationrequest-intent")
 public class MedicationRequestIntent extends Code {
     /**
      * Proposal
+     * 
+     * <p>The request is a suggestion made by someone/something that doesn't have an intention to ensure it occurs and 
+     * without providing an authorization to act
      */
     public static final MedicationRequestIntent PROPOSAL = MedicationRequestIntent.builder().value(ValueSet.PROPOSAL).build();
 
     /**
      * Plan
+     * 
+     * <p>The request represents an intention to ensure something occurs without providing an authorization for others to act.
      */
     public static final MedicationRequestIntent PLAN = MedicationRequestIntent.builder().value(ValueSet.PLAN).build();
 
     /**
      * Order
+     * 
+     * <p>The request represents a request/demand and authorization for action
      */
     public static final MedicationRequestIntent ORDER = MedicationRequestIntent.builder().value(ValueSet.ORDER).build();
 
     /**
      * Original Order
+     * 
+     * <p>The request represents the original authorization for the medication request.
      */
     public static final MedicationRequestIntent ORIGINAL_ORDER = MedicationRequestIntent.builder().value(ValueSet.ORIGINAL_ORDER).build();
 
     /**
      * Reflex Order
+     * 
+     * <p>The request represents an automatically generated supplemental authorization for action based on a parent 
+     * authorization together with initial results of the action taken against that parent authorization..
      */
     public static final MedicationRequestIntent REFLEX_ORDER = MedicationRequestIntent.builder().value(ValueSet.REFLEX_ORDER).build();
 
     /**
      * Filler Order
+     * 
+     * <p>The request represents the view of an authorization instantiated by a fulfilling system representing the details of 
+     * the fulfiller's intention to act upon a submitted order.
      */
     public static final MedicationRequestIntent FILLER_ORDER = MedicationRequestIntent.builder().value(ValueSet.FILLER_ORDER).build();
 
     /**
      * Instance Order
+     * 
+     * <p>The request represents an instance for the particular order, for example a medication administration record.
      */
     public static final MedicationRequestIntent INSTANCE_ORDER = MedicationRequestIntent.builder().value(ValueSet.INSTANCE_ORDER).build();
 
     /**
      * Option
+     * 
+     * <p>The request represents a component or option for a RequestGroup that establishes timing, conditionality and/or 
+     * other constraints among a set of requests.
      */
     public static final MedicationRequestIntent OPTION = MedicationRequestIntent.builder().value(ValueSet.OPTION).build();
 
@@ -179,41 +199,61 @@ public class MedicationRequestIntent extends Code {
     public enum ValueSet {
         /**
          * Proposal
+         * 
+         * <p>The request is a suggestion made by someone/something that doesn't have an intention to ensure it occurs and 
+         * without providing an authorization to act
          */
         PROPOSAL("proposal"),
 
         /**
          * Plan
+         * 
+         * <p>The request represents an intention to ensure something occurs without providing an authorization for others to act.
          */
         PLAN("plan"),
 
         /**
          * Order
+         * 
+         * <p>The request represents a request/demand and authorization for action
          */
         ORDER("order"),
 
         /**
          * Original Order
+         * 
+         * <p>The request represents the original authorization for the medication request.
          */
         ORIGINAL_ORDER("original-order"),
 
         /**
          * Reflex Order
+         * 
+         * <p>The request represents an automatically generated supplemental authorization for action based on a parent 
+         * authorization together with initial results of the action taken against that parent authorization..
          */
         REFLEX_ORDER("reflex-order"),
 
         /**
          * Filler Order
+         * 
+         * <p>The request represents the view of an authorization instantiated by a fulfilling system representing the details of 
+         * the fulfiller's intention to act upon a submitted order.
          */
         FILLER_ORDER("filler-order"),
 
         /**
          * Instance Order
+         * 
+         * <p>The request represents an instance for the particular order, for example a medication administration record.
          */
         INSTANCE_ORDER("instance-order"),
 
         /**
          * Option
+         * 
+         * <p>The request represents a component or option for a RequestGroup that establishes timing, conditionality and/or 
+         * other constraints among a set of requests.
          */
         OPTION("option");
 

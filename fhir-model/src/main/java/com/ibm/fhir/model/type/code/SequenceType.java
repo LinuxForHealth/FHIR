@@ -16,21 +16,27 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/sequence-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/sequence-type")
 public class SequenceType extends Code {
     /**
      * AA Sequence
+     * 
+     * <p>Amino acid sequence.
      */
     public static final SequenceType AA = SequenceType.builder().value(ValueSet.AA).build();
 
     /**
      * DNA Sequence
+     * 
+     * <p>DNA Sequence.
      */
     public static final SequenceType DNA = SequenceType.builder().value(ValueSet.DNA).build();
 
     /**
      * RNA Sequence
+     * 
+     * <p>RNA Sequence.
      */
     public static final SequenceType RNA = SequenceType.builder().value(ValueSet.RNA).build();
 
@@ -144,16 +150,22 @@ public class SequenceType extends Code {
     public enum ValueSet {
         /**
          * AA Sequence
+         * 
+         * <p>Amino acid sequence.
          */
         AA("aa"),
 
         /**
          * DNA Sequence
+         * 
+         * <p>DNA Sequence.
          */
         DNA("dna"),
 
         /**
          * RNA Sequence
+         * 
+         * <p>RNA Sequence.
          */
         RNA("rna");
 

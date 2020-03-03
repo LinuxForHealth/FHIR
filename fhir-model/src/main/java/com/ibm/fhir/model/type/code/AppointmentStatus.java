@@ -16,56 +16,81 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/appointmentstatus")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/appointmentstatus")
 public class AppointmentStatus extends Code {
     /**
      * Proposed
+     * 
+     * <p>None of the participant(s) have finalized their acceptance of the appointment request, and the start/end time might 
+     * not be set yet.
      */
     public static final AppointmentStatus PROPOSED = AppointmentStatus.builder().value(ValueSet.PROPOSED).build();
 
     /**
      * Pending
+     * 
+     * <p>Some or all of the participant(s) have not finalized their acceptance of the appointment request.
      */
     public static final AppointmentStatus PENDING = AppointmentStatus.builder().value(ValueSet.PENDING).build();
 
     /**
      * Booked
+     * 
+     * <p>All participant(s) have been considered and the appointment is confirmed to go ahead at the date/times specified.
      */
     public static final AppointmentStatus BOOKED = AppointmentStatus.builder().value(ValueSet.BOOKED).build();
 
     /**
      * Arrived
+     * 
+     * <p>The patient/patients has/have arrived and is/are waiting to be seen.
      */
     public static final AppointmentStatus ARRIVED = AppointmentStatus.builder().value(ValueSet.ARRIVED).build();
 
     /**
      * Fulfilled
+     * 
+     * <p>The planning stages of the appointment are now complete, the encounter resource will exist and will track further 
+     * status changes. Note that an encounter may exist before the appointment status is fulfilled for many reasons.
      */
     public static final AppointmentStatus FULFILLED = AppointmentStatus.builder().value(ValueSet.FULFILLED).build();
 
     /**
      * Cancelled
+     * 
+     * <p>The appointment has been cancelled.
      */
     public static final AppointmentStatus CANCELLED = AppointmentStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * No Show
+     * 
+     * <p>Some or all of the participant(s) have not/did not appear for the appointment (usually the patient).
      */
     public static final AppointmentStatus NOSHOW = AppointmentStatus.builder().value(ValueSet.NOSHOW).build();
 
     /**
      * Entered in error
+     * 
+     * <p>This instance should not have been part of this patient's medical record.
      */
     public static final AppointmentStatus ENTERED_IN_ERROR = AppointmentStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Checked In
+     * 
+     * <p>When checked in, all pre-encounter administrative work is complete, and the encounter may begin. (where multiple 
+     * patients are involved, they are all present).
      */
     public static final AppointmentStatus CHECKED_IN = AppointmentStatus.builder().value(ValueSet.CHECKED_IN).build();
 
     /**
      * Waitlisted
+     * 
+     * <p>The appointment has been placed on a waitlist, to be scheduled/confirmed in the future when a slot/service is 
+     * available.
+     * <p>A specific time might or might not be pre-allocated.
      */
     public static final AppointmentStatus WAITLIST = AppointmentStatus.builder().value(ValueSet.WAITLIST).build();
 
@@ -193,51 +218,76 @@ public class AppointmentStatus extends Code {
     public enum ValueSet {
         /**
          * Proposed
+         * 
+         * <p>None of the participant(s) have finalized their acceptance of the appointment request, and the start/end time might 
+         * not be set yet.
          */
         PROPOSED("proposed"),
 
         /**
          * Pending
+         * 
+         * <p>Some or all of the participant(s) have not finalized their acceptance of the appointment request.
          */
         PENDING("pending"),
 
         /**
          * Booked
+         * 
+         * <p>All participant(s) have been considered and the appointment is confirmed to go ahead at the date/times specified.
          */
         BOOKED("booked"),
 
         /**
          * Arrived
+         * 
+         * <p>The patient/patients has/have arrived and is/are waiting to be seen.
          */
         ARRIVED("arrived"),
 
         /**
          * Fulfilled
+         * 
+         * <p>The planning stages of the appointment are now complete, the encounter resource will exist and will track further 
+         * status changes. Note that an encounter may exist before the appointment status is fulfilled for many reasons.
          */
         FULFILLED("fulfilled"),
 
         /**
          * Cancelled
+         * 
+         * <p>The appointment has been cancelled.
          */
         CANCELLED("cancelled"),
 
         /**
          * No Show
+         * 
+         * <p>Some or all of the participant(s) have not/did not appear for the appointment (usually the patient).
          */
         NOSHOW("noshow"),
 
         /**
          * Entered in error
+         * 
+         * <p>This instance should not have been part of this patient's medical record.
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Checked In
+         * 
+         * <p>When checked in, all pre-encounter administrative work is complete, and the encounter may begin. (where multiple 
+         * patients are involved, they are all present).
          */
         CHECKED_IN("checked-in"),
 
         /**
          * Waitlisted
+         * 
+         * <p>The appointment has been placed on a waitlist, to be scheduled/confirmed in the future when a slot/service is 
+         * available.
+         * <p>A specific time might or might not be pre-allocated.
          */
         WAITLIST("waitlist");
 

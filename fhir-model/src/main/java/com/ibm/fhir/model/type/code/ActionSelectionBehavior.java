@@ -16,36 +16,50 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/action-selection-behavior")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/action-selection-behavior")
 public class ActionSelectionBehavior extends Code {
     /**
      * Any
+     * 
+     * <p>Any number of the actions in the group may be chosen, from zero to all.
      */
     public static final ActionSelectionBehavior ANY = ActionSelectionBehavior.builder().value(ValueSet.ANY).build();
 
     /**
      * All
+     * 
+     * <p>All the actions in the group must be selected as a single unit.
      */
     public static final ActionSelectionBehavior ALL = ActionSelectionBehavior.builder().value(ValueSet.ALL).build();
 
     /**
      * All Or None
+     * 
+     * <p>All the actions in the group are meant to be chosen as a single unit: either all must be selected by the end user, 
+     * or none may be selected.
      */
     public static final ActionSelectionBehavior ALL_OR_NONE = ActionSelectionBehavior.builder().value(ValueSet.ALL_OR_NONE).build();
 
     /**
      * Exactly One
+     * 
+     * <p>The end user must choose one and only one of the selectable actions in the group. The user SHALL NOT choose none of 
+     * the actions in the group.
      */
     public static final ActionSelectionBehavior EXACTLY_ONE = ActionSelectionBehavior.builder().value(ValueSet.EXACTLY_ONE).build();
 
     /**
      * At Most One
+     * 
+     * <p>The end user may choose zero or at most one of the actions in the group.
      */
     public static final ActionSelectionBehavior AT_MOST_ONE = ActionSelectionBehavior.builder().value(ValueSet.AT_MOST_ONE).build();
 
     /**
      * One Or More
+     * 
+     * <p>The end user must choose a minimum of one, and as many additional as desired.
      */
     public static final ActionSelectionBehavior ONE_OR_MORE = ActionSelectionBehavior.builder().value(ValueSet.ONE_OR_MORE).build();
 
@@ -165,31 +179,45 @@ public class ActionSelectionBehavior extends Code {
     public enum ValueSet {
         /**
          * Any
+         * 
+         * <p>Any number of the actions in the group may be chosen, from zero to all.
          */
         ANY("any"),
 
         /**
          * All
+         * 
+         * <p>All the actions in the group must be selected as a single unit.
          */
         ALL("all"),
 
         /**
          * All Or None
+         * 
+         * <p>All the actions in the group are meant to be chosen as a single unit: either all must be selected by the end user, 
+         * or none may be selected.
          */
         ALL_OR_NONE("all-or-none"),
 
         /**
          * Exactly One
+         * 
+         * <p>The end user must choose one and only one of the selectable actions in the group. The user SHALL NOT choose none of 
+         * the actions in the group.
          */
         EXACTLY_ONE("exactly-one"),
 
         /**
          * At Most One
+         * 
+         * <p>The end user may choose zero or at most one of the actions in the group.
          */
         AT_MOST_ONE("at-most-one"),
 
         /**
          * One Or More
+         * 
+         * <p>The end user must choose a minimum of one, and as many additional as desired.
          */
         ONE_OR_MORE("one-or-more");
 

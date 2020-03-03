@@ -16,16 +16,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/constraint-severity")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/constraint-severity")
 public class ConstraintSeverity extends Code {
     /**
      * Error
+     * 
+     * <p>If the constraint is violated, the resource is not conformant.
      */
     public static final ConstraintSeverity ERROR = ConstraintSeverity.builder().value(ValueSet.ERROR).build();
 
     /**
      * Warning
+     * 
+     * <p>If the constraint is violated, the resource is conformant, but it is not necessarily following best practice.
      */
     public static final ConstraintSeverity WARNING = ConstraintSeverity.builder().value(ValueSet.WARNING).build();
 
@@ -137,11 +141,15 @@ public class ConstraintSeverity extends Code {
     public enum ValueSet {
         /**
          * Error
+         * 
+         * <p>If the constraint is violated, the resource is not conformant.
          */
         ERROR("error"),
 
         /**
          * Warning
+         * 
+         * <p>If the constraint is violated, the resource is conformant, but it is not necessarily following best practice.
          */
         WARNING("warning");
 

@@ -16,8 +16,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/restful-interaction")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/restful-interaction")
 public class TypeRestfulInteraction extends Code {
     public static final TypeRestfulInteraction READ = TypeRestfulInteraction.builder().value(ValueSet.READ).build();
 

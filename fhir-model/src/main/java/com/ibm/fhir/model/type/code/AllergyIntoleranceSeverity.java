@@ -16,21 +16,27 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/reaction-event-severity")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/reaction-event-severity")
 public class AllergyIntoleranceSeverity extends Code {
     /**
      * Mild
+     * 
+     * <p>Causes mild physiological effects.
      */
     public static final AllergyIntoleranceSeverity MILD = AllergyIntoleranceSeverity.builder().value(ValueSet.MILD).build();
 
     /**
      * Moderate
+     * 
+     * <p>Causes moderate physiological effects.
      */
     public static final AllergyIntoleranceSeverity MODERATE = AllergyIntoleranceSeverity.builder().value(ValueSet.MODERATE).build();
 
     /**
      * Severe
+     * 
+     * <p>Causes severe physiological effects.
      */
     public static final AllergyIntoleranceSeverity SEVERE = AllergyIntoleranceSeverity.builder().value(ValueSet.SEVERE).build();
 
@@ -144,16 +150,22 @@ public class AllergyIntoleranceSeverity extends Code {
     public enum ValueSet {
         /**
          * Mild
+         * 
+         * <p>Causes mild physiological effects.
          */
         MILD("mild"),
 
         /**
          * Moderate
+         * 
+         * <p>Causes moderate physiological effects.
          */
         MODERATE("moderate"),
 
         /**
          * Severe
+         * 
+         * <p>Causes severe physiological effects.
          */
         SEVERE("severe");
 

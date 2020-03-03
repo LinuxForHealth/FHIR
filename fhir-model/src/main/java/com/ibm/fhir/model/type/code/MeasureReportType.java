@@ -16,26 +16,35 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/measure-report-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/measure-report-type")
 public class MeasureReportType extends Code {
     /**
      * Individual
+     * 
+     * <p>An individual report that provides information on the performance for a given measure with respect to a single 
+     * subject.
      */
     public static final MeasureReportType INDIVIDUAL = MeasureReportType.builder().value(ValueSet.INDIVIDUAL).build();
 
     /**
      * Subject List
+     * 
+     * <p>A subject list report that includes a listing of subjects that satisfied each population criteria in the measure.
      */
     public static final MeasureReportType SUBJECT_LIST = MeasureReportType.builder().value(ValueSet.SUBJECT_LIST).build();
 
     /**
      * Summary
+     * 
+     * <p>A summary report that returns the number of members in each population criteria for the measure.
      */
     public static final MeasureReportType SUMMARY = MeasureReportType.builder().value(ValueSet.SUMMARY).build();
 
     /**
      * Data Collection
+     * 
+     * <p>A data collection report that contains data-of-interest for the measure.
      */
     public static final MeasureReportType DATA_COLLECTION = MeasureReportType.builder().value(ValueSet.DATA_COLLECTION).build();
 
@@ -151,21 +160,30 @@ public class MeasureReportType extends Code {
     public enum ValueSet {
         /**
          * Individual
+         * 
+         * <p>An individual report that provides information on the performance for a given measure with respect to a single 
+         * subject.
          */
         INDIVIDUAL("individual"),
 
         /**
          * Subject List
+         * 
+         * <p>A subject list report that includes a listing of subjects that satisfied each population criteria in the measure.
          */
         SUBJECT_LIST("subject-list"),
 
         /**
          * Summary
+         * 
+         * <p>A summary report that returns the number of members in each population criteria for the measure.
          */
         SUMMARY("summary"),
 
         /**
          * Data Collection
+         * 
+         * <p>A data collection report that contains data-of-interest for the measure.
          */
         DATA_COLLECTION("data-collection");
 

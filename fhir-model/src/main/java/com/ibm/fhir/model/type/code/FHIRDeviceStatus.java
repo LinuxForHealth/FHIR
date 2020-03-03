@@ -16,26 +16,36 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/device-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/device-status")
 public class FHIRDeviceStatus extends Code {
     /**
      * Active
+     * 
+     * <p>The device is available for use. Note: For *implanted devices* this means that the device is implanted in the 
+     * patient.
      */
     public static final FHIRDeviceStatus ACTIVE = FHIRDeviceStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Inactive
+     * 
+     * <p>The device is no longer available for use (e.g. lost, expired, damaged). Note: For *implanted devices* this means 
+     * that the device has been removed from the patient.
      */
     public static final FHIRDeviceStatus INACTIVE = FHIRDeviceStatus.builder().value(ValueSet.INACTIVE).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The device was entered in error and voided.
      */
     public static final FHIRDeviceStatus ENTERED_IN_ERROR = FHIRDeviceStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
+     * 
+     * <p>The status of the device has not been determined.
      */
     public static final FHIRDeviceStatus UNKNOWN = FHIRDeviceStatus.builder().value(ValueSet.UNKNOWN).build();
 
@@ -151,21 +161,31 @@ public class FHIRDeviceStatus extends Code {
     public enum ValueSet {
         /**
          * Active
+         * 
+         * <p>The device is available for use. Note: For *implanted devices* this means that the device is implanted in the 
+         * patient.
          */
         ACTIVE("active"),
 
         /**
          * Inactive
+         * 
+         * <p>The device is no longer available for use (e.g. lost, expired, damaged). Note: For *implanted devices* this means 
+         * that the device has been removed from the patient.
          */
         INACTIVE("inactive"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The device was entered in error and voided.
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Unknown
+         * 
+         * <p>The status of the device has not been determined.
          */
         UNKNOWN("unknown");
 

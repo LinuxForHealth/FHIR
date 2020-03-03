@@ -16,21 +16,29 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/allergy-intolerance-criticality")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/allergy-intolerance-criticality")
 public class AllergyIntoleranceCriticality extends Code {
     /**
      * Low Risk
+     * 
+     * <p>Worst case result of a future exposure is not assessed to be life-threatening or having high potential for organ 
+     * system failure.
      */
     public static final AllergyIntoleranceCriticality LOW = AllergyIntoleranceCriticality.builder().value(ValueSet.LOW).build();
 
     /**
      * High Risk
+     * 
+     * <p>Worst case result of a future exposure is assessed to be life-threatening or having high potential for organ system 
+     * failure.
      */
     public static final AllergyIntoleranceCriticality HIGH = AllergyIntoleranceCriticality.builder().value(ValueSet.HIGH).build();
 
     /**
      * Unable to Assess Risk
+     * 
+     * <p>Unable to assess the worst case result of a future exposure.
      */
     public static final AllergyIntoleranceCriticality UNABLE_TO_ASSESS = AllergyIntoleranceCriticality.builder().value(ValueSet.UNABLE_TO_ASSESS).build();
 
@@ -144,16 +152,24 @@ public class AllergyIntoleranceCriticality extends Code {
     public enum ValueSet {
         /**
          * Low Risk
+         * 
+         * <p>Worst case result of a future exposure is not assessed to be life-threatening or having high potential for organ 
+         * system failure.
          */
         LOW("low"),
 
         /**
          * High Risk
+         * 
+         * <p>Worst case result of a future exposure is assessed to be life-threatening or having high potential for organ system 
+         * failure.
          */
         HIGH("high"),
 
         /**
          * Unable to Assess Risk
+         * 
+         * <p>Unable to assess the worst case result of a future exposure.
          */
         UNABLE_TO_ASSESS("unable-to-assess");
 

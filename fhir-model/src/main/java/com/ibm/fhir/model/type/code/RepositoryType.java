@@ -16,31 +16,42 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/repository-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/repository-type")
 public class RepositoryType extends Code {
     /**
      * Click and see
+     * 
+     * <p>When URL is clicked, the resource can be seen directly (by webpage or by download link format).
      */
     public static final RepositoryType DIRECTLINK = RepositoryType.builder().value(ValueSet.DIRECTLINK).build();
 
     /**
      * The URL is the RESTful or other kind of API that can access to the result.
+     * 
+     * <p>When the API method (e.g. [base_url]/[parameter]) related with the URL of the website is executed, the resource can 
+     * be seen directly (usually in JSON or XML format).
      */
     public static final RepositoryType OPENAPI = RepositoryType.builder().value(ValueSet.OPENAPI).build();
 
     /**
      * Result cannot be access unless an account is logged in
+     * 
+     * <p>When logged into the website, the resource can be seen.
      */
     public static final RepositoryType LOGIN = RepositoryType.builder().value(ValueSet.LOGIN).build();
 
     /**
      * Result need to be fetched with API and need LOGIN( or cookies are required when visiting the link of resource)
+     * 
+     * <p>When logged in and follow the API in the website related with URL, the resource can be seen.
      */
     public static final RepositoryType OAUTH = RepositoryType.builder().value(ValueSet.OAUTH).build();
 
     /**
      * Some other complicated or particular way to get resource from URL.
+     * 
+     * <p>Some other complicated or particular way to get resource from URL.
      */
     public static final RepositoryType OTHER = RepositoryType.builder().value(ValueSet.OTHER).build();
 
@@ -158,26 +169,37 @@ public class RepositoryType extends Code {
     public enum ValueSet {
         /**
          * Click and see
+         * 
+         * <p>When URL is clicked, the resource can be seen directly (by webpage or by download link format).
          */
         DIRECTLINK("directlink"),
 
         /**
          * The URL is the RESTful or other kind of API that can access to the result.
+         * 
+         * <p>When the API method (e.g. [base_url]/[parameter]) related with the URL of the website is executed, the resource can 
+         * be seen directly (usually in JSON or XML format).
          */
         OPENAPI("openapi"),
 
         /**
          * Result cannot be access unless an account is logged in
+         * 
+         * <p>When logged into the website, the resource can be seen.
          */
         LOGIN("login"),
 
         /**
          * Result need to be fetched with API and need LOGIN( or cookies are required when visiting the link of resource)
+         * 
+         * <p>When logged in and follow the API in the website related with URL, the resource can be seen.
          */
         OAUTH("oauth"),
 
         /**
          * Some other complicated or particular way to get resource from URL.
+         * 
+         * <p>Some other complicated or particular way to get resource from URL.
          */
         OTHER("other");
 

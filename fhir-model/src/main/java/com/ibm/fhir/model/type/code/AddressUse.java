@@ -16,31 +16,41 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/address-use")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/address-use")
 public class AddressUse extends Code {
     /**
      * Home
+     * 
+     * <p>A communication address at a home.
      */
     public static final AddressUse HOME = AddressUse.builder().value(ValueSet.HOME).build();
 
     /**
      * Work
+     * 
+     * <p>An office address. First choice for business related contacts during business hours.
      */
     public static final AddressUse WORK = AddressUse.builder().value(ValueSet.WORK).build();
 
     /**
      * Temporary
+     * 
+     * <p>A temporary address. The period can provide more detailed information.
      */
     public static final AddressUse TEMP = AddressUse.builder().value(ValueSet.TEMP).build();
 
     /**
      * Old / Incorrect
+     * 
+     * <p>This address is no longer in use (or was never correct but retained for records).
      */
     public static final AddressUse OLD = AddressUse.builder().value(ValueSet.OLD).build();
 
     /**
      * Billing
+     * 
+     * <p>An address to be used to send bills, invoices, receipts etc.
      */
     public static final AddressUse BILLING = AddressUse.builder().value(ValueSet.BILLING).build();
 
@@ -158,26 +168,36 @@ public class AddressUse extends Code {
     public enum ValueSet {
         /**
          * Home
+         * 
+         * <p>A communication address at a home.
          */
         HOME("home"),
 
         /**
          * Work
+         * 
+         * <p>An office address. First choice for business related contacts during business hours.
          */
         WORK("work"),
 
         /**
          * Temporary
+         * 
+         * <p>A temporary address. The period can provide more detailed information.
          */
         TEMP("temp"),
 
         /**
          * Old / Incorrect
+         * 
+         * <p>This address is no longer in use (or was never correct but retained for records).
          */
         OLD("old"),
 
         /**
          * Billing
+         * 
+         * <p>An address to be used to send bills, invoices, receipts etc.
          */
         BILLING("billing");
 

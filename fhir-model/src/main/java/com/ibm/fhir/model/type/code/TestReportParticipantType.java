@@ -16,21 +16,27 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/report-participant-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/report-participant-type")
 public class TestReportParticipantType extends Code {
     /**
      * Test Engine
+     * 
+     * <p>The test execution engine.
      */
     public static final TestReportParticipantType TEST_ENGINE = TestReportParticipantType.builder().value(ValueSet.TEST_ENGINE).build();
 
     /**
      * Client
+     * 
+     * <p>A FHIR Client.
      */
     public static final TestReportParticipantType CLIENT = TestReportParticipantType.builder().value(ValueSet.CLIENT).build();
 
     /**
      * Server
+     * 
+     * <p>A FHIR Server.
      */
     public static final TestReportParticipantType SERVER = TestReportParticipantType.builder().value(ValueSet.SERVER).build();
 
@@ -144,16 +150,22 @@ public class TestReportParticipantType extends Code {
     public enum ValueSet {
         /**
          * Test Engine
+         * 
+         * <p>The test execution engine.
          */
         TEST_ENGINE("test-engine"),
 
         /**
          * Client
+         * 
+         * <p>A FHIR Client.
          */
         CLIENT("client"),
 
         /**
          * Server
+         * 
+         * <p>A FHIR Server.
          */
         SERVER("server");
 

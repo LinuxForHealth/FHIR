@@ -16,31 +16,44 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/contact-point-use")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/contact-point-use")
 public class ContactPointUse extends Code {
     /**
      * Home
+     * 
+     * <p>A communication contact point at a home; attempted contacts for business purposes might intrude privacy and chances 
+     * are one will contact family or other household members instead of the person one wishes to call. Typically used with 
+     * urgent cases, or if no other contacts are available.
      */
     public static final ContactPointUse HOME = ContactPointUse.builder().value(ValueSet.HOME).build();
 
     /**
      * Work
+     * 
+     * <p>An office contact point. First choice for business related contacts during business hours.
      */
     public static final ContactPointUse WORK = ContactPointUse.builder().value(ValueSet.WORK).build();
 
     /**
      * Temp
+     * 
+     * <p>A temporary contact point. The period can provide more detailed information.
      */
     public static final ContactPointUse TEMP = ContactPointUse.builder().value(ValueSet.TEMP).build();
 
     /**
      * Old
+     * 
+     * <p>This contact point is no longer in use (or was never correct, but retained for records).
      */
     public static final ContactPointUse OLD = ContactPointUse.builder().value(ValueSet.OLD).build();
 
     /**
      * Mobile
+     * 
+     * <p>A telecommunication device that moves and stays with its owner. May have characteristics of all other use codes, 
+     * suitable for urgent matters, not the first choice for routine business.
      */
     public static final ContactPointUse MOBILE = ContactPointUse.builder().value(ValueSet.MOBILE).build();
 
@@ -158,26 +171,39 @@ public class ContactPointUse extends Code {
     public enum ValueSet {
         /**
          * Home
+         * 
+         * <p>A communication contact point at a home; attempted contacts for business purposes might intrude privacy and chances 
+         * are one will contact family or other household members instead of the person one wishes to call. Typically used with 
+         * urgent cases, or if no other contacts are available.
          */
         HOME("home"),
 
         /**
          * Work
+         * 
+         * <p>An office contact point. First choice for business related contacts during business hours.
          */
         WORK("work"),
 
         /**
          * Temp
+         * 
+         * <p>A temporary contact point. The period can provide more detailed information.
          */
         TEMP("temp"),
 
         /**
          * Old
+         * 
+         * <p>This contact point is no longer in use (or was never correct, but retained for records).
          */
         OLD("old"),
 
         /**
          * Mobile
+         * 
+         * <p>A telecommunication device that moves and stays with its owner. May have characteristics of all other use codes, 
+         * suitable for urgent matters, not the first choice for routine business.
          */
         MOBILE("mobile");
 

@@ -16,26 +16,34 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/subscription-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/subscription-status")
 public class SubscriptionStatus extends Code {
     /**
      * Requested
+     * 
+     * <p>The client has requested the subscription, and the server has not yet set it up.
      */
     public static final SubscriptionStatus REQUESTED = SubscriptionStatus.builder().value(ValueSet.REQUESTED).build();
 
     /**
      * Active
+     * 
+     * <p>The subscription is active.
      */
     public static final SubscriptionStatus ACTIVE = SubscriptionStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Error
+     * 
+     * <p>The server has an error executing the notification.
      */
     public static final SubscriptionStatus ERROR = SubscriptionStatus.builder().value(ValueSet.ERROR).build();
 
     /**
      * Off
+     * 
+     * <p>Too many errors have occurred or the subscription has expired.
      */
     public static final SubscriptionStatus OFF = SubscriptionStatus.builder().value(ValueSet.OFF).build();
 
@@ -151,21 +159,29 @@ public class SubscriptionStatus extends Code {
     public enum ValueSet {
         /**
          * Requested
+         * 
+         * <p>The client has requested the subscription, and the server has not yet set it up.
          */
         REQUESTED("requested"),
 
         /**
          * Active
+         * 
+         * <p>The subscription is active.
          */
         ACTIVE("active"),
 
         /**
          * Error
+         * 
+         * <p>The server has an error executing the notification.
          */
         ERROR("error"),
 
         /**
          * Off
+         * 
+         * <p>Too many errors have occurred or the subscription has expired.
          */
         OFF("off");
 

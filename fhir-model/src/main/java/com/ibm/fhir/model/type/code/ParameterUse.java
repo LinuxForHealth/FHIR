@@ -16,16 +16,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/operation-parameter-use")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/operation-parameter-use")
 public class ParameterUse extends Code {
     /**
      * In
+     * 
+     * <p>This is an input parameter.
      */
     public static final ParameterUse IN = ParameterUse.builder().value(ValueSet.IN).build();
 
     /**
      * Out
+     * 
+     * <p>This is an output parameter.
      */
     public static final ParameterUse OUT = ParameterUse.builder().value(ValueSet.OUT).build();
 
@@ -137,11 +141,15 @@ public class ParameterUse extends Code {
     public enum ValueSet {
         /**
          * In
+         * 
+         * <p>This is an input parameter.
          */
         IN("in"),
 
         /**
          * Out
+         * 
+         * <p>This is an output parameter.
          */
         OUT("out");
 

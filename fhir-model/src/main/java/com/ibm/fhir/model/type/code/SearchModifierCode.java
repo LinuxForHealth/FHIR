@@ -16,66 +16,99 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/search-modifier-code")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/search-modifier-code")
 public class SearchModifierCode extends Code {
     /**
      * Missing
+     * 
+     * <p>The search parameter returns resources that have a value or not.
      */
     public static final SearchModifierCode MISSING = SearchModifierCode.builder().value(ValueSet.MISSING).build();
 
     /**
      * Exact
+     * 
+     * <p>The search parameter returns resources that have a value that exactly matches the supplied parameter (the whole 
+     * string, including casing and accents).
      */
     public static final SearchModifierCode EXACT = SearchModifierCode.builder().value(ValueSet.EXACT).build();
 
     /**
      * Contains
+     * 
+     * <p>The search parameter returns resources that include the supplied parameter value anywhere within the field being 
+     * searched.
      */
     public static final SearchModifierCode CONTAINS = SearchModifierCode.builder().value(ValueSet.CONTAINS).build();
 
     /**
      * Not
+     * 
+     * <p>The search parameter returns resources that do not contain a match.
      */
     public static final SearchModifierCode NOT = SearchModifierCode.builder().value(ValueSet.NOT).build();
 
     /**
      * Text
+     * 
+     * <p>The search parameter is processed as a string that searches text associated with the code/value - either 
+     * CodeableConcept.text, Coding.display, or Identifier.type.text.
      */
     public static final SearchModifierCode TEXT = SearchModifierCode.builder().value(ValueSet.TEXT).build();
 
     /**
      * In
+     * 
+     * <p>The search parameter is a URI (relative or absolute) that identifies a value set, and the search parameter tests 
+     * whether the coding is in the specified value set.
      */
     public static final SearchModifierCode IN = SearchModifierCode.builder().value(ValueSet.IN).build();
 
     /**
      * Not In
+     * 
+     * <p>The search parameter is a URI (relative or absolute) that identifies a value set, and the search parameter tests 
+     * whether the coding is not in the specified value set.
      */
     public static final SearchModifierCode NOT_IN = SearchModifierCode.builder().value(ValueSet.NOT_IN).build();
 
     /**
      * Below
+     * 
+     * <p>The search parameter tests whether the value in a resource is subsumed by the specified value (is-a, or 
+     * hierarchical relationships).
      */
     public static final SearchModifierCode BELOW = SearchModifierCode.builder().value(ValueSet.BELOW).build();
 
     /**
      * Above
+     * 
+     * <p>The search parameter tests whether the value in a resource subsumes the specified value (is-a, or hierarchical 
+     * relationships).
      */
     public static final SearchModifierCode ABOVE = SearchModifierCode.builder().value(ValueSet.ABOVE).build();
 
     /**
      * Type
+     * 
+     * <p>The search parameter only applies to the Resource Type specified as a modifier (e.g. the modifier is not actually :
+     * type, but :Patient etc.).
      */
     public static final SearchModifierCode TYPE = SearchModifierCode.builder().value(ValueSet.TYPE).build();
 
     /**
      * Identifier
+     * 
+     * <p>The search parameter applies to the identifier on the resource, not the reference.
      */
     public static final SearchModifierCode IDENTIFIER = SearchModifierCode.builder().value(ValueSet.IDENTIFIER).build();
 
     /**
      * Of Type
+     * 
+     * <p>The search parameter has the format system|code|value, where the system and code refer to an Identifier.type.coding.
+     * system and .code, and match if any of the type codes match. All 3 parts must be present.
      */
     public static final SearchModifierCode OF_TYPE = SearchModifierCode.builder().value(ValueSet.OF_TYPE).build();
 
@@ -207,61 +240,94 @@ public class SearchModifierCode extends Code {
     public enum ValueSet {
         /**
          * Missing
+         * 
+         * <p>The search parameter returns resources that have a value or not.
          */
         MISSING("missing"),
 
         /**
          * Exact
+         * 
+         * <p>The search parameter returns resources that have a value that exactly matches the supplied parameter (the whole 
+         * string, including casing and accents).
          */
         EXACT("exact"),
 
         /**
          * Contains
+         * 
+         * <p>The search parameter returns resources that include the supplied parameter value anywhere within the field being 
+         * searched.
          */
         CONTAINS("contains"),
 
         /**
          * Not
+         * 
+         * <p>The search parameter returns resources that do not contain a match.
          */
         NOT("not"),
 
         /**
          * Text
+         * 
+         * <p>The search parameter is processed as a string that searches text associated with the code/value - either 
+         * CodeableConcept.text, Coding.display, or Identifier.type.text.
          */
         TEXT("text"),
 
         /**
          * In
+         * 
+         * <p>The search parameter is a URI (relative or absolute) that identifies a value set, and the search parameter tests 
+         * whether the coding is in the specified value set.
          */
         IN("in"),
 
         /**
          * Not In
+         * 
+         * <p>The search parameter is a URI (relative or absolute) that identifies a value set, and the search parameter tests 
+         * whether the coding is not in the specified value set.
          */
         NOT_IN("not-in"),
 
         /**
          * Below
+         * 
+         * <p>The search parameter tests whether the value in a resource is subsumed by the specified value (is-a, or 
+         * hierarchical relationships).
          */
         BELOW("below"),
 
         /**
          * Above
+         * 
+         * <p>The search parameter tests whether the value in a resource subsumes the specified value (is-a, or hierarchical 
+         * relationships).
          */
         ABOVE("above"),
 
         /**
          * Type
+         * 
+         * <p>The search parameter only applies to the Resource Type specified as a modifier (e.g. the modifier is not actually :
+         * type, but :Patient etc.).
          */
         TYPE("type"),
 
         /**
          * Identifier
+         * 
+         * <p>The search parameter applies to the identifier on the resource, not the reference.
          */
         IDENTIFIER("identifier"),
 
         /**
          * Of Type
+         * 
+         * <p>The search parameter has the format system|code|value, where the system and code refer to an Identifier.type.coding.
+         * system and .code, and match if any of the type codes match. All 3 parts must be present.
          */
         OF_TYPE("ofType");
 

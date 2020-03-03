@@ -16,41 +16,56 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/concept-property-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/concept-property-type")
 public class PropertyType extends Code {
     /**
      * code (internal reference)
+     * 
+     * <p>The property value is a code that identifies a concept defined in the code system.
      */
     public static final PropertyType CODE = PropertyType.builder().value(ValueSet.CODE).build();
 
     /**
      * Coding (external reference)
+     * 
+     * <p>The property value is a code defined in an external code system. This may be used for translations, but is not the 
+     * intent.
      */
     public static final PropertyType CODING = PropertyType.builder().value(ValueSet.CODING).build();
 
     /**
      * string
+     * 
+     * <p>The property value is a string.
      */
     public static final PropertyType STRING = PropertyType.builder().value(ValueSet.STRING).build();
 
     /**
      * integer
+     * 
+     * <p>The property value is a string (often used to assign ranking values to concepts for supporting score assessments).
      */
     public static final PropertyType INTEGER = PropertyType.builder().value(ValueSet.INTEGER).build();
 
     /**
      * boolean
+     * 
+     * <p>The property value is a boolean true | false.
      */
     public static final PropertyType BOOLEAN = PropertyType.builder().value(ValueSet.BOOLEAN).build();
 
     /**
      * dateTime
+     * 
+     * <p>The property is a date or a date + time.
      */
     public static final PropertyType DATE_TIME = PropertyType.builder().value(ValueSet.DATE_TIME).build();
 
     /**
      * decimal
+     * 
+     * <p>The property value is a decimal number.
      */
     public static final PropertyType DECIMAL = PropertyType.builder().value(ValueSet.DECIMAL).build();
 
@@ -172,36 +187,51 @@ public class PropertyType extends Code {
     public enum ValueSet {
         /**
          * code (internal reference)
+         * 
+         * <p>The property value is a code that identifies a concept defined in the code system.
          */
         CODE("code"),
 
         /**
          * Coding (external reference)
+         * 
+         * <p>The property value is a code defined in an external code system. This may be used for translations, but is not the 
+         * intent.
          */
         CODING("Coding"),
 
         /**
          * string
+         * 
+         * <p>The property value is a string.
          */
         STRING("string"),
 
         /**
          * integer
+         * 
+         * <p>The property value is a string (often used to assign ranking values to concepts for supporting score assessments).
          */
         INTEGER("integer"),
 
         /**
          * boolean
+         * 
+         * <p>The property value is a boolean true | false.
          */
         BOOLEAN("boolean"),
 
         /**
          * dateTime
+         * 
+         * <p>The property is a date or a date + time.
          */
         DATE_TIME("dateTime"),
 
         /**
          * decimal
+         * 
+         * <p>The property value is a decimal number.
          */
         DECIMAL("decimal");
 

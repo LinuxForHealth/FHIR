@@ -16,21 +16,27 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/CodeSystem/medication-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/CodeSystem/medication-status")
 public class MedicationStatus extends Code {
     /**
      * Active
+     * 
+     * <p>The medication is available for use.
      */
     public static final MedicationStatus ACTIVE = MedicationStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Inactive
+     * 
+     * <p>The medication is not available for use.
      */
     public static final MedicationStatus INACTIVE = MedicationStatus.builder().value(ValueSet.INACTIVE).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The medication was entered in error.
      */
     public static final MedicationStatus ENTERED_IN_ERROR = MedicationStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -144,16 +150,22 @@ public class MedicationStatus extends Code {
     public enum ValueSet {
         /**
          * Active
+         * 
+         * <p>The medication is available for use.
          */
         ACTIVE("active"),
 
         /**
          * Inactive
+         * 
+         * <p>The medication is not available for use.
          */
         INACTIVE("inactive"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The medication was entered in error.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

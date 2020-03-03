@@ -16,31 +16,44 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/reference-handling-policy")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/reference-handling-policy")
 public class ReferenceHandlingPolicy extends Code {
     /**
      * Literal References
+     * 
+     * <p>The server supports and populates Literal references (i.e. using Reference.reference) where they are known (this 
+     * code does not guarantee that all references are literal; see 'enforced').
      */
     public static final ReferenceHandlingPolicy LITERAL = ReferenceHandlingPolicy.builder().value(ValueSet.LITERAL).build();
 
     /**
      * Logical References
+     * 
+     * <p>The server allows logical references (i.e. using Reference.identifier).
      */
     public static final ReferenceHandlingPolicy LOGICAL = ReferenceHandlingPolicy.builder().value(ValueSet.LOGICAL).build();
 
     /**
      * Resolves References
+     * 
+     * <p>The server will attempt to resolve logical references to literal references - i.e. converting Reference.identifier 
+     * to Reference.reference (if resolution fails, the server may still accept resources; see logical).
      */
     public static final ReferenceHandlingPolicy RESOLVES = ReferenceHandlingPolicy.builder().value(ValueSet.RESOLVES).build();
 
     /**
      * Reference Integrity Enforced
+     * 
+     * <p>The server enforces that references have integrity - e.g. it ensures that references can always be resolved. This 
+     * is typically the case for clinical record systems, but often not the case for middleware/proxy systems.
      */
     public static final ReferenceHandlingPolicy ENFORCED = ReferenceHandlingPolicy.builder().value(ValueSet.ENFORCED).build();
 
     /**
      * Local References Only
+     * 
+     * <p>The server does not support references that point to other servers.
      */
     public static final ReferenceHandlingPolicy LOCAL = ReferenceHandlingPolicy.builder().value(ValueSet.LOCAL).build();
 
@@ -158,26 +171,39 @@ public class ReferenceHandlingPolicy extends Code {
     public enum ValueSet {
         /**
          * Literal References
+         * 
+         * <p>The server supports and populates Literal references (i.e. using Reference.reference) where they are known (this 
+         * code does not guarantee that all references are literal; see 'enforced').
          */
         LITERAL("literal"),
 
         /**
          * Logical References
+         * 
+         * <p>The server allows logical references (i.e. using Reference.identifier).
          */
         LOGICAL("logical"),
 
         /**
          * Resolves References
+         * 
+         * <p>The server will attempt to resolve logical references to literal references - i.e. converting Reference.identifier 
+         * to Reference.reference (if resolution fails, the server may still accept resources; see logical).
          */
         RESOLVES("resolves"),
 
         /**
          * Reference Integrity Enforced
+         * 
+         * <p>The server enforces that references have integrity - e.g. it ensures that references can always be resolved. This 
+         * is typically the case for clinical record systems, but often not the case for middleware/proxy systems.
          */
         ENFORCED("enforced"),
 
         /**
          * Local References Only
+         * 
+         * <p>The server does not support references that point to other servers.
          */
         LOCAL("local");
 

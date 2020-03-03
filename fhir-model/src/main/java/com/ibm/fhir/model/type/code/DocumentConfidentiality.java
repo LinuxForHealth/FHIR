@@ -16,8 +16,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://terminology.hl7.org/CodeSystem/v3-Confidentiality")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://terminology.hl7.org/CodeSystem/v3-Confidentiality")
 public class DocumentConfidentiality extends Code {
     public static final DocumentConfidentiality U = DocumentConfidentiality.builder().value(ValueSet.U).build();
 

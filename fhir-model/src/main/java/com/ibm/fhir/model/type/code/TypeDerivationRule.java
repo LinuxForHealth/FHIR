@@ -16,16 +16,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/type-derivation-rule")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/type-derivation-rule")
 public class TypeDerivationRule extends Code {
     /**
      * Specialization
+     * 
+     * <p>This definition defines a new type that adds additional elements to the base type.
      */
     public static final TypeDerivationRule SPECIALIZATION = TypeDerivationRule.builder().value(ValueSet.SPECIALIZATION).build();
 
     /**
      * Constraint
+     * 
+     * <p>This definition adds additional rules to an existing concrete type.
      */
     public static final TypeDerivationRule CONSTRAINT = TypeDerivationRule.builder().value(ValueSet.CONSTRAINT).build();
 
@@ -137,11 +141,15 @@ public class TypeDerivationRule extends Code {
     public enum ValueSet {
         /**
          * Specialization
+         * 
+         * <p>This definition defines a new type that adds additional elements to the base type.
          */
         SPECIALIZATION("specialization"),
 
         /**
          * Constraint
+         * 
+         * <p>This definition adds additional rules to an existing concrete type.
          */
         CONSTRAINT("constraint");
 

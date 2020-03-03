@@ -16,26 +16,38 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/binding-strength")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/binding-strength")
 public class BindingStrength extends Code {
     /**
      * Required
+     * 
+     * <p>To be conformant, the concept in this element SHALL be from the specified value set.
      */
     public static final BindingStrength REQUIRED = BindingStrength.builder().value(ValueSet.REQUIRED).build();
 
     /**
      * Extensible
+     * 
+     * <p>To be conformant, the concept in this element SHALL be from the specified value set if any of the codes within the 
+     * value set can apply to the concept being communicated. If the value set does not cover the concept (based on human 
+     * review), alternate codings (or, data type allowing, text) may be included instead.
      */
     public static final BindingStrength EXTENSIBLE = BindingStrength.builder().value(ValueSet.EXTENSIBLE).build();
 
     /**
      * Preferred
+     * 
+     * <p>Instances are encouraged to draw from the specified codes for interoperability purposes but are not required to do 
+     * so to be considered conformant.
      */
     public static final BindingStrength PREFERRED = BindingStrength.builder().value(ValueSet.PREFERRED).build();
 
     /**
      * Example
+     * 
+     * <p>Instances are not expected or even encouraged to draw from the specified value set. The value set merely provides 
+     * examples of the types of concepts intended to be included.
      */
     public static final BindingStrength EXAMPLE = BindingStrength.builder().value(ValueSet.EXAMPLE).build();
 
@@ -151,21 +163,33 @@ public class BindingStrength extends Code {
     public enum ValueSet {
         /**
          * Required
+         * 
+         * <p>To be conformant, the concept in this element SHALL be from the specified value set.
          */
         REQUIRED("required"),
 
         /**
          * Extensible
+         * 
+         * <p>To be conformant, the concept in this element SHALL be from the specified value set if any of the codes within the 
+         * value set can apply to the concept being communicated. If the value set does not cover the concept (based on human 
+         * review), alternate codings (or, data type allowing, text) may be included instead.
          */
         EXTENSIBLE("extensible"),
 
         /**
          * Preferred
+         * 
+         * <p>Instances are encouraged to draw from the specified codes for interoperability purposes but are not required to do 
+         * so to be considered conformant.
          */
         PREFERRED("preferred"),
 
         /**
          * Example
+         * 
+         * <p>Instances are not expected or even encouraged to draw from the specified value set. The value set merely provides 
+         * examples of the types of concepts intended to be included.
          */
         EXAMPLE("example");
 

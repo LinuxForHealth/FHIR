@@ -16,41 +16,61 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/contact-point-system")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/contact-point-system")
 public class ContactPointSystem extends Code {
     /**
      * Phone
+     * 
+     * <p>The value is a telephone number used for voice calls. Use of full international numbers starting with + is 
+     * recommended to enable automatic dialing support but not required.
      */
     public static final ContactPointSystem PHONE = ContactPointSystem.builder().value(ValueSet.PHONE).build();
 
     /**
      * Fax
+     * 
+     * <p>The value is a fax machine. Use of full international numbers starting with + is recommended to enable automatic 
+     * dialing support but not required.
      */
     public static final ContactPointSystem FAX = ContactPointSystem.builder().value(ValueSet.FAX).build();
 
     /**
      * Email
+     * 
+     * <p>The value is an email address.
      */
     public static final ContactPointSystem EMAIL = ContactPointSystem.builder().value(ValueSet.EMAIL).build();
 
     /**
      * Pager
+     * 
+     * <p>The value is a pager number. These may be local pager numbers that are only usable on a particular pager system.
      */
     public static final ContactPointSystem PAGER = ContactPointSystem.builder().value(ValueSet.PAGER).build();
 
     /**
      * URL
+     * 
+     * <p>A contact that is not a phone, fax, pager or email address and is expressed as a URL. This is intended for various 
+     * institutional or personal contacts including web sites, blogs, Skype, Twitter, Facebook, etc. Do not use for email 
+     * addresses.
      */
     public static final ContactPointSystem URL = ContactPointSystem.builder().value(ValueSet.URL).build();
 
     /**
      * SMS
+     * 
+     * <p>A contact that can be used for sending an sms message (e.g. mobile phones, some landlines).
      */
     public static final ContactPointSystem SMS = ContactPointSystem.builder().value(ValueSet.SMS).build();
 
     /**
      * Other
+     * 
+     * <p>A contact that is not a phone, fax, page or email address and is not expressible as a URL. E.g. Internal mail 
+     * address. This SHOULD NOT be used for contacts that are expressible as a URL (e.g. Skype, Twitter, Facebook, etc.) 
+     * Extensions may be used to distinguish "other" contact types.
      */
     public static final ContactPointSystem OTHER = ContactPointSystem.builder().value(ValueSet.OTHER).build();
 
@@ -172,36 +192,56 @@ public class ContactPointSystem extends Code {
     public enum ValueSet {
         /**
          * Phone
+         * 
+         * <p>The value is a telephone number used for voice calls. Use of full international numbers starting with + is 
+         * recommended to enable automatic dialing support but not required.
          */
         PHONE("phone"),
 
         /**
          * Fax
+         * 
+         * <p>The value is a fax machine. Use of full international numbers starting with + is recommended to enable automatic 
+         * dialing support but not required.
          */
         FAX("fax"),
 
         /**
          * Email
+         * 
+         * <p>The value is an email address.
          */
         EMAIL("email"),
 
         /**
          * Pager
+         * 
+         * <p>The value is a pager number. These may be local pager numbers that are only usable on a particular pager system.
          */
         PAGER("pager"),
 
         /**
          * URL
+         * 
+         * <p>A contact that is not a phone, fax, pager or email address and is expressed as a URL. This is intended for various 
+         * institutional or personal contacts including web sites, blogs, Skype, Twitter, Facebook, etc. Do not use for email 
+         * addresses.
          */
         URL("url"),
 
         /**
          * SMS
+         * 
+         * <p>A contact that can be used for sending an sms message (e.g. mobile phones, some landlines).
          */
         SMS("sms"),
 
         /**
          * Other
+         * 
+         * <p>A contact that is not a phone, fax, page or email address and is not expressible as a URL. E.g. Internal mail 
+         * address. This SHOULD NOT be used for contacts that are expressible as a URL (e.g. Skype, Twitter, Facebook, etc.) 
+         * Extensions may be used to distinguish "other" contact types.
          */
         OTHER("other");
 

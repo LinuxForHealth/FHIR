@@ -16,16 +16,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/strand-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/strand-type")
 public class StrandType extends Code {
     /**
      * Watson strand of referenceSeq
+     * 
+     * <p>Watson strand of reference sequence.
      */
     public static final StrandType WATSON = StrandType.builder().value(ValueSet.WATSON).build();
 
     /**
      * Crick strand of referenceSeq
+     * 
+     * <p>Crick strand of reference sequence.
      */
     public static final StrandType CRICK = StrandType.builder().value(ValueSet.CRICK).build();
 
@@ -137,11 +141,15 @@ public class StrandType extends Code {
     public enum ValueSet {
         /**
          * Watson strand of referenceSeq
+         * 
+         * <p>Watson strand of reference sequence.
          */
         WATSON("watson"),
 
         /**
          * Crick strand of referenceSeq
+         * 
+         * <p>Crick strand of reference sequence.
          */
         CRICK("crick");
 

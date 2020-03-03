@@ -16,36 +16,48 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/invoice-priceComponentType")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/invoice-priceComponentType")
 public class InvoicePriceComponentType extends Code {
     /**
      * base price
+     * 
+     * <p>the amount is the base price used for calculating the total price before applying surcharges, discount or taxes.
      */
     public static final InvoicePriceComponentType BASE = InvoicePriceComponentType.builder().value(ValueSet.BASE).build();
 
     /**
      * surcharge
+     * 
+     * <p>the amount is a surcharge applied on the base price.
      */
     public static final InvoicePriceComponentType SURCHARGE = InvoicePriceComponentType.builder().value(ValueSet.SURCHARGE).build();
 
     /**
      * deduction
+     * 
+     * <p>the amount is a deduction applied on the base price.
      */
     public static final InvoicePriceComponentType DEDUCTION = InvoicePriceComponentType.builder().value(ValueSet.DEDUCTION).build();
 
     /**
      * discount
+     * 
+     * <p>the amount is a discount applied on the base price.
      */
     public static final InvoicePriceComponentType DISCOUNT = InvoicePriceComponentType.builder().value(ValueSet.DISCOUNT).build();
 
     /**
      * tax
+     * 
+     * <p>the amount is the tax component of the total price.
      */
     public static final InvoicePriceComponentType TAX = InvoicePriceComponentType.builder().value(ValueSet.TAX).build();
 
     /**
      * informational
+     * 
+     * <p>the amount is of informational character, it has not been applied in the calculation of the total price.
      */
     public static final InvoicePriceComponentType INFORMATIONAL = InvoicePriceComponentType.builder().value(ValueSet.INFORMATIONAL).build();
 
@@ -165,31 +177,43 @@ public class InvoicePriceComponentType extends Code {
     public enum ValueSet {
         /**
          * base price
+         * 
+         * <p>the amount is the base price used for calculating the total price before applying surcharges, discount or taxes.
          */
         BASE("base"),
 
         /**
          * surcharge
+         * 
+         * <p>the amount is a surcharge applied on the base price.
          */
         SURCHARGE("surcharge"),
 
         /**
          * deduction
+         * 
+         * <p>the amount is a deduction applied on the base price.
          */
         DEDUCTION("deduction"),
 
         /**
          * discount
+         * 
+         * <p>the amount is a discount applied on the base price.
          */
         DISCOUNT("discount"),
 
         /**
          * tax
+         * 
+         * <p>the amount is the tax component of the total price.
          */
         TAX("tax"),
 
         /**
          * informational
+         * 
+         * <p>the amount is of informational character, it has not been applied in the calculation of the total price.
          */
         INFORMATIONAL("informational");
 

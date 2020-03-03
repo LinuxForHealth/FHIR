@@ -16,16 +16,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/restful-capability-mode")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/restful-capability-mode")
 public class RestfulCapabilityMode extends Code {
     /**
      * Client
+     * 
+     * <p>The application acts as a client for this resource.
      */
     public static final RestfulCapabilityMode CLIENT = RestfulCapabilityMode.builder().value(ValueSet.CLIENT).build();
 
     /**
      * Server
+     * 
+     * <p>The application acts as a server for this resource.
      */
     public static final RestfulCapabilityMode SERVER = RestfulCapabilityMode.builder().value(ValueSet.SERVER).build();
 
@@ -137,11 +141,15 @@ public class RestfulCapabilityMode extends Code {
     public enum ValueSet {
         /**
          * Client
+         * 
+         * <p>The application acts as a client for this resource.
          */
         CLIENT("client"),
 
         /**
          * Server
+         * 
+         * <p>The application acts as a server for this resource.
          */
         SERVER("server");
 

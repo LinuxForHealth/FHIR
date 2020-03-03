@@ -16,8 +16,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://unitsofmeasure.org")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://unitsofmeasure.org")
 public class UnitsOfTime extends Code {
     /**
      * second

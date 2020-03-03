@@ -16,21 +16,27 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/variable-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/variable-type")
 public class VariableType extends Code {
     /**
      * Dichotomous
+     * 
+     * <p>The variable is dichotomous, such as present or absent.
      */
     public static final VariableType DICHOTOMOUS = VariableType.builder().value(ValueSet.DICHOTOMOUS).build();
 
     /**
      * Continuous
+     * 
+     * <p>The variable is a continuous result such as a quantity.
      */
     public static final VariableType CONTINUOUS = VariableType.builder().value(ValueSet.CONTINUOUS).build();
 
     /**
      * Descriptive
+     * 
+     * <p>The variable is described narratively rather than quantitatively.
      */
     public static final VariableType DESCRIPTIVE = VariableType.builder().value(ValueSet.DESCRIPTIVE).build();
 
@@ -144,16 +150,22 @@ public class VariableType extends Code {
     public enum ValueSet {
         /**
          * Dichotomous
+         * 
+         * <p>The variable is dichotomous, such as present or absent.
          */
         DICHOTOMOUS("dichotomous"),
 
         /**
          * Continuous
+         * 
+         * <p>The variable is a continuous result such as a quantity.
          */
         CONTINUOUS("continuous"),
 
         /**
          * Descriptive
+         * 
+         * <p>The variable is described narratively rather than quantitatively.
          */
         DESCRIPTIVE("descriptive");
 

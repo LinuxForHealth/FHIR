@@ -16,36 +16,48 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/guidance-response-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/guidance-response-status")
 public class GuidanceResponseStatus extends Code {
     /**
      * Success
+     * 
+     * <p>The request was processed successfully.
      */
     public static final GuidanceResponseStatus SUCCESS = GuidanceResponseStatus.builder().value(ValueSet.SUCCESS).build();
 
     /**
      * Data Requested
+     * 
+     * <p>The request was processed successfully, but more data may result in a more complete evaluation.
      */
     public static final GuidanceResponseStatus DATA_REQUESTED = GuidanceResponseStatus.builder().value(ValueSet.DATA_REQUESTED).build();
 
     /**
      * Data Required
+     * 
+     * <p>The request was processed, but more data is required to complete the evaluation.
      */
     public static final GuidanceResponseStatus DATA_REQUIRED = GuidanceResponseStatus.builder().value(ValueSet.DATA_REQUIRED).build();
 
     /**
      * In Progress
+     * 
+     * <p>The request is currently being processed.
      */
     public static final GuidanceResponseStatus IN_PROGRESS = GuidanceResponseStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * Failure
+     * 
+     * <p>The request was not processed successfully.
      */
     public static final GuidanceResponseStatus FAILURE = GuidanceResponseStatus.builder().value(ValueSet.FAILURE).build();
 
     /**
      * Entered In Error
+     * 
+     * <p>The response was entered in error.
      */
     public static final GuidanceResponseStatus ENTERED_IN_ERROR = GuidanceResponseStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -165,31 +177,43 @@ public class GuidanceResponseStatus extends Code {
     public enum ValueSet {
         /**
          * Success
+         * 
+         * <p>The request was processed successfully.
          */
         SUCCESS("success"),
 
         /**
          * Data Requested
+         * 
+         * <p>The request was processed successfully, but more data may result in a more complete evaluation.
          */
         DATA_REQUESTED("data-requested"),
 
         /**
          * Data Required
+         * 
+         * <p>The request was processed, but more data is required to complete the evaluation.
          */
         DATA_REQUIRED("data-required"),
 
         /**
          * In Progress
+         * 
+         * <p>The request is currently being processed.
          */
         IN_PROGRESS("in-progress"),
 
         /**
          * Failure
+         * 
+         * <p>The request was not processed successfully.
          */
         FAILURE("failure"),
 
         /**
          * Entered In Error
+         * 
+         * <p>The response was entered in error.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

@@ -16,36 +16,49 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/device-statement-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/device-statement-status")
 public class DeviceUseStatementStatus extends Code {
     /**
      * Active
+     * 
+     * <p>The device is still being used.
      */
     public static final DeviceUseStatementStatus ACTIVE = DeviceUseStatementStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Completed
+     * 
+     * <p>The device is no longer being used.
      */
     public static final DeviceUseStatementStatus COMPLETED = DeviceUseStatementStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The statement was recorded incorrectly.
      */
     public static final DeviceUseStatementStatus ENTERED_IN_ERROR = DeviceUseStatementStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Intended
+     * 
+     * <p>The device may be used at some time in the future.
      */
     public static final DeviceUseStatementStatus INTENDED = DeviceUseStatementStatus.builder().value(ValueSet.INTENDED).build();
 
     /**
      * Stopped
+     * 
+     * <p>Actions implied by the statement have been permanently halted, before all of them occurred.
      */
     public static final DeviceUseStatementStatus STOPPED = DeviceUseStatementStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * On Hold
+     * 
+     * <p>Actions implied by the statement have been temporarily halted, but are expected to continue later. May also be 
+     * called "suspended".
      */
     public static final DeviceUseStatementStatus ON_HOLD = DeviceUseStatementStatus.builder().value(ValueSet.ON_HOLD).build();
 
@@ -165,31 +178,44 @@ public class DeviceUseStatementStatus extends Code {
     public enum ValueSet {
         /**
          * Active
+         * 
+         * <p>The device is still being used.
          */
         ACTIVE("active"),
 
         /**
          * Completed
+         * 
+         * <p>The device is no longer being used.
          */
         COMPLETED("completed"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The statement was recorded incorrectly.
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Intended
+         * 
+         * <p>The device may be used at some time in the future.
          */
         INTENDED("intended"),
 
         /**
          * Stopped
+         * 
+         * <p>Actions implied by the statement have been permanently halted, before all of them occurred.
          */
         STOPPED("stopped"),
 
         /**
          * On Hold
+         * 
+         * <p>Actions implied by the statement have been temporarily halted, but are expected to continue later. May also be 
+         * called "suspended".
          */
         ON_HOLD("on-hold");
 

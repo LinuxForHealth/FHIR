@@ -16,21 +16,27 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/conceptmap-unmapped-mode")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/conceptmap-unmapped-mode")
 public class ConceptMapGroupUnmappedMode extends Code {
     /**
      * Provided Code
+     * 
+     * <p>Use the code as provided in the $translate request.
      */
     public static final ConceptMapGroupUnmappedMode PROVIDED = ConceptMapGroupUnmappedMode.builder().value(ValueSet.PROVIDED).build();
 
     /**
      * Fixed Code
+     * 
+     * <p>Use the code explicitly provided in the group.unmapped.
      */
     public static final ConceptMapGroupUnmappedMode FIXED = ConceptMapGroupUnmappedMode.builder().value(ValueSet.FIXED).build();
 
     /**
      * Other Map
+     * 
+     * <p>Use the map identified by the canonical URL in the url element.
      */
     public static final ConceptMapGroupUnmappedMode OTHER_MAP = ConceptMapGroupUnmappedMode.builder().value(ValueSet.OTHER_MAP).build();
 
@@ -144,16 +150,22 @@ public class ConceptMapGroupUnmappedMode extends Code {
     public enum ValueSet {
         /**
          * Provided Code
+         * 
+         * <p>Use the code as provided in the $translate request.
          */
         PROVIDED("provided"),
 
         /**
          * Fixed Code
+         * 
+         * <p>Use the code explicitly provided in the group.unmapped.
          */
         FIXED("fixed"),
 
         /**
          * Other Map
+         * 
+         * <p>Use the map identified by the canonical URL in the url element.
          */
         OTHER_MAP("other-map");
 

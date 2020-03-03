@@ -16,36 +16,48 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/group-measure")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/group-measure")
 public class GroupMeasure extends Code {
     /**
      * Mean
+     * 
+     * <p>Aggregated using Mean of participant values.
      */
     public static final GroupMeasure MEAN = GroupMeasure.builder().value(ValueSet.MEAN).build();
 
     /**
      * Median
+     * 
+     * <p>Aggregated using Median of participant values.
      */
     public static final GroupMeasure MEDIAN = GroupMeasure.builder().value(ValueSet.MEDIAN).build();
 
     /**
      * Mean of Study Means
+     * 
+     * <p>Aggregated using Mean of study mean values.
      */
     public static final GroupMeasure MEAN_OF_MEAN = GroupMeasure.builder().value(ValueSet.MEAN_OF_MEAN).build();
 
     /**
      * Mean of Study Medins
+     * 
+     * <p>Aggregated using Mean of study median values.
      */
     public static final GroupMeasure MEAN_OF_MEDIAN = GroupMeasure.builder().value(ValueSet.MEAN_OF_MEDIAN).build();
 
     /**
      * Median of Study Means
+     * 
+     * <p>Aggregated using Median of study mean values.
      */
     public static final GroupMeasure MEDIAN_OF_MEAN = GroupMeasure.builder().value(ValueSet.MEDIAN_OF_MEAN).build();
 
     /**
      * Median of Study Medians
+     * 
+     * <p>Aggregated using Median of study median values.
      */
     public static final GroupMeasure MEDIAN_OF_MEDIAN = GroupMeasure.builder().value(ValueSet.MEDIAN_OF_MEDIAN).build();
 
@@ -165,31 +177,43 @@ public class GroupMeasure extends Code {
     public enum ValueSet {
         /**
          * Mean
+         * 
+         * <p>Aggregated using Mean of participant values.
          */
         MEAN("mean"),
 
         /**
          * Median
+         * 
+         * <p>Aggregated using Median of participant values.
          */
         MEDIAN("median"),
 
         /**
          * Mean of Study Means
+         * 
+         * <p>Aggregated using Mean of study mean values.
          */
         MEAN_OF_MEAN("mean-of-mean"),
 
         /**
          * Mean of Study Medins
+         * 
+         * <p>Aggregated using Mean of study median values.
          */
         MEAN_OF_MEDIAN("mean-of-median"),
 
         /**
          * Median of Study Means
+         * 
+         * <p>Aggregated using Median of study mean values.
          */
         MEDIAN_OF_MEAN("median-of-mean"),
 
         /**
          * Median of Study Medians
+         * 
+         * <p>Aggregated using Median of study median values.
          */
         MEDIAN_OF_MEDIAN("median-of-median");
 

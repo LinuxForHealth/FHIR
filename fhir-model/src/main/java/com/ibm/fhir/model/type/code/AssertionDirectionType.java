@@ -16,16 +16,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/assert-direction-codes")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/assert-direction-codes")
 public class AssertionDirectionType extends Code {
     /**
      * response
+     * 
+     * <p>The assertion is evaluated on the response. This is the default value.
      */
     public static final AssertionDirectionType RESPONSE = AssertionDirectionType.builder().value(ValueSet.RESPONSE).build();
 
     /**
      * request
+     * 
+     * <p>The assertion is evaluated on the request.
      */
     public static final AssertionDirectionType REQUEST = AssertionDirectionType.builder().value(ValueSet.REQUEST).build();
 
@@ -137,11 +141,15 @@ public class AssertionDirectionType extends Code {
     public enum ValueSet {
         /**
          * response
+         * 
+         * <p>The assertion is evaluated on the response. This is the default value.
          */
         RESPONSE("response"),
 
         /**
          * request
+         * 
+         * <p>The assertion is evaluated on the request.
          */
         REQUEST("request");
 

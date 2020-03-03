@@ -16,91 +16,130 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/item-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/item-type")
 public class QuestionnaireItemType extends Code {
     /**
      * Group
+     * 
+     * <p>An item with no direct answer but should have at least one child item.
      */
     public static final QuestionnaireItemType GROUP = QuestionnaireItemType.builder().value(ValueSet.GROUP).build();
 
     /**
      * Display
+     * 
+     * <p>Text for display that will not capture an answer or have child items.
      */
     public static final QuestionnaireItemType DISPLAY = QuestionnaireItemType.builder().value(ValueSet.DISPLAY).build();
 
     /**
      * Question
+     * 
+     * <p>An item that defines a specific answer to be captured, and which may have child items. (the answer provided in the 
+     * QuestionnaireResponse should be of the defined datatype).
      */
     public static final QuestionnaireItemType QUESTION = QuestionnaireItemType.builder().value(ValueSet.QUESTION).build();
 
     /**
      * Boolean
+     * 
+     * <p>Question with a yes/no answer (valueBoolean).
      */
     public static final QuestionnaireItemType BOOLEAN = QuestionnaireItemType.builder().value(ValueSet.BOOLEAN).build();
 
     /**
      * Decimal
+     * 
+     * <p>Question with is a real number answer (valueDecimal).
      */
     public static final QuestionnaireItemType DECIMAL = QuestionnaireItemType.builder().value(ValueSet.DECIMAL).build();
 
     /**
      * Integer
+     * 
+     * <p>Question with an integer answer (valueInteger).
      */
     public static final QuestionnaireItemType INTEGER = QuestionnaireItemType.builder().value(ValueSet.INTEGER).build();
 
     /**
      * Date
+     * 
+     * <p>Question with a date answer (valueDate).
      */
     public static final QuestionnaireItemType DATE = QuestionnaireItemType.builder().value(ValueSet.DATE).build();
 
     /**
      * Date Time
+     * 
+     * <p>Question with a date and time answer (valueDateTime).
      */
     public static final QuestionnaireItemType DATE_TIME = QuestionnaireItemType.builder().value(ValueSet.DATE_TIME).build();
 
     /**
      * Time
+     * 
+     * <p>Question with a time (hour:minute:second) answer independent of date. (valueTime).
      */
     public static final QuestionnaireItemType TIME = QuestionnaireItemType.builder().value(ValueSet.TIME).build();
 
     /**
      * String
+     * 
+     * <p>Question with a short (few words to short sentence) free-text entry answer (valueString).
      */
     public static final QuestionnaireItemType STRING = QuestionnaireItemType.builder().value(ValueSet.STRING).build();
 
     /**
      * Text
+     * 
+     * <p>Question with a long (potentially multi-paragraph) free-text entry answer (valueString).
      */
     public static final QuestionnaireItemType TEXT = QuestionnaireItemType.builder().value(ValueSet.TEXT).build();
 
     /**
      * Url
+     * 
+     * <p>Question with a URL (website, FTP site, etc.) answer (valueUri).
      */
     public static final QuestionnaireItemType URL = QuestionnaireItemType.builder().value(ValueSet.URL).build();
 
     /**
      * Choice
+     * 
+     * <p>Question with a Coding drawn from a list of possible answers (specified in either the answerOption property, or via 
+     * the valueset referenced in the answerValueSet property) as an answer (valueCoding).
      */
     public static final QuestionnaireItemType CHOICE = QuestionnaireItemType.builder().value(ValueSet.CHOICE).build();
 
     /**
      * Open Choice
+     * 
+     * <p>Answer is a Coding drawn from a list of possible answers (as with the choice type) or a free-text entry in a string 
+     * (valueCoding or valueString).
      */
     public static final QuestionnaireItemType OPEN_CHOICE = QuestionnaireItemType.builder().value(ValueSet.OPEN_CHOICE).build();
 
     /**
      * Attachment
+     * 
+     * <p>Question with binary content such as an image, PDF, etc. as an answer (valueAttachment).
      */
     public static final QuestionnaireItemType ATTACHMENT = QuestionnaireItemType.builder().value(ValueSet.ATTACHMENT).build();
 
     /**
      * Reference
+     * 
+     * <p>Question with a reference to another resource (practitioner, organization, etc.) as an answer (valueReference).
      */
     public static final QuestionnaireItemType REFERENCE = QuestionnaireItemType.builder().value(ValueSet.REFERENCE).build();
 
     /**
      * Quantity
+     * 
+     * <p>Question with a combination of a numeric value and unit, potentially with a comparator (&lt;, &gt;, etc.) as an 
+     * answer. (valueQuantity) There is an extension 'http://hl7.org/fhir/StructureDefinition/questionnaire-unit' that can be 
+     * used to define what unit should be captured (or the unit that has a ucum conversion from the provided unit).
      */
     public static final QuestionnaireItemType QUANTITY = QuestionnaireItemType.builder().value(ValueSet.QUANTITY).build();
 
@@ -242,86 +281,125 @@ public class QuestionnaireItemType extends Code {
     public enum ValueSet {
         /**
          * Group
+         * 
+         * <p>An item with no direct answer but should have at least one child item.
          */
         GROUP("group"),
 
         /**
          * Display
+         * 
+         * <p>Text for display that will not capture an answer or have child items.
          */
         DISPLAY("display"),
 
         /**
          * Question
+         * 
+         * <p>An item that defines a specific answer to be captured, and which may have child items. (the answer provided in the 
+         * QuestionnaireResponse should be of the defined datatype).
          */
         QUESTION("question"),
 
         /**
          * Boolean
+         * 
+         * <p>Question with a yes/no answer (valueBoolean).
          */
         BOOLEAN("boolean"),
 
         /**
          * Decimal
+         * 
+         * <p>Question with is a real number answer (valueDecimal).
          */
         DECIMAL("decimal"),
 
         /**
          * Integer
+         * 
+         * <p>Question with an integer answer (valueInteger).
          */
         INTEGER("integer"),
 
         /**
          * Date
+         * 
+         * <p>Question with a date answer (valueDate).
          */
         DATE("date"),
 
         /**
          * Date Time
+         * 
+         * <p>Question with a date and time answer (valueDateTime).
          */
         DATE_TIME("dateTime"),
 
         /**
          * Time
+         * 
+         * <p>Question with a time (hour:minute:second) answer independent of date. (valueTime).
          */
         TIME("time"),
 
         /**
          * String
+         * 
+         * <p>Question with a short (few words to short sentence) free-text entry answer (valueString).
          */
         STRING("string"),
 
         /**
          * Text
+         * 
+         * <p>Question with a long (potentially multi-paragraph) free-text entry answer (valueString).
          */
         TEXT("text"),
 
         /**
          * Url
+         * 
+         * <p>Question with a URL (website, FTP site, etc.) answer (valueUri).
          */
         URL("url"),
 
         /**
          * Choice
+         * 
+         * <p>Question with a Coding drawn from a list of possible answers (specified in either the answerOption property, or via 
+         * the valueset referenced in the answerValueSet property) as an answer (valueCoding).
          */
         CHOICE("choice"),
 
         /**
          * Open Choice
+         * 
+         * <p>Answer is a Coding drawn from a list of possible answers (as with the choice type) or a free-text entry in a string 
+         * (valueCoding or valueString).
          */
         OPEN_CHOICE("open-choice"),
 
         /**
          * Attachment
+         * 
+         * <p>Question with binary content such as an image, PDF, etc. as an answer (valueAttachment).
          */
         ATTACHMENT("attachment"),
 
         /**
          * Reference
+         * 
+         * <p>Question with a reference to another resource (practitioner, organization, etc.) as an answer (valueReference).
          */
         REFERENCE("reference"),
 
         /**
          * Quantity
+         * 
+         * <p>Question with a combination of a numeric value and unit, potentially with a comparator (&lt;, &gt;, etc.) as an 
+         * answer. (valueQuantity) There is an extension 'http://hl7.org/fhir/StructureDefinition/questionnaire-unit' that can be 
+         * used to define what unit should be captured (or the unit that has a ucum conversion from the provided unit).
          */
         QUANTITY("quantity");
 

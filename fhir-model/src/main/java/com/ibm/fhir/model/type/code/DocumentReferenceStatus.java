@@ -16,21 +16,27 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/document-reference-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/document-reference-status")
 public class DocumentReferenceStatus extends Code {
     /**
      * Current
+     * 
+     * <p>This is the current reference for this document.
      */
     public static final DocumentReferenceStatus CURRENT = DocumentReferenceStatus.builder().value(ValueSet.CURRENT).build();
 
     /**
      * Superseded
+     * 
+     * <p>This reference has been superseded by another reference.
      */
     public static final DocumentReferenceStatus SUPERSEDED = DocumentReferenceStatus.builder().value(ValueSet.SUPERSEDED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>This reference was created in error.
      */
     public static final DocumentReferenceStatus ENTERED_IN_ERROR = DocumentReferenceStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -144,16 +150,22 @@ public class DocumentReferenceStatus extends Code {
     public enum ValueSet {
         /**
          * Current
+         * 
+         * <p>This is the current reference for this document.
          */
         CURRENT("current"),
 
         /**
          * Superseded
+         * 
+         * <p>This reference has been superseded by another reference.
          */
         SUPERSEDED("superseded"),
 
         /**
          * Entered in Error
+         * 
+         * <p>This reference was created in error.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

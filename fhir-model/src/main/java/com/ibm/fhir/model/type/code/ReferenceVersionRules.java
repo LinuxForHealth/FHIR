@@ -16,21 +16,27 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/reference-version-rules")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/reference-version-rules")
 public class ReferenceVersionRules extends Code {
     /**
      * Either Specific or independent
+     * 
+     * <p>The reference may be either version independent or version specific.
      */
     public static final ReferenceVersionRules EITHER = ReferenceVersionRules.builder().value(ValueSet.EITHER).build();
 
     /**
      * Version independent
+     * 
+     * <p>The reference must be version independent.
      */
     public static final ReferenceVersionRules INDEPENDENT = ReferenceVersionRules.builder().value(ValueSet.INDEPENDENT).build();
 
     /**
      * Version Specific
+     * 
+     * <p>The reference must be version specific.
      */
     public static final ReferenceVersionRules SPECIFIC = ReferenceVersionRules.builder().value(ValueSet.SPECIFIC).build();
 
@@ -144,16 +150,22 @@ public class ReferenceVersionRules extends Code {
     public enum ValueSet {
         /**
          * Either Specific or independent
+         * 
+         * <p>The reference may be either version independent or version specific.
          */
         EITHER("either"),
 
         /**
          * Version independent
+         * 
+         * <p>The reference must be version independent.
          */
         INDEPENDENT("independent"),
 
         /**
          * Version Specific
+         * 
+         * <p>The reference must be version specific.
          */
         SPECIFIC("specific");
 

@@ -16,21 +16,27 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/action-condition-kind")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/action-condition-kind")
 public class ActionConditionKind extends Code {
     /**
      * Applicability
+     * 
+     * <p>The condition describes whether or not a given action is applicable.
      */
     public static final ActionConditionKind APPLICABILITY = ActionConditionKind.builder().value(ValueSet.APPLICABILITY).build();
 
     /**
      * Start
+     * 
+     * <p>The condition is a starting condition for the action.
      */
     public static final ActionConditionKind START = ActionConditionKind.builder().value(ValueSet.START).build();
 
     /**
      * Stop
+     * 
+     * <p>The condition is a stop, or exit condition for the action.
      */
     public static final ActionConditionKind STOP = ActionConditionKind.builder().value(ValueSet.STOP).build();
 
@@ -144,16 +150,22 @@ public class ActionConditionKind extends Code {
     public enum ValueSet {
         /**
          * Applicability
+         * 
+         * <p>The condition describes whether or not a given action is applicable.
          */
         APPLICABILITY("applicability"),
 
         /**
          * Start
+         * 
+         * <p>The condition is a starting condition for the action.
          */
         START("start"),
 
         /**
          * Stop
+         * 
+         * <p>The condition is a stop, or exit condition for the action.
          */
         STOP("stop");
 

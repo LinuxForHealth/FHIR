@@ -16,16 +16,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/adverse-event-actuality")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/adverse-event-actuality")
 public class AdverseEventActuality extends Code {
     /**
      * Adverse Event
+     * 
+     * <p>The adverse event actually happened regardless of whether anyone was affected or harmed.
      */
     public static final AdverseEventActuality ACTUAL = AdverseEventActuality.builder().value(ValueSet.ACTUAL).build();
 
     /**
      * Potential Adverse Event
+     * 
+     * <p>A potential adverse event.
      */
     public static final AdverseEventActuality POTENTIAL = AdverseEventActuality.builder().value(ValueSet.POTENTIAL).build();
 
@@ -137,11 +141,15 @@ public class AdverseEventActuality extends Code {
     public enum ValueSet {
         /**
          * Adverse Event
+         * 
+         * <p>The adverse event actually happened regardless of whether anyone was affected or harmed.
          */
         ACTUAL("actual"),
 
         /**
          * Potential Adverse Event
+         * 
+         * <p>A potential adverse event.
          */
         POTENTIAL("potential");
 

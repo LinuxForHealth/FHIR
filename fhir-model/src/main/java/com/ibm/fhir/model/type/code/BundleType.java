@@ -16,51 +16,71 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/bundle-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/bundle-type")
 public class BundleType extends Code {
     /**
      * Document
+     * 
+     * <p>The bundle is a document. The first resource is a Composition.
      */
     public static final BundleType DOCUMENT = BundleType.builder().value(ValueSet.DOCUMENT).build();
 
     /**
      * Message
+     * 
+     * <p>The bundle is a message. The first resource is a MessageHeader.
      */
     public static final BundleType MESSAGE = BundleType.builder().value(ValueSet.MESSAGE).build();
 
     /**
      * Transaction
+     * 
+     * <p>The bundle is a transaction - intended to be processed by a server as an atomic commit.
      */
     public static final BundleType TRANSACTION = BundleType.builder().value(ValueSet.TRANSACTION).build();
 
     /**
      * Transaction Response
+     * 
+     * <p>The bundle is a transaction response. Because the response is a transaction response, the transaction has 
+     * succeeded, and all responses are error free.
      */
     public static final BundleType TRANSACTION_RESPONSE = BundleType.builder().value(ValueSet.TRANSACTION_RESPONSE).build();
 
     /**
      * Batch
+     * 
+     * <p>The bundle is a set of actions - intended to be processed by a server as a group of independent actions.
      */
     public static final BundleType BATCH = BundleType.builder().value(ValueSet.BATCH).build();
 
     /**
      * Batch Response
+     * 
+     * <p>The bundle is a batch response. Note that as a batch, some responses may indicate failure and others success.
      */
     public static final BundleType BATCH_RESPONSE = BundleType.builder().value(ValueSet.BATCH_RESPONSE).build();
 
     /**
      * History List
+     * 
+     * <p>The bundle is a list of resources from a history interaction on a server.
      */
     public static final BundleType HISTORY = BundleType.builder().value(ValueSet.HISTORY).build();
 
     /**
      * Search Results
+     * 
+     * <p>The bundle is a list of resources returned as a result of a search/query interaction, operation, or message.
      */
     public static final BundleType SEARCHSET = BundleType.builder().value(ValueSet.SEARCHSET).build();
 
     /**
      * Collection
+     * 
+     * <p>The bundle is a set of resources collected into a single package for ease of distribution that imposes no 
+     * processing obligations or behavioral rules beyond persistence.
      */
     public static final BundleType COLLECTION = BundleType.builder().value(ValueSet.COLLECTION).build();
 
@@ -186,46 +206,66 @@ public class BundleType extends Code {
     public enum ValueSet {
         /**
          * Document
+         * 
+         * <p>The bundle is a document. The first resource is a Composition.
          */
         DOCUMENT("document"),
 
         /**
          * Message
+         * 
+         * <p>The bundle is a message. The first resource is a MessageHeader.
          */
         MESSAGE("message"),
 
         /**
          * Transaction
+         * 
+         * <p>The bundle is a transaction - intended to be processed by a server as an atomic commit.
          */
         TRANSACTION("transaction"),
 
         /**
          * Transaction Response
+         * 
+         * <p>The bundle is a transaction response. Because the response is a transaction response, the transaction has 
+         * succeeded, and all responses are error free.
          */
         TRANSACTION_RESPONSE("transaction-response"),
 
         /**
          * Batch
+         * 
+         * <p>The bundle is a set of actions - intended to be processed by a server as a group of independent actions.
          */
         BATCH("batch"),
 
         /**
          * Batch Response
+         * 
+         * <p>The bundle is a batch response. Note that as a batch, some responses may indicate failure and others success.
          */
         BATCH_RESPONSE("batch-response"),
 
         /**
          * History List
+         * 
+         * <p>The bundle is a list of resources from a history interaction on a server.
          */
         HISTORY("history"),
 
         /**
          * Search Results
+         * 
+         * <p>The bundle is a list of resources returned as a result of a search/query interaction, operation, or message.
          */
         SEARCHSET("searchset"),
 
         /**
          * Collection
+         * 
+         * <p>The bundle is a set of resources collected into a single package for ease of distribution that imposes no 
+         * processing obligations or behavioral rules beyond persistence.
          */
         COLLECTION("collection");
 

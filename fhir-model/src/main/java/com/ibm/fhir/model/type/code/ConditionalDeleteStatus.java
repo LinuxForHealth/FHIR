@@ -16,21 +16,27 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/conditional-delete-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/conditional-delete-status")
 public class ConditionalDeleteStatus extends Code {
     /**
      * Not Supported
+     * 
+     * <p>No support for conditional deletes.
      */
     public static final ConditionalDeleteStatus NOT_SUPPORTED = ConditionalDeleteStatus.builder().value(ValueSet.NOT_SUPPORTED).build();
 
     /**
      * Single Deletes Supported
+     * 
+     * <p>Conditional deletes are supported, but only single resources at a time.
      */
     public static final ConditionalDeleteStatus SINGLE = ConditionalDeleteStatus.builder().value(ValueSet.SINGLE).build();
 
     /**
      * Multiple Deletes Supported
+     * 
+     * <p>Conditional deletes are supported, and multiple resources can be deleted in a single interaction.
      */
     public static final ConditionalDeleteStatus MULTIPLE = ConditionalDeleteStatus.builder().value(ValueSet.MULTIPLE).build();
 
@@ -144,16 +150,22 @@ public class ConditionalDeleteStatus extends Code {
     public enum ValueSet {
         /**
          * Not Supported
+         * 
+         * <p>No support for conditional deletes.
          */
         NOT_SUPPORTED("not-supported"),
 
         /**
          * Single Deletes Supported
+         * 
+         * <p>Conditional deletes are supported, but only single resources at a time.
          */
         SINGLE("single"),
 
         /**
          * Multiple Deletes Supported
+         * 
+         * <p>Conditional deletes are supported, and multiple resources can be deleted in a single interaction.
          */
         MULTIPLE("multiple");
 

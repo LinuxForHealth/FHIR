@@ -16,26 +16,34 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/metric-operational-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/metric-operational-status")
 public class DeviceMetricOperationalStatus extends Code {
     /**
      * On
+     * 
+     * <p>The DeviceMetric is operating and will generate DeviceObservations.
      */
     public static final DeviceMetricOperationalStatus ON = DeviceMetricOperationalStatus.builder().value(ValueSet.ON).build();
 
     /**
      * Off
+     * 
+     * <p>The DeviceMetric is not operating.
      */
     public static final DeviceMetricOperationalStatus OFF = DeviceMetricOperationalStatus.builder().value(ValueSet.OFF).build();
 
     /**
      * Standby
+     * 
+     * <p>The DeviceMetric is operating, but will not generate any DeviceObservations.
      */
     public static final DeviceMetricOperationalStatus STANDBY = DeviceMetricOperationalStatus.builder().value(ValueSet.STANDBY).build();
 
     /**
      * Entered In Error
+     * 
+     * <p>The DeviceMetric was entered in error.
      */
     public static final DeviceMetricOperationalStatus ENTERED_IN_ERROR = DeviceMetricOperationalStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -151,21 +159,29 @@ public class DeviceMetricOperationalStatus extends Code {
     public enum ValueSet {
         /**
          * On
+         * 
+         * <p>The DeviceMetric is operating and will generate DeviceObservations.
          */
         ON("on"),
 
         /**
          * Off
+         * 
+         * <p>The DeviceMetric is not operating.
          */
         OFF("off"),
 
         /**
          * Standby
+         * 
+         * <p>The DeviceMetric is operating, but will not generate any DeviceObservations.
          */
         STANDBY("standby"),
 
         /**
          * Entered In Error
+         * 
+         * <p>The DeviceMetric was entered in error.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

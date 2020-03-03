@@ -16,26 +16,41 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/codesystem-hierarchy-meaning")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/codesystem-hierarchy-meaning")
 public class CodeSystemHierarchyMeaning extends Code {
     /**
      * Grouped By
+     * 
+     * <p>No particular relationship between the concepts can be assumed, except what can be determined by inspection of the 
+     * definitions of the elements (possible reasons to use this: importing from a source where this is not defined, or where 
+     * various parts of the hierarchy have different meanings).
      */
     public static final CodeSystemHierarchyMeaning GROUPED_BY = CodeSystemHierarchyMeaning.builder().value(ValueSet.GROUPED_BY).build();
 
     /**
      * Is-A
+     * 
+     * <p>A hierarchy where the child concepts have an IS-A relationship with the parents - that is, all the properties of 
+     * the parent are also true for its child concepts. Not that is-a is a property of the concepts, so additional 
+     * subsumption relationships may be defined using properties or the [subsumes](extension-codesystem-subsumes.html) 
+     * extension.
      */
     public static final CodeSystemHierarchyMeaning IS_A = CodeSystemHierarchyMeaning.builder().value(ValueSet.IS_A).build();
 
     /**
      * Part Of
+     * 
+     * <p>Child elements list the individual parts of a composite whole (e.g. body site).
      */
     public static final CodeSystemHierarchyMeaning PART_OF = CodeSystemHierarchyMeaning.builder().value(ValueSet.PART_OF).build();
 
     /**
      * Classified With
+     * 
+     * <p>Child concepts in the hierarchy may have only one parent, and there is a presumption that the code system is a 
+     * "closed world" meaning all things must be in the hierarchy. This results in concepts such as "not otherwise 
+     * classified.".
      */
     public static final CodeSystemHierarchyMeaning CLASSIFIED_WITH = CodeSystemHierarchyMeaning.builder().value(ValueSet.CLASSIFIED_WITH).build();
 
@@ -151,21 +166,36 @@ public class CodeSystemHierarchyMeaning extends Code {
     public enum ValueSet {
         /**
          * Grouped By
+         * 
+         * <p>No particular relationship between the concepts can be assumed, except what can be determined by inspection of the 
+         * definitions of the elements (possible reasons to use this: importing from a source where this is not defined, or where 
+         * various parts of the hierarchy have different meanings).
          */
         GROUPED_BY("grouped-by"),
 
         /**
          * Is-A
+         * 
+         * <p>A hierarchy where the child concepts have an IS-A relationship with the parents - that is, all the properties of 
+         * the parent are also true for its child concepts. Not that is-a is a property of the concepts, so additional 
+         * subsumption relationships may be defined using properties or the [subsumes](extension-codesystem-subsumes.html) 
+         * extension.
          */
         IS_A("is-a"),
 
         /**
          * Part Of
+         * 
+         * <p>Child elements list the individual parts of a composite whole (e.g. body site).
          */
         PART_OF("part-of"),
 
         /**
          * Classified With
+         * 
+         * <p>Child concepts in the hierarchy may have only one parent, and there is a presumption that the code system is a 
+         * "closed world" meaning all things must be in the hierarchy. This results in concepts such as "not otherwise 
+         * classified.".
          */
         CLASSIFIED_WITH("classified-with");
 

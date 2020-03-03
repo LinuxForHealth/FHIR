@@ -16,21 +16,34 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/action-grouping-behavior")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/action-grouping-behavior")
 public class ActionGroupingBehavior extends Code {
     /**
      * Visual Group
+     * 
+     * <p>Any group marked with this behavior should be displayed as a visual group to the end user.
      */
     public static final ActionGroupingBehavior VISUAL_GROUP = ActionGroupingBehavior.builder().value(ValueSet.VISUAL_GROUP).build();
 
     /**
      * Logical Group
+     * 
+     * <p>A group with this behavior logically groups its sub-elements, and may be shown as a visual group to the end user, 
+     * but it is not required to do so.
      */
     public static final ActionGroupingBehavior LOGICAL_GROUP = ActionGroupingBehavior.builder().value(ValueSet.LOGICAL_GROUP).build();
 
     /**
      * Sentence Group
+     * 
+     * <p>A group of related alternative actions is a sentence group if the target referenced by the action is the same in 
+     * all the actions and each action simply constitutes a different variation on how to specify the details for the target. 
+     * For example, two actions that could be in a SentenceGroup are "aspirin, 500 mg, 2 times per day" and "aspirin, 300 mg, 
+     * 3 times per day". In both cases, aspirin is the target referenced by the action, and the two actions represent 
+     * different options for how aspirin might be ordered for the patient. Note that a SentenceGroup would almost always have 
+     * an associated selection behavior of "AtMostOne", unless it's a required action, in which case, it would be 
+     * "ExactlyOne".
      */
     public static final ActionGroupingBehavior SENTENCE_GROUP = ActionGroupingBehavior.builder().value(ValueSet.SENTENCE_GROUP).build();
 
@@ -144,16 +157,29 @@ public class ActionGroupingBehavior extends Code {
     public enum ValueSet {
         /**
          * Visual Group
+         * 
+         * <p>Any group marked with this behavior should be displayed as a visual group to the end user.
          */
         VISUAL_GROUP("visual-group"),
 
         /**
          * Logical Group
+         * 
+         * <p>A group with this behavior logically groups its sub-elements, and may be shown as a visual group to the end user, 
+         * but it is not required to do so.
          */
         LOGICAL_GROUP("logical-group"),
 
         /**
          * Sentence Group
+         * 
+         * <p>A group of related alternative actions is a sentence group if the target referenced by the action is the same in 
+         * all the actions and each action simply constitutes a different variation on how to specify the details for the target. 
+         * For example, two actions that could be in a SentenceGroup are "aspirin, 500 mg, 2 times per day" and "aspirin, 300 mg, 
+         * 3 times per day". In both cases, aspirin is the target referenced by the action, and the two actions represent 
+         * different options for how aspirin might be ordered for the patient. Note that a SentenceGroup would almost always have 
+         * an associated selection behavior of "AtMostOne", unless it's a required action, in which case, it would be 
+         * "ExactlyOne".
          */
         SENTENCE_GROUP("sentence-group");
 

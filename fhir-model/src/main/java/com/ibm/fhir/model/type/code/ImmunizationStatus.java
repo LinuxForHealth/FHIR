@@ -16,8 +16,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/event-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/event-status")
 public class ImmunizationStatus extends Code {
     public static final ImmunizationStatus COMPLETED = ImmunizationStatus.builder().value(ValueSet.COMPLETED).build();
 

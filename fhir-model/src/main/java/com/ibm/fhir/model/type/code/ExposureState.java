@@ -16,16 +16,21 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/exposure-state")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/exposure-state")
 public class ExposureState extends Code {
     /**
      * Exposure
+     * 
+     * <p>used when the results by exposure is describing the results for the primary exposure of interest.
      */
     public static final ExposureState EXPOSURE = ExposureState.builder().value(ValueSet.EXPOSURE).build();
 
     /**
      * Exposure Alternative
+     * 
+     * <p>used when the results by exposure is describing the results for the alternative exposure state, control state or 
+     * comparator state.
      */
     public static final ExposureState EXPOSURE_ALTERNATIVE = ExposureState.builder().value(ValueSet.EXPOSURE_ALTERNATIVE).build();
 
@@ -137,11 +142,16 @@ public class ExposureState extends Code {
     public enum ValueSet {
         /**
          * Exposure
+         * 
+         * <p>used when the results by exposure is describing the results for the primary exposure of interest.
          */
         EXPOSURE("exposure"),
 
         /**
          * Exposure Alternative
+         * 
+         * <p>used when the results by exposure is describing the results for the alternative exposure state, control state or 
+         * comparator state.
          */
         EXPOSURE_ALTERNATIVE("exposure-alternative");
 

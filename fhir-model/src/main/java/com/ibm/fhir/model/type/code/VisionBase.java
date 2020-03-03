@@ -16,26 +16,34 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/vision-base-codes")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/vision-base-codes")
 public class VisionBase extends Code {
     /**
      * Up
+     * 
+     * <p>top.
      */
     public static final VisionBase UP = VisionBase.builder().value(ValueSet.UP).build();
 
     /**
      * Down
+     * 
+     * <p>bottom.
      */
     public static final VisionBase DOWN = VisionBase.builder().value(ValueSet.DOWN).build();
 
     /**
      * In
+     * 
+     * <p>inner edge.
      */
     public static final VisionBase IN = VisionBase.builder().value(ValueSet.IN).build();
 
     /**
      * Out
+     * 
+     * <p>outer edge.
      */
     public static final VisionBase OUT = VisionBase.builder().value(ValueSet.OUT).build();
 
@@ -151,21 +159,29 @@ public class VisionBase extends Code {
     public enum ValueSet {
         /**
          * Up
+         * 
+         * <p>top.
          */
         UP("up"),
 
         /**
          * Down
+         * 
+         * <p>bottom.
          */
         DOWN("down"),
 
         /**
          * In
+         * 
+         * <p>inner edge.
          */
         IN("in"),
 
         /**
          * Out
+         * 
+         * <p>outer edge.
          */
         OUT("out");
 

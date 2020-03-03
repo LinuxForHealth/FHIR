@@ -16,26 +16,34 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/composition-attestation-mode")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/composition-attestation-mode")
 public class CompositionAttestationMode extends Code {
     /**
      * Personal
+     * 
+     * <p>The person authenticated the content in their personal capacity.
      */
     public static final CompositionAttestationMode PERSONAL = CompositionAttestationMode.builder().value(ValueSet.PERSONAL).build();
 
     /**
      * Professional
+     * 
+     * <p>The person authenticated the content in their professional capacity.
      */
     public static final CompositionAttestationMode PROFESSIONAL = CompositionAttestationMode.builder().value(ValueSet.PROFESSIONAL).build();
 
     /**
      * Legal
+     * 
+     * <p>The person authenticated the content and accepted legal responsibility for its content.
      */
     public static final CompositionAttestationMode LEGAL = CompositionAttestationMode.builder().value(ValueSet.LEGAL).build();
 
     /**
      * Official
+     * 
+     * <p>The organization authenticated the content as consistent with their policies and procedures.
      */
     public static final CompositionAttestationMode OFFICIAL = CompositionAttestationMode.builder().value(ValueSet.OFFICIAL).build();
 
@@ -151,21 +159,29 @@ public class CompositionAttestationMode extends Code {
     public enum ValueSet {
         /**
          * Personal
+         * 
+         * <p>The person authenticated the content in their personal capacity.
          */
         PERSONAL("personal"),
 
         /**
          * Professional
+         * 
+         * <p>The person authenticated the content in their professional capacity.
          */
         PROFESSIONAL("professional"),
 
         /**
          * Legal
+         * 
+         * <p>The person authenticated the content and accepted legal responsibility for its content.
          */
         LEGAL("legal"),
 
         /**
          * Official
+         * 
+         * <p>The organization authenticated the content as consistent with their policies and procedures.
          */
         OFFICIAL("official");
 

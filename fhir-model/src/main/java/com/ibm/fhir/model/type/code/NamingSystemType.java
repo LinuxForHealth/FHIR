@@ -16,21 +16,28 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/namingsystem-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/namingsystem-type")
 public class NamingSystemType extends Code {
     /**
      * Code System
+     * 
+     * <p>The naming system is used to define concepts and symbols to represent those concepts; e.g. UCUM, LOINC, NDC code, 
+     * local lab codes, etc.
      */
     public static final NamingSystemType CODESYSTEM = NamingSystemType.builder().value(ValueSet.CODESYSTEM).build();
 
     /**
      * Identifier
+     * 
+     * <p>The naming system is used to manage identifiers (e.g. license numbers, order numbers, etc.).
      */
     public static final NamingSystemType IDENTIFIER = NamingSystemType.builder().value(ValueSet.IDENTIFIER).build();
 
     /**
      * Root
+     * 
+     * <p>The naming system is used as the root for other identifiers and naming systems.
      */
     public static final NamingSystemType ROOT = NamingSystemType.builder().value(ValueSet.ROOT).build();
 
@@ -144,16 +151,23 @@ public class NamingSystemType extends Code {
     public enum ValueSet {
         /**
          * Code System
+         * 
+         * <p>The naming system is used to define concepts and symbols to represent those concepts; e.g. UCUM, LOINC, NDC code, 
+         * local lab codes, etc.
          */
         CODESYSTEM("codesystem"),
 
         /**
          * Identifier
+         * 
+         * <p>The naming system is used to manage identifiers (e.g. license numbers, order numbers, etc.).
          */
         IDENTIFIER("identifier"),
 
         /**
          * Root
+         * 
+         * <p>The naming system is used as the root for other identifiers and naming systems.
          */
         ROOT("root");
 

@@ -16,31 +16,41 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/report-status-codes")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/report-status-codes")
 public class TestReportStatus extends Code {
     /**
      * Completed
+     * 
+     * <p>All test operations have completed.
      */
     public static final TestReportStatus COMPLETED = TestReportStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * In Progress
+     * 
+     * <p>A test operations is currently executing.
      */
     public static final TestReportStatus IN_PROGRESS = TestReportStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * Waiting
+     * 
+     * <p>A test operation is waiting for an external client request.
      */
     public static final TestReportStatus WAITING = TestReportStatus.builder().value(ValueSet.WAITING).build();
 
     /**
      * Stopped
+     * 
+     * <p>The test script execution was manually stopped.
      */
     public static final TestReportStatus STOPPED = TestReportStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * Entered In Error
+     * 
+     * <p>This test report was entered or created in error.
      */
     public static final TestReportStatus ENTERED_IN_ERROR = TestReportStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -158,26 +168,36 @@ public class TestReportStatus extends Code {
     public enum ValueSet {
         /**
          * Completed
+         * 
+         * <p>All test operations have completed.
          */
         COMPLETED("completed"),
 
         /**
          * In Progress
+         * 
+         * <p>A test operations is currently executing.
          */
         IN_PROGRESS("in-progress"),
 
         /**
          * Waiting
+         * 
+         * <p>A test operation is waiting for an external client request.
          */
         WAITING("waiting"),
 
         /**
          * Stopped
+         * 
+         * <p>The test script execution was manually stopped.
          */
         STOPPED("stopped"),
 
         /**
          * Entered In Error
+         * 
+         * <p>This test report was entered or created in error.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

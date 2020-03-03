@@ -16,8 +16,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/resource-types")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/resource-types")
 public class CarePlanActivityKind extends Code {
     public static final CarePlanActivityKind APPOINTMENT = CarePlanActivityKind.builder().value(ValueSet.APPOINTMENT).build();
 

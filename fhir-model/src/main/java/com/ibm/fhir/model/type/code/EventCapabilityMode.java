@@ -16,16 +16,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/event-capability-mode")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/event-capability-mode")
 public class EventCapabilityMode extends Code {
     /**
      * Sender
+     * 
+     * <p>The application sends requests and receives responses.
      */
     public static final EventCapabilityMode SENDER = EventCapabilityMode.builder().value(ValueSet.SENDER).build();
 
     /**
      * Receiver
+     * 
+     * <p>The application receives requests and sends responses.
      */
     public static final EventCapabilityMode RECEIVER = EventCapabilityMode.builder().value(ValueSet.RECEIVER).build();
 
@@ -137,11 +141,15 @@ public class EventCapabilityMode extends Code {
     public enum ValueSet {
         /**
          * Sender
+         * 
+         * <p>The application sends requests and receives responses.
          */
         SENDER("sender"),
 
         /**
          * Receiver
+         * 
+         * <p>The application receives requests and sends responses.
          */
         RECEIVER("receiver");
 

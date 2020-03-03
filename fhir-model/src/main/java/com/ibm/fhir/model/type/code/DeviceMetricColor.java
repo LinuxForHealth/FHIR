@@ -16,46 +16,62 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/metric-color")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/metric-color")
 public class DeviceMetricColor extends Code {
     /**
      * Color Black
+     * 
+     * <p>Color for representation - black.
      */
     public static final DeviceMetricColor BLACK = DeviceMetricColor.builder().value(ValueSet.BLACK).build();
 
     /**
      * Color Red
+     * 
+     * <p>Color for representation - red.
      */
     public static final DeviceMetricColor RED = DeviceMetricColor.builder().value(ValueSet.RED).build();
 
     /**
      * Color Green
+     * 
+     * <p>Color for representation - green.
      */
     public static final DeviceMetricColor GREEN = DeviceMetricColor.builder().value(ValueSet.GREEN).build();
 
     /**
      * Color Yellow
+     * 
+     * <p>Color for representation - yellow.
      */
     public static final DeviceMetricColor YELLOW = DeviceMetricColor.builder().value(ValueSet.YELLOW).build();
 
     /**
      * Color Blue
+     * 
+     * <p>Color for representation - blue.
      */
     public static final DeviceMetricColor BLUE = DeviceMetricColor.builder().value(ValueSet.BLUE).build();
 
     /**
      * Color Magenta
+     * 
+     * <p>Color for representation - magenta.
      */
     public static final DeviceMetricColor MAGENTA = DeviceMetricColor.builder().value(ValueSet.MAGENTA).build();
 
     /**
      * Color Cyan
+     * 
+     * <p>Color for representation - cyan.
      */
     public static final DeviceMetricColor CYAN = DeviceMetricColor.builder().value(ValueSet.CYAN).build();
 
     /**
      * Color White
+     * 
+     * <p>Color for representation - white.
      */
     public static final DeviceMetricColor WHITE = DeviceMetricColor.builder().value(ValueSet.WHITE).build();
 
@@ -179,41 +195,57 @@ public class DeviceMetricColor extends Code {
     public enum ValueSet {
         /**
          * Color Black
+         * 
+         * <p>Color for representation - black.
          */
         BLACK("black"),
 
         /**
          * Color Red
+         * 
+         * <p>Color for representation - red.
          */
         RED("red"),
 
         /**
          * Color Green
+         * 
+         * <p>Color for representation - green.
          */
         GREEN("green"),
 
         /**
          * Color Yellow
+         * 
+         * <p>Color for representation - yellow.
          */
         YELLOW("yellow"),
 
         /**
          * Color Blue
+         * 
+         * <p>Color for representation - blue.
          */
         BLUE("blue"),
 
         /**
          * Color Magenta
+         * 
+         * <p>Color for representation - magenta.
          */
         MAGENTA("magenta"),
 
         /**
          * Color Cyan
+         * 
+         * <p>Color for representation - cyan.
          */
         CYAN("cyan"),
 
         /**
          * Color White
+         * 
+         * <p>Color for representation - white.
          */
         WHITE("white");
 

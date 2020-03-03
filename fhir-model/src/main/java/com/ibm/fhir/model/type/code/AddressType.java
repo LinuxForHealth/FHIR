@@ -16,21 +16,27 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/address-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/address-type")
 public class AddressType extends Code {
     /**
      * Postal
+     * 
+     * <p>Mailing addresses - PO Boxes and care-of addresses.
      */
     public static final AddressType POSTAL = AddressType.builder().value(ValueSet.POSTAL).build();
 
     /**
      * Physical
+     * 
+     * <p>A physical address that can be visited.
      */
     public static final AddressType PHYSICAL = AddressType.builder().value(ValueSet.PHYSICAL).build();
 
     /**
      * Postal &amp; Physical
+     * 
+     * <p>An address that is both physical and postal.
      */
     public static final AddressType BOTH = AddressType.builder().value(ValueSet.BOTH).build();
 
@@ -144,16 +150,22 @@ public class AddressType extends Code {
     public enum ValueSet {
         /**
          * Postal
+         * 
+         * <p>Mailing addresses - PO Boxes and care-of addresses.
          */
         POSTAL("postal"),
 
         /**
          * Physical
+         * 
+         * <p>A physical address that can be visited.
          */
         PHYSICAL("physical"),
 
         /**
          * Postal &amp; Physical
+         * 
+         * <p>An address that is both physical and postal.
          */
         BOTH("both");
 

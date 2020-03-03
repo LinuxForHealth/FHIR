@@ -16,26 +16,34 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/administrative-gender")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/administrative-gender")
 public class AdministrativeGender extends Code {
     /**
      * Male
+     * 
+     * <p>Male.
      */
     public static final AdministrativeGender MALE = AdministrativeGender.builder().value(ValueSet.MALE).build();
 
     /**
      * Female
+     * 
+     * <p>Female.
      */
     public static final AdministrativeGender FEMALE = AdministrativeGender.builder().value(ValueSet.FEMALE).build();
 
     /**
      * Other
+     * 
+     * <p>Other.
      */
     public static final AdministrativeGender OTHER = AdministrativeGender.builder().value(ValueSet.OTHER).build();
 
     /**
      * Unknown
+     * 
+     * <p>Unknown.
      */
     public static final AdministrativeGender UNKNOWN = AdministrativeGender.builder().value(ValueSet.UNKNOWN).build();
 
@@ -151,21 +159,29 @@ public class AdministrativeGender extends Code {
     public enum ValueSet {
         /**
          * Male
+         * 
+         * <p>Male.
          */
         MALE("male"),
 
         /**
          * Female
+         * 
+         * <p>Female.
          */
         FEMALE("female"),
 
         /**
          * Other
+         * 
+         * <p>Other.
          */
         OTHER("other"),
 
         /**
          * Unknown
+         * 
+         * <p>Unknown.
          */
         UNKNOWN("unknown");
 

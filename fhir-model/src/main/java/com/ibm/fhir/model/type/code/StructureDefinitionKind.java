@@ -16,26 +16,41 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/structure-definition-kind")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/structure-definition-kind")
 public class StructureDefinitionKind extends Code {
     /**
      * Primitive Data Type
+     * 
+     * <p>A primitive type that has a value and an extension. These can be used throughout complex datatype, Resource and 
+     * extension definitions. Only the base specification can define primitive types.
      */
     public static final StructureDefinitionKind PRIMITIVE_TYPE = StructureDefinitionKind.builder().value(ValueSet.PRIMITIVE_TYPE).build();
 
     /**
      * Complex Data Type
+     * 
+     * <p>A complex structure that defines a set of data elements that is suitable for use in 'resources'. The base 
+     * specification defines a number of complex types, and other specifications can define additional types. These 
+     * structures do not have a maintained identity.
      */
     public static final StructureDefinitionKind COMPLEX_TYPE = StructureDefinitionKind.builder().value(ValueSet.COMPLEX_TYPE).build();
 
     /**
      * Resource
+     * 
+     * <p>A 'resource' - a directed acyclic graph of elements that aggregrates other types into an identifiable entity. The 
+     * base FHIR resources are defined by the FHIR specification itself but other 'resources' can be defined in additional 
+     * specifications (though these will not be recognised as 'resources' by the FHIR specification (i.e. they do not get end-
+     * points etc, or act as the targets of references in FHIR defined resources - though other specificatiosn can treat them 
+     * this way).
      */
     public static final StructureDefinitionKind RESOURCE = StructureDefinitionKind.builder().value(ValueSet.RESOURCE).build();
 
     /**
      * Logical
+     * 
+     * <p>A pattern or a template that is not intended to be a real resource or complex type.
      */
     public static final StructureDefinitionKind LOGICAL = StructureDefinitionKind.builder().value(ValueSet.LOGICAL).build();
 
@@ -151,21 +166,36 @@ public class StructureDefinitionKind extends Code {
     public enum ValueSet {
         /**
          * Primitive Data Type
+         * 
+         * <p>A primitive type that has a value and an extension. These can be used throughout complex datatype, Resource and 
+         * extension definitions. Only the base specification can define primitive types.
          */
         PRIMITIVE_TYPE("primitive-type"),
 
         /**
          * Complex Data Type
+         * 
+         * <p>A complex structure that defines a set of data elements that is suitable for use in 'resources'. The base 
+         * specification defines a number of complex types, and other specifications can define additional types. These 
+         * structures do not have a maintained identity.
          */
         COMPLEX_TYPE("complex-type"),
 
         /**
          * Resource
+         * 
+         * <p>A 'resource' - a directed acyclic graph of elements that aggregrates other types into an identifiable entity. The 
+         * base FHIR resources are defined by the FHIR specification itself but other 'resources' can be defined in additional 
+         * specifications (though these will not be recognised as 'resources' by the FHIR specification (i.e. they do not get end-
+         * points etc, or act as the targets of references in FHIR defined resources - though other specificatiosn can treat them 
+         * this way).
          */
         RESOURCE("resource"),
 
         /**
          * Logical
+         * 
+         * <p>A pattern or a template that is not intended to be a real resource or complex type.
          */
         LOGICAL("logical");
 

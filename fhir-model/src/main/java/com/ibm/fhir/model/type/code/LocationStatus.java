@@ -16,21 +16,27 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/location-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/location-status")
 public class LocationStatus extends Code {
     /**
      * Active
+     * 
+     * <p>The location is operational.
      */
     public static final LocationStatus ACTIVE = LocationStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Suspended
+     * 
+     * <p>The location is temporarily closed.
      */
     public static final LocationStatus SUSPENDED = LocationStatus.builder().value(ValueSet.SUSPENDED).build();
 
     /**
      * Inactive
+     * 
+     * <p>The location is no longer used.
      */
     public static final LocationStatus INACTIVE = LocationStatus.builder().value(ValueSet.INACTIVE).build();
 
@@ -144,16 +150,22 @@ public class LocationStatus extends Code {
     public enum ValueSet {
         /**
          * Active
+         * 
+         * <p>The location is operational.
          */
         ACTIVE("active"),
 
         /**
          * Suspended
+         * 
+         * <p>The location is temporarily closed.
          */
         SUSPENDED("suspended"),
 
         /**
          * Inactive
+         * 
+         * <p>The location is no longer used.
          */
         INACTIVE("inactive");
 

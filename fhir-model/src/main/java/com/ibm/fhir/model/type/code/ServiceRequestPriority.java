@@ -16,26 +16,34 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/request-priority")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/request-priority")
 public class ServiceRequestPriority extends Code {
     /**
      * Routine
+     * 
+     * <p>The request has normal priority.
      */
     public static final ServiceRequestPriority ROUTINE = ServiceRequestPriority.builder().value(ValueSet.ROUTINE).build();
 
     /**
      * Urgent
+     * 
+     * <p>The request should be actioned promptly - higher priority than routine.
      */
     public static final ServiceRequestPriority URGENT = ServiceRequestPriority.builder().value(ValueSet.URGENT).build();
 
     /**
      * ASAP
+     * 
+     * <p>The request should be actioned as soon as possible - higher priority than urgent.
      */
     public static final ServiceRequestPriority ASAP = ServiceRequestPriority.builder().value(ValueSet.ASAP).build();
 
     /**
      * STAT
+     * 
+     * <p>The request should be actioned immediately - highest possible priority. E.g. an emergency.
      */
     public static final ServiceRequestPriority STAT = ServiceRequestPriority.builder().value(ValueSet.STAT).build();
 
@@ -151,21 +159,29 @@ public class ServiceRequestPriority extends Code {
     public enum ValueSet {
         /**
          * Routine
+         * 
+         * <p>The request has normal priority.
          */
         ROUTINE("routine"),
 
         /**
          * Urgent
+         * 
+         * <p>The request should be actioned promptly - higher priority than routine.
          */
         URGENT("urgent"),
 
         /**
          * ASAP
+         * 
+         * <p>The request should be actioned as soon as possible - higher priority than urgent.
          */
         ASAP("asap"),
 
         /**
          * STAT
+         * 
+         * <p>The request should be actioned immediately - highest possible priority. E.g. an emergency.
          */
         STAT("stat");
 

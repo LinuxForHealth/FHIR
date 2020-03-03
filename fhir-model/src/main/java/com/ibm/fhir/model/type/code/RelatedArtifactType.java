@@ -16,46 +16,70 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/related-artifact-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/related-artifact-type")
 public class RelatedArtifactType extends Code {
     /**
      * Documentation
+     * 
+     * <p>Additional documentation for the knowledge resource. This would include additional instructions on usage as well as 
+     * additional information on clinical context or appropriateness.
      */
     public static final RelatedArtifactType DOCUMENTATION = RelatedArtifactType.builder().value(ValueSet.DOCUMENTATION).build();
 
     /**
      * Justification
+     * 
+     * <p>A summary of the justification for the knowledge resource including supporting evidence, relevant guidelines, or 
+     * other clinically important information. This information is intended to provide a way to make the justification for 
+     * the knowledge resource available to the consumer of interventions or results produced by the knowledge resource.
      */
     public static final RelatedArtifactType JUSTIFICATION = RelatedArtifactType.builder().value(ValueSet.JUSTIFICATION).build();
 
     /**
      * Citation
+     * 
+     * <p>Bibliographic citation for papers, references, or other relevant material for the knowledge resource. This is 
+     * intended to allow for citation of related material, but that was not necessarily specifically prepared in connection 
+     * with this knowledge resource.
      */
     public static final RelatedArtifactType CITATION = RelatedArtifactType.builder().value(ValueSet.CITATION).build();
 
     /**
      * Predecessor
+     * 
+     * <p>The previous version of the knowledge resource.
      */
     public static final RelatedArtifactType PREDECESSOR = RelatedArtifactType.builder().value(ValueSet.PREDECESSOR).build();
 
     /**
      * Successor
+     * 
+     * <p>The next version of the knowledge resource.
      */
     public static final RelatedArtifactType SUCCESSOR = RelatedArtifactType.builder().value(ValueSet.SUCCESSOR).build();
 
     /**
      * Derived From
+     * 
+     * <p>The knowledge resource is derived from the related artifact. This is intended to capture the relationship in which 
+     * a particular knowledge resource is based on the content of another artifact, but is modified to capture either a 
+     * different set of overall requirements, or a more specific set of requirements such as those involved in a particular 
+     * institution or clinical setting.
      */
     public static final RelatedArtifactType DERIVED_FROM = RelatedArtifactType.builder().value(ValueSet.DERIVED_FROM).build();
 
     /**
      * Depends On
+     * 
+     * <p>The knowledge resource depends on the given related artifact.
      */
     public static final RelatedArtifactType DEPENDS_ON = RelatedArtifactType.builder().value(ValueSet.DEPENDS_ON).build();
 
     /**
      * Composed Of
+     * 
+     * <p>The knowledge resource is composed of the given related artifact.
      */
     public static final RelatedArtifactType COMPOSED_OF = RelatedArtifactType.builder().value(ValueSet.COMPOSED_OF).build();
 
@@ -179,41 +203,65 @@ public class RelatedArtifactType extends Code {
     public enum ValueSet {
         /**
          * Documentation
+         * 
+         * <p>Additional documentation for the knowledge resource. This would include additional instructions on usage as well as 
+         * additional information on clinical context or appropriateness.
          */
         DOCUMENTATION("documentation"),
 
         /**
          * Justification
+         * 
+         * <p>A summary of the justification for the knowledge resource including supporting evidence, relevant guidelines, or 
+         * other clinically important information. This information is intended to provide a way to make the justification for 
+         * the knowledge resource available to the consumer of interventions or results produced by the knowledge resource.
          */
         JUSTIFICATION("justification"),
 
         /**
          * Citation
+         * 
+         * <p>Bibliographic citation for papers, references, or other relevant material for the knowledge resource. This is 
+         * intended to allow for citation of related material, but that was not necessarily specifically prepared in connection 
+         * with this knowledge resource.
          */
         CITATION("citation"),
 
         /**
          * Predecessor
+         * 
+         * <p>The previous version of the knowledge resource.
          */
         PREDECESSOR("predecessor"),
 
         /**
          * Successor
+         * 
+         * <p>The next version of the knowledge resource.
          */
         SUCCESSOR("successor"),
 
         /**
          * Derived From
+         * 
+         * <p>The knowledge resource is derived from the related artifact. This is intended to capture the relationship in which 
+         * a particular knowledge resource is based on the content of another artifact, but is modified to capture either a 
+         * different set of overall requirements, or a more specific set of requirements such as those involved in a particular 
+         * institution or clinical setting.
          */
         DERIVED_FROM("derived-from"),
 
         /**
          * Depends On
+         * 
+         * <p>The knowledge resource depends on the given related artifact.
          */
         DEPENDS_ON("depends-on"),
 
         /**
          * Composed Of
+         * 
+         * <p>The knowledge resource is composed of the given related artifact.
          */
         COMPOSED_OF("composed-of");
 

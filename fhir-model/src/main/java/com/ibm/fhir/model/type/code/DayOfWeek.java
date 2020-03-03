@@ -16,41 +16,55 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/days-of-week")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/days-of-week")
 public class DayOfWeek extends Code {
     /**
      * Monday
+     * 
+     * <p>Monday.
      */
     public static final DayOfWeek MON = DayOfWeek.builder().value(ValueSet.MON).build();
 
     /**
      * Tuesday
+     * 
+     * <p>Tuesday.
      */
     public static final DayOfWeek TUE = DayOfWeek.builder().value(ValueSet.TUE).build();
 
     /**
      * Wednesday
+     * 
+     * <p>Wednesday.
      */
     public static final DayOfWeek WED = DayOfWeek.builder().value(ValueSet.WED).build();
 
     /**
      * Thursday
+     * 
+     * <p>Thursday.
      */
     public static final DayOfWeek THU = DayOfWeek.builder().value(ValueSet.THU).build();
 
     /**
      * Friday
+     * 
+     * <p>Friday.
      */
     public static final DayOfWeek FRI = DayOfWeek.builder().value(ValueSet.FRI).build();
 
     /**
      * Saturday
+     * 
+     * <p>Saturday.
      */
     public static final DayOfWeek SAT = DayOfWeek.builder().value(ValueSet.SAT).build();
 
     /**
      * Sunday
+     * 
+     * <p>Sunday.
      */
     public static final DayOfWeek SUN = DayOfWeek.builder().value(ValueSet.SUN).build();
 
@@ -172,36 +186,50 @@ public class DayOfWeek extends Code {
     public enum ValueSet {
         /**
          * Monday
+         * 
+         * <p>Monday.
          */
         MON("mon"),
 
         /**
          * Tuesday
+         * 
+         * <p>Tuesday.
          */
         TUE("tue"),
 
         /**
          * Wednesday
+         * 
+         * <p>Wednesday.
          */
         WED("wed"),
 
         /**
          * Thursday
+         * 
+         * <p>Thursday.
          */
         THU("thu"),
 
         /**
          * Friday
+         * 
+         * <p>Friday.
          */
         FRI("fri"),
 
         /**
          * Saturday
+         * 
+         * <p>Saturday.
          */
         SAT("sat"),
 
         /**
          * Sunday
+         * 
+         * <p>Sunday.
          */
         SUN("sun");
 

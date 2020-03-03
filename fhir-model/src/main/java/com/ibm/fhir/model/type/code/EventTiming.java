@@ -16,66 +16,102 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/event-timing")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/event-timing")
 public class EventTiming extends Code {
     /**
      * Morning
+     * 
+     * <p>Event occurs during the morning. The exact time is unspecified and established by institution convention or patient 
+     * interpretation.
      */
     public static final EventTiming MORN = EventTiming.builder().value(ValueSet.MORN).build();
 
     /**
      * Early Morning
+     * 
+     * <p>Event occurs during the early morning. The exact time is unspecified and established by institution convention or 
+     * patient interpretation.
      */
     public static final EventTiming MORN_EARLY = EventTiming.builder().value(ValueSet.MORN_EARLY).build();
 
     /**
      * Late Morning
+     * 
+     * <p>Event occurs during the late morning. The exact time is unspecified and established by institution convention or 
+     * patient interpretation.
      */
     public static final EventTiming MORN_LATE = EventTiming.builder().value(ValueSet.MORN_LATE).build();
 
     /**
      * Noon
+     * 
+     * <p>Event occurs around 12:00pm. The exact time is unspecified and established by institution convention or patient 
+     * interpretation.
      */
     public static final EventTiming NOON = EventTiming.builder().value(ValueSet.NOON).build();
 
     /**
      * Afternoon
+     * 
+     * <p>Event occurs during the afternoon. The exact time is unspecified and established by institution convention or 
+     * patient interpretation.
      */
     public static final EventTiming AFT = EventTiming.builder().value(ValueSet.AFT).build();
 
     /**
      * Early Afternoon
+     * 
+     * <p>Event occurs during the early afternoon. The exact time is unspecified and established by institution convention or 
+     * patient interpretation.
      */
     public static final EventTiming AFT_EARLY = EventTiming.builder().value(ValueSet.AFT_EARLY).build();
 
     /**
      * Late Afternoon
+     * 
+     * <p>Event occurs during the late afternoon. The exact time is unspecified and established by institution convention or 
+     * patient interpretation.
      */
     public static final EventTiming AFT_LATE = EventTiming.builder().value(ValueSet.AFT_LATE).build();
 
     /**
      * Evening
+     * 
+     * <p>Event occurs during the evening. The exact time is unspecified and established by institution convention or patient 
+     * interpretation.
      */
     public static final EventTiming EVE = EventTiming.builder().value(ValueSet.EVE).build();
 
     /**
      * Early Evening
+     * 
+     * <p>Event occurs during the early evening. The exact time is unspecified and established by institution convention or 
+     * patient interpretation.
      */
     public static final EventTiming EVE_EARLY = EventTiming.builder().value(ValueSet.EVE_EARLY).build();
 
     /**
      * Late Evening
+     * 
+     * <p>Event occurs during the late evening. The exact time is unspecified and established by institution convention or 
+     * patient interpretation.
      */
     public static final EventTiming EVE_LATE = EventTiming.builder().value(ValueSet.EVE_LATE).build();
 
     /**
      * Night
+     * 
+     * <p>Event occurs during the night. The exact time is unspecified and established by institution convention or patient 
+     * interpretation.
      */
     public static final EventTiming NIGHT = EventTiming.builder().value(ValueSet.NIGHT).build();
 
     /**
      * After Sleep
+     * 
+     * <p>Event occurs [offset] after subject goes to sleep. The exact time is unspecified and established by institution 
+     * convention or patient interpretation.
      */
     public static final EventTiming PHS = EventTiming.builder().value(ValueSet.PHS).build();
 
@@ -263,61 +299,97 @@ public class EventTiming extends Code {
     public enum ValueSet {
         /**
          * Morning
+         * 
+         * <p>Event occurs during the morning. The exact time is unspecified and established by institution convention or patient 
+         * interpretation.
          */
         MORN("MORN"),
 
         /**
          * Early Morning
+         * 
+         * <p>Event occurs during the early morning. The exact time is unspecified and established by institution convention or 
+         * patient interpretation.
          */
         MORN_EARLY("MORN.early"),
 
         /**
          * Late Morning
+         * 
+         * <p>Event occurs during the late morning. The exact time is unspecified and established by institution convention or 
+         * patient interpretation.
          */
         MORN_LATE("MORN.late"),
 
         /**
          * Noon
+         * 
+         * <p>Event occurs around 12:00pm. The exact time is unspecified and established by institution convention or patient 
+         * interpretation.
          */
         NOON("NOON"),
 
         /**
          * Afternoon
+         * 
+         * <p>Event occurs during the afternoon. The exact time is unspecified and established by institution convention or 
+         * patient interpretation.
          */
         AFT("AFT"),
 
         /**
          * Early Afternoon
+         * 
+         * <p>Event occurs during the early afternoon. The exact time is unspecified and established by institution convention or 
+         * patient interpretation.
          */
         AFT_EARLY("AFT.early"),
 
         /**
          * Late Afternoon
+         * 
+         * <p>Event occurs during the late afternoon. The exact time is unspecified and established by institution convention or 
+         * patient interpretation.
          */
         AFT_LATE("AFT.late"),
 
         /**
          * Evening
+         * 
+         * <p>Event occurs during the evening. The exact time is unspecified and established by institution convention or patient 
+         * interpretation.
          */
         EVE("EVE"),
 
         /**
          * Early Evening
+         * 
+         * <p>Event occurs during the early evening. The exact time is unspecified and established by institution convention or 
+         * patient interpretation.
          */
         EVE_EARLY("EVE.early"),
 
         /**
          * Late Evening
+         * 
+         * <p>Event occurs during the late evening. The exact time is unspecified and established by institution convention or 
+         * patient interpretation.
          */
         EVE_LATE("EVE.late"),
 
         /**
          * Night
+         * 
+         * <p>Event occurs during the night. The exact time is unspecified and established by institution convention or patient 
+         * interpretation.
          */
         NIGHT("NIGHT"),
 
         /**
          * After Sleep
+         * 
+         * <p>Event occurs [offset] after subject goes to sleep. The exact time is unspecified and established by institution 
+         * convention or patient interpretation.
          */
         PHS("PHS"),
 

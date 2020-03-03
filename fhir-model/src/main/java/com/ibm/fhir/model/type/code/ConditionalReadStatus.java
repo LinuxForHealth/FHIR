@@ -16,26 +16,34 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/conditional-read-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/conditional-read-status")
 public class ConditionalReadStatus extends Code {
     /**
      * Not Supported
+     * 
+     * <p>No support for conditional reads.
      */
     public static final ConditionalReadStatus NOT_SUPPORTED = ConditionalReadStatus.builder().value(ValueSet.NOT_SUPPORTED).build();
 
     /**
      * If-Modified-Since
+     * 
+     * <p>Conditional reads are supported, but only with the If-Modified-Since HTTP Header.
      */
     public static final ConditionalReadStatus MODIFIED_SINCE = ConditionalReadStatus.builder().value(ValueSet.MODIFIED_SINCE).build();
 
     /**
      * If-None-Match
+     * 
+     * <p>Conditional reads are supported, but only with the If-None-Match HTTP Header.
      */
     public static final ConditionalReadStatus NOT_MATCH = ConditionalReadStatus.builder().value(ValueSet.NOT_MATCH).build();
 
     /**
      * Full Support
+     * 
+     * <p>Conditional reads are supported, with both If-Modified-Since and If-None-Match HTTP Headers.
      */
     public static final ConditionalReadStatus FULL_SUPPORT = ConditionalReadStatus.builder().value(ValueSet.FULL_SUPPORT).build();
 
@@ -151,21 +159,29 @@ public class ConditionalReadStatus extends Code {
     public enum ValueSet {
         /**
          * Not Supported
+         * 
+         * <p>No support for conditional reads.
          */
         NOT_SUPPORTED("not-supported"),
 
         /**
          * If-Modified-Since
+         * 
+         * <p>Conditional reads are supported, but only with the If-Modified-Since HTTP Header.
          */
         MODIFIED_SINCE("modified-since"),
 
         /**
          * If-None-Match
+         * 
+         * <p>Conditional reads are supported, but only with the If-None-Match HTTP Header.
          */
         NOT_MATCH("not-match"),
 
         /**
          * Full Support
+         * 
+         * <p>Conditional reads are supported, with both If-Modified-Since and If-None-Match HTTP Headers.
          */
         FULL_SUPPORT("full-support");
 

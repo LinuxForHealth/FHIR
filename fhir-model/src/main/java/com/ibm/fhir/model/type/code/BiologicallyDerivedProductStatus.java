@@ -16,16 +16,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/product-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/product-status")
 public class BiologicallyDerivedProductStatus extends Code {
     /**
      * Available
+     * 
+     * <p>Product is currently available for use.
      */
     public static final BiologicallyDerivedProductStatus AVAILABLE = BiologicallyDerivedProductStatus.builder().value(ValueSet.AVAILABLE).build();
 
     /**
      * Unavailable
+     * 
+     * <p>Product is not currently available for use.
      */
     public static final BiologicallyDerivedProductStatus UNAVAILABLE = BiologicallyDerivedProductStatus.builder().value(ValueSet.UNAVAILABLE).build();
 
@@ -137,11 +141,15 @@ public class BiologicallyDerivedProductStatus extends Code {
     public enum ValueSet {
         /**
          * Available
+         * 
+         * <p>Product is currently available for use.
          */
         AVAILABLE("available"),
 
         /**
          * Unavailable
+         * 
+         * <p>Product is not currently available for use.
          */
         UNAVAILABLE("unavailable");
 

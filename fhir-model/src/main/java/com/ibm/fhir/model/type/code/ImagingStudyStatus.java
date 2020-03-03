@@ -16,31 +16,45 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/imagingstudy-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/imagingstudy-status")
 public class ImagingStudyStatus extends Code {
     /**
      * Registered
+     * 
+     * <p>The existence of the imaging study is registered, but there is nothing yet available.
      */
     public static final ImagingStudyStatus REGISTERED = ImagingStudyStatus.builder().value(ValueSet.REGISTERED).build();
 
     /**
      * Available
+     * 
+     * <p>At least one instance has been associated with this imaging study.
      */
     public static final ImagingStudyStatus AVAILABLE = ImagingStudyStatus.builder().value(ValueSet.AVAILABLE).build();
 
     /**
      * Cancelled
+     * 
+     * <p>The imaging study is unavailable because the imaging study was not started or not completed (also sometimes called 
+     * "aborted").
      */
     public static final ImagingStudyStatus CANCELLED = ImagingStudyStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The imaging study has been withdrawn following a previous final release. This electronic record should never have 
+     * existed, though it is possible that real-world decisions were based on it. (If real-world activity has occurred, the 
+     * status should be "cancelled" rather than "entered-in-error".).
      */
     public static final ImagingStudyStatus ENTERED_IN_ERROR = ImagingStudyStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
+     * 
+     * <p>The system does not know which of the status values currently applies for this request. Note: This concept is not 
+     * to be used for "other" - one of the listed statuses is presumed to apply, it's just not known which one.
      */
     public static final ImagingStudyStatus UNKNOWN = ImagingStudyStatus.builder().value(ValueSet.UNKNOWN).build();
 
@@ -158,26 +172,40 @@ public class ImagingStudyStatus extends Code {
     public enum ValueSet {
         /**
          * Registered
+         * 
+         * <p>The existence of the imaging study is registered, but there is nothing yet available.
          */
         REGISTERED("registered"),
 
         /**
          * Available
+         * 
+         * <p>At least one instance has been associated with this imaging study.
          */
         AVAILABLE("available"),
 
         /**
          * Cancelled
+         * 
+         * <p>The imaging study is unavailable because the imaging study was not started or not completed (also sometimes called 
+         * "aborted").
          */
         CANCELLED("cancelled"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The imaging study has been withdrawn following a previous final release. This electronic record should never have 
+         * existed, though it is possible that real-world decisions were based on it. (If real-world activity has occurred, the 
+         * status should be "cancelled" rather than "entered-in-error".).
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Unknown
+         * 
+         * <p>The system does not know which of the status values currently applies for this request. Note: This concept is not 
+         * to be used for "other" - one of the listed statuses is presumed to apply, it's just not known which one.
          */
         UNKNOWN("unknown");
 

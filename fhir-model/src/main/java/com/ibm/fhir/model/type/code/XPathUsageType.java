@@ -16,31 +16,41 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/search-xpath-usage")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/search-xpath-usage")
 public class XPathUsageType extends Code {
     /**
      * Normal
+     * 
+     * <p>The search parameter is derived directly from the selected nodes based on the type definitions.
      */
     public static final XPathUsageType NORMAL = XPathUsageType.builder().value(ValueSet.NORMAL).build();
 
     /**
      * Phonetic
+     * 
+     * <p>The search parameter is derived by a phonetic transform from the selected nodes.
      */
     public static final XPathUsageType PHONETIC = XPathUsageType.builder().value(ValueSet.PHONETIC).build();
 
     /**
      * Nearby
+     * 
+     * <p>The search parameter is based on a spatial transform of the selected nodes.
      */
     public static final XPathUsageType NEARBY = XPathUsageType.builder().value(ValueSet.NEARBY).build();
 
     /**
      * Distance
+     * 
+     * <p>The search parameter is based on a spatial transform of the selected nodes, using physical distance from the middle.
      */
     public static final XPathUsageType DISTANCE = XPathUsageType.builder().value(ValueSet.DISTANCE).build();
 
     /**
      * Other
+     * 
+     * <p>The interpretation of the xpath statement is unknown (and can't be automated).
      */
     public static final XPathUsageType OTHER = XPathUsageType.builder().value(ValueSet.OTHER).build();
 
@@ -158,26 +168,36 @@ public class XPathUsageType extends Code {
     public enum ValueSet {
         /**
          * Normal
+         * 
+         * <p>The search parameter is derived directly from the selected nodes based on the type definitions.
          */
         NORMAL("normal"),
 
         /**
          * Phonetic
+         * 
+         * <p>The search parameter is derived by a phonetic transform from the selected nodes.
          */
         PHONETIC("phonetic"),
 
         /**
          * Nearby
+         * 
+         * <p>The search parameter is based on a spatial transform of the selected nodes.
          */
         NEARBY("nearby"),
 
         /**
          * Distance
+         * 
+         * <p>The search parameter is based on a spatial transform of the selected nodes, using physical distance from the middle.
          */
         DISTANCE("distance"),
 
         /**
          * Other
+         * 
+         * <p>The interpretation of the xpath statement is unknown (and can't be automated).
          */
         OTHER("other");
 

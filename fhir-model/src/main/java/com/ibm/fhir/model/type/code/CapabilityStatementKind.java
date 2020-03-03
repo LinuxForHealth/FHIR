@@ -16,21 +16,30 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/capability-statement-kind")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/capability-statement-kind")
 public class CapabilityStatementKind extends Code {
     /**
      * Instance
+     * 
+     * <p>The CapabilityStatement instance represents the present capabilities of a specific system instance. This is the 
+     * kind returned by /metadata for a FHIR server end-point.
      */
     public static final CapabilityStatementKind INSTANCE = CapabilityStatementKind.builder().value(ValueSet.INSTANCE).build();
 
     /**
      * Capability
+     * 
+     * <p>The CapabilityStatement instance represents the capabilities of a system or piece of software, independent of a 
+     * particular installation.
      */
     public static final CapabilityStatementKind CAPABILITY = CapabilityStatementKind.builder().value(ValueSet.CAPABILITY).build();
 
     /**
      * Requirements
+     * 
+     * <p>The CapabilityStatement instance represents a set of requirements for other systems to meet; e.g. as part of an 
+     * implementation guide or 'request for proposal'.
      */
     public static final CapabilityStatementKind REQUIREMENTS = CapabilityStatementKind.builder().value(ValueSet.REQUIREMENTS).build();
 
@@ -144,16 +153,25 @@ public class CapabilityStatementKind extends Code {
     public enum ValueSet {
         /**
          * Instance
+         * 
+         * <p>The CapabilityStatement instance represents the present capabilities of a specific system instance. This is the 
+         * kind returned by /metadata for a FHIR server end-point.
          */
         INSTANCE("instance"),
 
         /**
          * Capability
+         * 
+         * <p>The CapabilityStatement instance represents the capabilities of a system or piece of software, independent of a 
+         * particular installation.
          */
         CAPABILITY("capability"),
 
         /**
          * Requirements
+         * 
+         * <p>The CapabilityStatement instance represents a set of requirements for other systems to meet; e.g. as part of an 
+         * implementation guide or 'request for proposal'.
          */
         REQUIREMENTS("requirements");
 

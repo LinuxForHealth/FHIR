@@ -16,26 +16,34 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/audit-event-outcome")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/audit-event-outcome")
 public class AuditEventOutcome extends Code {
     /**
      * Success
+     * 
+     * <p>The operation completed successfully (whether with warnings or not).
      */
     public static final AuditEventOutcome OUTCOME_0 = AuditEventOutcome.builder().value(ValueSet.OUTCOME_0).build();
 
     /**
      * Minor failure
+     * 
+     * <p>The action was not successful due to some kind of minor failure (often equivalent to an HTTP 400 response).
      */
     public static final AuditEventOutcome OUTCOME_4 = AuditEventOutcome.builder().value(ValueSet.OUTCOME_4).build();
 
     /**
      * Serious failure
+     * 
+     * <p>The action was not successful due to some kind of unexpected error (often equivalent to an HTTP 500 response).
      */
     public static final AuditEventOutcome OUTCOME_8 = AuditEventOutcome.builder().value(ValueSet.OUTCOME_8).build();
 
     /**
      * Major failure
+     * 
+     * <p>An error of such magnitude occurred that the system is no longer available for use (i.e. the system died).
      */
     public static final AuditEventOutcome OUTCOME_12 = AuditEventOutcome.builder().value(ValueSet.OUTCOME_12).build();
 
@@ -151,21 +159,29 @@ public class AuditEventOutcome extends Code {
     public enum ValueSet {
         /**
          * Success
+         * 
+         * <p>The operation completed successfully (whether with warnings or not).
          */
         OUTCOME_0("0"),
 
         /**
          * Minor failure
+         * 
+         * <p>The action was not successful due to some kind of minor failure (often equivalent to an HTTP 400 response).
          */
         OUTCOME_4("4"),
 
         /**
          * Serious failure
+         * 
+         * <p>The action was not successful due to some kind of unexpected error (often equivalent to an HTTP 500 response).
          */
         OUTCOME_8("8"),
 
         /**
          * Major failure
+         * 
+         * <p>An error of such magnitude occurred that the system is no longer available for use (i.e. the system died).
          */
         OUTCOME_12("12");
 

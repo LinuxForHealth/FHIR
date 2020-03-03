@@ -16,26 +16,34 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/graph-compartment-rule")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/graph-compartment-rule")
 public class GraphCompartmentRule extends Code {
     /**
      * Identical
+     * 
+     * <p>The compartment must be identical (the same literal reference).
      */
     public static final GraphCompartmentRule IDENTICAL = GraphCompartmentRule.builder().value(ValueSet.IDENTICAL).build();
 
     /**
      * Matching
+     * 
+     * <p>The compartment must be the same - the record must be about the same patient, but the reference may be different.
      */
     public static final GraphCompartmentRule MATCHING = GraphCompartmentRule.builder().value(ValueSet.MATCHING).build();
 
     /**
      * Different
+     * 
+     * <p>The compartment must be different.
      */
     public static final GraphCompartmentRule DIFFERENT = GraphCompartmentRule.builder().value(ValueSet.DIFFERENT).build();
 
     /**
      * Custom
+     * 
+     * <p>The compartment rule is defined in the accompanying FHIRPath expression.
      */
     public static final GraphCompartmentRule CUSTOM = GraphCompartmentRule.builder().value(ValueSet.CUSTOM).build();
 
@@ -151,21 +159,29 @@ public class GraphCompartmentRule extends Code {
     public enum ValueSet {
         /**
          * Identical
+         * 
+         * <p>The compartment must be identical (the same literal reference).
          */
         IDENTICAL("identical"),
 
         /**
          * Matching
+         * 
+         * <p>The compartment must be the same - the record must be about the same patient, but the reference may be different.
          */
         MATCHING("matching"),
 
         /**
          * Different
+         * 
+         * <p>The compartment must be different.
          */
         DIFFERENT("different"),
 
         /**
          * Custom
+         * 
+         * <p>The compartment rule is defined in the accompanying FHIRPath expression.
          */
         CUSTOM("custom");
 

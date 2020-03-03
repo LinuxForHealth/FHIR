@@ -16,71 +16,105 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/research-subject-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/research-subject-status")
 public class ResearchSubjectStatus extends Code {
     /**
      * Candidate
+     * 
+     * <p>An identified person that can be considered for inclusion in a study.
      */
     public static final ResearchSubjectStatus CANDIDATE = ResearchSubjectStatus.builder().value(ValueSet.CANDIDATE).build();
 
     /**
      * Eligible
+     * 
+     * <p>A person that has met the eligibility criteria for inclusion in a study.
      */
     public static final ResearchSubjectStatus ELIGIBLE = ResearchSubjectStatus.builder().value(ValueSet.ELIGIBLE).build();
 
     /**
      * Follow-up
+     * 
+     * <p>A person is no longer receiving study intervention and/or being evaluated with tests and procedures according to 
+     * the protocol, but they are being monitored on a protocol-prescribed schedule.
      */
     public static final ResearchSubjectStatus FOLLOW_UP = ResearchSubjectStatus.builder().value(ValueSet.FOLLOW_UP).build();
 
     /**
      * Ineligible
+     * 
+     * <p>A person who did not meet one or more criteria required for participation in a study is considered to have failed 
+     * screening or
+     * <p>is ineligible for the study.
      */
     public static final ResearchSubjectStatus INELIGIBLE = ResearchSubjectStatus.builder().value(ValueSet.INELIGIBLE).build();
 
     /**
      * Not Registered
+     * 
+     * <p>A person for whom registration was not completed.
      */
     public static final ResearchSubjectStatus NOT_REGISTERED = ResearchSubjectStatus.builder().value(ValueSet.NOT_REGISTERED).build();
 
     /**
      * Off-study
+     * 
+     * <p>A person that has ended their participation on a study either because their treatment/observation is complete or 
+     * through not
+     * <p>responding, withdrawal, non-compliance and/or adverse event.
      */
     public static final ResearchSubjectStatus OFF_STUDY = ResearchSubjectStatus.builder().value(ValueSet.OFF_STUDY).build();
 
     /**
      * On-study
+     * 
+     * <p>A person that is enrolled or registered on a study.
      */
     public static final ResearchSubjectStatus ON_STUDY = ResearchSubjectStatus.builder().value(ValueSet.ON_STUDY).build();
 
     /**
      * On-study-intervention
+     * 
+     * <p>The person is receiving the treatment or participating in an activity (e.g. yoga, diet, etc.) that the study is 
+     * evaluating.
      */
     public static final ResearchSubjectStatus ON_STUDY_INTERVENTION = ResearchSubjectStatus.builder().value(ValueSet.ON_STUDY_INTERVENTION).build();
 
     /**
      * On-study-observation
+     * 
+     * <p>The subject is being evaluated via tests and assessments according to the study calendar, but is not receiving any 
+     * intervention. Note that this state is study-dependent and might not exist in all studies. A synonym for this is "short-
+     * term follow-up".
      */
     public static final ResearchSubjectStatus ON_STUDY_OBSERVATION = ResearchSubjectStatus.builder().value(ValueSet.ON_STUDY_OBSERVATION).build();
 
     /**
      * Pending on-study
+     * 
+     * <p>A person is pre-registered for a study.
      */
     public static final ResearchSubjectStatus PENDING_ON_STUDY = ResearchSubjectStatus.builder().value(ValueSet.PENDING_ON_STUDY).build();
 
     /**
      * Potential Candidate
+     * 
+     * <p>A person that is potentially eligible for participation in the study.
      */
     public static final ResearchSubjectStatus POTENTIAL_CANDIDATE = ResearchSubjectStatus.builder().value(ValueSet.POTENTIAL_CANDIDATE).build();
 
     /**
      * Screening
+     * 
+     * <p>A person who is being evaluated for eligibility for a study.
      */
     public static final ResearchSubjectStatus SCREENING = ResearchSubjectStatus.builder().value(ValueSet.SCREENING).build();
 
     /**
      * Withdrawn
+     * 
+     * <p>The person has withdrawn their participation in the study before registration.
      */
     public static final ResearchSubjectStatus WITHDRAWN = ResearchSubjectStatus.builder().value(ValueSet.WITHDRAWN).build();
 
@@ -214,66 +248,100 @@ public class ResearchSubjectStatus extends Code {
     public enum ValueSet {
         /**
          * Candidate
+         * 
+         * <p>An identified person that can be considered for inclusion in a study.
          */
         CANDIDATE("candidate"),
 
         /**
          * Eligible
+         * 
+         * <p>A person that has met the eligibility criteria for inclusion in a study.
          */
         ELIGIBLE("eligible"),
 
         /**
          * Follow-up
+         * 
+         * <p>A person is no longer receiving study intervention and/or being evaluated with tests and procedures according to 
+         * the protocol, but they are being monitored on a protocol-prescribed schedule.
          */
         FOLLOW_UP("follow-up"),
 
         /**
          * Ineligible
+         * 
+         * <p>A person who did not meet one or more criteria required for participation in a study is considered to have failed 
+         * screening or
+         * <p>is ineligible for the study.
          */
         INELIGIBLE("ineligible"),
 
         /**
          * Not Registered
+         * 
+         * <p>A person for whom registration was not completed.
          */
         NOT_REGISTERED("not-registered"),
 
         /**
          * Off-study
+         * 
+         * <p>A person that has ended their participation on a study either because their treatment/observation is complete or 
+         * through not
+         * <p>responding, withdrawal, non-compliance and/or adverse event.
          */
         OFF_STUDY("off-study"),
 
         /**
          * On-study
+         * 
+         * <p>A person that is enrolled or registered on a study.
          */
         ON_STUDY("on-study"),
 
         /**
          * On-study-intervention
+         * 
+         * <p>The person is receiving the treatment or participating in an activity (e.g. yoga, diet, etc.) that the study is 
+         * evaluating.
          */
         ON_STUDY_INTERVENTION("on-study-intervention"),
 
         /**
          * On-study-observation
+         * 
+         * <p>The subject is being evaluated via tests and assessments according to the study calendar, but is not receiving any 
+         * intervention. Note that this state is study-dependent and might not exist in all studies. A synonym for this is "short-
+         * term follow-up".
          */
         ON_STUDY_OBSERVATION("on-study-observation"),
 
         /**
          * Pending on-study
+         * 
+         * <p>A person is pre-registered for a study.
          */
         PENDING_ON_STUDY("pending-on-study"),
 
         /**
          * Potential Candidate
+         * 
+         * <p>A person that is potentially eligible for participation in the study.
          */
         POTENTIAL_CANDIDATE("potential-candidate"),
 
         /**
          * Screening
+         * 
+         * <p>A person who is being evaluated for eligibility for a study.
          */
         SCREENING("screening"),
 
         /**
          * Withdrawn
+         * 
+         * <p>The person has withdrawn their participation in the study before registration.
          */
         WITHDRAWN("withdrawn");
 

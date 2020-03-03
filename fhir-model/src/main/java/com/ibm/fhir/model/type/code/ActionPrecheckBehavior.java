@@ -16,16 +16,24 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/action-precheck-behavior")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/action-precheck-behavior")
 public class ActionPrecheckBehavior extends Code {
     /**
      * Yes
+     * 
+     * <p>An action with this behavior is one of the most frequent action that is, or should be, included by an end user, for 
+     * the particular context in which the action occurs. The system displaying the action to the end user should consider 
+     * "pre-checking" such an action as a convenience for the user.
      */
     public static final ActionPrecheckBehavior YES = ActionPrecheckBehavior.builder().value(ValueSet.YES).build();
 
     /**
      * No
+     * 
+     * <p>An action with this behavior is one of the less frequent actions included by the end user, for the particular 
+     * context in which the action occurs. The system displaying the actions to the end user would typically not "pre-check" 
+     * such an action.
      */
     public static final ActionPrecheckBehavior NO = ActionPrecheckBehavior.builder().value(ValueSet.NO).build();
 
@@ -137,11 +145,19 @@ public class ActionPrecheckBehavior extends Code {
     public enum ValueSet {
         /**
          * Yes
+         * 
+         * <p>An action with this behavior is one of the most frequent action that is, or should be, included by an end user, for 
+         * the particular context in which the action occurs. The system displaying the action to the end user should consider 
+         * "pre-checking" such an action as a convenience for the user.
          */
         YES("yes"),
 
         /**
          * No
+         * 
+         * <p>An action with this behavior is one of the less frequent actions included by the end user, for the particular 
+         * context in which the action occurs. The system displaying the actions to the end user would typically not "pre-check" 
+         * such an action.
          */
         NO("no");
 

@@ -16,51 +16,69 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/action-relationship-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/action-relationship-type")
 public class ActionRelationshipType extends Code {
     /**
      * Before Start
+     * 
+     * <p>The action must be performed before the start of the related action.
      */
     public static final ActionRelationshipType BEFORE_START = ActionRelationshipType.builder().value(ValueSet.BEFORE_START).build();
 
     /**
      * Before
+     * 
+     * <p>The action must be performed before the related action.
      */
     public static final ActionRelationshipType BEFORE = ActionRelationshipType.builder().value(ValueSet.BEFORE).build();
 
     /**
      * Before End
+     * 
+     * <p>The action must be performed before the end of the related action.
      */
     public static final ActionRelationshipType BEFORE_END = ActionRelationshipType.builder().value(ValueSet.BEFORE_END).build();
 
     /**
      * Concurrent With Start
+     * 
+     * <p>The action must be performed concurrent with the start of the related action.
      */
     public static final ActionRelationshipType CONCURRENT_WITH_START = ActionRelationshipType.builder().value(ValueSet.CONCURRENT_WITH_START).build();
 
     /**
      * Concurrent
+     * 
+     * <p>The action must be performed concurrent with the related action.
      */
     public static final ActionRelationshipType CONCURRENT = ActionRelationshipType.builder().value(ValueSet.CONCURRENT).build();
 
     /**
      * Concurrent With End
+     * 
+     * <p>The action must be performed concurrent with the end of the related action.
      */
     public static final ActionRelationshipType CONCURRENT_WITH_END = ActionRelationshipType.builder().value(ValueSet.CONCURRENT_WITH_END).build();
 
     /**
      * After Start
+     * 
+     * <p>The action must be performed after the start of the related action.
      */
     public static final ActionRelationshipType AFTER_START = ActionRelationshipType.builder().value(ValueSet.AFTER_START).build();
 
     /**
      * After
+     * 
+     * <p>The action must be performed after the related action.
      */
     public static final ActionRelationshipType AFTER = ActionRelationshipType.builder().value(ValueSet.AFTER).build();
 
     /**
      * After End
+     * 
+     * <p>The action must be performed after the end of the related action.
      */
     public static final ActionRelationshipType AFTER_END = ActionRelationshipType.builder().value(ValueSet.AFTER_END).build();
 
@@ -186,46 +204,64 @@ public class ActionRelationshipType extends Code {
     public enum ValueSet {
         /**
          * Before Start
+         * 
+         * <p>The action must be performed before the start of the related action.
          */
         BEFORE_START("before-start"),
 
         /**
          * Before
+         * 
+         * <p>The action must be performed before the related action.
          */
         BEFORE("before"),
 
         /**
          * Before End
+         * 
+         * <p>The action must be performed before the end of the related action.
          */
         BEFORE_END("before-end"),
 
         /**
          * Concurrent With Start
+         * 
+         * <p>The action must be performed concurrent with the start of the related action.
          */
         CONCURRENT_WITH_START("concurrent-with-start"),
 
         /**
          * Concurrent
+         * 
+         * <p>The action must be performed concurrent with the related action.
          */
         CONCURRENT("concurrent"),
 
         /**
          * Concurrent With End
+         * 
+         * <p>The action must be performed concurrent with the end of the related action.
          */
         CONCURRENT_WITH_END("concurrent-with-end"),
 
         /**
          * After Start
+         * 
+         * <p>The action must be performed after the start of the related action.
          */
         AFTER_START("after-start"),
 
         /**
          * After
+         * 
+         * <p>The action must be performed after the related action.
          */
         AFTER("after"),
 
         /**
          * After End
+         * 
+         * <p>The action must be performed after the end of the related action.
          */
         AFTER_END("after-end");
 

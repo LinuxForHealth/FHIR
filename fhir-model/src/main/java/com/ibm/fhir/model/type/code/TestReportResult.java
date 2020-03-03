@@ -16,21 +16,27 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/report-result-codes")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/report-result-codes")
 public class TestReportResult extends Code {
     /**
      * Pass
+     * 
+     * <p>All test operations successfully passed all asserts.
      */
     public static final TestReportResult PASS = TestReportResult.builder().value(ValueSet.PASS).build();
 
     /**
      * Fail
+     * 
+     * <p>One or more test operations failed one or more asserts.
      */
     public static final TestReportResult FAIL = TestReportResult.builder().value(ValueSet.FAIL).build();
 
     /**
      * Pending
+     * 
+     * <p>One or more test operations is pending execution completion.
      */
     public static final TestReportResult PENDING = TestReportResult.builder().value(ValueSet.PENDING).build();
 
@@ -144,16 +150,22 @@ public class TestReportResult extends Code {
     public enum ValueSet {
         /**
          * Pass
+         * 
+         * <p>All test operations successfully passed all asserts.
          */
         PASS("pass"),
 
         /**
          * Fail
+         * 
+         * <p>One or more test operations failed one or more asserts.
          */
         FAIL("fail"),
 
         /**
          * Pending
+         * 
+         * <p>One or more test operations is pending execution completion.
          */
         PENDING("pending");
 

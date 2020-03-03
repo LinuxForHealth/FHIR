@@ -16,16 +16,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/examplescenario-actor-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/examplescenario-actor-type")
 public class ExampleScenarioActorType extends Code {
     /**
      * Person
+     * 
+     * <p>A person.
      */
     public static final ExampleScenarioActorType PERSON = ExampleScenarioActorType.builder().value(ValueSet.PERSON).build();
 
     /**
      * System
+     * 
+     * <p>A system.
      */
     public static final ExampleScenarioActorType ENTITY = ExampleScenarioActorType.builder().value(ValueSet.ENTITY).build();
 
@@ -137,11 +141,15 @@ public class ExampleScenarioActorType extends Code {
     public enum ValueSet {
         /**
          * Person
+         * 
+         * <p>A person.
          */
         PERSON("person"),
 
         /**
          * System
+         * 
+         * <p>A system.
          */
         ENTITY("entity");
 

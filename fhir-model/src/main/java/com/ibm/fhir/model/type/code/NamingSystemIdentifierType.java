@@ -16,26 +16,34 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/namingsystem-identifier-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/namingsystem-identifier-type")
 public class NamingSystemIdentifierType extends Code {
     /**
      * OID
+     * 
+     * <p>An ISO object identifier; e.g. 1.2.3.4.5.
      */
     public static final NamingSystemIdentifierType OID = NamingSystemIdentifierType.builder().value(ValueSet.OID).build();
 
     /**
      * UUID
+     * 
+     * <p>A universally unique identifier of the form a5afddf4-e880-459b-876e-e4591b0acc11.
      */
     public static final NamingSystemIdentifierType UUID = NamingSystemIdentifierType.builder().value(ValueSet.UUID).build();
 
     /**
      * URI
+     * 
+     * <p>A uniform resource identifier (ideally a URL - uniform resource locator); e.g. http://unitsofmeasure.org.
      */
     public static final NamingSystemIdentifierType URI = NamingSystemIdentifierType.builder().value(ValueSet.URI).build();
 
     /**
      * Other
+     * 
+     * <p>Some other type of unique identifier; e.g. HL7-assigned reserved string such as LN for LOINC.
      */
     public static final NamingSystemIdentifierType OTHER = NamingSystemIdentifierType.builder().value(ValueSet.OTHER).build();
 
@@ -151,21 +159,29 @@ public class NamingSystemIdentifierType extends Code {
     public enum ValueSet {
         /**
          * OID
+         * 
+         * <p>An ISO object identifier; e.g. 1.2.3.4.5.
          */
         OID("oid"),
 
         /**
          * UUID
+         * 
+         * <p>A universally unique identifier of the form a5afddf4-e880-459b-876e-e4591b0acc11.
          */
         UUID("uuid"),
 
         /**
          * URI
+         * 
+         * <p>A uniform resource identifier (ideally a URL - uniform resource locator); e.g. http://unitsofmeasure.org.
          */
         URI("uri"),
 
         /**
          * Other
+         * 
+         * <p>Some other type of unique identifier; e.g. HL7-assigned reserved string such as LN for LOINC.
          */
         OTHER("other");
 

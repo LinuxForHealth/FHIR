@@ -16,51 +16,75 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/filter-operator")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/filter-operator")
 public class FilterOperator extends Code {
     /**
      * Equals
+     * 
+     * <p>The specified property of the code equals the provided value.
      */
     public static final FilterOperator EQUALS = FilterOperator.builder().value(ValueSet.EQUALS).build();
 
     /**
      * Is A (by subsumption)
+     * 
+     * <p>Includes all concept ids that have a transitive is-a relationship with the concept Id provided as the value, 
+     * including the provided concept itself (include descendant codes and self).
      */
     public static final FilterOperator IS_A = FilterOperator.builder().value(ValueSet.IS_A).build();
 
     /**
      * Descendent Of (by subsumption)
+     * 
+     * <p>Includes all concept ids that have a transitive is-a relationship with the concept Id provided as the value, 
+     * excluding the provided concept itself i.e. include descendant codes only).
      */
     public static final FilterOperator DESCENDENT_OF = FilterOperator.builder().value(ValueSet.DESCENDENT_OF).build();
 
     /**
      * Not (Is A) (by subsumption)
+     * 
+     * <p>The specified property of the code does not have an is-a relationship with the provided value.
      */
     public static final FilterOperator IS_NOT_A = FilterOperator.builder().value(ValueSet.IS_NOT_A).build();
 
     /**
      * Regular Expression
+     * 
+     * <p>The specified property of the code matches the regex specified in the provided value.
      */
     public static final FilterOperator REGEX = FilterOperator.builder().value(ValueSet.REGEX).build();
 
     /**
      * In Set
+     * 
+     * <p>The specified property of the code is in the set of codes or concepts specified in the provided value (comma 
+     * separated list).
      */
     public static final FilterOperator IN = FilterOperator.builder().value(ValueSet.IN).build();
 
     /**
      * Not in Set
+     * 
+     * <p>The specified property of the code is not in the set of codes or concepts specified in the provided value (comma 
+     * separated list).
      */
     public static final FilterOperator NOT_IN = FilterOperator.builder().value(ValueSet.NOT_IN).build();
 
     /**
      * Generalizes (by Subsumption)
+     * 
+     * <p>Includes all concept ids that have a transitive is-a relationship from the concept Id provided as the value, 
+     * including the provided concept itself (i.e. include ancestor codes and self).
      */
     public static final FilterOperator GENERALIZES = FilterOperator.builder().value(ValueSet.GENERALIZES).build();
 
     /**
      * Exists
+     * 
+     * <p>The specified property of the code has at least one value (if the specified value is true; if the specified value 
+     * is false, then matches when the specified property of the code has no values).
      */
     public static final FilterOperator EXISTS = FilterOperator.builder().value(ValueSet.EXISTS).build();
 
@@ -186,46 +210,70 @@ public class FilterOperator extends Code {
     public enum ValueSet {
         /**
          * Equals
+         * 
+         * <p>The specified property of the code equals the provided value.
          */
         EQUALS("="),
 
         /**
          * Is A (by subsumption)
+         * 
+         * <p>Includes all concept ids that have a transitive is-a relationship with the concept Id provided as the value, 
+         * including the provided concept itself (include descendant codes and self).
          */
         IS_A("is-a"),
 
         /**
          * Descendent Of (by subsumption)
+         * 
+         * <p>Includes all concept ids that have a transitive is-a relationship with the concept Id provided as the value, 
+         * excluding the provided concept itself i.e. include descendant codes only).
          */
         DESCENDENT_OF("descendent-of"),
 
         /**
          * Not (Is A) (by subsumption)
+         * 
+         * <p>The specified property of the code does not have an is-a relationship with the provided value.
          */
         IS_NOT_A("is-not-a"),
 
         /**
          * Regular Expression
+         * 
+         * <p>The specified property of the code matches the regex specified in the provided value.
          */
         REGEX("regex"),
 
         /**
          * In Set
+         * 
+         * <p>The specified property of the code is in the set of codes or concepts specified in the provided value (comma 
+         * separated list).
          */
         IN("in"),
 
         /**
          * Not in Set
+         * 
+         * <p>The specified property of the code is not in the set of codes or concepts specified in the provided value (comma 
+         * separated list).
          */
         NOT_IN("not-in"),
 
         /**
          * Generalizes (by Subsumption)
+         * 
+         * <p>Includes all concept ids that have a transitive is-a relationship from the concept Id provided as the value, 
+         * including the provided concept itself (i.e. include ancestor codes and self).
          */
         GENERALIZES("generalizes"),
 
         /**
          * Exists
+         * 
+         * <p>The specified property of the code has at least one value (if the specified value is true; if the specified value 
+         * is false, then matches when the specified property of the code has no values).
          */
         EXISTS("exists");
 

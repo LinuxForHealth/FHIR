@@ -16,21 +16,30 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/extension-context-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/extension-context-type")
 public class ExtensionContextType extends Code {
     /**
      * FHIRPath
+     * 
+     * <p>The context is all elements that match the FHIRPath query found in the expression.
      */
     public static final ExtensionContextType FHIRPATH = ExtensionContextType.builder().value(ValueSet.FHIRPATH).build();
 
     /**
      * Element ID
+     * 
+     * <p>The context is any element that has an ElementDefinition.id that matches that found in the expression. This 
+     * includes ElementDefinition Ids that have slicing identifiers. The full path for the element is [url]#[elementid]. If 
+     * there is no #, the Element id is one defined in the base specification.
      */
     public static final ExtensionContextType ELEMENT = ExtensionContextType.builder().value(ValueSet.ELEMENT).build();
 
     /**
      * Extension URL
+     * 
+     * <p>The context is a particular extension from a particular StructureDefinition, and the expression is just a uri that 
+     * identifies the extension.
      */
     public static final ExtensionContextType EXTENSION = ExtensionContextType.builder().value(ValueSet.EXTENSION).build();
 
@@ -144,16 +153,25 @@ public class ExtensionContextType extends Code {
     public enum ValueSet {
         /**
          * FHIRPath
+         * 
+         * <p>The context is all elements that match the FHIRPath query found in the expression.
          */
         FHIRPATH("fhirpath"),
 
         /**
          * Element ID
+         * 
+         * <p>The context is any element that has an ElementDefinition.id that matches that found in the expression. This 
+         * includes ElementDefinition Ids that have slicing identifiers. The full path for the element is [url]#[elementid]. If 
+         * there is no #, the Element id is one defined in the base specification.
          */
         ELEMENT("element"),
 
         /**
          * Extension URL
+         * 
+         * <p>The context is a particular extension from a particular StructureDefinition, and the expression is just a uri that 
+         * identifies the extension.
          */
         EXTENSION("extension");
 

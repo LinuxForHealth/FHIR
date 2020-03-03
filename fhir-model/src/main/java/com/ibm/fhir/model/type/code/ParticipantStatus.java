@@ -16,26 +16,36 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/participationstatus")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/participationstatus")
 public class ParticipantStatus extends Code {
     /**
      * Accepted
+     * 
+     * <p>The participant has accepted the appointment.
      */
     public static final ParticipantStatus ACCEPTED = ParticipantStatus.builder().value(ValueSet.ACCEPTED).build();
 
     /**
      * Declined
+     * 
+     * <p>The participant has declined the appointment and will not participate in the appointment.
      */
     public static final ParticipantStatus DECLINED = ParticipantStatus.builder().value(ValueSet.DECLINED).build();
 
     /**
      * Tentative
+     * 
+     * <p>The participant has tentatively accepted the appointment. This could be automatically created by a system and 
+     * requires further processing before it can be accepted. There is no commitment that attendance will occur.
      */
     public static final ParticipantStatus TENTATIVE = ParticipantStatus.builder().value(ValueSet.TENTATIVE).build();
 
     /**
      * Needs Action
+     * 
+     * <p>The participant needs to indicate if they accept the appointment by changing this status to one of the other 
+     * statuses.
      */
     public static final ParticipantStatus NEEDS_ACTION = ParticipantStatus.builder().value(ValueSet.NEEDS_ACTION).build();
 
@@ -151,21 +161,31 @@ public class ParticipantStatus extends Code {
     public enum ValueSet {
         /**
          * Accepted
+         * 
+         * <p>The participant has accepted the appointment.
          */
         ACCEPTED("accepted"),
 
         /**
          * Declined
+         * 
+         * <p>The participant has declined the appointment and will not participate in the appointment.
          */
         DECLINED("declined"),
 
         /**
          * Tentative
+         * 
+         * <p>The participant has tentatively accepted the appointment. This could be automatically created by a system and 
+         * requires further processing before it can be accepted. There is no commitment that attendance will occur.
          */
         TENTATIVE("tentative"),
 
         /**
          * Needs Action
+         * 
+         * <p>The participant needs to indicate if they accept the appointment by changing this status to one of the other 
+         * statuses.
          */
         NEEDS_ACTION("needs-action");
 

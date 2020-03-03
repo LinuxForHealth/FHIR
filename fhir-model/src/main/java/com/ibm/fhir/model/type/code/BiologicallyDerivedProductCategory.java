@@ -16,31 +16,42 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/product-category")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/product-category")
 public class BiologicallyDerivedProductCategory extends Code {
     /**
      * Organ
+     * 
+     * <p>A collection of tissues joined in a structural unit to serve a common function.
      */
     public static final BiologicallyDerivedProductCategory ORGAN = BiologicallyDerivedProductCategory.builder().value(ValueSet.ORGAN).build();
 
     /**
      * Tissue
+     * 
+     * <p>An ensemble of similar cells and their extracellular matrix from the same origin that together carry out a specific 
+     * function.
      */
     public static final BiologicallyDerivedProductCategory TISSUE = BiologicallyDerivedProductCategory.builder().value(ValueSet.TISSUE).build();
 
     /**
      * Fluid
+     * 
+     * <p>Body fluid.
      */
     public static final BiologicallyDerivedProductCategory FLUID = BiologicallyDerivedProductCategory.builder().value(ValueSet.FLUID).build();
 
     /**
      * Cells
+     * 
+     * <p>Collection of cells.
      */
     public static final BiologicallyDerivedProductCategory CELLS = BiologicallyDerivedProductCategory.builder().value(ValueSet.CELLS).build();
 
     /**
      * BiologicalAgent
+     * 
+     * <p>Biological agent of unspecified type.
      */
     public static final BiologicallyDerivedProductCategory BIOLOGICAL_AGENT = BiologicallyDerivedProductCategory.builder().value(ValueSet.BIOLOGICAL_AGENT).build();
 
@@ -158,26 +169,37 @@ public class BiologicallyDerivedProductCategory extends Code {
     public enum ValueSet {
         /**
          * Organ
+         * 
+         * <p>A collection of tissues joined in a structural unit to serve a common function.
          */
         ORGAN("organ"),
 
         /**
          * Tissue
+         * 
+         * <p>An ensemble of similar cells and their extracellular matrix from the same origin that together carry out a specific 
+         * function.
          */
         TISSUE("tissue"),
 
         /**
          * Fluid
+         * 
+         * <p>Body fluid.
          */
         FLUID("fluid"),
 
         /**
          * Cells
+         * 
+         * <p>Collection of cells.
          */
         CELLS("cells"),
 
         /**
          * BiologicalAgent
+         * 
+         * <p>Biological agent of unspecified type.
          */
         BIOLOGICAL_AGENT("biologicalAgent");
 

@@ -16,26 +16,34 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/fm-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/fm-status")
 public class PaymentNoticeStatus extends Code {
     /**
      * Active
+     * 
+     * <p>The instance is currently in-force.
      */
     public static final PaymentNoticeStatus ACTIVE = PaymentNoticeStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Cancelled
+     * 
+     * <p>The instance is withdrawn, rescinded or reversed.
      */
     public static final PaymentNoticeStatus CANCELLED = PaymentNoticeStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Draft
+     * 
+     * <p>A new instance the contents of which is not complete.
      */
     public static final PaymentNoticeStatus DRAFT = PaymentNoticeStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The instance was entered in error.
      */
     public static final PaymentNoticeStatus ENTERED_IN_ERROR = PaymentNoticeStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -151,21 +159,29 @@ public class PaymentNoticeStatus extends Code {
     public enum ValueSet {
         /**
          * Active
+         * 
+         * <p>The instance is currently in-force.
          */
         ACTIVE("active"),
 
         /**
          * Cancelled
+         * 
+         * <p>The instance is withdrawn, rescinded or reversed.
          */
         CANCELLED("cancelled"),
 
         /**
          * Draft
+         * 
+         * <p>A new instance the contents of which is not complete.
          */
         DRAFT("draft"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The instance was entered in error.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

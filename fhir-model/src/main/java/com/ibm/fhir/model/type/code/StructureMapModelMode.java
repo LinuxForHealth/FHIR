@@ -16,26 +16,34 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/map-model-mode")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/map-model-mode")
 public class StructureMapModelMode extends Code {
     /**
      * Source Structure Definition
+     * 
+     * <p>This structure describes an instance passed to the mapping engine that is used a source of data.
      */
     public static final StructureMapModelMode SOURCE = StructureMapModelMode.builder().value(ValueSet.SOURCE).build();
 
     /**
      * Queried Structure Definition
+     * 
+     * <p>This structure describes an instance that the mapping engine may ask for that is used a source of data.
      */
     public static final StructureMapModelMode QUERIED = StructureMapModelMode.builder().value(ValueSet.QUERIED).build();
 
     /**
      * Target Structure Definition
+     * 
+     * <p>This structure describes an instance passed to the mapping engine that is used a target of data.
      */
     public static final StructureMapModelMode TARGET = StructureMapModelMode.builder().value(ValueSet.TARGET).build();
 
     /**
      * Produced Structure Definition
+     * 
+     * <p>This structure describes an instance that the mapping engine may ask to create that is used a target of data.
      */
     public static final StructureMapModelMode PRODUCED = StructureMapModelMode.builder().value(ValueSet.PRODUCED).build();
 
@@ -151,21 +159,29 @@ public class StructureMapModelMode extends Code {
     public enum ValueSet {
         /**
          * Source Structure Definition
+         * 
+         * <p>This structure describes an instance passed to the mapping engine that is used a source of data.
          */
         SOURCE("source"),
 
         /**
          * Queried Structure Definition
+         * 
+         * <p>This structure describes an instance that the mapping engine may ask for that is used a source of data.
          */
         QUERIED("queried"),
 
         /**
          * Target Structure Definition
+         * 
+         * <p>This structure describes an instance passed to the mapping engine that is used a target of data.
          */
         TARGET("target"),
 
         /**
          * Produced Structure Definition
+         * 
+         * <p>This structure describes an instance that the mapping engine may ask to create that is used a target of data.
          */
         PRODUCED("produced");
 

@@ -16,41 +16,58 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://terminology.hl7.org/CodeSystem/medication-admin-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://terminology.hl7.org/CodeSystem/medication-admin-status")
 public class MedicationAdministrationStatus extends Code {
     /**
      * In Progress
+     * 
+     * <p>The administration has started but has not yet completed.
      */
     public static final MedicationAdministrationStatus IN_PROGRESS = MedicationAdministrationStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * Not Done
+     * 
+     * <p>The administration was terminated prior to any impact on the subject (though preparatory actions may have been 
+     * taken)
      */
     public static final MedicationAdministrationStatus NOT_DONE = MedicationAdministrationStatus.builder().value(ValueSet.NOT_DONE).build();
 
     /**
      * On Hold
+     * 
+     * <p>Actions implied by the administration have been temporarily halted, but are expected to continue later. May also be 
+     * called 'suspended'.
      */
     public static final MedicationAdministrationStatus ON_HOLD = MedicationAdministrationStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Completed
+     * 
+     * <p>All actions that are implied by the administration have occurred.
      */
     public static final MedicationAdministrationStatus COMPLETED = MedicationAdministrationStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The administration was entered in error and therefore nullified.
      */
     public static final MedicationAdministrationStatus ENTERED_IN_ERROR = MedicationAdministrationStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Stopped
+     * 
+     * <p>Actions implied by the administration have been permanently halted, before all of them occurred.
      */
     public static final MedicationAdministrationStatus STOPPED = MedicationAdministrationStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * Unknown
+     * 
+     * <p>The authoring system does not know which of the status values currently applies for this request. Note: This 
+     * concept is not to be used for 'other' - one of the listed statuses is presumed to apply, it's just not known which one.
      */
     public static final MedicationAdministrationStatus UNKNOWN = MedicationAdministrationStatus.builder().value(ValueSet.UNKNOWN).build();
 
@@ -172,36 +189,53 @@ public class MedicationAdministrationStatus extends Code {
     public enum ValueSet {
         /**
          * In Progress
+         * 
+         * <p>The administration has started but has not yet completed.
          */
         IN_PROGRESS("in-progress"),
 
         /**
          * Not Done
+         * 
+         * <p>The administration was terminated prior to any impact on the subject (though preparatory actions may have been 
+         * taken)
          */
         NOT_DONE("not-done"),
 
         /**
          * On Hold
+         * 
+         * <p>Actions implied by the administration have been temporarily halted, but are expected to continue later. May also be 
+         * called 'suspended'.
          */
         ON_HOLD("on-hold"),
 
         /**
          * Completed
+         * 
+         * <p>All actions that are implied by the administration have occurred.
          */
         COMPLETED("completed"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The administration was entered in error and therefore nullified.
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Stopped
+         * 
+         * <p>Actions implied by the administration have been permanently halted, before all of them occurred.
          */
         STOPPED("stopped"),
 
         /**
          * Unknown
+         * 
+         * <p>The authoring system does not know which of the status values currently applies for this request. Note: This 
+         * concept is not to be used for 'other' - one of the listed statuses is presumed to apply, it's just not known which one.
          */
         UNKNOWN("unknown");
 

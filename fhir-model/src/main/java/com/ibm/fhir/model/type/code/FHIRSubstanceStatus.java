@@ -16,21 +16,27 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/substance-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/substance-status")
 public class FHIRSubstanceStatus extends Code {
     /**
      * Active
+     * 
+     * <p>The substance is considered for use or reference.
      */
     public static final FHIRSubstanceStatus ACTIVE = FHIRSubstanceStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Inactive
+     * 
+     * <p>The substance is considered for reference, but not for use.
      */
     public static final FHIRSubstanceStatus INACTIVE = FHIRSubstanceStatus.builder().value(ValueSet.INACTIVE).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The substance was entered in error.
      */
     public static final FHIRSubstanceStatus ENTERED_IN_ERROR = FHIRSubstanceStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -144,16 +150,22 @@ public class FHIRSubstanceStatus extends Code {
     public enum ValueSet {
         /**
          * Active
+         * 
+         * <p>The substance is considered for use or reference.
          */
         ACTIVE("active"),
 
         /**
          * Inactive
+         * 
+         * <p>The substance is considered for reference, but not for use.
          */
         INACTIVE("inactive"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The substance was entered in error.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

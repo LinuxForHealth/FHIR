@@ -16,16 +16,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/orientation-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/orientation-type")
 public class OrientationType extends Code {
     /**
      * Sense orientation of referenceSeq
+     * 
+     * <p>Sense orientation of reference sequence.
      */
     public static final OrientationType SENSE = OrientationType.builder().value(ValueSet.SENSE).build();
 
     /**
      * Antisense orientation of referenceSeq
+     * 
+     * <p>Antisense orientation of reference sequence.
      */
     public static final OrientationType ANTISENSE = OrientationType.builder().value(ValueSet.ANTISENSE).build();
 
@@ -137,11 +141,15 @@ public class OrientationType extends Code {
     public enum ValueSet {
         /**
          * Sense orientation of referenceSeq
+         * 
+         * <p>Sense orientation of reference sequence.
          */
         SENSE("sense"),
 
         /**
          * Antisense orientation of referenceSeq
+         * 
+         * <p>Antisense orientation of reference sequence.
          */
         ANTISENSE("antisense");
 

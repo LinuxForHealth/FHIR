@@ -16,31 +16,44 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/discriminator-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/discriminator-type")
 public class DiscriminatorType extends Code {
     /**
      * Value
+     * 
+     * <p>The slices have different values in the nominated element.
      */
     public static final DiscriminatorType VALUE = DiscriminatorType.builder().value(ValueSet.VALUE).build();
 
     /**
      * Exists
+     * 
+     * <p>The slices are differentiated by the presence or absence of the nominated element.
      */
     public static final DiscriminatorType EXISTS = DiscriminatorType.builder().value(ValueSet.EXISTS).build();
 
     /**
      * Pattern
+     * 
+     * <p>The slices have different values in the nominated element, as determined by testing them against the applicable 
+     * ElementDefinition.pattern[x].
      */
     public static final DiscriminatorType PATTERN = DiscriminatorType.builder().value(ValueSet.PATTERN).build();
 
     /**
      * Type
+     * 
+     * <p>The slices are differentiated by type of the nominated element.
      */
     public static final DiscriminatorType TYPE = DiscriminatorType.builder().value(ValueSet.TYPE).build();
 
     /**
      * Profile
+     * 
+     * <p>The slices are differentiated by conformance of the nominated element to a specified profile. Note that if the path 
+     * specifies .resolve() then the profile is the target profile on the reference. In this case, validation by the possible 
+     * profiles is required to differentiate the slices.
      */
     public static final DiscriminatorType PROFILE = DiscriminatorType.builder().value(ValueSet.PROFILE).build();
 
@@ -158,26 +171,39 @@ public class DiscriminatorType extends Code {
     public enum ValueSet {
         /**
          * Value
+         * 
+         * <p>The slices have different values in the nominated element.
          */
         VALUE("value"),
 
         /**
          * Exists
+         * 
+         * <p>The slices are differentiated by the presence or absence of the nominated element.
          */
         EXISTS("exists"),
 
         /**
          * Pattern
+         * 
+         * <p>The slices have different values in the nominated element, as determined by testing them against the applicable 
+         * ElementDefinition.pattern[x].
          */
         PATTERN("pattern"),
 
         /**
          * Type
+         * 
+         * <p>The slices are differentiated by type of the nominated element.
          */
         TYPE("type"),
 
         /**
          * Profile
+         * 
+         * <p>The slices are differentiated by conformance of the nominated element to a specified profile. Note that if the path 
+         * specifies .resolve() then the profile is the target profile on the reference. In this case, validation by the possible 
+         * profiles is required to differentiate the slices.
          */
         PROFILE("profile");
 

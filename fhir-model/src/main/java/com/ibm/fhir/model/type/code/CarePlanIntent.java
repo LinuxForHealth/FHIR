@@ -16,8 +16,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/request-intent")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/request-intent")
 public class CarePlanIntent extends Code {
     public static final CarePlanIntent PROPOSAL = CarePlanIntent.builder().value(ValueSet.PROPOSAL).build();
 

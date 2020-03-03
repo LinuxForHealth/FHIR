@@ -16,31 +16,41 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/network-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/network-type")
 public class AuditEventAgentNetworkType extends Code {
     /**
      * Machine Name
+     * 
+     * <p>The machine name, including DNS name.
      */
     public static final AuditEventAgentNetworkType TYPE_1 = AuditEventAgentNetworkType.builder().value(ValueSet.TYPE_1).build();
 
     /**
      * IP Address
+     * 
+     * <p>The assigned Internet Protocol (IP) address.
      */
     public static final AuditEventAgentNetworkType TYPE_2 = AuditEventAgentNetworkType.builder().value(ValueSet.TYPE_2).build();
 
     /**
      * Telephone Number
+     * 
+     * <p>The assigned telephone number.
      */
     public static final AuditEventAgentNetworkType TYPE_3 = AuditEventAgentNetworkType.builder().value(ValueSet.TYPE_3).build();
 
     /**
      * Email address
+     * 
+     * <p>The assigned email address.
      */
     public static final AuditEventAgentNetworkType TYPE_4 = AuditEventAgentNetworkType.builder().value(ValueSet.TYPE_4).build();
 
     /**
      * URI
+     * 
+     * <p>URI (User directory, HTTP-PUT, ftp, etc.).
      */
     public static final AuditEventAgentNetworkType TYPE_5 = AuditEventAgentNetworkType.builder().value(ValueSet.TYPE_5).build();
 
@@ -158,26 +168,36 @@ public class AuditEventAgentNetworkType extends Code {
     public enum ValueSet {
         /**
          * Machine Name
+         * 
+         * <p>The machine name, including DNS name.
          */
         TYPE_1("1"),
 
         /**
          * IP Address
+         * 
+         * <p>The assigned Internet Protocol (IP) address.
          */
         TYPE_2("2"),
 
         /**
          * Telephone Number
+         * 
+         * <p>The assigned telephone number.
          */
         TYPE_3("3"),
 
         /**
          * Email address
+         * 
+         * <p>The assigned email address.
          */
         TYPE_4("4"),
 
         /**
          * URI
+         * 
+         * <p>URI (User directory, HTTP-PUT, ftp, etc.).
          */
         TYPE_5("5");
 

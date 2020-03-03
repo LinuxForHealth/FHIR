@@ -16,21 +16,29 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/list-mode")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/list-mode")
 public class SectionMode extends Code {
     /**
      * Working List
+     * 
+     * <p>This list is the master list, maintained in an ongoing fashion with regular updates as the real world list it is 
+     * tracking changes.
      */
     public static final SectionMode WORKING = SectionMode.builder().value(ValueSet.WORKING).build();
 
     /**
      * Snapshot List
+     * 
+     * <p>This list was prepared as a snapshot. It should not be assumed to be current.
      */
     public static final SectionMode SNAPSHOT = SectionMode.builder().value(ValueSet.SNAPSHOT).build();
 
     /**
      * Change List
+     * 
+     * <p>A point-in-time list that shows what changes have been made or recommended. E.g. a discharge medication list 
+     * showing what was added and removed during an encounter.
      */
     public static final SectionMode CHANGES = SectionMode.builder().value(ValueSet.CHANGES).build();
 
@@ -144,16 +152,24 @@ public class SectionMode extends Code {
     public enum ValueSet {
         /**
          * Working List
+         * 
+         * <p>This list is the master list, maintained in an ongoing fashion with regular updates as the real world list it is 
+         * tracking changes.
          */
         WORKING("working"),
 
         /**
          * Snapshot List
+         * 
+         * <p>This list was prepared as a snapshot. It should not be assumed to be current.
          */
         SNAPSHOT("snapshot"),
 
         /**
          * Change List
+         * 
+         * <p>A point-in-time list that shows what changes have been made or recommended. E.g. a discharge medication list 
+         * showing what was added and removed during an encounter.
          */
         CHANGES("changes");
 

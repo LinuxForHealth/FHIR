@@ -16,51 +16,69 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/search-comparator")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/search-comparator")
 public class SearchComparator extends Code {
     /**
      * Equals
+     * 
+     * <p>the value for the parameter in the resource is equal to the provided value.
      */
     public static final SearchComparator EQ = SearchComparator.builder().value(ValueSet.EQ).build();
 
     /**
      * Not Equals
+     * 
+     * <p>the value for the parameter in the resource is not equal to the provided value.
      */
     public static final SearchComparator NE = SearchComparator.builder().value(ValueSet.NE).build();
 
     /**
      * Greater Than
+     * 
+     * <p>the value for the parameter in the resource is greater than the provided value.
      */
     public static final SearchComparator GT = SearchComparator.builder().value(ValueSet.GT).build();
 
     /**
      * Less Than
+     * 
+     * <p>the value for the parameter in the resource is less than the provided value.
      */
     public static final SearchComparator LT = SearchComparator.builder().value(ValueSet.LT).build();
 
     /**
      * Greater or Equals
+     * 
+     * <p>the value for the parameter in the resource is greater or equal to the provided value.
      */
     public static final SearchComparator GE = SearchComparator.builder().value(ValueSet.GE).build();
 
     /**
      * Less of Equal
+     * 
+     * <p>the value for the parameter in the resource is less or equal to the provided value.
      */
     public static final SearchComparator LE = SearchComparator.builder().value(ValueSet.LE).build();
 
     /**
      * Starts After
+     * 
+     * <p>the value for the parameter in the resource starts after the provided value.
      */
     public static final SearchComparator SA = SearchComparator.builder().value(ValueSet.SA).build();
 
     /**
      * Ends Before
+     * 
+     * <p>the value for the parameter in the resource ends before the provided value.
      */
     public static final SearchComparator EB = SearchComparator.builder().value(ValueSet.EB).build();
 
     /**
      * Approximately
+     * 
+     * <p>the value for the parameter in the resource is approximately the same to the provided value.
      */
     public static final SearchComparator AP = SearchComparator.builder().value(ValueSet.AP).build();
 
@@ -186,46 +204,64 @@ public class SearchComparator extends Code {
     public enum ValueSet {
         /**
          * Equals
+         * 
+         * <p>the value for the parameter in the resource is equal to the provided value.
          */
         EQ("eq"),
 
         /**
          * Not Equals
+         * 
+         * <p>the value for the parameter in the resource is not equal to the provided value.
          */
         NE("ne"),
 
         /**
          * Greater Than
+         * 
+         * <p>the value for the parameter in the resource is greater than the provided value.
          */
         GT("gt"),
 
         /**
          * Less Than
+         * 
+         * <p>the value for the parameter in the resource is less than the provided value.
          */
         LT("lt"),
 
         /**
          * Greater or Equals
+         * 
+         * <p>the value for the parameter in the resource is greater or equal to the provided value.
          */
         GE("ge"),
 
         /**
          * Less of Equal
+         * 
+         * <p>the value for the parameter in the resource is less or equal to the provided value.
          */
         LE("le"),
 
         /**
          * Starts After
+         * 
+         * <p>the value for the parameter in the resource starts after the provided value.
          */
         SA("sa"),
 
         /**
          * Ends Before
+         * 
+         * <p>the value for the parameter in the resource ends before the provided value.
          */
         EB("eb"),
 
         /**
          * Approximately
+         * 
+         * <p>the value for the parameter in the resource is approximately the same to the provided value.
          */
         AP("ap");
 

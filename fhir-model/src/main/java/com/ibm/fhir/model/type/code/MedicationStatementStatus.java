@@ -16,46 +16,65 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/CodeSystem/medication-statement-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/CodeSystem/medication-statement-status")
 public class MedicationStatementStatus extends Code {
     /**
      * Active
+     * 
+     * <p>The medication is still being taken.
      */
     public static final MedicationStatementStatus ACTIVE = MedicationStatementStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Completed
+     * 
+     * <p>The medication is no longer being taken.
      */
     public static final MedicationStatementStatus COMPLETED = MedicationStatementStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>Some of the actions that are implied by the medication statement may have occurred. For example, the patient may 
+     * have taken some of the medication. Clinical decision support systems should take this status into account.
      */
     public static final MedicationStatementStatus ENTERED_IN_ERROR = MedicationStatementStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Intended
+     * 
+     * <p>The medication may be taken at some time in the future.
      */
     public static final MedicationStatementStatus INTENDED = MedicationStatementStatus.builder().value(ValueSet.INTENDED).build();
 
     /**
      * Stopped
+     * 
+     * <p>Actions implied by the statement have been permanently halted, before all of them occurred. This should not be used 
+     * if the statement was entered in error.
      */
     public static final MedicationStatementStatus STOPPED = MedicationStatementStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * On Hold
+     * 
+     * <p>Actions implied by the statement have been temporarily halted, but are expected to continue later. May also be 
+     * called 'suspended'.
      */
     public static final MedicationStatementStatus ON_HOLD = MedicationStatementStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Unknown
+     * 
+     * <p>The state of the medication use is not currently known.
      */
     public static final MedicationStatementStatus UNKNOWN = MedicationStatementStatus.builder().value(ValueSet.UNKNOWN).build();
 
     /**
      * Not Taken
+     * 
+     * <p>The medication was not consumed by the patient
      */
     public static final MedicationStatementStatus NOT_TAKEN = MedicationStatementStatus.builder().value(ValueSet.NOT_TAKEN).build();
 
@@ -179,41 +198,60 @@ public class MedicationStatementStatus extends Code {
     public enum ValueSet {
         /**
          * Active
+         * 
+         * <p>The medication is still being taken.
          */
         ACTIVE("active"),
 
         /**
          * Completed
+         * 
+         * <p>The medication is no longer being taken.
          */
         COMPLETED("completed"),
 
         /**
          * Entered in Error
+         * 
+         * <p>Some of the actions that are implied by the medication statement may have occurred. For example, the patient may 
+         * have taken some of the medication. Clinical decision support systems should take this status into account.
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Intended
+         * 
+         * <p>The medication may be taken at some time in the future.
          */
         INTENDED("intended"),
 
         /**
          * Stopped
+         * 
+         * <p>Actions implied by the statement have been permanently halted, before all of them occurred. This should not be used 
+         * if the statement was entered in error.
          */
         STOPPED("stopped"),
 
         /**
          * On Hold
+         * 
+         * <p>Actions implied by the statement have been temporarily halted, but are expected to continue later. May also be 
+         * called 'suspended'.
          */
         ON_HOLD("on-hold"),
 
         /**
          * Unknown
+         * 
+         * <p>The state of the medication use is not currently known.
          */
         UNKNOWN("unknown"),
 
         /**
          * Not Taken
+         * 
+         * <p>The medication was not consumed by the patient
          */
         NOT_TAKEN("not-taken");
 

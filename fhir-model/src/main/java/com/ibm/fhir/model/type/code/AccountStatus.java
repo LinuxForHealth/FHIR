@@ -16,31 +16,41 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/account-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/account-status")
 public class AccountStatus extends Code {
     /**
      * Active
+     * 
+     * <p>This account is active and may be used.
      */
     public static final AccountStatus ACTIVE = AccountStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Inactive
+     * 
+     * <p>This account is inactive and should not be used to track financial information.
      */
     public static final AccountStatus INACTIVE = AccountStatus.builder().value(ValueSet.INACTIVE).build();
 
     /**
      * Entered in error
+     * 
+     * <p>This instance should not have been part of this patient's medical record.
      */
     public static final AccountStatus ENTERED_IN_ERROR = AccountStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * On Hold
+     * 
+     * <p>This account is on hold.
      */
     public static final AccountStatus ON_HOLD = AccountStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Unknown
+     * 
+     * <p>The account status is unknown.
      */
     public static final AccountStatus UNKNOWN = AccountStatus.builder().value(ValueSet.UNKNOWN).build();
 
@@ -158,26 +168,36 @@ public class AccountStatus extends Code {
     public enum ValueSet {
         /**
          * Active
+         * 
+         * <p>This account is active and may be used.
          */
         ACTIVE("active"),
 
         /**
          * Inactive
+         * 
+         * <p>This account is inactive and should not be used to track financial information.
          */
         INACTIVE("inactive"),
 
         /**
          * Entered in error
+         * 
+         * <p>This instance should not have been part of this patient's medical record.
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * On Hold
+         * 
+         * <p>This account is on hold.
          */
         ON_HOLD("on-hold"),
 
         /**
          * Unknown
+         * 
+         * <p>The account status is unknown.
          */
         UNKNOWN("unknown");
 

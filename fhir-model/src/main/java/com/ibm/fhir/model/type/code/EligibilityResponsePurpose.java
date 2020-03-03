@@ -16,26 +16,36 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/eligibilityresponse-purpose")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/eligibilityresponse-purpose")
 public class EligibilityResponsePurpose extends Code {
     /**
      * Coverage auth-requirements
+     * 
+     * <p>The prior authorization requirements for the listed, or discovered if specified, converages for the categories of 
+     * service and/or specifed biling codes are requested.
      */
     public static final EligibilityResponsePurpose AUTH_REQUIREMENTS = EligibilityResponsePurpose.builder().value(ValueSet.AUTH_REQUIREMENTS).build();
 
     /**
      * Coverage benefits
+     * 
+     * <p>The plan benefits and optionally benefits consumed for the listed, or discovered if specified, converages are 
+     * requested.
      */
     public static final EligibilityResponsePurpose BENEFITS = EligibilityResponsePurpose.builder().value(ValueSet.BENEFITS).build();
 
     /**
      * Coverage Discovery
+     * 
+     * <p>The insurer is requested to report on any coverages which they are aware of in addition to any specifed.
      */
     public static final EligibilityResponsePurpose DISCOVERY = EligibilityResponsePurpose.builder().value(ValueSet.DISCOVERY).build();
 
     /**
      * Coverage Validation
+     * 
+     * <p>A check that the specified coverages are in-force is requested.
      */
     public static final EligibilityResponsePurpose VALIDATION = EligibilityResponsePurpose.builder().value(ValueSet.VALIDATION).build();
 
@@ -151,21 +161,31 @@ public class EligibilityResponsePurpose extends Code {
     public enum ValueSet {
         /**
          * Coverage auth-requirements
+         * 
+         * <p>The prior authorization requirements for the listed, or discovered if specified, converages for the categories of 
+         * service and/or specifed biling codes are requested.
          */
         AUTH_REQUIREMENTS("auth-requirements"),
 
         /**
          * Coverage benefits
+         * 
+         * <p>The plan benefits and optionally benefits consumed for the listed, or discovered if specified, converages are 
+         * requested.
          */
         BENEFITS("benefits"),
 
         /**
          * Coverage Discovery
+         * 
+         * <p>The insurer is requested to report on any coverages which they are aware of in addition to any specifed.
          */
         DISCOVERY("discovery"),
 
         /**
          * Coverage Validation
+         * 
+         * <p>A check that the specified coverages are in-force is requested.
          */
         VALIDATION("validation");
 

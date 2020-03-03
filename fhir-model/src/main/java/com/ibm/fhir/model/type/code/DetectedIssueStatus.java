@@ -16,46 +16,71 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/observation-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/observation-status")
 public class DetectedIssueStatus extends Code {
     /**
      * Registered
+     * 
+     * <p>The existence of the observation is registered, but there is no result yet available.
      */
     public static final DetectedIssueStatus REGISTERED = DetectedIssueStatus.builder().value(ValueSet.REGISTERED).build();
 
     /**
      * Preliminary
+     * 
+     * <p>This is an initial or interim observation: data may be incomplete or unverified.
      */
     public static final DetectedIssueStatus PRELIMINARY = DetectedIssueStatus.builder().value(ValueSet.PRELIMINARY).build();
 
     /**
      * Final
+     * 
+     * <p>The observation is complete and there are no further actions needed. Additional information such "released", 
+     * "signed", etc would be represented using [Provenance](provenance.html) which provides not only the act but also the 
+     * actors and dates and other related data. These act states would be associated with an observation status of 
+     * `preliminary` until they are all completed and then a status of `final` would be applied.
      */
     public static final DetectedIssueStatus FINAL = DetectedIssueStatus.builder().value(ValueSet.FINAL).build();
 
     /**
      * Amended
+     * 
+     * <p>Subsequent to being Final, the observation has been modified subsequent. This includes updates/new information and 
+     * corrections.
      */
     public static final DetectedIssueStatus AMENDED = DetectedIssueStatus.builder().value(ValueSet.AMENDED).build();
 
     /**
      * Corrected
+     * 
+     * <p>Subsequent to being Final, the observation has been modified to correct an error in the test result.
      */
     public static final DetectedIssueStatus CORRECTED = DetectedIssueStatus.builder().value(ValueSet.CORRECTED).build();
 
     /**
      * Cancelled
+     * 
+     * <p>The observation is unavailable because the measurement was not started or not completed (also sometimes called 
+     * "aborted").
      */
     public static final DetectedIssueStatus CANCELLED = DetectedIssueStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The observation has been withdrawn following previous final release. This electronic record should never have 
+     * existed, though it is possible that real-world decisions were based on it. (If real-world activity has occurred, the 
+     * status should be "cancelled" rather than "entered-in-error".).
      */
     public static final DetectedIssueStatus ENTERED_IN_ERROR = DetectedIssueStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
+     * 
+     * <p>The authoring/source system does not know which of the status values currently applies for this observation. Note: 
+     * This concept is not to be used for "other" - one of the listed statuses is presumed to apply, but the authoring/source 
+     * system does not know which.
      */
     public static final DetectedIssueStatus UNKNOWN = DetectedIssueStatus.builder().value(ValueSet.UNKNOWN).build();
 
@@ -179,41 +204,66 @@ public class DetectedIssueStatus extends Code {
     public enum ValueSet {
         /**
          * Registered
+         * 
+         * <p>The existence of the observation is registered, but there is no result yet available.
          */
         REGISTERED("registered"),
 
         /**
          * Preliminary
+         * 
+         * <p>This is an initial or interim observation: data may be incomplete or unverified.
          */
         PRELIMINARY("preliminary"),
 
         /**
          * Final
+         * 
+         * <p>The observation is complete and there are no further actions needed. Additional information such "released", 
+         * "signed", etc would be represented using [Provenance](provenance.html) which provides not only the act but also the 
+         * actors and dates and other related data. These act states would be associated with an observation status of 
+         * `preliminary` until they are all completed and then a status of `final` would be applied.
          */
         FINAL("final"),
 
         /**
          * Amended
+         * 
+         * <p>Subsequent to being Final, the observation has been modified subsequent. This includes updates/new information and 
+         * corrections.
          */
         AMENDED("amended"),
 
         /**
          * Corrected
+         * 
+         * <p>Subsequent to being Final, the observation has been modified to correct an error in the test result.
          */
         CORRECTED("corrected"),
 
         /**
          * Cancelled
+         * 
+         * <p>The observation is unavailable because the measurement was not started or not completed (also sometimes called 
+         * "aborted").
          */
         CANCELLED("cancelled"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The observation has been withdrawn following previous final release. This electronic record should never have 
+         * existed, though it is possible that real-world decisions were based on it. (If real-world activity has occurred, the 
+         * status should be "cancelled" rather than "entered-in-error".).
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Unknown
+         * 
+         * <p>The authoring/source system does not know which of the status values currently applies for this observation. Note: 
+         * This concept is not to be used for "other" - one of the listed statuses is presumed to apply, but the authoring/source 
+         * system does not know which.
          */
         UNKNOWN("unknown");
 

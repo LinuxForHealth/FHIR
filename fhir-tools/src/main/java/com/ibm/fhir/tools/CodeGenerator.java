@@ -2794,18 +2794,15 @@ public class CodeGenerator {
                 cb._import("javax.annotation.Generated").newLine();
                 
                 String system = getSystem(valueSet);
-                cb.annotation("System", quote(system));
                 cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
+                cb.annotation("System", quote(system));
                 cb._class(mods("public"), bindingName, "Code");
                 
                 List<JsonObject> concepts = getConcepts(valueSet);
                 for (JsonObject concept : concepts) {
                     String value = concept.getString("code");
                     String enumConstantName = getEnumConstantName(bindingName, value);
-                    String display = getDisplay(concept);
-                    if (display != null) {
-                        cb.javadocStart().javadoc(display).javadocEnd();
-                    }
+                    generateConceptJavadoc(concept, cb);     
                     cb.field(mods("public", "static", "final"), bindingName, enumConstantName, bindingName + ".builder().value(ValueSet." + enumConstantName + ").build()")
                         .newLine();
                 }
@@ -2929,10 +2926,7 @@ public class CodeGenerator {
                 for (JsonObject concept : concepts) {
                     String value = concept.getString("code");
                     String enumConstantName = getEnumConstantName(bindingName, value);
-                    String display = getDisplay(concept);
-                    if (display != null) {
-                        cb.javadocStart().javadoc(display).javadocEnd();
-                    }
+                    generateConceptJavadoc(concept, cb);
                     cb.enumConstant(enumConstantName, args(quote(value)), isLast(concepts, concept)).newLine();
                 }
                 
@@ -2979,6 +2973,30 @@ public class CodeGenerator {
                 codeSubtypeClassNames.add(bindingName);
             }
         }
+    }
+
+    private void generateConceptJavadoc(JsonObject concept, CodeBuilder cb) {
+        String display = getDisplay(concept);
+        String definition = getDefinition(concept);
+        
+        StringBuilder sb = new StringBuilder();
+        
+        if (display != null) {
+            sb.append(display);
+        }
+        
+        if (definition != null) {
+            if (display != null) {
+                sb.append(System.lineSeparator()).append(System.lineSeparator());
+            }
+            sb.append(definition);
+        }
+        
+        if (display != null || definition != null) {
+            cb.javadocStart();
+            cb.javadoc(Arrays.asList(sb.toString().split(System.lineSeparator())), false, false, true);
+            cb.javadocEnd();
+        }        
     }
 
     private void generateVisitorInterface(String basePath) {
@@ -3229,6 +3247,10 @@ public class CodeGenerator {
 
     private String getDisplay(JsonObject concept) {
         return concept.getString("display", null);
+    }
+    
+    private String getDefinition(JsonObject concept) {
+        return concept.getString("definition", null);
     }
 
     private JsonObject getElementDefinition(JsonObject structureDefinition, String path) {

@@ -16,46 +16,64 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/trigger-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/trigger-type")
 public class TriggerType extends Code {
     /**
      * Named Event
+     * 
+     * <p>The trigger occurs in response to a specific named event, and no other information about the trigger is specified. 
+     * Named events are completely pre-coordinated, and the formal semantics of the trigger are not provided.
      */
     public static final TriggerType NAMED_EVENT = TriggerType.builder().value(ValueSet.NAMED_EVENT).build();
 
     /**
      * Periodic
+     * 
+     * <p>The trigger occurs at a specific time or periodically as described by a timing or schedule. A periodic event cannot 
+     * have any data elements, but may have a name assigned as a shorthand for the event.
      */
     public static final TriggerType PERIODIC = TriggerType.builder().value(ValueSet.PERIODIC).build();
 
     /**
      * Data Changed
+     * 
+     * <p>The trigger occurs whenever data of a particular type is changed in any way, either added, modified, or removed.
      */
     public static final TriggerType DATA_CHANGED = TriggerType.builder().value(ValueSet.DATA_CHANGED).build();
 
     /**
      * Data Added
+     * 
+     * <p>The trigger occurs whenever data of a particular type is added.
      */
     public static final TriggerType DATA_ADDED = TriggerType.builder().value(ValueSet.DATA_ADDED).build();
 
     /**
      * Data Updated
+     * 
+     * <p>The trigger occurs whenever data of a particular type is modified.
      */
     public static final TriggerType DATA_MODIFIED = TriggerType.builder().value(ValueSet.DATA_MODIFIED).build();
 
     /**
      * Data Removed
+     * 
+     * <p>The trigger occurs whenever data of a particular type is removed.
      */
     public static final TriggerType DATA_REMOVED = TriggerType.builder().value(ValueSet.DATA_REMOVED).build();
 
     /**
      * Data Accessed
+     * 
+     * <p>The trigger occurs whenever data of a particular type is accessed.
      */
     public static final TriggerType DATA_ACCESSED = TriggerType.builder().value(ValueSet.DATA_ACCESSED).build();
 
     /**
      * Data Access Ended
+     * 
+     * <p>The trigger occurs whenever access to data of a particular type is completed.
      */
     public static final TriggerType DATA_ACCESS_ENDED = TriggerType.builder().value(ValueSet.DATA_ACCESS_ENDED).build();
 
@@ -179,41 +197,59 @@ public class TriggerType extends Code {
     public enum ValueSet {
         /**
          * Named Event
+         * 
+         * <p>The trigger occurs in response to a specific named event, and no other information about the trigger is specified. 
+         * Named events are completely pre-coordinated, and the formal semantics of the trigger are not provided.
          */
         NAMED_EVENT("named-event"),
 
         /**
          * Periodic
+         * 
+         * <p>The trigger occurs at a specific time or periodically as described by a timing or schedule. A periodic event cannot 
+         * have any data elements, but may have a name assigned as a shorthand for the event.
          */
         PERIODIC("periodic"),
 
         /**
          * Data Changed
+         * 
+         * <p>The trigger occurs whenever data of a particular type is changed in any way, either added, modified, or removed.
          */
         DATA_CHANGED("data-changed"),
 
         /**
          * Data Added
+         * 
+         * <p>The trigger occurs whenever data of a particular type is added.
          */
         DATA_ADDED("data-added"),
 
         /**
          * Data Updated
+         * 
+         * <p>The trigger occurs whenever data of a particular type is modified.
          */
         DATA_MODIFIED("data-modified"),
 
         /**
          * Data Removed
+         * 
+         * <p>The trigger occurs whenever data of a particular type is removed.
          */
         DATA_REMOVED("data-removed"),
 
         /**
          * Data Accessed
+         * 
+         * <p>The trigger occurs whenever data of a particular type is accessed.
          */
         DATA_ACCESSED("data-accessed"),
 
         /**
          * Data Access Ended
+         * 
+         * <p>The trigger occurs whenever access to data of a particular type is completed.
          */
         DATA_ACCESS_ENDED("data-access-ended");
 

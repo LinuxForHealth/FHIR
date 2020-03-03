@@ -16,16 +16,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/specimen-contained-preference")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/specimen-contained-preference")
 public class SpecimenContainedPreference extends Code {
     /**
      * Preferred
+     * 
+     * <p>This type of contained specimen is preferred to collect this kind of specimen.
      */
     public static final SpecimenContainedPreference PREFERRED = SpecimenContainedPreference.builder().value(ValueSet.PREFERRED).build();
 
     /**
      * Alternate
+     * 
+     * <p>This type of conditioned specimen is an alternate.
      */
     public static final SpecimenContainedPreference ALTERNATE = SpecimenContainedPreference.builder().value(ValueSet.ALTERNATE).build();
 
@@ -137,11 +141,15 @@ public class SpecimenContainedPreference extends Code {
     public enum ValueSet {
         /**
          * Preferred
+         * 
+         * <p>This type of contained specimen is preferred to collect this kind of specimen.
          */
         PREFERRED("preferred"),
 
         /**
          * Alternate
+         * 
+         * <p>This type of conditioned specimen is an alternate.
          */
         ALTERNATE("alternate");
 

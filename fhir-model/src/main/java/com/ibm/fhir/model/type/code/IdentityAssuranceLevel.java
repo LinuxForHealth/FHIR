@@ -16,26 +16,34 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/identity-assuranceLevel")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/identity-assuranceLevel")
 public class IdentityAssuranceLevel extends Code {
     /**
      * Level 1
+     * 
+     * <p>Little or no confidence in the asserted identity's accuracy.
      */
     public static final IdentityAssuranceLevel LEVEL1 = IdentityAssuranceLevel.builder().value(ValueSet.LEVEL1).build();
 
     /**
      * Level 2
+     * 
+     * <p>Some confidence in the asserted identity's accuracy.
      */
     public static final IdentityAssuranceLevel LEVEL2 = IdentityAssuranceLevel.builder().value(ValueSet.LEVEL2).build();
 
     /**
      * Level 3
+     * 
+     * <p>High confidence in the asserted identity's accuracy.
      */
     public static final IdentityAssuranceLevel LEVEL3 = IdentityAssuranceLevel.builder().value(ValueSet.LEVEL3).build();
 
     /**
      * Level 4
+     * 
+     * <p>Very high confidence in the asserted identity's accuracy.
      */
     public static final IdentityAssuranceLevel LEVEL4 = IdentityAssuranceLevel.builder().value(ValueSet.LEVEL4).build();
 
@@ -151,21 +159,29 @@ public class IdentityAssuranceLevel extends Code {
     public enum ValueSet {
         /**
          * Level 1
+         * 
+         * <p>Little or no confidence in the asserted identity's accuracy.
          */
         LEVEL1("level1"),
 
         /**
          * Level 2
+         * 
+         * <p>Some confidence in the asserted identity's accuracy.
          */
         LEVEL2("level2"),
 
         /**
          * Level 3
+         * 
+         * <p>High confidence in the asserted identity's accuracy.
          */
         LEVEL3("level3"),
 
         /**
          * Level 4
+         * 
+         * <p>Very high confidence in the asserted identity's accuracy.
          */
         LEVEL4("level4");
 

@@ -16,61 +16,87 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/research-study-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/research-study-status")
 public class ResearchStudyStatus extends Code {
     /**
      * Active
+     * 
+     * <p>Study is opened for accrual.
      */
     public static final ResearchStudyStatus ACTIVE = ResearchStudyStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Administratively Completed
+     * 
+     * <p>Study is completed prematurely and will not resume; patients are no longer examined nor treated.
      */
     public static final ResearchStudyStatus ADMINISTRATIVELY_COMPLETED = ResearchStudyStatus.builder().value(ValueSet.ADMINISTRATIVELY_COMPLETED).build();
 
     /**
      * Approved
+     * 
+     * <p>Protocol is approved by the review board.
      */
     public static final ResearchStudyStatus APPROVED = ResearchStudyStatus.builder().value(ValueSet.APPROVED).build();
 
     /**
      * Closed to Accrual
+     * 
+     * <p>Study is closed for accrual; patients can be examined and treated.
      */
     public static final ResearchStudyStatus CLOSED_TO_ACCRUAL = ResearchStudyStatus.builder().value(ValueSet.CLOSED_TO_ACCRUAL).build();
 
     /**
      * Closed to Accrual and Intervention
+     * 
+     * <p>Study is closed to accrual and intervention, i.e. the study is closed to enrollment, all study subjects have 
+     * completed treatment or intervention but are still being followed according to the primary objective of the study.
      */
     public static final ResearchStudyStatus CLOSED_TO_ACCRUAL_AND_INTERVENTION = ResearchStudyStatus.builder().value(ValueSet.CLOSED_TO_ACCRUAL_AND_INTERVENTION).build();
 
     /**
      * Completed
+     * 
+     * <p>Study is closed to accrual and intervention, i.e. the study is closed to enrollment, all study subjects have 
+     * completed treatment
+     * <p>or intervention but are still being followed according to the primary objective of the study.
      */
     public static final ResearchStudyStatus COMPLETED = ResearchStudyStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Disapproved
+     * 
+     * <p>Protocol was disapproved by the review board.
      */
     public static final ResearchStudyStatus DISAPPROVED = ResearchStudyStatus.builder().value(ValueSet.DISAPPROVED).build();
 
     /**
      * In Review
+     * 
+     * <p>Protocol is submitted to the review board for approval.
      */
     public static final ResearchStudyStatus IN_REVIEW = ResearchStudyStatus.builder().value(ValueSet.IN_REVIEW).build();
 
     /**
      * Temporarily Closed to Accrual
+     * 
+     * <p>Study is temporarily closed for accrual; can be potentially resumed in the future; patients can be examined and 
+     * treated.
      */
     public static final ResearchStudyStatus TEMPORARILY_CLOSED_TO_ACCRUAL = ResearchStudyStatus.builder().value(ValueSet.TEMPORARILY_CLOSED_TO_ACCRUAL).build();
 
     /**
      * Temporarily Closed to Accrual and Intervention
+     * 
+     * <p>Study is temporarily closed for accrual and intervention and potentially can be resumed in the future.
      */
     public static final ResearchStudyStatus TEMPORARILY_CLOSED_TO_ACCRUAL_AND_INTERVENTION = ResearchStudyStatus.builder().value(ValueSet.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_INTERVENTION).build();
 
     /**
      * Withdrawn
+     * 
+     * <p>Protocol was withdrawn by the lead organization.
      */
     public static final ResearchStudyStatus WITHDRAWN = ResearchStudyStatus.builder().value(ValueSet.WITHDRAWN).build();
 
@@ -200,56 +226,82 @@ public class ResearchStudyStatus extends Code {
     public enum ValueSet {
         /**
          * Active
+         * 
+         * <p>Study is opened for accrual.
          */
         ACTIVE("active"),
 
         /**
          * Administratively Completed
+         * 
+         * <p>Study is completed prematurely and will not resume; patients are no longer examined nor treated.
          */
         ADMINISTRATIVELY_COMPLETED("administratively-completed"),
 
         /**
          * Approved
+         * 
+         * <p>Protocol is approved by the review board.
          */
         APPROVED("approved"),
 
         /**
          * Closed to Accrual
+         * 
+         * <p>Study is closed for accrual; patients can be examined and treated.
          */
         CLOSED_TO_ACCRUAL("closed-to-accrual"),
 
         /**
          * Closed to Accrual and Intervention
+         * 
+         * <p>Study is closed to accrual and intervention, i.e. the study is closed to enrollment, all study subjects have 
+         * completed treatment or intervention but are still being followed according to the primary objective of the study.
          */
         CLOSED_TO_ACCRUAL_AND_INTERVENTION("closed-to-accrual-and-intervention"),
 
         /**
          * Completed
+         * 
+         * <p>Study is closed to accrual and intervention, i.e. the study is closed to enrollment, all study subjects have 
+         * completed treatment
+         * <p>or intervention but are still being followed according to the primary objective of the study.
          */
         COMPLETED("completed"),
 
         /**
          * Disapproved
+         * 
+         * <p>Protocol was disapproved by the review board.
          */
         DISAPPROVED("disapproved"),
 
         /**
          * In Review
+         * 
+         * <p>Protocol is submitted to the review board for approval.
          */
         IN_REVIEW("in-review"),
 
         /**
          * Temporarily Closed to Accrual
+         * 
+         * <p>Study is temporarily closed for accrual; can be potentially resumed in the future; patients can be examined and 
+         * treated.
          */
         TEMPORARILY_CLOSED_TO_ACCRUAL("temporarily-closed-to-accrual"),
 
         /**
          * Temporarily Closed to Accrual and Intervention
+         * 
+         * <p>Study is temporarily closed for accrual and intervention and potentially can be resumed in the future.
          */
         TEMPORARILY_CLOSED_TO_ACCRUAL_AND_INTERVENTION("temporarily-closed-to-accrual-and-intervention"),
 
         /**
          * Withdrawn
+         * 
+         * <p>Protocol was withdrawn by the lead organization.
          */
         WITHDRAWN("withdrawn");
 

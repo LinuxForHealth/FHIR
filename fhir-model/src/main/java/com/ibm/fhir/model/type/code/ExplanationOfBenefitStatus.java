@@ -16,26 +16,34 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/explanationofbenefit-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/explanationofbenefit-status")
 public class ExplanationOfBenefitStatus extends Code {
     /**
      * Active
+     * 
+     * <p>The resource instance is currently in-force.
      */
     public static final ExplanationOfBenefitStatus ACTIVE = ExplanationOfBenefitStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Cancelled
+     * 
+     * <p>The resource instance is withdrawn, rescinded or reversed.
      */
     public static final ExplanationOfBenefitStatus CANCELLED = ExplanationOfBenefitStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Draft
+     * 
+     * <p>A new resource instance the contents of which is not complete.
      */
     public static final ExplanationOfBenefitStatus DRAFT = ExplanationOfBenefitStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Entered In Error
+     * 
+     * <p>The resource instance was entered in error.
      */
     public static final ExplanationOfBenefitStatus ENTERED_IN_ERROR = ExplanationOfBenefitStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -151,21 +159,29 @@ public class ExplanationOfBenefitStatus extends Code {
     public enum ValueSet {
         /**
          * Active
+         * 
+         * <p>The resource instance is currently in-force.
          */
         ACTIVE("active"),
 
         /**
          * Cancelled
+         * 
+         * <p>The resource instance is withdrawn, rescinded or reversed.
          */
         CANCELLED("cancelled"),
 
         /**
          * Draft
+         * 
+         * <p>A new resource instance the contents of which is not complete.
          */
         DRAFT("draft"),
 
         /**
          * Entered In Error
+         * 
+         * <p>The resource instance was entered in error.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

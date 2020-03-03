@@ -16,26 +16,36 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/narrative-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/narrative-status")
 public class NarrativeStatus extends Code {
     /**
      * Generated
+     * 
+     * <p>The contents of the narrative are entirely generated from the core elements in the content.
      */
     public static final NarrativeStatus GENERATED = NarrativeStatus.builder().value(ValueSet.GENERATED).build();
 
     /**
      * Extensions
+     * 
+     * <p>The contents of the narrative are entirely generated from the core elements in the content and some of the content 
+     * is generated from extensions. The narrative SHALL reflect the impact of all modifier extensions.
      */
     public static final NarrativeStatus EXTENSIONS = NarrativeStatus.builder().value(ValueSet.EXTENSIONS).build();
 
     /**
      * Additional
+     * 
+     * <p>The contents of the narrative may contain additional information not found in the structured data. Note that there 
+     * is no computable way to determine what the extra information is, other than by human inspection.
      */
     public static final NarrativeStatus ADDITIONAL = NarrativeStatus.builder().value(ValueSet.ADDITIONAL).build();
 
     /**
      * Empty
+     * 
+     * <p>The contents of the narrative are some equivalent of "No human-readable text provided in this case".
      */
     public static final NarrativeStatus EMPTY = NarrativeStatus.builder().value(ValueSet.EMPTY).build();
 
@@ -151,21 +161,31 @@ public class NarrativeStatus extends Code {
     public enum ValueSet {
         /**
          * Generated
+         * 
+         * <p>The contents of the narrative are entirely generated from the core elements in the content.
          */
         GENERATED("generated"),
 
         /**
          * Extensions
+         * 
+         * <p>The contents of the narrative are entirely generated from the core elements in the content and some of the content 
+         * is generated from extensions. The narrative SHALL reflect the impact of all modifier extensions.
          */
         EXTENSIONS("extensions"),
 
         /**
          * Additional
+         * 
+         * <p>The contents of the narrative may contain additional information not found in the structured data. Note that there 
+         * is no computable way to determine what the extra information is, other than by human inspection.
          */
         ADDITIONAL("additional"),
 
         /**
          * Empty
+         * 
+         * <p>The contents of the narrative are some equivalent of "No human-readable text provided in this case".
          */
         EMPTY("empty");
 

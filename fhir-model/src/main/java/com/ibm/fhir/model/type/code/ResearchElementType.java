@@ -16,21 +16,27 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/research-element-type")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/research-element-type")
 public class ResearchElementType extends Code {
     /**
      * Population
+     * 
+     * <p>The element defines the population that forms the basis for research.
      */
     public static final ResearchElementType POPULATION = ResearchElementType.builder().value(ValueSet.POPULATION).build();
 
     /**
      * Exposure
+     * 
+     * <p>The element defines an exposure within the population that is being researched.
      */
     public static final ResearchElementType EXPOSURE = ResearchElementType.builder().value(ValueSet.EXPOSURE).build();
 
     /**
      * Outcome
+     * 
+     * <p>The element defines an outcome within the population that is being researched.
      */
     public static final ResearchElementType OUTCOME = ResearchElementType.builder().value(ValueSet.OUTCOME).build();
 
@@ -144,16 +150,22 @@ public class ResearchElementType extends Code {
     public enum ValueSet {
         /**
          * Population
+         * 
+         * <p>The element defines the population that forms the basis for research.
          */
         POPULATION("population"),
 
         /**
          * Exposure
+         * 
+         * <p>The element defines an exposure within the population that is being researched.
          */
         EXPOSURE("exposure"),
 
         /**
          * Outcome
+         * 
+         * <p>The element defines an outcome within the population that is being researched.
          */
         OUTCOME("outcome");
 

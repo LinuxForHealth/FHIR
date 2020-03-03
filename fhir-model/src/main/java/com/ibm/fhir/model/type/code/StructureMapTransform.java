@@ -16,91 +16,129 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/map-transform")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/map-transform")
 public class StructureMapTransform extends Code {
     /**
      * create
+     * 
+     * <p>create(type : string) - type is passed through to the application on the standard API, and must be known by it.
      */
     public static final StructureMapTransform CREATE = StructureMapTransform.builder().value(ValueSet.CREATE).build();
 
     /**
      * copy
+     * 
+     * <p>copy(source).
      */
     public static final StructureMapTransform COPY = StructureMapTransform.builder().value(ValueSet.COPY).build();
 
     /**
      * truncate
+     * 
+     * <p>truncate(source, length) - source must be stringy type.
      */
     public static final StructureMapTransform TRUNCATE = StructureMapTransform.builder().value(ValueSet.TRUNCATE).build();
 
     /**
      * escape
+     * 
+     * <p>escape(source, fmt1, fmt2) - change source from one kind of escaping to another (plain, java, xml, json). note that 
+     * this is for when the string itself is escaped.
      */
     public static final StructureMapTransform ESCAPE = StructureMapTransform.builder().value(ValueSet.ESCAPE).build();
 
     /**
      * cast
+     * 
+     * <p>cast(source, type?) - case source from one type to another. target type can be left as implicit if there is one and 
+     * only one target type known.
      */
     public static final StructureMapTransform CAST = StructureMapTransform.builder().value(ValueSet.CAST).build();
 
     /**
      * append
+     * 
+     * <p>append(source...) - source is element or string.
      */
     public static final StructureMapTransform APPEND = StructureMapTransform.builder().value(ValueSet.APPEND).build();
 
     /**
      * translate
+     * 
+     * <p>translate(source, uri_of_map) - use the translate operation.
      */
     public static final StructureMapTransform TRANSLATE = StructureMapTransform.builder().value(ValueSet.TRANSLATE).build();
 
     /**
      * reference
+     * 
+     * <p>reference(source : object) - return a string that references the provided tree properly.
      */
     public static final StructureMapTransform REFERENCE = StructureMapTransform.builder().value(ValueSet.REFERENCE).build();
 
     /**
      * dateOp
+     * 
+     * <p>Perform a date operation. *Parameters to be documented*.
      */
     public static final StructureMapTransform DATE_OP = StructureMapTransform.builder().value(ValueSet.DATE_OP).build();
 
     /**
      * uuid
+     * 
+     * <p>Generate a random UUID (in lowercase). No Parameters.
      */
     public static final StructureMapTransform UUID = StructureMapTransform.builder().value(ValueSet.UUID).build();
 
     /**
      * pointer
+     * 
+     * <p>Return the appropriate string to put in a reference that refers to the resource provided as a parameter.
      */
     public static final StructureMapTransform POINTER = StructureMapTransform.builder().value(ValueSet.POINTER).build();
 
     /**
      * evaluate
+     * 
+     * <p>Execute the supplied FHIRPath expression and use the value returned by that.
      */
     public static final StructureMapTransform EVALUATE = StructureMapTransform.builder().value(ValueSet.EVALUATE).build();
 
     /**
      * cc
+     * 
+     * <p>Create a CodeableConcept. Parameters = (text) or (system. Code[, display]).
      */
     public static final StructureMapTransform CC = StructureMapTransform.builder().value(ValueSet.CC).build();
 
     /**
      * c
+     * 
+     * <p>Create a Coding. Parameters = (system. Code[, display]).
      */
     public static final StructureMapTransform C = StructureMapTransform.builder().value(ValueSet.C).build();
 
     /**
      * qty
+     * 
+     * <p>Create a quantity. Parameters = (text) or (value, unit, [system, code]) where text is the natural representation e.
+     * g. [comparator]value[space]unit.
      */
     public static final StructureMapTransform QTY = StructureMapTransform.builder().value(ValueSet.QTY).build();
 
     /**
      * id
+     * 
+     * <p>Create an identifier. Parameters = (system, value[, type]) where type is a code from the identifier type value set.
      */
     public static final StructureMapTransform ID = StructureMapTransform.builder().value(ValueSet.ID).build();
 
     /**
      * cp
+     * 
+     * <p>Create a contact details. Parameters = (value) or (system, value). If no system is provided, the system should be 
+     * inferred from the content of the value.
      */
     public static final StructureMapTransform CP = StructureMapTransform.builder().value(ValueSet.CP).build();
 
@@ -242,86 +280,124 @@ public class StructureMapTransform extends Code {
     public enum ValueSet {
         /**
          * create
+         * 
+         * <p>create(type : string) - type is passed through to the application on the standard API, and must be known by it.
          */
         CREATE("create"),
 
         /**
          * copy
+         * 
+         * <p>copy(source).
          */
         COPY("copy"),
 
         /**
          * truncate
+         * 
+         * <p>truncate(source, length) - source must be stringy type.
          */
         TRUNCATE("truncate"),
 
         /**
          * escape
+         * 
+         * <p>escape(source, fmt1, fmt2) - change source from one kind of escaping to another (plain, java, xml, json). note that 
+         * this is for when the string itself is escaped.
          */
         ESCAPE("escape"),
 
         /**
          * cast
+         * 
+         * <p>cast(source, type?) - case source from one type to another. target type can be left as implicit if there is one and 
+         * only one target type known.
          */
         CAST("cast"),
 
         /**
          * append
+         * 
+         * <p>append(source...) - source is element or string.
          */
         APPEND("append"),
 
         /**
          * translate
+         * 
+         * <p>translate(source, uri_of_map) - use the translate operation.
          */
         TRANSLATE("translate"),
 
         /**
          * reference
+         * 
+         * <p>reference(source : object) - return a string that references the provided tree properly.
          */
         REFERENCE("reference"),
 
         /**
          * dateOp
+         * 
+         * <p>Perform a date operation. *Parameters to be documented*.
          */
         DATE_OP("dateOp"),
 
         /**
          * uuid
+         * 
+         * <p>Generate a random UUID (in lowercase). No Parameters.
          */
         UUID("uuid"),
 
         /**
          * pointer
+         * 
+         * <p>Return the appropriate string to put in a reference that refers to the resource provided as a parameter.
          */
         POINTER("pointer"),
 
         /**
          * evaluate
+         * 
+         * <p>Execute the supplied FHIRPath expression and use the value returned by that.
          */
         EVALUATE("evaluate"),
 
         /**
          * cc
+         * 
+         * <p>Create a CodeableConcept. Parameters = (text) or (system. Code[, display]).
          */
         CC("cc"),
 
         /**
          * c
+         * 
+         * <p>Create a Coding. Parameters = (system. Code[, display]).
          */
         C("c"),
 
         /**
          * qty
+         * 
+         * <p>Create a quantity. Parameters = (text) or (value, unit, [system, code]) where text is the natural representation e.
+         * g. [comparator]value[space]unit.
          */
         QTY("qty"),
 
         /**
          * id
+         * 
+         * <p>Create an identifier. Parameters = (system, value[, type]) where type is a code from the identifier type value set.
          */
         ID("id"),
 
         /**
          * cp
+         * 
+         * <p>Create a contact details. Parameters = (value) or (system, value). If no system is provided, the system should be 
+         * inferred from the content of the value.
          */
         CP("cp");
 

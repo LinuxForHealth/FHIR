@@ -16,16 +16,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-@System("http://hl7.org/fhir/document-mode")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
+@System("http://hl7.org/fhir/document-mode")
 public class DocumentMode extends Code {
     /**
      * Producer
+     * 
+     * <p>The application produces documents of the specified type.
      */
     public static final DocumentMode PRODUCER = DocumentMode.builder().value(ValueSet.PRODUCER).build();
 
     /**
      * Consumer
+     * 
+     * <p>The application consumes documents of the specified type.
      */
     public static final DocumentMode CONSUMER = DocumentMode.builder().value(ValueSet.CONSUMER).build();
 
@@ -137,11 +141,15 @@ public class DocumentMode extends Code {
     public enum ValueSet {
         /**
          * Producer
+         * 
+         * <p>The application produces documents of the specified type.
          */
         PRODUCER("producer"),
 
         /**
          * Consumer
+         * 
+         * <p>The application consumes documents of the specified type.
          */
         CONSUMER("consumer");
 
