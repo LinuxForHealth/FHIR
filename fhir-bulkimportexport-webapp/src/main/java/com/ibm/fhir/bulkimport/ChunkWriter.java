@@ -130,13 +130,14 @@ public class ChunkWriter extends AbstractItemWriter {
 
         int processedNum = 0, succeededNum =0, failedNum = 0;
         ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
+
+        // Acquire a DB connection which will be used in the batch.
+        // This doesn't really start the transaction, because the transaction has already been started by the JavaBatch
+        // framework at this time point.
+        txn.begin();
         for (Object objResJasonList : arg0) {
             List<Resource> fhirResourceList = (List<Resource>) objResJasonList;
 
-            // Acquire a DB connection which will be used in the batch.
-            // This doesn't really start the transaction, because the transaction has already been started by the JavaBatch
-            // framework at this time point.
-            txn.begin();
             for (Resource fhirResource : fhirResourceList) {
                 try {
                     OperationOutcome operationOutcome = fhirPersistence.update(persistenceContext, fhirResource.getId(), fhirResource).getOutcome();
@@ -157,11 +158,12 @@ public class ChunkWriter extends AbstractItemWriter {
                     }
                 }
             }
-            // Release the DB connection.
-            // This doesn't really commit the transaction, because the transaction was started and will be committed
-            // by the JavaBatch framework.
-            txn.commit();
         }
+        // Release the DB connection.
+        // This doesn't really commit the transaction, because the transaction was started and will be committed
+        // by the JavaBatch framework.
+        txn.commit();
+
         chunkData.setNumOfProcessedResources(chunkData.getNumOfProcessedResources() + processedNum);
         chunkData.setNumOfImportedResources(chunkData.getNumOfImportedResources() + succeededNum);
         chunkData.setNumOfImportFailures(chunkData.getNumOfImportFailures() + failedNum);

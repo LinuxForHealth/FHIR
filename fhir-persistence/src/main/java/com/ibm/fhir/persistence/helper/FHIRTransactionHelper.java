@@ -56,12 +56,12 @@ public class FHIRTransactionHelper {
                 log.fine("Committing transaction on current thread...");
                 txn.commit();
                 txnStarted = false;
-                txn = null;
             } else {
                 log.fine("Close the shared connection but bypassing commit of already-active transaction on current thread...");
                 txn.closeConnection();
             }
         }
+        txn = null;
     }
 
     /**
