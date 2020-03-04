@@ -29,13 +29,6 @@ public class FHIROperationContext {
     public static final String PROPNAME_LOCATION_URI = "LOCATION_URI";
     
     /**
-     * This property is of type FHIRResourceHelper and is the handle to the 
-     * FHIR REST API layer.   This interface provides methods to perform various
-     * operations on FHIR resources (e.g. create, update, read, etc.)
-     */
-    public static final String PROPNAME_RESOURCE_HELPER = "RESOURCE_HELPER";
-    
-    /**
      * This property is of type FHIRPersistence and is the handle to the persistence layer implementation
      * being used by the FHIR Server while processing the current request.
      * It is recommended that custom operation implementors use the RESOURCE_HELPER property instead of
@@ -106,9 +99,8 @@ public class FHIROperationContext {
     }
     
     /**
-     * Returns the HttpHeaders instance associated with the FHIR REST API request that triggered the
-     * interceptor invocation.
-     * Note that this HttpHeaders instance is only valid within the scope of the REST API request.
+     * Returns the HttpHeaders instance associated with the request that triggered the operation.
+     * Note that this HttpHeaders instance is only valid within the scope of a single request.
      */
     public HttpHeaders getHttpHeaders() {
         return (HttpHeaders) getProperty(PROPNAME_HTTP_HEADERS);

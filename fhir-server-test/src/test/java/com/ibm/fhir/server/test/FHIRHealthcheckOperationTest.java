@@ -18,7 +18,7 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 
 public class FHIRHealthcheckOperationTest extends FHIRServerTestBase {    
     @Test
-    public void testHealthcheck() {        
+    public void testHealthcheck() {
         WebTarget target = getWebTarget();
         Response response = target.path("$healthcheck").request().get(Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());

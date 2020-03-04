@@ -61,7 +61,7 @@ public class DocumentOperation extends AbstractOperation {
             
             composition = (Composition) resource;
             
-            Bundle bundle = buildDocument(operationContext, composition, resourceHelper);            
+            Bundle bundle = buildDocument(operationContext, composition, resourceHelper);
             Parameter persistParameter = getParameter(parameters, "persist");
             
             if (persistParameter != null) {
