@@ -818,7 +818,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         return issues;
     }
 
-    
+
     @Override
     public <T extends Resource> SingleResourceResult<T> vread(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, String versionId)
                         throws FHIRPersistenceException {
@@ -1257,10 +1257,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 sharedConnection = createConnection();
                 resourceDao.setExternalConnection(sharedConnection);
                 parameterDao.setExternalConnection(sharedConnection);
-                // Start the user transaction only if it's not started yet.
-                if (!isActive()) {
-                    userTransaction.begin();
-                }
+                userTransaction.begin();
             }
             else if (this.getManagedConnection() != null) {
                 this.getManagedConnection().setAutoCommit(false);
@@ -1557,17 +1554,51 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     }
 
     @Override
-    public void closeConnection() throws FHIRPersistenceException {
-        if (sharedConnection != null) {
-            try {
-                sharedConnection.close();
+    public void unEnroll() throws FHIRPersistenceException {
+        final String METHODNAME = "unEnroll";
+        log.entering(CLASSNAME, METHODNAME);
+
+        try {
+            if (userTransaction != null) {
+                if (sharedConnection != null) {
+                        sharedConnection.close();
+                }
+            } else {
+                throw new FHIRPersistenceException("unEnroll should be called only if userTransaction is not null!");
             }
-            catch (SQLException e) {
-                FHIRPersistenceException fx = new FHIRPersistenceException("Failure closing DB Conection");
-                log.log(Level.SEVERE, fx.getMessage(), e);
-                throw fx;
-            }
+        }
+        catch (Throwable e) {
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while unEnroll.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+        }
+        finally {
             sharedConnection = null;
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+    }
+
+    @Override
+    public void enroll() throws FHIRPersistenceException {
+        final String METHODNAME = "enroll";
+        log.entering(CLASSNAME, METHODNAME);
+
+        try {
+            if (userTransaction != null) {
+                sharedConnection = createConnection();
+                resourceDao.setExternalConnection(sharedConnection);
+                parameterDao.setExternalConnection(sharedConnection);
+            } else {
+                throw new FHIRPersistenceException("enroll should be called only if userTransaction is not null!");
+            }
+        }
+        catch (Throwable e) {
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while enroll.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
         }
 
     }

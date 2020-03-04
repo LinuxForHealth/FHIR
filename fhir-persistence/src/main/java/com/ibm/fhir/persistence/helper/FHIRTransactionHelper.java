@@ -35,11 +35,11 @@ public class FHIRTransactionHelper {
         if (txn != null) {
             if (!txn.isActive()) {
                 log.fine("Starting transaction on current thread...");
+                txn.begin();
                 txnStarted = true;
             } else {
-                log.fine("Transaction is already active on current thread, get Db connection only ...");
+                log.fine("Transaction is already active on current thread...");
             }
-            txn.begin();
             beginCalled = true;
         }
     }
@@ -57,11 +57,10 @@ public class FHIRTransactionHelper {
                 txn.commit();
                 txnStarted = false;
             } else {
-                log.fine("Close the shared connection but bypassing commit of already-active transaction on current thread...");
-                txn.closeConnection();
+                log.fine("Bypassing commit of already-active transaction on current thread...");
             }
+            txn = null;
         }
-        txn = null;
     }
 
     /**
@@ -89,4 +88,17 @@ public class FHIRTransactionHelper {
             }
         }
     }
+
+    public void enroll() throws FHIRPersistenceException {
+        if (txn != null) {
+            txn.enroll();
+        }
+    }
+
+    public void unEnroll() throws FHIRPersistenceException {
+        if (txn != null) {
+            txn.unEnroll();
+        }
+    }
+
 }
