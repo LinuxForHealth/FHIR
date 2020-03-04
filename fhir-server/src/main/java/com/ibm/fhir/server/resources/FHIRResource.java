@@ -1825,7 +1825,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIRSearchContext searchContext = null;
             if (queryParameters != null) {
-                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, httpServletRequest.getQueryString(), HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
+                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, 
+                        HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
             }
 
             // Start a new txn in the persistence layer if one is not already active.
@@ -2137,8 +2138,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                     new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, null, null, requestProperties));
             getInterceptorMgr().fireBeforeSearchEvent(event);
 
-            FHIRSearchContext searchContext =
-                    SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters, httpServletRequest.getQueryString(), HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
+            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters,
+                    HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
@@ -3559,10 +3560,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         }
     }
 
-    private synchronized CapabilityStatement getCapabilityStatement() throws Exception {
+    private synchronized CapabilityStatement getCapabilityStatement() throws FHIROperationException {
         try {
-            CapabilityStatement capability = buildCapabilityStatement();
-            return capability;
+            return buildCapabilityStatement();
         } catch (Throwable t) {
             String msg = "An error occurred while constructing the Conformance statement.";
             log.log(Level.SEVERE, msg, t);
@@ -4059,8 +4059,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @throws FHIRPersistenceException
      */
     private Map<String, Object> buildPersistenceEventProperties(String type, String id,
-        String version, Map<String, String> requestProperties)
-        throws FHIRPersistenceException {
+            String version, Map<String, String> requestProperties) throws FHIRPersistenceException {
         Map<String, Object> props = new HashMap<>();
         props.put(FHIRPersistenceEvent.PROPNAME_PERSISTENCE_IMPL, getPersistenceImpl());
         props.put(FHIRPersistenceEvent.PROPNAME_URI_INFO, uriInfo);
@@ -4091,38 +4090,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @throws Exception if an error occurs while reading the config 
      */
     private String getRequestUri() throws Exception {
-        String requestUri = null;
-        
-        // First, check the configured header for the original request URI (in case any proxies have overwritten the user-facing URL)
-        String requestUriHeader = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_ORIGINAL_REQUEST_URI_HEADER_NAME, null);
-        if (requestUriHeader != null) {
-            requestUri = httpServletRequest.getHeader(requestUriHeader);
-            if (requestUri != null && !requestUri.isEmpty()) {
-                // Try to parse it as a URI to ensure its valid
-                try {
-                    URI originalRequestUri = new URI(requestUri);
-                    // If its not absolute, then construct an absolute URI (or else JAX-RS will append the path to the current baseUri)
-                    if (!originalRequestUri.isAbsolute()) {
-                        requestUri = uriInfo.getBaseUriBuilder()
-                            .replacePath(originalRequestUri.getPath()).build().toString();
-                    }
-                } catch (Exception e) {
-                    log.log(Level.WARNING, "Error while computing the original request URI", e);
-                    requestUri = null;
-                }
-            }
-        }
-        
-        // If there was no configured header or the header wasn't present, construct it from the HttpServletRequest
-        if (requestUri == null || requestUri.isEmpty()) {
-            StringBuilder requestUriBuilder = new StringBuilder(httpServletRequest.getRequestURL());
-            String queryString = httpServletRequest.getQueryString();
-            if (queryString != null && !queryString.isEmpty()) {
-                requestUriBuilder.append("?").append(queryString);
-            }
-            requestUri = requestUriBuilder.toString();
-        }
-        return requestUri;
+        return FHIRRequestContext.get().getOriginalRequestUri();
     }
 
     /**
