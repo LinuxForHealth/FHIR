@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,12 +35,11 @@ public class FHIRTransactionHelper {
         if (txn != null) {
             if (!txn.isActive()) {
                 log.fine("Starting transaction on current thread...");
-                txn.begin();
                 txnStarted = true;
             } else {
                 log.fine("Transaction is already active on current thread, get Db connection only ...");
-                txn.begin();
             }
+            txn.begin();
             beginCalled = true;
         }
     }
@@ -58,7 +57,8 @@ public class FHIRTransactionHelper {
                 txn.commit();
                 txnStarted = false;
             } else {
-                log.fine("Bypassing commit of already-active transaction on current thread...");
+                log.fine("Close the shared connection but bypassing commit of already-active transaction on current thread...");
+                txn.closeConnection();
             }
             txn = null;
         }
@@ -87,16 +87,6 @@ public class FHIRTransactionHelper {
                 String msg = "Unexpected exception while trying to perform a transaction '" + operation + "': " + t.getMessage();
                 log.log(Level.SEVERE, msg, t);
             }
-        }
-    }
-
-    /**
-     * Use this only if the transaction is not started and managed by us, e.g, by JavaBatch framework.
-     */
-    public void commit2() throws FHIRPersistenceException {
-        // Close the db connection.
-        if (txn != null) {
-            txn.closeConnection();
         }
     }
 }
