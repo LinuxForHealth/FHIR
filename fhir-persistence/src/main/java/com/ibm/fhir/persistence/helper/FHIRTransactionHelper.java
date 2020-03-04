@@ -89,12 +89,30 @@ public class FHIRTransactionHelper {
         }
     }
 
+    /**
+     * Enroll in an existing transaction.
+     *
+     * <p>Enrolling in an existing transaction is an alternative to beginning a new transaction. Calling this method
+     * gives implementations a chance to create necessary resources associated with a given unit of work when that
+     * unit of work is performed under an existing user-managed transaction.
+     *
+     * @throws FHIRPersistenceException
+     */
     public void enroll() throws FHIRPersistenceException {
         if (txn != null) {
             txn.enroll();
         }
     }
 
+    /**
+     * Unenroll from the existing transaction.
+     *
+     * <p>Unenrolling from an existing transaction is an alternative to committing or rolling back the transaction. Calling
+     * this method gives implementations a chance to release resources associated with a given unit of work when that
+     * unit of work is performed under an existing user-managed transaction.
+     *
+     * @throws FHIRPersistenceException
+     */
     public void unenroll() throws FHIRPersistenceException {
         if (txn != null) {
             txn.unenroll();
