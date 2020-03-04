@@ -43,8 +43,6 @@ public class UpdateTest extends FHIRServerTestBase {
     public void retrieveConfig() throws Exception {
         updateCreateEnabled = isUpdateCreateSupported();
         System.out.println("Update/Create enabled?: " + updateCreateEnabled.toString());
-        String x = null; 
-        assertNotNull(x);
     }
     
     /**
