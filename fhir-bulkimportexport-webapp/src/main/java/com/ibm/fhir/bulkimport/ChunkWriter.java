@@ -135,7 +135,7 @@ public class ChunkWriter extends AbstractItemWriter {
         // Acquire a DB connection which will be used in the batch.
         // This doesn't really start the transaction, because the transaction has already been started by the JavaBatch
         // framework at this time point.
-        txn.begin();
+        txn.enroll();
         for (Object objResJasonList : arg0) {
             List<Resource> fhirResourceList = (List<Resource>) objResJasonList;
 
@@ -163,7 +163,7 @@ public class ChunkWriter extends AbstractItemWriter {
         // Release the DB connection.
         // This doesn't really commit the transaction, because the transaction was started and will be committed
         // by the JavaBatch framework.
-        txn.commit();
+        txn.unEnroll();
 
         chunkData.setNumOfProcessedResources(chunkData.getNumOfProcessedResources() + processedNum);
         chunkData.setNumOfImportedResources(chunkData.getNumOfImportedResources() + succeededNum);
