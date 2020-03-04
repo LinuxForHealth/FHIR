@@ -218,7 +218,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         assertFalse(selfUri.contains(queryString), selfUri + " contain unexpectedExceptions query parameter 'fakeParameter'");
 
         try {
-            SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, null, false);
+            SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, false);
             fail("expectedExceptions parseQueryParameters to throw due to strict mode but it didn't.");
         } catch (Exception e) {
             assertTrue(e instanceof FHIRSearchException);
