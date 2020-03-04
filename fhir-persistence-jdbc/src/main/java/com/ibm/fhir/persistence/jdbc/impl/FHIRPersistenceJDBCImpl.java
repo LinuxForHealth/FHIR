@@ -1555,7 +1555,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
     @Override
     public void unenroll() throws FHIRPersistenceException {
-        final String METHODNAME = "unEnroll";
+        final String METHODNAME = "unenroll";
         log.entering(CLASSNAME, METHODNAME);
 
         try {
@@ -1564,11 +1564,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                         sharedConnection.close();
                 }
             } else {
-                throw new FHIRPersistenceException("unEnroll should be called only if userTransaction is not null!");
+                throw new FHIRPersistenceException("unenroll should be called only if userTransaction is not null!");
             }
         }
         catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while unEnroll.");
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while unenroll.");
             log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
         }
