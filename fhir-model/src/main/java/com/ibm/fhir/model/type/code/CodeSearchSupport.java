@@ -21,11 +21,15 @@ import javax.annotation.Generated;
 public class CodeSearchSupport extends Code {
     /**
      * Explicit Codes
+     * 
+     * <p>The search for code on ValueSet only includes codes explicitly detailed on includes or expansions.
      */
     public static final CodeSearchSupport EXPLICIT = CodeSearchSupport.builder().value(ValueSet.EXPLICIT).build();
 
     /**
      * Implicit Codes
+     * 
+     * <p>The search for code on ValueSet only includes all codes based on the expansion of the value set.
      */
     public static final CodeSearchSupport ALL = CodeSearchSupport.builder().value(ValueSet.ALL).build();
 
@@ -137,11 +141,15 @@ public class CodeSearchSupport extends Code {
     public enum ValueSet {
         /**
          * Explicit Codes
+         * 
+         * <p>The search for code on ValueSet only includes codes explicitly detailed on includes or expansions.
          */
         EXPLICIT("explicit"),
 
         /**
          * Implicit Codes
+         * 
+         * <p>The search for code on ValueSet only includes all codes based on the expansion of the value set.
          */
         ALL("all");
 

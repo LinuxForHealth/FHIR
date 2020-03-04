@@ -21,26 +21,37 @@ import javax.annotation.Generated;
 public class AuditEventAction extends Code {
     /**
      * Create
+     * 
+     * <p>Create a new database object, such as placing an order.
      */
     public static final AuditEventAction C = AuditEventAction.builder().value(ValueSet.C).build();
 
     /**
      * Read/View/Print
+     * 
+     * <p>Display or print data, such as a doctor census.
      */
     public static final AuditEventAction R = AuditEventAction.builder().value(ValueSet.R).build();
 
     /**
      * Update
+     * 
+     * <p>Update data, such as revise patient information.
      */
     public static final AuditEventAction U = AuditEventAction.builder().value(ValueSet.U).build();
 
     /**
      * Delete
+     * 
+     * <p>Delete items, such as a doctor master file record.
      */
     public static final AuditEventAction D = AuditEventAction.builder().value(ValueSet.D).build();
 
     /**
      * Execute
+     * 
+     * <p>Perform a system or application function such as log-on, program execution or use of an object's method, or perform 
+     * a query/search operation.
      */
     public static final AuditEventAction E = AuditEventAction.builder().value(ValueSet.E).build();
 
@@ -158,26 +169,37 @@ public class AuditEventAction extends Code {
     public enum ValueSet {
         /**
          * Create
+         * 
+         * <p>Create a new database object, such as placing an order.
          */
         C("C"),
 
         /**
          * Read/View/Print
+         * 
+         * <p>Display or print data, such as a doctor census.
          */
         R("R"),
 
         /**
          * Update
+         * 
+         * <p>Update data, such as revise patient information.
          */
         U("U"),
 
         /**
          * Delete
+         * 
+         * <p>Delete items, such as a doctor master file record.
          */
         D("D"),
 
         /**
          * Execute
+         * 
+         * <p>Perform a system or application function such as log-on, program execution or use of an object's method, or perform 
+         * a query/search operation.
          */
         E("E");
 

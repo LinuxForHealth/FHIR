@@ -21,11 +21,15 @@ import javax.annotation.Generated;
 public class StructureMapContextType extends Code {
     /**
      * Type
+     * 
+     * <p>The context specifies a type.
      */
     public static final StructureMapContextType TYPE = StructureMapContextType.builder().value(ValueSet.TYPE).build();
 
     /**
      * Variable
+     * 
+     * <p>The context specifies a variable.
      */
     public static final StructureMapContextType VARIABLE = StructureMapContextType.builder().value(ValueSet.VARIABLE).build();
 
@@ -137,11 +141,15 @@ public class StructureMapContextType extends Code {
     public enum ValueSet {
         /**
          * Type
+         * 
+         * <p>The context specifies a type.
          */
         TYPE("type"),
 
         /**
          * Variable
+         * 
+         * <p>The context specifies a variable.
          */
         VARIABLE("variable");
 

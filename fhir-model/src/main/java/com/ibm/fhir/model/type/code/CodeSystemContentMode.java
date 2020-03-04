@@ -21,26 +21,41 @@ import javax.annotation.Generated;
 public class CodeSystemContentMode extends Code {
     /**
      * Not Present
+     * 
+     * <p>None of the concepts defined by the code system are included in the code system resource.
      */
     public static final CodeSystemContentMode NOT_PRESENT = CodeSystemContentMode.builder().value(ValueSet.NOT_PRESENT).build();
 
     /**
      * Example
+     * 
+     * <p>A few representative concepts are included in the code system resource. There is no useful intent in the subset 
+     * choice and there's no process to make it workable: it's not intended to be workable.
      */
     public static final CodeSystemContentMode EXAMPLE = CodeSystemContentMode.builder().value(ValueSet.EXAMPLE).build();
 
     /**
      * Fragment
+     * 
+     * <p>A subset of the code system concepts are included in the code system resource. This is a curated subset released 
+     * for a specific purpose under the governance of the code system steward, and that the intent, bounds and consequences 
+     * of the fragmentation are clearly defined in the fragment or the code system documentation. Fragments are also known as 
+     * partitions.
      */
     public static final CodeSystemContentMode FRAGMENT = CodeSystemContentMode.builder().value(ValueSet.FRAGMENT).build();
 
     /**
      * Complete
+     * 
+     * <p>All the concepts defined by the code system are included in the code system resource.
      */
     public static final CodeSystemContentMode COMPLETE = CodeSystemContentMode.builder().value(ValueSet.COMPLETE).build();
 
     /**
      * Supplement
+     * 
+     * <p>The resource doesn't define any new concepts; it just provides additional designations and properties to another 
+     * code system.
      */
     public static final CodeSystemContentMode SUPPLEMENT = CodeSystemContentMode.builder().value(ValueSet.SUPPLEMENT).build();
 
@@ -158,26 +173,41 @@ public class CodeSystemContentMode extends Code {
     public enum ValueSet {
         /**
          * Not Present
+         * 
+         * <p>None of the concepts defined by the code system are included in the code system resource.
          */
         NOT_PRESENT("not-present"),
 
         /**
          * Example
+         * 
+         * <p>A few representative concepts are included in the code system resource. There is no useful intent in the subset 
+         * choice and there's no process to make it workable: it's not intended to be workable.
          */
         EXAMPLE("example"),
 
         /**
          * Fragment
+         * 
+         * <p>A subset of the code system concepts are included in the code system resource. This is a curated subset released 
+         * for a specific purpose under the governance of the code system steward, and that the intent, bounds and consequences 
+         * of the fragmentation are clearly defined in the fragment or the code system documentation. Fragments are also known as 
+         * partitions.
          */
         FRAGMENT("fragment"),
 
         /**
          * Complete
+         * 
+         * <p>All the concepts defined by the code system are included in the code system resource.
          */
         COMPLETE("complete"),
 
         /**
          * Supplement
+         * 
+         * <p>The resource doesn't define any new concepts; it just provides additional designations and properties to another 
+         * code system.
          */
         SUPPLEMENT("supplement");
 

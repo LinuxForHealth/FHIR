@@ -21,26 +21,36 @@ import javax.annotation.Generated;
 public class InvoiceStatus extends Code {
     /**
      * draft
+     * 
+     * <p>the invoice has been prepared but not yet finalized.
      */
     public static final InvoiceStatus DRAFT = InvoiceStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * issued
+     * 
+     * <p>the invoice has been finalized and sent to the recipient.
      */
     public static final InvoiceStatus ISSUED = InvoiceStatus.builder().value(ValueSet.ISSUED).build();
 
     /**
      * balanced
+     * 
+     * <p>the invoice has been balaced / completely paid.
      */
     public static final InvoiceStatus BALANCED = InvoiceStatus.builder().value(ValueSet.BALANCED).build();
 
     /**
      * cancelled
+     * 
+     * <p>the invoice was cancelled.
      */
     public static final InvoiceStatus CANCELLED = InvoiceStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * entered in error
+     * 
+     * <p>the invoice was determined as entered in error before it was issued.
      */
     public static final InvoiceStatus ENTERED_IN_ERROR = InvoiceStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -158,26 +168,36 @@ public class InvoiceStatus extends Code {
     public enum ValueSet {
         /**
          * draft
+         * 
+         * <p>the invoice has been prepared but not yet finalized.
          */
         DRAFT("draft"),
 
         /**
          * issued
+         * 
+         * <p>the invoice has been finalized and sent to the recipient.
          */
         ISSUED("issued"),
 
         /**
          * balanced
+         * 
+         * <p>the invoice has been balaced / completely paid.
          */
         BALANCED("balanced"),
 
         /**
          * cancelled
+         * 
+         * <p>the invoice was cancelled.
          */
         CANCELLED("cancelled"),
 
         /**
          * entered in error
+         * 
+         * <p>the invoice was determined as entered in error before it was issued.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

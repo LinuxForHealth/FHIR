@@ -21,21 +21,29 @@ import javax.annotation.Generated;
 public class DeviceMetricCategory extends Code {
     /**
      * Measurement
+     * 
+     * <p>DeviceObservations generated for this DeviceMetric are measured.
      */
     public static final DeviceMetricCategory MEASUREMENT = DeviceMetricCategory.builder().value(ValueSet.MEASUREMENT).build();
 
     /**
      * Setting
+     * 
+     * <p>DeviceObservations generated for this DeviceMetric is a setting that will influence the behavior of the Device.
      */
     public static final DeviceMetricCategory SETTING = DeviceMetricCategory.builder().value(ValueSet.SETTING).build();
 
     /**
      * Calculation
+     * 
+     * <p>DeviceObservations generated for this DeviceMetric are calculated.
      */
     public static final DeviceMetricCategory CALCULATION = DeviceMetricCategory.builder().value(ValueSet.CALCULATION).build();
 
     /**
      * Unspecified
+     * 
+     * <p>The category of this DeviceMetric is unspecified.
      */
     public static final DeviceMetricCategory UNSPECIFIED = DeviceMetricCategory.builder().value(ValueSet.UNSPECIFIED).build();
 
@@ -151,21 +159,29 @@ public class DeviceMetricCategory extends Code {
     public enum ValueSet {
         /**
          * Measurement
+         * 
+         * <p>DeviceObservations generated for this DeviceMetric are measured.
          */
         MEASUREMENT("measurement"),
 
         /**
          * Setting
+         * 
+         * <p>DeviceObservations generated for this DeviceMetric is a setting that will influence the behavior of the Device.
          */
         SETTING("setting"),
 
         /**
          * Calculation
+         * 
+         * <p>DeviceObservations generated for this DeviceMetric are calculated.
          */
         CALCULATION("calculation"),
 
         /**
          * Unspecified
+         * 
+         * <p>The category of this DeviceMetric is unspecified.
          */
         UNSPECIFIED("unspecified");
 

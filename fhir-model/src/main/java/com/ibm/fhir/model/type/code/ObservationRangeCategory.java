@@ -21,16 +21,22 @@ import javax.annotation.Generated;
 public class ObservationRangeCategory extends Code {
     /**
      * reference range
+     * 
+     * <p>Reference (Normal) Range for Ordinal and Continuous Observations.
      */
     public static final ObservationRangeCategory REFERENCE = ObservationRangeCategory.builder().value(ValueSet.REFERENCE).build();
 
     /**
      * critical range
+     * 
+     * <p>Critical Range for Ordinal and Continuous Observations.
      */
     public static final ObservationRangeCategory CRITICAL = ObservationRangeCategory.builder().value(ValueSet.CRITICAL).build();
 
     /**
      * absolute range
+     * 
+     * <p>Absolute Range for Ordinal and Continuous Observations. Results outside this range are not possible.
      */
     public static final ObservationRangeCategory ABSOLUTE = ObservationRangeCategory.builder().value(ValueSet.ABSOLUTE).build();
 
@@ -144,16 +150,22 @@ public class ObservationRangeCategory extends Code {
     public enum ValueSet {
         /**
          * reference range
+         * 
+         * <p>Reference (Normal) Range for Ordinal and Continuous Observations.
          */
         REFERENCE("reference"),
 
         /**
          * critical range
+         * 
+         * <p>Critical Range for Ordinal and Continuous Observations.
          */
         CRITICAL("critical"),
 
         /**
          * absolute range
+         * 
+         * <p>Absolute Range for Ordinal and Continuous Observations. Results outside this range are not possible.
          */
         ABSOLUTE("absolute");
 

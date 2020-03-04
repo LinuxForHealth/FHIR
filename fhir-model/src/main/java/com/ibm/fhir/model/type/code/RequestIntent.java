@@ -21,46 +21,70 @@ import javax.annotation.Generated;
 public class RequestIntent extends Code {
     /**
      * Proposal
+     * 
+     * <p>The request is a suggestion made by someone/something that does not have an intention to ensure it occurs and 
+     * without providing an authorization to act.
      */
     public static final RequestIntent PROPOSAL = RequestIntent.builder().value(ValueSet.PROPOSAL).build();
 
     /**
      * Plan
+     * 
+     * <p>The request represents an intention to ensure something occurs without providing an authorization for others to act.
      */
     public static final RequestIntent PLAN = RequestIntent.builder().value(ValueSet.PLAN).build();
 
     /**
      * Directive
+     * 
+     * <p>The request represents a legally binding instruction authored by a Patient or RelatedPerson.
      */
     public static final RequestIntent DIRECTIVE = RequestIntent.builder().value(ValueSet.DIRECTIVE).build();
 
     /**
      * Order
+     * 
+     * <p>The request represents a request/demand and authorization for action by a Practitioner.
      */
     public static final RequestIntent ORDER = RequestIntent.builder().value(ValueSet.ORDER).build();
 
     /**
      * Original Order
+     * 
+     * <p>The request represents an original authorization for action.
      */
     public static final RequestIntent ORIGINAL_ORDER = RequestIntent.builder().value(ValueSet.ORIGINAL_ORDER).build();
 
     /**
      * Reflex Order
+     * 
+     * <p>The request represents an automatically generated supplemental authorization for action based on a parent 
+     * authorization together with initial results of the action taken against that parent authorization.
      */
     public static final RequestIntent REFLEX_ORDER = RequestIntent.builder().value(ValueSet.REFLEX_ORDER).build();
 
     /**
      * Filler Order
+     * 
+     * <p>The request represents the view of an authorization instantiated by a fulfilling system representing the details of 
+     * the fulfiller's intention to act upon a submitted order.
      */
     public static final RequestIntent FILLER_ORDER = RequestIntent.builder().value(ValueSet.FILLER_ORDER).build();
 
     /**
      * Instance Order
+     * 
+     * <p>An order created in fulfillment of a broader order that represents the authorization for a single activity 
+     * occurrence. E.g. The administration of a single dose of a drug.
      */
     public static final RequestIntent INSTANCE_ORDER = RequestIntent.builder().value(ValueSet.INSTANCE_ORDER).build();
 
     /**
      * Option
+     * 
+     * <p>The request represents a component or option for a RequestGroup that establishes timing, conditionality and/or 
+     * other constraints among a set of requests. Refer to [[[RequestGroup]]] for additional information on how this status 
+     * is used.
      */
     public static final RequestIntent OPTION = RequestIntent.builder().value(ValueSet.OPTION).build();
 
@@ -186,46 +210,70 @@ public class RequestIntent extends Code {
     public enum ValueSet {
         /**
          * Proposal
+         * 
+         * <p>The request is a suggestion made by someone/something that does not have an intention to ensure it occurs and 
+         * without providing an authorization to act.
          */
         PROPOSAL("proposal"),
 
         /**
          * Plan
+         * 
+         * <p>The request represents an intention to ensure something occurs without providing an authorization for others to act.
          */
         PLAN("plan"),
 
         /**
          * Directive
+         * 
+         * <p>The request represents a legally binding instruction authored by a Patient or RelatedPerson.
          */
         DIRECTIVE("directive"),
 
         /**
          * Order
+         * 
+         * <p>The request represents a request/demand and authorization for action by a Practitioner.
          */
         ORDER("order"),
 
         /**
          * Original Order
+         * 
+         * <p>The request represents an original authorization for action.
          */
         ORIGINAL_ORDER("original-order"),
 
         /**
          * Reflex Order
+         * 
+         * <p>The request represents an automatically generated supplemental authorization for action based on a parent 
+         * authorization together with initial results of the action taken against that parent authorization.
          */
         REFLEX_ORDER("reflex-order"),
 
         /**
          * Filler Order
+         * 
+         * <p>The request represents the view of an authorization instantiated by a fulfilling system representing the details of 
+         * the fulfiller's intention to act upon a submitted order.
          */
         FILLER_ORDER("filler-order"),
 
         /**
          * Instance Order
+         * 
+         * <p>An order created in fulfillment of a broader order that represents the authorization for a single activity 
+         * occurrence. E.g. The administration of a single dose of a drug.
          */
         INSTANCE_ORDER("instance-order"),
 
         /**
          * Option
+         * 
+         * <p>The request represents a component or option for a RequestGroup that establishes timing, conditionality and/or 
+         * other constraints among a set of requests. Refer to [[[RequestGroup]]] for additional information on how this status 
+         * is used.
          */
         OPTION("option");
 

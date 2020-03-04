@@ -21,26 +21,37 @@ import javax.annotation.Generated;
 public class SlotStatus extends Code {
     /**
      * Busy
+     * 
+     * <p>Indicates that the time interval is busy because one or more events have been scheduled for that interval.
      */
     public static final SlotStatus BUSY = SlotStatus.builder().value(ValueSet.BUSY).build();
 
     /**
      * Free
+     * 
+     * <p>Indicates that the time interval is free for scheduling.
      */
     public static final SlotStatus FREE = SlotStatus.builder().value(ValueSet.FREE).build();
 
     /**
      * Busy (Unavailable)
+     * 
+     * <p>Indicates that the time interval is busy and that the interval cannot be scheduled.
      */
     public static final SlotStatus BUSY_UNAVAILABLE = SlotStatus.builder().value(ValueSet.BUSY_UNAVAILABLE).build();
 
     /**
      * Busy (Tentative)
+     * 
+     * <p>Indicates that the time interval is busy because one or more events have been tentatively scheduled for that 
+     * interval.
      */
     public static final SlotStatus BUSY_TENTATIVE = SlotStatus.builder().value(ValueSet.BUSY_TENTATIVE).build();
 
     /**
      * Entered in error
+     * 
+     * <p>This instance should not have been part of this patient's medical record.
      */
     public static final SlotStatus ENTERED_IN_ERROR = SlotStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -158,26 +169,37 @@ public class SlotStatus extends Code {
     public enum ValueSet {
         /**
          * Busy
+         * 
+         * <p>Indicates that the time interval is busy because one or more events have been scheduled for that interval.
          */
         BUSY("busy"),
 
         /**
          * Free
+         * 
+         * <p>Indicates that the time interval is free for scheduling.
          */
         FREE("free"),
 
         /**
          * Busy (Unavailable)
+         * 
+         * <p>Indicates that the time interval is busy and that the interval cannot be scheduled.
          */
         BUSY_UNAVAILABLE("busy-unavailable"),
 
         /**
          * Busy (Tentative)
+         * 
+         * <p>Indicates that the time interval is busy because one or more events have been tentatively scheduled for that 
+         * interval.
          */
         BUSY_TENTATIVE("busy-tentative"),
 
         /**
          * Entered in error
+         * 
+         * <p>This instance should not have been part of this patient's medical record.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

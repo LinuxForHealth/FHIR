@@ -21,11 +21,15 @@ import javax.annotation.Generated;
 public class ActionCardinalityBehavior extends Code {
     /**
      * Single
+     * 
+     * <p>The action may only be selected one time.
      */
     public static final ActionCardinalityBehavior SINGLE = ActionCardinalityBehavior.builder().value(ValueSet.SINGLE).build();
 
     /**
      * Multiple
+     * 
+     * <p>The action may be selected multiple times.
      */
     public static final ActionCardinalityBehavior MULTIPLE = ActionCardinalityBehavior.builder().value(ValueSet.MULTIPLE).build();
 
@@ -137,11 +141,15 @@ public class ActionCardinalityBehavior extends Code {
     public enum ValueSet {
         /**
          * Single
+         * 
+         * <p>The action may only be selected one time.
          */
         SINGLE("single"),
 
         /**
          * Multiple
+         * 
+         * <p>The action may be selected multiple times.
          */
         MULTIPLE("multiple");
 

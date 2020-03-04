@@ -21,21 +21,29 @@ import javax.annotation.Generated;
 public class ContributorType extends Code {
     /**
      * Author
+     * 
+     * <p>An author of the content of the module.
      */
     public static final ContributorType AUTHOR = ContributorType.builder().value(ValueSet.AUTHOR).build();
 
     /**
      * Editor
+     * 
+     * <p>An editor of the content of the module.
      */
     public static final ContributorType EDITOR = ContributorType.builder().value(ValueSet.EDITOR).build();
 
     /**
      * Reviewer
+     * 
+     * <p>A reviewer of the content of the module.
      */
     public static final ContributorType REVIEWER = ContributorType.builder().value(ValueSet.REVIEWER).build();
 
     /**
      * Endorser
+     * 
+     * <p>An endorser of the content of the module.
      */
     public static final ContributorType ENDORSER = ContributorType.builder().value(ValueSet.ENDORSER).build();
 
@@ -151,21 +159,29 @@ public class ContributorType extends Code {
     public enum ValueSet {
         /**
          * Author
+         * 
+         * <p>An author of the content of the module.
          */
         AUTHOR("author"),
 
         /**
          * Editor
+         * 
+         * <p>An editor of the content of the module.
          */
         EDITOR("editor"),
 
         /**
          * Reviewer
+         * 
+         * <p>A reviewer of the content of the module.
          */
         REVIEWER("reviewer"),
 
         /**
          * Endorser
+         * 
+         * <p>An endorser of the content of the module.
          */
         ENDORSER("endorser");
 

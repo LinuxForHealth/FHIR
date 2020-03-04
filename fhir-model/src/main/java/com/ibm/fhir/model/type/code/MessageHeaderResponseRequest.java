@@ -21,21 +21,29 @@ import javax.annotation.Generated;
 public class MessageHeaderResponseRequest extends Code {
     /**
      * Always
+     * 
+     * <p>initiator expects a response for this message.
      */
     public static final MessageHeaderResponseRequest ALWAYS = MessageHeaderResponseRequest.builder().value(ValueSet.ALWAYS).build();
 
     /**
      * Error/reject conditions only
+     * 
+     * <p>initiator expects a response only if in error.
      */
     public static final MessageHeaderResponseRequest ON_ERROR = MessageHeaderResponseRequest.builder().value(ValueSet.ON_ERROR).build();
 
     /**
      * Never
+     * 
+     * <p>initiator does not expect a response.
      */
     public static final MessageHeaderResponseRequest NEVER = MessageHeaderResponseRequest.builder().value(ValueSet.NEVER).build();
 
     /**
      * Successful completion only
+     * 
+     * <p>initiator expects a response only if successful.
      */
     public static final MessageHeaderResponseRequest ON_SUCCESS = MessageHeaderResponseRequest.builder().value(ValueSet.ON_SUCCESS).build();
 
@@ -151,21 +159,29 @@ public class MessageHeaderResponseRequest extends Code {
     public enum ValueSet {
         /**
          * Always
+         * 
+         * <p>initiator expects a response for this message.
          */
         ALWAYS("always"),
 
         /**
          * Error/reject conditions only
+         * 
+         * <p>initiator expects a response only if in error.
          */
         ON_ERROR("on-error"),
 
         /**
          * Never
+         * 
+         * <p>initiator does not expect a response.
          */
         NEVER("never"),
 
         /**
          * Successful completion only
+         * 
+         * <p>initiator expects a response only if successful.
          */
         ON_SUCCESS("on-success");
 

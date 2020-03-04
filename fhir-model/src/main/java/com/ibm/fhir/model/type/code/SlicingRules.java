@@ -21,16 +21,23 @@ import javax.annotation.Generated;
 public class SlicingRules extends Code {
     /**
      * Closed
+     * 
+     * <p>No additional content is allowed other than that described by the slices in this profile.
      */
     public static final SlicingRules CLOSED = SlicingRules.builder().value(ValueSet.CLOSED).build();
 
     /**
      * Open
+     * 
+     * <p>Additional content is allowed anywhere in the list.
      */
     public static final SlicingRules OPEN = SlicingRules.builder().value(ValueSet.OPEN).build();
 
     /**
      * Open at End
+     * 
+     * <p>Additional content is allowed, but only at the end of the list. Note that using this requires that the slices be 
+     * ordered, which makes it hard to share uses. This should only be done where absolutely required.
      */
     public static final SlicingRules OPEN_AT_END = SlicingRules.builder().value(ValueSet.OPEN_AT_END).build();
 
@@ -144,16 +151,23 @@ public class SlicingRules extends Code {
     public enum ValueSet {
         /**
          * Closed
+         * 
+         * <p>No additional content is allowed other than that described by the slices in this profile.
          */
         CLOSED("closed"),
 
         /**
          * Open
+         * 
+         * <p>Additional content is allowed anywhere in the list.
          */
         OPEN("open"),
 
         /**
          * Open at End
+         * 
+         * <p>Additional content is allowed, but only at the end of the list. Note that using this requires that the slices be 
+         * ordered, which makes it hard to share uses. This should only be done where absolutely required.
          */
         OPEN_AT_END("openAtEnd");
 

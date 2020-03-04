@@ -21,56 +21,78 @@ import javax.annotation.Generated;
 public class ObservationDataType extends Code {
     /**
      * Quantity
+     * 
+     * <p>A measured amount.
      */
     public static final ObservationDataType QUANTITY = ObservationDataType.builder().value(ValueSet.QUANTITY).build();
 
     /**
      * CodeableConcept
+     * 
+     * <p>A coded concept from a reference terminology and/or text.
      */
     public static final ObservationDataType CODEABLE_CONCEPT = ObservationDataType.builder().value(ValueSet.CODEABLE_CONCEPT).build();
 
     /**
      * string
+     * 
+     * <p>A sequence of Unicode characters.
      */
     public static final ObservationDataType STRING = ObservationDataType.builder().value(ValueSet.STRING).build();
 
     /**
      * boolean
+     * 
+     * <p>true or false.
      */
     public static final ObservationDataType BOOLEAN = ObservationDataType.builder().value(ValueSet.BOOLEAN).build();
 
     /**
      * integer
+     * 
+     * <p>A signed integer.
      */
     public static final ObservationDataType INTEGER = ObservationDataType.builder().value(ValueSet.INTEGER).build();
 
     /**
      * Range
+     * 
+     * <p>A set of values bounded by low and high.
      */
     public static final ObservationDataType RANGE = ObservationDataType.builder().value(ValueSet.RANGE).build();
 
     /**
      * Ratio
+     * 
+     * <p>A ratio of two Quantity values - a numerator and a denominator.
      */
     public static final ObservationDataType RATIO = ObservationDataType.builder().value(ValueSet.RATIO).build();
 
     /**
      * SampledData
+     * 
+     * <p>A series of measurements taken by a device.
      */
     public static final ObservationDataType SAMPLED_DATA = ObservationDataType.builder().value(ValueSet.SAMPLED_DATA).build();
 
     /**
      * time
+     * 
+     * <p>A time during the day, in the format hh:mm:ss.
      */
     public static final ObservationDataType TIME = ObservationDataType.builder().value(ValueSet.TIME).build();
 
     /**
      * dateTime
+     * 
+     * <p>A date, date-time or partial date (e.g. just year or year + month) as used in human communication.
      */
     public static final ObservationDataType DATE_TIME = ObservationDataType.builder().value(ValueSet.DATE_TIME).build();
 
     /**
      * Period
+     * 
+     * <p>A time range defined by start and end date/time.
      */
     public static final ObservationDataType PERIOD = ObservationDataType.builder().value(ValueSet.PERIOD).build();
 
@@ -200,56 +222,78 @@ public class ObservationDataType extends Code {
     public enum ValueSet {
         /**
          * Quantity
+         * 
+         * <p>A measured amount.
          */
         QUANTITY("Quantity"),
 
         /**
          * CodeableConcept
+         * 
+         * <p>A coded concept from a reference terminology and/or text.
          */
         CODEABLE_CONCEPT("CodeableConcept"),
 
         /**
          * string
+         * 
+         * <p>A sequence of Unicode characters.
          */
         STRING("string"),
 
         /**
          * boolean
+         * 
+         * <p>true or false.
          */
         BOOLEAN("boolean"),
 
         /**
          * integer
+         * 
+         * <p>A signed integer.
          */
         INTEGER("integer"),
 
         /**
          * Range
+         * 
+         * <p>A set of values bounded by low and high.
          */
         RANGE("Range"),
 
         /**
          * Ratio
+         * 
+         * <p>A ratio of two Quantity values - a numerator and a denominator.
          */
         RATIO("Ratio"),
 
         /**
          * SampledData
+         * 
+         * <p>A series of measurements taken by a device.
          */
         SAMPLED_DATA("SampledData"),
 
         /**
          * time
+         * 
+         * <p>A time during the day, in the format hh:mm:ss.
          */
         TIME("time"),
 
         /**
          * dateTime
+         * 
+         * <p>A date, date-time or partial date (e.g. just year or year + month) as used in human communication.
          */
         DATE_TIME("dateTime"),
 
         /**
          * Period
+         * 
+         * <p>A time range defined by start and end date/time.
          */
         PERIOD("Period");
 

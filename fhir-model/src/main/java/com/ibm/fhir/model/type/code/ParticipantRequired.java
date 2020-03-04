@@ -21,16 +21,23 @@ import javax.annotation.Generated;
 public class ParticipantRequired extends Code {
     /**
      * Required
+     * 
+     * <p>The participant is required to attend the appointment.
      */
     public static final ParticipantRequired REQUIRED = ParticipantRequired.builder().value(ValueSet.REQUIRED).build();
 
     /**
      * Optional
+     * 
+     * <p>The participant may optionally attend the appointment.
      */
     public static final ParticipantRequired OPTIONAL = ParticipantRequired.builder().value(ValueSet.OPTIONAL).build();
 
     /**
      * Information Only
+     * 
+     * <p>The participant is excluded from the appointment, and might not be informed of the appointment taking place. 
+     * (Appointment is about them, not for them - such as 2 doctors discussing results about a patient's test).
      */
     public static final ParticipantRequired INFORMATION_ONLY = ParticipantRequired.builder().value(ValueSet.INFORMATION_ONLY).build();
 
@@ -144,16 +151,23 @@ public class ParticipantRequired extends Code {
     public enum ValueSet {
         /**
          * Required
+         * 
+         * <p>The participant is required to attend the appointment.
          */
         REQUIRED("required"),
 
         /**
          * Optional
+         * 
+         * <p>The participant may optionally attend the appointment.
          */
         OPTIONAL("optional"),
 
         /**
          * Information Only
+         * 
+         * <p>The participant is excluded from the appointment, and might not be informed of the appointment taking place. 
+         * (Appointment is about them, not for them - such as 2 doctors discussing results about a patient's test).
          */
         INFORMATION_ONLY("information-only");
 

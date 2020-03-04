@@ -21,36 +21,50 @@ import javax.annotation.Generated;
 public class TestScriptRequestMethodCode extends Code {
     /**
      * DELETE
+     * 
+     * <p>HTTP DELETE operation.
      */
     public static final TestScriptRequestMethodCode DELETE = TestScriptRequestMethodCode.builder().value(ValueSet.DELETE).build();
 
     /**
      * GET
+     * 
+     * <p>HTTP GET operation.
      */
     public static final TestScriptRequestMethodCode GET = TestScriptRequestMethodCode.builder().value(ValueSet.GET).build();
 
     /**
      * OPTIONS
+     * 
+     * <p>HTTP OPTIONS operation.
      */
     public static final TestScriptRequestMethodCode OPTIONS = TestScriptRequestMethodCode.builder().value(ValueSet.OPTIONS).build();
 
     /**
      * PATCH
+     * 
+     * <p>HTTP PATCH operation.
      */
     public static final TestScriptRequestMethodCode PATCH = TestScriptRequestMethodCode.builder().value(ValueSet.PATCH).build();
 
     /**
      * POST
+     * 
+     * <p>HTTP POST operation.
      */
     public static final TestScriptRequestMethodCode POST = TestScriptRequestMethodCode.builder().value(ValueSet.POST).build();
 
     /**
      * PUT
+     * 
+     * <p>HTTP PUT operation.
      */
     public static final TestScriptRequestMethodCode PUT = TestScriptRequestMethodCode.builder().value(ValueSet.PUT).build();
 
     /**
      * HEAD
+     * 
+     * <p>HTTP HEAD operation.
      */
     public static final TestScriptRequestMethodCode HEAD = TestScriptRequestMethodCode.builder().value(ValueSet.HEAD).build();
 
@@ -172,36 +186,50 @@ public class TestScriptRequestMethodCode extends Code {
     public enum ValueSet {
         /**
          * DELETE
+         * 
+         * <p>HTTP DELETE operation.
          */
         DELETE("delete"),
 
         /**
          * GET
+         * 
+         * <p>HTTP GET operation.
          */
         GET("get"),
 
         /**
          * OPTIONS
+         * 
+         * <p>HTTP OPTIONS operation.
          */
         OPTIONS("options"),
 
         /**
          * PATCH
+         * 
+         * <p>HTTP PATCH operation.
          */
         PATCH("patch"),
 
         /**
          * POST
+         * 
+         * <p>HTTP POST operation.
          */
         POST("post"),
 
         /**
          * PUT
+         * 
+         * <p>HTTP PUT operation.
          */
         PUT("put"),
 
         /**
          * HEAD
+         * 
+         * <p>HTTP HEAD operation.
          */
         HEAD("head");
 

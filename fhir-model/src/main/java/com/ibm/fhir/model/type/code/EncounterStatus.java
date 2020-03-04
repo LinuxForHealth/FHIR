@@ -21,46 +21,65 @@ import javax.annotation.Generated;
 public class EncounterStatus extends Code {
     /**
      * Planned
+     * 
+     * <p>The Encounter has not yet started.
      */
     public static final EncounterStatus PLANNED = EncounterStatus.builder().value(ValueSet.PLANNED).build();
 
     /**
      * Arrived
+     * 
+     * <p>The Patient is present for the encounter, however is not currently meeting with a practitioner.
      */
     public static final EncounterStatus ARRIVED = EncounterStatus.builder().value(ValueSet.ARRIVED).build();
 
     /**
      * Triaged
+     * 
+     * <p>The patient has been assessed for the priority of their treatment based on the severity of their condition.
      */
     public static final EncounterStatus TRIAGED = EncounterStatus.builder().value(ValueSet.TRIAGED).build();
 
     /**
      * In Progress
+     * 
+     * <p>The Encounter has begun and the patient is present / the practitioner and the patient are meeting.
      */
     public static final EncounterStatus IN_PROGRESS = EncounterStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * On Leave
+     * 
+     * <p>The Encounter has begun, but the patient is temporarily on leave.
      */
     public static final EncounterStatus ONLEAVE = EncounterStatus.builder().value(ValueSet.ONLEAVE).build();
 
     /**
      * Finished
+     * 
+     * <p>The Encounter has ended.
      */
     public static final EncounterStatus FINISHED = EncounterStatus.builder().value(ValueSet.FINISHED).build();
 
     /**
      * Cancelled
+     * 
+     * <p>The Encounter has ended before it has begun.
      */
     public static final EncounterStatus CANCELLED = EncounterStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>This instance should not have been part of this patient's medical record.
      */
     public static final EncounterStatus ENTERED_IN_ERROR = EncounterStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
+     * 
+     * <p>The encounter status is unknown. Note that "unknown" is a value of last resort and every attempt should be made to 
+     * provide a meaningful value other than "unknown".
      */
     public static final EncounterStatus UNKNOWN = EncounterStatus.builder().value(ValueSet.UNKNOWN).build();
 
@@ -186,46 +205,65 @@ public class EncounterStatus extends Code {
     public enum ValueSet {
         /**
          * Planned
+         * 
+         * <p>The Encounter has not yet started.
          */
         PLANNED("planned"),
 
         /**
          * Arrived
+         * 
+         * <p>The Patient is present for the encounter, however is not currently meeting with a practitioner.
          */
         ARRIVED("arrived"),
 
         /**
          * Triaged
+         * 
+         * <p>The patient has been assessed for the priority of their treatment based on the severity of their condition.
          */
         TRIAGED("triaged"),
 
         /**
          * In Progress
+         * 
+         * <p>The Encounter has begun and the patient is present / the practitioner and the patient are meeting.
          */
         IN_PROGRESS("in-progress"),
 
         /**
          * On Leave
+         * 
+         * <p>The Encounter has begun, but the patient is temporarily on leave.
          */
         ONLEAVE("onleave"),
 
         /**
          * Finished
+         * 
+         * <p>The Encounter has ended.
          */
         FINISHED("finished"),
 
         /**
          * Cancelled
+         * 
+         * <p>The Encounter has ended before it has begun.
          */
         CANCELLED("cancelled"),
 
         /**
          * Entered in Error
+         * 
+         * <p>This instance should not have been part of this patient's medical record.
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Unknown
+         * 
+         * <p>The encounter status is unknown. Note that "unknown" is a value of last resort and every attempt should be made to 
+         * provide a meaningful value other than "unknown".
          */
         UNKNOWN("unknown");
 

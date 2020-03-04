@@ -21,46 +21,67 @@ import javax.annotation.Generated;
 public class MedicationDispenseStatus extends Code {
     /**
      * Preparation
+     * 
+     * <p>The core event has not started yet, but some staging activities have begun (e.g. initial compounding or packaging 
+     * of medication). Preparation stages may be tracked for billing purposes.
      */
     public static final MedicationDispenseStatus PREPARATION = MedicationDispenseStatus.builder().value(ValueSet.PREPARATION).build();
 
     /**
      * In Progress
+     * 
+     * <p>The dispensed product is ready for pickup.
      */
     public static final MedicationDispenseStatus IN_PROGRESS = MedicationDispenseStatus.builder().value(ValueSet.IN_PROGRESS).build();
 
     /**
      * Cancelled
+     * 
+     * <p>The dispensed product was not and will never be picked up by the patient.
      */
     public static final MedicationDispenseStatus CANCELLED = MedicationDispenseStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * On Hold
+     * 
+     * <p>The dispense process is paused while waiting for an external event to reactivate the dispense. For example, new 
+     * stock has arrived or the prescriber has called.
      */
     public static final MedicationDispenseStatus ON_HOLD = MedicationDispenseStatus.builder().value(ValueSet.ON_HOLD).build();
 
     /**
      * Completed
+     * 
+     * <p>The dispensed product has been picked up.
      */
     public static final MedicationDispenseStatus COMPLETED = MedicationDispenseStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The dispense was entered in error and therefore nullified.
      */
     public static final MedicationDispenseStatus ENTERED_IN_ERROR = MedicationDispenseStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Stopped
+     * 
+     * <p>Actions implied by the dispense have been permanently halted, before all of them occurred.
      */
     public static final MedicationDispenseStatus STOPPED = MedicationDispenseStatus.builder().value(ValueSet.STOPPED).build();
 
     /**
      * Declined
+     * 
+     * <p>The dispense was declined and not performed.
      */
     public static final MedicationDispenseStatus DECLINED = MedicationDispenseStatus.builder().value(ValueSet.DECLINED).build();
 
     /**
      * Unknown
+     * 
+     * <p>The authoring system does not know which of the status values applies for this medication dispense. Note: this 
+     * concept is not to be used for other - one of the listed statuses is presumed to apply, it's just now known which one.
      */
     public static final MedicationDispenseStatus UNKNOWN = MedicationDispenseStatus.builder().value(ValueSet.UNKNOWN).build();
 
@@ -186,46 +207,67 @@ public class MedicationDispenseStatus extends Code {
     public enum ValueSet {
         /**
          * Preparation
+         * 
+         * <p>The core event has not started yet, but some staging activities have begun (e.g. initial compounding or packaging 
+         * of medication). Preparation stages may be tracked for billing purposes.
          */
         PREPARATION("preparation"),
 
         /**
          * In Progress
+         * 
+         * <p>The dispensed product is ready for pickup.
          */
         IN_PROGRESS("in-progress"),
 
         /**
          * Cancelled
+         * 
+         * <p>The dispensed product was not and will never be picked up by the patient.
          */
         CANCELLED("cancelled"),
 
         /**
          * On Hold
+         * 
+         * <p>The dispense process is paused while waiting for an external event to reactivate the dispense. For example, new 
+         * stock has arrived or the prescriber has called.
          */
         ON_HOLD("on-hold"),
 
         /**
          * Completed
+         * 
+         * <p>The dispensed product has been picked up.
          */
         COMPLETED("completed"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The dispense was entered in error and therefore nullified.
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Stopped
+         * 
+         * <p>Actions implied by the dispense have been permanently halted, before all of them occurred.
          */
         STOPPED("stopped"),
 
         /**
          * Declined
+         * 
+         * <p>The dispense was declined and not performed.
          */
         DECLINED("declined"),
 
         /**
          * Unknown
+         * 
+         * <p>The authoring system does not know which of the status values applies for this medication dispense. Note: this 
+         * concept is not to be used for other - one of the listed statuses is presumed to apply, it's just now known which one.
          */
         UNKNOWN("unknown");
 

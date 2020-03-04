@@ -163,7 +163,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
         assertNotNull(patientId);
         runTest("testReadDeletedPatient", "-p", propsFile(), "--operation", "read", "--type", "Patient", "--resourceId", patientId);
         if (deleteSupported) {
-            verifyConsoleOutput("Status code: 410", "FHIRPersistenceResourceDeletedException: Resource", "is deleted.");
+            verifyConsoleOutput("Status code: 410", "Resource", "is deleted.");
         } else {
             verifyConsoleOutput("Status code: 200");
         }

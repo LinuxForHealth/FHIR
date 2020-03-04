@@ -21,21 +21,30 @@ import javax.annotation.Generated;
 public class PublicationStatus extends Code {
     /**
      * Draft
+     * 
+     * <p>This resource is still under development and is not yet considered to be ready for normal use.
      */
     public static final PublicationStatus DRAFT = PublicationStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Active
+     * 
+     * <p>This resource is ready for normal use.
      */
     public static final PublicationStatus ACTIVE = PublicationStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Retired
+     * 
+     * <p>This resource has been withdrawn or superseded and should no longer be used.
      */
     public static final PublicationStatus RETIRED = PublicationStatus.builder().value(ValueSet.RETIRED).build();
 
     /**
      * Unknown
+     * 
+     * <p>The authoring system does not know which of the status values currently applies for this resource. Note: This 
+     * concept is not to be used for "other" - one of the listed statuses is presumed to apply, it's just not known which one.
      */
     public static final PublicationStatus UNKNOWN = PublicationStatus.builder().value(ValueSet.UNKNOWN).build();
 
@@ -151,21 +160,30 @@ public class PublicationStatus extends Code {
     public enum ValueSet {
         /**
          * Draft
+         * 
+         * <p>This resource is still under development and is not yet considered to be ready for normal use.
          */
         DRAFT("draft"),
 
         /**
          * Active
+         * 
+         * <p>This resource is ready for normal use.
          */
         ACTIVE("active"),
 
         /**
          * Retired
+         * 
+         * <p>This resource has been withdrawn or superseded and should no longer be used.
          */
         RETIRED("retired"),
 
         /**
          * Unknown
+         * 
+         * <p>The authoring system does not know which of the status values currently applies for this resource. Note: This 
+         * concept is not to be used for "other" - one of the listed statuses is presumed to apply, it's just not known which one.
          */
         UNKNOWN("unknown");
 

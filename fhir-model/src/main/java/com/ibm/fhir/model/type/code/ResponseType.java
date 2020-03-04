@@ -21,16 +21,24 @@ import javax.annotation.Generated;
 public class ResponseType extends Code {
     /**
      * OK
+     * 
+     * <p>The message was accepted and processed without error.
      */
     public static final ResponseType OK = ResponseType.builder().value(ValueSet.OK).build();
 
     /**
      * Transient Error
+     * 
+     * <p>Some internal unexpected error occurred - wait and try again. Note - this is usually used for things like database 
+     * unavailable, which may be expected to resolve, though human intervention may be required.
      */
     public static final ResponseType TRANSIENT_ERROR = ResponseType.builder().value(ValueSet.TRANSIENT_ERROR).build();
 
     /**
      * Fatal Error
+     * 
+     * <p>The message was rejected because of a problem with the content. There is no point in re-sending without change. The 
+     * response narrative SHALL describe the issue.
      */
     public static final ResponseType FATAL_ERROR = ResponseType.builder().value(ValueSet.FATAL_ERROR).build();
 
@@ -144,16 +152,24 @@ public class ResponseType extends Code {
     public enum ValueSet {
         /**
          * OK
+         * 
+         * <p>The message was accepted and processed without error.
          */
         OK("ok"),
 
         /**
          * Transient Error
+         * 
+         * <p>Some internal unexpected error occurred - wait and try again. Note - this is usually used for things like database 
+         * unavailable, which may be expected to resolve, though human intervention may be required.
          */
         TRANSIENT_ERROR("transient-error"),
 
         /**
          * Fatal Error
+         * 
+         * <p>The message was rejected because of a problem with the content. There is no point in re-sending without change. The 
+         * response narrative SHALL describe the issue.
          */
         FATAL_ERROR("fatal-error");
 

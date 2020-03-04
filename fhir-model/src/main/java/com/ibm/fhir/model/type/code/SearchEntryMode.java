@@ -21,16 +21,22 @@ import javax.annotation.Generated;
 public class SearchEntryMode extends Code {
     /**
      * Match
+     * 
+     * <p>This resource matched the search specification.
      */
     public static final SearchEntryMode MATCH = SearchEntryMode.builder().value(ValueSet.MATCH).build();
 
     /**
      * Include
+     * 
+     * <p>This resource is returned because it is referred to from another resource in the search set.
      */
     public static final SearchEntryMode INCLUDE = SearchEntryMode.builder().value(ValueSet.INCLUDE).build();
 
     /**
      * Outcome
+     * 
+     * <p>An OperationOutcome that provides additional information about the processing of a search.
      */
     public static final SearchEntryMode OUTCOME = SearchEntryMode.builder().value(ValueSet.OUTCOME).build();
 
@@ -144,16 +150,22 @@ public class SearchEntryMode extends Code {
     public enum ValueSet {
         /**
          * Match
+         * 
+         * <p>This resource matched the search specification.
          */
         MATCH("match"),
 
         /**
          * Include
+         * 
+         * <p>This resource is returned because it is referred to from another resource in the search set.
          */
         INCLUDE("include"),
 
         /**
          * Outcome
+         * 
+         * <p>An OperationOutcome that provides additional information about the processing of a search.
          */
         OUTCOME("outcome");
 

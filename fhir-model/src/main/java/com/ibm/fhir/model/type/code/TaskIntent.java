@@ -21,6 +21,9 @@ import javax.annotation.Generated;
 public class TaskIntent extends Code {
     /**
      * Unknown
+     * 
+     * <p>The intent is not known. When dealing with Task, it's not always known (or relevant) how the task was initiated - i.
+     * e. whether it was proposed, planned, ordered or just done spontaneously.
      */
     public static final TaskIntent UNKNOWN = TaskIntent.builder().value(ValueSet.UNKNOWN).build();
 
@@ -162,6 +165,9 @@ public class TaskIntent extends Code {
     public enum ValueSet {
         /**
          * Unknown
+         * 
+         * <p>The intent is not known. When dealing with Task, it's not always known (or relevant) how the task was initiated - i.
+         * e. whether it was proposed, planned, ordered or just done spontaneously.
          */
         UNKNOWN("unknown"),
 

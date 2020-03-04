@@ -21,26 +21,36 @@ import javax.annotation.Generated;
 public class TestReportActionResult extends Code {
     /**
      * Pass
+     * 
+     * <p>The action was successful.
      */
     public static final TestReportActionResult PASS = TestReportActionResult.builder().value(ValueSet.PASS).build();
 
     /**
      * Skip
+     * 
+     * <p>The action was skipped.
      */
     public static final TestReportActionResult SKIP = TestReportActionResult.builder().value(ValueSet.SKIP).build();
 
     /**
      * Fail
+     * 
+     * <p>The action failed.
      */
     public static final TestReportActionResult FAIL = TestReportActionResult.builder().value(ValueSet.FAIL).build();
 
     /**
      * Warning
+     * 
+     * <p>The action passed but with warnings.
      */
     public static final TestReportActionResult WARNING = TestReportActionResult.builder().value(ValueSet.WARNING).build();
 
     /**
      * Error
+     * 
+     * <p>The action encountered a fatal error and the engine was unable to process.
      */
     public static final TestReportActionResult ERROR = TestReportActionResult.builder().value(ValueSet.ERROR).build();
 
@@ -158,26 +168,36 @@ public class TestReportActionResult extends Code {
     public enum ValueSet {
         /**
          * Pass
+         * 
+         * <p>The action was successful.
          */
         PASS("pass"),
 
         /**
          * Skip
+         * 
+         * <p>The action was skipped.
          */
         SKIP("skip"),
 
         /**
          * Fail
+         * 
+         * <p>The action failed.
          */
         FAIL("fail"),
 
         /**
          * Warning
+         * 
+         * <p>The action passed but with warnings.
          */
         WARNING("warning"),
 
         /**
          * Error
+         * 
+         * <p>The action encountered a fatal error and the engine was unable to process.
          */
         ERROR("error");
 

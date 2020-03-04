@@ -21,26 +21,36 @@ import javax.annotation.Generated;
 public class CompartmentCode extends Code {
     /**
      * Patient
+     * 
+     * <p>The compartment definition is for the patient compartment.
      */
     public static final CompartmentCode PATIENT = CompartmentCode.builder().value(ValueSet.PATIENT).build();
 
     /**
      * Encounter
+     * 
+     * <p>The compartment definition is for the encounter compartment.
      */
     public static final CompartmentCode ENCOUNTER = CompartmentCode.builder().value(ValueSet.ENCOUNTER).build();
 
     /**
      * RelatedPerson
+     * 
+     * <p>The compartment definition is for the related-person compartment.
      */
     public static final CompartmentCode RELATED_PERSON = CompartmentCode.builder().value(ValueSet.RELATED_PERSON).build();
 
     /**
      * Practitioner
+     * 
+     * <p>The compartment definition is for the practitioner compartment.
      */
     public static final CompartmentCode PRACTITIONER = CompartmentCode.builder().value(ValueSet.PRACTITIONER).build();
 
     /**
      * Device
+     * 
+     * <p>The compartment definition is for the device compartment.
      */
     public static final CompartmentCode DEVICE = CompartmentCode.builder().value(ValueSet.DEVICE).build();
 
@@ -158,26 +168,36 @@ public class CompartmentCode extends Code {
     public enum ValueSet {
         /**
          * Patient
+         * 
+         * <p>The compartment definition is for the patient compartment.
          */
         PATIENT("Patient"),
 
         /**
          * Encounter
+         * 
+         * <p>The compartment definition is for the encounter compartment.
          */
         ENCOUNTER("Encounter"),
 
         /**
          * RelatedPerson
+         * 
+         * <p>The compartment definition is for the related-person compartment.
          */
         RELATED_PERSON("RelatedPerson"),
 
         /**
          * Practitioner
+         * 
+         * <p>The compartment definition is for the practitioner compartment.
          */
         PRACTITIONER("Practitioner"),
 
         /**
          * Device
+         * 
+         * <p>The compartment definition is for the device compartment.
          */
         DEVICE("Device");
 

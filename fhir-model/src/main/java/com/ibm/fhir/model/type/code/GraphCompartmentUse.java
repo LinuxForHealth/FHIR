@@ -21,11 +21,15 @@ import javax.annotation.Generated;
 public class GraphCompartmentUse extends Code {
     /**
      * Condition
+     * 
+     * <p>This compartment rule is a condition for whether the rule applies.
      */
     public static final GraphCompartmentUse CONDITION = GraphCompartmentUse.builder().value(ValueSet.CONDITION).build();
 
     /**
      * Requirement
+     * 
+     * <p>This compartment rule is enforced on any relationships that meet the conditions.
      */
     public static final GraphCompartmentUse REQUIREMENT = GraphCompartmentUse.builder().value(ValueSet.REQUIREMENT).build();
 
@@ -137,11 +141,15 @@ public class GraphCompartmentUse extends Code {
     public enum ValueSet {
         /**
          * Condition
+         * 
+         * <p>This compartment rule is a condition for whether the rule applies.
          */
         CONDITION("condition"),
 
         /**
          * Requirement
+         * 
+         * <p>This compartment rule is enforced on any relationships that meet the conditions.
          */
         REQUIREMENT("requirement");
 

@@ -21,26 +21,39 @@ import javax.annotation.Generated;
 public class SubscriptionChannelType extends Code {
     /**
      * Rest Hook
+     * 
+     * <p>The channel is executed by making a post to the URI. If a payload is included, the URL is interpreted as the 
+     * service base, and an update (PUT) is made.
      */
     public static final SubscriptionChannelType REST_HOOK = SubscriptionChannelType.builder().value(ValueSet.REST_HOOK).build();
 
     /**
      * Websocket
+     * 
+     * <p>The channel is executed by sending a packet across a web socket connection maintained by the client. The URL 
+     * identifies the websocket, and the client binds to this URL.
      */
     public static final SubscriptionChannelType WEBSOCKET = SubscriptionChannelType.builder().value(ValueSet.WEBSOCKET).build();
 
     /**
      * Email
+     * 
+     * <p>The channel is executed by sending an email to the email addressed in the URI (which must be a mailto:).
      */
     public static final SubscriptionChannelType EMAIL = SubscriptionChannelType.builder().value(ValueSet.EMAIL).build();
 
     /**
      * SMS
+     * 
+     * <p>The channel is executed by sending an SMS message to the phone number identified in the URL (tel:).
      */
     public static final SubscriptionChannelType SMS = SubscriptionChannelType.builder().value(ValueSet.SMS).build();
 
     /**
      * Message
+     * 
+     * <p>The channel is executed by sending a message (e.g. a Bundle with a MessageHeader resource etc.) to the application 
+     * identified in the URI.
      */
     public static final SubscriptionChannelType MESSAGE = SubscriptionChannelType.builder().value(ValueSet.MESSAGE).build();
 
@@ -158,26 +171,39 @@ public class SubscriptionChannelType extends Code {
     public enum ValueSet {
         /**
          * Rest Hook
+         * 
+         * <p>The channel is executed by making a post to the URI. If a payload is included, the URL is interpreted as the 
+         * service base, and an update (PUT) is made.
          */
         REST_HOOK("rest-hook"),
 
         /**
          * Websocket
+         * 
+         * <p>The channel is executed by sending a packet across a web socket connection maintained by the client. The URL 
+         * identifies the websocket, and the client binds to this URL.
          */
         WEBSOCKET("websocket"),
 
         /**
          * Email
+         * 
+         * <p>The channel is executed by sending an email to the email addressed in the URI (which must be a mailto:).
          */
         EMAIL("email"),
 
         /**
          * SMS
+         * 
+         * <p>The channel is executed by sending an SMS message to the phone number identified in the URL (tel:).
          */
         SMS("sms"),
 
         /**
          * Message
+         * 
+         * <p>The channel is executed by sending a message (e.g. a Bundle with a MessageHeader resource etc.) to the application 
+         * identified in the URI.
          */
         MESSAGE("message");
 

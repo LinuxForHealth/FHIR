@@ -21,11 +21,15 @@ import javax.annotation.Generated;
 public class OperationParameterUse extends Code {
     /**
      * In
+     * 
+     * <p>This is an input parameter.
      */
     public static final OperationParameterUse IN = OperationParameterUse.builder().value(ValueSet.IN).build();
 
     /**
      * Out
+     * 
+     * <p>This is an output parameter.
      */
     public static final OperationParameterUse OUT = OperationParameterUse.builder().value(ValueSet.OUT).build();
 
@@ -137,11 +141,15 @@ public class OperationParameterUse extends Code {
     public enum ValueSet {
         /**
          * In
+         * 
+         * <p>This is an input parameter.
          */
         IN("in"),
 
         /**
          * Out
+         * 
+         * <p>This is an output parameter.
          */
         OUT("out");
 

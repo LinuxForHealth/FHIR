@@ -21,21 +21,29 @@ import javax.annotation.Generated;
 public class PaymentReconciliationStatus extends Code {
     /**
      * Active
+     * 
+     * <p>The instance is currently in-force.
      */
     public static final PaymentReconciliationStatus ACTIVE = PaymentReconciliationStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Cancelled
+     * 
+     * <p>The instance is withdrawn, rescinded or reversed.
      */
     public static final PaymentReconciliationStatus CANCELLED = PaymentReconciliationStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Draft
+     * 
+     * <p>A new instance the contents of which is not complete.
      */
     public static final PaymentReconciliationStatus DRAFT = PaymentReconciliationStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The instance was entered in error.
      */
     public static final PaymentReconciliationStatus ENTERED_IN_ERROR = PaymentReconciliationStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -151,21 +159,29 @@ public class PaymentReconciliationStatus extends Code {
     public enum ValueSet {
         /**
          * Active
+         * 
+         * <p>The instance is currently in-force.
          */
         ACTIVE("active"),
 
         /**
          * Cancelled
+         * 
+         * <p>The instance is withdrawn, rescinded or reversed.
          */
         CANCELLED("cancelled"),
 
         /**
          * Draft
+         * 
+         * <p>A new instance the contents of which is not complete.
          */
         DRAFT("draft"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The instance was entered in error.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

@@ -21,31 +21,43 @@ import javax.annotation.Generated;
 public class Status extends Code {
     /**
      * Attested
+     * 
+     * <p>***TODO***
      */
     public static final Status ATTESTED = Status.builder().value(ValueSet.ATTESTED).build();
 
     /**
      * Validated
+     * 
+     * <p>***TODO***
      */
     public static final Status VALIDATED = Status.builder().value(ValueSet.VALIDATED).build();
 
     /**
      * In process
+     * 
+     * <p>***TODO***
      */
     public static final Status IN_PROCESS = Status.builder().value(ValueSet.IN_PROCESS).build();
 
     /**
      * Requires revalidation
+     * 
+     * <p>***TODO***
      */
     public static final Status REQ_REVALID = Status.builder().value(ValueSet.REQ_REVALID).build();
 
     /**
      * Validation failed
+     * 
+     * <p>***TODO***
      */
     public static final Status VAL_FAIL = Status.builder().value(ValueSet.VAL_FAIL).build();
 
     /**
      * Re-Validation failed
+     * 
+     * <p>***TODO***
      */
     public static final Status REVAL_FAIL = Status.builder().value(ValueSet.REVAL_FAIL).build();
 
@@ -165,31 +177,43 @@ public class Status extends Code {
     public enum ValueSet {
         /**
          * Attested
+         * 
+         * <p>***TODO***
          */
         ATTESTED("attested"),
 
         /**
          * Validated
+         * 
+         * <p>***TODO***
          */
         VALIDATED("validated"),
 
         /**
          * In process
+         * 
+         * <p>***TODO***
          */
         IN_PROCESS("in-process"),
 
         /**
          * Requires revalidation
+         * 
+         * <p>***TODO***
          */
         REQ_REVALID("req-revalid"),
 
         /**
          * Validation failed
+         * 
+         * <p>***TODO***
          */
         VAL_FAIL("val-fail"),
 
         /**
          * Re-Validation failed
+         * 
+         * <p>***TODO***
          */
         REVAL_FAIL("reval-fail");
 

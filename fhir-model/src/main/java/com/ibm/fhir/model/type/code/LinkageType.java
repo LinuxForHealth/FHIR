@@ -21,16 +21,25 @@ import javax.annotation.Generated;
 public class LinkageType extends Code {
     /**
      * Source of Truth
+     * 
+     * <p>The resource represents the "source of truth" (from the perspective of this Linkage resource) for the underlying 
+     * event/condition/etc.
      */
     public static final LinkageType SOURCE = LinkageType.builder().value(ValueSet.SOURCE).build();
 
     /**
      * Alternate Record
+     * 
+     * <p>The resource represents an alternative view of the underlying event/condition/etc. The resource may still be 
+     * actively maintained, even though it is not considered to be the source of truth.
      */
     public static final LinkageType ALTERNATE = LinkageType.builder().value(ValueSet.ALTERNATE).build();
 
     /**
      * Historical/Obsolete Record
+     * 
+     * <p>The resource represents an obsolete record of the underlying event/condition/etc. It is not expected to be actively 
+     * maintained.
      */
     public static final LinkageType HISTORICAL = LinkageType.builder().value(ValueSet.HISTORICAL).build();
 
@@ -144,16 +153,25 @@ public class LinkageType extends Code {
     public enum ValueSet {
         /**
          * Source of Truth
+         * 
+         * <p>The resource represents the "source of truth" (from the perspective of this Linkage resource) for the underlying 
+         * event/condition/etc.
          */
         SOURCE("source"),
 
         /**
          * Alternate Record
+         * 
+         * <p>The resource represents an alternative view of the underlying event/condition/etc. The resource may still be 
+         * actively maintained, even though it is not considered to be the source of truth.
          */
         ALTERNATE("alternate"),
 
         /**
          * Historical/Obsolete Record
+         * 
+         * <p>The resource represents an obsolete record of the underlying event/condition/etc. It is not expected to be actively 
+         * maintained.
          */
         HISTORICAL("historical");
 

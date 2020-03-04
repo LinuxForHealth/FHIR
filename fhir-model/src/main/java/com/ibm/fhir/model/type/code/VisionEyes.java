@@ -21,11 +21,15 @@ import javax.annotation.Generated;
 public class VisionEyes extends Code {
     /**
      * Right Eye
+     * 
+     * <p>Right Eye.
      */
     public static final VisionEyes RIGHT = VisionEyes.builder().value(ValueSet.RIGHT).build();
 
     /**
      * Left Eye
+     * 
+     * <p>Left Eye.
      */
     public static final VisionEyes LEFT = VisionEyes.builder().value(ValueSet.LEFT).build();
 
@@ -137,11 +141,15 @@ public class VisionEyes extends Code {
     public enum ValueSet {
         /**
          * Right Eye
+         * 
+         * <p>Right Eye.
          */
         RIGHT("right"),
 
         /**
          * Left Eye
+         * 
+         * <p>Left Eye.
          */
         LEFT("left");
 

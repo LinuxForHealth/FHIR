@@ -21,31 +21,43 @@ import javax.annotation.Generated;
 public class ConsentState extends Code {
     /**
      * Pending
+     * 
+     * <p>The consent is in development or awaiting use but is not yet intended to be acted upon.
      */
     public static final ConsentState DRAFT = ConsentState.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Proposed
+     * 
+     * <p>The consent has been proposed but not yet agreed to by all parties. The negotiation stage.
      */
     public static final ConsentState PROPOSED = ConsentState.builder().value(ValueSet.PROPOSED).build();
 
     /**
      * Active
+     * 
+     * <p>The consent is to be followed and enforced.
      */
     public static final ConsentState ACTIVE = ConsentState.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Rejected
+     * 
+     * <p>The consent has been rejected by one or more of the parties.
      */
     public static final ConsentState REJECTED = ConsentState.builder().value(ValueSet.REJECTED).build();
 
     /**
      * Inactive
+     * 
+     * <p>The consent is terminated or replaced.
      */
     public static final ConsentState INACTIVE = ConsentState.builder().value(ValueSet.INACTIVE).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The consent was created wrongly (e.g. wrong patient) and should be ignored.
      */
     public static final ConsentState ENTERED_IN_ERROR = ConsentState.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
@@ -165,31 +177,43 @@ public class ConsentState extends Code {
     public enum ValueSet {
         /**
          * Pending
+         * 
+         * <p>The consent is in development or awaiting use but is not yet intended to be acted upon.
          */
         DRAFT("draft"),
 
         /**
          * Proposed
+         * 
+         * <p>The consent has been proposed but not yet agreed to by all parties. The negotiation stage.
          */
         PROPOSED("proposed"),
 
         /**
          * Active
+         * 
+         * <p>The consent is to be followed and enforced.
          */
         ACTIVE("active"),
 
         /**
          * Rejected
+         * 
+         * <p>The consent has been rejected by one or more of the parties.
          */
         REJECTED("rejected"),
 
         /**
          * Inactive
+         * 
+         * <p>The consent is terminated or replaced.
          */
         INACTIVE("inactive"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The consent was created wrongly (e.g. wrong patient) and should be ignored.
          */
         ENTERED_IN_ERROR("entered-in-error");
 

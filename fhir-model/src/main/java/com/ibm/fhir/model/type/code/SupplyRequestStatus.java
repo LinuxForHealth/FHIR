@@ -21,36 +21,54 @@ import javax.annotation.Generated;
 public class SupplyRequestStatus extends Code {
     /**
      * Draft
+     * 
+     * <p>The request has been created but is not yet complete or ready for action.
      */
     public static final SupplyRequestStatus DRAFT = SupplyRequestStatus.builder().value(ValueSet.DRAFT).build();
 
     /**
      * Active
+     * 
+     * <p>The request is ready to be acted upon.
      */
     public static final SupplyRequestStatus ACTIVE = SupplyRequestStatus.builder().value(ValueSet.ACTIVE).build();
 
     /**
      * Suspended
+     * 
+     * <p>The authorization/request to act has been temporarily withdrawn but is expected to resume in the future.
      */
     public static final SupplyRequestStatus SUSPENDED = SupplyRequestStatus.builder().value(ValueSet.SUSPENDED).build();
 
     /**
      * Cancelled
+     * 
+     * <p>The authorization/request to act has been terminated prior to the full completion of the intended actions. No 
+     * further activity should occur.
      */
     public static final SupplyRequestStatus CANCELLED = SupplyRequestStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Completed
+     * 
+     * <p>Activity against the request has been sufficiently completed to the satisfaction of the requester.
      */
     public static final SupplyRequestStatus COMPLETED = SupplyRequestStatus.builder().value(ValueSet.COMPLETED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>This electronic record should never have existed, though it is possible that real-world decisions were based on it. 
+     * (If real-world activity has occurred, the status should be "cancelled" rather than "entered-in-error".).
      */
     public static final SupplyRequestStatus ENTERED_IN_ERROR = SupplyRequestStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
+     * 
+     * <p>The authoring/source system does not know which of the status values currently applies for this observation. Note: 
+     * This concept is not to be used for "other" - one of the listed statuses is presumed to apply, but the authoring/source 
+     * system does not know which.
      */
     public static final SupplyRequestStatus UNKNOWN = SupplyRequestStatus.builder().value(ValueSet.UNKNOWN).build();
 
@@ -172,36 +190,54 @@ public class SupplyRequestStatus extends Code {
     public enum ValueSet {
         /**
          * Draft
+         * 
+         * <p>The request has been created but is not yet complete or ready for action.
          */
         DRAFT("draft"),
 
         /**
          * Active
+         * 
+         * <p>The request is ready to be acted upon.
          */
         ACTIVE("active"),
 
         /**
          * Suspended
+         * 
+         * <p>The authorization/request to act has been temporarily withdrawn but is expected to resume in the future.
          */
         SUSPENDED("suspended"),
 
         /**
          * Cancelled
+         * 
+         * <p>The authorization/request to act has been terminated prior to the full completion of the intended actions. No 
+         * further activity should occur.
          */
         CANCELLED("cancelled"),
 
         /**
          * Completed
+         * 
+         * <p>Activity against the request has been sufficiently completed to the satisfaction of the requester.
          */
         COMPLETED("completed"),
 
         /**
          * Entered in Error
+         * 
+         * <p>This electronic record should never have existed, though it is possible that real-world decisions were based on it. 
+         * (If real-world activity has occurred, the status should be "cancelled" rather than "entered-in-error".).
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Unknown
+         * 
+         * <p>The authoring/source system does not know which of the status values currently applies for this observation. Note: 
+         * This concept is not to be used for "other" - one of the listed statuses is presumed to apply, but the authoring/source 
+         * system does not know which.
          */
         UNKNOWN("unknown");
 

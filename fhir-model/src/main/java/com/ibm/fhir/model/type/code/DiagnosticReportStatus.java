@@ -21,51 +21,77 @@ import javax.annotation.Generated;
 public class DiagnosticReportStatus extends Code {
     /**
      * Registered
+     * 
+     * <p>The existence of the report is registered, but there is nothing yet available.
      */
     public static final DiagnosticReportStatus REGISTERED = DiagnosticReportStatus.builder().value(ValueSet.REGISTERED).build();
 
     /**
      * Partial
+     * 
+     * <p>This is a partial (e.g. initial, interim or preliminary) report: data in the report may be incomplete or unverified.
      */
     public static final DiagnosticReportStatus PARTIAL = DiagnosticReportStatus.builder().value(ValueSet.PARTIAL).build();
 
     /**
      * Preliminary
+     * 
+     * <p>Verified early results are available, but not all results are final.
      */
     public static final DiagnosticReportStatus PRELIMINARY = DiagnosticReportStatus.builder().value(ValueSet.PRELIMINARY).build();
 
     /**
      * Final
+     * 
+     * <p>The report is complete and verified by an authorized person.
      */
     public static final DiagnosticReportStatus FINAL = DiagnosticReportStatus.builder().value(ValueSet.FINAL).build();
 
     /**
      * Amended
+     * 
+     * <p>Subsequent to being final, the report has been modified. This includes any change in the results, diagnosis, 
+     * narrative text, or other content of a report that has been issued.
      */
     public static final DiagnosticReportStatus AMENDED = DiagnosticReportStatus.builder().value(ValueSet.AMENDED).build();
 
     /**
      * Corrected
+     * 
+     * <p>Subsequent to being final, the report has been modified to correct an error in the report or referenced results.
      */
     public static final DiagnosticReportStatus CORRECTED = DiagnosticReportStatus.builder().value(ValueSet.CORRECTED).build();
 
     /**
      * Appended
+     * 
+     * <p>Subsequent to being final, the report has been modified by adding new content. The existing content is unchanged.
      */
     public static final DiagnosticReportStatus APPENDED = DiagnosticReportStatus.builder().value(ValueSet.APPENDED).build();
 
     /**
      * Cancelled
+     * 
+     * <p>The report is unavailable because the measurement was not started or not completed (also sometimes called 
+     * "aborted").
      */
     public static final DiagnosticReportStatus CANCELLED = DiagnosticReportStatus.builder().value(ValueSet.CANCELLED).build();
 
     /**
      * Entered in Error
+     * 
+     * <p>The report has been withdrawn following a previous final release. This electronic record should never have existed, 
+     * though it is possible that real-world decisions were based on it. (If real-world activity has occurred, the status 
+     * should be "cancelled" rather than "entered-in-error".).
      */
     public static final DiagnosticReportStatus ENTERED_IN_ERROR = DiagnosticReportStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
+     * 
+     * <p>The authoring/source system does not know which of the status values currently applies for this observation. Note: 
+     * This concept is not to be used for "other" - one of the listed statuses is presumed to apply, but the authoring/source 
+     * system does not know which.
      */
     public static final DiagnosticReportStatus UNKNOWN = DiagnosticReportStatus.builder().value(ValueSet.UNKNOWN).build();
 
@@ -193,51 +219,77 @@ public class DiagnosticReportStatus extends Code {
     public enum ValueSet {
         /**
          * Registered
+         * 
+         * <p>The existence of the report is registered, but there is nothing yet available.
          */
         REGISTERED("registered"),
 
         /**
          * Partial
+         * 
+         * <p>This is a partial (e.g. initial, interim or preliminary) report: data in the report may be incomplete or unverified.
          */
         PARTIAL("partial"),
 
         /**
          * Preliminary
+         * 
+         * <p>Verified early results are available, but not all results are final.
          */
         PRELIMINARY("preliminary"),
 
         /**
          * Final
+         * 
+         * <p>The report is complete and verified by an authorized person.
          */
         FINAL("final"),
 
         /**
          * Amended
+         * 
+         * <p>Subsequent to being final, the report has been modified. This includes any change in the results, diagnosis, 
+         * narrative text, or other content of a report that has been issued.
          */
         AMENDED("amended"),
 
         /**
          * Corrected
+         * 
+         * <p>Subsequent to being final, the report has been modified to correct an error in the report or referenced results.
          */
         CORRECTED("corrected"),
 
         /**
          * Appended
+         * 
+         * <p>Subsequent to being final, the report has been modified by adding new content. The existing content is unchanged.
          */
         APPENDED("appended"),
 
         /**
          * Cancelled
+         * 
+         * <p>The report is unavailable because the measurement was not started or not completed (also sometimes called 
+         * "aborted").
          */
         CANCELLED("cancelled"),
 
         /**
          * Entered in Error
+         * 
+         * <p>The report has been withdrawn following a previous final release. This electronic record should never have existed, 
+         * though it is possible that real-world decisions were based on it. (If real-world activity has occurred, the status 
+         * should be "cancelled" rather than "entered-in-error".).
          */
         ENTERED_IN_ERROR("entered-in-error"),
 
         /**
          * Unknown
+         * 
+         * <p>The authoring/source system does not know which of the status values currently applies for this observation. Note: 
+         * This concept is not to be used for "other" - one of the listed statuses is presumed to apply, but the authoring/source 
+         * system does not know which.
          */
         UNKNOWN("unknown");
 

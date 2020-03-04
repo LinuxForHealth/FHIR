@@ -21,16 +21,25 @@ import javax.annotation.Generated;
 public class MessageSignificanceCategory extends Code {
     /**
      * Consequence
+     * 
+     * <p>The message represents/requests a change that should not be processed more than once; e.g., making a booking for an 
+     * appointment.
      */
     public static final MessageSignificanceCategory CONSEQUENCE = MessageSignificanceCategory.builder().value(ValueSet.CONSEQUENCE).build();
 
     /**
      * Currency
+     * 
+     * <p>The message represents a response to query for current information. Retrospective processing is wrong and/or 
+     * wasteful.
      */
     public static final MessageSignificanceCategory CURRENCY = MessageSignificanceCategory.builder().value(ValueSet.CURRENCY).build();
 
     /**
      * Notification
+     * 
+     * <p>The content is not necessarily intended to be current, and it can be reprocessed, though there may be version 
+     * issues created by processing old notifications.
      */
     public static final MessageSignificanceCategory NOTIFICATION = MessageSignificanceCategory.builder().value(ValueSet.NOTIFICATION).build();
 
@@ -144,16 +153,25 @@ public class MessageSignificanceCategory extends Code {
     public enum ValueSet {
         /**
          * Consequence
+         * 
+         * <p>The message represents/requests a change that should not be processed more than once; e.g., making a booking for an 
+         * appointment.
          */
         CONSEQUENCE("consequence"),
 
         /**
          * Currency
+         * 
+         * <p>The message represents a response to query for current information. Retrospective processing is wrong and/or 
+         * wasteful.
          */
         CURRENCY("currency"),
 
         /**
          * Notification
+         * 
+         * <p>The content is not necessarily intended to be current, and it can be reprocessed, though there may be version 
+         * issues created by processing old notifications.
          */
         NOTIFICATION("notification");
 
