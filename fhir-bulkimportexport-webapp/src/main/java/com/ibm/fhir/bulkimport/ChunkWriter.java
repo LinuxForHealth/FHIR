@@ -160,7 +160,7 @@ public class ChunkWriter extends AbstractItemWriter {
             // Release the DB connection.
             // This doesn't really commit the transaction, because the transaction was started and will be committed
             // by the JavaBatch framework.
-            txn.commit2();
+            txn.commit();
         }
         chunkData.setNumOfProcessedResources(chunkData.getNumOfProcessedResources() + processedNum);
         chunkData.setNumOfImportedResources(chunkData.getNumOfImportedResources() + succeededNum);
