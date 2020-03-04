@@ -162,7 +162,11 @@ Throughout this document, we use a path notation to refer to property names. For
 ## 3.3 Tenant-specific configuration properties
 The FHIR server supports certain multi-tenant features. One such feature is the ability to set certain configuration properties on a per-tenant basis.
 
-In general, the configuration properties for a particular tenant are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/fhir-server-config.json` file, where `<tenant-id>` refers to the tenant's “short name” or tenant id.The global configuration is considered to be associated with a tenant named `default`, so those properties are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json` file. Similarly, tenant-specific search parameters are found at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/extension-search-parameters.json` whereas the global/default extension search parameters are at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/extension-search-parameters.json`.
+In general, the configuration properties for a particular tenant are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/fhir-server-config.json` file, where `<tenant-id>` refers to the tenant's “short name” or tenant id.
+
+The global configuration is considered to be associated with a tenant named `default`, so those properties are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json` file.
+
+Similarly, tenant-specific search parameters are found at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/extension-search-parameters.json`, whereas the global/default extension search parameters are at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/extension-search-parameters.json`.
 
 Search parameters are handled like a single configuration properly; providing a tenant-specific file will override the global/default extension search parameters as defined at [FHIRSearchConfiguration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration).
 
@@ -1393,12 +1397,21 @@ This section contains reference information about each of the configuration prop
 
 
 ### 5.1.3 Property attributes
+Depending on the context of their use, config properties can be:
+* tenant-specific or global
+* dynamic or static
+
+The following table tracks which properties can be set on a tenant-specific basis
+and which properties are loaded dynamically.
+If you change a properties that has an `N` in the `Dynamic?` column, it means you
+must restart the server for that change to take effect.
+
 | Property Name                 | Tenant-specific? | Dynamic? |
 |-------------------------------|------------------|----------|
 |`fhirServer/core/defaultPrettyPrint`|Y|Y|
 |`fhirServer/core/tenantIdHeaderName`|N|N|
 |`fhirServer/core/dataSourceIdHeaderName`|N|N|
-|`fhirServer/core/originalRequestUriHeaderName`|Y|Y|
+|`fhirServer/core/originalRequestUriHeaderName`|N|N|
 |`fhirServer/core/defaultHandling`|Y|Y|
 |`fhirServer/core/allowClientHandlingPref`|Y|Y|
 |`fhirServer/core/checkReferenceTypes`|N|N|
