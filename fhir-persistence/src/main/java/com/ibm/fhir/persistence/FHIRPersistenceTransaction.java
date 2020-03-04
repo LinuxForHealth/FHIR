@@ -45,7 +45,7 @@ public interface FHIRPersistenceTransaction {
     void setRollbackOnly() throws FHIRPersistenceException;
 
     /**
-     * Create the shared DB connection and other needed resources.
+     * Create the required resources.
      * Note: enroll and unenroll should be called only if userTransaction is not null and the userTransaction is not
      * started by FHIRTransactionHelper.
      * @throws FHIRPersistenceException
@@ -53,7 +53,7 @@ public interface FHIRPersistenceTransaction {
     void enroll() throws FHIRPersistenceException;
 
     /**
-     * Release the shared connection and other needed resources created in Enroll.
+     * Release the resources created in enroll.
      * @throws FHIRPersistenceException
      */
     void unenroll() throws FHIRPersistenceException;
