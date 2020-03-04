@@ -11,10 +11,6 @@
 
 package com.ibm.fhir.bulkcommon;
 
-/**
- * Constants for BulkExportImport.
- *
- */
 public class Constants {
 
     public static final String DEFAULT_FHIR_TENANT = "default";
