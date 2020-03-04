@@ -32,6 +32,7 @@ public class FHIRRequestContext {
     private String tenantKey;
     private String dataStoreId;
     private String requestUniqueId;
+    private String originalRequestUri;
     
     // Default to the "strict" handling which means the server will reject unrecognized search parameters and elements
     private HTTPHandlingPreference handlingPreference = HTTPHandlingPreference.STRICT;
@@ -184,5 +185,19 @@ public class FHIRRequestContext {
      */
     public void setReturnPreference(HTTPReturnPreference returnPreference) {
         this.returnPreference = returnPreference;
+    }
+
+    /**
+     * @return the originalRequestUri
+     */
+    public String getOriginalRequestUri() {
+        return originalRequestUri;
+    }
+
+    /**
+     * @param originalRequestUri the originalRequestUri to set
+     */
+    public void setOriginalRequestUri(String originalRequestUri) {
+        this.originalRequestUri = originalRequestUri;
     }
 }

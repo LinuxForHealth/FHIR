@@ -1825,7 +1825,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             FHIRSearchContext searchContext = null;
             if (queryParameters != null) {
-                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, httpServletRequest.getQueryString(), HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
+                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, 
+                        HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
             }
 
             // Start a new txn in the persistence layer if one is not already active.
@@ -2137,8 +2138,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                     new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, null, null, requestProperties));
             getInterceptorMgr().fireBeforeSearchEvent(event);
 
-            FHIRSearchContext searchContext =
-                    SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters, httpServletRequest.getQueryString(), HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
+            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters,
+                    HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
@@ -3559,10 +3560,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         }
     }
 
-    private synchronized CapabilityStatement getCapabilityStatement() throws Exception {
+    private synchronized CapabilityStatement getCapabilityStatement() throws FHIROperationException {
         try {
-            CapabilityStatement capability = buildCapabilityStatement();
-            return capability;
+            return buildCapabilityStatement();
         } catch (Throwable t) {
             String msg = "An error occurred while constructing the Conformance statement.";
             log.log(Level.SEVERE, msg, t);
@@ -4059,8 +4059,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @throws FHIRPersistenceException
      */
     private Map<String, Object> buildPersistenceEventProperties(String type, String id,
-        String version, Map<String, String> requestProperties)
-        throws FHIRPersistenceException {
+            String version, Map<String, String> requestProperties) throws FHIRPersistenceException {
         Map<String, Object> props = new HashMap<>();
         props.put(FHIRPersistenceEvent.PROPNAME_PERSISTENCE_IMPL, getPersistenceImpl());
         props.put(FHIRPersistenceEvent.PROPNAME_URI_INFO, uriInfo);
