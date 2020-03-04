@@ -19,7 +19,6 @@ import javax.inject.Inject;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
-import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -123,7 +122,6 @@ public class ChunkWriter extends AbstractItemWriter {
             logger.info("writeItems: Set DatastoreId to default!");
         }
 
-        FHIRConfiguration.setConfigHome("./");
         FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
 
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
@@ -133,14 +131,17 @@ public class ChunkWriter extends AbstractItemWriter {
 
         int processedNum = 0, succeededNum =0, failedNum = 0;
         ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
+
+        // Acquire a DB connection which will be used in the batch.
+        // This doesn't really start the transaction, because the transaction has already been started by the JavaBatch
+        // framework at this time point.
+        txn.enroll();
         for (Object objResJasonList : arg0) {
             List<Resource> fhirResourceList = (List<Resource>) objResJasonList;
 
             for (Resource fhirResource : fhirResourceList) {
                 try {
-                    txn.begin();
                     OperationOutcome operationOutcome = fhirPersistence.update(persistenceContext, fhirResource.getId(), fhirResource).getOutcome();
-                    txn.commit();
                     processedNum++;
                     succeededNum++;
                     if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
@@ -157,9 +158,13 @@ public class ChunkWriter extends AbstractItemWriter {
                         chunkData.getBufferStream4ImportError().write(Constants.NDJSON_LINESEPERATOR);
                     }
                 }
-
             }
         }
+        // Release the DB connection.
+        // This doesn't really commit the transaction, because the transaction was started and will be committed
+        // by the JavaBatch framework.
+        txn.unenroll();
+
         chunkData.setNumOfProcessedResources(chunkData.getNumOfProcessedResources() + processedNum);
         chunkData.setNumOfImportedResources(chunkData.getNumOfImportedResources() + succeededNum);
         chunkData.setNumOfImportFailures(chunkData.getNumOfImportFailures() + failedNum);

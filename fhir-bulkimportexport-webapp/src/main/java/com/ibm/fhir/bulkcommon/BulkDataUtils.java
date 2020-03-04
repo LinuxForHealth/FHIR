@@ -137,21 +137,21 @@ public class BulkDataUtils {
     private static int getFhirResourceFromBufferReader(BufferedReader resReader, int numOfLinesToSkip, List<Resource> fhirResources) throws Exception {
         int exported = 0;
         int lineRed = 0;
-        while (resReader.ready()) {
-            String resLine = resReader.readLine();
-            lineRed++;
-            if (resLine == null) {
-                break;
+        String resLine = null;
+        do {
+            resLine = resReader.readLine();
+            if (resLine != null) {
+                lineRed++;
+                if (lineRed <= numOfLinesToSkip) {
+                    continue;
+                }
+                fhirResources.add(FHIRParser.parser(Format.JSON).parse(new StringReader(resLine)));
+                exported++;
+                if (exported == Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD) {
+                    break;
+                }
             }
-            if (lineRed <= numOfLinesToSkip) {
-                continue;
-            }
-            fhirResources.add(FHIRParser.parser(Format.JSON).parse(new StringReader(resLine)));
-            exported++;
-            if (exported == Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD) {
-                break;
-            }
-        }
+        } while (resLine != null);
         return exported;
     }
 

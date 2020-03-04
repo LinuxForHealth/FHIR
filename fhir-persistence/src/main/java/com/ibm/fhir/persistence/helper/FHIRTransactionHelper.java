@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,16 +17,16 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  */
 public class FHIRTransactionHelper {
     private static final Logger log = Logger.getLogger(FHIRTransactionHelper.class.getName());
-    
+
     private FHIRPersistenceTransaction txn;
     private boolean txnStarted;
     private boolean beginCalled;
-    
+
     public FHIRTransactionHelper(FHIRPersistenceTransaction txn) {
         this.txn = txn;
         txnStarted = false;
     }
-    
+
     /**
      * If a transaction has not yet been started on this thread, then start one.
      * @throws FHIRPersistenceException
@@ -43,7 +43,7 @@ public class FHIRTransactionHelper {
             beginCalled = true;
         }
     }
-    
+
     /**
      * If we previously started a transaction on this thread using this helper instance,
      * then commit it now.
@@ -62,7 +62,7 @@ public class FHIRTransactionHelper {
             txn = null;
         }
     }
-    
+
     /**
      * If we previously started a transaction on this thread using this helper instance,
      * then perform a rollback now; otherwise, set the transaction as 'rollback only' to
@@ -88,4 +88,35 @@ public class FHIRTransactionHelper {
             }
         }
     }
+
+    /**
+     * Enroll in an existing transaction.
+     *
+     * <p>Enrolling in an existing transaction is an alternative to beginning a new transaction. Calling this method
+     * gives implementations a chance to create necessary resources associated with a given unit of work when that
+     * unit of work is performed under an existing user-managed transaction.
+     *
+     * @throws FHIRPersistenceException
+     */
+    public void enroll() throws FHIRPersistenceException {
+        if (txn != null) {
+            txn.enroll();
+        }
+    }
+
+    /**
+     * Unenroll from the existing transaction.
+     *
+     * <p>Unenrolling from an existing transaction is an alternative to committing or rolling back the transaction. Calling
+     * this method gives implementations a chance to release resources associated with a given unit of work when that
+     * unit of work is performed under an existing user-managed transaction.
+     *
+     * @throws FHIRPersistenceException
+     */
+    public void unenroll() throws FHIRPersistenceException {
+        if (txn != null) {
+            txn.unenroll();
+        }
+    }
+
 }
