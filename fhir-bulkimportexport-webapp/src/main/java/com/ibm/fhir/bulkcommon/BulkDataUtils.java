@@ -137,7 +137,7 @@ public class BulkDataUtils {
     private static int getFhirResourceFromBufferReader(BufferedReader resReader, int numOfLinesToSkip, List<Resource> fhirResources) throws Exception {
         int exported = 0;
         int lineRed = 0;
-        while (resReader.ready()) {
+        while (true) {
             String resLine = resReader.readLine();
             lineRed++;
             if (resLine == null) {
