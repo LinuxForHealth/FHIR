@@ -19,7 +19,7 @@ public interface FHIRPersistenceTransaction {
     boolean isActive() throws FHIRPersistenceException;
 
     /**
-     * Begin a new transaction on the current thread.
+     * Begin a new transaction on the current thread if a transaction is not started yet.
      * @throws Exception
      */
     void begin() throws FHIRPersistenceException;
