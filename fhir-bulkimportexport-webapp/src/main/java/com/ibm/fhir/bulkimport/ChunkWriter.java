@@ -28,6 +28,7 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 
@@ -149,7 +150,7 @@ public class ChunkWriter extends AbstractItemWriter {
                             chunkData.getBufferStream4Import().write(Constants.NDJSON_LINESEPERATOR);
                         }
                     }
-                } catch (Exception e) {
+                } catch (FHIRPersistenceException e) {
                     logger.warning("Failed to import due to error: " + e.getMessage());
                     failedNum++;
                     if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
