@@ -4,13 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+package com.ibm.fhir.bulkcommon;
+
 /**
  * Constants for the JavaBatch Jobs.
  *
  */
-
-package com.ibm.fhir.bulkcommon;
-
 public class Constants {
 
     public static final String DEFAULT_FHIR_TENANT = "default";
