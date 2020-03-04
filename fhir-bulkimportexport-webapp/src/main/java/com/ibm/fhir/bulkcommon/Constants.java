@@ -7,7 +7,7 @@
 package com.ibm.fhir.bulkcommon;
 
 /**
- * Constants for the JavaBatch Jobs.
+ * Constants for the BulkExportImport.
  *
  */
 public class Constants {
