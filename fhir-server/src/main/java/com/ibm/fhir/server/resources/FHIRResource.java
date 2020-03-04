@@ -1413,7 +1413,6 @@ public class FHIRResource implements FHIRResourceHelpers {
                 } catch (Throwable t) {
                     String msg =
                             "An error occurred while performing the search for a conditional update/patch operation.";
-                    log.log(Level.WARNING, msg, t);
                     throw new FHIROperationException(msg, t);
                 }
 
