@@ -1552,6 +1552,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         return dao.getConnection();
     }
 
+    /**
+     * Enroll in an existing transaction.
+     *
+     * <p>Enrolling in an existing transaction is an alternative to beginning a new transaction. Calling this method
+     * gives implementations a chance to create necessary resources associated with a given unit of work when that
+     * unit of work is performed under an existing user-managed transaction.
+     *
+     * @throws FHIRPersistenceException
+     */
     @Override
     public void unenroll() throws FHIRPersistenceException {
         final String METHODNAME = "unenroll";
@@ -1577,6 +1586,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         }
     }
 
+    /**
+     * Unenroll from the existing transaction.
+     *
+     * <p>Unenrolling from an existing transaction is an alternative to committing or rolling back the transaction. Calling
+     * this method gives implementations a chance to release resources associated with a given unit of work when that
+     * unit of work is performed under an existing user-managed transaction.
+     *
+     * @throws FHIRPersistenceException
+     */
     @Override
     public void enroll() throws FHIRPersistenceException {
         final String METHODNAME = "enroll";

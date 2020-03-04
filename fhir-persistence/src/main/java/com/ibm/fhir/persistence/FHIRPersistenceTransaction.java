@@ -45,15 +45,23 @@ public interface FHIRPersistenceTransaction {
     void setRollbackOnly() throws FHIRPersistenceException;
 
     /**
-     * Create the required resources.
-     * Note: enroll and unenroll should be called only if userTransaction is not null and the userTransaction is not
-     * started by FHIRTransactionHelper.
+     * Enroll in an existing transaction.
+     *
+     * <p>Enrolling in an existing transaction is an alternative to beginning a new transaction. Calling this method
+     * gives implementations a chance to create necessary resources associated with a given unit of work when that
+     * unit of work is performed under an existing user-managed transaction.
+     *
      * @throws FHIRPersistenceException
      */
     void enroll() throws FHIRPersistenceException;
 
     /**
-     * Release the resources created in enroll.
+     * Unenroll from the existing transaction.
+     *
+     * <p>Unenrolling from an existing transaction is an alternative to committing or rolling back the transaction. Calling
+     * this method gives implementations a chance to release resources associated with a given unit of work when that
+     * unit of work is performed under an existing user-managed transaction.
+     *
      * @throws FHIRPersistenceException
      */
     void unenroll() throws FHIRPersistenceException;
