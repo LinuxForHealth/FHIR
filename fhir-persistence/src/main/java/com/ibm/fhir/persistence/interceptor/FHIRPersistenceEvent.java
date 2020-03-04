@@ -9,10 +9,6 @@ package com.ibm.fhir.persistence.interceptor;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.core.UriInfo;
-
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.FHIRPersistence;
@@ -21,45 +17,19 @@ import com.ibm.fhir.persistence.FHIRPersistence;
  * This class represents an event fired by the FHIR persistence interceptor framework.
  */
 public class FHIRPersistenceEvent {
-
-    /**
-     * This property is of type javax.ws.rs.core.UriInfo and contains Application and Request
-     * URI information associated with the REST API request for which the interceptor is being invoked.
-     */
-    public static final String PROPNAME_URI_INFO = "URI_INFO";
-    
     /**
      * This property is of type FHIRPersistence and is the handle to the persistence layer implementation
      * being used by the FHIR Server while processing the current request.
      * Persistence interceptors can use this handle to invoke persistence operations.
      */
     public static final String PROPNAME_PERSISTENCE_IMPL = "PERSISTENCE_IMPL";
-    
-    /**
-     * This property is of type javax.ws.rs.core.HttpHeaders and contains the set of HTTP headers
-     * associated with the REST API request for which the interceptor is being invoked.
-     */
-    public static final String PROPNAME_HTTP_HEADERS = "HTTP_HEADERS";
-    
-    /**
-     * This property is of type {@link java.util.Map<String,String> } and contains the
-     * set of additional request properties associated with the REST API request for which the interceptor 
-     * is being invoked.
-     */
-    public static final String PROPNAME_REQUEST_PROPERTIES = "REQUEST_PROPERTIES";
 
-    /**
-     * This property is of type javax.ws.rs.core.SecurityContext and contains security-related information
-     * associated with the REST API request for which the interceptor is being invoked.
-     */
-    public static final String PROPNAME_SECURITY_CONTEXT = "SECURITY_CONTEXT";
-    
     /**
      * This property is of type String and contains the location URI that can be used to 
      * retrieve the resource via a GET request.
      */
     public static final String PROPNAME_RESOURCE_LOCATION_URI = "LOCATION_URI";
-    
+
     /**
      * This property is of type String and contains the resource type associated with a
      * create, update, read, vread, history, search, or delete operation.
@@ -194,42 +164,6 @@ public class FHIRPersistenceEvent {
     }
     
     /**
-     * Returns the HttpHeaders instance associated with the FHIR REST API request that triggered the
-     * interceptor invocation.
-     * Note that this HttpHeaders instance is only valid within the scope of the REST API request.
-     */
-    public HttpHeaders getHttpHeaders() {
-        return (HttpHeaders) getProperty(PROPNAME_HTTP_HEADERS);
-    }
-    
-    /**
-     * Returns the Map containing additional request properties associated with the 
-     * FHIR REST API request that triggered the interceptor invocation.
-     */
-    @SuppressWarnings("unchecked")
-    public Map<String, String> getRequestProperties() {
-        return (Map<String, String>) getProperty(PROPNAME_REQUEST_PROPERTIES);
-    }
-   
-    /**
-     * Returns the SecurityContext instance associated with the FHIR REST API request that triggered the
-     * interceptor invocation.
-     * Note that this SecurityContext instance is only valid within the scope of the REST API request.
-     */
-    public SecurityContext getSecurityContext() {
-        return (SecurityContext) getProperty(PROPNAME_SECURITY_CONTEXT);
-    }
-    
-    /**
-     * Returns the UriInfo instance associated with the FHIR REST API request that triggered the
-     * interceptor invocation.  
-     * Note that this UriInfo instance is only valid within the scope of the REST API request.
-     */
-    public UriInfo getUriInfo() {
-        return (UriInfo) getProperty(PROPNAME_URI_INFO);
-    }
-    
-    /**
      * Returns the FHIRPersistence instance currently being used by the FHIR REST API layer
      * to process the current request.
      */
@@ -246,7 +180,7 @@ public class FHIRPersistenceEvent {
     }
     
     /**
-     * Retrieves the set of properties associated with the FHIR REST API request that triggered
+     * Retrieves the set of properties associated with the event that triggered
      * the interceptor invocation.
      */
     public Map<String, Object> getProperties() {
@@ -254,23 +188,5 @@ public class FHIRPersistenceEvent {
             properties = new HashMap<String, Object>();
         }
         return properties;
-    }
-    
-    /**
-     * Retrieves the specified header from the combined list of request headers
-     * and additional request properties associated with the request.
-     * @param headerName the name of the header to retrieve
-     * @return the value of the request header or null if not present
-     */
-    public String getHeaderString(String headerName) {
-        String value = null;
-        Map<String, String> props = getRequestProperties();
-        if (props != null) {
-            value = props.get(headerName);
-        }
-        if (value == null && getHttpHeaders() != null) {
-            value = getHttpHeaders().getHeaderString(headerName);
-        }
-        return value;
     }
 }

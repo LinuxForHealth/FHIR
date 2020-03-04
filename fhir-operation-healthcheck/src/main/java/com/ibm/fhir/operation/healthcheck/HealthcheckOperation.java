@@ -32,7 +32,7 @@ public class HealthcheckOperation extends AbstractOperation {
     @Override
     protected OperationDefinition buildOperationDefinition() {
         try (InputStream in = getClass().getClassLoader().getResourceAsStream("healthcheck.json")) {
-            return FHIRParser.parser(Format.JSON).parse(in);            
+            return FHIRParser.parser(Format.JSON).parse(in);
         } catch (Exception e) {
             throw new Error(e);
         }
