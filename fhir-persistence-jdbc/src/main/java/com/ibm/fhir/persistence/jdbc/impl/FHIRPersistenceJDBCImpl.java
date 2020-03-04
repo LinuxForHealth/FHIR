@@ -1554,7 +1554,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     }
 
     @Override
-    public void unEnroll() throws FHIRPersistenceException {
+    public void unenroll() throws FHIRPersistenceException {
         final String METHODNAME = "unEnroll";
         log.entering(CLASSNAME, METHODNAME);
 

@@ -95,9 +95,9 @@ public class FHIRTransactionHelper {
         }
     }
 
-    public void unEnroll() throws FHIRPersistenceException {
+    public void unenroll() throws FHIRPersistenceException {
         if (txn != null) {
-            txn.unEnroll();
+            txn.unenroll();
         }
     }
 
