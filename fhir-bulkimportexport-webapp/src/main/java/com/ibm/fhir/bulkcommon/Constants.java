@@ -7,7 +7,7 @@
 package com.ibm.fhir.bulkcommon;
 
 /**
- * Constants for the BulkExportImport.
+ * Constants for BulkExportImport.
  *
  */
 public class Constants {
