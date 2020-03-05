@@ -778,5 +778,4 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
                 "An error occurred while parsing parameter '_summary'");
     }
- 
 }

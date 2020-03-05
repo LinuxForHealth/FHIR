@@ -295,7 +295,7 @@ public class DummyImportExportImplTest {
             }
 
             @Override
-            public Bundle doBundle(Resource bundle, Map<String, String> requestProperties) throws Exception {
+            public Bundle doBundle(Bundle bundle, Map<String, String> requestProperties) throws Exception {
                 return null;
             }
 

@@ -134,8 +134,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "doCreate");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
-        String errMsg = "Caught exception while processing 'create' request.";
-
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
 
         // Save the current request context.
@@ -234,12 +232,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn = null;
 
             return ior;
-        } catch (FHIROperationException e) {
-            log.log(Level.WARNING, errMsg, e);
-            throw e;
-        } catch (Throwable t) {
-            log.log(Level.SEVERE, errMsg, t);
-            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -273,7 +265,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "doPatchOrUpdate");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
-        String errMsg = "Caught exception while processing 'update/patch' request.";
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -459,12 +450,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             return ior;
-        } catch (FHIROperationException e) {
-            log.log(Level.WARNING, errMsg, e);
-            throw e;
-        } catch (Throwable t) {
-            log.log(Level.SEVERE, errMsg, t);
-            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -499,7 +484,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         Response.Status status = null;
-        String errMsg = "Caught exception while processing 'delete' request.";
 
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
 
@@ -532,7 +516,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 } catch (Throwable t) {
                     String msg =
                             "An error occurred while performing the search for a conditional delete operation.";
-                    log.log(Level.SEVERE, msg, t);
                     throw new FHIROperationException(msg, t);
                 }
 
@@ -604,13 +587,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             status = ior.getStatus();
 
             return ior;
-        } catch (FHIROperationException e) {
-            log.log(Level.WARNING, errMsg, e);
-            throw e;
-        } catch (Throwable t) {
-            log.log(Level.SEVERE, errMsg, t);
-            status = Response.Status.INTERNAL_SERVER_ERROR;
-            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -650,7 +626,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         Resource resource = null;
-        String errMsg = "Caught exception while processing 'read' request.";
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -694,12 +669,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn = null;
 
             return resource;
-        } catch (FHIROperationException e) {
-            log.log(Level.WARNING, errMsg, e);
-            throw e;
-        } catch (Throwable t) {
-            log.log(Level.SEVERE, errMsg, t);
-            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -734,7 +703,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         Resource resource = null;
-        String errMsg = "Caught exception while processing 'vread' request.";
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -774,12 +742,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn = null;
 
             return resource;
-        } catch (FHIROperationException e) {
-            log.log(Level.WARNING, errMsg, e);
-            throw e;
-        } catch (Throwable t) {
-            log.log(Level.SEVERE, errMsg, t);
-            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -816,7 +778,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         Bundle bundle = null;
-        String errMsg = "Caught exception while processing 'history' request.";
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -857,12 +818,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn = null;
 
             return bundle;
-        } catch (FHIROperationException e) {
-            log.log(Level.WARNING, errMsg, e);
-            throw e;
-        } catch (Throwable t) {
-            log.log(Level.SEVERE, errMsg, t);
-            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -896,7 +851,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         Bundle bundle = null;
-        String errMsg = "Caught exception while processing 'search' request.";
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -943,12 +897,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn = null;
 
             return bundle;
-        } catch (FHIROperationException e) {
-            log.log(Level.WARNING, errMsg, e);
-            throw e;
-        } catch (Throwable t) {
-            log.log(Level.SEVERE, errMsg, t);
-            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -991,8 +939,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Resource resource, MultivaluedMap<String, String> queryParameters,
             Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doInvoke");
-
-        String errMsg = "Caught exception while processing 'invoke' request.";
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1040,12 +986,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             return result;
-        } catch (FHIROperationException e) {
-            log.log(Level.WARNING, errMsg, e);
-            throw e;
-        } catch (Throwable t) {
-            log.log(Level.SEVERE, errMsg, t);
-            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -1064,24 +1004,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return the response Bundle
      */
     @Override
-    public Bundle doBundle(Resource bundleResource, Map<String, String> requestProperties)
-        throws Exception {
+    public Bundle doBundle(Bundle inputBundle, Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doBundle");
-
-        String errMsg = "Caught exception while processing 'bundle' request.";
-        Bundle inputBundle = null;
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
 
         try {
-            if (bundleResource instanceof Bundle) {
-                inputBundle = (Bundle) bundleResource;
-            } else {
-                String msg = "A 'Bundle' resource type is required but a '"
-                        + bundleResource.getClass().getSimpleName() + "' resource type was sent.";
-                throw buildRestException(msg, IssueType.INVALID);
-            }
             // First, validate the bundle and create the response bundle.
             Bundle responseBundle = validateBundle(inputBundle);
 
@@ -1089,12 +1018,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             responseBundle = processBundleEntries(inputBundle, responseBundle, requestProperties);
 
             return responseBundle;
-        } catch (FHIROperationException e) {
-            log.log(Level.WARNING, errMsg, e);
-            throw e;
-        } catch (Throwable t) {
-            log.log(Level.SEVERE, errMsg, t);
-            throw t;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -1103,10 +1026,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.rest.FHIRResourceHelpers#getTransaction()
-     */
     @Override
     public FHIRPersistenceTransaction getTransaction() throws Exception {
         return persistence.getTransaction();
