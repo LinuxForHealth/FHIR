@@ -103,7 +103,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundExcepti
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.PersistenceHelper;
 import com.ibm.fhir.rest.FHIRRestOperationResponse;
-import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.FHIRBuildIdentifier;
 import com.ibm.fhir.server.annotation.PATCH;
@@ -214,7 +213,7 @@ public class FHIRResource {
             return Response.ok().entity(capabilityStatement).build();
         } catch (FHIROperationException e) {
             log.log(Level.SEVERE, errMsg, e);
-            return exceptionResponse(e);
+            return exceptionResponse(e, IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues()));
         } catch (Exception e) {
             log.log(Level.SEVERE, errMsg, e);
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
@@ -227,6 +226,9 @@ public class FHIRResource {
     @Path("{type}")
     public Response create(@PathParam("type") String type, Resource resource) {
         log.entering(this.getClass().getName(), "create(String,Resource)");
+        Date startTime = new Date();
+        Response.Status status = null;
+        FHIRRestOperationResponse ior = null;
 
         try {
             checkInitComplete();
@@ -234,7 +236,7 @@ public class FHIRResource {
             String ifNoneExist = httpHeaders.getHeaderString(HEADERNAME_IF_NONE_EXIST);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            FHIRRestOperationResponse ior = helper.doCreate(type, resource, ifNoneExist, null);
+            ior = helper.doCreate(type, resource, ifNoneExist, null);
 
             ResponseBuilder response =
                     Response.created(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
@@ -247,14 +249,25 @@ public class FHIRResource {
                 response.entity(ior.getOperationOutcome());
             }
             response = addHeaders(response, resource);
-            response.status(ior.getStatus());
+            status = ior.getStatus();
+            response.status(status);
 
             return response.build();
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logCreate(httpServletRequest,
+                        ior != null ? ior.getResource() : null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "create(String,Resource)");
         }
     }
@@ -263,8 +276,10 @@ public class FHIRResource {
     @Path("{type}/{id}")
     public Response update(@PathParam("type") String type, @PathParam("id") String id, Resource resource) {
         log.entering(this.getClass().getName(), "update(String,String,Resource)");
-
+        Date startTime = new Date();
+        Response.Status status = null;
         FHIRRestOperationResponse ior = null;
+
         try {
             checkInitComplete();
 
@@ -273,7 +288,7 @@ public class FHIRResource {
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
-            Response.Status status = ior.getStatus();
+            status = ior.getStatus();
             response.status(status);
 
             Resource updatedResource = ior.getResource();
@@ -287,12 +302,24 @@ public class FHIRResource {
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
             // By default, NOT_FOUND is mapped to HTTP 404, so explicitly set it to HTTP 405
-            return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
+            status = Status.METHOD_NOT_ALLOWED;
+            return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logUpdate(httpServletRequest,
+                        ior != null ? ior.getPrevResource() : null,
+                        ior != null ? ior.getResource() : null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "update(String,String,Resource)");
         }
     }
@@ -300,19 +327,16 @@ public class FHIRResource {
     @PUT
     @Path("{type}")
     public Response conditionalUpdate(@PathParam("type") String type, Resource resource) {
-        Date startTime = new Date();
-
         log.entering(this.getClass().getName(), "conditionalUpdate(String,Resource)");
-
+        Date startTime = new Date();
+        Response.Status status = null;
         FHIRRestOperationResponse ior = null;
-        boolean createAuditLogRecord = false;
 
         try {
             checkInitComplete();
 
             String searchQueryString = httpServletRequest.getQueryString();
             if (searchQueryString == null || searchQueryString.isEmpty()) {
-                createAuditLogRecord = true;
                 String msg =
                         "Cannot PUT to resource type endpoint unless a search query string is provided for a conditional update.";
                 throw buildRestException(msg, IssueType.INVALID);
@@ -323,7 +347,7 @@ public class FHIRResource {
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
-            Response.Status status = ior.getStatus();
+            status = ior.getStatus();
             response.status(status);
 
             Resource updatedResource = ior.getResource();
@@ -334,25 +358,26 @@ public class FHIRResource {
             }
             response = addHeaders(response, updatedResource);
 
-            if (createAuditLogRecord) {
-                if (status == Response.Status.CREATED) {
-                    RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource()
-                            : null), startTime, new Date(), status);
-                } else {
-                    RestAuditLogger.logUpdate(httpServletRequest, (ior != null
-                            ? ior.getPrevResource() : null), (ior != null ? ior.getResource()
-                                    : null), startTime, new Date(), status);
-                }
-            }
-
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            return exceptionResponse(e, Status.METHOD_NOT_ALLOWED);
+            status = Status.METHOD_NOT_ALLOWED;
+            return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logUpdate(httpServletRequest,
+                        ior != null ? ior.getPrevResource() : null,
+                        ior != null ? ior.getResource() : null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "conditionalUpdate(String,Resource)");
         }
     }
@@ -363,7 +388,10 @@ public class FHIRResource {
     @Path("{type}/{id}")
     public Response patch(@PathParam("type") String type, @PathParam("id") String id, JsonArray array) {
         log.entering(this.getClass().getName(), "patch(String,String,JsonArray)");
+        Date startTime = new Date();
+        Response.Status status = null;
         FHIRRestOperationResponse ior = null;
+
         try {
             checkInitComplete();
 
@@ -372,9 +400,9 @@ public class FHIRResource {
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             ior = helper.doPatch(type, id, patch, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null, null);
 
-            ResponseBuilder response =
-                    Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
-            response.status(ior.getStatus());
+            status = ior.getStatus();
+            ResponseBuilder response = Response.status(status)
+                    .location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
 
             Resource resource = ior.getResource();
             if (resource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
@@ -385,12 +413,24 @@ public class FHIRResource {
             response = addHeaders(response, resource);
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
+            status = Status.METHOD_NOT_ALLOWED;
+            return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logPatch(httpServletRequest,
+                        ior != null ? ior.getPrevResource() : null,
+                        ior != null ? ior.getResource() : null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "patch(String,String,JsonArray)");
         }
     }
@@ -399,7 +439,10 @@ public class FHIRResource {
     @Path("{type}/{id}")
     public Response patch(@PathParam("type") String type, @PathParam("id") String id, Parameters parameters) {
         log.entering(this.getClass().getName(), "patch(String,String,Parameters)");
+        Date startTime = new Date();
+        Response.Status status = null;
         FHIRRestOperationResponse ior = null;
+
         try {
             checkInitComplete();
 
@@ -415,7 +458,7 @@ public class FHIRResource {
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
-            Response.Status status = ior.getStatus();
+            status = ior.getStatus();
             response.status(status);
 
             Resource resource = ior.getResource();
@@ -428,13 +471,25 @@ public class FHIRResource {
             response = addHeaders(response, resource);
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
+            status = Status.METHOD_NOT_ALLOWED;
+            return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
-            log.exiting(this.getClass().getName(), "patch(String,String,JsonArray)");
+            try {
+                RestAuditLogger.logPatch(httpServletRequest,
+                        ior != null ? ior.getPrevResource() : null,
+                        ior != null ? ior.getResource() : null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
+            log.exiting(this.getClass().getName(), "patch(String,String,Parameters)");
         }
     }
 
@@ -443,12 +498,10 @@ public class FHIRResource {
     @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
     @Path("{type}")
     public Response conditionalPatch(@PathParam("type") String type, JsonArray array) {
-        Date startTime = new Date();
-
         log.entering(this.getClass().getName(), "conditionalPatch(String,String,JsonArray)");
-
+        Date startTime = new Date();
+        Response.Status status = null;
         FHIRRestOperationResponse ior = null;
-        boolean createAuditLogRecord = false;
 
         try {
             checkInitComplete();
@@ -457,7 +510,6 @@ public class FHIRResource {
 
             String searchQueryString = httpServletRequest.getQueryString();
             if (searchQueryString == null || searchQueryString.isEmpty()) {
-                createAuditLogRecord = true;
                 String msg =
                         "Cannot PATCH to resource type endpoint unless a search query string is provided for a conditional patch.";
                 throw buildRestException(msg, IssueType.INVALID);
@@ -468,7 +520,7 @@ public class FHIRResource {
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
-            Response.Status status = ior.getStatus();
+            status = ior.getStatus();
             response.status(status);
 
             Resource resource = ior.getResource();
@@ -480,20 +532,26 @@ public class FHIRResource {
 
             response = addHeaders(response, ior.getResource());
 
-            if (createAuditLogRecord) {
-                RestAuditLogger.logPatch(httpServletRequest, (ior != null ? ior.getPrevResource()
-                        : null), (ior != null ? ior.getResource()
-                                : null), startTime, new Date(), status);
-            }
-
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
+            status = Status.METHOD_NOT_ALLOWED;
+            return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logPatch(httpServletRequest,
+                        ior != null ? ior.getPrevResource() : null,
+                        ior != null ? ior.getResource() : null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "conditionalPatch(String,String,JsonArray)");
         }
     }
@@ -501,9 +559,9 @@ public class FHIRResource {
     @PATCH
     @Path("{type}")
     public Response conditionalPatch(@PathParam("type") String type, Parameters parameters) {
-        Date startTime = new Date();
         log.entering(this.getClass().getName(), "conditionalPatch(String,String,Parameters)");
-
+        Date startTime = new Date();
+        Response.Status status = null;
         FHIRRestOperationResponse ior = null;
 
         try {
@@ -513,8 +571,6 @@ public class FHIRResource {
             try {
                 patch = FHIRPathPatch.from(parameters);
             } catch(IllegalArgumentException e) {
-                RestAuditLogger.logPatch(httpServletRequest, (ior != null ? ior.getPrevResource() : null),
-                    (ior != null ? ior.getResource() : null), startTime, new Date(), Status.BAD_REQUEST);
                 throw buildRestException(e.getMessage(), IssueType.INVALID);
             }
 
@@ -522,17 +578,15 @@ public class FHIRResource {
             if (searchQueryString == null || searchQueryString.isEmpty()) {
                 String msg =
                         "Cannot PATCH to resource type endpoint unless a search query string is provided for a conditional patch.";
-                RestAuditLogger.logPatch(httpServletRequest, (ior != null ? ior.getPrevResource() : null),
-                    (ior != null ? ior.getResource() : null), startTime, new Date(), Status.BAD_REQUEST);
                 throw buildRestException(msg, IssueType.INVALID);
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             ior = helper.doPatch(type, null, patch, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), searchQueryString, null);
 
-            ResponseBuilder response =
-                    Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
-            response.status(ior.getStatus());
+            status = ior.getStatus();
+            ResponseBuilder response = Response.status(status)
+                    .location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
 
             Resource resource = ior.getResource();
             if (resource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
@@ -545,13 +599,25 @@ public class FHIRResource {
 
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
-            return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
+            status = Status.METHOD_NOT_ALLOWED;
+            return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
-            log.exiting(this.getClass().getName(), "conditionalPatch(String,String,JsonArray)");
+            try {
+                RestAuditLogger.logPatch(httpServletRequest,
+                        ior != null ? ior.getPrevResource() : null,
+                        ior != null ? ior.getResource() : null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
+            log.exiting(this.getClass().getName(), "conditionalPatch(String,String,Parameters)");
         }
     }
 
@@ -579,10 +645,10 @@ public class FHIRResource {
 
     @DELETE
     @Path("{type}/{id}")
-    public Response delete(@PathParam("type") String type, @PathParam("id") String id)
-        throws Exception {
+    public Response delete(@PathParam("type") String type, @PathParam("id") String id) throws Exception {
         log.entering(this.getClass().getName(), "delete(String,String)");
-
+        Date startTime = new Date();
+        Response.Status status = null;
         FHIRRestOperationResponse ior = null;
 
         try {
@@ -591,6 +657,7 @@ public class FHIRResource {
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             ior = helper.doDelete(type, id, null, null);
 
+            status = Status.NO_CONTENT;
             ResponseBuilder response = Response.noContent();
 
             if (ior.getResource() != null) {
@@ -599,14 +666,26 @@ public class FHIRResource {
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
             // Overwrite the exception response status because we want NOT_FOUND to be success for delete
-            return exceptionResponse(e, Response.Status.OK);
+            status = Status.OK;
+            return exceptionResponse(e, status);
         } catch (FHIRPersistenceNotSupportedException e) {
-            return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
+            status = Status.METHOD_NOT_ALLOWED;
+            return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logDelete(httpServletRequest,
+                        ior != null ? ior.getResource() : null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "delete(String,String)");
         }
     }
@@ -614,9 +693,9 @@ public class FHIRResource {
     @DELETE
     @Path("{type}")
     public Response conditionalDelete(@PathParam("type") String type) throws Exception {
-        log.entering(this.getClass().getName(), "conditionalDelete(String,String)");
-
+        log.entering(this.getClass().getName(), "conditionalDelete(String)");
         Date startTime = new Date();
+        Response.Status status = null;
         FHIRRestOperationResponse ior = null;
 
         try {
@@ -624,12 +703,6 @@ public class FHIRResource {
 
             String searchQueryString = httpServletRequest.getQueryString();
             if (searchQueryString == null || searchQueryString.isEmpty()) {
-                try {
-                    RestAuditLogger.logDelete(httpServletRequest, ior != null ? ior.getResource()
-                            : null, startTime, new Date(), Response.Status.BAD_REQUEST);
-                } catch (Exception e) {
-                    log.log(Level.WARNING, AUDIT_LOGGING_ERR_MSG, e);
-                }
                 String msg =
                         "A search query string is required for a conditional delete operation.";
                 throw buildRestException(msg, IssueType.INVALID);
@@ -637,7 +710,8 @@ public class FHIRResource {
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             ior = helper.doDelete(type, null, searchQueryString, null);
-            ResponseBuilder response = Response.status(ior.getStatus());
+            status = ior.getStatus();
+            ResponseBuilder response = Response.status(status);
             if (ior.getOperationOutcome() != null) {
                 response.entity(ior.getOperationOutcome());
             }
@@ -647,45 +721,37 @@ public class FHIRResource {
             return response.build();
         } catch (FHIRPersistenceResourceNotFoundException e) {
             // Return 200 instead of 404 to pass TouchStone test
-            return exceptionResponse(e, Response.Status.OK);
+            status = Status.OK;
+            return exceptionResponse(e, status);
         } catch (FHIRPersistenceNotSupportedException e) {
-            return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
+            status = Status.METHOD_NOT_ALLOWED;
+            return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
-            log.exiting(this.getClass().getName(), "delete(String,String)");
-        }
-    }
-
-
-    private long parseIfModifiedSince() {
-        // Modified since date time in EpochMilli
-        long modifiedSince = -1;
-        try {
-            // Handle RFC_1123 and RFC_850 formats first.
-            // e.g "Sun, 06 Nov 1994 08:49:37 GMT", "Sunday, 06-Nov-94 08:49:37 GMT", "Sunday, 06-Nov-1994 08:49:37 GMT"
-            // If 2 digits year is used, then means 1940 to 2039.
-            modifiedSince = httpServletRequest.getDateHeader(HEADERNAME_IF_MODIFIED_SINCE);
-        } catch (IllegalArgumentException e) {
             try {
-                // Then handle ANSIC format, e.g, "Sun Nov  6 08:49:37 1994"
-                // and touchStone specific format, e.g, "Sat, 28-Sep-19 16:11:14"
-                // assuming the time zone is GMT.
-                modifiedSince = PARSER_FORMATTER.parse(httpHeaders.getHeaderString(HEADERNAME_IF_MODIFIED_SINCE), LocalDateTime::from)
-                        .atZone(ZoneId.of("GMT")).toInstant().toEpochMilli();
-            } catch (DateTimeParseException e1) {
-                    modifiedSince = -1;
+                RestAuditLogger.logDelete(httpServletRequest,
+                        ior != null ? ior.getResource() : null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
             }
+
+            log.exiting(this.getClass().getName(), "conditionalDelete(String)");
         }
-        return modifiedSince;
     }
 
     @GET
     @Path("{type}/{id}")
     public Response read(@PathParam("type") String type, @PathParam("id") String id) throws Exception {
         log.entering(this.getClass().getName(), "read(String,String)");
+        Date startTime = new Date();
+        Response.Status status = null;
+        FHIRRestOperationResponse ior = null;
 
         try {
             checkInitComplete();
@@ -733,41 +799,65 @@ public class FHIRResource {
 
             ResponseBuilder response;
             if (isModified) {
+                status = Status.OK;
                 response = Response.ok().entity(resource);
                 response = addHeaders(response, resource);
             } else {
+                status = Status.NOT_MODIFIED;
                 response = Response.status(Response.Status.NOT_MODIFIED);
             }
             return response.build();
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logRead(httpServletRequest,
+                        ior != null ? ior.getResource() : null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "read(String,String)");
         }
     }
 
     @GET
     @Path("{type}/{id}/_history/{vid}")
-    public Response vread(@PathParam("type") String type, @PathParam("id") String id,
-        @PathParam("vid") String vid) {
-
+    public Response vread(@PathParam("type") String type, @PathParam("id") String id, @PathParam("vid") String vid) {
         log.entering(this.getClass().getName(), "vread(String,String,String)");
+        Date startTime = new Date();
+        Response.Status status = null;
+        FHIRRestOperationResponse ior = null;
 
         try {
             checkInitComplete();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             Resource resource = helper.doVRead(type, id, vid, null);
+            status = Status.OK;
             ResponseBuilder response = Response.ok().entity(resource);
             response = addHeaders(response, resource);
             return response.build();
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logVersionRead(httpServletRequest,
+                        ior != null ? ior.getResource() : null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "vread(String,String,String)");
         }
     }
@@ -776,19 +866,31 @@ public class FHIRResource {
     @Path("{type}/{id}/_history")
     public Response history(@PathParam("type") String type, @PathParam("id") String id) {
         log.entering(this.getClass().getName(), "history(String,String)");
+        Date startTime = new Date();
+        Response.Status status = null;
+        Bundle bundle = null;
 
         try {
             checkInitComplete();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Bundle bundle =
-                    helper.doHistory(type, id, uriInfo.getQueryParameters(), getRequestUri(), null);
-            return Response.ok(bundle).build();
+            bundle = helper.doHistory(type, id, uriInfo.getQueryParameters(), getRequestUri(), null);
+            status = Status.OK;
+            return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logHistory(httpServletRequest, bundle,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "history(String,String)");
         }
     }
@@ -796,8 +898,9 @@ public class FHIRResource {
     @GET
     @Path("{type}")
     public Response search(@PathParam("type") String type) {
-
-        log.entering(this.getClass().getName(), "search(String,UriInfo)");
+        log.entering(this.getClass().getName(), "search(String)");
+        Date startTime = new Date();
+        Response.Status status = null;
         MultivaluedMap<String, String> queryParameters = null;
         Bundle bundle = null;
 
@@ -807,12 +910,22 @@ public class FHIRResource {
             queryParameters = uriInfo.getQueryParameters();
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             bundle = helper.doSearch(type, null, null, queryParameters, getRequestUri(), null, null);
-            return Response.ok(bundle).build();
+            status = Status.OK;
+            return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "search(String)");
         }
     }
@@ -821,23 +934,35 @@ public class FHIRResource {
     @Path("{compartment}/{compartmentId}/{type}")
     public Response searchCompartment(@PathParam("compartment") String compartment,
             @PathParam("compartmentId") String compartmentId, @PathParam("type") String type) {
-
-        log.entering(this.getClass().getName(), "search(String, String, String)");
+        log.entering(this.getClass().getName(), "search(String,String,String)");
+        Date startTime = new Date();
+        Response.Status status = null;
+        MultivaluedMap<String, String> queryParameters = null;
+        Bundle bundle = null;
 
         try {
             checkInitComplete();
 
-            MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
+            queryParameters = uriInfo.getQueryParameters();
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Bundle bundle =
-                    helper.doSearch(type, compartment, compartmentId, queryParameters, getRequestUri(), null, null);
-            return Response.ok(bundle).build();
+            bundle = helper.doSearch(type, compartment, compartmentId, queryParameters, getRequestUri(), null, null);
+            status = Status.OK;
+            return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
-            log.exiting(this.getClass().getName(), "search(String)");
+            try {
+                RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
+            log.exiting(this.getClass().getName(), "search(String,String,String)");
         }
     }
 
@@ -846,20 +971,33 @@ public class FHIRResource {
     @Path("{type}/_search")
     public Response _search(@PathParam("type") String type) {
         log.entering(this.getClass().getName(), "_search(String)");
+        Date startTime = new Date();
+        Response.Status status = null;
+        MultivaluedMap<String, String> queryParameters = null;
+        Bundle bundle = null;
 
         try {
             checkInitComplete();
 
-            MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
+            queryParameters = uriInfo.getQueryParameters();
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Bundle bundle =
-                    helper.doSearch(type, null, null, queryParameters, getRequestUri(), null, null);
-            return Response.ok(bundle).build();
+            bundle = helper.doSearch(type, null, null, queryParameters, getRequestUri(), null, null);
+            status = Status.OK;
+            return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "_search(String)");
         }
     }
@@ -879,19 +1017,33 @@ public class FHIRResource {
 
     private Response doSearchAll() {
         log.entering(this.getClass().getName(), "doSearchAll");
+        Date startTime = new Date();
+        Response.Status status = null;
+        MultivaluedMap<String, String> queryParameters = null;
+        Bundle bundle = null;
+
         try {
             checkInitComplete();
 
-            MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
+            queryParameters = uriInfo.getQueryParameters();
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Bundle bundle =
-                    helper.doSearch("Resource", null, null, queryParameters, getRequestUri(), null, null);
-            return Response.ok(bundle).build();
+            bundle = helper.doSearch("Resource", null, null, queryParameters, getRequestUri(), null, null);
+            status = Status.OK;
+            return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logSearch(httpServletRequest, queryParameters, bundle,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "doSearchAll");
         }
     }
@@ -900,6 +1052,9 @@ public class FHIRResource {
     @Path("${operationName}")
     public Response invoke(@PathParam("operationName") String operationName) {
         log.entering(this.getClass().getName(), "invoke(String)");
+        Date startTime = new Date();
+        Response.Status status = null;
+
         try {
             checkInitComplete();
 
@@ -910,14 +1065,25 @@ public class FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET );
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Resource result =
-                    helper.doInvoke(operationContext, null, null, null, operationName, null, uriInfo.getQueryParameters(), null);
-            return buildResponse(operationContext, null, result);
+            Resource result = helper.doInvoke(operationContext, null, null, null, operationName,
+                    null, uriInfo.getQueryParameters(), null);
+            Response response = buildResponse(operationContext, null, result);
+            status = Response.Status.fromStatusCode(response.getStatus());
+            return response;
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logOperation(httpServletRequest, operationName, null, null, null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "invoke(String)");
         }
     }
@@ -926,6 +1092,9 @@ public class FHIRResource {
     @Path("${operationName}")
     public Response invoke(@PathParam("operationName") String operationName, Resource resource) {
         log.entering(this.getClass().getName(), "invoke(String,Resource)");
+        Date startTime = new Date();
+        Response.Status status = null;
+
         try {
             checkInitComplete();
 
@@ -936,14 +1105,25 @@ public class FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST );
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Resource result =
-                    helper.doInvoke(operationContext, null, null, null, operationName, resource, uriInfo.getQueryParameters(), null);
-            return buildResponse(operationContext, null, result);
+            Resource result = helper.doInvoke(operationContext, null, null, null, operationName,
+                    resource, uriInfo.getQueryParameters(), null);
+            Response response = buildResponse(operationContext, null, result);
+            status = Response.Status.fromStatusCode(response.getStatus());
+            return response;
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logOperation(httpServletRequest, operationName, null, null, null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "invoke(String,Resource)");
         }
     }
@@ -953,6 +1133,9 @@ public class FHIRResource {
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName,
             @PathParam("operationName") String operationName) {
         log.entering(this.getClass().getName(), "invoke(String,String)");
+        Date startTime = new Date();
+        Response.Status status = null;
+
         try {
             checkInitComplete();
 
@@ -963,14 +1146,25 @@ public class FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET );
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Resource result =
-                    helper.doInvoke(operationContext, resourceTypeName, null, null, operationName, null, uriInfo.getQueryParameters(), null);
-            return buildResponse(operationContext, resourceTypeName, result);
+            Resource result = helper.doInvoke(operationContext, resourceTypeName, null, null, operationName,
+                    null, uriInfo.getQueryParameters(), null);
+            Response response = buildResponse(operationContext, resourceTypeName, result);
+            status = Response.Status.fromStatusCode(response.getStatus());
+            return response;
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logOperation(httpServletRequest, operationName, resourceTypeName, null, null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "invoke(String,String)");
         }
     }
@@ -980,6 +1174,9 @@ public class FHIRResource {
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName,
             @PathParam("operationName") String operationName, Resource resource) {
         log.entering(this.getClass().getName(), "invoke(String,String,Resource)");
+        Date startTime = new Date();
+        Response.Status status = null;
+
         try {
             checkInitComplete();
 
@@ -990,9 +1187,11 @@ public class FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST );
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Resource result =
-                    helper.doInvoke(operationContext, resourceTypeName, null, null, operationName, resource, uriInfo.getQueryParameters(), null);
-            return buildResponse(operationContext, resourceTypeName, result);
+            Resource result = helper.doInvoke(operationContext, resourceTypeName, null, null, operationName,
+                    resource, uriInfo.getQueryParameters(), null);
+            Response response = buildResponse(operationContext, resourceTypeName, result);
+            status = Response.Status.fromStatusCode(response.getStatus());
+            return response;
         } catch (FHIROperationException e) {
             // response 200 OK if no failure issue found.
             boolean isFailure = false;
@@ -1003,13 +1202,23 @@ public class FHIRResource {
                 }
             }
             if (isFailure) {
-                return exceptionResponse(e);
+                status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+                return exceptionResponse(e, status);
             } else {
+                status = Status.OK;
                 return exceptionResponse(e, Response.Status.OK);
             }
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logOperation(httpServletRequest, operationName, resourceTypeName, null, null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "invoke(String,String,Resource)");
         }
     }
@@ -1020,6 +1229,9 @@ public class FHIRResource {
             @PathParam("logicalId") String logicalId,
             @PathParam("operationName") String operationName) {
         log.entering(this.getClass().getName(), "invoke(String,String,String)");
+        Date startTime = new Date();
+        Response.Status status = null;
+
         try {
             checkInitComplete();
 
@@ -1030,14 +1242,25 @@ public class FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET );
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Resource result =
-                    helper.doInvoke(operationContext, resourceTypeName, logicalId, null, operationName, null, uriInfo.getQueryParameters(), null);
-            return buildResponse(operationContext, resourceTypeName, result);
+            Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, null, operationName,
+                    null, uriInfo.getQueryParameters(), null);
+            Response response = buildResponse(operationContext, resourceTypeName, result);
+            status = Response.Status.fromStatusCode(response.getStatus());
+            return response;
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logOperation(httpServletRequest, operationName, resourceTypeName, logicalId, null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "invoke(String,String,String)");
         }
     }
@@ -1048,6 +1271,9 @@ public class FHIRResource {
             @PathParam("logicalId") String logicalId,
             @PathParam("operationName") String operationName, Resource resource) {
         log.entering(this.getClass().getName(), "invoke(String,String,String,Resource)");
+        Date startTime = new Date();
+        Response.Status status = null;
+
         try {
             checkInitComplete();
 
@@ -1058,14 +1284,25 @@ public class FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Resource result =
-                    helper.doInvoke(operationContext, resourceTypeName, logicalId, null, operationName, resource, uriInfo.getQueryParameters(), null);
-            return buildResponse(operationContext, resourceTypeName, result);
+            Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, null, operationName,
+                    resource, uriInfo.getQueryParameters(), null);
+            Response response = buildResponse(operationContext, resourceTypeName, result);
+            status = Response.Status.fromStatusCode(response.getStatus());
+            return response;
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logOperation(httpServletRequest, operationName, resourceTypeName, logicalId, null,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "invoke(String,String,String,Resource)");
         }
     }
@@ -1077,6 +1314,9 @@ public class FHIRResource {
             @PathParam("versionId") String versionId,
             @PathParam("operationName") String operationName) {
         log.entering(this.getClass().getName(), "invoke(String,String,String,String)");
+        Date startTime = new Date();
+        Response.Status status = null;
+
         try {
             checkInitComplete();
 
@@ -1087,14 +1327,25 @@ public class FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Resource result =
-                    helper.doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, null, uriInfo.getQueryParameters(), null);
-            return buildResponse(operationContext, resourceTypeName, result);
+            Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, 
+                    null, uriInfo.getQueryParameters(), null);
+            Response response = buildResponse(operationContext, resourceTypeName, result);
+            status = Response.Status.fromStatusCode(response.getStatus());
+            return response;
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logOperation(httpServletRequest, operationName, resourceTypeName, logicalId, versionId,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "invoke(String,String,String,String)");
         }
     }
@@ -1102,10 +1353,13 @@ public class FHIRResource {
     @POST
     @Path("{resourceTypeName}/{logicalId}/_history/{versionId}/${operationName}")
     public Response invoke(@PathParam("resourceTypeName") String resourceTypeName,
-        @PathParam("logicalId") String logicalId,
-        @PathParam("versionId") String versionId, @PathParam("operationName") String operationName,
-        Resource resource) {
+            @PathParam("logicalId") String logicalId,
+            @PathParam("versionId") String versionId,
+            @PathParam("operationName") String operationName, Resource resource) {
         log.entering(this.getClass().getName(), "invoke(String,String,String,String,Resource)");
+        Date startTime = new Date();
+        Response.Status status = null;
+
         try {
             checkInitComplete();
 
@@ -1116,37 +1370,69 @@ public class FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST );
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Resource result =
-                    helper.doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, resource, uriInfo.getQueryParameters(), null);
-            return buildResponse(operationContext, resourceTypeName, result);
+            Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName,
+                    resource, uriInfo.getQueryParameters(), null);
+            Response response = buildResponse(operationContext, resourceTypeName, result);
+            status = Response.Status.fromStatusCode(response.getStatus());
+            return response;
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logOperation(httpServletRequest, operationName, resourceTypeName, logicalId, versionId,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "invoke(String,String,String,String,Resource)");
         }
     }
 
     @POST
     public Response bundle(Resource resource) {
-
         log.entering(this.getClass().getName(), "bundle(Bundle)");
+        Date startTime = new Date();
+        Response.Status status = null;
+        Bundle responseBundle = null;
 
         try {
             checkInitComplete();
 
+            Bundle inputBundle = null;
+            if (resource instanceof Bundle) {
+                inputBundle = (Bundle) resource;
+            } else {
+                String msg = "A 'Bundle' resource type is required but a '"
+                        + resource.getClass().getSimpleName() + "' resource type was sent.";
+                throw buildRestException(msg, IssueType.INVALID);
+            }
+
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Bundle responseBundle = helper.doBundle(resource, null);
-            ResponseBuilder response = Response.ok(responseBundle);
-            return response.build();
+            responseBundle = helper.doBundle(inputBundle, null);
+            status = Status.OK;
+            return Response.ok(responseBundle).build();
         } catch (FHIRRestBundledRequestException e) {
-            return exceptionResponse(e);
+            Response exceptionResponse = exceptionResponse(e);
+            status = Response.Status.fromStatusCode(exceptionResponse.getStatus());
+            return exceptionResponse;
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
         } finally {
+            try {
+                RestAuditLogger.logBundle(httpServletRequest, responseBundle, startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
             log.exiting(this.getClass().getName(), "bundle(Bundle)");
         }
     }
@@ -1157,6 +1443,28 @@ public class FHIRResource {
 
     private FHIROperationException buildRestException(String msg, IssueType issueType, IssueSeverity severity) {
         return new FHIROperationException(msg).withIssue(buildOperationOutcomeIssue(severity, issueType, msg));
+    }
+
+    private long parseIfModifiedSince() {
+        // Modified since date time in EpochMilli
+        long modifiedSince = -1;
+        try {
+            // Handle RFC_1123 and RFC_850 formats first.
+            // e.g "Sun, 06 Nov 1994 08:49:37 GMT", "Sunday, 06-Nov-94 08:49:37 GMT", "Sunday, 06-Nov-1994 08:49:37 GMT"
+            // If 2 digits year is used, then means 1940 to 2039.
+            modifiedSince = httpServletRequest.getDateHeader(HEADERNAME_IF_MODIFIED_SINCE);
+        } catch (IllegalArgumentException e) {
+            try {
+                // Then handle ANSIC format, e.g, "Sun Nov  6 08:49:37 1994"
+                // and touchStone specific format, e.g, "Sat, 28-Sep-19 16:11:14"
+                // assuming the time zone is GMT.
+                modifiedSince = PARSER_FORMATTER.parse(httpHeaders.getHeaderString(HEADERNAME_IF_MODIFIED_SINCE), LocalDateTime::from)
+                        .atZone(ZoneId.of("GMT")).toInstant().toEpochMilli();
+            } catch (DateTimeParseException e1) {
+                    modifiedSince = -1;
+            }
+        }
+        return modifiedSince;
     }
 
     /**
@@ -1245,25 +1553,25 @@ public class FHIRResource {
         return response;
     }
 
-    private Response exceptionResponse(FHIROperationException e) {
-        Status status;
-        if (e instanceof FHIRSearchException) {
-            status = Status.BAD_REQUEST;
-        } else {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
-        }
-        return exceptionResponse(e, status);
-    }
-
     private Response exceptionResponse(FHIROperationException e, Status status) {
         if (status == null) {
             status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
         }
+
+        if (status.getFamily() == Status.Family.SERVER_ERROR) {
+            log.log(Level.SEVERE, e.getMessage(), e);
+        } else {
+            if (log.isLoggable(Level.FINE)) {
+                log.log(Level.FINE, e.getMessage(), e);
+            }
+        }
+
         OperationOutcome operationOutcome = FHIRUtil.buildOperationOutcome(e, false);
         return exceptionResponse(operationOutcome, status);
     }
 
     private Response exceptionResponse(Exception e, Status status) {
+        log.log(Level.SEVERE, "An unexpected exeption occurred while processing the request", e);
         OperationOutcome oo = FHIRUtil.buildOperationOutcome(e, false);
         return this.exceptionResponse(oo, status);
     }
@@ -1649,7 +1957,7 @@ public class FHIRResource {
         // This enables the 202 accepted to be sent back
         Response.Status status = Response.Status.OK;
         Object o = operationContext.getProperty(FHIROperationContext.PROPNAME_STATUS_TYPE);
-        if(o != null) {
+        if (o != null) {
             status = (Response.Status) o;
             if (Response.Status.ACCEPTED.equals(status)) {
                 // This change is for BulkData operations which manipulate the response code.
