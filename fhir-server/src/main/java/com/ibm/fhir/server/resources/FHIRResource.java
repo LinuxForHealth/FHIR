@@ -11,6 +11,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_REGURL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_TOKENURL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
 import java.io.StringWriter;
 import java.net.URI;
@@ -108,7 +109,7 @@ import com.ibm.fhir.server.FHIRBuildIdentifier;
 import com.ibm.fhir.server.annotation.PATCH;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.listener.FHIRServletContextListener;
-import com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper;
+import com.ibm.fhir.server.util.FHIRRestHelper;
 import com.ibm.fhir.server.util.RestAuditLogger;
 
 @Path("/")
@@ -213,7 +214,7 @@ public class FHIRResource {
             return Response.ok().entity(capabilityStatement).build();
         } catch (FHIROperationException e) {
             log.log(Level.SEVERE, errMsg, e);
-            return exceptionResponse(e, IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues()));
+            return exceptionResponse(e, issueListToStatus(e.getIssues()));
         } catch (Exception e) {
             log.log(Level.SEVERE, errMsg, e);
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
@@ -254,7 +255,7 @@ public class FHIRResource {
 
             return response.build();
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -305,7 +306,7 @@ public class FHIRResource {
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -363,7 +364,7 @@ public class FHIRResource {
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -416,7 +417,7 @@ public class FHIRResource {
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -474,7 +475,7 @@ public class FHIRResource {
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -537,7 +538,7 @@ public class FHIRResource {
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -602,7 +603,7 @@ public class FHIRResource {
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -672,7 +673,7 @@ public class FHIRResource {
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -727,7 +728,7 @@ public class FHIRResource {
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -808,7 +809,7 @@ public class FHIRResource {
             }
             return response.build();
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -844,7 +845,7 @@ public class FHIRResource {
             response = addHeaders(response, resource);
             return response.build();
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -878,7 +879,7 @@ public class FHIRResource {
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -913,7 +914,7 @@ public class FHIRResource {
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -949,7 +950,7 @@ public class FHIRResource {
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -985,7 +986,7 @@ public class FHIRResource {
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -1031,7 +1032,7 @@ public class FHIRResource {
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -1071,7 +1072,7 @@ public class FHIRResource {
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -1111,7 +1112,7 @@ public class FHIRResource {
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -1152,7 +1153,7 @@ public class FHIRResource {
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -1202,7 +1203,7 @@ public class FHIRResource {
                 }
             }
             if (isFailure) {
-                status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+                status = issueListToStatus(e.getIssues());
                 return exceptionResponse(e, status);
             } else {
                 status = Status.OK;
@@ -1248,7 +1249,7 @@ public class FHIRResource {
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -1290,7 +1291,7 @@ public class FHIRResource {
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -1333,7 +1334,7 @@ public class FHIRResource {
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -1376,7 +1377,7 @@ public class FHIRResource {
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -1421,7 +1422,7 @@ public class FHIRResource {
             status = Response.Status.fromStatusCode(exceptionResponse.getStatus());
             return exceptionResponse;
         } catch (FHIROperationException e) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
             return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
@@ -1542,7 +1543,7 @@ public class FHIRResource {
             response = Response.status(Status.OK).entity(responseBundle).build();
         } else {
             // Override the status code with a generic client (400) or server (500) error code
-            Status status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            Status status = issueListToStatus(e.getIssues());
             if (status.getFamily() == Status.Family.CLIENT_ERROR) {
                 status = Status.BAD_REQUEST;
             } else {
@@ -1555,7 +1556,7 @@ public class FHIRResource {
 
     private Response exceptionResponse(FHIROperationException e, Status status) {
         if (status == null) {
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+            status = issueListToStatus(e.getIssues());
         }
 
         if (status.getFamily() == Status.Family.SERVER_ERROR) {
