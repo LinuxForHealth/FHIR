@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  * 
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,20 +23,40 @@ public class SimpleTypeInfo implements TypeInfo {
         this.baseType = Objects.requireNonNull(baseType);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getNamespace() {
         return namespace;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getName() {
         return name;
     }
 
+    /**
+     * The base type of this SimpleTypeInfo
+     * 
+     * @return
+     *     the base type of this SimpleTypeInfo
+     */
     public String getBaseType() {
         return baseType;
     }
     
+    /**
+     * Indicates whether this SimpleTypeInfo is equal to the parameter
+     * 
+     * @param obj
+     *     the other {@link Object}
+     * @return
+     *     true if SimpleTypeInfo is equal to the parameter, otherwise false
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -54,11 +74,17 @@ public class SimpleTypeInfo implements TypeInfo {
                 Objects.equals(baseType, other.baseType);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(namespace, name, baseType);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return String.format("SimpleTypeInfo { namespace: '%s', name: '%s', baseType: '%s' }", namespace, name, baseType);

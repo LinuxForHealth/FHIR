@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  * 
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,56 +28,92 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
         children = Collections.unmodifiableCollection(builder.children);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String name() {
         return name;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String path() {
         return path;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FHIRPathType type() {
         return type;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean hasValue() {
         return value != null;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public FHIRPathSystemValue getValue() {
         return value;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Collection<FHIRPathNode> children() {
         return children;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Collection<FHIRPathNode> descendants() {
         return stream().skip(1).collect(Collectors.toList());
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Stream<FHIRPathNode> stream() {
         return Stream.concat(Stream.of(this), children().stream().flatMap(FHIRPathNode::stream));
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final <T extends FHIRPathNode> boolean is(Class<T> nodeType) {
         return nodeType.isInstance(this);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final <T extends FHIRPathNode> T as(Class<T> nodeType) {
         return nodeType.cast(this);
     }
     
+    /**
+     * Convert this {@link FHIRPathNode} instance into a {@link FHIRPathNode.Builder} instance
+     * 
+     * @return
+     *     a new {@link FHIRPathNode.Builder} instance containing the fields from this {@link FHIRPathNode} instance
+     */
     public abstract Builder toBuilder();
     
     public static abstract class Builder implements FHIRPathNode.Builder {
@@ -95,18 +131,27 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
             this.type = type;
         }
         
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Builder name(String name) {
             this.name = name;
             return this;
         }
         
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Builder path(String path) {
             this.path = path;
             return this;
         }
         
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Builder value(FHIRPathSystemValue value) {
             children.remove(this.value);
@@ -115,6 +160,9 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
             return this;
         }
         
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Builder children(FHIRPathNode... children) {
             for (FHIRPathNode child : children) {
@@ -123,12 +171,18 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
             return this;
         }
         
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Builder children(Collection<FHIRPathNode> children) {
             this.children.addAll(children);
             return this;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public abstract FHIRPathNode build();
     }

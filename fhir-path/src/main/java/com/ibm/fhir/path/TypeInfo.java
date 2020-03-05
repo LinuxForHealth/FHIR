@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  * 
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,10 +11,22 @@ package com.ibm.fhir.path;
  * @see <a href="http://hl7.org/fhirpath/2018Sep/index.html#types-and-reflection">FHIRPath Types and Reflection</a>
  */
 public interface TypeInfo {
+    /**
+     * The namespace of this TypeInfo
+     * 
+     * @return
+     *     the namespace of this TypeInfo
+     */
     default String getNamespace() {
         return null;
     }
     
+    /**
+     * The name of this TypeInfo
+     * 
+     * @return
+     *     the name of this TypeInfo
+     */
     default String getName() {
         return null;
     }

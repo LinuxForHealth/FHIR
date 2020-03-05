@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,9 @@ import java.util.Objects;
 import com.ibm.fhir.path.util.FHIRPathUtil.TimePrecision;
 import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
 
+/**
+ * A {@link FHIRPathTemporalValue} node that wraps a {@link LocalTime} value
+ */
 public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathTemporalValue {    
     private static final DateTimeFormatter TIME_PARSER_FORMATTER = new DateTimeFormatterBuilder()
             .appendLiteral("T")
@@ -51,46 +54,105 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
         temporal = getTemporal(time);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isTimeValue() {
         return true;
     }
     
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public TemporalAccessor temporalAccessor() {
         return time;
     }
     
+    /**
+     * The {@link LocalTime} value that is wrapped by this FHIRPathTimeValue
+     * 
+     * @return
+     *     the {@link LocalTime} value that is wrapped by this FHIRPathTimeValue
+     */
     public LocalTime time() {
         return time;
     }
     
+    /**
+     * The time precision of this FHIRPathTimeValue
+     * 
+     * @return
+     *     the time precision of this FHIRPathTimeValue
+     */
     @Override
     public TimePrecision timePrecision() {
         return timePrecision;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Temporal temporal() {
         return temporal;
     }
     
+    /**
+     * Static factory method for creating FHIRPathTimeValue instances from a {@link String} value
+     * 
+     * @param text
+     *     the text that is parsed into a {@link LocalTime} value
+     * @return
+     *     a new FHIRPathTimeValue instance
+     */
     public static FHIRPathTimeValue timeValue(String text) {
         return FHIRPathTimeValue.builder(LocalTime.parse(text, TIME_PARSER_FORMATTER), getTimePrecision(text)).build();
     }
     
+    /**
+     * Static factory method for creating FHIRPathTimeValue instances from a {@link LocalTime} value
+     * 
+     * @param time
+     *     the {@link LocalTime} value
+     * @return
+     *     a new FHIRPathTimeValue instance
+     */
     private static FHIRPathTimeValue timeValue(LocalTime time) {
         return FHIRPathTimeValue.builder(time, getTimePrecision(time)).build();
     }
     
+    /**
+     * Static factory method for creating named FHIRPathTimeValue instances from a {@link LocalTime} value
+     * 
+     * @param name
+     *     the name
+     * @param time
+     *     the {@link LocalTime} value
+     * @return
+     *     a new named FHIRPathTimeValue instance
+     */
     public static FHIRPathTimeValue timeValue(String name, LocalTime time) {
         return FHIRPathTimeValue.builder(time, getTimePrecision(time)).name(name).build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Builder toBuilder() {
         return new Builder(type, time, timePrecision);
     }
     
+    /**
+     * Static factory method for creating builder instances from a {@link LocalTime} value and a {@link TimePrecision}
+     * 
+     * @param time
+     *     the {@link LocalTime} value
+     * @return
+     *     a new builder for building FHIRPathTimeValue instances
+     */
     public static Builder builder(LocalTime time, TimePrecision timePrecision) {
         return new Builder(FHIRPathType.SYSTEM_TIME, time, timePrecision);
     }
@@ -105,49 +167,86 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
             this.timePrecision = timePrecision;
         }
         
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Builder name(String name) {
             return (Builder) super.name(name);
         }
         
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
         }
         
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Builder value(FHIRPathSystemValue value) {
             return this;
         }
         
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Builder children(FHIRPathNode... children) {
             return this;
         }
         
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Builder children(Collection<FHIRPathNode> children) {
             return this;
         }
 
+        /**
+         * Build a FHIRPathTimeValue instance using this builder
+         * 
+         * @return
+         *     a new FHIRPathTimeValue instance
+         */
         @Override
         public FHIRPathTimeValue build() {
             return new FHIRPathTimeValue(this);
         }
     }
     
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public FHIRPathTimeValue add(FHIRPathQuantityValue quantityValue) {
         Temporal temporal = getTemporal(time);
         TemporalAmount temporalAmount = getTemporalAmount(quantityValue);
         return timeValue(LocalTime.from(temporal.plus(temporalAmount)));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public FHIRPathTimeValue subtract(FHIRPathQuantityValue quantityValue) {
         Temporal temporal = getTemporal(time);
         TemporalAmount temporalAmount = getTemporalAmount(quantityValue);
         return timeValue(LocalTime.from(temporal.minus(temporalAmount)));
     }
 
+    /**
+     * Indicates whether this FHIRPathTimeValue is comparable to the parameter
+     * 
+     * @param other
+     *     the other {@link FHIRPathNode}
+     * @return
+     *     true if the parameter or its primitive value is a {@link FHIRPathTimeValue} with the same time precision, otherwise false
+     */
     @Override
     public boolean isComparableTo(FHIRPathNode other) {
         if (other instanceof FHIRPathTimeValue || other.getValue() instanceof FHIRPathTimeValue) {
@@ -158,6 +257,15 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
         return false;
     }
 
+    /**
+     * Compare the {@link LocalTime} value wrapped by this FHIRPathTimeValue node to the parameter
+     * 
+     * @param other
+     *     the other {@link FHIRPathNode}
+     * @return
+     *     0 if the {@link LocalTime} value wrapped by this FHIRPathTimeValue node is equal to the parameter; a positive value if this FHIRPathTimeValue is after the parameter; and
+     *     a negative value if this FHIRPathTimeValue is before the parameter
+     */
     @Override
     public int compareTo(FHIRPathNode other) {
         if (!isComparableTo(other)) {
@@ -167,6 +275,14 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
         return time.compareTo(timeValue.time());
     }
     
+    /**
+     * Indicates whether the {@link LocalTime} value wrapped by this FHIRPathTimeValue node is equal the parameter (or its primitive value)
+     * 
+     * @param obj
+     *     the other {@link Object}
+     * @return
+     *     true if the date/time value wrapped by this FHIRPathTimeValue node is equal the parameter (or its primitive value), otherwise false
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -186,16 +302,25 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
         return Objects.equals(time, timeValue.time());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hashCode(time);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return TIME_PARSER_FORMATTER.format(time);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,9 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.visitor.PathAwareVisitor;
 
+/**
+ * A tree of {@link FHIRPathNode} nodes created from a {@link Resource} or an {@link Element}
+ */
 public class FHIRPathTree {
     private final FHIRPathNode root;
     private final Map<String, FHIRPathNode> pathNodeMap;
@@ -33,14 +36,36 @@ public class FHIRPathTree {
         this.pathNodeMap = Collections.unmodifiableMap(pathNodeMap);
     }
     
+    /**
+     * The root node of this FHIRPathTree
+     * 
+     * @return
+     *     the root node of this FHIRPathTree
+     */
     public FHIRPathNode getRoot() {
         return root;
     }
     
+    /**
+     * Get the node at the location given by the path parameter
+     * 
+     * @param path
+     *     the location of the node in the tree
+     * @return
+     *     the node at the location given by the path parameter if exists, otherwise null
+     */
     public FHIRPathNode getNode(String path) {
         return pathNodeMap.get(path);
     }
     
+    /**
+     * Get the parent of the node parameter
+     * 
+     * @param node
+     *     the node
+     * @return
+     *     the parent of the node parameter if exists, otherwise null
+     */
     public FHIRPathNode getParent(FHIRPathNode node) {
         if (node == null) {
             return null;
@@ -54,6 +79,14 @@ public class FHIRPathTree {
         return null;
     }
     
+    /**
+     * Static factory method for creating FHIRPathTree instances from a {@link Resource}
+     * 
+     * @param resource
+     *     the resource
+     * @return
+     *     a new FHIRPathTree instance
+     */
     public static FHIRPathTree tree(Resource resource) {
         Objects.requireNonNull(resource);
         
@@ -63,6 +96,14 @@ public class FHIRPathTree {
         return new FHIRPathTree(visitor.getRoot(), visitor.getPathNodeMap());
     }
     
+    /**
+     * Static factory method for creating FHIRPathTree instances from an {@link Element}
+     * 
+     * @param element
+     *     the element
+     * @return
+     *     a new FHIRPathTree instance
+     */
     public static FHIRPathTree tree(Element element) {
         Objects.requireNonNull(element);
         

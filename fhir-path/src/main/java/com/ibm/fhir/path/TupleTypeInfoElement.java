@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  * 
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,10 +27,22 @@ public class TupleTypeInfoElement {
         this.oneBased = oneBased;
     }
     
+    /**
+     * The name of this TupleTypeInfoElement
+     * 
+     * @return
+     *     the name of this TupleTypeInfoElement
+     */
     public String getName() {
         return name;
     }
     
+    /**
+     * The type of this TupleTypeInfoElement
+     * 
+     * @return
+     *     the type of this TupleTypeInfoElement
+     */
     public String getType() {
         return type;
     }
@@ -39,6 +51,14 @@ public class TupleTypeInfoElement {
         return oneBased;
     }
     
+    /**
+     * Indicates whether this TupleTypeInfoElement is equal to the parameter
+     * 
+     * @param obj
+     *     the other {@link Object}
+     * @return
+     *     true if TupleTypeInfoElement is equal to the parameter, otherwise false
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -56,6 +76,9 @@ public class TupleTypeInfoElement {
                 Objects.equals(oneBased, other.oneBased);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         if (oneBased != null) {

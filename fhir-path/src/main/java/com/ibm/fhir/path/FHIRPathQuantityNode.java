@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,9 @@ import java.util.Collection;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Quantity;
 
+/**
+ * A {@link FHIRPathElementNode} that wraps a {@link Quantity}
+ */
 public class FHIRPathQuantityNode extends FHIRPathElementNode {    
     private final Quantity quantity;
     private final String quantitySystem;
@@ -30,22 +33,52 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
         quantityValue = getQuantityValue(quantity);
     }
     
+    /**
+     * The quantity wrapped by this FHIRPathQuantityNode
+     * 
+     * @return
+     *     the quantity wrapped by this FHIRPathQuantityNode
+     */
     public Quantity quantity() {
         return quantity;
     }
     
+    /**
+     * The system of the quantity wrapped by this FHIRPathQuantityNode
+     * 
+     * @return
+     *     the system of the quantity wrapped by this FHIRPathQuantityNode
+     */
     public String getQuantitySystem() {
         return quantitySystem;
     }
     
+    /**
+     * The code of the quantity wrapped by this FHIRPathQuantityNode
+     * 
+     * @return
+     *     the code of the quantity wrapped by this FHIRPathQuantityNode
+     */
     public String getQuantityCode() {
         return quantityCode;
     }
     
+    /**
+     * The unit of the quantity wrapped by this FHIRPathQuantityNode
+     * 
+     * @return
+     *     the unit of the quantity wrapped by this FHIRPathQuantityNode
+     */
     public String getQuantityUnit() {
         return quantityUnit;
     }
     
+    /**
+     * The {@link BigDecimal} value of the quantity wrapped by this FHIRPathQuantityNode
+     * 
+     * @return
+     *     the system of the quantity wrapped by this FHIRPathQuantityNode
+     */
     public BigDecimal getQuantityValue() {
         return quantityValue;
     }
@@ -78,11 +111,22 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
         return null;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isQuantityNode() {
         return true;
     }
     
+    /**
+     * Static factory method for creating builder instances from a {@link Quantity} value
+     * 
+     * @param quantity
+     *     the {@link Quantity} value
+     * @return
+     *     a new builder for building FHIRPathQuantityNode instances
+     */
     public static Builder builder(Quantity quantity) {
         return new Builder(FHIRPathType.FHIR_QUANTITY, quantity);
     }
@@ -95,33 +139,62 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
             this.quantity = quantity;
         }
         
+        /**
+         * {@inheritDoc}
+         */
         public Builder name(java.lang.String name) {
             return (Builder) super.name(name);
         }
         
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
         }
         
+        /**
+         * {@inheritDoc}
+         */
         public Builder value(FHIRPathSystemValue value) {
             return (Builder) super.value(value);
         }
         
+        /**
+         * {@inheritDoc}
+         */
         public Builder children(FHIRPathNode... children) {
             return (Builder) super.children(children);
         }
         
+        /**
+         * {@inheritDoc}
+         */
         public Builder children(Collection<FHIRPathNode> children) {
             return (Builder) super.children(children);
         }
 
+        /**
+         * Build a FHIRPathQuantityNode instance using this builder
+         * 
+         * @return
+         *     a new FHIRPathQuantityNode instance
+         */
         @Override
         public FHIRPathQuantityNode build() {
             return new FHIRPathQuantityNode(this);
         }
     }
     
+    /**
+     * Add this FHIRPathQuantityNode to another FHIRPathQuantityNode
+     * 
+     * @param node
+     *     the other FHIRPathQuantityNode
+     * @return
+     *     the result of adding this FHIRPathQuantityNode to another FHIRPathQuantityNode
+     */
     public FHIRPathQuantityNode add(FHIRPathQuantityNode node) {
         Quantity quantity = Quantity.builder()
                 .value(Decimal.of(getQuantityValue().add(node.getQuantityValue())))
@@ -130,6 +203,14 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
         return FHIRPathQuantityNode.builder(quantity).build();
     }
     
+    /**
+     * Subtract another FHIRPathQuantityNode from this FHIRPathQuantityNode
+     * 
+     * @param node
+     *     the other FHIRPathQuantityNode
+     * @return
+     *     the result of subtracting another FHIRPathQuantityNode from this FHIRPathQuantityNode
+     */
     public FHIRPathQuantityNode subtract(FHIRPathQuantityNode node) {
         Quantity quantity = Quantity.builder()
                 .value(Decimal.of(getQuantityValue().subtract(node.getQuantityValue())))
@@ -138,6 +219,12 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
         return FHIRPathQuantityNode.builder(quantity).build();
     }
     
+    /**
+     * Indicates whether this FHIRPathQuantityNode is comparable to the parameter
+     * 
+     * @return
+     *     true if the parameter or its primitive value is a FHIRPathQuantityNode, a {@link FHIRPathQuantityValue} or a {@FHIRPathNumberValue}, otherwise false
+     */
     @Override
     public boolean isComparableTo(FHIRPathNode other) {
         if (hasValue()) {
@@ -166,6 +253,15 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
                         (getQuantityUnit() != null && other.getQuantityUnit() != null && getQuantityUnit().equals(other.getQuantityUnit())));
     }
 
+    /**
+     * Compare the quantity value wrapped by this FHIRPathQuantityNode to the parameter
+     * 
+     * @param other
+     *     the other {@link FHIRPathNode}
+     * @return
+     *     0 if the quantity value wrapped by this FHIRPathQuantity is equal to the parameter; a positive value if this FHIRPathQuantityNode is greater than the parameter; and
+     *     a negative value if this FHIRPathQuantityNode is less than the parameter
+     */
     @Override
     public int compareTo(FHIRPathNode other) {
         if (!isComparableTo(other)) {
@@ -188,6 +284,14 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
         return getQuantityValue().compareTo(numberValue.decimal());
     }
     
+    /**
+     * Indicates whether the quantity value wrapped by this FHIRPathQuantityNode is equal the parameter (or its primitive value)
+     * 
+     * @param obj
+     *     the other {@link Object}
+     * @return
+     *     true if the quantity value wrapped by this FHIRPathQuantityNode node is equal the parameter (or its primitive value), otherwise false
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -220,6 +324,9 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
         return getQuantityValue().compareTo(numberValue.decimal()) == 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         if (hasValue()) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  * 
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,10 +21,24 @@ public class TupleTypeInfo implements TypeInfo {
         this.element = Collections.unmodifiableList(Objects.requireNonNull(element));
     }
     
+    /**
+     * The list of {@link TupleTypeInfoElement} elements of this TupleTypeInfo
+     * 
+     * @return
+     *     the list of {@link TupleTypeInfoElement} elements for this TupleTypeInfo
+     */
     public List<TupleTypeInfoElement> getElement() {
         return element;
     }
     
+    /**
+     * Indicates whether this TupleTypeInfo is equal to the parameter
+     * 
+     * @param obj
+     *     the other {@link Object}
+     * @return
+     *     true if TupleTypeInfo is equal to the parameter, otherwise false
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -40,11 +54,17 @@ public class TupleTypeInfo implements TypeInfo {
         return Objects.equals(element, other.element);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(element);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
