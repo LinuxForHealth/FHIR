@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 
-public class FHIRHealthcheckOperationTest extends FHIRServerTestBase {    
+public class FHIRHealthcheckOperationTest extends FHIRServerTestBase {
     @Test
     public void testHealthcheck() {
         WebTarget target = getWebTarget();
