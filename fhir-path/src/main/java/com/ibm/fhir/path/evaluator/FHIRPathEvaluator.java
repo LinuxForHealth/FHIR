@@ -104,7 +104,7 @@ public class FHIRPathEvaluator {
     }
     
     /**
-     * Evaluate the FHIRPath expression
+     * Evaluate a FHIRPath expression
      * 
      * @param expr
      *     the FHIRPath expression to evaluate
@@ -120,7 +120,7 @@ public class FHIRPathEvaluator {
     }
     
     /**
-     * Evaluate the FHIRPath expression against a {@link Resource} or {@link Element}
+     * Evaluate a FHIRPath expression against a {@link Resource} or {@link Element}
      * 
      * @param resourceOrElement
      *     the {@link Resource} or {@link Element}
@@ -183,7 +183,7 @@ public class FHIRPathEvaluator {
     }
     
     /**
-     * Evaluate FHIRPath expression using an existing evaluation context
+     * Evaluate a FHIRPath expression using an existing evaluation context
      * 
      * @param evaluationContext
      *     the evaluation context
