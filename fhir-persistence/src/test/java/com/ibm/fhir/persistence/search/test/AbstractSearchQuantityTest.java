@@ -385,8 +385,8 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
     public void testSearchQuantity_Exponent() throws Exception {
         // Value 1.2E+2 should return the value
         // The value is extracted, and stored in the values tables. 
-        assertSearchReturnsSavedResource("Quantity-WithExponent", "1.2E+2");
-        assertSearchReturnsSavedResource("Quantity-WithExponent", "120");
+        assertSearchReturnsSavedResource("Quantity-withExponent", "1.2E+2");
+        assertSearchReturnsSavedResource("Quantity-withExponent", "120");
     }
 
     /*
