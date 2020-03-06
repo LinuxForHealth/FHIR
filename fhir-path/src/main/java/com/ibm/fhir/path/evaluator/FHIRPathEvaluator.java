@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  * 
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -77,6 +77,9 @@ import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.function.FHIRPathFunction;
 
+/**
+ * A FHIRPath evaluation engine that implements the FHIRPath 2.0.0 <a href="http://hl7.org/fhirpath/N1/">specification</a>
+ */
 public class FHIRPathEvaluator {
     public static boolean DEBUG = false;
     
@@ -90,20 +93,45 @@ public class FHIRPathEvaluator {
     
     private FHIRPathEvaluator() { }
     
+    /**
+     * Get the EvaluationContext associated with this FHIRPathEvaluator
+     * 
+     * @return
+     *     get the EvaluationContext associated with this FHIRPathEvaluator
+     */
     public EvaluationContext getEvaluationContext() {
         return visitor.getEvaluationContext();
     }
     
+    /**
+     * Evaluate a FHIRPath expression
+     * 
+     * @param expr
+     *     the FHIRPath expression to evaluate
+     * @return
+     *     the result of evaluation as a non-null, potentially empty collection of FHIRPath nodes
+     * @throws NullPointerException
+     *     if any of the parameters are null    
+     * @throws FHIRPathException
+     *     if an exception occurs during evaluation
+     */
     public Collection<FHIRPathNode> evaluate(String expr) throws FHIRPathException {
         return evaluate(new EvaluationContext(), expr, empty());
     }
     
     /**
+     * Evaluate a FHIRPath expression against a {@link Resource} or {@link Element}
+     * 
      * @param resourceOrElement
+     *     the {@link Resource} or {@link Element}
      * @param expr
-     * @return a potentially-empty non-null collection of FHIRPathNodes
+     *     the FHIRPath expression to evaluate
+     * @return
+     *     the result of evaluation as a non-null, potentially empty collection of FHIRPath nodes
+     * @throws NullPointerException
+     *     if any of the parameters are null    
      * @throws FHIRPathException
-     * @throws NullPointerException if any of the passed arguments are null
+     *     if an exception occurs during evaluation
      */
     public Collection<FHIRPathNode> evaluate(Visitable resourceOrElement, String expr) throws FHIRPathException {
         Objects.requireNonNull("resourceOrElement cannot be null");
@@ -118,29 +146,95 @@ public class FHIRPathEvaluator {
                 resourceOrElement.getClass().getName());
     }
     
+    /**
+     * Evaluate a FHIRPath expression against a {@link Resource}
+     * 
+     * @param resource
+     *     the resource
+     * @param expr
+     *     the FHIRPath expression to evaluate
+     * @return
+     *     the result of evaluation as a non-null, potentially empty collection of FHIRPath nodes
+     * @throws NullPointerException
+     *     if any of the parameters are null    
+     * @throws FHIRPathException
+     *     if an exception occurs during evaluation
+     */
     public Collection<FHIRPathNode> evaluate(Resource resource, String expr) throws FHIRPathException {
         return evaluate(new EvaluationContext(resource), expr);
     }
     
+    /**
+     * Evaluate a FHIRPath expression against an {@link Element}
+     * 
+     * @param element
+     *     the element
+     * @param expr
+     *     the FHIRPath expression to evaluate
+     * @return
+     *     the result of evaluation as a non-null, potentially empty collection of FHIRPath nodes
+     * @throws NullPointerException
+     *     if any of the parameters are null    
+     * @throws FHIRPathException
+     *     if an exception occurs during evaluation
+     */
     public Collection<FHIRPathNode> evaluate(Element element, String expr) throws FHIRPathException {
         return evaluate(new EvaluationContext(element), expr);
     }
     
+    /**
+     * Evaluate a FHIRPath expression using an existing evaluation context
+     * 
+     * @param evaluationContext
+     *     the evaluation context
+     * @param expr
+     *     the FHIRPath expression to evaluate
+     * @return
+     *     the result of evaluation as a non-null, potentially empty collection of FHIRPath nodes
+     * @throws NullPointerException
+     *     if any of the parameters are null    
+     * @throws FHIRPathException
+     *     if an exception occurs during evaluation
+     */
     public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr) throws FHIRPathException {
         return evaluate(evaluationContext, expr, evaluationContext.getTree().getRoot());
     }
     
+    /**
+     * Evaluate a FHIRPath expression using an existing evaluation context against a FHIRPath node
+     * 
+     * @param evaluationContext
+     *     the evaluation context
+     * @param expr
+     *     the FHIRPath expression to evaluate
+     * @param node
+     *     the FHIRPath node
+     * @return
+     *     the result of evaluation as a non-null, potentially empty collection of FHIRPath nodes
+     * @throws NullPointerException
+     *     if any of the parameters are null    
+     * @throws FHIRPathException
+     *     if an exception occurs during evaluation
+     */
     public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr, FHIRPathNode node) throws FHIRPathException {
         return evaluate(evaluationContext, expr, singleton(node));
     }
     
     /**
+     * Evaluate a FHIRPathExpression using an existing EvaluationContext against a collection of FHIRPath nodes
+     * 
      * @param evaluationContext
+     *     the evaluation context
      * @param expr
+     *     the FHIRPath expression to evaluate
      * @param initialContext
-     * @return a potentially-empty non-null collection of FHIRPathNodes
+     *     the initial context as a non-null, potentially empty collection of FHIRPath nodes
+     * @return
+     *     the result of evaluation as a collection of FHIRPath nodes
+     * @throws NullPointerException
+     *     if any of the parameters are null    
      * @throws FHIRPathException
-     * @throws NullPointerException if any of the passed arguments are null
+     *     if an exception occurs during evaluation
      */
     public Collection<FHIRPathNode> evaluate(EvaluationContext evaluationContext, String expr, Collection<FHIRPathNode> initialContext) throws FHIRPathException {
         Objects.requireNonNull(evaluationContext);
@@ -164,6 +258,12 @@ public class FHIRPathEvaluator {
         return parser.expression();
     }
     
+    /**
+     * Static factory method for creating FHIRPathEvaluator instances
+     * 
+     * @return
+     *     a new FHIRPathEvaluator instance
+     */
     public static FHIRPathEvaluator evaluator() {
         return new FHIRPathEvaluator();
     }
@@ -1219,6 +1319,9 @@ public class FHIRPathEvaluator {
         }
     }
     
+    /**
+     * A context object used to pass information to/from the FHIRPath evaluation engine
+     */
     public static class EvaluationContext {
         private static final String UCUM_SYSTEM = "http://unitsofmeasure.org";
         private static final Collection<FHIRPathNode> UCUM_SYSTEM_SINGLETON = singleton(stringValue(UCUM_SYSTEM));
@@ -1241,8 +1344,10 @@ public class FHIRPathEvaluator {
         
         /**
          * Create an evaluation context where the passed resource is the context root.
-         * Sets %resource and %rootResource external constants to the passed resource, but these can be overridden. 
+         * Sets %resource and %rootResource external constants to the passed resource, but these can be overridden.
+         * 
          * @param resource
+         *     the resource
          */
         public EvaluationContext(Resource resource) {
             this(FHIRPathTree.tree(resource));
@@ -1252,7 +1357,9 @@ public class FHIRPathEvaluator {
         
         /**
          * Create an evaluation context where the passed element is the context root.
+         * 
          * @param element
+         *     the element
          */
         public EvaluationContext(Element element) {
             this(FHIRPathTree.tree(element));
@@ -1262,22 +1369,58 @@ public class FHIRPathEvaluator {
             this.tree = tree;
         }
         
+        /**
+         * Get the FHIRPath tree associated with this EvaluationContext
+         * 
+         * @return
+         *     the FHIRPath tree associated with this EvaluationContext
+         */
         public FHIRPathTree getTree() {
             return tree;
         }
         
+        /**
+         * Set an external constant using a name and FHIRPath node
+         * 
+         * @param name
+         *     the name
+         * @param node
+         *     the FHIRPath node
+         */
         public void setExternalConstant(String name, FHIRPathNode node) {
             externalConstantMap.put(name, singleton(node));
         }
         
+        /**
+         * Set an external constant using a name and a collection of FHIRPath node
+         * 
+         * @param name
+         *     the name
+         * @param nodes
+         *     the collection of FHIRPath nodes
+         */
         public void setExternalConstant(String name, Collection<FHIRPathNode> nodes) {
             externalConstantMap.put(name, nodes);
         }
         
+        /**
+         * Unset an external constant with the given name
+         * 
+         * @param name
+         *     the name
+         */
         public void unsetExternalConstant(String name) {
             externalConstantMap.remove(name);
         }
         
+        /**
+         * Get an external constant with the given name
+         * 
+         * @param name
+         *     the name
+         * @return
+         *     the external constant as a collection of FHIRPath nodes or an empty collection
+         */
         public Collection<FHIRPathNode> getExternalConstant(String name) {
             switch (name) {
             case "ucum":
@@ -1297,6 +1440,14 @@ public class FHIRPathEvaluator {
             }
         }
         
+        /**
+         * Indicates whether this EvaluationContext has an external constant with the given name
+         * 
+         * @param name
+         *     the name
+         * @return
+         *     true if this EvaluationContext has an external constant with the given name, otherwise false
+         */
         public boolean hasExternalConstant(String name) {
             return externalConstantMap.containsKey(name);
         }
