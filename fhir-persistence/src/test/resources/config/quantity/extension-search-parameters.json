@@ -411,6 +411,23 @@
         }
     },
     {
+        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Quantity-withExponent",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Quantity-withExponent",
+            "url": "http://ibm.com/fhir/SearchParameter/Quantity-withExponent",
+            "name": "Quantity-withExponent",
+            "status": "active",
+            "description": "test param",
+            "code": "Quantity-withExponent",
+            "base": ["Basic"],
+            "type": "quantity",
+            "expression": "Basic.extension.where(url='http://example.org/Quantity-withExponent').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Quantity-withExponent']/f:valueQuantity",
+            "xpathUsage": "normal"
+        }
+    },
+    {
         "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Range",
         "resource": {
             "resourceType": "SearchParameter",
