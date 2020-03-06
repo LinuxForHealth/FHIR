@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -379,6 +379,14 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Range:missing", "true");
         assertSearchReturnsSavedResource("missing-Range:missing", "true");
         assertSearchDoesntReturnSavedResource("missing-Range:missing", "false");
+    }
+    
+    @Test
+    public void testSearchQuantity_Exponent() throws Exception {
+        // Value 1.2E+2 should return the value
+        // The value is extracted, and stored in the values tables. 
+        assertSearchReturnsSavedResource("Quantity-WithExponent", "1.2E+2");
+        assertSearchReturnsSavedResource("Quantity-WithExponent", "120");
     }
 
     /*
