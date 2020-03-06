@@ -771,8 +771,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      */
     @Override
     public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters,
-        String requestUri, Map<String, String> requestProperties)
-        throws Exception {
+            String requestUri, Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doHistory");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
@@ -2187,7 +2186,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @throws Exception 
      */
     private Bundle createHistoryBundle(List<? extends Resource> resources, FHIRHistoryContext historyContext, String type)
-        throws Exception {
+            throws Exception {
 
         // throws if we have a count of more than 2,147,483,647 resources
         UnsignedInt totalCount = UnsignedInt.of(historyContext.getTotalCount());
