@@ -10,17 +10,11 @@ package com.ibm.fhir.path;
  * An interface that represents FHIRPath system data types
  */
 public interface FHIRPathSystemValue extends FHIRPathNode {
-    /**
-     * {@inheritDoc}
-     */
     @Override
     default boolean hasValue() {
         return false;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     default boolean isSystemValue() {
         return true;

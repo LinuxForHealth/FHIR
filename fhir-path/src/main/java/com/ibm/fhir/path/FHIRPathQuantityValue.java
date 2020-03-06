@@ -19,16 +19,13 @@ import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
 public class FHIRPathQuantityValue extends FHIRPathAbstractNode implements FHIRPathSystemValue {
     private final BigDecimal value;
     private final String unit;
-
+    
     protected FHIRPathQuantityValue(Builder builder) {
         super(builder);
         this.value = builder.value;
         this.unit = builder.unit;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isQuantityValue() {
         return true;
@@ -75,7 +72,7 @@ public class FHIRPathQuantityValue extends FHIRPathAbstractNode implements FHIRP
         }
         return null;
     }
-
+    
     private static String getUnit(String code) {
         switch (code) {
         case "a":
@@ -93,7 +90,7 @@ public class FHIRPathQuantityValue extends FHIRPathAbstractNode implements FHIRP
         }
         return code;
     }
-
+    
     /**
      * Static factory method for creating FHIRPathQuantityValue instances from a {@link BigDecimal} value and {@link String} unit
      * 
@@ -107,10 +104,7 @@ public class FHIRPathQuantityValue extends FHIRPathAbstractNode implements FHIRP
     public static FHIRPathQuantityValue quantityValue(BigDecimal value, String unit) {
         return FHIRPathQuantityValue.builder(value, unit).build();
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public Builder toBuilder() {
         return new Builder(type, value, unit);
@@ -140,46 +134,31 @@ public class FHIRPathQuantityValue extends FHIRPathAbstractNode implements FHIRP
             this.unit = unit;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder name(String name) {
             return (Builder) super.name(name);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder value(FHIRPathSystemValue value) {
             return this;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder children(FHIRPathNode... children) {
             return this;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder children(Collection<FHIRPathNode> children) {
             return this;
         }
-
+        
         /**
          * Build a FHIRPathQuantityValue instance using this builder
          * 
@@ -215,7 +194,7 @@ public class FHIRPathQuantityValue extends FHIRPathAbstractNode implements FHIRP
     public FHIRPathQuantityValue subtract(FHIRPathQuantityValue quantityValue) {
         return FHIRPathQuantityValue.quantityValue(value.subtract(quantityValue.value()), unit);
     }
-
+    
     /**
      * Indicates whether this FHIRPathQuantityValue is comparable to the parameter
      * 
@@ -231,7 +210,7 @@ public class FHIRPathQuantityValue extends FHIRPathAbstractNode implements FHIRP
         return (other instanceof FHIRPathNumberValue) || 
                 (other.getValue() instanceof FHIRPathNumberValue);
     }
-
+    
     /**
      * Compare the quantity value wrapped by this FHIRPathQuantityValue to the parameter
      * 
@@ -253,7 +232,7 @@ public class FHIRPathQuantityValue extends FHIRPathAbstractNode implements FHIRP
         FHIRPathNumberValue numberValue = (other instanceof FHIRPathNumberValue) ? (FHIRPathNumberValue) other : (FHIRPathNumberValue) other.getValue();
         return value.compareTo(numberValue.decimal());
     }
-
+    
     /**
      * Indicates whether the {@link BigDecimal} value and {@link String} unit wrapped by this FHIRPathQuantityValue is equal the parameter (or its primitive value)
      * 
@@ -283,27 +262,18 @@ public class FHIRPathQuantityValue extends FHIRPathAbstractNode implements FHIRP
         return compareTo(other.getValue()) == 0;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int hashCode() {
         return Objects.hash(value, unit);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(value.toPlainString()).append(" '").append(unit).append("'");
         return sb.toString();
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);

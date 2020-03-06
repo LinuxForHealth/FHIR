@@ -23,9 +23,6 @@ public class FHIRPathResourceNode extends FHIRPathAbstractNode {
         this.resource = builder.resource;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isResourceNode() {
         return true;
@@ -33,12 +30,14 @@ public class FHIRPathResourceNode extends FHIRPathAbstractNode {
     
     /**
      * The {@link Resource} wrapped by this FHIRPathResource node
+     * 
      * @return
+     *     the {@link Resource} wrapped by this FHIRPathResource node
      */
     public Resource resource() {
         return resource;
     }
-
+    
     /**
      * Static factory method for creating FHIRPathResourceNode instances from a {@link Resource}
      * 
@@ -77,9 +76,6 @@ public class FHIRPathResourceNode extends FHIRPathAbstractNode {
         return new Builder(type, null).path(type.getName()).build();
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Builder toBuilder() {
         Builder builder = new Builder(type, resource);
@@ -88,7 +84,7 @@ public class FHIRPathResourceNode extends FHIRPathAbstractNode {
         builder.children = children;
         return builder;
     }
-
+    
     /**
      * Static factory method for creating builder instances from a {@link Resource}
      * 
@@ -103,41 +99,29 @@ public class FHIRPathResourceNode extends FHIRPathAbstractNode {
     
     public static class Builder extends FHIRPathAbstractNode.Builder {
         private final Resource resource;
-
+        
         protected Builder(FHIRPathType type, Resource resource) {
             super(type);
             this.resource = resource;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         public Builder name(String name) {
             return (Builder) super.name(name);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         public Builder children(FHIRPathNode... children) {
             return (Builder) super.children(children);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         public Builder children(Collection<FHIRPathNode> children) {
             return (Builder) super.children(children);
         }
-
+        
         /**
          * Build a FHIRPathResourceNode using this builder
          * 
@@ -157,7 +141,7 @@ public class FHIRPathResourceNode extends FHIRPathAbstractNode {
     public int compareTo(FHIRPathNode node) {
         throw new UnsupportedOperationException();
     }
-
+    
     /**
      * Indicates whether this FHIRPathResourceNode is equal to the parameter
      * 
@@ -182,17 +166,11 @@ public class FHIRPathResourceNode extends FHIRPathAbstractNode {
         return Objects.equals(resource, other.resource());
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int hashCode() {
         return Objects.hashCode(resource);
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);

@@ -82,7 +82,7 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
     public BigDecimal getQuantityValue() {
         return quantityValue;
     }
-
+    
     private String getQuantitySystem(Quantity quantity) {
         if (quantity.getSystem() != null) {
             return quantity.getSystem().getValue();
@@ -96,7 +96,7 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
         }
         return null;
     }
-
+    
     private String getQuantityUnit(Quantity quantity) {
         if (quantity.getUnit() != null) {
             return quantity.getUnit().getValue();
@@ -111,9 +111,6 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
         return null;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isQuantityNode() {
         return true;
@@ -130,7 +127,7 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
     public static Builder builder(Quantity quantity) {
         return new Builder(FHIRPathType.FHIR_QUANTITY, quantity);
     }
-
+    
     public static class Builder extends FHIRPathElementNode.Builder {
         private final Quantity quantity;
         
@@ -139,38 +136,27 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
             this.quantity = quantity;
         }
         
-        /**
-         * {@inheritDoc}
-         */
+        @Override
         public Builder name(java.lang.String name) {
             return (Builder) super.name(name);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
         }
         
-        /**
-         * {@inheritDoc}
-         */
+        @Override
         public Builder value(FHIRPathSystemValue value) {
             return (Builder) super.value(value);
         }
         
-        /**
-         * {@inheritDoc}
-         */
+        @Override
         public Builder children(FHIRPathNode... children) {
             return (Builder) super.children(children);
         }
         
-        /**
-         * {@inheritDoc}
-         */
+        @Override
         public Builder children(Collection<FHIRPathNode> children) {
             return (Builder) super.children(children);
         }
@@ -252,7 +238,7 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
                         getQuantityCode() != null && other.getQuantityCode() != null && getQuantityCode().equals(other.getQuantityCode())) || 
                         (getQuantityUnit() != null && other.getQuantityUnit() != null && getQuantityUnit().equals(other.getQuantityUnit())));
     }
-
+    
     /**
      * Compare the quantity value wrapped by this FHIRPathQuantityNode to the parameter
      * 
@@ -323,10 +309,7 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
         FHIRPathNumberValue numberValue = (other instanceof FHIRPathNumberValue) ? (FHIRPathNumberValue) other : (FHIRPathNumberValue) other.getValue();
         return getQuantityValue().compareTo(numberValue.decimal()) == 0;
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public String toString() {
         if (hasValue()) {

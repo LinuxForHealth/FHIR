@@ -54,17 +54,11 @@ public class TupleTypeInfo implements TypeInfo {
         return Objects.equals(element, other.element);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int hashCode() {
         return Objects.hash(element);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

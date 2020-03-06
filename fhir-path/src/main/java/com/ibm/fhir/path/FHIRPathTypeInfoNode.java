@@ -20,10 +20,7 @@ public class FHIRPathTypeInfoNode extends FHIRPathAbstractNode {
         super(builder);
         this.typeInfo = Objects.requireNonNull(builder.typeInfo);
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public boolean isTypeInfoNode() {
         return true;
@@ -58,7 +55,7 @@ public class FHIRPathTypeInfoNode extends FHIRPathAbstractNode {
     public Builder toBuilder() {
         throw new UnsupportedOperationException();
     }
-
+    
     private static class Builder extends FHIRPathAbstractNode.Builder {
         private final TypeInfo typeInfo;
         
@@ -72,7 +69,7 @@ public class FHIRPathTypeInfoNode extends FHIRPathAbstractNode {
                 children.add(FHIRPathStringValue.stringValue("name", typeInfo.getName()));
             }
         }
-
+        
         /**
          * Build a FHIRPathTypeInfoNode instance using this builder
          * 
@@ -84,7 +81,7 @@ public class FHIRPathTypeInfoNode extends FHIRPathAbstractNode {
             return new FHIRPathTypeInfoNode(this);
         }
     }
-
+    
     /**
      * The compareTo operation is not supported for this FHIRPathTypeInfoNode
      */
@@ -116,25 +113,16 @@ public class FHIRPathTypeInfoNode extends FHIRPathAbstractNode {
         return Objects.equals(typeInfo, other.typeInfo);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int hashCode() {
         return Objects.hashCode(typeInfo);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         return typeInfo.toString();
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);

@@ -12,9 +12,6 @@ import java.math.BigDecimal;
  * An interface that represents a {@link FHIRPathSystemValue} that a number value
  */
 public interface FHIRPathNumberValue extends FHIRPathSystemValue {
-    /**
-     * {@inheritDoc}
-     */
     @Override
     default boolean isNumberValue() {
         return true;
@@ -168,7 +165,7 @@ public interface FHIRPathNumberValue extends FHIRPathSystemValue {
      *     this FHIRPathNumberValue
      */
     FHIRPathNumberValue plus();
-
+    
     /**
      * Indicates whether this FHIRPathNumberValue is comparable to the parameter
      * 

@@ -15,9 +15,6 @@ import com.ibm.fhir.path.util.FHIRPathUtil.TimePrecision;
  * A {@link FHIRPathSystemValue} that wraps a temporal value
  */
 public interface FHIRPathTemporalValue extends FHIRPathSystemValue {
-    /**
-     * {@inheritDoc}
-     */
     @Override
     default boolean isTemporalValue() {
         return true;

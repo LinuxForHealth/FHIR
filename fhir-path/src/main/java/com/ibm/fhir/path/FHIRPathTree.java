@@ -117,7 +117,7 @@ public class FHIRPathTree {
         private Stack<FHIRPathNode.Builder> builderStack = new Stack<>();
         private FHIRPathNode root;
         private Map<String, FHIRPathNode> pathNodeMap = new HashMap<>();
-
+        
         private void build() {
             String path = getPath();
             
@@ -132,25 +132,25 @@ public class FHIRPathTree {
                 root = node;
             }
         }
-
+        
         private Map<String, FHIRPathNode> getPathNodeMap() {
             return pathNodeMap;
         }
-
+        
         private FHIRPathNode getRoot() {
             return root;
         }
-
+        
         @Override
         protected void doVisitEnd(String elementName, int elementIndex, Element element) {
             build();
         }
-
+        
         @Override
         protected void doVisitEnd(String elementName, int elementIndex, Resource resource) {
             build();
         }
-
+        
         @Override
         protected void doVisitStart(String elementName, int elementIndex, Element element) {
             if (element instanceof Quantity) {
@@ -164,57 +164,57 @@ public class FHIRPathTree {
                 builderStack.push(FHIRPathElementNode.builder(element).name(elementName));
             }
         }
-
+        
         @Override
         protected void doVisitStart(String elementName, int elementIndex, Resource resource) {
             builderStack.push(FHIRPathResourceNode.builder(resource).name(elementName));
         }
-
+        
         @Override
         public void visit(java.lang.String elementName, BigDecimal value) {
             builderStack.peek().value(FHIRPathDecimalValue.decimalValue(elementName, value));
         }
-    
+        
         @Override
         public void visit(java.lang.String elementName, byte[] value) {
             builderStack.peek().value(FHIRPathStringValue.stringValue(elementName, Base64.getEncoder().encodeToString(value)));
         }
-    
+        
         @Override
         public void visit(java.lang.String elementName, java.lang.Boolean value) {
             builderStack.peek().value(FHIRPathBooleanValue.booleanValue(elementName, value));
         }
-    
+        
         @Override
         public void visit(java.lang.String elementName, java.lang.Integer value) {
             builderStack.peek().value(FHIRPathIntegerValue.integerValue(elementName, value));
         }
-    
+        
         @Override
         public void doVisit(java.lang.String elementName, java.lang.String value) {
             builderStack.peek().value(FHIRPathStringValue.stringValue(elementName, value));
         }
-    
+        
         @Override
         public void visit(java.lang.String elementName, LocalDate value) {
             builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(elementName, value));
         }
-    
+        
         @Override
         public void visit(java.lang.String elementName, LocalTime value) {
             builderStack.peek().value(FHIRPathTimeValue.timeValue(elementName, value));
         }
-    
+        
         @Override
         public void visit(java.lang.String elementName, Year value) {
             builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(elementName, value));
         }
-    
+        
         @Override
         public void visit(java.lang.String elementName, YearMonth value) {
             builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(elementName, value));
         }
-    
+        
         @Override
         public void visit(java.lang.String elementName, ZonedDateTime value) {
             builderStack.peek().value(FHIRPathDateTimeValue.dateTimeValue(elementName, value));

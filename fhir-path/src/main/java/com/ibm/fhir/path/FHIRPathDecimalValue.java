@@ -24,25 +24,16 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
         decimal = builder.decimal;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isDecimalValue() {
         return true;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public BigDecimal decimal() {
         return decimal;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Integer integer() {
         return decimal.intValue();
@@ -73,10 +64,7 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
     public static FHIRPathDecimalValue decimalValue(String name, BigDecimal decimal) {
         return FHIRPathDecimalValue.builder(decimal).name(name).build();
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public Builder toBuilder() {
         return new Builder(type, decimal);
@@ -102,41 +90,26 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
             this.decimal = decimal;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder name(String name) {
             return (Builder) super.name(name);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder value(FHIRPathSystemValue value) {
             return this;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder children(FHIRPathNode... children) {
             return this;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder children(Collection<FHIRPathNode> children) {
             return this;
@@ -153,71 +126,47 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
             return new FHIRPathDecimalValue(this);
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public FHIRPathNumberValue add(FHIRPathNumberValue value) {
         return decimalValue(decimal.add(value.decimal()));
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public FHIRPathNumberValue subtract(FHIRPathNumberValue value) {
         return decimalValue(decimal.subtract(value.decimal()));
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public FHIRPathNumberValue multiply(FHIRPathNumberValue value) {
         return decimalValue(decimal.multiply(value.decimal()));
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public FHIRPathNumberValue divide(FHIRPathNumberValue value) {
         return decimalValue(decimal.divide(value.decimal(), MathContext.DECIMAL64));
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public FHIRPathNumberValue div(FHIRPathNumberValue value) {
         return decimalValue(decimal.divideToIntegralValue(value.decimal()));
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public FHIRPathNumberValue mod(FHIRPathNumberValue value) {
         return decimalValue(decimal.remainder(value.decimal()));
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public FHIRPathNumberValue negate() {
         return decimalValue(decimal.negate());
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public FHIRPathNumberValue plus() {
         return this;
     }
-
+    
     /**
      * Indicates whether the decimal value wrapped by this FHIRPathDecimalValue node is equal the parameter (or its primitive value)
      * 
@@ -244,25 +193,16 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractNode implements FHIRPa
         return compareTo(other) == 0;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int hashCode() {
         return Objects.hashCode(decimal);
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public String toString() {
         return decimal.toPlainString();
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);

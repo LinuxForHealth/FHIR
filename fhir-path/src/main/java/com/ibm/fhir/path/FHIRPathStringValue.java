@@ -24,9 +24,6 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
         string = builder.string;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isStringValue() {
         return true;
@@ -67,10 +64,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     public static FHIRPathStringValue stringValue(String name, String string) {
         return FHIRPathStringValue.builder(string).name(name).build();
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public Builder toBuilder() {
         return new Builder(type, string);
@@ -96,46 +90,31 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
             this.string = string;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder name(String name) {
             return (Builder) super.name(name);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder value(FHIRPathSystemValue value) {
             return this;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder children(FHIRPathNode... children) {
             return this;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder children(Collection<FHIRPathNode> children) {
             return this;
         }
-
+        
         /**
          * Build a FHIRPathStringValue instance using this builder
          * 
@@ -159,7 +138,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     public FHIRPathStringValue concat(FHIRPathStringValue value) {
         return stringValue(string.concat(value.string()));
     }
-
+    
     /**
      * Indicates whether this FHIRPathStringValue starts with the prefix in the parameter
      * 
@@ -171,7 +150,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     public boolean startsWith(FHIRPathStringValue prefix) {
         return string.startsWith(prefix.string());
     }
-
+    
     /**
      * Indicates whether this FHIRPathStringValue ends with the suffix in the parameter
      * 
@@ -183,7 +162,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     public boolean endsWith(FHIRPathStringValue suffix) {
         return string.endsWith(suffix.string());
     }
-
+    
     /**
      * Replace occurrences of pattern in this FHIRPathStringValue with substitution
      * 
@@ -197,7 +176,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     public FHIRPathStringValue replace(FHIRPathStringValue pattern, FHIRPathStringValue substitution) {
         return stringValue(string.replace(pattern.string(), substitution.string()));
     }
-
+    
     /**
      * Indicates whether the {@link String} value wrapped by this FHIRPathStringValue matches the regex in the parameter
      * 
@@ -209,7 +188,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     public boolean matches(FHIRPathStringValue regex) {
         return string.matches(regex.string());
     }
-
+    
     /**
      * Replace matches of regex in this FHIRPathStringValue with substitution
      * 
@@ -223,7 +202,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     public FHIRPathStringValue replaceMatches(FHIRPathStringValue regex, FHIRPathStringValue substitution) {
         return stringValue(string.replaceAll(regex.string(), substitution.string()));
     }
-
+    
     /**
      * Returns the part of this FHIRPathStringValue starting at position start
      * 
@@ -249,7 +228,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     public FHIRPathStringValue substring(int start, int length) {
         return stringValue(string.substring(start, (start + length) > string.length() ? string.length() : (start + length)));
     }
-
+    
     /**
      * Indicates whether this FHIRPathStringValue contains the substring in the parameter
      * 
@@ -261,7 +240,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     public boolean contains(FHIRPathStringValue substring) {
         return string.contains(substring.string());
     }
-
+    
     /**
      * The length of this FHIRPathStringValue
      * 
@@ -271,7 +250,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     public int length() {
         return string.length();
     }
-
+    
     /**
      * Convert the characters in this FHIRPathStringValue to lower case
      * 
@@ -281,7 +260,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     public FHIRPathStringValue lower() {
         return stringValue(string.toLowerCase());
     }
-
+    
     /**
      * Convert the characters in this FHIRPathStringValue to upper case
      * 
@@ -291,7 +270,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
     public FHIRPathStringValue upper() {
         return stringValue(string.toUpperCase());
     }
-
+    
     /**
      * Indicates whether this FHIRPathStringValue is comparable to the parameter
      * 
@@ -303,7 +282,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
         return other instanceof FHIRPathStringValue || 
                 other.getValue() instanceof FHIRPathStringValue;
     }
-
+    
     /**
      * Compare the {@link String} value wrapped by this FHIRPathStringValue node to the parameter
      * 
@@ -324,7 +303,7 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
         }
         return string.compareTo(((FHIRPathStringValue) other.getValue()).string());
     }
-
+    
     /**
      * Indicates whether the {@link String} value wrapped by this FHIRPathStringValue node is equal the parameter (or its primitive value)
      * 
@@ -354,25 +333,16 @@ public class FHIRPathStringValue extends FHIRPathAbstractNode implements FHIRPat
         return false;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int hashCode() {
         return Objects.hashCode(string);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         return string;
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);

@@ -18,7 +18,7 @@ public class ListTypeInfo implements TypeInfo {
     public ListTypeInfo(String elementType) {
         this.elementType = Objects.requireNonNull(elementType);
     }
-
+    
     /**
      * The element type of this ListTypeInfo
      * 

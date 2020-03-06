@@ -46,9 +46,6 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
         temporal = getTemporal(date);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isDateValue() {
         return true;
@@ -64,9 +61,6 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
         return !(date instanceof LocalDate);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public TemporalAccessor temporalAccessor() {
         return date;
@@ -82,9 +76,6 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
         return date;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Temporal temporal() {
         return temporal;
@@ -127,10 +118,7 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
     public static FHIRPathDateValue dateValue(String name, TemporalAccessor date) {
         return FHIRPathDateValue.builder(date).name(name).build();
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public Builder toBuilder() {
         return new Builder(type, date);
@@ -156,46 +144,31 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
             this.date = dateTime;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder name(String name) {
             return (Builder) super.name(name);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder value(FHIRPathSystemValue value) {
             return this;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder children(FHIRPathNode... children) {
             return this;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder children(Collection<FHIRPathNode> children) {
             return this;
         }
-
+        
         /**
          * Build a FHIRPathDateValue instance using this builder
          * 
@@ -208,9 +181,6 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
         }
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public FHIRPathDateValue add(FHIRPathQuantityValue quantityValue) {
         Temporal temporal = getTemporal(date);
@@ -218,9 +188,6 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
         return dateValue(getTemporalAccessor(temporal.plus(temporalAmount), date.getClass()));
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public FHIRPathDateValue subtract(FHIRPathQuantityValue quantityValue) {
         Temporal temporal = getTemporal(date);
@@ -245,7 +212,7 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
         }
         return false;
     }
-
+    
     /**
      * Compare the date value wrapped by this FHIRPathDateValue node to the parameter
      * 
@@ -264,7 +231,7 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
                 (FHIRPathTemporalValue) other : (FHIRPathTemporalValue) other.getValue();
         return compareTo(temporalValue.temporalAccessor());
     }
-
+    
     private int compareTo(TemporalAccessor temporalAccessor) {
         if (date instanceof Year && temporalAccessor instanceof Year) {
             return ((Year) date).compareTo((Year) temporalAccessor);
@@ -274,7 +241,7 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
         }
         return ((LocalDate) date).compareTo((LocalDate) temporalAccessor);
     }
-
+    
     /**
      * Indicates whether the date value wrapped by this FHIRPathDateValue node is equal the parameter (or its primitive value)
      * 
@@ -302,26 +269,17 @@ public class FHIRPathDateValue extends FHIRPathAbstractNode implements FHIRPathT
                 (FHIRPathTemporalValue) other : (FHIRPathTemporalValue) other.getValue();
         return Objects.equals(date, temporalValue.temporalAccessor());
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public int hashCode() {
         return Objects.hashCode(date);
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public String toString() {
         return DATE_PARSER_FORMATTER.format(date);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);

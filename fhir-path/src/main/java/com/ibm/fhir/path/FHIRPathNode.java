@@ -107,7 +107,7 @@ public interface FHIRPathNode extends Comparable<FHIRPathNode> {
      *     true if this FHIRPathNode is type compatible with {@code nodeType}, otherwise false
      */
     <T extends FHIRPathNode> boolean is(Class<T> nodeType);
-
+    
     /**
      * Cast this FHIRPathNode to the type specified in the parameter
      * 

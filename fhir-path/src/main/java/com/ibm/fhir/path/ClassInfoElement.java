@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  * 
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,14 +27,32 @@ public class ClassInfoElement {
         this.oneBased = oneBased;
     }
     
+    /**
+     * The name of this ClassInfoElement
+     * 
+     * @return
+     *     the name of this ClassInfoElement
+     */
     public String getName() {
         return name;
     }
     
+    /**
+     * The type of this ClassInfoElement
+     * 
+     * @return
+     *     the type of this ClassInfoElement
+     */
     public String getType() {
         return type;
     }
     
+    /**
+     * Indicates whether this ClassInfoElement is one-based
+     * 
+     * @return
+     *     true if this ClassInfoElement is one-based, otherwise false
+     */
     public Boolean isOneBased() {
         return oneBased;
     }

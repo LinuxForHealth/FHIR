@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  * 
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,11 +36,23 @@ public class ClassInfo implements TypeInfo {
     public String getName() {
         return name;
     }
-
+    
+    /**
+     * The base type of this ClassInfo
+     * 
+     * @return
+     *     the base type of this ClassInfo
+     */
     public final String getBaseType() {
         return baseType;
     }
     
+    /**
+     * The list of elements that are part of this ClassInfo
+     * 
+     * @return
+     *     the list of elements that are part of this ClassInfo
+     */
     public List<ClassInfoElement> getElement() {
         return element;
     }

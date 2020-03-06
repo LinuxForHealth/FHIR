@@ -54,17 +54,11 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
         temporal = getTemporal(time);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isTimeValue() {
         return true;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public TemporalAccessor temporalAccessor() {
         return time;
@@ -91,9 +85,6 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
         return timePrecision;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Temporal temporal() {
         return temporal;
@@ -136,10 +127,7 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
     public static FHIRPathTimeValue timeValue(String name, LocalTime time) {
         return FHIRPathTimeValue.builder(time, getTimePrecision(time)).name(name).build();
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public Builder toBuilder() {
         return new Builder(type, time, timePrecision);
@@ -167,46 +155,31 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
             this.timePrecision = timePrecision;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder name(String name) {
             return (Builder) super.name(name);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder value(FHIRPathSystemValue value) {
             return this;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder children(FHIRPathNode... children) {
             return this;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder children(Collection<FHIRPathNode> children) {
             return this;
         }
-
+        
         /**
          * Build a FHIRPathTimeValue instance using this builder
          * 
@@ -219,26 +192,20 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
         }
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public FHIRPathTimeValue add(FHIRPathQuantityValue quantityValue) {
         Temporal temporal = getTemporal(time);
         TemporalAmount temporalAmount = getTemporalAmount(quantityValue);
         return timeValue(LocalTime.from(temporal.plus(temporalAmount)));
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public FHIRPathTimeValue subtract(FHIRPathQuantityValue quantityValue) {
         Temporal temporal = getTemporal(time);
         TemporalAmount temporalAmount = getTemporalAmount(quantityValue);
         return timeValue(LocalTime.from(temporal.minus(temporalAmount)));
     }
-
+    
     /**
      * Indicates whether this FHIRPathTimeValue is comparable to the parameter
      * 
@@ -256,7 +223,7 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
         }
         return false;
     }
-
+    
     /**
      * Compare the {@link LocalTime} value wrapped by this FHIRPathTimeValue node to the parameter
      * 
@@ -301,26 +268,17 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
         FHIRPathTimeValue timeValue = (other instanceof FHIRPathTimeValue) ? (FHIRPathTimeValue) other : (FHIRPathTimeValue) other.getValue();
         return Objects.equals(time, timeValue.time());
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public int hashCode() {
         return Objects.hashCode(time);
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public String toString() {
         return TIME_PARSER_FORMATTER.format(time);
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);

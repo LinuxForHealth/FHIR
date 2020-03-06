@@ -23,22 +23,16 @@ public class SimpleTypeInfo implements TypeInfo {
         this.baseType = Objects.requireNonNull(baseType);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getNamespace() {
         return namespace;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getName() {
         return name;
     }
-
+    
     /**
      * The base type of this SimpleTypeInfo
      * 
@@ -74,17 +68,11 @@ public class SimpleTypeInfo implements TypeInfo {
                 Objects.equals(baseType, other.baseType);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int hashCode() {
         return Objects.hash(namespace, name, baseType);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         return String.format("SimpleTypeInfo { namespace: '%s', name: '%s', baseType: '%s' }", namespace, name, baseType);

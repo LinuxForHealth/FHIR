@@ -47,6 +47,12 @@ public class TupleTypeInfoElement {
         return type;
     }
     
+    /**
+     * Indicates whether this TupleTypeInfoElement is one-based
+     * 
+     * @return
+     *     true if this TupleTypeInfoElement is one-based, otherwise false
+     */
     public Boolean isOneBased() {
         return oneBased;
     }
@@ -76,9 +82,6 @@ public class TupleTypeInfoElement {
                 Objects.equals(oneBased, other.oneBased);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         if (oneBased != null) {

@@ -343,7 +343,7 @@ public enum FHIRPathType {
         }
         return Collections.unmodifiableMap(typeNameMap);
     }
-
+    
     private static Map<Class<?>, FHIRPathType> buildMetamodelTypeMap() {
         Map<Class<?>, FHIRPathType> metamodelTypeMap = new HashMap<>();
         metamodelTypeMap.put(TypeInfo.class, SYSTEM_TYPE_INFO);
@@ -367,7 +367,7 @@ public enum FHIRPathType {
         javaTypeMap.put(java.time.Year.class, SYSTEM_DATE_TIME);
         return Collections.unmodifiableMap(javaTypeMap);
     }
-
+    
     private static Map<Class<?>, FHIRPathType> buildTypeMap() {
         Map<Class<?>, FHIRPathType> typeMap = new HashMap<>();
         for (FHIRPathType type : FHIRPathType.values()) {
@@ -377,7 +377,7 @@ public enum FHIRPathType {
         }
         return Collections.unmodifiableMap(typeMap);
     }
-
+    
     FHIRPathType(java.lang.String namespace, java.lang.String name) {
         this(namespace, name, null, null);
     }
@@ -385,7 +385,7 @@ public enum FHIRPathType {
     FHIRPathType(java.lang.String namespace, java.lang.String name, FHIRPathType baseType) {
         this(namespace, name, baseType, null);
     }
-  
+    
     FHIRPathType(java.lang.String namespace, java.lang.String name, FHIRPathType baseType, Class<?> modelClass) {
         this.namespace = namespace;
         this.name = name;

@@ -33,9 +33,6 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         return element;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isElementNode() {
         return true;
@@ -89,9 +86,6 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         return FHIRPathElementNode.builder(element).name(name).build();
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Builder toBuilder() {
         Builder builder = new Builder(type, element);
@@ -100,7 +94,7 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         builder.children = children;
         return builder;
     }
-
+    
     /**
      * Static factory method for creating builder instances from an {@link Element}
      * 
@@ -115,48 +109,33 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
     
     public static class Builder extends FHIRPathAbstractNode.Builder {
         protected final Element element;
-
+        
         protected Builder(FHIRPathType type, Element element) {
             super(type);
             this.element = element;
         }
         
-        /**
-         * {@inheritDoc}
-         */
         public Builder name(String name) {
             return (Builder) super.name(name);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         public Builder value(FHIRPathSystemValue value) {
             return (Builder) super.value(value);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         public Builder children(FHIRPathNode... children) {
             return (Builder) super.children(children);
         }
         
-        /**
-         * {@inheritDoc}
-         */
         public Builder children(Collection<FHIRPathNode> children) {
             return (Builder) super.children(children);
         }
-
+        
         /**
          * Build a FHIRPathElementNode using this builder
          * 
@@ -244,17 +223,11 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         return false;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int hashCode() {
         return Objects.hashCode(element);
     }
     
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         if (hasValue()) {
@@ -262,10 +235,7 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
         }
         return super.toString();
     }
-
-    /**
-     * {@inheritDoc}
-     */
+    
     @Override
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);
