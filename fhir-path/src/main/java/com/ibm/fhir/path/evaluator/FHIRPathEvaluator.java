@@ -109,7 +109,7 @@ public class FHIRPathEvaluator {
      * @param expr
      *     the FHIRPath expression to evaluate
      * @return
-     *     the result of evaluation as a collection of FHIRPath nodes
+     *     the result of evaluation as a non-null, potentially empty collection of FHIRPath nodes
      * @throws NullPointerException
      *     if any of the parameters are null    
      * @throws FHIRPathException
@@ -127,7 +127,7 @@ public class FHIRPathEvaluator {
      * @param expr
      *     the FHIRPath expression to evaluate
      * @return
-     *     the result of evaluation as a collection of FHIRPath nodes
+     *     the result of evaluation as a non-null, potentially empty collection of FHIRPath nodes
      * @throws NullPointerException
      *     if any of the parameters are null    
      * @throws FHIRPathException
@@ -154,7 +154,7 @@ public class FHIRPathEvaluator {
      * @param expr
      *     the FHIRPath expression to evaluate
      * @return
-     *     the result of evaluation as a collection of FHIRPath nodes
+     *     the result of evaluation as a non-null, potentially empty collection of FHIRPath nodes
      * @throws NullPointerException
      *     if any of the parameters are null    
      * @throws FHIRPathException
@@ -172,7 +172,7 @@ public class FHIRPathEvaluator {
      * @param expr
      *     the FHIRPath expression to evaluate
      * @return
-     *     the result of evaluation as a collection of FHIRPath nodes
+     *     the result of evaluation as a non-null, potentially empty collection of FHIRPath nodes
      * @throws NullPointerException
      *     if any of the parameters are null    
      * @throws FHIRPathException
@@ -190,7 +190,7 @@ public class FHIRPathEvaluator {
      * @param expr
      *     the FHIRPath expression to evaluate
      * @return
-     *     the result of evaluation as a collection of FHIRPath nodes
+     *     the result of evaluation as a non-null, potentially empty collection of FHIRPath nodes
      * @throws NullPointerException
      *     if any of the parameters are null    
      * @throws FHIRPathException
@@ -210,7 +210,7 @@ public class FHIRPathEvaluator {
      * @param node
      *     the FHIRPath node
      * @return
-     *     the result of evaluation as a collection of FHIRPath nodes
+     *     the result of evaluation as a non-null, potentially empty collection of FHIRPath nodes
      * @throws NullPointerException
      *     if any of the parameters are null    
      * @throws FHIRPathException
@@ -228,7 +228,7 @@ public class FHIRPathEvaluator {
      * @param expr
      *     the FHIRPath expression to evaluate
      * @param initialContext
-     *     the initial context as a collection of FHIRPath nodes
+     *     the initial context as a non-null, potentially empty collection of FHIRPath nodes
      * @return
      *     the result of evaluation as a collection of FHIRPath nodes
      * @throws NullPointerException
@@ -1404,7 +1404,7 @@ public class FHIRPathEvaluator {
         }
         
         /**
-         * Unset an external constant using a name and FHIRPath node
+         * Unset an external constant with the given name
          * 
          * @param name
          *     the name
@@ -1414,12 +1414,12 @@ public class FHIRPathEvaluator {
         }
         
         /**
-         * Get an external constant using its name
+         * Get an external constant with the given name
          * 
          * @param name
          *     the name
          * @return
-         *     the external constant as a collection of FHIRPath nodes if exists, or an empty collection
+         *     the external constant as a collection of FHIRPath nodes or an empty collection
          */
         public Collection<FHIRPathNode> getExternalConstant(String name) {
             switch (name) {
@@ -1446,7 +1446,7 @@ public class FHIRPathEvaluator {
          * @param name
          *     the name
          * @return
-         *     true if this EvaluationContext has an external constant with the given name if exists, otherwise false
+         *     true if this EvaluationContext has an external constant with the given name, otherwise false
          */
         public boolean hasExternalConstant(String name) {
             return externalConstantMap.containsKey(name);

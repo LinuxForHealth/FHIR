@@ -96,7 +96,7 @@ public class FHIRPathTypeInfoNode extends FHIRPathAbstractNode {
      * @param obj
      *     the other {@link Object}
      * @return
-     *     true if the {@link TypeInfo} wrapped by this FHIRPathTypeInfoNode node is equal the parameter, otherwise false
+     *     true if the {@link TypeInfo} wrapped by this FHIRPathTypeInfoNode node is equal to the parameter, otherwise false
      */
     @Override
     public boolean equals(Object obj) {
