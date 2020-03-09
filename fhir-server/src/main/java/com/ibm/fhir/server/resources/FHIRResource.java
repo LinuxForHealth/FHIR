@@ -57,13 +57,7 @@ import com.ibm.fhir.server.listener.FHIRServletContextListener;
 public class FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
 
-    protected static final String HEADERNAME_IF_NONE_EXIST = "If-None-Exist";
-    protected static final String HEADERNAME_IF_MODIFIED_SINCE = "If-Modified-Since";
-    protected static final String HEADERNAME_IF_NONE_MATCH = "If-None-Match";
-
-    protected static final String AUDIT_LOGGING_ERR_MSG = "An error occurred while writing the audit log message.";
-
-    public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder()
+    public static final DateTimeFormatter HTTP_DATETIME_FORMATTER = new DateTimeFormatterBuilder()
             .appendPattern("EEE")
             .optionalStart()
             // ANSIC date time format for If-Modified-Since
@@ -73,6 +67,8 @@ public class FHIRResource {
             // Touchstone date time format for If-Modified-Since
             .appendPattern(", dd-MMM-yy HH:mm:ss")
             .optionalEnd().toFormatter();
+
+    protected static final String AUDIT_LOGGING_ERR_MSG = "An error occurred while writing the audit log message.";
 
     private PersistenceHelper persistenceHelper = null;
     private FHIRPersistence persistence = null;
@@ -91,9 +87,6 @@ public class FHIRResource {
      */
     @Context
     protected UriInfo uriInfo;
-
-    @Context
-    protected HttpHeaders httpHeaders;
 
     @Context
     protected SecurityContext securityContext;
@@ -145,16 +138,16 @@ public class FHIRResource {
             // Handle RFC_1123 and RFC_850 formats first.
             // e.g "Sun, 06 Nov 1994 08:49:37 GMT", "Sunday, 06-Nov-94 08:49:37 GMT", "Sunday, 06-Nov-1994 08:49:37 GMT"
             // If 2 digits year is used, then means 1940 to 2039.
-            modifiedSince = httpServletRequest.getDateHeader(HEADERNAME_IF_MODIFIED_SINCE);
+            modifiedSince = httpServletRequest.getDateHeader(HttpHeaders.IF_MODIFIED_SINCE);
         } catch (IllegalArgumentException e) {
             try {
                 // Then handle ANSIC format, e.g, "Sun Nov  6 08:49:37 1994"
                 // and touchStone specific format, e.g, "Sat, 28-Sep-19 16:11:14"
                 // assuming the time zone is GMT.
-                modifiedSince = PARSER_FORMATTER.parse(httpHeaders.getHeaderString(HEADERNAME_IF_MODIFIED_SINCE), LocalDateTime::from)
+                modifiedSince = HTTP_DATETIME_FORMATTER.parse(httpServletRequest.getHeader(HttpHeaders.IF_MODIFIED_SINCE), LocalDateTime::from)
                         .atZone(ZoneId.of("GMT")).toInstant().toEpochMilli();
             } catch (DateTimeParseException e1) {
-                    modifiedSince = -1;
+                modifiedSince = -1;
             }
         }
         return modifiedSince;
@@ -254,8 +247,8 @@ public class FHIRResource {
         if (status.getFamily() == Status.Family.SERVER_ERROR) {
             log.log(Level.SEVERE, e.getMessage(), e);
         } else {
-            if (log.isLoggable(Level.FINE)) {
-                log.log(Level.FINE, e.getMessage(), e);
+            if (log.isLoggable(Level.INFO)) {
+                log.log(Level.INFO, e.getMessage(), e);
             }
         }
 

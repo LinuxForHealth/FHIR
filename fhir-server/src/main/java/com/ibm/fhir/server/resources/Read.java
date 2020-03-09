@@ -15,9 +15,11 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -45,7 +47,8 @@ public class Read extends FHIRResource {
 
     @GET
     @Path("{type}/{id}")
-    public Response read(@PathParam("type") String type, @PathParam("id") String id) throws Exception {
+    public Response read(@PathParam("type") String type, @PathParam("id") String id, 
+            @HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatch) throws Exception {
         log.entering(this.getClass().getName(), "read(String,String)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -55,8 +58,6 @@ public class Read extends FHIRResource {
             checkInitComplete();
             MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
             long modifiedSince = parseIfModifiedSince();
-
-            String ifNoneMatch = httpHeaders.getHeaderString(HEADERNAME_IF_NONE_MATCH);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             Resource resource = helper.doRead(type, id, true, false, null, null, queryParameters);
