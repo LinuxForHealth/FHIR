@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -39,13 +40,24 @@ import com.ibm.fhir.server.util.RestAuditLogger;
 public class Create extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Create.class.getName());
 
+    /**
+     * This HL7-defined extension header supports "conditional create", allowing a client to create a new resource only if some equivalent 
+     * resource does not already exist on the server.
+     * The client defines what equivalence means in this case by supplying a FHIR search query using an HL7 defined extension header "If-None-Exist" as shown:
+     * <pre>
+     * If-None-Exist: [search parameters]
+     * </pre>
+     * The header value matches the FHIR search syntax (what would be in the URL following the "?").
+     */
+    private static final String HEADERNAME_IF_NONE_EXIST = "If-None-Exist";
+
     public Create() throws Exception {
         super();
     }
 
     @POST
     @Path("{type}")
-    public Response create(@PathParam("type") String type, Resource resource) {
+    public Response create(@PathParam("type") String type, Resource resource, @HeaderParam(HEADERNAME_IF_NONE_EXIST) String ifNoneExist) {
         log.entering(this.getClass().getName(), "create(String,Resource)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -53,8 +65,6 @@ public class Create extends FHIRResource {
 
         try {
             checkInitComplete();
-
-            String ifNoneExist = httpHeaders.getHeaderString(HEADERNAME_IF_NONE_EXIST);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             ior = helper.doCreate(type, resource, ifNoneExist, null);

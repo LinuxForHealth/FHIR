@@ -7,6 +7,8 @@
 package com.ibm.fhir.config;
 
 import java.util.Base64;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +35,7 @@ public class FHIRRequestContext {
     private String dataStoreId;
     private String requestUniqueId;
     private String originalRequestUri;
+    private Map<String, List<String>> httpHeaders;
     
     // Default to the "strict" handling which means the server will reject unrecognized search parameters and elements
     private HTTPHandlingPreference handlingPreference = HTTPHandlingPreference.STRICT;
@@ -199,5 +202,19 @@ public class FHIRRequestContext {
      */
     public void setOriginalRequestUri(String originalRequestUri) {
         this.originalRequestUri = originalRequestUri;
+    }
+
+    /**
+     * @return the httpHeaders
+     */
+    public Map<String, List<String>> getHttpHeaders() {
+        return httpHeaders;
+    }
+
+    /**
+     * @param httpHeaders the httpHeaders to set
+     */
+    public void setHttpHeaders(Map<String, List<String>> httpHeaders) {
+        this.httpHeaders = httpHeaders;
     }
 }

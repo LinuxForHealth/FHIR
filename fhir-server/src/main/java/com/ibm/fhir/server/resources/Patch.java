@@ -16,6 +16,7 @@ import javax.json.JsonArray;
 import javax.json.JsonPatch;
 import javax.json.JsonValue;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -58,7 +59,8 @@ public class Patch extends FHIRResource {
     @Consumes({ FHIRMediaType.APPLICATION_JSON_PATCH })
     @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
     @Path("{type}/{id}")
-    public Response patch(@PathParam("type") String type, @PathParam("id") String id, JsonArray array) {
+    public Response patch(@PathParam("type") String type, @PathParam("id") String id, JsonArray array,
+            @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch) {
         log.entering(this.getClass().getName(), "patch(String,String,JsonArray)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -70,7 +72,7 @@ public class Patch extends FHIRResource {
             FHIRPatch patch = createPatch(array);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doPatch(type, id, patch, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null, null);
+            ior = helper.doPatch(type, id, patch, ifMatch, null, null);
 
             status = ior.getStatus();
             ResponseBuilder response = Response.status(status)
@@ -109,7 +111,8 @@ public class Patch extends FHIRResource {
 
     @PATCH
     @Path("{type}/{id}")
-    public Response patch(@PathParam("type") String type, @PathParam("id") String id, Parameters parameters) {
+    public Response patch(@PathParam("type") String type, @PathParam("id") String id, Parameters parameters,
+            @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch) {
         log.entering(this.getClass().getName(), "patch(String,String,Parameters)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -126,7 +129,7 @@ public class Patch extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doPatch(type, id, patch, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null, null);
+            ior = helper.doPatch(type, id, patch, ifMatch, null, null);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
@@ -169,7 +172,7 @@ public class Patch extends FHIRResource {
     @Consumes({ FHIRMediaType.APPLICATION_JSON_PATCH })
     @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
     @Path("{type}")
-    public Response conditionalPatch(@PathParam("type") String type, JsonArray array) {
+    public Response conditionalPatch(@PathParam("type") String type, JsonArray array, @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch) {
         log.entering(this.getClass().getName(), "conditionalPatch(String,String,JsonArray)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -188,7 +191,7 @@ public class Patch extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doPatch(type, null, patch, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), searchQueryString, null);
+            ior = helper.doPatch(type, null, patch, ifMatch, searchQueryString, null);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
@@ -198,7 +201,8 @@ public class Patch extends FHIRResource {
             Resource resource = ior.getResource();
             if (resource != null && HTTPReturnPreference.REPRESENTATION == FHIRRequestContext.get().getReturnPreference()) {
                 response.entity(resource);
-            } else if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
+            } else if (ior.getOperationOutcome() != null && 
+                    HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
                 response.entity(ior.getOperationOutcome());
             }
 
@@ -230,7 +234,7 @@ public class Patch extends FHIRResource {
 
     @PATCH
     @Path("{type}")
-    public Response conditionalPatch(@PathParam("type") String type, Parameters parameters) {
+    public Response conditionalPatch(@PathParam("type") String type, Parameters parameters, @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch) {
         log.entering(this.getClass().getName(), "conditionalPatch(String,String,Parameters)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -254,7 +258,7 @@ public class Patch extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doPatch(type, null, patch, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), searchQueryString, null);
+            ior = helper.doPatch(type, null, patch, ifMatch, searchQueryString, null);
 
             status = ior.getStatus();
             ResponseBuilder response = Response.status(status)
