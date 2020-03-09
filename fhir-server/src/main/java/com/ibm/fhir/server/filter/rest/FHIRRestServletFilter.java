@@ -9,6 +9,10 @@ package com.ibm.fhir.server.filter.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.security.Principal;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -126,6 +130,10 @@ public class FHIRRestServletFilter extends HttpFilter {
             HTTPReturnPreference returnPref = computeReturnPref(request, handlingPref);
             context.setReturnPreference(returnPref);
 
+            // Set the request headers.
+            Map<String, List<String>> requestHeaders = extractRequestHeaders(request);
+            context.setHttpHeaders(requestHeaders);
+
             // Pass the request through to the next filter in the chain.
             chain.doFilter(request, response);
         } catch (Exception e) {
@@ -183,6 +191,21 @@ public class FHIRRestServletFilter extends HttpFilter {
                 log.exiting(this.getClass().getName(), "doFilter");
             }
         }
+    }
+
+    /**
+     * @return a map of HTTP request headers, keyed by header name
+     */
+    private Map<String, List<String>> extractRequestHeaders(HttpServletRequest request) {
+        // Uses LinkedHashMap just to preserve the order.
+        Map<String, List<String>> requestHeaders = new LinkedHashMap<String, List<String>>();
+
+        List<String> headerNames = Collections.list(request.getHeaderNames());
+        for (String headerName : headerNames) {
+            requestHeaders.put(headerName, Collections.list(request.getHeaders(headerName)));
+        }
+
+        return requestHeaders;
     }
 
     private HTTPHandlingPreference computeHandlingPref(ServletRequest request) throws FHIRException {

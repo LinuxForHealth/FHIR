@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,17 @@ import javax.ws.rs.core.Application;
 import com.ibm.fhir.provider.FHIRJsonPatchProvider;
 import com.ibm.fhir.provider.FHIRJsonProvider;
 import com.ibm.fhir.provider.FHIRProvider;
-import com.ibm.fhir.server.resources.FHIRResource;
+import com.ibm.fhir.server.resources.Batch;
+import com.ibm.fhir.server.resources.Capabilities;
+import com.ibm.fhir.server.resources.Create;
+import com.ibm.fhir.server.resources.Delete;
+import com.ibm.fhir.server.resources.History;
+import com.ibm.fhir.server.resources.Operation;
+import com.ibm.fhir.server.resources.Patch;
+import com.ibm.fhir.server.resources.Read;
+import com.ibm.fhir.server.resources.Search;
+import com.ibm.fhir.server.resources.Update;
+import com.ibm.fhir.server.resources.VRead;
 
 public class FHIRApplication extends Application {
     private static final Logger log = Logger.getLogger(FHIRApplication.class.getName());
@@ -39,7 +49,17 @@ public class FHIRApplication extends Application {
         try {
             if (classes == null) {
                 classes = new HashSet<Class<?>>();
-                classes.add(FHIRResource.class);
+                classes.add(Batch.class);
+                classes.add(Capabilities.class);
+                classes.add(Create.class);
+                classes.add(Delete.class);
+                classes.add(History.class);
+                classes.add(Operation.class);
+                classes.add(Patch.class);
+                classes.add(Read.class);
+                classes.add(Search.class);
+                classes.add(Update.class);
+                classes.add(VRead.class);
             }
             return classes;
         } finally {

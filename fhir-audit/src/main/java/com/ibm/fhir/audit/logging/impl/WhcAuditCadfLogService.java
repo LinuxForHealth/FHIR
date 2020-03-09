@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -69,22 +69,22 @@ public class WhcAuditCadfLogService implements AuditLogService {
     private boolean isEnabled = false;
 
     private static final Map<String, Action> fhir2CadfMap = new HashMap<String, Action>() {
-
         private static final long serialVersionUID = 1L;
         {
             put("C", Action.create);
-            put("D", Action.delete);
-            put("U", Action.update);
             put("R", Action.read);
+            put("U", Action.update);
+            put("D", Action.delete);
         }
     };
 
     // Initialize CADF OBSERVER resource object once
     private static CadfResource observerRsrc =
-            new CadfResource.Builder("fhir-server",
-                    ResourceType.compute_node)
+            new CadfResource.Builder("fhir-server", ResourceType.compute_node)
                             .geolocation(new CadfGeolocation.Builder(geoCity, geoState, geoCountry, null).build())
-                            .name("Fhir Audit").host(System.getenv("HOSTNAME")).build();
+                            .name("Fhir Audit")
+                            .host(System.getenv("HOSTNAME"))
+                            .build();
 
     public WhcAuditCadfLogService() {
         super();
@@ -96,7 +96,7 @@ public class WhcAuditCadfLogService implements AuditLogService {
         logger.entering(CLASSNAME, METHODNAME);
 
         // Check environment: EVENT_STREAMS_AUDIT_BINDING to obtain configuration parameters for
-        // kafka (Kub Container)
+        // kafka (Kubernetes Container)
         if (System.getenv(Environment.KUB_EVENTSTREAMS_BINDING) != null) {
             logger.log(Level.INFO, "Using env var " + Environment.KUB_EVENTSTREAMS_BINDING + " to find credentials.");
             EventStreamsCredentials credentials = Environment.getEventStreamsCredentials();
@@ -106,8 +106,7 @@ public class WhcAuditCadfLogService implements AuditLogService {
             }
         }
 
-        // If fails to get config from environment, then try to get them from FHIR
-        // config
+        // If fails to get config from environment, then try to get them from FHIR config
         if (bootstrapServers == null || bootstrapServers.length() < 10 || apiKey == null || apiKey.length() < 10) {
             Objects.requireNonNull(auditLogProperties, "Audit log properties cannot be null.");
             logger.log(Level.INFO, "Using FHIR config to find credentials.");
@@ -120,8 +119,7 @@ public class WhcAuditCadfLogService implements AuditLogService {
             throw new FHIRException("Can not get kafka settings!");
         }
 
-        // Now, let's get the audit topic from FHIR config, if not found, then use the
-        // default topic
+        // Now, let's get the audit topic from FHIR config, if not found, then use the default topic
         if (auditLogProperties != null) {
             auditTopic = auditLogProperties.getStringProperty(PROPERTY_AUDIT_KAFKA_TOPIC, DEFAULT_AUDIT_KAFKA_TOPIC);
             geoCity    = auditLogProperties.getStringProperty(PROPERTY_AUDIT_GEO_CITY, DEFAULT_AUDIT_GEO_CITY);
@@ -189,7 +187,6 @@ public class WhcAuditCadfLogService implements AuditLogService {
      * @return
      * @throws IllegalStateException
      * @throws IOException 
-     * @throws JsonProcessingException
      */
     public static CadfEvent createCadfEvent(AuditLogEntry logEntry)
             throws IllegalStateException, IOException {
@@ -231,7 +228,8 @@ public class WhcAuditCadfLogService implements AuditLogService {
             fhirContext.setLocation(logEntry.getLocation());
             fhirContext.setDescription(logEntry.getDescription());
 
-            if (logEntry.getContext().getStartTime().equalsIgnoreCase(logEntry.getContext().getEndTime())) {
+            if (logEntry.getContext().getEndTime() == null ||
+                    logEntry.getContext().getStartTime().equalsIgnoreCase(logEntry.getContext().getEndTime())) {
                 cadfEventOutCome = Outcome.pending;
             } else if (logEntry.getContext().getApiParameters().getStatus() < 400) {
                 cadfEventOutCome = Outcome.success;
@@ -239,17 +237,19 @@ public class WhcAuditCadfLogService implements AuditLogService {
                 cadfEventOutCome = Outcome.failure;
             }
 
-            event =
-                    new CadfEvent.Builder(
+            event = new CadfEvent.Builder(
                             logEntry.getContext().getRequestUniqueId() == null ? UUID.randomUUID().toString()
                                     : logEntry.getContext().getRequestUniqueId(),
-                            EventType.activity, logEntry.getTimestamp(),
-                            fhir2CadfMap.getOrDefault(logEntry.getContext().getAction(), Action.unknown),
-                            cadfEventOutCome).observer(observerRsrc).initiator(initiator)
-                                    .target(target).tag(logEntry.getCorrelationId())
-                                    .attachment(new CadfAttachment("application/json",
+                                    EventType.activity, logEntry.getTimestamp(),
+                                    fhir2CadfMap.getOrDefault(logEntry.getContext().getAction(), Action.unknown),
+                                    cadfEventOutCome)
+                            .observer(observerRsrc)
+                            .initiator(initiator)
+                            .target(target)
+                            .tag(logEntry.getCorrelationId())
+                            .attachment(new CadfAttachment("application/json",
                                             FHIRContext.FHIRWriter.generate(fhirContext)))
-                                    .build();
+                            .build();
         }
 
         logger.exiting(CLASSNAME, METHODNAME);

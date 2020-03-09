@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,10 +32,6 @@ public class FHIRPersistenceEventTest {
         assertNull(pe.getFhirResourceId());
         assertNull(pe.getFhirVersionId());
         assertFalse(pe.isStandardResourceType());
-        assertNull(pe.getHttpHeaders());
-        assertNull(pe.getRequestProperties());
-        assertNull(pe.getSecurityContext());
-        assertNull(pe.getUriInfo());
         assertNull(pe.getPersistenceImpl());
     }
     
@@ -70,21 +66,5 @@ public class FHIRPersistenceEventTest {
         assertEquals("id1", pe.getFhirResourceId());
         assertEquals("v1", pe.getFhirVersionId());
         
-    }
-    
-    @Test
-    public void testGetHeaderString() throws Exception {
-        Patient patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
-        Map<String, Object> properties = new HashMap<>();
-        
-        Map<String, String> reqProps = new HashMap<String, String>();
-        reqProps.put("X-Custom-Header", "value1");
-        
-        properties.put(FHIRPersistenceEvent.PROPNAME_REQUEST_PROPERTIES, reqProps);
-        
-        FHIRPersistenceEvent pe = new FHIRPersistenceEvent(patient, properties);
-        
-        assertEquals("value1", pe.getHeaderString("X-Custom-Header"));
-        assertNull(pe.getHeaderString("X-Fake-Header"));
     }
 }

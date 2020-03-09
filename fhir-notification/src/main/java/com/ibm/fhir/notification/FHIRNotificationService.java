@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -226,7 +226,6 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
             event.setLocation((String) pEvent.getProperty(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI));
             event.setResourceId(resource.getId());
             event.setResource(resource);
-            event.setHttpHeaders(pEvent.getHttpHeaders());
 
             return event;
         } catch (Exception e) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -76,7 +76,7 @@ public class RestAuditLogger {
         AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
         AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_CREATE);
         populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
-                
+        
         entry.getContext().setAction("C");
         entry.setDescription("FHIR Create request");
         
@@ -461,7 +461,7 @@ public class RestAuditLogger {
         StringBuffer requestUrl;
         String patientIdExtUrl;
         List<String> userList = new ArrayList<>();
-                
+        
         // Build a list of possible user names. Pick the first non-null user name to include in the audit log entry.
         userList.add(request.getHeader(HEADER_IBM_APP_USER));
         userList.add(request.getHeader(HEADER_CLIENT_CERT_CN));
@@ -476,7 +476,7 @@ public class RestAuditLogger {
                 break;
             }
         }
-         
+        
         entry.setLocation(new StringBuilder()
                             .append(request.getRemoteAddr())
                             .append("/")
@@ -502,7 +502,7 @@ public class RestAuditLogger {
                 entry.getContext().getData().setVersionId(resource.getMeta().getVersionId().getValue());
             }
         }
-         
+        
         entry.setClientCertCn(request.getHeader(HEADER_CLIENT_CERT_CN));
         entry.setClientCertIssuerOu(request.getHeader(HEADER_CLIENT_CERT_ISSUER_OU));
         entry.setCorrelationId(request.getHeader(HEADER_CORRELATION_ID));
@@ -510,7 +510,7 @@ public class RestAuditLogger {
         patientIdExtUrl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_PATIENT_ID_EXTURL, null);
         entry.setPatientId(FHIRUtil.getExtensionStringValue(resource, patientIdExtUrl));
         entry.getContext().setRequestUniqueId(FHIRRequestContext.get().getRequestUniqueId());
-                
+        
         log.exiting(CLASSNAME, METHODNAME);
         return entry;
     }
@@ -528,7 +528,7 @@ public class RestAuditLogger {
         String componentIp = null;
         AuditLogEntry logEntry;
         String tenantId;
-      
+        
         tenantId = FHIRRequestContext.get().getTenantId();
         timestamp = FHIRUtilities.formatTimestamp(new Date(System.currentTimeMillis()));
         try {
@@ -542,5 +542,4 @@ public class RestAuditLogger {
         log.exiting(CLASSNAME, METHODNAME);
         return logEntry;
     }
-    
 }

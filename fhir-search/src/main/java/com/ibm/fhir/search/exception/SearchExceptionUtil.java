@@ -19,7 +19,6 @@ public class SearchExceptionUtil {
     private static final String ILLEGAL_ARGUMENT_EXCEPTION = "No constant with value '%s' found.";
     private static final String PARSE_PARAMETER_EXCEPTION = "An error occurred while parsing parameter '%s'.";
     private static final String CHAINED_PARAMETER_EXCEPTION = "Unable to parse chained parameter: '%s'";
-    private static final String GET_SEARCH_FAILED = "Unable to process getSearch ";
     private static final String BADFORMAT_EXCEPTION = "Invalid Date Time Format found please use 'yyyy-mm-ddThh:mm:ss[Z|(+|-)hh:mm].'";
     
     private SearchExceptionUtil() {
@@ -45,7 +44,9 @@ public class SearchExceptionUtil {
      * @return
      */
     public static FHIRSearchException buildNewParseParameterException(final String name, Exception e) {
-        return new FHIRSearchException(String.format(PARSE_PARAMETER_EXCEPTION, name), e);
+        String msg = String.format(PARSE_PARAMETER_EXCEPTION, name);
+        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID);
+        return new FHIRSearchException(msg, e).withIssue(ooi);
     }
 
     /**
@@ -56,7 +57,9 @@ public class SearchExceptionUtil {
      * @return
      */
     public static FHIRSearchException buildNewChainedParameterException(final String name, Exception e) {
-        return new FHIRSearchException(String.format(CHAINED_PARAMETER_EXCEPTION, name), e);
+        String msg = String.format(CHAINED_PARAMETER_EXCEPTION, name);
+        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID);
+        return new FHIRSearchException(msg, e).withIssue(ooi);
     }
 
     /**
@@ -79,21 +82,13 @@ public class SearchExceptionUtil {
     }
     
     /**
-     * builds a fhir search exception. 
-     * 
-     * @param e
-     * @return
-     */
-    public static FHIRSearchException buildNewFHIRSearchExecption(Exception e) {
-        return new FHIRSearchException(GET_SEARCH_FAILED, e);
-    }
-    
-    /**
      * build data time format exception
+     * 
      * @param exception e
      * @return
      */
     public static FHIRSearchException buildNewDateTimeFormatException(Exception e) {
-        return new FHIRSearchException(BADFORMAT_EXCEPTION, e);
+        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(BADFORMAT_EXCEPTION, IssueType.INVALID);
+        return new FHIRSearchException(BADFORMAT_EXCEPTION, e).withIssue(ooi);
     }
 }

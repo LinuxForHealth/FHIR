@@ -370,8 +370,7 @@ public class SearchUtil {
 
     /**
      * Returns the SearchParameter map (keyed by resource type) for the specified
-     * tenant-id. If , or null if there are
-     * no SearchParameters for the tenant.
+     * tenant-id, or null if there are no SearchParameters for the tenant.
      *
      * @param tenantId
      *                 the tenant-id whose SearchParameters should be returned.
