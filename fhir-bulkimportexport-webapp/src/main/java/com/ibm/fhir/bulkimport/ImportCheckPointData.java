@@ -19,10 +19,17 @@ public class ImportCheckPointData implements Serializable {
     private static final long serialVersionUID = 2189917861035732241L;
     // URL or COS/S3 object name.
     private String importPartitionWorkitem;
+
+    // Values for metrics calculation.
     private int numOfProcessedResources = 0;
     private int numOfImportedResources = 0;
     private int numOfImportFailures = 0;
+
+    // Value used to sign the successful ending of the import.
     private int numOfToBeImported = 0;
+
+    // Parsing failures in current batch.
+    private int numOfParseFailures = 0;
     // Fhir resource type processed in this partition.
     private String importPartitionResourceType;
 
@@ -200,5 +207,13 @@ public class ImportCheckPointData implements Serializable {
 
     public void setDataPacks4FailureOperationOutcomes(List<PartETag> dataPacks4FailureOperationOutcomes) {
         this.dataPacks4FailureOperationOutcomes = dataPacks4FailureOperationOutcomes;
+    }
+
+    public int getNumOfParseFailures() {
+        return numOfParseFailures;
+    }
+
+    public void setNumOfParseFailures(int numOfParseFailures) {
+        this.numOfParseFailures = numOfParseFailures;
     }
 }

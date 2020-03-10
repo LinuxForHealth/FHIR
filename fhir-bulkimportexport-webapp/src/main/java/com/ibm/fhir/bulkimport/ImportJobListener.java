@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.batch.api.listener.JobListener;
+import javax.batch.operations.JobOperator;
+import javax.batch.runtime.BatchRuntime;
+import javax.batch.runtime.JobExecution;
 import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
 
@@ -17,19 +20,31 @@ public class ImportJobListener implements JobListener {
     @Inject
     JobContext jobContext;
 
-    private long jobStartTimeInMS, jobEndTimeInMS;
-
     public ImportJobListener() {
 
     }
 
-    @SuppressWarnings("unchecked")
+
+    @SuppressWarnings({"unchecked" })
     @Override
     public void afterJob() {
+        // jobExecution.getEndTime() for current execution always returns null, so we use system current time as the end time for current execution.
+        long currentExecutionEndTimeInMS = System.currentTimeMillis();;
+
         // Used for generating response for all the import data resources.
         List<ImportCheckPointData> partitionSummaries = (List<ImportCheckPointData>)jobContext.getTransientUserData();
         // Used for generating performance measurement per each resource type.
         HashMap<String, ImportCheckPointData> importedResourceTypeSummaries = new HashMap<>();
+
+        JobOperator jobOperator = BatchRuntime.getJobOperator();
+        long totalJobExecutionMilliSeconds = 0;
+        for ( JobExecution jobExecution: jobOperator.getJobExecutions(jobOperator.getJobInstance(jobContext.getExecutionId()))) {
+            if (jobExecution.getEndTime() != null) {
+                totalJobExecutionMilliSeconds += (jobExecution.getEndTime().getTime() - jobExecution.getStartTime().getTime());
+            } else {
+                totalJobExecutionMilliSeconds += (currentExecutionEndTimeInMS - jobExecution.getStartTime().getTime());
+            }
+        }
 
         // If the job is stopped before any partition is finished, then nothing to show.
         if (partitionSummaries == null) {
@@ -49,8 +64,8 @@ public class ImportJobListener implements JobListener {
             }
         }
 
-        jobEndTimeInMS = System.currentTimeMillis();
-        double jobProcessingSeconds = (jobEndTimeInMS - jobStartTimeInMS)/1000.0;
+
+        double jobProcessingSeconds = (totalJobExecutionMilliSeconds)/1000.0;
         jobProcessingSeconds = jobProcessingSeconds < 1 ? 1.0 : jobProcessingSeconds;
 
         // Print out the simple metrics to console.
@@ -68,7 +83,6 @@ public class ImportJobListener implements JobListener {
 
     @Override
     public void beforeJob() {
-        jobStartTimeInMS = System.currentTimeMillis();
     }
 
 }

@@ -141,8 +141,8 @@ public class ChunkWriter extends AbstractItemWriter {
 
             for (Resource fhirResource : fhirResourceList) {
                 try {
-                    OperationOutcome operationOutcome = fhirPersistence.update(persistenceContext, fhirResource.getId(), fhirResource).getOutcome();
                     processedNum++;
+                    OperationOutcome operationOutcome = fhirPersistence.update(persistenceContext, fhirResource.getId(), fhirResource).getOutcome();
                     succeededNum++;
                     if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
                         if (operationOutcome != null) {
@@ -151,7 +151,7 @@ public class ChunkWriter extends AbstractItemWriter {
                         }
                     }
                 } catch (FHIRPersistenceException e) {
-                    logger.warning("Failed to import due to error: " + e.getMessage());
+                    logger.warning("Failed to import " + fhirResource.getId() + " due to error: " + e.getMessage());
                     failedNum++;
                     if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
                         FHIRGenerator.generator(Format.JSON).generate(FHIRUtil.buildOperationOutcome(e, false), chunkData.getBufferStream4ImportError());
@@ -165,9 +165,11 @@ public class ChunkWriter extends AbstractItemWriter {
         // by the JavaBatch framework.
         txn.unenroll();
 
-        chunkData.setNumOfProcessedResources(chunkData.getNumOfProcessedResources() + processedNum);
+        chunkData.setNumOfProcessedResources(chunkData.getNumOfProcessedResources() + processedNum + chunkData.getNumOfParseFailures());
         chunkData.setNumOfImportedResources(chunkData.getNumOfImportedResources() + succeededNum);
-        chunkData.setNumOfImportFailures(chunkData.getNumOfImportFailures() + failedNum);
+        chunkData.setNumOfImportFailures(chunkData.getNumOfImportFailures() + failedNum + chunkData.getNumOfParseFailures());
+        // Reset NumOfParseFailures for next batch.
+        chunkData.setNumOfParseFailures(0);
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("writeItems: processed " + processedNum + " " + importPartitionResourceType + " from " +  chunkData.getImportPartitionWorkitem());
         }
