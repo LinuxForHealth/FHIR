@@ -18,7 +18,6 @@ import javax.batch.runtime.context.StepContext;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
-import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
 import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 
@@ -79,16 +78,7 @@ public class ImportPartitionCollector implements PartitionCollector {
 
         // If the job is being stopped or in other status except for "started", then do cleanup for the partition.
         if (!batchStatus.equals(BatchStatus.STARTED)) {
-            if (partitionSummaryData.getInputStream() != null) {
-                if (partitionSummaryData.getInputStream() instanceof S3ObjectInputStream) {
-                    ((S3ObjectInputStream)partitionSummaryData.getInputStream()).abort();
-                }
-                partitionSummaryData.getInputStream().close();
-            }
-
-            if (partitionSummaryData.getBufferReader() != null) {
-                partitionSummaryData.getBufferReader().close();
-            }
+            BulkDataUtils.cleanup4TransientUserData(partitionSummaryData, true);
             return null;
         }
 
@@ -152,13 +142,8 @@ public class ImportPartitionCollector implements PartitionCollector {
                 }
             }
 
-            if (partitionSummaryData.getBufferReader() != null) {
-                partitionSummaryData.getBufferReader().close();
-            }
-
-            if (partitionSummaryData.getInputStream() != null) {
-                partitionSummaryData.getInputStream().close();
-            }
+            // Clean up.
+            BulkDataUtils.cleanup4TransientUserData(partitionSummaryData, false);
 
             return ImportCheckPointData.fromImportTransientUserData(partitionSummaryData);
         } else {
