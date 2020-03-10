@@ -1,6 +1,6 @@
-# The IBM FHIR Server - DB2 Multi-Tenancy
+# The IBM FHIR Server - Db2 Multi-Tenancy
 
-This document outlines the schema design and implementation for the IBM FHIR Server's DB2 Multi-tenancy feature. 
+This document outlines the schema design and implementation for the IBM FHIR Server's Db2 Multi-tenancy feature. 
 
 The Multi-tenancy feature has two main areas of focus: 
 - Tenant Provisioning  
@@ -57,7 +57,7 @@ Multiple keys per tenant are supported, and key rotation includes adding, and th
 
 **Table: VERSION_HISTORY**
 
-The VERSION_HISTORY table enables Tenant version isolation, so upgrades and patches are separately applied to each tenant's schema. 
+The VERSION_HISTORY table enables Tenant version isolation, so upgrades and patches are separately applied to the schema the tenant belongs. Specifically, if the tenant shares the table definitions with another client, the patching is applied to both tenants at the same time.  If the tenant has a specific schema, the table definitions may be updated independent of each other. 
 
 | Column Name | Data Type | Length | Null | Purpose |
 |----------|---------------|---------------|---------------|---------------------------------------------|
@@ -71,15 +71,19 @@ The VERSION_HISTORY table enables Tenant version isolation, so upgrades and patc
 
 The Tenant specific data is partitioned and isolated in a customer specific tablespace.  The tenant data is not mixed with other tenant data physically using the tablespace isolation. 
 
-Tenants are never able to see each other's data, each user is only able to see a single tenant's data. 
+Tenants are never able to see each other's data, each user is only able to see a single tenant's data. The IBM FHIR Server uses the [CREATE PERMISSION statement](https://www.ibm.com/support/knowledgecenter/SSHRBY/com.ibm.swg.im.dashdb.sql.ref.doc/doc/r0057429.html) to create a row permission that specifies a condition under which rows of the table can be accessed. 
 
-Each tenant's data is able to be moved, backedup, restored or exported a tenant-at-a-time.  This approach allows tenant independent restore points.
+The condition to access the content is based on the SQL variable FHIR_ADMIN.SV_TENANT_ID joined with each table's MT_ID (multi-tenant id). If you need to query all tenants, you need to write a specific stored procedure to loop over the tenant_ids and query the table with each variable set with each tenant_id, and aggregate in the stored procedure. 
+
+Each tenant's data is able to be moved, backedup, restored or exported a tenant-at-a-time.  This approach allows tenant independent restore points, using [DB2 11.1: Backing up partitioned databases](https://www.ibm.com/support/knowledgecenter/SSEPGG_11.1.0/com.ibm.db2.luw.admin.ha.doc/doc/t0051366.html)
 
 The isolated data supports tenant independent query plan caches, scaling and disambiguating tenant specific disk and space usage. The performance metrics are tenant specific, and diagnostics are tenant specific. 
 
 **Table: Resources**
 
-Each resource is contains a root RESOURCE and LOGICAL RESOURCE, such as VISIONPRESCRIPTION:
+Each resource is contains a RESOURCE and LOGICAL RESOURCE table. `_LOGICAL_RESOURCES` has one record per logical resource.  `_RESOURCES` has one record for each version of each logical resource. 
+
+For example, VISIONPRESCRIPTION has: 
 
 ```
 VISIONPRESCRIPTION_RESOURCES
@@ -98,11 +102,42 @@ VISIONPRESCRIPTION_STR_VALUES
 VISIONPRESCRIPTION_TOKEN_VALUES
 ```
 
-There are also global tables which enable a global search using the logical_resource and resource.  
+There are also additional tables to support search: `LOGICAL_RESOURCE`, `RESOURCE_TYPES` and `PARAMETER_NAMES` These tables are paritioned, and are specific for each tenant. 
 
-Each row is secured using DB2 Row Permission. The Stored Procedure is the ONLY way for a user to set the variable, which is used in the DB2 Row Permission. 
+**Table: Global: LOGICAL_RESOURCE**
 
-Each tenant's data is encrypted. 
+This table facilitates global search optimizations. 
+
+| Column Name | Data Type | Length | Null | Purpose |
+|----------|---------------|---------------|---------------|---------------------------------------------|
+| MT_ID | Integer | 4 | No | Matches to the MT_ID in the TENANTS table |
+| LOGICAL_RESOURCE_ID | Integer | 8 | No | The ID is from the sequence, and is used to identify the unique entry in the specific Resource row |
+| RESOURCE_TYPE_ID | VARCHAR | 44 | No | Associates a Resource with a Resource Type using the value from the Resource Types table |
+| LOGICAL_ID | VARCHAR | 255 | No | The unique tenant specific UUID assigned to the Resource |
+
+**Table: Global: RESOURCE_TYPES**
+
+The tenant specific table of resources, which are mapped to bigints as FKs to optimize global search. 
+
+| Column Name | Data Type | Length | Null | Purpose |
+|----------|---------------|---------------|---------------|---------------------------------------------|
+| MT_ID | Integer | 4 | No | Matches to the MT_ID in the TENANTS table |
+| RESOURCE_TYPE_ID | Integer | 4 | No | A unique Identifier identifying the type of the resource |
+| RESOURCE_TYPE | VARCHAR | 32 | No | Each ResourceType |
+
+**Table: Global: PARAMETER_NAMES**
+
+The PARAMETER_NAMES table registers, for each tenant, a mapping from the Search Parameter `code` to an `integer`, which is used in the values table to uniquely identify the parameter name.  The parameters are only registered on extraction (Create, Update), and not populated on Search. 
+
+| Column Name | Data Type | Length | Null | Purpose |
+|----------|---------------|---------------|---------------|---------------------------------------------|
+| MT_ID | Integer | 4 | No | Matches to the MT_ID in the TENANTS table |
+| PARAMETER_NAME_ID | INTEGER | 4 | No | A unique integer for each parameter, and is stored along with the value in the Parameters VALUES table for each resource |
+| PARAMETER_NAME | VARCHAR | 255 | No | The Parameter name which actually maps to the FHIR SearchParameter `code` |
+
+Each row is secured using Db2 Row Permission. The Stored Procedure is the ONLY way for a user to set the variable, which is used in the Db2 Row Permission. 
+
+Each tenant's data is encrypted.  For Db2 on Cloud, it uses Db2 native encryption. This means there is a single key that encrypts all the tenants. There is currently no way to encrypt each tenant's tablespace with a different key.
 
 Offboarding a tenant's data is accomplished using dettach/drop partition, and subsequently dropping the tablespace. 
 
@@ -110,7 +145,7 @@ Offboarding a tenant's data is accomplished using dettach/drop partition, and su
 
 The FHIR_ADMIN.SET_TENANT is used at the beginning of a connection to the IBM FHIR Server's multi-tenant schema. The SET_TENANT takes as input: tenant_name VARCHAR(36), tenant_key  VARCHAR(44).  The content outputs a connection specific variable `fhir_admin.sv_tenant_id` with the `tenant.mt_id`, which is automatically applied to the INSERT,SELECT,UPDATE,DELETE.  Only tenant's with status ALLOCATED are allowed to execute the actions.
 
-To use the stored procedure from the db2 administrative console. 
+To use the stored procedure from the Db2 administrative console. 
 
 * Map Tenant and Key to Tenant ID (Stored Procedure) - `CALL FHIR_ADMIN.set_tenant('a-tenant-name', 'BLAH_BLAH');`
 * Show the value set for the session - `VALUES fhir_admin.sv_tenant_id;`
@@ -119,16 +154,16 @@ To use the stored procedure from the db2 administrative console.
 **Schema: Permissions**
 
 The Multi-tenant schema sets the following permissions: 
-- All objects in schema FHIRADMIN are owned by user FHIRADMIN
+- All objects in schema FHIR_ADMIN are owned by user FHIRADMIN
 - All objects in schema FHIRDATA are owned by user FHIRADMIN
-- GRANT EXECUTE ON FHIRADMIN.SET_TENANT TO FHIRUSER;
-- GRANT READ ON FHIRADMIN.SV_TENANT_ID TO FHIRUSER;
-- GRANT EXECUTE ON FHIRDATA.ADD_RESOURCE_TYPE TO FHIRUSER;
-- GRANT EXECUTE ON FHIRDATA.ADD_RESOURCE TO FHIRUSER;
-- GRANT SELECT,INSERT,UPDATE,DELETE ON FHIRDATA.PATIENT_RESOURCES TO FHIRUSER;
+- GRANT EXECUTE ON FHIR_ADMIN.SET_TENANT TO FHIRSERVER;
+- GRANT READ ON FHIR_ADMIN.SV_TENANT_ID TO FHIRSERVER;
+- GRANT EXECUTE ON FHIRDATA.ADD_RESOURCE_TYPE TO FHIRSERVER;
+- GRANT EXECUTE ON FHIRDATA.ADD_RESOURCE TO FHIRSERVER;
+- GRANT SELECT,INSERT,UPDATE,DELETE ON FHIRDATA.PATIENT_RESOURCES TO FHIRSERVER;
 
-FHIRADMIN owns all schema objects. 
-FHIR User is granted a minimum set of priveleges. 
+FHIR_ADMIN owns all schema objects. 
+FHIRSERVER is granted a minimum set of priveleges. 
 SET_TENANT is the only way to write the SV_TENANT_ID. 
 
 The diagram outlines the relationships between the administrative and tenant schema. 
