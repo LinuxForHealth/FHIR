@@ -162,7 +162,7 @@ The Multi-tenant schema sets the following permissions:
 - GRANT EXECUTE ON FHIRDATA.ADD_RESOURCE TO FHIRSERVER;
 - GRANT SELECT,INSERT,UPDATE,DELETE ON FHIRDATA.PATIENT_RESOURCES TO FHIRSERVER;
 
-FHIR_ADMIN owns all schema objects. 
+FHIRADMIN owns all schema objects. 
 FHIRSERVER is granted a minimum set of priveleges. 
 SET_TENANT is the only way to write the SV_TENANT_ID. 
 
