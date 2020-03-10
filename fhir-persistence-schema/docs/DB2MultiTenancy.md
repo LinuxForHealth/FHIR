@@ -166,6 +166,8 @@ FHIRADMIN owns all schema objects.
 FHIRSERVER is granted a minimum set of priveleges. 
 SET_TENANT is the only way to write the SV_TENANT_ID. 
 
+These grants are for a group, and any user may be subsequently added to the access list. 
+
 The diagram outlines the relationships between the administrative and tenant schema. 
 ![permissions-overview.png](permissions-overview.png)
 
