@@ -121,38 +121,44 @@ public class ChunkReader extends AbstractItemReader {
             numOfLinesToSkip = chunkData.getNumOfProcessedResources();
         }
 
-        int imported = 0;
-
+        int numOfLoaded = 0;
+        int numOfParseFailures = 0;
         switch (BulkImportDataSourceStorageType.from(dataSourceStorageType)) {
         case HTTPS:
-            imported = BulkDataUtils.readFhirResourceFromHttps(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources,
-                    Constants.IMPORT_IS_REUSE_INPUTSTREAM, chunkData);
+            numOfParseFailures = BulkDataUtils.readFhirResourceFromHttps(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources, chunkData);
             break;
         case FILE:
-            imported = BulkDataUtils.readFhirResourceFromLocalFile(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources,
-                    Constants.IMPORT_IS_REUSE_INPUTSTREAM, chunkData);
+            numOfParseFailures = BulkDataUtils.readFhirResourceFromLocalFile(importPartitionWorkitem, numOfLinesToSkip, loadedFhirResources, chunkData);
             break;
         case AWSS3:
         case IBMCOS:
-            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
-                    cosLocation);
+            // Create a COS/S3 client if it's not created yet.
             if (cosClient == null) {
-                logger.warning("readItem: Failed to get CosClient!");
-                return null;
-            } else {
-                logger.finer("readItem: Got CosClient successfully!");
+                cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+
+                if (cosClient == null) {
+                    logger.warning("readItem: Failed to get CosClient!");
+                    throw new Exception("Failed to get CosClient!!");
+                } else {
+                    logger.finer("readItem: Got CosClient successfully!");
+                }
             }
-            imported = BulkDataUtils.readFhirResourceFromObjectStore(cosClient, cosBucketName, importPartitionWorkitem,
-                    numOfLinesToSkip, loadedFhirResources, Constants.IMPORT_IS_REUSE_INPUTSTREAM, chunkData);
+
+            numOfParseFailures = BulkDataUtils.readFhirResourceFromObjectStore(cosClient, cosBucketName, importPartitionWorkitem,
+                    numOfLinesToSkip, loadedFhirResources, chunkData);
             break;
         default:
+            logger.warning("readItem: Data source storage type not found!");
             break;
         }
+
+        chunkData.setNumOfParseFailures(chunkData.getNumOfParseFailures() + numOfParseFailures);
+        numOfLoaded = loadedFhirResources.size();
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("readItem: loaded " + imported + " " + importPartitionResourceType + " from " + importPartitionWorkitem);
+            logger.fine("readItem: loaded " + numOfLoaded + " " + importPartitionResourceType + " from " + importPartitionWorkitem);
         }
-        chunkData.setNumOfToBeImported(imported);
-        if (imported == 0) {
+        chunkData.setNumOfToBeImported(numOfLoaded);
+        if (numOfLoaded == 0) {
             return null;
         } else {
             return loadedFhirResources;
@@ -165,7 +171,6 @@ public class ChunkReader extends AbstractItemReader {
             ImportCheckPointData checkPointData = (ImportCheckPointData) checkpoint;
             importPartitionWorkitem = checkPointData.getImportPartitionWorkitem();
             numOfLinesToSkip = checkPointData.getNumOfProcessedResources();
-
             stepCtx.setTransientUserData(ImportTransientUserData.fromImportCheckPointData(checkPointData));
         }
     }

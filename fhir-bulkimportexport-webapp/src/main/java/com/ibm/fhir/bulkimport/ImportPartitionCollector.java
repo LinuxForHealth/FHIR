@@ -18,12 +18,12 @@ import javax.batch.runtime.context.StepContext;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
-import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
 import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 
 public class ImportPartitionCollector implements PartitionCollector {
     private static final Logger logger = Logger.getLogger(ImportPartitionCollector.class.getName());
+    AmazonS3 cosClient = null;
     @Inject
     StepContext stepCtx;
 
@@ -79,16 +79,7 @@ public class ImportPartitionCollector implements PartitionCollector {
 
         // If the job is being stopped or in other status except for "started", then do cleanup for the partition.
         if (!batchStatus.equals(BatchStatus.STARTED)) {
-            if (partitionSummaryData.getInputStream() != null) {
-                if (partitionSummaryData.getInputStream() instanceof S3ObjectInputStream) {
-                    ((S3ObjectInputStream)partitionSummaryData.getInputStream()).abort();
-                }
-                partitionSummaryData.getInputStream().close();
-            }
-
-            if (partitionSummaryData.getBufferReader() != null) {
-                partitionSummaryData.getBufferReader().close();
-            }
+            BulkDataUtils.cleanupTransientUserData(partitionSummaryData, true);
             return null;
         }
 
@@ -97,11 +88,16 @@ public class ImportPartitionCollector implements PartitionCollector {
         // also upload the remaining OperationComes to COS/S3 if any and finish the multiple-parts uploads.
         if (partitionSummaryData.getNumOfToBeImported() == 0) {
             if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
-                AmazonS3 cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
-                        cosLocation);
-
+                // Create a COS/S3 client if it's not created yet.
                 if (cosClient == null) {
-                    throw new Exception("collectPartitionData: Failed to get CosClient!!");
+                    cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+
+                    if (cosClient == null) {
+                        logger.warning("collectPartitionData: Failed to get CosClient!");
+                        throw new Exception("Failed to get CosClient!!");
+                    } else {
+                        logger.finer("collectPartitionData: Succeed get CosClient!");
+                    }
                 }
                 // Upload remaining OperationOutcomes.
                 if (partitionSummaryData.getBufferStream4Import().size() > 0) {
@@ -152,13 +148,8 @@ public class ImportPartitionCollector implements PartitionCollector {
                 }
             }
 
-            if (partitionSummaryData.getBufferReader() != null) {
-                partitionSummaryData.getBufferReader().close();
-            }
-
-            if (partitionSummaryData.getInputStream() != null) {
-                partitionSummaryData.getInputStream().close();
-            }
+            // Clean up.
+            BulkDataUtils.cleanupTransientUserData(partitionSummaryData, false);
 
             return ImportCheckPointData.fromImportTransientUserData(partitionSummaryData);
         } else {

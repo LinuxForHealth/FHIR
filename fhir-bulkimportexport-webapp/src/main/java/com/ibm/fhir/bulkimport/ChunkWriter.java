@@ -38,6 +38,7 @@ import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
  */
 public class ChunkWriter extends AbstractItemWriter {
     private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
+    AmazonS3 cosClient = null;
 
     @Inject
     StepContext stepCtx;
@@ -141,8 +142,8 @@ public class ChunkWriter extends AbstractItemWriter {
 
             for (Resource fhirResource : fhirResourceList) {
                 try {
-                    OperationOutcome operationOutcome = fhirPersistence.update(persistenceContext, fhirResource.getId(), fhirResource).getOutcome();
                     processedNum++;
+                    OperationOutcome operationOutcome = fhirPersistence.update(persistenceContext, fhirResource.getId(), fhirResource).getOutcome();
                     succeededNum++;
                     if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
                         if (operationOutcome != null) {
@@ -151,7 +152,7 @@ public class ChunkWriter extends AbstractItemWriter {
                         }
                     }
                 } catch (FHIRPersistenceException e) {
-                    logger.warning("Failed to import due to error: " + e.getMessage());
+                    logger.warning("Failed to import '" + fhirResource.getId() + "' due to error: " + e.getMessage());
                     failedNum++;
                     if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
                         FHIRGenerator.generator(Format.JSON).generate(FHIRUtil.buildOperationOutcome(e, false), chunkData.getBufferStream4ImportError());
@@ -165,9 +166,11 @@ public class ChunkWriter extends AbstractItemWriter {
         // by the JavaBatch framework.
         txn.unenroll();
 
-        chunkData.setNumOfProcessedResources(chunkData.getNumOfProcessedResources() + processedNum);
+        chunkData.setNumOfProcessedResources(chunkData.getNumOfProcessedResources() + processedNum + chunkData.getNumOfParseFailures());
         chunkData.setNumOfImportedResources(chunkData.getNumOfImportedResources() + succeededNum);
-        chunkData.setNumOfImportFailures(chunkData.getNumOfImportFailures() + failedNum);
+        chunkData.setNumOfImportFailures(chunkData.getNumOfImportFailures() + failedNum + chunkData.getNumOfParseFailures());
+        // Reset NumOfParseFailures for next batch.
+        chunkData.setNumOfParseFailures(0);
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("writeItems: processed " + processedNum + " " + importPartitionResourceType + " from " +  chunkData.getImportPartitionWorkitem());
         }
@@ -179,14 +182,16 @@ public class ChunkWriter extends AbstractItemWriter {
 
 
     private void pushImportOperationOutcomes2COS(ImportTransientUserData chunkData) throws Exception{
-        AmazonS3 cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
-                cosLocation);
-
+        // Create the COS/S3 client if it's not created yet.
         if (cosClient == null) {
-            logger.warning("pushImportOperationOutcomes2COS: Failed to get CosClient!");
-            throw new Exception("pushImportOperationOutcomes2COS: Failed to get CosClient!!");
-        } else {
-            logger.finer("pushImportOperationOutcomes2COS: Got CosClient successfully!");
+            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+
+            if (cosClient == null) {
+                logger.warning("pushImportOperationOutcomes2COS: Failed to get CosClient!");
+                throw new Exception("Failed to get CosClient!!");
+            } else {
+                logger.finer("pushImportOperationOutcomes2COS: Got CosClient successfully!");
+            }
         }
 
         // Upload OperationOutcomes in buffer if it reaches the minimal size for multiple-parts upload.
