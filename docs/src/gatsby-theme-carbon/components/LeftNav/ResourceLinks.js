@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,8 +8,12 @@ import React from 'react';
 import ResourceLinks from 'gatsby-theme-carbon/src/components/LeftNav/ResourceLinks';
 const links = [
   {
-    title: 'Javadoc',
+    title: 'Javadoc: Latest',
     href: "https://ibm.github.io/FHIR/javadocs/latest/"
+  },
+  {
+    title: 'Javadoc: All Versions',
+    href: "https://ibm.github.io/FHIR/javadocs/index.html"
   },
   {
     title: 'GitHub: Source',
@@ -26,10 +30,7 @@ const links = [
   {
     title: 'HL7 FHIR',
     href: 'https://www.hl7.org/fhir/index.html',
-  },
-  
-  
-  
+  }
 ];
 
 // shouldOpenNewTabs: true if outbound links should open in a new tab
