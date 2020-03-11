@@ -223,7 +223,7 @@ public class BulkDataUtils {
                 // Prepare for retry, skip all the processed lines in previous batches and this batch.
                 numOfLinesToSkip = numOfLinesToSkip + fhirResources.size() + parseFailures;
                 cleanupTransientUserData(transientUserData, true);
-                logger.warning("readFhirResourceFromObjectStore: Error proccesing file " + itemName + " - " + ex.getMessage());
+                logger.warning("readFhirResourceFromObjectStore: Error proccesing file [" + itemName + "] - " + ex.getMessage());
                 if ((retryTimes--) > 0) {
                     logger.warning("readFhirResourceFromObjectStore: Retry ...");
                 } else {
@@ -262,7 +262,7 @@ public class BulkDataUtils {
             fhirResources.clear();
             cleanupTransientUserData(transientUserData, true);
             // Log the error and throw exception to fail the job, the job can be continued from the current checkpoint after the problem is solved.
-            logger.warning("readFhirResourceFromLocalFile: Error proccesing file " + filePath + " - " + ex.getMessage());
+            logger.warning("readFhirResourceFromLocalFile: Error proccesing file [" + filePath + "] - " + ex.getMessage());
             throw ex;
         }
 
@@ -299,12 +299,11 @@ public class BulkDataUtils {
                 // Prepare for retry, skip all the processed lines in previous batches and this batch.
                 numOfLinesToSkip = numOfLinesToSkip + fhirResources.size() + parseFailures;
                 cleanupTransientUserData(transientUserData, true);
-                logger.warning("readFhirResourceFromHttps: Error proccesing file " + dataUrl + " - " + ex.getMessage());
+                logger.warning("readFhirResourceFromHttps: Error proccesing file [" + dataUrl + "] - " + ex.getMessage());
                 if ((retryTimes--) > 0) {
-                    logger.warning("readFhirResourceFromLocalFile: Retry ...");
+                    logger.warning("readFhirResourceFromHttps: Retry ...");
                 } else {
                     // Throw exception to fail the job, the job can be continued from the current checkpoint after the problem is solved.
-                    logger.warning("readFhirResourceFromHttps: Error proccesing file " + dataUrl + " - " + ex.getMessage());
                     throw ex;
                 }
             }
