@@ -27,13 +27,13 @@ public class ImportJobListener implements JobListener {
     }
 
 
-    @SuppressWarnings({"unchecked" })
     @Override
     public void afterJob() {
         // jobExecution.getEndTime() for current execution always returns null, so we use system current time as the end time for current execution.
         long currentExecutionEndTimeInMS = System.currentTimeMillis();;
 
         // Used for generating response for all the import data resources.
+        @SuppressWarnings("unchecked")
         List<ImportCheckPointData> partitionSummaries = (List<ImportCheckPointData>)jobContext.getTransientUserData();
         // Used for generating performance measurement per each resource type.
         HashMap<String, ImportCheckPointData> importedResourceTypeSummaries = new HashMap<>();
