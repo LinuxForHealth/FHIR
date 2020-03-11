@@ -24,33 +24,33 @@ jobs:
             ref: refs/heads/master
             fetch-depth: 1
             path: fhir
-            token: ${{ secrets.GITHUB_TOKEN }}
+            token: ${{ secrets.DOCS_SITE_TOKEN }}
     - name: Grab the GH-Pages Branch
       uses: actions/checkout@v2
       with:
             ref: refs/heads/gh-pages
             fetch-depth: 1
             path: gh-pages
-            token: ${{ secrets.GITHUB_TOKEN }}
+            token: ${{ secrets.DOCS_SITE_TOKEN }}
     - name: Set up OpenJDK
       uses: joschi/setup-jdk@v1
       with:
         java-version: ${{ matrix.java }}
-    - name: Build samples
+    - name: Build fhir-samples
       run: |
             cd fhir
-            mvn -B -ntp clean install --file fhir-examples
+            mvn -B -ntp clean install --file fhir-examples -Ddeploy.version=${TAG_VERSION}
             mvn -ntp -B -N -Pdeploy-version-release clean -f fhir-examples -Ddeploy.version=${TAG_VERSION}
             mvn -ntp -B install --file fhir-examples -DskipTests -Ddeploy.version=${TAG_VERSION}
-    - name: Build parent without tests
+    - name: Build fhir-parent without tests
       run: |
             cd fhir
             export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
-            mvn -ntp -B -N -Pdeploy-version-release clean -f fhir-parent -Ddeploy.version=${TAG_VERSION}
-            mvn -ntp -B install --file fhir-parent -DskipTests -Ddeploy.version=${TAG_VERSION}
-            mvn -ntp -B site --file fhir-parent -DskipTests -Ddeploy.version=${TAG_VERSION}
+            mvn -ntp -B -N -Pdeploy-version-release clean -f fhir-parent -Ddeploy.version=${TAG_VERSION} -Dfhir-tools.version=${TAG_VERSION}
+            mvn -ntp -B install --file fhir-parent -DskipTests -Ddeploy.version=${TAG_VERSION} -Dfhir-tools.version=${TAG_VERSION}
+            mvn -ntp -B site --file fhir-parent -DskipTests -Ddeploy.version=${TAG_VERSION} -Dfhir-tools.version=${TAG_VERSION}
             cp -R fhir-parent/target/site/apidocs ../apidocs/
-    - name: Commit and Add GH Pages
+    - name: Commit and Add GH-Pages
       env:
             GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
             GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
@@ -81,7 +81,7 @@ jobs:
             GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
             CI: true
       run: |
-            echo "Pushing Changes"
+            echo "Pushing Changes to gh-pages"
             cd gh-pages
             git branch
             remote_repo="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
