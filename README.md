@@ -84,7 +84,7 @@ To use the artifacts from a Maven project:
 |fhir-operation-apply|A naive implementation of the `$apply` operation defined at https://www.hl7.org/fhir/operation-activitydefinition-apply.html |false|
 |fhir-operation-bulkdata|`$import` and `$export` implementations which translate bulk data requests into JSR352 Java Batch jobs|false|
 |fhir-bulkimportexport-webapp|Standalone web application for serving bulk import and export requests via JSR352 Java Batch jobs|false|
-|fhir-operation-convert|An limited implementation of the FHIR [$convert operation](https://www.hl7.org/fhir/R4/resource-operation-convert.html)|false|
+|fhir-operation-convert|A limited implementation of the FHIR [$convert operation](https://www.hl7.org/fhir/R4/resource-operation-convert.html), able to convert between JSON and XML but *not* between FHIR versions|false|
 |fhir-operation-document|Basic support for the Composition `$document` operation defined at https://www.hl7.org/fhir/operation-composition-document.html |false|
 |fhir-operation-healthcheck|The `$healthcheck` operation checks for a valid connection to the database and returns the server status|false|
 |fhir-operation-validate|An implementation of the FHIR resource [$validate operation](https://www.hl7.org/fhir/R4/operation-resource-validate.html)|false|
