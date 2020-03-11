@@ -139,12 +139,14 @@ public class BulkDataUtils {
 
     /**
      * @param resReader - the buffer reader to read FHIR resource from.
-     * @param numOfLinesToSkip - number of lines to skip before read.
+     * @param numOfProcessedLines - number of the already processed lines.
      * @param fhirResources - List holds the FHIR resources.
+     * @param isSkipProcessed - if need to skip the processed lines before read.
      * @return - the number of parsing failures.
      * @throws Exception
      */
-    private static int getFhirResourceFromBufferReader(BufferedReader resReader, int numOfLinesToSkip, List<Resource> fhirResources) throws Exception {
+    private static int getFhirResourceFromBufferReader(BufferedReader resReader, int numOfProcessedLines, List<Resource> fhirResources,
+            boolean isSkipProcessed, String dataSource) throws Exception {
         int exported = 0;
         int lineRed = 0;
         int parseFailures = 0;
@@ -154,7 +156,7 @@ public class BulkDataUtils {
             resLine = resReader.readLine();
             if (resLine != null) {
                 lineRed++;
-                if (lineRed <= numOfLinesToSkip) {
+                if (isSkipProcessed && lineRed <= numOfProcessedLines) {
                     continue;
                 }
                 try {
@@ -166,8 +168,9 @@ public class BulkDataUtils {
                 } catch (FHIRParserException e) {
                     // Log and skip the invalid FHIR resource.
                     logger.warning("getFhirResourceFromBufferReader: " + e.getMessage());
-                    logger.warning("getFhirResourceFromBufferReader: " + "Failed to parse '" + resLine + "'");
                     parseFailures++;
+                    logger.warning("getFhirResourceFromBufferReader: " + "Failed to parse line "
+                            + (numOfProcessedLines + exported + parseFailures) + " of [" + dataSource + "].");
                     continue;
                 }
             }
@@ -214,9 +217,9 @@ public class BulkDataUtils {
                     BufferedReader resReader = new BufferedReader(new InputStreamReader(s3InStream));
                     transientUserData.setBufferReader(resReader);
                     // Skip the already processed lines after opening the input stream for first read.
-                    parseFailures = getFhirResourceFromBufferReader(transientUserData.getBufferReader(), numOfLinesToSkip, fhirResources);
+                    parseFailures = getFhirResourceFromBufferReader(transientUserData.getBufferReader(), numOfLinesToSkip, fhirResources, true, itemName);
                 } else {
-                    parseFailures = getFhirResourceFromBufferReader(transientUserData.getBufferReader(), 0, fhirResources);
+                    parseFailures = getFhirResourceFromBufferReader(transientUserData.getBufferReader(), numOfLinesToSkip, fhirResources, false, itemName);
                 }
                 break;
             } catch (Exception ex) {
@@ -253,9 +256,9 @@ public class BulkDataUtils {
                 BufferedReader resReader = Files.newBufferedReader(Paths.get(filePath));
                 transientUserData.setBufferReader(resReader);
                 // Skip the already processed lines after opening the input stream for first read.
-                parseFailures = getFhirResourceFromBufferReader(transientUserData.getBufferReader(), numOfLinesToSkip, fhirResources);
+                parseFailures = getFhirResourceFromBufferReader(transientUserData.getBufferReader(), numOfLinesToSkip, fhirResources, true, filePath);
             } else {
-                parseFailures = getFhirResourceFromBufferReader(transientUserData.getBufferReader(), 0, fhirResources);
+                parseFailures = getFhirResourceFromBufferReader(transientUserData.getBufferReader(), numOfLinesToSkip, fhirResources, false, filePath);
             }
         } catch (Exception ex) {
             // Clean up.
@@ -290,9 +293,9 @@ public class BulkDataUtils {
                     BufferedReader resReader = new BufferedReader(new InputStreamReader(inputStream));
                     transientUserData.setBufferReader(resReader);
                     // Skip the already processed lines after opening the input stream for first read.
-                    parseFailures = getFhirResourceFromBufferReader(transientUserData.getBufferReader(), numOfLinesToSkip, fhirResources);
+                    parseFailures = getFhirResourceFromBufferReader(transientUserData.getBufferReader(), numOfLinesToSkip, fhirResources, true, dataUrl);
                 } else {
-                    parseFailures = getFhirResourceFromBufferReader(transientUserData.getBufferReader(), 0, fhirResources);
+                    parseFailures = getFhirResourceFromBufferReader(transientUserData.getBufferReader(), numOfLinesToSkip, fhirResources, false, dataUrl);
                 }
                 break;
             } catch (Exception ex) {
