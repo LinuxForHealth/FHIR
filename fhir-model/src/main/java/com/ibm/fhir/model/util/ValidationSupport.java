@@ -398,22 +398,34 @@ public final class ValidationSupport {
     }
     
     /**
-     * @throws IllegalStateException if the resource type found in reference URL does not match the specified Reference.type value or is not one of the allowed reference types for that element
+     * @throws IllegalStateException if the resource type found in the reference value does not match the specified Reference.type value
+     *                               or is not one of the allowed reference types for that element
      */
     public static void checkReferenceType(Reference reference, String elementName, String... referenceTypes) {
         boolean checkReferenceTypes = FHIRModelConfig.getCheckReferenceTypes();
         if (reference != null && checkReferenceTypes) {
-            String referenceReference = getReferenceReference(reference);
             String referenceType = getReferenceType(reference);
+            List<String> referenceTypeList = Arrays.asList(referenceTypes);
             
+            // If there is an explicit Reference.type, ensure its an allowed type
+            if (referenceType != null && !referenceTypeList.contains(referenceType)) {
+                throw new IllegalStateException(
+                        String.format("Resource type found in Reference.type: '%s' for element: '%s' must be one of: %s",
+                            referenceType, elementName, referenceTypeList.toString()));
+            }
+            
+            String referenceReference = getReferenceReference(reference);
             String resourceType = null;
             
             if (referenceReference != null && !referenceReference.startsWith("#")) {
                 Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
                 if (matcher.matches()) {
                     resourceType = matcher.group(RESOURCE_TYPE_GROUP);
+                    // If there is an explicit Reference.type, check that the resourceType pattern matches it
                     if (referenceType != null && !resourceType.equals(referenceType)) {
-                        throw new IllegalStateException(String.format("Resource type found in reference URL: %s for element: '%s' does not match reference type: %s", resourceType, elementName, referenceType));
+                        throw new IllegalStateException(
+                                String.format("Resource type found in reference value: '%s' for element: '%s' does not match Reference.type: %s",
+                                    referenceReference, elementName, referenceType));
                     }
                 }
             }
@@ -422,10 +434,12 @@ public final class ValidationSupport {
                 resourceType = referenceType;
             }
             
+            // If we've successfully inferred a type, check that its an allowed value
             if (resourceType != null) {
-                List<String> referenceTypeList = Arrays.asList(referenceTypes);
                 if (!referenceTypeList.contains(resourceType)) {
-                    throw new IllegalStateException(String.format("Resource type found in reference URL: %s for element: '%s' must be one of: %s", resourceType, elementName, referenceTypeList.toString()));
+                    throw new IllegalStateException(
+                            String.format("Resource type found in reference value: '%s' for element: '%s' must be one of: %s",
+                                referenceReference, elementName, referenceTypeList.toString()));
                 }
             }
         }
