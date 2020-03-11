@@ -8,6 +8,7 @@ package com.ibm.fhir.bulkimport;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.batch.api.listener.JobListener;
 import javax.batch.operations.JobOperator;
@@ -17,6 +18,7 @@ import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
 
 public class ImportJobListener implements JobListener {
+    private static final Logger logger = Logger.getLogger(ImportJobListener.class.getName());
     @Inject
     JobContext jobContext;
 
@@ -68,16 +70,16 @@ public class ImportJobListener implements JobListener {
         double jobProcessingSeconds = (totalJobExecutionMilliSeconds)/1000.0;
         jobProcessingSeconds = jobProcessingSeconds < 1 ? 1.0 : jobProcessingSeconds;
 
-        // Print out the simple metrics to console.
-        System.out.println(" ---- Fhir resources imported in " + jobProcessingSeconds + "seconds ----");
-        System.out.println("ResourceType \t Imported \t Failed");
+        // log the simple metrics.
+        logger.info(" ---- Fhir resources imported in " + jobProcessingSeconds + "seconds ----");
+        logger.info("ResourceType \t Imported \t Failed");
         int totalImportedFhirResources = 0;
         for (ImportCheckPointData importedResourceTypeSummary : importedResourceTypeSummaries.values()) {
-            System.out.println(importedResourceTypeSummary.getImportPartitionResourceType() + "\t" +
+            logger.info(importedResourceTypeSummary.getImportPartitionResourceType() + "\t" +
                         importedResourceTypeSummary.getNumOfImportedResources() + "\t" + importedResourceTypeSummary.getNumOfImportFailures());
             totalImportedFhirResources += importedResourceTypeSummary.getNumOfImportedResources();
         }
-        System.out.println(" ---- Total: " + totalImportedFhirResources
+        logger.info(" ---- Total: " + totalImportedFhirResources
                 + " ImportRate: " + totalImportedFhirResources/jobProcessingSeconds + " ----");
     }
 
