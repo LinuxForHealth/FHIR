@@ -23,6 +23,7 @@ import com.ibm.fhir.bulkcommon.Constants;
 
 public class ImportPartitionCollector implements PartitionCollector {
     private static final Logger logger = Logger.getLogger(ImportPartitionCollector.class.getName());
+    AmazonS3 cosClient = null;
     @Inject
     StepContext stepCtx;
 
@@ -87,11 +88,16 @@ public class ImportPartitionCollector implements PartitionCollector {
         // also upload the remaining OperationComes to COS/S3 if any and finish the multiple-parts uploads.
         if (partitionSummaryData.getNumOfToBeImported() == 0) {
             if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
-                AmazonS3 cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
-                        cosLocation);
-
+                // Create a COS/S3 client if it's not created yet.
                 if (cosClient == null) {
-                    throw new Exception("collectPartitionData: Failed to get CosClient!!");
+                    cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+
+                    if (cosClient == null) {
+                        logger.warning("collectPartitionData: Failed to get CosClient!");
+                        throw new Exception("Failed to get CosClient!!");
+                    } else {
+                        logger.finer("collectPartitionData: Succeed get CosClient!");
+                    }
                 }
                 // Upload remaining OperationOutcomes.
                 if (partitionSummaryData.getBufferStream4Import().size() > 0) {
