@@ -86,9 +86,9 @@ public class BulkDataUtils {
         }
 
         ClientConfiguration clientConfig = new ClientConfiguration()
-                .withRequestTimeout(10*1000)
+                .withRequestTimeout(Constants.COS_REQUEST_TIMEOUT)
                 .withTcpKeepAlive(true)
-                .withSocketTimeout(120*1000);
+                .withSocketTimeout(Constants.COS_SOCKET_TIMEOUT);
 
         return AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .withEndpointConfiguration(new EndpointConfiguration(cosEndpintUrl, cosLocation))
@@ -175,7 +175,7 @@ public class BulkDataUtils {
         return parseFailures;
     }
 
-    public static void cleanup4TransientUserData(ImportTransientUserData transientUserData, boolean isAbort) throws Exception {
+    public static void cleanupTransientUserData(ImportTransientUserData transientUserData, boolean isAbort) throws Exception {
         if (transientUserData.getInputStream() != null) {
             if (isAbort && transientUserData.getInputStream() instanceof S3ObjectInputStream) {
                 // For S3 input stream, if the read is not finished successfully, we have to abort it first.
@@ -220,12 +220,12 @@ public class BulkDataUtils {
                 }
                 break;
             } catch (Exception ex) {
-                // Clean up.
-                fhirResources.clear();
-                cleanup4TransientUserData(transientUserData, true);
-                logger.warning("readFhirResourceFromObjectStore: " + "Error proccesing file " + itemName + " - " + ex.getMessage());
+                // Prepare for retry, skip all the processed lines in previous batches and this batch.
+                numOfLinesToSkip = numOfLinesToSkip + fhirResources.size() + parseFailures;
+                cleanupTransientUserData(transientUserData, true);
+                logger.warning("readFhirResourceFromObjectStore: Error proccesing file " + itemName + " - " + ex.getMessage());
                 if ((retryTimes--) > 0) {
-                    logger.warning("readFhirResourceFromObjectStore: " + "Retry ...");
+                    logger.warning("readFhirResourceFromObjectStore: Retry ...");
                 } else {
                     // Throw exception to fail the job, the job can be continued from the current checkpoint after the problem is solved.
                     throw ex;
@@ -260,9 +260,9 @@ public class BulkDataUtils {
         } catch (Exception ex) {
             // Clean up.
             fhirResources.clear();
-            cleanup4TransientUserData(transientUserData, true);
+            cleanupTransientUserData(transientUserData, true);
             // Log the error and throw exception to fail the job, the job can be continued from the current checkpoint after the problem is solved.
-            logger.warning("readFhirResourceFromLocalFile: " + "Error proccesing file " + filePath + " - " + ex.getMessage());
+            logger.warning("readFhirResourceFromLocalFile: Error proccesing file " + filePath + " - " + ex.getMessage());
             throw ex;
         }
 
@@ -296,15 +296,15 @@ public class BulkDataUtils {
                 }
                 break;
             } catch (Exception ex) {
-                // Clean up.
-                fhirResources.clear();
-                cleanup4TransientUserData(transientUserData, true);
-                logger.warning("readFhirResourceFromHttps: " + "Error proccesing file " + dataUrl + " - " + ex.getMessage());
+                // Prepare for retry, skip all the processed lines in previous batches and this batch.
+                numOfLinesToSkip = numOfLinesToSkip + fhirResources.size() + parseFailures;
+                cleanupTransientUserData(transientUserData, true);
+                logger.warning("readFhirResourceFromHttps: Error proccesing file " + dataUrl + " - " + ex.getMessage());
                 if ((retryTimes--) > 0) {
-                    logger.warning("readFhirResourceFromLocalFile: " + "Retry ...");
+                    logger.warning("readFhirResourceFromLocalFile: Retry ...");
                 } else {
                     // Throw exception to fail the job, the job can be continued from the current checkpoint after the problem is solved.
-                    logger.warning("readFhirResourceFromHttps: " + "Error proccesing file " + dataUrl + " - " + ex.getMessage());
+                    logger.warning("readFhirResourceFromHttps: Error proccesing file " + dataUrl + " - " + ex.getMessage());
                     throw ex;
                 }
             }

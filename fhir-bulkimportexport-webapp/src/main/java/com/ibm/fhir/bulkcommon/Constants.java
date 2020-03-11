@@ -51,4 +51,8 @@ public class Constants {
     // Retry times when https or amazon s3 client timeout or other error happens, e.g, timeout can happen if the batch write to DB takes
     // longer than the socket timeout, set to retry once for now.
     public static final int IMPORT_RETRY_TIMES = 1;
+    public static final int COS_REQUEST_TIMEOUT = 10000;
+    // Batch writing to DB can take long time which can make the idle COS/S3 client connection timeout, so set the client socket timeout
+    // to 120 seconds which is the default DB2 timeout.
+    public static final int COS_SOCKET_TIMEOUT = 120000;
 }
