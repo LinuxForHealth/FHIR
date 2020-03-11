@@ -159,17 +159,19 @@ public class ImportPartitionMapper implements PartitionMapper {
         }
      };
 
-     private List<FhirDataSource> getFhirDataSources4ObjectStore(String DSTypeInfo, String DSDataLocationInfo) {
+     private List<FhirDataSource> getFhirDataSources4ObjectStore(String DSTypeInfo, String DSDataLocationInfo) throws Exception {
          String nextToken = null;
          List<FhirDataSource> fhirDataSources = new ArrayList<>();
-         cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
-                 cosLocation);
-
+         // Create a COS/S3 client if it's not created yet.
          if (cosClient == null) {
-             logger.warning("getFhirDataSources4ObjectStore: Failed to get CosClient!");
-             return fhirDataSources;
-         } else {
-             logger.finer("getFhirDataSources4ObjectStore: Succeed get CosClient!");
+             cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+
+             if (cosClient == null) {
+                 logger.warning("getFhirDataSources4ObjectStore: Failed to get CosClient!");
+                 throw new Exception("Failed to get CosClient!!");
+             } else {
+                 logger.finer("getFhirDataSources4ObjectStore: Succeed get CosClient!");
+             }
          }
          if (cosBucketName == null) {
              logger.warning("getFhirDataSources4ObjectStore: Failed to get BucketName!");
@@ -215,7 +217,7 @@ public class ImportPartitionMapper implements PartitionMapper {
      }
 
 
-     private List<FhirDataSource> getFhirDataSources(JsonArray dataSourceArray, BulkImportDataSourceStorageType type)
+     private List<FhirDataSource> getFhirDataSources(JsonArray dataSourceArray, BulkImportDataSourceStorageType type) throws Exception
      {
          List<FhirDataSource> fhirDataSources = new ArrayList<>();
          for (JsonValue jsonValue : dataSourceArray) {
@@ -242,7 +244,7 @@ public class ImportPartitionMapper implements PartitionMapper {
 
 
     @Override
-    public PartitionPlan mapPartitions() {
+    public PartitionPlan mapPartitions() throws Exception {
         JsonReader reader = Json.createReader(new StringReader(
                 new String(Base64.getDecoder().decode(dataSourcesInfo), StandardCharsets.UTF_8)));
         JsonArray dataSourceArray = reader.readArray();

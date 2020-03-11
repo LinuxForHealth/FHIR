@@ -38,6 +38,7 @@ import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
  */
 public class ChunkWriter extends AbstractItemWriter {
     private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
+    AmazonS3 cosClient = null;
 
     @Inject
     StepContext stepCtx;
@@ -181,14 +182,16 @@ public class ChunkWriter extends AbstractItemWriter {
 
 
     private void pushImportOperationOutcomes2COS(ImportTransientUserData chunkData) throws Exception{
-        AmazonS3 cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
-                cosLocation);
-
+        // Create the COS/S3 client if it's not created yet.
         if (cosClient == null) {
-            logger.warning("pushImportOperationOutcomes2COS: Failed to get CosClient!");
-            throw new Exception("pushImportOperationOutcomes2COS: Failed to get CosClient!!");
-        } else {
-            logger.finer("pushImportOperationOutcomes2COS: Got CosClient successfully!");
+            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+
+            if (cosClient == null) {
+                logger.warning("pushImportOperationOutcomes2COS: Failed to get CosClient!");
+                throw new Exception("Failed to get CosClient!!");
+            } else {
+                logger.finer("pushImportOperationOutcomes2COS: Got CosClient successfully!");
+            }
         }
 
         // Upload OperationOutcomes in buffer if it reaches the minimal size for multiple-parts upload.

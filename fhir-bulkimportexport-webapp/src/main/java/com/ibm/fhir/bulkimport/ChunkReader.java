@@ -132,14 +132,18 @@ public class ChunkReader extends AbstractItemReader {
             break;
         case AWSS3:
         case IBMCOS:
-            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
-                    cosLocation);
+            // Create a COS/S3 client if it's not created yet.
             if (cosClient == null) {
-                logger.warning("readItem: Failed to get CosClient!");
-                return null;
-            } else {
-                logger.finer("readItem: Got CosClient successfully!");
+                cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+
+                if (cosClient == null) {
+                    logger.warning("readItem: Failed to get CosClient!");
+                    throw new Exception("Failed to get CosClient!!");
+                } else {
+                    logger.finer("readItem: Got CosClient successfully!");
+                }
             }
+
             numOfParseFailures = BulkDataUtils.readFhirResourceFromObjectStore(cosClient, cosBucketName, importPartitionWorkitem,
                     numOfLinesToSkip, loadedFhirResources, chunkData);
             break;
