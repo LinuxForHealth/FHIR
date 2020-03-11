@@ -167,10 +167,9 @@ public class BulkDataUtils {
                     }
                 } catch (FHIRParserException e) {
                     // Log and skip the invalid FHIR resource.
-                    logger.warning("getFhirResourceFromBufferReader: " + e.getMessage());
                     parseFailures++;
-                    logger.warning("getFhirResourceFromBufferReader: " + "Failed to parse line "
-                            + (numOfProcessedLines + exported + parseFailures) + " of [" + dataSource + "].");
+                    logger.log(Level.INFO, "getFhirResourceFromBufferReader: " + "Failed to parse line "
+                            + (numOfProcessedLines + exported + parseFailures) + " of [" + dataSource + "].", e);
                     continue;
                 }
             }
