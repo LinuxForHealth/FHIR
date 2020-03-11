@@ -78,7 +78,7 @@ public class ImportPartitionCollector implements PartitionCollector {
 
         // If the job is being stopped or in other status except for "started", then do cleanup for the partition.
         if (!batchStatus.equals(BatchStatus.STARTED)) {
-            BulkDataUtils.cleanup4TransientUserData(partitionSummaryData, true);
+            BulkDataUtils.cleanupTransientUserData(partitionSummaryData, true);
             return null;
         }
 
@@ -143,7 +143,7 @@ public class ImportPartitionCollector implements PartitionCollector {
             }
 
             // Clean up.
-            BulkDataUtils.cleanup4TransientUserData(partitionSummaryData, false);
+            BulkDataUtils.cleanupTransientUserData(partitionSummaryData, false);
 
             return ImportCheckPointData.fromImportTransientUserData(partitionSummaryData);
         } else {

@@ -144,6 +144,7 @@ public class ChunkReader extends AbstractItemReader {
                     numOfLinesToSkip, loadedFhirResources, chunkData);
             break;
         default:
+            logger.warning("readItem: Data source storage type not found!");
             break;
         }
 
