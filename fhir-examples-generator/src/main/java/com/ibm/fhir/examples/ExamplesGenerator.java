@@ -48,6 +48,17 @@ public class ExamplesGenerator {
         }
     }
     
+    private void generate(String basePath, String resourceName) {
+        try {
+            generateResource(resourceName, minimalDataCreator, basePath, "ibm/minimal");
+            generateResource(resourceName, completeMockDataCreator, basePath, "ibm/complete-mock");
+            generateResource(resourceName, completeAbsentDataCreator, basePath, "ibm/complete-absent");
+        } catch (Exception e) {
+            System.err.println("Caught exception while generating resource of type " + resourceName);
+            e.printStackTrace();
+        }
+    }
+    
     private void generateResource(String resourceName, DataCreatorBase creator, String basePath, String tag) throws Exception {
         int maxChoiceCount = creator.getMaxChoiceCount(resourceName);
 
@@ -104,6 +115,8 @@ public class ExamplesGenerator {
     public static void main(String[] args) throws Exception {
         ExamplesGenerator generator = new ExamplesGenerator();
         generator.generate("./src/test/resources");
+        // User this flavor instead to generate examples for a single type
+//        generator.generate("./src/test/resources", "EventDefinition");
     }
 
 }

@@ -1,0 +1,160 @@
+<DeviceMetric xmlns="http://hl7.org/fhir">
+  <meta>
+    <versionId value="i7eYJ6TAks"/>
+    <lastUpdated value="2020-03-12T00:11:51.814-04:00"/>
+    <source value="9j1wSUCmLC"/>
+    <profile value="82nJOKQpxL"/>
+    <security>
+      <system value="db6xN2OMkt"/>
+      <version value="ekxfHWY8vz"/>
+      <code value="XfMyADlCDW"/>
+      <display value="wUYyS_JjTu"/>
+      <userSelected value="true"/>
+    </security>
+    <tag>
+      <system value="L5FaLPMFfv"/>
+      <version value="BOusM_fjeN"/>
+      <code value="mdrClJHRIh"/>
+      <display value="7h_DzQehvc"/>
+      <userSelected value="true"/>
+    </tag>
+    <tag>
+      <code value="ibm/complete-mock"/>
+    </tag>
+  </meta>
+  <implicitRules value="TNk2HyhENr"/>
+  <language value="pBT0vWYHla"/>
+  <text>
+    <status value="empty"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"></div>
+  </text>
+  <identifier>
+    <use value="temp"/>
+    <type>
+      <coding>
+        <system value="DnUsuUeDRP"/>
+        <version value="79uVfyTLLH"/>
+        <code value="AgYYSFlGms"/>
+        <display value="W2hYN1SqnZ"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="OZZDJjKsia"/>
+    </type>
+    <system value="CCIQcis_pD"/>
+    <value value="OGfAcz7ZpQ"/>
+    <period>
+      <start value="2020-03-12T00:11:51.816-04:00"/>
+      <end value="2020-03-12T00:11:51.816-04:00"/>
+    </period>
+  </identifier>
+  <type>
+    <coding>
+      <system value="bYVfI4pQSp"/>
+      <version value="IXb1s1JvcA"/>
+      <code value="NsFrw2icPU"/>
+      <display value="N9TQbCFcQl"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="vr0P73XoZ4"/>
+  </type>
+  <unit>
+    <coding>
+      <system value="r8Tw0c357q"/>
+      <version value="uGu8r8q1Y1"/>
+      <code value="Wb2XvnF6Md"/>
+      <display value="OMA4sAHCVu"/>
+      <userSelected value="true"/>
+    </coding>
+    <text value="edC276R1jy"/>
+  </unit>
+  <source>
+    <reference value="Device/MRbQReq6RE"/>
+    <type value="Device"/>
+    <identifier>
+      <use value="usual"/>
+      <type>
+        <coding>
+          <system value="UHyQT37zVa"/>
+          <version value="etr_UQEvj2"/>
+          <code value="bWvnHhju5E"/>
+          <display value="2Q_j_Bb_Nd"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="6P6ucErrnu"/>
+      </type>
+      <system value="bLF7KzYuCA"/>
+      <value value="VbzUGz6Tis"/>
+      <period>
+        <start value="2020-03-12T00:11:51.814-04:00"/>
+        <end value="2020-03-12T00:11:51.814-04:00"/>
+      </period>
+    </identifier>
+    <display value="ohcslvzl86"/>
+  </source>
+  <parent>
+    <reference value="Device/QbwLHCI3BO"/>
+    <type value="Device"/>
+    <identifier>
+      <use value="usual"/>
+      <type>
+        <coding>
+          <system value="Rsg4wCSrvy"/>
+          <version value="m9yf6qkRSz"/>
+          <code value="B6GJioD8Vk"/>
+          <display value="faVtSJC38S"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="ea34Y7aFB3"/>
+      </type>
+      <system value="fQcBBIaeg3"/>
+      <value value="JLRmyHBPH3"/>
+      <period>
+        <start value="2020-03-12T00:11:51.812-04:00"/>
+        <end value="2020-03-12T00:11:51.813-04:00"/>
+      </period>
+    </identifier>
+    <display value="uRh02hkFk6"/>
+  </parent>
+  <operationalStatus value="off"/>
+  <color value="white"/>
+  <category value="unspecified"/>
+  <measurementPeriod>
+    <event value="2020-03-12T00:11:51.818-04:00"/>
+    <repeat>
+      <boundsDuration>
+        <value value="358129218373"/>
+        <comparator value="&gt;"/>
+        <unit value="XibpWzL_4x"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="h"/>
+      </boundsDuration>
+      <count value="858499390"/>
+      <countMax value="79668336"/>
+      <duration value="215341871723"/>
+      <durationMax value="211765173307"/>
+      <durationUnit value="a"/>
+      <frequency value="1624976376"/>
+      <frequencyMax value="379243352"/>
+      <period value="328232276049"/>
+      <periodMax value="504230735470"/>
+      <periodUnit value="s"/>
+      <dayOfWeek value="wed"/>
+      <when value="PHS"/>
+    </repeat>
+    <code>
+      <coding>
+        <system value="ZPxeBAdTO7"/>
+        <version value="9B5VE8j9IP"/>
+        <code value="dJlwjpgONl"/>
+        <display value="9le3mQOOBV"/>
+        <userSelected value="true"/>
+      </coding>
+      <text value="ALODevJFp6"/>
+    </code>
+  </measurementPeriod>
+  <calibration>
+    <type value="unspecified"/>
+    <state value="calibrated"/>
+    <time value="2020-03-12T00:11:51.819-04:00"/>
+  </calibration>
+</DeviceMetric>

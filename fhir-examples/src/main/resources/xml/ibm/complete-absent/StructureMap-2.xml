@@ -442,11 +442,11 @@
             <valueCode value="unknown"/>
           </extension>
         </type>
-        <defaultValueBase64Binary>
+        <defaultValueBoolean>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
           </extension>
-        </defaultValueBase64Binary>
+        </defaultValueBoolean>
         <element>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>

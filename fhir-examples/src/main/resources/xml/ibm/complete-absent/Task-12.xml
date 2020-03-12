@@ -1470,11 +1470,11 @@
         </extension>
       </text>
     </type>
-    <valueBase64Binary>
+    <valueBoolean>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
       </extension>
-    </valueBase64Binary>
+    </valueBoolean>
   </input>
   <output>
     <type>
@@ -1511,10 +1511,10 @@
         </extension>
       </text>
     </type>
-    <valueBase64Binary>
+    <valueBoolean>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
       </extension>
-    </valueBase64Binary>
+    </valueBoolean>
   </output>
 </Task>
