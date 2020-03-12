@@ -1470,11 +1470,11 @@
         </extension>
       </text>
     </type>
-    <valueInteger>
+    <valueMarkdown>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
       </extension>
-    </valueInteger>
+    </valueMarkdown>
   </input>
   <output>
     <type>
@@ -1511,10 +1511,10 @@
         </extension>
       </text>
     </type>
-    <valueInteger>
+    <valueMarkdown>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
       </extension>
-    </valueInteger>
+    </valueMarkdown>
   </output>
 </Task>

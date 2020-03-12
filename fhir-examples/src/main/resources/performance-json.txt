@@ -462,7 +462,7 @@ OK         json/ibm/complete-mock/Task-6.json
 OK         json/ibm/complete-mock/Task-7.json
 OK         json/ibm/complete-mock/Task-8.json
 OK         json/ibm/complete-mock/Task-9.json
-VALIDATION json/ibm/complete-mock/TerminologyCapabilities-1.json
+OK         json/ibm/complete-mock/TerminologyCapabilities-1.json
 VALIDATION json/ibm/complete-mock/TestReport-1.json
 VALIDATION json/ibm/complete-mock/TestScript-1.json
 OK         json/ibm/complete-mock/ValueSet-1.json
@@ -1749,7 +1749,7 @@ OK         json/spec/device-example.json
 OK         json/spec/device-example-f001-feedingtube.json
 OK         json/spec/device-extensions-Device-din.json
 OK         json/spec/devicemetric.profile.json
-OK         json/spec/devicemetric-example.json
+PARSE      json/spec/devicemetric-example.json
 OK         json/spec/devicemetricobservation.profile.json
 PARSE      json/spec/devicemetricobservation-questionnaire.json
 PARSE      json/spec/devicemetric-questionnaire.json
@@ -2179,9 +2179,7 @@ OK         json/spec/extension-structuredefinition-explicit-type-name.json
 OK         json/spec/extension-structuredefinition-fmm.json
 OK         json/spec/extension-structuredefinition-fmm-no-warnings.json
 OK         json/spec/extension-structuredefinition-hierarchy.json
-OK         json/spec/extension-structuredefinition-json-type.json
 OK         json/spec/extension-structuredefinition-normative-version.json
-OK         json/spec/extension-structuredefinition-rdf-type.json
 OK         json/spec/extension-structuredefinition-security-category.json
 OK         json/spec/extension-structuredefinition-standards-status.json
 OK         json/spec/extension-structuredefinition-summary.json
@@ -2189,7 +2187,6 @@ OK         json/spec/extension-structuredefinition-table-name.json
 OK         json/spec/extension-structuredefinition-template-status.json
 OK         json/spec/extension-structuredefinition-wg.json
 OK         json/spec/extension-structuredefinition-xml-no-order.json
-OK         json/spec/extension-structuredefinition-xml-type.json
 OK         json/spec/extension-task-candidatelist.json
 OK         json/spec/extension-task-replaces.json
 OK         json/spec/extension-timing-dayofmonth.json
@@ -2469,7 +2466,7 @@ OK         json/spec/medicationknowledge-example.json
 PARSE      json/spec/medicationknowledge-questionnaire.json
 PARSE      json/spec/medication-questionnaire.json
 OK         json/spec/medicationrequest.profile.json
-OK         json/spec/medicationrequest0301.json
+PARSE      json/spec/medicationrequest0301.json
 OK         json/spec/medicationrequest0302.json
 OK         json/spec/medicationrequest0303.json
 OK         json/spec/medicationrequest0304.json

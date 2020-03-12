@@ -238,7 +238,7 @@ OK         xml/spec/devicedefinition-example.xml
 OK         xml/spec/device-example.xml
 OK         xml/spec/device-example-f001-feedingtube.xml
 OK         xml/spec/devicemetric.profile.xml
-OK         xml/spec/devicemetric-example.xml
+PARSE      xml/spec/devicemetric-example.xml
 OK         xml/spec/devicemetricobservation.profile.xml
 OK         xml/spec/devicerequest.profile.xml
 OK         xml/spec/devicerequest-example.xml
@@ -512,7 +512,7 @@ OK         xml/spec/medicationexample15.xml
 OK         xml/spec/medicationknowledge.profile.xml
 OK         xml/spec/medicationknowledge-example.xml
 OK         xml/spec/medicationrequest.profile.xml
-OK         xml/spec/medicationrequest0301.xml
+PARSE      xml/spec/medicationrequest0301.xml
 OK         xml/spec/medicationrequest0302.xml
 OK         xml/spec/medicationrequest0303.xml
 OK         xml/spec/medicationrequest0304.xml

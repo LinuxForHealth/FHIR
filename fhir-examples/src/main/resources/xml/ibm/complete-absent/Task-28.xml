@@ -1470,18 +1470,23 @@
         </extension>
       </text>
     </type>
-    <valueAge>
-      <comparator>
+    <valueAnnotation>
+      <authorString>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </comparator>
-      <unit>
+      </authorString>
+      <time>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </unit>
-    </valueAge>
+      </time>
+      <text>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </text>
+    </valueAnnotation>
   </input>
   <output>
     <type>
@@ -1518,17 +1523,22 @@
         </extension>
       </text>
     </type>
-    <valueAge>
-      <comparator>
+    <valueAnnotation>
+      <authorString>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </comparator>
-      <unit>
+      </authorString>
+      <time>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </unit>
-    </valueAge>
+      </time>
+      <text>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </text>
+    </valueAnnotation>
   </output>
 </Task>

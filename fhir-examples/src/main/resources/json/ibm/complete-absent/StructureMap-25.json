@@ -800,52 +800,40 @@
                                     }
                                 ]
                             },
-                            "defaultValueCodeableConcept": {
-                                "coding": [
-                                    {
-                                        "_system": {
-                                            "extension": [
-                                                {
-                                                    "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                                                    "valueCode": "unknown"
-                                                }
-                                            ]
-                                        },
-                                        "_version": {
-                                            "extension": [
-                                                {
-                                                    "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                                                    "valueCode": "unknown"
-                                                }
-                                            ]
-                                        },
-                                        "_code": {
-                                            "extension": [
-                                                {
-                                                    "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                                                    "valueCode": "unknown"
-                                                }
-                                            ]
-                                        },
-                                        "_display": {
-                                            "extension": [
-                                                {
-                                                    "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                                                    "valueCode": "unknown"
-                                                }
-                                            ]
-                                        },
-                                        "_userSelected": {
-                                            "extension": [
-                                                {
-                                                    "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                                                    "valueCode": "unknown"
-                                                }
-                                            ]
+                            "defaultValueCoding": {
+                                "_system": {
+                                    "extension": [
+                                        {
+                                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                                            "valueCode": "unknown"
                                         }
-                                    }
-                                ],
-                                "_text": {
+                                    ]
+                                },
+                                "_version": {
+                                    "extension": [
+                                        {
+                                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                                            "valueCode": "unknown"
+                                        }
+                                    ]
+                                },
+                                "_code": {
+                                    "extension": [
+                                        {
+                                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                                            "valueCode": "unknown"
+                                        }
+                                    ]
+                                },
+                                "_display": {
+                                    "extension": [
+                                        {
+                                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                                            "valueCode": "unknown"
+                                        }
+                                    ]
+                                },
+                                "_userSelected": {
                                     "extension": [
                                         {
                                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
