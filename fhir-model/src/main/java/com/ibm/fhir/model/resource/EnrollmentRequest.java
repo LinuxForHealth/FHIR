@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.DateTime;
@@ -44,9 +45,13 @@ public class EnrollmentRequest extends DomainResource {
     )
     private final EnrollmentRequestStatus status;
     private final DateTime created;
+    @ReferenceTarget({ "Organization" })
     private final Reference insurer;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     private final Reference provider;
+    @ReferenceTarget({ "Patient" })
     private final Reference candidate;
+    @ReferenceTarget({ "Coverage" })
     private final Reference coverage;
 
     private volatile int hashCode;
@@ -512,6 +517,11 @@ public class EnrollmentRequest extends DomainResource {
         /**
          * The Insurer who is target of the request.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param insurer
          *     Target
          * 
@@ -525,6 +535,13 @@ public class EnrollmentRequest extends DomainResource {
 
         /**
          * The practitioner who is responsible for the services rendered to the patient.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param provider
          *     Responsible practitioner
@@ -540,6 +557,11 @@ public class EnrollmentRequest extends DomainResource {
         /**
          * Patient Resource.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param candidate
          *     The subject to be enrolled
          * 
@@ -553,6 +575,11 @@ public class EnrollmentRequest extends DomainResource {
 
         /**
          * Reference to the program or plan identification, underwriter or payor.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Coverage}</li>
+         * </ul>
          * 
          * @param coverage
          *     Insurance information

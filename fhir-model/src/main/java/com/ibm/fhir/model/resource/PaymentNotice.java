@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
@@ -54,13 +55,17 @@ public class PaymentNotice extends DomainResource {
     @Summary
     @Required
     private final DateTime created;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     private final Reference provider;
     @Summary
+    @ReferenceTarget({ "PaymentReconciliation" })
     @Required
     private final Reference payment;
     private final Date paymentDate;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     private final Reference payee;
     @Summary
+    @ReferenceTarget({ "Organization" })
     @Required
     private final Reference recipient;
     @Summary
@@ -649,6 +654,13 @@ public class PaymentNotice extends DomainResource {
         /**
          * The practitioner who is responsible for the services rendered to the patient.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param provider
          *     Responsible practitioner
          * 
@@ -664,6 +676,11 @@ public class PaymentNotice extends DomainResource {
          * A reference to the payment which is the subject of this notice.
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link PaymentReconciliation}</li>
+         * </ul>
          * 
          * @param payment
          *     Payment reference
@@ -693,6 +710,13 @@ public class PaymentNotice extends DomainResource {
         /**
          * The party who will receive or has received payment that is the subject of this notification.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param payee
          *     Party being paid
          * 
@@ -708,6 +732,11 @@ public class PaymentNotice extends DomainResource {
          * The party who is notified of the payment status.
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param recipient
          *     Party being notified

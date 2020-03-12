@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
@@ -48,6 +49,7 @@ public class HealthcareService extends DomainResource {
     @Summary
     private final Boolean active;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference providedBy;
     @Summary
     @Binding(
@@ -852,6 +854,11 @@ public class HealthcareService extends DomainResource {
 
         /**
          * The organization that provides this healthcare service.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param providedBy
          *     Organization that provides this service

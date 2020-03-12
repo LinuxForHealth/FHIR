@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
@@ -49,6 +50,7 @@ public class RelatedPerson extends DomainResource {
     @Summary
     private final Boolean active;
     @Summary
+    @ReferenceTarget({ "Patient" })
     @Required
     private final Reference patient;
     @Summary
@@ -608,6 +610,11 @@ public class RelatedPerson extends DomainResource {
          * The patient this person is related to.
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
          * 
          * @param patient
          *     The patient this person is related to

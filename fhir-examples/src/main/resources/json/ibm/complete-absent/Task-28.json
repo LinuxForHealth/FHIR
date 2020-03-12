@@ -2311,8 +2311,8 @@
                     ]
                 }
             },
-            "valueAge": {
-                "_comparator": {
+            "valueAnnotation": {
+                "_authorString": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
@@ -2320,7 +2320,15 @@
                         }
                     ]
                 },
-                "_unit": {
+                "_time": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                },
+                "_text": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
@@ -2387,8 +2395,8 @@
                     ]
                 }
             },
-            "valueAge": {
-                "_comparator": {
+            "valueAnnotation": {
+                "_authorString": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
@@ -2396,7 +2404,15 @@
                         }
                     ]
                 },
-                "_unit": {
+                "_time": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                },
+                "_text": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",

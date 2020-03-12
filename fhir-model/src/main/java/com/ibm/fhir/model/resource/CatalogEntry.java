@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -47,6 +48,7 @@ public class CatalogEntry extends DomainResource {
     @Required
     private final Boolean orderable;
     @Summary
+    @ReferenceTarget({ "Medication", "Device", "Organization", "Practitioner", "PractitionerRole", "HealthcareService", "ActivityDefinition", "PlanDefinition", "SpecimenDefinition", "ObservationDefinition", "Binary" })
     @Required
     private final Reference referencedItem;
     private final List<Identifier> additionalIdentifier;
@@ -627,6 +629,21 @@ public class CatalogEntry extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Medication}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link HealthcareService}</li>
+         * <li>{@link ActivityDefinition}</li>
+         * <li>{@link PlanDefinition}</li>
+         * <li>{@link SpecimenDefinition}</li>
+         * <li>{@link ObservationDefinition}</li>
+         * <li>{@link Binary}</li>
+         * </ul>
+         * 
          * @param referencedItem
          *     The item that is being defined
          * 
@@ -914,6 +931,7 @@ public class CatalogEntry extends DomainResource {
         )
         @Required
         private final CatalogEntryRelationType relationtype;
+        @ReferenceTarget({ "CatalogEntry" })
         @Required
         private final Reference item;
 
@@ -1142,6 +1160,11 @@ public class CatalogEntry extends DomainResource {
              * The reference to the related item.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link CatalogEntry}</li>
+             * </ul>
              * 
              * @param item
              *     The reference to the related item

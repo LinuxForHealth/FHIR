@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -62,6 +63,7 @@ public class MedicationKnowledge extends DomainResource {
     )
     private final MedicationKnowledgeStatus status;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference manufacturer;
     @Binding(
         bindingName = "MedicationForm",
@@ -777,6 +779,11 @@ public class MedicationKnowledge extends DomainResource {
         /**
          * Describes the details of the manufacturer of the medication product. This is not intended to represent the distributor 
          * of a medication product.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param manufacturer
          *     Manufacturer of the item
@@ -1704,6 +1711,7 @@ public class MedicationKnowledge extends DomainResource {
      */
     public static class Monograph extends BackboneElement {
         private final CodeableConcept type;
+        @ReferenceTarget({ "DocumentReference", "Media" })
         private final Reference source;
 
         private volatile int hashCode;
@@ -1927,6 +1935,12 @@ public class MedicationKnowledge extends DomainResource {
 
             /**
              * Associated documentation about the medication.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * <li>{@link Media}</li>
+             * </ul>
              * 
              * @param source
              *     Associated documentation about the medication
@@ -4592,6 +4606,7 @@ public class MedicationKnowledge extends DomainResource {
      * Regulatory information about a medication.
      */
     public static class Regulatory extends BackboneElement {
+        @ReferenceTarget({ "Organization" })
         @Required
         private final Reference regulatoryAuthority;
         private final List<Substitution> substitution;
@@ -4839,6 +4854,11 @@ public class MedicationKnowledge extends DomainResource {
              * The authority that is specifying the regulations.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param regulatoryAuthority
              *     Specifies the authority of the regulation

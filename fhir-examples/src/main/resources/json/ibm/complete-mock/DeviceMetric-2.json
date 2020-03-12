@@ -1,0 +1,189 @@
+{
+    "resourceType": "DeviceMetric",
+    "meta": {
+        "versionId": "i7eYJ6TAks",
+        "lastUpdated": "2020-03-12T00:11:51.814-04:00",
+        "source": "9j1wSUCmLC",
+        "profile": [
+            "82nJOKQpxL"
+        ],
+        "security": [
+            {
+                "system": "db6xN2OMkt",
+                "version": "ekxfHWY8vz",
+                "code": "XfMyADlCDW",
+                "display": "wUYyS_JjTu",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "L5FaLPMFfv",
+                "version": "BOusM_fjeN",
+                "code": "mdrClJHRIh",
+                "display": "7h_DzQehvc",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "TNk2HyhENr",
+    "language": "pBT0vWYHla",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "DnUsuUeDRP",
+                        "version": "79uVfyTLLH",
+                        "code": "AgYYSFlGms",
+                        "display": "W2hYN1SqnZ",
+                        "userSelected": true
+                    }
+                ],
+                "text": "OZZDJjKsia"
+            },
+            "system": "CCIQcis_pD",
+            "value": "OGfAcz7ZpQ",
+            "period": {
+                "start": "2020-03-12T00:11:51.816-04:00",
+                "end": "2020-03-12T00:11:51.816-04:00"
+            }
+        }
+    ],
+    "type": {
+        "coding": [
+            {
+                "system": "bYVfI4pQSp",
+                "version": "IXb1s1JvcA",
+                "code": "NsFrw2icPU",
+                "display": "N9TQbCFcQl",
+                "userSelected": true
+            }
+        ],
+        "text": "vr0P73XoZ4"
+    },
+    "unit": {
+        "coding": [
+            {
+                "system": "r8Tw0c357q",
+                "version": "uGu8r8q1Y1",
+                "code": "Wb2XvnF6Md",
+                "display": "OMA4sAHCVu",
+                "userSelected": true
+            }
+        ],
+        "text": "edC276R1jy"
+    },
+    "source": {
+        "reference": "Device/MRbQReq6RE",
+        "type": "Device",
+        "identifier": {
+            "use": "usual",
+            "type": {
+                "coding": [
+                    {
+                        "system": "UHyQT37zVa",
+                        "version": "etr_UQEvj2",
+                        "code": "bWvnHhju5E",
+                        "display": "2Q_j_Bb_Nd",
+                        "userSelected": true
+                    }
+                ],
+                "text": "6P6ucErrnu"
+            },
+            "system": "bLF7KzYuCA",
+            "value": "VbzUGz6Tis",
+            "period": {
+                "start": "2020-03-12T00:11:51.814-04:00",
+                "end": "2020-03-12T00:11:51.814-04:00"
+            }
+        },
+        "display": "ohcslvzl86"
+    },
+    "parent": {
+        "reference": "Device/QbwLHCI3BO",
+        "type": "Device",
+        "identifier": {
+            "use": "usual",
+            "type": {
+                "coding": [
+                    {
+                        "system": "Rsg4wCSrvy",
+                        "version": "m9yf6qkRSz",
+                        "code": "B6GJioD8Vk",
+                        "display": "faVtSJC38S",
+                        "userSelected": true
+                    }
+                ],
+                "text": "ea34Y7aFB3"
+            },
+            "system": "fQcBBIaeg3",
+            "value": "JLRmyHBPH3",
+            "period": {
+                "start": "2020-03-12T00:11:51.812-04:00",
+                "end": "2020-03-12T00:11:51.813-04:00"
+            }
+        },
+        "display": "uRh02hkFk6"
+    },
+    "operationalStatus": "off",
+    "color": "white",
+    "category": "unspecified",
+    "measurementPeriod": {
+        "event": [
+            "2020-03-12T00:11:51.818-04:00"
+        ],
+        "repeat": {
+            "boundsDuration": {
+                "value": 358129218373,
+                "comparator": ">",
+                "unit": "XibpWzL_4x",
+                "system": "http://unitsofmeasure.org",
+                "code": "h"
+            },
+            "count": 858499390,
+            "countMax": 79668336,
+            "duration": 215341871723,
+            "durationMax": 211765173307,
+            "durationUnit": "a",
+            "frequency": 1624976376,
+            "frequencyMax": 379243352,
+            "period": 328232276049,
+            "periodMax": 504230735470,
+            "periodUnit": "s",
+            "dayOfWeek": [
+                "wed"
+            ],
+            "when": [
+                "PHS"
+            ]
+        },
+        "code": {
+            "coding": [
+                {
+                    "system": "ZPxeBAdTO7",
+                    "version": "9B5VE8j9IP",
+                    "code": "dJlwjpgONl",
+                    "display": "9le3mQOOBV",
+                    "userSelected": true
+                }
+            ],
+            "text": "ALODevJFp6"
+        }
+    },
+    "calibration": [
+        {
+            "type": "unspecified",
+            "state": "calibrated",
+            "time": "2020-03-12T00:11:51.819-04:00"
+        }
+    ]
+}

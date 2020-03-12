@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.examples;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -16,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
+import java.util.Set;
 
 import com.ibm.fhir.model.builder.Builder;
 import com.ibm.fhir.model.resource.ExampleScenario;
@@ -24,42 +22,46 @@ import com.ibm.fhir.model.resource.GraphDefinition;
 import com.ibm.fhir.model.resource.PlanDefinition;
 import com.ibm.fhir.model.resource.QuestionnaireResponse;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Narrative;
+import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.model.util.ModelSupport.ElementInfo;
 import com.ibm.fhir.model.visitor.AbstractVisitable;
 
 /**
  * This class creates FHIR resources.
  * It depends on the fhir-model classes having been compiled in debug mode so that
  * we can infer the parameter names on the builder method of each model class.
- * 
- * @author lmsurpre
  */
 public abstract class DataCreatorBase {
     private String resourcePackageName = "com.ibm.fhir.model.resource";
-    private String datatypePackageName = "com.ibm.fhir.model.type";
-    Properties choiceElements = new Properties();
-
-    public DataCreatorBase() throws IOException {
-        try (final InputStream stream = getClass().getResourceAsStream("/choiceElements.properties")) {
-            choiceElements.load(stream);
-        }
-    }
 
     /**
      * Compute the maximum number of allowed types across all choice elements of a resource; 
      * useful for knowing how many examples would be needed in order to cover all the variants. 
      * @param resourceName
      * @return
+     * @throws ClassNotFoundException 
      */
-    public int getMaxChoiceCount(String resourceName) {
-        int maxChoiceCount = 1;
-        for (String propname : choiceElements.stringPropertyNames()) {
-            if (propname.startsWith(resourceName + ".")) {
-                String choices = choiceElements.getProperty(propname);
-                maxChoiceCount = Math.max(maxChoiceCount, choices.split(",").length);
+    public int getMaxChoiceCount(String resourceName) throws ClassNotFoundException {
+        @SuppressWarnings("unchecked")
+        Class<Resource> resourceClass = (Class<Resource>) Class.forName(resourcePackageName + "." + resourceName);
+        return getMaxChoiceCount(resourceClass, 1, 1);
+    }
+
+    private int getMaxChoiceCount(Class<?> resourceOrElementClass, int maxChoiceCount, int levelsDeep) {
+        Collection<ElementInfo> elementsInfo = ModelSupport.getElementInfo(resourceOrElementClass);
+        for (ElementInfo elementInfo : elementsInfo) {
+            if (elementInfo.isChoice()) {
+                maxChoiceCount = Math.max(maxChoiceCount, elementInfo.getChoiceTypes().size());
+            }
+            if (levelsDeep < 10 && resourceOrElementClass != elementInfo.getType() && BackboneElement.class.isAssignableFrom(elementInfo.getType())) {
+                // recursively call getMaxChoiceCount
+                maxChoiceCount = getMaxChoiceCount(elementInfo.getType(), maxChoiceCount, levelsDeep+1);
             }
         }
         return maxChoiceCount;
@@ -90,6 +92,16 @@ public abstract class DataCreatorBase {
         Method builderMethod = getBuilderMethod(resourceClass);
         Resource.Builder builder = (Resource.Builder) builderMethod.invoke(null);
         return (Resource) addData(builder, choiceIndicator).build();
+    }
+
+    /**
+     * Create an element of type Reference
+     * @param targetProfile the target profile to use for the generated reference
+     * @return
+     * @throws Exception
+     */
+    public Element createReference(String targetProfile) throws Exception {
+        return (Element) addData(Reference.builder(), targetProfile).build();
     }
 
     /**
@@ -142,12 +154,12 @@ public abstract class DataCreatorBase {
             if (Element.class.equals(parameterType)) {
                 // Seeing a parameter of type Element is our clue that we have a choice element
                 // There are no repeating choice elements in R4, but handle it just in case
-                String propName = reflectPropertyName(owningClass, builderMethod.getParameters()[i].getName(), parameterType);
-                String[] choiceTypes = choiceElements.getProperty(propName).split(",");
-
-                for (String choiceTypeName : choiceTypes) {
+                String elementName = builderMethod.getParameters()[i].getName();
+                
+                Set<Class<?>> choiceElementTypes = ModelSupport.getChoiceElementTypes(owningClass, elementName);
+                for (Class<?> choiceTypeName : choiceElementTypes) {
                     @SuppressWarnings("unchecked")
-                    Class<? extends Element> choiceType = (Class<? extends Element>) Class.forName(datatypePackageName + "." + titleCase(choiceTypeName));
+                    Class<? extends Element> choiceType = (Class<? extends Element>) choiceTypeName;
                     elementList.add(createElement(choiceType, choiceIndicator));
                 }
             } else {
@@ -172,15 +184,32 @@ public abstract class DataCreatorBase {
             return elementList;
         } else if (Element.class.equals(parameterType)){
             // Seeing a parameter of type Element is our clue that we have a choice element
-            String propName = reflectPropertyName(owningClass, builderMethod.getParameters()[i].getName(), parameterType);
-            String[] choiceTypes = choiceElements.getProperty(propName).split(",");
-
-            // for singleton choice elements, use the "choiceIndicator" to pick the choice type
-            String choiceTypeName = choiceTypes[(choiceTypes.length - 1) % choiceIndicator];
+            String elementName = builderMethod.getParameters()[i].getName();
+            Class<? extends Element> choiceType = null;
             
-            @SuppressWarnings("unchecked")
-            Class<? extends Element> choiceType = (Class<? extends Element>) Class.forName(datatypePackageName + "." + titleCase(choiceTypeName));
+            Set<Class<?>> choiceElementTypes = ModelSupport.getChoiceElementTypes(owningClass, elementName);
+            if (!choiceElementTypes.isEmpty()) {
+                @SuppressWarnings("unchecked")
+                Class<? extends Element>[] choiceTypesArray = new Class[choiceElementTypes.size()];
+                choiceElementTypes.toArray(choiceTypesArray);
+                choiceType = (Class<? extends Element>) choiceTypesArray[(choiceTypesArray.length - 1) % choiceIndicator];
+            }
+            
             return createElement(choiceType, choiceIndicator);
+        } else if (Reference.class.equals(parameterType)){
+            // Handling references specially
+            String elementName = builderMethod.getParameters()[i].getName();
+            Set<String> referenceTargetTypes = ModelSupport.getReferenceTargetTypes(owningClass, elementName);
+            if (!referenceTargetTypes.isEmpty()) {
+                String[] targetTypes = new String[referenceTargetTypes.size()];
+                referenceTargetTypes.toArray(targetTypes);
+
+                // use the "choiceIndicator" to pick the reference type
+                String targetType = targetTypes[(targetTypes.length - 1) % choiceIndicator];
+                return createReference(targetType);
+            } else {
+                return createElement(Reference.class, choiceIndicator);
+            }
         } else if (Resource.class.isAssignableFrom(parameterType)) {
             @SuppressWarnings("unchecked")
             Resource r = createResource((Class<? extends Resource>) parameterType, choiceIndicator);
@@ -200,18 +229,6 @@ public abstract class DataCreatorBase {
         }
     }
 
-    /**
-     * Build the property name by walking the parent classes until we get to a top-level class.
-     */
-    private String reflectPropertyName(Class<?> owningClass, String fieldName, Class<?> parameterType) {
-        String propName = camelCase(owningClass.getSimpleName()) + "." + fieldName;
-        while (owningClass.isMemberClass()) {
-            owningClass = owningClass.getEnclosingClass();
-            propName = camelCase(owningClass.getSimpleName()) + "." + propName;
-        }
-        return titleCase(propName);
-    }
-
     protected Element.Builder setDataAbsentReason(Element.Builder builder) {
         Extension e = Extension.builder()
                 .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
@@ -229,4 +246,6 @@ public abstract class DataCreatorBase {
     }
 
     abstract protected Builder<?> addData(Builder<?> builder, int choiceIndicator) throws Exception;
+
+    abstract protected Builder<?> addData(Reference.Builder builder, String targetProfile) throws Exception;
 }

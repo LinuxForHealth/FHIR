@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -93,8 +94,10 @@ public class MedicationAdministration extends DomainResource {
     @Required
     private final Element medication;
     @Summary
+    @ReferenceTarget({ "Patient", "Group" })
     @Required
     private final Reference subject;
+    @ReferenceTarget({ "Encounter", "EpisodeOfCare" })
     private final Reference context;
     private final List<Reference> supportingInformation;
     @Summary
@@ -111,6 +114,7 @@ public class MedicationAdministration extends DomainResource {
     )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
+    @ReferenceTarget({ "MedicationRequest" })
     private final Reference request;
     private final List<Reference> device;
     private final List<Annotation> note;
@@ -917,6 +921,12 @@ public class MedicationAdministration extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who received medication
          * 
@@ -931,6 +941,12 @@ public class MedicationAdministration extends DomainResource {
         /**
          * The visit, admission, or other contact between patient and health care provider during which the medication 
          * administration was performed.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * <li>{@link EpisodeOfCare}</li>
+         * </ul>
          * 
          * @param context
          *     Encounter or Episode of Care administered as part of
@@ -1105,6 +1121,11 @@ public class MedicationAdministration extends DomainResource {
 
         /**
          * The original request, instruction or authority to perform the administration.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link MedicationRequest}</li>
+         * </ul>
          * 
          * @param request
          *     Request administration performed against
@@ -1289,6 +1310,7 @@ public class MedicationAdministration extends DomainResource {
         )
         private final CodeableConcept function;
         @Summary
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Device" })
         @Required
         private final Reference actor;
 
@@ -1515,6 +1537,15 @@ public class MedicationAdministration extends DomainResource {
              * Indicates who or what performed the medication administration.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Patient}</li>
+             * <li>{@link RelatedPerson}</li>
+             * <li>{@link Device}</li>
+             * </ul>
              * 
              * @param actor
              *     Who performed the medication administration

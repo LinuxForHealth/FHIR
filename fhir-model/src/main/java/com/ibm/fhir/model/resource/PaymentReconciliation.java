@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -59,8 +60,11 @@ public class PaymentReconciliation extends DomainResource {
     @Required
     private final DateTime created;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference paymentIssuer;
+    @ReferenceTarget({ "Task" })
     private final Reference request;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     private final Reference requestor;
     @Binding(
         bindingName = "RemittanceOutcome",
@@ -695,6 +699,11 @@ public class PaymentReconciliation extends DomainResource {
         /**
          * The party who generated the payment.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param paymentIssuer
          *     Party generating payment
          * 
@@ -709,6 +718,11 @@ public class PaymentReconciliation extends DomainResource {
         /**
          * Original request resource reference.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Task}</li>
+         * </ul>
+         * 
          * @param request
          *     Reference to requesting resource
          * 
@@ -722,6 +736,13 @@ public class PaymentReconciliation extends DomainResource {
 
         /**
          * The practitioner who is responsible for the services rendered to the patient.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param requestor
          *     Responsible practitioner
@@ -945,10 +966,13 @@ public class PaymentReconciliation extends DomainResource {
         @Required
         private final CodeableConcept type;
         private final Reference request;
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
         private final Reference submitter;
         private final Reference response;
         private final Date date;
+        @ReferenceTarget({ "PractitionerRole" })
         private final Reference responsible;
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
         private final Reference payee;
         private final Money amount;
 
@@ -1348,6 +1372,13 @@ public class PaymentReconciliation extends DomainResource {
             /**
              * The party which submitted the claim or financial transaction.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
              * @param submitter
              *     Submitter of the request
              * 
@@ -1390,6 +1421,11 @@ public class PaymentReconciliation extends DomainResource {
             /**
              * A reference to the individual who is responsible for inquiries regarding the response and its payment.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link PractitionerRole}</li>
+             * </ul>
+             * 
              * @param responsible
              *     Contact for the response
              * 
@@ -1403,6 +1439,13 @@ public class PaymentReconciliation extends DomainResource {
 
             /**
              * The party which is receiving the payment.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param payee
              *     Recipient of the payment

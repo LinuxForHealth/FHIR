@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -945,6 +946,7 @@ public class VerificationResult extends DomainResource {
      * Information about the primary source(s) involved in validation.
      */
     public static class PrimarySource extends BackboneElement {
+        @ReferenceTarget({ "Organization", "Practitioner", "PractitionerRole" })
         private final Reference who;
         @Summary
         @Binding(
@@ -1275,6 +1277,13 @@ public class VerificationResult extends DomainResource {
             /**
              * Reference to the primary source.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * </ul>
+             * 
              * @param who
              *     Reference to the primary source
              * 
@@ -1464,8 +1473,10 @@ public class VerificationResult extends DomainResource {
      */
     public static class Attestation extends BackboneElement {
         @Summary
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
         private final Reference who;
         @Summary
+        @ReferenceTarget({ "Organization", "Practitioner", "PractitionerRole" })
         private final Reference onBehalfOf;
         @Summary
         @Binding(
@@ -1789,6 +1800,13 @@ public class VerificationResult extends DomainResource {
             /**
              * The individual or organization attesting to information.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
              * @param who
              *     The individual or organization attesting to information
              * 
@@ -1802,6 +1820,13 @@ public class VerificationResult extends DomainResource {
 
             /**
              * When the who is asserting on behalf of another (organization or individual).
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * </ul>
              * 
              * @param onBehalfOf
              *     When the who is asserting on behalf of another (organization or individual)
@@ -1931,6 +1956,7 @@ public class VerificationResult extends DomainResource {
      * Information about the entity validating information.
      */
     public static class Validator extends BackboneElement {
+        @ReferenceTarget({ "Organization" })
         @Required
         private final Reference organization;
         private final String identityCertificate;
@@ -2161,6 +2187,11 @@ public class VerificationResult extends DomainResource {
              * Reference to the organization validating information.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param organization
              *     Reference to the organization validating information

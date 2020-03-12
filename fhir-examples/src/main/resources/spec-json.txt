@@ -798,7 +798,7 @@ OK         json/spec/device-example.json
 OK         json/spec/device-example-f001-feedingtube.json
 OK         json/spec/device-extensions-Device-din.json
 OK         json/spec/devicemetric.profile.json
-OK         json/spec/devicemetric-example.json
+PARSE      json/spec/devicemetric-example.json
 OK         json/spec/devicemetricobservation.profile.json
 PARSE      json/spec/devicemetricobservation-questionnaire.json
 PARSE      json/spec/devicemetric-questionnaire.json
@@ -1519,7 +1519,7 @@ OK         json/spec/medicationknowledge-example.json
 PARSE      json/spec/medicationknowledge-questionnaire.json
 PARSE      json/spec/medication-questionnaire.json
 OK         json/spec/medicationrequest.profile.json
-OK         json/spec/medicationrequest0301.json
+PARSE      json/spec/medicationrequest0301.json
 OK         json/spec/medicationrequest0302.json
 OK         json/spec/medicationrequest0303.json
 OK         json/spec/medicationrequest0304.json

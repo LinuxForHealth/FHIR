@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -125,9 +126,11 @@ public class ServiceRequest extends DomainResource {
     @Choice({ Quantity.class, Ratio.class, Range.class })
     private final Element quantity;
     @Summary
+    @ReferenceTarget({ "Patient", "Group", "Location", "Device" })
     @Required
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     @Choice({ DateTime.class, Period.class, Timing.class })
@@ -144,6 +147,7 @@ public class ServiceRequest extends DomainResource {
     @Summary
     private final DateTime authoredOn;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device" })
     private final Reference requester;
     @Summary
     @Binding(
@@ -1387,6 +1391,14 @@ public class ServiceRequest extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link Location}</li>
+         * <li>{@link Device}</li>
+         * </ul>
+         * 
          * @param subject
          *     Individual or Entity the service is ordered for
          * 
@@ -1400,6 +1412,11 @@ public class ServiceRequest extends DomainResource {
 
         /**
          * An encounter that provides additional information about the healthcare context in which this request is made.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter in which the request was created
@@ -1470,6 +1487,16 @@ public class ServiceRequest extends DomainResource {
 
         /**
          * The individual who initiated the request and has responsibility for its activation.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Device}</li>
+         * </ul>
          * 
          * @param requester
          *     Who/what is requesting service

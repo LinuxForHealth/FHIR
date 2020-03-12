@@ -463,7 +463,7 @@ OK         xml/ibm/complete-mock/Task-6.xml
 OK         xml/ibm/complete-mock/Task-7.xml
 OK         xml/ibm/complete-mock/Task-8.xml
 OK         xml/ibm/complete-mock/Task-9.xml
-VALIDATION xml/ibm/complete-mock/TerminologyCapabilities-1.xml
+OK         xml/ibm/complete-mock/TerminologyCapabilities-1.xml
 VALIDATION xml/ibm/complete-mock/TestReport-1.xml
 VALIDATION xml/ibm/complete-mock/TestScript-1.xml
 OK         xml/ibm/complete-mock/ValueSet-1.xml
@@ -508,7 +508,7 @@ OK         xml/spec/coverage-example.xml
 OK         xml/spec/detectedissue-example.xml
 OK         xml/spec/devicedefinition-example.xml
 OK         xml/spec/device-example.xml
-OK         xml/spec/devicemetric-example.xml
+PARSE      xml/spec/devicemetric-example.xml
 OK         xml/spec/devicerequest-example.xml
 OK         xml/spec/deviceusestatement-example.xml
 OK         xml/spec/diagnosticreport-example.xml

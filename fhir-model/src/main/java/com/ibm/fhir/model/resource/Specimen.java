@@ -15,6 +15,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -63,6 +64,7 @@ public class Specimen extends DomainResource {
     )
     private final CodeableConcept type;
     @Summary
+    @ReferenceTarget({ "Patient", "Group", "Device", "Substance", "Location" })
     private final Reference subject;
     @Summary
     private final DateTime receivedTime;
@@ -658,6 +660,15 @@ public class Specimen extends DomainResource {
          * Where the specimen came from. This may be from patient(s), from a location (e.g., the source of an environmental 
          * sample), or a sampling of a substance or a device.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Substance}</li>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param subject
          *     Where the specimen came from. This may be from patient(s), from a location (e.g., the source of an environmental 
          *     sample), or a sampling of a substance or a device
@@ -943,6 +954,7 @@ public class Specimen extends DomainResource {
      */
     public static class Collection extends BackboneElement {
         @Summary
+        @ReferenceTarget({ "Practitioner", "PractitionerRole" })
         private final Reference collector;
         @Summary
         @Choice({ DateTime.class, Period.class })
@@ -1263,6 +1275,12 @@ public class Specimen extends DomainResource {
 
             /**
              * Person who collected the specimen.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * </ul>
              * 
              * @param collector
              *     Who collected the specimen

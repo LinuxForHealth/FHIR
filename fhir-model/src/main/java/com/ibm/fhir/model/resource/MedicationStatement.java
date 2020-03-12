@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -96,15 +97,18 @@ public class MedicationStatement extends DomainResource {
     @Required
     private final Element medication;
     @Summary
+    @ReferenceTarget({ "Patient", "Group" })
     @Required
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter", "EpisodeOfCare" })
     private final Reference context;
     @Summary
     @Choice({ DateTime.class, Period.class })
     private final Element effective;
     @Summary
     private final DateTime dateAsserted;
+    @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization" })
     private final Reference informationSource;
     private final List<Reference> derivedFrom;
     @Binding(
@@ -884,6 +888,12 @@ public class MedicationStatement extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who is/was taking the medication
          * 
@@ -897,6 +907,12 @@ public class MedicationStatement extends DomainResource {
 
         /**
          * The encounter or episode of care that establishes the context for this MedicationStatement.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * <li>{@link EpisodeOfCare}</li>
+         * </ul>
          * 
          * @param context
          *     Encounter / Episode associated with MedicationStatement
@@ -947,6 +963,15 @@ public class MedicationStatement extends DomainResource {
         /**
          * The person or organization that provided the information about the taking of this medication. Note: Use derivedFrom 
          * when a MedicationStatement is derived from other resources, e.g. Claim or MedicationRequest.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param informationSource
          *     Person or organization that provided the information about the taking of this medication

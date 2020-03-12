@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -2225,6 +2226,7 @@ public class MedicinalProduct extends DomainResource {
         @Summary
         private final List<Reference> manufacturer;
         @Summary
+        @ReferenceTarget({ "Organization" })
         private final Reference regulator;
 
         private volatile int hashCode;
@@ -2588,6 +2590,11 @@ public class MedicinalProduct extends DomainResource {
 
             /**
              * A regulator which oversees the operation.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param regulator
              *     A regulator which oversees the operation

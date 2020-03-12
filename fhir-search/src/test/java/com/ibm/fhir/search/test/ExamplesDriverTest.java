@@ -9,7 +9,6 @@ package com.ibm.fhir.search.test;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.examples.Index;
-import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.validation.test.ValidationProcessor;
 
@@ -20,7 +19,6 @@ public class ExamplesDriverTest {
      */
     @Test(groups = { "server-examples" })
     public void processExamples() throws Exception {
-        FHIRModelConfig.setCheckReferenceTypes(false);
         // Process each of the examples using the provided ExampleRequestProcessor. We want to
         // validate first before we try and send to FHIR
         final R4ExamplesDriver driver = new R4ExamplesDriver();

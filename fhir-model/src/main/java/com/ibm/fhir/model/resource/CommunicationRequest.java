@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -93,9 +94,11 @@ public class CommunicationRequest extends DomainResource {
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ParticipationMode"
     )
     private final List<CodeableConcept> medium;
+    @ReferenceTarget({ "Patient", "Group" })
     private final Reference subject;
     private final List<Reference> about;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     private final List<Payload> payload;
     @Summary
@@ -104,9 +107,11 @@ public class CommunicationRequest extends DomainResource {
     @Summary
     private final DateTime authoredOn;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device" })
     private final Reference requester;
     private final List<Reference> recipient;
     @Summary
+    @ReferenceTarget({ "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService" })
     private final Reference sender;
     @Summary
     @Binding(
@@ -1013,6 +1018,12 @@ public class CommunicationRequest extends DomainResource {
         /**
          * The patient or group that is the focus of this communication request.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Focus of message
          * 
@@ -1063,6 +1074,11 @@ public class CommunicationRequest extends DomainResource {
         /**
          * The Encounter during which this CommunicationRequest was created or to which the creation of this record is tightly 
          * associated.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter created as part of
@@ -1147,6 +1163,16 @@ public class CommunicationRequest extends DomainResource {
         /**
          * The device, individual, or organization who initiated the request and has responsibility for its activation.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Device}</li>
+         * </ul>
+         * 
          * @param requester
          *     Who/what is requesting service
          * 
@@ -1197,6 +1223,17 @@ public class CommunicationRequest extends DomainResource {
         /**
          * The entity (e.g. person, organization, clinical information system, or device) which is to be the source of the 
          * communication.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link HealthcareService}</li>
+         * </ul>
          * 
          * @param sender
          *     Message sender

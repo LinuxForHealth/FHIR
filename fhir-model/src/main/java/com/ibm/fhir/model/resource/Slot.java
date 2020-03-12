@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Boolean;
@@ -70,6 +71,7 @@ public class Slot extends DomainResource {
     )
     private final CodeableConcept appointmentType;
     @Summary
+    @ReferenceTarget({ "Schedule" })
     @Required
     private final Reference schedule;
     @Summary
@@ -713,6 +715,11 @@ public class Slot extends DomainResource {
          * The schedule resource that this slot defines an interval of status information.
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Schedule}</li>
+         * </ul>
          * 
          * @param schedule
          *     The schedule resource that this slot defines an interval of status information

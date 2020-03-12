@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Age;
@@ -106,9 +107,12 @@ public class RequestGroup extends DomainResource {
     private final RequestPriority priority;
     @Summary
     private final CodeableConcept code;
+    @ReferenceTarget({ "Patient", "Group" })
     private final Reference subject;
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     private final DateTime authoredOn;
+    @ReferenceTarget({ "Device", "Practitioner", "PractitionerRole" })
     private final Reference author;
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
@@ -945,6 +949,12 @@ public class RequestGroup extends DomainResource {
         /**
          * The subject for which the request group was created.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who the request group is about
          * 
@@ -958,6 +968,11 @@ public class RequestGroup extends DomainResource {
 
         /**
          * Describes the context of the request group, if any.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Created as part of
@@ -986,6 +1001,13 @@ public class RequestGroup extends DomainResource {
 
         /**
          * Provides a reference to the author of the request group.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
          * 
          * @param author
          *     Device or practitioner that authored the request group

@@ -1470,11 +1470,11 @@
         </extension>
       </text>
     </type>
-    <valueCanonical>
+    <valueCode>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
       </extension>
-    </valueCanonical>
+    </valueCode>
   </input>
   <output>
     <type>
@@ -1511,10 +1511,10 @@
         </extension>
       </text>
     </type>
-    <valueCanonical>
+    <valueCode>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
       </extension>
-    </valueCanonical>
+    </valueCode>
   </output>
 </Task>

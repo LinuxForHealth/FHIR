@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -88,6 +89,7 @@ public class Encounter extends DomainResource {
     )
     private final CodeableConcept priority;
     @Summary
+    @ReferenceTarget({ "Patient", "Group" })
     private final Reference subject;
     @Summary
     private final List<Reference> episodeOfCare;
@@ -113,7 +115,9 @@ public class Encounter extends DomainResource {
     private final List<Reference> account;
     private final Hospitalization hospitalization;
     private final List<Location> location;
+    @ReferenceTarget({ "Organization" })
     private final Reference serviceProvider;
+    @ReferenceTarget({ "Encounter" })
     private final Reference partOf;
 
     private volatile int hashCode;
@@ -994,6 +998,12 @@ public class Encounter extends DomainResource {
         /**
          * The patient or group present at the encounter.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     The patient or group present at the encounter
          * 
@@ -1371,6 +1381,11 @@ public class Encounter extends DomainResource {
          * external organization (which may be billed seperately) for an external consultation. Refer to the example bundle 
          * showing an abbreviated set of Encounters for a colonoscopy.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param serviceProvider
          *     The organization (facility) responsible for this encounter
          * 
@@ -1384,6 +1399,11 @@ public class Encounter extends DomainResource {
 
         /**
          * Another Encounter of which this encounter is a part of (administratively or in time).
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param partOf
          *     Another Encounter this encounter is part of
@@ -2015,6 +2035,7 @@ public class Encounter extends DomainResource {
         private final List<CodeableConcept> type;
         private final Period period;
         @Summary
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "RelatedPerson" })
         private final Reference individual;
 
         private volatile int hashCode;
@@ -2291,6 +2312,13 @@ public class Encounter extends DomainResource {
             /**
              * Persons involved in the encounter other than the patient.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link RelatedPerson}</li>
+             * </ul>
+             * 
              * @param individual
              *     Persons involved in the encounter other than the patient
              * 
@@ -2328,6 +2356,7 @@ public class Encounter extends DomainResource {
      */
     public static class Diagnosis extends BackboneElement {
         @Summary
+        @ReferenceTarget({ "Condition", "Procedure" })
         @Required
         private final Reference condition;
         @Binding(
@@ -2569,6 +2598,12 @@ public class Encounter extends DomainResource {
              * 
              * <p>This element is required.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Condition}</li>
+             * <li>{@link Procedure}</li>
+             * </ul>
+             * 
              * @param condition
              *     The diagnosis or procedure relevant to the encounter
              * 
@@ -2639,6 +2674,7 @@ public class Encounter extends DomainResource {
      */
     public static class Hospitalization extends BackboneElement {
         private final Identifier preAdmissionIdentifier;
+        @ReferenceTarget({ "Location", "Organization" })
         private final Reference origin;
         @Binding(
             bindingName = "AdmitSource",
@@ -2675,6 +2711,7 @@ public class Encounter extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-special-arrangements"
         )
         private final List<CodeableConcept> specialArrangement;
+        @ReferenceTarget({ "Location", "Organization" })
         private final Reference destination;
         @Binding(
             bindingName = "DischargeDisp",
@@ -3020,6 +3057,12 @@ public class Encounter extends DomainResource {
             /**
              * The location/organization from which the patient came before admission.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Location}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
              * @param origin
              *     The location/organization from which the patient came before admission
              * 
@@ -3167,6 +3210,12 @@ public class Encounter extends DomainResource {
             /**
              * Location/organization to which the patient is discharged.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Location}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
              * @param destination
              *     Location/organization to which the patient is discharged
              * 
@@ -3223,6 +3272,7 @@ public class Encounter extends DomainResource {
      * List of locations where the patient has been during this encounter.
      */
     public static class Location extends BackboneElement {
+        @ReferenceTarget({ "Location" })
         @Required
         private final Reference location;
         @Binding(
@@ -3484,6 +3534,11 @@ public class Encounter extends DomainResource {
              * The location where the encounter takes place.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Location}</li>
+             * </ul>
              * 
              * @param location
              *     Location the encounter takes place

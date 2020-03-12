@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
@@ -97,7 +98,9 @@ public class Location extends DomainResource {
     private final CodeableConcept physicalType;
     private final Position position;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference managingOrganization;
+    @ReferenceTarget({ "Location" })
     private final Reference partOf;
     private final List<HoursOfOperation> hoursOfOperation;
     private final String availabilityExceptions;
@@ -923,6 +926,11 @@ public class Location extends DomainResource {
         /**
          * The organization responsible for the provisioning and upkeep of the location.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param managingOrganization
          *     Organization responsible for provisioning and upkeep
          * 
@@ -936,6 +944,11 @@ public class Location extends DomainResource {
 
         /**
          * Another Location of which this Location is physically a part of.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param partOf
          *     Another Location this one is physically a part of

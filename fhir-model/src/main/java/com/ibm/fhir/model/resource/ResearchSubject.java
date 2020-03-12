@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
@@ -50,13 +51,16 @@ public class ResearchSubject extends DomainResource {
     @Summary
     private final Period period;
     @Summary
+    @ReferenceTarget({ "ResearchStudy" })
     @Required
     private final Reference study;
     @Summary
+    @ReferenceTarget({ "Patient" })
     @Required
     private final Reference individual;
     private final String assignedArm;
     private final String actualArm;
+    @ReferenceTarget({ "Consent" })
     private final Reference consent;
 
     private volatile int hashCode;
@@ -542,6 +546,11 @@ public class ResearchSubject extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link ResearchStudy}</li>
+         * </ul>
+         * 
          * @param study
          *     Study subject is part of
          * 
@@ -557,6 +566,11 @@ public class ResearchSubject extends DomainResource {
          * The record of the person or animal who is involved in the study.
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
          * 
          * @param individual
          *     Who is part of study
@@ -599,6 +613,11 @@ public class ResearchSubject extends DomainResource {
 
         /**
          * A record of the patient's informed agreement to participate in the study.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Consent}</li>
+         * </ul>
          * 
          * @param consent
          *     Agreement to participate in study

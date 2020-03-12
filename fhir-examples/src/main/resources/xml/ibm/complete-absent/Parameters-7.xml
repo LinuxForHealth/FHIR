@@ -94,10 +94,10 @@
         <valueCode value="unknown"/>
       </extension>
     </name>
-    <valueDecimal>
+    <valueBase64Binary>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
       </extension>
-    </valueDecimal>
+    </valueBase64Binary>
   </parameter>
 </Parameters>

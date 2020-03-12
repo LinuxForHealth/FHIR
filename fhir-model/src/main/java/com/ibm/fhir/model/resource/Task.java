@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
@@ -157,6 +158,7 @@ public class Task extends DomainResource {
     @Summary
     private final Reference _for;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     private final Period executionPeriod;
@@ -164,6 +166,7 @@ public class Task extends DomainResource {
     @Summary
     private final DateTime lastModified;
     @Summary
+    @ReferenceTarget({ "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson" })
     private final Reference requester;
     @Binding(
         bindingName = "TaskPerformerType",
@@ -173,8 +176,10 @@ public class Task extends DomainResource {
     )
     private final List<CodeableConcept> performerType;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson" })
     private final Reference owner;
     @Summary
+    @ReferenceTarget({ "Location" })
     private final Reference location;
     @Binding(
         bindingName = "TaskReason",
@@ -1270,6 +1275,11 @@ public class Task extends DomainResource {
         /**
          * The healthcare event (e.g. a patient and healthcare provider interaction) during which this task was created.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
+         * 
          * @param encounter
          *     Healthcare event during which this task originated
          * 
@@ -1327,6 +1337,16 @@ public class Task extends DomainResource {
         /**
          * The creator of the task.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
+         * 
          * @param requester
          *     Who is asking for task to be done
          * 
@@ -1375,6 +1395,18 @@ public class Task extends DomainResource {
         /**
          * Individual organization or Device currently responsible for task execution.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link CareTeam}</li>
+         * <li>{@link HealthcareService}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
+         * 
          * @param owner
          *     Responsible individual
          * 
@@ -1388,6 +1420,11 @@ public class Task extends DomainResource {
 
         /**
          * Principal physical location where the this task is performed.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param location
          *     Where task occurs

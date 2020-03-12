@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
@@ -63,6 +64,7 @@ public class Endpoint extends DomainResource {
     @Summary
     private final String name;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference managingOrganization;
     private final List<ContactPoint> contact;
     @Summary
@@ -635,6 +637,11 @@ public class Endpoint extends DomainResource {
         /**
          * The organization that manages this endpoint (even if technically another organization is hosting this in the cloud, it 
          * is the organization associated with the data).
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param managingOrganization
          *     Organization that manages this endpoint (might not be the organization that exposes the endpoint)

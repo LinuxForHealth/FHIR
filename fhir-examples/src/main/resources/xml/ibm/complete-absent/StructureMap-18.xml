@@ -495,11 +495,11 @@
             <valueCode value="unknown"/>
           </extension>
         </type>
-        <defaultValuePositiveInt>
+        <defaultValueString>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
           </extension>
-        </defaultValuePositiveInt>
+        </defaultValueString>
         <element>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>

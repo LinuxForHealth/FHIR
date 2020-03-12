@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Age;
@@ -114,14 +115,18 @@ public class AllergyIntolerance extends DomainResource {
     )
     private final CodeableConcept code;
     @Summary
+    @ReferenceTarget({ "Patient" })
     @Required
     private final Reference patient;
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Choice({ DateTime.class, Age.class, Period.class, Range.class, String.class })
     private final Element onset;
     private final DateTime recordedDate;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Patient", "RelatedPerson" })
     private final Reference recorder;
     @Summary
+    @ReferenceTarget({ "Patient", "RelatedPerson", "Practitioner", "PractitionerRole" })
     private final Reference asserter;
     private final DateTime lastOccurrence;
     private final List<Annotation> note;
@@ -838,6 +843,11 @@ public class AllergyIntolerance extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param patient
          *     Who the sensitivity is for
          * 
@@ -851,6 +861,11 @@ public class AllergyIntolerance extends DomainResource {
 
         /**
          * The encounter when the allergy or intolerance was asserted.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter when the allergy or intolerance was asserted
@@ -904,6 +919,14 @@ public class AllergyIntolerance extends DomainResource {
         /**
          * Individual who recorded the record and takes responsibility for its content.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
+         * 
          * @param recorder
          *     Who recorded the sensitivity
          * 
@@ -917,6 +940,14 @@ public class AllergyIntolerance extends DomainResource {
 
         /**
          * The source of the information about the allergy that is recorded.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
          * 
          * @param asserter
          *     Source of the information about the allergy

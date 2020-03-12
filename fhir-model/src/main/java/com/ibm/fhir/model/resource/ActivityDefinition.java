@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Age;
@@ -171,6 +172,7 @@ public class ActivityDefinition extends DomainResource {
     private final Boolean doNotPerform;
     @Choice({ Timing.class, DateTime.class, Age.class, Period.class, Range.class, Duration.class })
     private final Element timing;
+    @ReferenceTarget({ "Location" })
     private final Reference location;
     private final List<Participant> participant;
     @Choice({ Reference.class, CodeableConcept.class })
@@ -2002,6 +2004,11 @@ public class ActivityDefinition extends DomainResource {
 
         /**
          * Identifies the facility where the activity will occur; e.g. home, hospital, specific clinic, etc.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param location
          *     Where it should happen

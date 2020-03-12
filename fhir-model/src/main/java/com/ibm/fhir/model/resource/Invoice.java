@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -62,13 +63,17 @@ public class Invoice extends DomainResource {
     @Summary
     private final CodeableConcept type;
     @Summary
+    @ReferenceTarget({ "Patient", "Group" })
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Organization", "Patient", "RelatedPerson" })
     private final Reference recipient;
     @Summary
     private final DateTime date;
     private final List<Participant> participant;
+    @ReferenceTarget({ "Organization" })
     private final Reference issuer;
+    @ReferenceTarget({ "Account" })
     private final Reference account;
     private final List<LineItem> lineItem;
     private final List<Invoice.LineItem.PriceComponent> totalPriceComponent;
@@ -705,6 +710,12 @@ public class Invoice extends DomainResource {
         /**
          * The individual or set of individuals receiving the goods and services billed in this invoice.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Recipient(s) of goods and services
          * 
@@ -718,6 +729,13 @@ public class Invoice extends DomainResource {
 
         /**
          * The individual or Organization responsible for balancing of this invoice.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
          * 
          * @param recipient
          *     Recipient of this invoice
@@ -781,6 +799,11 @@ public class Invoice extends DomainResource {
         /**
          * The organizationissuing the Invoice.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param issuer
          *     Issuing Organization of Invoice
          * 
@@ -794,6 +817,11 @@ public class Invoice extends DomainResource {
 
         /**
          * Account which is supposed to be balanced with this Invoice.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Account}</li>
+         * </ul>
          * 
          * @param account
          *     Account that is being balanced
@@ -999,6 +1027,7 @@ public class Invoice extends DomainResource {
      */
     public static class Participant extends BackboneElement {
         private final CodeableConcept role;
+        @ReferenceTarget({ "Practitioner", "Organization", "Patient", "PractitionerRole", "Device", "RelatedPerson" })
         @Required
         private final Reference actor;
 
@@ -1227,6 +1256,16 @@ public class Invoice extends DomainResource {
              * The device, practitioner, etc. who performed or participated in the service.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link Organization}</li>
+             * <li>{@link Patient}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Device}</li>
+             * <li>{@link RelatedPerson}</li>
+             * </ul>
              * 
              * @param actor
              *     Individual who was involved

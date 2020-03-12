@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -52,11 +53,13 @@ public class ImmunizationRecommendation extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
     @Summary
+    @ReferenceTarget({ "Patient" })
     @Required
     private final Reference patient;
     @Summary
     @Required
     private final DateTime date;
+    @ReferenceTarget({ "Organization" })
     private final Reference authority;
     @Summary
     @Required
@@ -465,6 +468,11 @@ public class ImmunizationRecommendation extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param patient
          *     Who this profile is for
          * 
@@ -494,6 +502,11 @@ public class ImmunizationRecommendation extends DomainResource {
 
         /**
          * Indicates the authority who published the protocol (e.g. ACIP).
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param authority
          *     Who is responsible for protocol

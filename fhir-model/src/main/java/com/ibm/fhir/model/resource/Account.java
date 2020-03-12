@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -69,10 +70,12 @@ public class Account extends DomainResource {
     @Summary
     private final List<Coverage> coverage;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference owner;
     @Summary
     private final String description;
     private final List<Guarantor> guarantor;
+    @ReferenceTarget({ "Account" })
     private final Reference partOf;
 
     private volatile int hashCode;
@@ -709,6 +712,11 @@ public class Account extends DomainResource {
         /**
          * Indicates the service area, hospital, department, etc. with responsibility for managing the Account.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param owner
          *     Entity managing the Account
          * 
@@ -771,6 +779,11 @@ public class Account extends DomainResource {
         /**
          * Reference to a parent Account.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Account}</li>
+         * </ul>
+         * 
          * @param partOf
          *     Reference to a parent Account
          * 
@@ -821,6 +834,7 @@ public class Account extends DomainResource {
      */
     public static class Coverage extends BackboneElement {
         @Summary
+        @ReferenceTarget({ "Coverage" })
         @Required
         private final Reference coverage;
         @Summary
@@ -1042,6 +1056,11 @@ public class Account extends DomainResource {
              * 
              * <p>This element is required.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Coverage}</li>
+             * </ul>
+             * 
              * @param coverage
              *     The party(s), such as insurances, that may contribute to the payment of this account
              * 
@@ -1096,6 +1115,7 @@ public class Account extends DomainResource {
      * The parties responsible for balancing the account if other payment options fall short.
      */
     public static class Guarantor extends BackboneElement {
+        @ReferenceTarget({ "Patient", "RelatedPerson", "Organization" })
         @Required
         private final Reference party;
         private final Boolean onHold;
@@ -1326,6 +1346,13 @@ public class Account extends DomainResource {
              * The entity who is responsible.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Patient}</li>
+             * <li>{@link RelatedPerson}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param party
              *     Responsible entity

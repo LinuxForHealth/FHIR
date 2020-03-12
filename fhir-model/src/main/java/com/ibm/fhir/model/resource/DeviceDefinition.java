@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -72,6 +73,7 @@ public class DeviceDefinition extends DomainResource {
     private final List<CodeableConcept> languageCode;
     private final List<Capability> capability;
     private final List<Property> property;
+    @ReferenceTarget({ "Organization" })
     private final Reference owner;
     private final List<ContactPoint> contact;
     private final Uri url;
@@ -79,6 +81,7 @@ public class DeviceDefinition extends DomainResource {
     private final List<Annotation> note;
     private final Quantity quantity;
     @Summary
+    @ReferenceTarget({ "DeviceDefinition" })
     private final Reference parentDevice;
     private final List<Material> material;
 
@@ -1138,6 +1141,11 @@ public class DeviceDefinition extends DomainResource {
         /**
          * An organization that is responsible for the provision and ongoing maintenance of the device.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param owner
          *     Organization responsible for device
          * 
@@ -1263,6 +1271,11 @@ public class DeviceDefinition extends DomainResource {
 
         /**
          * The parent device it can be part of.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link DeviceDefinition}</li>
+         * </ul>
          * 
          * @param parentDevice
          *     The parent device it can be part of

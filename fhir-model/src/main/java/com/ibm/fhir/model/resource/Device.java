@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -46,6 +47,7 @@ import com.ibm.fhir.model.visitor.Visitor;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Device extends DomainResource {
     private final List<Identifier> identifier;
+    @ReferenceTarget({ "DeviceDefinition" })
     private final Reference definition;
     @Summary
     private final List<UdiCarrier> udiCarrier;
@@ -83,14 +85,18 @@ public class Device extends DomainResource {
     private final List<Specialization> specialization;
     private final List<Version> version;
     private final List<Property> property;
+    @ReferenceTarget({ "Patient" })
     private final Reference patient;
+    @ReferenceTarget({ "Organization" })
     private final Reference owner;
     private final List<ContactPoint> contact;
+    @ReferenceTarget({ "Location" })
     private final Reference location;
     private final Uri url;
     private final List<Annotation> note;
     @Summary
     private final List<CodeableConcept> safety;
+    @ReferenceTarget({ "Device" })
     private final Reference parent;
 
     private volatile int hashCode;
@@ -839,6 +845,11 @@ public class Device extends DomainResource {
         /**
          * The reference to the definition for the device.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link DeviceDefinition}</li>
+         * </ul>
+         * 
          * @param definition
          *     The reference to the definition for the device
          * 
@@ -1210,6 +1221,11 @@ public class Device extends DomainResource {
         /**
          * Patient information, If the device is affixed to a person.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param patient
          *     Patient to whom Device is affixed
          * 
@@ -1223,6 +1239,11 @@ public class Device extends DomainResource {
 
         /**
          * An organization that is responsible for the provision and ongoing maintenance of the device.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param owner
          *     Organization responsible for device
@@ -1271,6 +1292,11 @@ public class Device extends DomainResource {
 
         /**
          * The place where the device can be found.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param location
          *     Where the device is found
@@ -1367,6 +1393,11 @@ public class Device extends DomainResource {
 
         /**
          * The parent device.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Device}</li>
+         * </ul>
          * 
          * @param parent
          *     The parent device
