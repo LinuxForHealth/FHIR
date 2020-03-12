@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
@@ -88,16 +89,20 @@ public class ClaimResponse extends DomainResource {
     @Required
     private final Use use;
     @Summary
+    @ReferenceTarget({ "Patient" })
     @Required
     private final Reference patient;
     @Summary
     @Required
     private final DateTime created;
     @Summary
+    @ReferenceTarget({ "Organization" })
     @Required
     private final Reference insurer;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     private final Reference requestor;
     @Summary
+    @ReferenceTarget({ "Claim" })
     private final Reference request;
     @Summary
     @Binding(
@@ -975,6 +980,11 @@ public class ClaimResponse extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param patient
          *     The recipient of the products and services
          * 
@@ -1007,6 +1017,11 @@ public class ClaimResponse extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param insurer
          *     Party responsible for reimbursement
          * 
@@ -1021,6 +1036,13 @@ public class ClaimResponse extends DomainResource {
         /**
          * The provider which is responsible for the claim, predetermination or preauthorization.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param requestor
          *     Party responsible for the claim
          * 
@@ -1034,6 +1056,11 @@ public class ClaimResponse extends DomainResource {
 
         /**
          * Original request resource reference.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Claim}</li>
+         * </ul>
          * 
          * @param request
          *     Id of resource triggering adjudication
@@ -6217,9 +6244,11 @@ public class ClaimResponse extends DomainResource {
         private final PositiveInt sequence;
         @Required
         private final Boolean focal;
+        @ReferenceTarget({ "Coverage" })
         @Required
         private final Reference coverage;
         private final String businessArrangement;
+        @ReferenceTarget({ "ClaimResponse" })
         private final Reference claimResponse;
 
         private volatile int hashCode;
@@ -6517,6 +6546,11 @@ public class ClaimResponse extends DomainResource {
              * 
              * <p>This element is required.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Coverage}</li>
+             * </ul>
+             * 
              * @param coverage
              *     Insurance information
              * 
@@ -6544,6 +6578,11 @@ public class ClaimResponse extends DomainResource {
 
             /**
              * The result of the adjudication of the line items for the Coverage specified in this insurance.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link ClaimResponse}</li>
+             * </ul>
              * 
              * @param claimResponse
              *     Adjudication results

@@ -12,6 +12,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.IdentifierUse;
@@ -46,6 +47,7 @@ public class Identifier extends Element {
     @Summary
     private final Period period;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference assigner;
 
     private volatile int hashCode;
@@ -338,6 +340,11 @@ public class Identifier extends Element {
 
         /**
          * Organization that issued/manages the identifier.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param assigner
          *     Organization that issued id (may be just text)

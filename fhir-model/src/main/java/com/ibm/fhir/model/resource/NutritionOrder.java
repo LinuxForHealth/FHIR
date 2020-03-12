@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -79,13 +80,16 @@ public class NutritionOrder extends DomainResource {
     @Required
     private final NutritionOrderIntent intent;
     @Summary
+    @ReferenceTarget({ "Patient" })
     @Required
     private final Reference patient;
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     @Required
     private final DateTime dateTime;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final Reference orderer;
     private final List<Reference> allergyIntolerance;
     @Binding(
@@ -858,6 +862,11 @@ public class NutritionOrder extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param patient
          *     The person who requires the diet, formula or nutritional supplement
          * 
@@ -871,6 +880,11 @@ public class NutritionOrder extends DomainResource {
 
         /**
          * An encounter that provides additional information about the healthcare context in which this request is made.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     The encounter associated with this nutrition order
@@ -901,6 +915,12 @@ public class NutritionOrder extends DomainResource {
 
         /**
          * The practitioner that holds legal responsibility for ordering the diet, nutritional supplement, or formula feedings.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
          * 
          * @param orderer
          *     Who ordered the diet, formula or nutritional supplement

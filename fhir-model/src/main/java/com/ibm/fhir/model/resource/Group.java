@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -82,6 +83,7 @@ public class Group extends DomainResource {
     @Summary
     private final UnsignedInt quantity;
     @Summary
+    @ReferenceTarget({ "Organization", "RelatedPerson", "Practitioner", "PractitionerRole" })
     private final Reference managingEntity;
     private final List<Characteristic> characteristic;
     private final List<Member> member;
@@ -656,6 +658,14 @@ public class Group extends DomainResource {
         /**
          * Entity responsible for defining and maintaining Group characteristics and/or registered members.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
+         * 
          * @param managingEntity
          *     Entity that is the custodian of the Group's definition
          * 
@@ -1131,6 +1141,7 @@ public class Group extends DomainResource {
      * Identifies the resource instances that are members of the group.
      */
     public static class Member extends BackboneElement {
+        @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "Device", "Medication", "Substance", "Group" })
         @Required
         private final Reference entity;
         private final Period period;
@@ -1363,6 +1374,17 @@ public class Group extends DomainResource {
              * group, then the type must be the same.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Patient}</li>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Device}</li>
+             * <li>{@link Medication}</li>
+             * <li>{@link Substance}</li>
+             * <li>{@link Group}</li>
+             * </ul>
              * 
              * @param entity
              *     Reference to the group member

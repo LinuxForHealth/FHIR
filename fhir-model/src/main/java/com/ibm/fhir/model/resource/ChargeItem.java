@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -74,16 +75,21 @@ public class ChargeItem extends DomainResource {
     @Required
     private final CodeableConcept code;
     @Summary
+    @ReferenceTarget({ "Patient", "Group" })
     @Required
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter", "EpisodeOfCare" })
     private final Reference context;
     @Summary
     @Choice({ DateTime.class, Period.class, Timing.class })
     private final Element occurrence;
     private final List<Performer> performer;
+    @ReferenceTarget({ "Organization" })
     private final Reference performingOrganization;
+    @ReferenceTarget({ "Organization" })
     private final Reference requestingOrganization;
+    @ReferenceTarget({ "Organization" })
     private final Reference costCenter;
     @Summary
     private final Quantity quantity;
@@ -99,6 +105,7 @@ public class ChargeItem extends DomainResource {
     private final Money priceOverride;
     private final String overrideReason;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson" })
     private final Reference enterer;
     @Summary
     private final DateTime enteredDate;
@@ -1001,6 +1008,12 @@ public class ChargeItem extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Individual service was done for/to
          * 
@@ -1014,6 +1027,12 @@ public class ChargeItem extends DomainResource {
 
         /**
          * The encounter or episode of care that establishes the context for this event.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * <li>{@link EpisodeOfCare}</li>
+         * </ul>
          * 
          * @param context
          *     Encounter / Episode associated with event
@@ -1084,6 +1103,11 @@ public class ChargeItem extends DomainResource {
         /**
          * The organization requesting the service.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param performingOrganization
          *     Organization providing the charged service
          * 
@@ -1098,6 +1122,11 @@ public class ChargeItem extends DomainResource {
         /**
          * The organization performing the service.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param requestingOrganization
          *     Organization requesting the charged service
          * 
@@ -1111,6 +1140,11 @@ public class ChargeItem extends DomainResource {
 
         /**
          * The financial cost center permits the tracking of charge attribution.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param costCenter
          *     Organization that has ownership of the (potential, future) revenue
@@ -1216,6 +1250,16 @@ public class ChargeItem extends DomainResource {
 
         /**
          * The device, practitioner, etc. who entered the charge item.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
          * 
          * @param enterer
          *     Individual who was entering
@@ -1493,6 +1537,7 @@ public class ChargeItem extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/performer-role"
         )
         private final CodeableConcept function;
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson" })
         @Required
         private final Reference actor;
 
@@ -1719,6 +1764,17 @@ public class ChargeItem extends DomainResource {
              * The device, practitioner, etc. who performed or participated in the service.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * <li>{@link CareTeam}</li>
+             * <li>{@link Patient}</li>
+             * <li>{@link Device}</li>
+             * <li>{@link RelatedPerson}</li>
+             * </ul>
              * 
              * @param actor
              *     Individual who was performing

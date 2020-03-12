@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -49,8 +50,10 @@ public class PractitionerRole extends DomainResource {
     @Summary
     private final Period period;
     @Summary
+    @ReferenceTarget({ "Practitioner" })
     private final Reference practitioner;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference organization;
     @Summary
     @Binding(
@@ -652,6 +655,11 @@ public class PractitionerRole extends DomainResource {
         /**
          * Practitioner that is able to provide the defined services for the organization.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * </ul>
+         * 
          * @param practitioner
          *     Practitioner that is able to provide the defined services for the organization
          * 
@@ -665,6 +673,11 @@ public class PractitionerRole extends DomainResource {
 
         /**
          * The organization where the Practitioner performs the roles associated.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param organization
          *     Organization where the roles are available

@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Boolean;
@@ -127,13 +128,17 @@ public class ResearchDefinition extends DomainResource {
     private final List<RelatedArtifact> relatedArtifact;
     private final List<Canonical> library;
     @Summary
+    @ReferenceTarget({ "ResearchElementDefinition" })
     @Required
     private final Reference population;
     @Summary
+    @ReferenceTarget({ "ResearchElementDefinition" })
     private final Reference exposure;
     @Summary
+    @ReferenceTarget({ "ResearchElementDefinition" })
     private final Reference exposureAlternative;
     @Summary
+    @ReferenceTarget({ "ResearchElementDefinition" })
     private final Reference outcome;
 
     private volatile int hashCode;
@@ -1689,6 +1694,11 @@ public class ResearchDefinition extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link ResearchElementDefinition}</li>
+         * </ul>
+         * 
          * @param population
          *     What population?
          * 
@@ -1702,6 +1712,11 @@ public class ResearchDefinition extends DomainResource {
 
         /**
          * A reference to a ResearchElementDefinition resource that defines the exposure for the research.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link ResearchElementDefinition}</li>
+         * </ul>
          * 
          * @param exposure
          *     What exposure?
@@ -1717,6 +1732,11 @@ public class ResearchDefinition extends DomainResource {
         /**
          * A reference to a ResearchElementDefinition resource that defines the exposureAlternative for the research.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link ResearchElementDefinition}</li>
+         * </ul>
+         * 
          * @param exposureAlternative
          *     What alternative exposure state?
          * 
@@ -1730,6 +1750,11 @@ public class ResearchDefinition extends DomainResource {
 
         /**
          * A reference to a ResearchElementDefinition resomece that defines the outcome for the research.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link ResearchElementDefinition}</li>
+         * </ul>
          * 
          * @param outcome
          *     What outcome?

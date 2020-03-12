@@ -608,6 +608,7 @@ public class CodeGenerator {
                 }
                 
                 cb.end();
+                // end if isRepeating
             } else {
                 generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "single", cb);
                 if (!declaredBy) {
@@ -788,6 +789,19 @@ public class CodeGenerator {
             cb.javadoc("</ul>", false);
             cb.javadoc("");
         }
+        if (isReferenceElement(structureDefinition, elementDefinition)) {
+            List<String> referenceTypes = getReferenceTypes(elementDefinition);
+            
+            if (!referenceTypes.isEmpty()) {
+                cb.javadoc("<p>Allowed resource types for this reference:", false);
+                cb.javadoc("<ul>", false);
+                for (String typeName : referenceTypes) {
+                    cb.javadoc("<li>{@link " + typeName + "}</li>", false);
+                }
+                cb.javadoc("</ul>", false);
+                cb.javadoc("");
+            }
+        }
         
         String _short = elementDefinition.getString("short");
         cb.javadocParam(fieldName, _short);
@@ -960,6 +974,13 @@ public class CodeGenerator {
                         String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
                         cb.annotation("Choice", "{ " + types + " }");
                     }
+                    if (isReferenceElement(structureDefinition, elementDefinition)) {
+                        List<String> referenceTypes = getReferenceTypes(elementDefinition);
+                        if (!referenceTypes.isEmpty()) {
+                            String referenceTypesString = getReferenceTypes(elementDefinition).stream().collect(Collectors.joining("\", \""));
+                            cb.annotation("ReferenceTarget", "{ \"" + referenceTypesString + "\" }");
+                        }
+                    }
                     generateBindingAnnotation(structureDefinition, cb, className, elementDefinition);
                     if (isRequired(elementDefinition)) {
                         cb.annotation("Required");
@@ -1096,8 +1117,7 @@ public class CodeGenerator {
             for (JsonObject elementDefinition : elementDefinitions) {
                 String elementName = getElementName(elementDefinition, path);
                 String fieldName = getFieldName(elementName);
-                String fieldType = getFieldType(structureDefinition, elementDefinition);
-                if ("Reference".equals(fieldType)) {
+                if (isReferenceElement(structureDefinition, elementDefinition)) {
                     List<String> referenceTypes = getReferenceTypes(elementDefinition);
                     if (!referenceTypes.isEmpty()) {
                         cb.invoke("ValidationSupport", "checkReferenceType", args(fieldName, quote(elementName), referenceTypes.stream().map(type -> quote(type)).collect(Collectors.joining(", "))));
@@ -1620,6 +1640,13 @@ public class CodeGenerator {
                     }
                 }
                 imports.add("com.ibm.fhir.model.annotation.Choice");
+            }
+            
+            if (isReferenceElement(structureDefinition, elementDefinition)) {
+                if (!getReferenceTypes(elementDefinition).isEmpty()) {
+                    imports.add("com.ibm.fhir.model.util.ValidationSupport");
+                    imports.add("com.ibm.fhir.model.annotation.ReferenceTarget");
+                }
             }
             
             JsonObject binding = getBinding(elementDefinition);
@@ -3642,6 +3669,10 @@ public class CodeGenerator {
                 .replace("List<", "")
                 .replace(">", "");
         return codeSubtypeClassNames.contains(className);
+    }
+    
+    private boolean isReferenceElement(JsonObject structureDefinition, JsonObject elementDefinition) {
+        return "Reference".equals(getFieldType(structureDefinition, elementDefinition));
     }
     
     private boolean isComplexType(JsonObject structureDefinition) {

@@ -31,7 +31,16 @@ public class MinimalDataCreator extends DataCreatorBase {
     }
 
     @Override
+    protected Builder<?> addData(com.ibm.fhir.model.type.Reference.Builder builder, String targetProfile) throws Exception {
+        return addData(builder, -1, targetProfile);
+    }
+
+    @Override
     protected Builder<?> addData(Builder<?> builder, int choiceIndicator) throws Exception {
+        return addData(builder, choiceIndicator, null);
+    }
+
+    private Builder<?> addData(Builder<?> builder, int choiceIndicator, String referenceTargetProfile) throws Exception {
         if (builder instanceof Resource.Builder) {
             tag((Resource.Builder) builder, "ibm/minimal");
         }

@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
@@ -83,12 +84,15 @@ public class DocumentReference extends DomainResource {
     )
     private final List<CodeableConcept> category;
     @Summary
+    @ReferenceTarget({ "Patient", "Practitioner", "Group", "Device" })
     private final Reference subject;
     @Summary
     private final Instant date;
     @Summary
     private final List<Reference> author;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     private final Reference authenticator;
+    @ReferenceTarget({ "Organization" })
     private final Reference custodian;
     @Summary
     private final List<RelatesTo> relatesTo;
@@ -791,6 +795,14 @@ public class DocumentReference extends DomainResource {
          * (e.g. a machine) or even a group of subjects (such as a document about a herd of farm animals, or a set of patients 
          * that share a common exposure).
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link Device}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who/what is the subject of the document
          * 
@@ -853,6 +865,13 @@ public class DocumentReference extends DomainResource {
         /**
          * Which person or organization authenticates that this document is valid.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param authenticator
          *     Who/what authenticated the document
          * 
@@ -866,6 +885,11 @@ public class DocumentReference extends DomainResource {
 
         /**
          * Identifies the organization or group who is responsible for ongoing maintenance of and access to the document.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param custodian
          *     Organization which maintains the document
@@ -1069,6 +1093,7 @@ public class DocumentReference extends DomainResource {
         @Required
         private final DocumentRelationshipType code;
         @Summary
+        @ReferenceTarget({ "DocumentReference" })
         @Required
         private final Reference target;
 
@@ -1297,6 +1322,11 @@ public class DocumentReference extends DomainResource {
              * The target document of this relationship.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link DocumentReference}</li>
+             * </ul>
              * 
              * @param target
              *     Target of the relationship
@@ -1640,6 +1670,7 @@ public class DocumentReference extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
         )
         private final CodeableConcept practiceSetting;
+        @ReferenceTarget({ "Patient" })
         private final Reference sourcePatientInfo;
         private final List<Reference> related;
 
@@ -2050,6 +2081,11 @@ public class DocumentReference extends DomainResource {
             /**
              * The Patient Information as known when the document was published. May be a reference to a version specific, or 
              * contained.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Patient}</li>
+             * </ul>
              * 
              * @param sourcePatientInfo
              *     Patient demographics from source

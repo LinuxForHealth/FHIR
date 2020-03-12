@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -62,8 +63,10 @@ public class DeviceMetric extends DomainResource {
     )
     private final CodeableConcept unit;
     @Summary
+    @ReferenceTarget({ "Device" })
     private final Reference source;
     @Summary
+    @ReferenceTarget({ "Device" })
     private final Reference parent;
     @Summary
     @Binding(
@@ -621,6 +624,11 @@ public class DeviceMetric extends DomainResource {
          * Describes the link to the Device that this DeviceMetric belongs to and that contains administrative device information 
          * such as manufacturer, serial number, etc.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Device}</li>
+         * </ul>
+         * 
          * @param source
          *     Describes the link to the source Device
          * 
@@ -637,6 +645,11 @@ public class DeviceMetric extends DomainResource {
          * this DeviceMetric in the containment structure of the parent Device. An example would be a Device that represents a 
          * Channel. This reference can be used by a client application to distinguish DeviceMetrics that have the same type, but 
          * should be interpreted based on their containment location.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Device}</li>
+         * </ul>
          * 
          * @param parent
          *     Describes the link to the parent Device

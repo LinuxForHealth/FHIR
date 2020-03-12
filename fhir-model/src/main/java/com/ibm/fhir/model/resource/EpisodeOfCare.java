@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -61,13 +62,16 @@ public class EpisodeOfCare extends DomainResource {
     @Summary
     private final List<Diagnosis> diagnosis;
     @Summary
+    @ReferenceTarget({ "Patient" })
     @Required
     private final Reference patient;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference managingOrganization;
     @Summary
     private final Period period;
     private final List<Reference> referralRequest;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final Reference careManager;
     private final List<Reference> team;
     private final List<Reference> account;
@@ -712,6 +716,11 @@ public class EpisodeOfCare extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param patient
          *     The patient who is the focus of this episode of care
          * 
@@ -725,6 +734,11 @@ public class EpisodeOfCare extends DomainResource {
 
         /**
          * The organization that has assumed the specific responsibilities for the specified duration.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param managingOrganization
          *     Organization that assumes care
@@ -787,6 +801,12 @@ public class EpisodeOfCare extends DomainResource {
 
         /**
          * The practitioner that is the care manager/care coordinator for this patient.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
          * 
          * @param careManager
          *     Care manager/care coordinator for the patient
@@ -1185,6 +1205,7 @@ public class EpisodeOfCare extends DomainResource {
      */
     public static class Diagnosis extends BackboneElement {
         @Summary
+        @ReferenceTarget({ "Condition" })
         @Required
         private final Reference condition;
         @Summary
@@ -1423,6 +1444,11 @@ public class EpisodeOfCare extends DomainResource {
              * A list of conditions/problems/diagnoses that this episode of care is intended to be providing care for.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Condition}</li>
+             * </ul>
              * 
              * @param condition
              *     Conditions/problems/diagnoses this episode of care is for

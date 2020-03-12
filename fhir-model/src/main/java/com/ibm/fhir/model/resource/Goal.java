@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -100,6 +101,7 @@ public class Goal extends DomainResource {
     @Required
     private final CodeableConcept description;
     @Summary
+    @ReferenceTarget({ "Patient", "Group", "Organization" })
     @Required
     private final Reference subject;
     @Summary
@@ -116,6 +118,7 @@ public class Goal extends DomainResource {
     private final Date statusDate;
     private final String statusReason;
     @Summary
+    @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "RelatedPerson" })
     private final Reference expressedBy;
     private final List<Reference> addresses;
     private final List<Annotation> note;
@@ -806,6 +809,13 @@ public class Goal extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who this goal is intended for
          * 
@@ -901,6 +911,14 @@ public class Goal extends DomainResource {
 
         /**
          * Indicates whose goal this is - patient goal, practitioner goal, etc.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
          * 
          * @param expressedBy
          *     Who's responsible for creating Goal?

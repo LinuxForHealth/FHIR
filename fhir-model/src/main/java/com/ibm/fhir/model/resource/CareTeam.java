@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -69,8 +70,10 @@ public class CareTeam extends DomainResource {
     @Summary
     private final String name;
     @Summary
+    @ReferenceTarget({ "Patient", "Group" })
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     private final Period period;
@@ -685,6 +688,12 @@ public class CareTeam extends DomainResource {
         /**
          * Identifies the patient or group whose intended care is handled by the team.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who care team is for
          * 
@@ -698,6 +707,11 @@ public class CareTeam extends DomainResource {
 
         /**
          * The Encounter during which this CareTeam was created or to which the creation of this record is tightly associated.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter created as part of
@@ -971,8 +985,10 @@ public class CareTeam extends DomainResource {
         )
         private final List<CodeableConcept> role;
         @Summary
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Organization", "CareTeam" })
         private final Reference member;
         @Summary
+        @ReferenceTarget({ "Organization" })
         private final Reference onBehalfOf;
         private final Period period;
 
@@ -1254,6 +1270,16 @@ public class CareTeam extends DomainResource {
             /**
              * The specific person or organization who is participating/expected to participate in the care team.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link RelatedPerson}</li>
+             * <li>{@link Patient}</li>
+             * <li>{@link Organization}</li>
+             * <li>{@link CareTeam}</li>
+             * </ul>
+             * 
              * @param member
              *     Who is involved
              * 
@@ -1267,6 +1293,11 @@ public class CareTeam extends DomainResource {
 
             /**
              * The organization of the practitioner.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param onBehalfOf
              *     Organization of the practitioner

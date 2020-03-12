@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
@@ -112,6 +113,7 @@ public class Consent extends DomainResource {
     @Required
     private final List<CodeableConcept> category;
     @Summary
+    @ReferenceTarget({ "Patient" })
     private final Reference patient;
     @Summary
     private final DateTime dateTime;
@@ -743,6 +745,11 @@ public class Consent extends DomainResource {
         /**
          * The patient/healthcare consumer to whom this consent applies.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param patient
          *     Who the consent applies to
          * 
@@ -1271,6 +1278,7 @@ public class Consent extends DomainResource {
         @Summary
         @Required
         private final Boolean verified;
+        @ReferenceTarget({ "Patient", "RelatedPerson" })
         private final Reference verifiedWith;
         private final DateTime verificationDate;
 
@@ -1513,6 +1521,12 @@ public class Consent extends DomainResource {
 
             /**
              * Who verified the instruction (Patient, Relative or other Authorized Person).
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Patient}</li>
+             * <li>{@link RelatedPerson}</li>
+             * </ul>
              * 
              * @param verifiedWith
              *     Person who verified
@@ -2340,6 +2354,7 @@ public class Consent extends DomainResource {
             )
             @Required
             private final CodeableConcept role;
+            @ReferenceTarget({ "Device", "Group", "CareTeam", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole" })
             @Required
             private final Reference reference;
 
@@ -2570,6 +2585,18 @@ public class Consent extends DomainResource {
                  * property they share (e.g. 'admitting officers').
                  * 
                  * <p>This element is required.
+                 * 
+                 * <p>Allowed resource types for this reference:
+                 * <ul>
+                 * <li>{@link Device}</li>
+                 * <li>{@link Group}</li>
+                 * <li>{@link CareTeam}</li>
+                 * <li>{@link Organization}</li>
+                 * <li>{@link Patient}</li>
+                 * <li>{@link Practitioner}</li>
+                 * <li>{@link RelatedPerson}</li>
+                 * <li>{@link PractitionerRole}</li>
+                 * </ul>
                  * 
                  * @param reference
                  *     Resource for the actor (or group, by role)

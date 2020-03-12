@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.code.BindingStrength;
@@ -41,9 +42,11 @@ public class Signature extends Element {
     @Required
     private final Instant when;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization" })
     @Required
     private final Reference who;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization" })
     private final Reference onBehalfOf;
     @Binding(
         bindingName = "MimeType",
@@ -362,6 +365,16 @@ public class Signature extends Element {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param who
          *     Who signed
          * 
@@ -375,6 +388,16 @@ public class Signature extends Element {
 
         /**
          * A reference to an application-usable description of the identity that is represented by the signature.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param onBehalfOf
          *     The party represented

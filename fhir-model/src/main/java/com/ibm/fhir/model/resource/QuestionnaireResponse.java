@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
@@ -77,12 +78,15 @@ public class QuestionnaireResponse extends DomainResource {
     @Summary
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     private final DateTime authored;
     @Summary
+    @ReferenceTarget({ "Device", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization" })
     private final Reference author;
     @Summary
+    @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "RelatedPerson" })
     private final Reference source;
     private final List<Item> item;
 
@@ -686,6 +690,11 @@ public class QuestionnaireResponse extends DomainResource {
          * The Encounter during which this questionnaire response was created or to which the creation of this record is tightly 
          * associated.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
+         * 
          * @param encounter
          *     Encounter created as part of
          * 
@@ -714,6 +723,16 @@ public class QuestionnaireResponse extends DomainResource {
         /**
          * Person who received the answers to the questions in the QuestionnaireResponse and recorded them in the system.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param author
          *     Person who received and recorded the answers
          * 
@@ -727,6 +746,14 @@ public class QuestionnaireResponse extends DomainResource {
 
         /**
          * The person who answered the questions about the subject.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
          * 
          * @param source
          *     The person who answered the questions

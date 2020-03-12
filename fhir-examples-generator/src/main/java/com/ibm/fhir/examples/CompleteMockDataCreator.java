@@ -86,7 +86,16 @@ public class CompleteMockDataCreator extends DataCreatorBase {
     }
 
     @Override
+    protected Builder<?> addData(com.ibm.fhir.model.type.Reference.Builder builder, String targetProfile) throws Exception {
+        return addData(builder, -1, targetProfile);
+    }
+
+    @Override
     protected Builder<?> addData(Builder<?> builder, int choiceIndicator) throws Exception {
+        return addData(builder, choiceIndicator, null);
+    }
+
+    private Builder<?> addData(Builder<?> builder, int choiceIndicator, String referenceTargetProfile) throws Exception {
         Method[] methods = builder.getClass().getDeclaredMethods();
         
         boolean empty = true;
@@ -192,13 +201,21 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                     }
                     // md-1:  Max must be postive int or *
                     else if (builder instanceof MessageDefinition.Focus.Builder && method.getName().equals("max")) {
-                        argument = com.ibm.fhir.model.type.String.of("*");
+                        argument = string("*");
                     }
                     // ras-2:  probability is decimal implies (probability as decimal) <= 100
                     else if (builder instanceof RiskAssessment.Prediction.Builder && method.getName().equals("probability")) {
                         argument = Decimal.of(Math.random() * 100);
                     }
 
+                    // References with specific target profiles
+                    else if (builder instanceof Reference.Builder && method.getName().equals("type") && referenceTargetProfile != null) {
+                        argument = Uri.of(referenceTargetProfile);
+                    }
+                    else if (builder instanceof Reference.Builder && method.getName().equals("reference") && referenceTargetProfile != null) {
+                        argument = string(referenceTargetProfile + "/" + podam.manufacturePojo(String.class));
+                    }
+                    
                     // CodeableConcepts with required bindings
                     else if (builder instanceof AdverseEvent.Builder && method.getName().equals("severity")) {
                         String value = "mild";

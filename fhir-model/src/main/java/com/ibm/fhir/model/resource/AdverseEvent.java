@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -68,9 +69,11 @@ public class AdverseEvent extends DomainResource {
     )
     private final CodeableConcept event;
     @Summary
+    @ReferenceTarget({ "Patient", "Group", "Practitioner", "RelatedPerson" })
     @Required
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     private final DateTime date;
@@ -81,6 +84,7 @@ public class AdverseEvent extends DomainResource {
     @Summary
     private final List<Reference> resultingCondition;
     @Summary
+    @ReferenceTarget({ "Location" })
     private final Reference location;
     @Summary
     @Binding(
@@ -107,6 +111,7 @@ public class AdverseEvent extends DomainResource {
     )
     private final CodeableConcept outcome;
     @Summary
+    @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "RelatedPerson" })
     private final Reference recorder;
     @Summary
     private final List<Reference> contributor;
@@ -823,6 +828,14 @@ public class AdverseEvent extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
+         * 
          * @param subject
          *     Subject impacted by event
          * 
@@ -836,6 +849,11 @@ public class AdverseEvent extends DomainResource {
 
         /**
          * The Encounter during which AdverseEvent was created or to which the creation of this record is tightly associated.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter created as part of
@@ -929,6 +947,11 @@ public class AdverseEvent extends DomainResource {
         /**
          * The information about where the adverse event occurred.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param location
          *     Location where adverse event occurred
          * 
@@ -985,6 +1008,14 @@ public class AdverseEvent extends DomainResource {
 
         /**
          * Information on who recorded the adverse event. May be the patient or a practitioner.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
          * 
          * @param recorder
          *     Who recorded the adverse event
@@ -1221,6 +1252,7 @@ public class AdverseEvent extends DomainResource {
      */
     public static class SuspectEntity extends BackboneElement {
         @Summary
+        @ReferenceTarget({ "Immunization", "Procedure", "Substance", "Medication", "MedicationAdministration", "MedicationStatement", "Device" })
         @Required
         private final Reference instance;
         @Summary
@@ -1438,6 +1470,17 @@ public class AdverseEvent extends DomainResource {
              * 
              * <p>This element is required.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Immunization}</li>
+             * <li>{@link Procedure}</li>
+             * <li>{@link Substance}</li>
+             * <li>{@link Medication}</li>
+             * <li>{@link MedicationAdministration}</li>
+             * <li>{@link MedicationStatement}</li>
+             * <li>{@link Device}</li>
+             * </ul>
+             * 
              * @param instance
              *     Refers to the specific entity that caused the adverse event
              * 
@@ -1522,6 +1565,7 @@ public class AdverseEvent extends DomainResource {
             @Summary
             private final String productRelatedness;
             @Summary
+            @ReferenceTarget({ "Practitioner", "PractitionerRole" })
             private final Reference author;
             @Summary
             @Binding(
@@ -1799,6 +1843,12 @@ public class AdverseEvent extends DomainResource {
 
                 /**
                  * AdverseEvent.suspectEntity.causalityAuthor.
+                 * 
+                 * <p>Allowed resource types for this reference:
+                 * <ul>
+                 * <li>{@link Practitioner}</li>
+                 * <li>{@link PractitionerRole}</li>
+                 * </ul>
                  * 
                  * @param author
                  *     AdverseEvent.suspectEntity.causalityAuthor

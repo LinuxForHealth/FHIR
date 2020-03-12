@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -65,15 +66,18 @@ public class ImagingStudy extends DomainResource {
     )
     private final List<Coding> modality;
     @Summary
+    @ReferenceTarget({ "Patient", "Device", "Group" })
     @Required
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     private final DateTime started;
     @Summary
     private final List<Reference> basedOn;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final Reference referrer;
     @Summary
     private final List<Reference> interpreter;
@@ -84,6 +88,7 @@ public class ImagingStudy extends DomainResource {
     @Summary
     private final UnsignedInt numberOfInstances;
     @Summary
+    @ReferenceTarget({ "Procedure" })
     private final Reference procedureReference;
     @Summary
     @Binding(
@@ -94,6 +99,7 @@ public class ImagingStudy extends DomainResource {
     )
     private final List<CodeableConcept> procedureCode;
     @Summary
+    @ReferenceTarget({ "Location" })
     private final Reference location;
     @Summary
     @Binding(
@@ -820,6 +826,13 @@ public class ImagingStudy extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who or what is the subject of the study
          * 
@@ -833,6 +846,11 @@ public class ImagingStudy extends DomainResource {
 
         /**
          * The healthcare event (e.g. a patient and healthcare provider interaction) during which this ImagingStudy is made.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter with which this imaging study is associated
@@ -895,6 +913,12 @@ public class ImagingStudy extends DomainResource {
 
         /**
          * The requesting/referring physician.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
          * 
          * @param referrer
          *     Referring physician
@@ -1014,6 +1038,11 @@ public class ImagingStudy extends DomainResource {
         /**
          * The procedure which this ImagingStudy was part of.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Procedure}</li>
+         * </ul>
+         * 
          * @param procedureReference
          *     The performed Procedure reference
          * 
@@ -1061,6 +1090,11 @@ public class ImagingStudy extends DomainResource {
 
         /**
          * The principal physical location where the ImagingStudy was performed.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param location
          *     Where ImagingStudy occurred
@@ -2001,6 +2035,7 @@ public class ImagingStudy extends DomainResource {
             )
             private final CodeableConcept function;
             @Summary
+            @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson" })
             @Required
             private final Reference actor;
 
@@ -2227,6 +2262,17 @@ public class ImagingStudy extends DomainResource {
                  * Indicates who or what performed the series.
                  * 
                  * <p>This element is required.
+                 * 
+                 * <p>Allowed resource types for this reference:
+                 * <ul>
+                 * <li>{@link Practitioner}</li>
+                 * <li>{@link PractitionerRole}</li>
+                 * <li>{@link Organization}</li>
+                 * <li>{@link CareTeam}</li>
+                 * <li>{@link Patient}</li>
+                 * <li>{@link Device}</li>
+                 * <li>{@link RelatedPerson}</li>
+                 * </ul>
                  * 
                  * @param actor
                  *     Who performed the series

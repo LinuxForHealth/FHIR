@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
@@ -65,13 +66,16 @@ public class Flag extends DomainResource {
     @Required
     private final CodeableConcept code;
     @Summary
+    @ReferenceTarget({ "Patient", "Location", "Group", "Organization", "Practitioner", "PlanDefinition", "Medication", "Procedure" })
     @Required
     private final Reference subject;
     @Summary
     private final Period period;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
+    @ReferenceTarget({ "Device", "Organization", "Patient", "Practitioner", "PractitionerRole" })
     private final Reference author;
 
     private volatile int hashCode;
@@ -599,6 +603,18 @@ public class Flag extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Location}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PlanDefinition}</li>
+         * <li>{@link Medication}</li>
+         * <li>{@link Procedure}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who/What is flag about?
          * 
@@ -628,6 +644,11 @@ public class Flag extends DomainResource {
         /**
          * This alert is only relevant during the encounter.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
+         * 
          * @param encounter
          *     Alert relevant during encounter
          * 
@@ -641,6 +662,15 @@ public class Flag extends DomainResource {
 
         /**
          * The person, organization or device that created the flag.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
          * 
          * @param author
          *     Flag creator

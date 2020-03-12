@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
@@ -92,6 +93,7 @@ public class ExplanationOfBenefit extends DomainResource {
     @Required
     private final Use use;
     @Summary
+    @ReferenceTarget({ "Patient" })
     @Required
     private final Reference patient;
     @Summary
@@ -99,11 +101,14 @@ public class ExplanationOfBenefit extends DomainResource {
     @Summary
     @Required
     private final DateTime created;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final Reference enterer;
     @Summary
+    @ReferenceTarget({ "Organization" })
     @Required
     private final Reference insurer;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     @Required
     private final Reference provider;
     @Binding(
@@ -128,12 +133,18 @@ public class ExplanationOfBenefit extends DomainResource {
     )
     private final CodeableConcept fundsReserve;
     private final List<Related> related;
+    @ReferenceTarget({ "MedicationRequest", "VisionPrescription" })
     private final Reference prescription;
+    @ReferenceTarget({ "MedicationRequest" })
     private final Reference originalPrescription;
     private final Payee payee;
+    @ReferenceTarget({ "ServiceRequest" })
     private final Reference referral;
+    @ReferenceTarget({ "Location" })
     private final Reference facility;
+    @ReferenceTarget({ "Claim" })
     private final Reference claim;
+    @ReferenceTarget({ "ClaimResponse" })
     private final Reference claimResponse;
     @Summary
     @Binding(
@@ -1270,6 +1281,11 @@ public class ExplanationOfBenefit extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param patient
          *     The recipient of the products and services
          * 
@@ -1314,6 +1330,12 @@ public class ExplanationOfBenefit extends DomainResource {
         /**
          * Individual who created the claim, predetermination or preauthorization.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
+         * 
          * @param enterer
          *     Author of the claim
          * 
@@ -1330,6 +1352,11 @@ public class ExplanationOfBenefit extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param insurer
          *     Party responsible for reimbursement
          * 
@@ -1345,6 +1372,13 @@ public class ExplanationOfBenefit extends DomainResource {
          * The provider which is responsible for the claim, predetermination or preauthorization.
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param provider
          *     Party responsible for the claim
@@ -1439,6 +1473,12 @@ public class ExplanationOfBenefit extends DomainResource {
         /**
          * Prescription to support the dispensing of pharmacy, device or vision products.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link MedicationRequest}</li>
+         * <li>{@link VisionPrescription}</li>
+         * </ul>
+         * 
          * @param prescription
          *     Prescription authorizing services or products
          * 
@@ -1453,6 +1493,11 @@ public class ExplanationOfBenefit extends DomainResource {
         /**
          * Original prescription which has been superseded by this prescription to support the dispensing of pharmacy services, 
          * medications or products.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link MedicationRequest}</li>
+         * </ul>
          * 
          * @param originalPrescription
          *     Original prescription if superceded by fulfiller
@@ -1482,6 +1527,11 @@ public class ExplanationOfBenefit extends DomainResource {
         /**
          * A reference to a referral resource.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link ServiceRequest}</li>
+         * </ul>
+         * 
          * @param referral
          *     Treatment Referral
          * 
@@ -1495,6 +1545,11 @@ public class ExplanationOfBenefit extends DomainResource {
 
         /**
          * Facility where the services were provided.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param facility
          *     Servicing Facility
@@ -1510,6 +1565,11 @@ public class ExplanationOfBenefit extends DomainResource {
         /**
          * The business identifier for the instance of the adjudication request: claim predetermination or preauthorization.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Claim}</li>
+         * </ul>
+         * 
          * @param claim
          *     Claim reference
          * 
@@ -1524,6 +1584,11 @@ public class ExplanationOfBenefit extends DomainResource {
         /**
          * The business identifier for the instance of the adjudication response: claim, predetermination or preauthorization 
          * response.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link ClaimResponse}</li>
+         * </ul>
          * 
          * @param claimResponse
          *     Claim response reference
@@ -2180,6 +2245,7 @@ public class ExplanationOfBenefit extends DomainResource {
      * event.
      */
     public static class Related extends BackboneElement {
+        @ReferenceTarget({ "Claim" })
         private final Reference claim;
         @Binding(
             bindingName = "RelatedClaimRelationship",
@@ -2414,6 +2480,11 @@ public class ExplanationOfBenefit extends DomainResource {
             /**
              * Reference to a related claim.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Claim}</li>
+             * </ul>
+             * 
              * @param claim
              *     Reference to the related claim
              * 
@@ -2485,6 +2556,7 @@ public class ExplanationOfBenefit extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/payeetype"
         )
         private final CodeableConcept type;
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson" })
         private final Reference party;
 
         private volatile int hashCode;
@@ -2709,6 +2781,15 @@ public class ExplanationOfBenefit extends DomainResource {
             /**
              * Reference to the individual or organization to whom any payment will be made.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * <li>{@link Patient}</li>
+             * <li>{@link RelatedPerson}</li>
+             * </ul>
+             * 
              * @param party
              *     Recipient reference
              * 
@@ -2746,6 +2827,7 @@ public class ExplanationOfBenefit extends DomainResource {
     public static class CareTeam extends BackboneElement {
         @Required
         private final PositiveInt sequence;
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
         @Required
         private final Reference provider;
         private final Boolean responsible;
@@ -3037,6 +3119,13 @@ public class ExplanationOfBenefit extends DomainResource {
              * Member of the team who provided the product or service.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param provider
              *     Practitioner or organization
@@ -4413,6 +4502,7 @@ public class ExplanationOfBenefit extends DomainResource {
         @Required
         private final Boolean focal;
         @Summary
+        @ReferenceTarget({ "Coverage" })
         @Required
         private final Reference coverage;
         private final List<String> preAuthRef;
@@ -4661,6 +4751,11 @@ public class ExplanationOfBenefit extends DomainResource {
              * will use these details to locate the patient's actual coverage within the insurer's information system.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Coverage}</li>
+             * </ul>
              * 
              * @param coverage
              *     Insurance information

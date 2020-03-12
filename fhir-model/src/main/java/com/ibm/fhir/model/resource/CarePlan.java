@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -101,15 +102,18 @@ public class CarePlan extends DomainResource {
     @Summary
     private final String description;
     @Summary
+    @ReferenceTarget({ "Patient", "Group" })
     @Required
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     private final Period period;
     @Summary
     private final DateTime created;
     @Summary
+    @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam" })
     private final Reference author;
     private final List<Reference> contributor;
     private final List<Reference> careTeam;
@@ -1092,6 +1096,12 @@ public class CarePlan extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who the care plan is for
          * 
@@ -1105,6 +1115,11 @@ public class CarePlan extends DomainResource {
 
         /**
          * The Encounter during which this CarePlan was created or to which the creation of this record is tightly associated.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter created as part of
@@ -1147,6 +1162,17 @@ public class CarePlan extends DomainResource {
 
         /**
          * When populated, the author is responsible for the care plan. The care plan is attributed to the author.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link CareTeam}</li>
+         * </ul>
          * 
          * @param author
          *     Who is the designated responsible party
@@ -1462,6 +1488,7 @@ public class CarePlan extends DomainResource {
         private final List<CodeableConcept> outcomeCodeableConcept;
         private final List<Reference> outcomeReference;
         private final List<Annotation> progress;
+        @ReferenceTarget({ "Appointment", "CommunicationRequest", "DeviceRequest", "MedicationRequest", "NutritionOrder", "Task", "ServiceRequest", "VisionPrescription", "RequestGroup" })
         private final Reference reference;
         private final Detail detail;
 
@@ -1833,6 +1860,19 @@ public class CarePlan extends DomainResource {
             /**
              * The details of the proposed activity represented in a specific resource.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Appointment}</li>
+             * <li>{@link CommunicationRequest}</li>
+             * <li>{@link DeviceRequest}</li>
+             * <li>{@link MedicationRequest}</li>
+             * <li>{@link NutritionOrder}</li>
+             * <li>{@link Task}</li>
+             * <li>{@link ServiceRequest}</li>
+             * <li>{@link VisionPrescription}</li>
+             * <li>{@link RequestGroup}</li>
+             * </ul>
+             * 
              * @param reference
              *     Activity details defined in specific resource
              * 
@@ -1923,6 +1963,7 @@ public class CarePlan extends DomainResource {
             private final Boolean doNotPerform;
             @Choice({ Timing.class, Period.class, String.class })
             private final Element scheduled;
+            @ReferenceTarget({ "Location" })
             private final Reference location;
             private final List<Reference> performer;
             @Choice({ CodeableConcept.class, Reference.class })
@@ -2668,6 +2709,11 @@ public class CarePlan extends DomainResource {
 
                 /**
                  * Identifies the facility where the activity will occur; e.g. home, hospital, specific clinic, etc.
+                 * 
+                 * <p>Allowed resource types for this reference:
+                 * <ul>
+                 * <li>{@link Location}</li>
+                 * </ul>
                  * 
                  * @param location
                  *     Where it should happen
