@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -81,6 +82,7 @@ public class Organization extends DomainResource {
     private final List<ContactPoint> telecom;
     private final List<Address> address;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference partOf;
     private final List<Contact> contact;
     private final List<Reference> endpoint;
@@ -728,6 +730,11 @@ public class Organization extends DomainResource {
 
         /**
          * The organization of which this organization forms a part.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param partOf
          *     The organization of which this organization forms a part

@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -62,6 +63,7 @@ public class Medication extends DomainResource {
     )
     private final MedicationStatus status;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference manufacturer;
     @Binding(
         bindingName = "MedicationForm",
@@ -558,6 +560,11 @@ public class Medication extends DomainResource {
         /**
          * Describes the details of the manufacturer of the medication product. This is not intended to represent the distributor 
          * of a medication product.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param manufacturer
          *     Manufacturer of the item

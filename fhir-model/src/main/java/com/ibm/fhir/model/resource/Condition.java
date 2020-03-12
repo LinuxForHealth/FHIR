@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Age;
@@ -129,9 +130,11 @@ public class Condition extends DomainResource {
     )
     private final List<CodeableConcept> bodySite;
     @Summary
+    @ReferenceTarget({ "Patient", "Group" })
     @Required
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     @Choice({ DateTime.class, Age.class, Period.class, Range.class, String.class })
@@ -141,8 +144,10 @@ public class Condition extends DomainResource {
     @Summary
     private final DateTime recordedDate;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Patient", "RelatedPerson" })
     private final Reference recorder;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Patient", "RelatedPerson" })
     private final Reference asserter;
     private final List<Stage> stage;
     private final List<Evidence> evidence;
@@ -879,6 +884,12 @@ public class Condition extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who has the condition?
          * 
@@ -892,6 +903,11 @@ public class Condition extends DomainResource {
 
         /**
          * The Encounter during which this Condition was created or to which the creation of this record is tightly associated.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter created as part of
@@ -970,6 +986,14 @@ public class Condition extends DomainResource {
         /**
          * Individual who recorded the record and takes responsibility for its content.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
+         * 
          * @param recorder
          *     Who recorded the condition
          * 
@@ -983,6 +1007,14 @@ public class Condition extends DomainResource {
 
         /**
          * Individual who is making the condition statement.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
          * 
          * @param asserter
          *     Person who asserts this condition

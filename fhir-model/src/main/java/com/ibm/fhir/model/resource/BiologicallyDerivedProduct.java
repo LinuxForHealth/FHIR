@@ -15,6 +15,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -829,7 +830,9 @@ public class BiologicallyDerivedProduct extends DomainResource {
      * How this product was collected.
      */
     public static class Collection extends BackboneElement {
+        @ReferenceTarget({ "Practitioner", "PractitionerRole" })
         private final Reference collector;
+        @ReferenceTarget({ "Patient", "Organization" })
         private final Reference source;
         @Choice({ DateTime.class, Period.class })
         private final Element collected;
@@ -1060,6 +1063,12 @@ public class BiologicallyDerivedProduct extends DomainResource {
             /**
              * Healthcare professional who is performing the collection.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * </ul>
+             * 
              * @param collector
              *     Individual performing collection
              * 
@@ -1074,6 +1083,12 @@ public class BiologicallyDerivedProduct extends DomainResource {
             /**
              * The patient or entity, such as a hospital or vendor in the case of a processed/manipulated/manufactured product, 
              * providing the product.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Patient}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param source
              *     Who is product from
@@ -1140,6 +1155,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
         )
         private final CodeableConcept procedure;
+        @ReferenceTarget({ "Substance" })
         private final Reference additive;
         @Choice({ DateTime.class, Period.class })
         private final Element time;
@@ -1411,6 +1427,11 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
             /**
              * Substance added during processing.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Substance}</li>
+             * </ul>
              * 
              * @param additive
              *     Substance added during processing

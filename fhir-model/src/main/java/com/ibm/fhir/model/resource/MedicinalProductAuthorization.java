@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -40,6 +41,7 @@ public class MedicinalProductAuthorization extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
     @Summary
+    @ReferenceTarget({ "MedicinalProduct", "MedicinalProductPackaged" })
     private final Reference subject;
     @Summary
     private final List<CodeableConcept> country;
@@ -64,8 +66,10 @@ public class MedicinalProductAuthorization extends DomainResource {
     @Summary
     private final List<JurisdictionalAuthorization> jurisdictionalAuthorization;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference holder;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference regulator;
     @Summary
     private final Procedure procedure;
@@ -649,6 +653,12 @@ public class MedicinalProductAuthorization extends DomainResource {
         /**
          * The medicinal product that is being authorized.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link MedicinalProduct}</li>
+         * <li>{@link MedicinalProductPackaged}</li>
+         * </ul>
+         * 
          * @param subject
          *     The medicinal product that is being authorized
          * 
@@ -879,6 +889,11 @@ public class MedicinalProductAuthorization extends DomainResource {
         /**
          * Marketing Authorization Holder.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param holder
          *     Marketing Authorization Holder
          * 
@@ -892,6 +907,11 @@ public class MedicinalProductAuthorization extends DomainResource {
 
         /**
          * Medicines Regulatory Agency.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param regulator
          *     Medicines Regulatory Agency

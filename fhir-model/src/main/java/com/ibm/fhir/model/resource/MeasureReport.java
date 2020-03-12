@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -82,10 +83,12 @@ public class MeasureReport extends DomainResource {
     @Required
     private final Canonical measure;
     @Summary
+    @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "Location", "Device", "RelatedPerson", "Group" })
     private final Reference subject;
     @Summary
     private final DateTime date;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Location", "Organization" })
     private final Reference reporter;
     @Summary
     @Required
@@ -658,6 +661,17 @@ public class MeasureReport extends DomainResource {
         /**
          * Optional subject identifying the individual or individuals the report is for.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Location}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     What individual(s) the report is for
          * 
@@ -685,6 +699,14 @@ public class MeasureReport extends DomainResource {
 
         /**
          * The individual, location, or organization that is reporting the data.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Location}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param reporter
          *     Who is reporting the data
@@ -1213,6 +1235,7 @@ public class MeasureReport extends DomainResource {
             )
             private final CodeableConcept code;
             private final Integer count;
+            @ReferenceTarget({ "List" })
             private final Reference subjectResults;
 
             private volatile int hashCode;
@@ -1467,6 +1490,11 @@ public class MeasureReport extends DomainResource {
 
                 /**
                  * This element refers to a List of subject level MeasureReport resources, one for each subject in this population.
+                 * 
+                 * <p>Allowed resource types for this reference:
+                 * <ul>
+                 * <li>{@link List}</li>
+                 * </ul>
                  * 
                  * @param subjectResults
                  *     For subject-list reports, the subject results in this population
@@ -2452,6 +2480,7 @@ public class MeasureReport extends DomainResource {
                     )
                     private final CodeableConcept code;
                     private final Integer count;
+                    @ReferenceTarget({ "List" })
                     private final Reference subjectResults;
 
                     private volatile int hashCode;
@@ -2708,6 +2737,11 @@ public class MeasureReport extends DomainResource {
                         /**
                          * This element refers to a List of subject level MeasureReport resources, one for each subject in this population in 
                          * this stratum.
+                         * 
+                         * <p>Allowed resource types for this reference:
+                         * <ul>
+                         * <li>{@link List}</li>
+                         * </ul>
                          * 
                          * @param subjectResults
                          *     For subject-list reports, the subject results in this population

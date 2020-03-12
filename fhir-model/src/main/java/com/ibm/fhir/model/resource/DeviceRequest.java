@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -98,9 +99,11 @@ public class DeviceRequest extends DomainResource {
     private final Element code;
     private final List<Parameter> parameter;
     @Summary
+    @ReferenceTarget({ "Patient", "Group", "Location", "Device" })
     @Required
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     @Choice({ DateTime.class, Period.class, Timing.class })
@@ -108,6 +111,7 @@ public class DeviceRequest extends DomainResource {
     @Summary
     private final DateTime authoredOn;
     @Summary
+    @ReferenceTarget({ "Device", "Practitioner", "PractitionerRole", "Organization" })
     private final Reference requester;
     @Summary
     @Binding(
@@ -118,6 +122,7 @@ public class DeviceRequest extends DomainResource {
     )
     private final CodeableConcept performerType;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson" })
     private final Reference performer;
     @Summary
     @Binding(
@@ -1104,6 +1109,14 @@ public class DeviceRequest extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link Location}</li>
+         * <li>{@link Device}</li>
+         * </ul>
+         * 
          * @param subject
          *     Focus of request
          * 
@@ -1117,6 +1130,11 @@ public class DeviceRequest extends DomainResource {
 
         /**
          * An encounter that provides additional context in which this request is made.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter motivating request
@@ -1169,6 +1187,14 @@ public class DeviceRequest extends DomainResource {
         /**
          * The individual who initiated the request and has responsibility for its activation.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param requester
          *     Who/what is requesting diagnostics
          * 
@@ -1196,6 +1222,18 @@ public class DeviceRequest extends DomainResource {
 
         /**
          * The desired performer for doing the diagnostic testing.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link CareTeam}</li>
+         * <li>{@link HealthcareService}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
          * 
          * @param performer
          *     Requested Filler

@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -58,15 +59,19 @@ public class MessageHeader extends DomainResource {
     @Summary
     private final List<Destination> destination;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     private final Reference sender;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final Reference enterer;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final Reference author;
     @Summary
     @Required
     private final Source source;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     private final Reference responsible;
     @Summary
     @Binding(
@@ -612,6 +617,13 @@ public class MessageHeader extends DomainResource {
         /**
          * Identifies the sending system to allow the use of a trust relationship.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param sender
          *     Real world sender of the message
          * 
@@ -627,6 +639,12 @@ public class MessageHeader extends DomainResource {
          * The person or device that performed the data entry leading to this message. When there is more than one candidate, 
          * pick the most proximal to the message. Can provide other enterers in extensions.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
+         * 
          * @param enterer
          *     The source of the data entry
          * 
@@ -641,6 +659,12 @@ public class MessageHeader extends DomainResource {
         /**
          * The logical author of the message - the person or device that decided the described event should happen. When there is 
          * more than one candidate, pick the most proximal to the MessageHeader. Can provide other authors in extensions.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
          * 
          * @param author
          *     The source of the decision
@@ -672,6 +696,13 @@ public class MessageHeader extends DomainResource {
         /**
          * The person or organization that accepts overall responsibility for the contents of the message. The implication is 
          * that the message event happened under the policies of the responsible party.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param responsible
          *     Final responsibility for event
@@ -802,11 +833,13 @@ public class MessageHeader extends DomainResource {
         @Summary
         private final String name;
         @Summary
+        @ReferenceTarget({ "Device" })
         private final Reference target;
         @Summary
         @Required
         private final Url endpoint;
         @Summary
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
         private final Reference receiver;
 
         private volatile int hashCode;
@@ -1065,6 +1098,11 @@ public class MessageHeader extends DomainResource {
             /**
              * Identifies the target end system in situations where the initial message transmission is to an intermediary system.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Device}</li>
+             * </ul>
+             * 
              * @param target
              *     Particular delivery destination within the destination
              * 
@@ -1095,6 +1133,13 @@ public class MessageHeader extends DomainResource {
             /**
              * Allows data conveyed by a message to be addressed to a particular person or department when routing to a specific 
              * application isn't sufficient.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param receiver
              *     Intended "real-world" recipient for the data
@@ -1519,6 +1564,7 @@ public class MessageHeader extends DomainResource {
         @Required
         private final ResponseType code;
         @Summary
+        @ReferenceTarget({ "OperationOutcome" })
         private final Reference details;
 
         private volatile int hashCode;
@@ -1778,6 +1824,11 @@ public class MessageHeader extends DomainResource {
 
             /**
              * Full details of any issues found in the message.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link OperationOutcome}</li>
+             * </ul>
              * 
              * @param details
              *     Specific list of hints/warnings/errors

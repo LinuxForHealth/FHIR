@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
@@ -69,6 +70,7 @@ public class BodyStructure extends DomainResource {
     private final String description;
     private final List<Attachment> image;
     @Summary
+    @ReferenceTarget({ "Patient" })
     @Required
     private final Reference patient;
 
@@ -650,6 +652,11 @@ public class BodyStructure extends DomainResource {
          * The person to which the body site belongs.
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
          * 
          * @param patient
          *     Who this is about

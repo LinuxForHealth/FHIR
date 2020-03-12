@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -111,6 +112,7 @@ public class Evidence extends DomainResource {
     private final List<ContactDetail> endorser;
     private final List<RelatedArtifact> relatedArtifact;
     @Summary
+    @ReferenceTarget({ "EvidenceVariable" })
     @Required
     private final Reference exposureBackground;
     @Summary
@@ -1469,6 +1471,11 @@ public class Evidence extends DomainResource {
          * A reference to a EvidenceVariable resource that defines the population for the research.
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link EvidenceVariable}</li>
+         * </ul>
          * 
          * @param exposureBackground
          *     What population?

@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
@@ -850,6 +851,7 @@ public class Practitioner extends DomainResource {
         @Required
         private final CodeableConcept code;
         private final Period period;
+        @ReferenceTarget({ "Organization" })
         private final Reference issuer;
 
         private volatile int hashCode;
@@ -1155,6 +1157,11 @@ public class Practitioner extends DomainResource {
 
             /**
              * Organization that regulates and issues the qualification.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param issuer
              *     Organization that regulates and issues the qualification

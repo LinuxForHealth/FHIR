@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -81,9 +82,13 @@ public class ObservationDefinition extends DomainResource {
     private final String preferredReportName;
     private final QuantitativeDetails quantitativeDetails;
     private final List<QualifiedInterval> qualifiedInterval;
+    @ReferenceTarget({ "ValueSet" })
     private final Reference validCodedValueSet;
+    @ReferenceTarget({ "ValueSet" })
     private final Reference normalCodedValueSet;
+    @ReferenceTarget({ "ValueSet" })
     private final Reference abnormalCodedValueSet;
+    @ReferenceTarget({ "ValueSet" })
     private final Reference criticalCodedValueSet;
 
     private volatile int hashCode;
@@ -794,6 +799,11 @@ public class ObservationDefinition extends DomainResource {
         /**
          * The set of valid coded results for the observations conforming to this ObservationDefinition.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link ValueSet}</li>
+         * </ul>
+         * 
          * @param validCodedValueSet
          *     Value set of valid coded values for the observations conforming to this ObservationDefinition
          * 
@@ -807,6 +817,11 @@ public class ObservationDefinition extends DomainResource {
 
         /**
          * The set of normal coded results for the observations conforming to this ObservationDefinition.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link ValueSet}</li>
+         * </ul>
          * 
          * @param normalCodedValueSet
          *     Value set of normal coded values for the observations conforming to this ObservationDefinition
@@ -822,6 +837,11 @@ public class ObservationDefinition extends DomainResource {
         /**
          * The set of abnormal coded results for the observation conforming to this ObservationDefinition.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link ValueSet}</li>
+         * </ul>
+         * 
          * @param abnormalCodedValueSet
          *     Value set of abnormal coded values for the observations conforming to this ObservationDefinition
          * 
@@ -835,6 +855,11 @@ public class ObservationDefinition extends DomainResource {
 
         /**
          * The set of critical coded results for the observation conforming to this ObservationDefinition.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link ValueSet}</li>
+         * </ul>
          * 
          * @param criticalCodedValueSet
          *     Value set of critical coded values for the observations conforming to this ObservationDefinition

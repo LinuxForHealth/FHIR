@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Age;
@@ -86,6 +87,7 @@ public class FamilyMemberHistory extends DomainResource {
     )
     private final CodeableConcept dataAbsentReason;
     @Summary
+    @ReferenceTarget({ "Patient" })
     @Required
     private final Reference patient;
     @Summary
@@ -853,6 +855,11 @@ public class FamilyMemberHistory extends DomainResource {
          * The person who this history concerns.
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
          * 
          * @param patient
          *     Patient history is about

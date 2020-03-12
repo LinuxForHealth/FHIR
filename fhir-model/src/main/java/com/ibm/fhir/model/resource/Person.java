@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
@@ -60,6 +61,7 @@ public class Person extends DomainResource {
     private final List<Address> address;
     private final Attachment photo;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference managingOrganization;
     @Summary
     private final Boolean active;
@@ -689,6 +691,11 @@ public class Person extends DomainResource {
         /**
          * The organization that is the custodian of the person record.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param managingOrganization
          *     The organization that is the custodian of the person record
          * 
@@ -779,6 +786,7 @@ public class Person extends DomainResource {
      * Link to a resource that concerns the same actual person.
      */
     public static class Link extends BackboneElement {
+        @ReferenceTarget({ "Patient", "Practitioner", "RelatedPerson", "Person" })
         @Required
         private final Reference target;
         @Binding(
@@ -998,6 +1006,14 @@ public class Person extends DomainResource {
              * The resource to which this actual person is associated.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Patient}</li>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link RelatedPerson}</li>
+             * <li>{@link Person}</li>
+             * </ul>
              * 
              * @param target
              *     The resource to which this actual person is associated

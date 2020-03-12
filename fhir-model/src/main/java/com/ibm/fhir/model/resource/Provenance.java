@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -56,6 +57,7 @@ public class Provenance extends DomainResource {
     @Required
     private final Instant recorded;
     private final List<Uri> policy;
+    @ReferenceTarget({ "Location" })
     private final Reference location;
     @Binding(
         bindingName = "ProvenanceReason",
@@ -639,6 +641,11 @@ public class Provenance extends DomainResource {
         /**
          * Where the activity occurred, if relevant.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param location
          *     Where the activity occurred, if relevant
          * 
@@ -864,8 +871,10 @@ public class Provenance extends DomainResource {
         )
         private final List<CodeableConcept> role;
         @Summary
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization" })
         @Required
         private final Reference who;
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization" })
         private final Reference onBehalfOf;
 
         private volatile int hashCode;
@@ -1162,6 +1171,16 @@ public class Provenance extends DomainResource {
              * 
              * <p>This element is required.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link RelatedPerson}</li>
+             * <li>{@link Patient}</li>
+             * <li>{@link Device}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
              * @param who
              *     Who participated
              * 
@@ -1175,6 +1194,16 @@ public class Provenance extends DomainResource {
 
             /**
              * The individual, device, or organization for whom the change was made.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link RelatedPerson}</li>
+             * <li>{@link Patient}</li>
+             * <li>{@link Device}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param onBehalfOf
              *     Who the agent is representing

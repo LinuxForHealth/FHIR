@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -126,11 +127,14 @@ public class RiskEvidenceSynthesis extends DomainResource {
     )
     private final CodeableConcept studyType;
     @Summary
+    @ReferenceTarget({ "EvidenceVariable" })
     @Required
     private final Reference population;
     @Summary
+    @ReferenceTarget({ "EvidenceVariable" })
     private final Reference exposure;
     @Summary
+    @ReferenceTarget({ "EvidenceVariable" })
     @Required
     private final Reference outcome;
     private final SampleSize sampleSize;
@@ -1534,6 +1538,11 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link EvidenceVariable}</li>
+         * </ul>
+         * 
          * @param population
          *     What population?
          * 
@@ -1547,6 +1556,11 @@ public class RiskEvidenceSynthesis extends DomainResource {
 
         /**
          * A reference to a EvidenceVariable resource that defines the exposure for the research.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link EvidenceVariable}</li>
+         * </ul>
          * 
          * @param exposure
          *     What exposure?
@@ -1563,6 +1577,11 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * A reference to a EvidenceVariable resomece that defines the outcome for the research.
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link EvidenceVariable}</li>
+         * </ul>
          * 
          * @param outcome
          *     What outcome?

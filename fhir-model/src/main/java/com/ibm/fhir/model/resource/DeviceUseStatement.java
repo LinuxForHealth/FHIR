@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -56,6 +57,7 @@ public class DeviceUseStatement extends DomainResource {
     @Required
     private final DeviceUseStatementStatus status;
     @Summary
+    @ReferenceTarget({ "Patient", "Group" })
     @Required
     private final Reference subject;
     @Summary
@@ -66,8 +68,10 @@ public class DeviceUseStatement extends DomainResource {
     @Summary
     private final DateTime recordedOn;
     @Summary
+    @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "RelatedPerson" })
     private final Reference source;
     @Summary
+    @ReferenceTarget({ "Device" })
     @Required
     private final Reference device;
     @Summary
@@ -670,6 +674,12 @@ public class DeviceUseStatement extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Patient using device
          * 
@@ -755,6 +765,14 @@ public class DeviceUseStatement extends DomainResource {
         /**
          * Who reported the device was being used by the patient.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
+         * 
          * @param source
          *     Who made the statement
          * 
@@ -770,6 +788,11 @@ public class DeviceUseStatement extends DomainResource {
          * The details of the device used.
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Device}</li>
+         * </ul>
          * 
          * @param device
          *     Reference to device used

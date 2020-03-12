@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -1416,6 +1417,7 @@ public class Appointment extends DomainResource {
         )
         private final List<CodeableConcept> type;
         @Summary
+        @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location" })
         private final Reference actor;
         @Summary
         @Binding(
@@ -1726,6 +1728,17 @@ public class Appointment extends DomainResource {
 
             /**
              * A Person, Location/HealthcareService or Device that is participating in the appointment.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Patient}</li>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link RelatedPerson}</li>
+             * <li>{@link Device}</li>
+             * <li>{@link HealthcareService}</li>
+             * <li>{@link Location}</li>
+             * </ul>
              * 
              * @param actor
              *     Person, Location/HealthcareService or Device

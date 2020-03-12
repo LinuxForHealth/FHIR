@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
@@ -60,6 +61,7 @@ public class SubstanceSpecification extends DomainResource {
     @Summary
     private final List<Property> property;
     @Summary
+    @ReferenceTarget({ "SubstanceReferenceInformation" })
     private final Reference referenceInformation;
     @Summary
     private final Structure structure;
@@ -72,12 +74,16 @@ public class SubstanceSpecification extends DomainResource {
     @Summary
     private final List<Relationship> relationship;
     @Summary
+    @ReferenceTarget({ "SubstanceNucleicAcid" })
     private final Reference nucleicAcid;
     @Summary
+    @ReferenceTarget({ "SubstancePolymer" })
     private final Reference polymer;
     @Summary
+    @ReferenceTarget({ "SubstanceProtein" })
     private final Reference protein;
     @Summary
+    @ReferenceTarget({ "SubstanceSourceMaterial" })
     private final Reference sourceMaterial;
 
     private volatile int hashCode;
@@ -860,6 +866,11 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * General information detailing this substance.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link SubstanceReferenceInformation}</li>
+         * </ul>
+         * 
          * @param referenceInformation
          *     General information detailing this substance
          * 
@@ -1024,6 +1035,11 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * Data items specific to nucleic acids.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link SubstanceNucleicAcid}</li>
+         * </ul>
+         * 
          * @param nucleicAcid
          *     Data items specific to nucleic acids
          * 
@@ -1037,6 +1053,11 @@ public class SubstanceSpecification extends DomainResource {
 
         /**
          * Data items specific to polymers.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link SubstancePolymer}</li>
+         * </ul>
          * 
          * @param polymer
          *     Data items specific to polymers
@@ -1052,6 +1073,11 @@ public class SubstanceSpecification extends DomainResource {
         /**
          * Data items specific to proteins.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link SubstanceProtein}</li>
+         * </ul>
+         * 
          * @param protein
          *     Data items specific to proteins
          * 
@@ -1065,6 +1091,11 @@ public class SubstanceSpecification extends DomainResource {
 
         /**
          * Material or taxonomic/anatomical source for the substance.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link SubstanceSourceMaterial}</li>
+         * </ul>
          * 
          * @param sourceMaterial
          *     Material or taxonomic/anatomical source for the substance

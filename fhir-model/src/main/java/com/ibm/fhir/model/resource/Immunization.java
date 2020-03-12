@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -81,8 +82,10 @@ public class Immunization extends DomainResource {
     @Required
     private final CodeableConcept vaccineCode;
     @Summary
+    @ReferenceTarget({ "Patient" })
     @Required
     private final Reference patient;
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     @Choice({ DateTime.class, String.class })
@@ -98,7 +101,9 @@ public class Immunization extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-origin"
     )
     private final CodeableConcept reportOrigin;
+    @ReferenceTarget({ "Location" })
     private final Reference location;
+    @ReferenceTarget({ "Organization" })
     private final Reference manufacturer;
     private final String lotNumber;
     private final Date expirationDate;
@@ -981,6 +986,11 @@ public class Immunization extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param patient
          *     Who was immunized
          * 
@@ -995,6 +1005,11 @@ public class Immunization extends DomainResource {
         /**
          * The visit or admission or other contact between patient and health care provider the immunization was performed as 
          * part of.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter immunization was part of
@@ -1077,6 +1092,11 @@ public class Immunization extends DomainResource {
         /**
          * The service delivery location where the vaccine administration occurred.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param location
          *     Where immunization occurred
          * 
@@ -1090,6 +1110,11 @@ public class Immunization extends DomainResource {
 
         /**
          * Name of vaccine manufacturer.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param manufacturer
          *     Vaccine manufacturer
@@ -1574,6 +1599,7 @@ public class Immunization extends DomainResource {
         )
         private final CodeableConcept function;
         @Summary
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
         @Required
         private final Reference actor;
 
@@ -1800,6 +1826,13 @@ public class Immunization extends DomainResource {
              * The practitioner or organization who performed the action.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param actor
              *     Individual or organization who was performing
@@ -2165,6 +2198,7 @@ public class Immunization extends DomainResource {
      */
     public static class Reaction extends BackboneElement {
         private final DateTime date;
+        @ReferenceTarget({ "Observation" })
         private final Reference detail;
         private final Boolean reported;
 
@@ -2406,6 +2440,11 @@ public class Immunization extends DomainResource {
             /**
              * Details of the reaction.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Observation}</li>
+             * </ul>
+             * 
              * @param detail
              *     Additional information on reaction
              * 
@@ -2457,6 +2496,7 @@ public class Immunization extends DomainResource {
      */
     public static class ProtocolApplied extends BackboneElement {
         private final String series;
+        @ReferenceTarget({ "Organization" })
         private final Reference authority;
         @Binding(
             bindingName = "TargetDisease",
@@ -2740,6 +2780,11 @@ public class Immunization extends DomainResource {
 
             /**
              * Indicates the authority who published the protocol (e.g. ACIP) that is being followed.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param authority
              *     Who is responsible for publishing the recommendations

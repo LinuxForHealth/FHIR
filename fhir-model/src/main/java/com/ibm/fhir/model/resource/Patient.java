@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
@@ -94,6 +95,7 @@ public class Patient extends DomainResource {
     private final List<Communication> communication;
     private final List<Reference> generalPractitioner;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference managingOrganization;
     @Summary
     private final List<Link> link;
@@ -1022,6 +1024,11 @@ public class Patient extends DomainResource {
         /**
          * Organization that is the custodian of the patient record.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param managingOrganization
          *     Organization that is the custodian of the patient record
          * 
@@ -1121,6 +1128,7 @@ public class Patient extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
         )
         private final AdministrativeGender gender;
+        @ReferenceTarget({ "Organization" })
         private final Reference organization;
         private final Period period;
 
@@ -1524,6 +1532,11 @@ public class Patient extends DomainResource {
             /**
              * Organization on behalf of which the contact is acting or for which the contact is working.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
+             * 
              * @param organization
              *     Organization that is associated with the contact
              * 
@@ -1857,6 +1870,7 @@ public class Patient extends DomainResource {
      */
     public static class Link extends BackboneElement {
         @Summary
+        @ReferenceTarget({ "Patient", "RelatedPerson" })
         @Required
         private final Reference other;
         @Summary
@@ -2078,6 +2092,12 @@ public class Patient extends DomainResource {
              * The other patient resource that the link refers to.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Patient}</li>
+             * <li>{@link RelatedPerson}</li>
+             * </ul>
              * 
              * @param other
              *     The other patient or related person resource that the link refers to

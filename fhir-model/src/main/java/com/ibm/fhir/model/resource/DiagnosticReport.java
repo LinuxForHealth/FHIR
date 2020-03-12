@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
@@ -76,8 +77,10 @@ public class DiagnosticReport extends DomainResource {
     @Required
     private final CodeableConcept code;
     @Summary
+    @ReferenceTarget({ "Patient", "Group", "Device", "Location" })
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     @Choice({ DateTime.class, Period.class })
@@ -824,6 +827,14 @@ public class DiagnosticReport extends DomainResource {
          * The subject of the report. Usually, but not always, this is a patient. However, diagnostic services also perform 
          * analyses on specimens collected from a variety of other sources.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param subject
          *     The subject of the report - usually, but not always, the patient
          * 
@@ -837,6 +848,11 @@ public class DiagnosticReport extends DomainResource {
 
         /**
          * The healthcare event (e.g. a patient and healthcare provider interaction) which this DiagnosticReport is about.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Health care event when test ordered
@@ -1228,6 +1244,7 @@ public class DiagnosticReport extends DomainResource {
     public static class Media extends BackboneElement {
         private final String comment;
         @Summary
+        @ReferenceTarget({ "Media" })
         @Required
         private final Reference link;
 
@@ -1456,6 +1473,11 @@ public class DiagnosticReport extends DomainResource {
              * Reference to the image source.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Media}</li>
+             * </ul>
              * 
              * @param link
              *     Reference to the image source

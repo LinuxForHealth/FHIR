@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -77,6 +78,7 @@ public class Contract extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/contract-legalstate"
     )
     private final CodeableConcept legalState;
+    @ReferenceTarget({ "Contract" })
     private final Reference instantiatesCanonical;
     private final Uri instantiatesUri;
     @Binding(
@@ -108,6 +110,7 @@ public class Contract extends DomainResource {
     private final String title;
     private final String subtitle;
     private final List<String> alias;
+    @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "Organization" })
     private final Reference author;
     @Binding(
         bindingName = "ContractScope",
@@ -1077,6 +1080,11 @@ public class Contract extends DomainResource {
         /**
          * The URL pointing to a FHIR-defined Contract Definition that is adhered to in whole or part by this Contract.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Contract}</li>
+         * </ul>
+         * 
          * @param instantiatesCanonical
          *     Source Contract Definition
          * 
@@ -1386,6 +1394,14 @@ public class Contract extends DomainResource {
 
         /**
          * The individual or organization that authored the Contract definition, derivative, or instance in any legal state.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param author
          *     Source of Contract
@@ -1844,6 +1860,7 @@ public class Contract extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/contract-definition-subtype"
         )
         private final CodeableConcept subType;
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
         private final Reference publisher;
         private final DateTime publicationDate;
         @Binding(
@@ -2163,6 +2180,13 @@ public class Contract extends DomainResource {
 
             /**
              * The individual or organization that published the Contract precursor content.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param publisher
              *     Publisher Entity
@@ -5843,7 +5867,9 @@ public class Contract extends DomainResource {
                 private final Money net;
                 private final String payment;
                 private final DateTime paymentDate;
+                @ReferenceTarget({ "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson" })
                 private final Reference responsible;
+                @ReferenceTarget({ "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson" })
                 private final Reference recipient;
                 private final List<String> linkId;
                 private final List<UnsignedInt> securityLabelNumber;
@@ -6408,6 +6434,15 @@ public class Contract extends DomainResource {
                     /**
                      * Who will make payment.
                      * 
+                     * <p>Allowed resource types for this reference:
+                     * <ul>
+                     * <li>{@link Organization}</li>
+                     * <li>{@link Patient}</li>
+                     * <li>{@link Practitioner}</li>
+                     * <li>{@link PractitionerRole}</li>
+                     * <li>{@link RelatedPerson}</li>
+                     * </ul>
+                     * 
                      * @param responsible
                      *     Who will make payment
                      * 
@@ -6421,6 +6456,15 @@ public class Contract extends DomainResource {
 
                     /**
                      * Who will receive payment.
+                     * 
+                     * <p>Allowed resource types for this reference:
+                     * <ul>
+                     * <li>{@link Organization}</li>
+                     * <li>{@link Patient}</li>
+                     * <li>{@link Practitioner}</li>
+                     * <li>{@link PractitionerRole}</li>
+                     * <li>{@link RelatedPerson}</li>
+                     * </ul>
                      * 
                      * @param recipient
                      *     Who will receive payment
@@ -6568,6 +6612,7 @@ public class Contract extends DomainResource {
             )
             @Required
             private final CodeableConcept status;
+            @ReferenceTarget({ "Encounter", "EpisodeOfCare" })
             private final Reference context;
             private final List<String> contextLinkId;
             @Choice({ DateTime.class, Period.class, Timing.class })
@@ -6588,6 +6633,7 @@ public class Contract extends DomainResource {
                 valueSet = "http://hl7.org/fhir/ValueSet/provenance-agent-role"
             )
             private final CodeableConcept performerRole;
+            @ReferenceTarget({ "RelatedPerson", "Patient", "Practitioner", "PractitionerRole", "CareTeam", "Device", "Substance", "Organization", "Location" })
             private final Reference performer;
             private final List<String> performerLinkId;
             @Binding(
@@ -7255,6 +7301,12 @@ public class Contract extends DomainResource {
                 /**
                  * Encounter or Episode with primary association to specified term activity.
                  * 
+                 * <p>Allowed resource types for this reference:
+                 * <ul>
+                 * <li>{@link Encounter}</li>
+                 * <li>{@link EpisodeOfCare}</li>
+                 * </ul>
+                 * 
                  * @param context
                  *     Episode associated with action
                  * 
@@ -7443,6 +7495,19 @@ public class Contract extends DomainResource {
 
                 /**
                  * Indicates who or what is being asked to perform (or not perform) the ction.
+                 * 
+                 * <p>Allowed resource types for this reference:
+                 * <ul>
+                 * <li>{@link RelatedPerson}</li>
+                 * <li>{@link Patient}</li>
+                 * <li>{@link Practitioner}</li>
+                 * <li>{@link PractitionerRole}</li>
+                 * <li>{@link CareTeam}</li>
+                 * <li>{@link Device}</li>
+                 * <li>{@link Substance}</li>
+                 * <li>{@link Organization}</li>
+                 * <li>{@link Location}</li>
+                 * </ul>
                  * 
                  * @param performer
                  *     Actor that wil execute (or not) the action
@@ -8053,6 +8118,7 @@ public class Contract extends DomainResource {
         )
         @Required
         private final Coding type;
+        @ReferenceTarget({ "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson" })
         @Required
         private final Reference party;
         @Required
@@ -8299,6 +8365,15 @@ public class Contract extends DomainResource {
              * Party which is a signator to this Contract.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * <li>{@link Patient}</li>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link RelatedPerson}</li>
+             * </ul>
              * 
              * @param party
              *     Contract Signatory Party

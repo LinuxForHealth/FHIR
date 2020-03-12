@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -90,10 +91,13 @@ public class MedicationDispense extends DomainResource {
     @Required
     private final Element medication;
     @Summary
+    @ReferenceTarget({ "Patient", "Group" })
     private final Reference subject;
+    @ReferenceTarget({ "Encounter", "EpisodeOfCare" })
     private final Reference context;
     private final List<Reference> supportingInformation;
     private final List<Performer> performer;
+    @ReferenceTarget({ "Location" })
     private final Reference location;
     private final List<Reference> authorizingPrescription;
     @Binding(
@@ -108,6 +112,7 @@ public class MedicationDispense extends DomainResource {
     @Summary
     private final DateTime whenPrepared;
     private final DateTime whenHandedOver;
+    @ReferenceTarget({ "Location" })
     private final Reference destination;
     private final List<Reference> receiver;
     private final List<Annotation> note;
@@ -947,6 +952,12 @@ public class MedicationDispense extends DomainResource {
         /**
          * A link to a resource representing the person or the group to whom the medication will be given.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who the dispense is for
          * 
@@ -960,6 +971,12 @@ public class MedicationDispense extends DomainResource {
 
         /**
          * The encounter or episode of care that establishes the context for this event.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * <li>{@link EpisodeOfCare}</li>
+         * </ul>
          * 
          * @param context
          *     Encounter / Episode associated with event
@@ -1042,6 +1059,11 @@ public class MedicationDispense extends DomainResource {
 
         /**
          * The principal physical location where the dispense was performed.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param location
          *     Where the dispense occurred
@@ -1161,6 +1183,11 @@ public class MedicationDispense extends DomainResource {
 
         /**
          * Identification of the facility/location where the medication was shipped to, as part of the dispense event.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param destination
          *     Where the medication was sent
@@ -1421,6 +1448,7 @@ public class MedicationDispense extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-performer-function"
         )
         private final CodeableConcept function;
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson" })
         @Required
         private final Reference actor;
 
@@ -1649,6 +1677,16 @@ public class MedicationDispense extends DomainResource {
              * medication.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * <li>{@link Patient}</li>
+             * <li>{@link Device}</li>
+             * <li>{@link RelatedPerson}</li>
+             * </ul>
              * 
              * @param actor
              *     Individual who was performing

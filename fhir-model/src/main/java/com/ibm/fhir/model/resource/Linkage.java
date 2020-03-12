@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -46,6 +47,7 @@ public class Linkage extends DomainResource {
     @Summary
     private final Boolean active;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     private final Reference author;
     @Summary
     @Required
@@ -401,6 +403,13 @@ public class Linkage extends DomainResource {
         /**
          * Identifies the user or organization responsible for asserting the linkages as well as the user or organization who 
          * establishes the context in which the nature of each linkage is evaluated.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param author
          *     Who is responsible for linkages

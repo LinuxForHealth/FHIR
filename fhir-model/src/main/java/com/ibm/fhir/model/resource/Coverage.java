@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -65,12 +66,15 @@ public class Coverage extends DomainResource {
     )
     private final CodeableConcept type;
     @Summary
+    @ReferenceTarget({ "Patient", "RelatedPerson", "Organization" })
     private final Reference policyHolder;
     @Summary
+    @ReferenceTarget({ "Patient", "RelatedPerson" })
     private final Reference subscriber;
     @Summary
     private final String subscriberId;
     @Summary
+    @ReferenceTarget({ "Patient" })
     @Required
     private final Reference beneficiary;
     @Summary
@@ -730,6 +734,13 @@ public class Coverage extends DomainResource {
         /**
          * The party who 'owns' the insurance policy.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param policyHolder
          *     Owner of the policy
          * 
@@ -744,6 +755,12 @@ public class Coverage extends DomainResource {
         /**
          * The party who has signed-up for or 'owns' the contractual relationship to the policy or to whom the benefit of the 
          * policy for services rendered to them or their family is due.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
          * 
          * @param subscriber
          *     Subscriber to the policy
@@ -774,6 +791,11 @@ public class Coverage extends DomainResource {
          * The party who benefits from the insurance coverage; the patient when products and/or services are provided.
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
          * 
          * @param beneficiary
          *     Plan beneficiary
