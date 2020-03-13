@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -59,15 +60,20 @@ public class GuidanceResponse extends DomainResource {
     )
     @Required
     private final GuidanceResponseStatus status;
+    @ReferenceTarget({ "Patient", "Group" })
     private final Reference subject;
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     private final DateTime occurrenceDateTime;
+    @ReferenceTarget({ "Device" })
     private final Reference performer;
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
     private final List<Annotation> note;
     private final List<Reference> evaluationMessage;
+    @ReferenceTarget({ "Parameters" })
     private final Reference outputParameters;
+    @ReferenceTarget({ "CarePlan", "RequestGroup" })
     private final Reference result;
     private final List<DataRequirement> dataRequirement;
 
@@ -707,6 +713,12 @@ public class GuidanceResponse extends DomainResource {
         /**
          * The patient for which the request was processed.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Patient the request was performed for
          * 
@@ -720,6 +732,11 @@ public class GuidanceResponse extends DomainResource {
 
         /**
          * The encounter during which this response was created or to which the creation of this record is tightly associated.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter during which the response was returned
@@ -748,6 +765,11 @@ public class GuidanceResponse extends DomainResource {
 
         /**
          * Provides a reference to the device that performed the guidance.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Device}</li>
+         * </ul>
          * 
          * @param performer
          *     Device returning the guidance
@@ -907,6 +929,11 @@ public class GuidanceResponse extends DomainResource {
          * procedure or communication requests that are returned as part of the operation result. However, modules may define 
          * specific outputs that would be returned as the result of the evaluation, and these would be returned in this element.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Parameters}</li>
+         * </ul>
+         * 
          * @param outputParameters
          *     The output parameters of the evaluation, if any
          * 
@@ -920,6 +947,12 @@ public class GuidanceResponse extends DomainResource {
 
         /**
          * The actions, if any, produced by the evaluation of the artifact.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link CarePlan}</li>
+         * <li>{@link RequestGroup}</li>
+         * </ul>
          * 
          * @param result
          *     Proposed actions, if any

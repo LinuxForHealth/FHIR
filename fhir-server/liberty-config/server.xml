@@ -170,7 +170,7 @@
         <jdbcDriver libraryRef="derbyLib"/>
         <properties.derby.embedded createDatabase="create" databaseName="derby/oauth2db"/>
     </dataSource>
-    -->    
+    -->
      
     <!-- DB2-related configuration
     <library id="db2Lib">

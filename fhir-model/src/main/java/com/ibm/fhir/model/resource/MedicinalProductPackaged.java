@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -49,6 +50,7 @@ public class MedicinalProductPackaged extends DomainResource {
     @Summary
     private final List<MarketingStatus> marketingStatus;
     @Summary
+    @ReferenceTarget({ "MedicinalProductAuthorization" })
     private final Reference marketingAuthorization;
     @Summary
     private final List<Reference> manufacturer;
@@ -617,6 +619,11 @@ public class MedicinalProductPackaged extends DomainResource {
 
         /**
          * Manufacturer of this Package Item.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link MedicinalProductAuthorization}</li>
+         * </ul>
          * 
          * @param marketingAuthorization
          *     Manufacturer of this Package Item

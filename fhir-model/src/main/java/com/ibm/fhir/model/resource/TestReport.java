@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -71,6 +72,7 @@ public class TestReport extends DomainResource {
     @Required
     private final TestReportStatus status;
     @Summary
+    @ReferenceTarget({ "TestScript" })
     @Required
     private final Reference testScript;
     @Summary
@@ -619,6 +621,11 @@ public class TestReport extends DomainResource {
          * the `TestScript.url`.
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link TestScript}</li>
+         * </ul>
          * 
          * @param testScript
          *     Reference to the version-specific TestScript that was executed to produce this TestReport

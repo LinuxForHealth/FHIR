@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -81,12 +82,16 @@ public class MolecularSequence extends DomainResource {
     @Required
     private final Integer coordinateSystem;
     @Summary
+    @ReferenceTarget({ "Patient" })
     private final Reference patient;
     @Summary
+    @ReferenceTarget({ "Specimen" })
     private final Reference specimen;
     @Summary
+    @ReferenceTarget({ "Device" })
     private final Reference device;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference performer;
     @Summary
     private final Quantity quantity;
@@ -726,6 +731,11 @@ public class MolecularSequence extends DomainResource {
         /**
          * The patient whose sequencing results are described by this resource.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param patient
          *     Who and/or what this is about
          * 
@@ -739,6 +749,11 @@ public class MolecularSequence extends DomainResource {
 
         /**
          * Specimen used for sequencing.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Specimen}</li>
+         * </ul>
          * 
          * @param specimen
          *     Specimen used for sequencing
@@ -754,6 +769,11 @@ public class MolecularSequence extends DomainResource {
         /**
          * The method for sequencing, for example, chip information.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Device}</li>
+         * </ul>
+         * 
          * @param device
          *     The method for sequencing
          * 
@@ -767,6 +787,11 @@ public class MolecularSequence extends DomainResource {
 
         /**
          * The organization or lab that should be responsible for this result.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param performer
          *     Who should be responsible for test result
@@ -1086,6 +1111,7 @@ public class MolecularSequence extends DomainResource {
         )
         private final CodeableConcept referenceSeqId;
         @Summary
+        @ReferenceTarget({ "MolecularSequence" })
         private final Reference referenceSeqPointer;
         @Summary
         private final String referenceSeqString;
@@ -1494,6 +1520,11 @@ public class MolecularSequence extends DomainResource {
             /**
              * A pointer to another MolecularSequence entity as reference sequence.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link MolecularSequence}</li>
+             * </ul>
+             * 
              * @param referenceSeqPointer
              *     A pointer to another MolecularSequence entity as reference sequence
              * 
@@ -1610,6 +1641,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         private final String cigar;
         @Summary
+        @ReferenceTarget({ "Observation" })
         private final Reference variantPointer;
 
         private volatile int hashCode;
@@ -1977,6 +2009,11 @@ public class MolecularSequence extends DomainResource {
 
             /**
              * A pointer to an Observation containing variant information.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Observation}</li>
+             * </ul>
              * 
              * @param variantPointer
              *     Pointer to observed variant information

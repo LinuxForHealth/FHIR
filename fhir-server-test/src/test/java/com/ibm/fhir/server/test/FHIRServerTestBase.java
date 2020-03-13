@@ -42,7 +42,6 @@ import com.ibm.fhir.client.FHIRClientFactory;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.FHIRUtilities;
-import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
@@ -110,10 +109,6 @@ public abstract class FHIRServerTestBase {
     protected static final String MEDIATYPE_XML_FHIR = FHIRMediaType.APPLICATION_FHIR_XML;
 
     private CapabilityStatement conformanceStmt = null;
-
-    public FHIRServerTestBase() {
-        FHIRModelConfig.setCheckReferenceTypes(false);
-    }
 
     protected String getWebSocketURL() {
         return websocketUrl;

@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
@@ -44,8 +45,10 @@ public class OrganizationAffiliation extends DomainResource {
     @Summary
     private final Period period;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference organization;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference participatingOrganization;
     @Summary
     private final List<Reference> network;
@@ -615,6 +618,11 @@ public class OrganizationAffiliation extends DomainResource {
         /**
          * Organization where the role is available (primary organization/has members).
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param organization
          *     Organization where the role is available
          * 
@@ -629,6 +637,11 @@ public class OrganizationAffiliation extends DomainResource {
         /**
          * The Participating Organization provides/performs the role(s) defined by the code to the Primary Organization (e.g. 
          * providing services or is a member of).
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param participatingOrganization
          *     Organization that provides/performs the role (e.g. providing services or is a member of)

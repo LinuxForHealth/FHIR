@@ -1,168 +1,31 @@
 <Parameters xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="MvErJfiSA9"/>
-    <lastUpdated value="2020-02-11T15:06:25.664-05:00"/>
-    <source value="T5AeRiS_zo"/>
-    <profile value="Cq33MxRhmN"/>
+    <versionId value="FKJ2R8m6zx"/>
+    <lastUpdated value="2020-03-12T00:11:56.679-04:00"/>
+    <source value="ncWPF2Y6Wf"/>
+    <profile value="twvMQsHhmL"/>
     <security>
-      <system value="wbYkIUlp7y"/>
-      <version value="G57ptiOpX1"/>
-      <code value="59PBVFd11i"/>
-      <display value="VotgY3h4zN"/>
+      <system value="FvhwuiZc1Z"/>
+      <version value="MR5jJA5ylP"/>
+      <code value="Hmki73RKbT"/>
+      <display value="15hNenqLc8"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="SqQkQemedw"/>
-      <version value="7E_T7H8mwO"/>
-      <code value="OKWzeh1Ku0"/>
-      <display value="iC8JxjsAOy"/>
+      <system value="W8pjRfln4N"/>
+      <version value="hLRjgeNiYB"/>
+      <code value="iCtXekNzyg"/>
+      <display value="H2l3Rkzwx3"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="DdQj_jg0rv"/>
-  <language value="gPgAIuH5RK"/>
+  <implicitRules value="hUFUA7AWcy"/>
+  <language value="rQtbjiAzSW"/>
   <parameter>
-    <name value="NDslfwffSG"/>
-    <valueDosage>
-      <sequence value="335364754"/>
-      <text value="Q8NcqilV8y"/>
-      <additionalInstruction>
-        <coding>
-          <system value="dg6uzjScMu"/>
-          <version value="AE_2cl65xX"/>
-          <code value="YS3G0S7npn"/>
-          <display value="Q2XBuRuzl4"/>
-          <userSelected value="true"/>
-        </coding>
-        <text value="FeeHFkmQQr"/>
-      </additionalInstruction>
-      <patientInstruction value="I0Reucm_SK"/>
-      <timing>
-        <event value="2020-02-11T15:06:25.653-05:00"/>
-        <repeat>
-          <boundsPeriod>
-            <start value="2020-02-11T15:06:25.657-05:00"/>
-            <end value="2020-02-11T15:06:25.657-05:00"/>
-          </boundsPeriod>
-          <count value="1762116691"/>
-          <countMax value="2080092531"/>
-          <duration value="203609106502"/>
-          <durationMax value="528987940986"/>
-          <durationUnit value="s"/>
-          <frequency value="1602487904"/>
-          <frequencyMax value="36526767"/>
-          <period value="391532905757"/>
-          <periodMax value="267632471296"/>
-          <periodUnit value="d"/>
-          <dayOfWeek value="thu"/>
-          <when value="AFT.late"/>
-        </repeat>
-        <code>
-          <coding>
-            <system value="oe7pDGFBgN"/>
-            <version value="eD7KCC69DF"/>
-            <code value="KQEIoI54D9"/>
-            <display value="fsjwBo2FWC"/>
-            <userSelected value="true"/>
-          </coding>
-          <text value="86KDupHCA_"/>
-        </code>
-      </timing>
-      <asNeededCodeableConcept>
-        <coding>
-          <system value="DZRgU3wcxq"/>
-          <version value="ShZ6sdTLlK"/>
-          <code value="9M3v0jyq2Z"/>
-          <display value="Wo4bDV90IT"/>
-          <userSelected value="true"/>
-        </coding>
-        <text value="asuiBU4dCR"/>
-      </asNeededCodeableConcept>
-      <site>
-        <coding>
-          <system value="HGUOQS8jQM"/>
-          <version value="b47sH86XIp"/>
-          <code value="1gMkxuXIHV"/>
-          <display value="kHOzLq_deD"/>
-          <userSelected value="true"/>
-        </coding>
-        <text value="jBxOR1298w"/>
-      </site>
-      <route>
-        <coding>
-          <system value="i8aA2Zqqfn"/>
-          <version value="sVEaZrrfpQ"/>
-          <code value="RKflReQr0a"/>
-          <display value="nMIzoYCy4x"/>
-          <userSelected value="true"/>
-        </coding>
-        <text value="8Z_0biKHF3"/>
-      </route>
-      <method>
-        <coding>
-          <system value="P6CccoSQmn"/>
-          <version value="WnB5LMXAML"/>
-          <code value="dqdS1Oegpk"/>
-          <display value="TuilNbW8H6"/>
-          <userSelected value="true"/>
-        </coding>
-        <text value="PyyFdzCBKR"/>
-      </method>
-      <doseAndRate>
-        <type>
-          <coding>
-            <system value="Txp0QSE8xy"/>
-            <version value="9lAmaSaAtH"/>
-            <code value="MeQ6_Ar7b_"/>
-            <display value="OSMvitIW12"/>
-            <userSelected value="true"/>
-          </coding>
-          <text value="KwMP4pYEal"/>
-        </type>
-        <doseQuantity>
-          <value value="165310902108"/>
-          <unit value="8r1xql4v8j"/>
-          <system value="peHWMDNEb9"/>
-          <code value="_lq205sCZA"/>
-        </doseQuantity>
-        <rateQuantity>
-          <value value="271959269152"/>
-          <unit value="EocEs0IuK7"/>
-          <system value="YGpQ27EAoP"/>
-          <code value="SnX9Qzduit"/>
-        </rateQuantity>
-      </doseAndRate>
-      <maxDosePerPeriod>
-        <numerator>
-          <value value="339622297911"/>
-          <comparator value="&gt;="/>
-          <unit value="ny1fG5nFtj"/>
-          <system value="QI4_mUOClv"/>
-          <code value="DRbIQ_GvSW"/>
-        </numerator>
-        <denominator>
-          <value value="285537797501"/>
-          <comparator value="&lt;"/>
-          <unit value="2mScGYwHZ0"/>
-          <system value="du8DpFSFvw"/>
-          <code value="5jiIXwzPHQ"/>
-        </denominator>
-      </maxDosePerPeriod>
-      <maxDosePerAdministration>
-        <value value="534090484309"/>
-        <unit value="L3HpNIZnLa"/>
-        <system value="TPW08Wquba"/>
-        <code value="r7TTQ4r3kH"/>
-      </maxDosePerAdministration>
-      <maxDosePerLifetime>
-        <value value="92308524909"/>
-        <unit value="lvC3n0tK7N"/>
-        <system value="xDNMmkSjEB"/>
-        <code value="6SuAmQABiD"/>
-      </maxDosePerLifetime>
-    </valueDosage>
+    <name value="i9I7N1d67s"/>
+    <valueBase64Binary value="FjR8B1A="/>
   </parameter>
 </Parameters>

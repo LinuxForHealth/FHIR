@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -866,12 +867,14 @@ public class AuditEvent extends DomainResource {
         )
         private final List<CodeableConcept> role;
         @Summary
+        @ReferenceTarget({ "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson" })
         private final Reference who;
         private final String altId;
         private final String name;
         @Summary
         @Required
         private final Boolean requestor;
+        @ReferenceTarget({ "Location" })
         private final Reference location;
         private final List<Uri> policy;
         @Binding(
@@ -1297,6 +1300,16 @@ public class AuditEvent extends DomainResource {
             /**
              * Reference to who this agent is that was involved in the event.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link Organization}</li>
+             * <li>{@link Device}</li>
+             * <li>{@link Patient}</li>
+             * <li>{@link RelatedPerson}</li>
+             * </ul>
+             * 
              * @param who
              *     Identifier of who
              * 
@@ -1355,6 +1368,11 @@ public class AuditEvent extends DomainResource {
 
             /**
              * Where the event occurred.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Location}</li>
+             * </ul>
              * 
              * @param location
              *     Where
@@ -1772,6 +1790,7 @@ public class AuditEvent extends DomainResource {
     public static class Source extends BackboneElement {
         private final String site;
         @Summary
+        @ReferenceTarget({ "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson" })
         @Required
         private final Reference observer;
         @Binding(
@@ -2023,6 +2042,16 @@ public class AuditEvent extends DomainResource {
              * Identifier of the source where the event was detected.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link Organization}</li>
+             * <li>{@link Device}</li>
+             * <li>{@link Patient}</li>
+             * <li>{@link RelatedPerson}</li>
+             * </ul>
              * 
              * @param observer
              *     The identity of source detecting the event

@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -82,16 +83,20 @@ public class RiskAssessment extends DomainResource {
     @Summary
     private final CodeableConcept code;
     @Summary
+    @ReferenceTarget({ "Patient", "Group" })
     @Required
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     @Choice({ DateTime.class, Period.class })
     private final Element occurrence;
     @Summary
+    @ReferenceTarget({ "Condition" })
     private final Reference condition;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Device" })
     private final Reference performer;
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
@@ -770,6 +775,12 @@ public class RiskAssessment extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who/what does assessment apply to?
          * 
@@ -783,6 +794,11 @@ public class RiskAssessment extends DomainResource {
 
         /**
          * The encounter where the assessment was performed.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Where was assessment performed?
@@ -818,6 +834,11 @@ public class RiskAssessment extends DomainResource {
         /**
          * For assessments or prognosis specific to a particular condition, indicates the condition being assessed.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Condition}</li>
+         * </ul>
+         * 
          * @param condition
          *     Condition assessed
          * 
@@ -831,6 +852,13 @@ public class RiskAssessment extends DomainResource {
 
         /**
          * The provider or software application that performed the assessment.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Device}</li>
+         * </ul>
          * 
          * @param performer
          *     Who did assessment?

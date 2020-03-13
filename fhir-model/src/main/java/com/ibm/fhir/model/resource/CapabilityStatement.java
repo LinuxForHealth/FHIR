@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -1936,6 +1937,7 @@ public class CapabilityStatement extends DomainResource {
         @Summary
         private final Url url;
         @Summary
+        @ReferenceTarget({ "Organization" })
         private final Reference custodian;
 
         private volatile int hashCode;
@@ -2195,6 +2197,11 @@ public class CapabilityStatement extends DomainResource {
             /**
              * The organization responsible for the management of the instance and oversight of the data on the server at the 
              * specified URL.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param custodian
              *     Organization that manages the data

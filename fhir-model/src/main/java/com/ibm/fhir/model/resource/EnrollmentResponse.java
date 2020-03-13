@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.DateTime;
@@ -45,6 +46,7 @@ public class EnrollmentResponse extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
     private final EnrollmentResponseStatus status;
+    @ReferenceTarget({ "EnrollmentRequest" })
     private final Reference request;
     @Binding(
         bindingName = "RemittanceOutcome",
@@ -55,7 +57,9 @@ public class EnrollmentResponse extends DomainResource {
     private final RemittanceOutcome outcome;
     private final String disposition;
     private final DateTime created;
+    @ReferenceTarget({ "Organization" })
     private final Reference organization;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     private final Reference requestProvider;
 
     private volatile int hashCode;
@@ -522,6 +526,11 @@ public class EnrollmentResponse extends DomainResource {
         /**
          * Original request resource reference.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link EnrollmentRequest}</li>
+         * </ul>
+         * 
          * @param request
          *     Claim reference
          * 
@@ -578,6 +587,11 @@ public class EnrollmentResponse extends DomainResource {
         /**
          * The Insurer who produced this adjudicated response.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param organization
          *     Insurer
          * 
@@ -591,6 +605,13 @@ public class EnrollmentResponse extends DomainResource {
 
         /**
          * The practitioner who is responsible for the services rendered to the patient.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param requestProvider
          *     Responsible practitioner

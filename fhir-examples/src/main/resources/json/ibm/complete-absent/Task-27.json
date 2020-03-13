@@ -2311,8 +2311,8 @@
                     ]
                 }
             },
-            "valueAnnotation": {
-                "_authorString": {
+            "valueAttachment": {
+                "_contentType": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
@@ -2320,7 +2320,7 @@
                         }
                     ]
                 },
-                "_time": {
+                "_language": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
@@ -2328,7 +2328,47 @@
                         }
                     ]
                 },
-                "_text": {
+                "_data": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                },
+                "_url": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                },
+                "_size": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                },
+                "_hash": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                },
+                "_title": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                },
+                "_creation": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
@@ -2395,8 +2435,8 @@
                     ]
                 }
             },
-            "valueAnnotation": {
-                "_authorString": {
+            "valueAttachment": {
+                "_contentType": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
@@ -2404,7 +2444,7 @@
                         }
                     ]
                 },
-                "_time": {
+                "_language": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
@@ -2412,7 +2452,47 @@
                         }
                     ]
                 },
-                "_text": {
+                "_data": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                },
+                "_url": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                },
+                "_size": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                },
+                "_hash": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                },
+                "_title": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                },
+                "_creation": {
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",

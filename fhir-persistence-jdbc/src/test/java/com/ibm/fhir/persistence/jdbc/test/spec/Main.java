@@ -28,7 +28,6 @@ import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.examples.Index;
-import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
 import com.ibm.fhir.model.spec.test.DriverStats;
 import com.ibm.fhir.model.spec.test.Expectation;
@@ -513,7 +512,6 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
-        FHIRModelConfig.setCheckReferenceTypes(false);
         Main m = new Main();
         try {
             m.parseArgs(args);

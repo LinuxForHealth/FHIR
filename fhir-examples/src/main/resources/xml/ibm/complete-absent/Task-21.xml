@@ -1470,11 +1470,11 @@
         </extension>
       </text>
     </type>
-    <valueDecimal>
+    <valueId>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
       </extension>
-    </valueDecimal>
+    </valueId>
   </input>
   <output>
     <type>
@@ -1511,10 +1511,10 @@
         </extension>
       </text>
     </type>
-    <valueDecimal>
+    <valueId>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
       </extension>
-    </valueDecimal>
+    </valueId>
   </output>
 </Task>

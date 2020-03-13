@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,13 +27,6 @@ public class FHIROperationContext {
      * This property is of type String and represents the value of the Location header.
      */
     public static final String PROPNAME_LOCATION_URI = "LOCATION_URI";
-    
-    /**
-     * This property is of type FHIRResourceHelper and is the handle to the 
-     * FHIR REST API layer.   This interface provides methods to perform various
-     * operations on FHIR resources (e.g. create, update, read, etc.)
-     */
-    public static final String PROPNAME_RESOURCE_HELPER = "RESOURCE_HELPER";
     
     /**
      * This property is of type FHIRPersistence and is the handle to the persistence layer implementation
@@ -106,9 +99,8 @@ public class FHIROperationContext {
     }
     
     /**
-     * Returns the HttpHeaders instance associated with the FHIR REST API request that triggered the
-     * interceptor invocation.
-     * Note that this HttpHeaders instance is only valid within the scope of the REST API request.
+     * Returns the HttpHeaders instance associated with the request that triggered the operation.
+     * Note that this HttpHeaders instance is only valid within the scope of a single request.
      */
     public HttpHeaders getHttpHeaders() {
         return (HttpHeaders) getProperty(PROPNAME_HTTP_HEADERS);

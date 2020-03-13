@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -91,6 +92,7 @@ public class SupplyRequest extends DomainResource {
     @Summary
     private final DateTime authoredOn;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device" })
     private final Reference requester;
     @Summary
     private final List<Reference> supplier;
@@ -102,7 +104,9 @@ public class SupplyRequest extends DomainResource {
     )
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
+    @ReferenceTarget({ "Organization", "Location" })
     private final Reference deliverFrom;
+    @ReferenceTarget({ "Organization", "Location", "Patient" })
     private final Reference deliverTo;
 
     private volatile int hashCode;
@@ -823,6 +827,16 @@ public class SupplyRequest extends DomainResource {
         /**
          * The device, practitioner, etc. who initiated the request.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Device}</li>
+         * </ul>
+         * 
          * @param requester
          *     Individual making the request
          * 
@@ -939,6 +953,12 @@ public class SupplyRequest extends DomainResource {
         /**
          * Where the supply is expected to come from.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param deliverFrom
          *     The origin of the supply
          * 
@@ -952,6 +972,13 @@ public class SupplyRequest extends DomainResource {
 
         /**
          * Where the supply is destined to go.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * <li>{@link Location}</li>
+         * <li>{@link Patient}</li>
+         * </ul>
          * 
          * @param deliverTo
          *     The destination of the supply

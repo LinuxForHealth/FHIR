@@ -184,7 +184,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             // Set our "initComplete" flag back to false.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
 
-            // If we previously intialized the Kafka publisher, then shut it down now.
+            // If we previously initialized the Kafka publisher, then shut it down now.
             if (kafkaPublisher != null) {
                 kafkaPublisher.shutdown();
                 kafkaPublisher = null;

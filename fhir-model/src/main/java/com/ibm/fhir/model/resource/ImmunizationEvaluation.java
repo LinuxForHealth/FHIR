@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
@@ -52,9 +53,11 @@ public class ImmunizationEvaluation extends DomainResource {
     @Required
     private final ImmunizationEvaluationStatus status;
     @Summary
+    @ReferenceTarget({ "Patient" })
     @Required
     private final Reference patient;
     private final DateTime date;
+    @ReferenceTarget({ "Organization" })
     private final Reference authority;
     @Summary
     @Binding(
@@ -66,6 +69,7 @@ public class ImmunizationEvaluation extends DomainResource {
     @Required
     private final CodeableConcept targetDisease;
     @Summary
+    @ReferenceTarget({ "Immunization" })
     @Required
     private final Reference immunizationEvent;
     @Summary
@@ -640,6 +644,11 @@ public class ImmunizationEvaluation extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param patient
          *     Who this evaluation is for
          * 
@@ -667,6 +676,11 @@ public class ImmunizationEvaluation extends DomainResource {
 
         /**
          * Indicates the authority who published the protocol (e.g. ACIP).
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param authority
          *     Who is responsible for publishing the recommendations
@@ -699,6 +713,11 @@ public class ImmunizationEvaluation extends DomainResource {
          * The vaccine administration event being evaluated.
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Immunization}</li>
+         * </ul>
          * 
          * @param immunizationEvent
          *     Immunization being evaluated

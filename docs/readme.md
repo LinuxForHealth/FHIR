@@ -1,7 +1,8 @@
-This IBM FHIR Server GitHub site uses Gatsby with the Carbon Theme to generate a static site.
+# IBM FHIR Server Docs
+This is the source for the IBM FHIR Server GitHub Pages site at https://ibm.github.io/FHIR.
 
-You can access the source of the theme at
-https://github.com/carbon-design-system/gatsby-theme-carbon
+We use Gatsby with the Carbon Theme to generate the static site.
+You can access the source of the theme at https://github.com/carbon-design-system/gatsby-theme-carbon.
 
 The site uses the following gatsby plugins:
 - [gatsby-plugin-slug](https://www.gatsbyjs.org/packages/gatsby-plugin-slug/)

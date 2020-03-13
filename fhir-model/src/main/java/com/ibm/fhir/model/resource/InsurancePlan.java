@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
@@ -75,8 +76,10 @@ public class InsurancePlan extends DomainResource {
     private final List<String> alias;
     private final Period period;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference ownedBy;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference administeredBy;
     @Summary
     private final List<Reference> coverageArea;
@@ -747,6 +750,11 @@ public class InsurancePlan extends DomainResource {
          * The entity that is providing the health insurance product and underwriting the risk. This is typically an insurance 
          * carriers, other third-party payers, or health plan sponsors comonly referred to as 'payers'.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param ownedBy
          *     Plan issuer
          * 
@@ -761,6 +769,11 @@ public class InsurancePlan extends DomainResource {
         /**
          * An organization which administer other services such as underwriting, customer service and/or claims processing on 
          * behalf of the health insurance product owner.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param administeredBy
          *     Product administrator

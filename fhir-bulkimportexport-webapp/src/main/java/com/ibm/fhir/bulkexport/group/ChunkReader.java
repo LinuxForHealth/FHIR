@@ -145,7 +145,7 @@ public class ChunkReader extends AbstractItemReader {
 
                 queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
                 searchContext = SearchUtil.parseQueryParameters("Patient", patientId,
-                        ModelSupport.getResourceType(resourceTypes.get(indexOfCurrentResourceType)), queryParameters, null, true);
+                        ModelSupport.getResourceType(resourceTypes.get(indexOfCurrentResourceType)), queryParameters, true);
                 do {
                     searchContext.setPageSize(pageSize);
                     searchContext.setPageNumber(compartmentPageNum);

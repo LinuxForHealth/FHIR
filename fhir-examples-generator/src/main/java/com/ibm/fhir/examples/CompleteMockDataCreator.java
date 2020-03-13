@@ -73,6 +73,7 @@ import com.ibm.fhir.model.type.code.CapabilityStatementKind;
 import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.type.code.QuestionnaireItemOperator;
 import com.ibm.fhir.model.type.code.QuestionnaireItemType;
+import com.ibm.fhir.model.type.code.TriggerType;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -86,7 +87,16 @@ public class CompleteMockDataCreator extends DataCreatorBase {
     }
 
     @Override
+    protected Builder<?> addData(com.ibm.fhir.model.type.Reference.Builder builder, String targetProfile) throws Exception {
+        return addData(builder, -1, targetProfile);
+    }
+
+    @Override
     protected Builder<?> addData(Builder<?> builder, int choiceIndicator) throws Exception {
+        return addData(builder, choiceIndicator, null);
+    }
+
+    private Builder<?> addData(Builder<?> builder, int choiceIndicator, String referenceTargetProfile) throws Exception {
         Method[] methods = builder.getClass().getDeclaredMethods();
         
         boolean empty = true;
@@ -192,13 +202,21 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                     }
                     // md-1:  Max must be postive int or *
                     else if (builder instanceof MessageDefinition.Focus.Builder && method.getName().equals("max")) {
-                        argument = com.ibm.fhir.model.type.String.of("*");
+                        argument = string("*");
                     }
                     // ras-2:  probability is decimal implies (probability as decimal) <= 100
                     else if (builder instanceof RiskAssessment.Prediction.Builder && method.getName().equals("probability")) {
                         argument = Decimal.of(Math.random() * 100);
                     }
 
+                    // References with specific target profiles
+                    else if (builder instanceof Reference.Builder && method.getName().equals("type") && referenceTargetProfile != null) {
+                        argument = Uri.of(referenceTargetProfile);
+                    }
+                    else if (builder instanceof Reference.Builder && method.getName().equals("reference") && referenceTargetProfile != null) {
+                        argument = string(referenceTargetProfile + "/" + podam.manufacturePojo(String.class));
+                    }
+                    
                     // CodeableConcepts with required bindings
                     else if (builder instanceof AdverseEvent.Builder && method.getName().equals("severity")) {
                         String value = "mild";
@@ -448,9 +466,13 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                 Object enumConstant = enumConstants[ThreadLocalRandom.current().nextInt(0, enumConstants.length)];
                 
                 // que-1: Group items must have nested items, display items cannot have nested items
+                // que-3: Display items cannot have a "code" asserted (Questionnaire.item[0])
+                // que-6: Required and repeat aren't permitted for display items (Questionnaire.item[0])
+                // que-9: Read-only can't be specified for "display" items (Questionnaire.item[0])
                 if (code instanceof QuestionnaireItemType.Builder) {
-                    // Group is the first constant and we skip nested items, so avoid that one
-                    enumConstant = enumConstants[ThreadLocalRandom.current().nextInt(1, enumConstants.length)];
+                    // "group" is the first constant and we skip nested items, so avoid that one
+                    // "display" is the second constant and that one has a bunch of extra rules, so avoid it too
+                    enumConstant = enumConstants[ThreadLocalRandom.current().nextInt(2, enumConstants.length)];
                 }
                 // que-7: If the operator is 'exists', the value must be a boolean
                 if (code instanceof QuestionnaireItemOperator.Builder) {
@@ -472,6 +494,13 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                 if (code instanceof CapabilityStatementKind.Builder) {
                     // use 'instance' to avoid the other special cases
                     enumConstant = CapabilityStatementKind.ValueSet.INSTANCE;
+                }
+                // trd-3:   A named event requires a name, a periodic event requires timing, and a data event requires data
+                if (code instanceof TriggerType.Builder) {
+                    if (enumConstant == TriggerType.ValueSet.PERIODIC) {
+                        // trd-1 has prevented us from including a timing element, but we're good with any other type
+                        enumConstant = TriggerType.ValueSet.DATA_MODIFIED;
+                    }
                 }
                 
                 String enumValue = (String) clazz.getMethod("value").invoke(enumConstant);

@@ -15,6 +15,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -92,11 +93,14 @@ public class List extends DomainResource {
     )
     private final CodeableConcept code;
     @Summary
+    @ReferenceTarget({ "Patient", "Group", "Device", "Location" })
     private final Reference subject;
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     private final DateTime date;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Patient", "Device" })
     private final Reference source;
     @Binding(
         bindingName = "ListOrder",
@@ -710,6 +714,14 @@ public class List extends DomainResource {
         /**
          * The common subject (or patient) of the resources that are in the list if there is one.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param subject
          *     If all resources have the same subject
          * 
@@ -723,6 +735,11 @@ public class List extends DomainResource {
 
         /**
          * The encounter that is the context in which this list was created.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Context in which list created
@@ -752,6 +769,14 @@ public class List extends DomainResource {
         /**
          * The entity responsible for deciding what the contents of the list were. Where the list was created by a human, this is 
          * the same as the author of the list.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Device}</li>
+         * </ul>
          * 
          * @param source
          *     Who and/or what defined the list contents (aka Author)

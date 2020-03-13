@@ -370,8 +370,7 @@ public class SearchUtil {
 
     /**
      * Returns the SearchParameter map (keyed by resource type) for the specified
-     * tenant-id. If , or null if there are
-     * no SearchParameters for the tenant.
+     * tenant-id, or null if there are no SearchParameters for the tenant.
      *
      * @param tenantId
      *                 the tenant-id whose SearchParameters should be returned.
@@ -1001,8 +1000,7 @@ public class SearchUtil {
     public static FHIRSearchContext parseQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType,
             Map<String, List<String>> queryParameters, String queryString) throws Exception {
-        return parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, queryString,
-                true);
+        return parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, true);
     }
 
     /**
@@ -1012,8 +1010,7 @@ public class SearchUtil {
      * @throws Exception
      */
     public static FHIRSearchContext parseQueryParameters(String compartmentName, String compartmentLogicalId,
-            Class<?> resourceType,
-            Map<String, List<String>> queryParameters, String queryString, boolean lenient) throws Exception {
+            Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient) throws Exception {
         List<QueryParameter> parameters = new ArrayList<>();
         QueryParameter parameter;
         QueryParameterValue value;

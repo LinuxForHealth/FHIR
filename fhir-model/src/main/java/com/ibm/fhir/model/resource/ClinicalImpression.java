@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -73,9 +74,11 @@ public class ClinicalImpression extends DomainResource {
     @Summary
     private final String description;
     @Summary
+    @ReferenceTarget({ "Patient", "Group" })
     @Required
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     @Choice({ DateTime.class, Period.class })
@@ -83,7 +86,9 @@ public class ClinicalImpression extends DomainResource {
     @Summary
     private final DateTime date;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final Reference assessor;
+    @ReferenceTarget({ "ClinicalImpression" })
     private final Reference previous;
     @Summary
     private final List<Reference> problem;
@@ -817,6 +822,12 @@ public class ClinicalImpression extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Patient or group assessed
          * 
@@ -831,6 +842,11 @@ public class ClinicalImpression extends DomainResource {
         /**
          * The Encounter during which this ClinicalImpression was created or to which the creation of this record is tightly 
          * associated.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter created as part of
@@ -880,6 +896,12 @@ public class ClinicalImpression extends DomainResource {
         /**
          * The clinician performing the assessment.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
+         * 
          * @param assessor
          *     The clinician performing the assessment
          * 
@@ -895,6 +917,11 @@ public class ClinicalImpression extends DomainResource {
          * A reference to the last assessment that was conducted on this patient. Assessments are often/usually ongoing in 
          * nature; a care provider (practitioner or team) will make new assessments on an ongoing basis as new data arises or the 
          * patient's conditions changes.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link ClinicalImpression}</li>
+         * </ul>
          * 
          * @param previous
          *     Reference to last assessment
@@ -1554,6 +1581,7 @@ public class ClinicalImpression extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
         )
         private final CodeableConcept itemCodeableConcept;
+        @ReferenceTarget({ "Condition", "Observation", "Media" })
         private final Reference itemReference;
         private final String basis;
 
@@ -1794,6 +1822,13 @@ public class ClinicalImpression extends DomainResource {
 
             /**
              * Specific reference for finding or diagnosis, which may include ruled-out or resolved conditions.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Condition}</li>
+             * <li>{@link Observation}</li>
+             * <li>{@link Media}</li>
+             * </ul>
              * 
              * @param itemReference
              *     What was found

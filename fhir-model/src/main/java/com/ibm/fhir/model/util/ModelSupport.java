@@ -36,6 +36,7 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.annotation.System;
@@ -227,6 +228,8 @@ public final class ModelSupport {
         private final boolean repeating;
         private final boolean choice;
         private final Set<Class<?>> choiceTypes;
+        private final boolean reference;
+        private final Set<String> referenceTypes;
         private final Binding binding;
         private final boolean summary;
 
@@ -239,6 +242,8 @@ public final class ModelSupport {
                 boolean repeating, 
                 boolean choice, 
                 Set<Class<?>> choiceTypes, 
+                boolean reference, 
+                Set<String> referenceTypes, 
                 Binding binding,
                 boolean isSummary) {
             this.name = name;
@@ -248,6 +253,8 @@ public final class ModelSupport {
             this.repeating = repeating;
             this.choice = choice;
             this.choiceTypes = choiceTypes;
+            this.reference = reference;
+            this.referenceTypes = referenceTypes;
             this.binding = binding;
             this.summary = isSummary;
             Set<String> choiceElementNames = new LinkedHashSet<>();
@@ -293,6 +300,14 @@ public final class ModelSupport {
 
         public Set<Class<?>> getChoiceTypes() {
             return choiceTypes;
+        }
+
+        public boolean isReference() {
+            return reference;
+        }
+
+        public Set<String> getReferenceTypes() {
+            return referenceTypes;
         }
 
         public Binding getBinding() {
@@ -352,8 +367,10 @@ public final class ModelSupport {
                     boolean summary = isSummary(field);
                     boolean repeating = isRepeating(field);
                     boolean choice = isChoice(field);
+                    boolean reference = isReference(field);
                     Binding binding = field.getAnnotation(Binding.class);
                     Set<Class<?>> choiceTypes = choice ? Collections.unmodifiableSet(getChoiceTypes(field)) : Collections.emptySet();
+                    Set<String> referenceTypes = reference ? Collections.unmodifiableSet(getReferenceTypes(field)) : Collections.emptySet();
                     elementInfoMap.put(elementName, new ElementInfo(
                             elementName, 
                             type, 
@@ -362,6 +379,8 @@ public final class ModelSupport {
                             repeating, 
                             choice, 
                             choiceTypes, 
+                            reference, 
+                            referenceTypes, 
                             binding,
                             summary
                         )
@@ -426,8 +445,27 @@ public final class ModelSupport {
         return Collections.emptySet();
     }
 
+    /**
+     * @param modelClass
+     *            a model class which represents a FHIR resource or element
+     * @param elementName
+     *            the name of the reference element
+     * @return a set of Strings which represent the the allowed target types for the reference
+     */
+    public static Set<String> getReferenceTargetTypes(Class<?> modelClass, String elementName) {
+        ElementInfo elementInfo = getElementInfo(modelClass, elementName);
+        if (elementInfo != null) {
+            return elementInfo.getReferenceTypes();
+        }
+        return Collections.emptySet();
+    }
+
     private static Set<Class<?>> getChoiceTypes(Field field) {
         return new LinkedHashSet<>(Arrays.asList(field.getAnnotation(Choice.class).value()));
+    }
+
+    private static Set<String> getReferenceTypes(Field field) {
+        return new LinkedHashSet<>(Arrays.asList(field.getAnnotation(ReferenceTarget.class).value()));
     }
 
     /**
@@ -650,6 +688,10 @@ public final class ModelSupport {
 
     private static boolean isChoice(Field field) {
         return field.isAnnotationPresent(Choice.class);
+    }
+
+    private static boolean isReference(Field field) {
+        return field.isAnnotationPresent(com.ibm.fhir.model.annotation.ReferenceTarget.class);
     }
 
     /**

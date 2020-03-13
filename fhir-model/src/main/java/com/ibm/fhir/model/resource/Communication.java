@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -96,6 +97,7 @@ public class Communication extends DomainResource {
     )
     private final List<CodeableConcept> medium;
     @Summary
+    @ReferenceTarget({ "Patient", "Group" })
     private final Reference subject;
     @Binding(
         bindingName = "CommunicationTopic",
@@ -106,10 +108,12 @@ public class Communication extends DomainResource {
     private final CodeableConcept topic;
     private final List<Reference> about;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     private final DateTime sent;
     private final DateTime received;
     private final List<Reference> recipient;
+    @ReferenceTarget({ "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService" })
     private final Reference sender;
     @Summary
     @Binding(
@@ -1112,6 +1116,12 @@ public class Communication extends DomainResource {
         /**
          * The patient or group that was the focus of this communication.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Focus of message
          * 
@@ -1174,6 +1184,11 @@ public class Communication extends DomainResource {
         /**
          * The Encounter during which this Communication was created or to which the creation of this record is tightly 
          * associated.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter created as part of
@@ -1257,6 +1272,17 @@ public class Communication extends DomainResource {
         /**
          * The entity (e.g. person, organization, clinical information system, or device) which was the source of the 
          * communication.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link HealthcareService}</li>
+         * </ul>
          * 
          * @param sender
          *     Message sender

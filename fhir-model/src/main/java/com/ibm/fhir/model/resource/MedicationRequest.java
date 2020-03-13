@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -109,14 +110,18 @@ public class MedicationRequest extends DomainResource {
     @Required
     private final Element medication;
     @Summary
+    @ReferenceTarget({ "Patient", "Group" })
     @Required
     private final Reference subject;
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     private final List<Reference> supportingInformation;
     @Summary
     private final DateTime authoredOn;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device" })
     private final Reference requester;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson", "CareTeam" })
     private final Reference performer;
     @Summary
     @Binding(
@@ -126,6 +131,7 @@ public class MedicationRequest extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/performer-role"
     )
     private final CodeableConcept performerType;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final Reference recorder;
     @Binding(
         bindingName = "MedicationRequestReason",
@@ -155,6 +161,7 @@ public class MedicationRequest extends DomainResource {
     private final List<Dosage> dosageInstruction;
     private final DispenseRequest dispenseRequest;
     private final Substitution substitution;
+    @ReferenceTarget({ "MedicationRequest" })
     private final Reference priorPrescription;
     private final List<Reference> detectedIssue;
     private final List<Reference> eventHistory;
@@ -1179,6 +1186,12 @@ public class MedicationRequest extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who or group medication request is for
          * 
@@ -1192,6 +1205,11 @@ public class MedicationRequest extends DomainResource {
 
         /**
          * The Encounter during which this [x] was created or to which the creation of this record is tightly associated.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter created as part of encounter/admission/stay
@@ -1255,6 +1273,16 @@ public class MedicationRequest extends DomainResource {
         /**
          * The individual, organization, or device that initiated the request and has responsibility for its activation.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Device}</li>
+         * </ul>
+         * 
          * @param requester
          *     Who/What requested the Request
          * 
@@ -1268,6 +1296,17 @@ public class MedicationRequest extends DomainResource {
 
         /**
          * The specified desired performer of the medication treatment (e.g. the performer of the medication administration).
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link CareTeam}</li>
+         * </ul>
          * 
          * @param performer
          *     Intended performer of administration
@@ -1297,6 +1336,12 @@ public class MedicationRequest extends DomainResource {
         /**
          * The person who entered the order on behalf of another individual for example in the case of a verbal or a telephone 
          * order.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
          * 
          * @param recorder
          *     Person who entered the request
@@ -1652,6 +1697,11 @@ public class MedicationRequest extends DomainResource {
         /**
          * A link to a resource representing an earlier order related order or prescription.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link MedicationRequest}</li>
+         * </ul>
+         * 
          * @param priorPrescription
          *     An order/prescription that is being replaced
          * 
@@ -1807,6 +1857,7 @@ public class MedicationRequest extends DomainResource {
         private final UnsignedInt numberOfRepeatsAllowed;
         private final SimpleQuantity quantity;
         private final Duration expectedSupplyDuration;
+        @ReferenceTarget({ "Organization" })
         private final Reference performer;
 
         private volatile int hashCode;
@@ -2190,6 +2241,11 @@ public class MedicationRequest extends DomainResource {
 
             /**
              * Indicates the intended dispensing Organization specified by the prescriber.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param performer
              *     Intended dispenser

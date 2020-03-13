@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Age;
@@ -90,20 +91,25 @@ public class Procedure extends DomainResource {
     )
     private final CodeableConcept code;
     @Summary
+    @ReferenceTarget({ "Patient", "Group" })
     @Required
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     @Choice({ DateTime.class, Period.class, String.class, Age.class, Range.class })
     private final Element performed;
     @Summary
+    @ReferenceTarget({ "Patient", "RelatedPerson", "Practitioner", "PractitionerRole" })
     private final Reference recorder;
     @Summary
+    @ReferenceTarget({ "Patient", "RelatedPerson", "Practitioner", "PractitionerRole" })
     private final Reference asserter;
     @Summary
     private final List<Performer> performer;
     @Summary
+    @ReferenceTarget({ "Location" })
     private final Reference location;
     @Summary
     @Binding(
@@ -1145,6 +1151,12 @@ public class Procedure extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who the procedure was performed on
          * 
@@ -1159,6 +1171,11 @@ public class Procedure extends DomainResource {
         /**
          * The Encounter during which this Procedure was created or performed or to which the creation of this record is tightly 
          * associated.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter created as part of
@@ -1198,6 +1215,14 @@ public class Procedure extends DomainResource {
         /**
          * Individual who recorded the record and takes responsibility for its content.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
+         * 
          * @param recorder
          *     Who recorded the procedure
          * 
@@ -1211,6 +1236,14 @@ public class Procedure extends DomainResource {
 
         /**
          * Individual who is making the procedure statement.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
          * 
          * @param asserter
          *     Person who asserts this procedure
@@ -1259,6 +1292,11 @@ public class Procedure extends DomainResource {
 
         /**
          * The location where the procedure actually happened. E.g. a newborn at home, a tracheostomy at a restaurant.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param location
          *     Where the procedure happened
@@ -1735,8 +1773,10 @@ public class Procedure extends DomainResource {
         )
         private final CodeableConcept function;
         @Summary
+        @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device" })
         @Required
         private final Reference actor;
+        @ReferenceTarget({ "Organization" })
         private final Reference onBehalfOf;
 
         private volatile int hashCode;
@@ -1982,6 +2022,16 @@ public class Procedure extends DomainResource {
              * 
              * <p>This element is required.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * <li>{@link Patient}</li>
+             * <li>{@link RelatedPerson}</li>
+             * <li>{@link Device}</li>
+             * </ul>
+             * 
              * @param actor
              *     The reference to the practitioner
              * 
@@ -1995,6 +2045,11 @@ public class Procedure extends DomainResource {
 
             /**
              * The organization the device or practitioner was acting on behalf of.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param onBehalfOf
              *     Organization the device or practitioner was acting for
@@ -2045,6 +2100,7 @@ public class Procedure extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/device-action"
         )
         private final CodeableConcept action;
+        @ReferenceTarget({ "Device" })
         @Required
         private final Reference manipulated;
 
@@ -2271,6 +2327,11 @@ public class Procedure extends DomainResource {
              * The device that was manipulated (changed) during the procedure.
              * 
              * <p>This element is required.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Device}</li>
+             * </ul>
              * 
              * @param manipulated
              *     Device that was changed

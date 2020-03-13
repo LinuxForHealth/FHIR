@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -86,8 +87,10 @@ public class Media extends DomainResource {
     )
     private final CodeableConcept view;
     @Summary
+    @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "Group", "Device", "Specimen", "Location" })
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     @Choice({ DateTime.class, Period.class })
@@ -95,6 +98,7 @@ public class Media extends DomainResource {
     @Summary
     private final Instant issued;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson" })
     private final Reference operator;
     @Summary
     @Binding(
@@ -115,6 +119,7 @@ public class Media extends DomainResource {
     @Summary
     private final String deviceName;
     @Summary
+    @ReferenceTarget({ "Device", "DeviceMetric", "Device" })
     private final Reference device;
     @Summary
     private final PositiveInt height;
@@ -937,6 +942,17 @@ public class Media extends DomainResource {
         /**
          * Who/What this Media is a record of.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Specimen}</li>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who/What this Media is a record of
          * 
@@ -950,6 +966,11 @@ public class Media extends DomainResource {
 
         /**
          * The encounter that establishes the context for this media.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Encounter associated with media
@@ -998,6 +1019,17 @@ public class Media extends DomainResource {
 
         /**
          * The person who administered the collection of the image.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * <li>{@link CareTeam}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link RelatedPerson}</li>
+         * </ul>
          * 
          * @param operator
          *     The person who generated the image
@@ -1074,6 +1106,13 @@ public class Media extends DomainResource {
 
         /**
          * The device used to collect the media.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link DeviceMetric}</li>
+         * <li>{@link Device}</li>
+         * </ul>
          * 
          * @param device
          *     Observing Device

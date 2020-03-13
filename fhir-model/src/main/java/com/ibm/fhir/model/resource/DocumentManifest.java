@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -60,6 +61,7 @@ public class DocumentManifest extends DomainResource {
     )
     private final CodeableConcept type;
     @Summary
+    @ReferenceTarget({ "Patient", "Practitioner", "Group", "Device" })
     private final Reference subject;
     private final DateTime created;
     @Summary
@@ -639,6 +641,14 @@ public class DocumentManifest extends DomainResource {
          * a device (i.e. machine) or even a group of subjects (such as a document about a herd of farm animals, or a set of 
          * patients that share a common exposure). If the documents cross more than one subject, then more than one subject is 
          * allowed here (unusual use case).
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link Device}</li>
+         * </ul>
          * 
          * @param subject
          *     The subject of the set of documents

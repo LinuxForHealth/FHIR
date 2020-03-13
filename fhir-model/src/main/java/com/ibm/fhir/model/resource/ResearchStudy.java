@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -124,8 +125,10 @@ public class ResearchStudy extends DomainResource {
     @Summary
     private final Period period;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference sponsor;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final Reference principalInvestigator;
     @Summary
     private final List<Reference> site;
@@ -1292,6 +1295,11 @@ public class ResearchStudy extends DomainResource {
         /**
          * An organization that initiates the investigation and is legally responsible for the study.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param sponsor
          *     Organization that initiates and is legally responsible for the study
          * 
@@ -1307,6 +1315,12 @@ public class ResearchStudy extends DomainResource {
          * A researcher in a study who oversees multiple aspects of the study, such as concept development, protocol writing, 
          * protocol submission for IRB approval, participant recruitment, informed consent, data collection, analysis, 
          * interpretation and presentation.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
          * 
          * @param principalInvestigator
          *     Researcher who oversees multiple aspects of the study

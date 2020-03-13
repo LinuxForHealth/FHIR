@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -106,10 +107,12 @@ public class Observation extends DomainResource {
     @Required
     private final CodeableConcept code;
     @Summary
+    @ReferenceTarget({ "Patient", "Group", "Device", "Location" })
     private final Reference subject;
     @Summary
     private final List<Reference> focus;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     @Choice({ DateTime.class, Period.class, Timing.class, Instant.class })
@@ -150,7 +153,9 @@ public class Observation extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/observation-methods"
     )
     private final CodeableConcept method;
+    @ReferenceTarget({ "Specimen" })
     private final Reference specimen;
+    @ReferenceTarget({ "Device", "DeviceMetric" })
     private final Reference device;
     private final List<ReferenceRange> referenceRange;
     @Summary
@@ -1025,6 +1030,14 @@ public class Observation extends DomainResource {
          * is placed. If the actual focus of the observation is different from the subject (or a sample of, part, or region of 
          * the subject), the `focus` element or the `code` itself specifies the actual focus of the observation.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * <li>{@link Group}</li>
+         * <li>{@link Device}</li>
+         * <li>{@link Location}</li>
+         * </ul>
+         * 
          * @param subject
          *     Who and/or what the observation is about
          * 
@@ -1082,6 +1095,11 @@ public class Observation extends DomainResource {
 
         /**
          * The healthcare event (e.g. a patient and healthcare provider interaction) during which this observation is made.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Healthcare event during which this observation is made
@@ -1309,6 +1327,11 @@ public class Observation extends DomainResource {
         /**
          * The specimen that was used when this observation was made.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Specimen}</li>
+         * </ul>
+         * 
          * @param specimen
          *     Specimen used for this observation
          * 
@@ -1322,6 +1345,12 @@ public class Observation extends DomainResource {
 
         /**
          * The device used to generate the observation data.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Device}</li>
+         * <li>{@link DeviceMetric}</li>
+         * </ul>
          * 
          * @param device
          *     (Measurement) Device

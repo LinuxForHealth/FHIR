@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -71,11 +72,13 @@ public class DetectedIssue extends DomainResource {
     )
     private final DetectedIssueSeverity severity;
     @Summary
+    @ReferenceTarget({ "Patient" })
     private final Reference patient;
     @Summary
     @Choice({ DateTime.class, Period.class })
     private final Element identified;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Device" })
     private final Reference author;
     @Summary
     private final List<Reference> implicated;
@@ -645,6 +648,11 @@ public class DetectedIssue extends DomainResource {
         /**
          * Indicates the patient whose record the detected issue is associated with.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param patient
          *     Associated patient
          * 
@@ -679,6 +687,13 @@ public class DetectedIssue extends DomainResource {
         /**
          * Individual or device responsible for the issue being raised. For example, a decision support application or a 
          * pharmacist conducting a medication review.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Device}</li>
+         * </ul>
          * 
          * @param author
          *     The provider or device that identified the issue
@@ -1182,6 +1197,7 @@ public class DetectedIssue extends DomainResource {
         @Required
         private final CodeableConcept action;
         private final DateTime date;
+        @ReferenceTarget({ "Practitioner", "PractitionerRole" })
         private final Reference author;
 
         private volatile int hashCode;
@@ -1439,6 +1455,12 @@ public class DetectedIssue extends DomainResource {
 
             /**
              * Identifies the practitioner who determined the mitigation and takes responsibility for the mitigation step occurring.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * </ul>
              * 
              * @param author
              *     Who is committing?

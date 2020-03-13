@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -96,6 +97,7 @@ public class Composition extends DomainResource {
     @Summary
     private final Reference subject;
     @Summary
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     @Required
@@ -116,6 +118,7 @@ public class Composition extends DomainResource {
     private final DocumentConfidentiality confidentiality;
     private final List<Attester> attester;
     @Summary
+    @ReferenceTarget({ "Organization" })
     private final Reference custodian;
     private final List<RelatesTo> relatesTo;
     @Summary
@@ -755,6 +758,11 @@ public class Composition extends DomainResource {
         /**
          * Describes the clinical encounter or type of care this documentation is associated with.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
+         * 
          * @param encounter
          *     Context of the Composition
          * 
@@ -887,6 +895,11 @@ public class Composition extends DomainResource {
         /**
          * Identifies the organization or group who is responsible for ongoing maintenance of and access to the 
          * composition/document information.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param custodian
          *     Organization which maintains the composition
@@ -1055,6 +1068,7 @@ public class Composition extends DomainResource {
         @Required
         private final CompositionAttestationMode mode;
         private final DateTime time;
+        @ReferenceTarget({ "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Organization" })
         private final Reference party;
 
         private volatile int hashCode;
@@ -1310,6 +1324,15 @@ public class Composition extends DomainResource {
 
             /**
              * Who attested the composition in the specified way.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Patient}</li>
+             * <li>{@link RelatedPerson}</li>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param party
              *     Who attested the composition

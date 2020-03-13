@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -54,6 +55,7 @@ public class SupplyDelivery extends DomainResource {
         valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-status|4.0.1"
     )
     private final SupplyDeliveryStatus status;
+    @ReferenceTarget({ "Patient" })
     private final Reference patient;
     @Binding(
         bindingName = "SupplyDeliveryType",
@@ -66,7 +68,9 @@ public class SupplyDelivery extends DomainResource {
     @Summary
     @Choice({ DateTime.class, Period.class, Timing.class })
     private final Element occurrence;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     private final Reference supplier;
+    @ReferenceTarget({ "Location" })
     private final Reference destination;
     private final List<Reference> receiver;
 
@@ -652,6 +656,11 @@ public class SupplyDelivery extends DomainResource {
         /**
          * A link to a resource representing the person whom the delivered item is for.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param patient
          *     Patient for whom the item is supplied
          * 
@@ -716,6 +725,13 @@ public class SupplyDelivery extends DomainResource {
         /**
          * The individual responsible for dispensing the medication, supplier or device.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param supplier
          *     Dispenser
          * 
@@ -729,6 +745,11 @@ public class SupplyDelivery extends DomainResource {
 
         /**
          * Identification of the facility/location where the Supply was shipped to, as part of the dispense event.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param destination
          *     Where the Supply was sent

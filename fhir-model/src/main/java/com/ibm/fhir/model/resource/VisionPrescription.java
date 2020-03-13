@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -58,13 +59,16 @@ public class VisionPrescription extends DomainResource {
     @Required
     private final DateTime created;
     @Summary
+    @ReferenceTarget({ "Patient" })
     @Required
     private final Reference patient;
+    @ReferenceTarget({ "Encounter" })
     private final Reference encounter;
     @Summary
     @Required
     private final DateTime dateWritten;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     @Required
     private final Reference prescriber;
     @Summary
@@ -557,6 +561,11 @@ public class VisionPrescription extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param patient
          *     Who prescription is for
          * 
@@ -571,6 +580,11 @@ public class VisionPrescription extends DomainResource {
         /**
          * A reference to a resource that identifies the particular occurrence of contact between patient and health care 
          * provider during which the prescription was issued.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Encounter}</li>
+         * </ul>
          * 
          * @param encounter
          *     Created during encounter / admission / stay
@@ -603,6 +617,12 @@ public class VisionPrescription extends DomainResource {
          * The healthcare professional responsible for authorizing the prescription.
          * 
          * <p>This element is required.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
          * 
          * @param prescriber
          *     Who authorized the vision prescription

@@ -24,7 +24,7 @@ public class R4ExamplesTest {
     
     @BeforeClass
     public void setup() {
-        FHIRModelConfig.setCheckReferenceTypes(false);
+//        FHIRModelConfig.setCheckReferenceTypes(false);
         driver = new R4ExamplesDriver();
     }
 
@@ -52,6 +52,6 @@ public class R4ExamplesTest {
         R4ExamplesTest self = new R4ExamplesTest();
         self.setup();
         self.driver.setProcessor(new SerializationProcessor());
-        self.driver.processExample("xml/ibm/complete-mock/RiskAssessment-1.xml", Format.XML, Expectation.OK);
+        self.driver.processExample("json/ibm/complete-mock/Account-1.json", Format.JSON, Expectation.OK);
     }
 }

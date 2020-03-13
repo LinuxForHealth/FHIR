@@ -141,7 +141,7 @@ public interface FHIRResourceHelpers {
      *            the request Bundle
      * @return the response Bundle
      */
-    public Bundle doBundle(Resource bundle, Map<String, String> requestProperties) throws Exception;
+    public Bundle doBundle(Bundle bundle, Map<String, String> requestProperties) throws Exception;
     
     public FHIRPersistenceTransaction getTransaction() throws Exception;
 }

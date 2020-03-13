@@ -82,6 +82,15 @@
           "code": "s"
         }
       }
+    }, 
+    {
+        "url": "http://example.org/Quantity-withExponent",
+        "valueQuantity": {
+            "value": 1.2E+2,
+            "unit": "mm[Hg]",
+            "system": "http://unitsofmeasure.org",
+            "code": "mm[Hg]"
+        }
     }
   ]
 }

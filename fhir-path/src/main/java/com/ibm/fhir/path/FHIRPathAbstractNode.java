@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  * 
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -78,6 +78,12 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
         return nodeType.cast(this);
     }
     
+    /**
+     * Convert this {@link FHIRPathNode} instance into a {@link FHIRPathNode.Builder} instance
+     * 
+     * @return
+     *     a new {@link FHIRPathNode.Builder} instance containing the fields from this {@link FHIRPathNode} instance
+     */
     public abstract Builder toBuilder();
     
     public static abstract class Builder implements FHIRPathNode.Builder {
@@ -128,7 +134,7 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
             this.children.addAll(children);
             return this;
         }
-
+        
         @Override
         public abstract FHIRPathNode build();
     }

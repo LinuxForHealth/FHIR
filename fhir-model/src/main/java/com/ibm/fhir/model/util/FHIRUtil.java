@@ -206,10 +206,9 @@ public class FHIRUtil {
      * Build an OperationOutcome for the specified exception.
      */
     public static OperationOutcome buildOperationOutcome(Exception exception, IssueType issueType, IssueSeverity severity,
-        boolean includeCausedByClauses) {
+            boolean includeCausedByClauses) {
         // First, build a set of exception messages to be included in the OperationOutcome.
-        // We'll include the exception message from each exception in the hierarchy,
-        // following the "causedBy" exceptions.
+        // We'll include the exception message from each exception in the hierarchy, following the "causedBy" exceptions.
         StringBuilder msgs = new StringBuilder();
         Throwable e = exception;
         String causedBy = "";
@@ -236,14 +235,17 @@ public class FHIRUtil {
      */
     public static OperationOutcome buildOperationOutcome(String message, IssueType issueType, IssueSeverity severity) {
         if (issueType == null) {
-            issueType = IssueType.PROCESSING;
+            issueType = IssueType.EXCEPTION;
         }
         if (severity == null) {
             severity = IssueSeverity.FATAL;
         }
         // Build an OperationOutcomeIssue that contains the exception messages.
-        OperationOutcome.Issue ooi =
-                OperationOutcome.Issue.builder().severity(severity).code(issueType).details(CodeableConcept.builder().text(string(message)).build()).build();
+        OperationOutcome.Issue ooi = OperationOutcome.Issue.builder()
+                .severity(severity)
+                .code(issueType)
+                .details(CodeableConcept.builder().text(string(message)).build())
+                .build();
 
         // Next, build the OperationOutcome.
         OperationOutcome oo = OperationOutcome.builder().issue(Collections.singletonList(ooi)).build();

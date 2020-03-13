@@ -1,0 +1,26 @@
+{
+    "resourceType": "DeviceMetric",
+    "meta": {
+        "tag": [
+            {
+                "code": "ibm/minimal"
+            }
+        ]
+    },
+    "type": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                "valueCode": "unknown"
+            }
+        ]
+    },
+    "_category": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                "valueCode": "unknown"
+            }
+        ]
+    }
+}

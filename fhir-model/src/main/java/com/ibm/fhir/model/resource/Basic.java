@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
@@ -52,6 +53,7 @@ public class Basic extends DomainResource {
     @Summary
     private final Date created;
     @Summary
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization" })
     private final Reference author;
 
     private volatile int hashCode;
@@ -497,6 +499,15 @@ public class Basic extends DomainResource {
 
         /**
          * Indicates who was responsible for creating the resource instance.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Patient}</li>
+         * <li>{@link RelatedPerson}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param author
          *     Who created

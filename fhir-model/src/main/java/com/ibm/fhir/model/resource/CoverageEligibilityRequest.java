@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -76,6 +77,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     @Required
     private final List<EligibilityRequestPurpose> purpose;
     @Summary
+    @ReferenceTarget({ "Patient" })
     @Required
     private final Reference patient;
     @Choice({ Date.class, Period.class })
@@ -83,11 +85,15 @@ public class CoverageEligibilityRequest extends DomainResource {
     @Summary
     @Required
     private final DateTime created;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final Reference enterer;
+    @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     private final Reference provider;
     @Summary
+    @ReferenceTarget({ "Organization" })
     @Required
     private final Reference insurer;
+    @ReferenceTarget({ "Location" })
     private final Reference facility;
     private final List<SupportingInfo> supportingInfo;
     private final List<Insurance> insurance;
@@ -719,6 +725,11 @@ public class CoverageEligibilityRequest extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Patient}</li>
+         * </ul>
+         * 
          * @param patient
          *     Intended recipient of products and services
          * 
@@ -769,6 +780,12 @@ public class CoverageEligibilityRequest extends DomainResource {
         /**
          * Person who created the request.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * </ul>
+         * 
          * @param enterer
          *     Author
          * 
@@ -782,6 +799,13 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         /**
          * The provider which is responsible for the request.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Practitioner}</li>
+         * <li>{@link PractitionerRole}</li>
+         * <li>{@link Organization}</li>
+         * </ul>
          * 
          * @param provider
          *     Party responsible for the request
@@ -799,6 +823,11 @@ public class CoverageEligibilityRequest extends DomainResource {
          * 
          * <p>This element is required.
          * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Organization}</li>
+         * </ul>
+         * 
          * @param insurer
          *     Coverage issuer
          * 
@@ -812,6 +841,11 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         /**
          * Facility where the services are intended to be provided.
+         * 
+         * <p>Allowed resource types for this reference:
+         * <ul>
+         * <li>{@link Location}</li>
+         * </ul>
          * 
          * @param facility
          *     Servicing facility
@@ -1281,6 +1315,7 @@ public class CoverageEligibilityRequest extends DomainResource {
      */
     public static class Insurance extends BackboneElement {
         private final Boolean focal;
+        @ReferenceTarget({ "Coverage" })
         @Required
         private final Reference coverage;
         private final String businessArrangement;
@@ -1527,6 +1562,11 @@ public class CoverageEligibilityRequest extends DomainResource {
              * 
              * <p>This element is required.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Coverage}</li>
+             * </ul>
+             * 
              * @param coverage
              *     Insurance information
              * 
@@ -1605,9 +1645,11 @@ public class CoverageEligibilityRequest extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
         )
         private final List<CodeableConcept> modifier;
+        @ReferenceTarget({ "Practitioner", "PractitionerRole" })
         private final Reference provider;
         private final SimpleQuantity quantity;
         private final Money unitPrice;
+        @ReferenceTarget({ "Location", "Organization" })
         private final Reference facility;
         private final List<Diagnosis> diagnosis;
         private final List<Reference> detail;
@@ -2045,6 +2087,12 @@ public class CoverageEligibilityRequest extends DomainResource {
             /**
              * The practitioner who is responsible for the product or service to be rendered to the patient.
              * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Practitioner}</li>
+             * <li>{@link PractitionerRole}</li>
+             * </ul>
+             * 
              * @param provider
              *     Perfoming practitioner
              * 
@@ -2086,6 +2134,12 @@ public class CoverageEligibilityRequest extends DomainResource {
 
             /**
              * Facility where the services will be provided.
+             * 
+             * <p>Allowed resource types for this reference:
+             * <ul>
+             * <li>{@link Location}</li>
+             * <li>{@link Organization}</li>
+             * </ul>
              * 
              * @param facility
              *     Servicing facility

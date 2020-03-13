@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  * 
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -77,6 +77,10 @@ import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.model.type.Xhtml;
 import com.ibm.fhir.model.util.ModelSupport;
 
+/**
+ * An enumeration that contains all of the FHIR base types, FHIR complex data types, FHIRPath primitive data types, FHIR resource types, 
+ * FHIRPath system types and FHIRPath metamodel types needed for evaluating FHIRPath expressions
+ */
 public enum FHIRPathType {
     // FHIR base types
     FHIR_ANY("FHIR", "Any"),
@@ -339,7 +343,7 @@ public enum FHIRPathType {
         }
         return Collections.unmodifiableMap(typeNameMap);
     }
-
+    
     private static Map<Class<?>, FHIRPathType> buildMetamodelTypeMap() {
         Map<Class<?>, FHIRPathType> metamodelTypeMap = new HashMap<>();
         metamodelTypeMap.put(TypeInfo.class, SYSTEM_TYPE_INFO);
@@ -363,7 +367,7 @@ public enum FHIRPathType {
         javaTypeMap.put(java.time.Year.class, SYSTEM_DATE_TIME);
         return Collections.unmodifiableMap(javaTypeMap);
     }
-
+    
     private static Map<Class<?>, FHIRPathType> buildTypeMap() {
         Map<Class<?>, FHIRPathType> typeMap = new HashMap<>();
         for (FHIRPathType type : FHIRPathType.values()) {
@@ -373,7 +377,7 @@ public enum FHIRPathType {
         }
         return Collections.unmodifiableMap(typeMap);
     }
-
+    
     FHIRPathType(java.lang.String namespace, java.lang.String name) {
         this(namespace, name, null, null);
     }
@@ -381,7 +385,7 @@ public enum FHIRPathType {
     FHIRPathType(java.lang.String namespace, java.lang.String name, FHIRPathType baseType) {
         this(namespace, name, baseType, null);
     }
-  
+    
     FHIRPathType(java.lang.String namespace, java.lang.String name, FHIRPathType baseType, Class<?> modelClass) {
         this.namespace = namespace;
         this.name = name;
@@ -389,18 +393,42 @@ public enum FHIRPathType {
         this.modelClass = modelClass;
     }
     
+    /**
+     * The namespace of this FHIRPathType
+     * 
+     * @return
+     *     the namespace of this FHIRPathType
+     */
     public java.lang.String namespace() {
         return namespace;
     }
     
+    /**
+     * The name of this FHIRPathType
+     * 
+     * @return
+     *     the name of this FHIRPathType
+     */
     public java.lang.String getName() {
         return name;
     }
     
+    /**
+     * The base type of this FHIRPathType
+     * 
+     * @return
+     *     the base type of this FHIRPathType if exists, otherwise null
+     */
     public FHIRPathType baseType() {
         return baseType;
     }
     
+    /**
+     * The model class that corresponds to this FHIRPathType
+     * 
+     * @return
+     *     the model class that corresponds to this FHIRPathType if exists, otherwise null
+     */
     public Class<?> modelClass() {
         return modelClass;
     }
@@ -437,6 +465,14 @@ public enum FHIRPathType {
         return (type.baseType != null && isAssignableFrom(type.baseType));
     }
     
+    /**
+     * Create a FHIRPathType from the {@link java.lang.String} name parameter
+     * 
+     * @param name
+     *     the name
+     * @return
+     *     the FHIRPathType that corresponds to the name parameter if exists, otherwise null
+     */
     public static FHIRPathType from(java.lang.String name) {
         if (name.contains(".")) {
             return TYPE_NAME_MAP.get(name);
@@ -448,10 +484,28 @@ public enum FHIRPathType {
         return type;
     }
     
+    /**
+     * Create a FHIRPathType from a {@link java.lang.String} name and {@link java.lang.String} namespace
+     * 
+     * @param namespace
+     *     the namespace
+     * @param name
+     *     the name
+     * @return
+     *     the FHIRPathType that corresponds to the name and namespace parameters if exists, otherwise null
+     */
     public static FHIRPathType from(java.lang.String namespace, java.lang.String name) {
         return TYPE_NAME_MAP.get(namespace + "." + name);
     }
     
+    /**
+     * Create a FHIRPathType from a {@link Class} class
+     * 
+     * @param clazz
+     *     the class
+     * @return
+     *     the FHIRPathType that corresponds to the clazz parameter if exists, otherwise null
+     */
     public static FHIRPathType from(Class<?> clazz) {
         if (TypeInfo.class.isAssignableFrom(clazz)) {
             return METAMODEL_TYPE_MAP.get(clazz);
@@ -473,22 +527,58 @@ public enum FHIRPathType {
         return null;
     }
     
+    /**
+     * The set of FHIRPath system types
+     * 
+     * @return
+     *     the set of FHIRPath system types
+     */
     public static Set<FHIRPathType> getSystemTypes() {
         return SYSTEM_TYPES;
     }
     
+    /**
+     * Indicates whether the parameter is a FHIRPath system type
+     * 
+     * @param type
+     *     the type
+     * @return
+     *     true if the parameter is a FHIRPath system type, otherwise false
+     */
     public static boolean isSystemType(FHIRPathType type) {
         return SYSTEM_TYPES.contains(type);
     }
     
+    /**
+     * The set of FHIRPath metamodel thypes
+     * 
+     * @return
+     *     the set of FHIRPath metamodel types
+     */
     public static Set<FHIRPathType> getMetamodelTypes() {
         return METAMODEL_TYPES;
     }
     
+    /**
+     * Indicates whether the parameter is a FHIRPath metamodel type
+     * 
+     * @param type
+     *     the type
+     * @return
+     *     true if the parameter is a FHIRPath metamodel type, otherwise false
+     */
     public static boolean isMetamodelType(FHIRPathType type) {
         return METAMODEL_TYPES.contains(type);
     }
     
+    /**
+     * Indicates whether the parameter is a Java type
+     * 
+     * @param type
+     *     the type
+     * @return
+     *     true if the parameter is a Java type, otherwise false
+     */
     public static boolean isJavaType(Class<?> clazz) {
         return clazz.getName().startsWith("java.");
     }
