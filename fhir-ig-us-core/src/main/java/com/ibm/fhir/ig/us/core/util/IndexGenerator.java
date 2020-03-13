@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,7 @@ import com.ibm.fhir.model.resource.Resource;
 public class IndexGenerator {
     public static void main(String[] args) throws Exception {
         List<String> index = new ArrayList<>();
-        File dir = new File("src/main/resources/resources/");
+        File dir = new File("src/main/resources/package/");
         for (File file : dir.listFiles()) {
             if (!file.isDirectory()) {
                 try (FileReader reader = new FileReader(file)) {
@@ -36,7 +36,7 @@ public class IndexGenerator {
                         String url = getUrl(resource);
                         String version = getVersion(resource);
                         if (url != null && version != null) {
-                            index.add(String.format("%s,%s,%s", url, version, "resources/" + file.getName()));
+                            index.add(String.format("%s,%s,%s", url, version, "package/" + file.getName()));
                         }
                     } catch (FHIRParserException e) {
                         System.err.println("Unable to add: " + file.getName() + " to the index due to exception: " + e.getMessage());
