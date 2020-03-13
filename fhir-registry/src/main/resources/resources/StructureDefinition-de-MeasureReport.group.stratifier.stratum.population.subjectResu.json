@@ -1,0 +1,72 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MeasureReport.group.stratifier.stratum.population.subjectResu",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MeasureReport.group.stratifier.stratum.population.subjectResu",
+    "version": "4.0.1",
+    "name": "MeasureReport.group.stratifier.stratum.population.subjectResults",
+    "title": "MeasureReport.group.stratifier.stratum.population.subjectResults",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MeasureReport.group.stratifier.stratum.population.subjectResults",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MeasureReport.group.stratifier.stratum.population.subjectResults",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MeasureReport.group.stratifier.stratum.population.subjectResults",
+                "path": "MeasureReport.group.stratifier.stratum.population.subjectResults",
+                "short": "For subject-list reports, the subject results in this population",
+                "definition": "This element refers to a List of subject level MeasureReport resources, one for each subject in this population in this stratum.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MeasureReport.group.stratifier.stratum.population.subjectResults",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/List"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

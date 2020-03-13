@@ -1,0 +1,68 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicinalProductAuthorization.subject",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicinalProductAuthorization.subject",
+    "version": "4.0.1",
+    "name": "MedicinalProductAuthorization.subject",
+    "title": "MedicinalProductAuthorization.subject",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicinalProductAuthorization.subject",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicinalProductAuthorization.subject",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicinalProductAuthorization.subject",
+                "path": "MedicinalProductAuthorization.subject",
+                "short": "The medicinal product that is being authorized",
+                "definition": "The medicinal product that is being authorized.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MedicinalProductAuthorization.subject",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/MedicinalProduct",
+                            "http://hl7.org/fhir/StructureDefinition/MedicinalProductPackaged"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

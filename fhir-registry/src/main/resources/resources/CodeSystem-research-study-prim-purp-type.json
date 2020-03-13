@@ -2,7 +2,7 @@
     "resourceType": "CodeSystem",
     "id": "research-study-prim-purp-type",
     "meta": {
-        "lastUpdated": "2018-12-27T22:37:54.724+11:00"
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
         "status": "generated",
@@ -19,22 +19,22 @@
         },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
-            "valueInteger": 0
+            "valueInteger": 1
         }
     ],
     "url": "http://terminology.hl7.org/CodeSystem/research-study-prim-purp-type",
     "identifier": [
         {
             "system": "urn:ietf:rfc:3986",
-            "value": "urn:oid:2.16.840.1.113883.4.642.1.1250"
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.1250"
         }
     ],
-    "version": "4.0.0",
+    "version": "4.0.1",
     "name": "ResearchStudyPrimaryPurposeType",
     "title": "ResearchStudyPrimaryPurposeType",
     "status": "draft",
     "experimental": false,
-    "date": "2018-12-27T22:37:54+11:00",
+    "date": "2019-11-01T09:29:23+11:00",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {

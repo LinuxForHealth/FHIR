@@ -1,0 +1,85 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MessageHeader.source.contact",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MessageHeader.source.contact",
+    "version": "4.0.1",
+    "name": "MessageHeader.source.contact",
+    "title": "MessageHeader.source.contact",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MessageHeader.source.contact",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MessageHeader.source.contact",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MessageHeader.source.contact",
+                "path": "MessageHeader.source.contact",
+                "short": "Human contact for problems",
+                "definition": "An e-mail, phone, website or other contact point to use to resolve issues with message communications.",
+                "requirements": "Allows escalation of technical issues.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MessageHeader.source.contact",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "ContactPoint"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "(MSH-22?)"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "unique(./entity[determinerCode=\"INST\" and classCode=\"DEV\"]/scopesRole[normalRole() and classCode=\"CON\" and layer[classCode=\"PSN\"]/telecom[isNormalDatatype()])"
+                    }
+                ]
+            }
+        ]
+    }
+}

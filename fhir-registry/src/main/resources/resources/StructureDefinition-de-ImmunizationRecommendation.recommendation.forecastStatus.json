@@ -1,0 +1,101 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ImmunizationRecommendation.recommendation.forecastStatus",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ImmunizationRecommendation.recommendation.forecastStatus",
+    "version": "4.0.1",
+    "name": "ImmunizationRecommendation.recommendation.forecastStatus",
+    "title": "ImmunizationRecommendation.recommendation.forecastStatus",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ImmunizationRecommendation.recommendation.forecastStatus",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ImmunizationRecommendation.recommendation.forecastStatus",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ImmunizationRecommendation.recommendation.forecastStatus",
+                "path": "ImmunizationRecommendation.recommendation.forecastStatus",
+                "short": "Vaccine recommendation status",
+                "definition": "Indicates the patient status with respect to the path to immunity for the target disease.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "ImmunizationRecommendation.recommendation.forecastStatus",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "This element is labeled as a modifier because the forecastStatus indicates whether a patient needs additional doses (due, overdue, etc) or not  (contraindicated, complete, etc).",
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ImmunizationRecommendationStatus"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The patient's status with respect to a vaccination protocol.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/immunization-recommendation-status"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "OBX-5 : OBX-3 = 59783-1"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".inboundRelationship[typeCode=SUBJ] .source[classCode=OBS, moodCode=EVN, code=\"Immunization Forecast Status\"].value"
+                    }
+                ]
+            }
+        ]
+    }
+}

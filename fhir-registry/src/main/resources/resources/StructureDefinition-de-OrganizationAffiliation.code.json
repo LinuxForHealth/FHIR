@@ -1,0 +1,86 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-OrganizationAffiliation.code",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-OrganizationAffiliation.code",
+    "version": "4.0.1",
+    "name": "OrganizationAffiliation.code",
+    "title": "OrganizationAffiliation.code",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for OrganizationAffiliation.code",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "OrganizationAffiliation.code",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "OrganizationAffiliation.code",
+                "path": "OrganizationAffiliation.code",
+                "short": "Definition of the role the participatingOrganization plays",
+                "definition": "Definition of the role the participatingOrganization plays in the association.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "OrganizationAffiliation.code",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "OrganizationAffiliation"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The role the participating organization providing services to the primary organization.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/organization-role"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".code"
+                    }
+                ]
+            }
+        ]
+    }
+}

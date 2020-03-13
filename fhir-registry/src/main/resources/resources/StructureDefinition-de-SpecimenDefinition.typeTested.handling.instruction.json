@@ -1,0 +1,75 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-SpecimenDefinition.typeTested.handling.instruction",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-SpecimenDefinition.typeTested.handling.instruction",
+    "version": "4.0.1",
+    "name": "SpecimenDefinition.typeTested.handling.instruction",
+    "title": "SpecimenDefinition.typeTested.handling.instruction",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for SpecimenDefinition.typeTested.handling.instruction",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "SpecimenDefinition.typeTested.handling.instruction",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "SpecimenDefinition.typeTested.handling.instruction",
+                "path": "SpecimenDefinition.typeTested.handling.instruction",
+                "short": "Preservation instruction",
+                "definition": "Additional textual instructions for the preservation or transport of the specimen. For instance, 'Protect from light exposure'.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "SpecimenDefinition.typeTested.handling.instruction",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "string"
+                    }
+                ],
+                "example": [
+                    {
+                        "label": "General",
+                        "valueString": "freeze within 4 hours"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

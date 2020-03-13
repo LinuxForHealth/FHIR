@@ -1,0 +1,69 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicinalProductInteraction.subject",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicinalProductInteraction.subject",
+    "version": "4.0.1",
+    "name": "MedicinalProductInteraction.subject",
+    "title": "MedicinalProductInteraction.subject",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicinalProductInteraction.subject",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicinalProductInteraction.subject",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicinalProductInteraction.subject",
+                "path": "MedicinalProductInteraction.subject",
+                "short": "The medication for which this is a described interaction",
+                "definition": "The medication for which this is a described interaction.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "MedicinalProductInteraction.subject",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/MedicinalProduct",
+                            "http://hl7.org/fhir/StructureDefinition/Medication",
+                            "http://hl7.org/fhir/StructureDefinition/Substance"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

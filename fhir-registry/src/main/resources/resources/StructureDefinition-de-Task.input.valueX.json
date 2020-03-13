@@ -1,0 +1,232 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Task.input.valueX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Task.input.valueX",
+    "version": "4.0.1",
+    "name": "Task.input.value[x]",
+    "title": "Task.input.value[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Task.input.value[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Task.input.value[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Task.input.value[x]",
+                "path": "Task.input.value[x]",
+                "short": "Content to use in performing the task",
+                "definition": "The value of the input parameter as a basic type.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Task.input.value[x]",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "base64Binary"
+                    },
+                    {
+                        "code": "boolean"
+                    },
+                    {
+                        "code": "canonical"
+                    },
+                    {
+                        "code": "code"
+                    },
+                    {
+                        "code": "date"
+                    },
+                    {
+                        "code": "dateTime"
+                    },
+                    {
+                        "code": "decimal"
+                    },
+                    {
+                        "code": "id"
+                    },
+                    {
+                        "code": "instant"
+                    },
+                    {
+                        "code": "integer"
+                    },
+                    {
+                        "code": "markdown"
+                    },
+                    {
+                        "code": "oid"
+                    },
+                    {
+                        "code": "positiveInt"
+                    },
+                    {
+                        "code": "string"
+                    },
+                    {
+                        "code": "time"
+                    },
+                    {
+                        "code": "unsignedInt"
+                    },
+                    {
+                        "code": "uri"
+                    },
+                    {
+                        "code": "url"
+                    },
+                    {
+                        "code": "uuid"
+                    },
+                    {
+                        "code": "Address"
+                    },
+                    {
+                        "code": "Age"
+                    },
+                    {
+                        "code": "Annotation"
+                    },
+                    {
+                        "code": "Attachment"
+                    },
+                    {
+                        "code": "CodeableConcept"
+                    },
+                    {
+                        "code": "Coding"
+                    },
+                    {
+                        "code": "ContactPoint"
+                    },
+                    {
+                        "code": "Count"
+                    },
+                    {
+                        "code": "Distance"
+                    },
+                    {
+                        "code": "Duration"
+                    },
+                    {
+                        "code": "HumanName"
+                    },
+                    {
+                        "code": "Identifier"
+                    },
+                    {
+                        "code": "Money"
+                    },
+                    {
+                        "code": "Period"
+                    },
+                    {
+                        "code": "Quantity"
+                    },
+                    {
+                        "code": "Range"
+                    },
+                    {
+                        "code": "Ratio"
+                    },
+                    {
+                        "code": "Reference"
+                    },
+                    {
+                        "code": "SampledData"
+                    },
+                    {
+                        "code": "Signature"
+                    },
+                    {
+                        "code": "Timing"
+                    },
+                    {
+                        "code": "ContactDetail"
+                    },
+                    {
+                        "code": "Contributor"
+                    },
+                    {
+                        "code": "DataRequirement"
+                    },
+                    {
+                        "code": "Expression"
+                    },
+                    {
+                        "code": "ParameterDefinition"
+                    },
+                    {
+                        "code": "RelatedArtifact"
+                    },
+                    {
+                        "code": "TriggerDefinition"
+                    },
+                    {
+                        "code": "UsageContext"
+                    },
+                    {
+                        "code": "Dosage"
+                    },
+                    {
+                        "code": "Meta"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "???"
+                    }
+                ]
+            }
+        ]
+    }
+}

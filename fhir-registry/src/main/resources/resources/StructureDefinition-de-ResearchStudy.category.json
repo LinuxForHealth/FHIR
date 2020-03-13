@@ -1,0 +1,104 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ResearchStudy.category",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ResearchStudy.category",
+    "version": "4.0.1",
+    "name": "ResearchStudy.category",
+    "title": "ResearchStudy.category",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ResearchStudy.category",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "BRIDG5.1",
+            "uri": "https://bridgmodel.nci.nih.gov",
+            "name": "BRIDG 5.1 Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "clinicaltrials-gov",
+            "uri": "http://clinicaltrials.gov",
+            "name": "ClinicalTrials.gov Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ResearchStudy.category",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ResearchStudy.category",
+                "path": "ResearchStudy.category",
+                "short": "Classifications for the study",
+                "definition": "Codes categorizing the type of study such as investigational vs. observational, type of blinding, type of randomization, safety vs. efficacy, etc.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ResearchStudy.category",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ResearchStudyCategory"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Codes that describe the type of research study.  E.g. Study phase, Interventional/Observational, blinding type, etc."
+                },
+                "mapping": [
+                    {
+                        "identity": "clinicaltrials-gov",
+                        "map": "Study Type; Primary Purpose; Interventional Model; Masking; Allocation; study Classification; Observational Study Model; Time Perspective; Biospecimen Retention"
+                    },
+                    {
+                        "identity": "BRIDG5.1",
+                        "map": "InterventionalStudyProtocolVersion; InterventionalStudyProtocol.allocationCode; InterventionalStudyProtocol.blindedRoleCode; InterventionalStudyProtocol.blindingSchemaCode; InterventionalStudyProtocol.controlTypeCode"
+                    }
+                ]
+            }
+        ]
+    }
+}

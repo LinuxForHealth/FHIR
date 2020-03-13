@@ -1,0 +1,82 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MeasureReport.improvementNotation",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MeasureReport.improvementNotation",
+    "version": "4.0.1",
+    "name": "MeasureReport.improvementNotation",
+    "title": "MeasureReport.improvementNotation",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MeasureReport.improvementNotation",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MeasureReport.improvementNotation",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MeasureReport.improvementNotation",
+                "path": "MeasureReport.improvementNotation",
+                "short": "increase | decrease",
+                "definition": "Whether improvement in the measure is noted by an increase or decrease in the measure score.",
+                "comment": "This element is typically defined by the measure, but reproduced here to ensure the measure score can be interpreted. The element is labeled as a modifier because it changes the interpretation of the reported measure score.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MeasureReport.improvementNotation",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "Improvement notation determines how to interpret the measure score (i.e. whether an increase is an improvement)",
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "MeasureImprovementNotation"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Observation values that indicate what change in a measurement value or score is indicative of an improvement in the measured item or scored issue.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.0.1"
+                }
+            }
+        ]
+    }
+}

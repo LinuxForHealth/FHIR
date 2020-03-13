@@ -1,0 +1,69 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-InsurancePlan.plan.generalCost.comment",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-InsurancePlan.plan.generalCost.comment",
+    "version": "4.0.1",
+    "name": "InsurancePlan.plan.generalCost.comment",
+    "title": "InsurancePlan.plan.generalCost.comment",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for InsurancePlan.plan.generalCost.comment",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "InsurancePlan.plan.generalCost.comment",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "InsurancePlan.plan.generalCost.comment",
+                "path": "InsurancePlan.plan.generalCost.comment",
+                "short": "Additional cost information",
+                "definition": "Additional information about the general costs associated with this plan.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "InsurancePlan.plan.generalCost.comment",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "string"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

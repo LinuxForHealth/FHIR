@@ -1,0 +1,70 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-id.value",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-id.value",
+    "version": "4.0.1",
+    "name": "id.value",
+    "title": "id.value",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for id.value",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "kind": "logical",
+    "abstract": false,
+    "type": "id.value",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "id.value",
+                "path": "id.value",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Primitive value for id",
+                "definition": "Primitive value for id",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "id.value",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            },
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/regex",
+                                "valueString": "[A-Za-z0-9\\-\\.]{1,64}"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

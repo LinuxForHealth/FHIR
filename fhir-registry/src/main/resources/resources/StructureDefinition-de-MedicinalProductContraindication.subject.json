@@ -1,0 +1,68 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicinalProductContraindication.subject",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicinalProductContraindication.subject",
+    "version": "4.0.1",
+    "name": "MedicinalProductContraindication.subject",
+    "title": "MedicinalProductContraindication.subject",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicinalProductContraindication.subject",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicinalProductContraindication.subject",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicinalProductContraindication.subject",
+                "path": "MedicinalProductContraindication.subject",
+                "short": "The medication for which this is an indication",
+                "definition": "The medication for which this is an indication.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "MedicinalProductContraindication.subject",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/MedicinalProduct",
+                            "http://hl7.org/fhir/StructureDefinition/Medication"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

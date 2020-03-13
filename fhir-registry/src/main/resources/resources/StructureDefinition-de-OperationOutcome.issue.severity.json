@@ -1,0 +1,92 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-OperationOutcome.issue.severity",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-OperationOutcome.issue.severity",
+    "version": "4.0.1",
+    "name": "OperationOutcome.issue.severity",
+    "title": "OperationOutcome.issue.severity",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for OperationOutcome.issue.severity",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "OperationOutcome.issue.severity",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "OperationOutcome.issue.severity",
+                "path": "OperationOutcome.issue.severity",
+                "short": "fatal | error | warning | information",
+                "definition": "Indicates whether the issue indicates a variation from successful processing.",
+                "comment": "This is labeled as \"Is Modifier\" because applications should not confuse hints and warnings with errors.",
+                "requirements": "Indicates how relevant the issue is to the overall success of the action.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "OperationOutcome.issue.severity",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "IssueSeverity"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "How the issue affects the success of the action.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/issue-severity|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "ERR-4"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "./typeCode[parent::AcknowledgmentDetail] or unique(./inboundRelationship[parent::Observation and typeCode='SUBJ' and isNormalActRelationship()]/source[classCode=\"OBS\" and moodCode=\"EVN\" and implies(code, ActCode#SEV and isNormalAct())/value[xsi:type=\"CD\"]"
+                    }
+                ]
+            }
+        ]
+    }
+}

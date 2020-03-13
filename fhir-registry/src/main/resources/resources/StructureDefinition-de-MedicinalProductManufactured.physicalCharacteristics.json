@@ -1,0 +1,64 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicinalProductManufactured.physicalCharacteristics",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicinalProductManufactured.physicalCharacteristics",
+    "version": "4.0.1",
+    "name": "MedicinalProductManufactured.physicalCharacteristics",
+    "title": "MedicinalProductManufactured.physicalCharacteristics",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicinalProductManufactured.physicalCharacteristics",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicinalProductManufactured.physicalCharacteristics",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicinalProductManufactured.physicalCharacteristics",
+                "path": "MedicinalProductManufactured.physicalCharacteristics",
+                "short": "Dimensions, color etc.",
+                "definition": "Dimensions, color etc.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MedicinalProductManufactured.physicalCharacteristics",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "ProdCharacteristic"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

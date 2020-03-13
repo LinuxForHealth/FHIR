@@ -1,0 +1,92 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ExplanationOfBenefit.item.detail.subDetail.programCode",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ExplanationOfBenefit.item.detail.subDetail.programCode",
+    "version": "4.0.1",
+    "name": "ExplanationOfBenefit.item.detail.subDetail.programCode",
+    "title": "ExplanationOfBenefit.item.detail.subDetail.programCode",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ExplanationOfBenefit.item.detail.subDetail.programCode",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ExplanationOfBenefit.item.detail.subDetail.programCode",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ExplanationOfBenefit.item.detail.subDetail.programCode",
+                "path": "ExplanationOfBenefit.item.detail.subDetail.programCode",
+                "short": "Program the product or service is provided under",
+                "definition": "Identifies the program under which this may be recovered.",
+                "comment": "For example: Neonatal program, child dental program or drug users recovery program.",
+                "requirements": "Commonly used in in the identification of publicly provided program focused on population segments or disease classifications.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ExplanationOfBenefit.item.detail.subDetail.programCode",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProgramCode"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Program specific reason codes.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/ex-program-code"
+                }
+            }
+        ]
+    }
+}

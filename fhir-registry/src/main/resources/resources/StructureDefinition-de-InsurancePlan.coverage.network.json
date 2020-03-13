@@ -1,0 +1,73 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-InsurancePlan.coverage.network",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-InsurancePlan.coverage.network",
+    "version": "4.0.1",
+    "name": "InsurancePlan.coverage.network",
+    "title": "InsurancePlan.coverage.network",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for InsurancePlan.coverage.network",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "InsurancePlan.coverage.network",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "InsurancePlan.coverage.network",
+                "path": "InsurancePlan.coverage.network",
+                "short": "What networks provide coverage",
+                "definition": "Reference to the network that providing the type of coverage.",
+                "comment": "Networks are represented as a hierarchy of organization resources.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "InsurancePlan.coverage.network",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Organization"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

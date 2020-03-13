@@ -1,0 +1,82 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-DeviceDefinition.owner",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-DeviceDefinition.owner",
+    "version": "4.0.1",
+    "name": "DeviceDefinition.owner",
+    "title": "DeviceDefinition.owner",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for DeviceDefinition.owner",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "DeviceDefinition.owner",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "DeviceDefinition.owner",
+                "path": "DeviceDefinition.owner",
+                "short": "Organization responsible for device",
+                "definition": "An organization that is responsible for the provision and ongoing maintenance of the device.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "DeviceDefinition.owner",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Organization"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.source"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".playedRole[typeCode=OWN].scoper"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,90 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ImmunizationRecommendation.recommendation.contraindicatedVacc",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ImmunizationRecommendation.recommendation.contraindicatedVacc",
+    "version": "4.0.1",
+    "name": "ImmunizationRecommendation.recommendation.contraindicatedVaccineCode",
+    "title": "ImmunizationRecommendation.recommendation.contraindicatedVaccineCode",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ImmunizationRecommendation.recommendation.contraindicatedVaccineCode",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ImmunizationRecommendation.recommendation.contraindicatedVaccineCode",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ImmunizationRecommendation.recommendation.contraindicatedVaccineCode",
+                "path": "ImmunizationRecommendation.recommendation.contraindicatedVaccineCode",
+                "short": "Vaccine which is contraindicated to fulfill the recommendation",
+                "definition": "Vaccine(s) which should not be used to fulfill the recommendation.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ImmunizationRecommendation.recommendation.contraindicatedVaccineCode",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "VaccineCode"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The type of vaccine administered.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/vaccine-code"
+                }
+            }
+        ]
+    }
+}

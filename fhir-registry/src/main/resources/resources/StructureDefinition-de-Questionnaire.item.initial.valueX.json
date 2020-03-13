@@ -1,0 +1,138 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Questionnaire.item.initial.valueX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Questionnaire.item.initial.valueX",
+    "version": "4.0.1",
+    "name": "Questionnaire.item.initial.value[x]",
+    "title": "Questionnaire.item.initial.value[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Questionnaire.item.initial.value[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Questionnaire.item.initial.value[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Questionnaire.item.initial.value[x]",
+                "path": "Questionnaire.item.initial.value[x]",
+                "short": "Actual value for initializing the question",
+                "definition": "The actual value to for an initial answer.",
+                "comment": "The type of the initial value must be consistent with the type of the item.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Questionnaire.item.initial.value[x]",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "boolean"
+                    },
+                    {
+                        "code": "decimal"
+                    },
+                    {
+                        "code": "integer"
+                    },
+                    {
+                        "code": "date"
+                    },
+                    {
+                        "code": "dateTime"
+                    },
+                    {
+                        "code": "time"
+                    },
+                    {
+                        "code": "string"
+                    },
+                    {
+                        "code": "uri"
+                    },
+                    {
+                        "code": "Attachment"
+                    },
+                    {
+                        "code": "Coding"
+                    },
+                    {
+                        "code": "Quantity"
+                    },
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Resource"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "QuestionnaireQuestionOption2"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Allowed values to answer questions.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-answers"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A - MIF rather than RIM level"
+                    }
+                ]
+            }
+        ]
+    }
+}

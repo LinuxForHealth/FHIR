@@ -1,0 +1,107 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Organization.telecom",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Organization.telecom",
+    "version": "4.0.1",
+    "name": "Organization.telecom",
+    "title": "Organization.telecom",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Organization.telecom",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "servd",
+            "uri": "http://www.omg.org/spec/ServD/1.0/",
+            "name": "ServD"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Organization.telecom",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Organization.telecom",
+                "path": "Organization.telecom",
+                "short": "A contact detail for the organization",
+                "definition": "A contact detail for the organization.",
+                "comment": "The use code 'home' is not to be used. Note that these contacts are not the contact details of people who are employed by or represent the organization, but official contacts for the organization itself.",
+                "requirements": "Human contact for the organization.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Organization.telecom",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "ContactPoint"
+                    }
+                ],
+                "condition": [
+                    "org-3"
+                ],
+                "constraint": [
+                    {
+                        "key": "org-3",
+                        "severity": "error",
+                        "human": "The telecom of an organization can never be of use 'home'",
+                        "expression": "where(use = 'home').empty()",
+                        "xpath": "count(f:use[@value='home']) = 0"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "ORC-22?"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".telecom"
+                    },
+                    {
+                        "identity": "servd",
+                        "map": "./ContactPoints"
+                    }
+                ]
+            }
+        ]
+    }
+}

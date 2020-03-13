@@ -1,0 +1,92 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ExplanationOfBenefit.supportingInfo.category",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ExplanationOfBenefit.supportingInfo.category",
+    "version": "4.0.1",
+    "name": "ExplanationOfBenefit.supportingInfo.category",
+    "title": "ExplanationOfBenefit.supportingInfo.category",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ExplanationOfBenefit.supportingInfo.category",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ExplanationOfBenefit.supportingInfo.category",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ExplanationOfBenefit.supportingInfo.category",
+                "path": "ExplanationOfBenefit.supportingInfo.category",
+                "short": "Classification of the supplied information",
+                "definition": "The general class of the information supplied: information; exception; accident, employment; onset, etc.",
+                "comment": "This may contain a category for the local bill type codes.",
+                "requirements": "Required to group or associate information items with common characteristics. For example: admission information or prior treatments.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "ExplanationOfBenefit.supportingInfo.category",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "InformationCategory"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The valuset used for additional information category codes.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/claim-informationcategory"
+                }
+            }
+        ]
+    }
+}

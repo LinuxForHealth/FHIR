@@ -1,0 +1,100 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-DiagnosticReport.issued",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-DiagnosticReport.issued",
+    "version": "4.0.1",
+    "name": "DiagnosticReport.issued",
+    "title": "DiagnosticReport.issued",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for DiagnosticReport.issued",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "DiagnosticReport.issued",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "DiagnosticReport.issued",
+                "path": "DiagnosticReport.issued",
+                "short": "DateTime this version was made",
+                "definition": "The date and time that this version of the report was made available to providers, typically after the report was reviewed and verified.",
+                "comment": "May be different from the update time of the resource itself, because that is the status of the record (potentially a secondary copy), not the actual release time of the report.",
+                "requirements": "Clinicians need to be able to check the date that the report was released.",
+                "alias": [
+                    "Date published",
+                    "Date Issued",
+                    "Date Verified"
+                ],
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "DiagnosticReport.issued",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "instant"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.recorded"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "OBR-22"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "participation[typeCode=VRF or AUT].time"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,129 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Condition.clinicalStatus",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Condition.clinicalStatus",
+    "version": "4.0.1",
+    "name": "Condition.clinicalStatus",
+    "title": "Condition.clinicalStatus",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Condition.clinicalStatus",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "sct-concept",
+            "uri": "http://snomed.info/conceptdomain",
+            "name": "SNOMED CT Concept Domain Binding"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "sct-attr",
+            "uri": "http://snomed.org/attributebinding",
+            "name": "SNOMED CT Attribute Binding"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Condition.clinicalStatus",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Condition.clinicalStatus",
+                "path": "Condition.clinicalStatus",
+                "short": "active | recurrence | relapse | inactive | remission | resolved",
+                "definition": "The clinical status of the condition.",
+                "comment": "The data type is CodeableConcept because clinicalStatus has some clinical judgment involved, such that there might need to be more specificity than the required FHIR value set allows. For example, a SNOMED coding might allow for additional specificity.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Condition.clinicalStatus",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "condition": [
+                    "con-3",
+                    "con-4",
+                    "con-5"
+                ],
+                "isModifier": true,
+                "isModifierReason": "This element is labeled as a modifier because the status contains codes that mark the condition as no longer active.",
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ConditionClinicalStatus"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "The clinical status of the condition or diagnosis.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/condition-clinical|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.status"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.status"
+                    },
+                    {
+                        "identity": "sct-concept",
+                        "map": "< 303105007 |Disease phases|"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "PRB-14"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "Observation ACT\n.inboundRelationship[typeCode=COMP].source[classCode=OBS, code=\"clinicalStatus\", moodCode=EVN].value"
+                    }
+                ]
+            }
+        ]
+    }
+}

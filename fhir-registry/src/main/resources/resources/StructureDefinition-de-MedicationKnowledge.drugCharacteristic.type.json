@@ -1,0 +1,90 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicationKnowledge.drugCharacteristic.type",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicationKnowledge.drugCharacteristic.type",
+    "version": "4.0.1",
+    "name": "MedicationKnowledge.drugCharacteristic.type",
+    "title": "MedicationKnowledge.drugCharacteristic.type",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicationKnowledge.drugCharacteristic.type",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "script10.6",
+            "uri": "http://ncpdp.org/SCRIPT10_6",
+            "name": "Mapping to NCPDP SCRIPT 10.6"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicationKnowledge.drugCharacteristic.type",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicationKnowledge.drugCharacteristic.type",
+                "path": "MedicationKnowledge.drugCharacteristic.type",
+                "short": "Code specifying the type of characteristic of medication",
+                "definition": "A code specifying which characteristic of the medicine is being described (for example, colour, shape, imprint).",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MedicationKnowledge.drugCharacteristic.type",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "MedicationCharacteristic"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A coded concept defining the characteristic types of a medication.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicationknowledge-characteristic"
+                }
+            }
+        ]
+    }
+}

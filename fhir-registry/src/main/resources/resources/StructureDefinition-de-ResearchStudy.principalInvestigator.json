@@ -1,0 +1,102 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ResearchStudy.principalInvestigator",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ResearchStudy.principalInvestigator",
+    "version": "4.0.1",
+    "name": "ResearchStudy.principalInvestigator",
+    "title": "ResearchStudy.principalInvestigator",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ResearchStudy.principalInvestigator",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "BRIDG5.1",
+            "uri": "https://bridgmodel.nci.nih.gov",
+            "name": "BRIDG 5.1 Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "clinicaltrials-gov",
+            "uri": "http://clinicaltrials.gov",
+            "name": "ClinicalTrials.gov Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ResearchStudy.principalInvestigator",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ResearchStudy.principalInvestigator",
+                "path": "ResearchStudy.principalInvestigator",
+                "short": "Researcher who oversees multiple aspects of the study",
+                "definition": "A researcher in a study who oversees multiple aspects of the study, such as concept development, protocol writing, protocol submission for IRB approval, participant recruitment, informed consent, data collection, analysis, interpretation and presentation.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "ResearchStudy.principalInvestigator",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Practitioner",
+                            "http://hl7.org/fhir/StructureDefinition/PractitionerRole"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "clinicaltrials-gov",
+                        "map": "Principal Investigator"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.actor"
+                    },
+                    {
+                        "identity": "BRIDG5.1",
+                        "map": "StudyInvestigator"
+                    }
+                ]
+            }
+        ]
+    }
+}

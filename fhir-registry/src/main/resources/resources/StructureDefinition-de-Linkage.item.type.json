@@ -1,0 +1,80 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Linkage.item.type",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Linkage.item.type",
+    "version": "4.0.1",
+    "name": "Linkage.item.type",
+    "title": "Linkage.item.type",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Linkage.item.type",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Linkage.item.type",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Linkage.item.type",
+                "path": "Linkage.item.type",
+                "short": "source | alternate | historical",
+                "definition": "Distinguishes which item is \"source of truth\" (if any) and which items are no longer considered to be current representations.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Linkage.item.type",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "LinkageType"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Used to distinguish different roles a resource can play within a set of linked resources.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/linkage-type|4.0.1"
+                }
+            }
+        ]
+    }
+}

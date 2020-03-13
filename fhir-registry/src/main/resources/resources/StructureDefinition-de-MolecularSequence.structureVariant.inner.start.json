@@ -1,0 +1,69 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MolecularSequence.structureVariant.inner.start",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MolecularSequence.structureVariant.inner.start",
+    "version": "4.0.1",
+    "name": "MolecularSequence.structureVariant.inner.start",
+    "title": "MolecularSequence.structureVariant.inner.start",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MolecularSequence.structureVariant.inner.start",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MolecularSequence.structureVariant.inner.start",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MolecularSequence.structureVariant.inner.start",
+                "path": "MolecularSequence.structureVariant.inner.start",
+                "short": "Structural variant inner start",
+                "definition": "Structural variant inner start. If the coordinate system is either 0-based or 1-based, then start position is inclusive.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MolecularSequence.structureVariant.inner.start",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "integer"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}
