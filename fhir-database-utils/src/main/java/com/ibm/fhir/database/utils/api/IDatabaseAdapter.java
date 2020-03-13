@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -247,9 +247,10 @@ public interface IDatabaseAdapter {
      * @param targetTable
      * @param tenantColumnName
      * @param columns
+     * @param enforced
      */
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema,
-            String targetTable, String tenantColumnName, List<String> columns);
+            String targetTable, String tenantColumnName, List<String> columns, boolean enforced);
 
     /**
      * Allocate a new tenant
