@@ -1,0 +1,94 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Evidence.copyright",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Evidence.copyright",
+    "version": "4.0.1",
+    "name": "Evidence.copyright",
+    "title": "Evidence.copyright",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Evidence.copyright",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Evidence.copyright",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Evidence.copyright",
+                "path": "Evidence.copyright",
+                "short": "Use and/or publishing restrictions",
+                "definition": "A copyright statement relating to the evidence and/or its contents. Copyright statements are generally legal restrictions on the use and publishing of the evidence.",
+                "requirements": "Consumers must be able to determine any legal restrictions on the use of the evidence and/or its content.",
+                "alias": [
+                    "License",
+                    "Restrictions"
+                ],
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Evidence.copyright",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "markdown"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Definition.copyright"
+                    },
+                    {
+                        "identity": "objimpl",
+                        "map": "no-gen-base"
+                    }
+                ]
+            }
+        ]
+    }
+}

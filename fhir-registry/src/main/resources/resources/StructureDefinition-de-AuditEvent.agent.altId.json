@@ -1,0 +1,108 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-AuditEvent.agent.altId",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-AuditEvent.agent.altId",
+    "version": "4.0.1",
+    "name": "AuditEvent.agent.altId",
+    "title": "AuditEvent.agent.altId",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for AuditEvent.agent.altId",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "dicom",
+            "uri": "http://nema.org/dicom",
+            "name": "DICOM Tag Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "w3c.prov",
+            "uri": "http://www.w3.org/ns/prov",
+            "name": "W3C PROV"
+        },
+        {
+            "identity": "fhirprovenance",
+            "uri": "http://hl7.org/fhir/provenance",
+            "name": "FHIR Provenance Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "AuditEvent.agent.altId",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "AuditEvent.agent.altId",
+                "path": "AuditEvent.agent.altId",
+                "short": "Alternative User identity",
+                "definition": "Alternative agent Identifier. For a human, this should be a user identifier text string from authentication system. This identifier would be one known to a common authentication system (e.g. single sign-on), if available.",
+                "requirements": "In some situations, a human user may authenticate with one identity but, to access a specific application system, may use a synonymous identify. For example, some \"single sign on\" implementations will do this. The alternative identifier would then be the original identify  used for authentication, and the User ID is the one known to and used by the application.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "AuditEvent.agent.altId",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "string"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.who"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".id (distinguish id type by root)"
+                    },
+                    {
+                        "identity": "dicom",
+                        "map": "AlternativeUserId"
+                    },
+                    {
+                        "identity": "w3c.prov",
+                        "map": "Agent.Identity"
+                    }
+                ]
+            }
+        ]
+    }
+}

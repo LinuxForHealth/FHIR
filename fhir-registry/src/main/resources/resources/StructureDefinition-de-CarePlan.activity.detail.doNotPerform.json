@@ -1,0 +1,93 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-CarePlan.activity.detail.doNotPerform",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-CarePlan.activity.detail.doNotPerform",
+    "version": "4.0.1",
+    "name": "CarePlan.activity.detail.doNotPerform",
+    "title": "CarePlan.activity.detail.doNotPerform",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for CarePlan.activity.detail.doNotPerform",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "CarePlan.activity.detail.doNotPerform",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "CarePlan.activity.detail.doNotPerform",
+                "path": "CarePlan.activity.detail.doNotPerform",
+                "short": "If true, activity is prohibiting action",
+                "definition": "If true, indicates that the described activity is one that must NOT be engaged in when following the plan.  If false, or missing, indicates that the described activity is one that should be engaged in when following the plan.",
+                "comment": "This element is labeled as a modifier because it marks an activity as an activity that is not to be performed.",
+                "requirements": "Captures intention to not do something that may have been previously typical.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "CarePlan.activity.detail.doNotPerform",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "boolean"
+                    }
+                ],
+                "meaningWhenMissing": "If missing indicates that the described activity is one that should be engaged in when following the plan.",
+                "isModifier": true,
+                "isModifierReason": "If true this element negates the specified action. For example, instead of a request for a procedure, it is a request for the procedure to not occur.",
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.doNotPerform"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "actionNegationInd"
+                    }
+                ]
+            }
+        ]
+    }
+}

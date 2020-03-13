@@ -1,0 +1,102 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Coverage.costToBeneficiary.type",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Coverage.costToBeneficiary.type",
+    "version": "4.0.1",
+    "name": "Coverage.costToBeneficiary.type",
+    "title": "Coverage.costToBeneficiary.type",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Coverage.costToBeneficiary.type",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "cdanetv4",
+            "uri": "http://www.cda-adc.ca/en/services/cdanet/",
+            "name": "Canadian Dental Association eclaims standard"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "cpha3pharm",
+            "uri": "http://www.pharmacists.ca/",
+            "name": "Canadian Pharmacy Associaiton eclaims standard"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Coverage.costToBeneficiary.type",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Coverage.costToBeneficiary.type",
+                "path": "Coverage.costToBeneficiary.type",
+                "short": "Cost category",
+                "definition": "The category of patient centric costs associated with treatment.",
+                "comment": "For example visit, specialist visits, emergency, inpatient care, etc.",
+                "requirements": "Needed to identify the category associated with the amount for the patient.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Coverage.costToBeneficiary.type",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "CopayTypes"
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "The types of services to which patient copayments are specified.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/coverage-copay-type"
+                }
+            }
+        ]
+    }
+}

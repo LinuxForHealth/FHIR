@@ -1,0 +1,108 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-AuditEvent.entity.detail.valueX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-AuditEvent.entity.detail.valueX",
+    "version": "4.0.1",
+    "name": "AuditEvent.entity.detail.value[x]",
+    "title": "AuditEvent.entity.detail.value[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for AuditEvent.entity.detail.value[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "dicom",
+            "uri": "http://nema.org/dicom",
+            "name": "DICOM Tag Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "w3c.prov",
+            "uri": "http://www.w3.org/ns/prov",
+            "name": "W3C PROV"
+        },
+        {
+            "identity": "fhirprovenance",
+            "uri": "http://hl7.org/fhir/provenance",
+            "name": "FHIR Provenance Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "AuditEvent.entity.detail.value[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "AuditEvent.entity.detail.value[x]",
+                "path": "AuditEvent.entity.detail.value[x]",
+                "short": "Property value",
+                "definition": "The  value of the extra detail.",
+                "comment": "The value can be string when known to be a string, else base64 encoding should be used to protect binary or undefined content.  The meaning and secondary-encoding of the content of base64 encoded blob is specific to the AuditEvent.type, AuditEvent.subtype, AuditEvent.entity.type, and AuditEvent.entity.role.  The base64 is a general-use and safe container for event specific data blobs regardless of the encoding used by the transaction being recorded.  An AuditEvent consuming application must understand the event it is consuming and the formats used by the event. For example if auditing an Oracle network database access, the Oracle formats must be understood as they will be simply encoded in the base64binary blob.",
+                "requirements": "Should not duplicate the entity value unless absolutely necessary.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "AuditEvent.entity.detail.value[x]",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "string"
+                    },
+                    {
+                        "code": "base64Binary"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.context"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".value"
+                    },
+                    {
+                        "identity": "dicom",
+                        "map": "ParticipantObjectDetail.value"
+                    }
+                ]
+            }
+        ]
+    }
+}

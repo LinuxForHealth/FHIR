@@ -2,15 +2,15 @@
     "resourceType": "StructureDefinition",
     "id": "de-date.value",
     "meta": {
-        "lastUpdated": "2018-12-27T22:37:54.724+11:00"
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "url": "http://hl7.org/fhir/StructureDefinition/de-date.value",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "name": "date.value",
     "title": "date.value",
     "status": "draft",
     "experimental": true,
-    "date": "2018-12-27T22:37:54+11:00",
+    "date": "2019-11-01T09:29:23+11:00",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -24,7 +24,7 @@
     ],
     "description": "Data Element for date.value",
     "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
-    "fhirVersion": "4.0.0",
+    "fhirVersion": "4.0.1",
     "kind": "logical",
     "abstract": false,
     "type": "date.value",
@@ -51,26 +51,15 @@
                     {
                         "extension": [
                             {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "date"
+                            },
+                            {
                                 "url": "http://hl7.org/fhir/StructureDefinition/regex",
                                 "valueString": "([0-9]([0-9]([0-9][1-9]|[1-9]0)|[1-9]00)|[1-9]000)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1]))?)?"
                             }
                         ],
-                        "_code": {
-                            "extension": [
-                                {
-                                    "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-json-type",
-                                    "valueString": "string"
-                                },
-                                {
-                                    "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-xml-type",
-                                    "valueString": "xsd:gYear OR xsd:gYearMonth OR xsd:date"
-                                },
-                                {
-                                    "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-rdf-type",
-                                    "valueString": "xsd:gYear OR xsd:gYearMonth OR xsd:date"
-                                }
-                            ]
-                        }
+                        "code": "http://hl7.org/fhirpath/System.Date"
                     }
                 ],
                 "isModifier": false,

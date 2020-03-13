@@ -1,0 +1,64 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicinalProductPharmaceutical.routeOfAdministration.maxSingl",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicinalProductPharmaceutical.routeOfAdministration.maxSingl",
+    "version": "4.0.1",
+    "name": "MedicinalProductPharmaceutical.routeOfAdministration.maxSingleDose",
+    "title": "MedicinalProductPharmaceutical.routeOfAdministration.maxSingleDose",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicinalProductPharmaceutical.routeOfAdministration.maxSingleDose",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicinalProductPharmaceutical.routeOfAdministration.maxSingleDose",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicinalProductPharmaceutical.routeOfAdministration.maxSingleDose",
+                "path": "MedicinalProductPharmaceutical.routeOfAdministration.maxSingleDose",
+                "short": "The maximum single dose that can be administered as per the protocol of a clinical trial can be specified using a numerical value and its unit of measurement",
+                "definition": "The maximum single dose that can be administered as per the protocol of a clinical trial can be specified using a numerical value and its unit of measurement.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MedicinalProductPharmaceutical.routeOfAdministration.maxSingleDose",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Quantity"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

@@ -1,0 +1,91 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-CodeSystem.hierarchyMeaning",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-CodeSystem.hierarchyMeaning",
+    "version": "4.0.1",
+    "name": "CodeSystem.hierarchyMeaning",
+    "title": "CodeSystem.hierarchyMeaning",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for CodeSystem.hierarchyMeaning",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "CodeSystem.hierarchyMeaning",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "CodeSystem.hierarchyMeaning",
+                "path": "CodeSystem.hierarchyMeaning",
+                "short": "grouped-by | is-a | part-of | classified-with",
+                "definition": "The meaning of the hierarchy of concepts as represented in this resource.",
+                "comment": "Note that other representations might have a different hierarchy or none at all, and represent the information using properties.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "CodeSystem.hierarchyMeaning",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "CodeSystemHierarchyMeaning"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "The meaning of the hierarchy of concepts in a code system.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning|4.0.1"
+                }
+            }
+        ]
+    }
+}

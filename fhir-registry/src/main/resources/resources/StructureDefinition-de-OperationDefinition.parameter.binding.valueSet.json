@@ -1,0 +1,83 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-OperationDefinition.parameter.binding.valueSet",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-OperationDefinition.parameter.binding.valueSet",
+    "version": "4.0.1",
+    "name": "OperationDefinition.parameter.binding.valueSet",
+    "title": "OperationDefinition.parameter.binding.valueSet",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for OperationDefinition.parameter.binding.valueSet",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "OperationDefinition.parameter.binding.valueSet",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "OperationDefinition.parameter.binding.valueSet",
+                "path": "OperationDefinition.parameter.binding.valueSet",
+                "short": "Source of value set",
+                "definition": "Points to the value set or external definition (e.g. implicit value set) that identifies the set of codes to be used.",
+                "comment": "For value sets with a referenceResource, the display can contain the value set description.  The reference may be version-specific or not.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "OperationDefinition.parameter.binding.valueSet",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "canonical",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/ValueSet"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

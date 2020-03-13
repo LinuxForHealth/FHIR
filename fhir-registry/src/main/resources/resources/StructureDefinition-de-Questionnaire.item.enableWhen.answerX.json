@@ -1,0 +1,134 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Questionnaire.item.enableWhen.answerX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Questionnaire.item.enableWhen.answerX",
+    "version": "4.0.1",
+    "name": "Questionnaire.item.enableWhen.answer[x]",
+    "title": "Questionnaire.item.enableWhen.answer[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Questionnaire.item.enableWhen.answer[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Questionnaire.item.enableWhen.answer[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Questionnaire.item.enableWhen.answer[x]",
+                "path": "Questionnaire.item.enableWhen.answer[x]",
+                "short": "Value for question comparison based on operator",
+                "definition": "A value that the referenced question is tested using the specified operator in order for the item to be enabled.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Questionnaire.item.enableWhen.answer[x]",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "boolean"
+                    },
+                    {
+                        "code": "decimal"
+                    },
+                    {
+                        "code": "integer"
+                    },
+                    {
+                        "code": "date"
+                    },
+                    {
+                        "code": "dateTime"
+                    },
+                    {
+                        "code": "time"
+                    },
+                    {
+                        "code": "string"
+                    },
+                    {
+                        "code": "Coding"
+                    },
+                    {
+                        "code": "Quantity"
+                    },
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Resource"
+                        ]
+                    }
+                ],
+                "condition": [
+                    "que-7"
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "QuestionnaireQuestionOption3"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Allowed values to answer questions.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-answers"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A - MIF rather than RIM level"
+                    }
+                ]
+            }
+        ]
+    }
+}

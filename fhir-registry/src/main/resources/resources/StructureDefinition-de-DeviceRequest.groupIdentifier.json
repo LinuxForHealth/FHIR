@@ -1,0 +1,98 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-DeviceRequest.groupIdentifier",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-DeviceRequest.groupIdentifier",
+    "version": "4.0.1",
+    "name": "DeviceRequest.groupIdentifier",
+    "title": "DeviceRequest.groupIdentifier",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for DeviceRequest.groupIdentifier",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "quick",
+            "uri": "http://siframework.org/cqf",
+            "name": "Quality Improvement and Clinical Knowledge (QUICK)"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "DeviceRequest.groupIdentifier",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "DeviceRequest.groupIdentifier",
+                "path": "DeviceRequest.groupIdentifier",
+                "short": "Identifier of composite request",
+                "definition": "Composite request this is part of.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "DeviceRequest.groupIdentifier",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Identifier"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.groupIdentifier"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "ORC.4"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".inboundRelationship(typeCode=COMP].source[moodCode=INT].identifier"
+                    }
+                ]
+            }
+        ]
+    }
+}

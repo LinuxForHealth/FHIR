@@ -1,0 +1,71 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-SubstanceReferenceInformation.id",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-SubstanceReferenceInformation.id",
+    "version": "4.0.1",
+    "name": "SubstanceReferenceInformation.id",
+    "title": "SubstanceReferenceInformation.id",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for SubstanceReferenceInformation.id",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "SubstanceReferenceInformation.id",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "SubstanceReferenceInformation.id",
+                "path": "SubstanceReferenceInformation.id",
+                "short": "Logical id of this artifact",
+                "definition": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.",
+                "comment": "The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "SubstanceReferenceInformation.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

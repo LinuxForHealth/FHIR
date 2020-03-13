@@ -1,0 +1,99 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-SupplyDelivery.partOf",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-SupplyDelivery.partOf",
+    "version": "4.0.1",
+    "name": "SupplyDelivery.partOf",
+    "title": "SupplyDelivery.partOf",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for SupplyDelivery.partOf",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "SupplyDelivery.partOf",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "SupplyDelivery.partOf",
+                "path": "SupplyDelivery.partOf",
+                "short": "Part of referenced event",
+                "definition": "A larger event of which this particular event is a component or step.",
+                "comment": "Not to be used to link an event to an Encounter - use Event.context for that.\r\r[The allowed reference resources may be adjusted as appropriate for the event resource].",
+                "requirements": "E.g. Drug administration as part of a procedure, procedure as part of observation, etc.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "SupplyDelivery.partOf",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/SupplyDelivery",
+                            "http://hl7.org/fhir/StructureDefinition/Contract"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.partOf"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "Varies by domain"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".inboundRelationship[typeCode=COMP].source[moodCode=EVN]"
+                    }
+                ]
+            }
+        ]
+    }
+}

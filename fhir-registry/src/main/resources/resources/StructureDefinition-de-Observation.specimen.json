@@ -1,0 +1,111 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Observation.specimen",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Observation.specimen",
+    "version": "4.0.1",
+    "name": "Observation.specimen",
+    "title": "Observation.specimen",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Observation.specimen",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "sct-concept",
+            "uri": "http://snomed.info/conceptdomain",
+            "name": "SNOMED CT Concept Domain Binding"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "sct-attr",
+            "uri": "http://snomed.org/attributebinding",
+            "name": "SNOMED CT Attribute Binding"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Observation.specimen",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Observation.specimen",
+                "path": "Observation.specimen",
+                "short": "Specimen used for this observation",
+                "definition": "The specimen that was used when this observation was made.",
+                "comment": "Should only be used if not implicit in code found in `Observation.code`.  Observations are not made on specimens themselves; they are made on a subject, but in many cases by the means of a specimen. Note that although specimens are often involved, they are not always tracked and reported explicitly. Also note that observation resources may be used in contexts that track the specimen explicitly (e.g. Diagnostic Report).",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Observation.specimen",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Specimen"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "sct-concept",
+                        "map": "< 123038009 |Specimen|"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "SPM segment"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "participation[typeCode=SPC].specimen"
+                    },
+                    {
+                        "identity": "sct-attr",
+                        "map": "704319004 |Inherent in|"
+                    }
+                ]
+            }
+        ]
+    }
+}

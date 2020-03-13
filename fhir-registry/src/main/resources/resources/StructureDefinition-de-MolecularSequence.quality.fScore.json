@@ -1,0 +1,69 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MolecularSequence.quality.fScore",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MolecularSequence.quality.fScore",
+    "version": "4.0.1",
+    "name": "MolecularSequence.quality.fScore",
+    "title": "MolecularSequence.quality.fScore",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MolecularSequence.quality.fScore",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MolecularSequence.quality.fScore",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MolecularSequence.quality.fScore",
+                "path": "MolecularSequence.quality.fScore",
+                "short": "F-score",
+                "definition": "Harmonic mean of Recall and Precision, computed as: 2 * precision * recall / (precision + recall).",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MolecularSequence.quality.fScore",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "decimal"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

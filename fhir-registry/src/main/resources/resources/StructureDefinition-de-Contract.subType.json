@@ -1,0 +1,95 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Contract.subType",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Contract.subType",
+    "version": "4.0.1",
+    "name": "Contract.subType",
+    "title": "Contract.subType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Contract.subType",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Contract.subType",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Contract.subType",
+                "path": "Contract.subType",
+                "short": "Subtype within the context of type",
+                "definition": "Sub-category for the Contract that distinguishes the kinds of systems that would be interested in the Contract within the context of the Contract's scope.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Contract.subType",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ContractSubtype"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Detailed codes within the above.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/contract-subtype"
+                },
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.what[x]"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "Examples of Contract or Policy subtypes in ActCodes:_ActCoverageTypeCode Definition: Set of codes indicating the type of insurance policy or program that pays for the cost of benefits provided to covered parties. Generalizes:  _ActInsurancePolicyCode;  _ActInsuranceTypeCode; ActProgramTypeCode.  _ActPolicyType  Description:Types of policies that further specify the ActClassPolicy value set. Generalizes: _ActPrivacyPolicy; _ActPrivacyLaw; _InformationSensitivityPolicy; ActTrustPolicyType;  SecurityPolicy.  _ActInvoiceAdjudicationPaymentGroupCode  Description: Codes representing adjustments to a Payment Advice such as retroactive, clawback, garnishee, etc., e.g. RECOV (recovery) Description: Retroactive adjustment such as fee rate adjustment due to contract negotiations."
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,97 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-FamilyMemberHistory.dataAbsentReason",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-FamilyMemberHistory.dataAbsentReason",
+    "version": "4.0.1",
+    "name": "FamilyMemberHistory.dataAbsentReason",
+    "title": "FamilyMemberHistory.dataAbsentReason",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for FamilyMemberHistory.dataAbsentReason",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "FamilyMemberHistory.dataAbsentReason",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "FamilyMemberHistory.dataAbsentReason",
+                "path": "FamilyMemberHistory.dataAbsentReason",
+                "short": "subject-unknown | withheld | unable-to-obtain | deferred",
+                "definition": "Describes why the family member's history is not available.",
+                "requirements": "This is a separate element to allow it to have a distinct binding from reasonCode.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "FamilyMemberHistory.dataAbsentReason",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "FamilyHistoryAbsentReason"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Codes describing the reason why a family member's history is not available.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/history-absent-reason"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".reasonCode"
+                    }
+                ]
+            }
+        ]
+    }
+}

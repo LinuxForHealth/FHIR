@@ -1,0 +1,88 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-RelatedPerson.active",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-RelatedPerson.active",
+    "version": "4.0.1",
+    "name": "RelatedPerson.active",
+    "title": "RelatedPerson.active",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for RelatedPerson.active",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "RelatedPerson.active",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "RelatedPerson.active",
+                "path": "RelatedPerson.active",
+                "short": "Whether this related person's record is in active use",
+                "definition": "Whether this related person record is in active use.",
+                "comment": "This element is labeled as a modifier because it may be used to mark that the resource was created in error.",
+                "requirements": "Need to be able to mark a related person record as not to be used, such as if it was created in error.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "RelatedPerson.active",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "boolean"
+                    }
+                ],
+                "meaningWhenMissing": "This resource is generally assumed to be active if no value is provided for the active element",
+                "isModifier": true,
+                "isModifierReason": "This element is labelled as a modifier because it is a status element that can indicate that a record should not be treated as valid",
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.status"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".statusCode"
+                    }
+                ]
+            }
+        ]
+    }
+}

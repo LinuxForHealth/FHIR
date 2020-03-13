@@ -1,0 +1,85 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-PractitionerRole.availableTime.allDay",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-PractitionerRole.availableTime.allDay",
+    "version": "4.0.1",
+    "name": "PractitionerRole.availableTime.allDay",
+    "title": "PractitionerRole.availableTime.allDay",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for PractitionerRole.availableTime.allDay",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "servd",
+            "uri": "http://www.omg.org/spec/ServD/1.0/",
+            "name": "ServD"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "PractitionerRole.availableTime.allDay",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "PractitionerRole.availableTime.allDay",
+                "path": "PractitionerRole.availableTime.allDay",
+                "short": "Always available? e.g. 24 hour service",
+                "definition": "Is this always available? (hence times are irrelevant) e.g. 24 hour service.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "PractitionerRole.availableTime.allDay",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "boolean"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".effectiveTime"
+                    }
+                ]
+            }
+        ]
+    }
+}

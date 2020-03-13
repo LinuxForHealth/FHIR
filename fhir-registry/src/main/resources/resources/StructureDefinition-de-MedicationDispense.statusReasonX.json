@@ -1,0 +1,111 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicationDispense.statusReasonX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicationDispense.statusReasonX",
+    "version": "4.0.1",
+    "name": "MedicationDispense.statusReason[x]",
+    "title": "MedicationDispense.statusReason[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicationDispense.statusReason[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rx-dispense-rmim",
+            "uri": "http://www.hl7.org/v3/PORX_RM020070UV",
+            "name": "V3 Pharmacy Dispense RMIM"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicationDispense.statusReason[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicationDispense.statusReason[x]",
+                "path": "MedicationDispense.statusReason[x]",
+                "short": "Why a dispense was not performed",
+                "definition": "Indicates the reason why a dispense was not performed.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MedicationDispense.statusReason[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    },
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/DetectedIssue"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "MedicationDispenseStatusReason"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A code describing why a dispense was not performed.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicationdispense-status-reason"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.statusReason"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".outboundRelationship[typeCode=RSON]/target[classCode=OBS,moodCode=EVN, code=\"not done reason\"].value"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,85 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Contract.term.securityLabel.control",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Contract.term.securityLabel.control",
+    "version": "4.0.1",
+    "name": "Contract.term.securityLabel.control",
+    "title": "Contract.term.securityLabel.control",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Contract.term.securityLabel.control",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Contract.term.securityLabel.control",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Contract.term.securityLabel.control",
+                "path": "Contract.term.securityLabel.control",
+                "short": "Handling Instructions",
+                "definition": "Security label privacy tag that species the manner in which term and/or term elements are to be protected.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Contract.term.securityLabel.control",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Coding"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ContractSecurityControl"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Codes for handling instructions.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/contract-security-control"
+                }
+            }
+        ]
+    }
+}

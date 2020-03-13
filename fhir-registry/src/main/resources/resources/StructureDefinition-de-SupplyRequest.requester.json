@@ -1,0 +1,109 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-SupplyRequest.requester",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-SupplyRequest.requester",
+    "version": "4.0.1",
+    "name": "SupplyRequest.requester",
+    "title": "SupplyRequest.requester",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for SupplyRequest.requester",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "SupplyRequest.requester",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "SupplyRequest.requester",
+                "path": "SupplyRequest.requester",
+                "short": "Individual making the request",
+                "definition": "The device, practitioner, etc. who initiated the request.",
+                "alias": [
+                    "author",
+                    "source"
+                ],
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "SupplyRequest.requester",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Practitioner",
+                            "http://hl7.org/fhir/StructureDefinition/PractitionerRole",
+                            "http://hl7.org/fhir/StructureDefinition/Organization",
+                            "http://hl7.org/fhir/StructureDefinition/Patient",
+                            "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
+                            "http://hl7.org/fhir/StructureDefinition/Device"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.requester"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.author"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "ORC.12"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".participation[typeCode=AUT].role"
+                    }
+                ]
+            }
+        ]
+    }
+}

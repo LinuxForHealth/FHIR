@@ -1,0 +1,70 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-positiveInt.value",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-positiveInt.value",
+    "version": "4.0.1",
+    "name": "positiveInt.value",
+    "title": "positiveInt.value",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for positiveInt.value",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "kind": "logical",
+    "abstract": false,
+    "type": "positiveInt.value",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "positiveInt.value",
+                "path": "positiveInt.value",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Primitive value for positiveInt",
+                "definition": "Primitive value for positiveInt",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "positiveInt.value",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            },
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/regex",
+                                "valueString": "[1-9][0-9]*"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

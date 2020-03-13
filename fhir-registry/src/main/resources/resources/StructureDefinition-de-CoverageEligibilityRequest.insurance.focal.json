@@ -1,0 +1,81 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-CoverageEligibilityRequest.insurance.focal",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-CoverageEligibilityRequest.insurance.focal",
+    "version": "4.0.1",
+    "name": "CoverageEligibilityRequest.insurance.focal",
+    "title": "CoverageEligibilityRequest.insurance.focal",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for CoverageEligibilityRequest.insurance.focal",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "CoverageEligibilityRequest.insurance.focal",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "CoverageEligibilityRequest.insurance.focal",
+                "path": "CoverageEligibilityRequest.insurance.focal",
+                "short": "Applicable coverage",
+                "definition": "A flag to indicate that this Coverage is to be used for evaluation of this request when set to true.",
+                "comment": "A patient may (will) have multiple insurance policies which provide reimburement for healthcare services and products. For example a person may also be covered by their spouse's policy and both appear in the list (and may be from the same insurer). This flag will be set to true for only one of the listed policies and that policy will be used for evaluating this request. Other requests would be created to request evaluation against the other listed policies.",
+                "requirements": "To identify which coverage in the list is being used to evaluate this request.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "CoverageEligibilityRequest.insurance.focal",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "boolean"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

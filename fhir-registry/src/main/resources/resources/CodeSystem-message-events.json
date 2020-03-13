@@ -2,7 +2,7 @@
     "resourceType": "CodeSystem",
     "id": "message-events",
     "meta": {
-        "lastUpdated": "2018-12-27T22:37:54.724+11:00"
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
         "status": "generated",
@@ -14,29 +14,25 @@
             "valueString": "This Code System is normative - it is generated based on the information defined in this specification. The definition will remain fixed  across versions, but the actual contents will change from version to version"
         },
         {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
-            "valueCode": "normative"
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
         },
         {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version",
-            "valueCode": "4.0.0"
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
         },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
-            "valueInteger": 5
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
-            "valueCode": "inm"
+            "valueInteger": 1
         }
     ],
     "url": "http://hl7.org/fhir/message-events",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "name": "MessageEvent",
     "title": "MessageEvent",
     "status": "active",
     "experimental": false,
-    "date": "2018-12-27T22:37:54+11:00",
+    "date": "2019-11-01T09:29:23+11:00",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {

@@ -1,0 +1,110 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Composition.section.emptyReason",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Composition.section.emptyReason",
+    "version": "4.0.1",
+    "name": "Composition.section.emptyReason",
+    "title": "Composition.section.emptyReason",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Composition.section.emptyReason",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "cda",
+            "uri": "http://hl7.org/v3/cda",
+            "name": "CDA (R2)"
+        },
+        {
+            "identity": "fhirdocumentreference",
+            "uri": "http://hl7.org/fhir/documentreference",
+            "name": "FHIR DocumentReference"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Composition.section.emptyReason",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Composition.section.emptyReason",
+                "path": "Composition.section.emptyReason",
+                "short": "Why the section is empty",
+                "definition": "If the section is empty, why the list is empty. An empty section typically has some text explaining the empty reason.",
+                "comment": "The various reasons for an empty section make a significant interpretation to its interpretation. Note that this code is for use when the entire section content has been suppressed, and not for when individual items are omitted - implementers may consider using a text note or a flag on an entry in these cases.",
+                "requirements": "Allows capturing things like \"none exist\" or \"not asked\" which can be important for most lists.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Composition.section.emptyReason",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "condition": [
+                    "cmp-2"
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SectionEmptyReason"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "If a section is empty, why it is empty.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/list-empty-reason"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".inboundRelationship[typeCode=SUBJ,code<ListEmptyReason].value[type=CD]"
+                    },
+                    {
+                        "identity": "cda",
+                        "map": "n/a"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,115 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-AuditEvent.subtype",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-AuditEvent.subtype",
+    "version": "4.0.1",
+    "name": "AuditEvent.subtype",
+    "title": "AuditEvent.subtype",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for AuditEvent.subtype",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "dicom",
+            "uri": "http://nema.org/dicom",
+            "name": "DICOM Tag Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "w3c.prov",
+            "uri": "http://www.w3.org/ns/prov",
+            "name": "W3C PROV"
+        },
+        {
+            "identity": "fhirprovenance",
+            "uri": "http://hl7.org/fhir/provenance",
+            "name": "FHIR Provenance Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "AuditEvent.subtype",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "AuditEvent.subtype",
+                "path": "AuditEvent.subtype",
+                "short": "More specific type/id for the event",
+                "definition": "Identifier for the category of event.",
+                "requirements": "This field enables queries of messages by implementation-defined event categories.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "AuditEvent.subtype",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Coding"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "AuditEventSubType"
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "Sub-type of event.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/audit-event-sub-type"
+                },
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.what[x]"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".code (type, subtype and action are pre-coordinated or sent as translations)"
+                    },
+                    {
+                        "identity": "dicom",
+                        "map": "EventTypeCode"
+                    }
+                ]
+            }
+        ]
+    }
+}

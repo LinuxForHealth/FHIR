@@ -1,0 +1,94 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Claim.fundsReserve",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Claim.fundsReserve",
+    "version": "4.0.1",
+    "name": "Claim.fundsReserve",
+    "title": "Claim.fundsReserve",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Claim.fundsReserve",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Claim.fundsReserve",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Claim.fundsReserve",
+                "path": "Claim.fundsReserve",
+                "short": "For whom to reserve funds",
+                "definition": "A code to indicate whether and for whom funds are to be reserved for future claims.",
+                "comment": "This field is only used for preauthorizations.",
+                "requirements": "In the case of a Pre-Determination/Pre-Authorization the provider may request that funds in the amount of the expected Benefit be reserved ('Patient' or 'Provider') to pay for the Benefits determined on the subsequent claim(s). 'None' explicitly indicates no funds reserving is requested.",
+                "alias": [
+                    "Fund pre-allocation"
+                ],
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Claim.fundsReserve",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "FundsReserve"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "For whom funds are to be reserved: (Patient, Provider, None).",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/fundsreserve"
+                }
+            }
+        ]
+    }
+}

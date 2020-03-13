@@ -1,0 +1,129 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-QuestionnaireResponse.item.answer.valueX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-QuestionnaireResponse.item.answer.valueX",
+    "version": "4.0.1",
+    "name": "QuestionnaireResponse.item.answer.value[x]",
+    "title": "QuestionnaireResponse.item.answer.value[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for QuestionnaireResponse.item.answer.value[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "QuestionnaireResponse.item.answer.value[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "QuestionnaireResponse.item.answer.value[x]",
+                "path": "QuestionnaireResponse.item.answer.value[x]",
+                "short": "Single-valued answer to the question",
+                "definition": "The answer (or one of the answers) provided by the respondent to the question.",
+                "comment": "More complex structures (Attachment, Resource and Quantity) will typically be limited to electronic forms that can expose an appropriate user interface to capture the components and enforce the constraints of a complex data type.  Additional complex types can be introduced through extensions. Must match the datatype specified by Questionnaire.item.type in the corresponding Questionnaire.",
+                "requirements": "Ability to retain a single-valued answer to a question.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "QuestionnaireResponse.item.answer.value[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "boolean"
+                    },
+                    {
+                        "code": "decimal"
+                    },
+                    {
+                        "code": "integer"
+                    },
+                    {
+                        "code": "date"
+                    },
+                    {
+                        "code": "dateTime"
+                    },
+                    {
+                        "code": "time"
+                    },
+                    {
+                        "code": "string"
+                    },
+                    {
+                        "code": "uri"
+                    },
+                    {
+                        "code": "Attachment"
+                    },
+                    {
+                        "code": "Coding"
+                    },
+                    {
+                        "code": "Quantity"
+                    },
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Resource"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "QuestionnaireAnswer"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Code indicating the response provided for a question.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-answers"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".item"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,77 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-CatalogEntry.referencedItem",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-CatalogEntry.referencedItem",
+    "version": "4.0.1",
+    "name": "CatalogEntry.referencedItem",
+    "title": "CatalogEntry.referencedItem",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for CatalogEntry.referencedItem",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "CatalogEntry.referencedItem",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "CatalogEntry.referencedItem",
+                "path": "CatalogEntry.referencedItem",
+                "short": "The item that is being defined",
+                "definition": "The item in a catalog or definition.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "CatalogEntry.referencedItem",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Medication",
+                            "http://hl7.org/fhir/StructureDefinition/Device",
+                            "http://hl7.org/fhir/StructureDefinition/Organization",
+                            "http://hl7.org/fhir/StructureDefinition/Practitioner",
+                            "http://hl7.org/fhir/StructureDefinition/PractitionerRole",
+                            "http://hl7.org/fhir/StructureDefinition/HealthcareService",
+                            "http://hl7.org/fhir/StructureDefinition/ActivityDefinition",
+                            "http://hl7.org/fhir/StructureDefinition/PlanDefinition",
+                            "http://hl7.org/fhir/StructureDefinition/SpecimenDefinition",
+                            "http://hl7.org/fhir/StructureDefinition/ObservationDefinition",
+                            "http://hl7.org/fhir/StructureDefinition/Binary"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

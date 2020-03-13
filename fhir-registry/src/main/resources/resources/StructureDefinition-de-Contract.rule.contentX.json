@@ -1,0 +1,90 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Contract.rule.contentX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Contract.rule.contentX",
+    "version": "4.0.1",
+    "name": "Contract.rule.content[x]",
+    "title": "Contract.rule.content[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Contract.rule.content[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Contract.rule.content[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Contract.rule.content[x]",
+                "path": "Contract.rule.content[x]",
+                "short": "Computable Contract Rules",
+                "definition": "Computable Contract conveyed using a policy rule language (e.g. XACML, DKAL, SecPal).",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Contract.rule.content[x]",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Attachment"
+                    },
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/DocumentReference"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.what[x]"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "Computable Policy Consent [Observation: templateId 2.16.840.1.113883.3.445.16] This template is used to represent an alternative representation of the Privacy Consent Directive (e.g.,ODRL, XrML, XACML) as a computer-readable set of rules. An implementation may use any appropriate representations of the privacy consent in addition to the \"ConsentDirectiveStructuredDefinition\" which uses the Clinical Template structure to express the elements of a consent directive in an interoperable way.\r1. SHALL contain exactly one [1..1] templateId ( CONF-CD-16 ) such that it\ra. SHALL contain exactly one [1..1] @root=\"2.16.840.1.113883.3.445.16\"\r2. SHALL contain exactly one [1..1] @moodCode=\"DEF\" (CodeSystem: 2.16.840.1.113883.5.1001 HL7ActMood) (CONF:14912)\r3. SHALL contain exactly one [1..1] code (CONF:9139)/@code=\"57016-8\" Privacy Policy Acknowledgement Document (CodeSystem: 2.16.840.1.113883.6.1 LOINC) (CONF:9138)\rIt specifies the LOINC code corresponding to \"Privacy Policy Acknowledgement Document\", it is fixed at this value.\r4. SHOULD contain zero or more [0..*] value with @xsi:type=\"ANY\" (CONF:9140) The value contains the computable representation of the policy. This may be a standard-based access control or attribute control based policy (See\r\"References\"). Computable Policy Consent example\r<!-- Sample computable policy language representation -->\r<entryRelationship typeCode=\"COMP\">\r<templateId root=\"2.16.840.1.113883.3.445.16\" />\r<observationMedia classCode=\"OBS\" moodCode=\"EVN\">\r<value mediaType=\"text/xml\" representation=\"TXT\"> ... </value>\r</observationMedia>\r</entryRelationship>"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,123 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Observation.component.interpretation",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Observation.component.interpretation",
+    "version": "4.0.1",
+    "name": "Observation.component.interpretation",
+    "title": "Observation.component.interpretation",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Observation.component.interpretation",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "sct-concept",
+            "uri": "http://snomed.info/conceptdomain",
+            "name": "SNOMED CT Concept Domain Binding"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "sct-attr",
+            "uri": "http://snomed.org/attributebinding",
+            "name": "SNOMED CT Attribute Binding"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Observation.component.interpretation",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Observation.component.interpretation",
+                "path": "Observation.component.interpretation",
+                "short": "High, low, normal, etc.",
+                "definition": "A categorical assessment of an observation value.  For example, high, low, normal.",
+                "comment": "Historically used for laboratory results (known as 'abnormal flag' ),  its use extends to other use cases where coded interpretations  are relevant.  Often reported as one or more simple compact codes this element is often placed adjacent to the result value in reports and flow sheets to signal the meaning/normalcy status of the result.",
+                "requirements": "For some results, particularly numeric results, an interpretation is necessary to fully understand the significance of a result.",
+                "alias": [
+                    "Abnormal Flag"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Observation.component.interpretation",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ObservationInterpretation"
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "Codes identifying interpretations of observations.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/observation-interpretation"
+                },
+                "mapping": [
+                    {
+                        "identity": "sct-concept",
+                        "map": "< 260245000 |Findings values|"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "OBX-8"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "interpretationCode"
+                    },
+                    {
+                        "identity": "sct-attr",
+                        "map": "363713009 |Has interpretation|"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,94 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Invoice.identifier",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Invoice.identifier",
+    "version": "4.0.1",
+    "name": "Invoice.identifier",
+    "title": "Invoice.identifier",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Invoice.identifier",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Invoice.identifier",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Invoice.identifier",
+                "path": "Invoice.identifier",
+                "short": "Business Identifier for item",
+                "definition": "Identifier of this Invoice, often used for reference in correspondence about this invoice or for tracking of payments.",
+                "requirements": "Allows Identification of this Invoice instance.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Invoice.identifier",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Identifier"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.identifier"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "FT1.2"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".identifier"
+                    }
+                ]
+            }
+        ]
+    }
+}

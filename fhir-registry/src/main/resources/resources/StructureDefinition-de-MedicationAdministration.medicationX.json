@@ -1,0 +1,120 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicationAdministration.medicationX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicationAdministration.medicationX",
+    "version": "4.0.1",
+    "name": "MedicationAdministration.medication[x]",
+    "title": "MedicationAdministration.medication[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicationAdministration.medication[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "w3c.prov",
+            "uri": "http://www.w3.org/ns/prov",
+            "name": "W3C PROV"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicationAdministration.medication[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicationAdministration.medication[x]",
+                "path": "MedicationAdministration.medication[x]",
+                "short": "What was administered",
+                "definition": "Identifies the medication that was administered. This is either a link to a resource representing the details of the medication or a simple attribute carrying a code that identifies the medication from a known list of medications.",
+                "comment": "If only a code is specified, then it needs to be a code for a specific product. If more information is required, then the use of the medication resource is recommended.  For example, if you require form or lot number, then you must reference the Medication resource.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "MedicationAdministration.medication[x]",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    },
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Medication"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "MedicationCode"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Codes identifying substance or product that can be administered.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medication-codes"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.code"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.what[x]"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "RXA-5-Administered Code"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".participation[typeCode=CSM].role[classCode=ADMM]"
+                    }
+                ]
+            }
+        ]
+    }
+}

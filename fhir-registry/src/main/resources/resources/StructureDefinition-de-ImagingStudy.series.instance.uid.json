@@ -1,0 +1,105 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ImagingStudy.series.instance.uid",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ImagingStudy.series.instance.uid",
+    "version": "4.0.1",
+    "name": "ImagingStudy.series.instance.uid",
+    "title": "ImagingStudy.series.instance.uid",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ImagingStudy.series.instance.uid",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "dicom",
+            "uri": "http://nema.org/dicom",
+            "name": "DICOM Tag Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ImagingStudy.series.instance.uid",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ImagingStudy.series.instance.uid",
+                "path": "ImagingStudy.series.instance.uid",
+                "short": "DICOM SOP Instance UID",
+                "definition": "The DICOM SOP Instance UID for this image or other DICOM content.",
+                "comment": "See  [DICOM PS3.3 C.12.1](http://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_C.12.html#sect_C.12.1).",
+                "requirements": "DICOM SOP Instance UID.",
+                "alias": [
+                    "SOPInstanceUID"
+                ],
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "ImagingStudy.series.instance.uid",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "id"
+                    }
+                ],
+                "example": [
+                    {
+                        "label": "General",
+                        "valueId": "2.16.124.113543.6003.189642796.63084.16748.2599092903"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".id"
+                    },
+                    {
+                        "identity": "dicom",
+                        "map": "(0008,0018)"
+                    }
+                ]
+            }
+        ]
+    }
+}

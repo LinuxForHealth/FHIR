@@ -2,18 +2,18 @@
     "resourceType": "CapabilityStatement",
     "id": "base2",
     "meta": {
-        "lastUpdated": "2018-12-27T22:37:54.724+11:00"
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Base FHIR Capability Statement (Empty)</h2><div><p>This is the base Capability Statement for FHIR. It represents a server that provides the none of the functionality defined by FHIR. It is provided to use as a template for system designers to build their own Capability Statements from. A capability statement has to contain something, so this contains a read of a Capability Statement</p>\n</div><table><tr><td>Mode</td><td>SERVER</td></tr><tr><td>Description</td><td>An empty Capability Statement</td></tr><tr><td>Transaction</td><td></td></tr><tr><td>System History</td><td></td></tr><tr><td>System Search</td><td></td></tr></table><table><tr><th><b>Resource Type</b></th><th><b>Profile</b></th><th><b>Read</b></th><th><b>V-Read</b></th><th><b>Search</b></th><th><b>Update</b></th><th><b>Updates</b></th><th><b>Create</b></th><th><b>Delete</b></th><th><b>History</b></th></tr><tr><td>CapabilityStatement</td><td>y</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></table><hr/><h2>Base FHIR Capability Statement (Empty)</h2><div><p>This is the base Capability Statement for FHIR. It represents a server that provides the none of the functionality defined by FHIR. It is provided to use as a template for system designers to build their own Capability Statements from. A capability statement has to contain something, so this contains a read of a Capability Statement</p>\n</div><table><tr><td>Mode</td><td>SERVER</td></tr><tr><td>Description</td><td>An empty Capability Statement</td></tr><tr><td>Transaction</td><td></td></tr><tr><td>System History</td><td></td></tr><tr><td>System Search</td><td></td></tr></table><table><tr><th><b>Resource Type</b></th><th><b>Profile</b></th><th><b>Read</b></th><th><b>V-Read</b></th><th><b>Search</b></th><th><b>Update</b></th><th><b>Updates</b></th><th><b>Create</b></th><th><b>Delete</b></th><th><b>History</b></th></tr><tr><td>CapabilityStatement</td><td>y</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></table></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Base FHIR Capability Statement (Empty)</h2><div><p>This is the base Capability Statement for FHIR. It represents a server that provides the none of the functionality defined by FHIR. It is provided to use as a template for system designers to build their own Capability Statements from. A capability statement has to contain something, so this contains a read of a Capability Statement</p>\n</div><table><tr><td>Mode</td><td>SERVER</td></tr><tr><td>Description</td><td>An empty Capability Statement</td></tr><tr><td>Transaction</td><td></td></tr><tr><td>System History</td><td></td></tr><tr><td>System Search</td><td></td></tr></table><table><tr><th><b>Resource Type</b></th><th><b>Profile</b></th><th><b title=\"GET a resource (read interaction)\">Read</b></th><th><b title=\"GET all set of resources of the type (search interaction)\">Search</b></th><th><b title=\"PUT a new resource version (update interaction)\">Update</b></th><th><b title=\"POST a new resource (create interaction)\">Create</b></th></tr><tr><td>CapabilityStatement</td><td>y</td><td></td><td></td><td></td></tr></table><hr/><h2>Base FHIR Capability Statement (Empty)</h2><div><p>This is the base Capability Statement for FHIR. It represents a server that provides the none of the functionality defined by FHIR. It is provided to use as a template for system designers to build their own Capability Statements from. A capability statement has to contain something, so this contains a read of a Capability Statement</p>\n</div><table><tr><td>Mode</td><td>SERVER</td></tr><tr><td>Description</td><td>An empty Capability Statement</td></tr><tr><td>Transaction</td><td></td></tr><tr><td>System History</td><td></td></tr><tr><td>System Search</td><td></td></tr></table><table><tr><th><b>Resource Type</b></th><th><b>Profile</b></th><th><b title=\"GET a resource (read interaction)\">Read</b></th><th><b title=\"GET all set of resources of the type (search interaction)\">Search</b></th><th><b title=\"PUT a new resource version (update interaction)\">Update</b></th><th><b title=\"POST a new resource (create interaction)\">Create</b></th></tr><tr><td>CapabilityStatement</td><td>y</td><td></td><td></td><td></td></tr></table></div>"
     },
     "url": "http://hl7.org/fhir/CapabilityStatement/base2",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "name": "Base FHIR Capability Statement (Empty)",
     "status": "draft",
     "experimental": true,
-    "date": "2018-12-27T22:37:54+11:00",
+    "date": "2019-11-01T09:29:23+11:00",
     "publisher": "FHIR Project Team",
     "contact": [
         {
@@ -30,7 +30,7 @@
     "software": {
         "name": "Insert your software name here..."
     },
-    "fhirVersion": "4.0.0",
+    "fhirVersion": "4.0.1",
     "format": [
         "xml",
         "json"

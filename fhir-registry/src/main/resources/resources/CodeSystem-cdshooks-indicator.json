@@ -2,7 +2,7 @@
     "resourceType": "CodeSystem",
     "id": "cdshooks-indicator",
     "meta": {
-        "lastUpdated": "2018-12-27T22:37:54.724+11:00",
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
         ]
@@ -21,10 +21,10 @@
     "identifier": [
         {
             "system": "urn:ietf:rfc:3986",
-            "value": "urn:oid:2.16.840.1.113883.4.642.1.1066"
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.1066"
         }
     ],
-    "version": "4.0.0",
+    "version": "4.0.1",
     "name": "Indicator",
     "status": "draft",
     "experimental": false,

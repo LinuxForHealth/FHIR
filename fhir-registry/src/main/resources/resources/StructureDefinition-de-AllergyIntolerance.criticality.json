@@ -1,0 +1,106 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-AllergyIntolerance.criticality",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-AllergyIntolerance.criticality",
+    "version": "4.0.1",
+    "name": "AllergyIntolerance.criticality",
+    "title": "AllergyIntolerance.criticality",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for AllergyIntolerance.criticality",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "AllergyIntolerance.criticality",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "AllergyIntolerance.criticality",
+                "path": "AllergyIntolerance.criticality",
+                "short": "low | high | unable-to-assess",
+                "definition": "Estimate of the potential clinical harm, or seriousness, of the reaction to the identified substance.",
+                "comment": "The default criticality value for any propensity to an adverse reaction should be 'Low Risk', indicating at the very least a relative contraindication to deliberate or voluntary exposure to the substance. 'High Risk' is flagged if the clinician has identified a propensity for a more serious or potentially life-threatening reaction, such as anaphylaxis, and implies an absolute contraindication to deliberate or voluntary exposure to the substance. If this element is missing, the criticality is unknown (though it may be known elsewhere).  Systems that capture a severity at the condition level are actually representing the concept of criticality whereas the severity documented at the reaction level is representing the true reaction severity.  Existing systems that are capturing both condition criticality and reaction severity may use the term \"severity\" to represent both.  Criticality is the worst it could be in the future (i.e. situation-agnostic) whereas severity is situation-dependent.",
+                "alias": [
+                    "Severity",
+                    "Seriousness",
+                    "Contra-indication",
+                    "Risk"
+                ],
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "AllergyIntolerance.criticality",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "AllergyIntoleranceCriticality"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Estimate of the potential clinical harm, or seriousness, of a reaction to an identified substance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.grade"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "AL1-4"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "inboundRelationship[typeCode=SUBJ].source[classCode=OBS, moodCode=EVN, code=SEV, value <= SeverityObservation (Severity Level)]"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,116 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-DocumentReference.content.attachment",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-DocumentReference.content.attachment",
+    "version": "4.0.1",
+    "name": "DocumentReference.content.attachment",
+    "title": "DocumentReference.content.attachment",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for DocumentReference.content.attachment",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "fhircomposition",
+            "uri": "http://hl7.org/fhir/composition",
+            "name": "FHIR Composition"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "cda",
+            "uri": "http://hl7.org/v3/cda",
+            "name": "CDA (R2)"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "xds",
+            "uri": "http://ihe.net/xds",
+            "name": "XDS metadata equivalent"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "DocumentReference.content.attachment",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "DocumentReference.content.attachment",
+                "path": "DocumentReference.content.attachment",
+                "short": "Where to access the document",
+                "definition": "The document or URL of the document along with critical metadata to prove content has integrity.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "DocumentReference.content.attachment",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Attachment"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "fhircomposition",
+                        "map": "Composition.language, \nComposition.title, \nComposition.date"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "TXA-3 for mime type"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "document.text"
+                    },
+                    {
+                        "identity": "xds",
+                        "map": "DocumentEntry.mimeType, DocumentEntry.languageCode, DocumentEntry.URI, DocumentEntry.size, DocumentEntry.hash, DocumentEntry.title, DocumentEntry.creationTime"
+                    },
+                    {
+                        "identity": "cda",
+                        "map": "ClinicalDocument/languageCode, ClinicalDocument/title, ClinicalDocument/date"
+                    }
+                ]
+            }
+        ]
+    }
+}

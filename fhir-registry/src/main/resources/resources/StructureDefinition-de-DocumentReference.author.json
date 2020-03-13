@@ -1,0 +1,129 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-DocumentReference.author",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-DocumentReference.author",
+    "version": "4.0.1",
+    "name": "DocumentReference.author",
+    "title": "DocumentReference.author",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for DocumentReference.author",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "fhircomposition",
+            "uri": "http://hl7.org/fhir/composition",
+            "name": "FHIR Composition"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "cda",
+            "uri": "http://hl7.org/v3/cda",
+            "name": "CDA (R2)"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "xds",
+            "uri": "http://ihe.net/xds",
+            "name": "XDS metadata equivalent"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "DocumentReference.author",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "DocumentReference.author",
+                "path": "DocumentReference.author",
+                "short": "Who and/or what authored the document",
+                "definition": "Identifies who is responsible for adding the information to the document.",
+                "comment": "Not necessarily who did the actual data entry (i.e. typist) or who was the source (informant).",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "DocumentReference.author",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Practitioner",
+                            "http://hl7.org/fhir/StructureDefinition/PractitionerRole",
+                            "http://hl7.org/fhir/StructureDefinition/Organization",
+                            "http://hl7.org/fhir/StructureDefinition/Device",
+                            "http://hl7.org/fhir/StructureDefinition/Patient",
+                            "http://hl7.org/fhir/StructureDefinition/RelatedPerson"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.performer.actor"
+                    },
+                    {
+                        "identity": "fhircomposition",
+                        "map": "Composition.author"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "TXA-9 (No standard way to indicate a Device in HL7 v2 MDM message)"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".participation[typeCode=\"AUT\"].role[classCode=\"ASSIGNED\"]"
+                    },
+                    {
+                        "identity": "xds",
+                        "map": "DocumentEntry.author"
+                    },
+                    {
+                        "identity": "cda",
+                        "map": "ClinicalDocument/author"
+                    }
+                ]
+            }
+        ]
+    }
+}

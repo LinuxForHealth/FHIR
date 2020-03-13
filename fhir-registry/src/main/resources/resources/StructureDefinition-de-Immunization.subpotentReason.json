@@ -1,0 +1,101 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Immunization.subpotentReason",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Immunization.subpotentReason",
+    "version": "4.0.1",
+    "name": "Immunization.subpotentReason",
+    "title": "Immunization.subpotentReason",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Immunization.subpotentReason",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "cda",
+            "uri": "http://hl7.org/v3/cda",
+            "name": "CDA (R2)"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Immunization.subpotentReason",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Immunization.subpotentReason",
+                "path": "Immunization.subpotentReason",
+                "short": "Reason for being subpotent",
+                "definition": "Reason why a dose is considered to be subpotent.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Immunization.subpotentReason",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubpotentReason"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The reason why a dose is considered to be subpotent.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/immunization-subpotent-reason"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            }
+        ]
+    }
+}

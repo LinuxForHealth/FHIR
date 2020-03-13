@@ -1,0 +1,92 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Questionnaire.item.answerOption.initialSelected",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Questionnaire.item.answerOption.initialSelected",
+    "version": "4.0.1",
+    "name": "Questionnaire.item.answerOption.initialSelected",
+    "title": "Questionnaire.item.answerOption.initialSelected",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Questionnaire.item.answerOption.initialSelected",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Questionnaire.item.answerOption.initialSelected",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Questionnaire.item.answerOption.initialSelected",
+                "path": "Questionnaire.item.answerOption.initialSelected",
+                "short": "Whether option is selected by default",
+                "definition": "Indicates whether the answer value is selected when the list of possible answers is initially shown.",
+                "comment": "Use this instead of initial[v] if answerValueSet is present.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Questionnaire.item.answerOption.initialSelected",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "boolean"
+                    }
+                ],
+                "meaningWhenMissing": "Only selected items explicitly marked to be selected",
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A - MIF rather than RIM level"
+                    }
+                ]
+            }
+        ]
+    }
+}

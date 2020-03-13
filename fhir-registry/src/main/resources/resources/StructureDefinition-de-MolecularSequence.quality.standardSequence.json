@@ -1,0 +1,80 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MolecularSequence.quality.standardSequence",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MolecularSequence.quality.standardSequence",
+    "version": "4.0.1",
+    "name": "MolecularSequence.quality.standardSequence",
+    "title": "MolecularSequence.quality.standardSequence",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MolecularSequence.quality.standardSequence",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MolecularSequence.quality.standardSequence",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MolecularSequence.quality.standardSequence",
+                "path": "MolecularSequence.quality.standardSequence",
+                "short": "Standard sequence for comparison",
+                "definition": "Gold standard sequence used for comparing against.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MolecularSequence.quality.standardSequence",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "qualityStandardSequence"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Reference identifier of the sequence that used to mark the quality of tested samples.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/sequence-quality-standardSequence"
+                }
+            }
+        ]
+    }
+}

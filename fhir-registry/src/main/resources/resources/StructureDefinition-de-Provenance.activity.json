@@ -1,0 +1,113 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Provenance.activity",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Provenance.activity",
+    "version": "4.0.1",
+    "name": "Provenance.activity",
+    "title": "Provenance.activity",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Provenance.activity",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w3c.prov",
+            "uri": "http://www.w3.org/ns/prov",
+            "name": "W3C PROV"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "fhirauditevent",
+            "uri": "http://hl7.org/fhir/auditevent",
+            "name": "FHIR AuditEvent Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Provenance.activity",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Provenance.activity",
+                "path": "Provenance.activity",
+                "short": "Activity that occurred",
+                "definition": "An activity is something that occurs over a period of time and acts upon or with entities; it may include consuming, processing, transforming, modifying, relocating, using, or generating entities.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Provenance.activity",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProvenanceActivity"
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "The activity that took place.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/provenance-activity-type"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.code"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.why[x]"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "Act.code"
+                    },
+                    {
+                        "identity": "w3c.prov",
+                        "map": "Activity.Activity"
+                    }
+                ]
+            }
+        ]
+    }
+}

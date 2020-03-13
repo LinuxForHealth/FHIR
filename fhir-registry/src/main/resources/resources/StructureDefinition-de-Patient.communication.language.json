@@ -1,0 +1,119 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Patient.communication.language",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Patient.communication.language",
+    "version": "4.0.1",
+    "name": "Patient.communication.language",
+    "title": "Patient.communication.language",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Patient.communication.language",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "cda",
+            "uri": "http://hl7.org/v3/cda",
+            "name": "CDA (R2)"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "loinc",
+            "uri": "http://loinc.org",
+            "name": "LOINC code for the element"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Patient.communication.language",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Patient.communication.language",
+                "path": "Patient.communication.language",
+                "short": "The language which can be used to communicate with the patient about his or her health",
+                "definition": "The ISO-639-1 alpha 2 code in lower case for the language, optionally followed by a hyphen and the ISO-3166-1 alpha 2 code for the region in upper case; e.g. \"en\" for English, or \"en-US\" for American English versus \"en-EN\" for England English.",
+                "comment": "The structure aa-BB with this exact casing is one the most widely used notations for locale. However not all systems actually code this but instead have it as free text. Hence CodeableConcept instead of code as the data type.",
+                "requirements": "Most systems in multilingual countries will want to convey language. Not all systems actually need the regional dialect.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Patient.communication.language",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet",
+                            "valueCanonical": "http://hl7.org/fhir/ValueSet/all-languages"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Language"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "A human language.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/languages"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "PID-15, LAN-2"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "player[classCode=PSN|ANM and determinerCode=INSTANCE]/languageCommunication/code"
+                    },
+                    {
+                        "identity": "cda",
+                        "map": ".languageCode"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,109 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Appointment.reasonCode",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Appointment.reasonCode",
+    "version": "4.0.1",
+    "name": "Appointment.reasonCode",
+    "title": "Appointment.reasonCode",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Appointment.reasonCode",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "ical",
+            "uri": "http://ietf.org/rfc/2445",
+            "name": "iCalendar"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Appointment.reasonCode",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Appointment.reasonCode",
+                "path": "Appointment.reasonCode",
+                "short": "Coded reason this appointment is scheduled",
+                "definition": "The coded reason that this appointment is being scheduled. This is more clinical than administrative.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Appointment.reasonCode",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ApptReason"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "The Reason for the appointment to take place.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/encounter-reason"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.reasonCode"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "AIS-3, SCH-7"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".reasonCode"
+                    }
+                ]
+            }
+        ]
+    }
+}

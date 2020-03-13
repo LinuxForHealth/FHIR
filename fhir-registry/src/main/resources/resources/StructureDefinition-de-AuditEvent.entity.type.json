@@ -1,0 +1,124 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-AuditEvent.entity.type",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-AuditEvent.entity.type",
+    "version": "4.0.1",
+    "name": "AuditEvent.entity.type",
+    "title": "AuditEvent.entity.type",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for AuditEvent.entity.type",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "dicom",
+            "uri": "http://nema.org/dicom",
+            "name": "DICOM Tag Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "w3c.prov",
+            "uri": "http://www.w3.org/ns/prov",
+            "name": "W3C PROV"
+        },
+        {
+            "identity": "fhirprovenance",
+            "uri": "http://hl7.org/fhir/provenance",
+            "name": "FHIR Provenance Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "AuditEvent.entity.type",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "AuditEvent.entity.type",
+                "path": "AuditEvent.entity.type",
+                "short": "Type of entity involved",
+                "definition": "The type of the object that was involved in this audit event.",
+                "comment": "This value is distinct from the user's role or any user relationship to the entity.",
+                "requirements": "To describe the object being acted upon. In addition to queries on the subject of the action in an auditable event, it is also important to be able to query on the object type for the action.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "AuditEvent.entity.type",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Coding"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "AuditEventEntityType"
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "Code for the entity type involved in the audit event.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/audit-entity-type"
+                },
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.what[x]"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "[self::Act].code or role.player.code"
+                    },
+                    {
+                        "identity": "dicom",
+                        "map": "ParticipantObjectTypeCode"
+                    },
+                    {
+                        "identity": "w3c.prov",
+                        "map": "Entity.type"
+                    },
+                    {
+                        "identity": "fhirprovenance",
+                        "map": "Provenance.entity.type"
+                    }
+                ]
+            }
+        ]
+    }
+}

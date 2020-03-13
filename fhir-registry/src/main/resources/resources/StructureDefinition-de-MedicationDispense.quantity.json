@@ -1,0 +1,101 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicationDispense.quantity",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicationDispense.quantity",
+    "version": "4.0.1",
+    "name": "MedicationDispense.quantity",
+    "title": "MedicationDispense.quantity",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicationDispense.quantity",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rx-dispense-rmim",
+            "uri": "http://www.hl7.org/v3/PORX_RM020070UV",
+            "name": "V3 Pharmacy Dispense RMIM"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicationDispense.quantity",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicationDispense.quantity",
+                "path": "MedicationDispense.quantity",
+                "short": "Amount dispensed",
+                "definition": "The amount of medication that has been dispensed. Includes unit of measure.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MedicationDispense.quantity",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Quantity",
+                        "profile": [
+                            "http://hl7.org/fhir/StructureDefinition/SimpleQuantity"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "RXD-4-Actual Dispense Amount / RXD-5.1-Actual Dispense Units.code / RXD-5.3-Actual Dispense Units.name of coding system"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".quantity"
+                    },
+                    {
+                        "identity": "rx-dispense-rmim",
+                        "map": "CombinedMedicationDispense.SupplyEvent.quantity"
+                    }
+                ]
+            }
+        ]
+    }
+}

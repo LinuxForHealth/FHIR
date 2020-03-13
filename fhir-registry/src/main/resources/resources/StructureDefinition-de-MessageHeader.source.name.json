@@ -1,0 +1,85 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MessageHeader.source.name",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MessageHeader.source.name",
+    "version": "4.0.1",
+    "name": "MessageHeader.source.name",
+    "title": "MessageHeader.source.name",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MessageHeader.source.name",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MessageHeader.source.name",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MessageHeader.source.name",
+                "path": "MessageHeader.source.name",
+                "short": "Name of system",
+                "definition": "Human-readable name for the source system.",
+                "requirements": "May be used to support audit.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MessageHeader.source.name",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "string"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "MSH-3"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "unique(./entity[determinerCode=\"INST\" and classCode=\"DEV\"]/name[type='ST' and isNormalDatatype()])"
+                    }
+                ]
+            }
+        ]
+    }
+}

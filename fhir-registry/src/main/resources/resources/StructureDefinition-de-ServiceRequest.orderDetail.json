@@ -1,0 +1,116 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ServiceRequest.orderDetail",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ServiceRequest.orderDetail",
+    "version": "4.0.1",
+    "name": "ServiceRequest.orderDetail",
+    "title": "ServiceRequest.orderDetail",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ServiceRequest.orderDetail",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "quick",
+            "uri": "http://siframework.org/cqf",
+            "name": "Quality Improvement and Clinical Knowledge (QUICK)"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ServiceRequest.orderDetail",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ServiceRequest.orderDetail",
+                "path": "ServiceRequest.orderDetail",
+                "short": "Additional order information",
+                "definition": "Additional details and instructions about the how the services are to be delivered.   For example, and order for a urinary catheter may have an order detail for an external or indwelling catheter, or an order for a bandage may require additional instructions specifying how the bandage should be applied.",
+                "comment": "For information from the medical record intended to support the delivery of the requested services, use the `supportingInformation` element.",
+                "alias": [
+                    "detailed instructions"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ServiceRequest.orderDetail",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "condition": [
+                    "prr-1"
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "OrderDetail"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Codified order entry details which are based on order context.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/servicerequest-orderdetail"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "NTE"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".code"
+                    },
+                    {
+                        "identity": "quick",
+                        "map": "Procedure.procedureCode"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-search-parameter-combination",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "name": "search-parameter-combination",
     "title": "Search Parameter Combination",
     "status": "draft",
@@ -29,7 +29,7 @@
         }
     ],
     "description": "This extension defines a possible search parameter combination,  by listing a set of search parameters and indicating whether they are required or optional. If a search combination is specified, clients should expect that they must submit a search that meets one of the required combinations or the search will be unsuccessful. If multiple search parameter combinations are specified, a client may pick between them, and supply the minimal required parameters for any of the combinations.",
-    "fhirVersion": "4.0.0",
+    "fhirVersion": "4.0.1",
     "mapping": [
         {
             "identity": "v2",
@@ -57,16 +57,6 @@
         "element": [
             {
                 "id": "Extension",
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
-                        "valueCode": "normative"
-                    },
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version",
-                        "valueCode": "4.0.0"
-                    }
-                ],
                 "path": "Extension",
                 "short": "An allowable parameter combination",
                 "definition": "This extension defines a possible search parameter combination,  by listing a set of search parameters and indicating whether they are required or optional. If a search combination is specified, clients should expect that they must submit a search that meets one of the required combinations or the search will be unsuccessful. If multiple search parameter combinations are specified, a client may pick between them, and supply the minimal required parameters for any of the combinations.",
@@ -88,7 +78,7 @@
                         "human": "All FHIR elements must have a @value or children",
                         "expression": "hasValue() or (children().count() > id.count())",
                         "xpath": "@value|f:*|h:div",
-                        "source": "Element"
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
                     },
                     {
                         "key": "ext-1",
@@ -96,7 +86,7 @@
                         "human": "Must have either extensions or value[x], not both",
                         "expression": "extension.exists() != value.exists()",
                         "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])",
-                        "source": "Extension"
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
                     }
                 ],
                 "isModifier": false,
@@ -128,7 +118,13 @@
                 },
                 "type": [
                     {
-                        "code": "string"
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
                     }
                 ],
                 "isModifier": false,
@@ -172,6 +168,24 @@
                         "code": "Extension"
                     }
                 ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
                 "isModifier": false,
                 "isSummary": false,
                 "mapping": [
@@ -197,6 +211,24 @@
                 "type": [
                     {
                         "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
                     }
                 ],
                 "isModifier": false,
@@ -229,7 +261,13 @@
                 },
                 "type": [
                     {
-                        "code": "string"
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
                     }
                 ],
                 "isModifier": false,
@@ -268,6 +306,24 @@
                         "code": "Extension"
                     }
                 ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
                 "isModifier": false,
                 "isSummary": false
             },
@@ -303,11 +359,11 @@
                 ]
             },
             {
-                "id": "Extension.extension:required.valueString",
-                "path": "Extension.extension.valueString",
+                "id": "Extension.extension:required.value[x]",
+                "path": "Extension.extension.value[x]",
                 "short": "Value of extension",
-                "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
-                "min": 0,
+                "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+                "min": 1,
                 "max": "1",
                 "base": {
                     "path": "Extension.value[x]",
@@ -317,6 +373,16 @@
                 "type": [
                     {
                         "code": "string"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
                     }
                 ],
                 "isModifier": false,
@@ -345,6 +411,24 @@
                 "type": [
                     {
                         "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
                     }
                 ],
                 "isModifier": false,
@@ -377,7 +461,13 @@
                 },
                 "type": [
                     {
-                        "code": "string"
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
                     }
                 ],
                 "isModifier": false,
@@ -416,6 +506,24 @@
                         "code": "Extension"
                     }
                 ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
                 "isModifier": false,
                 "isSummary": false
             },
@@ -451,11 +559,11 @@
                 ]
             },
             {
-                "id": "Extension.extension:optional.valueString",
-                "path": "Extension.extension.valueString",
+                "id": "Extension.extension:optional.value[x]",
+                "path": "Extension.extension.value[x]",
                 "short": "Value of extension",
-                "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
-                "min": 0,
+                "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+                "min": 1,
                 "max": "1",
                 "base": {
                     "path": "Extension.value[x]",
@@ -465,6 +573,16 @@
                 "type": [
                     {
                         "code": "string"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
                     }
                 ],
                 "isModifier": false,
@@ -494,7 +612,13 @@
                 },
                 "type": [
                     {
-                        "code": "uri"
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "uri"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
                     }
                 ],
                 "fixedUri": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-search-parameter-combination",
@@ -511,7 +635,7 @@
                 "id": "Extension.value[x]",
                 "path": "Extension.value[x]",
                 "short": "Value of extension",
-                "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
+                "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
                 "min": 0,
                 "max": "0",
                 "base": {
@@ -666,6 +790,19 @@
                     },
                     {
                         "code": "Dosage"
+                    },
+                    {
+                        "code": "Meta"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
                     }
                 ],
                 "isModifier": false,
@@ -742,8 +879,9 @@
                 "fixedUri": "required"
             },
             {
-                "id": "Extension.extension:required.valueString",
-                "path": "Extension.extension.valueString",
+                "id": "Extension.extension:required.value[x]",
+                "path": "Extension.extension.value[x]",
+                "min": 1,
                 "type": [
                     {
                         "code": "string"
@@ -792,8 +930,9 @@
                 "fixedUri": "optional"
             },
             {
-                "id": "Extension.extension:optional.valueString",
-                "path": "Extension.extension.valueString",
+                "id": "Extension.extension:optional.value[x]",
+                "path": "Extension.extension.value[x]",
+                "min": 1,
                 "type": [
                     {
                         "code": "string"
@@ -803,11 +942,6 @@
             {
                 "id": "Extension.url",
                 "path": "Extension.url",
-                "type": [
-                    {
-                        "code": "uri"
-                    }
-                ],
                 "fixedUri": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-search-parameter-combination"
             },
             {

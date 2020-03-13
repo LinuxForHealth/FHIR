@@ -16,6 +16,6 @@ public class SpecResourceProviderTest {
     @Test
     public void testSpecResourceProvider() {
         FHIRRegistryResourceProvider provider = new SpecResourceProvider();
-        Assert.assertEquals(provider.getResources().size(), 3370);
+        Assert.assertEquals(provider.getResources().size(), 9876);
     }
 }
