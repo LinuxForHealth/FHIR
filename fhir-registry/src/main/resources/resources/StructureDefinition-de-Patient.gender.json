@@ -1,0 +1,115 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Patient.gender",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Patient.gender",
+    "version": "4.0.1",
+    "name": "Patient.gender",
+    "title": "Patient.gender",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Patient.gender",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "cda",
+            "uri": "http://hl7.org/v3/cda",
+            "name": "CDA (R2)"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "loinc",
+            "uri": "http://loinc.org",
+            "name": "LOINC code for the element"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Patient.gender",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Patient.gender",
+                "path": "Patient.gender",
+                "short": "male | female | other | unknown",
+                "definition": "Administrative Gender - the gender that the patient is considered to have for administration and record keeping purposes.",
+                "comment": "The gender might not match the biological sex as determined by genetics or the individual's preferred identification. Note that for both humans and particularly animals, there are other legitimate possibilities than male and female, though the vast majority of systems and contexts only support male and female.  Systems providing decision support or enforcing business rules should ideally do this on the basis of Observations dealing with the specific sex or gender aspect of interest (anatomical, chromosomal, social, etc.)  However, because these observations are infrequently recorded, defaulting to the administrative gender is common practice.  Where such defaulting occurs, rule enforcement should allow for the variation between administrative and biological, chromosomal and other gender aspects.  For example, an alert about a hysterectomy on a male should be handled as a warning or overridable error, not a \"hard\" error.  See the Patient Gender and Sex section for additional information about communicating patient gender and sex.",
+                "requirements": "Needed for identification of the individual, in combination with (at least) name and birth date.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Patient.gender",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "AdministrativeGender"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "The gender of a person used for administrative purposes.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "PID-8"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "player[classCode=PSN|ANM and determinerCode=INSTANCE]/administrativeGender"
+                    },
+                    {
+                        "identity": "cda",
+                        "map": ".patient.administrativeGenderCode"
+                    }
+                ]
+            }
+        ]
+    }
+}

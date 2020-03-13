@@ -1,0 +1,85 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-HealthcareService.eligibility.code",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-HealthcareService.eligibility.code",
+    "version": "4.0.1",
+    "name": "HealthcareService.eligibility.code",
+    "title": "HealthcareService.eligibility.code",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for HealthcareService.eligibility.code",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "HealthcareService.eligibility.code",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "HealthcareService.eligibility.code",
+                "path": "HealthcareService.eligibility.code",
+                "short": "Coded value for the eligibility",
+                "definition": "Coded value for the eligibility.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "HealthcareService.eligibility.code",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ServiceEligibility"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Coded values underwhich a specific service is made available."
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".actrelationship[typeCode=PRCN].observation[moodCode=EVN.CRT]"
+                    }
+                ]
+            }
+        ]
+    }
+}

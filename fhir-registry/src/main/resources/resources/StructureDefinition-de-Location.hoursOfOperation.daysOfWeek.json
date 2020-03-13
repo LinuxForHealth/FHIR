@@ -1,0 +1,86 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Location.hoursOfOperation.daysOfWeek",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Location.hoursOfOperation.daysOfWeek",
+    "version": "4.0.1",
+    "name": "Location.hoursOfOperation.daysOfWeek",
+    "title": "Location.hoursOfOperation.daysOfWeek",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Location.hoursOfOperation.daysOfWeek",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Location.hoursOfOperation.daysOfWeek",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Location.hoursOfOperation.daysOfWeek",
+                "path": "Location.hoursOfOperation.daysOfWeek",
+                "short": "mon | tue | wed | thu | fri | sat | sun",
+                "definition": "Indicates which days of the week are available between the start and end Times.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Location.hoursOfOperation.daysOfWeek",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DaysOfWeek"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "The days of the week.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/days-of-week|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".effectiveTime"
+                    }
+                ]
+            }
+        ]
+    }
+}

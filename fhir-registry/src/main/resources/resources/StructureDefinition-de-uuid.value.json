@@ -1,0 +1,70 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-uuid.value",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-uuid.value",
+    "version": "4.0.1",
+    "name": "uuid.value",
+    "title": "uuid.value",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for uuid.value",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "kind": "logical",
+    "abstract": false,
+    "type": "uuid.value",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "uuid.value",
+                "path": "uuid.value",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Primitive value for uuid",
+                "definition": "Primitive value for uuid",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "uuid.value",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            },
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/regex",
+                                "valueString": "urn:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

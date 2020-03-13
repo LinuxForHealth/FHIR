@@ -1,0 +1,104 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Patient.birthDate",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Patient.birthDate",
+    "version": "4.0.1",
+    "name": "Patient.birthDate",
+    "title": "Patient.birthDate",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Patient.birthDate",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "cda",
+            "uri": "http://hl7.org/v3/cda",
+            "name": "CDA (R2)"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "loinc",
+            "uri": "http://loinc.org",
+            "name": "LOINC code for the element"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Patient.birthDate",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Patient.birthDate",
+                "path": "Patient.birthDate",
+                "short": "The date of birth for the individual",
+                "definition": "The date of birth for the individual.",
+                "comment": "At least an estimated year should be provided as a guess if the real DOB is unknown  There is a standard extension \"patient-birthTime\" available that should be used where Time is required (such as in maternity/infant care systems).",
+                "requirements": "Age of the individual drives many clinical processes.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Patient.birthDate",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "date"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "PID-7"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "player[classCode=PSN|ANM and determinerCode=INSTANCE]/birthTime"
+                    },
+                    {
+                        "identity": "cda",
+                        "map": ".patient.birthTime"
+                    },
+                    {
+                        "identity": "loinc",
+                        "map": "21112-8"
+                    }
+                ]
+            }
+        ]
+    }
+}

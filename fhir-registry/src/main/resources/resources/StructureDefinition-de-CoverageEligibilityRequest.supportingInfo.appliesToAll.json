@@ -1,0 +1,80 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-CoverageEligibilityRequest.supportingInfo.appliesToAll",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-CoverageEligibilityRequest.supportingInfo.appliesToAll",
+    "version": "4.0.1",
+    "name": "CoverageEligibilityRequest.supportingInfo.appliesToAll",
+    "title": "CoverageEligibilityRequest.supportingInfo.appliesToAll",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for CoverageEligibilityRequest.supportingInfo.appliesToAll",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "CoverageEligibilityRequest.supportingInfo.appliesToAll",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "CoverageEligibilityRequest.supportingInfo.appliesToAll",
+                "path": "CoverageEligibilityRequest.supportingInfo.appliesToAll",
+                "short": "Applies to all items",
+                "definition": "The supporting materials are applicable for all detail items, product/servce categories and specific billing codes.",
+                "requirements": "Needed to convey that the information is universal to the request.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "CoverageEligibilityRequest.supportingInfo.appliesToAll",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "boolean"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

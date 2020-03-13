@@ -1,0 +1,104 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-PractitionerRole.specialty",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-PractitionerRole.specialty",
+    "version": "4.0.1",
+    "name": "PractitionerRole.specialty",
+    "title": "PractitionerRole.specialty",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for PractitionerRole.specialty",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "servd",
+            "uri": "http://www.omg.org/spec/ServD/1.0/",
+            "name": "ServD"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "PractitionerRole.specialty",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "PractitionerRole.specialty",
+                "path": "PractitionerRole.specialty",
+                "short": "Specific specialty of the practitioner",
+                "definition": "Specific specialty of the practitioner.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "PractitionerRole.specialty",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PractitionerSpecialty"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "Specific specialty associated with the agency.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/c80-practice-codes"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "PRA-5"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".player.HealthCareProvider[@classCode = 'PROV'].code"
+                    },
+                    {
+                        "identity": "servd",
+                        "map": "./Specialty"
+                    }
+                ]
+            }
+        ]
+    }
+}

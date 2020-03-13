@@ -1,0 +1,85 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-EpisodeOfCare.statusHistory.status",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-EpisodeOfCare.statusHistory.status",
+    "version": "4.0.1",
+    "name": "EpisodeOfCare.statusHistory.status",
+    "title": "EpisodeOfCare.statusHistory.status",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for EpisodeOfCare.statusHistory.status",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "EpisodeOfCare.statusHistory.status",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "EpisodeOfCare.statusHistory.status",
+                "path": "EpisodeOfCare.statusHistory.status",
+                "short": "planned | waitlist | active | onhold | finished | cancelled | entered-in-error",
+                "definition": "planned | waitlist | active | onhold | finished | cancelled.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "EpisodeOfCare.statusHistory.status",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "EpisodeOfCareStatus"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "The status of the episode of care.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.0.1"
+                }
+            }
+        ]
+    }
+}

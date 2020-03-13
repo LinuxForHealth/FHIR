@@ -1,0 +1,97 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Substance.ingredient.substanceX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Substance.ingredient.substanceX",
+    "version": "4.0.1",
+    "name": "Substance.ingredient.substance[x]",
+    "title": "Substance.ingredient.substance[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Substance.ingredient.substance[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "orim",
+            "uri": "http://hl7.org/orim",
+            "name": "Ontological RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Substance.ingredient.substance[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Substance.ingredient.substance[x]",
+                "path": "Substance.ingredient.substance[x]",
+                "short": "A component of the substance",
+                "definition": "Another substance that is a component of this substance.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Substance.ingredient.substance[x]",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    },
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Substance"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SubstanceIngredient"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Substance Ingredient codes.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/substance-code"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".player"
+                    }
+                ]
+            }
+        ]
+    }
+}

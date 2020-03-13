@@ -1,0 +1,99 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Group.characteristic.valueX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Group.characteristic.valueX",
+    "version": "4.0.1",
+    "name": "Group.characteristic.value[x]",
+    "title": "Group.characteristic.value[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Group.characteristic.value[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Group.characteristic.value[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Group.characteristic.value[x]",
+                "path": "Group.characteristic.value[x]",
+                "short": "Value held by characteristic",
+                "definition": "The value of the trait that holds (or does not hold - see 'exclude') for members of the group.",
+                "comment": "For Range, it means members of the group have a value that falls somewhere within the specified range.",
+                "requirements": "The value of the characteristic is what determines group membership.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Group.characteristic.value[x]",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    },
+                    {
+                        "code": "boolean"
+                    },
+                    {
+                        "code": "Quantity"
+                    },
+                    {
+                        "code": "Range"
+                    },
+                    {
+                        "code": "Reference"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "GroupCharacteristicValue"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Value of descriptive member characteristic; e.g. red, male, pneumonia, Caucasian, etc."
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "./value"
+                    }
+                ]
+            }
+        ]
+    }
+}

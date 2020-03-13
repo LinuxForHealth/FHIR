@@ -1,0 +1,84 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Contract.signer.signature",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Contract.signer.signature",
+    "version": "4.0.1",
+    "name": "Contract.signer.signature",
+    "title": "Contract.signer.signature",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Contract.signer.signature",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Contract.signer.signature",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Contract.signer.signature",
+                "path": "Contract.signer.signature",
+                "short": "Contract Documentation Signature",
+                "definition": "Legally binding Contract DSIG signature contents in Base64.",
+                "min": 1,
+                "max": "*",
+                "base": {
+                    "path": "Contract.signer.signature",
+                    "min": 1,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Signature"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.author"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "Participation.signatureCode :: CD (0..1) Definition: Whether the participant has attested participation through a signature, or whether such a signature is needed. Examples: A surgical Procedure act object (representing a procedure report) requires a signature of the performing and responsible surgeon, and possibly other participants; The participant intends to provide a signature.  Participation.signatureText :: ED (0..1) Definition: A textual or multimedia depiction of the signature by which the participant endorses and accepts responsibility for his or her participation in the Act as specified in the Participation.typeCode. UsageNotes: The signature can be represented either inline or by reference according to the ED data type. Typical cases are \r1) Paper-based signatures: the ED data type may refer to a document or other resource that can be retrieved through an electronic interface to a hardcopy archive. 2) Electronic signature: this attribute can represent virtually any electronic signature scheme. 3) Digital signature: this attribute can represent digital signatures by reference to a signature data block that is constructed in accordance to a digital signature standard, such as XML-DSIG, PKCS#7, PGP, etc. Examples: 1) An \"author\" participant assumes accountability for the truth of the Act statement to the best of his knowledge. 2) An information recipient only attests to the fact that he or she has received the information."
+                    }
+                ]
+            }
+        ]
+    }
+}

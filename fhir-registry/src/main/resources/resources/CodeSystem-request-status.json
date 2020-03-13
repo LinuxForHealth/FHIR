@@ -2,11 +2,11 @@
     "resourceType": "CodeSystem",
     "id": "request-status",
     "meta": {
-        "lastUpdated": "2018-12-27T22:37:54.724+11:00"
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>RequestStatus</h2><div><p>Codes identifying the lifecycle stage of a request.</p>\n</div><p>This code system http://hl7.org/fhir/request-status defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">draft<a name=\"request-status-draft\"> </a></td><td>Draft</td><td>The request has been created but is not yet complete or ready for action.</td></tr><tr><td style=\"white-space:nowrap\">active<a name=\"request-status-active\"> </a></td><td>Active</td><td>The request is in force and ready to be acted upon.</td></tr><tr><td style=\"white-space:nowrap\">on-hold<a name=\"request-status-on-hold\"> </a></td><td>On Hold</td><td>The request (and any implicit authorization to act) has been temporarily withdrawn but is expected to resume in the future.</td></tr><tr><td style=\"white-space:nowrap\">revoked<a name=\"request-status-revoked\"> </a></td><td>Revoked</td><td>The request (and any implicit authorization to act) has been terminated prior to the known full completion of the intended actions.  No further activity should occur.</td></tr><tr><td style=\"white-space:nowrap\">completed<a name=\"request-status-completed\"> </a></td><td>Completed</td><td>The activity described by the request has been fully performed.  No further activity will occur.</td></tr><tr><td style=\"white-space:nowrap\">entered-in-error<a name=\"request-status-entered-in-error\"> </a></td><td>Entered in Error</td><td>This request should never have existed and should be considered 'void'.  (It is possible that real-world decisions were based on it.  If real-world activity has occurred, the status should be &quot;cancelled&quot; rather than &quot;entered-in-error&quot;.).</td></tr><tr><td style=\"white-space:nowrap\">unknown<a name=\"request-status-unknown\"> </a></td><td>Unknown</td><td>The authoring/source system does not know which of the status values currently applies for this request.  Note: This concept is not to be used for &quot;other&quot; - one of the listed statuses is presumed to apply,  but the authoring/source system does not know which.</td></tr></table></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>RequestStatus</h2><div><p>Codes identifying the lifecycle stage of a request.</p>\n</div><p>This code system http://hl7.org/fhir/request-status defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">draft<a name=\"request-status-draft\"> </a></td><td>Draft</td><td>The request has been created but is not yet complete or ready for action.</td></tr><tr><td style=\"white-space:nowrap\">active<a name=\"request-status-active\"> </a></td><td>Active</td><td>The request is in force and ready to be acted upon.</td></tr><tr><td style=\"white-space:nowrap\">on-hold<a name=\"request-status-on-hold\"> </a></td><td>On Hold</td><td>The request (and any implicit authorization to act) has been temporarily withdrawn but is expected to resume in the future.</td></tr><tr><td style=\"white-space:nowrap\">revoked<a name=\"request-status-revoked\"> </a></td><td>Revoked</td><td>The request (and any implicit authorization to act) has been terminated prior to the known full completion of the intended actions.  No further activity should occur.</td></tr><tr><td style=\"white-space:nowrap\">completed<a name=\"request-status-completed\"> </a></td><td>Completed</td><td>The activity described by the request has been fully performed.  No further activity will occur.</td></tr><tr><td style=\"white-space:nowrap\">entered-in-error<a name=\"request-status-entered-in-error\"> </a></td><td>Entered in Error</td><td>This request should never have existed and should be considered 'void'.  (It is possible that real-world decisions were based on it.  If real-world activity has occurred, the status should be &quot;revoked&quot; rather than &quot;entered-in-error&quot;.).</td></tr><tr><td style=\"white-space:nowrap\">unknown<a name=\"request-status-unknown\"> </a></td><td>Unknown</td><td>The authoring/source system does not know which of the status values currently applies for this request.  Note: This concept is not to be used for &quot;other&quot; - one of the listed statuses is presumed to apply,  but the authoring/source system does not know which.</td></tr></table></div>"
     },
     "extension": [
         {
@@ -26,15 +26,15 @@
     "identifier": [
         {
             "system": "urn:ietf:rfc:3986",
-            "value": "urn:oid:2.16.840.1.113883.4.642.1.112"
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.112"
         }
     ],
-    "version": "4.0.0",
+    "version": "4.0.1",
     "name": "RequestStatus",
     "title": "RequestStatus",
     "status": "draft",
     "experimental": false,
-    "date": "2018-12-27T22:37:54+11:00",
+    "date": "2019-11-01T09:29:23+11:00",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -83,7 +83,7 @@
         {
             "code": "entered-in-error",
             "display": "Entered in Error",
-            "definition": "This request should never have existed and should be considered 'void'.  (It is possible that real-world decisions were based on it.  If real-world activity has occurred, the status should be \"cancelled\" rather than \"entered-in-error\".)."
+            "definition": "This request should never have existed and should be considered 'void'.  (It is possible that real-world decisions were based on it.  If real-world activity has occurred, the status should be \"revoked\" rather than \"entered-in-error\".)."
         },
         {
             "code": "unknown",

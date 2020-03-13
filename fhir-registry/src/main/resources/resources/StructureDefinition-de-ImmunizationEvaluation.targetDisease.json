@@ -1,0 +1,96 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ImmunizationEvaluation.targetDisease",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ImmunizationEvaluation.targetDisease",
+    "version": "4.0.1",
+    "name": "ImmunizationEvaluation.targetDisease",
+    "title": "ImmunizationEvaluation.targetDisease",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ImmunizationEvaluation.targetDisease",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ImmunizationEvaluation.targetDisease",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ImmunizationEvaluation.targetDisease",
+                "path": "ImmunizationEvaluation.targetDisease",
+                "short": "Evaluation target disease",
+                "definition": "The vaccine preventable disease the dose is being evaluated against.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "ImmunizationEvaluation.targetDisease",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "EvaluationTargetDisease"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The vaccine preventable disease the dose is being evaluated against.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/immunization-evaluation-target-disease"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "OBX-5 : OBX-3 = ( 30956-7 | 38890-0 )"
+                    }
+                ]
+            }
+        ]
+    }
+}

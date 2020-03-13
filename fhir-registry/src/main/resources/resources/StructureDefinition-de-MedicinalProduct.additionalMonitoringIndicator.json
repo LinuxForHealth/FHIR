@@ -1,0 +1,64 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicinalProduct.additionalMonitoringIndicator",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicinalProduct.additionalMonitoringIndicator",
+    "version": "4.0.1",
+    "name": "MedicinalProduct.additionalMonitoringIndicator",
+    "title": "MedicinalProduct.additionalMonitoringIndicator",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicinalProduct.additionalMonitoringIndicator",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicinalProduct.additionalMonitoringIndicator",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicinalProduct.additionalMonitoringIndicator",
+                "path": "MedicinalProduct.additionalMonitoringIndicator",
+                "short": "Whether the Medicinal Product is subject to additional monitoring for regulatory reasons",
+                "definition": "Whether the Medicinal Product is subject to additional monitoring for regulatory reasons.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MedicinalProduct.additionalMonitoringIndicator",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

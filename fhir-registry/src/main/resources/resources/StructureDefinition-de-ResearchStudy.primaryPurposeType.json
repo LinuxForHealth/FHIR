@@ -1,0 +1,101 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ResearchStudy.primaryPurposeType",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ResearchStudy.primaryPurposeType",
+    "version": "4.0.1",
+    "name": "ResearchStudy.primaryPurposeType",
+    "title": "ResearchStudy.primaryPurposeType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ResearchStudy.primaryPurposeType",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "BRIDG5.1",
+            "uri": "https://bridgmodel.nci.nih.gov",
+            "name": "BRIDG 5.1 Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "clinicaltrials-gov",
+            "uri": "http://clinicaltrials.gov",
+            "name": "ClinicalTrials.gov Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ResearchStudy.primaryPurposeType",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ResearchStudy.primaryPurposeType",
+                "path": "ResearchStudy.primaryPurposeType",
+                "short": "treatment | prevention | diagnostic | supportive-care | screening | health-services-research | basic-science | device-feasibility",
+                "definition": "The type of study based upon the intent of the study's activities. A classification of the intent of the study.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "ResearchStudy.primaryPurposeType",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ResearchStudyPrimaryPurposeType"
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "Codes for the main intent of the study.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/research-study-prim-purp-type"
+                },
+                "mapping": [
+                    {
+                        "identity": "BRIDG5.1",
+                        "map": "StudyProtocolVersion.primaryPurposeTypeCode"
+                    }
+                ]
+            }
+        ]
+    }
+}

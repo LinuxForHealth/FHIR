@@ -1,0 +1,96 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ImmunizationEvaluation.doseStatus",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ImmunizationEvaluation.doseStatus",
+    "version": "4.0.1",
+    "name": "ImmunizationEvaluation.doseStatus",
+    "title": "ImmunizationEvaluation.doseStatus",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ImmunizationEvaluation.doseStatus",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ImmunizationEvaluation.doseStatus",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ImmunizationEvaluation.doseStatus",
+                "path": "ImmunizationEvaluation.doseStatus",
+                "short": "Status of the dose relative to published recommendations",
+                "definition": "Indicates if the dose is valid or not valid with respect to the published recommendations.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "ImmunizationEvaluation.doseStatus",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "EvaluationDoseStatus"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The status of the administered dose relative to the published recommendations for the target disease.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/immunization-evaluation-dose-status"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "OBX-5 : OBX-3 = ( 59781-5 )"
+                    }
+                ]
+            }
+        ]
+    }
+}

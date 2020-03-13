@@ -1,0 +1,124 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-DocumentReference.content.format",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-DocumentReference.content.format",
+    "version": "4.0.1",
+    "name": "DocumentReference.content.format",
+    "title": "DocumentReference.content.format",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for DocumentReference.content.format",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "fhircomposition",
+            "uri": "http://hl7.org/fhir/composition",
+            "name": "FHIR Composition"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "cda",
+            "uri": "http://hl7.org/v3/cda",
+            "name": "CDA (R2)"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "xds",
+            "uri": "http://ihe.net/xds",
+            "name": "XDS metadata equivalent"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "DocumentReference.content.format",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "DocumentReference.content.format",
+                "path": "DocumentReference.content.format",
+                "short": "Format/content rules for the document",
+                "definition": "An identifier of the document encoding, structure, and template that the document conforms to beyond the base format indicated in the mimeType.",
+                "comment": "Note that while IHE mostly issues URNs for format types, not all documents can be identified by a URI.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "DocumentReference.content.format",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Coding"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DocumentFormat"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "Document Format Codes.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/formatcodes"
+                },
+                "mapping": [
+                    {
+                        "identity": "fhircomposition",
+                        "map": "Composition.meta.profile"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "document.text"
+                    },
+                    {
+                        "identity": "xds",
+                        "map": "DocumentEntry.formatCode"
+                    },
+                    {
+                        "identity": "cda",
+                        "map": "derived from the IHE Profile or Implementation Guide templateID"
+                    }
+                ]
+            }
+        ]
+    }
+}

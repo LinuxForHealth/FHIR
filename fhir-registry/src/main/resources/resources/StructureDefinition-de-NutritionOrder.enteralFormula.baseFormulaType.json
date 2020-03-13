@@ -1,0 +1,108 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-NutritionOrder.enteralFormula.baseFormulaType",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-NutritionOrder.enteralFormula.baseFormulaType",
+    "version": "4.0.1",
+    "name": "NutritionOrder.enteralFormula.baseFormulaType",
+    "title": "NutritionOrder.enteralFormula.baseFormulaType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for NutritionOrder.enteralFormula.baseFormulaType",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "NutritionOrder.enteralFormula.baseFormulaType",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "NutritionOrder.enteralFormula.baseFormulaType",
+                "path": "NutritionOrder.enteralFormula.baseFormulaType",
+                "short": "Type of enteral or infant formula",
+                "definition": "The type of enteral or infant formula such as an adult standard formula with fiber or a soy-based infant formula.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "NutritionOrder.enteralFormula.baseFormulaType",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "EnteralFormulaType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Codes for type of enteral formula to be administered to patient.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/entformula-type"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.code"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.what[x]"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "ODS-3"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".participation[typeCode=PRD].role[classCode=MANU], manufacturedFoodKind; .code (NutritionalFormulaType)"
+                    }
+                ]
+            }
+        ]
+    }
+}

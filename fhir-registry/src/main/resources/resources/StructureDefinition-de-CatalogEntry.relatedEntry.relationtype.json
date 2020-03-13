@@ -1,0 +1,75 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-CatalogEntry.relatedEntry.relationtype",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-CatalogEntry.relatedEntry.relationtype",
+    "version": "4.0.1",
+    "name": "CatalogEntry.relatedEntry.relationtype",
+    "title": "CatalogEntry.relatedEntry.relationtype",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for CatalogEntry.relatedEntry.relationtype",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "CatalogEntry.relatedEntry.relationtype",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "CatalogEntry.relatedEntry.relationtype",
+                "path": "CatalogEntry.relatedEntry.relationtype",
+                "short": "triggers | is-replaced-by",
+                "definition": "The type of relation to the related item: child, parent, packageContent, containerPackage, usedIn, uses, requires, etc.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "CatalogEntry.relatedEntry.relationtype",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "CatalogEntryRelationType"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "The type of relations between entries.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/relation-type|4.0.1"
+                }
+            }
+        ]
+    }
+}

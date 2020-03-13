@@ -1,0 +1,91 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-EventDefinition.topic",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-EventDefinition.topic",
+    "version": "4.0.1",
+    "name": "EventDefinition.topic",
+    "title": "EventDefinition.topic",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for EventDefinition.topic",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "EventDefinition.topic",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "EventDefinition.topic",
+                "path": "EventDefinition.topic",
+                "short": "E.g. Education, Treatment, Assessment, etc.",
+                "definition": "Descriptive topics related to the module. Topics provide a high-level categorization of the module that can be useful for filtering and searching.",
+                "requirements": "Repositories must be able to determine how to categorize the module so that it can be found by topical searches.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "EventDefinition.topic",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DefinitionTopic"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "High-level categorization of the definition, used for searching, sorting, and filtering.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/definition-topic"
+                }
+            }
+        ]
+    }
+}

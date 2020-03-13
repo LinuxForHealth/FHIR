@@ -1,0 +1,106 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Provenance.occurredX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Provenance.occurredX",
+    "version": "4.0.1",
+    "name": "Provenance.occurred[x]",
+    "title": "Provenance.occurred[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Provenance.occurred[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w3c.prov",
+            "uri": "http://www.w3.org/ns/prov",
+            "name": "W3C PROV"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "fhirauditevent",
+            "uri": "http://hl7.org/fhir/auditevent",
+            "name": "FHIR AuditEvent Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Provenance.occurred[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Provenance.occurred[x]",
+                "path": "Provenance.occurred[x]",
+                "short": "When the activity occurred",
+                "definition": "The period during which the activity occurred.",
+                "comment": "The period can be a little arbitrary; where possible, the time should correspond to human assessment of the activity time.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Provenance.occurred[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Period"
+                    },
+                    {
+                        "code": "dateTime"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.occurred[x]"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.done[x]"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "./effectiveTime[type=IVL_TS]"
+                    },
+                    {
+                        "identity": "w3c.prov",
+                        "map": "Activity.startTime & Activity.endTime"
+                    }
+                ]
+            }
+        ]
+    }
+}

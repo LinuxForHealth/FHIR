@@ -1,0 +1,87 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-HealthcareService.serviceProvisionCode",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-HealthcareService.serviceProvisionCode",
+    "version": "4.0.1",
+    "name": "HealthcareService.serviceProvisionCode",
+    "title": "HealthcareService.serviceProvisionCode",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for HealthcareService.serviceProvisionCode",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "HealthcareService.serviceProvisionCode",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "HealthcareService.serviceProvisionCode",
+                "path": "HealthcareService.serviceProvisionCode",
+                "short": "Conditions under which service is available/offered",
+                "definition": "The code(s) that detail the conditions under which the healthcare service is available/offered.",
+                "comment": "The provision means being commissioned by, contractually obliged or financially sourced. Types of costings that may apply to this healthcare service, such if the service may be available for free, some discounts available, or fees apply.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "HealthcareService.serviceProvisionCode",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ServiceProvisionConditions"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The code(s) that detail the conditions under which the healthcare service is available/offered.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/service-provision-conditions"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".actrelationship[typeCode=PRCN].observation[moodCode=EVN.CRT]"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,79 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-RiskEvidenceSynthesis.riskEstimate.precisionEstimate.from",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-RiskEvidenceSynthesis.riskEstimate.precisionEstimate.from",
+    "version": "4.0.1",
+    "name": "RiskEvidenceSynthesis.riskEstimate.precisionEstimate.from",
+    "title": "RiskEvidenceSynthesis.riskEstimate.precisionEstimate.from",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for RiskEvidenceSynthesis.riskEstimate.precisionEstimate.from",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "RiskEvidenceSynthesis.riskEstimate.precisionEstimate.from",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "RiskEvidenceSynthesis.riskEstimate.precisionEstimate.from",
+                "path": "RiskEvidenceSynthesis.riskEstimate.precisionEstimate.from",
+                "short": "Lower bound",
+                "definition": "Lower bound of confidence interval.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "RiskEvidenceSynthesis.riskEstimate.precisionEstimate.from",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "decimal"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

@@ -1,0 +1,98 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ActivityDefinition.bodySite",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ActivityDefinition.bodySite",
+    "version": "4.0.1",
+    "name": "ActivityDefinition.bodySite",
+    "title": "ActivityDefinition.bodySite",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ActivityDefinition.bodySite",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ActivityDefinition.bodySite",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ActivityDefinition.bodySite",
+                "path": "ActivityDefinition.bodySite",
+                "short": "What part of body to perform on",
+                "definition": "Indicates the sites on the subject's body where the procedure should be performed (I.e. the target sites).",
+                "comment": "Only used if not implicit in the code found in ServiceRequest.type.",
+                "requirements": "Knowing where the procedure is made is important for tracking if multiple sites are possible.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ActivityDefinition.bodySite",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "BodySite"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A code that identifies the anatomical location.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/body-site"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".targetSiteCode {for classCode=PROC, SBADM}"
+                    }
+                ]
+            }
+        ]
+    }
+}

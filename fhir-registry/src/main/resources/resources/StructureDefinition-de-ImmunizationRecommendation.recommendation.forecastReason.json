@@ -1,0 +1,100 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ImmunizationRecommendation.recommendation.forecastReason",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ImmunizationRecommendation.recommendation.forecastReason",
+    "version": "4.0.1",
+    "name": "ImmunizationRecommendation.recommendation.forecastReason",
+    "title": "ImmunizationRecommendation.recommendation.forecastReason",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ImmunizationRecommendation.recommendation.forecastReason",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ImmunizationRecommendation.recommendation.forecastReason",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ImmunizationRecommendation.recommendation.forecastReason",
+                "path": "ImmunizationRecommendation.recommendation.forecastReason",
+                "short": "Vaccine administration status reason",
+                "definition": "The reason for the assigned forecast status.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ImmunizationRecommendation.recommendation.forecastReason",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ImmunizationRecommendationReason"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The reason for the patient's status with respect to a vaccination protocol.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/immunization-recommendation-reason"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "OBX-5 : OBX-3 = 30982-3"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            }
+        ]
+    }
+}

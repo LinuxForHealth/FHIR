@@ -1,0 +1,97 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-StructureDefinition.baseDefinition",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-StructureDefinition.baseDefinition",
+    "version": "4.0.1",
+    "name": "StructureDefinition.baseDefinition",
+    "title": "StructureDefinition.baseDefinition",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for StructureDefinition.baseDefinition",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "iso11179",
+            "uri": "http://metadata-standards.org/11179/",
+            "name": "ISO 11179"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "StructureDefinition.baseDefinition",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "StructureDefinition.baseDefinition",
+                "path": "StructureDefinition.baseDefinition",
+                "short": "Definition that this type is constrained/specialized from",
+                "definition": "An absolute URI that is the base structure from which this type is derived, either by specialization or constraint.",
+                "comment": "If differential constraints are specified in this structure, they are applied to the base in a \"differential\" fashion. If there is no base, then the differential constraints cannot be provided (snapshot only). Differential structures are useful for the editing perspective, and snapshot structures are suitable for operational use. The FHIR Project provides a number of tools/services to populate snapshots from differential constraints. Logical Models have a base of \"Element\" or another logical model.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "StructureDefinition.baseDefinition",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-hierarchy",
+                                "valueBoolean": true
+                            }
+                        ],
+                        "code": "canonical",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
+                        ]
+                    }
+                ],
+                "condition": [
+                    "sdf-4"
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

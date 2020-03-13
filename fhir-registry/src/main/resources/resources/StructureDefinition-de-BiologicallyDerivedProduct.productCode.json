@@ -1,0 +1,84 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-BiologicallyDerivedProduct.productCode",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-BiologicallyDerivedProduct.productCode",
+    "version": "4.0.1",
+    "name": "BiologicallyDerivedProduct.productCode",
+    "title": "BiologicallyDerivedProduct.productCode",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for BiologicallyDerivedProduct.productCode",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "BiologicallyDerivedProduct.productCode",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "BiologicallyDerivedProduct.productCode",
+                "path": "BiologicallyDerivedProduct.productCode",
+                "short": "What this biologically derived product is",
+                "definition": "A code that identifies the kind of this biologically derived product (SNOMED Ctcode).",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "BiologicallyDerivedProduct.productCode",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "BiologicallyDerivedProductCode"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Biologically Derived Product Code."
+                }
+            }
+        ]
+    }
+}

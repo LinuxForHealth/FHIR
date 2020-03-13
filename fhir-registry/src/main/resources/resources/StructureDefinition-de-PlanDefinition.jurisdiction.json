@@ -1,0 +1,101 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-PlanDefinition.jurisdiction",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-PlanDefinition.jurisdiction",
+    "version": "4.0.1",
+    "name": "PlanDefinition.jurisdiction",
+    "title": "PlanDefinition.jurisdiction",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for PlanDefinition.jurisdiction",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "PlanDefinition.jurisdiction",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "PlanDefinition.jurisdiction",
+                "path": "PlanDefinition.jurisdiction",
+                "short": "Intended jurisdiction for plan definition (if applicable)",
+                "definition": "A legal or geographic region in which the plan definition is intended to be used.",
+                "comment": "It may be possible for the plan definition to be used in jurisdictions other than those for which it was originally designed or intended.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "PlanDefinition.jurisdiction",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "Jurisdiction"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "Countries and regions within which this artifact is targeted for use.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/jurisdiction"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Definition.jurisdiction"
+                    }
+                ]
+            }
+        ]
+    }
+}

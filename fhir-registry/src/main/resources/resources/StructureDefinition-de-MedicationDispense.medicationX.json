@@ -1,0 +1,124 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicationDispense.medicationX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicationDispense.medicationX",
+    "version": "4.0.1",
+    "name": "MedicationDispense.medication[x]",
+    "title": "MedicationDispense.medication[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicationDispense.medication[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rx-dispense-rmim",
+            "uri": "http://www.hl7.org/v3/PORX_RM020070UV",
+            "name": "V3 Pharmacy Dispense RMIM"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicationDispense.medication[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicationDispense.medication[x]",
+                "path": "MedicationDispense.medication[x]",
+                "short": "What medication was supplied",
+                "definition": "Identifies the medication being administered. This is either a link to a resource representing the details of the medication or a simple attribute carrying a code that identifies the medication from a known list of medications.",
+                "comment": "If only a code is specified, then it needs to be a code for a specific product. If more information is required, then the use of the medication resource is recommended.  For example, if you require form or lot number, then you must reference the Medication resource.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "MedicationDispense.medication[x]",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    },
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Medication"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "MedicationCode"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A coded concept identifying which substance or product can be dispensed.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medication-codes"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.code"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.what[x]"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "RXD-2-Dispense/Give Code"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".participation[typeCode=PRD].role"
+                    },
+                    {
+                        "identity": "rx-dispense-rmim",
+                        "map": "CombinedMedicationRequest.component1.AdministrationRequest.consumable"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,64 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-SubstanceSourceMaterial.organism.hybrid.paternalOrganismId",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-SubstanceSourceMaterial.organism.hybrid.paternalOrganismId",
+    "version": "4.0.1",
+    "name": "SubstanceSourceMaterial.organism.hybrid.paternalOrganismId",
+    "title": "SubstanceSourceMaterial.organism.hybrid.paternalOrganismId",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for SubstanceSourceMaterial.organism.hybrid.paternalOrganismId",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "SubstanceSourceMaterial.organism.hybrid.paternalOrganismId",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "SubstanceSourceMaterial.organism.hybrid.paternalOrganismId",
+                "path": "SubstanceSourceMaterial.organism.hybrid.paternalOrganismId",
+                "short": "The identifier of the paternal species constituting the hybrid organism shall be specified based on a controlled vocabulary",
+                "definition": "The identifier of the paternal species constituting the hybrid organism shall be specified based on a controlled vocabulary.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "SubstanceSourceMaterial.organism.hybrid.paternalOrganismId",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "string"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

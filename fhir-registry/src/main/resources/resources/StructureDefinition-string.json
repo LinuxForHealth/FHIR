@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "string",
     "meta": {
-        "lastUpdated": "2018-12-27T22:37:54.724+11:00"
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
     },
     "text": {
         "status": "generated",
@@ -19,10 +19,10 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/string",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "name": "string",
     "status": "active",
-    "date": "2018-12-27T22:37:54+11:00",
+    "date": "2019-11-01T09:29:23+11:00",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -35,7 +35,7 @@
         }
     ],
     "description": "Base StructureDefinition for string Type: A sequence of Unicode characters",
-    "fhirVersion": "4.0.0",
+    "fhirVersion": "4.0.1",
     "kind": "primitive-type",
     "abstract": false,
     "type": "string",
@@ -63,7 +63,7 @@
                         "human": "All FHIR elements must have a @value or children",
                         "expression": "hasValue() or (children().count() > id.count())",
                         "xpath": "@value|f:*|h:div",
-                        "source": "Element"
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
                     }
                 ],
                 "isModifier": false,
@@ -86,7 +86,13 @@
                 },
                 "type": [
                     {
-                        "code": "string"
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
                     }
                 ],
                 "isModifier": false,
@@ -114,6 +120,24 @@
                         "code": "Extension"
                     }
                 ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
                 "isModifier": false,
                 "isSummary": false
             },
@@ -136,26 +160,15 @@
                     {
                         "extension": [
                             {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            },
+                            {
                                 "url": "http://hl7.org/fhir/StructureDefinition/regex",
                                 "valueString": "[ \\r\\n\\t\\S]+"
                             }
                         ],
-                        "_code": {
-                            "extension": [
-                                {
-                                    "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-json-type",
-                                    "valueString": "string"
-                                },
-                                {
-                                    "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-xml-type",
-                                    "valueString": "xsd:string"
-                                },
-                                {
-                                    "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-rdf-type",
-                                    "valueString": "xsd:string"
-                                }
-                            ]
-                        }
+                        "code": "http://hl7.org/fhirpath/System.String"
                     }
                 ],
                 "maxLength": 1048576,
@@ -189,26 +202,15 @@
                     {
                         "extension": [
                             {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            },
+                            {
                                 "url": "http://hl7.org/fhir/StructureDefinition/regex",
                                 "valueString": "[ \\r\\n\\t\\S]+"
                             }
                         ],
-                        "_code": {
-                            "extension": [
-                                {
-                                    "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-json-type",
-                                    "valueString": "string"
-                                },
-                                {
-                                    "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-xml-type",
-                                    "valueString": "xsd:string"
-                                },
-                                {
-                                    "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-rdf-type",
-                                    "valueString": "xsd:string"
-                                }
-                            ]
-                        }
+                        "code": "http://hl7.org/fhirpath/System.String"
                     }
                 ],
                 "maxLength": 1048576

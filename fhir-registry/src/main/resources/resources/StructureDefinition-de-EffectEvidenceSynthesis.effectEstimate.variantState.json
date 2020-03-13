@@ -1,0 +1,90 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-EffectEvidenceSynthesis.effectEstimate.variantState",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-EffectEvidenceSynthesis.effectEstimate.variantState",
+    "version": "4.0.1",
+    "name": "EffectEvidenceSynthesis.effectEstimate.variantState",
+    "title": "EffectEvidenceSynthesis.effectEstimate.variantState",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for EffectEvidenceSynthesis.effectEstimate.variantState",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "EffectEvidenceSynthesis.effectEstimate.variantState",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "EffectEvidenceSynthesis.effectEstimate.variantState",
+                "path": "EffectEvidenceSynthesis.effectEstimate.variantState",
+                "short": "Variant exposure states",
+                "definition": "Used to define variant exposure states such as low-risk state.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "EffectEvidenceSynthesis.effectEstimate.variantState",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "EvidenceVariantState"
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "Used for results by exposure in variant states such as low-risk, medium-risk and high-risk states.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/evidence-variant-state"
+                }
+            }
+        ]
+    }
+}

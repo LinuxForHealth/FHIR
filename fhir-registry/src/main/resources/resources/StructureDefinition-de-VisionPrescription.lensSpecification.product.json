@@ -1,0 +1,101 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-VisionPrescription.lensSpecification.product",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-VisionPrescription.lensSpecification.product",
+    "version": "4.0.1",
+    "name": "VisionPrescription.lensSpecification.product",
+    "title": "VisionPrescription.lensSpecification.product",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for VisionPrescription.lensSpecification.product",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "VisionPrescription.lensSpecification.product",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "VisionPrescription.lensSpecification.product",
+                "path": "VisionPrescription.lensSpecification.product",
+                "short": "Product to be supplied",
+                "definition": "Identifies the type of vision correction product which is required for the patient.",
+                "requirements": "Need to identify whether glasses or contacts.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "VisionPrescription.lensSpecification.product",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "VisionProduct"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A coded concept describing the vision products.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/vision-product"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "RXE-2-Give Code / RXO-1-Requested Give Code / RXD-2-Dispense/Give Code"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "consumable.role"
+                    }
+                ]
+            }
+        ]
+    }
+}

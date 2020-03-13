@@ -1,0 +1,64 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicinalProductIngredient.specifiedSubstance.confidentiality",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicinalProductIngredient.specifiedSubstance.confidentiality",
+    "version": "4.0.1",
+    "name": "MedicinalProductIngredient.specifiedSubstance.confidentiality",
+    "title": "MedicinalProductIngredient.specifiedSubstance.confidentiality",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicinalProductIngredient.specifiedSubstance.confidentiality",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicinalProductIngredient.specifiedSubstance.confidentiality",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicinalProductIngredient.specifiedSubstance.confidentiality",
+                "path": "MedicinalProductIngredient.specifiedSubstance.confidentiality",
+                "short": "Confidentiality level of the specified substance as the ingredient",
+                "definition": "Confidentiality level of the specified substance as the ingredient.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MedicinalProductIngredient.specifiedSubstance.confidentiality",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

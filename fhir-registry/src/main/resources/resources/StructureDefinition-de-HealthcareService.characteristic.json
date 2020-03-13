@@ -1,0 +1,86 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-HealthcareService.characteristic",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-HealthcareService.characteristic",
+    "version": "4.0.1",
+    "name": "HealthcareService.characteristic",
+    "title": "HealthcareService.characteristic",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for HealthcareService.characteristic",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "HealthcareService.characteristic",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "HealthcareService.characteristic",
+                "path": "HealthcareService.characteristic",
+                "short": "Collection of characteristics (attributes)",
+                "definition": "Collection of characteristics (attributes).",
+                "comment": "These could be such things as is wheelchair accessible.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "HealthcareService.characteristic",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ServiceCharacteristic"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A custom attribute that could be provided at a service (e.g. Wheelchair accessibiliy)."
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".actrelationship[typeCode=PERT].observation"
+                    }
+                ]
+            }
+        ]
+    }
+}

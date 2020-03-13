@@ -1,0 +1,102 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Encounter.hospitalization.dietPreference",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Encounter.hospitalization.dietPreference",
+    "version": "4.0.1",
+    "name": "Encounter.hospitalization.dietPreference",
+    "title": "Encounter.hospitalization.dietPreference",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Encounter.hospitalization.dietPreference",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Encounter.hospitalization.dietPreference",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Encounter.hospitalization.dietPreference",
+                "path": "Encounter.hospitalization.dietPreference",
+                "short": "Diet preferences reported by the patient",
+                "definition": "Diet preferences reported by the patient.",
+                "comment": "For example, a patient may request both a dairy-free and nut-free diet preference (not mutually exclusive).",
+                "requirements": "Used to track patient's diet restrictions and/or preference. For a complete description of the nutrition needs of a patient during their stay, one should use the nutritionOrder resource which links to Encounter.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Encounter.hospitalization.dietPreference",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PatientDiet"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Medical, cultural or ethical food preferences to help with catering requirements.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/encounter-diet"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "PV1-38"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".outboundRelationship[typeCode=COMP].target[classCode=SBADM, moodCode=EVN, code=\"diet\"]"
+                    }
+                ]
+            }
+        ]
+    }
+}

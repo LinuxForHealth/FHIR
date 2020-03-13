@@ -1,0 +1,69 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-VerificationResult.attestation.proxyIdentityCertificate",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-VerificationResult.attestation.proxyIdentityCertificate",
+    "version": "4.0.1",
+    "name": "VerificationResult.attestation.proxyIdentityCertificate",
+    "title": "VerificationResult.attestation.proxyIdentityCertificate",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for VerificationResult.attestation.proxyIdentityCertificate",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "VerificationResult.attestation.proxyIdentityCertificate",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "VerificationResult.attestation.proxyIdentityCertificate",
+                "path": "VerificationResult.attestation.proxyIdentityCertificate",
+                "short": "A digital identity certificate associated with the proxy entity submitting attested information on behalf of the attestation source",
+                "definition": "A digital identity certificate associated with the proxy entity submitting attested information on behalf of the attestation source.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "VerificationResult.attestation.proxyIdentityCertificate",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "string"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

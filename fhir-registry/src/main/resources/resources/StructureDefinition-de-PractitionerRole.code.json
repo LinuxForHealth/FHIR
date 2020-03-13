@@ -1,0 +1,106 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-PractitionerRole.code",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-PractitionerRole.code",
+    "version": "4.0.1",
+    "name": "PractitionerRole.code",
+    "title": "PractitionerRole.code",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for PractitionerRole.code",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "servd",
+            "uri": "http://www.omg.org/spec/ServD/1.0/",
+            "name": "ServD"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "PractitionerRole.code",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "PractitionerRole.code",
+                "path": "PractitionerRole.code",
+                "short": "Roles which this practitioner may perform",
+                "definition": "Roles which this practitioner is authorized to perform for the organization.",
+                "comment": "A person may have more than one role.",
+                "requirements": "Need to know what authority the practitioner has - what can they do?",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "PractitionerRole.code",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PractitionerRole"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The role a person plays representing an organization.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/practitioner-role"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "PRD-1 / STF-18  / PRA-3  / PRT-4  / ROL-3 / ORC-12 / OBR-16 / PV1-7 / PV1-8 / PV1-9 / PV1-17"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".code"
+                    },
+                    {
+                        "identity": "servd",
+                        "map": "(ServD maps Practitioners and Organizations via another entity, so this concept is not available)"
+                    }
+                ]
+            }
+        ]
+    }
+}

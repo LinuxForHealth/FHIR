@@ -1,0 +1,108 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-BodyStructure.locationQualifier",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-BodyStructure.locationQualifier",
+    "version": "4.0.1",
+    "name": "BodyStructure.locationQualifier",
+    "title": "BodyStructure.locationQualifier",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for BodyStructure.locationQualifier",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "openehr",
+            "uri": "http://openehr.org",
+            "name": "Open EHR Archetype Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "BodyStructure.locationQualifier",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "BodyStructure.locationQualifier",
+                "path": "BodyStructure.locationQualifier",
+                "short": "Body site modifier",
+                "definition": "Qualifier to refine the anatomical location.  These include qualifiers for laterality, relative location, directionality, number, and plane.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "BodyStructure.locationQualifier",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "BodyStructureQualifier"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Concepts modifying the anatomic location.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/bodystructure-relative-location"
+                },
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.what[x]"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "No distinct element defined in V2.x. The IHE Radiology Technical Framework directs the use of OBR-15-specimen source to contain laterality for imaging studies./SPM-9"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".targetSiteCode"
+                    },
+                    {
+                        "identity": "openehr",
+                        "map": "Combines Side, Numerical identifier, Anatomical plane,and Aspect"
+                    }
+                ]
+            }
+        ]
+    }
+}

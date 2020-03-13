@@ -1,0 +1,131 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Observation.status",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Observation.status",
+    "version": "4.0.1",
+    "name": "Observation.status",
+    "title": "Observation.status",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Observation.status",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "sct-concept",
+            "uri": "http://snomed.info/conceptdomain",
+            "name": "SNOMED CT Concept Domain Binding"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "sct-attr",
+            "uri": "http://snomed.org/attributebinding",
+            "name": "SNOMED CT Attribute Binding"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Observation.status",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Observation.status",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-display-hint",
+                        "valueString": "default: final"
+                    }
+                ],
+                "path": "Observation.status",
+                "short": "registered | preliminary | final | amended +",
+                "definition": "The status of the result value.",
+                "comment": "This element is labeled as a modifier because the status contains codes that mark the resource as not currently valid.",
+                "requirements": "Need to track the status of individual results. Some results are finalized before the whole report is finalized.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Observation.status",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "This element is labeled as a modifier because it is a status element that contains status entered-in-error which means that the resource should not be treated as valid",
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ObservationStatus"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Codes providing the status of an observation.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.status"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.status"
+                    },
+                    {
+                        "identity": "sct-concept",
+                        "map": "< 445584004 |Report by finality status|"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "OBX-11"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "status  Amended & Final are differentiated by whether it is the subject of a ControlAct event with a type of \"revise\""
+                    }
+                ]
+            }
+        ]
+    }
+}

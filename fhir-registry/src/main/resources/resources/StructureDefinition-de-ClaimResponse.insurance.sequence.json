@@ -1,0 +1,75 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ClaimResponse.insurance.sequence",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ClaimResponse.insurance.sequence",
+    "version": "4.0.1",
+    "name": "ClaimResponse.insurance.sequence",
+    "title": "ClaimResponse.insurance.sequence",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ClaimResponse.insurance.sequence",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ClaimResponse.insurance.sequence",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ClaimResponse.insurance.sequence",
+                "path": "ClaimResponse.insurance.sequence",
+                "short": "Insurance instance identifier",
+                "definition": "A number to uniquely identify insurance entries and provide a sequence of coverages to convey coordination of benefit order.",
+                "requirements": "To maintain order of the coverages.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "ClaimResponse.insurance.sequence",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "positiveInt"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

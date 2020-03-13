@@ -1,0 +1,87 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ClaimResponse.addItem.detail.subDetail.productOrService",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ClaimResponse.addItem.detail.subDetail.productOrService",
+    "version": "4.0.1",
+    "name": "ClaimResponse.addItem.detail.subDetail.productOrService",
+    "title": "ClaimResponse.addItem.detail.subDetail.productOrService",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ClaimResponse.addItem.detail.subDetail.productOrService",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ClaimResponse.addItem.detail.subDetail.productOrService",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ClaimResponse.addItem.detail.subDetail.productOrService",
+                "path": "ClaimResponse.addItem.detail.subDetail.productOrService",
+                "short": "Billing, service, product, or drug code",
+                "definition": "When the value is a group code then this item collects a set of related claim details, otherwise this contains the product, service, drug or other billing code for the item.",
+                "comment": "If this is an actual service or product line, i.e. not a Group, then use code to indicate the Professional Service or Product supplied (e.g. CTP, HCPCS, USCLS, ICD10, NCPDP, DIN, RxNorm, ACHI, CCI). If a grouping item then use a group code to indicate the type of thing being grouped e.g. 'glasses' or 'compound'.",
+                "requirements": "Necessary to state what was provided or done.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "ClaimResponse.addItem.detail.subDetail.productOrService",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ServiceProduct"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Allowable service and product codes.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/service-uscls"
+                }
+            }
+        ]
+    }
+}
