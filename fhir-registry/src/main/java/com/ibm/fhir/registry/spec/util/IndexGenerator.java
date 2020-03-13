@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,7 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Resource;
 
-public class SpecResourceGenerator {
+public class IndexGenerator {
     private static final List<String> DEFINITIONS = Arrays.asList(
         "definitions/conceptmaps.json", 
         "definitions/dataelements.json", 
@@ -56,14 +56,14 @@ public class SpecResourceGenerator {
                     }
                     if (url != null && version != null) {
                         String fileName = resource.getClass().getSimpleName() + "-" + resource.getId() + ".json";
-                        File file = new File("src/main/resources/resources/" + fileName);
+                        File file = new File("src/main/resources/definitions/" + fileName);
                         if (!file.exists()) {
                             file.getParentFile().mkdirs();
                         }
                         try (FileWriter writer = new FileWriter(file)) {
                             writer.write(resource.toString());
                         }
-                        index.add(String.format("%s,%s,%s", url, version, "resources/" + fileName));
+                        index.add(String.format("%s,%s,%s", url, version, "definitions/" + fileName));
                     }
                 }
             }
