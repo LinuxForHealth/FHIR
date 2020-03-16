@@ -34,6 +34,11 @@ public class NopObject extends BaseObject {
     }
 
     @Override
+    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+        // We're NOP so we do nothing on purpose
+    }
+
+    @Override
     public void drop(IDatabaseAdapter target) {
         // We're NOP so we do nothing on purpose
     }

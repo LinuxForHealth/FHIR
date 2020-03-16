@@ -31,28 +31,34 @@ import com.ibm.fhir.task.api.ITaskGroup;
  * BaseObject
  */
 public abstract class BaseObject implements IDatabaseObject {
-    
+
     private static final Logger logger = Logger.getLogger(BaseObject.class.getName());
-    
+
     // Used to randomize a sleep after a deadlock failure
     private static final SecureRandom random = new SecureRandom();
-    
+
     private final String schemaName;
     private final String objectName;
     private final DatabaseObjectType objectType;
-    
+
     // tag map
     private final Map<String,String> tags = new HashMap<>();
-    
+
     // the database objects we depend on
     private final Set<IDatabaseObject> dependencies = new HashSet<>();
 
     // The privileges granted to different types of user
     private final Map<String, Set<Privilege>> userPrivilegeMap = new HashMap<>();
-    
+
     // The version number of the application schema this object applies to
     private final int version;
-    
+
+    // Steps to perform before updating from a previous version of this object
+    protected final List<Migration> preSteps;
+
+    // Steps to perform after updating from a previous version of this object
+    protected final List<Migration> postSteps;
+
     /**
      * Public constructor
      *
@@ -62,17 +68,31 @@ public abstract class BaseObject implements IDatabaseObject {
      * @param version
      */
     public BaseObject(String schemaName, String objectName, DatabaseObjectType objectType, int version) {
+        this(schemaName, objectName, objectType, version, Collections.emptyList(), Collections.emptyList());
+    }
+
+    /**
+     * Public constructor
+     *
+     * @param schemaName
+     * @param objectName
+     * @param objectType
+     * @param version
+     */
+    public BaseObject(String schemaName, String objectName, DatabaseObjectType objectType, int version, List<Migration> preSteps, List<Migration> postSteps) {
         this.schemaName = schemaName;
         this.objectName = objectName;
         this.objectType = objectType;
         this.version = version;
+        this.preSteps = preSteps;
+        this.postSteps = postSteps;
     }
-    
+
     @Override
     public int getVersion() {
         return this.version;
     }
-    
+
     @Override
     public DatabaseObjectType getObjectType() {
         return this.objectType;
@@ -82,15 +102,15 @@ public abstract class BaseObject implements IDatabaseObject {
     public int hashCode() {
         return this.objectType.hashCode() + 23 * (37 * schemaName.hashCode() + objectName.hashCode());
     }
-    
+
     public String getSchemaName() {
         return this.schemaName;
     }
-    
+
     public String getObjectName() {
         return this.objectName;
     }
-    
+
     public String getQualifiedName() {
         return DataDefinitionUtil.getQualifiedName(schemaName, objectName);
     }
@@ -107,22 +127,22 @@ public abstract class BaseObject implements IDatabaseObject {
     public void addTags(Map<String,String> tags) {
         this.tags.putAll(tags);
     }
-    
+
     @Override
     public void addTag(String tagName, String tagValue) {
         this.tags.put(tagName, tagValue);
     }
-        
+
     @Override
     public boolean equals(Object other) {
         if (other == null) {
             throw new IllegalArgumentException("Object other is null");
         }
-        
+
         if (other instanceof BaseObject) {
             BaseObject that = (BaseObject)other;
-            return this.objectType == that.objectType 
-                    && this.schemaName.equals(that.schemaName) 
+            return this.objectType == that.objectType
+                    && this.schemaName.equals(that.schemaName)
                     && this.objectName.equals(that.objectName);
         }
         else {
@@ -143,23 +163,25 @@ public abstract class BaseObject implements IDatabaseObject {
      * Add the given collection of dependencies to our set
      * @param obj
      */
+    @Override
     public void addDependencies(Collection<IDatabaseObject> obj) {
         this.dependencies.addAll(obj);
     }
-    
+
     @Override
     public void fetchDependenciesTo(Collection<IDatabaseObject> out) {
         out.addAll(dependencies);
     }
-    
+
     /**
      * Return the unique name for this object
      * @return
      */
+    @Override
     public String getName() {
         return getQualifiedName();
     }
-    
+
     @Override
     public String toString() {
         return getName();
@@ -175,7 +197,7 @@ public abstract class BaseObject implements IDatabaseObject {
                 children.add(obj.collect(tc, target, tp, vhs));
             }
         }
-        
+
         // create a new task group representing this node, pointing to any dependencies
         // we collected above. We need to use the type and name for the task group, to
         // ensure we allow for the different namespaces (e.g. procedures vs tables).
@@ -186,7 +208,7 @@ public abstract class BaseObject implements IDatabaseObject {
     public void applyTx(IDatabaseAdapter target, ITransactionProvider tp, IVersionHistoryService vhs) {
         // Wrap the apply operation in its own transaction, as this is likely
         // being executed from a thread-pool. DB2 has some issues with deadlocks
-        // on its catalog tables (SQLCODE=-911, SQLSTATE=40001, SQLERRMC=2) when 
+        // on its catalog tables (SQLCODE=-911, SQLSTATE=40001, SQLERRMC=2) when
         // applying schema changes in parallel, so we need a little retry loop.
         int remainingAttempts = 10;
         while (remainingAttempts-- > 0) {
@@ -205,12 +227,12 @@ public abstract class BaseObject implements IDatabaseObject {
                         logger.warning("Lock timeout detected processing: " + this.getTypeAndName() + " [remaining=" + remainingAttempts + "]");
                     }
                     tx.setRollbackOnly();
-                    
+
                     if (remainingAttempts == 0) {
                         // end of the road on this one
                         logger.log(Level.SEVERE, "[FAILED] retries exhausted for: " + this.getTypeAndName());
                         throw x;
-                    }                    
+                    }
                 }
                 catch (Exception x) {
                     logger.log(Level.SEVERE, "[FAILED] " + this.getTypeAndName());
@@ -219,7 +241,7 @@ public abstract class BaseObject implements IDatabaseObject {
                 }
             }
 
-            // now we're outside the transaction, if we need to try again, then sleep 
+            // now we're outside the transaction, if we need to try again, then sleep
             // for a random period. This hopefully avoids things getting into lock-step
             // which may further increase the chance of a deadlock when we retry
             if (remainingAttempts > 0) {
@@ -234,13 +256,14 @@ public abstract class BaseObject implements IDatabaseObject {
      * @param target
      * @param vhs the service used to manage the version history table
      */
+    @Override
     public void applyVersion(IDatabaseAdapter target, IVersionHistoryService vhs) {
         if (vhs.applies(getSchemaName(), getObjectType().name(), getObjectName(), version)) {
             logger.fine("Applying change [v" + version + "]: " + this.getTypeAndName());
-            
+
             // Apply this change to the target database
-            apply(target);
-            
+            apply(vhs.getVersion(getSchemaName(), getObjectType().name(), getObjectName()), target);
+
             // call back to the version history service to add the new version to the table
             // being used to track the change history
             vhs.addVersion(getSchemaName(), getObjectType().name(), getObjectName(), getVersion());
@@ -259,7 +282,7 @@ public abstract class BaseObject implements IDatabaseObject {
             // NOP
         }
     }
-    
+
     @Override
     public Map<String, String> getTags() {
         return Collections.unmodifiableMap(this.tags);
@@ -267,7 +290,7 @@ public abstract class BaseObject implements IDatabaseObject {
 
     @Override
     public void grant(IDatabaseAdapter target, String groupName, String toUser) {
-        
+
         // The group is optional. Some objects may not have a group corresponding with
         // the requested groupName, in which case no privileges will be granted
         Set<Privilege> group = this.userPrivilegeMap.get(groupName);
@@ -286,7 +309,7 @@ public abstract class BaseObject implements IDatabaseObject {
     protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
         target.grantObjectPrivileges(this.schemaName, this.objectName, group, toUser);
     }
-    
+
 
     /**
      * Add the privilege to the named privilege group

@@ -33,10 +33,15 @@ public class Sequence extends BaseObject {
     }
 
     @Override
+    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+        target.createSequence(getSchemaName(), getObjectName(), this.cache);
+    }
+
+    @Override
     public void drop(IDatabaseAdapter target) {
         target.dropSequence(getSchemaName(), getObjectName());
     }
-    
+
     @Override
     protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
          target.grantSequencePrivileges(getSchemaName(), getObjectName(), group, toUser);

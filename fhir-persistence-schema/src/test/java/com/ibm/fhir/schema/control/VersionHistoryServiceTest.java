@@ -23,24 +23,17 @@ public class VersionHistoryServiceTest implements IVersionHistoryService {
     // history information collected during schema application
     private final ConcurrentHashMap<String, Integer> newHistory = new ConcurrentHashMap<>();
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IVersionHistoryService#addVersion(java.lang.String, java.lang.String, int)
-     */
     @Override
     public void addVersion(String objectSchema, String objectType, String objectName, int version) {
         final String key = makeKey(objectSchema, objectType, objectName);
         newHistory.put(key, version);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IVersionHistoryService#applies(java.lang.String, java.lang.String, int)
-     */
     @Override
     public boolean applies(String objectSchema, String objectType, String objectName, int changeVersion) {
         final String key = makeKey(objectSchema, objectType, objectName);
         Integer currentVersion = this.versionHistoryMap.get(key);
         return currentVersion == null || currentVersion < changeVersion;
-
     }
 
     /**
@@ -52,7 +45,7 @@ public class VersionHistoryServiceTest implements IVersionHistoryService {
      */
     public void addTestHistory(String objectSchema, String objectType, String objectName, int version) {
         final String key = makeKey(objectSchema, objectType, objectName);
-        versionHistoryMap.put(key, version);        
+        versionHistoryMap.put(key, version);
     }
 
     /**
@@ -63,5 +56,13 @@ public class VersionHistoryServiceTest implements IVersionHistoryService {
      */
     public static String makeKey(String objectSchema, String objectType, String objectName) {
         return objectSchema + ":" + objectType + ":" + objectName;
+    }
+
+    /**
+     * Always returns null
+     */
+    @Override
+    public Integer getVersion(String objectSchema, String objectType, String objectName) {
+        return null;
     }
 }

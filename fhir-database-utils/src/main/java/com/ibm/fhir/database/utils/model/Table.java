@@ -138,6 +138,17 @@ public class Table extends BaseObject {
     }
 
     @Override
+    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+        for (Migration step : preSteps) {
+            step.migrateFrom(priorVersion).stream().forEachOrdered(target::runStatement);
+        }
+        apply(target);
+        for (Migration step : postSteps) {
+            step.migrateFrom(priorVersion).stream().forEachOrdered(target::runStatement);
+        }
+    }
+
+    @Override
     public void drop(IDatabaseAdapter target) {
         if (this.accessControlVar != null) {
             target.deactivateRowAccessControl(getSchemaName(), getObjectName());
@@ -442,7 +453,7 @@ public class Table extends BaseObject {
         /**
          * Add a foreign key constraint pointing to the target table (with enforcement).
          * The list of columns is expected to match the primary key definition on the target.
-         * 
+         *
          * @param constraintName
          * @param targetSchema
          * @param targetTable
@@ -621,6 +632,18 @@ public class Table extends BaseObject {
          */
         public Builder setTenantColumnName(String name) {
             this.tenantColumnName = name;
+            return this;
+        }
+
+        @Override
+        public Builder addPreStep(Migration... migration) {
+            super.addPreStep(migration);
+            return this;
+        }
+
+        @Override
+        public Builder addPostStep(Migration... migration) {
+            super.addPostStep(migration);
             return this;
         }
     }

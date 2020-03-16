@@ -12,35 +12,31 @@ import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 
 /**
  * Adds a session variable to the database
-
- *
  */
 public class SessionVariableDef extends BaseObject {
-    
+
     public SessionVariableDef(String schemaName, String variableName, int version) {
         super(schemaName, variableName, DatabaseObjectType.VARIABLE, version);
     }
-    
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#apply(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
     @Override
     public void apply(IDatabaseAdapter target) {
         target.createIntVariable(getSchemaName(), getObjectName());
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#drop(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
+    @Override
+    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+        target.createIntVariable(getSchemaName(), getObjectName());
+    }
+
     @Override
     public void drop(IDatabaseAdapter target) {
         target.dropVariable(getSchemaName(), getObjectName());
     }
-    
-       @Override
-       protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
-            target.grantVariablePrivileges(getSchemaName(), getObjectName(), group, toUser);
-        }
+
+    @Override
+    protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
+        target.grantVariablePrivileges(getSchemaName(), getObjectName(), group, toUser);
+    }
 
 }

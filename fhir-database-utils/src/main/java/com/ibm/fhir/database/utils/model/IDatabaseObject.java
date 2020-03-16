@@ -16,7 +16,7 @@ import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 
 /**
- * Defines the Database Object's expected methods. 
+ * Defines the Database Object's expected methods.
  */
 public interface IDatabaseObject {
 
@@ -25,13 +25,21 @@ public interface IDatabaseObject {
      * @return
      */
     public int getVersion();
-    
+
     /**
      * Apply the DDL for this object to the target database
+     * @param priorVersion
      * @param target the database target
      */
     public void apply(IDatabaseAdapter target);
-    
+
+    /**
+     * Apply migration logic to bring the target database to the current level of this object
+     * @param priorVersion
+     * @param target the database target
+     */
+    public void apply(Integer priorVersion, IDatabaseAdapter target);
+
     /**
      * Apply the DDL, but within its own transaction
      * @param target the target database we apply to
@@ -39,7 +47,7 @@ public interface IDatabaseObject {
      * @param vhs the service interface for adding this object to the version history table
      */
     public void applyTx(IDatabaseAdapter target, ITransactionProvider cp, IVersionHistoryService vhs);
-    
+
     /**
      * Apply the change, but only if it has a newer version than we already have
      * recorded in the database
@@ -53,7 +61,7 @@ public interface IDatabaseObject {
      * @param target
      */
     public void drop(IDatabaseAdapter target);
-    
+
     /**
      * Grant the given privileges to the user
      * @param target
@@ -67,31 +75,31 @@ public interface IDatabaseObject {
      * executed concurrently (but in the right order)
      * @param tc
      * @param target
-     * @param tp 
+     * @param tp
      * @param vhs
      */
     public ITaskGroup collect(ITaskCollector tc, IDatabaseAdapter target, ITransactionProvider tp, IVersionHistoryService vhs);
-    
+
     /**
      * Return the qualified name for this object (e.g. schema.name).
      * @return
      */
     public String getName();
-    
+
     /**
      * Get the qualified name for this object prefixed with the object type
      * which acts as a namespace
      * @return
      */
     public String getTypeAndName();
-    
+
     /**
      * Get the map of tags associated with this object. Used to find
      * things in the PhysicalDataModel
      * @return
      */
     public Map<String,String> getTags();
-    
+
     /**
      * Add the tag name/value to the tag map for this object
      * @param tagName
@@ -105,17 +113,17 @@ public interface IDatabaseObject {
      * @return
      */
     public DatabaseObjectType getObjectType();
-    
+
     /**
      * Add the collection of dependencies to this object
      * @param deps
      */
     public void addDependencies(Collection<IDatabaseObject> deps);
-    
+
     /**
      * Fetch dependencies from this into the given out list
      * @param out
      */
     public void fetchDependenciesTo(Collection<IDatabaseObject> out);
-    
+
 }

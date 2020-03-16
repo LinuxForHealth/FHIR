@@ -18,7 +18,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
  */
 public class RowType extends BaseObject {
     private final List<ColumnBase> columns = new ArrayList<>();
-    
+
     public RowType(String schemaName, String typeName, int version, Collection<ColumnBase> cols) {
         super(schemaName, typeName, DatabaseObjectType.TYPE, version);
         this.columns.addAll(cols);
@@ -30,21 +30,26 @@ public class RowType extends BaseObject {
     }
 
     @Override
+    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+        target.createRowType(getSchemaName(), getObjectName(), columns);
+    }
+
+    @Override
     public void drop(IDatabaseAdapter target) {
         target.dropType(getSchemaName(), getObjectName());
     }
-    
+
     /**
      * Builder pattern
      *
      */
     public static class Builder extends ColumnDefBuilder {
         private String schemaName;
-        
+
         private String typeName;
-        
+
         private int version = 1;
-        
+
         /**
          * Setter for the schema name
          * @param schemaName
@@ -74,7 +79,7 @@ public class RowType extends BaseObject {
             this.typeName = typeName;
             return this;
         }
-        
+
         /**
          * Build the immutable table object based on the current configuration
          * @return
@@ -83,11 +88,11 @@ public class RowType extends BaseObject {
             if (this.typeName == null) {
                 throw new IllegalStateException("No type name provided");
             }
-            
+
             // Our schema objects are immutable by design, so all initialization takes place
             // through the constructor
             return new RowType(this.schemaName, this.typeName, version, buildColumns());
         }
-        
+
     }
 }

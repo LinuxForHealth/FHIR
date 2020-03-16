@@ -24,10 +24,10 @@ public class VersionHistoryService implements IVersionHistoryService {
 
     // The name of the admin schema we are working with
     private final String adminSchemaName;
-    
+
     // The name of the data schema we are working with
     private final String schemaName;
-    
+
     // Allows us to start a transaction
     private ITransactionProvider transactionProvider;
 
@@ -36,12 +36,12 @@ public class VersionHistoryService implements IVersionHistoryService {
 
     // The map of version history information loaded from the database
     private Map<String,Integer> versionHistoryMap;
-    
+
     public VersionHistoryService(String adminSchemaName, String schemaName) {
         this.adminSchemaName = adminSchemaName;
         this.schemaName = schemaName;
     }
-    
+
     /**
      * For injection of the {@link IConnectionProvider}
      * @param tp
@@ -49,7 +49,7 @@ public class VersionHistoryService implements IVersionHistoryService {
     public void setTransactionProvider(ITransactionProvider tp) {
         this.transactionProvider = tp;
     }
-   
+
     /**
      * For injection of the {@link IDatabaseTarget}
      * @param tgt
@@ -73,7 +73,7 @@ public class VersionHistoryService implements IVersionHistoryService {
         if (this.target == null) {
             throw new IllegalStateException("Programming error - must setTarget before calling init");
         }
-        
+
         if (transactionProvider != null) {
             try (ITransaction tx = transactionProvider.getTransaction()) {
                 try {
@@ -107,10 +107,10 @@ public class VersionHistoryService implements IVersionHistoryService {
             insertVersionHistoryInTx(tuple.getSchema(), tuple.getType(), tuple.getName(), tuple.getVersion());
         }
     }
-    
+
     /**
      * Insert the version history for the objectType/objectName/version.
-     * 
+     *
      * @param objectSchema
      * @param objectType
      * @param objectName
@@ -120,7 +120,7 @@ public class VersionHistoryService implements IVersionHistoryService {
         AddVersionDAO dao = new AddVersionDAO(adminSchemaName, objectSchema, objectType, objectName, version);
         target.runStatement(dao);
     }
-    
+
     /**
      * Insert all the entries in the versionHistoryMap in a new transaction (useful
      * for testing).
@@ -141,7 +141,7 @@ public class VersionHistoryService implements IVersionHistoryService {
 
     /**
      * Factory method for creating a {@link TypeNameVersion} tuple
-     * 
+     *
      * @param objectSchema
      * @param type
      * @param name
@@ -151,35 +151,41 @@ public class VersionHistoryService implements IVersionHistoryService {
     public static TypeNameVersion createTypeNameVersion(String objectSchema, String type, String name, int version) {
         return new TypeNameVersion(objectSchema, type, name, version);
     }
-    
+
     public static class TypeNameVersion {
         private final String schema;
         private final String type;
         private final String name;
         private final int version;
-        
+
         private TypeNameVersion(String schema, String type, String name, int version) {
             this.schema = schema;
             this.type = type;
             this.name = name;
             this.version = version;
         }
-        
+
         private String getSchema() {
             return this.schema;
         }
-        
+
         private String getType() {
             return this.type;
         }
-        
+
         private String getName() {
             return this.name;
         }
-        
+
         private int getVersion() {
             return this.version;
         }
+    }
+
+    @Override
+    public Integer getVersion(String objectSchema, String objectType, String objectName) {
+        String key = objectSchema + ":" + objectType + ":" + objectName;
+        return versionHistoryMap.containsKey(key) ? versionHistoryMap.get(key) : 0;
     }
 
     @Override
