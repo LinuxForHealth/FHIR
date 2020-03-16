@@ -7,6 +7,7 @@
 package com.ibm.fhir.registry.util;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -17,7 +18,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -52,10 +52,10 @@ import com.ibm.fhir.model.resource.TerminologyCapabilities;
 import com.ibm.fhir.model.resource.TestScript;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.code.StructureDefinitionKind;
-import com.ibm.fhir.model.type.code.TypeDerivationRule;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
+import com.ibm.fhir.registry.util.Index.Entry;
 
 public final class FHIRRegistryUtil {
     private static final Logger log = Logger.getLogger(FHIRRegistryUtil.class.getName());
@@ -117,38 +117,34 @@ public final class FHIRRegistryUtil {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(loader.getResourceAsStream(path), StandardCharsets.UTF_8))) {
             return FHIRParser.parser(format).parse(reader);
         } catch (Exception e) {
-            log.warning("Unable to load resource: " + path + " due to the following exception: " + e.getClass().getName() + " with message: " + e.getMessage());
+            log.warning("Unable to load resource: " + path + " due to the following exception: " + e.getMessage());
         }
         return null;
     }
     
-    public static Collection<FHIRRegistryResource> getResources(Format format, ClassLoader loader, String index) {
+    public static Collection<FHIRRegistryResource> getResources(Format format, ClassLoader loader, String resourceDirectory, String indexName) {
         List<FHIRRegistryResource> resources = new ArrayList<>();
-        for (String entry : readIndex(loader, index)) {
-            String[] tokens = entry.split(",");
-            
-            if (tokens.length != 8) {
-                log.warning("Bad index entry: " + entry);
-                continue;
-            }
-            
-            Class<?> resourceType = ModelSupport.getResourceType(tokens[0]);
-            String id = !tokens[1].isEmpty() ? tokens[1] : null;
-            String url = tokens[2];
-            Version version = Version.from(tokens[3]);
-            StructureDefinitionKind kind = !tokens[4].isEmpty() ? StructureDefinitionKind.of(tokens[4]) : null;
-            String type = !tokens[5].isEmpty() ? tokens[5] : null;
-            TypeDerivationRule derivation = !tokens[6].isEmpty() ? TypeDerivationRule.of(tokens[6]) : null;
-            String path = tokens[7];
-            
-            resources.add(new FHIRRegistryResource(resourceType, id, url, version, kind, type, derivation, path, format, loader));
+        for (Entry entry : readIndex(loader, indexName)) {
+            Class<?> resourceType = ModelSupport.getResourceType(entry.getResourceType());
+            String id = entry.getId();
+            String url = entry.getUrl();
+            Version version = Version.from(entry.getVersion());
+            StructureDefinitionKind kind = (entry.getKind() != null) ? StructureDefinitionKind.of(entry.getKind()) : null;
+            String type = entry.getType();
+            String path = resourceDirectory + "/" + entry.getFileName();
+            resources.add(new FHIRRegistryResource(resourceType, id, url, version, kind, type, path, format, loader));
         }
         return Collections.unmodifiableList(resources);
     }
     
-    public static List<String> readIndex(ClassLoader loader, String index) {
-        return new BufferedReader(new InputStreamReader(loader.getResourceAsStream(index), StandardCharsets.UTF_8))
-                .lines()
-                .collect(Collectors.toList());
+    public static List<Entry> readIndex(ClassLoader loader, String indexName) {
+        try (InputStream in = loader.getResourceAsStream(indexName)) {
+            Index index = new Index();
+            index.load(in);
+            return index.getEntries();
+        } catch (Exception e) {
+            log.warning("Unable to read index: " + indexName + " due to the following exception: " + e.getMessage());
+        }
+        return Collections.emptyList();
     }
 }

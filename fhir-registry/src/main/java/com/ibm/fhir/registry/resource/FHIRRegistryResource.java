@@ -13,7 +13,6 @@ import java.util.Objects;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.StructureDefinitionKind;
-import com.ibm.fhir.model.type.code.TypeDerivationRule;
 
 /**
  * A registry entry that can load a definitional resource (e.g. StructureDefinition) given a url, version and name
@@ -25,7 +24,6 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
     private final Version version;
     private final StructureDefinitionKind kind;
     private final String type;
-    private final TypeDerivationRule derivation;
     private final String path;
     private final Format format;
     private final ClassLoader loader;
@@ -39,7 +37,6 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
             Version version, 
             StructureDefinitionKind kind, 
             String type, 
-            TypeDerivationRule derivation, 
             String path, 
             Format format, 
             ClassLoader loader) {
@@ -49,7 +46,6 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
         this.version = Objects.requireNonNull(version);
         this.kind = kind;
         this.type = type;
-        this.derivation = derivation;
         this.path = Objects.requireNonNull(path);
         this.format = Objects.requireNonNull(format);
         this.loader = Objects.requireNonNull(loader);
@@ -77,10 +73,6 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
 
     public String getType() {
         return type;
-    }
-
-    public TypeDerivationRule getDerivation() {
-        return derivation;
     }
 
     public String getPath() {

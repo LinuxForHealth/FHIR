@@ -16,6 +16,6 @@ import com.ibm.fhir.registry.util.FHIRRegistryUtil;
 public class USCoreResourceProvider implements FHIRRegistryResourceProvider {
     @Override
     public Collection<FHIRRegistryResource> getResources() {
-        return FHIRRegistryUtil.getResources(Format.JSON, getClass().getClassLoader(), "us-core.index");
+        return FHIRRegistryUtil.getResources(Format.JSON, getClass().getClassLoader(), "package", "us-core.index.json");
     }
 }
