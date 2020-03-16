@@ -16,6 +16,6 @@ import com.ibm.fhir.registry.util.FHIRRegistryUtil;
 public class SpecResourceProvider implements FHIRRegistryResourceProvider {
     @Override
     public Collection<FHIRRegistryResource> getResources() {
-        return FHIRRegistryUtil.getResources(Format.JSON, getClass().getClassLoader(), "spec.index");
+        return FHIRRegistryUtil.getResources(Format.JSON, getClass().getClassLoader(), "definitions", "fhir-registry.index.json");
     }
 }
