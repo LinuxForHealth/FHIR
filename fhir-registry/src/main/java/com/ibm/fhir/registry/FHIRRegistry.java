@@ -8,6 +8,7 @@ package com.ibm.fhir.registry;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,9 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Canonical;
+import com.ibm.fhir.model.type.code.StructureDefinitionKind;
+import com.ibm.fhir.model.type.code.TypeDerivationRule;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
@@ -30,13 +34,44 @@ public final class FHIRRegistry {
     private static final FHIRRegistry INSTANCE = new FHIRRegistry();
     
     private final Map<String, List<FHIRRegistryResource>> resourceMap;
+    private final Map<String, List<FHIRRegistryResource>> profileMap;
     
     private FHIRRegistry() {
         resourceMap = buildResourceMap();
+        profileMap = buildProfileMap();
     }
     
     public static FHIRRegistry getInstance() {
         return INSTANCE;
+    }
+    
+    /**
+     * Get the profiles associated with the resource type parameter as a list of {@link Canonical} URLs.
+     * 
+     * @param resourceType
+     *     the resource type
+     * @return
+     *     the profiles associated with the resource type parameter as a list of {@link Canonical} URLs
+     */
+    public List<Canonical> getProfiles(String type) {
+        Objects.requireNonNull(type);
+        
+        List<Canonical> profiles = new ArrayList<>();
+        
+        List<FHIRRegistryResource> profileResources = profileMap.getOrDefault(type, Collections.emptyList());
+        
+        for (FHIRRegistryResource profileResource : profileResources) {
+            profiles.add(Canonical.of(profileResource.getUrl() + "|" + profileResource.getVersion()));
+        }
+        
+        Collections.sort(profiles, new Comparator<Canonical>() {
+            @Override
+            public int compare(Canonical first, Canonical second) {
+                return first.getValue().compareTo(second.getValue());
+            }       
+        });
+                        
+        return Collections.unmodifiableList(profiles);
     }
     
     /**
@@ -201,9 +236,32 @@ public final class FHIRRegistry {
                 if (!resources.contains(resource)) {
                     resources.add(resource);
                 }
-                Collections.sort(resources, FHIRRegistryResource.VERSION_COMPARATOR);
+                Collections.sort(resources);
             }
         }
-        return resourceMap;
+        return Collections.unmodifiableMap(resourceMap);
+    }
+    
+    private Map<String, List<FHIRRegistryResource>> buildProfileMap() {
+        Map<String, List<FHIRRegistryResource>> profileMap = new HashMap<>();
+        for (String url : resourceMap.keySet()) {
+            List<FHIRRegistryResource> resources = resourceMap.get(url);
+            for (FHIRRegistryResource resource : resources) {
+                if (isProfile(resource)) {
+                    String type = resource.getType();
+                    List<FHIRRegistryResource> profileResources = profileMap.get(type);
+                    if (profileResources == null) {
+                        profileResources = new ArrayList<>();
+                        profileMap.put(type, profileResources);
+                    }
+                    profileResources.add(resource);
+                }
+            }
+        }
+        return profileMap;
+    }
+    
+    private boolean isProfile(FHIRRegistryResource resource) {
+        return StructureDefinitionKind.RESOURCE.equals(resource.getKind()) && TypeDerivationRule.CONSTRAINT.equals(resource.getDerivation());
     }
 }
