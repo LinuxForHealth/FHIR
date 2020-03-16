@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -214,11 +214,12 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     @Override
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name,
             String targetSchema, String targetTable, String tenantColumnName,
-            List<String> columns) {
+            List<String> columns, boolean enforced) {
 
-        // Make the call, but without the tenantColumnName because Derby doesn't support
-        // our multi-tenant implementation
-        super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, null, columns);
+        // Make the call, but
+        // 1. without the tenantColumnName because Derby doesn't support our multi-tenant implementation; and
+        // 2. with enforced=true because Derby doesn't support non-default constraint characteristics
+        super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, null, columns, true);
     }
 
     @Override

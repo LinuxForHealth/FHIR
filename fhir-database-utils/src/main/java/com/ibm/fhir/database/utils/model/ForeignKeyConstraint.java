@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,16 +18,19 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * of a parent table
  */
 public class ForeignKeyConstraint extends Constraint {
+    private final boolean enforced;
     private final String targetSchema;
     private final String targetTable;
     private final List<String> columns = new ArrayList<>();
 
     /**
      * @param constraintName
+     * @param enforced
      */
-    protected ForeignKeyConstraint(String constraintName, String targetSchema, String targetTable,
+    protected ForeignKeyConstraint(String constraintName, boolean enforced, String targetSchema, String targetTable,
         Collection<String> columns) {
         super(constraintName);
+        this.enforced = enforced;
         this.targetSchema = targetSchema;
         this.targetTable = targetTable;
         this.columns.addAll(columns);
@@ -48,7 +51,7 @@ public class ForeignKeyConstraint extends Constraint {
     public String getTargetSchema() {
         return this.targetSchema;
     }
-    
+
     public String getQualifiedTargetName() {
         return DataDefinitionUtil.getQualifiedName(targetSchema, targetTable);
     }
@@ -58,7 +61,7 @@ public class ForeignKeyConstraint extends Constraint {
      * @param target
      */
     public void apply(String schemaName, String name, String tenantColumnName, IDatabaseAdapter target) {
-        target.createForeignKeyConstraint(getConstraintName(), schemaName, name, targetSchema, targetTable, tenantColumnName, columns);
+        target.createForeignKeyConstraint(getConstraintName(), schemaName, name, targetSchema, targetTable, tenantColumnName, columns, enforced);
     }
 
 }
