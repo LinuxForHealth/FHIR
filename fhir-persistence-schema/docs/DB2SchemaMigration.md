@@ -224,7 +224,7 @@ Table tbl = Table.builder(schemaName, tableName)
 
 If a new resource is added to the specification, the schema utility automatically provisions it on the next execution of the update schema actions. 
 
-Common reasons to modify the Resource's tables are: 
+Common reasons to modify the Resource tables are: 
 - **Specification Change (Version-to-Version changes)**
     - The Resources are saved as Blobs in the database, and are transparent to the FHIR Version changes. The changes from version-to-version are resilient to field add-remove changes, type changes, and resources additions.  This migration must be done manually.
     - Resource removals must be done manually. 
@@ -235,8 +235,8 @@ Common reasons to modify the Resource's tables are:
     - As indices are added to the table definition, the version of the table must be updated, and the index must be applied and updated manually.
 - **Constraint Updates** If there are Foreign Key updates, the changes must be applied manually and reflected in the code base. 
 - **Search Parameter Changes (Specification and Tenant)**
-    - If the the parameter type or code is changed, the PARAMETERS_NAME and the corresponding table must be updated to remove references to the removed parameter (based on code). 
-    - If there is a new SearchParameter with `code` newly added to the system, the Search Parameter value entry is only updated when the resource is updated. 
+    - If the the parameter type or code is changed, the PARAMETERS_NAME and the corresponding table must be updated to remove references to the removed parameter (based on `SearchParameter.code`). 
+    - If there is a new SearchParameter (with a new `code`) added to the system, the SearchParameter values are only updated if/when the resource is updated.
 
 For each of the above changes, the version of the table must be incremented. 
 
