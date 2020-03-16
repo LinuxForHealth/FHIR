@@ -249,13 +249,13 @@ If a modification is made to a Search Parameter (addition, removal), then the re
 Each of these tables has row-level permissions based on the conditional READ-only global variable, such as: 
 
 ``` sql
-CREATE PERMISSION FHIRAPP.AUDITEVENT_COMPOSITES_TENANT
+CREATE PERMISSION FHIRDATA.AUDITEVENT_COMPOSITES_TENANT
     ON FHIRAPP.AUDITEVENT_COMPOSITES FOR ROWS
     WHERE FHIRAPP.AUDITEVENT_COMPOSITES.MT_ID = FHIR_ADMIN.SV_TENANT_ID 
     ENFORCED FOR ALL ACCESS ENABLE ;
 ```
 
-These permissions should not be removed, migrated, altered or changed.
+For security reasons, these permissions should not be removed, migrated, or altered.
 
 ## Managing Stored Procedures
 
@@ -277,7 +277,7 @@ When the `fhir-persistence-schema` buildSchema is executed, the **INSERT**, **SE
 If you change the stored procedure signature, you MUST drop the stored procedure, before applying the updated stored procedure to the database. 
 
 ## Managing GRANTS
-The Db2 data definition secures data access using `GRANT` predicates, and updated and changed using the `--grant-to` predicate to apply the grants. 
+The Db2 data definition secures data access using `GRANT` predicates. To update or change, use the `--grant-to` predicate to apply the grants. 
 
 If a grant is removed from the Java code, a manual process must be followed to remove or change the grant for the corresponding tables, procedures and variables. 
 
