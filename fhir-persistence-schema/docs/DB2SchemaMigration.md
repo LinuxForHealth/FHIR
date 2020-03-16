@@ -37,7 +37,7 @@ The `FHIR_TS` tablespace is created one time and should not be changed.
 The FHIR_ADMIN schema has a single sequence - `TENANT_SEQUENCE`. 
 The sequence is created a single time, and is NOT replaced or upgraded at any point in time. 
 
-The actions `fhir-persistence-schema` actions - `Allocate Tenant - AddTenantDAO` and `Add Tenant - AddTenantKeyDAO` depend on `next value for`.  These actions, if the sequence is removed, the `TENANT_SEQUENCE` must be manually recreated starting with an integer higher than the `TENANTS.MT_ID` and `TENANT_KEYS.TENANT_KEY_ID` otherwise a conflict with the PRIMARY_KEY in the `FHIR_ADMIN` tables occurs. 
+The `fhir-persistence-schema` actions - `Allocate Tenant - AddTenantDAO` and `Add Tenant - AddTenantKeyDAO` depend on `next value for`.  If the sequence is removed, the `TENANT_SEQUENCE` must be manually recreated starting with an integer higher than the `TENANTS.MT_ID` and `TENANT_KEYS.TENANT_KEY_ID` otherwise a conflict with the PRIMARY_KEY in the `FHIR_ADMIN` tables occurs. 
 
 The variable privileges (grants) are updated one time, and applied to `FHIRUSER` group.  If you recreate the sequence, you must recreate the `USE` permission. 
 
@@ -54,7 +54,7 @@ There are three administrative tables in `FHIR_ADMIN`. These table definitions a
 
 Before any table or schema object is created, the `VERSION_HISTORY` table is created using `CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);`  This table includes VERSION_HISTORY for resources created in the schema. If an object in the schema is updated, then the VERSION_HISTORY table must be updated to track the changes. 
 
-The `VERSION_HISTORY` table enables Tenant version isolation, so upgrades and patches are separately applied to the schema the tenant belongs. Specifically, if the tenant shares the table definitions with another client, the patching is applied to both tenants at the same time.  If the tenant has a specific schema, the table definitions may be updated independent of each other. 
+The `VERSION_HISTORY` table enables Tenant version isolation, so upgrades and patches are separately applied to the schema to which the tenant belongs. Specifically, if the tenant shares the table definitions with another client, the patching is applied to both tenants at the same time.  If the tenant has a specific schema, the table definitions may be updated independent of each other.
 
 The `CreateVersionHistory` class controls the creation the `VERSION_HISTORY` table. Importantly, the VERISON_HISTORY table does not support migrations and changes. The Primary Key has a corresponding index `PK_VERSION_HISTORY`, and the code does not support updating the index. 
 
@@ -102,7 +102,7 @@ this.tenantKeysTable = Table.builder(adminSchemaName, TENANT_KEYS)
 
 If this table is updated, the changes must be manually apply the migration steps to the `TENANT_KEYS` and the corresponding indices. 
 
-If the UniqueIndex or ForeignKeyConstraint is removed, the object must be removed. 
+If the UniqueIndex or ForeignKeyConstraint is removed, and the constraint has been previously applied to a database, the active schema must be updated, and the object must be dropped.
 
 ## Managing PROCEDURE
 
@@ -123,7 +123,7 @@ ProcedureDef setTenant = model.addProcedure(this.adminSchemaName,
 
 When the `fhir-persistence-schema` updateProcedure is executed, the READ grant is applied again, and the procedure is updated. The Procedure privilege is reset upon re-executing the action. 
 
-If you change the stored procedure signature, you MUST drop the stored procedure, before applying the stored procedure to the database. 
+If you change the stored procedure signature, you MUST drop the stored procedure before applying the stored procedure to the database. 
 
 ----------------------------------------------------------------
 
@@ -141,7 +141,7 @@ The schema is created in the multi-tenant schema `CreateSchemas` action, such as
 
 Each tenant is allocated a partition based on the MT_ID and assigned to a tablespace. 
 
-The tenant tablespace is created one time and should not be changed, modified or migrated. 
+The tenant `tablespace` is created one time and no changes to the tablespace are expected. 
 
 ## Managing the SEQUENCES
 
