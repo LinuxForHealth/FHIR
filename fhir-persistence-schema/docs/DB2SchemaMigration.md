@@ -154,7 +154,7 @@ Each tenant has a two tenant specific sequences. These sequences are created a s
 
 The stored procedures `add_resource_type`, `add_parameter_name`, `add_code_system`, and `add_any_resource` use the value to uniquely store the resource or supporting data element. 
 
-Do not remove any of the tenant sequences, the sequence must provide unique, non-cycled integer values for the persistence layer to work properly. 
+Do not remove any of the tenant sequences; these sequences must provide unique, non-cycled integer values for the persistence layer to work properly. 
 
 ## Managing TABLE 
 
@@ -246,7 +246,7 @@ The tables have various indices - PrimaryKey, Index and UniqueIndex. These indic
 
 If a modification is made to a Search Parameter (addition, removal), then the resource uses the existing search parameter values until a new version of the resource is processed.
 
-Each of these tables has row-level permissions based on the conditional READ-only global variable, such as: 
+Each of these tables has row-level permissions based on the conditional READ-only global variable `SV_TENANT_ID`. For example, for AUDITEVENT_COMPOSITES:
 
 ``` sql
 CREATE PERMISSION FHIRDATA.AUDITEVENT_COMPOSITES_TENANT
