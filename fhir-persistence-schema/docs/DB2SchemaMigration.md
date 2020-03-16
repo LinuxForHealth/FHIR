@@ -66,20 +66,6 @@ The `FHIR_ADMIN.TENANTS` table maps a given tenant to the Multi-Tenant ID (MT_ID
 
 `AdminSchemaGenerator.addTenantTable` method adds the TENANT table, and updates to this table definition requries a change to the setVersion (incrementing by 1). A corresponding change must be made to `FHIRSchemaGenerator.addTenantTable` method.
 
-``` java
-this.tenantsTable = Table.builder(adminSchemaName, TENANTS)
-    .setVersion(1)
-    .addIntColumn(            MT_ID,             false)
-    .addVarcharColumn(      TENANT_NAME,        36,  false)
-    .addVarcharColumn(    TENANT_STATUS,        16,  false)
-    .addUniqueIndex(IDX + "TENANT_TN", TENANT_NAME)
-    .addPrimaryKey("TENANT_PK", MT_ID)
-    .setTablespace(fhirTablespace)
-    .build(model);
-```
-
-If this table is updated, the changes must be manually apply the migration steps to the `TENANTS` and the corresponding indices. 
-
 **Table: TENANT_KEYS**
 
 The Tenant Keys table stores a hashed version of the tenant specific key. Upon creating a session and calling the SET_TENANT procedure, the SET_TENANT queries the incoming key against the TENANT_KEYS database to map to a specific tenant MT_ID. 
@@ -101,7 +87,21 @@ this.tenantKeysTable = Table.builder(adminSchemaName, TENANT_KEYS
     .build(model);
 ```
 
-Changes to the FHIR_ADMIN schem are not supported.
+Changes to the FHIR_ADMIN schema are not supported.  
+
+If a table in FHIR_ADMIN table is updated, the changes must be manually applied as the migration steps to the each table and their indices. The Java code must also be updated to indicate the version change, such as the following for `TENANTS`:
+
+``` java
+this.tenantsTable = Table.builder(adminSchemaName, TENANTS)
+    .setVersion(1)
+    .addIntColumn(            MT_ID,             false)
+    .addVarcharColumn(      TENANT_NAME,        36,  false)
+    .addVarcharColumn(    TENANT_STATUS,        16,  false)
+    .addUniqueIndex(IDX + "TENANT_TN", TENANT_NAME)
+    .addPrimaryKey("TENANT_PK", MT_ID)
+    .setTablespace(fhirTablespace)
+    .build(model);
+```
 
 If the UniqueIndex or ForeignKeyConstraint is removed, and the constraint has been previously applied to a database, the active schema must be updated, and the object must be dropped.
 
