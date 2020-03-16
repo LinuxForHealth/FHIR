@@ -40,6 +40,11 @@ public class RowArrayType extends BaseObject {
     }
 
     @Override
+    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+        target.createArrType(getSchemaName(), getObjectName(), rowTypeName, arraySize);
+    }
+
+    @Override
     public void drop(IDatabaseAdapter target) {
         target.dropType(getSchemaName(), getObjectName());
     }

@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.api;
 
 /**
- * Service interface used to update the version history table 
+ * Service interface used to update the version history table
  * (just before a transaction ends)
  */
 public interface IVersionHistoryService {
@@ -20,7 +20,7 @@ public interface IVersionHistoryService {
      * @param version
      */
     public void addVersion(String objectSchema, String objectType, String objectName, int version);
-    
+
     /**
      * Check to see if we described object is newer than we have currently in the
      * database
@@ -31,4 +31,13 @@ public interface IVersionHistoryService {
      * @return
      */
     public boolean applies(String objectSchema, String objectType, String objectName, int version);
+
+    /**
+     * Get the current version of an object
+     * @param objectSchema
+     * @param objectType
+     * @param objectName
+     * @return the current version of the given object or null if it doesn't exist
+     */
+    public Integer getVersion(String objectSchema, String objectType, String objectName);
 }

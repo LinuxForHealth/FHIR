@@ -22,4 +22,10 @@ public class AllVersionHistoryService implements IVersionHistoryService {
         return true;
     }
 
+    @Override
+    public Integer getVersion(String objectSchema, String objectType, String objectName) {
+        // always return null
+        return null;
+    }
+
 }

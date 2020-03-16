@@ -6,6 +6,9 @@
 
 package com.ibm.fhir.database.utils.model;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
@@ -21,13 +24,17 @@ public class VersionedSchemaObject {
 
     // The version, which can be changed during building
     protected int version = 1;
-    
+
+    // Conditional migration steps to perform before or after updating to the current version
+    protected List<Migration> preSteps;
+    protected List<Migration> postSteps;
+
     public VersionedSchemaObject(String schemaName, String objectName) {
         DataDefinitionUtil.assertValidNames(schemaName, objectName);
         this.schemaName = schemaName;
         this.objectName = objectName;
     }
-    
+
     /**
      * Setter to override the default version number for this object
      * (usually used for alter statements, or new tables and indexes)
@@ -60,8 +67,28 @@ public class VersionedSchemaObject {
     public String getObjectName() {
         return this.objectName;
     }
-    
+
     public String getQualifiedName() {
         return DataDefinitionUtil.getQualifiedName(schemaName, objectName);
+    }
+
+    /**
+     * Add migration steps to perform before applying this object
+     * @param migration
+     * @return
+     */
+    public VersionedSchemaObject addPreStep(Migration... migration) {
+        preSteps.addAll(Arrays.asList(migration));
+        return this;
+    }
+
+    /**
+     * Add migration steps to perform after applying this object
+     * @param migration
+     * @return
+     */
+    public VersionedSchemaObject addPostStep(Migration... migration) {
+        postSteps.addAll(Arrays.asList(migration));
+        return this;
     }
 }

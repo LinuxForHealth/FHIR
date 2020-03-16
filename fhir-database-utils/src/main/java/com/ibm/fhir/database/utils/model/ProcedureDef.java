@@ -12,14 +12,13 @@ import java.util.function.Supplier;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 
 /**
- * The definition of a stored procedure, whose content is provided by a Supplier<String>
- * function
+ * The definition of a stored procedure, whose content is provided by a Supplier<String> function
  */
 public class ProcedureDef extends BaseObject {
-    
+
     // supplier provides the procedure body when requested
     private Supplier<String> supplier;
-    
+
     /**
      * Public constructor
      * @param schemaName
@@ -32,9 +31,6 @@ public class ProcedureDef extends BaseObject {
         this.supplier = supplier;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#apply(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
     @Override
     public void apply(IDatabaseAdapter target) {
         // Serialize the execution of the procedure, to try and avoid the
@@ -44,17 +40,23 @@ public class ProcedureDef extends BaseObject {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#drop(com.ibm.fhir.database.utils.api.IDatabaseAdapter)
-     */
+    @Override
+    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+        // Serialize the execution of the procedure, to try and avoid the
+        // horrible deadlocks we keep getting
+        synchronized(target) {
+            // TODO migration logic here?
+            target.createProcedure(getSchemaName(), getObjectName(), supplier);
+        }
+    }
+
     @Override
     public void drop(IDatabaseAdapter target) {
         target.dropProcedure(getSchemaName(), getObjectName());
     }
-    
-       @Override
-       protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
-            target.grantProcedurePrivileges(getSchemaName(), getObjectName(), group, toUser);
-        }
 
+    @Override
+    protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
+        target.grantProcedurePrivileges(getSchemaName(), getObjectName(), group, toUser);
+    }
 }
