@@ -1,0 +1,89 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MessageHeader.response.details",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MessageHeader.response.details",
+    "version": "4.0.1",
+    "name": "MessageHeader.response.details",
+    "title": "MessageHeader.response.details",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MessageHeader.response.details",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MessageHeader.response.details",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MessageHeader.response.details",
+                "path": "MessageHeader.response.details",
+                "short": "Specific list of hints/warnings/errors",
+                "definition": "Full details of any issues found in the message.",
+                "comment": "This SHALL be contained in the bundle. If any of the issues are errors, the response code SHALL be an error.",
+                "requirements": "Allows the sender of the message to determine what the specific issues are.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MessageHeader.response.details",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/OperationOutcome"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "ERR"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "AcknowledgementDetail or Observation[classCode=\"ALRT\" and moodCode=\"EVN\"]"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,91 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Flag.category",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Flag.category",
+    "version": "4.0.1",
+    "name": "Flag.category",
+    "title": "Flag.category",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Flag.category",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Flag.category",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Flag.category",
+                "path": "Flag.category",
+                "short": "Clinical, administrative, etc.",
+                "definition": "Allows a flag to be divided into different categories like clinical, administrative etc. Intended to be used as a means of filtering which flags are displayed to particular user or in a given context.",
+                "comment": "The value set will often need to be adjusted based on local business rules and usage context.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Flag.category",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "FlagCategory"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "A general category for flags for filtering/display purposes.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/flag-category"
+                },
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.class"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".code"
+                    }
+                ]
+            }
+        ]
+    }
+}

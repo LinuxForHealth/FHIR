@@ -1,0 +1,101 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-CarePlan.encounter",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-CarePlan.encounter",
+    "version": "4.0.1",
+    "name": "CarePlan.encounter",
+    "title": "CarePlan.encounter",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for CarePlan.encounter",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "CarePlan.encounter",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "CarePlan.encounter",
+                "path": "CarePlan.encounter",
+                "short": "Encounter created as part of",
+                "definition": "The Encounter during which this CarePlan was created or to which the creation of this record is tightly associated.",
+                "comment": "This will typically be the encounter the event occurred within, but some activities may be initiated prior to or after the official completion of an encounter but still be tied to the context of the encounter. CarePlan activities conducted as a result of the care plan may well occur as part of other encounters.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "CarePlan.encounter",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Encounter"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.context"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.context"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "Associated PV1"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "."
+                    }
+                ]
+            }
+        ]
+    }
+}

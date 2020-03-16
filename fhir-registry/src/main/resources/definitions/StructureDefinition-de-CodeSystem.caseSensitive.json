@@ -1,0 +1,80 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-CodeSystem.caseSensitive",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-CodeSystem.caseSensitive",
+    "version": "4.0.1",
+    "name": "CodeSystem.caseSensitive",
+    "title": "CodeSystem.caseSensitive",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for CodeSystem.caseSensitive",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "CodeSystem.caseSensitive",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "CodeSystem.caseSensitive",
+                "path": "CodeSystem.caseSensitive",
+                "short": "If code comparison is case sensitive",
+                "definition": "If code comparison is case sensitive when codes within this system are compared to each other.",
+                "comment": "If this value is missing, then it is not specified whether a code system is case sensitive or not. When the rule is not known, Postel's law should be followed: produce codes with the correct case, and accept codes in any case. This element is primarily provided to support validation software.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "CodeSystem.caseSensitive",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "boolean"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

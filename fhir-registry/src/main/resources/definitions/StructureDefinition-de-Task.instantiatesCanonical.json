@@ -1,0 +1,93 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Task.instantiatesCanonical",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Task.instantiatesCanonical",
+    "version": "4.0.1",
+    "name": "Task.instantiatesCanonical",
+    "title": "Task.instantiatesCanonical",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Task.instantiatesCanonical",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Task.instantiatesCanonical",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Task.instantiatesCanonical",
+                "path": "Task.instantiatesCanonical",
+                "short": "Formal definition of task",
+                "definition": "The URL pointing to a *FHIR*-defined protocol, guideline, orderset or other definition that is adhered to in whole or in part by this Task.",
+                "requirements": "Enables a formal definition of how he task is to be performed, enabling automation.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Task.instantiatesCanonical",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "canonical",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/ActivityDefinition"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.instantiatesCanonical, Event.instantiatesCanonical"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".outboundRelationship[typeCode=DEFN].target"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,104 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-NutritionOrder.oralDiet.fluidConsistencyType",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-NutritionOrder.oralDiet.fluidConsistencyType",
+    "version": "4.0.1",
+    "name": "NutritionOrder.oralDiet.fluidConsistencyType",
+    "title": "NutritionOrder.oralDiet.fluidConsistencyType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for NutritionOrder.oralDiet.fluidConsistencyType",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "NutritionOrder.oralDiet.fluidConsistencyType",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "NutritionOrder.oralDiet.fluidConsistencyType",
+                "path": "NutritionOrder.oralDiet.fluidConsistencyType",
+                "short": "The required consistency of fluids and liquids provided to the patient",
+                "definition": "The required consistency (e.g. honey-thick, nectar-thick, thin, thickened.) of liquids or fluids served to the patient.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "NutritionOrder.oralDiet.fluidConsistencyType",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "FluidConsistencyType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Codes used to represent the consistency of fluids and liquids provided to the patient.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/consistency-type"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.code"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "ODS-4"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".code  (Not differentiated from dietTextureModificationType in HL7 v3)"
+                    }
+                ]
+            }
+        ]
+    }
+}

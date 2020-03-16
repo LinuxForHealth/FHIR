@@ -1,0 +1,98 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Practitioner.identifier",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Practitioner.identifier",
+    "version": "4.0.1",
+    "name": "Practitioner.identifier",
+    "title": "Practitioner.identifier",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Practitioner.identifier",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "servd",
+            "uri": "http://www.omg.org/spec/ServD/1.0/",
+            "name": "ServD"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Practitioner.identifier",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Practitioner.identifier",
+                "path": "Practitioner.identifier",
+                "short": "An identifier for the person as this agent",
+                "definition": "An identifier that applies to this person in this role.",
+                "requirements": "Often, specific identities are assigned for the agent.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Practitioner.identifier",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Identifier"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.identifier"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "PRD-7 (or XCN.1)"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "./id"
+                    },
+                    {
+                        "identity": "servd",
+                        "map": "./Identifiers"
+                    }
+                ]
+            }
+        ]
+    }
+}

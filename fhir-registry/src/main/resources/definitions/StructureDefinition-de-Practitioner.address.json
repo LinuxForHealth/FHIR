@@ -1,0 +1,95 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Practitioner.address",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Practitioner.address",
+    "version": "4.0.1",
+    "name": "Practitioner.address",
+    "title": "Practitioner.address",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Practitioner.address",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "servd",
+            "uri": "http://www.omg.org/spec/ServD/1.0/",
+            "name": "ServD"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Practitioner.address",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Practitioner.address",
+                "path": "Practitioner.address",
+                "short": "Address(es) of the practitioner that are not role specific (typically home address)",
+                "definition": "Address(es) of the practitioner that are not role specific (typically home address). \rWork addresses are not typically entered in this property as they are usually role dependent.",
+                "comment": "The PractitionerRole does not have an address value on it, as it is expected that the location property be used for this purpose (which has an address).",
+                "requirements": "The home/mailing address of the practitioner is often required for employee administration purposes, and also for some rostering services where the start point (practitioners home) can be used in calculations.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Practitioner.address",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Address"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "ORC-24, STF-11, ROL-11, PRT-14"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "./addr"
+                    },
+                    {
+                        "identity": "servd",
+                        "map": "./Addresses"
+                    }
+                ]
+            }
+        ]
+    }
+}

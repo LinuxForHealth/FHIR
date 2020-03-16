@@ -1,0 +1,78 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "fm-status",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Financial Resource Status Codes</h2><div><p>This value set includes Status codes.</p>\n</div><p><b>Copyright Statement:</b></p><div><p>HL7 International.</p>\n</div><p>This code system http://hl7.org/fhir/fm-status defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">active<a name=\"fm-status-active\"> </a></td><td>Active</td><td>The instance is currently in-force.</td></tr><tr><td style=\"white-space:nowrap\">cancelled<a name=\"fm-status-cancelled\"> </a></td><td>Cancelled</td><td>The instance is withdrawn, rescinded or reversed.</td></tr><tr><td style=\"white-space:nowrap\">draft<a name=\"fm-status-draft\"> </a></td><td>Draft</td><td>A new instance the contents of which is not complete.</td></tr><tr><td style=\"white-space:nowrap\">entered-in-error<a name=\"fm-status-entered-in-error\"> </a></td><td>Entered in Error</td><td>The instance was entered in error.</td></tr></table></div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 2
+        }
+    ],
+    "url": "http://hl7.org/fhir/fm-status",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.593"
+        }
+    ],
+    "version": "4.0.1",
+    "name": "FinancialResourceStatusCodes",
+    "title": "Financial Resource Status Codes",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "Financial Management",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set includes Status codes.",
+    "copyright": "HL7 International.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/fm-status",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "active",
+            "display": "Active",
+            "definition": "The instance is currently in-force."
+        },
+        {
+            "code": "cancelled",
+            "display": "Cancelled",
+            "definition": "The instance is withdrawn, rescinded or reversed."
+        },
+        {
+            "code": "draft",
+            "display": "Draft",
+            "definition": "A new instance the contents of which is not complete."
+        },
+        {
+            "code": "entered-in-error",
+            "display": "Entered in Error",
+            "definition": "The instance was entered in error."
+        }
+    ]
+}

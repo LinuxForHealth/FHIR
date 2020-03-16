@@ -1,0 +1,69 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MolecularSequence.quality.roc.numFN",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MolecularSequence.quality.roc.numFN",
+    "version": "4.0.1",
+    "name": "MolecularSequence.quality.roc.numFN",
+    "title": "MolecularSequence.quality.roc.numFN",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MolecularSequence.quality.roc.numFN",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MolecularSequence.quality.roc.numFN",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MolecularSequence.quality.roc.numFN",
+                "path": "MolecularSequence.quality.roc.numFN",
+                "short": "Roc score false negative numbers",
+                "definition": "The number of false negatives if the GQ score threshold was set to \"score\" field value.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "MolecularSequence.quality.roc.numFN",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "integer"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

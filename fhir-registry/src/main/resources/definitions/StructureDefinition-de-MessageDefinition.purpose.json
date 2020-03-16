@@ -1,0 +1,99 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MessageDefinition.purpose",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MessageDefinition.purpose",
+    "version": "4.0.1",
+    "name": "MessageDefinition.purpose",
+    "title": "MessageDefinition.purpose",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MessageDefinition.purpose",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MessageDefinition.purpose",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MessageDefinition.purpose",
+                "path": "MessageDefinition.purpose",
+                "short": "Why this message definition is defined",
+                "definition": "Explanation of why this message definition is needed and why it has been designed as it has.",
+                "comment": "This element does not describe the usage of the message definition. Instead, it provides traceability of ''why'' the resource is either needed or ''why'' it is defined as it is.  This may be used to point to source materials or specifications that drove the structure of this message definition.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MessageDefinition.purpose",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "markdown"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Definition.purpose"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.why[x]"
+                    },
+                    {
+                        "identity": "objimpl",
+                        "map": "no-gen-base"
+                    }
+                ]
+            }
+        ]
+    }
+}

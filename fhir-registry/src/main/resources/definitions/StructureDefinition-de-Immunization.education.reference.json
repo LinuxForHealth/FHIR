@@ -1,0 +1,90 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Immunization.education.reference",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Immunization.education.reference",
+    "version": "4.0.1",
+    "name": "Immunization.education.reference",
+    "title": "Immunization.education.reference",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Immunization.education.reference",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "cda",
+            "uri": "http://hl7.org/v3/cda",
+            "name": "CDA (R2)"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Immunization.education.reference",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Immunization.education.reference",
+                "path": "Immunization.education.reference",
+                "short": "Educational material reference pointer",
+                "definition": "Reference pointer to the educational material given to the patient if the information was on line.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Immunization.education.reference",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "uri"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            }
+        ]
+    }
+}

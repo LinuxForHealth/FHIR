@@ -1,0 +1,112 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-DeviceRequest.parameter.valueX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-DeviceRequest.parameter.valueX",
+    "version": "4.0.1",
+    "name": "DeviceRequest.parameter.value[x]",
+    "title": "DeviceRequest.parameter.value[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for DeviceRequest.parameter.value[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "quick",
+            "uri": "http://siframework.org/cqf",
+            "name": "Quality Improvement and Clinical Knowledge (QUICK)"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "DeviceRequest.parameter.value[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "DeviceRequest.parameter.value[x]",
+                "path": "DeviceRequest.parameter.value[x]",
+                "short": "Value of detail",
+                "definition": "The value of the device detail.",
+                "comment": "Range means device should have a value that falls somewhere within the specified range.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "DeviceRequest.parameter.value[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    },
+                    {
+                        "code": "Quantity"
+                    },
+                    {
+                        "code": "Range"
+                    },
+                    {
+                        "code": "boolean"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.what[x]"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "Varies by domain"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".code"
+                    },
+                    {
+                        "identity": "quick",
+                        "map": "DeviceUse.device"
+                    }
+                ]
+            }
+        ]
+    }
+}

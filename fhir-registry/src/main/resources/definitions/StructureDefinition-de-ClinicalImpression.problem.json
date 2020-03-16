@@ -1,0 +1,94 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ClinicalImpression.problem",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ClinicalImpression.problem",
+    "version": "4.0.1",
+    "name": "ClinicalImpression.problem",
+    "title": "ClinicalImpression.problem",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ClinicalImpression.problem",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ClinicalImpression.problem",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ClinicalImpression.problem",
+                "path": "ClinicalImpression.problem",
+                "short": "Relevant impressions of patient state",
+                "definition": "A list of the relevant problems/conditions for a patient.",
+                "comment": "e.g. The patient is a pregnant, has congestive heart failure, has an ‎Adenocarcinoma, and is allergic to penicillin.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ClinicalImpression.problem",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Condition",
+                            "http://hl7.org/fhir/StructureDefinition/AllergyIntolerance"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.why[x]"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "PRB-3 / IAM-7"
+                    }
+                ]
+            }
+        ]
+    }
+}

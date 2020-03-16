@@ -1,0 +1,107 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ChargeItem.occurrenceX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ChargeItem.occurrenceX",
+    "version": "4.0.1",
+    "name": "ChargeItem.occurrence[x]",
+    "title": "ChargeItem.occurrence[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ChargeItem.occurrence[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ChargeItem.occurrence[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ChargeItem.occurrence[x]",
+                "path": "ChargeItem.occurrence[x]",
+                "short": "When the charged service was applied",
+                "definition": "Date/time(s) or duration when the charged service was applied.",
+                "comment": "The list of types may be constrained as appropriate for the type of charge item.",
+                "alias": [
+                    "timing"
+                ],
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "ChargeItem.occurrence[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "dateTime"
+                    },
+                    {
+                        "code": "Period"
+                    },
+                    {
+                        "code": "Timing"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.occurrence[x]"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.done[x]"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "Varies by domain"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".effectiveTime"
+                    }
+                ]
+            }
+        ]
+    }
+}

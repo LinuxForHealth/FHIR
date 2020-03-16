@@ -1,0 +1,100 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ChargeItem.partOf",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ChargeItem.partOf",
+    "version": "4.0.1",
+    "name": "ChargeItem.partOf",
+    "title": "ChargeItem.partOf",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ChargeItem.partOf",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ChargeItem.partOf",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ChargeItem.partOf",
+                "path": "ChargeItem.partOf",
+                "short": "Part of referenced ChargeItem",
+                "definition": "ChargeItems can be grouped to larger ChargeItems covering the whole set.",
+                "requirements": "E.g. Drug administration as part of a procedure, procedure as part of observation, etc.",
+                "alias": [
+                    "container"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ChargeItem.partOf",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/ChargeItem"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.partOf"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "Varies by domain"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".inboundRelationship[typeCode=COMP].source[moodCode=EVN]"
+                    }
+                ]
+            }
+        ]
+    }
+}

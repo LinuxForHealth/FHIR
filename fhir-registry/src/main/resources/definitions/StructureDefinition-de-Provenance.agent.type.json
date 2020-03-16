@@ -1,0 +1,114 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Provenance.agent.type",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Provenance.agent.type",
+    "version": "4.0.1",
+    "name": "Provenance.agent.type",
+    "title": "Provenance.agent.type",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Provenance.agent.type",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w3c.prov",
+            "uri": "http://www.w3.org/ns/prov",
+            "name": "W3C PROV"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "fhirauditevent",
+            "uri": "http://hl7.org/fhir/auditevent",
+            "name": "FHIR AuditEvent Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Provenance.agent.type",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Provenance.agent.type",
+                "path": "Provenance.agent.type",
+                "short": "How the agent participated",
+                "definition": "The participation the agent had with respect to the activity.",
+                "comment": "For example: author, performer, enterer, attester, etc.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Provenance.agent.type",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ProvenanceAgentType"
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "The type of participation that a provenance agent played with respect to the activity.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/provenance-agent-type"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.performer.function"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".role"
+                    },
+                    {
+                        "identity": "fhirauditevent",
+                        "map": "AuditEvent.agent.type"
+                    },
+                    {
+                        "identity": "w3c.prov",
+                        "map": "Agent.Attribution"
+                    }
+                ]
+            }
+        ]
+    }
+}

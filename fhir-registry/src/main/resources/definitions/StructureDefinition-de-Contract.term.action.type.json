@@ -1,0 +1,95 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Contract.term.action.type",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Contract.term.action.type",
+    "version": "4.0.1",
+    "name": "Contract.term.action.type",
+    "title": "Contract.term.action.type",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Contract.term.action.type",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Contract.term.action.type",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Contract.term.action.type",
+                "path": "Contract.term.action.type",
+                "short": "Type or form of the action",
+                "definition": "Activity or service obligation to be done or not done, performed or not performed, effectuated or not by this Contract term.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Contract.term.action.type",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ContractAction"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Detailed codes for the contract action.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/contract-action"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.performer"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "RIM Role, Participation Type classes"
+                    }
+                ]
+            }
+        ]
+    }
+}

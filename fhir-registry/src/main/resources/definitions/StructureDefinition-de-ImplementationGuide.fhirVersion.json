@@ -1,0 +1,95 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ImplementationGuide.fhirVersion",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ImplementationGuide.fhirVersion",
+    "version": "4.0.1",
+    "name": "ImplementationGuide.fhirVersion",
+    "title": "ImplementationGuide.fhirVersion",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ImplementationGuide.fhirVersion",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ImplementationGuide.fhirVersion",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ImplementationGuide.fhirVersion",
+                "path": "ImplementationGuide.fhirVersion",
+                "short": "FHIR Version(s) this Implementation Guide targets",
+                "definition": "The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].[minor], which is 4.0.1. for this version.",
+                "comment": "Most implementation guides target a single version - e.g. they describe how to use a particular version, and the profiles and examples etc are valid for that version. But some implementation guides describe how to use multiple different versions of FHIR to solve the same problem, or in concert with each other. Typically, the requirement to support multiple versions arises as implementation matures and different implementation communities are stuck at different versions by regulation or market dynamics.",
+                "min": 1,
+                "max": "*",
+                "base": {
+                    "path": "ImplementationGuide.fhirVersion",
+                    "min": 1,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "FHIRVersion"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "All published FHIR Versions.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.1"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,80 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-SpecimenDefinition.collection",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-SpecimenDefinition.collection",
+    "version": "4.0.1",
+    "name": "SpecimenDefinition.collection",
+    "title": "SpecimenDefinition.collection",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for SpecimenDefinition.collection",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "SpecimenDefinition.collection",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "SpecimenDefinition.collection",
+                "path": "SpecimenDefinition.collection",
+                "short": "Specimen collection procedure",
+                "definition": "The action to be performed for collecting the specimen.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "SpecimenDefinition.collection",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SpecimenCollection"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The action to collect a type of specimen.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/specimen-collection"
+                }
+            }
+        ]
+    }
+}

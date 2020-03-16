@@ -1,0 +1,106 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-QuestionnaireResponse.author",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-QuestionnaireResponse.author",
+    "version": "4.0.1",
+    "name": "QuestionnaireResponse.author",
+    "title": "QuestionnaireResponse.author",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for QuestionnaireResponse.author",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "QuestionnaireResponse.author",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "QuestionnaireResponse.author",
+                "path": "QuestionnaireResponse.author",
+                "short": "Person who received and recorded the answers",
+                "definition": "Person who received the answers to the questions in the QuestionnaireResponse and recorded them in the system.",
+                "comment": "Mapping a subject's answers to multiple choice options and determining what to put in the textual answer is a matter of interpretation.  Authoring by device would indicate that some portion of the questionnaire had been auto-populated.",
+                "requirements": "Need to know who interpreted the subject's answers to the questions in the questionnaire, and selected the appropriate options for answers.",
+                "alias": [
+                    "Laboratory",
+                    "Service",
+                    "Practitioner",
+                    "Department",
+                    "Company",
+                    "Performer"
+                ],
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "QuestionnaireResponse.author",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Device",
+                            "http://hl7.org/fhir/StructureDefinition/Practitioner",
+                            "http://hl7.org/fhir/StructureDefinition/PractitionerRole",
+                            "http://hl7.org/fhir/StructureDefinition/Patient",
+                            "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
+                            "http://hl7.org/fhir/StructureDefinition/Organization"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.performer"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.author"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".participation[typeCode=AUT].role"
+                    }
+                ]
+            }
+        ]
+    }
+}

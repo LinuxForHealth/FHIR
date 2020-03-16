@@ -1,0 +1,87 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-AdverseEvent.actuality",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-AdverseEvent.actuality",
+    "version": "4.0.1",
+    "name": "AdverseEvent.actuality",
+    "title": "AdverseEvent.actuality",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for AdverseEvent.actuality",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "AdverseEvent.actuality",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "AdverseEvent.actuality",
+                "path": "AdverseEvent.actuality",
+                "short": "actual | potential",
+                "definition": "Whether the event actually happened, or just had the potential to. Note that this is independent of whether anyone was affected or harmed or how severely.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "AdverseEvent.actuality",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "This element is labeled as a modifier because it has a potential code that indicates the adverse event did not actually happen.",
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "AdverseEventActuality"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Overall nature of the adverse event, e.g. real or potential.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.class"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,88 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Device.udiCarrier.carrierAIDC",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Device.udiCarrier.carrierAIDC",
+    "version": "4.0.1",
+    "name": "Device.udiCarrier.carrierAIDC",
+    "title": "Device.udiCarrier.carrierAIDC",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Device.udiCarrier.carrierAIDC",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "udi",
+            "uri": "http://fda.gov/UDI",
+            "name": "UDI Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Device.udiCarrier.carrierAIDC",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Device.udiCarrier.carrierAIDC",
+                "path": "Device.udiCarrier.carrierAIDC",
+                "short": "UDI Machine Readable Barcode String",
+                "definition": "The full UDI carrier of the Automatic Identification and Data Capture (AIDC) technology representation of the barcode string as printed on the packaging of the device - e.g., a barcode or RFID.   Because of limitations on character sets in XML and the need to round-trip JSON data through XML, AIDC Formats *SHALL* be base64 encoded.",
+                "comment": "The AIDC form of UDIs should be scanned or otherwise used for the identification of the device whenever possible to minimize errors in records resulting from manual transcriptions. If separate barcodes for DI and PI are present, concatenate the string with DI first and in order of human readable expression on label.",
+                "alias": [
+                    "Automatic Identification and Data Capture"
+                ],
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Device.udiCarrier.carrierAIDC",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "base64Binary"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "Role.id.extension"
+                    },
+                    {
+                        "identity": "udi",
+                        "map": "A unique device identifier (UDI) on a device label a form that uses automatic identification and data capture (AIDC) technology."
+                    }
+                ]
+            }
+        ]
+    }
+}

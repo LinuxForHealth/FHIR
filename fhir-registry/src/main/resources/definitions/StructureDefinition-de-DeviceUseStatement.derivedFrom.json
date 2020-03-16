@@ -1,0 +1,93 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-DeviceUseStatement.derivedFrom",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-DeviceUseStatement.derivedFrom",
+    "version": "4.0.1",
+    "name": "DeviceUseStatement.derivedFrom",
+    "title": "DeviceUseStatement.derivedFrom",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for DeviceUseStatement.derivedFrom",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "quick",
+            "uri": "http://siframework.org/cqf",
+            "name": "Quality Improvement and Clinical Knowledge (QUICK)"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "DeviceUseStatement.derivedFrom",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "DeviceUseStatement.derivedFrom",
+                "path": "DeviceUseStatement.derivedFrom",
+                "short": "Supporting information",
+                "definition": "Allows linking the DeviceUseStatement to the underlying Request, or to other information that supports or is used to derive the DeviceUseStatement.",
+                "comment": "The most common use cases for deriving a DeviceUseStatement comes from creating it from a request or from an observation or a claim. it should be noted that the amount of information that is available varies from the type resource that you derive the DeviceUseStatement from.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "DeviceUseStatement.derivedFrom",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/ServiceRequest",
+                            "http://hl7.org/fhir/StructureDefinition/Procedure",
+                            "http://hl7.org/fhir/StructureDefinition/Claim",
+                            "http://hl7.org/fhir/StructureDefinition/Observation",
+                            "http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse",
+                            "http://hl7.org/fhir/StructureDefinition/DocumentReference"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

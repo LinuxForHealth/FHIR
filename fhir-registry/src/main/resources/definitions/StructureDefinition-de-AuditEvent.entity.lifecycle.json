@@ -1,0 +1,124 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-AuditEvent.entity.lifecycle",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-AuditEvent.entity.lifecycle",
+    "version": "4.0.1",
+    "name": "AuditEvent.entity.lifecycle",
+    "title": "AuditEvent.entity.lifecycle",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for AuditEvent.entity.lifecycle",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "dicom",
+            "uri": "http://nema.org/dicom",
+            "name": "DICOM Tag Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "w3c.prov",
+            "uri": "http://www.w3.org/ns/prov",
+            "name": "W3C PROV"
+        },
+        {
+            "identity": "fhirprovenance",
+            "uri": "http://hl7.org/fhir/provenance",
+            "name": "FHIR Provenance Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "AuditEvent.entity.lifecycle",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "AuditEvent.entity.lifecycle",
+                "path": "AuditEvent.entity.lifecycle",
+                "short": "Life-cycle stage for the entity",
+                "definition": "Identifier for the data life-cycle stage for the entity.",
+                "comment": "This can be used to provide an audit trail for data, over time, as it passes through the system.",
+                "requirements": "Institutional policies for privacy and security may optionally fall under different accountability rules based on data life cycle. This provides a differentiating value for those cases.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "AuditEvent.entity.lifecycle",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Coding"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "AuditEventEntityLifecycle"
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "Identifier for the data life-cycle stage for the entity.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/object-lifecycle-events"
+                },
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.context"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "target of ObservationEvent[code=\"lifecycle\"].value"
+                    },
+                    {
+                        "identity": "dicom",
+                        "map": "ParticipantObjectDataLifeCycle"
+                    },
+                    {
+                        "identity": "w3c.prov",
+                        "map": "Entity.role"
+                    },
+                    {
+                        "identity": "fhirprovenance",
+                        "map": "Provenance.entity.role"
+                    }
+                ]
+            }
+        ]
+    }
+}

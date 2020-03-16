@@ -1,0 +1,96 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Communication.statusReason",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Communication.statusReason",
+    "version": "4.0.1",
+    "name": "Communication.statusReason",
+    "title": "Communication.statusReason",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Communication.statusReason",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Communication.statusReason",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Communication.statusReason",
+                "path": "Communication.statusReason",
+                "short": "Reason for current status",
+                "definition": "Captures the reason for the current state of the Communication.",
+                "comment": "This is generally only used for \"exception\" statuses such as \"not-done\", \"suspended\" or \"aborted\". The reason for performing the event at all is captured in reasonCode, not here.",
+                "alias": [
+                    "Suspended Reason",
+                    "Cancelled Reason"
+                ],
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Communication.statusReason",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "CommunicationNotDoneReason"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Codes for the reason why a communication did not happen.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/communication-not-done-reason"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.statusReason"
+                    }
+                ]
+            }
+        ]
+    }
+}

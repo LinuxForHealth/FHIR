@@ -1,0 +1,105 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-NutritionOrder.oralDiet.texture.foodType",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-NutritionOrder.oralDiet.texture.foodType",
+    "version": "4.0.1",
+    "name": "NutritionOrder.oralDiet.texture.foodType",
+    "title": "NutritionOrder.oralDiet.texture.foodType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for NutritionOrder.oralDiet.texture.foodType",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "NutritionOrder.oralDiet.texture.foodType",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "NutritionOrder.oralDiet.texture.foodType",
+                "path": "NutritionOrder.oralDiet.texture.foodType",
+                "short": "Concepts that are used to identify an entity that is ingested for nutritional purposes",
+                "definition": "The food type(s) (e.g. meats, all foods)  that the texture modification applies to.  This could be all foods types.",
+                "comment": "Coupled with the `texture.modifier`; could be (All Foods).",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "NutritionOrder.oralDiet.texture.foodType",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "TextureModifiedFoodType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Codes for types of foods that are texture-modified.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/modified-foodtype"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.code"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "ODS-4"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".participation[typeCode=PRD].role[classCode=MANU], manufacturedFoodKind; .code"
+                    }
+                ]
+            }
+        ]
+    }
+}

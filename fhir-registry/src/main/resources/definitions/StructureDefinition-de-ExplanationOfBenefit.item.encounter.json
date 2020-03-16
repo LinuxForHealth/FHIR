@@ -1,0 +1,83 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ExplanationOfBenefit.item.encounter",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ExplanationOfBenefit.item.encounter",
+    "version": "4.0.1",
+    "name": "ExplanationOfBenefit.item.encounter",
+    "title": "ExplanationOfBenefit.item.encounter",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ExplanationOfBenefit.item.encounter",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ExplanationOfBenefit.item.encounter",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ExplanationOfBenefit.item.encounter",
+                "path": "ExplanationOfBenefit.item.encounter",
+                "short": "Encounters related to this billed item",
+                "definition": "A billed item may include goods or services provided in multiple encounters.",
+                "requirements": "Used in some jurisdictions to link clinical events to claim items.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ExplanationOfBenefit.item.encounter",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Encounter"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

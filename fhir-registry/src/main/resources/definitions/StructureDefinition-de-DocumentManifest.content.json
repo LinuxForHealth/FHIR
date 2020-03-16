@@ -1,0 +1,99 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-DocumentManifest.content",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-DocumentManifest.content",
+    "version": "4.0.1",
+    "name": "DocumentManifest.content",
+    "title": "DocumentManifest.content",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for DocumentManifest.content",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "xds",
+            "uri": "http://ihe.net/xds",
+            "name": "XDS metadata equivalent"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "DocumentManifest.content",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "DocumentManifest.content",
+                "path": "DocumentManifest.content",
+                "short": "Items in manifest",
+                "definition": "The list of Resources that consist of the parts of this manifest.",
+                "comment": "When used for XDS the intended focus of the DocumentManifest is for the reference to target to be a set of DocumentReference Resources. The reference is to \"Any\" to support EN 13606 usage, where an extract is DocumentManifest that references  List and Composition resources.",
+                "requirements": "Any Resources are allowed to be grouped in a Manifest. The manifest brings context to the group.",
+                "min": 1,
+                "max": "*",
+                "base": {
+                    "path": "DocumentManifest.content",
+                    "min": 1,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Resource"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".outboundRelationship[typeCode=COMP].target"
+                    },
+                    {
+                        "identity": "xds",
+                        "map": "SubmissionSet DocumentEntry(s)"
+                    }
+                ]
+            }
+        ]
+    }
+}

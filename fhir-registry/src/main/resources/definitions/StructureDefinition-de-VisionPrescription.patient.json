@@ -1,0 +1,105 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-VisionPrescription.patient",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-VisionPrescription.patient",
+    "version": "4.0.1",
+    "name": "VisionPrescription.patient",
+    "title": "VisionPrescription.patient",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for VisionPrescription.patient",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "VisionPrescription.patient",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "VisionPrescription.patient",
+                "path": "VisionPrescription.patient",
+                "short": "Who prescription is for",
+                "definition": "A resource reference to the person to whom the vision prescription applies.",
+                "requirements": "Needed to identify the patient for whom the vision prescription has been issued.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "VisionPrescription.patient",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Patient"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.subject"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.subject[x]"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "PID-3-Patient ID List"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "subject.role"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.subject"
+                    }
+                ]
+            }
+        ]
+    }
+}

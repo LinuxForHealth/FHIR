@@ -1,0 +1,86 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-GuidanceResponse.moduleX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-GuidanceResponse.moduleX",
+    "version": "4.0.1",
+    "name": "GuidanceResponse.module[x]",
+    "title": "GuidanceResponse.module[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for GuidanceResponse.module[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "GuidanceResponse.module[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "GuidanceResponse.module[x]",
+                "path": "GuidanceResponse.module[x]",
+                "short": "What guidance was requested",
+                "definition": "An identifier, CodeableConcept or canonical reference to the guidance that was requested.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "GuidanceResponse.module[x]",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "uri"
+                    },
+                    {
+                        "code": "canonical"
+                    },
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.instantiatesUri | Event.instantiatesCanonical"
+                    }
+                ]
+            }
+        ]
+    }
+}

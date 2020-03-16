@@ -1,0 +1,80 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-VerificationResult.primarySource.type",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-VerificationResult.primarySource.type",
+    "version": "4.0.1",
+    "name": "VerificationResult.primarySource.type",
+    "title": "VerificationResult.primarySource.type",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for VerificationResult.primarySource.type",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "VerificationResult.primarySource.type",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "VerificationResult.primarySource.type",
+                "path": "VerificationResult.primarySource.type",
+                "short": "Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; Registration Authority; legal source; issuing source; authoritative source)",
+                "definition": "Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; Registration Authority; legal source; issuing source; authoritative source).",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "VerificationResult.primarySource.type",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "primary-source-type"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Type of the validation primary source.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/verificationresult-primary-source-type"
+                }
+            }
+        ]
+    }
+}

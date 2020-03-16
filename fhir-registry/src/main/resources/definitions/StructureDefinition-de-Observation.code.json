@@ -1,0 +1,131 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Observation.code",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Observation.code",
+    "version": "4.0.1",
+    "name": "Observation.code",
+    "title": "Observation.code",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Observation.code",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "sct-concept",
+            "uri": "http://snomed.info/conceptdomain",
+            "name": "SNOMED CT Concept Domain Binding"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "sct-attr",
+            "uri": "http://snomed.org/attributebinding",
+            "name": "SNOMED CT Attribute Binding"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Observation.code",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Observation.code",
+                "path": "Observation.code",
+                "short": "Type of observation (code / type)",
+                "definition": "Describes what was observed. Sometimes this is called the observation \"name\".",
+                "comment": "*All* code-value and, if present, component.code-component.value pairs need to be taken into account to correctly understand the meaning of the observation.",
+                "requirements": "Knowing what kind of observation is being made is essential to understanding the observation.",
+                "alias": [
+                    "Name"
+                ],
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Observation.code",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ObservationCode"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Codes identifying names of simple observations.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/observation-codes"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.code"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.what[x]"
+                    },
+                    {
+                        "identity": "sct-concept",
+                        "map": "< 363787002 |Observable entity| OR < 386053000 |Evaluation procedure|"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "OBX-3"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "code"
+                    },
+                    {
+                        "identity": "sct-attr",
+                        "map": "116680003 |Is a|"
+                    }
+                ]
+            }
+        ]
+    }
+}

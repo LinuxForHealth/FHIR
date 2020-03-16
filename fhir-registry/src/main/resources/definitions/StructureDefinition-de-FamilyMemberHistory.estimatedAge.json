@@ -1,0 +1,85 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-FamilyMemberHistory.estimatedAge",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-FamilyMemberHistory.estimatedAge",
+    "version": "4.0.1",
+    "name": "FamilyMemberHistory.estimatedAge",
+    "title": "FamilyMemberHistory.estimatedAge",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for FamilyMemberHistory.estimatedAge",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "FamilyMemberHistory.estimatedAge",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "FamilyMemberHistory.estimatedAge",
+                "path": "FamilyMemberHistory.estimatedAge",
+                "short": "Age is estimated?",
+                "definition": "If true, indicates that the age value specified is an estimated value.",
+                "comment": "This element is labeled as a modifier because the fact that age is estimated can/should change the results of any algorithm that calculates based on the specified age.",
+                "requirements": "Clinicians often prefer to specify an estimaged age rather than an age range.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "FamilyMemberHistory.estimatedAge",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "boolean"
+                    }
+                ],
+                "meaningWhenMissing": "It is unknown whether the age is an estimate or not",
+                "condition": [
+                    "fhs-2"
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

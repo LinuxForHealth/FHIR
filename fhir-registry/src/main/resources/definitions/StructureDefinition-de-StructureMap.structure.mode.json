@@ -1,0 +1,90 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-StructureMap.structure.mode",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-StructureMap.structure.mode",
+    "version": "4.0.1",
+    "name": "StructureMap.structure.mode",
+    "title": "StructureMap.structure.mode",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for StructureMap.structure.mode",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "StructureMap.structure.mode",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "StructureMap.structure.mode",
+                "path": "StructureMap.structure.mode",
+                "short": "source | queried | target | produced",
+                "definition": "How the referenced structure is used in this mapping.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "StructureMap.structure.mode",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "StructureMapModelMode"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "How the referenced structure is used in this mapping.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/map-model-mode|4.0.1"
+                }
+            }
+        ]
+    }
+}

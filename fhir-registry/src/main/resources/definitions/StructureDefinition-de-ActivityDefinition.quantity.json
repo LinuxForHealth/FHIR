@@ -1,0 +1,91 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ActivityDefinition.quantity",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ActivityDefinition.quantity",
+    "version": "4.0.1",
+    "name": "ActivityDefinition.quantity",
+    "title": "ActivityDefinition.quantity",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ActivityDefinition.quantity",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ActivityDefinition.quantity",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ActivityDefinition.quantity",
+                "path": "ActivityDefinition.quantity",
+                "short": "How much is administered/consumed/supplied",
+                "definition": "Identifies the quantity expected to be consumed at once (per dose, per meal, etc.).",
+                "alias": [
+                    "dose"
+                ],
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "ActivityDefinition.quantity",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Quantity",
+                        "profile": [
+                            "http://hl7.org/fhir/StructureDefinition/SimpleQuantity"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".quantity {for classCode=SPLY}"
+                    }
+                ]
+            }
+        ]
+    }
+}

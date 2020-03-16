@@ -1,0 +1,92 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-PractitionerRole.healthcareService",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-PractitionerRole.healthcareService",
+    "version": "4.0.1",
+    "name": "PractitionerRole.healthcareService",
+    "title": "PractitionerRole.healthcareService",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for PractitionerRole.healthcareService",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "servd",
+            "uri": "http://www.omg.org/spec/ServD/1.0/",
+            "name": "ServD"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "PractitionerRole.healthcareService",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "PractitionerRole.healthcareService",
+                "path": "PractitionerRole.healthcareService",
+                "short": "The list of healthcare services that this worker provides for this role's Organization/Location(s)",
+                "definition": "The list of healthcare services that this worker provides for this role's Organization/Location(s).",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "PractitionerRole.healthcareService",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/HealthcareService"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "EDU-2 / AFF-3"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".player.QualifiedEntity[@classCode = 'QUAL'].code"
+                    }
+                ]
+            }
+        ]
+    }
+}

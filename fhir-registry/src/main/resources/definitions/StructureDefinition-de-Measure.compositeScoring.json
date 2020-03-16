@@ -1,0 +1,90 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Measure.compositeScoring",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Measure.compositeScoring",
+    "version": "4.0.1",
+    "name": "Measure.compositeScoring",
+    "title": "Measure.compositeScoring",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Measure.compositeScoring",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Measure.compositeScoring",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Measure.compositeScoring",
+                "path": "Measure.compositeScoring",
+                "short": "opportunity | all-or-nothing | linear | weighted",
+                "definition": "If this is a composite measure, the scoring method used to combine the component measures to determine the composite score.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Measure.compositeScoring",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "CompositeMeasureScoring"
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "The composite scoring method of the measure.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/composite-measure-scoring"
+                }
+            }
+        ]
+    }
+}

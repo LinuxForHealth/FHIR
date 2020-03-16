@@ -1,0 +1,119 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-DeviceRequest.status",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-DeviceRequest.status",
+    "version": "4.0.1",
+    "name": "DeviceRequest.status",
+    "title": "DeviceRequest.status",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for DeviceRequest.status",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "quick",
+            "uri": "http://siframework.org/cqf",
+            "name": "Quality Improvement and Clinical Knowledge (QUICK)"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "DeviceRequest.status",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "DeviceRequest.status",
+                "path": "DeviceRequest.status",
+                "short": "draft | active | on-hold | revoked | completed | entered-in-error | unknown",
+                "definition": "The status of the request.",
+                "comment": "This element is labeled as a modifier because the status contains the codes cancelled and entered-in-error that mark the request as not currently valid.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "DeviceRequest.status",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "This element is labeled as a modifier because it is a status element that contains status entered-in-error which means that the resource should not be treated as valid",
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DeviceRequestStatus"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Codes representing the status of the request.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.status"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.status"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "ORC.5"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".status"
+                    },
+                    {
+                        "identity": "quick",
+                        "map": "Action.currentStatus"
+                    }
+                ]
+            }
+        ]
+    }
+}

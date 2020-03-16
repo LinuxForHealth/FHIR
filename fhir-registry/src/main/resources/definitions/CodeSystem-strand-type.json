@@ -1,0 +1,69 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "strand-type",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>strandType</h2><div><p>Type for strand.</p>\n</div><p>This code system http://hl7.org/fhir/strand-type defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">watson<a name=\"strand-type-watson\"> </a></td><td>Watson strand of referenceSeq</td><td>Watson strand of reference sequence.</td></tr><tr><td style=\"white-space:nowrap\">crick<a name=\"strand-type-crick\"> </a></td><td>Crick strand of referenceSeq</td><td>Crick strand of reference sequence.</td></tr></table></div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cg"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/strand-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.986"
+        }
+    ],
+    "version": "4.0.1",
+    "name": "strandType",
+    "title": "strandType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Type for strand.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/strand-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "watson",
+            "display": "Watson strand of referenceSeq",
+            "definition": "Watson strand of reference sequence."
+        },
+        {
+            "code": "crick",
+            "display": "Crick strand of referenceSeq",
+            "definition": "Crick strand of reference sequence."
+        }
+    ]
+}

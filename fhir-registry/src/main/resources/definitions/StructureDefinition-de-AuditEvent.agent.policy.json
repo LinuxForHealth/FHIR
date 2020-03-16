@@ -1,0 +1,109 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-AuditEvent.agent.policy",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-AuditEvent.agent.policy",
+    "version": "4.0.1",
+    "name": "AuditEvent.agent.policy",
+    "title": "AuditEvent.agent.policy",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for AuditEvent.agent.policy",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "dicom",
+            "uri": "http://nema.org/dicom",
+            "name": "DICOM Tag Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "w3c.prov",
+            "uri": "http://www.w3.org/ns/prov",
+            "name": "W3C PROV"
+        },
+        {
+            "identity": "fhirprovenance",
+            "uri": "http://hl7.org/fhir/provenance",
+            "name": "FHIR Provenance Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "AuditEvent.agent.policy",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "AuditEvent.agent.policy",
+                "path": "AuditEvent.agent.policy",
+                "short": "Policy that authorized event",
+                "definition": "The policy or plan that authorized the activity being recorded. Typically, a single activity may have multiple applicable policies, such as patient consent, guarantor funding, etc. The policy would also indicate the security token used.",
+                "comment": "For example: Where an OAuth token authorizes, the unique identifier from the OAuth token is placed into the policy element Where a policy engine (e.g. XACML) holds policy logic, the unique policy identifier is placed into the policy element.",
+                "requirements": "This value is used retrospectively to determine the authorization policies.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "AuditEvent.agent.policy",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "uri"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.why[x]"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "ActPolicyType"
+                    },
+                    {
+                        "identity": "dicom",
+                        "map": "ParticipantRoleIDCode"
+                    },
+                    {
+                        "identity": "fhirprovenance",
+                        "map": "Provenance.policy"
+                    }
+                ]
+            }
+        ]
+    }
+}

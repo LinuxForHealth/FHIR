@@ -1,0 +1,99 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-PaymentNotice.created",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-PaymentNotice.created",
+    "version": "4.0.1",
+    "name": "PaymentNotice.created",
+    "title": "PaymentNotice.created",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for PaymentNotice.created",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "cdanetv4",
+            "uri": "http://www.cda-adc.ca/en/services/cdanet/",
+            "name": "Canadian Dental Association eclaims standard"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "PaymentNotice.created",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "PaymentNotice.created",
+                "path": "PaymentNotice.created",
+                "short": "Creation date",
+                "definition": "The date when this resource was created.",
+                "requirements": "Need to record a timestamp for use by both the recipient and the issuer.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "PaymentNotice.created",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "dateTime"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.occurrence[x]"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.recorded"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            }
+        ]
+    }
+}

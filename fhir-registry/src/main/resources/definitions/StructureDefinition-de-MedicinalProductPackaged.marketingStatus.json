@@ -1,0 +1,64 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicinalProductPackaged.marketingStatus",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicinalProductPackaged.marketingStatus",
+    "version": "4.0.1",
+    "name": "MedicinalProductPackaged.marketingStatus",
+    "title": "MedicinalProductPackaged.marketingStatus",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicinalProductPackaged.marketingStatus",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicinalProductPackaged.marketingStatus",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicinalProductPackaged.marketingStatus",
+                "path": "MedicinalProductPackaged.marketingStatus",
+                "short": "Marketing information",
+                "definition": "Marketing information.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "MedicinalProductPackaged.marketingStatus",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "MarketingStatus"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

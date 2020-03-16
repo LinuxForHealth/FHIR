@@ -1,0 +1,97 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicationAdministration.supportingInformation",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicationAdministration.supportingInformation",
+    "version": "4.0.1",
+    "name": "MedicationAdministration.supportingInformation",
+    "title": "MedicationAdministration.supportingInformation",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicationAdministration.supportingInformation",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "w3c.prov",
+            "uri": "http://www.w3.org/ns/prov",
+            "name": "W3C PROV"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicationAdministration.supportingInformation",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicationAdministration.supportingInformation",
+                "path": "MedicationAdministration.supportingInformation",
+                "short": "Additional information to support administration",
+                "definition": "Additional information (for example, patient height and weight) that supports the administration of the medication.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "MedicationAdministration.supportingInformation",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Resource"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.context"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".outboundRelationship[typeCode=PERT].target[A_SupportingClinicalStatement CMET minimal with many different choices of classCodes(ORG, ENC, PROC, SPLY, SBADM, OBS) and each of the act class codes draws from one or more of the following moodCodes (EVN, DEF, INT PRMS, RQO, PRP, APT, ARQ, GOL)]"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,79 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicationKnowledge.monograph.type",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicationKnowledge.monograph.type",
+    "version": "4.0.1",
+    "name": "MedicationKnowledge.monograph.type",
+    "title": "MedicationKnowledge.monograph.type",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicationKnowledge.monograph.type",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "script10.6",
+            "uri": "http://ncpdp.org/SCRIPT10_6",
+            "name": "Mapping to NCPDP SCRIPT 10.6"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicationKnowledge.monograph.type",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicationKnowledge.monograph.type",
+                "path": "MedicationKnowledge.monograph.type",
+                "short": "The category of medication document",
+                "definition": "The category of documentation about the medication. (e.g. professional monograph, patient education monograph).",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MedicationKnowledge.monograph.type",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

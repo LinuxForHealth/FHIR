@@ -1,0 +1,93 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Flag.subject",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Flag.subject",
+    "version": "4.0.1",
+    "name": "Flag.subject",
+    "title": "Flag.subject",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Flag.subject",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Flag.subject",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Flag.subject",
+                "path": "Flag.subject",
+                "short": "Who/What is flag about?",
+                "definition": "The patient, location, group, organization, or practitioner etc. this is about record this flag is associated with.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Flag.subject",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Patient",
+                            "http://hl7.org/fhir/StructureDefinition/Location",
+                            "http://hl7.org/fhir/StructureDefinition/Group",
+                            "http://hl7.org/fhir/StructureDefinition/Organization",
+                            "http://hl7.org/fhir/StructureDefinition/Practitioner",
+                            "http://hl7.org/fhir/StructureDefinition/PlanDefinition",
+                            "http://hl7.org/fhir/StructureDefinition/Medication",
+                            "http://hl7.org/fhir/StructureDefinition/Procedure"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.subject[x]"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".participation[typeCode=SBJ].role[classCode=PAT | LOCE | ASSIGNED]"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.subject"
+                    }
+                ]
+            }
+        ]
+    }
+}

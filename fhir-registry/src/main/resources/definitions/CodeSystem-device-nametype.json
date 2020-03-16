@@ -1,0 +1,89 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "device-nametype",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>DeviceNameType</h2><div><p>The type of name the device is referred by.</p>\n</div><p>This code system http://hl7.org/fhir/device-nametype defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">udi-label-name<a name=\"device-nametype-udi-label-name\"> </a></td><td>UDI Label name</td><td>UDI Label name.</td></tr><tr><td style=\"white-space:nowrap\">user-friendly-name<a name=\"device-nametype-user-friendly-name\"> </a></td><td>User Friendly name</td><td>User Friendly name.</td></tr><tr><td style=\"white-space:nowrap\">patient-reported-name<a name=\"device-nametype-patient-reported-name\"> </a></td><td>Patient Reported name</td><td>Patient Reported name.</td></tr><tr><td style=\"white-space:nowrap\">manufacturer-name<a name=\"device-nametype-manufacturer-name\"> </a></td><td>Manufacturer name</td><td>Manufacturer name.</td></tr><tr><td style=\"white-space:nowrap\">model-name<a name=\"device-nametype-model-name\"> </a></td><td>Model name</td><td>Model name.</td></tr><tr><td style=\"white-space:nowrap\">other<a name=\"device-nametype-other\"> </a></td><td>other</td><td>other.</td></tr></table></div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://hl7.org/fhir/device-nametype",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.1084"
+        }
+    ],
+    "version": "4.0.1",
+    "name": "DeviceNameType",
+    "title": "DeviceNameType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The type of name the device is referred by.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/device-nametype",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "udi-label-name",
+            "display": "UDI Label name",
+            "definition": "UDI Label name."
+        },
+        {
+            "code": "user-friendly-name",
+            "display": "User Friendly name",
+            "definition": "User Friendly name."
+        },
+        {
+            "code": "patient-reported-name",
+            "display": "Patient Reported name",
+            "definition": "Patient Reported name."
+        },
+        {
+            "code": "manufacturer-name",
+            "display": "Manufacturer name",
+            "definition": "Manufacturer name."
+        },
+        {
+            "code": "model-name",
+            "display": "Model name",
+            "definition": "Model name."
+        },
+        {
+            "code": "other",
+            "display": "other",
+            "definition": "other."
+        }
+    ]
+}

@@ -1,0 +1,65 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-CatalogEntry.lastUpdated",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-CatalogEntry.lastUpdated",
+    "version": "4.0.1",
+    "name": "CatalogEntry.lastUpdated",
+    "title": "CatalogEntry.lastUpdated",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for CatalogEntry.lastUpdated",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "CatalogEntry.lastUpdated",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "CatalogEntry.lastUpdated",
+                "path": "CatalogEntry.lastUpdated",
+                "short": "When was this catalog last updated",
+                "definition": "Typically date of issue is different from the beginning of the validity. This can be used to see when an item was last updated.",
+                "comment": "Perhaps not needed - if we use fhir resource metadata.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "CatalogEntry.lastUpdated",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "dateTime"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

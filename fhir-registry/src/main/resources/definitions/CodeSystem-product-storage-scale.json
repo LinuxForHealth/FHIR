@@ -1,0 +1,74 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "product-storage-scale",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>BiologicallyDerivedProductStorageScale</h2><div><p>BiologicallyDerived Product Storage Scale.</p>\n</div><p>This code system http://hl7.org/fhir/product-storage-scale defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">farenheit<a name=\"product-storage-scale-farenheit\"> </a></td><td>Fahrenheit</td><td>Fahrenheit temperature scale.</td></tr><tr><td style=\"white-space:nowrap\">celsius<a name=\"product-storage-scale-celsius\"> </a></td><td>Celsius</td><td>Celsius or centigrade temperature scale.</td></tr><tr><td style=\"white-space:nowrap\">kelvin<a name=\"product-storage-scale-kelvin\"> </a></td><td>Kelvin</td><td>Kelvin absolute thermodynamic temperature scale.</td></tr></table></div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://hl7.org/fhir/product-storage-scale",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.905"
+        }
+    ],
+    "version": "4.0.1",
+    "name": "BiologicallyDerivedProductStorageScale",
+    "title": "BiologicallyDerivedProductStorageScale",
+    "status": "draft",
+    "experimental": false,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "BiologicallyDerived Product Storage Scale.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/product-storage-scale",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "farenheit",
+            "display": "Fahrenheit",
+            "definition": "Fahrenheit temperature scale."
+        },
+        {
+            "code": "celsius",
+            "display": "Celsius",
+            "definition": "Celsius or centigrade temperature scale."
+        },
+        {
+            "code": "kelvin",
+            "display": "Kelvin",
+            "definition": "Kelvin absolute thermodynamic temperature scale."
+        }
+    ]
+}

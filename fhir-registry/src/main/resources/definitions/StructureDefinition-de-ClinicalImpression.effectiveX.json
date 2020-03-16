@@ -1,0 +1,97 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ClinicalImpression.effectiveX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ClinicalImpression.effectiveX",
+    "version": "4.0.1",
+    "name": "ClinicalImpression.effective[x]",
+    "title": "ClinicalImpression.effective[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ClinicalImpression.effective[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ClinicalImpression.effective[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ClinicalImpression.effective[x]",
+                "path": "ClinicalImpression.effective[x]",
+                "short": "Time of assessment",
+                "definition": "The point in time or period over which the subject was assessed.",
+                "comment": "This SHOULD be accurate to at least the minute, though some assessments only have a known date.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "ClinicalImpression.effective[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "dateTime"
+                    },
+                    {
+                        "code": "Period"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.occurrence[x]"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.done[x]"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "PRB-2"
+                    }
+                ]
+            }
+        ]
+    }
+}

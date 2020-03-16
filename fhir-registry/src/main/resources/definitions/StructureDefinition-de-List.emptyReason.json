@@ -1,0 +1,91 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-List.emptyReason",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-List.emptyReason",
+    "version": "4.0.1",
+    "name": "List.emptyReason",
+    "title": "List.emptyReason",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for List.emptyReason",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "List.emptyReason",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "List.emptyReason",
+                "path": "List.emptyReason",
+                "short": "Why list is empty",
+                "definition": "If the list is empty, why the list is empty.",
+                "comment": "The various reasons for an empty list make a significant interpretation to its interpretation. Note that this code is for use when the entire list has been suppressed, and not for when individual items are omitted - implementers may consider using a text note or a flag on an entry in these cases.",
+                "requirements": "Allows capturing things like \"none exist\" or \"not asked\" which can be important for most lists.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "List.emptyReason",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "condition": [
+                    "lst-1"
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ListEmptyReason"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "If a list is empty, why it is empty.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/list-empty-reason"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".inboundRelationship[typeCode=SUBJ,code<ListEmptyReason].value[type=CD]"
+                    }
+                ]
+            }
+        ]
+    }
+}

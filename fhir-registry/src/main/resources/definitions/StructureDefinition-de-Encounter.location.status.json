@@ -1,0 +1,97 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Encounter.location.status",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Encounter.location.status",
+    "version": "4.0.1",
+    "name": "Encounter.location.status",
+    "title": "Encounter.location.status",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Encounter.location.status",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Encounter.location.status",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Encounter.location.status",
+                "path": "Encounter.location.status",
+                "short": "planned | active | reserved | completed",
+                "definition": "The status of the participants' presence at the specified location during the period specified. If the participant is no longer at the location, then the period will have an end date/time.",
+                "comment": "When the patient is no longer active at a location, then the period end date is entered, and the status may be changed to completed.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Encounter.location.status",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "EncounterLocationStatus"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "The status of the location.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/encounter-location-status|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".role.statusCode"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,84 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "search-xpath-usage",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>XPathUsageType</h2><div><p>How a search parameter relates to the set of elements returned by evaluating its xpath query.</p>\n</div><p>This code system http://hl7.org/fhir/search-xpath-usage defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">normal<a name=\"search-xpath-usage-normal\"> </a></td><td>Normal</td><td>The search parameter is derived directly from the selected nodes based on the type definitions.</td></tr><tr><td style=\"white-space:nowrap\">phonetic<a name=\"search-xpath-usage-phonetic\"> </a></td><td>Phonetic</td><td>The search parameter is derived by a phonetic transform from the selected nodes.</td></tr><tr><td style=\"white-space:nowrap\">nearby<a name=\"search-xpath-usage-nearby\"> </a></td><td>Nearby</td><td>The search parameter is based on a spatial transform of the selected nodes.</td></tr><tr><td style=\"white-space:nowrap\">distance<a name=\"search-xpath-usage-distance\"> </a></td><td>Distance</td><td>The search parameter is based on a spatial transform of the selected nodes, using physical distance from the middle.</td></tr><tr><td style=\"white-space:nowrap\">other<a name=\"search-xpath-usage-other\"> </a></td><td>Other</td><td>The interpretation of the xpath statement is unknown (and can't be automated).</td></tr></table></div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        }
+    ],
+    "url": "http://hl7.org/fhir/search-xpath-usage",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.636"
+        }
+    ],
+    "version": "4.0.1",
+    "name": "XPathUsageType",
+    "title": "XPathUsageType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "How a search parameter relates to the set of elements returned by evaluating its xpath query.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/search-xpath-usage",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "normal",
+            "display": "Normal",
+            "definition": "The search parameter is derived directly from the selected nodes based on the type definitions."
+        },
+        {
+            "code": "phonetic",
+            "display": "Phonetic",
+            "definition": "The search parameter is derived by a phonetic transform from the selected nodes."
+        },
+        {
+            "code": "nearby",
+            "display": "Nearby",
+            "definition": "The search parameter is based on a spatial transform of the selected nodes."
+        },
+        {
+            "code": "distance",
+            "display": "Distance",
+            "definition": "The search parameter is based on a spatial transform of the selected nodes, using physical distance from the middle."
+        },
+        {
+            "code": "other",
+            "display": "Other",
+            "definition": "The interpretation of the xpath statement is unknown (and can't be automated)."
+        }
+    ]
+}

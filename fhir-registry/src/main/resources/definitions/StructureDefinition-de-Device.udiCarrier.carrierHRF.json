@@ -1,0 +1,88 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Device.udiCarrier.carrierHRF",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Device.udiCarrier.carrierHRF",
+    "version": "4.0.1",
+    "name": "Device.udiCarrier.carrierHRF",
+    "title": "Device.udiCarrier.carrierHRF",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Device.udiCarrier.carrierHRF",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "udi",
+            "uri": "http://fda.gov/UDI",
+            "name": "UDI Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Device.udiCarrier.carrierHRF",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Device.udiCarrier.carrierHRF",
+                "path": "Device.udiCarrier.carrierHRF",
+                "short": "UDI Human Readable Barcode String",
+                "definition": "The full UDI carrier as the human readable form (HRF) representation of the barcode string as printed on the packaging of the device.",
+                "comment": "If separate barcodes for DI and PI are present, concatenate the string with DI first and in order of human readable expression on label.",
+                "alias": [
+                    "Human Readable Form"
+                ],
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Device.udiCarrier.carrierHRF",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "string"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "Role.id.extension"
+                    },
+                    {
+                        "identity": "udi",
+                        "map": "A unique device identifier (UDI) on a device label in plain text"
+                    }
+                ]
+            }
+        ]
+    }
+}

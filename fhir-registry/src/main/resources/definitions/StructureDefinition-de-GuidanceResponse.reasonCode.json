@@ -1,0 +1,84 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-GuidanceResponse.reasonCode",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-GuidanceResponse.reasonCode",
+    "version": "4.0.1",
+    "name": "GuidanceResponse.reasonCode",
+    "title": "GuidanceResponse.reasonCode",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for GuidanceResponse.reasonCode",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "GuidanceResponse.reasonCode",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "GuidanceResponse.reasonCode",
+                "path": "GuidanceResponse.reasonCode",
+                "short": "Why guidance is needed",
+                "definition": "Describes the reason for the guidance response in coded or textual form.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "GuidanceResponse.reasonCode",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.reasonCode"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.why[x]"
+                    }
+                ]
+            }
+        ]
+    }
+}

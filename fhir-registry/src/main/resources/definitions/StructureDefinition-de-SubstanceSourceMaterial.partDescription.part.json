@@ -1,0 +1,64 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-SubstanceSourceMaterial.partDescription.part",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-SubstanceSourceMaterial.partDescription.part",
+    "version": "4.0.1",
+    "name": "SubstanceSourceMaterial.partDescription.part",
+    "title": "SubstanceSourceMaterial.partDescription.part",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for SubstanceSourceMaterial.partDescription.part",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "SubstanceSourceMaterial.partDescription.part",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "SubstanceSourceMaterial.partDescription.part",
+                "path": "SubstanceSourceMaterial.partDescription.part",
+                "short": "Entity of anatomical origin of source material within an organism",
+                "definition": "Entity of anatomical origin of source material within an organism.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "SubstanceSourceMaterial.partDescription.part",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

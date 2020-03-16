@@ -1,0 +1,96 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-NutritionOrder.supplement.schedule",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-NutritionOrder.supplement.schedule",
+    "version": "4.0.1",
+    "name": "NutritionOrder.supplement.schedule",
+    "title": "NutritionOrder.supplement.schedule",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for NutritionOrder.supplement.schedule",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "NutritionOrder.supplement.schedule",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "NutritionOrder.supplement.schedule",
+                "path": "NutritionOrder.supplement.schedule",
+                "short": "Scheduled frequency of supplement",
+                "definition": "The time period and frequency at which the supplement(s) should be given.  The supplement should be given for the combination of all schedules if more than one schedule is present.",
+                "alias": [
+                    "Frequency"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "NutritionOrder.supplement.schedule",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Timing"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.occurrence[x]"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "ODS-2,TQ1-7/8"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".effectiveTime"
+                    }
+                ]
+            }
+        ]
+    }
+}

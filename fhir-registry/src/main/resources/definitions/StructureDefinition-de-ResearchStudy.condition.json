@@ -1,0 +1,109 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ResearchStudy.condition",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ResearchStudy.condition",
+    "version": "4.0.1",
+    "name": "ResearchStudy.condition",
+    "title": "ResearchStudy.condition",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ResearchStudy.condition",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "BRIDG5.1",
+            "uri": "https://bridgmodel.nci.nih.gov",
+            "name": "BRIDG 5.1 Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "clinicaltrials-gov",
+            "uri": "http://clinicaltrials.gov",
+            "name": "ClinicalTrials.gov Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ResearchStudy.condition",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ResearchStudy.condition",
+                "path": "ResearchStudy.condition",
+                "short": "Condition being studied",
+                "definition": "The condition that is the focus of the study.  For example, In a study to examine risk factors for Lupus, might have as an inclusion criterion \"healthy volunteer\", but the target condition code would be a Lupus SNOMED code.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ResearchStudy.condition",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ConditionCode"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Identification of the condition or diagnosis.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/condition-code"
+                },
+                "mapping": [
+                    {
+                        "identity": "clinicaltrials-gov",
+                        "map": "Conditions"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.what[x]"
+                    },
+                    {
+                        "identity": "BRIDG5.1",
+                        "map": "StudyCondition.code"
+                    }
+                ]
+            }
+        ]
+    }
+}

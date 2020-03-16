@@ -1,0 +1,80 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ExplanationOfBenefit.item.detail.subDetail.noteNumber",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ExplanationOfBenefit.item.detail.subDetail.noteNumber",
+    "version": "4.0.1",
+    "name": "ExplanationOfBenefit.item.detail.subDetail.noteNumber",
+    "title": "ExplanationOfBenefit.item.detail.subDetail.noteNumber",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ExplanationOfBenefit.item.detail.subDetail.noteNumber",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ExplanationOfBenefit.item.detail.subDetail.noteNumber",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ExplanationOfBenefit.item.detail.subDetail.noteNumber",
+                "path": "ExplanationOfBenefit.item.detail.subDetail.noteNumber",
+                "short": "Applicable note numbers",
+                "definition": "The numbers associated with notes below which apply to the adjudication of this item.",
+                "requirements": "Provides a condensed manner for associating human readable descriptive explanations for adjudications on the line item.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ExplanationOfBenefit.item.detail.subDetail.noteNumber",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "positiveInt"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

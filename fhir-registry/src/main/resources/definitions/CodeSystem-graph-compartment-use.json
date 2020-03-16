@@ -1,0 +1,69 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "graph-compartment-use",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>GraphCompartmentUse</h2><div><p>Defines how a compartment rule is used.</p>\n</div><p>This code system http://hl7.org/fhir/graph-compartment-use defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">condition<a name=\"graph-compartment-use-condition\"> </a></td><td>Condition</td><td>This compartment rule is a condition for whether the rule applies.</td></tr><tr><td style=\"white-space:nowrap\">requirement<a name=\"graph-compartment-use-requirement\"> </a></td><td>Requirement</td><td>This compartment rule is enforced on any relationships that meet the conditions.</td></tr></table></div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/graph-compartment-use",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.283"
+        }
+    ],
+    "version": "4.0.1",
+    "name": "GraphCompartmentUse",
+    "title": "GraphCompartmentUse",
+    "status": "draft",
+    "experimental": false,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Defines how a compartment rule is used.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/graph-compartment-use",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "condition",
+            "display": "Condition",
+            "definition": "This compartment rule is a condition for whether the rule applies."
+        },
+        {
+            "code": "requirement",
+            "display": "Requirement",
+            "definition": "This compartment rule is enforced on any relationships that meet the conditions."
+        }
+    ]
+}

@@ -1,0 +1,74 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "map-group-type-mode",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>StructureMapGroupTypeMode</h2><div><p>If this is the default rule set to apply for the source type, or this combination of types.</p>\n</div><p>This code system http://hl7.org/fhir/map-group-type-mode defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">none<a name=\"map-group-type-mode-none\"> </a></td><td>Not a Default</td><td>This group is not a default group for the types.</td></tr><tr><td style=\"white-space:nowrap\">types<a name=\"map-group-type-mode-types\"> </a></td><td>Default for Type Combination</td><td>This group is a default mapping group for the specified types and for the primary source type.</td></tr><tr><td style=\"white-space:nowrap\">type-and-types<a name=\"map-group-type-mode-type-and-types\"> </a></td><td>Default for type + combination</td><td>This group is a default mapping group for the specified types.</td></tr></table></div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 2
+        }
+    ],
+    "url": "http://hl7.org/fhir/map-group-type-mode",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.688"
+        }
+    ],
+    "version": "4.0.1",
+    "name": "StructureMapGroupTypeMode",
+    "title": "StructureMapGroupTypeMode",
+    "status": "draft",
+    "experimental": false,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "If this is the default rule set to apply for the source type, or this combination of types.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/map-group-type-mode",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "none",
+            "display": "Not a Default",
+            "definition": "This group is not a default group for the types."
+        },
+        {
+            "code": "types",
+            "display": "Default for Type Combination",
+            "definition": "This group is a default mapping group for the specified types and for the primary source type."
+        },
+        {
+            "code": "type-and-types",
+            "display": "Default for type + combination",
+            "definition": "This group is a default mapping group for the specified types."
+        }
+    ]
+}

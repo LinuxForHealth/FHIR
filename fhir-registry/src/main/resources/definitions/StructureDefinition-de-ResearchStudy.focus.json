@@ -1,0 +1,108 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ResearchStudy.focus",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ResearchStudy.focus",
+    "version": "4.0.1",
+    "name": "ResearchStudy.focus",
+    "title": "ResearchStudy.focus",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ResearchStudy.focus",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "BRIDG5.1",
+            "uri": "https://bridgmodel.nci.nih.gov",
+            "name": "BRIDG 5.1 Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "clinicaltrials-gov",
+            "uri": "http://clinicaltrials.gov",
+            "name": "ClinicalTrials.gov Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ResearchStudy.focus",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ResearchStudy.focus",
+                "path": "ResearchStudy.focus",
+                "short": "Drugs, devices, etc. under study",
+                "definition": "The medication(s), food(s), therapy(ies), device(s) or other concerns or interventions that the study is seeking to gain more information about.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ResearchStudy.focus",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ResearchStudyFocus"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Codes for medications, devices and other interventions."
+                },
+                "mapping": [
+                    {
+                        "identity": "clinicaltrials-gov",
+                        "map": "Focus of Study"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.what[x]"
+                    },
+                    {
+                        "identity": "BRIDG5.1",
+                        "map": "InterventionalStudyProtocol.interventionTypeCode"
+                    }
+                ]
+            }
+        ]
+    }
+}

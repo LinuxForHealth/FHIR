@@ -1,0 +1,95 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-NamingSystem.type",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-NamingSystem.type",
+    "version": "4.0.1",
+    "name": "NamingSystem.type",
+    "title": "NamingSystem.type",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for NamingSystem.type",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "NamingSystem.type",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "NamingSystem.type",
+                "path": "NamingSystem.type",
+                "short": "e.g. driver,  provider,  patient, bank etc.",
+                "definition": "Categorizes a naming system for easier search by grouping related naming systems.",
+                "comment": "This will most commonly be used for identifier namespaces, but categories could potentially be useful for code systems and authorities as well.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "NamingSystem.type",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "IdentifierType"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/identifier-type"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,84 @@
+{
+    "resourceType": "OperationDefinition",
+    "id": "ConceptMap-closure",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Closure Table Maintenance</h2><p>OPERATION: Closure Table Maintenance</p><p>The official URL for this operation definition is: </p><pre>http://hl7.org/fhir/OperationDefinition/ConceptMap-closure</pre><div><p>This operation provides support for ongoing maintenance of a client-side <a href=\"https://en.wikipedia.org/wiki/Transitive_closure#In_graph_theory\">transitive closure table</a> based on server-side terminological logic. For details of how this is used, see <a href=\"terminology-service.html#closure\">Maintaining a Closure Table</a></p>\n</div><p>URL: [base]/$closure</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>IN</td><td>name</td><td>1..1</td><td><a href=\"datatypes.html#string\">string</a></td><td/><td><div><p>The name that defines the particular context for the subsumption based closure table</p>\n</div></td></tr><tr><td>IN</td><td>concept</td><td>0..*</td><td><a href=\"datatypes.html#Coding\">Coding</a></td><td/><td><div><p>Concepts to add to the closure table</p>\n</div></td></tr><tr><td>IN</td><td>version</td><td>0..1</td><td><a href=\"datatypes.html#string\">string</a></td><td/><td><div><p>A request to resynchronise - request to send all new entries since the nominated version was sent by the server</p>\n</div></td></tr><tr><td>OUT</td><td>return</td><td>1..1</td><td><a href=\"conceptmap.html\">ConceptMap</a></td><td/><td><div><p>A list of new entries (code / system --&gt; code/system) that the client should add to its closure table. The only kind of entry mapping equivalences that can be returned are equal, specializes, subsumes and unmatched</p>\n</div></td></tr></table><div/></div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        }
+    ],
+    "url": "http://hl7.org/fhir/OperationDefinition/ConceptMap-closure",
+    "version": "4.0.1",
+    "name": "Closure Table Maintenance",
+    "status": "draft",
+    "kind": "operation",
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "This operation provides support for ongoing maintenance of a client-side [transitive closure table](https://en.wikipedia.org/wiki/Transitive_closure#In_graph_theory) based on server-side terminological logic. For details of how this is used, see [Maintaining a Closure Table](terminology-service.html#closure)",
+    "code": "closure",
+    "resource": [
+        "ConceptMap"
+    ],
+    "system": true,
+    "type": false,
+    "instance": false,
+    "parameter": [
+        {
+            "name": "name",
+            "use": "in",
+            "min": 1,
+            "max": "1",
+            "documentation": "The name that defines the particular context for the subsumption based closure table",
+            "type": "string"
+        },
+        {
+            "name": "concept",
+            "use": "in",
+            "min": 0,
+            "max": "*",
+            "documentation": "Concepts to add to the closure table",
+            "type": "Coding"
+        },
+        {
+            "name": "version",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "A request to resynchronise - request to send all new entries since the nominated version was sent by the server",
+            "type": "string"
+        },
+        {
+            "name": "return",
+            "use": "out",
+            "min": 1,
+            "max": "1",
+            "documentation": "A list of new entries (code / system --> code/system) that the client should add to its closure table. The only kind of entry mapping equivalences that can be returned are equal, specializes, subsumes and unmatched",
+            "type": "ConceptMap"
+        }
+    ]
+}

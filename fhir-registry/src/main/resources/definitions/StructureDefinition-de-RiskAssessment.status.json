@@ -1,0 +1,105 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-RiskAssessment.status",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-RiskAssessment.status",
+    "version": "4.0.1",
+    "name": "RiskAssessment.status",
+    "title": "RiskAssessment.status",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for RiskAssessment.status",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "openehr",
+            "uri": "http://openehr.org",
+            "name": "Open EHR Archetype Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "RiskAssessment.status",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "RiskAssessment.status",
+                "path": "RiskAssessment.status",
+                "short": "registered | preliminary | final | amended +",
+                "definition": "The status of the RiskAssessment, using the same statuses as an Observation.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "RiskAssessment.status",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "RiskAssessmentStatus"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "The status of the risk assessment; e.g. preliminary, final, amended, etc.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.status"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.status"
+                    }
+                ]
+            }
+        ]
+    }
+}

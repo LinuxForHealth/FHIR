@@ -1,0 +1,80 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-InsurancePlan.plan.specificCost.benefit.cost.applicability",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-InsurancePlan.plan.specificCost.benefit.cost.applicability",
+    "version": "4.0.1",
+    "name": "InsurancePlan.plan.specificCost.benefit.cost.applicability",
+    "title": "InsurancePlan.plan.specificCost.benefit.cost.applicability",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for InsurancePlan.plan.specificCost.benefit.cost.applicability",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "InsurancePlan.plan.specificCost.benefit.cost.applicability",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "InsurancePlan.plan.specificCost.benefit.cost.applicability",
+                "path": "InsurancePlan.plan.specificCost.benefit.cost.applicability",
+                "short": "in-network | out-of-network | other",
+                "definition": "Whether the cost applies to in-network or out-of-network providers (in-network; out-of-network; other).",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "InsurancePlan.plan.specificCost.benefit.cost.applicability",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "BenefitCostApplicability"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Whether the cost applies to in-network or out-of-network providers.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/insuranceplan-applicability|4.0.1"
+                }
+            }
+        ]
+    }
+}

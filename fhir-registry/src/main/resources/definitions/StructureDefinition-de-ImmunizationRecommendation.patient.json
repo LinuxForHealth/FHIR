@@ -1,0 +1,104 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ImmunizationRecommendation.patient",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ImmunizationRecommendation.patient",
+    "version": "4.0.1",
+    "name": "ImmunizationRecommendation.patient",
+    "title": "ImmunizationRecommendation.patient",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ImmunizationRecommendation.patient",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ImmunizationRecommendation.patient",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ImmunizationRecommendation.patient",
+                "path": "ImmunizationRecommendation.patient",
+                "short": "Who this profile is for",
+                "definition": "The patient the recommendation(s) are for.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "ImmunizationRecommendation.patient",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Patient"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.subject"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.subject[x]"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "PID-3"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".partipication[typeCode=SUBJ].role"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.subject"
+                    }
+                ]
+            }
+        ]
+    }
+}

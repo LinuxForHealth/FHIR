@@ -1,0 +1,90 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Endpoint.connectionType",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Endpoint.connectionType",
+    "version": "4.0.1",
+    "name": "Endpoint.connectionType",
+    "title": "Endpoint.connectionType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Endpoint.connectionType",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Endpoint.connectionType",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Endpoint.connectionType",
+                "path": "Endpoint.connectionType",
+                "short": "Protocol/Profile/Standard to be used with this endpoint connection",
+                "definition": "A coded value that represents the technical details of the usage of this endpoint, such as what WSDLs should be used in what way. (e.g. XDS.b/DICOM/cds-hook).",
+                "comment": "For additional connectivity details for the protocol, extensions will be used at this point, as in the XDS example.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Endpoint.connectionType",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Coding"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "endpoint-contype"
+                        }
+                    ],
+                    "strength": "extensible",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/endpoint-connection-type"
+                },
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.class"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            }
+        ]
+    }
+}

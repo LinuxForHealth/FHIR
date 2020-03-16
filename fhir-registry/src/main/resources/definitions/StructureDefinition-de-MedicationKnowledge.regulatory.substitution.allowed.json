@@ -1,0 +1,79 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicationKnowledge.regulatory.substitution.allowed",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicationKnowledge.regulatory.substitution.allowed",
+    "version": "4.0.1",
+    "name": "MedicationKnowledge.regulatory.substitution.allowed",
+    "title": "MedicationKnowledge.regulatory.substitution.allowed",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicationKnowledge.regulatory.substitution.allowed",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "script10.6",
+            "uri": "http://ncpdp.org/SCRIPT10_6",
+            "name": "Mapping to NCPDP SCRIPT 10.6"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicationKnowledge.regulatory.substitution.allowed",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicationKnowledge.regulatory.substitution.allowed",
+                "path": "MedicationKnowledge.regulatory.substitution.allowed",
+                "short": "Specifies if regulation allows for changes in the medication when dispensing",
+                "definition": "Specifies if regulation allows for changes in the medication when dispensing.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "MedicationKnowledge.regulatory.substitution.allowed",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "boolean"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

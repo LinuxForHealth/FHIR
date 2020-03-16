@@ -1,0 +1,92 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-PaymentReconciliation.detail.type",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-PaymentReconciliation.detail.type",
+    "version": "4.0.1",
+    "name": "PaymentReconciliation.detail.type",
+    "title": "PaymentReconciliation.detail.type",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for PaymentReconciliation.detail.type",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "cdanetv4",
+            "uri": "http://www.cda-adc.ca/en/services/cdanet/",
+            "name": "Canadian Dental Association eclaims standard"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "PaymentReconciliation.detail.type",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "PaymentReconciliation.detail.type",
+                "path": "PaymentReconciliation.detail.type",
+                "short": "Category of payment",
+                "definition": "Code to indicate the nature of the payment.",
+                "comment": "For example: payment, adjustment, funds advance, etc.",
+                "requirements": "Needed to provide context for the amount.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "PaymentReconciliation.detail.type",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PaymentType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The reason for the amount: payment, adjustment, advance.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/payment-type"
+                }
+            }
+        ]
+    }
+}

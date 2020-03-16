@@ -1,0 +1,106 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ServiceRequest.supportingInfo",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ServiceRequest.supportingInfo",
+    "version": "4.0.1",
+    "name": "ServiceRequest.supportingInfo",
+    "title": "ServiceRequest.supportingInfo",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ServiceRequest.supportingInfo",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "quick",
+            "uri": "http://siframework.org/cqf",
+            "name": "Quality Improvement and Clinical Knowledge (QUICK)"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ServiceRequest.supportingInfo",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ServiceRequest.supportingInfo",
+                "path": "ServiceRequest.supportingInfo",
+                "short": "Additional clinical information",
+                "definition": "Additional clinical information about the patient or specimen that may influence the services or their interpretations.     This information includes diagnosis, clinical findings and other observations.  In laboratory ordering these are typically referred to as \"ask at order entry questions (AOEs)\".  This includes observations explicitly requested by the producer (filler) to provide context or supporting information needed to complete the order. For example,  reporting the amount of inspired oxygen for blood gas measurements.",
+                "comment": "To represent information about how the services are to be delivered use the `instructions` element.",
+                "alias": [
+                    "Ask at order entry question",
+                    "AOE"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ServiceRequest.supportingInfo",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Resource"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.supportingInfo"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "Accompanying segments"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".outboundRelationship[typeCode=PERT].target"
+                    }
+                ]
+            }
+        ]
+    }
+}

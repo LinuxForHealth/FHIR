@@ -1,0 +1,68 @@
+{
+    "resourceType": "OperationDefinition",
+    "id": "CapabilityStatement-versions",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Discover what versions a server supports</h2><p>OPERATION: Discover what versions a server supports</p><p>The official URL for this operation definition is: </p><pre>http://hl7.org/fhir/OperationDefinition/CapabilityStatement-versions</pre><div><p>Using the <a href=\"http.html#version-parameter\">FHIR Version Mime Type Parameter</a>, a server can support <a href=\"versioning.html#mt-version\">multiple versions on the same end-point</a>. The only way for client to find out what versions a server supports in this fashion is the $versions operation. The client invokes the operation with no parameters. and the server returns the list of supported versions, along with the default version it will use if no fhirVersion parameter is present</p>\n</div><p>URL: [base]/$versions</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>OUT</td><td>version</td><td>1..*</td><td><a href=\"datatypes.html#code\">code</a></td><td/><td><div><p>A version supported by the server. Use the major.minor version like 3.0</p>\n</div></td></tr><tr><td>OUT</td><td>default</td><td>1..1</td><td><a href=\"datatypes.html#code\">code</a></td><td/><td><div><p>The default version for the server. Use the major.minor version like 3.0</p>\n</div></td></tr></table><div/></div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 5
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        }
+    ],
+    "url": "http://hl7.org/fhir/OperationDefinition/CapabilityStatement-versions",
+    "version": "4.0.1",
+    "name": "Discover what versions a server supports",
+    "status": "draft",
+    "kind": "operation",
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Using the [FHIR Version Mime Type Parameter](http.html#version-parameter), a server can support [multiple versions on the same end-point](versioning.html#mt-version). The only way for client to find out what versions a server supports in this fashion is the $versions operation. The client invokes the operation with no parameters. and the server returns the list of supported versions, along with the default version it will use if no fhirVersion parameter is present",
+    "code": "versions",
+    "resource": [
+        "CapabilityStatement"
+    ],
+    "system": true,
+    "type": false,
+    "instance": false,
+    "parameter": [
+        {
+            "name": "version",
+            "use": "out",
+            "min": 1,
+            "max": "*",
+            "documentation": "A version supported by the server. Use the major.minor version like 3.0",
+            "type": "code"
+        },
+        {
+            "name": "default",
+            "use": "out",
+            "min": 1,
+            "max": "1",
+            "documentation": "The default version for the server. Use the major.minor version like 3.0",
+            "type": "code"
+        }
+    ]
+}

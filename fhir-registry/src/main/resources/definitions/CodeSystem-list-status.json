@@ -1,0 +1,74 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "list-status",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>ListStatus</h2><div><p>The current state of the list.</p>\n</div><p>This code system http://hl7.org/fhir/list-status defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">current<a name=\"list-status-current\"> </a></td><td>Current</td><td>The list is considered to be an active part of the patient's record.</td></tr><tr><td style=\"white-space:nowrap\">retired<a name=\"list-status-retired\"> </a></td><td>Retired</td><td>The list is &quot;old&quot; and should no longer be considered accurate or relevant.</td></tr><tr><td style=\"white-space:nowrap\">entered-in-error<a name=\"list-status-entered-in-error\"> </a></td><td>Entered In Error</td><td>The list was never accurate.  It is retained for medico-legal purposes only.</td></tr></table></div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/list-status",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.327"
+        }
+    ],
+    "version": "4.0.1",
+    "name": "ListStatus",
+    "title": "ListStatus",
+    "status": "draft",
+    "experimental": false,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The current state of the list.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/list-status",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "current",
+            "display": "Current",
+            "definition": "The list is considered to be an active part of the patient's record."
+        },
+        {
+            "code": "retired",
+            "display": "Retired",
+            "definition": "The list is \"old\" and should no longer be considered accurate or relevant."
+        },
+        {
+            "code": "entered-in-error",
+            "display": "Entered In Error",
+            "definition": "The list was never accurate.  It is retained for medico-legal purposes only."
+        }
+    ]
+}

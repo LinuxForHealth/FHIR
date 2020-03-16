@@ -1,0 +1,96 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-NutritionOrder.enteralFormula.administration.rateX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-NutritionOrder.enteralFormula.administration.rateX",
+    "version": "4.0.1",
+    "name": "NutritionOrder.enteralFormula.administration.rate[x]",
+    "title": "NutritionOrder.enteralFormula.administration.rate[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for NutritionOrder.enteralFormula.administration.rate[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "NutritionOrder.enteralFormula.administration.rate[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "NutritionOrder.enteralFormula.administration.rate[x]",
+                "path": "NutritionOrder.enteralFormula.administration.rate[x]",
+                "short": "Speed with which the formula is provided per period of time",
+                "definition": "The rate of administration of formula via a feeding pump, e.g. 60 mL per hour, according to the specified schedule.",
+                "comment": "Ratio is used when the quantity value in the denominator is not \"1\", otherwise use Quantity. For example, the Ratio datatype is used for \"200 mL/4 hrs\" versus the Quantity datatype for \"50 mL/hr\".",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "NutritionOrder.enteralFormula.administration.rate[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Quantity",
+                        "profile": [
+                            "http://hl7.org/fhir/StructureDefinition/SimpleQuantity"
+                        ]
+                    },
+                    {
+                        "code": "Ratio"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "ODS-4"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".rateQuantity"
+                    }
+                ]
+            }
+        ]
+    }
+}

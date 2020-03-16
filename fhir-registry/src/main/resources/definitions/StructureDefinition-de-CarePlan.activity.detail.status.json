@@ -1,0 +1,107 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-CarePlan.activity.detail.status",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-CarePlan.activity.detail.status",
+    "version": "4.0.1",
+    "name": "CarePlan.activity.detail.status",
+    "title": "CarePlan.activity.detail.status",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for CarePlan.activity.detail.status",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "CarePlan.activity.detail.status",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "CarePlan.activity.detail.status",
+                "path": "CarePlan.activity.detail.status",
+                "short": "not-started | scheduled | in-progress | on-hold | completed | cancelled | stopped | unknown | entered-in-error",
+                "definition": "Identifies what progress is being made for the specific activity.",
+                "comment": "Some aspects of status can be inferred based on the resources linked in actionTaken.  Note that \"status\" is only as current as the plan was most recently updated.  \nThe unknown code is not to be used to convey other statuses.  The unknown code should be used when one of the statuses applies, but the authoring system doesn't know the current state of the activity.",
+                "requirements": "Indicates progress against the plan, whether the activity is still relevant for the plan.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "CarePlan.activity.detail.status",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "This element is labelled as a modifier because it is a status element that contains status entered-in-error which means that the activity should not be treated as valid",
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "CarePlanActivityStatus"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Codes that reflect the current state of a care plan activity within its overall life cycle.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/care-plan-activity-status|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.status"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "ORC-5?"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".statusCode not-started = new scheduled = not-started (and fulfillment relationship to appointent) in-progress = active on-hold = suspended completed = completed cancelled = aborted"
+                    }
+                ]
+            }
+        ]
+    }
+}

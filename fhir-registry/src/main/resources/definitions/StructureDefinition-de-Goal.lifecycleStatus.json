@@ -1,0 +1,102 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Goal.lifecycleStatus",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Goal.lifecycleStatus",
+    "version": "4.0.1",
+    "name": "Goal.lifecycleStatus",
+    "title": "Goal.lifecycleStatus",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Goal.lifecycleStatus",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Goal.lifecycleStatus",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Goal.lifecycleStatus",
+                "path": "Goal.lifecycleStatus",
+                "short": "proposed | planned | accepted | active | on-hold | completed | cancelled | entered-in-error | rejected",
+                "definition": "The state of the goal throughout its lifecycle.",
+                "comment": "This element is labeled as a modifier because the lifecycleStatus contains codes that mark the resource as not currently valid.",
+                "requirements": "Allows knowing whether goal needs to be further tracked.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Goal.lifecycleStatus",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "This element is labelled as a modifier because it is a status element that contains status entered-in-error which means that the resource should not be treated as valid",
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "GoalLifecycleStatus"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Codes that reflect the current state of a goal and whether the goal is still being targeted.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/goal-status|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.status"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "GOL-18-goal life cycle status"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".statusCode in-progress = active (classCode = OBJ) cancelled = aborted"
+                    }
+                ]
+            }
+        ]
+    }
+}

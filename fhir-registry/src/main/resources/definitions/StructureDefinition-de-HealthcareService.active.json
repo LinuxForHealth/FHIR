@@ -1,0 +1,82 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-HealthcareService.active",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-HealthcareService.active",
+    "version": "4.0.1",
+    "name": "HealthcareService.active",
+    "title": "HealthcareService.active",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for HealthcareService.active",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "HealthcareService.active",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "HealthcareService.active",
+                "path": "HealthcareService.active",
+                "short": "Whether this HealthcareService record is in active use",
+                "definition": "This flag is used to mark the record to not be used. This is not used when a center is closed for maintenance, or for holidays, the notAvailable period is to be used for this.",
+                "comment": "This element is labeled as a modifier because it may be used to mark that the resource was created in error.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "HealthcareService.active",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "boolean"
+                    }
+                ],
+                "meaningWhenMissing": "This resource is generally assumed to be active if no value is provided for the active element",
+                "isModifier": true,
+                "isModifierReason": "This element is labelled as a modifier because it is a status element that can indicate that a record should not be treated as valid",
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.status"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".statusCode"
+                    }
+                ]
+            }
+        ]
+    }
+}

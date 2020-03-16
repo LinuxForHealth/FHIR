@@ -1,0 +1,107 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Composition.section.code",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Composition.section.code",
+    "version": "4.0.1",
+    "name": "Composition.section.code",
+    "title": "Composition.section.code",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Composition.section.code",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "cda",
+            "uri": "http://hl7.org/v3/cda",
+            "name": "CDA (R2)"
+        },
+        {
+            "identity": "fhirdocumentreference",
+            "uri": "http://hl7.org/fhir/documentreference",
+            "name": "FHIR DocumentReference"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Composition.section.code",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Composition.section.code",
+                "path": "Composition.section.code",
+                "short": "Classification of section (recommended)",
+                "definition": "A code identifying the kind of content contained within the section. This must be consistent with the section title.",
+                "comment": "The code identifies the section for an automated processor of the document. This is particularly relevant when using profiles to control the structure of the document.   \n\nIf the section has content (instead of sub-sections), the section.code does not change the meaning or interpretation of the resource that is the content of the section in the comments for the section.code.",
+                "requirements": "Provides computable standardized labels to topics within the document.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Composition.section.code",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "CompositionSectionType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Classification of a section of a composition/document.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/doc-section-codes"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "./code"
+                    },
+                    {
+                        "identity": "cda",
+                        "map": ".code"
+                    }
+                ]
+            }
+        ]
+    }
+}

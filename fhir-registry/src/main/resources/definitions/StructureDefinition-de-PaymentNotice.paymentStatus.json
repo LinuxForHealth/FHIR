@@ -1,0 +1,103 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-PaymentNotice.paymentStatus",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-PaymentNotice.paymentStatus",
+    "version": "4.0.1",
+    "name": "PaymentNotice.paymentStatus",
+    "title": "PaymentNotice.paymentStatus",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for PaymentNotice.paymentStatus",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "cdanetv4",
+            "uri": "http://www.cda-adc.ca/en/services/cdanet/",
+            "name": "Canadian Dental Association eclaims standard"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "PaymentNotice.paymentStatus",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "PaymentNotice.paymentStatus",
+                "path": "PaymentNotice.paymentStatus",
+                "short": "Issued or cleared Status of the payment",
+                "definition": "A code indicating whether payment has been sent or cleared.",
+                "comment": "Typically paid: payment sent, cleared: payment received.",
+                "requirements": "The purpose of the notification.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "PaymentNotice.paymentStatus",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "PaymentStatus"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The payment conveyance status codes.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/payment-status"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            }
+        ]
+    }
+}

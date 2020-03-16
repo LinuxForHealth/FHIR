@@ -1,0 +1,83 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-PaymentReconciliation.detail.responsible",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-PaymentReconciliation.detail.responsible",
+    "version": "4.0.1",
+    "name": "PaymentReconciliation.detail.responsible",
+    "title": "PaymentReconciliation.detail.responsible",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for PaymentReconciliation.detail.responsible",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "cdanetv4",
+            "uri": "http://www.cda-adc.ca/en/services/cdanet/",
+            "name": "Canadian Dental Association eclaims standard"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "PaymentReconciliation.detail.responsible",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "PaymentReconciliation.detail.responsible",
+                "path": "PaymentReconciliation.detail.responsible",
+                "short": "Contact for the response",
+                "definition": "A reference to the individual who is responsible for inquiries regarding the response and its payment.",
+                "requirements": "To provide contact information.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "PaymentReconciliation.detail.responsible",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/PractitionerRole"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

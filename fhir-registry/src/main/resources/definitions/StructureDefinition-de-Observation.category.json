@@ -1,0 +1,112 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Observation.category",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Observation.category",
+    "version": "4.0.1",
+    "name": "Observation.category",
+    "title": "Observation.category",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Observation.category",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "sct-concept",
+            "uri": "http://snomed.info/conceptdomain",
+            "name": "SNOMED CT Concept Domain Binding"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "sct-attr",
+            "uri": "http://snomed.org/attributebinding",
+            "name": "SNOMED CT Attribute Binding"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Observation.category",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Observation.category",
+                "path": "Observation.category",
+                "short": "Classification of  type of observation",
+                "definition": "A code that classifies the general type of observation being made.",
+                "comment": "In addition to the required category valueset, this element allows various categorization schemes based on the owner’s definition of the category and effectively multiple categories can be used at once.  The level of granularity is defined by the category concepts in the value set.",
+                "requirements": "Used for filtering what observations are retrieved and displayed.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Observation.category",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ObservationCategory"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "Codes for high level observation categories.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/observation-category"
+                },
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.class"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".outboundRelationship[typeCode=\"COMP].target[classCode=\"LIST\", moodCode=\"EVN\"].code"
+                    }
+                ]
+            }
+        ]
+    }
+}

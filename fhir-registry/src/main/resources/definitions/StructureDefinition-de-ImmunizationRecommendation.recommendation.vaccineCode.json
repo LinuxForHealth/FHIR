@@ -1,0 +1,104 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ImmunizationRecommendation.recommendation.vaccineCode",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ImmunizationRecommendation.recommendation.vaccineCode",
+    "version": "4.0.1",
+    "name": "ImmunizationRecommendation.recommendation.vaccineCode",
+    "title": "ImmunizationRecommendation.recommendation.vaccineCode",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ImmunizationRecommendation.recommendation.vaccineCode",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ImmunizationRecommendation.recommendation.vaccineCode",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ImmunizationRecommendation.recommendation.vaccineCode",
+                "path": "ImmunizationRecommendation.recommendation.vaccineCode",
+                "short": "Vaccine  or vaccine group recommendation applies to",
+                "definition": "Vaccine(s) or vaccine group that pertain to the recommendation.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ImmunizationRecommendation.recommendation.vaccineCode",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "VaccineCode"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The type of vaccine administered.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/vaccine-code"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.code"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "OBX-5 : OBX-3 = ( 30956-7 | 38890-0 )"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".partipication[typeCode=CSM].role[classCode=ADMM].code"
+                    }
+                ]
+            }
+        ]
+    }
+}

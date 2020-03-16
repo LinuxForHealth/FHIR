@@ -1,0 +1,109 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Immunization.route",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Immunization.route",
+    "version": "4.0.1",
+    "name": "Immunization.route",
+    "title": "Immunization.route",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Immunization.route",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "cda",
+            "uri": "http://hl7.org/v3/cda",
+            "name": "CDA (R2)"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Immunization.route",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Immunization.route",
+                "path": "Immunization.route",
+                "short": "How vaccine entered body",
+                "definition": "The path by which the vaccine product is taken into the body.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Immunization.route",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ImmunizationRoute"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The route by which the vaccine was administered.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/immunization-route"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "RXR-1"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".routeCode"
+                    },
+                    {
+                        "identity": "cda",
+                        "map": "ClinicalDocument/component/StructuredBody/component/section/entry/substanceAdministration/routeCode/code"
+                    }
+                ]
+            }
+        ]
+    }
+}

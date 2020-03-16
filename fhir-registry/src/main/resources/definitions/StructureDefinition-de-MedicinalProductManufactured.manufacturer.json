@@ -1,0 +1,67 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicinalProductManufactured.manufacturer",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicinalProductManufactured.manufacturer",
+    "version": "4.0.1",
+    "name": "MedicinalProductManufactured.manufacturer",
+    "title": "MedicinalProductManufactured.manufacturer",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicinalProductManufactured.manufacturer",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicinalProductManufactured.manufacturer",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicinalProductManufactured.manufacturer",
+                "path": "MedicinalProductManufactured.manufacturer",
+                "short": "Manufacturer of the item (Note that this should be named \"manufacturer\" but it currently causes technical issues)",
+                "definition": "Manufacturer of the item (Note that this should be named \"manufacturer\" but it currently causes technical issues).",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "MedicinalProductManufactured.manufacturer",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Organization"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

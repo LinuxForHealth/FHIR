@@ -1,0 +1,93 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Specimen.condition",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Specimen.condition",
+    "version": "4.0.1",
+    "name": "Specimen.condition",
+    "title": "Specimen.condition",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Specimen.condition",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Specimen.condition",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Specimen.condition",
+                "path": "Specimen.condition",
+                "short": "State of the specimen",
+                "definition": "A mode or state of being that describes the nature of the specimen.",
+                "comment": "Specimen condition is an observation made about the specimen.  It's a point-in-time assessment.  It can be used to assess its quality or appropriateness for a specific test.",
+                "requirements": "The specimen condition can be used to assess its quality or appropriateness for a specific test.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Specimen.condition",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "SpecimenCondition"
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "Codes describing the state of the specimen.",
+                    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0493"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "SPM-24"
+                    }
+                ]
+            }
+        ]
+    }
+}

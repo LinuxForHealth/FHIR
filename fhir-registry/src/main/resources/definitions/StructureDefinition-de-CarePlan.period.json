@@ -1,0 +1,102 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-CarePlan.period",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-CarePlan.period",
+    "version": "4.0.1",
+    "name": "CarePlan.period",
+    "title": "CarePlan.period",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for CarePlan.period",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "CarePlan.period",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "CarePlan.period",
+                "path": "CarePlan.period",
+                "short": "Time period plan covers",
+                "definition": "Indicates when the plan did (or is intended to) come into effect and end.",
+                "comment": "Any activities scheduled as part of the plan should be constrained to the specified period regardless of whether the activities are planned within a single encounter/episode or across multiple encounters/episodes (e.g. the longitudinal management of a chronic condition).",
+                "requirements": "Allows tracking what plan(s) are in effect at a particular time.",
+                "alias": [
+                    "timing"
+                ],
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "CarePlan.period",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Period"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.occurrence[x]"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.planned"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "GOL-7 / GOL-8"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".effectiveTime"
+                    }
+                ]
+            }
+        ]
+    }
+}

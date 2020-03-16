@@ -1,0 +1,79 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "history-absent-reason",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>FamilyHistoryAbsentReason</h2><div><p>Codes describing the reason why a family member's history is not available.</p>\n</div><p>This code system http://terminology.hl7.org/CodeSystem/history-absent-reason defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">subject-unknown<a name=\"history-absent-reason-subject-unknown\"> </a></td><td>Subject Unknown</td><td>Patient does not know the subject, e.g. the biological parent of an adopted patient.</td></tr><tr><td style=\"white-space:nowrap\">withheld<a name=\"history-absent-reason-withheld\"> </a></td><td>Information Withheld</td><td>The patient withheld or refused to share the information.</td></tr><tr><td style=\"white-space:nowrap\">unable-to-obtain<a name=\"history-absent-reason-unable-to-obtain\"> </a></td><td>Unable To Obtain</td><td>Information cannot be obtained; e.g. unconscious patient.</td></tr><tr><td style=\"white-space:nowrap\">deferred<a name=\"history-absent-reason-deferred\"> </a></td><td>Deferred</td><td>Patient does not have the information now, but can provide the information at a later date.</td></tr></table></div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pc"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/history-absent-reason",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.1094"
+        }
+    ],
+    "version": "4.0.1",
+    "name": "FamilyHistoryAbsentReason",
+    "title": "FamilyHistoryAbsentReason",
+    "status": "draft",
+    "experimental": false,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Codes describing the reason why a family member's history is not available.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/history-absent-reason",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "subject-unknown",
+            "display": "Subject Unknown",
+            "definition": "Patient does not know the subject, e.g. the biological parent of an adopted patient."
+        },
+        {
+            "code": "withheld",
+            "display": "Information Withheld",
+            "definition": "The patient withheld or refused to share the information."
+        },
+        {
+            "code": "unable-to-obtain",
+            "display": "Unable To Obtain",
+            "definition": "Information cannot be obtained; e.g. unconscious patient."
+        },
+        {
+            "code": "deferred",
+            "display": "Deferred",
+            "definition": "Patient does not have the information now, but can provide the information at a later date."
+        }
+    ]
+}

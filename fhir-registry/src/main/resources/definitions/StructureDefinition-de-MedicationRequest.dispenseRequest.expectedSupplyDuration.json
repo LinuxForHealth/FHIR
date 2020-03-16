@@ -1,0 +1,95 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicationRequest.dispenseRequest.expectedSupplyDuration",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicationRequest.dispenseRequest.expectedSupplyDuration",
+    "version": "4.0.1",
+    "name": "MedicationRequest.dispenseRequest.expectedSupplyDuration",
+    "title": "MedicationRequest.dispenseRequest.expectedSupplyDuration",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicationRequest.dispenseRequest.expectedSupplyDuration",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "script10.6",
+            "uri": "http://ncpdp.org/SCRIPT10_6",
+            "name": "Mapping to NCPDP SCRIPT 10.6"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicationRequest.dispenseRequest.expectedSupplyDuration",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicationRequest.dispenseRequest.expectedSupplyDuration",
+                "path": "MedicationRequest.dispenseRequest.expectedSupplyDuration",
+                "short": "Number of days supply per dispense",
+                "definition": "Identifies the period time over which the supplied product is expected to be used, or the length of time the dispense is expected to last.",
+                "comment": "In some situations, this attribute may be used instead of quantity to identify the amount supplied by how long it is expected to last, rather than the physical quantity issued, e.g. 90 days supply of medication (based on an ordered dosage). When possible, it is always better to specify quantity, as this tends to be more precise. expectedSupplyDuration will always be an estimate that can be influenced by external factors.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MedicationRequest.dispenseRequest.expectedSupplyDuration",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Duration"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "script10.6",
+                        "map": "Message/Body/NewRx/MedicationPrescribed/Substitutions"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "expectedUseTime"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,64 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicinalProductContraindication.comorbidity",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicinalProductContraindication.comorbidity",
+    "version": "4.0.1",
+    "name": "MedicinalProductContraindication.comorbidity",
+    "title": "MedicinalProductContraindication.comorbidity",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicinalProductContraindication.comorbidity",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicinalProductContraindication.comorbidity",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicinalProductContraindication.comorbidity",
+                "path": "MedicinalProductContraindication.comorbidity",
+                "short": "A comorbidity (concurrent condition) or coinfection",
+                "definition": "A comorbidity (concurrent condition) or coinfection.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "MedicinalProductContraindication.comorbidity",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true
+            }
+        ]
+    }
+}

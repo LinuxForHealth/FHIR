@@ -1,0 +1,92 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Claim.procedure.procedureX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Claim.procedure.procedureX",
+    "version": "4.0.1",
+    "name": "Claim.procedure.procedure[x]",
+    "title": "Claim.procedure.procedure[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Claim.procedure.procedure[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Claim.procedure.procedure[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Claim.procedure.procedure[x]",
+                "path": "Claim.procedure.procedure[x]",
+                "short": "Specific clinical procedure",
+                "definition": "The code or reference to a Procedure resource which identifies the clinical intervention performed.",
+                "requirements": "This identifies the actual clinical procedure.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Claim.procedure.procedure[x]",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    },
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Procedure"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ICD10_Procedures"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Example ICD10 Procedure codes.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/icd-10-procedures"
+                }
+            }
+        ]
+    }
+}

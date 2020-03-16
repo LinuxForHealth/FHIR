@@ -1,0 +1,89 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "guidance-response-status",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>GuidanceResponseStatus</h2><div><p>The status of a guidance response.</p>\n</div><p>This code system http://hl7.org/fhir/guidance-response-status defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">success<a name=\"guidance-response-status-success\"> </a></td><td>Success</td><td>The request was processed successfully.</td></tr><tr><td style=\"white-space:nowrap\">data-requested<a name=\"guidance-response-status-data-requested\"> </a></td><td>Data Requested</td><td>The request was processed successfully, but more data may result in a more complete evaluation.</td></tr><tr><td style=\"white-space:nowrap\">data-required<a name=\"guidance-response-status-data-required\"> </a></td><td>Data Required</td><td>The request was processed, but more data is required to complete the evaluation.</td></tr><tr><td style=\"white-space:nowrap\">in-progress<a name=\"guidance-response-status-in-progress\"> </a></td><td>In Progress</td><td>The request is currently being processed.</td></tr><tr><td style=\"white-space:nowrap\">failure<a name=\"guidance-response-status-failure\"> </a></td><td>Failure</td><td>The request was not processed successfully.</td></tr><tr><td style=\"white-space:nowrap\">entered-in-error<a name=\"guidance-response-status-entered-in-error\"> </a></td><td>Entered In Error</td><td>The response was entered in error.</td></tr></table></div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 2
+        }
+    ],
+    "url": "http://hl7.org/fhir/guidance-response-status",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.818"
+        }
+    ],
+    "version": "4.0.1",
+    "name": "GuidanceResponseStatus",
+    "title": "GuidanceResponseStatus",
+    "status": "draft",
+    "experimental": false,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The status of a guidance response.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/guidance-response-status",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "success",
+            "display": "Success",
+            "definition": "The request was processed successfully."
+        },
+        {
+            "code": "data-requested",
+            "display": "Data Requested",
+            "definition": "The request was processed successfully, but more data may result in a more complete evaluation."
+        },
+        {
+            "code": "data-required",
+            "display": "Data Required",
+            "definition": "The request was processed, but more data is required to complete the evaluation."
+        },
+        {
+            "code": "in-progress",
+            "display": "In Progress",
+            "definition": "The request is currently being processed."
+        },
+        {
+            "code": "failure",
+            "display": "Failure",
+            "definition": "The request was not processed successfully."
+        },
+        {
+            "code": "entered-in-error",
+            "display": "Entered In Error",
+            "definition": "The response was entered in error."
+        }
+    ]
+}

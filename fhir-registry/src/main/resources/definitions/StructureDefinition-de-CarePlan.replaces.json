@@ -1,0 +1,99 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-CarePlan.replaces",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-CarePlan.replaces",
+    "version": "4.0.1",
+    "name": "CarePlan.replaces",
+    "title": "CarePlan.replaces",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for CarePlan.replaces",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "CarePlan.replaces",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "CarePlan.replaces",
+                "path": "CarePlan.replaces",
+                "short": "CarePlan replaced by this CarePlan",
+                "definition": "Completed or terminated care plan whose function is taken by this new care plan.",
+                "comment": "The replacement could be because the initial care plan was immediately rejected (due to an issue) or because the previous care plan was completed, but the need for the action described by the care plan remains ongoing.",
+                "requirements": "Allows tracing the continuation of a therapy or administrative process instantiated through multiple care plans.",
+                "alias": [
+                    "supersedes"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "CarePlan.replaces",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-hierarchy",
+                                "valueBoolean": true
+                            }
+                        ],
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/CarePlan"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.replaces"
+                    }
+                ]
+            }
+        ]
+    }
+}

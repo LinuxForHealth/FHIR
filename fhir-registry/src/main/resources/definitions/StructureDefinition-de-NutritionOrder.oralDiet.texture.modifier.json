@@ -1,0 +1,105 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-NutritionOrder.oralDiet.texture.modifier",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-NutritionOrder.oralDiet.texture.modifier",
+    "version": "4.0.1",
+    "name": "NutritionOrder.oralDiet.texture.modifier",
+    "title": "NutritionOrder.oralDiet.texture.modifier",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for NutritionOrder.oralDiet.texture.modifier",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "NutritionOrder.oralDiet.texture.modifier",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "NutritionOrder.oralDiet.texture.modifier",
+                "path": "NutritionOrder.oralDiet.texture.modifier",
+                "short": "Code to indicate how to alter the texture of the foods, e.g. pureed",
+                "definition": "Any texture modifications (for solid foods) that should be made, e.g. easy to chew, chopped, ground, and pureed.",
+                "comment": "Coupled with the foodType (Meat).",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "NutritionOrder.oralDiet.texture.modifier",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "TextureModifier"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Codes for food consistency types or texture modifications to apply to foods.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/texture-code"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.code"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "ODS-4"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".code"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,107 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-RiskAssessment.prediction.probabilityX",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-RiskAssessment.prediction.probabilityX",
+    "version": "4.0.1",
+    "name": "RiskAssessment.prediction.probability[x]",
+    "title": "RiskAssessment.prediction.probability[x]",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for RiskAssessment.prediction.probability[x]",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "openehr",
+            "uri": "http://openehr.org",
+            "name": "Open EHR Archetype Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "RiskAssessment.prediction.probability[x]",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "RiskAssessment.prediction.probability[x]",
+                "path": "RiskAssessment.prediction.probability[x]",
+                "short": "Likelihood of specified outcome",
+                "definition": "Indicates how likely the outcome is (in the specified timeframe).",
+                "comment": "If range is used, it represents the lower and upper bounds of certainty; e.g. 40-60%  Decimal values are expressed as percentages as well (max = 100).",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "RiskAssessment.prediction.probability[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "decimal"
+                    },
+                    {
+                        "code": "Range"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ras-1",
+                        "severity": "error",
+                        "human": "low and high must be percentages, if present",
+                        "expression": "(low.empty() or ((low.code = '%') and (low.system = %ucum))) and (high.empty() or ((high.code = '%') and (high.system = %ucum)))",
+                        "xpath": "(not(f:low) or f:low[f:code/@value='%' and f:system/@value='http://unitsofmeasure.org']) and (not(f:high) or f:high[f:code/@value='%' and f:system/@value='http://unitsofmeasure.org'])"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".inboundRelationship[typeCode=SUBJ].source[classCode=OBS, moodCode=EVN, code=\"probability\"].value"
+                    },
+                    {
+                        "identity": "openehr",
+                        "map": "Category"
+                    }
+                ]
+            }
+        ]
+    }
+}

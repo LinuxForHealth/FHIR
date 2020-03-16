@@ -1,0 +1,76 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-AdverseEvent.recordedDate",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-AdverseEvent.recordedDate",
+    "version": "4.0.1",
+    "name": "AdverseEvent.recordedDate",
+    "title": "AdverseEvent.recordedDate",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for AdverseEvent.recordedDate",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "AdverseEvent.recordedDate",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "AdverseEvent.recordedDate",
+                "path": "AdverseEvent.recordedDate",
+                "short": "When the event was recorded",
+                "definition": "The date on which the existence of the AdverseEvent was first recorded.",
+                "comment": "The recordedDate represents the date when this particular AdverseEvent record was created in the system, not the date of the most recent update.  The date of the last record modification can be retrieved from the resource metadata.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "AdverseEvent.recordedDate",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "dateTime"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.recorded"
+                    }
+                ]
+            }
+        ]
+    }
+}

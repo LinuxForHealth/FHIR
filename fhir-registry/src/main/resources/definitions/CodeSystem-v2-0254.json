@@ -1,0 +1,1937 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0254",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "language": "en",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Kind of Quantity</p>\r\n<table class=\"grid\"><tr><td><b>Code</b></td><td><b>Description</b></td><td><b>Comment</b></td><td><b>Version</b></td></tr><tr><td>ABS<a name=\"ABS\"> </a></td><td>Absorbance</td><td/><td>added v2.3</td></tr><tr><td>ACNC<a name=\"ACNC\"> </a></td><td>Concentration, Arbitrary Substance</td><td/><td>added v2.3</td></tr><tr><td>ACT<a name=\"ACT\"> </a></td><td>Activity</td><td>*</td><td>added v2.3</td></tr><tr><td>APER<a name=\"APER\"> </a></td><td>Appearance</td><td/><td>added v2.3</td></tr><tr><td>ARB<a name=\"ARB\"> </a></td><td>Arbitrary</td><td>*</td><td>added v2.3</td></tr><tr><td>AREA<a name=\"AREA\"> </a></td><td>Area</td><td/><td>added v2.3</td></tr><tr><td>ASPECT<a name=\"ASPECT\"> </a></td><td>Aspect</td><td/><td>added v2.3</td></tr><tr><td>CACT<a name=\"CACT\"> </a></td><td>Catalytic Activity</td><td>*</td><td>added v2.3</td></tr><tr><td>CCNT<a name=\"CCNT\"> </a></td><td>Catalytic Content</td><td>*</td><td>added v2.3</td></tr><tr><td>CCRTO<a name=\"CCRTO\"> </a></td><td>Catalytic Concentration Ratio</td><td/><td>added v2.3</td></tr><tr><td>CFR<a name=\"CFR\"> </a></td><td>Catalytic Fraction</td><td>*</td><td>added v2.3</td></tr><tr><td>CLAS<a name=\"CLAS\"> </a></td><td>Class</td><td/><td>added v2.3</td></tr><tr><td>CNC<a name=\"CNC\"> </a></td><td>Catalytic Concentration</td><td>*</td><td>added v2.3</td></tr><tr><td>CNST<a name=\"CNST\"> </a></td><td>Constant</td><td>*</td><td>added v2.3</td></tr><tr><td>COEF<a name=\"COEF\"> </a></td><td>Coefficient</td><td>*</td><td>added v2.3</td></tr><tr><td>COLOR<a name=\"COLOR\"> </a></td><td>Color</td><td/><td>added v2.3</td></tr><tr><td>CONS<a name=\"CONS\"> </a></td><td>Consistency</td><td/><td>added v2.3</td></tr><tr><td>CRAT<a name=\"CRAT\"> </a></td><td>Catalytic Rate</td><td>*</td><td>added v2.3</td></tr><tr><td>CRTO<a name=\"CRTO\"> </a></td><td>Catalytic Ratio</td><td/><td>added v2.3</td></tr><tr><td>DEN<a name=\"DEN\"> </a></td><td>Density</td><td/><td>added v2.3</td></tr><tr><td>DEV<a name=\"DEV\"> </a></td><td>Device</td><td/><td>added v2.3</td></tr><tr><td>DIFF<a name=\"DIFF\"> </a></td><td>Difference</td><td>*</td><td>added v2.3</td></tr><tr><td>ELAS<a name=\"ELAS\"> </a></td><td>Elasticity</td><td/><td>added v2.3</td></tr><tr><td>ELPOT<a name=\"ELPOT\"> </a></td><td>Electrical Potential (Voltage)</td><td/><td>added v2.3</td></tr><tr><td>ELRAT<a name=\"ELRAT\"> </a></td><td>Electrical current (amperage)</td><td/><td>added v2.3</td></tr><tr><td>ELRES<a name=\"ELRES\"> </a></td><td>Electrical Resistance</td><td/><td>added v2.3</td></tr><tr><td>ENGR<a name=\"ENGR\"> </a></td><td>Energy</td><td/><td>added v2.3</td></tr><tr><td>ENT<a name=\"ENT\"> </a></td><td>Entitic</td><td>*</td><td>added v2.3</td></tr><tr><td>ENTCAT<a name=\"ENTCAT\"> </a></td><td>Entitic Catalytic Activity</td><td>*</td><td>added v2.3</td></tr><tr><td>ENTNUM<a name=\"ENTNUM\"> </a></td><td>Entitic Number</td><td>*</td><td>added v2.3</td></tr><tr><td>ENTSUB<a name=\"ENTSUB\"> </a></td><td>Entitic Substance of Amount</td><td>*</td><td>added v2.3</td></tr><tr><td>ENTVOL<a name=\"ENTVOL\"> </a></td><td>Entitic Volume</td><td>*</td><td>added v2.3</td></tr><tr><td>EQL<a name=\"EQL\"> </a></td><td>Equilibrium</td><td/><td>added v2.3</td></tr><tr><td>FORCE<a name=\"FORCE\"> </a></td><td>Mechanical force</td><td/><td>added v2.3</td></tr><tr><td>FREQ<a name=\"FREQ\"> </a></td><td>Frequency</td><td/><td>added v2.3</td></tr><tr><td>IMP<a name=\"IMP\"> </a></td><td>Impression/ interpretation of study</td><td/><td>added v2.3</td></tr><tr><td>KINV<a name=\"KINV\"> </a></td><td>Kinematic Viscosity</td><td>*</td><td>added v2.3</td></tr><tr><td>LEN<a name=\"LEN\"> </a></td><td>Length</td><td/><td>added v2.3</td></tr><tr><td>LINC<a name=\"LINC\"> </a></td><td>Length Increment</td><td>*</td><td>added v2.3</td></tr><tr><td>LIQ<a name=\"LIQ\"> </a></td><td>Liquefaction</td><td>*</td><td>added v2.3</td></tr><tr><td>MASS<a name=\"MASS\"> </a></td><td>Mass</td><td>*</td><td>added v2.3</td></tr><tr><td>MCNC<a name=\"MCNC\"> </a></td><td>Mass Concentration</td><td>*</td><td>added v2.3</td></tr><tr><td>MCNT<a name=\"MCNT\"> </a></td><td>Mass Content</td><td/><td>added v2.3</td></tr><tr><td>MCRTO<a name=\"MCRTO\"> </a></td><td>Mass Concentration Ratio</td><td>*</td><td>added v2.3</td></tr><tr><td>MFR<a name=\"MFR\"> </a></td><td>Mass Fraction</td><td>*</td><td>added v2.3</td></tr><tr><td>MGFLUX<a name=\"MGFLUX\"> </a></td><td>Magnetic flux</td><td/><td>added v2.3</td></tr><tr><td>MINC<a name=\"MINC\"> </a></td><td>Mass Increment</td><td>*</td><td>added v2.3</td></tr><tr><td>MORPH<a name=\"MORPH\"> </a></td><td>Morphology</td><td/><td>added v2.3</td></tr><tr><td>MOTIL<a name=\"MOTIL\"> </a></td><td>Motility</td><td/><td>added v2.3</td></tr><tr><td>MRAT<a name=\"MRAT\"> </a></td><td>Mass Rate</td><td>*</td><td>added v2.3</td></tr><tr><td>MRTO<a name=\"MRTO\"> </a></td><td>Mass Ratio</td><td>*</td><td>added v2.3</td></tr><tr><td>NCNC<a name=\"NCNC\"> </a></td><td>Number Concentration</td><td>*</td><td>added v2.3</td></tr><tr><td>NCNT<a name=\"NCNT\"> </a></td><td>Number Content</td><td>*</td><td>added v2.3</td></tr><tr><td>NFR<a name=\"NFR\"> </a></td><td>Number Fraction</td><td>*</td><td>added v2.3</td></tr><tr><td>NRTO<a name=\"NRTO\"> </a></td><td>Number Ratio</td><td>*</td><td>added v2.3</td></tr><tr><td>NUM<a name=\"NUM\"> </a></td><td>Number</td><td>*</td><td>added v2.3</td></tr><tr><td>OD<a name=\"OD\"> </a></td><td>Optical density</td><td/><td>added v2.3</td></tr><tr><td>OSMOL<a name=\"OSMOL\"> </a></td><td>Osmolality</td><td>*</td><td>added v2.3</td></tr><tr><td>PRES<a name=\"PRES\"> </a></td><td>Pressure (Partial)</td><td/><td>added v2.3</td></tr><tr><td>PRID<a name=\"PRID\"> </a></td><td>Presence/Identity/Existence</td><td/><td>added v2.3</td></tr><tr><td>PWR<a name=\"PWR\"> </a></td><td>Power (wattage)</td><td/><td>added v2.3</td></tr><tr><td>RANGE<a name=\"RANGE\"> </a></td><td>Ranges</td><td>*</td><td>added v2.3</td></tr><tr><td>RATIO<a name=\"RATIO\"> </a></td><td>Ratios</td><td>*</td><td>added v2.3</td></tr><tr><td>RCRLTM<a name=\"RCRLTM\"> </a></td><td>Reciprocal Relative Time</td><td>*</td><td>added v2.3</td></tr><tr><td>RDEN<a name=\"RDEN\"> </a></td><td>Relative Density</td><td>*</td><td>added v2.3</td></tr><tr><td>REL<a name=\"REL\"> </a></td><td>Relative</td><td>*</td><td>added v2.3</td></tr><tr><td>RLMCNC<a name=\"RLMCNC\"> </a></td><td>Relative Mass Concentration</td><td>*</td><td>added v2.3</td></tr><tr><td>RLSCNC<a name=\"RLSCNC\"> </a></td><td>Relative Substance Concentration</td><td>*</td><td>added v2.3</td></tr><tr><td>RLTM<a name=\"RLTM\"> </a></td><td>Relative Time</td><td>*</td><td>added v2.3</td></tr><tr><td>SATFR<a name=\"SATFR\"> </a></td><td>Saturation Fraction</td><td>*</td><td>added v2.3</td></tr><tr><td>SCNC<a name=\"SCNC\"> </a></td><td>Substance Concentration</td><td>*</td><td>added v2.3</td></tr><tr><td>SCNCIN<a name=\"SCNCIN\"> </a></td><td>Substance Concentration Increment</td><td>*</td><td>added v2.3</td></tr><tr><td>SCNT<a name=\"SCNT\"> </a></td><td>Substance Content</td><td>*</td><td>added v2.3</td></tr><tr><td>SCNTR<a name=\"SCNTR\"> </a></td><td>Substance Content Rate</td><td>*</td><td>added v2.3</td></tr><tr><td>SCRTO<a name=\"SCRTO\"> </a></td><td>Substance Concentration Ratio</td><td>*</td><td>added v2.3</td></tr><tr><td>SFR<a name=\"SFR\"> </a></td><td>Substance Fraction</td><td>*</td><td>added v2.3</td></tr><tr><td>SHAPE<a name=\"SHAPE\"> </a></td><td>Shape</td><td/><td>added v2.3</td></tr><tr><td>SMELL<a name=\"SMELL\"> </a></td><td>Smell</td><td/><td>added v2.3</td></tr><tr><td>SRAT<a name=\"SRAT\"> </a></td><td>Substance Rate</td><td>*</td><td>added v2.3</td></tr><tr><td>SRTO<a name=\"SRTO\"> </a></td><td>Substance Ratio</td><td>*</td><td>added v2.3</td></tr><tr><td>SUB<a name=\"SUB\"> </a></td><td>Substance Amount</td><td>*</td><td>added v2.3</td></tr><tr><td>SUSC<a name=\"SUSC\"> </a></td><td>Susceptibility</td><td>*</td><td>added v2.3</td></tr><tr><td>TASTE<a name=\"TASTE\"> </a></td><td>Taste</td><td/><td>added v2.3</td></tr><tr><td>TEMP<a name=\"TEMP\"> </a></td><td>Temperature</td><td>*</td><td>added v2.3</td></tr><tr><td>TEMPDF<a name=\"TEMPDF\"> </a></td><td>Temperature Difference</td><td>*</td><td>added v2.3</td></tr><tr><td>TEMPIN<a name=\"TEMPIN\"> </a></td><td>Temperature Increment</td><td>*</td><td>added v2.3</td></tr><tr><td>THRMCNC<a name=\"THRMCNC\"> </a></td><td>Threshold Mass Concentration</td><td>*</td><td>added v2.3</td></tr><tr><td>THRSCNC<a name=\"THRSCNC\"> </a></td><td>Threshold Substance Concentration</td><td>*</td><td>added v2.3</td></tr><tr><td>TIME<a name=\"TIME\"> </a></td><td>Time (e.g. seconds)</td><td>*</td><td>added v2.3</td></tr><tr><td>TITR<a name=\"TITR\"> </a></td><td>Dilution Factor (Titer)</td><td>*</td><td>added v2.3</td></tr><tr><td>TMDF<a name=\"TMDF\"> </a></td><td>Time Difference</td><td>*</td><td>added v2.3</td></tr><tr><td>TMSTP<a name=\"TMSTP\"> </a></td><td>Time Stamp-Date and Time</td><td>*</td><td>added v2.3</td></tr><tr><td>TRTO<a name=\"TRTO\"> </a></td><td>Time Ratio</td><td>*</td><td>added v2.3</td></tr><tr><td>TYPE<a name=\"TYPE\"> </a></td><td>Type</td><td>*</td><td>added v2.3</td></tr><tr><td>VCNT<a name=\"VCNT\"> </a></td><td>Volume Content</td><td>*</td><td>added v2.3</td></tr><tr><td>VEL<a name=\"VEL\"> </a></td><td>Velocity</td><td>*</td><td>added v2.3</td></tr><tr><td>VELRT<a name=\"VELRT\"> </a></td><td>Velocity Ratio</td><td>*</td><td>added v2.3</td></tr><tr><td>VFR<a name=\"VFR\"> </a></td><td>Volume Fraction</td><td>*</td><td>added v2.3</td></tr><tr><td>VISC<a name=\"VISC\"> </a></td><td>Viscosity</td><td>*</td><td>added v2.3</td></tr><tr><td>VOL<a name=\"VOL\"> </a></td><td>Volume</td><td>*</td><td>added v2.3</td></tr><tr><td>VRAT<a name=\"VRAT\"> </a></td><td>Volume Rate</td><td>*</td><td>added v2.3</td></tr><tr><td>VRTO<a name=\"VRTO\"> </a></td><td>Volume Ratio</td><td>*</td><td>added v2.3</td></tr></table>\r\n</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "external"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0254",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.149"
+        }
+    ],
+    "version": "2.9",
+    "name": "v2.0254",
+    "title": "v2 Kind of Quantity",
+    "status": "active",
+    "experimental": false,
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR Value set/code system definition for HL7 v2 table 0254 ( Kind of Quantity)",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "ABS",
+            "display": "Absorbance",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Absorptie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "_valueString": {
+                        "extension": [
+                            {
+                                "extension": [
+                                    {
+                                        "url": "lang",
+                                        "valueCode": "nl"
+                                    },
+                                    {
+                                        "url": "content",
+                                        "valueString": "*"
+                                    }
+                                ],
+                                "url": "http://hl7.org/fhir/StructureDefinition/translation"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "code": "ACNC",
+            "display": "Concentration, Arbitrary Substance",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Concentratie, arbitraire substantie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "ACT",
+            "display": "Activity",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Activiteit"
+                }
+            ]
+        },
+        {
+            "code": "APER",
+            "display": "Appearance",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Voorkomen"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "ARB",
+            "display": "Arbitrary",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Arbitrair"
+                }
+            ]
+        },
+        {
+            "code": "AREA",
+            "display": "Area",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Gebied"
+                }
+            ]
+        },
+        {
+            "code": "ASPECT",
+            "display": "Aspect",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Aspect"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "CACT",
+            "display": "Catalytic Activity",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Katalytische activiteit"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "CCNT",
+            "display": "Catalytic Content",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Katalytische inhoud"
+                }
+            ]
+        },
+        {
+            "code": "CCRTO",
+            "display": "Catalytic Concentration Ratio",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Katalytische concentratieverhouding"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "CFR",
+            "display": "Catalytic Fraction",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Katalytische fractie"
+                }
+            ]
+        },
+        {
+            "code": "CLAS",
+            "display": "Class",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Klasse"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "CNC",
+            "display": "Catalytic Concentration",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Katalytische concentratie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "CNST",
+            "display": "Constant",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Constante"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "COEF",
+            "display": "Coefficient",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Coëfficiënt"
+                }
+            ]
+        },
+        {
+            "code": "COLOR",
+            "display": "Color",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Kleur"
+                }
+            ]
+        },
+        {
+            "code": "CONS",
+            "display": "Consistency",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Consistentie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "CRAT",
+            "display": "Catalytic Rate",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Katalytische snelheid"
+                }
+            ]
+        },
+        {
+            "code": "CRTO",
+            "display": "Catalytic Ratio",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Katalytische verhouding"
+                }
+            ]
+        },
+        {
+            "code": "DEN",
+            "display": "Density",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Dichtheid"
+                }
+            ]
+        },
+        {
+            "code": "DEV",
+            "display": "Device",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Apparaat"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "DIFF",
+            "display": "Difference",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Verschil"
+                }
+            ]
+        },
+        {
+            "code": "ELAS",
+            "display": "Elasticity",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Elasticiteit"
+                }
+            ]
+        },
+        {
+            "code": "ELPOT",
+            "display": "Electrical Potential (Voltage)",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Electrische potentiaal (voltage)"
+                }
+            ]
+        },
+        {
+            "code": "ELRAT",
+            "display": "Electrical current (amperage)",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Electrische stroom (amperage)"
+                }
+            ]
+        },
+        {
+            "code": "ELRES",
+            "display": "Electrical Resistance",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Electrische weerstand"
+                }
+            ]
+        },
+        {
+            "code": "ENGR",
+            "display": "Energy",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Energie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "ENT",
+            "display": "Entitic",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Entiteit-gerelateerd"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "ENTCAT",
+            "display": "Entitic Catalytic Activity",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Entiteit-gerelateerde katalytische activiteit"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "ENTNUM",
+            "display": "Entitic Number",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Entiteit-gerelateerd aantal"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "ENTSUB",
+            "display": "Entitic Substance of Amount",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Entiteit-gerelateerde substantie van hoeveelheid"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "ENTVOL",
+            "display": "Entitic Volume",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Entiteit-gerelateerd volume"
+                }
+            ]
+        },
+        {
+            "code": "EQL",
+            "display": "Equilibrium",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Evenwicht"
+                }
+            ]
+        },
+        {
+            "code": "FORCE",
+            "display": "Mechanical force",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Mechanische kracht"
+                }
+            ]
+        },
+        {
+            "code": "FREQ",
+            "display": "Frequency",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Frequentie"
+                }
+            ]
+        },
+        {
+            "code": "IMP",
+            "display": "Impression/ interpretation of study",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Indruk/interpretatie van onderzoek"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "KINV",
+            "display": "Kinematic Viscosity",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Kinematische viscositeit"
+                }
+            ]
+        },
+        {
+            "code": "LEN",
+            "display": "Length",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Lengte"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "LINC",
+            "display": "Length Increment",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Lengte increment"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "LIQ",
+            "display": "Liquefaction",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Liquefactie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "MASS",
+            "display": "Mass",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Massa"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "MCNC",
+            "display": "Mass Concentration",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Massa concentratie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "_valueString": {
+                        "extension": [
+                            {
+                                "extension": [
+                                    {
+                                        "url": "lang",
+                                        "valueCode": "nl"
+                                    },
+                                    {
+                                        "url": "content",
+                                        "valueString": "*"
+                                    }
+                                ],
+                                "url": "http://hl7.org/fhir/StructureDefinition/translation"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "code": "MCNT",
+            "display": "Mass Content",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Massa inhoud"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "MCRTO",
+            "display": "Mass Concentration Ratio",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Massa concentratie verhouding"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "MFR",
+            "display": "Mass Fraction",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Massa fractie"
+                }
+            ]
+        },
+        {
+            "code": "MGFLUX",
+            "display": "Magnetic flux",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Magnetische flux"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "MINC",
+            "display": "Mass Increment",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Massa increment"
+                }
+            ]
+        },
+        {
+            "code": "MORPH",
+            "display": "Morphology",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Morfologie"
+                }
+            ]
+        },
+        {
+            "code": "MOTIL",
+            "display": "Motility",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Beweeglijkheid"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "MRAT",
+            "display": "Mass Rate",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Massa snelheid"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "MRTO",
+            "display": "Mass Ratio",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Massa verhouding"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "NCNC",
+            "display": "Number Concentration",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Aantal concentratie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "NCNT",
+            "display": "Number Content",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Aantal inhoud"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "NFR",
+            "display": "Number Fraction",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Aantal fractie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "NRTO",
+            "display": "Number Ratio",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Aantal verhouding"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "NUM",
+            "display": "Number",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Aantal"
+                }
+            ]
+        },
+        {
+            "code": "OD",
+            "display": "Optical density",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Optische dichtheid"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "OSMOL",
+            "display": "Osmolality",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Osmolaliteit"
+                }
+            ]
+        },
+        {
+            "code": "PRES",
+            "display": "Pressure (Partial)",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Druk (partiële)"
+                }
+            ]
+        },
+        {
+            "code": "PRID",
+            "display": "Presence/Identity/Existence",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Aanwezigheid/identiteit/existentie"
+                }
+            ]
+        },
+        {
+            "code": "PWR",
+            "display": "Power (wattage)",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Kracht (wattage)"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "RANGE",
+            "display": "Ranges",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Bereiken"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "RATIO",
+            "display": "Ratios",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Verhoudingen"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "RCRLTM",
+            "display": "Reciprocal Relative Time",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Wederzijdse relatieve tijd"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "RDEN",
+            "display": "Relative Density",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Relatieve dichtheid"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "REL",
+            "display": "Relative",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Relatief"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "RLMCNC",
+            "display": "Relative Mass Concentration",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Relatieve massa concentratie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "RLSCNC",
+            "display": "Relative Substance Concentration",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Relatieve substantie concentratie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "RLTM",
+            "display": "Relative Time",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Relatieve tijd"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "SATFR",
+            "display": "Saturation Fraction",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Saturatie factie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "SCNC",
+            "display": "Substance Concentration",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Substantie concentratie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "SCNCIN",
+            "display": "Substance Concentration Increment",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Substantie concentratie increment"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "SCNT",
+            "display": "Substance Content",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Substantie inhoud"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "SCNTR",
+            "display": "Substance Content Rate",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Substantie inhoud verhouding"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "SCRTO",
+            "display": "Substance Concentration Ratio",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Substantie concentratie verhouding"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "SFR",
+            "display": "Substance Fraction",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Substantie fractie"
+                }
+            ]
+        },
+        {
+            "code": "SHAPE",
+            "display": "Shape",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Vorm"
+                }
+            ]
+        },
+        {
+            "code": "SMELL",
+            "display": "Smell",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Reuk"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "SRAT",
+            "display": "Substance Rate",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Substantie snelheid"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "SRTO",
+            "display": "Substance Ratio",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Substantie verhouding"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "SUB",
+            "display": "Substance Amount",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Substantie hoeveelheid"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "SUSC",
+            "display": "Susceptibility",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Gevoeligheid"
+                }
+            ]
+        },
+        {
+            "code": "TASTE",
+            "display": "Taste",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Smaak"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "TEMP",
+            "display": "Temperature",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Temperatuur"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "TEMPDF",
+            "display": "Temperature Difference",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Temperatuurverschil"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "TEMPIN",
+            "display": "Temperature Increment",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Temperatuur increment"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "THRMCNC",
+            "display": "Threshold Mass Concentration",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Grenswaarde massa concentratie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "THRSCNC",
+            "display": "Threshold Substance Concentration",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Grenswaarde substantie concentratie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "TIME",
+            "display": "Time (e.g. seconds)",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Tijd (bijv. seconden)"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "TITR",
+            "display": "Dilution Factor (Titer)",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Verdunningsfactor (titer)"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "TMDF",
+            "display": "Time Difference",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Tijdverschil"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "TMSTP",
+            "display": "Time Stamp-Date and Time",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Tijdstempel - Datum en tijd"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "TRTO",
+            "display": "Time Ratio",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Tijd verhouding"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "TYPE",
+            "display": "Type",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Type"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "VCNT",
+            "display": "Volume Content",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Volume inhoud"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "VEL",
+            "display": "Velocity",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Snelheid"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "VELRT",
+            "display": "Velocity Ratio",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Snelheid verhouding"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "VFR",
+            "display": "Volume Fraction",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Volume fractie"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "VISC",
+            "display": "Viscosity",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Viscositeit"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "VOL",
+            "display": "Volume",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Volume"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "VRAT",
+            "display": "Volume Rate",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Volume snelheid"
+                }
+            ]
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/codesystem-concept-comments",
+                    "valueString": "*"
+                }
+            ],
+            "code": "VRTO",
+            "display": "Volume Ratio",
+            "designation": [
+                {
+                    "language": "nl",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/designation-usage",
+                        "code": "display"
+                    },
+                    "value": "Volume verhouding"
+                }
+            ]
+        }
+    ]
+}

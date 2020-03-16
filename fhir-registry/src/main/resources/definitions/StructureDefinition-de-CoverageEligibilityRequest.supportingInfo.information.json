@@ -1,0 +1,84 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-CoverageEligibilityRequest.supportingInfo.information",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-CoverageEligibilityRequest.supportingInfo.information",
+    "version": "4.0.1",
+    "name": "CoverageEligibilityRequest.supportingInfo.information",
+    "title": "CoverageEligibilityRequest.supportingInfo.information",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for CoverageEligibilityRequest.supportingInfo.information",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "CoverageEligibilityRequest.supportingInfo.information",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "CoverageEligibilityRequest.supportingInfo.information",
+                "path": "CoverageEligibilityRequest.supportingInfo.information",
+                "short": "Data to be provided",
+                "definition": "Additional data or information such as resources, documents, images etc. including references to the data or the actual inclusion of the data.",
+                "comment": "Could be used to provide references to other resources, document. For example could contain a PDF in an Attachment of the Police Report for an Accident.",
+                "requirements": "To convey the data content to be provided when the information is more than a simple code or period.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "CoverageEligibilityRequest.supportingInfo.information",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Resource"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

@@ -1,0 +1,75 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Location.position.latitude",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Location.position.latitude",
+    "version": "4.0.1",
+    "name": "Location.position.latitude",
+    "title": "Location.position.latitude",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Location.position.latitude",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Location.position.latitude",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Location.position.latitude",
+                "path": "Location.position.latitude",
+                "short": "Latitude with WGS84 datum",
+                "definition": "Latitude. The value domain and the interpretation are the same as for the text of the latitude element in KML (see notes below).",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Location.position.latitude",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "decimal"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "(RIM Opted not to map the sub-elements of GPS location, is now an OBS)"
+                    }
+                ]
+            }
+        ]
+    }
+}

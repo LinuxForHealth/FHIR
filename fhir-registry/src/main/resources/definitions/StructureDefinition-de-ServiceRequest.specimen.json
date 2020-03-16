@@ -1,0 +1,98 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ServiceRequest.specimen",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ServiceRequest.specimen",
+    "version": "4.0.1",
+    "name": "ServiceRequest.specimen",
+    "title": "ServiceRequest.specimen",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ServiceRequest.specimen",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "quick",
+            "uri": "http://siframework.org/cqf",
+            "name": "Quality Improvement and Clinical Knowledge (QUICK)"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ServiceRequest.specimen",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ServiceRequest.specimen",
+                "path": "ServiceRequest.specimen",
+                "short": "Procedure Samples",
+                "definition": "One or more specimens that the laboratory procedure will use.",
+                "comment": "Many diagnostic procedures need a specimen, but the request itself is not actually about the specimen. This element is for when the diagnostic is requested on already existing specimens and the request points to the specimen it applies to.    Conversely, if the request is entered first with an unknown specimen, then the [Specimen](specimen.html) resource points to the ServiceRequest.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ServiceRequest.specimen",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Specimen"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "SPM"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".participation[typeCode=SPC].role"
+                    }
+                ]
+            }
+        ]
+    }
+}

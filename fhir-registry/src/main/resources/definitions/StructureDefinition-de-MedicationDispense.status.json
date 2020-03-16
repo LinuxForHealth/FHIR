@@ -1,0 +1,115 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicationDispense.status",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicationDispense.status",
+    "version": "4.0.1",
+    "name": "MedicationDispense.status",
+    "title": "MedicationDispense.status",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicationDispense.status",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rx-dispense-rmim",
+            "uri": "http://www.hl7.org/v3/PORX_RM020070UV",
+            "name": "V3 Pharmacy Dispense RMIM"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicationDispense.status",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicationDispense.status",
+                "path": "MedicationDispense.status",
+                "short": "preparation | in-progress | cancelled | on-hold | completed | entered-in-error | stopped | declined | unknown",
+                "definition": "A code specifying the state of the set of dispense events.",
+                "comment": "This element is labeled as a modifier because the status contains codes that mark the resource as not currently valid.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "MedicationDispense.status",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "This element is labelled as a modifier because it is a status element that contains status entered-in-error which means that the resource should not be treated as valid",
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "MedicationDispenseStatus"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "A coded concept specifying the state of the dispense event.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.status"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.status"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".statusCode"
+                    },
+                    {
+                        "identity": "rx-dispense-rmim",
+                        "map": "CombinedMedicationDispense.SupplyEvent.statusCode"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,84 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "repository-type",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>repositoryType</h2><div><p>Type for access of external URI.</p>\n</div><p>This code system http://hl7.org/fhir/repository-type defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">directlink<a name=\"repository-type-directlink\"> </a></td><td>Click and see</td><td>When URL is clicked, the resource can be seen directly (by webpage or by download link format).</td></tr><tr><td style=\"white-space:nowrap\">openapi<a name=\"repository-type-openapi\"> </a></td><td>The URL is the RESTful or other kind of API that can access to the result.</td><td>When the API method (e.g. [base_url]/[parameter]) related with the URL of the website is executed, the resource can be seen directly (usually in JSON or XML format).</td></tr><tr><td style=\"white-space:nowrap\">login<a name=\"repository-type-login\"> </a></td><td>Result cannot be access unless an account is logged in</td><td>When logged into the website, the resource can be seen.</td></tr><tr><td style=\"white-space:nowrap\">oauth<a name=\"repository-type-oauth\"> </a></td><td>Result need to be fetched with API and need LOGIN( or cookies are required when visiting the link of resource)</td><td>When logged in and  follow the API in the website related with URL, the resource can be seen.</td></tr><tr><td style=\"white-space:nowrap\">other<a name=\"repository-type-other\"> </a></td><td>Some other complicated or particular way to get resource from URL.</td><td>Some other complicated or particular way to get resource from URL.</td></tr></table></div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cg"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/repository-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.231"
+        }
+    ],
+    "version": "4.0.1",
+    "name": "repositoryType",
+    "title": "repositoryType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Type for access of external URI.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/repository-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "directlink",
+            "display": "Click and see",
+            "definition": "When URL is clicked, the resource can be seen directly (by webpage or by download link format)."
+        },
+        {
+            "code": "openapi",
+            "display": "The URL is the RESTful or other kind of API that can access to the result.",
+            "definition": "When the API method (e.g. [base_url]/[parameter]) related with the URL of the website is executed, the resource can be seen directly (usually in JSON or XML format)."
+        },
+        {
+            "code": "login",
+            "display": "Result cannot be access unless an account is logged in",
+            "definition": "When logged into the website, the resource can be seen."
+        },
+        {
+            "code": "oauth",
+            "display": "Result need to be fetched with API and need LOGIN( or cookies are required when visiting the link of resource)",
+            "definition": "When logged in and  follow the API in the website related with URL, the resource can be seen."
+        },
+        {
+            "code": "other",
+            "display": "Some other complicated or particular way to get resource from URL.",
+            "definition": "Some other complicated or particular way to get resource from URL."
+        }
+    ]
+}

@@ -1,0 +1,88 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MeasureReport.status",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MeasureReport.status",
+    "version": "4.0.1",
+    "name": "MeasureReport.status",
+    "title": "MeasureReport.status",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MeasureReport.status",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MeasureReport.status",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MeasureReport.status",
+                "path": "MeasureReport.status",
+                "short": "complete | pending | error",
+                "definition": "The MeasureReport status. No data will be available until the MeasureReport status is complete.",
+                "comment": "This element is labeled as a modifier because the status contains codes that mark the resource as not currently valid.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "MeasureReport.status",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "This element is labelled as a modifier because it is a status element that contains status entered-in-error which means that the resource should not be treated as valid",
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "MeasureReportStatus"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "The status of the measure report.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/measure-report-status|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.status"
+                    }
+                ]
+            }
+        ]
+    }
+}

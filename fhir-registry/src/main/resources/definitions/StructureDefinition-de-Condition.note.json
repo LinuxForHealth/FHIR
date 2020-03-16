@@ -1,0 +1,103 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Condition.note",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Condition.note",
+    "version": "4.0.1",
+    "name": "Condition.note",
+    "title": "Condition.note",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Condition.note",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "sct-concept",
+            "uri": "http://snomed.info/conceptdomain",
+            "name": "SNOMED CT Concept Domain Binding"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "sct-attr",
+            "uri": "http://snomed.org/attributebinding",
+            "name": "SNOMED CT Attribute Binding"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Condition.note",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Condition.note",
+                "path": "Condition.note",
+                "short": "Additional information about the Condition",
+                "definition": "Additional information about the Condition. This is a general notes/comments entry  for description of the Condition, its diagnosis and prognosis.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Condition.note",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Annotation"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.note"
+                    },
+                    {
+                        "identity": "v2",
+                        "map": "NTE child of PRB"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".inboundRelationship[typeCode=SUBJ].source[classCode=OBS, moodCode=EVN, code=\"annotation\"].value"
+                    }
+                ]
+            }
+        ]
+    }
+}

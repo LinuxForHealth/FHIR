@@ -1,0 +1,54 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "intervention",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Intervention Codes</h2><div><p>This value set includes sample Intervention codes.</p>\n</div><p><b>Copyright Statement:</b></p><div><p>This is an example set.</p>\n</div><p>This code system http://hl7.org/fhir/intervention defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">unknown<a name=\"intervention-unknown\"> </a></td><td>Unknown</td><td>Unknown</td></tr><tr><td style=\"white-space:nowrap\">other<a name=\"intervention-other\"> </a></td><td>Other</td><td>Other</td></tr></table></div>"
+    },
+    "url": "http://hl7.org/fhir/intervention",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.533"
+        }
+    ],
+    "version": "4.0.1",
+    "name": "InterventionCodes",
+    "title": "Intervention Codes",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "Financial Management",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set includes sample Intervention codes.",
+    "copyright": "This is an example set.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/intervention",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "unknown",
+            "display": "Unknown",
+            "definition": "Unknown"
+        },
+        {
+            "code": "other",
+            "display": "Other",
+            "definition": "Other"
+        }
+    ]
+}

@@ -1,0 +1,91 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-RiskAssessment.mitigation",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-RiskAssessment.mitigation",
+    "version": "4.0.1",
+    "name": "RiskAssessment.mitigation",
+    "title": "RiskAssessment.mitigation",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for RiskAssessment.mitigation",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "openehr",
+            "uri": "http://openehr.org",
+            "name": "Open EHR Archetype Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "RiskAssessment.mitigation",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "RiskAssessment.mitigation",
+                "path": "RiskAssessment.mitigation",
+                "short": "How to reduce risk",
+                "definition": "A description of the steps that might be taken to reduce the identified risk(s).",
+                "requirements": "One of the main reasons for assessing risks is to identify whether interventional steps are needed to reduce risk.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "RiskAssessment.mitigation",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "string"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".outboundRelationship[typeCode=MTGT].target[classCode=ACT, moodCode=EVN].text"
+                    }
+                ]
+            }
+        ]
+    }
+}

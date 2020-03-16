@@ -1,0 +1,102 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicationRequest.courseOfTherapyType",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicationRequest.courseOfTherapyType",
+    "version": "4.0.1",
+    "name": "MedicationRequest.courseOfTherapyType",
+    "title": "MedicationRequest.courseOfTherapyType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicationRequest.courseOfTherapyType",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "script10.6",
+            "uri": "http://ncpdp.org/SCRIPT10_6",
+            "name": "Mapping to NCPDP SCRIPT 10.6"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicationRequest.courseOfTherapyType",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicationRequest.courseOfTherapyType",
+                "path": "MedicationRequest.courseOfTherapyType",
+                "short": "Overall pattern of medication administration",
+                "definition": "The description of the overall patte3rn of the administration of the medication to the patient.",
+                "comment": "This attribute should not be confused with the protocol of the medication.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MedicationRequest.courseOfTherapyType",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "MedicationRequestCourseOfTherapy"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Identifies the overall pattern of medication administratio.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medicationrequest-course-of-therapy"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "Act.code where classCode = LIST and moodCode = EVN"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,116 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-DocumentReference.date",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-DocumentReference.date",
+    "version": "4.0.1",
+    "name": "DocumentReference.date",
+    "title": "DocumentReference.date",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for DocumentReference.date",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "fhircomposition",
+            "uri": "http://hl7.org/fhir/composition",
+            "name": "FHIR Composition"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "cda",
+            "uri": "http://hl7.org/v3/cda",
+            "name": "CDA (R2)"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "xds",
+            "uri": "http://ihe.net/xds",
+            "name": "XDS metadata equivalent"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "DocumentReference.date",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "DocumentReference.date",
+                "path": "DocumentReference.date",
+                "short": "When this document reference was created",
+                "definition": "When the document reference was created.",
+                "comment": "Referencing/indexing time is used for tracking, organizing versions and searching.",
+                "alias": [
+                    "indexed"
+                ],
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "DocumentReference.date",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "instant"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Event.occurrence[x]"
+                    },
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.recorded"
+                    },
+                    {
+                        "identity": "fhircomposition",
+                        "map": "Composition.date"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".availabilityTime[type=\"TS\"]"
+                    }
+                ]
+            }
+        ]
+    }
+}

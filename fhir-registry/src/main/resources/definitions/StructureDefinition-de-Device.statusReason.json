@@ -1,0 +1,91 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Device.statusReason",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Device.statusReason",
+    "version": "4.0.1",
+    "name": "Device.statusReason",
+    "title": "Device.statusReason",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Device.statusReason",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "udi",
+            "uri": "http://fda.gov/UDI",
+            "name": "UDI Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Device.statusReason",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Device.statusReason",
+                "path": "Device.statusReason",
+                "short": "online | paused | standby | offline | not-ready | transduc-discon | hw-discon | off",
+                "definition": "Reason for the dtatus of the Device availability.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Device.statusReason",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "FHIRDeviceStatusReason"
+                        }
+                    ],
+                    "strength": "extensible",
+                    "description": "The availability status reason of the device.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/device-status-reason"
+                },
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.status"
+                    }
+                ]
+            }
+        ]
+    }
+}

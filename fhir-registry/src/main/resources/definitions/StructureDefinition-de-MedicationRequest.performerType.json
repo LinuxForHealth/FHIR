@@ -1,0 +1,106 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-MedicationRequest.performerType",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-MedicationRequest.performerType",
+    "version": "4.0.1",
+    "name": "MedicationRequest.performerType",
+    "title": "MedicationRequest.performerType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for MedicationRequest.performerType",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "script10.6",
+            "uri": "http://ncpdp.org/SCRIPT10_6",
+            "name": "Mapping to NCPDP SCRIPT 10.6"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "MedicationRequest.performerType",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "MedicationRequest.performerType",
+                "path": "MedicationRequest.performerType",
+                "short": "Desired kind of performer of the medication administration",
+                "definition": "Indicates the type of performer of the administration of the medication.",
+                "comment": "If specified without indicating a performer, this indicates that the performer must be of the specified type. If specified with a performer then it indicates the requirements of the performer if the designated performer is not available.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "MedicationRequest.performerType",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "MedicationRequestPerformerType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Identifies the type of individual that is desired to administer the medication.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/performer-role"
+                },
+                "mapping": [
+                    {
+                        "identity": "workflow",
+                        "map": "Request.performerType"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": ".participation[typeCode=PRF].role[scoper.determinerCode=KIND].code"
+                    }
+                ]
+            }
+        ]
+    }
+}

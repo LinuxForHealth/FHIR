@@ -1,0 +1,103 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Composition.custodian",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Composition.custodian",
+    "version": "4.0.1",
+    "name": "Composition.custodian",
+    "title": "Composition.custodian",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Composition.custodian",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "cda",
+            "uri": "http://hl7.org/v3/cda",
+            "name": "CDA (R2)"
+        },
+        {
+            "identity": "fhirdocumentreference",
+            "uri": "http://hl7.org/fhir/documentreference",
+            "name": "FHIR DocumentReference"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Composition.custodian",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Composition.custodian",
+                "path": "Composition.custodian",
+                "short": "Organization which maintains the composition",
+                "definition": "Identifies the organization or group who is responsible for ongoing maintenance of and access to the composition/document information.",
+                "comment": "This is useful when documents are derived from a composition - provides guidance for how to get the latest version of the document. This is optional because this is sometimes not known by the authoring system, and can be inferred by context. However, it is important that this information be known when working with a derived document, so providing a custodian is encouraged.",
+                "requirements": "Identifies where to go to find the current version, where to report issues, etc.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Composition.custodian",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Organization"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".participation[typeCode=\"RCV\"].role[classCode=\"CUST\"].scoper[classCode=\"ORG\" and determinerCode=\"INST\"]"
+                    },
+                    {
+                        "identity": "cda",
+                        "map": ".custodian.assignedCustodian"
+                    },
+                    {
+                        "identity": "fhirdocumentreference",
+                        "map": "DocumentReference.custodian"
+                    }
+                ]
+            }
+        ]
+    }
+}

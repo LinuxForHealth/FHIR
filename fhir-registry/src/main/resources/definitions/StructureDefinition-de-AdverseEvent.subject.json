@@ -1,0 +1,86 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-AdverseEvent.subject",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-AdverseEvent.subject",
+    "version": "4.0.1",
+    "name": "AdverseEvent.subject",
+    "title": "AdverseEvent.subject",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for AdverseEvent.subject",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "AdverseEvent.subject",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "AdverseEvent.subject",
+                "path": "AdverseEvent.subject",
+                "short": "Subject impacted by event",
+                "definition": "This subject or group impacted by the event.",
+                "comment": "If AdverseEvent.resultingCondition differs among members of the group, then use Patient as the subject.",
+                "requirements": "Allows for exposure of biohazard (such as legionella) to a group of individuals in a hospital.",
+                "alias": [
+                    "patient"
+                ],
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "AdverseEvent.subject",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Patient",
+                            "http://hl7.org/fhir/StructureDefinition/Group",
+                            "http://hl7.org/fhir/StructureDefinition/Practitioner",
+                            "http://hl7.org/fhir/StructureDefinition/RelatedPerson"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "w5",
+                        "map": "FiveWs.who"
+                    }
+                ]
+            }
+        ]
+    }
+}

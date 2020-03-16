@@ -1,0 +1,84 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "map-source-list-mode",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>StructureMapSourceListMode</h2><div><p>If field is a list, how to manage the source.</p>\n</div><p>This code system http://hl7.org/fhir/map-source-list-mode defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td style=\"white-space:nowrap\">first<a name=\"map-source-list-mode-first\"> </a></td><td>First</td><td>Only process this rule for the first in the list.</td></tr><tr><td style=\"white-space:nowrap\">not_first<a name=\"map-source-list-mode-not_first\"> </a></td><td>All but the first</td><td>Process this rule for all but the first.</td></tr><tr><td style=\"white-space:nowrap\">last<a name=\"map-source-list-mode-last\"> </a></td><td>Last</td><td>Only process this rule for the last in the list.</td></tr><tr><td style=\"white-space:nowrap\">not_last<a name=\"map-source-list-mode-not_last\"> </a></td><td>All but the last</td><td>Process this rule for all but the last.</td></tr><tr><td style=\"white-space:nowrap\">only_one<a name=\"map-source-list-mode-only_one\"> </a></td><td>Enforce only one</td><td>Only process this rule is there is only item.</td></tr></table></div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 2
+        }
+    ],
+    "url": "http://hl7.org/fhir/map-source-list-mode",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.684"
+        }
+    ],
+    "version": "4.0.1",
+    "name": "StructureMapSourceListMode",
+    "title": "StructureMapSourceListMode",
+    "status": "draft",
+    "experimental": false,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "If field is a list, how to manage the source.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/map-source-list-mode",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "first",
+            "display": "First",
+            "definition": "Only process this rule for the first in the list."
+        },
+        {
+            "code": "not_first",
+            "display": "All but the first",
+            "definition": "Process this rule for all but the first."
+        },
+        {
+            "code": "last",
+            "display": "Last",
+            "definition": "Only process this rule for the last in the list."
+        },
+        {
+            "code": "not_last",
+            "display": "All but the last",
+            "definition": "Process this rule for all but the last."
+        },
+        {
+            "code": "only_one",
+            "display": "Enforce only one",
+            "definition": "Only process this rule is there is only item."
+        }
+    ]
+}

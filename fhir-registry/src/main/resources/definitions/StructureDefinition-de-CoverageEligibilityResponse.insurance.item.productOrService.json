@@ -1,0 +1,97 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-CoverageEligibilityResponse.insurance.item.productOrService",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-CoverageEligibilityResponse.insurance.item.productOrService",
+    "version": "4.0.1",
+    "name": "CoverageEligibilityResponse.insurance.item.productOrService",
+    "title": "CoverageEligibilityResponse.insurance.item.productOrService",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for CoverageEligibilityResponse.insurance.item.productOrService",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "cdanetv4",
+            "uri": "http://www.cda-adc.ca/en/services/cdanet/",
+            "name": "Canadian Dental Association eclaims standard"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "CoverageEligibilityResponse.insurance.item.productOrService",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "CoverageEligibilityResponse.insurance.item.productOrService",
+                "path": "CoverageEligibilityResponse.insurance.item.productOrService",
+                "short": "Billing, service, product, or drug code",
+                "definition": "This contains the product, service, drug or other billing code for the item.",
+                "comment": "Code to indicate the Professional Service or Product supplied (e.g. CTP, HCPCS, USCLS, ICD10, NCPDP, DIN, RxNorm, ACHI, CCI).",
+                "requirements": "Needed to convey the actual service or product for which eligibility is sought.",
+                "alias": [
+                    "Drug Code",
+                    "Bill Code",
+                    "Service Code"
+                ],
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "CoverageEligibilityResponse.insurance.item.productOrService",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ServiceProduct"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Allowable service and product codes.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/service-uscls"
+                }
+            }
+        ]
+    }
+}

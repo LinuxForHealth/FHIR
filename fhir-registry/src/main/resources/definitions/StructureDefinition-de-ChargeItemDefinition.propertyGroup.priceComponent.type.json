@@ -1,0 +1,96 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ChargeItemDefinition.propertyGroup.priceComponent.type",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ChargeItemDefinition.propertyGroup.priceComponent.type",
+    "version": "4.0.1",
+    "name": "ChargeItemDefinition.propertyGroup.priceComponent.type",
+    "title": "ChargeItemDefinition.propertyGroup.priceComponent.type",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ChargeItemDefinition.propertyGroup.priceComponent.type",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ChargeItemDefinition.propertyGroup.priceComponent.type",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ChargeItemDefinition.propertyGroup.priceComponent.type",
+                "path": "ChargeItemDefinition.propertyGroup.priceComponent.type",
+                "short": "base | surcharge | deduction | discount | tax | informational",
+                "definition": "This code identifies the type of the component.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "ChargeItemDefinition.propertyGroup.priceComponent.type",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ChargeItemDefinitionPriceComponentType"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Codes indicating the kind of the price component.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,6 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_END;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_START;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.IDX;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.PK;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.IS_DELETED;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.ITEM_LOGICAL_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LAST_UPDATED;
@@ -34,12 +33,13 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.LONGITUDE_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.NUMBER_VALUE;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.NUMBER_VALUE_LOW;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.NUMBER_VALUE_HIGH;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.NUMBER_VALUE_LOW;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAMES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PATIENT_CURRENT_REFS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PATIENT_LOGICAL_RESOURCES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PK;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_HIGH;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_LOW;
@@ -418,8 +418,8 @@ CREATE TABLE device_number_values  (
 ;
 CREATE INDEX idx_device_number_values_pnnv ON device_number_values(parameter_name_id, number_value, resource_id);
 CREATE INDEX idx_device_number_values_rps ON device_number_values(resource_id, parameter_name_id, number_value);
-ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_pn FOREIGN KEY (parameter_name_id) REFERENCES parameter_names ON DELETE CASCADE;
-ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREIGN KEY (resource_id)       REFERENCES device_resources ON DELETE CASCADE;
+ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_pn FOREIGN KEY (parameter_name_id) REFERENCES parameter_names;
+ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREIGN KEY (resource_id)       REFERENCES device_resources;
      * </pre>
      * @param group
      * @param prefix
@@ -524,8 +524,8 @@ CREATE INDEX idx_device_quantity_values_pchlsr  ON device_quantity_values(parame
 CREATE INDEX idx_device_quantity_values_rpclhs  ON device_quantity_values(resource_id, parameter_name_id, code, quantity_value_low, quantity_value_high, code_system_id);
 CREATE INDEX idx_device_quantity_values_rpchls  ON device_quantity_values(resource_id, parameter_name_id, code, quantity_value_high, quantity_value_low, code_system_id);
 
-ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_pn FOREIGN KEY (parameter_name_id) REFERENCES parameter_names ON DELETE CASCADE;
-ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  FOREIGN KEY (resource_id)       REFERENCES device_resources ON DELETE CASCADE;
+ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_pn FOREIGN KEY (parameter_name_id) REFERENCES parameter_names;
+ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  FOREIGN KEY (resource_id)       REFERENCES device_resources;
      * </pre>
      * @param group
      * @param prefix
@@ -582,15 +582,15 @@ CREATE INDEX idx_device_composites_pttr ON device_composites(parameter_name_id, 
 CREATE INDEX idx_device_composites_ptqr ON device_composites(parameter_name_id, comp1_token, comp2_quantity, resource_id);
 CREATE INDEX idx_device_composites_rptt ON device_composites(resource_id, parameter_name_id, comp1_token, comp2_token);
 CREATE INDEX idx_device_composites_rptq ON device_composites(resource_id, parameter_name_id, comp1_token, comp2_quantity);
-ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_pnid FOREIGN KEY (comp1_str)      REFERENCES device_str_values;
-ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_rid  FOREIGN KEY (comp1_number)   REFERENCES device_number_values;
-ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_rid  FOREIGN KEY (comp1_date)     REFERENCES device_date_values;
-ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_rid  FOREIGN KEY (comp1_token)    REFERENCES device_token_values;
-ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_rid  FOREIGN KEY (comp1_quantity) REFERENCES device_quantity_values;
-ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_rid  FOREIGN KEY (comp1_latlng)   REFERENCES device_latlng_values;
+ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_comp1_str      FOREIGN KEY (comp1_str)      REFERENCES device_str_values      NOT ENFORCED;
+ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_comp1_number   FOREIGN KEY (comp1_number)   REFERENCES device_number_values   NOT ENFORCED;
+ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_comp1_date     FOREIGN KEY (comp1_date)     REFERENCES device_date_values     NOT ENFORCED;
+ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_comp1_token    FOREIGN KEY (comp1_token)    REFERENCES device_token_values    NOT ENFORCED;
+ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_comp1_quantity FOREIGN KEY (comp1_quantity) REFERENCES device_quantity_values NOT ENFORCED;
+ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_comp1_latlng   FOREIGN KEY (comp1_latlng)   REFERENCES device_latlng_values   NOT ENFORCED;
 ...
-ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_pn FOREIGN KEY (parameter_name_id) REFERENCES parameter_names ON DELETE CASCADE;
-ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  FOREIGN KEY (resource_id)       REFERENCES device_logical_resources ON DELETE CASCADE;
+ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_pn FOREIGN KEY (parameter_name_id) REFERENCES parameter_names;
+ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_r  FOREIGN KEY (resource_id)       REFERENCES device_logical_resources;
      * </pre>
      * @param group
      * @param prefix
@@ -602,6 +602,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         // Parameters are tied to the logical resource
         Table.Builder tbl = Table.builder(schemaName, tableName)
+                .setVersion(2)  // Version 1 used enforced foreign key constraints which lead to issue #781.
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID, false)
@@ -615,12 +616,12 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .addBigIntColumn(   comp + _TOKEN, true)
                 .addBigIntColumn(comp + _QUANTITY, true)
                 .addBigIntColumn(  comp + _LATLNG, true)
-                .addForeignKeyConstraint(FK + tableName + _STR, schemaName, prefix + "_STR_VALUES", comp + _STR)
-                .addForeignKeyConstraint(FK + tableName + _NUMBER, schemaName, prefix + "_NUMBER_VALUES", comp + _NUMBER)
-                .addForeignKeyConstraint(FK + tableName + _DATE, schemaName, prefix + "_DATE_VALUES", comp + _DATE)
-                .addForeignKeyConstraint(FK + tableName + _TOKEN, schemaName, prefix + "_TOKEN_VALUES", comp + _TOKEN)
-                .addForeignKeyConstraint(FK + tableName + _QUANTITY, schemaName, prefix + "_QUANTITY_VALUES", comp + _QUANTITY)
-                .addForeignKeyConstraint(FK + tableName + _LATLNG, schemaName, prefix + "_LATLNG_VALUES", comp + _LATLNG);
+                .addForeignKeyConstraint(     FK + tableName + "_" + comp + _STR, false, schemaName, prefix + "_STR_VALUES", comp + _STR)
+                .addForeignKeyConstraint(  FK + tableName + "_" + comp + _NUMBER, false, schemaName, prefix + "_NUMBER_VALUES", comp + _NUMBER)
+                .addForeignKeyConstraint(    FK + tableName + "_" + comp + _DATE, false, schemaName, prefix + "_DATE_VALUES", comp + _DATE)
+                .addForeignKeyConstraint(   FK + tableName + "_" + comp + _TOKEN, false, schemaName, prefix + "_TOKEN_VALUES", comp + _TOKEN)
+                .addForeignKeyConstraint(FK + tableName + "_" + comp + _QUANTITY, false, schemaName, prefix + "_QUANTITY_VALUES", comp + _QUANTITY)
+                .addForeignKeyConstraint(  FK + tableName + "_" + comp + _LATLNG, false, schemaName, prefix + "_LATLNG_VALUES", comp + _LATLNG);
         }
 
         // add indexes for just the two common cases; token$token and token$quantity

@@ -1,0 +1,101 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-TestScript.setup.action.assert.contentType",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-TestScript.setup.action.assert.contentType",
+    "version": "4.0.1",
+    "name": "TestScript.setup.action.assert.contentType",
+    "title": "TestScript.setup.action.assert.contentType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for TestScript.setup.action.assert.contentType",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "workflow",
+            "uri": "http://hl7.org/fhir/workflow",
+            "name": "Workflow Pattern"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        },
+        {
+            "identity": "objimpl",
+            "uri": "http://hl7.org/fhir/object-implementation",
+            "name": "Object Implementation Information"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "TestScript.setup.action.assert.contentType",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "TestScript.setup.action.assert.contentType",
+                "path": "TestScript.setup.action.assert.contentType",
+                "short": "Mime type to compare against the 'Content-Type' header",
+                "definition": "The mime-type contents to compare against the request or response message 'Content-Type' header.",
+                "comment": "If this is specified, then test engine shall confirm that the content-type of the last operation's headers is set to this value.  If \"assert.sourceId\" element is specified, then the evaluation will be done against the headers mapped to that sourceId (and not the last operation's headers).  If you'd like to have more control over the string, then use 'assert.headerField' instead.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "TestScript.setup.action.assert.contentType",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "example": [
+                    {
+                        "label": "General",
+                        "valueCode": "application/fhir+xml"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "MimeType"
+                        },
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-isCommonBinding",
+                            "valueBoolean": true
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "The mime type of an attachment. Any valid mime type is allowed.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,86 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-SpecimenDefinition.typeCollected",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-SpecimenDefinition.typeCollected",
+    "version": "4.0.1",
+    "name": "SpecimenDefinition.typeCollected",
+    "title": "SpecimenDefinition.typeCollected",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for SpecimenDefinition.typeCollected",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "SpecimenDefinition.typeCollected",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "SpecimenDefinition.typeCollected",
+                "path": "SpecimenDefinition.typeCollected",
+                "short": "Kind of material to collect",
+                "definition": "The kind of material to be collected.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "SpecimenDefinition.typeCollected",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "CollectedSpecimenType"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "The type of the specimen to be collected.",
+                    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0487"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "OM4-6"
+                    }
+                ]
+            }
+        ]
+    }
+}

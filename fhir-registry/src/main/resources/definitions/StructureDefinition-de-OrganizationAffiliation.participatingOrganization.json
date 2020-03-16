@@ -1,0 +1,78 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-OrganizationAffiliation.participatingOrganization",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-OrganizationAffiliation.participatingOrganization",
+    "version": "4.0.1",
+    "name": "OrganizationAffiliation.participatingOrganization",
+    "title": "OrganizationAffiliation.participatingOrganization",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for OrganizationAffiliation.participatingOrganization",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "OrganizationAffiliation.participatingOrganization",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "OrganizationAffiliation.participatingOrganization",
+                "path": "OrganizationAffiliation.participatingOrganization",
+                "short": "Organization that provides/performs the role (e.g. providing services or is a member of)",
+                "definition": "The Participating Organization provides/performs the role(s) defined by the code to the Primary Organization (e.g. providing services or is a member of).",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "OrganizationAffiliation.participatingOrganization",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Reference",
+                        "targetProfile": [
+                            "http://hl7.org/fhir/StructureDefinition/Organization"
+                        ]
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": ".player"
+                    }
+                ]
+            }
+        ]
+    }
+}

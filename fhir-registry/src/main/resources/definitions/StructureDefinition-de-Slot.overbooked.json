@@ -1,0 +1,75 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-Slot.overbooked",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-Slot.overbooked",
+    "version": "4.0.1",
+    "name": "Slot.overbooked",
+    "title": "Slot.overbooked",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for Slot.overbooked",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "ical",
+            "uri": "http://ietf.org/rfc/2445",
+            "name": "iCalendar"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "Slot.overbooked",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Slot.overbooked",
+                "path": "Slot.overbooked",
+                "short": "This slot has already been overbooked, appointments are unlikely to be accepted for this time",
+                "definition": "This slot has already been overbooked, appointments are unlikely to be accepted for this time.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Slot.overbooked",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "boolean"
+                    }
+                ],
+                "meaningWhenMissing": "If overbooked is missing, systems may assume that there are still appointments available",
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

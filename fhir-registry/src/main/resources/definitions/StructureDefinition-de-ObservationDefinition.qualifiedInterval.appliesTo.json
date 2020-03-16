@@ -1,0 +1,92 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-ObservationDefinition.qualifiedInterval.appliesTo",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-ObservationDefinition.qualifiedInterval.appliesTo",
+    "version": "4.0.1",
+    "name": "ObservationDefinition.qualifiedInterval.appliesTo",
+    "title": "ObservationDefinition.qualifiedInterval.appliesTo",
+    "status": "draft",
+    "experimental": true,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for ObservationDefinition.qualifiedInterval.appliesTo",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "v2",
+            "uri": "http://hl7.org/v2",
+            "name": "HL7 v2 Mapping"
+        },
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        },
+        {
+            "identity": "w5",
+            "uri": "http://hl7.org/fhir/fivews",
+            "name": "FiveWs Pattern Mapping"
+        }
+    ],
+    "kind": "logical",
+    "abstract": false,
+    "type": "ObservationDefinition.qualifiedInterval.appliesTo",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "ObservationDefinition.qualifiedInterval.appliesTo",
+                "path": "ObservationDefinition.qualifiedInterval.appliesTo",
+                "short": "Targetted population of the range",
+                "definition": "Codes to indicate the target population this reference range applies to.",
+                "comment": "If this element is not present then the global population is assumed.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "ObservationDefinition.qualifiedInterval.appliesTo",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "ObservationRangeAppliesTo"
+                        }
+                    ],
+                    "strength": "example",
+                    "description": "Codes identifying the population the reference range applies to.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/referencerange-appliesto"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "RFR.6"
+                    }
+                ]
+            }
+        ]
+    }
+}

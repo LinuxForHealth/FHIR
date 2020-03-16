@@ -1,0 +1,86 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "provenance-entity-role",
+    "meta": {
+        "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>ProvenanceEntityRole</h2><div><p>How an entity was used in an activity.</p>\n</div><p>This code system http://hl7.org/fhir/provenance-entity-role defines the following codes:</p><table class=\"codes\"><tr><td><b>Lvl</b></td><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td><td><b>Definition</b></td></tr><tr><td>1</td><td style=\"white-space:nowrap\">derivation<a name=\"provenance-entity-role-derivation\"> </a></td><td>Derivation</td><td>A transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a new entity based on a pre-existing entity.</td></tr><tr><td>2</td><td style=\"white-space:nowrap\">  revision<a name=\"provenance-entity-role-revision\"> </a></td><td>Revision</td><td>A derivation for which the resulting entity is a revised version of some original.</td></tr><tr><td>2</td><td style=\"white-space:nowrap\">  quotation<a name=\"provenance-entity-role-quotation\"> </a></td><td>Quotation</td><td>The repeat of (some or all of) an entity, such as text or image, by someone who might or might not be its original author.</td></tr><tr><td>2</td><td style=\"white-space:nowrap\">  source<a name=\"provenance-entity-role-source\"> </a></td><td>Source</td><td>A primary source for a topic refers to something produced by some agent with direct experience and knowledge about the topic, at the time of the topic's study, without benefit from hindsight.</td></tr><tr><td>2</td><td style=\"white-space:nowrap\">  removal<a name=\"provenance-entity-role-removal\"> </a></td><td>Removal</td><td>A derivation for which the entity is removed from accessibility usually through the use of the Delete operation.</td></tr></table></div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "sec"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        }
+    ],
+    "url": "http://hl7.org/fhir/provenance-entity-role",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.4.437"
+        }
+    ],
+    "version": "4.0.1",
+    "name": "ProvenanceEntityRole",
+    "title": "ProvenanceEntityRole",
+    "status": "draft",
+    "experimental": false,
+    "date": "2019-11-01T09:29:23+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "How an entity was used in an activity.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/provenance-entity-role",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "derivation",
+            "display": "Derivation",
+            "definition": "A transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a new entity based on a pre-existing entity.",
+            "concept": [
+                {
+                    "code": "revision",
+                    "display": "Revision",
+                    "definition": "A derivation for which the resulting entity is a revised version of some original."
+                },
+                {
+                    "code": "quotation",
+                    "display": "Quotation",
+                    "definition": "The repeat of (some or all of) an entity, such as text or image, by someone who might or might not be its original author."
+                },
+                {
+                    "code": "source",
+                    "display": "Source",
+                    "definition": "A primary source for a topic refers to something produced by some agent with direct experience and knowledge about the topic, at the time of the topic's study, without benefit from hindsight."
+                },
+                {
+                    "code": "removal",
+                    "display": "Removal",
+                    "definition": "A derivation for which the entity is removed from accessibility usually through the use of the Delete operation."
+                }
+            ]
+        }
+    ]
+}
