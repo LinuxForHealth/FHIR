@@ -108,7 +108,6 @@ public class Capabilities extends FHIRResource {
         try {
             return buildCapabilityStatement();
         } catch (Throwable t) {
-            t.printStackTrace();
             String msg = "An error occurred while constructing the Conformance statement.";
             log.log(Level.SEVERE, msg, t);
             throw buildRestException(msg, IssueType.EXCEPTION);
