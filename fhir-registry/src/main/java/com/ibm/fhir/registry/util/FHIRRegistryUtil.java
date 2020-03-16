@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -51,7 +51,11 @@ import com.ibm.fhir.model.resource.StructureMap;
 import com.ibm.fhir.model.resource.TerminologyCapabilities;
 import com.ibm.fhir.model.resource.TestScript;
 import com.ibm.fhir.model.resource.ValueSet;
+import com.ibm.fhir.model.type.code.StructureDefinitionKind;
+import com.ibm.fhir.model.type.code.TypeDerivationRule;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
+import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
 
 public final class FHIRRegistryUtil {
     private static final Logger log = Logger.getLogger(FHIRRegistryUtil.class.getName());
@@ -109,11 +113,11 @@ public final class FHIRRegistryUtil {
         return DEFINITIONAL_RESOURCE_TYPES.contains(resourceType);
     }
 
-    public static Resource loadResource(String name, Format format, ClassLoader loader) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(loader.getResourceAsStream(name), StandardCharsets.UTF_8))) {
+    public static Resource loadResource(String path, Format format, ClassLoader loader) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(loader.getResourceAsStream(path), StandardCharsets.UTF_8))) {
             return FHIRParser.parser(format).parse(reader);
         } catch (Exception e) {
-            log.warning("Unable to load resource: " + name + " due to the following exception: " + e.getClass().getName() + " with message: " + e.getMessage());
+            log.warning("Unable to load resource: " + path + " due to the following exception: " + e.getClass().getName() + " with message: " + e.getMessage());
         }
         return null;
     }
@@ -122,11 +126,22 @@ public final class FHIRRegistryUtil {
         List<FHIRRegistryResource> resources = new ArrayList<>();
         for (String entry : readIndex(loader, index)) {
             String[] tokens = entry.split(",");
-            if (tokens.length != 3) {
+            
+            if (tokens.length != 8) {
                 log.warning("Bad index entry: " + entry);
                 continue;
             }
-            resources.add(new FHIRRegistryResource(tokens[0], tokens[1], tokens[2], format, loader));
+            
+            Class<?> resourceType = ModelSupport.getResourceType(tokens[0]);
+            String id = !tokens[1].isEmpty() ? tokens[1] : null;
+            String url = tokens[2];
+            Version version = Version.from(tokens[3]);
+            StructureDefinitionKind kind = !tokens[4].isEmpty() ? StructureDefinitionKind.of(tokens[4]) : null;
+            String type = !tokens[5].isEmpty() ? tokens[5] : null;
+            TypeDerivationRule derivation = !tokens[6].isEmpty() ? TypeDerivationRule.of(tokens[6]) : null;
+            String path = tokens[7];
+            
+            resources.add(new FHIRRegistryResource(resourceType, id, url, version, kind, type, derivation, path, format, loader));
         }
         return Collections.unmodifiableList(resources);
     }

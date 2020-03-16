@@ -57,6 +57,7 @@ import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
 import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
+import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.FHIRBuildIdentifier;
 import com.ibm.fhir.server.util.RestAuditLogger;
@@ -162,6 +163,7 @@ public class Capabilities extends FHIRResource {
             Rest.Resource cr = Rest.Resource.builder()
                     .type(ResourceType.of(resourceType))
                     .profile(Canonical.of("http://hl7.org/fhir/profiles/" + resourceTypeName))
+                    .supportedProfile(FHIRRegistry.getInstance().getProfiles(resourceTypeName))
                     .interaction(interactions)
                     .conditionalCreate(com.ibm.fhir.model.type.Boolean.of(true))
                     .conditionalUpdate(com.ibm.fhir.model.type.Boolean.of(true))
