@@ -20,7 +20,7 @@ import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.code.StructureDefinitionKind;
-import com.ibm.fhir.model.type.code.TypeDerivationRule;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
@@ -30,6 +30,7 @@ import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
  */
 public final class FHIRRegistry {
     private static final Logger log = Logger.getLogger(FHIRRegistry.class.getName());
+    private static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
     
     private static final FHIRRegistry INSTANCE = new FHIRRegistry();
     
@@ -262,6 +263,13 @@ public final class FHIRRegistry {
     }
     
     private boolean isProfile(FHIRRegistryResource resource) {
-        return StructureDefinitionKind.RESOURCE.equals(resource.getKind()) && TypeDerivationRule.CONSTRAINT.equals(resource.getDerivation());
+        String url = resource.getUrl();
+        if (url.startsWith(HL7_STRUCTURE_DEFINITION_URL_PREFIX)) {
+            String name = url.substring(HL7_STRUCTURE_DEFINITION_URL_PREFIX.length());
+            if (ModelSupport.isResourceType(name)) {
+                return false;
+            }
+        }
+        return StructureDefinitionKind.RESOURCE.equals(resource.getKind());
     }
 }
