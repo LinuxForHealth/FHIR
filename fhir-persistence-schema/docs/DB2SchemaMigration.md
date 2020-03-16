@@ -87,7 +87,8 @@ The Tenant Keys table stores a hashed version of the tenant specific key. Upon c
 `AdminSchemaGenerator.addTenantKeysTable` method adds the TENANT_KEYS table, and updates to this table definition requries a change to the setVersion (incrementing by 1).
 
 ``` java
-this.tenantKeysTable = Table.builder(adminSchemaName, TENANT_KEYS)
+this.tenantKeysTable = Table.builder(adminSchemaName, TENANT_KEYS
+    .setVersion(2)
     .addIntColumn(        TENANT_KEY_ID,             false)
     .addIntColumn(                MT_ID,             false)
     .addVarcharColumn(      TENANT_SALT,        44,  false)
@@ -100,15 +101,13 @@ this.tenantKeysTable = Table.builder(adminSchemaName, TENANT_KEYS)
     .build(model);
 ```
 
-If this table is updated, the changes must be manually apply the migration steps to the `TENANT_KEYS` and the corresponding indices. 
+Changes to the FHIR_ADMIN schem are not supported.
 
 If the UniqueIndex or ForeignKeyConstraint is removed, and the constraint has been previously applied to a database, the active schema must be updated, and the object must be dropped.
 
 ## Managing PROCEDURE
 
-`FHIR_ADMIN.set_tenant` is created in the FHIR_ADMIN schema.  The stored procedure is a 
-
-If updates are made to the `set_tenant.sql`, the `FhirSchemaGenerator.buildAdminSchema`'s FhirSchemaConstants.INITIAL_VERSION must be updated to the next highest integer (in this case 2). 
+`FHIR_ADMIN.set_tenant` is created in the FHIR_ADMIN schema. If updates are made to the `set_tenant.sql`, the `FhirSchemaGenerator.buildAdminSchema`'s FhirSchemaConstants.INITIAL_VERSION must be updated to the next highest integer (in this case 2). 
 
 ``` java
 // The set_tenant procedure can be created after all the admin tables are done
@@ -135,9 +134,9 @@ The schema is based on the resources and types identified in the `ModelSupport.g
 
 ## Managing the TABLESPACE
 
-Each tenant receives a tenant specific tablespace. The tablespace is managed automatically with a default EXTENTSIZE of 128.  
+Each tenant receives a tenant specific tablespace. The tablespace is managed automatically with a default block storage size ([EXTENTSIZE](https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.luw.admin.dbobj.doc/doc/c0004964.html)) of 128. Note, The extentsize is multiplied by the pagesize to arrive at a storage block.
 
-The schema is created in the multi-tenant schema `CreateSchemas` action, such as `FHIRDATA`.  When the schema is created a base schema is created with `UpdateSchema` action.  The `AllocateTenant` action provisions the schema in the tenant's table space for instance, `TS_TENANT1`.  
+The schema is created in the multi-tenant schema  and subsequently allocated using `fhir-persistence-schema`.
 
 Each tenant is allocated a partition based on the MT_ID and assigned to a tablespace. 
 
@@ -149,8 +148,10 @@ Each tenant has a two tenant specific sequences. These sequences are created a s
 
 | Sequence Name | Description |
 |----------|---------------------------------------------|
-| `fhir_sequence` | The logical id in the database, used for storing each FHIR Resource |
+| `fhir_sequence` | The `LOGICAL_ID` in the database, used for storing each FHIR Resource |
 | `fhir_ref_sequence` | The reference sequence is a logical id for Parameter Names, Code Systems and Resource Types tables |
+
+Note, the `LOGICAL_ID` is used to assign an internal database ID.  The LOGICAL_ID is different from the FHIR `Resource.id`.  
 
 The stored procedures `add_resource_type`, `add_parameter_name`, `add_code_system`, and `add_any_resource` use the value to uniquely store the resource or supporting data element. 
 
@@ -167,7 +168,7 @@ VISIONPRESCRIPTION_RESOURCES
 VISIONPRESCRIPTION_LOGICAL_RESOURCES
 ```
 
-The data definition has several reference tables to support FHIR Search for each Resoruce type.
+The data definition has several reference tables to support FHIR Search for each Resoruce type. Each of the following table types are defined in the `FHIRResourceTableGroup.java`. 
 
 | Search Parameter Types | Search Value Table | Description |
 |----------|----------|---------------------------------------------|
@@ -192,8 +193,6 @@ VISIONPRESCRIPTION_LATLNG_VALUES
 ```
 
 There are also additional tables to support search: `LOGICAL_RESOURCE`, `RESOURCE_TYPES` and `PARAMETER_NAMES` These tables are paritioned, and are specific for each tenant. 
-
-Each of these tables follows a common pattern, and are defined in the `FHIRResourceTableGroup.java`. 
 
 For any changes to any tables or indices, the table definition must be updated to a more recent version, one must update the table definition. For instance, for `addStrValues` one must increment the `setVersion` number: 
 
@@ -229,29 +228,28 @@ Common reasons to modify the Resource tables are:
     - The Resources are saved as Blobs in the database, and are transparent to the FHIR Version changes. The changes from version-to-version are resilient to field add-remove changes, type changes, and resources additions.  This migration must be done manually.
     - Resource removals must be done manually. 
 - **Column Attribute Changes (Space, Value Type)**
-    - As the column types, changes are changed in any column, a specific alter statement must be executed on the table, and constraints must be changed or relaxed. This migration must be done manually.
+    - As the column definitions change, a specific alter statement must be executed on the table, and constraints must be changed or relaxed. This migration must be done manually.
 - **Index - Add or Remove or Update**
     - As indices are removed from the table definition, the removed indices must be manually dropped for each Resource table. 
     - As indices are added to the table definition, the version of the table must be updated, and the index must be applied and updated manually.
 - **Constraint Updates** If there are Foreign Key updates, the changes must be applied manually and reflected in the code base. 
 - **Search Parameter Changes (Specification and Tenant)**
     - If the the parameter type or code is changed, the PARAMETERS_NAME and the corresponding table must be updated to remove references to the removed parameter (based on `SearchParameter.code`). 
-    - If there is a new SearchParameter (with a new `code`) added to the system, the SearchParameter values are only updated if/when the resource is updated.
+    - If there is a new or altered SearchParameter `code` added to the server, the SearchParameter values are only changed if/when the resource is updated. 
+    - If a `SearchParameter.code` is removed, the corresponding parameter remains until the resource is reprocessed.  The code to parameter mapping remains in `PARAMETER_NAMES` table until manually removed. 
 
 For each of the above changes, the version of the table must be incremented. 
 
 The resource table stores the FHIR resource as a compressed blob, changes to the specification or extensions should only impact Search values. 
 
-The tables have various indices - PrimaryKey, Index and UniqueIndex. These indices are created as part of the Java object - Table.  These 
-
-If a modification is made to a Search Parameter (addition, removal), then the resource uses the existing search parameter values until a new version of the resource is processed.
+The tables have various indices - PrimaryKey, Index and UniqueIndex. These indices are created as part of the Java object - Table.  These indices must be removed or altered manually.  
 
 Each of these tables has row-level permissions based on the conditional READ-only global variable `SV_TENANT_ID`. For example, for AUDITEVENT_COMPOSITES:
 
 ``` sql
 CREATE PERMISSION FHIRDATA.AUDITEVENT_COMPOSITES_TENANT
-    ON FHIRAPP.AUDITEVENT_COMPOSITES FOR ROWS
-    WHERE FHIRAPP.AUDITEVENT_COMPOSITES.MT_ID = FHIR_ADMIN.SV_TENANT_ID 
+    ON FHIRDATA.AUDITEVENT_COMPOSITES FOR ROWS
+    WHERE FHIRDATA.AUDITEVENT_COMPOSITES.MT_ID = FHIR_ADMIN.SV_TENANT_ID 
     ENFORCED FOR ALL ACCESS ENABLE ;
 ```
 
@@ -259,7 +257,7 @@ For security reasons, these permissions should not be removed, migrated, or alte
 
 ## Managing Stored Procedures
 
-`FHIRDATA.ADD_CODE_SYSTEM` is created in the default schema.  The stored procedures `add_code_system`, `add_parameter_name`, `add_resource_type`, and `add_any_resource`.
+In the tenant's schema, there are four stored procedures `add_code_system`, `add_parameter_name`, `add_resource_type`, and `add_any_resource` which are created.
 
 If updates are made to the `add_code_system.sql`, the `FhirSchemaGenerator.buildSchema`'s FhirSchemaConstants.INITIAL_VERSION must be updated to the next highest integer (in this case 2). 
 
@@ -272,9 +270,9 @@ ProcedureDef pd = model.addProcedure(this.schemaName,
     procedurePrivileges);
 ```
 
-When the `fhir-persistence-schema` buildSchema is executed, the **INSERT**, **SELECT**, **UPDATE**, **DELETE** grant is applied again, and the procedures are updated. Each Procedure privilege is reset upon re-executing the action. 
+When the `fhir-persistence-schema` actions are executed with `--grant-to`, the **INSERT**, **SELECT**, **UPDATE**, **DELETE**, **EXECUTE** grants are applied again, and the procedures are updated. Each Procedure privilege is reset upon re-executing the action. 
 
-If you change the stored procedure signature, you MUST drop the stored procedure, before applying the updated stored procedure to the database. 
+If you change the stored procedure signature, the `fhir-persistence-schema` does not automatically drop the prior stored procedure and signature, and the stored procedure MUST be dropped manually.
 
 ## Managing GRANTS
 The Db2 data definition secures data access using `GRANT` predicates. To update or change, use the `--grant-to` predicate to apply the grants. 
