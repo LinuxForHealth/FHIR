@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,12 +47,12 @@ public final class FHIRRegistry {
     }
     
     /**
-     * Get the profiles associated with the resource type parameter as a list of {@link Canonical} URLs.
+     * Get the profiles associated with the type parameter as a list of {@link Canonical} URLs.
      * 
-     * @param resourceType
-     *     the resource type
+     * @param type
+     *     the type
      * @return
-     *     the profiles associated with the resource type parameter as a list of {@link Canonical} URLs
+     *     the profiles associated with the type parameter as a list of {@link Canonical} URLs
      */
     public List<Canonical> getProfiles(String type) {
         Objects.requireNonNull(type);
