@@ -8,7 +8,7 @@ permalink: /FHIRValidationGuide/
 
 ## Overview
 
-The IBM FHIR Server Validation component ([fhir-validation](https://github.com/IBM/FHIR/tree/master/fhir-validation)) provides Java APIs for validating FHIR resources using constraints specified in their corresponding structure definitions. For example, in the Patient resource, we have the following constraint:
+The IBM FHIR Server Validation module ([fhir-validation](https://github.com/IBM/FHIR/tree/master/fhir-validation)) provides Java APIs for validating FHIR resources using constraints specified in their corresponding structure definitions. For example, in the Patient resource, we have the following constraint:
 
 ```java
 @Constraint(
