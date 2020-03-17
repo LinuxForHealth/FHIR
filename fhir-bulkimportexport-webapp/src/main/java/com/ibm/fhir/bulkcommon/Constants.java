@@ -55,4 +55,7 @@ public class Constants {
     // Batch writing to DB can take long time which can make the idle COS/S3 client connection timeout, so set the client socket timeout
     // to 120 seconds which is the default DB2 timeout.
     public static final int COS_SOCKET_TIMEOUT = 120000;
+
+    // number of nanoseconds in a millisecond
+    public static final double NANOS = 1e6;
 }
