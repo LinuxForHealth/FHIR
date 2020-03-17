@@ -68,7 +68,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (!hasElementNode(context)) {
-            throw new IllegalArgumentException("The 'memberOf' function can only be invoked on a Resource or Element node");
+            throw new IllegalArgumentException("The 'memberOf' function can only be invoked on an Element node");
         }
         
         FHIRPathElementNode elementNode = getElementNode(context);
