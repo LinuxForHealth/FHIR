@@ -6,24 +6,18 @@
 
 package com.ibm.fhir.registry.spec.util;
 
-import static com.ibm.fhir.registry.util.FHIRRegistryUtil.getUrl;
-import static com.ibm.fhir.registry.util.FHIRRegistryUtil.getVersion;
-import static com.ibm.fhir.registry.util.FHIRRegistryUtil.isDefinitionalResource;
-
-import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.io.OutputStream;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.registry.util.Index;
+import com.ibm.fhir.registry.util.Index.Entry;
 
 public class IndexGenerator {
     private static final List<String> DEFINITIONS = Arrays.asList(
@@ -33,42 +27,24 @@ public class IndexGenerator {
         "definitions/profiles-others.json", 
         "definitions/profiles-resources.json", 
         "definitions/profiles-types.json", 
+        "definitions/search-parameters.json", 
         "definitions/v2-tables.json", 
         "definitions/v3-codesystems.json", 
         "definitions/valuesets.json");
     
     public static void main(String[] args) throws Exception {
-        List<String> index = new ArrayList<>();
+        Index index = new Index(1);
         for (String definition : DEFINITIONS) {
             try (FileReader reader = new FileReader(definition)) {
                 Bundle bundle = FHIRParser.parser(Format.JSON).parse(reader);
                 for (Bundle.Entry entry : bundle.getEntry()) {
                     Resource resource = entry.getResource();
-                    if (!isDefinitionalResource(resource)) {
-                        continue;
-                    }
-                    String url = getUrl(resource);
-                    String version = getVersion(resource);
-                    int idx = url.indexOf("|");
-                    if (idx != -1) {
-                        version = url.substring(idx + 1);
-                        url = url.substring(0, idx);
-                    }
-                    if (url != null && version != null) {
-                        String fileName = resource.getClass().getSimpleName() + "-" + resource.getId() + ".json";
-                        File file = new File("src/main/resources/definitions/" + fileName);
-                        if (!file.exists()) {
-                            file.getParentFile().mkdirs();
-                        }
-                        try (FileWriter writer = new FileWriter(file)) {
-                            writer.write(resource.toString());
-                        }
-                        index.add(String.format("%s,%s,%s", url, version, "definitions/" + fileName));
-                    }
+                    index.add(Entry.entry(resource, Format.JSON));
                 }
             }
         }
-        Collections.sort(index);
-        Files.write(Paths.get("src/main/resources/spec.index"), index);
+        try (OutputStream out = new FileOutputStream("src/main/resources/fhir-registry.index.json")) {
+            index.store(out);
+        }
     }
 }

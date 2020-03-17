@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,6 @@ import com.ibm.fhir.registry.util.FHIRRegistryUtil;
 public class FHIRProfileTestResourceProvider implements FHIRRegistryResourceProvider {
     @Override
     public Collection<FHIRRegistryResource> getResources() {
-        return FHIRRegistryUtil.getResources(Format.JSON, getClass().getClassLoader(), "fhir-profile.test.index");
+        return FHIRRegistryUtil.getResources(Format.JSON, getClass().getClassLoader(), "resources", "fhir-profile.test.index.json");
     }
 }
