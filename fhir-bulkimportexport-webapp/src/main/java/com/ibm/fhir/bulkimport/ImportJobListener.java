@@ -49,7 +49,7 @@ public class ImportJobListener implements JobListener {
             if (jobExecution.getEndTime() != null) {
                 totalJobExecutionMilliSeconds += (jobExecution.getEndTime().getTime() - jobExecution.getStartTime().getTime());
             } else {
-                totalJobExecutionMilliSeconds += (currentExecutionEndTimeInNanoSecond - currentExecutionStartTimeInNanoSecond)/Constants.NANOS;
+                totalJobExecutionMilliSeconds += (currentExecutionEndTimeInNanoSecond - currentExecutionStartTimeInNanoSecond)/Constants.NANOMS;
             }
         }
 

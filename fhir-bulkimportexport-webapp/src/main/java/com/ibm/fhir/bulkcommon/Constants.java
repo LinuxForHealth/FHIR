@@ -57,5 +57,5 @@ public class Constants {
     public static final int COS_SOCKET_TIMEOUT = 120000;
 
     // number of nanoseconds in a millisecond
-    public static final double NANOS = 1e6;
+    public static final double NANOMS = 1e6;
 }
