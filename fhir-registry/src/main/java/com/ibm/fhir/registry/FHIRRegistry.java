@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Canonical;
-import com.ibm.fhir.model.type.code.StructureDefinitionKind;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
@@ -270,6 +269,6 @@ public final class FHIRRegistry {
                 return false;
             }
         }
-        return StructureDefinitionKind.RESOURCE.equals(resource.getKind());
+        return "resource".equals(resource.getKind());
     }
 }
