@@ -22,8 +22,6 @@ import com.ibm.fhir.database.utils.model.ObjectGroup;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.ProcedureDef;
-import com.ibm.fhir.database.utils.model.RowArrayType;
-import com.ibm.fhir.database.utils.model.RowTypeBuilder;
 import com.ibm.fhir.database.utils.model.Sequence;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
@@ -59,9 +57,6 @@ public class FhirSchemaGenerator {
     public static final String FHIRDATA_GROUP = "FHIRDATA";
     public static final String ADMIN_GROUP = "FHIR_ADMIN";
 
-    // The max array size we use for array type parameters
-    private static final int ARRAY_SIZE = 256;
-    
     // ADMIN SCHEMA CONTENT
 
     // Sequence used by the admin tenant tables
@@ -693,41 +688,6 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     *<pre>
-    t_latlng_values AS ROW ( parameter_name_id      INT, latitude_value      DOUBLE, longitude_value     DOUBLE)';
-    t_latlng_values_arr AS ' || CURRENT SCHEMA || '.t_latlng_values ARRAY[256]';
-    </pre>
-     * @param pdm
-     * @param dob
-     */
-    protected IDatabaseObject addLatLngValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
-
-        // Add the row type first
-        RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
-        strValuesBuilder
-            .setSchemaName(this.schemaName)
-            .setTypeName("t_latlng_values")
-            .addBigIntColumn(PARAMETER_NAME_ID, false)
-            .addDoubleColumn(LATITUDE_VALUE, false)
-            .addDoubleColumn(LONGITUDE_VALUE, false);
-
-        IDatabaseObject rt = strValuesBuilder.build();
-        rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        rt.addDependencies(Arrays.asList(dob));
-        procedureDependencies.add(rt);
-        pdm.addObject(rt);
-
-        // Followed by the corresponding array type
-        IDatabaseObject rat = new RowArrayType(schemaName, "t_latlng_values_arr", FhirSchemaConstants.INITIAL_VERSION, "t_latlng_values", ARRAY_SIZE);
-        rat.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        rat.addDependencies(Arrays.asList(rt));
-        procedureDependencies.add(rat);
-        pdm.addObject(rat);
-
-        return rat;
-    }
-
-    /**
      * Visitor for the resource types
      * @param consumer
      */
@@ -736,5 +696,4 @@ public class FhirSchemaGenerator {
             consumer.accept(resourceType);
         }
     }
-
 }
