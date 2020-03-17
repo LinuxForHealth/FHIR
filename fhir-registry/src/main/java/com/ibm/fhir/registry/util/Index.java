@@ -28,7 +28,6 @@ import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
 import javax.json.stream.JsonParserFactory;
 
-import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
@@ -260,9 +259,8 @@ public class Index {
             return type;
         }
         
-        public static Entry entry(Resource resource, Format format) {
+        public static Entry entry(Resource resource) {
             Objects.requireNonNull(resource);
-            Objects.requireNonNull(format);
             
             if (!isDefinitionalResource(resource)) {
                 return null;
@@ -286,7 +284,7 @@ public class Index {
             }
             
             String resourceType = resource.getClass().getSimpleName();
-            String fileName = resourceType + "-" + id + "." + format.name().toLowerCase();
+            String fileName = resourceType + "-" + id + ".json";
             String kind = null;
             String type = null;
             

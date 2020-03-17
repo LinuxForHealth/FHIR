@@ -51,7 +51,6 @@ import com.ibm.fhir.model.resource.StructureMap;
 import com.ibm.fhir.model.resource.TerminologyCapabilities;
 import com.ibm.fhir.model.resource.TestScript;
 import com.ibm.fhir.model.resource.ValueSet;
-import com.ibm.fhir.model.type.code.StructureDefinitionKind;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
@@ -113,37 +112,38 @@ public final class FHIRRegistryUtil {
         return DEFINITIONAL_RESOURCE_TYPES.contains(resourceType);
     }
 
-    public static Resource loadResource(String path, Format format, ClassLoader loader) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(loader.getResourceAsStream(path), StandardCharsets.UTF_8))) {
-            return FHIRParser.parser(format).parse(reader);
+    public static Resource loadResource(String path) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(FHIRRegistryUtil.class.getClassLoader().getResourceAsStream(path), StandardCharsets.UTF_8))) {
+            return FHIRParser.parser(Format.JSON).parse(reader);
         } catch (Exception e) {
             log.warning("Unable to load resource: " + path + " due to the following exception: " + e.getMessage());
         }
         return null;
     }
     
-    public static Collection<FHIRRegistryResource> getResources(Format format, ClassLoader loader, String resourceDirectory, String indexName) {
+    public static Collection<FHIRRegistryResource> getResources(String packageId) {
         List<FHIRRegistryResource> resources = new ArrayList<>();
-        for (Entry entry : readIndex(loader, indexName)) {
-            Class<?> resourceType = ModelSupport.getResourceType(entry.getResourceType());
-            String id = entry.getId();
-            String url = entry.getUrl();
-            Version version = Version.from(entry.getVersion());
-            StructureDefinitionKind kind = (entry.getKind() != null) ? StructureDefinitionKind.of(entry.getKind()) : null;
-            String type = entry.getType();
-            String path = resourceDirectory + "/" + entry.getFileName();
-            resources.add(new FHIRRegistryResource(resourceType, id, url, version, kind, type, path, format, loader));
+        String packageDirectory = packageId.replace(".", "/") + "/package";
+        for (Entry entry : readIndex(packageDirectory + "/.index.json")) {
+            resources.add(new FHIRRegistryResource(
+                ModelSupport.getResourceType(entry.getResourceType()), 
+                entry.getId(), 
+                entry.getUrl(), 
+                Version.from(entry.getVersion()), 
+                entry.getKind(), 
+                entry.getType(), 
+                packageDirectory + "/" + entry.getFileName()));
         }
         return Collections.unmodifiableList(resources);
     }
     
-    public static List<Entry> readIndex(ClassLoader loader, String indexName) {
-        try (InputStream in = loader.getResourceAsStream(indexName)) {
+    public static List<Entry> readIndex(String indexPath) {
+        try (InputStream in = FHIRRegistryUtil.class.getClassLoader().getResourceAsStream(indexPath)) {
             Index index = new Index();
             index.load(in);
             return index.getEntries();
         } catch (Exception e) {
-            log.warning("Unable to read index: " + indexName + " due to the following exception: " + e.getMessage());
+            log.warning("Unable to read index: " + indexPath + " due to the following exception: " + e.getMessage());
         }
         return Collections.emptyList();
     }
