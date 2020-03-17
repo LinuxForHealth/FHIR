@@ -17,8 +17,13 @@ import javax.batch.runtime.JobExecution;
 import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
 
+import com.ibm.fhir.bulkcommon.Constants;
+
 public class ImportJobListener implements JobListener {
     private static final Logger logger = Logger.getLogger(ImportJobListener.class.getName());
+
+    long currentExecutionStartTimeInNanoSecond;
+
     @Inject
     JobContext jobContext;
 
@@ -30,7 +35,7 @@ public class ImportJobListener implements JobListener {
     @Override
     public void afterJob() {
         // jobExecution.getEndTime() for current execution always returns null, so we use system current time as the end time for current execution.
-        long currentExecutionEndTimeInMS = System.currentTimeMillis();;
+        long currentExecutionEndTimeInNanoSecond = System.nanoTime();
 
         // Used for generating response for all the import data resources.
         @SuppressWarnings("unchecked")
@@ -44,7 +49,7 @@ public class ImportJobListener implements JobListener {
             if (jobExecution.getEndTime() != null) {
                 totalJobExecutionMilliSeconds += (jobExecution.getEndTime().getTime() - jobExecution.getStartTime().getTime());
             } else {
-                totalJobExecutionMilliSeconds += (currentExecutionEndTimeInMS - jobExecution.getStartTime().getTime());
+                totalJobExecutionMilliSeconds += (currentExecutionEndTimeInNanoSecond - currentExecutionStartTimeInNanoSecond)/Constants.NANOS;
             }
         }
 
@@ -85,6 +90,7 @@ public class ImportJobListener implements JobListener {
 
     @Override
     public void beforeJob() {
+        currentExecutionStartTimeInNanoSecond = System.nanoTime();
     }
 
 }
