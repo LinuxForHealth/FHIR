@@ -113,13 +113,12 @@ public interface FHIRRegistryResourceProvider {
 
 The FHIRRegistry loads FHIRRegistryResource instances into a map on startup. The FHIRRegistryResource class lazily loads the underlying resource into memory when it is accessed. Multiple versions of the same resource can be registered. FHIR registry resource providers can be bundled into a jar file and deployed with the IBM FHIR server in the user lib directory.
 
-## NPM package format support
+### NPM package format support
 
-The IBM FHIR Server Registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/master/fhir-registry)) has utilities that can be used to expose FHIR registry resources that exist in the NPM package format. Implementation guides that follow this packaging format can be dropped into the `src/main/resources/` under a directory structure defined by the ImplementationGuide.packageId value. For example, US Core implementation guide has a package id of: `hl7.fhir.us.core`. The NPM "package" folder can be dropped here:
-
-`src/main/resources/hl7/fhir/us/core/package`
+The IBM FHIR Server Registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/master/fhir-registry)) has utilities that can be used to expose FHIR registry resources that exist in the NPM package format. Implementation guides that follow this packaging format can be dropped into the `src/main/resources/` under a directory structure defined by the ImplementationGuide.packageId value. For example, US Core implementation guide has a package id of: `hl7.fhir.us.core`. The NPM "package" folder can be dropped here: `src/main/resources/hl7/fhir/us/core/package`
 
 ![https://ibm.github.io/FHIR/images/us-core-package.png](https://ibm.github.io/FHIR/images/us-core-package.png)
+
 
 The implementation of the `FHIRRegistryResourceProvider` SPI looks like this:
 
@@ -136,7 +135,7 @@ The `FHIRRegistryUtil.getResources(String)` method takes a packageId (e.g. hl7.f
 
 For more information, please see: [https://confluence.hl7.org/display/FHIR/NPM+Package+Specification](https://confluence.hl7.org/display/FHIR/NPM+Package+Specification)
 
-## Built-in profile support
+### Built-in profile support
 
 The IBM FHIR server has built-in support for the following:
 
