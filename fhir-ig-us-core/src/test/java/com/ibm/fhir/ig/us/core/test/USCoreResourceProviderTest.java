@@ -16,6 +16,6 @@ public class USCoreResourceProviderTest {
     @Test
     public static void testUSCoreResourceProvider() {
         FHIRRegistryResourceProvider provider = new USCoreResourceProvider();
-        Assert.assertEquals(provider.getResources().size(), 144);
+        Assert.assertEquals(provider.getResources().size(), 145);
     }
 }
