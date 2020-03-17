@@ -115,7 +115,7 @@ The FHIRRegistry loads FHIRRegistryResource instances into a map on startup. The
 
 ## NPM package format support
 
-The IBM FHIR Server Registry component ([fhir-registry](https://github.com/IBM/FHIR/tree/master/fhir-registry)) has utilities that can be used to expose FHIR registry resources that exist in the NPM package format. Implementation guides that follow this packaging format can be dropped into the `src/main/resources/` under a directory structure defined by the ImplementationGuide.packageId value. For example, US Core implementation guide has a package id of: `hl7.fhir.us.core`. The NPM "package" folder can be dropped here:
+The IBM FHIR Server Registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/master/fhir-registry)) has utilities that can be used to expose FHIR registry resources that exist in the NPM package format. Implementation guides that follow this packaging format can be dropped into the `src/main/resources/` under a directory structure defined by the ImplementationGuide.packageId value. For example, US Core implementation guide has a package id of: `hl7.fhir.us.core`. The NPM "package" folder can be dropped here:
 
 `src/main/resources/hl7/fhir/us/core/package`
 
