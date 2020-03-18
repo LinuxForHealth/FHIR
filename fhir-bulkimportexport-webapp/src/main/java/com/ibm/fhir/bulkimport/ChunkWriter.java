@@ -151,9 +151,9 @@ public class ChunkWriter extends AbstractItemWriter {
         // This doesn't really start the transaction, because the transaction has already been started by the JavaBatch
         // framework at this time point.
         txn.enroll();
-        for (Object objResJasonList : arg0) {
+        for (Object objResJsonList : arg0) {
             @SuppressWarnings("unchecked")
-            List<Resource> fhirResourceList = (List<Resource>) objResJasonList;
+            List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
 
             for (Resource fhirResource : fhirResourceList) {
                 try {
