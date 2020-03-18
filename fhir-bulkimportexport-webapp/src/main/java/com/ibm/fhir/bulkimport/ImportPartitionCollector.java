@@ -132,7 +132,7 @@ public class ImportPartitionCollector implements PartitionCollector {
 
                     partitionSummaryData.getDataPacks4FailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
                             cosOperationOutcomesBucketName, partitionSummaryData.getUniqueID4ImportFailureOperationOutcomes(),
-                            partitionSummaryData.getUploadId4FailureOperationOutcomes(), new ByteArrayInputStream(partitionSummaryData.getBufferStreamForImportError().toByteArray()),
+                            partitionSummaryData.getUploadIdForFailureOperationOutcomes(), new ByteArrayInputStream(partitionSummaryData.getBufferStreamForImportError().toByteArray()),
                             partitionSummaryData.getBufferStreamForImportError().size(), partitionSummaryData.getPartNum4FailureOperationOutcomes()));
                     if (logger.isLoggable(Level.FINE)) {
                         logger.fine("pushImportOperationOutcomes2COS: " + partitionSummaryData.getBufferStreamForImportError().size()
