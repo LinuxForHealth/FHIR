@@ -232,7 +232,7 @@ public class Main {
         List<PartETag> dataPackTags = new ArrayList<>();
         String uploadId = null;
         int partNum = 1;
-        boolean isMore2Read = true;
+        boolean isMoreToRead = true;
         boolean isAbortStream = false;
         int totalRead = 0;
         while (isMore2Read) {
