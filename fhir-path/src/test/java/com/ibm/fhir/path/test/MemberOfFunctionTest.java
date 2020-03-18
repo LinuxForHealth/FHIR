@@ -103,4 +103,13 @@ public class MemberOfFunctionTest {
         
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
+    
+    @Test
+    public void testMemberOfFunction7() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(Code.of("a"), "$this in 'http://ibm.com/fhir/ValueSet/vs1'");
+        
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
 }
