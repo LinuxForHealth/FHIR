@@ -227,7 +227,7 @@ public class Main {
         int lineRed = 0;
         int segNum = 0;
         long segSize = 0;
-        HashSet<String> UniqueResourceIds= new HashSet<String>();
+        HashSet<String> UniqueResourceIds= new HashSet<>();
 
         List<PartETag> dataPackTags = new ArrayList<>();
         String uploadId = null;
