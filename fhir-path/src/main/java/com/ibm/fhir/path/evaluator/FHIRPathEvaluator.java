@@ -76,6 +76,7 @@ import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.function.FHIRPathFunction;
+import com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry;
 
 /**
  * A FHIRPath evaluation engine that implements the FHIRPath 2.0.0 <a href="http://hl7.org/fhirpath/N1/">specification</a>
@@ -781,7 +782,11 @@ public class FHIRPathEvaluator {
 
             switch (operator) {
             case "in":
-                if (right.containsAll(left)) {
+                if (hasStringValue(right)) {
+                    // For backwards-compatibility per: https://jira.hl7.org/projects/FHIR/issues/FHIR-26605
+                    FHIRPathFunction memberOfFunction = FHIRPathFunctionRegistry.getInstance().getFunction("memberOf");
+                    result = memberOfFunction.apply(evaluationContext, left, Collections.singletonList(right));
+                } else if (right.containsAll(left)) {
                     result = SINGLETON_TRUE;
                 }
                 break;
