@@ -284,7 +284,7 @@ public class Main {
                     lineRed = 0;
                     segNum++;
                     if (segNum == numberOfFiles && isMore2Read) {
-                        isMore2Read = false;
+                        isMoreToRead = false;
                         isAbortStream = true;
                     }
                     segSize = 0;
