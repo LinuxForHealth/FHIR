@@ -101,7 +101,7 @@ public class ImportPartitionCollector implements PartitionCollector {
                 }
                 // Upload remaining OperationOutcomes.
                 if (partitionSummaryData.getBufferStreamForImport().size() > 0) {
-                    if (partitionSummaryData.getUploadId4OperationOutcomes()  == null) {
+                    if (partitionSummaryData.getUploadIdForOperationOutcomes()  == null) {
                         partitionSummaryData.setUploadIdForOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
                                 cosOperationOutcomesBucketName, partitionSummaryData.getUniqueID4ImportOperationOutcomes(), true));
                     }
