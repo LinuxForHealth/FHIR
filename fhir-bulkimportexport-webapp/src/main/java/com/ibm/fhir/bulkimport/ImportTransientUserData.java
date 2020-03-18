@@ -25,13 +25,13 @@ public class ImportTransientUserData extends ImportCheckPointData {
 
     public ImportTransientUserData(String importPartitionWorkitem, int numOfProcessedResources,
             String importPartitionResourceType, int numOfImportedResource, int numOfImportFailures,
-            String uniqueID4ImportFailureOperationOutcomes, String uniqueID4ImportOperationOutcome,
-            String uploadId4OperationOutcomes, List<PartETag> dataPacks4OperationOutcomes, int partNum4OperationOutcomes,
-            String uploadId4FailureOperationOutcomes, List<PartETag> dataPacks4FailureOperationOutcomes, int partNum4FailureOperationOutcomes) {
+            String uniqueIDForImportFailureOperationOutcomes, String uniqueIDForImportOperationOutcome,
+            String uploadIdForOperationOutcomes, List<PartETag> dataPacksForOperationOutcomes, int partNumForOperationOutcomes,
+            String uploadIdForFailureOperationOutcomes, List<PartETag> dataPacksForFailureOperationOutcomes, int partNumForFailureOperationOutcomes) {
         super(importPartitionWorkitem, numOfProcessedResources, importPartitionResourceType,
-                numOfImportedResource, numOfImportFailures, uniqueID4ImportFailureOperationOutcomes, uniqueID4ImportOperationOutcome,
-                uploadId4OperationOutcomes, dataPacks4OperationOutcomes, partNum4OperationOutcomes,
-                uploadId4FailureOperationOutcomes, dataPacks4FailureOperationOutcomes, partNum4FailureOperationOutcomes);
+                numOfImportedResource, numOfImportFailures, uniqueIDForImportFailureOperationOutcomes, uniqueIDForImportOperationOutcome,
+                uploadIdForOperationOutcomes, dataPacksForOperationOutcomes, partNumForOperationOutcomes,
+                uploadIdForFailureOperationOutcomes, dataPacksForFailureOperationOutcomes, partNumForFailureOperationOutcomes);
     }
 
     public ImportTransientUserData(String importPartitionWorkitem, int numOfProcessedResources, String importPartitionResourceType) {
@@ -50,9 +50,9 @@ public class ImportTransientUserData extends ImportCheckPointData {
         return new ImportTransientUserData(importCheckPointData.getImportPartitionWorkitem(),
                 importCheckPointData.getNumOfProcessedResources(), importCheckPointData.getImportPartitionResourceType(),
                 importCheckPointData.getNumOfImportedResources(), importCheckPointData.getNumOfImportFailures(),
-                importCheckPointData.getUniqueID4ImportFailureOperationOutcomes(), importCheckPointData.getUniqueID4ImportOperationOutcomes(),
-                importCheckPointData.getUploadId4OperationOutcomes(), importCheckPointData.getDataPacks4OperationOutcomes(), importCheckPointData.getPartNum4OperationOutcomes(),
-                importCheckPointData.getUploadId4FailureOperationOutcomes(), importCheckPointData.getDataPacks4FailureOperationOutcomes(), importCheckPointData.getPartNum4FailureOperationOutcomes());
+                importCheckPointData.getUniqueIDForImportFailureOperationOutcomes(), importCheckPointData.getUniqueIDForImportOperationOutcomes(),
+                importCheckPointData.getUploadIdForOperationOutcomes(), importCheckPointData.getDataPacksForOperationOutcomes(), importCheckPointData.getPartNumForOperationOutcomes(),
+                importCheckPointData.getUploadIdForFailureOperationOutcomes(), importCheckPointData.getDataPacksForFailureOperationOutcomes(), importCheckPointData.getPartNumForFailureOperationOutcomes());
     }
 
     public InputStream getInputStream() {

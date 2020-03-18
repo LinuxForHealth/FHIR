@@ -103,42 +103,42 @@ public class ImportPartitionCollector implements PartitionCollector {
                 if (partitionSummaryData.getBufferStreamForImport().size() > 0) {
                     if (partitionSummaryData.getUploadIdForOperationOutcomes()  == null) {
                         partitionSummaryData.setUploadIdForOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
-                                cosOperationOutcomesBucketName, partitionSummaryData.getUniqueID4ImportOperationOutcomes(), true));
+                                cosOperationOutcomesBucketName, partitionSummaryData.getUniqueIDForImportOperationOutcomes(), true));
                     }
 
                     partitionSummaryData.getDataPacksForOperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
                             cosOperationOutcomesBucketName, partitionSummaryData.getUniqueIDForImportOperationOutcomes(),
                             partitionSummaryData.getUploadIdForOperationOutcomes(), new ByteArrayInputStream(partitionSummaryData.getBufferStreamForImport().toByteArray()),
-                            partitionSummaryData.getBufferStreamForImport().size(), partitionSummaryData.getPartNum4OperationOutcomes()));
+                            partitionSummaryData.getBufferStreamForImport().size(), partitionSummaryData.getPartNumForOperationOutcomes()));
                     if (logger.isLoggable(Level.FINE)) {
                         logger.fine("pushImportOperationOutcomes2COS: " + partitionSummaryData.getBufferStreamForImport().size()
-                            + " bytes were successfully appended to COS object - " + partitionSummaryData.getUniqueID4ImportOperationOutcomes());
+                            + " bytes were successfully appended to COS object - " + partitionSummaryData.getUniqueIDForImportOperationOutcomes());
                     }
-                    partitionSummaryData.setPartNum4OperationOutcomes(partitionSummaryData.getPartNum4OperationOutcomes() + 1);
+                    partitionSummaryData.setPartNumForOperationOutcomes(partitionSummaryData.getPartNumForOperationOutcomes() + 1);
                     partitionSummaryData.getBufferStreamForImport().reset();
                 }
                 // Finish uploading OperationOutcomes.
-                if (partitionSummaryData.getUploadId4OperationOutcomes() != null) {
-                    BulkDataUtils.finishMultiPartUpload(cosClient, cosOperationOutcomesBucketName, partitionSummaryData.getUniqueID4ImportOperationOutcomes(),
-                            partitionSummaryData.getUploadId4OperationOutcomes(), partitionSummaryData.getDataPacks4OperationOutcomes());
+                if (partitionSummaryData.getUploadIdForOperationOutcomes() != null) {
+                    BulkDataUtils.finishMultiPartUpload(cosClient, cosOperationOutcomesBucketName, partitionSummaryData.getUniqueIDForImportOperationOutcomes(),
+                            partitionSummaryData.getUploadIdForOperationOutcomes(), partitionSummaryData.getDataPacksForOperationOutcomes());
                 }
 
                 // Upload remaining failure OperationOutcomes.
                 if (partitionSummaryData.getBufferStreamForImportError().size() > 0) {
-                    if (partitionSummaryData.getUploadId4FailureOperationOutcomes()  == null) {
-                        partitionSummaryData.setUploadId4FailureOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
-                                cosOperationOutcomesBucketName, partitionSummaryData.getUniqueID4ImportFailureOperationOutcomes(), true));
+                    if (partitionSummaryData.getUploadIdForFailureOperationOutcomes()  == null) {
+                        partitionSummaryData.setUploadIdForFailureOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
+                                cosOperationOutcomesBucketName, partitionSummaryData.getUniqueIDForImportFailureOperationOutcomes(), true));
                     }
 
-                    partitionSummaryData.getDataPacks4FailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
-                            cosOperationOutcomesBucketName, partitionSummaryData.getUniqueID4ImportFailureOperationOutcomes(),
+                    partitionSummaryData.getDataPacksForFailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
+                            cosOperationOutcomesBucketName, partitionSummaryData.getUniqueIDForImportFailureOperationOutcomes(),
                             partitionSummaryData.getUploadIdForFailureOperationOutcomes(), new ByteArrayInputStream(partitionSummaryData.getBufferStreamForImportError().toByteArray()),
-                            partitionSummaryData.getBufferStreamForImportError().size(), partitionSummaryData.getPartNum4FailureOperationOutcomes()));
+                            partitionSummaryData.getBufferStreamForImportError().size(), partitionSummaryData.getPartNumForFailureOperationOutcomes()));
                     if (logger.isLoggable(Level.FINE)) {
                         logger.fine("pushImportOperationOutcomes2COS: " + partitionSummaryData.getBufferStreamForImportError().size()
-                            + " bytes were successfully appended to COS object - " + partitionSummaryData.getUniqueID4ImportFailureOperationOutcomes());
+                            + " bytes were successfully appended to COS object - " + partitionSummaryData.getUniqueIDForImportFailureOperationOutcomes());
                     }
-                    partitionSummaryData.setPartNum4FailureOperationOutcomes(partitionSummaryData.getPartNumForFailureOperationOutcomes() + 1);
+                    partitionSummaryData.setPartNumForFailureOperationOutcomes(partitionSummaryData.getPartNumForFailureOperationOutcomes() + 1);
                     partitionSummaryData.getBufferStreamForImportError().reset();
                 }
                 // Finish uploading failure OperationOutcomes.

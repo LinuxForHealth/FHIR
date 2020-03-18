@@ -218,20 +218,20 @@ public class ChunkWriter extends AbstractItemWriter {
 
         // Upload OperationOutcomes in buffer if it reaches the minimal size for multiple-parts upload.
         if (chunkData.getBufferStreamForImport().size() > Constants.COS_PART_MINIMALSIZE) {
-            if (chunkData.getUploadId4OperationOutcomes()  == null) {
-                chunkData.setUploadId4OperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
-                        cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportOperationOutcomes(), true));
+            if (chunkData.getUploadIdForOperationOutcomes()  == null) {
+                chunkData.setUploadIdForOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
+                        cosOperationOutcomesBucketName, chunkData.getUniqueIDForImportOperationOutcomes(), true));
             }
 
-            chunkData.getDataPacks4OperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
-                    cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportOperationOutcomes(),
-                    chunkData.getUploadId4OperationOutcomes(), new ByteArrayInputStream(chunkData.getBufferStreamForImport().toByteArray()),
+            chunkData.getDataPacksForOperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
+                    cosOperationOutcomesBucketName, chunkData.getUniqueIDForImportOperationOutcomes(),
+                    chunkData.getUploadIdForOperationOutcomes(), new ByteArrayInputStream(chunkData.getBufferStreamForImport().toByteArray()),
                     chunkData.getBufferStreamForImport().size(), chunkData.getPartNumForOperationOutcomes()));
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("pushImportOperationOutcomesToCOS: " + chunkData.getBufferStreamForImport().size()
-                    + " bytes were successfully appended to COS object - " + chunkData.getUniqueID4ImportOperationOutcomes());
+                    + " bytes were successfully appended to COS object - " + chunkData.getUniqueIDForImportOperationOutcomes());
             }
-            chunkData.setPartNum4OperationOutcomes(chunkData.getPartNum4OperationOutcomes() + 1);
+            chunkData.setPartNumForOperationOutcomes(chunkData.getPartNumForOperationOutcomes() + 1);
             chunkData.getBufferStreamForImport().reset();
         }
 
@@ -239,16 +239,16 @@ public class ChunkWriter extends AbstractItemWriter {
         if (chunkData.getBufferStreamForImportError().size() > Constants.COS_PART_MINIMALSIZE) {
             if (chunkData.getUploadIdForFailureOperationOutcomes()  == null) {
                 chunkData.setUploadIdForFailureOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
-                        cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportFailureOperationOutcomes(), true));
+                        cosOperationOutcomesBucketName, chunkData.getUniqueIDForImportFailureOperationOutcomes(), true));
             }
 
-            chunkData.getDataPacks4FailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
+            chunkData.getDataPacksForFailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
                     cosOperationOutcomesBucketName, chunkData.getUniqueIDForImportFailureOperationOutcomes(),
                     chunkData.getUploadIdForFailureOperationOutcomes(), new ByteArrayInputStream(chunkData.getBufferStreamForImportError().toByteArray()),
-                    chunkData.getBufferStreamForImportError().size(), chunkData.getPartNum4FailureOperationOutcomes()));
+                    chunkData.getBufferStreamForImportError().size(), chunkData.getPartNumForFailureOperationOutcomes()));
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("pushImportOperationOutcomes2COS: " + chunkData.getBufferStreamForImportError().size()
-                    + " bytes were successfully appended to COS object - " + chunkData.getUniqueID4ImportFailureOperationOutcomes());
+                    + " bytes were successfully appended to COS object - " + chunkData.getUniqueIDForImportFailureOperationOutcomes());
             }
             chunkData.setPartNumForFailureOperationOutcomes(chunkData.getPartNumForFailureOperationOutcomes() + 1);
             chunkData.getBufferStreamForImportError().reset();
