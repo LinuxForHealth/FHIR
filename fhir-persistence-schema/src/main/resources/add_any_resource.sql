@@ -8,8 +8,6 @@
 -- Procedure to add a resource version and its associated parameters. These
 -- parameters only ever point to the latest version of a resource, never to
 -- previous versions, which are kept to support history queries.
--- Parameters must be loaded into the parameters_gtt global temporary table
--- prior to this procedure being called
 -- p_logical_id: the logical id given to the resource by the FHIR server
 -- p_payload:    the BLOB (of JSON) which is the resource content
 -- p_last_updated the last_updated time given by the FHIR server
