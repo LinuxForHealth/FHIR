@@ -319,7 +319,7 @@ public class Main {
                 throw new Exception("Failed to get CosClient!");
             }
 
-            long num4Seg;
+            long numForSeg;
             S3Object item = cosClient.getObject(new GetObjectRequest(cosBucketName, cosFile2Break));
             ByteArrayOutputStream bufferStream = new ByteArrayOutputStream();
 
