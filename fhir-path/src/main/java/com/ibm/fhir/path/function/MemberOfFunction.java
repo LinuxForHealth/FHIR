@@ -50,7 +50,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
 
     private static final String VERSION_UNKNOWN = "<version unknown>";
     private static final Map<String, Map<String, Set<String>>> CODE_SET_MAP_CACHE = createLRUCache(1024);
-    
+
     @Override
     public String getName() {
         return "memberOf";
@@ -65,25 +65,25 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
     public int getMaxArity() {
         return 1;
     }
-    
+
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (context.isEmpty()) {
             return empty();
         }
-        
+
         if (!isCodedElementNode(context)) {
             throw new IllegalArgumentException("The 'memberOf' function must be invoked on a coded element node");
         }
-        
+
         if (!isStringValue(arguments.get(0))) {
             throw new IllegalArgumentException("The argument to the 'memberOf' function must be a string value");
         }
-        
+
         FHIRPathElementNode elementNode = getElementNode(context);
         Element element = elementNode.element();
         String url = getString(arguments.get(0));
-                
+
         if (FHIRRegistry.getInstance().hasResource(url)) {
             Map<String, Set<String>> codeSetMap = getCodeSetMap(url);
             if (!codeSetMap.isEmpty()) {
@@ -106,10 +106,10 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                 }
             }
         }
-        
+
         return SINGLETON_TRUE;
     }
-    
+
     private boolean contains(Map<String, Set<String>> codeSetMap, Coding coding) {
         String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
         String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : FHIRRegistry.getInstance().getLatestVersion(system);
@@ -120,12 +120,12 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
     /**
      * Determine whether the provided code is in the codeSet associated with the provided system and version.
      *
-     * <p>If the system and version are non-null, then they are concatenated to form a key into the codeSetMap. If 
-     * not found, then the system is concatenated with the "VERSION_UNKNOWN" constant (in cases where the expanded 
-     * value set did not have a version available during the expansion). If only the system is non-null, then the 
-     * codeSetMap keys are checked for startsWith(system). Finally, if both system and version are null, map keys 
+     * <p>If the system and version are non-null, then they are concatenated to form a key into the codeSetMap. If
+     * not found, then the system is concatenated with the "VERSION_UNKNOWN" constant (in cases where the expanded
+     * value set did not have a version available during the expansion). If only the system is non-null, then the
+     * codeSetMap keys are checked for startsWith(system). Finally, if both system and version are null, map keys
      * are ignored and the values of the map are checked directly.
-     * 
+     *
      * @param codeSetMap
      *     the code set map
      * @param system
@@ -167,10 +167,10 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         }
         return false;
     }
-    
+
     /**
      * Get a URI-typed child node of the input parameter with name "system".
-     * 
+     *
      * @param node
      *     the parent node
      * @return
@@ -187,7 +187,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         }
         return null;
     }
-    
+
     private Map<String, Set<String>> getCodeSetMap(String url) {
         return CODE_SET_MAP_CACHE.computeIfAbsent(url, k -> computeCodeSetMap(getValueSet(url)));
     }
