@@ -142,7 +142,7 @@ public class ImportPartitionCollector implements PartitionCollector {
                     partitionSummaryData.getBufferStreamForImportError().reset();
                 }
                 // Finish uploading failure OperationOutcomes.
-                if (partitionSummaryData.getUploadId4FailureOperationOutcomes() != null) {
+                if (partitionSummaryData.getUploadIdForFailureOperationOutcomes() != null) {
                     BulkDataUtils.finishMultiPartUpload(cosClient, cosOperationOutcomesBucketName, partitionSummaryData.getUniqueID4ImportFailureOperationOutcomes(),
                             partitionSummaryData.getUploadId4FailureOperationOutcomes(), partitionSummaryData.getDataPacks4FailureOperationOutcomes());
                 }
