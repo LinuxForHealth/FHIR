@@ -22,12 +22,14 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
+import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.PartitionInfo;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.common.CommonDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.IntColumn;
@@ -442,6 +444,25 @@ public class Db2Adapter extends CommonDatabaseAdapter {
             runStatement(ddl);
         } catch (DuplicateNameException e) {
             logger.log(Level.WARNING, "The schema '" + adminSchemaName + "' already exists; proceed with caution.");
+        }
+    }
+
+    @Override
+    public void runStatement(IDatabaseStatement stmt) {
+        super.runStatement(stmt);
+        if (stmt instanceof DropColumn) {
+            // A table reorg is typically needed after dropping a column in Db2; the runstats before and after it are "best practice"
+            // per https://dba.stackexchange.com/questions/30231/do-i-need-to-runstats-after-a-reorg-in-db2/30233#30233
+
+            String qname = ((DropColumn) stmt).getSchemaName() + "." + ((DropColumn) stmt).getTableName();
+
+            Db2AdminCommand runstats = new Db2AdminCommand("RUNSTATS ON TABLE " + qname + " WITH DISTRIBUTION AND DETAILED INDEXES ALL");
+            super.runStatement(runstats);
+
+            String reorgCommand = "REORG TABLE " + qname;
+            super.runStatement(new Db2AdminCommand(reorgCommand));
+
+            super.runStatement(runstats);
         }
     }
 }

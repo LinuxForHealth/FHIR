@@ -45,7 +45,7 @@ import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 
 /**
- * This Data Access Object implements the ResourceDAO interface for creating, updating, 
+ * This Data Access Object implements the ResourceDAO interface for creating, updating,
  * and retrieving rows in the IBM FHIR Server resource tables.
  */
 public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
@@ -62,7 +62,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                                                       "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                                                       "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
 
-    //                                                                                 0               
+    //                                                                                 0
     //                                                                                 1 2 3 4 5 6 7 8
     // Don't forget that we must account for IN and OUT parameters.
     private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?)";
@@ -92,16 +92,16 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     private static final String SQL_SEARCH_BY_IDS = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
                                                     "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND " +
                                                     "R.RESOURCE_ID IN ";
-    
+
     private static final String SQL_ORDER_BY_IDS = "ORDER BY CASE R.RESOURCE_ID ";
-    
+
     private static final String DERBY_PAGINATION_PARMS = "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-    
+
     private static final String DB2_PAGINATION_PARMS = "LIMIT ? OFFSET ?";
 
     @SuppressWarnings("unused")
     private FHIRPersistenceContext context;
-    
+
     private Map<String, Integer> newResourceTypeIds = new HashMap<>();
     private boolean runningInTrx = false;
     private ResourceTypesCacheUpdater rtCacheUpdater = null;
@@ -176,6 +176,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      * @return Resource - A Resource DTO
      * @throws FHIRPersistenceDataAccessException
      */
+    @Override
     protected Resource createDTO(ResultSet resultSet) throws FHIRPersistenceDataAccessException {
         final String METHODNAME = "createDTO";
         log.entering(CLASSNAME, METHODNAME);
@@ -427,7 +428,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         return resourceIds;
     }
 
-    
 
      /**
      * Adds a resource type/ resource id pair to a candidate collection for population into the ResourceTypesCache.
@@ -459,22 +459,23 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     }
 
+    @Override
     public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
             throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
-            final String METHODNAME = "insert(Resource, List<ExtractedParameterValue>";
-            log.entering(CLASSNAME, METHODNAME);
+        final String METHODNAME = "insert(Resource, List<ExtractedParameterValue>";
+        log.entering(CLASSNAME, METHODNAME);
 
-            try {
-                if (this.isDb2Database()) {
-                    resource = this.insertToDb2(resource, parameters, parameterDao);
-                } else {
-                    resource = this.insertToDerby(resource, parameters, parameterDao);
-                }
-            } catch(SQLException e) {
-                throw new FHIRPersistenceDataAccessException("Failure determining database type.",e);
+        try {
+            if (this.isDb2Database()) {
+                resource = this.insertToDb2(resource, parameters, parameterDao);
+            } else {
+                resource = this.insertToDerby(resource, parameters, parameterDao);
             }
+        } catch(SQLException e) {
+            throw new FHIRPersistenceDataAccessException("Failure determining database type.",e);
+        }
 
-            return resource;
+        return resource;
     }
 
     /**
@@ -527,7 +528,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.setString(1, resource.getResourceType());
             stmt.setString(2, resource.getLogicalId());
             stmt.setBytes(3, resource.getData());
-            
+
             lastUpdated = resource.getLastUpdated();
             stmt.setTimestamp(4, lastUpdated, UTC);
             stmt.setString(5, resource.isDeleted() ? "Y": "N");
@@ -541,11 +542,11 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
             resource.setId(stmt.getLong(8));
 
-            // Parameter time - enable multitenncy on the DAO.
+            // Parameter time
             // TODO FHIR_ADMIN schema name needs to come from the configuration/context
             if (parameters != null) {
-                try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true, resource.getId(), 100,
-                    new ParameterNameCacheAdapter(parameterDao), new CodeSystemCacheAdapter(parameterDao))) {
+                try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true,
+                        resource.getId(), 100, new ParameterNameCacheAdapter(parameterDao), new CodeSystemCacheAdapter(parameterDao))) {
                     for (ExtractedParameterValue p: parameters) {
                         p.accept(pvd);
                     }
@@ -672,15 +673,15 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     public List<Resource> search(String sqlSelect) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "search";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         List<Resource> resources;
-                
+
         try {
             resources = this.runQuery(sqlSelect);
         } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
-                
+
         return resources;
     }
 
@@ -688,7 +689,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     public List<Resource> searchByIds(String resourceType, List<Long> resourceIds) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "searchByIds";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         if (resourceIds.isEmpty()) {
             return Collections.emptyList();
         }
@@ -714,7 +715,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                     idQuery.append(",");
                 }
                 idQuery.append(resourceIds.get(i));
-                
+
                 // build up the caseStmts here so we only need to iterate the list once
                 caseStmts.append(WHEN + resourceIds.get(i) + THEN + i);
             }
@@ -750,9 +751,9 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     public int searchCount(String sqlSelectCount) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "searchCount";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         int count;
-                
+
         try {
             count = this.runCountQuery(sqlSelectCount);
         } finally {
