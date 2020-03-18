@@ -60,7 +60,6 @@ import java.util.Set;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropForeignKeyConstraint;
-import com.ibm.fhir.database.utils.common.ReorgTable;
 import com.ibm.fhir.database.utils.model.Generated;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
@@ -404,7 +403,6 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == 1) {
                         statements.add(new DropColumn(schemaName, tableName, "DATE_VALUE"));
-                        statements.add(new ReorgTable(schemaName, tableName));
                     }
                     return statements;
                 })

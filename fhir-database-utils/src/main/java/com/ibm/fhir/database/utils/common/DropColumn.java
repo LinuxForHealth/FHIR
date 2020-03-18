@@ -52,4 +52,24 @@ public class DropColumn implements IDatabaseStatement {
         }
     }
 
+    /**
+     * @return the schemaName
+     */
+    public String getSchemaName() {
+        return schemaName;
+    }
+
+    /**
+     * @return the tableName
+     */
+    public String getTableName() {
+        return tableName;
+    }
+
+    /**
+     * @return the columnNames
+     */
+    public List<String> getColumnNames() {
+        return columnNames;
+    }
 }

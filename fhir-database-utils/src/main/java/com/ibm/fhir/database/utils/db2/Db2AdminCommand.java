@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.database.utils.common;
+package com.ibm.fhir.database.utils.db2;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,27 +16,19 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 /**
  * Reorg the schema.table
  */
-public class ReorgTable implements IDatabaseStatement {
-    private final String schemaName;
-    private final String tableName;
+public class Db2AdminCommand implements IDatabaseStatement {
+    final String ddl;
 
     /**
      * Public constructor
      * @param schemaName
-     * @param tableName
      */
-    public ReorgTable(String schemaName, String tableName) {
-        DataDefinitionUtil.assertValidName(schemaName);
-        DataDefinitionUtil.assertValidName(tableName);
-        this.schemaName = schemaName;
-        this.tableName = tableName;
+    public Db2AdminCommand(String command) {
+        this.ddl = "CALL SYSPROC.ADMIN_CMD ('" + command + "')";
     }
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
-        final String ddl = "CALL SYSPROC.ADMIN_CMD ('REORG TABLE " + qname + "')";
-
         try (Statement s = c.createStatement()) {
             s.executeUpdate(ddl);
         }
