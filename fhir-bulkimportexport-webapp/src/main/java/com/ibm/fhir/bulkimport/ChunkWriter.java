@@ -125,7 +125,7 @@ public class ChunkWriter extends AbstractItemWriter {
     public void writeItems(List<java.lang.Object> arg0) throws Exception {
         boolean isValidtionOn = false;
         if (fhirValidation != null) {
-            isValidtionOn = fhirValidation.equalsIgnoreCase("Y");
+            isValidationOn = fhirValidation.equalsIgnoreCase("Y");
         }
         if (fhirTenant == null) {
             fhirTenant = "default";
