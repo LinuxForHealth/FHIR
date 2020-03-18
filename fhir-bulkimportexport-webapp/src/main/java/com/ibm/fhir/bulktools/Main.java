@@ -305,11 +305,10 @@ public class Main {
      */
     public static void main(String[] args) {
         Main m = new Main();
-        TimeUnit time = TimeUnit.NANOSECONDS;
         try {
             m.parseArgs(args);
 
-            long start = time.toSeconds(System.nanoTime());
+            long start = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime());
             int totalNum = 0;
 
             AmazonS3 cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKey, cosSrvinstId, cosEndpintUrl,
@@ -350,7 +349,7 @@ public class Main {
                    throw ioe;
                }
 
-            long end = time.toSeconds(System.nanoTime());
+            long end = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime());
             logger.info(String.format("Total Resources: %d, Took: %d seconds", totalNum, end-start));
             System.exit(0);
         }

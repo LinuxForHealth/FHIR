@@ -20,7 +20,7 @@ import javax.inject.Inject;
 
 public class ImportJobListener implements JobListener {
     private static final Logger logger = Logger.getLogger(ImportJobListener.class.getName());
-    
+
     long currentExecutionStartTimeInMS;
 
     @Inject
@@ -34,7 +34,7 @@ public class ImportJobListener implements JobListener {
     @Override
     public void afterJob() {
         // jobExecution.getEndTime() for current execution always returns null, so we use system current time as the end time for current execution.
-        long currentExecutionEndTimeInMS = time.toMillis(System.nanoTime());
+        long currentExecutionEndTimeInMS = TimeUnit.NANOSECONDS.toMillis(System.nanoTime());
 
         // Used for generating response for all the import data resources.
         @SuppressWarnings("unchecked")
@@ -89,7 +89,7 @@ public class ImportJobListener implements JobListener {
 
     @Override
     public void beforeJob() {
-        currentExecutionStartTimeInMS = time.toMillis(System.nanoTime());
+        currentExecutionStartTimeInMS = TimeUnit.NANOSECONDS.toMillis(System.nanoTime());
     }
 
 }
