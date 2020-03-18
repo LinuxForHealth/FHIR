@@ -344,7 +344,7 @@ public class Main {
             item = cosClient.getObject(new GetObjectRequest(cosBucketName, cosFile2Break));
             try (S3ObjectInputStream s3InStream = item.getObjectContent();
                     BufferedReader resReader = new BufferedReader(new InputStreamReader(s3InStream))) {
-                if (m.writeFhirResourceFromBufferReader(resReader, cosClient, bufferStream, num4Seg, isSegBySize)) {
+                if (m.writeFhirResourceFromBufferReader(resReader, cosClient, bufferStream, numForSeg, isSegBySize)) {
                     s3InStream.abort();
                 }
                } catch (Exception ioe) {
