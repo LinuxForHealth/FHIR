@@ -138,7 +138,7 @@ public class ImportPartitionCollector implements PartitionCollector {
                         logger.fine("pushImportOperationOutcomes2COS: " + partitionSummaryData.getBufferStreamForImportError().size()
                             + " bytes were successfully appended to COS object - " + partitionSummaryData.getUniqueID4ImportFailureOperationOutcomes());
                     }
-                    partitionSummaryData.setPartNum4FailureOperationOutcomes(partitionSummaryData.getPartNum4FailureOperationOutcomes() + 1);
+                    partitionSummaryData.setPartNum4FailureOperationOutcomes(partitionSummaryData.getPartNumForFailureOperationOutcomes() + 1);
                     partitionSummaryData.getBufferStreamForImportError().reset();
                 }
                 // Finish uploading failure OperationOutcomes.
