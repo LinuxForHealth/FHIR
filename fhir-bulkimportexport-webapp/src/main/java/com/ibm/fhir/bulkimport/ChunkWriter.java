@@ -250,7 +250,7 @@ public class ChunkWriter extends AbstractItemWriter {
                 logger.fine("pushImportOperationOutcomes2COS: " + chunkData.getBufferStreamForImportError().size()
                     + " bytes were successfully appended to COS object - " + chunkData.getUniqueID4ImportFailureOperationOutcomes());
             }
-            chunkData.setPartNum4FailureOperationOutcomes(chunkData.getPartNum4FailureOperationOutcomes() + 1);
+            chunkData.setPartNumForFailureOperationOutcomes(chunkData.getPartNumForFailureOperationOutcomes() + 1);
             chunkData.getBufferStreamForImportError().reset();
         }
     }
