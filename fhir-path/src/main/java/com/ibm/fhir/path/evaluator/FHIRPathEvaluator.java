@@ -23,13 +23,14 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.getStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getSystemValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getTemporalValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.hasNumberValue;
-import static com.ibm.fhir.path.util.FHIRPathUtil.hasQuantityNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.hasQuantityValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.hasStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.hasSystemValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.hasTemporalValue;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isCodedElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isComparableTo;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isQuantityNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isSingleton;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isTrue;
@@ -77,7 +78,6 @@ import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.function.FHIRPathFunction;
-import com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry;
 
 /**
  * A FHIRPath evaluation engine that implements the FHIRPath 2.0.0 <a href="http://hl7.org/fhirpath/N1/">specification</a>
@@ -617,7 +617,7 @@ public class FHIRPathEvaluator {
                     result = singleton(temporalValue.subtract(quantityValue));
                     break;
                 }
-            } else if (hasQuantityNode(left) && hasQuantityNode(right)) {
+            } else if (isQuantityNode(left) && isQuantityNode(right)) {
                 FHIRPathQuantityNode leftNode = getQuantityNode(left);
                 FHIRPathQuantityNode rightNode = getQuantityNode(right);
                 switch(operator) {
@@ -783,9 +783,9 @@ public class FHIRPathEvaluator {
 
             switch (operator) {
             case "in":
-                if (isStringValue(right)) {
-                    // For backwards-compatibility per: https://jira.hl7.org/projects/FHIR/issues/FHIR-26605
-                    FHIRPathFunction memberOfFunction = FHIRPathFunctionRegistry.getInstance().getFunction("memberOf");
+                if (isCodedElementNode(left) && isStringValue(right)) {
+                    // For backwards compatibility per: https://jira.hl7.org/projects/FHIR/issues/FHIR-26605
+                    FHIRPathFunction memberOfFunction = FHIRPathFunction.registry().getFunction("memberOf");
                     result = memberOfFunction.apply(evaluationContext, left, Collections.singletonList(right));
                 } else if (right.containsAll(left)) {
                     result = SINGLETON_TRUE;

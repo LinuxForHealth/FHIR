@@ -34,6 +34,10 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.ibm.fhir.model.patch.exception.FHIRPatchException;
+import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ModelSupport.ElementInfo;
 import com.ibm.fhir.model.visitor.Visitable;
@@ -97,40 +101,40 @@ public final class FHIRPathUtil {
         return TYPE_COMPATIBILITY_MAP.get(leftValue.type()).contains(rightValue.type());
     }
     
-    public static boolean hasResourceNode(Collection<FHIRPathNode> nodes) {
-        if (isSingleton(nodes)) {
-            FHIRPathNode node = getSingleton(nodes);
-            return (node instanceof FHIRPathResourceNode);
-        }
-        return false;
+    public static boolean isResourceNode(Collection<FHIRPathNode> nodes) {
+        return isSingleton(nodes, FHIRPathResourceNode.class);
     }
     
     public static FHIRPathResourceNode getResourceNode(Collection<FHIRPathNode> nodes) {
-        return getSingleton(nodes).asResourceNode();
+        return getSingleton(nodes, FHIRPathResourceNode.class);
     }
     
-    public static boolean hasElementNode(Collection<FHIRPathNode> nodes) {
-        if (isSingleton(nodes)) {
-            FHIRPathNode node = getSingleton(nodes);
-            return (node instanceof FHIRPathElementNode);
-        }
-        return false;
+    public static boolean isElementNode(Collection<FHIRPathNode> nodes) {
+        return isSingleton(nodes, FHIRPathElementNode.class);
     }
     
     public static FHIRPathElementNode getElementNode(Collection<FHIRPathNode> nodes) {
         return getSingleton(nodes).asElementNode();
     }
     
-    public static boolean hasQuantityNode(Collection<FHIRPathNode> nodes) {
-        if (isSingleton(nodes)) {
-            FHIRPathNode node = getSingleton(nodes);
-            return (node instanceof FHIRPathQuantityNode);
-        }
-        return false;
+    public static boolean isCodedElementNode(Collection<FHIRPathNode> nodes) {
+        return isElementNode(nodes) && isCodedElementNode(getElementNode(nodes));
+    }
+    
+    public static boolean isCodedElementNode(FHIRPathElementNode elementNode) {
+        return isCodedElement(elementNode.element());
+    }
+    
+    public static boolean isCodedElement(Element element) {
+        return element.is(Code.class) || element.is(Coding.class) || element.is(CodeableConcept.class); 
+    }
+    
+    public static boolean isQuantityNode(Collection<FHIRPathNode> nodes) {
+        return isSingleton(nodes, FHIRPathQuantityNode.class);
     }
     
     public static FHIRPathQuantityNode getQuantityNode(Collection<FHIRPathNode> nodes) {
-        return getSingleton(nodes).asElementNode().asQuantityNode();
+        return getSingleton(nodes, FHIRPathQuantityNode.class);
     }
     
     public static BigDecimal getDecimal(Collection<FHIRPathNode> nodes) {
@@ -282,15 +286,19 @@ public final class FHIRPathUtil {
         }
         return false;
     }
-
+    
     public static boolean isSingleton(Collection<FHIRPathNode> nodes) {
         return nodes.size() == 1;
     }
-
-    public static boolean isStringValue(Collection<FHIRPathNode> nodes) {
-        return isSingleton(nodes) && (getSingleton(nodes) instanceof FHIRPathStringValue);
+    
+    public static <T extends FHIRPathNode> boolean isSingleton(Collection<FHIRPathNode> nodes, Class<T> nodeType) {
+        return isSingleton(nodes) && getSingleton(nodes).is(nodeType);
     }
-
+    
+    public static boolean isStringValue(Collection<FHIRPathNode> nodes) {
+        return isSingleton(nodes, FHIRPathStringValue.class);
+    }
+    
     /**
      * @throws IllegalArgumentException if the passed collection is not a singleton
      */
@@ -303,6 +311,10 @@ public final class FHIRPathUtil {
             return (FHIRPathNode) list.get(0);
         }
         return nodes.iterator().next();
+    }
+    
+    public static <T extends FHIRPathNode> T getSingleton(Collection<FHIRPathNode> nodes, Class<T> nodeType) {
+        return getSingleton(nodes).as(nodeType);
     }
     
     public static Collection<FHIRPathNode> singleton(FHIRPathNode node) {
@@ -351,7 +363,7 @@ public final class FHIRPathUtil {
         }
         throw new IllegalArgumentException();
     }
-
+    
     public static TemporalAmount getTemporalAmount(FHIRPathQuantityValue quantityValue) {
         int value = quantityValue.value().intValue();
         String unit = quantityValue.unit();
@@ -384,11 +396,11 @@ public final class FHIRPathUtil {
             throw new IllegalArgumentException();
         }
     }
-
+    
     public static SimpleTypeInfo buildSimpleTypeInfo(FHIRPathType type) {
         return new SimpleTypeInfo(type.namespace(), type.getName(), "System.Any");
     }
-
+    
     public static TupleTypeInfo buildTupleTypeInfo(Class<?> modelClass) {
         List<TupleTypeInfoElement> element = new ArrayList<>();
         for (ElementInfo elementInfo : ModelSupport.getElementInfo(modelClass)) {
@@ -398,7 +410,7 @@ public final class FHIRPathUtil {
         }
         return new TupleTypeInfo(element);
     }
-
+    
     public static TupleTypeInfoElement buildTupleTypeInfoElement(ElementInfo elementInfo) {
         FHIRPathType type = FHIRPathType.from(elementInfo.getType());
         if (elementInfo.isRepeating()) {
@@ -406,7 +418,7 @@ public final class FHIRPathUtil {
         }
         return new TupleTypeInfoElement(elementInfo.getName(), type.namespace() + "." + type.getName());
     }
-
+    
     public static ClassInfo buildClassInfo(FHIRPathType type) {
         List<ClassInfoElement> element = new ArrayList<>();
         Class<?> modelClass = type.modelClass();
@@ -417,7 +429,7 @@ public final class FHIRPathUtil {
         }
         return new ClassInfo(type.namespace(), type.getName(), type.baseType().namespace() + "." + type.baseType().getName(), element);
     }
-
+    
     public static ClassInfoElement buildClassInfoElement(ElementInfo elementInfo) {
         FHIRPathType type = FHIRPathType.from(elementInfo.getType());
         String typeName;
@@ -434,7 +446,7 @@ public final class FHIRPathUtil {
         }
         return new ClassInfoElement(elementInfo.getName(), typeName);
     }
-        
+    
     public static Collection<FHIRPathNode> unordered(Collection<FHIRPathNode> nodes) {
         return new UnorderedCollection(nodes);
     }
@@ -543,7 +555,7 @@ public final class FHIRPathUtil {
         }
         return (FHIRPathTemporalValue) node.getValue();
     }
-
+    
     public static String unescape(String s) {
         StringBuilder sb = new StringBuilder();
         int index = 0;
@@ -606,7 +618,7 @@ public final class FHIRPathUtil {
         }
         return deletingVisitor.getResult();
     }
-
+    
     /**
      * @param fhirPath
      * @param value
@@ -632,7 +644,7 @@ public final class FHIRPathUtil {
         }
         return replacingVisitor.getResult();
     }
-
+    
     private static FHIRPathNode evaluateToSingle(Visitable elementOrResource, String fhirPath) throws FHIRPathException, FHIRPatchException {
         /*
          * 1. The FHIRPath statement must return a single element.
@@ -649,7 +661,7 @@ public final class FHIRPathUtil {
         Collection<FHIRPathNode> nodes = evaluator.evaluate(elementOrResource, fhirPath);
         return getSingleton(nodes);
     }
-
+    
     /**
      * The content will be inserted into the nominated list at the index specified (0 based).
      * The index is mandatory and must be equal or less than the number of elements in the list.
@@ -682,7 +694,7 @@ public final class FHIRPathUtil {
         }
         return insertingVisitor.getResult();
     }
-
+    
     /**
      * Move an element within a single list
      * @throws FHIRPathException 
@@ -713,7 +725,7 @@ public final class FHIRPathUtil {
         }
         return movingVisitor.getResult();
     }
-
+    
     /**
      * Verifies that all the nodes have a common name and returns it
      * 
@@ -735,7 +747,7 @@ public final class FHIRPathUtil {
         }
         return name;
     }
-
+    
     /**
      * @param fhirPath
      *            The fhirPath executed to produce the nodes (only used for the error message)
