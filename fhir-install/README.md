@@ -30,7 +30,7 @@ Once the fhir-server is ready, you can test it by accessing: https://localhost:9
 For example:
 
 ```sh
-curl -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$healthcheck'
+curl -k -i -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$healthcheck'
 ```
 
 The test should result in something like:
