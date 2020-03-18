@@ -20,7 +20,7 @@ import javax.inject.Inject;
 
 public class ImportJobListener implements JobListener {
     private static final Logger logger = Logger.getLogger(ImportJobListener.class.getName());
-    private TimeUnit time = TimeUnit.NANOSECONDS;
+    
     long currentExecutionStartTimeInMS;
 
     @Inject
