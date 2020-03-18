@@ -20,6 +20,7 @@ import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -28,9 +29,9 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
+import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 /**
  * Bulk import Chunk implementation - the Writer.
@@ -107,6 +108,14 @@ public class ChunkWriter extends AbstractItemWriter {
     String importPartitionResourceType;
 
 
+    /**
+     * If validate FHIR resources.
+     */
+    @Inject
+    @BatchProperty(name = Constants.IMPORT_FHIR_IS_VALIDATION_ON)
+    String fhirValidation;
+
+
     public ChunkWriter() {
         super();
     }
@@ -114,6 +123,10 @@ public class ChunkWriter extends AbstractItemWriter {
     @Override
     @SuppressWarnings("unchecked")
     public void writeItems(List<java.lang.Object> arg0) throws Exception {
+        boolean isValidtionOn = false;
+        if (fhirValidation != null) {
+            isValidtionOn = fhirValidation.equalsIgnoreCase("Y");
+        }
         if (fhirTenant == null) {
             fhirTenant = "default";
             logger.info("writeItems: Set tenant to default!");
@@ -143,6 +156,9 @@ public class ChunkWriter extends AbstractItemWriter {
             for (Resource fhirResource : fhirResourceList) {
                 try {
                     processedNum++;
+                    if (isValidtionOn) {
+                        BulkDataUtils.validateInput(fhirResource);
+                    }
                     OperationOutcome operationOutcome = fhirPersistence.update(persistenceContext, fhirResource.getId(), fhirResource).getOutcome();
                     succeededNum++;
                     if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
@@ -151,11 +167,19 @@ public class ChunkWriter extends AbstractItemWriter {
                             chunkData.getBufferStream4Import().write(Constants.NDJSON_LINESEPERATOR);
                         }
                     }
-                } catch (FHIRPersistenceException e) {
+                } catch (FHIRValidationException|FHIROperationException e) {
                     logger.warning("Failed to import '" + fhirResource.getId() + "' due to error: " + e.getMessage());
                     failedNum++;
                     if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
+                        OperationOutcome operationOutCome;
+                        if (e instanceof FHIROperationException && !((FHIROperationException) e).getIssues().isEmpty()) {
+                            operationOutCome = FHIRUtil.buildOperationOutcome(((FHIROperationException) e).getIssues());
+                        } else {
+                            operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
+                        }
+
                         FHIRGenerator.generator(Format.JSON).generate(FHIRUtil.buildOperationOutcome(e, false), chunkData.getBufferStream4ImportError());
+
                         chunkData.getBufferStream4ImportError().write(Constants.NDJSON_LINESEPERATOR);
                     }
                 }
