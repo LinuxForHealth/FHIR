@@ -349,7 +349,7 @@ public class BulkDataUtils {
                                 .flatMap(details -> Stream.of(details.getText()))
                                 .flatMap(text -> Stream.of(text.getValue()))
                                 .collect(Collectors.joining(", "));
-                    logger.fine("Validation warnings for input resource: " + info);
+                    logger.fine("Validation warnings for input resource: [" + info + "]");
                 }
             }
         }
