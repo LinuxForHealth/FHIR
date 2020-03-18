@@ -45,6 +45,7 @@ public class Constants {
     public static final String IMPORT_PARTITTION_WORKITEM = "import.partiton.workitem";
     public static final String IMPORT_PARTITTION_RESOURCE_TYPE = "import.partiton.resourcetype";
     public static final String IMPORT_FHIR_STORAGE_TYPE = "import.fhir.storagetype";
+    public static final String IMPORT_FHIR_IS_VALIDATION_ON = "import.fhir.validation";
 
     // Control if push OperationOutcomes to COS/S3.
     public static final boolean IMPORT_IS_COLLECT_OPERATIONOUTCOMES = false;
