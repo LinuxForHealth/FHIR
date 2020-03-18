@@ -9,10 +9,11 @@ package com.ibm.fhir.path.function;
 import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
+import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getString;
-import static com.ibm.fhir.path.util.FHIRPathUtil.hasElementNode;
-import static com.ibm.fhir.path.util.FHIRPathUtil.hasStringValue;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isCodedElementNode;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isStringValue;
 import static com.ibm.fhir.profile.ValueSetSupport.expand;
 import static com.ibm.fhir.profile.ValueSetSupport.getContains;
 import static com.ibm.fhir.profile.ValueSetSupport.getValueSet;
@@ -67,21 +68,20 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        if (!hasElementNode(context)) {
-            throw new IllegalArgumentException("The 'memberOf' function can only be invoked on an Element node");
+        if (context.isEmpty()) {
+            return empty();
+        }
+        
+        if (!isCodedElementNode(context)) {
+            throw new IllegalArgumentException("The 'memberOf' function must be invoked on a coded element node");
+        }
+        
+        if (!isStringValue(arguments.get(0))) {
+            throw new IllegalArgumentException("The argument to the 'memberOf' function must be a string value");
         }
         
         FHIRPathElementNode elementNode = getElementNode(context);
         Element element = elementNode.element();
-        
-        if (!isCodedElement(element)) {
-            throw new IllegalArgumentException("The 'memberOf' function can only be invoked on a coded element");
-        }
-        
-        if (!hasStringValue(arguments.get(0))) {
-            throw new IllegalArgumentException("The argument to the 'memberOf' function must be a string");
-        }
-        
         String url = getString(arguments.get(0));
                 
         if (FHIRRegistry.getInstance().hasResource(url)) {
@@ -190,12 +190,6 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
     
     private Map<String, Set<String>> getCodeSetMap(String url) {
         return CODE_SET_MAP_CACHE.computeIfAbsent(url, k -> computeCodeSetMap(getValueSet(url)));
-    }
-    
-    private boolean isCodedElement(Element element) {
-        return (element instanceof Code) || 
-                (element instanceof Coding) || 
-                (element instanceof CodeableConcept);
     }
 
     private Map<String, Set<String>> computeCodeSetMap(ValueSet valueSet) {

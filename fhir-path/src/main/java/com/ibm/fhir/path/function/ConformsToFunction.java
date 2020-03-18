@@ -12,10 +12,10 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.evaluatesToBoolean;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getSingleton;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getStringValue;
-import static com.ibm.fhir.path.util.FHIRPathUtil.hasElementNode;
-import static com.ibm.fhir.path.util.FHIRPathUtil.hasResourceNode;
-import static com.ibm.fhir.path.util.FHIRPathUtil.hasStringValue;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isResourceNode;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isStringValue;
 
 import java.util.Collection;
 import java.util.List;
@@ -55,12 +55,12 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
             return empty();
         }
         
-        if (!hasResourceNode(context) && !hasElementNode(context)) {
-            throw new IllegalArgumentException("The 'conformsTo' function can only be invoked on a Resource or Element node");
+        if (!isResourceNode(context) && !isElementNode(context)) {
+            throw new IllegalArgumentException("The 'conformsTo' function must be invoked on a Resource or Element node");
         }
         
-        if (!hasStringValue(arguments.get(0))) {
-            throw new IllegalArgumentException("The argument to the 'conformsTo' function must be a string");
+        if (!isStringValue(arguments.get(0))) {
+            throw new IllegalArgumentException("The argument to the 'conformsTo' function must be a string value");
         }
         
         FHIRPathNode node = getSingleton(context);
