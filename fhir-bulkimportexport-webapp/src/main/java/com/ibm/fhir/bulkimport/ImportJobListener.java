@@ -8,6 +8,7 @@ package com.ibm.fhir.bulkimport;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import javax.batch.api.listener.JobListener;
@@ -17,12 +18,10 @@ import javax.batch.runtime.JobExecution;
 import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
 
-import com.ibm.fhir.bulkcommon.Constants;
-
 public class ImportJobListener implements JobListener {
     private static final Logger logger = Logger.getLogger(ImportJobListener.class.getName());
-
-    long currentExecutionStartTimeInNanoSecond;
+    private TimeUnit time = TimeUnit.NANOSECONDS;
+    long currentExecutionStartTimeInMS;
 
     @Inject
     JobContext jobContext;
@@ -35,7 +34,7 @@ public class ImportJobListener implements JobListener {
     @Override
     public void afterJob() {
         // jobExecution.getEndTime() for current execution always returns null, so we use system current time as the end time for current execution.
-        long currentExecutionEndTimeInNanoSecond = System.nanoTime();
+        long currentExecutionEndTimeInMS = time.toMillis(System.nanoTime());
 
         // Used for generating response for all the import data resources.
         @SuppressWarnings("unchecked")
@@ -49,7 +48,7 @@ public class ImportJobListener implements JobListener {
             if (jobExecution.getEndTime() != null) {
                 totalJobExecutionMilliSeconds += (jobExecution.getEndTime().getTime() - jobExecution.getStartTime().getTime());
             } else {
-                totalJobExecutionMilliSeconds += (currentExecutionEndTimeInNanoSecond - currentExecutionStartTimeInNanoSecond)/Constants.NANOMS;
+                totalJobExecutionMilliSeconds += (currentExecutionEndTimeInMS - currentExecutionStartTimeInMS);
             }
         }
 
@@ -90,7 +89,7 @@ public class ImportJobListener implements JobListener {
 
     @Override
     public void beforeJob() {
-        currentExecutionStartTimeInNanoSecond = System.nanoTime();
+        currentExecutionStartTimeInMS = time.toMillis(System.nanoTime());
     }
 
 }
