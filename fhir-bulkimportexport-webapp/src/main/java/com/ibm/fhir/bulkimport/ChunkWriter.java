@@ -226,7 +226,7 @@ public class ChunkWriter extends AbstractItemWriter {
             chunkData.getDataPacks4OperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
                     cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportOperationOutcomes(),
                     chunkData.getUploadId4OperationOutcomes(), new ByteArrayInputStream(chunkData.getBufferStreamForImport().toByteArray()),
-                    chunkData.getBufferStreamForImport().size(), chunkData.getPartNum4OperationOutcomes()));
+                    chunkData.getBufferStreamForImport().size(), chunkData.getPartNumForOperationOutcomes()));
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("pushImportOperationOutcomes2COS: " + chunkData.getBufferStreamForImport().size()
                     + " bytes were successfully appended to COS object - " + chunkData.getUniqueID4ImportOperationOutcomes());
