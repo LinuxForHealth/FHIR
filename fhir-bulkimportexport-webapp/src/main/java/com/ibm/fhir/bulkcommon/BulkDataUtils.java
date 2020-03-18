@@ -342,8 +342,7 @@ public class BulkDataUtils {
 
             if (includesFailure) {
                 throw new FHIROperationException("Input resource failed validation.").withIssue(issues);
-            } else {
-                if (logger.isLoggable(Level.FINE)) {
+            } else if (logger.isLoggable(Level.FINE)) {
                     String info = issues.stream()
                                 .flatMap(issue -> Stream.of(issue.getDetails()))
                                 .flatMap(details -> Stream.of(details.getText()))
