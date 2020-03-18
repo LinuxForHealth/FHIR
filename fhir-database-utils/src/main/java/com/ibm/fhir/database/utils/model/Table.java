@@ -197,9 +197,6 @@ public class Table extends BaseObject {
         // Privileges to be granted on this table
         private List<GroupPrivilege> privileges = new ArrayList<>();
 
-        // schema version
-        private int version = 1;
-
         /**
          * Private constructor to force creation through factory method
          * @param schemaName

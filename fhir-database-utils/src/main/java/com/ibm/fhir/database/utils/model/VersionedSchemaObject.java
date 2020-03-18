@@ -20,7 +20,7 @@ public class VersionedSchemaObject {
     private final String objectName;
 
     // The version, which can be changed during building
-    private int version = 1;
+    protected int version = 1;
     
     public VersionedSchemaObject(String schemaName, String objectName) {
         DataDefinitionUtil.assertValidNames(schemaName, objectName);
