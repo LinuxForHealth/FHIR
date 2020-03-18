@@ -238,7 +238,7 @@ public class ChunkWriter extends AbstractItemWriter {
         // Upload OperationOutcomes in failure buffer if it reaches the minimal size for multiple-parts upload.
         if (chunkData.getBufferStreamForImportError().size() > Constants.COS_PART_MINIMALSIZE) {
             if (chunkData.getUploadIdForFailureOperationOutcomes()  == null) {
-                chunkData.setUploadId4FailureOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
+                chunkData.setUploadIdForFailureOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
                         cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportFailureOperationOutcomes(), true));
             }
 
