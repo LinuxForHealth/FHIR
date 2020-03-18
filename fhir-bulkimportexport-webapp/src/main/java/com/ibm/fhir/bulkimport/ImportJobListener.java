@@ -8,6 +8,7 @@ package com.ibm.fhir.bulkimport;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import javax.batch.api.listener.JobListener;
@@ -19,6 +20,9 @@ import javax.inject.Inject;
 
 public class ImportJobListener implements JobListener {
     private static final Logger logger = Logger.getLogger(ImportJobListener.class.getName());
+
+    long currentExecutionStartTimeInMS;
+
     @Inject
     JobContext jobContext;
 
@@ -30,7 +34,7 @@ public class ImportJobListener implements JobListener {
     @Override
     public void afterJob() {
         // jobExecution.getEndTime() for current execution always returns null, so we use system current time as the end time for current execution.
-        long currentExecutionEndTimeInMS = System.currentTimeMillis();;
+        long currentExecutionEndTimeInMS = TimeUnit.NANOSECONDS.toMillis(System.nanoTime());
 
         // Used for generating response for all the import data resources.
         @SuppressWarnings("unchecked")
@@ -44,7 +48,7 @@ public class ImportJobListener implements JobListener {
             if (jobExecution.getEndTime() != null) {
                 totalJobExecutionMilliSeconds += (jobExecution.getEndTime().getTime() - jobExecution.getStartTime().getTime());
             } else {
-                totalJobExecutionMilliSeconds += (currentExecutionEndTimeInMS - jobExecution.getStartTime().getTime());
+                totalJobExecutionMilliSeconds += (currentExecutionEndTimeInMS - currentExecutionStartTimeInMS);
             }
         }
 
@@ -85,6 +89,7 @@ public class ImportJobListener implements JobListener {
 
     @Override
     public void beforeJob() {
+        currentExecutionStartTimeInMS = TimeUnit.NANOSECONDS.toMillis(System.nanoTime());
     }
 
 }

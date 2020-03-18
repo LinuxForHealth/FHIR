@@ -20,6 +20,7 @@ import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -28,9 +29,9 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
+import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 /**
  * Bulk import Chunk implementation - the Writer.
@@ -107,13 +108,25 @@ public class ChunkWriter extends AbstractItemWriter {
     String importPartitionResourceType;
 
 
+    /**
+     * If validate FHIR resources.
+     */
+    @Inject
+    @BatchProperty(name = Constants.IMPORT_FHIR_IS_VALIDATION_ON)
+    String fhirValidation;
+
+
     public ChunkWriter() {
         super();
     }
 
+    // This is for the warning triggered by IMPORT_IS_COLLECT_OPERATIONOUTCOMES which controls if upload OperationOutcomes to COS/S3.
     @Override
-    @SuppressWarnings("unchecked")
     public void writeItems(List<java.lang.Object> arg0) throws Exception {
+        boolean isValidationOn = false;
+        if (fhirValidation != null) {
+            isValidationOn = fhirValidation.equalsIgnoreCase("Y");
+        }
         if (fhirTenant == null) {
             fhirTenant = "default";
             logger.info("writeItems: Set tenant to default!");
@@ -137,26 +150,34 @@ public class ChunkWriter extends AbstractItemWriter {
         // This doesn't really start the transaction, because the transaction has already been started by the JavaBatch
         // framework at this time point.
         txn.enroll();
-        for (Object objResJasonList : arg0) {
-            List<Resource> fhirResourceList = (List<Resource>) objResJasonList;
+        for (Object objResJsonList : arg0) {
+            @SuppressWarnings("unchecked")
+            List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
 
             for (Resource fhirResource : fhirResourceList) {
                 try {
                     processedNum++;
+                    if (isValidationOn) {
+                        BulkDataUtils.validateInput(fhirResource);
+                    }
                     OperationOutcome operationOutcome = fhirPersistence.update(persistenceContext, fhirResource.getId(), fhirResource).getOutcome();
                     succeededNum++;
-                    if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
-                        if (operationOutcome != null) {
-                            FHIRGenerator.generator(Format.JSON).generate(operationOutcome, chunkData.getBufferStream4Import());
-                            chunkData.getBufferStream4Import().write(Constants.NDJSON_LINESEPERATOR);
-                        }
+                    if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES && operationOutcome != null) {
+                        FHIRGenerator.generator(Format.JSON).generate(operationOutcome, chunkData.getBufferStreamForImport());
+                        chunkData.getBufferStreamForImport().write(Constants.NDJSON_LINESEPERATOR);
                     }
-                } catch (FHIRPersistenceException e) {
+                } catch (FHIRValidationException | FHIROperationException e) {
                     logger.warning("Failed to import '" + fhirResource.getId() + "' due to error: " + e.getMessage());
                     failedNum++;
                     if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
-                        FHIRGenerator.generator(Format.JSON).generate(FHIRUtil.buildOperationOutcome(e, false), chunkData.getBufferStream4ImportError());
-                        chunkData.getBufferStream4ImportError().write(Constants.NDJSON_LINESEPERATOR);
+                        OperationOutcome operationOutCome;
+                        if (e instanceof FHIROperationException && !((FHIROperationException) e).getIssues().isEmpty()) {
+                            operationOutCome = FHIRUtil.buildOperationOutcome(((FHIROperationException) e).getIssues());
+                        } else {
+                            operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
+                        }
+                        FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
+                        chunkData.getBufferStreamForImportError().write(Constants.NDJSON_LINESEPERATOR);
                     }
                 }
             }
@@ -195,41 +216,41 @@ public class ChunkWriter extends AbstractItemWriter {
         }
 
         // Upload OperationOutcomes in buffer if it reaches the minimal size for multiple-parts upload.
-        if (chunkData.getBufferStream4Import().size() > Constants.COS_PART_MINIMALSIZE) {
-            if (chunkData.getUploadId4OperationOutcomes()  == null) {
-                chunkData.setUploadId4OperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
-                        cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportOperationOutcomes(), true));
+        if (chunkData.getBufferStreamForImport().size() > Constants.COS_PART_MINIMALSIZE) {
+            if (chunkData.getUploadIdForOperationOutcomes()  == null) {
+                chunkData.setUploadIdForOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
+                        cosOperationOutcomesBucketName, chunkData.getUniqueIDForImportOperationOutcomes(), true));
             }
 
-            chunkData.getDataPacks4OperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
-                    cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportOperationOutcomes(),
-                    chunkData.getUploadId4OperationOutcomes(), new ByteArrayInputStream(chunkData.getBufferStream4Import().toByteArray()),
-                    chunkData.getBufferStream4Import().size(), chunkData.getPartNum4OperationOutcomes()));
+            chunkData.getDataPacksForOperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
+                    cosOperationOutcomesBucketName, chunkData.getUniqueIDForImportOperationOutcomes(),
+                    chunkData.getUploadIdForOperationOutcomes(), new ByteArrayInputStream(chunkData.getBufferStreamForImport().toByteArray()),
+                    chunkData.getBufferStreamForImport().size(), chunkData.getPartNumForOperationOutcomes()));
             if (logger.isLoggable(Level.FINE)) {
-                logger.fine("pushImportOperationOutcomes2COS: " + chunkData.getBufferStream4Import().size()
-                    + " bytes were successfully appended to COS object - " + chunkData.getUniqueID4ImportOperationOutcomes());
+                logger.fine("pushImportOperationOutcomesToCOS: " + chunkData.getBufferStreamForImport().size()
+                    + " bytes were successfully appended to COS object - " + chunkData.getUniqueIDForImportOperationOutcomes());
             }
-            chunkData.setPartNum4OperationOutcomes(chunkData.getPartNum4OperationOutcomes() + 1);
-            chunkData.getBufferStream4Import().reset();
+            chunkData.setPartNumForOperationOutcomes(chunkData.getPartNumForOperationOutcomes() + 1);
+            chunkData.getBufferStreamForImport().reset();
         }
 
         // Upload OperationOutcomes in failure buffer if it reaches the minimal size for multiple-parts upload.
-        if (chunkData.getBufferStream4ImportError().size() > Constants.COS_PART_MINIMALSIZE) {
-            if (chunkData.getUploadId4FailureOperationOutcomes()  == null) {
-                chunkData.setUploadId4FailureOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
-                        cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportFailureOperationOutcomes(), true));
+        if (chunkData.getBufferStreamForImportError().size() > Constants.COS_PART_MINIMALSIZE) {
+            if (chunkData.getUploadIdForFailureOperationOutcomes()  == null) {
+                chunkData.setUploadIdForFailureOperationOutcomes(BulkDataUtils.startPartUpload(cosClient,
+                        cosOperationOutcomesBucketName, chunkData.getUniqueIDForImportFailureOperationOutcomes(), true));
             }
 
-            chunkData.getDataPacks4FailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
-                    cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportFailureOperationOutcomes(),
-                    chunkData.getUploadId4FailureOperationOutcomes(), new ByteArrayInputStream(chunkData.getBufferStream4ImportError().toByteArray()),
-                    chunkData.getBufferStream4ImportError().size(), chunkData.getPartNum4FailureOperationOutcomes()));
+            chunkData.getDataPacksForFailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
+                    cosOperationOutcomesBucketName, chunkData.getUniqueIDForImportFailureOperationOutcomes(),
+                    chunkData.getUploadIdForFailureOperationOutcomes(), new ByteArrayInputStream(chunkData.getBufferStreamForImportError().toByteArray()),
+                    chunkData.getBufferStreamForImportError().size(), chunkData.getPartNumForFailureOperationOutcomes()));
             if (logger.isLoggable(Level.FINE)) {
-                logger.fine("pushImportOperationOutcomes2COS: " + chunkData.getBufferStream4ImportError().size()
-                    + " bytes were successfully appended to COS object - " + chunkData.getUniqueID4ImportFailureOperationOutcomes());
+                logger.fine("pushImportOperationOutcomes2COS: " + chunkData.getBufferStreamForImportError().size()
+                    + " bytes were successfully appended to COS object - " + chunkData.getUniqueIDForImportFailureOperationOutcomes());
             }
-            chunkData.setPartNum4FailureOperationOutcomes(chunkData.getPartNum4FailureOperationOutcomes() + 1);
-            chunkData.getBufferStream4ImportError().reset();
+            chunkData.setPartNumForFailureOperationOutcomes(chunkData.getPartNumForFailureOperationOutcomes() + 1);
+            chunkData.getBufferStreamForImportError().reset();
         }
     }
 }

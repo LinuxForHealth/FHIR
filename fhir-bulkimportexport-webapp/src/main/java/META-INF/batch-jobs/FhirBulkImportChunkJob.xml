@@ -32,6 +32,7 @@
                     <property name="cos.location" value="#{jobParameters['cos.location']}"/>
                     <property name="cos.credential.ibm" value="#{jobParameters['cos.credential.ibm']}"/>
                     <property name="cos.operationoutcomes.bucket.name" value="#{jobParameters['cos.operationoutcomes.bucket.name']}"/>
+                    <property name="import.fhir.validation" value="#{jobParameters['import.fhir.validation']}"/>
                 </properties>     
             </writer>
         </chunk>

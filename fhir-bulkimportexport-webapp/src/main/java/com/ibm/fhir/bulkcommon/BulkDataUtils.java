@@ -16,6 +16,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.ibm.cloud.objectstorage.ClientConfiguration;
 import com.ibm.cloud.objectstorage.SDKGlobalConfiguration;
@@ -39,10 +41,15 @@ import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
 import com.ibm.cloud.objectstorage.services.s3.model.UploadPartRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.UploadPartResult;
 import com.ibm.fhir.bulkimport.ImportTransientUserData;
+import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.validation.FHIRValidator;
+import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 /**
  * Utility functions for IBM COS.
@@ -313,5 +320,37 @@ public class BulkDataUtils {
         } while (retryTimes > 0);
 
         return parseFailures;
+    }
+
+    /**
+     * Validate the input resource and throw if there are validation errors
+     *
+     * @param resource
+     * @throws FHIRValidationException
+     * @throws FHIROperationException
+     */
+    public static List<OperationOutcome.Issue> validateInput(Resource resource)
+            throws FHIRValidationException, FHIROperationException {
+        List<OperationOutcome.Issue> issues = FHIRValidator.validator().validate(resource);
+        if (!issues.isEmpty()) {
+            boolean includesFailure = false;
+            for (OperationOutcome.Issue issue : issues) {
+                if (FHIRUtil.isFailure(issue.getSeverity())) {
+                    includesFailure = true;
+                }
+            }
+
+            if (includesFailure) {
+                throw new FHIROperationException("Input resource failed validation.").withIssue(issues);
+            } else if (logger.isLoggable(Level.FINE)) {
+                    String info = issues.stream()
+                                .flatMap(issue -> Stream.of(issue.getDetails()))
+                                .flatMap(details -> Stream.of(details.getText()))
+                                .flatMap(text -> Stream.of(text.getValue()))
+                                .collect(Collectors.joining(", "));
+                    logger.fine("Validation warnings for input resource: [" + info + "]");
+            }
+        }
+        return issues;
     }
 }
