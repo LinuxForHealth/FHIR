@@ -243,7 +243,7 @@ public class ChunkWriter extends AbstractItemWriter {
             }
 
             chunkData.getDataPacks4FailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(cosClient,
-                    cosOperationOutcomesBucketName, chunkData.getUniqueID4ImportFailureOperationOutcomes(),
+                    cosOperationOutcomesBucketName, chunkData.getUniqueIDForImportFailureOperationOutcomes(),
                     chunkData.getUploadId4FailureOperationOutcomes(), new ByteArrayInputStream(chunkData.getBufferStreamForImportError().toByteArray()),
                     chunkData.getBufferStreamForImportError().size(), chunkData.getPartNum4FailureOperationOutcomes()));
             if (logger.isLoggable(Level.FINE)) {
