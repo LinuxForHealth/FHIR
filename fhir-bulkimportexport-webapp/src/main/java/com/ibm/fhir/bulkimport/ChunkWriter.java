@@ -121,7 +121,6 @@ public class ChunkWriter extends AbstractItemWriter {
     }
 
     // This is for the warning triggered by IMPORT_IS_COLLECT_OPERATIONOUTCOMES which controls if upload OperationOutcomes to COS/S3.
-    @SuppressWarnings("unused")
     @Override
     public void writeItems(List<java.lang.Object> arg0) throws Exception {
         boolean isValidationOn = false;
