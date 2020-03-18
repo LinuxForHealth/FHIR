@@ -17,8 +17,8 @@ public class ImportTransientUserData extends ImportCheckPointData {
     private static final long serialVersionUID = -2642411992044844735L;
     // Used for import OperationOutcomes, Bulk data import API defines optional links to the OperationOutcomes for each import data source,
     // Data in this buffer stream will be uploaded to storage like IBM COS and allow user to download via the link mentioned above.
-    private ByteArrayOutputStream bufferStream4ImportError = new ByteArrayOutputStream();
-    private ByteArrayOutputStream bufferStream4Import = new ByteArrayOutputStream();
+    private ByteArrayOutputStream bufferStreamForImportError = new ByteArrayOutputStream();
+    private ByteArrayOutputStream bufferStreamForImport = new ByteArrayOutputStream();
 
     private InputStream inputStream = null;
     private BufferedReader bufferReader = null;
@@ -38,12 +38,12 @@ public class ImportTransientUserData extends ImportCheckPointData {
         super(importPartitionWorkitem, numOfProcessedResources, importPartitionResourceType);
     }
 
-    public ByteArrayOutputStream getBufferStream4ImportError() {
-        return bufferStream4ImportError;
+    public ByteArrayOutputStream getBufferStreamForImportError() {
+        return bufferStreamForImportError;
     }
 
-    public ByteArrayOutputStream getBufferStream4Import() {
-        return bufferStream4Import;
+    public ByteArrayOutputStream getBufferStreamForImport() {
+        return bufferStreamForImport;
     }
 
     public static ImportTransientUserData fromImportCheckPointData(ImportCheckPointData importCheckPointData) {
