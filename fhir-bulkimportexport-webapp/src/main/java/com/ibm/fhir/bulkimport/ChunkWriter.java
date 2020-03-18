@@ -167,7 +167,7 @@ public class ChunkWriter extends AbstractItemWriter {
                         FHIRGenerator.generator(Format.JSON).generate(operationOutcome, chunkData.getBufferStreamForImport());
                         chunkData.getBufferStreamForImport().write(Constants.NDJSON_LINESEPERATOR);
                     }
-                } catch (FHIRValidationException|FHIROperationException e) {
+                } catch (FHIRValidationException | FHIROperationException e) {
                     logger.warning("Failed to import '" + fhirResource.getId() + "' due to error: " + e.getMessage());
                     failedNum++;
                     if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
