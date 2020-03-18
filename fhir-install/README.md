@@ -25,7 +25,7 @@ docker run -it -p 9443:9443 --name fhir-server --rm fhir-server
 
 ## Test
 
-Once the fhir-server is ready, you can test it by accessing: https://localhost:9443/fhir-server/api/v4/$
+Once the fhir-server is ready, you can test it by accessing: https://localhost:9443/fhir-server/api/v4/$healthcheck
 
 For example:
 
@@ -33,7 +33,7 @@ For example:
 curl -k -i -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$healthcheck'
 ```
 
-The test should result in something like:
+This request makes a connection to the configured database (embedded Derby by default) and a successful response will return with:
 
 ```json
 {
