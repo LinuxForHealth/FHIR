@@ -159,7 +159,7 @@ public class ImportPartitionMapper implements PartitionMapper {
         }
      };
 
-     private List<FhirDataSource> getFhirDataSources4ObjectStore(String DSTypeInfo, String DSDataLocationInfo) throws Exception {
+     private List<FhirDataSource> getFhirDataSourcesForObjectStore(String DSTypeInfo, String DSDataLocationInfo) throws Exception {
          String nextToken = null;
          List<FhirDataSource> fhirDataSources = new ArrayList<>();
          // Create a COS/S3 client if it's not created yet.
@@ -167,21 +167,21 @@ public class ImportPartitionMapper implements PartitionMapper {
              cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
 
              if (cosClient == null) {
-                 logger.warning("getFhirDataSources4ObjectStore: Failed to get CosClient!");
+                 logger.warning("getFhirDataSourcesForObjectStore: Failed to get CosClient!");
                  throw new Exception("Failed to get CosClient!!");
              } else {
-                 logger.finer("getFhirDataSources4ObjectStore: Succeed get CosClient!");
+                 logger.finer("getFhirDataSourcesForObjectStore: Succeed get CosClient!");
              }
          }
          if (cosBucketName == null) {
-             logger.warning("getFhirDataSources4ObjectStore: Failed to get BucketName!");
+             logger.warning("getFhirDataSourcesForObjectStore: Failed to get BucketName!");
              return fhirDataSources;
          }else {
-             logger.finer("getFhirDataSources4ObjectStore: Succeed get BucketName!");
+             logger.finer("getFhirDataSourcesForObjectStore: Succeed get BucketName!");
          }
          cosBucketName = cosBucketName.toLowerCase();
          if (!cosClient.doesBucketExistV2(cosBucketName)) {
-             logger.warning("getFhirDataSources4ObjectStore: Bucket '" + cosBucketName + "' not found!");
+             logger.warning("getFhirDataSourcesForObjectStore: Bucket '" + cosBucketName + "' not found!");
              BulkDataUtils.listBuckets(cosClient);
              return fhirDataSources;
          }
@@ -204,7 +204,7 @@ public class ImportPartitionMapper implements PartitionMapper {
                      isToBeProccessed = true;
                  }
                  if (isToBeProccessed) {
-                     logger.info("getFhirDataSources4ObjectStore: ObjectStorge Object(" + objectSummary.getKey() + ") - " + objectSummary.getSize()
+                     logger.info("getFhirDataSourcesForObjectStore: ObjectStorge Object(" + objectSummary.getKey() + ") - " + objectSummary.getSize()
                              + " bytes.");
                      if (objectSummary.getSize() > 0) {
                          fhirDataSources.add(new FhirDataSource(DSTypeInfo, objectSummary.getKey()));
@@ -232,7 +232,7 @@ public class ImportPartitionMapper implements PartitionMapper {
                  break;
              case AWSS3:
              case IBMCOS:
-                 fhirDataSources.addAll(getFhirDataSources4ObjectStore(DSTypeInfo, DSDataLocationInfo));
+                 fhirDataSources.addAll(getFhirDataSourcesForObjectStore(DSTypeInfo, DSDataLocationInfo));
                  break;
              default:
                  break;
