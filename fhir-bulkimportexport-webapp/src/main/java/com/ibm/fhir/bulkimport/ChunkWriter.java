@@ -180,7 +180,7 @@ public class ChunkWriter extends AbstractItemWriter {
 
                         FHIRGenerator.generator(Format.JSON).generate(FHIRUtil.buildOperationOutcome(e, false), chunkData.getBufferStreamForImportError());
 
-                        chunkData.getBufferStream4ImportError().write(Constants.NDJSON_LINESEPERATOR);
+                        chunkData.getBufferStreamForImportError().write(Constants.NDJSON_LINESEPERATOR);
                     }
                 }
             }
