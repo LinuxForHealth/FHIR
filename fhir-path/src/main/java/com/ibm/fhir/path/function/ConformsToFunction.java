@@ -33,7 +33,7 @@ import com.ibm.fhir.registry.FHIRRegistry;
 public class ConformsToFunction extends FHIRPathAbstractFunction {
     private static final Logger log = Logger.getLogger(ConformsToFunction.class.getName());
     private static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
-    
+
     @Override
     public String getName() {
         return "conformsTo";
@@ -48,30 +48,30 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
     public int getMaxArity() {
         return 1;
     }
-    
+
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (context.isEmpty()) {
             return empty();
         }
-        
+
         if (!isResourceNode(context) && !isElementNode(context)) {
             throw new IllegalArgumentException("The 'conformsTo' function must be invoked on a Resource or Element node");
         }
-        
+
         if (!isStringValue(arguments.get(0))) {
             throw new IllegalArgumentException("The argument to the 'conformsTo' function must be a string value");
         }
-        
+
         FHIRPathNode node = getSingleton(context);
-        
+
         if (node.isResourceNode() && node.asResourceNode().resource() == null) {
             return SINGLETON_TRUE;
         }
-        
+
         Class<?> modelClass = node.type().modelClass();
         String url = getStringValue(arguments.get(0)).string();
-                
+
         if (modelClass != null && FHIRRegistry.getInstance().hasResource(url)) {
             if (url.startsWith(HL7_STRUCTURE_DEFINITION_URL_PREFIX)) {
                 String s = url.substring(HL7_STRUCTURE_DEFINITION_URL_PREFIX.length());
@@ -79,8 +79,8 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
                     return SINGLETON_TRUE;
                 }
             }
-            
-            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();    
+
+            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
             for (Constraint constraint : ProfileSupport.getConstraints(url, modelClass)) {
                 try {
                     Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), context);
@@ -92,7 +92,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
                 }
             }
         }
-        
+
         return SINGLETON_TRUE;
     }
 }
