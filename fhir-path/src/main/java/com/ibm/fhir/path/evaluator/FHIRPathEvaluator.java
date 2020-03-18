@@ -31,6 +31,7 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.hasTemporalValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isComparableTo;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isSingleton;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isTrue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isTypeCompatible;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
@@ -782,7 +783,7 @@ public class FHIRPathEvaluator {
 
             switch (operator) {
             case "in":
-                if (hasStringValue(right)) {
+                if (isStringValue(right)) {
                     // For backwards-compatibility per: https://jira.hl7.org/projects/FHIR/issues/FHIR-26605
                     FHIRPathFunction memberOfFunction = FHIRPathFunctionRegistry.getInstance().getFunction("memberOf");
                     result = memberOfFunction.apply(evaluationContext, left, Collections.singletonList(right));

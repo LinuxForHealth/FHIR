@@ -287,6 +287,10 @@ public final class FHIRPathUtil {
         return nodes.size() == 1;
     }
 
+    public static boolean isStringValue(Collection<FHIRPathNode> nodes) {
+        return isSingleton(nodes) && (getSingleton(nodes) instanceof FHIRPathStringValue);
+    }
+
     /**
      * @throws IllegalArgumentException if the passed collection is not a singleton
      */
