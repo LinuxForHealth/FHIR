@@ -139,8 +139,9 @@ For more information, please see: [https://confluence.hl7.org/display/FHIR/NPM+P
 
 The IBM FHIR server has built-in support for the following:
 
-- Profiles defined in the base FHIR specification STU4 (v4.0.1)
-- US Core STU3 (v3.1.0)
+- Profiles defined in the base FHIR specification STU4 (v4.0.1) [http://hl7.org/fhir/profilelist.html](http://hl7.org/fhir/profilelist.html)
+- US Core STU3 (v3.1.0) [https://www.hl7.org/fhir/us/core/index.html](https://www.hl7.org/fhir/us/core/index.html)
+- Consumer-Directed Payer Data Exchange (CARIN Blue Button) STU1 (v0.1.0) [http://hl7.org/fhir/us/carin-bb/2020Feb/](http://hl7.org/fhir/us/carin-bb/2020Feb/)
 
 ## The IBM FHIR Server $validate operation
 
