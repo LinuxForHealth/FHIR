@@ -1,0 +1,460 @@
+
+{
+    "index-version": 1,
+    "files": [
+        {
+            "filename": "StructureDefinition-mcode-cancer-condition-parent.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-cancer-condition-parent",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-condition-parent",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Condition"
+        },
+        {
+            "filename": "StructureDefinition-mcode-cancer-disease-status.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-cancer-disease-status",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-disease-status",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Observation"
+        },
+        {
+            "filename": "StructureDefinition-mcode-cancer-genetic-variant.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-cancer-genetic-variant",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-genetic-variant",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Observation"
+        },
+        {
+            "filename": "StructureDefinition-mcode-cancer-genomics-report.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-cancer-genomics-report",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-genomics-report",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "DiagnosticReport"
+        },
+        {
+            "filename": "StructureDefinition-mcode-cancer-patient.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-cancer-patient",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-patient",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Patient"
+        },
+        {
+            "filename": "StructureDefinition-mcode-cancer-related-medication-statement.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-cancer-related-medication-statement",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-related-medication-statement",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "MedicationStatement"
+        },
+        {
+            "filename": "StructureDefinition-mcode-cancer-related-radiation-procedure.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-cancer-related-radiation-procedure",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-related-radiation-procedure",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Procedure"
+        },
+        {
+            "filename": "StructureDefinition-mcode-cancer-related-surgical-procedure.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-cancer-related-surgical-procedure",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-related-surgical-procedure",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Procedure"
+        },
+        {
+            "filename": "StructureDefinition-mcode-cancer-stage-parent.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-cancer-stage-parent",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-stage-parent",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Observation"
+        },
+        {
+            "filename": "StructureDefinition-mcode-comorbid-condition.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-comorbid-condition",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-comorbid-condition",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Condition"
+        },
+        {
+            "filename": "StructureDefinition-mcode-ecog-performance-status.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-ecog-performance-status",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-ecog-performance-status",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Observation"
+        },
+        {
+            "filename": "StructureDefinition-mcode-evidence-type.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-evidence-type",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-evidence-type",
+            "version": "1.0.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-mcode-genetic-specimen.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-genetic-specimen",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-genetic-specimen",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Specimen"
+        },
+        {
+            "filename": "StructureDefinition-mcode-genomic-region-studied.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-genomic-region-studied",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-genomic-region-studied",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Observation"
+        },
+        {
+            "filename": "StructureDefinition-mcode-histology-morphology-behavior.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-histology-morphology-behavior",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-histology-morphology-behavior",
+            "version": "1.0.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-mcode-karnofsky-performance-status.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-karnofsky-performance-status",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-karnofsky-performance-status",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Observation"
+        },
+        {
+            "filename": "StructureDefinition-mcode-laterality.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-laterality",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-laterality",
+            "version": "1.0.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-mcode-primary-cancer-condition.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-primary-cancer-condition",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-primary-cancer-condition",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Condition"
+        },
+        {
+            "filename": "StructureDefinition-mcode-related-primary-cancer-condition.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-related-primary-cancer-condition",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-related-primary-cancer-condition",
+            "version": "1.0.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-mcode-secondary-cancer-condition.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-secondary-cancer-condition",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-secondary-cancer-condition",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Condition"
+        },
+        {
+            "filename": "StructureDefinition-mcode-termination-reason.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-termination-reason",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-termination-reason",
+            "version": "1.0.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-mcode-tnm-clinical-distant-metastases-category.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-tnm-clinical-distant-metastases-category",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-tnm-clinical-distant-metastases-category",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Observation"
+        },
+        {
+            "filename": "StructureDefinition-mcode-tnm-clinical-primary-tumor-category.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-tnm-clinical-primary-tumor-category",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-tnm-clinical-primary-tumor-category",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Observation"
+        },
+        {
+            "filename": "StructureDefinition-mcode-tnm-clinical-regional-nodes-category.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-tnm-clinical-regional-nodes-category",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-tnm-clinical-regional-nodes-category",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Observation"
+        },
+        {
+            "filename": "StructureDefinition-mcode-tnm-clinical-stage-group.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-tnm-clinical-stage-group",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-tnm-clinical-stage-group",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Observation"
+        },
+        {
+            "filename": "StructureDefinition-mcode-tnm-pathological-distant-metastases-category.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-tnm-pathological-distant-metastases-category",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-tnm-pathological-distant-metastases-category",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Observation"
+        },
+        {
+            "filename": "StructureDefinition-mcode-tnm-pathological-primary-tumor-category.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-tnm-pathological-primary-tumor-category",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-tnm-pathological-primary-tumor-category",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Observation"
+        },
+        {
+            "filename": "StructureDefinition-mcode-tnm-pathological-regional-nodes-category.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-tnm-pathological-regional-nodes-category",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-tnm-pathological-regional-nodes-category",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Observation"
+        },
+        {
+            "filename": "StructureDefinition-mcode-tnm-pathological-stage-group.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-tnm-pathological-stage-group",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-tnm-pathological-stage-group",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Observation"
+        },
+        {
+            "filename": "StructureDefinition-mcode-treatment-intent.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-treatment-intent",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-treatment-intent",
+            "version": "1.0.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-mcode-tumor-marker.json",
+            "resourceType": "StructureDefinition",
+            "id": "mcode-tumor-marker",
+            "url": "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-tumor-marker",
+            "version": "1.0.0",
+            "kind": "resource",
+            "type": "Observation"
+        },
+        {
+            "filename": "ValueSet-mcode-cancer-body-location-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-cancer-body-location-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-body-location-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-cancer-disease-status-evidence-type-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-cancer-disease-status-evidence-type-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-disease-status-evidence-type-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-cancer-disorder-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-cancer-disorder-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-disorder-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-cancer-related-surgical-procedure-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-cancer-related-surgical-procedure-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-related-surgical-procedure-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-cancer-staging-system-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-cancer-staging-system-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-staging-system-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-clinvar-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-clinvar-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-clinvar-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-comorbid-condition-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-comorbid-condition-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-comorbid-condition-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-condition-status-trend-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-condition-status-trend-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-condition-status-trend-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-genetic-specimen-type-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-genetic-specimen-type-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-genetic-specimen-type-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-hgnc-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-hgnc-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-hgnc-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-hgvs-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-hgvs-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-hgvs-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-histology-morphology-behavior-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-histology-morphology-behavior-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-histology-morphology-behavior-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-laterality-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-laterality-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-laterality-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-primary-or-uncertain-behavior-cancer-disorder-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-primary-or-uncertain-behavior-cancer-disorder-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-primary-or-uncertain-behavior-cancer-disorder-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-radiation-procedure-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-radiation-procedure-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-radiation-procedure-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-radiation-target-body-site-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-radiation-target-body-site-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-radiation-target-body-site-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-secondary-cancer-disorder-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-secondary-cancer-disorder-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-secondary-cancer-disorder-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-tnm-distant-metastases-category-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-tnm-distant-metastases-category-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-distant-metastases-category-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-tnm-primary-tumor-category-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-tnm-primary-tumor-category-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-primary-tumor-category-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-tnm-regional-nodes-category-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-tnm-regional-nodes-category-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-regional-nodes-category-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-tnm-stage-group-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-tnm-stage-group-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-stage-group-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-treatment-intent-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-treatment-intent-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-treatment-intent-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-treatment-termination-reason-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-treatment-termination-reason-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-treatment-termination-reason-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-tumor-marker-test-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-tumor-marker-test-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tumor-marker-test-vs",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "ValueSet-mcode-units-of-length-vs.json",
+            "resourceType": "ValueSet",
+            "id": "mcode-units-of-length-vs",
+            "url": "http://hl7.org/fhir/us/mcode/ValueSet/mcode-units-of-length-vs",
+            "version": "1.0.0"
+        }
+    ]
+}
