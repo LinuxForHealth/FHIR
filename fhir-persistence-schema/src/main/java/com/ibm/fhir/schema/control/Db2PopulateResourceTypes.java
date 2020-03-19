@@ -70,7 +70,8 @@ public class Db2PopulateResourceTypes implements IDatabaseStatement {
                     }
                 }
                 if (errorCodes > 0) {
-                    LOGGER.warning("at least one of the Resource Types are not populated [" + errorCodes + "]");
+                    LOGGER.severe("at least one of the Resource Types are not populated [" + errorCodes + "]");
+                    c.rollback();
                 }
             } catch (IOException e) {
                 // Wrap and Send downstream 
