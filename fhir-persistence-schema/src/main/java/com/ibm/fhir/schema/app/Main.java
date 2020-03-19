@@ -819,8 +819,8 @@ public class Main {
 
         // Prepopulate the Resource Type Tables
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                Connection c = connectionPool.getConnection();
+            try (Connection c = connectionPool.getConnection();) {
+                
                 Db2PopulateResourceTypes populateResourceTypes 
                     = new Db2PopulateResourceTypes(adminSchemaName, schemaName, tenantId);
                 populateResourceTypes.run(translator, c);
