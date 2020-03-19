@@ -8,7 +8,7 @@
         <version>4.0.1-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
-    <artifactId>fhir-ig-us-core</artifactId>
+    <artifactId>fhir-ig-carin-bb</artifactId>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -23,12 +23,6 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-validation</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
