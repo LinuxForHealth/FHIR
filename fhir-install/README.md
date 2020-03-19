@@ -14,41 +14,40 @@ Using Docker Terminal, access the fhir-install directory and run:
 ```sh
 docker build -t fhir-server . --squash
 ```
+
 ## Run
 
 Once the image is built, start it with:
 
 ```sh
-docker run -it -p 9080:9080 -p 9443:9443 --name fhir-server --rm fhir-server
+docker run -it -p 9443:9443 --name fhir-server --rm fhir-server
 ```
 
 ## Test
 
-Once the fhir-server is ready, you can test it accessing: http://localhost:9080/fhir-server/api/v4/metadata.
+Once the fhir-server is ready, you can test it by accessing: https://localhost:9443/fhir-server/api/v4/$healthcheck
 
-If you are using Docker for Mac, instead of using localhost you should use your Docker VM IP: http://192.168.99.100:9080/fhir-server/api/v4/metadata.
+For example:
 
-The test should result in something like:
+```sh
+curl -k -i -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$healthcheck'
+```
 
-```xml
-<Conformance xmlns="http://hl7.org/fhir" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <version value="0.0.1-SNAPSHOT"/>
-  <name value="IBM FHIR Server"/>
-  <publisher value="IBM Corporation"/>
-  <date value="Thu May 19 16:51:53 UTC 2016"/>
-  <description value="IBM FHIR Server version 0.0.1-SNAPSHOT build id development"/>
-  <copyright value="© Copyright IBM Corporation 2019"/>
-  <kind value="instance"/>
-  <software id="development">
-    <name value="IBM FHIR Server"/>
-    <version value="0.0.1-SNAPSHOT"/>
-  </software>
-  <fhirVersion value="1.0.2"/>
-  <format value="application/json"/>
-  <format value="application/fhir+json"/>
-  <format value="application/xml"/>
-  <format value="application/fhir+xml"/>
-</Conformance>
+This request makes a connection to the configured database (embedded Derby by default) and a successful response will return with:
+
+```json
+{
+    "resourceType": "OperationOutcome",
+    "issue": [
+        {
+            "severity": "information",
+            "code": "informational",
+            "details": {
+                "text": "All OK"
+            }
+        }
+    ]
+}
 ```
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
