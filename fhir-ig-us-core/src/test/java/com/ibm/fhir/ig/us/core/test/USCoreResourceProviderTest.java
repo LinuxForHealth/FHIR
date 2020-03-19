@@ -24,13 +24,13 @@ import com.ibm.fhir.validation.FHIRValidator;
 
 public class USCoreResourceProviderTest {
     @Test
-    public static void testUSCoreResourceProvider() {
+    public void testUSCoreResourceProvider() {
         FHIRRegistryResourceProvider provider = new USCoreResourceProvider();
         assertEquals(provider.getResources().size(), 145);
     }
 
     @Test(enabled = false)
-    public static void testValidateResources() throws Exception {
+    public void testValidateResources() throws Exception {
         FHIRRegistryResourceProvider provider = new USCoreResourceProvider();
 
         List<Exception> exceptions = new ArrayList<>();

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.validation.test;
+package com.ibm.fhir.ig.us.core.test;
 
 import java.util.ArrayList;
 import java.util.List;
