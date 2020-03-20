@@ -167,9 +167,45 @@ The FHIR server uses a proxy datasource mechanism, allowing new datasources to b
         }
 ```
 
+#### Mapping from IBM Db2 on Cloud Endpoint Credentials
+
+This section explains how to populate the FHIR datasource from IBM Db2 on Cloud configuration details from an example configuration: 
+
+**Example: Credential**
+``` json
+{
+  "hostname": "dashdb-enterprise-xxxxxxx.services.dal.bluemix.net",
+  "password": "my-key",
+  "https_url": "https://dashdb-enterprise-xxxxxxx.services.dal.bluemix.net",
+  "port": 50000,
+  "ssldsn": "DATABASE=BLUDB;HOSTNAME=dashdb-enterprise-xxxxxx.services.dal.bluemix.net;PORT=50001;PROTOCOL=TCPIP;UID=bluadmin;PWD=my-key;Security=SSL;",
+  "host": "dashdb-enterprise-xxxxxxx.services.dal.bluemix.net",
+  "jdbcurl": "jdbc:db2://dashdb-enterprise-xxxxxxx.services.dal.bluemix.net:50000/BLUDB",
+  "uri": "db2://bluadmin:my-key@dashdb-enterprise-xxxxxxx.services.dal.bluemix.net:50000/BLUDB",
+  "db": "BLUDB",
+  "dsn": "DATABASE=BLUDB;HOSTNAME=dashdb-enterprise-xxxxxxx.services.dal.bluemix.net;PORT=50000;PROTOCOL=TCPIP;UID=bluadmin;PWD=my-key;",
+  "username": "bluadmin",
+  "ssljdbcurl": "jdbc:db2://dashdb-enterprise-xxxxxxx.services.dal.bluemix.net:50001/BLUDB:sslConnection=true;"
+}
+```
+
+Use the following table to populate your datasource. 
+
+| IBM FHIR Server Configuration  | Description |
+|----|----|
+| serverName | from the credential object select `hostname` |
+| portNumber | from the credential object select  `port` |
+| databaseName | from the credential object select  `db`, generally always `BLUDB` |
+| apiKey | from the `password` field |
+| securityMechanism | `15` generally set to 15 to trigger the `apiKey` use with IBM Cloud |
+| pluginName | `IBMIAMauth` fixed for use with the IBM Cloud|
+| currentSchema | the schema name of your deployed tenant Schema, for instance `FHIRDATA` | 
+| driverType | `4`, always JDBC Type-4|
+| sslConnection | `true`, if you are using IBM Cloud | 
+| sslTrustStoreLocation | Local server path to the truststore, `resources/security/dbTruststore.jks` |
+| sslTrustStorePassword | The password to the truststore |
+
 Note that no username properties are given, because the authentication module only requires the API-KEY.
-
-
 
 ### SSL Certificate
 
@@ -179,3 +215,6 @@ The Db2 certificate should be added to the Liberty Profile truststore. *Be sure 
 ### Encrypt Secrets
 
 All passwords including apiKey values should be encrypted using the Liberty Profile securityUtility.
+
+# References
+- [Db2 on Cloud: Database details and connection credentials](https://cloud.ibm.com/docs/services/Db2onCloud?topic=Db2onCloud-db_details_cxn_creds)
