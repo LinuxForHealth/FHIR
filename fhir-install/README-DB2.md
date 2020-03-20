@@ -11,7 +11,7 @@ Running fhir server integration tests using docker db2.
 - Using Docker Terminal, execute:
 
 ```sh
-docker build -t fhirserverdb2 . -f Dockerfile-fhirdb2 --squash
+docker build -t fhirserverdb2 . -f Dockerfile-db2 --squash
 ```
 
 ## Run
