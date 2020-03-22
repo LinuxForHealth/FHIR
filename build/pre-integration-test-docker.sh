@@ -23,7 +23,7 @@ docker-compose kill
 docker-compose rm -f
 
 echo "Bringing up db2... be patient, this will take a minute"
-docker-compose build db2
+docker-compose build --pull db2
 docker-compose up -d db2
 echo ">>> Current time: " $(date)
 
@@ -36,7 +36,7 @@ echo "Deploying the Db2 schema..."
 
 
 echo "Bringing up the FHIR server... be patient, this will take a minute"
-docker-compose build fhir
+docker-compose build --pull fhir
 docker-compose up -d fhir
 echo ">>> Current time: " $(date)
 
