@@ -8,9 +8,9 @@ permalink: /FHIRValidationGuide/
 
 ## Overview
 
-The IBM FHIR Server Validation component ([fhir-validation](https://github.com/IBM/FHIR/tree/master/fhir-validation)) provides Java APIs for validating FHIR resources using constraints specified in their corresponding structure definitions. For example, in the Patient resource, we have the following constraint:
+The IBM FHIR Server Validation module ([fhir-validation](https://github.com/IBM/FHIR/tree/master/fhir-validation)) provides Java APIs for validating FHIR resources using constraints specified in their corresponding structure definitions. For example, in the Patient resource, we have the following constraint:
 
-```
+```java
 @Constraint(
     id = "pat-1",
     level = "Rule",
@@ -105,13 +105,44 @@ FHIRPath based constraints specified in `StructureDefinition.snapshot.element.co
 
 The FHIR registry component keeps track of definitional resource types (e.g. StructureDefinition, ValueSet, CodeSystem, etc.). It uses the Java ServiceLoader to look for implementations of the FHIRRegistryResourceProvider interface:
 
-```
+```java
 public interface FHIRRegistryResourceProvider {
     Collection<FHIRRegistryResource> getResources();
 }
 ```
 
-The FHIRRegistry loads FHIRRegistryResource instances into a map on startup. The FHIRRegistryResource class lazily loads the underlying resource into memory when it is accessed. Multiple versions of the same resource can be registered. FHIR registry providers can be bundled into a jar file and deployed with the IBM FHIR server in the user lib directory.
+The FHIRRegistry loads FHIRRegistryResource instances into a map on startup. The FHIRRegistryResource class lazily loads the underlying resource into memory when it is accessed. Multiple versions of the same resource can be registered. FHIR registry resource providers can be bundled into a jar file and deployed with the IBM FHIR server in the user lib directory.
+
+### NPM package format support
+
+The IBM FHIR Server Registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/master/fhir-registry)) has utilities that can be used to expose FHIR registry resources that exist in the NPM package format. Implementation guides that follow this packaging format can be dropped into the `src/main/resources/` under a directory structure defined by the ImplementationGuide.packageId value. For example, US Core implementation guide has a package id of: `hl7.fhir.us.core`. The NPM "package" folder can be dropped here: `src/main/resources/hl7/fhir/us/core/package`
+
+![https://ibm.github.io/FHIR/images/us-core-package.png](https://ibm.github.io/FHIR/images/us-core-package.png)
+
+
+The implementation of the `FHIRRegistryResourceProvider` SPI looks like this:
+
+```java
+public class USCoreResourceProvider implements FHIRRegistryResourceProvider {
+    @Override
+    public Collection<FHIRRegistryResource> getResources() {
+        return FHIRRegistryUtil.getResources("hl7.fhir.us.core");
+    }
+}
+```
+
+The `FHIRRegistryUtil.getResources(String)` method takes a packageId (e.g. hl7.fhir.us.core) as input and converts it to a path where it can find the NPM package index file: `.index.json`.
+
+For more information, please see: [https://confluence.hl7.org/display/FHIR/NPM+Package+Specification](https://confluence.hl7.org/display/FHIR/NPM+Package+Specification)
+
+### Built-in profile support
+
+The IBM FHIR server has built-in support for the following:
+
+- Profiles defined in the base FHIR Specification (v4.0.1: R4 - Mixed Normative and STU) [http://hl7.org/fhir/profilelist.html](http://hl7.org/fhir/profilelist.html)
+- US Core Implementation Guide (v3.1.0: STU3 Update) [https://www.hl7.org/fhir/us/core/index.html](https://www.hl7.org/fhir/us/core/index.html)
+- CARIN Blue Button Implementation Guide (v0.1.0: STU1 Ballot 1) [http://hl7.org/fhir/us/carin-bb/2020Feb/](http://hl7.org/fhir/us/carin-bb/2020Feb/)
+- HL7 FHIR Implementation Guide: minimal Common Oncology Data Elements (mCODE) Release 1 - US Realm | STU1 (v1.0.0: STU 1) [http://hl7.org/fhir/us/mcode/STU1/](http://hl7.org/fhir/us/mcode/STU1/)
 
 ## The IBM FHIR Server $validate operation
 
@@ -119,4 +150,4 @@ The IBM FHIR Server provides a basic implementation of the $validate operation t
 
 ## ValueSet membership checking (FHIRPath `memberOf` function)
 
-Coded elements (code, Coding, CodeableConcept data types), maybe have a binding element that specifies a ValueSet that that element is bound to. This means that the coded element must have a value that comes from that value set. The FHIR profile component will expand value sets according to the ValueSet [expansion algorithm](http://hl7.org/fhir/valueset.html#expansion) for ValueSets that include CodeSystem resources availble via the FHIR registry component.
+Coded elements (code, Coding, CodeableConcept data types), maybe have a binding element that specifies a ValueSet that that element is bound to. This means that the coded element must have a value that comes from that value set. The FHIR profile component will expand value sets according to the ValueSet [expansion algorithm](http://hl7.org/fhir/valueset.html#expansion) for ValueSets that include CodeSystem resources available via the FHIR registry component.

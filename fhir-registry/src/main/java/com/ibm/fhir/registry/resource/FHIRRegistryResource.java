@@ -10,9 +10,7 @@ import static com.ibm.fhir.registry.util.FHIRRegistryUtil.loadResource;
 
 import java.util.Objects;
 
-import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.code.StructureDefinitionKind;
 
 /**
  * A registry entry that can load a definitional resource (e.g. StructureDefinition) given a url, version and name
@@ -22,11 +20,9 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
     private final String id;
     private final String url;
     private final Version version;
-    private final StructureDefinitionKind kind;
+    private final String kind;
     private final String type;
     private final String path;
-    private final Format format;
-    private final ClassLoader loader;
     
     private volatile Resource resource;
     
@@ -35,11 +31,9 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
             String id, 
             String url, 
             Version version, 
-            StructureDefinitionKind kind, 
+            String kind, 
             String type, 
-            String path, 
-            Format format, 
-            ClassLoader loader) {
+            String path) {
         this.resourceType = Objects.requireNonNull(resourceType);
         this.id = id;
         this.url = Objects.requireNonNull(url);
@@ -47,8 +41,6 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
         this.kind = kind;
         this.type = type;
         this.path = Objects.requireNonNull(path);
-        this.format = Objects.requireNonNull(format);
-        this.loader = Objects.requireNonNull(loader);
     }
     
     public Class<?> getResourceType() {
@@ -67,7 +59,7 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
         return version;
     }
 
-    public StructureDefinitionKind getKind() {
+    public String getKind() {
         return kind;
     }
 
@@ -77,14 +69,6 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
 
     public String getPath() {
         return path;
-    }
-
-    public Format getFormat() {
-        return format;
-    }
-
-    public ClassLoader getLoader() {
-        return loader;
     }
 
     /**
@@ -99,7 +83,7 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
             synchronized (this) {
                 resource = this.resource;
                 if (resource == null) {
-                    resource = loadResource(path, format, loader);
+                    resource = loadResource(path);
                     this.resource = resource;
                 }
             }

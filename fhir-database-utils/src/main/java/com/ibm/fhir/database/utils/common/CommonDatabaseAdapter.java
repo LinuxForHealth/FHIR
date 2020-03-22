@@ -418,12 +418,13 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         /*
          * <CODE>CREATE SEQUENCE fhir_sequence
              AS BIGINT
-     START WITH 1
+     START WITH 1000
           CACHE 1000
        NO CYCLE;</CODE>
     */
+        // The move to start with 1000 gives room for manual creation and update of sequences. 
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 1 CACHE " + cache + " NO CYCLE";
+        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 1000 CACHE " + cache + " NO CYCLE";
         runStatement(ddl);
 
     }

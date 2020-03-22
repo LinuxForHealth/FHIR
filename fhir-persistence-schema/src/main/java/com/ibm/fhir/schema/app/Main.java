@@ -54,6 +54,7 @@ import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.control.Db2AddResourceType;
 import com.ibm.fhir.schema.control.Db2GetResourceTypeList;
+import com.ibm.fhir.schema.control.Db2PopulateResourceTypes;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 import com.ibm.fhir.schema.model.ResourceType;
@@ -286,7 +287,7 @@ public class Main {
     }
 
     /***
-     * prints a brief menu to the standard out showing the usage. 
+     * prints a brief menu to the standard out showing the usage.
      */
     public static void printUsage() {
         PrintStream ps = System.err;
@@ -815,6 +816,23 @@ public class Main {
 
         // Fill any static data tables (which are also partitioned by tenant)
         populateStaticTables(gen, tenantKey);
+
+        // Prepopulate the Resource Type Tables
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try (Connection c = connectionPool.getConnection();) {
+                
+                Db2PopulateResourceTypes populateResourceTypes 
+                    = new Db2PopulateResourceTypes(adminSchemaName, schemaName, tenantId);
+                populateResourceTypes.run(translator, c);
+            } catch(SQLException ex) {
+                tx.setRollbackOnly();
+                throw new DataAccessException(ex);
+            } catch(DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
 
         // Now all the table partitions have been allocated, we can mark the tenant as ready
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {

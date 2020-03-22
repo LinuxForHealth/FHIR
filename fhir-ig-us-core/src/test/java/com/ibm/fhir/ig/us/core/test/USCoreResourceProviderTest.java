@@ -6,16 +6,48 @@
 
 package com.ibm.fhir.ig.us.core.test;
 
-import org.testng.Assert;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.ig.us.core.USCoreResourceProvider;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
+import com.ibm.fhir.validation.FHIRValidator;
 
 public class USCoreResourceProviderTest {
     @Test
-    public static void testUSCoreResourceProvider() {
+    public void testUSCoreResourceProvider() {
         FHIRRegistryResourceProvider provider = new USCoreResourceProvider();
-        Assert.assertEquals(provider.getResources().size(), 144);
+        assertEquals(provider.getResources().size(), 145);
+    }
+
+    @Test(enabled = false)
+    public void testValidateResources() throws Exception {
+        FHIRRegistryResourceProvider provider = new USCoreResourceProvider();
+
+        List<Exception> exceptions = new ArrayList<>();
+        List<Issue> issues = new ArrayList<>();
+
+        FHIRValidator validator = FHIRValidator.validator();
+
+        for (FHIRRegistryResource registryResource : provider.getResources()) {
+            try {
+                Resource resource = registryResource.getResource();
+                issues.addAll(validator.validate(resource));
+            } catch (Exception e) {
+                exceptions.add(e);
+            }
+        }
+
+        assertEquals(exceptions.size(), 0);
+        assertFalse(issues.stream().anyMatch(issue -> IssueSeverity.ERROR.equals(issue.getSeverity())));
     }
 }
