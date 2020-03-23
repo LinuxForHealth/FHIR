@@ -33,7 +33,6 @@ public class ImportJobListener implements JobListener {
 
     @Override
     public void afterJob() {
-        // jobExecution.getEndTime() for current execution always returns null, so we use system current time as the end time for current execution.
         long currentExecutionEndTimeInMS = TimeUnit.NANOSECONDS.toMillis(System.nanoTime());
 
         // Used for generating response for all the import data resources.
@@ -44,11 +43,14 @@ public class ImportJobListener implements JobListener {
 
         JobOperator jobOperator = BatchRuntime.getJobOperator();
         long totalJobExecutionMilliSeconds = 0;
+        // The job can be started, stopped and then started again, so we need to add them all to get the whole job execution duration.
         for ( JobExecution jobExecution: jobOperator.getJobExecutions(jobOperator.getJobInstance(jobContext.getExecutionId()))) {
-            if (jobExecution.getEndTime() != null) {
-                totalJobExecutionMilliSeconds += (jobExecution.getEndTime().getTime() - jobExecution.getStartTime().getTime());
-            } else {
+            // For current execution, jobExecution.getEndTime() is either null or with wrong value because the current execution is not
+            // finished yet, so always use system time for both job execution start time and end time.
+            if (jobExecution.getExecutionId()  == jobContext.getExecutionId()) {
                 totalJobExecutionMilliSeconds += (currentExecutionEndTimeInMS - currentExecutionStartTimeInMS);
+            } else {
+                totalJobExecutionMilliSeconds += (jobExecution.getEndTime().getTime() - jobExecution.getStartTime().getTime());
             }
         }
 
@@ -70,8 +72,7 @@ public class ImportJobListener implements JobListener {
             }
         }
 
-
-        double jobProcessingSeconds = (totalJobExecutionMilliSeconds)/1000.0;
+        double jobProcessingSeconds = totalJobExecutionMilliSeconds / 1000.0;
         jobProcessingSeconds = jobProcessingSeconds < 1 ? 1.0 : jobProcessingSeconds;
 
         // log the simple metrics.
