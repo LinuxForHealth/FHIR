@@ -142,12 +142,12 @@ Edit `wlp/usr/servers/fhir-server/config/default/fhir-server-config.json` and ad
 ```
 
 ### Add a Key to Existing Tenant
-To add a tenant key for an existing tenant, replace FHIRDATA with your client schema, and TENANT_NAME with your tenant's name. 
+To add a tenant key for an existing tenant, replace FHIRDATA with your client schema, and change default to your tenant's name. 
 
 ```
 --prop-file db2.properties
 --schema-name FHIRDATA
---add-tenant-key TENANT_NAME
+--add-tenant-key default
 ```
 
 **Example Output**
@@ -157,6 +157,8 @@ To add a tenant key for an existing tenant, replace FHIRDATA with your client sc
 2020-03-24 13:54:37.014 00000001    INFO   com.ibm.fhir.schema.app.Main Processing took:   0.637 s
 2020-03-24 13:54:37.015 00000001    INFO   com.ibm.fhir.schema.app.Main SCHEMA CHANGE: OK
 ```
+
+Note, you may want to add a tenant key when a key is lost or needs to be changed. 
 
 ### Update the stored procedures for FHIRDATA (and not FHIR_ADMIN)
 
