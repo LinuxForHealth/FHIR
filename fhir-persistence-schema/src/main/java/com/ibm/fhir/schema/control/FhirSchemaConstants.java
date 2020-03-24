@@ -13,7 +13,7 @@ public class FhirSchemaConstants {
 
     // A lower pool size is selected as default to limit the likelihood of contention on the DBMS.
     // Standard connection/thread pool size
-    public static final int DEFAULT_POOL_SIZE = 8;
+    public static final int DEFAULT_POOL_SIZE = 1;
     
     // Size of string columns in the search tables. DSTU2 was 511
     public static final int MAX_SEARCH_STRING_BYTES = 1024;
