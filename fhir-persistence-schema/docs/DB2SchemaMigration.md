@@ -128,7 +128,7 @@ If you change the stored procedure signature, you MUST drop the stored procedure
 
 # Schema: Tenant Data 
 
-The schema is based on the resources and types identified in the `ModelSupport.getResourceTypes()`.  Each resource has a set of supporting tables for FHIR Search Parameters. 
+The schema is based on the resources and types identified in the `FHIRResourceType.ValueSet`.  Each resource has a set of supporting tables for FHIR Search Parameters. 
 
 > ![mt-table.png](mt-table.png)
 
