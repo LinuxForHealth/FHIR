@@ -1,14 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.test;
-
-import org.testng.annotations.Test;
-
-import com.ibm.fhir.server.helper.FHIRUrlParser;
+package com.ibm.fhir.provider.util;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -17,6 +13,8 @@ import java.util.List;
 
 import javax.ws.rs.core.MultivaluedMap;
 
+import org.testng.annotations.Test;
+
 
 public class FHIRUrlParserTest {
 
@@ -24,12 +22,12 @@ public class FHIRUrlParserTest {
     public void testNullUrlString() {
         new FHIRUrlParser(null);
     }
-    
+
     @Test(groups = { "server-basic" }, expectedExceptions = { IllegalArgumentException.class })
     public void testEmptyUrlString() {
         new FHIRUrlParser("");
     }
-    
+
     @Test(groups = { "server-basic" })
     public void testShortPath() {
         FHIRUrlParser parser = new FHIRUrlParser("Patient");
@@ -39,7 +37,7 @@ public class FHIRUrlParserTest {
         assertEquals(1, s.length);
         assertEquals("Patient", s[0]);
     }
-    
+
     @Test(groups = { "server-basic" })
     public void testLongerPath() {
         FHIRUrlParser parser = new FHIRUrlParser("Patient/123/_history/74");
@@ -52,7 +50,7 @@ public class FHIRUrlParserTest {
         assertEquals("_history", s[2]);
         assertEquals("74", s[3]);
     }
-    
+
     @Test(groups = { "server-basic" })
     public void testShortQuery() {
         FHIRUrlParser parser = new FHIRUrlParser("?var1=1");
@@ -62,7 +60,7 @@ public class FHIRUrlParserTest {
         assertEquals(1, queryParams.size());
         assertEquals("1", queryParams.getFirst("var1"));
     }
-    
+
     /**
      * @see https://www.hl7.org/fhir/DSTU2/search.html#escaping
      */
@@ -77,7 +75,7 @@ public class FHIRUrlParserTest {
         assertEquals("a,b", queryParams.getFirst("var1"));
         assertEquals("a\\,b", queryParams.getFirst("var2"));
     }
-    
+
     @Test
     public void testEncodedQuery() {
         FHIRUrlParser parser = new FHIRUrlParser("?var1=a%26b");
@@ -87,7 +85,7 @@ public class FHIRUrlParserTest {
         assertEquals(1, queryParams.size());
         assertEquals("a&b", queryParams.getFirst("var1"));
     }
-    
+
     @Test
     public void testEncodedQuery2() {
         FHIRUrlParser parser = new FHIRUrlParser("?url=http%3A%2F%2Facme%2Eorg%2Ffhir%2FValueSet%2F123%2Chttp%3A%2F%2Facme%2Eorg%2Ffhir%2FValueSet%2F124%5C%2CValueSet%2F125");
@@ -97,7 +95,7 @@ public class FHIRUrlParserTest {
         assertEquals(1, queryParams.size());
         assertEquals("http://acme.org/fhir/ValueSet/123,http://acme.org/fhir/ValueSet/124\\,ValueSet/125", queryParams.getFirst("url"));
     }
-    
+
     @Test(groups = { "server-basic" })
     public void testQueryMultipleValues() {
         FHIRUrlParser parser = new FHIRUrlParser("?var1=1&var1=2&var1=3");
@@ -112,20 +110,20 @@ public class FHIRUrlParserTest {
         assertEquals("2", var1Values.get(1));
         assertEquals("3", var1Values.get(2));
     }
-    
+
     @Test(groups = { "server-basic" })
     public void testWholeEnchilada() {
         FHIRUrlParser parser = new FHIRUrlParser("Patient/123/_history?_count=100&_since=12-31-1970&_format=json");
         assertEquals("Patient/123/_history", parser.getPath());
         assertEquals("_count=100&_since=12-31-1970&_format=json", parser.getQuery());
-        
+
         String[] s = parser.getPathTokens();
         assertNotNull(s);
         assertEquals(3, s.length);
         assertEquals("Patient", s[0]);
         assertEquals("123", s[1]);
         assertEquals("_history", s[2]);
-        
+
         MultivaluedMap<String, String> queryParams = parser.getQueryParameters();
         assertNotNull(queryParams);
         assertEquals(3, queryParams.size());
