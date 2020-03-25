@@ -54,6 +54,12 @@
                     "max.block.ms": "60000",
                     "max.in.flight.requests.per.connection": "5"
                 }
+            },
+            "nats": {
+                "enabled": true,
+                "cluster": "nats-streaming",
+                "channel": "fhirNotifications",
+                "server": "172.30.255.3:4222,172.30.255.4:4222"
             }
         },
         "audit": {

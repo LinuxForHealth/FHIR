@@ -11,6 +11,10 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_BOOTSTRAP_DB;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_ENABLED;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CLUSTER;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CHANNEL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_SERVER;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
 import java.util.List;
@@ -36,6 +40,7 @@ import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
 import com.ibm.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
+import com.ibm.fhir.notifications.nats.impl.FHIRNotificationNATSPublisher;
 import com.ibm.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.jdbc.util.DerbyBootstrapper;
@@ -47,8 +52,11 @@ public class FHIRServletContextListener implements ServletContextListener {
 
     private static final String ATTRNAME_WEBSOCKET_SERVERCONTAINER = "javax.websocket.server.ServerContainer";
     private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
+    private static final String DEFAULT_NATS_CHANNEL = "fhirNotifications";
+    private static final String DEFAULT_NATS_CLUSTER = "nats-streaming";
     public static final String FHIR_SERVER_INIT_COMPLETE = "com.ibm.fhir.webappInitComplete";
     private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
+    private static FHIRNotificationNATSPublisher natsPublisher = null;
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -115,6 +123,22 @@ public class FHIRServletContextListener implements ServletContextListener {
                 kafkaPublisher = new FHIRNotificationKafkaPublisher(topicName, kafkaProps);
             } else {
                 log.info("Bypassing Kafka notification init.");
+            }
+
+            // If NATS notifications are enabled, start up our NATS notification publisher.
+            Boolean natsEnabled = fhirConfig.getBooleanProperty(PROPERTY_NATS_ENABLED, Boolean.FALSE);
+            if (natsEnabled) {
+                // Retrieve the cluster ID.
+                String clusterId = fhirConfig.getStringProperty(PROPERTY_NATS_CLUSTER, DEFAULT_NATS_CLUSTER);
+                // Retrieve the channel name.
+                String channelName = fhirConfig.getStringProperty(PROPERTY_NATS_CHANNEL, DEFAULT_NATS_CHANNEL);
+                // Retrieve the server URL.
+                String server = fhirConfig.getStringProperty(PROPERTY_NATS_SERVER);
+
+                log.info("Initializing NATS notification publisher.");
+                natsPublisher = new FHIRNotificationNATSPublisher(clusterId, channelName, server);
+            } else {
+                log.info("Bypassing NATS notification init.");
             }
             
             Boolean checkReferenceTypes = fhirConfig.getBooleanProperty(PROPERTY_CHECK_REFERENCE_TYPES, Boolean.TRUE);
@@ -188,6 +212,12 @@ public class FHIRServletContextListener implements ServletContextListener {
             if (kafkaPublisher != null) {
                 kafkaPublisher.shutdown();
                 kafkaPublisher = null;
+            }
+
+            // If we previously initialized the NATS publisher, then shut it down now.
+            if (natsPublisher != null) {
+                natsPublisher.shutdown();
+                natsPublisher = null;
             }
         } catch (Exception e) {
         } finally {

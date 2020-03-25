@@ -57,6 +57,10 @@ public class FHIRConfiguration {
     public static final String PROPERTY_KAFKA_ENABLED = "fhirServer/notifications/kafka/enabled";
     public static final String PROPERTY_KAFKA_TOPICNAME = "fhirServer/notifications/kafka/topicName";
     public static final String PROPERTY_KAFKA_CONNECTIONPROPS = "fhirServer/notifications/kafka/connectionProperties";
+    public static final String PROPERTY_NATS_ENABLED = "fhirServer/notifications/nats/enabled";
+    public static final String PROPERTY_NATS_CLUSTER = "fhirServer/notifications/nats/cluster";
+    public static final String PROPERTY_NATS_CHANNEL = "fhirServer/notifications/nats/channel";
+    public static final String PROPERTY_NATS_SERVER = "fhirServer/notifications/nats/server";
 
     // Persistence layer properties
     public static final String PROPERTY_UPDATE_CREATE_ENABLED = "fhirServer/persistence/common/updateCreateEnabled";
