@@ -58,6 +58,16 @@ public class FHIRConfiguration {
     public static final String PROPERTY_KAFKA_ENABLED = "fhirServer/notifications/kafka/enabled";
     public static final String PROPERTY_KAFKA_TOPICNAME = "fhirServer/notifications/kafka/topicName";
     public static final String PROPERTY_KAFKA_CONNECTIONPROPS = "fhirServer/notifications/kafka/connectionProperties";
+    public static final String PROPERTY_NATS_ENABLED = "fhirServer/notifications/nats/enabled";
+    public static final String PROPERTY_NATS_CLUSTER = "fhirServer/notifications/nats/cluster";
+    public static final String PROPERTY_NATS_CHANNEL = "fhirServer/notifications/nats/channel";
+    public static final String PROPERTY_NATS_CLIENT = "fhirServer/notifications/nats/client";
+    public static final String PROPERTY_NATS_SERVERS = "fhirServer/notifications/nats/servers";
+    public static final String PROPERTY_NATS_TLS_ENABLED = "fhirServer/notifications/nats/useTLS";
+    public static final String PROPERTY_NATS_TRUSTSTORE = "fhirServer/notifications/nats/truststoreLocation";
+    public static final String PROPERTY_NATS_TRUSTSTORE_PW = "fhirServer/notifications/nats/truststorePassword";
+    public static final String PROPERTY_NATS_KEYSTORE = "fhirServer/notifications/nats/keystoreLocation";
+    public static final String PROPERTY_NATS_KEYSTORE_PW = "fhirServer/notifications/nats/keystorePassword";
 
     // Persistence layer properties
     public static final String PROPERTY_UPDATE_CREATE_ENABLED = "fhirServer/persistence/common/updateCreateEnabled";

@@ -37,7 +37,7 @@
         Note: on Linux, the server must be running with root priviledges in order to
         listen on ports <= 1024.
      -->
-    <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="-1" httpsPort="9443" onError="FAIL"/>
+    <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="9080" httpsPort="9443" onError="FAIL"/>
 
     <!-- 
         Modify the trace string below as needed to enable/disable tracing. 
