@@ -23,6 +23,7 @@ import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
+import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.bulkexport.common.CheckPointUserData;
 import com.ibm.fhir.bulkexport.common.TransientUserData;
@@ -55,6 +56,9 @@ public class ChunkReader extends AbstractItemReader {
 
     private FHIRPersistence fhirPersistence;
     private List<String> resourceTypes;
+
+    // Search parameters for resource types gotten from fhir.typeFilters job parameter.
+    Map<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes = null;
 
     /**
      * Fhir tenant id.
@@ -98,6 +102,13 @@ public class ChunkReader extends AbstractItemReader {
     @BatchProperty(name = "fhir.search.pagesize")
     String fhirSearchPageSize;
 
+    /**
+     * Fhir export type filters.
+     */
+    @Inject
+    @BatchProperty(name = "fhir.typeFilters")
+    String fhirTypeFilters;
+
     @Inject
     JobContext jobContext;
 
@@ -110,18 +121,23 @@ public class ChunkReader extends AbstractItemReader {
 
     private void fillChunkDataBuffer(List<Resource> resources) throws Exception {
         TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
+        int indexOfCurrentTypeFilter = 0;
         int compartmentPageNum = 1;
         int resSubTotal = 0;
         FHIRSearchContext searchContext;
-        Class<? extends Resource> resourceType = ModelSupport
-                .getResourceType(resourceTypes.get(indexOfCurrentResourceType));
+        Class<? extends Resource> resourceType = ModelSupport.getResourceType(resourceTypes.get(indexOfCurrentResourceType));
+
+        if (searchParametersForResoureTypes == null ) {
+            searchParametersForResoureTypes = BulkDataUtils.getSearchParemetersFromTypeFilters(fhirTypeFilters);
+        }
+
         if (chunkData != null) {
-            for (Resource res : resources) {
-                if (res == null) {
-                    continue;
-                }
-                Patient patient = (Patient) res;
+            do {
                 Map<String, List<String>> queryParameters = new HashMap<>();
+                // Add the search parameters from the current typeFilter for current resource type.
+                if (searchParametersForResoureTypes.get(resourceType) != null) {
+                    queryParameters.putAll(searchParametersForResoureTypes.get(resourceType).get(indexOfCurrentTypeFilter));
+                }
                 List<String> searchCreteria = new ArrayList<>();
                 if (fhirSearchFromDate != null) {
                     // https://www.hl7.org/fhir/r4/search.html#prefix
@@ -136,45 +152,57 @@ public class ChunkReader extends AbstractItemReader {
                 }
 
                 queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
-                searchContext = SearchUtil.parseQueryParameters("Patient", patient.getId(),
-                        ModelSupport.getResourceType(resourceTypes.get(indexOfCurrentResourceType)), queryParameters, true);
-                do {
-                    searchContext.setPageSize(pageSize);
-                    searchContext.setPageNumber(compartmentPageNum);
-                    FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-                    txn.begin();
-                    FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-                    List<Resource> resources2 = fhirPersistence.search(persistenceContext, resourceType).getResource();
-                    txn.commit();
-                    compartmentPageNum++;
 
-                    for (Resource res2 : resources2) {
-                        if (res2 == null) {
-                            continue;
-                        }
-                        try {
-                            FHIRGenerator.generator(Format.JSON).generate(res2, chunkData.getBufferStream());
-                            chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
-                            resSubTotal++;
-                        } catch (FHIRGeneratorException e) {
-                            if (res.getId() != null) {
-                                logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with id '"
-                                        + res.getId() + "'", e);
-                            } else {
-                                logger.log(Level.WARNING,
-                                        "fillChunkDataBuffer: Error while writing resources with unknown id", e);
-                            }
-                        } catch (IOException e) {
-                            logger.warning("fillChunkDataBuffer: chunkDataBuffer written error!");
-                            throw e;
-                        }
+                for (Resource res : resources) {
+                    if (res == null) {
+                        continue;
                     }
+                    Patient patient = (Patient) res;
 
-                } while (searchContext.getLastPageNumber() >= compartmentPageNum);
-            }
+                    searchContext = SearchUtil.parseQueryParameters("Patient", patient.getId(),
+                            ModelSupport.getResourceType(resourceTypes.get(indexOfCurrentResourceType)), queryParameters, true);
+                    do {
+                        searchContext.setPageSize(pageSize);
+                        searchContext.setPageNumber(compartmentPageNum);
+                        FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
+                        txn.enroll();;
+                        FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
+                        List<Resource> resources2 = fhirPersistence.search(persistenceContext, resourceType).getResource();
+                        txn.unenroll();;
+                        compartmentPageNum++;
+
+                        for (Resource res2 : resources2) {
+                            if (res2 == null) {
+                                continue;
+                            }
+                            try {
+                                FHIRGenerator.generator(Format.JSON).generate(res2, chunkData.getBufferStream());
+                                chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
+                                resSubTotal++;
+                            } catch (FHIRGeneratorException e) {
+                                if (res.getId() != null) {
+                                    logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with id '"
+                                            + res.getId() + "'", e);
+                                } else {
+                                    logger.log(Level.WARNING,
+                                            "fillChunkDataBuffer: Error while writing resources with unknown id", e);
+                                }
+                            } catch (IOException e) {
+                                logger.warning("fillChunkDataBuffer: chunkDataBuffer written error!");
+                                throw e;
+                            }
+                        }
+
+                    } while (searchContext.getLastPageNumber() >= compartmentPageNum);
+                }
+
+                indexOfCurrentTypeFilter++;
+            } while (indexOfCurrentTypeFilter < searchParametersForResoureTypes.get(resourceType).size());
+
             chunkData.setCurrentPartResourceNum(chunkData.getCurrentPartResourceNum() + resSubTotal);
             logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
                     + chunkData.getBufferStream().size());
+
         } else {
             logger.warning("fillChunkDataBuffer: chunkData is null, this should never happen!");
             throw new Exception("fillChunkDataBuffer: chunkData is null, this should never happen!");
@@ -249,15 +277,14 @@ public class ChunkReader extends AbstractItemReader {
         searchContext.setPageNumber(pageNum);
         List<Resource> resources = null;
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-        txn.begin();
+        txn.enroll();
         persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
         resources = fhirPersistence.search(persistenceContext, Patient.class).getResource();
-        txn.commit();
+        txn.unenroll();
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1);
-            chunkData.setIndexOfCurrentResourceType(0);
+            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, 0);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
             jobContext.setTransientUserData(chunkData);
         } else {

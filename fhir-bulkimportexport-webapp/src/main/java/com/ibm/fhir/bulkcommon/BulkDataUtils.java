@@ -11,9 +11,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -48,6 +54,8 @@ import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.provider.util.FHIRUrlParser;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
@@ -352,5 +360,32 @@ public class BulkDataUtils {
             }
         }
         return issues;
+    }
+
+
+    public static Map<Class<? extends Resource>, List<Map<String, List<String>>>> getSearchParemetersFromTypeFilters (String typeFilters) throws Exception {
+        HashMap<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes = new HashMap<>();
+        if (typeFilters != null) {
+            List<String> typeFilterList = Arrays.asList(typeFilters.split("\\s*,\\s*"));
+
+            for (String typeFilter : typeFilterList) {
+                String typeFilterDecoded = URLDecoder.decode(typeFilter, StandardCharsets.UTF_8.toString());
+                if (typeFilterDecoded.contains("?")) {
+                    FHIRUrlParser parser = new FHIRUrlParser(typeFilterDecoded);
+                    Class<? extends Resource> resourceType = ModelSupport
+                            .getResourceType(typeFilterDecoded.substring(0, typeFilterDecoded.indexOf("?")).trim());
+                    if (parser.getQueryParameters().size() > 0 && resourceType != null) {
+                        if (searchParametersForResoureTypes.get(resourceType) == null) {
+                            List<Map<String, List<String>>> searchParametersForResourceType = new ArrayList<>();
+                            searchParametersForResourceType.add(parser.getQueryParameters());
+                            searchParametersForResoureTypes.put(resourceType, searchParametersForResourceType);
+                        } else {
+                            searchParametersForResoureTypes.get(resourceType).add(parser.getQueryParameters());
+                        }
+                    }
+                }
+            }
+        }
+        return searchParametersForResoureTypes;
     }
 }

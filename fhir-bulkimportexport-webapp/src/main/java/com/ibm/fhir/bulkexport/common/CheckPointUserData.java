@@ -24,18 +24,22 @@ public class CheckPointUserData implements java.io.Serializable {
     private List<PartETag> cosDataPacks;
     private int indexOfCurrentResourceType;
     private int currentPartResourceNum = 0;
+    // One resource type can have 0 to multiple typeFilters, indexOfCurrentTypeFilter is used to tell the currently processed typeFilter.
+    private int indexOfCurrentTypeFilter;
 
-    public CheckPointUserData(int pageNum, String uploadId, List<PartETag> cosDataPacks, int partNum) {
+    public CheckPointUserData(int pageNum, String uploadId, List<PartETag> cosDataPacks, int partNum, int indexOfCurrentResourceType, int indexOfCurrentTypeFilter) {
         super();
         this.pageNum = pageNum;
         this.uploadId = uploadId;
         this.cosDataPacks = cosDataPacks;
         this.partNum = partNum;
+        this.indexOfCurrentResourceType = indexOfCurrentResourceType;
+        this.indexOfCurrentTypeFilter = indexOfCurrentTypeFilter;
     }
 
     public static CheckPointUserData fromTransientUserData(TransientUserData userData) {
         return new CheckPointUserData(userData.getPageNum(), userData.getUploadId(), userData.getCosDataPacks(),
-                userData.getPartNum());
+                userData.getPartNum(), userData.getIndexOfCurrentResourceType(), userData.getIndexOfCurrentTypeFilter());
     }
 
     public int getPageNum() {
@@ -100,6 +104,14 @@ public class CheckPointUserData implements java.io.Serializable {
 
     public void setCurrentPartResourceNum(int currentPartResourceNum) {
         this.currentPartResourceNum = currentPartResourceNum;
+    }
+
+    public int getIndexOfCurrentTypeFilter() {
+        return indexOfCurrentTypeFilter;
+    }
+
+    public void setIndexOfCurrentTypeFilter(int indexOfCurrentTypeFilter) {
+        this.indexOfCurrentTypeFilter = indexOfCurrentTypeFilter;
     }
 
 }
