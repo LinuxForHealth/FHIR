@@ -146,16 +146,16 @@ public class ChunkReader extends AbstractItemReader {
                 if (searchParametersForResoureTypes.get(resourceType) != null) {
                     queryParameters.putAll(searchParametersForResoureTypes.get(resourceType).get(indexOfCurrentTypeFilter));
                 }
-                List<String> searchCreteria = new ArrayList<String>();
+                List<String> searchCriteria = new ArrayList<String>();
 
                 if (fhirSearchFromDate != null) {
-                    searchCreteria.add("ge" + fhirSearchFromDate);
+                    searchCriteria.add("ge" + fhirSearchFromDate);
                 }
                 if (fhirSearchToDate != null) {
-                    searchCreteria.add("lt" + fhirSearchToDate);
+                    searchCriteria.add("lt" + fhirSearchToDate);
                 }
-                if (!searchCreteria.isEmpty()) {
-                    queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCreteria);
+                if (!searchCriteria.isEmpty()) {
+                    queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCriteria);
                 }
 
                 queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
