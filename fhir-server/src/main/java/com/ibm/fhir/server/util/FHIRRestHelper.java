@@ -73,6 +73,7 @@ import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
+import com.ibm.fhir.provider.util.FHIRUrlParser;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
 import com.ibm.fhir.rest.FHIRRestOperationResponse;
 import com.ibm.fhir.search.SearchConstants;
@@ -81,7 +82,6 @@ import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
-import com.ibm.fhir.server.helper.FHIRUrlParser;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
