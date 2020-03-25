@@ -53,11 +53,15 @@ public class CosExportImpl implements ExportImportBulkData {
                 tmpProperties.put(BulkDataConstants.PARAM_GROUP_ID, logicalId);
             }
 
+            if (typeFilters != null && typeFilters.size() > 0) {
+                tmpProperties.put(BulkDataConstants.PARAM_TYPE_FILTER, String.join(",", typeFilters));
+            }
+
             addBaseUri(operationContext, tmpProperties);
 
             // Submit Job
             BulkDataClient client = new BulkDataClient(tmpProperties);
-            // If we add multiple formats, shove the mediatype into a properties map. 
+            // If we add multiple formats, shove the mediatype into a properties map.
             String url = client.submit(since, types, tmpProperties, exportType);
 
             // As we are now 'modifying' the response, we're PUSHING it into the operation context. The
@@ -149,7 +153,7 @@ public class CosExportImpl implements ExportImportBulkData {
     @Override
     public Parameters importBulkData(String logicalId, Parameters parameters, FHIROperationContext operationContext,
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        try {            
+        try {
             Map<String, String> tmpProperties = new HashMap<>();
             tmpProperties.putAll(properties);
             addBaseUri(operationContext, tmpProperties);

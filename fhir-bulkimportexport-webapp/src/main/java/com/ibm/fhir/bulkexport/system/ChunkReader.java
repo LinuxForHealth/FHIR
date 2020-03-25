@@ -22,6 +22,7 @@ import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
+import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.bulkexport.common.CheckPointUserData;
 import com.ibm.fhir.bulkexport.common.TransientUserData;
@@ -50,6 +51,9 @@ public class ChunkReader extends AbstractItemReader {
     int indexOfCurrentResourceType = 0;
     // Control the number of records to read in each "item".
     int pageSize = Constants.DEFAULT_SEARCH_PAGE_SIZE;
+    // Search parameters for resource types gotten from fhir.typeFilters job parameter.
+    Map<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes = null;
+    int indexOfCurrentTypeFilter = 0;
 
     /**
      * Fhir tenant id.
@@ -87,6 +91,13 @@ public class ChunkReader extends AbstractItemReader {
     String fhirSearchToDate;
 
     /**
+     * Fhir export type filters.
+     */
+    @Inject
+    @BatchProperty(name = "fhir.typeFilters")
+    String fhirTypeFilters;
+
+    /**
      * Fhir search page size.
      */
     @Inject
@@ -103,9 +114,6 @@ public class ChunkReader extends AbstractItemReader {
     @Inject
     JobContext jobContext;
 
-    /**
-     * @see AbstractItemReader#AbstractItemReader()
-     */
     public ChunkReader() {
         super();
     }
@@ -146,23 +154,33 @@ public class ChunkReader extends AbstractItemReader {
 
     }
 
-    /**
-     * @see AbstractItemReader#readItem()
-     */
     @Override
     public Object readItem() throws Exception {
-        List<String> ResourceTypes = Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
+        List<String> resourceTypes = Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
+        if (searchParametersForResoureTypes == null ) {
+            searchParametersForResoureTypes = BulkDataUtils.getSearchParemetersFromTypeFilters(fhirTypeFilters);
+        }
 
         TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
+        // If the search already reaches the last page, then check if need to move to the next typeFilter or next resource type.
         if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
-            if (ResourceTypes.size() == indexOfCurrentResourceType + 1) {
-                // No more resource type and page to read, so return null to end the reading.
-                return null;
+            Class<? extends Resource> resourceType = ModelSupport.getResourceType(resourceTypes.get(indexOfCurrentResourceType));
+            if (searchParametersForResoureTypes.get(resourceType) == null || searchParametersForResoureTypes.get(resourceType).size() <= indexOfCurrentTypeFilter + 1) {
+                // If there is no more typeFilter to process for current resource type, then check if there is any more resource type to process.
+                if (resourceTypes.size() == indexOfCurrentResourceType + 1) {
+                    // No more resource type and page to read, so return null to end the reading.
+                    return null;
+                } else {
+                    // More resource types to read, so reset pageNum, partNum and move resource type index to the next and reset indexOfCurrentTypeFilter.
+                    pageNum = 1;
+                    chunkData.setPartNum(1);
+                    indexOfCurrentResourceType++;
+                    indexOfCurrentTypeFilter = 0;
+                }
             } else {
-                // More resource types to read, so reset pageNum, partNum and move resource type index to the next.
+             // If there is more typeFilter to process for current resource type, then reset pageNum only and move to the next typeFilter.
                 pageNum = 1;
-                chunkData.setPartNum(1);
-                indexOfCurrentResourceType++;
+                indexOfCurrentTypeFilter++;
             }
         }
         if (fhirTenant == null) {
@@ -185,7 +203,7 @@ public class ChunkReader extends AbstractItemReader {
         if (cosBucketObjectName != null
                 && cosBucketObjectName.trim().length() > 0
                 // Single COS object uploading is for single resource type export only.
-                && ResourceTypes.size() == 1) {
+                && resourceTypes.size() == 1) {
             isSingleCosObject = true;
             logger.info("readItem: Use single COS object for uploading!");
         }
@@ -194,10 +212,15 @@ public class ChunkReader extends AbstractItemReader {
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
         Class<? extends Resource> resourceType = ModelSupport
-                .getResourceType(ResourceTypes.get(indexOfCurrentResourceType));
+                .getResourceType(resourceTypes.get(indexOfCurrentResourceType));
         FHIRSearchContext searchContext;
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
+
+        // Add the search parameters from the current typeFilter for current resource type.
+        if (searchParametersForResoureTypes.get(resourceType) != null) {
+            queryParameters.putAll(searchParametersForResoureTypes.get(resourceType).get(indexOfCurrentTypeFilter));
+        }
 
         List<String> searchCreteria = new ArrayList<String>();
 
@@ -218,15 +241,14 @@ public class ChunkReader extends AbstractItemReader {
         searchContext.setPageNumber(pageNum);
         List<Resource> resources = null;
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-        txn.begin();
+        txn.enroll();;
         persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
         resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
-        txn.commit();
+        txn.unenroll();;
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1);
-            chunkData.setIndexOfCurrentResourceType(0);
+            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, 0);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
             if (isSingleCosObject) {
                 chunkData.setSingleCosObject(true);
@@ -235,6 +257,7 @@ public class ChunkReader extends AbstractItemReader {
         } else {
             chunkData.setPageNum(pageNum);
             chunkData.setIndexOfCurrentResourceType(indexOfCurrentResourceType);
+            chunkData.setIndexOfCurrentTypeFilter(indexOfCurrentTypeFilter);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
         }
 
@@ -254,6 +277,7 @@ public class ChunkReader extends AbstractItemReader {
             CheckPointUserData checkPointData = (CheckPointUserData) checkpoint;
             pageNum = checkPointData.getPageNum();
             indexOfCurrentResourceType = checkPointData.getIndexOfCurrentResourceType();
+            indexOfCurrentTypeFilter = checkPointData.getIndexOfCurrentTypeFilter();
             jobContext.setTransientUserData(TransientUserData.fromCheckPointUserData(checkPointData));
         }
     }
