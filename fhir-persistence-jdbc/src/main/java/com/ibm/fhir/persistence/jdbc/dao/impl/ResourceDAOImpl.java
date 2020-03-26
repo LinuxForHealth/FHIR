@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -461,7 +461,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     @Override
     public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
-            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
+            throws FHIRPersistenceException {
         final String METHODNAME = "insert(Resource, List<ExtractedParameterValue>";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -593,7 +593,8 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceVersionIdMismatchException
      */
-    private Resource insertToDerby(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException {
+    private Resource insertToDerby(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
+            throws FHIRPersistenceException {
         final String METHODNAME = "insertToDerby";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -654,7 +655,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 // this is just a concurrency update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
             } else {
-                FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("SQLException encountered while inserting Resource.");
+                FHIRPersistenceException fx = new FHIRPersistenceException("SQLException encountered while inserting Resource.");
                 throw severe(log, fx, e);
             }
         } catch(Throwable e) {

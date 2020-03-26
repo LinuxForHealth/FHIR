@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,13 +13,13 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.ConnectionDetails;
 import com.ibm.fhir.database.utils.api.ConnectionException;
 import com.ibm.fhir.database.utils.api.DataAccessException;
-import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
+import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 
 /**
- * translates database access to Derby supported access. 
+ * translates database access to Derby supported access.
  */
 public class DerbyTranslator implements IDatabaseTranslator {
     private static final Logger logger = Logger.getLogger(DerbyTranslator.class.getName());
@@ -98,16 +98,16 @@ public class DerbyTranslator implements IDatabaseTranslator {
     public boolean isUndefinedName(SQLException x) {
         return "42X05".equals(x.getSQLState());
     }
-    
+
     @Override
     public void fillProperties(Properties p, ConnectionDetails cd) {
         p.put("user", cd.getUser());
         p.put("password", cd.getPassword());
-        
+
         if (cd.isSsl()) {
             p.put("sslConnection", "true");
         }
-        
+
         if (cd.isHA()) {
             logger.warning("No HA support for Derby");
         }
@@ -119,7 +119,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
             return String.format("{fn timestampdiff(SQL_TSI_SECOND, %s, %s)}", left, right);
         }
         else {
-            return String.format("{fn timestampdiff(SQL_TSI_SECOND, %s, %s)} AS %s", left, right, alias);            
+            return String.format("{fn timestampdiff(SQL_TSI_SECOND, %s, %s)} AS %s", left, right, alias);
         }
     }
 
@@ -142,15 +142,18 @@ public class DerbyTranslator implements IDatabaseTranslator {
 
     @Override
     public String getUrl(Properties connectionProperties) {
+        StringBuilder url = new StringBuilder("jdbc:derby:");
         DerbyPropertyAdapter adapter = new DerbyPropertyAdapter(connectionProperties);
         if (adapter.isMemory()) {
-            return "jdbc:derby:memory:" + adapter.getDatabase();
+            url.append("memory:");
         }
-        else {
-            return "jdbc:derby:" + adapter.getDatabase();
+        url.append(adapter.getDatabase());
+        if (adapter.isAutoCreate()) {
+            url.append(";create=true");
         }
+        return url.toString();
     }
-    
+
     @Override
     public boolean clobSupportsInline() {
         return false;

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,10 +20,10 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
  */
 public class JdbcConnectionProvider implements IConnectionProvider {
     private static final Logger logger = Logger.getLogger(JdbcConnectionProvider.class.getName());
-    
+
     private final JdbcPropertyAdapter properties;
     private final IDatabaseTranslator translator;
-    
+
     public JdbcConnectionProvider(IDatabaseTranslator translator, JdbcPropertyAdapter properties) {
         this.translator = translator;
         this.properties = properties;
@@ -33,7 +33,7 @@ public class JdbcConnectionProvider implements IConnectionProvider {
     public Connection getConnection() throws SQLException {
         Properties connectionProperties = new Properties();
         properties.getExtraProperties(connectionProperties);
-        String url = translator.getUrl(properties.getProperties());        
+        String url = translator.getUrl(properties.getProperties());
 
         logger.info("Opening connection to database: " + url);
         Connection connection;

@@ -7,7 +7,7 @@
 package com.ibm.fhir.database.utils.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
@@ -26,14 +26,17 @@ public class ForeignKeyConstraint extends Constraint {
     /**
      * @param constraintName
      * @param enforced
+     * @param targetSchema
+     * @param targetTable
+     * @param column
      */
-    protected ForeignKeyConstraint(String constraintName, boolean enforced, String targetSchema, String targetTable,
-        Collection<String> columns) {
+    public ForeignKeyConstraint(String constraintName, boolean enforced, String targetSchema, String targetTable,
+            String... column) {
         super(constraintName);
         this.enforced = enforced;
         this.targetSchema = targetSchema;
         this.targetTable = targetTable;
-        this.columns.addAll(columns);
+        this.columns.addAll(Arrays.asList(column));
     }
 
     /**
@@ -45,11 +48,27 @@ public class ForeignKeyConstraint extends Constraint {
     }
 
     /**
+     * Getter for the enforced boolean flag
+     * @return
+     */
+    public boolean isEnforced() {
+        return enforced;
+    }
+
+    /**
      * Getter for the target schema name
      * @return
      */
     public String getTargetSchema() {
         return this.targetSchema;
+    }
+
+    /**
+     * Getter for the target schema name
+     * @return
+     */
+    public List<String> getColumns() {
+        return this.columns;
     }
 
     public String getQualifiedTargetName() {

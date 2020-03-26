@@ -27,13 +27,13 @@ import com.ibm.fhir.model.type.code.FHIRResourceType;
 /**
  * Populates the Resource Types Table
  */
-public class Db2PopulateResourceTypes implements IDatabaseStatement {
-    private static final Logger LOGGER = Logger.getLogger(Db2PopulateResourceTypes.class.getName());
+public class PopulateResourceTypes implements IDatabaseStatement {
+    private static final Logger LOGGER = Logger.getLogger(PopulateResourceTypes.class.getName());
     private final String adminSchemaName;
     private final String schemaName;
     private final int tenantId;
 
-    public Db2PopulateResourceTypes(String adminSchemaName, String schemaName, int tenantId) {
+    public PopulateResourceTypes(String adminSchemaName, String schemaName, int tenantId) {
         this.adminSchemaName = adminSchemaName;
         this.schemaName      = schemaName;
         this.tenantId        = tenantId;
@@ -50,7 +50,7 @@ public class Db2PopulateResourceTypes implements IDatabaseStatement {
         try (Statement s = c.createStatement(); PreparedStatement batch = c.prepareStatement(stmtResourceTypeInsert)) {
             s.execute(stmtVariable);
             try (InputStream fis =
-                    Db2PopulateResourceTypes.class.getClassLoader().getResourceAsStream("resource_types.properties")) {
+                    PopulateResourceTypes.class.getClassLoader().getResourceAsStream("resource_types.properties")) {
                 Properties props = new Properties();
                 props.load(fis);
 
@@ -90,7 +90,7 @@ public class Db2PopulateResourceTypes implements IDatabaseStatement {
         Properties props = new Properties();
         boolean found = false;
         try (InputStream fis =
-                Db2PopulateResourceTypes.class.getClassLoader().getResourceAsStream("resource_types.properties")) {
+                PopulateResourceTypes.class.getClassLoader().getResourceAsStream("resource_types.properties")) {
             props.load(fis);
 
             Set<String> resources = new HashSet<>();

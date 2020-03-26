@@ -19,7 +19,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * DAO command to add a resource type. If it already exists, we get back the
  * existing id
  */
-public class Db2AddResourceType implements IDatabaseStatement {
+public class AddResourceType implements IDatabaseStatement {
     private final String schemaName;
     private final String resourceType;
 
@@ -32,7 +32,7 @@ public class Db2AddResourceType implements IDatabaseStatement {
      * @param schemaName
      * @param resourceType
      */
-    public Db2AddResourceType(String schemaName, String resourceType) {
+    public AddResourceType(String schemaName, String resourceType) {
         this.schemaName = schemaName;
         this.resourceType = resourceType;
     }

@@ -45,24 +45,35 @@
 
     <build>
         <plugins>
+            <!-- <plugin>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <executions>
+                    <execution>
+                        <id>deployPriorVersions</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>bash</executable>
+                            <commandlineArgs>deployPriorVersions.sh</commandlineArgs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin> -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>derby</directory>
-                            <followSymlinks>false</followSymlinks>
-                            <useDefaultExcludes>true</useDefaultExcludes>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                        </fileset>
-                        <fileset>
                             <directory>.</directory>
                             <followSymlinks>false</followSymlinks>
                             <useDefaultExcludes>true</useDefaultExcludes>
                             <includes>
+                                <include>dblook.log</include>
                                 <include>derby.log</include>
                             </includes>
                         </fileset>
