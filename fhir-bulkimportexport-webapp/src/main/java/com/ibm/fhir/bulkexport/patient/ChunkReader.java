@@ -169,10 +169,10 @@ public class ChunkReader extends AbstractItemReader {
                         searchContext.setPageSize(pageSize);
                         searchContext.setPageNumber(compartmentPageNum);
                         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-                        txn.enroll();;
+                        txn.enroll();
                         FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
                         List<Resource> resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
-                        txn.unenroll();;
+                        txn.unenroll();
                         compartmentPageNum++;
 
                         for (Resource res : resources) {
