@@ -139,12 +139,12 @@ public class Table extends BaseObject {
 
     @Override
     public void apply(Integer priorVersion, IDatabaseAdapter target) {
-        if (priorVersion != null && priorVersion != 0 && this.getVersion() > priorVersion) {
+        if (priorVersion == null || priorVersion == 0) {
+            apply(target);
+        } else if (this.getVersion() > priorVersion) {
             for (Migration step : migrations) {
                 step.migrateFrom(priorVersion).stream().forEachOrdered(target::runStatement);
             }
-        } else {
-            apply(target);
         }
     }
 

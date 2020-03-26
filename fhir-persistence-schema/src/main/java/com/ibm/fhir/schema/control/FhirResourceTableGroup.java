@@ -59,7 +59,6 @@ import java.util.Set;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
-import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
@@ -366,8 +365,6 @@ CREATE TABLE device_date_values  (
 )
 ;
 
-CREATE INDEX idx_device_date_values_pvr ON device_date_values(parameter_name_id, date_value, resource_id);
-CREATE INDEX idx_device_date_values_rpv  ON device_date_values(resource_id, parameter_name_id, date_value);
 CREATE INDEX idx_device_date_values_pser ON device_date_values(parameter_name_id, date_start, date_end, resource_id);
 CREATE INDEX idx_device_date_values_pesr ON device_date_values(parameter_name_id, date_end, date_start, resource_id);
 CREATE INDEX idx_device_date_values_rpse   ON device_date_values(resource_id, parameter_name_id, date_start, date_end);
@@ -405,7 +402,8 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
                     if (priorVersion == 1) {
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_PVR"));
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_RPV"));
-                        statements.add(new DropColumn(schemaName, tableName, "DATE_VALUE"));
+                        // Note: version 1 of this table had a DATE_VALUE column.
+                        // We chose not to DROP it here, but it is not used going forward.
                     }
                     return statements;
                 })

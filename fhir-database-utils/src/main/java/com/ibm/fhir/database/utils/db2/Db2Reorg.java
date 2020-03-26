@@ -17,7 +17,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 /**
  * Reorg the schema.table
  */
-public class Db2ReorgTable implements IDatabaseStatement {
+public class Db2Reorg implements IDatabaseStatement {
     private final String schemaName;
     private final String tableName;
 
@@ -26,7 +26,7 @@ public class Db2ReorgTable implements IDatabaseStatement {
      * @param schemaName
      * @param tableName
      */
-    public Db2ReorgTable(String schemaName, String tableName) {
+    public Db2Reorg(String schemaName, String tableName) {
         DataDefinitionUtil.assertValidName(schemaName);
         DataDefinitionUtil.assertValidName(tableName);
         this.schemaName = schemaName;

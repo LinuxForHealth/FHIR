@@ -118,7 +118,7 @@ public interface IDatabaseAdapter {
      * @param procedureName
      * @param supplier
      */
-    public void createProcedure(String schemaName, String procedureName, Supplier<String> supplier);
+    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier);
 
     /**
      * Drop the given procedure
