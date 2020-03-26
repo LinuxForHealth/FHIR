@@ -172,7 +172,7 @@ public class ChunkReader extends AbstractItemReader {
                         txn.enroll();;
                         FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
                         List<Resource> resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
-                        txn.unenroll();;
+                        txn.unenroll();
                         compartmentPageNum++;
 
                         for (Resource res : resources) {
