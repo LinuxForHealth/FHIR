@@ -113,7 +113,7 @@ public class ChunkWriter extends AbstractItemWriter {
         return Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
     }
 
-    private void pushFhirJsons2Cos(InputStream in, int dataLength) throws Exception {
+    private void pushFhirJsonsToCos(InputStream in, int dataLength) throws Exception {
         if (cosClient == null) {
             logger.warning("pushFhirJsons2Cos: no cosClient!");
             throw new Exception("pushFhirJsons2Cos: no cosClient!");
@@ -198,20 +198,21 @@ public class ChunkWriter extends AbstractItemWriter {
      */
     @Override
     public void writeItems(List<java.lang.Object> arg0) throws Exception {
-        cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
-                cosLocation);
-
         if (cosClient == null) {
-            logger.warning("writeItems: Failed to get CosClient!");
-            throw new Exception("writeItems: Failed to get CosClient!!");
-        } else {
-            logger.finer("writeItems: Got CosClient successfully!");
+            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+            if (cosClient == null) {
+                logger.warning("writeItems: Failed to get CosClient!");
+                throw new Exception("writeItems: Failed to get CosClient!!");
+            } else {
+                logger.finer("writeItems: Got CosClient successfully!");
+            }
         }
+
         if (cosBucketName == null) {
             cosBucketName = Constants.DEFAULT_COS_BUCKETNAME;
         }
         cosBucketName = cosBucketName.toLowerCase();
-        if (!cosClient.doesBucketExist(cosBucketName)) {
+        if (!cosClient.doesBucketExistV2(cosBucketName)) {
             CreateBucketRequest req = new CreateBucketRequest(cosBucketName);
             cosClient.createBucket(req);
         }
@@ -222,7 +223,7 @@ public class ChunkWriter extends AbstractItemWriter {
             throw new Exception("writeItems: chunkData is null, this should never happen!");
         } else {
             if (chunkData.getBufferStream().size() > 0) {
-                pushFhirJsons2Cos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()),
+                pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()),
                         chunkData.getBufferStream().size());
             }
         }

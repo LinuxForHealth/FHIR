@@ -213,6 +213,10 @@ public class BulkDataClient {
             builder.fhirSearchFromDate("1970-01-01");
         }
 
+        if (properties.get(BulkDataConstants.PARAM_TYPE_FILTER) != null) {
+            builder.fhirTypeFilters(properties.get(BulkDataConstants.PARAM_TYPE_FILTER));
+        }
+
         String entityStr = BulkExportJobInstanceRequest.Writer.generate(builder.build(), true);
         Entity<String> entity = Entity.json(entityStr);
         Response r = target.request().post(entity);
@@ -274,11 +278,11 @@ public class BulkDataClient {
             } else if (BulkDataConstants.SUCCESS_STATUS.contains(batchStatus)) {
                 result = process(response);
             } else if (BulkDataConstants.FAILED_STATUS.contains(batchStatus)) {
-                /* 
-                 * In the case of a partial success, the server SHALL use a 200 status code instead of 4XX or 5XX. 
-                 * The choice of when to determine that an export job has failed in its entirety (error status) vs 
+                /*
+                 * In the case of a partial success, the server SHALL use a 200 status code instead of 4XX or 5XX.
+                 * The choice of when to determine that an export job has failed in its entirety (error status) vs
                  * returning a partial success (complete status) is left up to the implementer.
-                 * 
+                 *
                  * XXX Can we do something better like return a 2XX response with a link to a file that explains the error?
                  * What if we couldn't connect with S3 / Cloud object store in the first place?
                  */

@@ -11,8 +11,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +24,7 @@ import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
+import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.bulkexport.common.CheckPointUserData;
 import com.ibm.fhir.bulkexport.common.TransientUserData;
@@ -50,6 +53,18 @@ public class ChunkReader extends AbstractItemReader {
     int indexOfCurrentResourceType = 0;
     // Control the number of records to read in each "item".
     int pageSize = Constants.DEFAULT_SEARCH_PAGE_SIZE;
+    // Search parameters for resource types gotten from fhir.typeFilters job parameter.
+    Map<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes = null;
+    int indexOfCurrentTypeFilter = 0;
+
+    // Used to prevent the same resource from being exported multiple times when multiple _typeFilter for the same
+    // resource type are used, which leads to multiple search requests which can have overlaps of resources,
+    // loadedResourceIds and isDoDuplicationCheck are always reset when moving to the next resource type.
+    Set<String> loadedResourceIds = new HashSet<>();
+    boolean isDoDuplicationCheck = false;
+
+    FHIRPersistence fhirPersistence;
+    List<String> resourceTypes;
 
     /**
      * Fhir tenant id.
@@ -87,6 +102,13 @@ public class ChunkReader extends AbstractItemReader {
     String fhirSearchToDate;
 
     /**
+     * Fhir export type filters.
+     */
+    @Inject
+    @BatchProperty(name = "fhir.typeFilters")
+    String fhirTypeFilters;
+
+    /**
      * Fhir search page size.
      */
     @Inject
@@ -103,9 +125,6 @@ public class ChunkReader extends AbstractItemReader {
     @Inject
     JobContext jobContext;
 
-    /**
-     * @see AbstractItemReader#AbstractItemReader()
-     */
     public ChunkReader() {
         super();
     }
@@ -115,7 +134,7 @@ public class ChunkReader extends AbstractItemReader {
         int resSubTotal = 0;
         if (chunkData != null) {
             for (Resource res : resources) {
-                if (res == null) {
+                if (res == null || (isDoDuplicationCheck && loadedResourceIds.contains(res.getId()))) {
                     continue;
                 }
 
@@ -123,6 +142,9 @@ public class ChunkReader extends AbstractItemReader {
                     FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
                     chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
                     resSubTotal++;
+                    if (isDoDuplicationCheck) {
+                        loadedResourceIds.add(res.getId());
+                    }
                 } catch (FHIRGeneratorException e) {
                     if (res.getId() != null) {
                         logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with id '"
@@ -146,70 +168,59 @@ public class ChunkReader extends AbstractItemReader {
 
     }
 
-    /**
-     * @see AbstractItemReader#readItem()
-     */
     @Override
     public Object readItem() throws Exception {
-        List<String> ResourceTypes = Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
 
         TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
+        // If the search already reaches the last page, then check if need to move to the next typeFilter or next resource type.
         if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
-            if (ResourceTypes.size() == indexOfCurrentResourceType + 1) {
-                // No more resource type and page to read, so return null to end the reading.
-                return null;
+            Class<? extends Resource> resourceType = ModelSupport.getResourceType(resourceTypes.get(indexOfCurrentResourceType));
+            if (searchParametersForResoureTypes.get(resourceType) == null || searchParametersForResoureTypes.get(resourceType).size() <= indexOfCurrentTypeFilter + 1) {
+                // If there is no more typeFilter to process for current resource type, then check if there is any more resource type to process.
+                if (resourceTypes.size() == indexOfCurrentResourceType + 1) {
+                    // No more resource type and page to read, so return null to end the reading.
+                    return null;
+                } else {
+                    // More resource types to read, so reset pageNum, partNum and move resource type index to the next and reset indexOfCurrentTypeFilter.
+                    pageNum = 1;
+                    chunkData.setPartNum(1);
+                    indexOfCurrentResourceType++;
+                    indexOfCurrentTypeFilter = 0;
+                    isDoDuplicationCheck = false;
+                    loadedResourceIds.clear();
+                }
             } else {
-                // More resource types to read, so reset pageNum, partNum and move resource type index to the next.
+             // If there is more typeFilter to process for current resource type, then reset pageNum only and move to the next typeFilter.
                 pageNum = 1;
-                chunkData.setPartNum(1);
-                indexOfCurrentResourceType++;
-            }
-        }
-        if (fhirTenant == null) {
-            fhirTenant = Constants.DEFAULT_FHIR_TENANT;
-            logger.fine("readItem: Set tenant to default!");
-        }
-        if (fhirDatastoreId == null) {
-            fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
-            logger.fine("readItem: Set DatastoreId to default!");
-        }
-        if (fhirSearchPageSize != null) {
-            try {
-                pageSize = Integer.parseInt(fhirSearchPageSize);
-                logger.fine("readItem: Set page size to " + pageSize + ".");
-            } catch (Exception e) {
-                logger.warning("readItem: Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
+                indexOfCurrentTypeFilter++;
             }
         }
 
-        if (cosBucketObjectName != null
-                && cosBucketObjectName.trim().length() > 0
-                // Single COS object uploading is for single resource type export only.
-                && ResourceTypes.size() == 1) {
-            isSingleCosObject = true;
-            logger.info("readItem: Use single COS object for uploading!");
-        }
-
-        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
-        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
-        FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
         Class<? extends Resource> resourceType = ModelSupport
-                .getResourceType(ResourceTypes.get(indexOfCurrentResourceType));
+                .getResourceType(resourceTypes.get(indexOfCurrentResourceType));
         FHIRSearchContext searchContext;
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
 
-        List<String> searchCreteria = new ArrayList<String>();
+        // Add the search parameters from the current typeFilter for current resource type.
+        if (searchParametersForResoureTypes.get(resourceType) != null) {
+            queryParameters.putAll(searchParametersForResoureTypes.get(resourceType).get(indexOfCurrentTypeFilter));
+            if (searchParametersForResoureTypes.get(resourceType).size() > 1) {
+                isDoDuplicationCheck = true;
+            }
+        }
+
+        List<String> searchCriteria = new ArrayList<>();
 
         if (fhirSearchFromDate != null) {
-            searchCreteria.add("ge" + fhirSearchFromDate);
+            searchCriteria.add("ge" + fhirSearchFromDate);
         }
         if (fhirSearchToDate != null) {
-            searchCreteria.add("lt" + fhirSearchToDate);
+            searchCriteria.add("lt" + fhirSearchToDate);
         }
 
-        if (!searchCreteria.isEmpty()) {
-            queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCreteria);
+        if (!searchCriteria.isEmpty()) {
+            queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCriteria);
         }
 
         queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
@@ -218,15 +229,14 @@ public class ChunkReader extends AbstractItemReader {
         searchContext.setPageNumber(pageNum);
         List<Resource> resources = null;
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-        txn.begin();
+        txn.enroll();
         persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
         resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
-        txn.commit();
+        txn.unenroll();
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1);
-            chunkData.setIndexOfCurrentResourceType(0);
+            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, 0);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
             if (isSingleCosObject) {
                 chunkData.setSingleCosObject(true);
@@ -235,6 +245,7 @@ public class ChunkReader extends AbstractItemReader {
         } else {
             chunkData.setPageNum(pageNum);
             chunkData.setIndexOfCurrentResourceType(indexOfCurrentResourceType);
+            chunkData.setIndexOfCurrentTypeFilter(indexOfCurrentTypeFilter);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
         }
 
@@ -254,8 +265,41 @@ public class ChunkReader extends AbstractItemReader {
             CheckPointUserData checkPointData = (CheckPointUserData) checkpoint;
             pageNum = checkPointData.getPageNum();
             indexOfCurrentResourceType = checkPointData.getIndexOfCurrentResourceType();
+            indexOfCurrentTypeFilter = checkPointData.getIndexOfCurrentTypeFilter();
             jobContext.setTransientUserData(TransientUserData.fromCheckPointUserData(checkPointData));
         }
+
+        if (fhirTenant == null) {
+            fhirTenant = Constants.DEFAULT_FHIR_TENANT;
+            logger.fine("open: Set tenant to default!");
+        }
+        if (fhirDatastoreId == null) {
+            fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
+            logger.fine("open: Set DatastoreId to default!");
+        }
+        if (fhirSearchPageSize != null) {
+            try {
+                pageSize = Integer.parseInt(fhirSearchPageSize);
+                logger.fine("open: Set page size to " + pageSize + ".");
+            } catch (Exception e) {
+                logger.warning("open: Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
+            }
+        }
+
+        if (cosBucketObjectName != null
+                && cosBucketObjectName.trim().length() > 0
+                // Single COS object uploading is for single resource type export only.
+                && resourceTypes.size() == 1) {
+            isSingleCosObject = true;
+            logger.info("open: Use single COS object for uploading!");
+        }
+
+        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
+        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
+        fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
+
+        resourceTypes = Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
+        searchParametersForResoureTypes = BulkDataUtils.getSearchParemetersFromTypeFilters(fhirTypeFilters);
     }
 
     @Override

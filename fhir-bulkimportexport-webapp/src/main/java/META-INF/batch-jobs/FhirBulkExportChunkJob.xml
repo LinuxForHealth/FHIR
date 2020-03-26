@@ -14,6 +14,7 @@
                     <property name="fhir.search.todate" value="#{jobParameters['fhir.search.todate']}"/>
                     <property name="fhir.search.pagesize" value="#{jobParameters['fhir.search.pagesize']}"/>
                     <property name="cos.bucket.objectname" value="#{jobParameters['cos.bucket.objectname']}"/>
+                    <property name="fhir.typeFilters" value="#{jobParameters['fhir.typeFilters']}"/>                   
                 </properties>
             </reader>
             <writer ref="com.ibm.fhir.bulkexport.system.ChunkWriter">

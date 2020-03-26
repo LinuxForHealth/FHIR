@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.helper;
+package com.ibm.fhir.provider.util;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -26,7 +26,7 @@ public class FHIRUrlParser {
      */
     protected FHIRUrlParser() {
     }
-    
+
     /**
      * constructor which accepts a partial URL string (e.g. <code>"Patient/123?param1=value1&amp;param2=value2"</code>).
      */
