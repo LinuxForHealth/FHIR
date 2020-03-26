@@ -245,10 +245,9 @@ public class BulkDataClient {
      * @throws Exception
      */
     public PollingLocationResponse status(String job) throws Exception {
-        // Example: https://localhost:9443/ibm/api/batch/jobexecutions/9
-        String baseUrl =
-                properties.get(BulkDataConfigUtil.BATCH_URL).replace("jobinstances", "jobexecutions")
-                        + "/" + job;
+        // Example: https://localhost:9443/ibm/api/batch/jobinstances/9
+        // Get the job instance status, we need it to get the current job execution id of the job instance.
+        String baseUrl = properties.get(BulkDataConfigUtil.BATCH_URL) + "/" + job;
 
         WebTarget target = getWebTarget(baseUrl);
         Response r = target.request().get();
@@ -261,22 +260,32 @@ public class BulkDataClient {
         }
 
         PollingLocationResponse result = null;
-        // Intermediate Response is - BulkExportJobExecutionResponse
         try {
-            BulkExportJobExecutionResponse response =
-                    BulkExportJobExecutionResponse.Parser.parse(responseStr);
-            verifyTenant(response.getJobParameters());
+            BulkExportJobInstanceResponse  bulkExportJobInstanceResponse = BulkExportJobInstanceResponse.Parser.parse(responseStr);
+
+            // Example: https://localhost:9443/ibm/api/batch/jobinstances/9/jobexecutions/2
+            // Get the current job execution status of the job instance.
+            baseUrl = properties.get(BulkDataConfigUtil.BATCH_URL) + "/" + bulkExportJobInstanceResponse.getInstanceId()
+                        + "/jobexecutions/" +  bulkExportJobInstanceResponse.getExecutionId();
+            target = getWebTarget(baseUrl);
+            r = target.request().get();
+
+            responseStr = r.readEntity(String.class);
+
+            // Intermediate Response is - BulkExportJobExecutionResponse
+            BulkExportJobExecutionResponse bulkExportJobExecutionResponse = BulkExportJobExecutionResponse.Parser.parse(responseStr);
+            verifyTenant(bulkExportJobExecutionResponse.getJobParameters());
 
             if (log.isLoggable(Level.FINE)) {
                 log.warning("Logging the BulkExportJobExecutionResponse Details -> \n "
-                        + BulkExportJobExecutionResponse.Writer.generate(response, false));
+                        + BulkExportJobExecutionResponse.Writer.generate(bulkExportJobExecutionResponse, false));
             }
 
-            String batchStatus = response.getBatchStatus();
+            String batchStatus = bulkExportJobExecutionResponse.getBatchStatus();
             if (batchStatus == null) {
                 throw BulkDataUtil.buildOperationException("Error while reading the bulk export status", IssueType.INVALID);
             } else if (BulkDataConstants.SUCCESS_STATUS.contains(batchStatus)) {
-                result = process(response);
+                result = process(bulkExportJobExecutionResponse);
             } else if (BulkDataConstants.FAILED_STATUS.contains(batchStatus)) {
                 /*
                  * In the case of a partial success, the server SHALL use a 200 status code instead of 4XX or 5XX.
