@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -61,8 +62,9 @@ public class ChunkReader extends AbstractItemReader {
     // Search parameters for resource types gotten from fhir.typeFilters job parameter.
     Map<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes = null;
     // Used to prevent the same resource from being exported multiple times when multiple _typeFilter for the same
-    // resource type are used, which leads to multiple search requests which can have overlaps of resources.
-    HashSet<String> loadedResourceIds = new HashSet<>();
+    // resource type are used, which leads to multiple search requests which can have overlaps of resources,
+    // loadedResourceIds and isDoDuplicationCheck are always reset when moving to the next resource type.
+    Set<String> loadedResourceIds = new HashSet<>();
     boolean isDoDuplicationCheck = false;
 
     /**
@@ -205,8 +207,10 @@ public class ChunkReader extends AbstractItemReader {
             } while (searchParametersForResoureTypes.get(resourceType) != null && indexOfCurrentTypeFilter < searchParametersForResoureTypes.get(resourceType).size());
 
             chunkData.setCurrentPartResourceNum(chunkData.getCurrentPartResourceNum() + resSubTotal);
-            logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
-                    + chunkData.getBufferStream().size());
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
+                        + chunkData.getBufferStream().size());
+            }
 
         } else {
             logger.warning("fillChunkDataBuffer: chunkData is null, this should never happen!");
@@ -236,7 +240,7 @@ public class ChunkReader extends AbstractItemReader {
         FHIRPersistenceContext persistenceContext;
         Map<String, List<String>> queryParameters = new HashMap<>();
 
-        List<String> searchCreterial = new ArrayList<String>();
+        List<String> searchCreterial = new ArrayList<>();
 
         if (fhirSearchFromDate != null) {
             searchCreterial.add("ge" + fhirSearchFromDate);

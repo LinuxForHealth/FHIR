@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,8 +58,9 @@ public class ChunkReader extends AbstractItemReader {
     int indexOfCurrentTypeFilter = 0;
 
     // Used to prevent the same resource from being exported multiple times when multiple _typeFilter for the same
-    // resource type are used, which leads to multiple search requests which can have overlaps of resources.
-    HashSet<String> loadedResourceIds = new HashSet<>();
+    // resource type are used, which leads to multiple search requests which can have overlaps of resources,
+    // loadedResourceIds and isDoDuplicationCheck are always reset when moving to the next resource type.
+    Set<String> loadedResourceIds = new HashSet<>();
     boolean isDoDuplicationCheck = false;
 
     FHIRPersistence fhirPersistence;
@@ -208,7 +210,7 @@ public class ChunkReader extends AbstractItemReader {
             }
         }
 
-        List<String> searchCriteria = new ArrayList<String>();
+        List<String> searchCriteria = new ArrayList<>();
 
         if (fhirSearchFromDate != null) {
             searchCriteria.add("ge" + fhirSearchFromDate);
