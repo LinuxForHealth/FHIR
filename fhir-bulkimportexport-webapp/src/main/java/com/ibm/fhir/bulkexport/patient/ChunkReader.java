@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -49,22 +50,27 @@ import com.ibm.fhir.search.util.SearchUtil;
  */
 public class ChunkReader extends AbstractItemReader {
     private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
-    int pageNum = 1;
-    int indexOfCurrentResourceType = 0;
+    protected int pageNum = 1;
+    protected int indexOfCurrentResourceType = 0;
     // Control the number of records to read in each "item".
-    int pageSize = Constants.DEFAULT_SEARCH_PAGE_SIZE;
+    protected int pageSize = Constants.DEFAULT_SEARCH_PAGE_SIZE;
 
-    private FHIRPersistence fhirPersistence;
-    private List<String> resourceTypes;
+    protected FHIRPersistence fhirPersistence;
+    protected List<String> resourceTypes;
 
     // Search parameters for resource types gotten from fhir.typeFilters job parameter.
     Map<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes = null;
+    // Used to prevent the same resource from being exported multiple times when multiple _typeFilter for the same
+    // resource type are used, which leads to multiple search requests which can have overlaps of resources.
+    HashSet<String> loadedResourceIds = new HashSet<>();
+    boolean isDoDuplicationCheck = false;
 
     /**
      * Fhir tenant id.
      */
     @Inject
     @BatchProperty(name = "fhir.tenant")
+    protected
     String fhirTenant;
 
     /**
@@ -72,6 +78,7 @@ public class ChunkReader extends AbstractItemReader {
      */
     @Inject
     @BatchProperty(name = "fhir.datastoreid")
+    protected
     String fhirDatastoreId;
 
     /**
@@ -79,7 +86,7 @@ public class ChunkReader extends AbstractItemReader {
      */
     @Inject
     @BatchProperty(name = "fhir.resourcetype")
-    String fhirResourceType;
+    protected String fhirResourceType;
 
     /**
      * Fhir Search from date.
@@ -119,7 +126,7 @@ public class ChunkReader extends AbstractItemReader {
         super();
     }
 
-    private void fillChunkDataBuffer(List<Resource> resources) throws Exception {
+    protected void fillChunkDataBuffer(List<String> patientIds) throws Exception {
         TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
         int indexOfCurrentTypeFilter = 0;
         int compartmentPageNum = 1;
@@ -127,16 +134,16 @@ public class ChunkReader extends AbstractItemReader {
         FHIRSearchContext searchContext;
         Class<? extends Resource> resourceType = ModelSupport.getResourceType(resourceTypes.get(indexOfCurrentResourceType));
 
-        if (searchParametersForResoureTypes == null ) {
-            searchParametersForResoureTypes = BulkDataUtils.getSearchParemetersFromTypeFilters(fhirTypeFilters);
-        }
-
         if (chunkData != null) {
             do {
                 Map<String, List<String>> queryParameters = new HashMap<>();
                 // Add the search parameters from the current typeFilter for current resource type.
                 if (searchParametersForResoureTypes.get(resourceType) != null) {
                     queryParameters.putAll(searchParametersForResoureTypes.get(resourceType).get(indexOfCurrentTypeFilter));
+                    logger.info("readItem: processing [ " + resourceTypes.get(indexOfCurrentResourceType) + " ] with typeFilter [ " + indexOfCurrentTypeFilter  + " ]");
+                    if (searchParametersForResoureTypes.get(resourceType).size() > 1) {
+                        isDoDuplicationCheck = true;
+                    }
                 }
                 List<String> searchCriteria = new ArrayList<>();
                 if (fhirSearchFromDate != null) {
@@ -153,13 +160,9 @@ public class ChunkReader extends AbstractItemReader {
 
                 queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
 
-                for (Resource res : resources) {
-                    if (res == null) {
-                        continue;
-                    }
-                    Patient patient = (Patient) res;
+                for (String patientId : patientIds) {
 
-                    searchContext = SearchUtil.parseQueryParameters("Patient", patient.getId(),
+                    searchContext = SearchUtil.parseQueryParameters("Patient", patientId,
                             ModelSupport.getResourceType(resourceTypes.get(indexOfCurrentResourceType)), queryParameters, true);
                     do {
                         searchContext.setPageSize(pageSize);
@@ -167,18 +170,21 @@ public class ChunkReader extends AbstractItemReader {
                         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
                         txn.enroll();;
                         FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-                        List<Resource> resources2 = fhirPersistence.search(persistenceContext, resourceType).getResource();
+                        List<Resource> resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
                         txn.unenroll();;
                         compartmentPageNum++;
 
-                        for (Resource res2 : resources2) {
-                            if (res2 == null) {
+                        for (Resource res : resources) {
+                            if (res == null || (isDoDuplicationCheck && loadedResourceIds.contains(res.getId()))) {
                                 continue;
                             }
                             try {
-                                FHIRGenerator.generator(Format.JSON).generate(res2, chunkData.getBufferStream());
+                                FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
                                 chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
                                 resSubTotal++;
+                                if (isDoDuplicationCheck) {
+                                    loadedResourceIds.add(res.getId());
+                                }
                             } catch (FHIRGeneratorException e) {
                                 if (res.getId() != null) {
                                     logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with id '"
@@ -197,7 +203,7 @@ public class ChunkReader extends AbstractItemReader {
                 }
 
                 indexOfCurrentTypeFilter++;
-            } while (indexOfCurrentTypeFilter < searchParametersForResoureTypes.get(resourceType).size());
+            } while (searchParametersForResoureTypes.get(resourceType) != null && indexOfCurrentTypeFilter < searchParametersForResoureTypes.get(resourceType).size());
 
             chunkData.setCurrentPartResourceNum(chunkData.getCurrentPartResourceNum() + resSubTotal);
             logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
@@ -212,17 +218,6 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public Object readItem() throws Exception {
-        List <String> allCompartmentResourceTypes = CompartmentUtil.getCompartmentResourceTypes("Patient");
-        if (fhirResourceType == null ) {
-            resourceTypes = allCompartmentResourceTypes;
-        } else {
-            List<String> tmpResourceTypes = Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
-            resourceTypes = tmpResourceTypes.stream().filter(item-> allCompartmentResourceTypes.contains(item)).collect(Collectors.toList());
-            if (resourceTypes == null || resourceTypes.isEmpty()) {
-                throw new Exception("readItem: None of the input resource types is valid!");
-            }
-        }
-
         TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
         if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
             if (resourceTypes.size() == indexOfCurrentResourceType + 1) {
@@ -233,26 +228,10 @@ public class ChunkReader extends AbstractItemReader {
                 pageNum = 1;
                 chunkData.setPartNum(1);
                 indexOfCurrentResourceType++;
+                isDoDuplicationCheck = false;
+                loadedResourceIds.clear();
             }
         }
-        if (fhirTenant == null) {
-            fhirTenant = Constants.DEFAULT_FHIR_TENANT;
-            logger.fine("readItem: Set tenant to default!");
-        }
-        if (fhirDatastoreId == null) {
-            fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
-            logger.fine("readItem: Set DatastoreId to default!");
-        }
-        if (fhirSearchPageSize != null) {
-            try {
-                pageSize = Integer.parseInt(fhirSearchPageSize);
-                logger.fine("readItem: Set page size to " + pageSize + ".");
-            } catch (Exception e) {
-                logger.warning("readItem: Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
-            }
-        }
-
-        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
 
         FHIRSearchContext searchContext;
         FHIRPersistenceContext persistenceContext;
@@ -295,7 +274,11 @@ public class ChunkReader extends AbstractItemReader {
 
         if (resources != null) {
             logger.fine("readItem(" + resourceTypes.get(indexOfCurrentResourceType) + "): loaded patients number - " + resources.size());
-            fillChunkDataBuffer(resources);
+
+            List<String> patientIds = resources.stream().filter(item -> item.getId() != null).map(item -> item.getId()).collect(Collectors.toList());
+            if (patientIds != null && patientIds.size() > 0) {
+                fillChunkDataBuffer(patientIds);
+            }
         } else {
             logger.fine("readItem: End of reading!");
         }
@@ -305,13 +288,43 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public void open(Serializable checkpoint) throws Exception {
-        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
-        fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
         if (checkpoint != null) {
             CheckPointUserData checkPointData = (CheckPointUserData) checkpoint;
             pageNum = checkPointData.getPageNum();
             indexOfCurrentResourceType = checkPointData.getIndexOfCurrentResourceType();
             jobContext.setTransientUserData(TransientUserData.fromCheckPointUserData(checkPointData));
+        }
+
+        if (fhirTenant == null) {
+            fhirTenant = Constants.DEFAULT_FHIR_TENANT;
+            logger.fine("open: Set tenant to default!");
+        }
+        if (fhirDatastoreId == null) {
+            fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
+            logger.fine("open: Set DatastoreId to default!");
+        }
+        if (fhirSearchPageSize != null) {
+            try {
+                pageSize = Integer.parseInt(fhirSearchPageSize);
+                logger.fine("open: Set page size to " + pageSize + ".");
+            } catch (Exception e) {
+                logger.warning("open: Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
+            }
+        }
+        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
+        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
+        fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
+        searchParametersForResoureTypes = BulkDataUtils.getSearchParemetersFromTypeFilters(fhirTypeFilters);
+
+        List <String> allCompartmentResourceTypes = CompartmentUtil.getCompartmentResourceTypes("Patient");
+        if (fhirResourceType == null ) {
+            resourceTypes = allCompartmentResourceTypes;
+        } else {
+            List<String> tmpResourceTypes = Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
+            resourceTypes = tmpResourceTypes.stream().filter(item-> allCompartmentResourceTypes.contains(item)).collect(Collectors.toList());
+            if (resourceTypes == null || resourceTypes.isEmpty()) {
+                throw new Exception("open: None of the input resource types is valid!");
+            }
         }
     }
 
