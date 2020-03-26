@@ -768,6 +768,7 @@ public class FHIRClientImpl implements FHIRClient {
             // Add a hostname verifier if we're using an ssl transport.
             if (usingSSLTransport() && !isHostnameVerificationEnabled()) {
                 cb = cb.hostnameVerifier(new HostnameVerifier() {
+
                     @Override
                     public boolean verify(String s, SSLSession sslSession) {
                         return true;

@@ -13,6 +13,7 @@
                     <property name="fhir.search.fromdate" value="#{jobParameters['fhir.search.fromdate']}"/>
                     <property name="fhir.search.todate" value="#{jobParameters['fhir.search.todate']}"/>
                     <property name="fhir.search.pagesize" value="#{jobParameters['fhir.search.pagesize']}"/>
+                    <property name="fhir.typeFilters" value="#{jobParameters['fhir.typeFilters']}"/>
                 </properties>
             </reader>
             <writer ref="com.ibm.fhir.bulkexport.patient.ChunkWriter">
