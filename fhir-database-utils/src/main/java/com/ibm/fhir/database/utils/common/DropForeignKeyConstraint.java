@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 
 /**
- * Drop columns from the schema.table
+ * Drop one or more foreign keys from the schema.table
  */
 public class DropForeignKeyConstraint implements IDatabaseStatement {
     private final String schemaName;
@@ -38,17 +38,19 @@ public class DropForeignKeyConstraint implements IDatabaseStatement {
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
-        final StringBuilder ddl = new StringBuilder("ALTER TABLE " + qname);
-        for (String constraintName : constraintNames) {
-            ddl.append("\n\t" + "DROP FOREIGN KEY " + constraintName);
-        }
+        String qTableName = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
 
-        try (Statement s = c.createStatement()) {
-            s.executeUpdate(ddl.toString());
-        }
-        catch (SQLException x) {
-            throw translator.translate(x);
+        for (String constraintName : constraintNames) {
+            StringBuilder ddl = new StringBuilder("ALTER TABLE " + qTableName);
+            String qConstraintName = DataDefinitionUtil.getQualifiedName(schemaName, constraintName);
+            ddl.append("\n\t" + "DROP FOREIGN KEY " + qConstraintName);
+
+            try (Statement s = c.createStatement()) {
+                s.executeUpdate(ddl.toString());
+            }
+            catch (SQLException x) {
+                throw translator.translate(x);
+            }
         }
     }
 

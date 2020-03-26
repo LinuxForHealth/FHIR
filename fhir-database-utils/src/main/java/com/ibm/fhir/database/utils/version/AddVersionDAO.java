@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,13 +21,13 @@ import com.ibm.fhir.database.utils.model.InsertStatement;
 public class AddVersionDAO implements IDatabaseStatement {
     // The admin schema holding the history table
     private final String adminSchemaName;
-    
+
     // The schema, type and name of the object we want to manage
     private final String schemaName;
     private final String type;
     private final String name;
     private final int version;
-    
+
     public AddVersionDAO(String adminSchemaName, String schemaName, String type, String name, int version) {
         this.adminSchemaName = adminSchemaName;
         this.schemaName = schemaName;
@@ -36,12 +36,9 @@ public class AddVersionDAO implements IDatabaseStatement {
         this.version = version;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseStatement#run(com.ibm.fhir.database.utils.api.IDatabaseTranslator, java.sql.Connection)
-     */
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        
+
         final InsertStatement ins = InsertStatement.builder(adminSchemaName, SchemaConstants.VERSION_HISTORY)
                 .addColumn(SchemaConstants.SCHEMA_NAME)
                 .addColumn(SchemaConstants.OBJECT_TYPE)
@@ -49,7 +46,7 @@ public class AddVersionDAO implements IDatabaseStatement {
                 .addColumn(SchemaConstants.VERSION)
                 .addColumn(SchemaConstants.APPLIED, "CURRENT TIMESTAMP")
                 .build();
-        
+
         try (PreparedStatement ps = c.prepareStatement(ins.toString())) {
             ps.setString(1, schemaName);
             ps.setString(2, type);

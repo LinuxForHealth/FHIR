@@ -14,10 +14,14 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.api.IConnectionProvider;
+import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
+import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.CommonDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.model.ColumnBase;
+import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Table;
@@ -44,7 +48,10 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
      */
     public DerbyAdapter(IDatabaseTarget tgt) {
         super(tgt, new DerbyTranslator());
+    }
 
+    public DerbyAdapter(IConnectionProvider cp) {
+        super(cp, new DerbyTranslator());
     }
 
     /**
@@ -174,12 +181,12 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createSequence(String schemaName, String sequenceName, int cache) {
-        /*CREATE SEQUENCE fhir_sequence
-             AS BIGINT
-     START WITH 1
-          CACHE 1000
-       NO CYCLE;
-    */
+        /* CREATE SEQUENCE fhir_sequence
+         *     AS BIGINT
+         *     START WITH 1
+         *     CACHE 1000
+         *     NO CYCLE;
+        */
         // Derby doesn't support CACHE
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 1 NO CYCLE";
@@ -235,5 +242,19 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         runStatement(ddl);
         ddl = "CREATE SCHEMA " + adminSchemaName;
         runStatement(ddl);
+    }
+
+    @Override
+    public void runStatement(IDatabaseStatement stmt) {
+        if (stmt instanceof AddForeignKeyConstraint) {
+            AddForeignKeyConstraint afk = (AddForeignKeyConstraint) stmt;
+            for (ForeignKeyConstraint constraint : afk.getConstraints()) {
+                createForeignKeyConstraint(constraint.getConstraintName(), afk.getSchemaName(), afk.getTableName(),
+                    constraint.getTargetSchema(), constraint.getTargetTable(),
+                    afk.getTenantColumnName(), constraint.getColumns(), constraint.isEnforced());
+            }
+        } else {
+            super.runStatement(stmt);
+        }
     }
 }

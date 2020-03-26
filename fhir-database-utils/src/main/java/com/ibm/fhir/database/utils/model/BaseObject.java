@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -51,13 +51,10 @@ public abstract class BaseObject implements IDatabaseObject {
     private final Map<String, Set<Privilege>> userPrivilegeMap = new HashMap<>();
 
     // The version number of the application schema this object applies to
-    private final int version;
+    protected final int version;
 
-    // Steps to perform before updating from a previous version of this object
-    protected final List<Migration> preSteps;
-
-    // Steps to perform after updating from a previous version of this object
-    protected final List<Migration> postSteps;
+    // Steps to perform to upgrade from any previous version of the schema to the new version
+    protected final List<Migration> migrations;
 
     /**
      * Public constructor
@@ -68,7 +65,7 @@ public abstract class BaseObject implements IDatabaseObject {
      * @param version
      */
     public BaseObject(String schemaName, String objectName, DatabaseObjectType objectType, int version) {
-        this(schemaName, objectName, objectType, version, Collections.emptyList(), Collections.emptyList());
+        this(schemaName, objectName, objectType, version, Collections.emptyList());
     }
 
     /**
@@ -79,13 +76,12 @@ public abstract class BaseObject implements IDatabaseObject {
      * @param objectType
      * @param version
      */
-    public BaseObject(String schemaName, String objectName, DatabaseObjectType objectType, int version, List<Migration> preSteps, List<Migration> postSteps) {
+    public BaseObject(String schemaName, String objectName, DatabaseObjectType objectType, int version, List<Migration> migrations) {
         this.schemaName = schemaName;
         this.objectName = objectName;
         this.objectType = objectType;
         this.version = version;
-        this.preSteps = preSteps;
-        this.postSteps = postSteps;
+        this.migrations = migrations;
     }
 
     @Override

@@ -46,13 +46,10 @@ public class Tablespace extends DatabaseObject {
 
     @Override
     public void apply(Integer priorVersion, IDatabaseAdapter target) {
-        if (this.extentSizeKB > 0) {
-            target.createTablespace(getName(), this.extentSizeKB);
+        if (priorVersion != null && priorVersion > 0) {
+            throw new UnsupportedOperationException("Modifying tablespaces is not supported");
         }
-        else {
-            // Use database default
-            target.createTablespace(getName());
-        }
+        apply(target);
     }
 
     @Override

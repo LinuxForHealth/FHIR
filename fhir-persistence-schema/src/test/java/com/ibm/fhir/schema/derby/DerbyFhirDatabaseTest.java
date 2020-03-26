@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,8 +7,6 @@
 package com.ibm.fhir.schema.derby;
 
 import org.testng.annotations.Test;
-
-import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 
 /**
  * Unit test for the DerbyFhirDatabase utility

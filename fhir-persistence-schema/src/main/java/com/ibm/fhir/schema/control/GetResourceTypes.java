@@ -10,29 +10,28 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.function.Consumer;
 
-import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
+import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.schema.model.ResourceType;
 
 /**
- * Selects the existing RESOURCE_TYPES from DB2
+ * Manages the DB2 Get Resource Types
  */
-public class Db2GetResourceTypeList implements IDatabaseSupplier<List<ResourceType>> {
+public class GetResourceTypes implements IDatabaseStatement {
     private final String schemaName;
+    private final Consumer<ResourceType> consumer;
 
-    public Db2GetResourceTypeList(String schemaName) {
+    public GetResourceTypes(String schemaName, Consumer<ResourceType> c) {
         this.schemaName = schemaName;
+        this.consumer = c;
     }
 
     @Override
-    public List<ResourceType> run(IDatabaseTranslator translator, Connection c) {
-        List<ResourceType> result = new ArrayList<>();
-
-        final String SQL = "SELECT resource_type_id, resource_type "
-                + "  FROM " + schemaName + ".RESOURCE_TYPES";
+    public void run(IDatabaseTranslator translator, Connection c) {
+        final String SQL = "SELECT resource_type_id, resource_type " 
+                         + "  FROM " + schemaName + ".RESOURCE_TYPES";
 
         try (Statement s = c.createStatement()) {
             ResultSet rs = s.executeQuery(SQL);
@@ -40,14 +39,12 @@ public class Db2GetResourceTypeList implements IDatabaseSupplier<List<ResourceTy
                 ResourceType rt = new ResourceType();
                 rt.setId(rs.getLong(1));
                 rt.setName(rs.getString(2));
-                result.add(rt);
+                consumer.accept(rt);
             }
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
 
-        return result;
     }
 
 }

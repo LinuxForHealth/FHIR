@@ -4,9 +4,46 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.schema.control;
+package com.ibm.fhir.schema.derby;
 
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.*;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_NAME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_END;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_START;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_REF_SEQUENCE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_SEQUENCE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.IDX;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LATITUDE_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LONGITUDE_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAMES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANTS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_HASH;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_KEYS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_KEY_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_NAME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SALT;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SEQUENCE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_STATUS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUES;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,16 +60,21 @@ import com.ibm.fhir.database.utils.model.ObjectGroup;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.ProcedureDef;
+import com.ibm.fhir.database.utils.model.RowArrayType;
+import com.ibm.fhir.database.utils.model.RowTypeBuilder;
 import com.ibm.fhir.database.utils.model.Sequence;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
 import com.ibm.fhir.model.type.code.FHIRResourceType;
+import com.ibm.fhir.schema.control.FhirSchemaConstants;
+import com.ibm.fhir.schema.control.Replacer;
+import com.ibm.fhir.schema.control.SchemaGeneratorUtil;
 
 /**
- * Encapsulates the generation of the FHIR schema artifacts
+ * Encapsulates the generation of the FHIR schema artifacts from IBM FHIR Server version 4.0.1
  */
-public class FhirSchemaGenerator {
+public class OldFhirSchemaGenerator {
 
     // The schema holding all the data-bearing tables
     private final String schemaName;
@@ -57,6 +99,9 @@ public class FhirSchemaGenerator {
     public static final String SCHEMA_GROUP_TAG = "SCHEMA_GROUP";
     public static final String FHIRDATA_GROUP = "FHIRDATA";
     public static final String ADMIN_GROUP = "FHIR_ADMIN";
+
+    // The max array size we use for array type parameters
+    private static final int ARRAY_SIZE = 256;
 
     // ADMIN SCHEMA CONTENT
 
@@ -122,7 +167,7 @@ public class FhirSchemaGenerator {
      * @param adminSchemaName
      * @param schemaName
      */
-    public FhirSchemaGenerator(String adminSchemaName, String schemaName) {
+    public OldFhirSchemaGenerator(String adminSchemaName, String schemaName) {
         this(adminSchemaName, schemaName, Arrays.stream(FHIRResourceType.ValueSet.values())
                 .map(FHIRResourceType.ValueSet::value)
                 .collect(Collectors.toSet()));
@@ -134,7 +179,7 @@ public class FhirSchemaGenerator {
      * @param adminSchemaName
      * @param schemaName
      */
-    public FhirSchemaGenerator(String adminSchemaName, String schemaName, Set<String> resourceTypes) {
+    public OldFhirSchemaGenerator(String adminSchemaName, String schemaName, Set<String> resourceTypes) {
         this.adminSchemaName = adminSchemaName;
         this.schemaName = schemaName;
 
@@ -542,7 +587,7 @@ public class FhirSchemaGenerator {
 
         // The sessionVariable is used to enable access control on every table, so we
         // provide it as a dependency
-        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, sessionVariable, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
+        OldFhirResourceTableGroup frg = new OldFhirResourceTableGroup(model, this.schemaName, sessionVariable, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
         for (String resourceType: this.resourceTypes) {
             ObjectGroup group = frg.addResourceType(resourceType);
             group.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -698,6 +743,41 @@ public class FhirSchemaGenerator {
     }
 
     /**
+     *<pre>
+    t_latlng_values AS ROW ( parameter_name_id      INT, latitude_value      DOUBLE, longitude_value     DOUBLE)';
+    t_latlng_values_arr AS ' || CURRENT SCHEMA || '.t_latlng_values ARRAY[256]';
+    </pre>
+     * @param pdm
+     * @param dob
+     */
+    protected IDatabaseObject addLatLngValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
+
+        // Add the row type first
+        RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
+        strValuesBuilder
+            .setSchemaName(this.schemaName)
+            .setTypeName("t_latlng_values")
+            .addBigIntColumn(PARAMETER_NAME_ID, false)
+            .addDoubleColumn(LATITUDE_VALUE, false)
+            .addDoubleColumn(LONGITUDE_VALUE, false);
+
+        IDatabaseObject rt = strValuesBuilder.build();
+        rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        rt.addDependencies(Arrays.asList(dob));
+        procedureDependencies.add(rt);
+        pdm.addObject(rt);
+
+        // Followed by the corresponding array type
+        IDatabaseObject rat = new RowArrayType(schemaName, "t_latlng_values_arr", FhirSchemaConstants.INITIAL_VERSION, "t_latlng_values", ARRAY_SIZE);
+        rat.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        rat.addDependencies(Arrays.asList(rt));
+        procedureDependencies.add(rat);
+        pdm.addObject(rat);
+
+        return rat;
+    }
+
+    /**
      * Visitor for the resource types
      * @param consumer
      */
@@ -706,4 +786,5 @@ public class FhirSchemaGenerator {
             consumer.accept(resourceType);
         }
     }
+
 }

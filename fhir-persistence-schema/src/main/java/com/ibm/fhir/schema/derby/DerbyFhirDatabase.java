@@ -72,7 +72,7 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
 
     @Override
     public Connection getConnection() throws SQLException {
-        Connection result = derby.createConnection();
+        Connection result = derby.getConnection();
         result.setSchema(SCHEMA_NAME);
         return result;
     }

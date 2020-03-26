@@ -19,10 +19,10 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 
 /**
- * This utility class initializes and bootstraps a FHIR Derby database for unit testing. 
- * If an existing database is found in the target path, it is reused. If not, a new database 
+ * This utility class initializes and bootstraps a FHIR Derby database for unit testing.
+ * If an existing database is found in the target path, it is reused. If not, a new database
  * is defined and the appropriate DDL for the FHIR schema is applied.
- * 
+ *
  * It's intended that this class be consumed by TestNG tests in the fhir-persistence-jdbc project.
  */
 public class DerbyInitializer {
@@ -43,7 +43,7 @@ public class DerbyInitializer {
         DerbyInitializer initializer = new DerbyInitializer();
         try {
             initializer.bootstrapDb();
-        } 
+        }
         catch (Throwable e) {
             e.printStackTrace();
         }
@@ -67,8 +67,8 @@ public class DerbyInitializer {
 
     /**
      * Default bootstrap of the database. Does not drop/rebuild.
-     * 
-     * @return a DerbyFhirDatabase instance that represents the create database if one was created or null if it already exists 
+     *
+     * @return a DerbyFhirDatabase instance that represents the create database if one was created or null if it already exists
      * @throws FHIRPersistenceDBConnectException
      * @throws SQLException
      */
@@ -78,7 +78,7 @@ public class DerbyInitializer {
 
     /**
      * Tests for the existence of fhirDB and creates the database if necessary, complete with tables and indices.
-     * 
+     *
      * @param reset
      *            Whether to "reset" the database by deleting the existing one before attempting the create
      * @return a DerbyFhirDatabase object if one was created or null if it already exists and {@code reset} is false

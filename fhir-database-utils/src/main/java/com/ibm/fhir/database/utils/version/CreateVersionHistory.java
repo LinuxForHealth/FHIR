@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,7 @@ public class CreateVersionHistory {
      * <br>
      * As this is the version table itself, it is assigned a version id
      * of 0 which is used to indicate that versioning doesn't apply.
-     * 
+     *
      * @param adminSchemaName
      * @param target
      */
@@ -42,11 +42,11 @@ public class CreateVersionHistory {
                 .build(dataModel);
         dataModel.addTable(t);
         dataModel.addObject(t);
-        
+
         // apply this data model to the target if necessary - note - this bypasses the
         // version history table...because this is the table we're trying to create!
         if (!t.exists(target)) {
-            dataModel.apply(target);            
+            dataModel.apply(target);
         }
     }
 
