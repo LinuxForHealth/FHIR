@@ -140,7 +140,6 @@ public class ChunkReader extends AbstractItemReader {
                 // Add the search parameters from the current typeFilter for current resource type.
                 if (searchParametersForResoureTypes.get(resourceType) != null) {
                     queryParameters.putAll(searchParametersForResoureTypes.get(resourceType).get(indexOfCurrentTypeFilter));
-                    logger.info("readItem: processing [ " + resourceTypes.get(indexOfCurrentResourceType) + " ] with typeFilter [ " + indexOfCurrentTypeFilter  + " ]");
                     if (searchParametersForResoureTypes.get(resourceType).size() > 1) {
                         isDoDuplicationCheck = true;
                     }
