@@ -31,7 +31,10 @@ public class RowType extends BaseObject {
 
     @Override
     public void apply(Integer priorVersion, IDatabaseAdapter target) {
-        target.createRowType(getSchemaName(), getObjectName(), columns);
+        if (priorVersion != null && priorVersion > 0 && this.version > priorVersion) {
+            throw new UnsupportedOperationException("Upgrading row types is not supported");
+        }
+        apply(target);
     }
 
     @Override

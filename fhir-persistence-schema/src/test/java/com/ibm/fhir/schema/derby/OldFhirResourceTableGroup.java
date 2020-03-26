@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -68,7 +68,12 @@ import com.ibm.fhir.database.utils.model.Tablespace;
 import com.ibm.fhir.schema.control.FhirSchemaTags;
 
 /**
- * Utility to create all the tables associated with a particular resource type
+ * Utility to create all the tables associated with a particular resource type from IBM FHIR Server version 4.0.1
+ *
+ * @implNote This is a copy of the FhirResourceTableGroup class from the IBM FHIR Server 4.0.1 release.
+ *           Its copied to here in order to provide the DerbyMigrationTest with a way of creating the old schema.
+ *           Moving forward, we expect to download and use the executable jar (fhir-persistence-schema-*-cli.jar)
+ *           to create older versions of the schema, but version 4.0.1 doesn't support Derby so we can't.
  */
 public class OldFhirResourceTableGroup {
     // The model containing all the tables for the entire schema

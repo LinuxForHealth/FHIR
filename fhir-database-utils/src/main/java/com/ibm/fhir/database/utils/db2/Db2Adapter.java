@@ -304,7 +304,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
+    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
         logger.info("Create or replace procedure " + objectName);
 

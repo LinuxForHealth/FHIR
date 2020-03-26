@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
+import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ITransaction;
@@ -61,6 +62,7 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
+import com.ibm.fhir.schema.model.DbType;
 import com.ibm.fhir.schema.model.ResourceType;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
@@ -98,7 +100,6 @@ public class Main {
     private boolean updateProc = false;
     private boolean checkCompatibility = false;
     private boolean createFhirSchemas = false;
-    private boolean derby = false;
 
     // By default, the dryRun option is OFF, and FALSE
     // When overridden, it simulates the actions.
@@ -106,6 +107,10 @@ public class Main {
 
     // The database user we will grant tenant data access privileges to
     private String grantTo;
+
+    // The database type being populated (default: Db2)
+    private DbType dbType = DbType.DB2;
+    private IDatabaseTranslator translator = new Db2Translator();
 
     // Tenant management
     private boolean allocateTenant;
@@ -119,9 +124,6 @@ public class Main {
 
     // What status to leave with
     private int exitStatus = EXIT_OK;
-
-    // This utility is designed to work with a Db2 database
-    private IDatabaseTranslator translator = new Db2Translator();
 
     // The connection pool and transaction provider to support concurrent operations
     private int maxConnectionPoolSize = FhirSchemaConstants.DEFAULT_POOL_SIZE;
@@ -257,11 +259,22 @@ public class Main {
             case "--dry-run":
                 this.dryRun = Boolean.TRUE;
                 break;
-            case "--derby":
-                this.derby = Boolean.TRUE;
-                translator = new DerbyTranslator();
-                // TODO: For some reason, embedded derby deadlocks if we use multiple threads
-                maxConnectionPoolSize = 1;
+            case "--db-type":
+                if (++i < args.length) {
+                    this.dbType = DbType.from(args[i]);
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                switch (dbType) {
+                case DERBY:
+                    translator = new DerbyTranslator();
+                    // For some reason, embedded derby deadlocks if we use multiple threads
+                    maxConnectionPoolSize = 1;
+                    break;
+                case DB2:
+                default:
+                    break;
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Invalid argument: " + arg);
@@ -447,7 +460,7 @@ public class Main {
             try (Connection c = createConnection()) {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
-                    IDatabaseAdapter adapter = derby ? new DerbyAdapter(target) : new Db2Adapter(target);
+                    IDatabaseAdapter adapter = getDbAdapter(target);
 
                     if (this.dropSchema) {
                         // Just drop the objects associated with the FHIRDATA schema group
@@ -469,6 +482,39 @@ public class Main {
         }
     }
 
+    private JdbcPropertyAdapter getPropertyAdapter(Properties props){
+        switch (dbType) {
+        case DB2:
+            return new Db2PropertyAdapter(props);
+        case DERBY:
+            return new DerbyPropertyAdapter(props);
+        default:
+            throw new IllegalStateException("Unsupported db type: " + dbType);
+        }
+    }
+
+    private IDatabaseAdapter getDbAdapter(JdbcTarget target){
+        switch (dbType) {
+        case DB2:
+            return new Db2Adapter(target);
+        case DERBY:
+            return new DerbyAdapter(target);
+        default:
+            throw new IllegalStateException("Unsupported db type: " + dbType);
+        }
+    }
+
+    private IDatabaseAdapter getDbAdapter(IConnectionProvider connectionProvider){
+        switch (dbType) {
+        case DB2:
+            return new Db2Adapter(connectionProvider);
+        case DERBY:
+            return new DerbyAdapter(connectionProvider);
+        default:
+            throw new IllegalStateException("Unsupported db type: " + dbType);
+        }
+    }
+
     /**
      * Update the schema
      */
@@ -486,7 +532,7 @@ public class Main {
         TaskService taskService = new TaskService();
         ExecutorService pool = Executors.newFixedThreadPool(this.maxConnectionPoolSize);
         ITaskCollector collector = taskService.makeTaskCollector(pool);
-        IDatabaseAdapter adapter = derby ? new DerbyAdapter(this.connectionPool) : new Db2Adapter(this.connectionPool);
+        IDatabaseAdapter adapter = getDbAdapter(connectionPool);
         applyDataModel(pdm, adapter, collector);
     }
 
@@ -498,7 +544,7 @@ public class Main {
             try (Connection c = createConnection()) {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
-                    IDatabaseAdapter adapter = derby ? new DerbyAdapter(target) : new Db2Adapter(target);
+                    IDatabaseAdapter adapter = getDbAdapter(target);
                     adapter.createFhirSchemas(schemaName, adminSchemaName);
                 } catch (Exception x) {
                     c.rollback();
@@ -516,7 +562,7 @@ public class Main {
      * into the FHIR resource tables
      */
     protected void updateProcedures() {
-        if (derby) {
+        if (dbType == DbType.DERBY) {
             return;
         }
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
@@ -633,7 +679,7 @@ public class Main {
      */
     protected Connection createConnection() {
         Properties connectionProperties = new Properties();
-        JdbcPropertyAdapter adapter = derby ? new DerbyPropertyAdapter(this.properties) : new Db2PropertyAdapter(this.properties);
+        JdbcPropertyAdapter adapter = getPropertyAdapter(properties);
         adapter.getExtraProperties(connectionProperties);
 
         String url = translator.getUrl(properties);
@@ -655,7 +701,7 @@ public class Main {
      * can perform the DDL deployment in parallel
      */
     protected void configureConnectionPool() {
-        JdbcPropertyAdapter adapter = derby ? new DerbyPropertyAdapter(this.properties) : new Db2PropertyAdapter(this.properties);
+        JdbcPropertyAdapter adapter = getPropertyAdapter(properties);
 
         JdbcConnectionProvider cp = new JdbcConnectionProvider(this.translator, adapter);
         this.connectionPool      = new PoolConnectionProvider(cp, this.maxConnectionPoolSize);
@@ -719,7 +765,7 @@ public class Main {
      * @param groupName
      */
     protected void grantPrivileges(String groupName) {
-        if (derby) {
+        if (dbType == DbType.DERBY) {
             return;
         }
 
@@ -747,6 +793,9 @@ public class Main {
      * avoids any service interruption.
      */
     protected void addTenantKey() {
+        if (dbType == DbType.DERBY) {
+            return;
+        }
 
         final String tenantKey = getRandomKey();
 
@@ -786,7 +835,7 @@ public class Main {
      * Allocate this tenant, creating new partitions if required.
      */
     protected void allocateTenant() {
-        if (derby) {
+        if (dbType == DbType.DERBY) {
             return;
         }
         // The key we'll use for this tenant. This key should be used in subsequent
@@ -874,7 +923,7 @@ public class Main {
      * @param tenantKey
      */
     protected void populateStaticTables(FhirSchemaGenerator gen, String tenantKey) {
-        IDatabaseAdapter adapter = derby ? new DerbyAdapter(connectionPool) : new Db2Adapter(connectionPool);
+        IDatabaseAdapter adapter = getDbAdapter(connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 // Very important. Establish the value of the session variable so that we
