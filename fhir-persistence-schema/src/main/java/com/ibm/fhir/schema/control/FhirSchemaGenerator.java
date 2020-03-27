@@ -6,7 +6,43 @@
 
 package com.ibm.fhir.schema.control;
 
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.*;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_NAME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_END;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_START;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUE_DROPPED_COLUMN;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_REF_SEQUENCE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_SEQUENCE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.IDX;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAMES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANTS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_HASH;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_KEYS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_KEY_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_NAME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SALT;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SEQUENCE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_STATUS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUES;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +52,9 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.database.utils.api.IDatabaseStatement;
+import com.ibm.fhir.database.utils.common.DropColumn;
+import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
 import com.ibm.fhir.database.utils.model.NopObject;
@@ -81,7 +120,7 @@ public class FhirSchemaGenerator {
     // Marker used to indicate that the admin schema is all done
     private IDatabaseObject adminSchemaComplete;
 
-    // All the resource types
+    // The resource types to generate schema for
     private final Set<String> resourceTypes;
 
     // The common sequence used for allocated resource ids
@@ -469,14 +508,12 @@ public class FhirSchemaGenerator {
         final String logicalResourcesTable = LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(2)
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
-                .addTimestampColumn(      "DATE_VALUE",6,    true)
                 .addTimestampColumn(      DATE_START,6,    true)
                 .addTimestampColumn(        DATE_END,6,    true)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
-                .addIndex(IDX + tableName + "_PVR", PARAMETER_NAME_ID, "DATE_VALUE", LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_RPV", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, "DATE_VALUE")
                 .addIndex(IDX + tableName + "_PSER", PARAMETER_NAME_ID, DATE_START, DATE_END, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_PESR", PARAMETER_NAME_ID, DATE_END, DATE_START, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_RPSE", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, DATE_START, DATE_END)
@@ -485,6 +522,15 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion == 1) {
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_PVR"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_RPV"));
+                        statements.add(new DropColumn(schemaName, tableName, DATE_VALUE_DROPPED_COLUMN));
+                    }
+                    return statements;
+                })
                 .build(model);
 
         tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
