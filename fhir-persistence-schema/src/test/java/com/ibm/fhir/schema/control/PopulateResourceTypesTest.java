@@ -11,10 +11,10 @@ import org.testng.annotations.Test;
 /**
  * Test to verify the resource_types.properties
  */
-public class Db2PopulateResourceTypesTest {
+public class PopulateResourceTypesTest {
     @Test
     public void testVerify() {
-        Db2PopulateResourceTypes.verify();
+        PopulateResourceTypes.verify();
         assert true;
     }
 }

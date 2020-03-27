@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * <br>
  * The <code>Map&lt;String,Integer&rt;</code> returned from {@link #run(IDatabaseTranslator, Connection)}
  * uses a compound string of type:name for the key e.g. "Table:PATIENT_RESOURCES".
- * 
+ *
  */
 public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer>> {
     private final String adminSchemaName;
@@ -32,7 +32,7 @@ public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer
 
     /**
      * Public constructor
-     * 
+     *
      * @param adminSchemaName
      * @param schemaName
      */
@@ -50,7 +50,7 @@ public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer
                 + ", max(" + SchemaConstants.VERSION + ") FROM " + tbl
                 + " WHERE " + SchemaConstants.SCHEMA_NAME + " IN (?, ?) "
                 + " GROUP BY " + cols;
-        
+
         // Fetch the current version history information for both the admin and specified data schemas
         try (PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, adminSchemaName);
@@ -61,15 +61,15 @@ public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer
                 String type = rs.getString(2);
                 String name = rs.getString(3);
                 int version = rs.getInt(4);
-                
-                String schemaTypeName = schema + ":" + type + ":" + name; 
+
+                String schemaTypeName = schema + ":" + type + ":" + name;
                 result.put(schemaTypeName, version);
             }
         }
         catch (SQLException x) {
             throw translator.translate(x);
         }
-        
+
         return result;
     }
 

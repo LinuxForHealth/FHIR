@@ -48,6 +48,8 @@ public class DerbyMaster implements AutoCloseable {
     // Controls if we run derby in debugging mode which enables more logs.
     private static final boolean DEBUG = false;
 
+    private Connection connection;
+
     /**
      * Public constructor
      * @param database
@@ -72,8 +74,6 @@ public class DerbyMaster implements AutoCloseable {
         } catch (FileNotFoundException e1) {
             logger.warning("Failed to create derby.properties file!");
         }
-
-        dropDatabase(database);
 
     }
 
@@ -136,26 +136,28 @@ public class DerbyMaster implements AutoCloseable {
     }
 
     /**
-     * Create a connection to the in-memory Derby database, creating the
-     * database if necessary
+     * Get a connection to the configured Derby database, creating the database if necessary.
      * @return
      * @throws SQLException
+     * @implNote currently this returns the same connection each time, so don't close it!
      */
-    public Connection createConnection() throws SQLException {
+    public synchronized Connection getConnection() throws SQLException {
         logger.info("Opening connection to Derby database: " + database);
-        Connection connection;
-        try {
-            // Make sure the Derby driver is loaded
+        if (connection == null) {
+            try {
+                // Make sure the Derby driver is loaded
+
                 Properties properties = new Properties();
                 DerbyPropertyAdapter adapter = new DerbyPropertyAdapter(properties);
                 adapter.setDatabase(database);
-                connection = DriverManager.getConnection(DERBY_TRANSLATOR.getUrl(properties) + ";create=true");
+                adapter.setAutoCreate(true);
+                connection = DriverManager.getConnection(DERBY_TRANSLATOR.getUrl(properties));
                 connection.setAutoCommit(false);
+            }
+            catch (SQLException x) {
+                throw DERBY_TRANSLATOR.translate(x);
+            }
         }
-        catch (SQLException x) {
-            throw DERBY_TRANSLATOR.translate(x);
-        }
-
         return connection;
     }
 
@@ -172,7 +174,15 @@ public class DerbyMaster implements AutoCloseable {
      * @param pdm
      */
     public void createSchema(PhysicalDataModel pdm) {
-        final IVersionHistoryService vhs = new AllVersionHistoryService();
+        createSchema(new AllVersionHistoryService(), pdm);
+    }
+
+    /**
+     * Ask the schema to apply itself to our target (adapter pattern)
+     * @param vhs
+     * @param pdm
+     */
+    public void createSchema(IVersionHistoryService vhs, PhysicalDataModel pdm) {
         runWithAdapter(target -> pdm.applyWithHistory(target, vhs));
     }
 
@@ -182,33 +192,34 @@ public class DerbyMaster implements AutoCloseable {
      */
     public void runWithAdapter(java.util.function.Consumer<IDatabaseAdapter> fn) {
         try {
-            try (Connection c = createConnection()) {
-                try {
-                    JdbcTarget target = new JdbcTarget(c);
+            Connection c = getConnection();
+            try {
+                JdbcTarget target = new JdbcTarget(c);
 
-                    if (logger.isLoggable(Level.FINE)) {
-                        // Decorate the target so that we print all the DDL before executing
-                        PrintTarget printer = new PrintTarget(target, logger.isLoggable(Level.FINE));
-                        DerbyAdapter adapter = new DerbyAdapter(printer);
-                        fn.accept(adapter);
-                    }
-                    else {
-                        // Keep the logs a little cleaner by just executing instead of logging all the DDL
-                        DerbyAdapter adapter = new DerbyAdapter(target);
-                        fn.accept(adapter);
-                    }
+                if (logger.isLoggable(Level.FINE)) {
+                    // Decorate the target so that we print all the DDL before executing
+                    PrintTarget printer = new PrintTarget(target, logger.isLoggable(Level.FINE));
+                    DerbyAdapter adapter = new DerbyAdapter(printer);
+                    fn.accept(adapter);
                 }
-                catch (DataAccessException x) {
-                    c.rollback();
-                    throw x;
+                else {
+                    // Keep the logs a little cleaner by just executing instead of logging all the DDL
+                    DerbyAdapter adapter = new DerbyAdapter(target);
+                    fn.accept(adapter);
                 }
-                c.commit();
             }
+            catch (DataAccessException x) {
+                logger.log(Level.SEVERE, "Error while running", x);
+                c.rollback();
+                throw x;
+            }
+            c.commit();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error while running", e);
+            throw DERBY_TRANSLATOR.translate(e);
+        } finally {
+            logger.info("connection was closed");
         }
-        catch (SQLException x) {
-            throw DERBY_TRANSLATOR.translate(x);
-        }
-
     }
 
     @Override
@@ -216,6 +227,9 @@ public class DerbyMaster implements AutoCloseable {
         // Drop the database we created
         boolean dropped = false;
         try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
             Properties properties = new Properties();
             DerbyPropertyAdapter adapter = new DerbyPropertyAdapter(properties);
             adapter.setDatabase(database);
@@ -224,8 +238,9 @@ public class DerbyMaster implements AutoCloseable {
             logger.info("Dropping derby DB with: " + dropper);
             DriverManager.getConnection(dropper);
         }
-        catch (SQLException x) {
-                dropped = true;
+        catch (SQLException e) {
+            logger.info("Expected error while closing the database: " + e.getMessage());
+            dropped = true;
         }
 
         if (!dropped) {

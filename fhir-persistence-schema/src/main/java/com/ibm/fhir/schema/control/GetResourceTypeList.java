@@ -10,28 +10,29 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.ibm.fhir.database.utils.api.IDatabaseStatement;
+import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.schema.model.ResourceType;
 
 /**
- * Manages the DB2 Get Resource Types
+ * Selects the existing RESOURCE_TYPES from DB2
  */
-public class Db2GetResourceTypes implements IDatabaseStatement {
+public class GetResourceTypeList implements IDatabaseSupplier<List<ResourceType>> {
     private final String schemaName;
-    private final Consumer<ResourceType> consumer;
 
-    public Db2GetResourceTypes(String schemaName, Consumer<ResourceType> c) {
+    public GetResourceTypeList(String schemaName) {
         this.schemaName = schemaName;
-        this.consumer = c;
     }
 
     @Override
-    public void run(IDatabaseTranslator translator, Connection c) {
-        final String SQL = "SELECT resource_type_id, resource_type " 
-                         + "  FROM " + schemaName + ".RESOURCE_TYPES";
+    public List<ResourceType> run(IDatabaseTranslator translator, Connection c) {
+        List<ResourceType> result = new ArrayList<>();
+
+        final String SQL = "SELECT resource_type_id, resource_type "
+                + "  FROM " + schemaName + ".RESOURCE_TYPES";
 
         try (Statement s = c.createStatement()) {
             ResultSet rs = s.executeQuery(SQL);
@@ -39,12 +40,14 @@ public class Db2GetResourceTypes implements IDatabaseStatement {
                 ResourceType rt = new ResourceType();
                 rt.setId(rs.getLong(1));
                 rt.setName(rs.getString(2));
-                consumer.accept(rt);
+                result.add(rt);
             }
-        } catch (SQLException x) {
+        }
+        catch (SQLException x) {
             throw translator.translate(x);
         }
 
+        return result;
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,16 +16,16 @@ import java.util.List;
  * Builder pattern to make it easy to add column definitions to an object (e.g. table, type etc)
  */
 public class ColumnDefBuilder {
-        
+
     // LinkedHashSet so we can remember order
     protected LinkedHashSet<ColumnDef> columns = new LinkedHashSet<>();
-    
+
     public ColumnDefBuilder addIntColumn(String columnName, boolean nullable) {
         ColumnDef cd = new ColumnDef(columnName);
         if (columns.contains(cd)) {
             throw new IllegalArgumentException("Duplicate column: " + columnName);
         }
-        
+
         cd.setNullable(nullable);
         cd.setColumnType(ColumnType.INT);
         columns.add(cd);
@@ -37,7 +37,7 @@ public class ColumnDefBuilder {
         if (columns.contains(cd)) {
             throw new IllegalArgumentException("Duplicate column: " + columnName);
         }
-        
+
         cd.setNullable(nullable);
         cd.setColumnType(ColumnType.BIGINT);
         columns.add(cd);
@@ -49,7 +49,7 @@ public class ColumnDefBuilder {
         if (columns.contains(cd)) {
             throw new IllegalArgumentException("Duplicate column: " + columnName);
         }
-        
+
         cd.setNullable(nullable);
         cd.setColumnType(ColumnType.DOUBLE);
         columns.add(cd);
@@ -61,7 +61,7 @@ public class ColumnDefBuilder {
         if (columns.contains(cd)) {
             throw new IllegalArgumentException("Duplicate column: " + columnName);
         }
-        
+
         cd.setNullable(nullable);
         cd.setColumnType(ColumnType.TIMESTAMP);
         columns.add(cd);
@@ -73,7 +73,7 @@ public class ColumnDefBuilder {
         if (columns.contains(cd)) {
             throw new IllegalArgumentException("Duplicate column: " + columnName);
         }
-        
+
         cd.setNullable(nullable);
         cd.setColumnType(ColumnType.VARCHAR);
         cd.setSize(size);
@@ -93,7 +93,7 @@ public class ColumnDefBuilder {
         if (columns.contains(cd)) {
             throw new IllegalArgumentException("Duplicate column: " + columnName);
         }
-        
+
         cd.setNullable(nullable);
         cd.setColumnType(ColumnType.CHAR);
         cd.setSize(size);
@@ -106,7 +106,7 @@ public class ColumnDefBuilder {
         if (columns.contains(cd)) {
             throw new IllegalArgumentException("Duplicate column: " + columnName);
         }
-        
+
         cd.setNullable(nullable);
         cd.setColumnType(ColumnType.BLOB);
         cd.setSize(size);
@@ -122,7 +122,7 @@ public class ColumnDefBuilder {
     protected void checkColumns(String[] columns) {
         checkColumns(Arrays.asList(columns));
     }
-    
+
     /**
      * Check each of the columns in the given array are valid column names
      * @param columns
@@ -135,12 +135,12 @@ public class ColumnDefBuilder {
             }
         }
     }
-    
+
     /**
      * Create the columns for the table based on the definitions that have been added
      * @return
      */
-    protected List<ColumnBase> buildColumns() {
+    public List<ColumnBase> buildColumns() {
         List<ColumnBase> result = new ArrayList<>();
 
         for (ColumnDef cd: this.columns) {
@@ -178,7 +178,7 @@ public class ColumnDefBuilder {
             }
             result.add(column);
         }
-        
+
         return result;
     }
 }

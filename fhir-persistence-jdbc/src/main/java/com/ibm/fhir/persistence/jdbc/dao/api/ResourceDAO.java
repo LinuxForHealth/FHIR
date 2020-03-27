@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,7 +23,7 @@ import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
  * This Data Access Object interface provides methods creating, updating, and retrieving rows in the FHIR Resource tables.
  */
 public interface ResourceDAO extends FHIRDbDAO {
-    
+
     /**
      * Reads and returns the latest version of the Resource with the passed logical id and resource type.
      * If no matching resource is found, null is returned.
@@ -48,7 +48,7 @@ public interface ResourceDAO extends FHIRDbDAO {
      */
     Resource versionRead(String logicalId, String resourceType, int versionId)
             throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
-    
+
     /**
      * Reads and returns all versions of the Resource with the passed logicalId, ordered by descending version id.
      * If non-null, the passed fromDateTime is used to limit the returned Resource
@@ -91,13 +91,13 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @return List<String> A list of strings satisfying the passed search.
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
-     * @implNote This method is used within searches which have _include or _revinclude parameters 
-     *           in order to return a list of Reference values (e.g. {@code "Patient/<UUID>"}) 
+     * @implNote This method is used within searches which have _include or _revinclude parameters
+     *           in order to return a list of Reference values (e.g. {@code "Patient/<UUID>"})
      *           to use for filtering the list of resources to be included with the response.
      */
     List<String> searchStringValues(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
-    
-    
+
+
     /**
      * Executes the passed fully-formed SQL Select statement and returns the results
      * If no matching resources are found, an empty collection is returned.
@@ -138,23 +138,23 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceDBConnectException
      */
     int searchCount(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
-    
+
     /**
      * Executes the passed fully-formed SQL Select COUNT statement and returns the integer count.
-     * 
+     *
      * @param sqlSelect - A fully formed SQL select count statement.
      * @return int - The count of resources that fulfill the passed SQL select statement.
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
     int searchCount(String sqlSelectCount) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
-    
+
     /**
      * Sets the current persistence context
      * @param context
      */
     void setPersistenceContext(FHIRPersistenceContext context);
-    
+
     /**
      * Reads all rows in the resource_types table and returns the data as a Map
      * @return Map<String, Integer> - A map containing key=parameter-name, value=parameter-name-id
@@ -174,16 +174,16 @@ public interface ResourceDAO extends FHIRDbDAO {
     Integer readResourceTypeId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
 
     /**
-     * Adds a resource type / resource id pair to a candidate collection for population into the ResourceTypesCache. 
+     * Adds a resource type / resource id pair to a candidate collection for population into the ResourceTypesCache.
      * This pair must be present as a row in the FHIR DB RESOURCE_TYPES table.
      * @param resourceType A valid FHIR resource type.
      * @param resourceTypeId The corresponding id for the resource type.
      * @throws FHIRPersistenceException
      */
     void addResourceTypeCacheCandidate(String resourceType, Integer resourceTypeId) throws FHIRPersistenceException;
-    
+
     /**
-     * Inserts the passed Resource DTO and its associated search parameters to the appropriate FHIR resource tables. 
+     * Inserts the passed Resource DTO and its associated search parameters to the appropriate FHIR resource tables.
      * After insert, the generated primary key is acquired and set in the Resource object.
      * @param resource A Resource Data Transfer Object
      * @param parameters A collection of search parameters to be persisted along with the passed Resource
@@ -191,9 +191,10 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @return Resource The Resource DTO
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
-     * @throws FHIRPersistenceVersionIdMismatchException 
+     * @throws FHIRPersistenceVersionIdMismatchException
+     * @throws FHIRPersistenceException
      */
-    Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao) 
-            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException, FHIRPersistenceVersionIdMismatchException;
+    Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
+            throws FHIRPersistenceException;
 
 }

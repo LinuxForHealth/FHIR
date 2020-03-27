@@ -68,8 +68,8 @@ public class Table extends BaseObject {
     public Table(String schemaName, String name, int version, String tenantColumnName, Collection<ColumnBase> columns, PrimaryKeyDef pk,
             IdentityDef identity, Collection<IndexDef> indexes, Collection<ForeignKeyConstraint> fkConstraints,
             SessionVariableDef accessControlVar, Tablespace tablespace, List<IDatabaseObject> dependencies, Map<String,String> tags,
-            Collection<GroupPrivilege> privileges) {
-        super(schemaName, name, DatabaseObjectType.TABLE, version);
+            Collection<GroupPrivilege> privileges, List<Migration> migrations) {
+        super(schemaName, name, DatabaseObjectType.TABLE, version, migrations);
         this.tenantColumnName = tenantColumnName;
         this.columns.addAll(columns);
         this.primaryKey = pk;
@@ -134,6 +134,17 @@ public class Table extends BaseObject {
             final String predicate = getQualifiedName() + ".MT_ID = " + variableName;
             target.createPermission(getSchemaName(), tenantPermission, getObjectName(), predicate);
             target.activateRowAccessControl(getSchemaName(), getObjectName());
+        }
+    }
+
+    @Override
+    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+        if (priorVersion == null || priorVersion == 0) {
+            apply(target);
+        } else if (this.getVersion() > priorVersion) {
+            for (Migration step : migrations) {
+                step.migrateFrom(priorVersion).stream().forEachOrdered(target::runStatement);
+            }
         }
     }
 
@@ -442,7 +453,7 @@ public class Table extends BaseObject {
         /**
          * Add a foreign key constraint pointing to the target table (with enforcement).
          * The list of columns is expected to match the primary key definition on the target.
-         * 
+         *
          * @param constraintName
          * @param targetSchema
          * @param targetTable
@@ -465,7 +476,7 @@ public class Table extends BaseObject {
          * @return
          */
         public Builder addForeignKeyConstraint(String constraintName, boolean enforced, String targetSchema, String targetTable, String... columns) {
-            this.fkConstraints.put(constraintName, new ForeignKeyConstraint(constraintName, enforced, targetSchema, targetTable, Arrays.asList(columns)));
+            this.fkConstraints.put(constraintName, new ForeignKeyConstraint(constraintName, enforced, targetSchema, targetTable, columns));
             return this;
         }
 
@@ -517,7 +528,7 @@ public class Table extends BaseObject {
             // Our schema objects are immutable by design, so all initialization takes place
             // through the constructor
             return new Table(getSchemaName(), getObjectName(), this.version, this.tenantColumnName, buildColumns(), this.primaryKey, this.identity, this.indexes.values(),
-                    this.fkConstraints.values(), this.accessControlVar, this.tablespace, allDependencies, tags, privileges);
+                    this.fkConstraints.values(), this.accessControlVar, this.tablespace, allDependencies, tags, privileges, migrations);
 
         }
 
@@ -621,6 +632,12 @@ public class Table extends BaseObject {
          */
         public Builder setTenantColumnName(String name) {
             this.tenantColumnName = name;
+            return this;
+        }
+
+        @Override
+        public Builder addMigration(Migration... migration) {
+            super.addMigration(migration);
             return this;
         }
     }

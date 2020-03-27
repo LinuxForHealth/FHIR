@@ -26,14 +26,17 @@ import com.ibm.fhir.model.type.code.FHIRResourceType;
 
 /**
  * Populates the Resource Types Table
+ *
+ * @implNote This class only supports the multi-tenant schema. Consider updating the class
+ *           in order to support single-tenant schemas for DBs that don't support setting tenant id
  */
-public class Db2PopulateResourceTypes implements IDatabaseStatement {
-    private static final Logger LOGGER = Logger.getLogger(Db2PopulateResourceTypes.class.getName());
+public class PopulateResourceTypes implements IDatabaseStatement {
+    private static final Logger LOGGER = Logger.getLogger(PopulateResourceTypes.class.getName());
     private final String adminSchemaName;
     private final String schemaName;
     private final int tenantId;
 
-    public Db2PopulateResourceTypes(String adminSchemaName, String schemaName, int tenantId) {
+    public PopulateResourceTypes(String adminSchemaName, String schemaName, int tenantId) {
         this.adminSchemaName = adminSchemaName;
         this.schemaName      = schemaName;
         this.tenantId        = tenantId;
@@ -50,7 +53,7 @@ public class Db2PopulateResourceTypes implements IDatabaseStatement {
         try (Statement s = c.createStatement(); PreparedStatement batch = c.prepareStatement(stmtResourceTypeInsert)) {
             s.execute(stmtVariable);
             try (InputStream fis =
-                    Db2PopulateResourceTypes.class.getClassLoader().getResourceAsStream("resource_types.properties")) {
+                    PopulateResourceTypes.class.getClassLoader().getResourceAsStream("resource_types.properties")) {
                 Properties props = new Properties();
                 props.load(fis);
 
@@ -61,7 +64,7 @@ public class Db2PopulateResourceTypes implements IDatabaseStatement {
                     batch.setLong(2, curVal);
                 }
 
-                // Check Error Codes. 
+                // Check Error Codes.
                 int[] codes = batch.executeBatch();
                 int errorCodes = 0;
                 for (int code : codes) {
@@ -74,7 +77,7 @@ public class Db2PopulateResourceTypes implements IDatabaseStatement {
                     c.rollback();
                 }
             } catch (IOException e) {
-                // Wrap and Send downstream 
+                // Wrap and Send downstream
                 throw new IllegalArgumentException(e);
             }
         } catch (SQLException x) {
@@ -90,7 +93,7 @@ public class Db2PopulateResourceTypes implements IDatabaseStatement {
         Properties props = new Properties();
         boolean found = false;
         try (InputStream fis =
-                Db2PopulateResourceTypes.class.getClassLoader().getResourceAsStream("resource_types.properties")) {
+                PopulateResourceTypes.class.getClassLoader().getResourceAsStream("resource_types.properties")) {
             props.load(fis);
 
             Set<String> resources = new HashSet<>();

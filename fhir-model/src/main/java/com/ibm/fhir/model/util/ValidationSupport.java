@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,8 +33,8 @@ import com.ibm.fhir.model.type.Reference;
 
 /**
  * Static helper methods for validating model objects during construction
- * 
- * @apiNote In methods where an exception is thrown, IllegalStateException is chosen over IllegalArgumentException 
+ *
+ * @apiNote In methods where an exception is thrown, IllegalStateException is chosen over IllegalArgumentException
  *          so that Builder.build() methods can throw the most appropriate exception without catching and wrapping
  */
 public final class ValidationSupport {
@@ -54,15 +54,15 @@ public final class ValidationSupport {
     };
 
     private ValidationSupport() { }
-    
+
     private static final Set<Character> WHITESPACE = new HashSet<>(Arrays.asList(' ', '\t', '\r', '\n'));
-    
+
     /**
      * A sequence of Unicode characters
      * <pre>
      * pattern:  [ \r\n\t\S]+
      * </pre>
-     * 
+     *
      * @throws IllegalStateException if the passed String is not a valid FHIR String value
      */
     public static void checkString(String s) {
@@ -85,14 +85,14 @@ public final class ValidationSupport {
             throw new IllegalStateException(String.format("Trimmed String value length: %d is less than minimum required length: %d", count, MIN_STRING_LENGTH));
         }
     }
-    
+
     /**
-     * A string which has at least one character and no leading or trailing whitespace and where there is no whitespace other 
+     * A string which has at least one character and no leading or trailing whitespace and where there is no whitespace other
      * than single spaces in the contents.
      * <pre>
      * pattern:  [^\s]+(\s[^\s]+)*
      * </pre>
-     * 
+     *
      * @throws IllegalStateException if the passed String is not a valid FHIR Code value
      */
     public static void checkCode(String s) {
@@ -122,14 +122,14 @@ public final class ValidationSupport {
             }
         }
     }
-    
+
     /**
-     * Any combination of letters, numerals, "-" and ".", with a length limit of 64 characters. (This might be an integer, an 
+     * Any combination of letters, numerals, "-" and ".", with a length limit of 64 characters. (This might be an integer, an
      * unprefixed OID, UUID or any other identifier pattern that meets these constraints.) Ids are case-insensitive.
      * <pre>
      * pattern:  [A-Za-z0-9\-\.]{1,64}
      * </pre>
-     * 
+     *
      * @throws IllegalStateException if the passed String is not a valid FHIR Id value
      */
     public static void checkId(String s) {
@@ -157,13 +157,13 @@ public final class ValidationSupport {
             }
         }
     }
-    
+
     /**
      * String of characters used to identify a name or a resource
      * <pre>
      * pattern:  \S*
      * </pre>
-     * 
+     *
      * @throws IllegalStateException if the passed String is not a valid FHIR Id value
      */
     public static void checkUri(String s) {
@@ -278,7 +278,7 @@ public final class ValidationSupport {
             throw new Error(e);
         }
     }
-    
+
     private static SchemaFactory createSchemaFactory() {
         try {
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -288,7 +288,7 @@ public final class ValidationSupport {
             throw new Error(e);
         }
     }
-    
+
     /**
      * @throws IllegalStateException if the passed element is null or if its type is not one of the passed types
      */
@@ -296,7 +296,7 @@ public final class ValidationSupport {
         requireNonNull(element, elementName);
         return choiceElement(element, elementName, types);
     }
-    
+
     /**
      * @throws IllegalStateException if the passed list is empty or contains any null objects
      */
@@ -307,7 +307,7 @@ public final class ValidationSupport {
         }
         return elements;
     }
-    
+
     /**
      * @throws IllegalStateException if the passed element is null
      */
@@ -317,7 +317,7 @@ public final class ValidationSupport {
         }
         return element;
     }
-    
+
     /**
      * @throws IllegalStateException if the passed list contains any null objects
      */
@@ -336,7 +336,7 @@ public final class ValidationSupport {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }
-    
+
     /**
      * @throws IllegalStateException if the passed element has no children
      */
@@ -345,7 +345,7 @@ public final class ValidationSupport {
             throw new IllegalStateException("global-1: All FHIR elements must have a @value or children");
         }
     }
-    
+
     /**
      * @throws IllegalStateException if the passed element is not null
      */
@@ -363,7 +363,7 @@ public final class ValidationSupport {
             throw new IllegalStateException(String.format("Element: '%s' is prohibited.", elementName));
         }
     }
-    
+
     /**
      * @throws IllegalStateExeption if the codeableConcept has coding elements that do not include codes from the required binding
      */
@@ -371,8 +371,8 @@ public final class ValidationSupport {
         if (codeableConcept != null && !codeableConcept.getCoding().isEmpty() && hasCodingWithSystemAndCodeValues(codeableConcept)) {
             List<String> codeList = Arrays.asList(codes);
             for (Coding coding : codeableConcept.getCoding()) {
-                if (hasSystemAndCodeValues(coding) && 
-                        system.equals(coding.getSystem().getValue()) && 
+                if (hasSystemAndCodeValues(coding) &&
+                        system.equals(coding.getSystem().getValue()) &&
                         codeList.contains(coding.getCode().getValue())) {
                     return;
                 }
@@ -380,7 +380,7 @@ public final class ValidationSupport {
             throw new IllegalStateException(String.format("Element: '%s' must contain a valid code from value set: '%s'", elementName, valueSet));
         }
     }
-    
+
     private static boolean hasCodingWithSystemAndCodeValues(CodeableConcept codeableConcept) {
         for (Coding coding : codeableConcept.getCoding()) {
             if (hasSystemAndCodeValues(coding)) {
@@ -389,14 +389,14 @@ public final class ValidationSupport {
         }
         return false;
     }
-    
+
     private static boolean hasSystemAndCodeValues(Coding coding) {
-        return coding.getSystem() != null && 
-                coding.getSystem().getValue() != null && 
-                coding.getCode() != null && 
+        return coding.getSystem() != null &&
+                coding.getSystem().getValue() != null &&
+                coding.getCode() != null &&
                 coding.getCode().getValue() != null;
     }
-    
+
     /**
      * @throws IllegalStateException if the resource type found in the reference value does not match the specified Reference.type value
      *                               or is not one of the allowed reference types for that element
@@ -406,17 +406,17 @@ public final class ValidationSupport {
         if (reference != null && checkReferenceTypes) {
             String referenceType = getReferenceType(reference);
             List<String> referenceTypeList = Arrays.asList(referenceTypes);
-            
+
             // If there is an explicit Reference.type, ensure its an allowed type
             if (referenceType != null && !referenceTypeList.contains(referenceType)) {
                 throw new IllegalStateException(
                         String.format("Resource type found in Reference.type: '%s' for element: '%s' must be one of: %s",
                             referenceType, elementName, referenceTypeList.toString()));
             }
-            
+
             String referenceReference = getReferenceReference(reference);
             String resourceType = null;
-            
+
             if (referenceReference != null && !referenceReference.startsWith("#")) {
                 Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
                 if (matcher.matches()) {
@@ -429,11 +429,11 @@ public final class ValidationSupport {
                     }
                 }
             }
-            
+
             if (resourceType == null) {
                 resourceType = referenceType;
             }
-            
+
             // If we've successfully inferred a type, check that its an allowed value
             if (resourceType != null) {
                 if (!referenceTypeList.contains(resourceType)) {
@@ -444,7 +444,7 @@ public final class ValidationSupport {
             }
         }
     }
-    
+
     private static String getReferenceReference(Reference reference) {
         if (reference.getReference() != null && reference.getReference().getValue() != null) {
             return reference.getReference().getValue();

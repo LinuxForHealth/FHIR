@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 public class DerbyPropertyAdapter extends JdbcPropertyAdapter {
 
     public static final String DERBY_MEMORY_KEY = "db.derby.memory";
+    public static final String CREATE_KEY = "db.create";
 
     /**
      * @param properties
@@ -32,4 +33,24 @@ public class DerbyPropertyAdapter extends JdbcPropertyAdapter {
         return "Y".equals(this.properties.getProperty(DERBY_MEMORY_KEY));
     }
 
+    /**
+     * Setter for the Derby create flag
+     * @param create
+     * @return
+     */
+    public void setAutoCreate(boolean create) {
+        if (create) {
+            this.properties.setProperty(CREATE_KEY, "Y");
+        } else {
+            this.properties.setProperty(CREATE_KEY, "N");
+        }
+    }
+
+    /**
+     * Getter for the Derby create flag
+     * @return
+     */
+    public boolean isAutoCreate() {
+        return "Y".equals(this.properties.getProperty(CREATE_KEY));
+    }
 }

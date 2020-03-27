@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,10 +33,18 @@ public class Sequence extends BaseObject {
     }
 
     @Override
+    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+        if (priorVersion != null && priorVersion > 0 && this.version > priorVersion) {
+            throw new UnsupportedOperationException("Upgrading sequences is not supported");
+        }
+        apply(target);
+    }
+
+    @Override
     public void drop(IDatabaseAdapter target) {
         target.dropSequence(getSchemaName(), getObjectName());
     }
-    
+
     @Override
     protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
          target.grantSequencePrivileges(getSchemaName(), getObjectName(), group, toUser);
