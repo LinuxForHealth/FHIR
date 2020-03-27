@@ -102,19 +102,19 @@ import com.ibm.fhir.swagger.generator.APIConnectAdapter;
 
 /**
  * Generate OpenAPI 3.0 from the HL7 FHIR R4 artifacts and IBM FHIR object model.
- * 
+ *
  * <p>
  * By default, this class will generate:
  * <ol>
  * <li> an "all-in-one" OpenAPI definition for the entire api
  * <li> a separate OpenAPI definition for each and every resource type; each with all HTTP interactions enabled
  * </ol>
- * 
+ *
  * <p>
  * To limit the output to a given set of resources and/or interactions, pass a set of semicolon-delimited
  * filter strings of the form {@code ResourceType1(interaction1,interaction2)}.
- * 
- * For example: 
+ *
+ * For example:
  * <pre>
  * Patient(create,read,vread,history,search,update,delete);Contract(create,read,vread,history,search);RiskAssessment(read)
  * </pre>
@@ -128,7 +128,7 @@ public class FHIROpenApiGenerator {
     private static final String OUTDIR = "openapi";
     private static final JsonBuilderFactory factory = Json.createBuilderFactory(null);
     private static final Map<Class<?>, StructureDefinition> structureDefinitionMap = buildStructureDefinitionMap();
-    private static boolean includeDeleteOperation = false;
+    private static boolean includeDeleteOperation = true;
     public static final String TYPEPACKAGENAME = "com.ibm.fhir.model.type";
     public static final String RESOURCEPACKAGENAME = "com.ibm.fhir.model.resource";
 
@@ -147,12 +147,12 @@ public class FHIROpenApiGenerator {
         }
 
         generateAllInOne(filter);  // outputs to all-openapi.json
-        
+
         generateOneFilePerResource(filter);  // outputs to ResourceType-openapi.json
         generateMetadataOpenApi();
         generateBatchTransactionOpenApi(filter);
     }
-    
+
     private static void generateAllInOne(Filter filter) throws Exception {
         JsonObjectBuilder swagger = factory.createObjectBuilder();
         swagger.add("openapi", "3.0.0");
@@ -168,11 +168,11 @@ public class FHIROpenApiGenerator {
         server.add("url", CONTEXT_ROOT);
         servers.add(server);
         swagger.add("servers", servers);
-        
+
         // Set the hostname in APIConnectAdapter and uncomment this to add "x-ibm-configuration"
         // with a default ExecuteInvoke Assembly
         APIConnectAdapter.addApiConnectStuff(swagger);
-        
+
         // LinkedHashSet to preserve the order but still avoid duplicates
         Set<Class<?>> definitionsToAdd = new LinkedHashSet<>();
         // common entries for all types
@@ -190,17 +190,17 @@ public class FHIROpenApiGenerator {
         // for error response
         definitionsToAdd.add(OperationOutcome.class);
         definitionsToAdd.add(OperationOutcome.Issue.class);
-        
+
         JsonArrayBuilder tags = factory.createArrayBuilder();
         JsonObjectBuilder paths = factory.createObjectBuilder();
         JsonObjectBuilder requestBodies = factory.createObjectBuilder();
         JsonObjectBuilder definitions = factory.createObjectBuilder();
-        
+
         List<String> classNames = getClassNames();
         for (String resourceClassName : classNames) {
             Class<?> resourceModelClass = Class.forName(RESOURCEPACKAGENAME + "." + resourceClassName);
-            if (DomainResource.class.isAssignableFrom(resourceModelClass) 
-                    && DomainResource.class != resourceModelClass 
+            if (DomainResource.class.isAssignableFrom(resourceModelClass)
+                    && DomainResource.class != resourceModelClass
                     && filter.acceptResourceType(resourceModelClass)) {
                 generatePaths(resourceModelClass, paths, filter);
                 JsonObjectBuilder tag = factory.createObjectBuilder();
@@ -217,7 +217,7 @@ public class FHIROpenApiGenerator {
                         generateDefinition(innerModelClass, definitions);
                     }
                 }
-                
+
                 // add all the applicable data types to the set of definitions
                 for (String typeClassName : getAllTypesList()) {
                     Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
@@ -227,11 +227,11 @@ public class FHIROpenApiGenerator {
                 }
             }
         }
-        
+
         for (Class<?> clazz : definitionsToAdd) {
             generateDefinition(clazz, definitions);
         }
-        
+
         JsonObjectBuilder components = factory.createObjectBuilder();
         JsonObjectBuilder parameters = factory.createObjectBuilder();
         generateSearchParameters(parameters, filter);
@@ -239,7 +239,7 @@ public class FHIROpenApiGenerator {
         if (!parametersObject.isEmpty()) {
             components.add("parameters", parametersObject);
         }
-        
+
         // FHIR metadata operation
         JsonObjectBuilder path = factory.createObjectBuilder();
         generateMetadataPathItem(path);
@@ -249,7 +249,7 @@ public class FHIROpenApiGenerator {
         path = factory.createObjectBuilder();
         generateBatchPathItem(path);
         paths.add("/", path);
-        
+
         components.add("requestBodies", requestBodies);
         components.add("schemas", definitions);
 
@@ -260,7 +260,7 @@ public class FHIROpenApiGenerator {
         Map<String, Object> config = new HashMap<String, Object>();
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory factory = Json.createWriterFactory(config);
-        
+
         File outFile = new File(OUTDIR + File.separator + "all-openapi.json");
         try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
             writer.writeObject(swagger.build());
@@ -268,13 +268,13 @@ public class FHIROpenApiGenerator {
             throw new Error(e);
         }
     }
-    
+
     private static void generateOneFilePerResource(Filter filter) throws Exception {
         List<String> classNames = getClassNames();
         for (String resourceClassName : classNames) {
             Class<?> resourceModelClass = Class.forName(RESOURCEPACKAGENAME + "." + resourceClassName);
-            if (DomainResource.class.isAssignableFrom(resourceModelClass) 
-                    && DomainResource.class != resourceModelClass 
+            if (DomainResource.class.isAssignableFrom(resourceModelClass)
+                    && DomainResource.class != resourceModelClass
                     && filter.acceptResourceType(resourceModelClass)) {
 
                 JsonObjectBuilder swagger = factory.createObjectBuilder();
@@ -304,7 +304,7 @@ public class FHIROpenApiGenerator {
                 // generate Resource and DomainResource definitions
                 generateDefinition(Resource.class, definitions);
                 generateDefinition(DomainResource.class, definitions);
-                
+
                 generatePaths(resourceModelClass, paths, filter);
                 JsonObjectBuilder tag = factory.createObjectBuilder();
                 tag.add("name", resourceModelClass.getSimpleName());
@@ -315,7 +315,7 @@ public class FHIROpenApiGenerator {
                 generateDefinition(Bundle.class, definitions);
                 // for error response
                 generateDefinition(OperationOutcome.class, definitions);
-                
+
                 // generate definition for all inner classes inside the top level resources.
                 for (String innerClassName : getAllResourceInnerClasses()) {
                     String parentClassName = innerClassName.split("\\$")[0];
@@ -328,7 +328,7 @@ public class FHIROpenApiGenerator {
                         generateDefinition(innerModelClass, definitions);
                     }
                 }
-                
+
                 // generate definition for all the applicable data types.
                 for (String typeClassName : getAllTypesList()) {
                     Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
@@ -355,7 +355,7 @@ public class FHIROpenApiGenerator {
                 Map<String, Object> config = new HashMap<String, Object>();
                 config.put(JsonGenerator.PRETTY_PRINTING, true);
                 JsonWriterFactory factory = Json.createWriterFactory(config);
-                
+
                 File outFile = new File(OUTDIR + File.separator + resourceClassName + "-openapi.json");
                 try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
                     writer.writeObject(swagger.build());
@@ -369,7 +369,7 @@ public class FHIROpenApiGenerator {
     private static void generateMetadataOpenApi() throws Exception, ClassNotFoundException, Error {
         JsonObjectBuilder swagger = factory.createObjectBuilder();
         swagger.add("swagger", "2.0");
-        
+
         JsonObjectBuilder info = factory.createObjectBuilder();
         info.add("title", "Capabilities");
         info.add("description", "The capabilities interaction retrieves the information about a server's capabilities - which portions of the HL7 FHIR specification it supports.");
@@ -380,16 +380,16 @@ public class FHIROpenApiGenerator {
 
         JsonObjectBuilder paths = factory.createObjectBuilder();
         JsonObjectBuilder definitions = factory.createObjectBuilder();
-        
+
         // FHIR capabilities interaction
         JsonObjectBuilder path = factory.createObjectBuilder();
         generateMetadataPathItem(path);
         paths.add("/metadata", path);
         swagger.add("paths", paths);
-        
-        
+
+
         generateDefinition(CapabilityStatement.class, definitions);
-        
+
         // generate definition for all inner classes inside the top level resources.
         for (String innerClassName : getAllResourceInnerClasses()) {
             Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
@@ -398,7 +398,7 @@ public class FHIROpenApiGenerator {
                 generateDefinition(innerModelClass, definitions);
             }
         }
-        
+
         // generate definition for all the applicable defined Types.
         for (String typeClassName : getAllTypesList()) {
             Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
@@ -406,14 +406,14 @@ public class FHIROpenApiGenerator {
                 generateDefinition(typeModelClass, definitions);
             }
         }
-        
+
         swagger.add("definitions", definitions);
-        
-        
+
+
         Map<String, Object> config = new HashMap<String, Object>();
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory factory = Json.createWriterFactory(config);
-        
+
         File outFile = new File(OUTDIR + File.separator + "metadata-openapi.json");
         try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
             writer.writeObject(swagger.build());
@@ -425,7 +425,7 @@ public class FHIROpenApiGenerator {
     private static void generateBatchTransactionOpenApi(Filter filter) throws Exception, ClassNotFoundException, Error {
         JsonObjectBuilder swagger = factory.createObjectBuilder();
         swagger.add("swagger", "2.0");
-        
+
         JsonObjectBuilder info = factory.createObjectBuilder();
         info.add("title", "Batch/Transaction");
         info.add("description", "The batch and transaction interactions submit a set of actions to perform on a server in a single HTTP request/response.");
@@ -436,15 +436,15 @@ public class FHIROpenApiGenerator {
 
         JsonObjectBuilder paths = factory.createObjectBuilder();
         JsonObjectBuilder definitions = factory.createObjectBuilder();
-        
+
         // FHIR batch/transaction interaction
         JsonObjectBuilder path = factory.createObjectBuilder();
         generateBatchPathItem(path);
         paths.add("/", path);
         swagger.add("paths", paths);
-        
+
         generateDefinition(Bundle.class, definitions);
-        
+
         // generate definition for all inner classes inside the top level resources.
         for (String innerClassName : getAllResourceInnerClasses()) {
             Class<?> parentClass = Class.forName(RESOURCEPACKAGENAME + "." + innerClassName.split("\\$")[0]);
@@ -453,19 +453,19 @@ public class FHIROpenApiGenerator {
                 generateDefinition(innerModelClass, definitions);
             }
         }
-        
+
         // generate definition for all the defined Types.
         for (String typeClassName : getAllTypesList()) {
             Class<?> typeModelClass = Class.forName(TYPEPACKAGENAME + "." + typeClassName);
             generateDefinition(typeModelClass, definitions);
         }
-        
+
         swagger.add("definitions", definitions);
-        
+
         Map<String, Object> config = new HashMap<String, Object>();
         config.put(JsonGenerator.PRETTY_PRINTING, true);
         JsonWriterFactory factory = Json.createWriterFactory(config);
-        
+
         File outFile = new File(OUTDIR + File.separator + "batch-openapi.json");
         try (JsonWriter writer = factory.createWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8)) {
             writer.writeObject(swagger.build());
@@ -485,7 +485,7 @@ public class FHIROpenApiGenerator {
         return structureDefinitionMap;
     }
 
-    private static void populateStructureDefinitionMap(Map<Class<?>, StructureDefinition> structureDefinitionMap,
+    public static void populateStructureDefinitionMap(Map<Class<?>, StructureDefinition> structureDefinitionMap,
             String structureDefinitionFile) throws Exception {
 
         Bundle bundle;
@@ -503,7 +503,10 @@ public class FHIROpenApiGenerator {
                         modelClass = Class.forName(RESOURCEPACKAGENAME + "." + className);
                     } catch (ClassNotFoundException e1) {
                         try {
-                            modelClass = Class.forName(TYPEPACKAGENAME + "." + className);
+                            // special case for MetadataResource which has a structuredefinition but is not a legal resource type
+                            if (!className.equals("MetadataResource")) {
+                                modelClass = Class.forName(TYPEPACKAGENAME + "." + className);
+                            }
                         } catch (ClassNotFoundException e2) {
                             modelClass = null;
                             System.err.println(" -- PopulateStructureDefinition failed: " + className);
@@ -589,7 +592,7 @@ public class FHIROpenApiGenerator {
         if (!pathObject.isEmpty()) {
             paths.add("/" + modelClass.getSimpleName() + "/{id}/_history", pathObject);
         }
-        
+
         // TODO: add patch
     }
 
@@ -789,7 +792,7 @@ public class FHIROpenApiGenerator {
 
         JsonObjectBuilder response = factory.createObjectBuilder();
         response.add("description", "Delete " + modelClass.getSimpleName() + " operation successful");
-        responses.add("200", response);
+        responses.add("204", response);
         delete.add("responses", responses);
 
         path.add("delete", delete);
@@ -837,7 +840,7 @@ public class FHIROpenApiGenerator {
     @SuppressWarnings("unchecked")
     private static void generateSearchParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
         List<SearchParameter> searchParameters = new ArrayList<SearchParameter>(
-                SearchUtil.getSearchParameters((Class<? extends Resource>) modelClass));
+                SearchUtil.getSearchParameters(modelClass));
         for (SearchParameter searchParameter : searchParameters) {
             JsonObjectBuilder parameter = factory.createObjectBuilder();
             String name = searchParameter.getName().getValue();
@@ -1016,12 +1019,12 @@ public class FHIROpenApiGenerator {
             JsonArrayBuilder required = factory.createArrayBuilder();
 
             StructureDefinition structureDefinition = getStructureDefinition(modelClass);
-            
+
             if (structureDefinition == null) {
                 System.err.println("Failed generateDefinition for: " + modelClass.getName());
                 return;
             }
-            
+
             if (Resource.class.isAssignableFrom(modelClass)) {
                 // if the modelClass is a resource, then add the 'resourceType' property
                 JsonObjectBuilder property = factory.createObjectBuilder();
@@ -1044,7 +1047,7 @@ public class FHIROpenApiGenerator {
 
             for (Field field : modelClass.getDeclaredFields()) {
                 if (!Modifier.isStatic(field.getModifiers()) && !Modifier.isVolatile(field.getModifiers())) {
-                    if (!ModelSupport.isChoiceElement(modelClass, ModelSupport.getElementName(field)) && 
+                    if (!ModelSupport.isChoiceElement(modelClass, ModelSupport.getElementName(field)) &&
                             field.isAnnotationPresent(Required.class)) {
                         required.add(ModelSupport.getElementName(field));
                     }
@@ -1117,10 +1120,10 @@ public class FHIROpenApiGenerator {
             }
         } else {
             structureDefinition = structureDefinitionMap.get(modelClass);
-            structureDefinition = (structureDefinition != null) 
+            structureDefinition = (structureDefinition != null)
                     ? structureDefinition : getEnclosingStructureDefinition(modelClass);
         }
-        
+
         return structureDefinition;
     }
 
@@ -1134,8 +1137,8 @@ public class FHIROpenApiGenerator {
             } else {
                 modelClassName = modelClass.getName().substring(RESOURCEPACKAGENAME.length()+1);
             }
-            
-            
+
+
             if (modelClassName.startsWith(key.getSimpleName())
                     && key.getSimpleName().length() > nameLength) {
                 structureDefinition = structureDefinitionMap.get(key);
@@ -1266,7 +1269,7 @@ public class FHIROpenApiGenerator {
     }
 
     /**
-     * Returns the ElementDefinition for the given elementName in the Type represented by modelClass 
+     * Returns the ElementDefinition for the given elementName in the Type represented by modelClass
      */
     private static ElementDefinition getElementDefinition(StructureDefinition structureDefinition, Class<?> modelClass, String elementName) {
         String structureDefinitionName = structureDefinition.getName().getValue();
@@ -1289,7 +1292,7 @@ public class FHIROpenApiGenerator {
 
         for (ElementDefinition elementDefinition : structureDefinition.getDifferential().getElement()) {
             String elementDefinitionPath = elementDefinition.getPath().getValue();
-            if (elementDefinitionPath.equals(path) || (elementDefinitionPath.startsWith(structureDefinitionName) 
+            if (elementDefinitionPath.equals(path) || (elementDefinitionPath.startsWith(structureDefinitionName)
                     && elementDefinitionPath.endsWith(pathEnding))) {
                 return elementDefinition;
             }
@@ -1406,7 +1409,7 @@ public class FHIROpenApiGenerator {
                 } else {
                     classNameOffset = TYPEPACKAGENAME.length() +1;
                 }
-                
+
                 resultList.add(InnerClass.getName().substring(classNameOffset));
 
                 if (InnerClass.getDeclaredClasses() != null) {
@@ -1423,11 +1426,11 @@ public class FHIROpenApiGenerator {
         Set<Class<? extends Element>> allTypes = ModelSupport.getDataTypes();
 
         List<String> toAddTypesList = new ArrayList<String>();
-        
+
         // Explicitly add the abstract supertypes
         toAddTypesList.add("Element");
         toAddTypesList.add("BackboneElement");
-        
+
         for (Class<? extends Element> resourceTypeClass : allTypes) {
             String typeName = resourceTypeClass.getSimpleName();
             toAddTypesList.add(typeName);
@@ -1450,7 +1453,7 @@ public class FHIROpenApiGenerator {
         }
         return allResourceInnerClassList;
     }
-    
+
     /**
      * @return true if the type model class is applicable for the outer model class
      */
@@ -1461,9 +1464,9 @@ public class FHIROpenApiGenerator {
                 Task.class == outerModelClass) {
             return true;
         }
-        
+
         boolean isApplicable = true;
-        
+
         if (Dosage.class == typeModelClass ||
                 Dosage.class == typeModelClass.getEnclosingClass()) {
             // Special case for Dosage
@@ -1563,7 +1566,7 @@ public class FHIROpenApiGenerator {
                 isApplicable = false;
             }
         }
-        
+
         return isApplicable;
     }
 }
