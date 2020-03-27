@@ -137,7 +137,7 @@ Create a Db2 user (e.g. FHIRBATCH) and associate it with a ServiceId (no need to
     <databaseStore id="BatchDatabaseStore" dataSourceRef="fhirbatchDS" schema="JBATCH" tablePrefix="" />
 ```
 
-Note, the Java Batch is configured in batchDs.xml.
+Note, the Java Batch is configured in batchDs.xml  and included from the default server.xml that gets installed to the `{wlp}/usr/server/fhir-server`.
 
 ### Configuring FHIR Datasource
 
