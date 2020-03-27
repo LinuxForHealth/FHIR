@@ -26,6 +26,9 @@ import com.ibm.fhir.model.type.code.FHIRResourceType;
 
 /**
  * Populates the Resource Types Table
+ *
+ * @implNote This class only supports the multi-tenant schema. Consider updating the class
+ *           in order to support single-tenant schemas for DBs that don't support setting tenant id
  */
 public class PopulateResourceTypes implements IDatabaseStatement {
     private static final Logger LOGGER = Logger.getLogger(PopulateResourceTypes.class.getName());
@@ -61,7 +64,7 @@ public class PopulateResourceTypes implements IDatabaseStatement {
                     batch.setLong(2, curVal);
                 }
 
-                // Check Error Codes. 
+                // Check Error Codes.
                 int[] codes = batch.executeBatch();
                 int errorCodes = 0;
                 for (int code : codes) {
@@ -74,7 +77,7 @@ public class PopulateResourceTypes implements IDatabaseStatement {
                     c.rollback();
                 }
             } catch (IOException e) {
-                // Wrap and Send downstream 
+                // Wrap and Send downstream
                 throw new IllegalArgumentException(e);
             }
         } catch (SQLException x) {

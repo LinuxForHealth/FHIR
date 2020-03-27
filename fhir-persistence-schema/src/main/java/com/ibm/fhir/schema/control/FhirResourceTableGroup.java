@@ -59,10 +59,13 @@ import java.util.List;
 import java.util.Set;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
+import com.ibm.fhir.database.utils.common.AddColumn;
 import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.DropIndex;
+import com.ibm.fhir.database.utils.model.ColumnBase;
+import com.ibm.fhir.database.utils.model.ColumnDefBuilder;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.Generated;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
@@ -440,14 +443,15 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(2)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addDoubleColumn(       NUMBER_VALUE,       true)
+                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
                 .addDoubleColumn(   NUMBER_VALUE_LOW,       true)
                 .addDoubleColumn(  NUMBER_VALUE_HIGH,       true)
-                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
                 .addIndex(IDX + tableName + "_PNNV", PARAMETER_NAME_ID, NUMBER_VALUE, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, NUMBER_VALUE)
                 .addPrimaryKey(PK + tableName, ROW_ID)
@@ -457,6 +461,19 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion == 1) {
+                        List<ColumnBase> columns = new ColumnDefBuilder()
+                                .addDoubleColumn(NUMBER_VALUE_LOW, true)
+                                .addDoubleColumn(NUMBER_VALUE_HIGH, true)
+                                .buildColumns();
+                        for (ColumnBase column : columns) {
+                            statements.add(new AddColumn(schemaName, tableName, column));
+                        }
+                    }
+                    return statements;
+                })
                 .build(model)
                 ;
 
