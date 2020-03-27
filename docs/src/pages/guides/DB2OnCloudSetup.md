@@ -137,6 +137,8 @@ Create a Db2 user (e.g. FHIRBATCH) and associate it with a ServiceId (no need to
     <databaseStore id="BatchDatabaseStore" dataSourceRef="fhirbatchDS" schema="JBATCH" tablePrefix="" />
 ```
 
+Note, the Java Batch is configured in batchDs.xml.
+
 ### Configuring FHIR Datasource
 
 The FHIR server uses a proxy datasource mechanism, allowing new datasources to be added at runtime without requiring a (Liberty Profile) server restart. To configure a FHIR tenant datasource using an API-KEY, use the following template:
