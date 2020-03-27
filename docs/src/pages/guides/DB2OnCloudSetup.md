@@ -105,9 +105,9 @@ The Db2 driver jar contains a main which can be executed to test the connection 
 java -cp /path/to/db2jcc4.jar com.ibm.db2.jcc.DB2Jcc  -url "jdbc:db2://<DB2-HOSTNAME>:50001/BLUDB:apiKey=<API-KEY>;securityMechanism=15;sslConnection=true;sslTrustStoreLocation=/path/to/truststore.jks;sslTrustStorePassword=<TRUSTSTORE-PASSWORD>;"
 ```
 
-- <DB-HOSTNAME>: the hostname of your Db2 service from the Service Credentials page
-- <API-KEY>: the API key value created in the previous section
-- <TRUSTSTORE-PASSWORD>: the password for your truststore
+- `<DB-HOSTNAME>`: the hostname of your Db2 service from the Service Credentials page
+- `<API-KEY>`: the API key value created in the previous section
+- `<TRUSTSTORE-PASSWORD>`: the password for your truststore
 
 Notes:
   1. Don't forget the trailing `;` in the URL. Some of the documented examples don't include it, but it is required in order for the connection to work, although this may be fixed in a future driver release. This only affects this test URL, not the actual FHIR server configuration.
