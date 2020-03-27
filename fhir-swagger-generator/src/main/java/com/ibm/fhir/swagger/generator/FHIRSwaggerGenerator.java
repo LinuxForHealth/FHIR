@@ -44,8 +44,12 @@ import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.ElementDefinition;
+import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Oid;
+import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -620,7 +624,6 @@ public class FHIRSwaggerGenerator {
         path.add("get", get);
     }
 
-    @SuppressWarnings("unchecked")
     private static void generateSearchParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
         List<SearchParameter> searchParameters = new ArrayList<SearchParameter>(
                 SearchUtil.getSearchParameters(modelClass));
@@ -911,8 +914,9 @@ public class FHIRSwaggerGenerator {
         }
     }
 
-    private static void generateProperty(StructureDefinition structureDefinition, Class<?> modelClass, Field field, JsonObjectBuilder properties,
-        String elementName, Class<?> fieldClass, boolean many, String description) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private static void generateProperty(StructureDefinition structureDefinition, Class<?> modelClass, Field field,
+            JsonObjectBuilder properties, String elementName, Class<?> fieldClass, boolean many, String description)
+            throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
         JsonObjectBuilder property = factory.createObjectBuilder();
 
@@ -982,11 +986,32 @@ public class FHIRSwaggerGenerator {
         } else if (com.ibm.fhir.model.type.Xhtml.class.equals(fieldClass)) {
             property.add("type", "string");
         } else {
+            // For non-primitives, point to the corresponding definition
             property.add("$ref", "#/definitions/" + getSimpleNameWithEnclosingNames(fieldClass));
         }
 
         if (description != null) {
             property.add("description", description);
+        }
+
+        // Include select examples to help tools avoid bumping into infinite recursion (if they try generate examples)
+        if (Element.class.equals(modelClass) && Extension.class.equals(fieldClass)) {
+            // "example": [{"url":"http://example.com","valueString":"textValue"}]
+            JsonObject obj = factory.createObjectBuilder()
+                .add("url", "http://example.com")
+                .add("valueString", "text value")
+                .build();
+            JsonArray example = factory.createArrayBuilder().add(obj).build();
+            property.add("example", example);
+        } else if (Identifier.class.equals(modelClass) && Reference.class.equals(fieldClass)) {
+            // "example": {"reference":"Organization/123","type":"Organization","display":"The Assigning Organization"}
+            JsonObject example = factory.createObjectBuilder()
+                    .add("reference", "Organization/123")
+                    .add("type", "Organization")
+                    .add("display", "The Assigning Organization")
+                    // skip assigner to break the recursion
+                    .build();
+            property.add("example", example);
         }
 
         if (many) {
