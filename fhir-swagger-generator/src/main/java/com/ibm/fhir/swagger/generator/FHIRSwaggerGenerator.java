@@ -8,7 +8,6 @@ package com.ibm.fhir.swagger.generator;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -36,10 +35,7 @@ import javax.json.stream.JsonGenerator;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.annotation.Required;
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Bundle;
-import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -78,7 +74,7 @@ public class FHIRSwaggerGenerator {
     private static final String OUTDIR = "swagger";
     private static final JsonBuilderFactory factory = Json.createBuilderFactory(null);
     private static final Map<Class<?>, StructureDefinition> structureDefinitionMap = buildStructureDefinitionMap();
-    private static boolean includeDeleteOperation = false;
+    private static boolean includeDeleteOperation = true;
     public static final String TYPEPACKAGENAME = "com.ibm.fhir.model.type";
     public static final String RESOURCEPACKAGENAME = "com.ibm.fhir.model.resource";
 
@@ -99,8 +95,8 @@ public class FHIRSwaggerGenerator {
         List<String> classNames = getClassNames();
         for (String resourceClassName : classNames) {
             Class<?> resourceModelClass = Class.forName(FHIROpenApiGenerator.RESOURCEPACKAGENAME + "." + resourceClassName);
-            if (DomainResource.class.isAssignableFrom(resourceModelClass) 
-                    && DomainResource.class != resourceModelClass 
+            if (DomainResource.class.isAssignableFrom(resourceModelClass)
+                    && DomainResource.class != resourceModelClass
                     && filter.acceptResourceType(resourceModelClass)) {
 
                 JsonObjectBuilder swagger = factory.createObjectBuilder();
@@ -299,43 +295,12 @@ public class FHIRSwaggerGenerator {
     private static Map<Class<?>, StructureDefinition> buildStructureDefinitionMap() {
         Map<Class<?>, StructureDefinition> structureDefinitionMap = new HashMap<Class<?>, StructureDefinition>();
         try {
-            populateStructureDefinitionMap(structureDefinitionMap, "profiles-resources.json");
-            populateStructureDefinitionMap(structureDefinitionMap, "profiles-types.json");
+            FHIROpenApiGenerator.populateStructureDefinitionMap(structureDefinitionMap, "profiles-resources.json");
+            FHIROpenApiGenerator.populateStructureDefinitionMap(structureDefinitionMap, "profiles-types.json");
         } catch (Exception e) {
             throw new Error(e);
         }
         return structureDefinitionMap;
-    }
-
-    private static void populateStructureDefinitionMap(Map<Class<?>, StructureDefinition> structureDefinitionMap,
-            String structureDefinitionFile) throws Exception {
-        InputStream stream = FHIRSwaggerGenerator.class.getClassLoader().getResourceAsStream(structureDefinitionFile);
-
-        Bundle bundle = FHIRParser.parser(Format.JSON).parse(stream);
-        for (Entry entry : bundle.getEntry()) {
-            if (entry.getResource() instanceof StructureDefinition) {
-                StructureDefinition structureDefinition = (StructureDefinition) entry.getResource();
-                if (structureDefinition != null) {
-                    String className = structureDefinition.getName().getValue();
-                    className = className.substring(0, 1).toUpperCase() + className.substring(1);
-                    Class<?> modelClass = null;
-                    try {
-                        modelClass = Class.forName(RESOURCEPACKAGENAME + "." + className);
-                    } catch (ClassNotFoundException e1) {
-                        try {
-                            modelClass = Class.forName(TYPEPACKAGENAME + "." + className);
-                        } catch (ClassNotFoundException e2) {
-                            modelClass = null;
-                            System.err.println(" -- PopulateStructureDefinition failed: " + className);
-                        }
-                    } finally {
-                        if (modelClass != null) {
-                            structureDefinitionMap.put(modelClass, structureDefinition);
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private static void generateParameters(JsonObjectBuilder parameters, Filter filter) throws Exception {
@@ -614,7 +579,7 @@ public class FHIRSwaggerGenerator {
 
         JsonObjectBuilder response = factory.createObjectBuilder();
         response.add("description", "Delete " + modelClass.getSimpleName() + " operation successful");
-        responses.add("200", response);
+        responses.add("204", response);
         delete.add("responses", responses);
 
         path.add("delete", delete);
@@ -658,7 +623,7 @@ public class FHIRSwaggerGenerator {
     @SuppressWarnings("unchecked")
     private static void generateSearchParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
         List<SearchParameter> searchParameters = new ArrayList<SearchParameter>(
-                SearchUtil.getSearchParameters((Class<? extends Resource>) modelClass));
+                SearchUtil.getSearchParameters(modelClass));
         for (SearchParameter searchParameter : searchParameters) {
             JsonObjectBuilder parameter = factory.createObjectBuilder();
             String name = searchParameter.getName().getValue();
@@ -799,7 +764,7 @@ public class FHIRSwaggerGenerator {
                 System.err.println("Failed generateDefinition for: " + modelClass.getName());
                 return;
             }
-            
+
             if (Resource.class.isAssignableFrom(modelClass)) {
                 // add the 'resourceType' property
                 JsonObjectBuilder property = factory.createObjectBuilder();
