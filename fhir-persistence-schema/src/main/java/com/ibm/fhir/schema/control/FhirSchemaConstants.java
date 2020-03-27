@@ -85,6 +85,7 @@ public class FhirSchemaConstants {
     public static final String RESOURCE_TYPE = "RESOURCE_TYPE";
     public static final String RESOURCE_TYPE_ID = "RESOURCE_TYPE_ID";
 
+    public static final String DATE_VALUE_DROPPED_COLUMN = "DATE_VALUE";
     public static final String DATE_START = "DATE_START";
     public static final String DATE_END = "DATE_END";
     public static final String NUMBER_VALUE = "NUMBER_VALUE";
