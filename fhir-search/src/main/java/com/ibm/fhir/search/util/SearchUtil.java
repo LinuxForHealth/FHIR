@@ -436,23 +436,23 @@ public class SearchUtil {
         }
         return result;
     }
-    
+
     /**
      * @param spMaps
      * @param resourceType
      * @param uri
-     * @return the SearchParameter for type {@code resourceType} with code {@code code} or null if it doesn't exist 
+     * @return the SearchParameter for type {@code resourceType} with code {@code code} or null if it doesn't exist
      */
     private static SearchParameter getSearchParameterByCodeIfPresent(Map<String, ParametersMap> spMaps, String resourceType, String code) {
         SearchParameter result = null;
-        
+
         if (spMaps != null && !spMaps.isEmpty()) {
             ParametersMap parametersMap = spMaps.get(resourceType);
             if (parametersMap != null && !parametersMap.isEmpty()) {
                 result = parametersMap.lookupByCode(code);
             }
         }
-        
+
         return result;
     }
 
@@ -468,7 +468,7 @@ public class SearchUtil {
      */
     public static SearchParameter getSearchParameter(String resourceType, Canonical uri) throws Exception {
         String tenantId = FHIRRequestContext.get().getTenantId();
-        
+
         // First try to find the search parameter within the specified tenant's map.
         SearchParameter result = getSearchParameterByUrlIfPresent(getTenantOrDefaultSPMap(tenantId), resourceType, uri);
 
@@ -493,25 +493,25 @@ public class SearchUtil {
      * @param spMaps
      * @param resourceType
      * @param uri
-     * @return the SearchParameter for type {@code resourceType} with url {@code uri} or null if it doesn't exist 
+     * @return the SearchParameter for type {@code resourceType} with url {@code uri} or null if it doesn't exist
      */
     private static SearchParameter getSearchParameterByUrlIfPresent(Map<String, ParametersMap> spMaps, String resourceType, Canonical uri) {
         SearchParameter result = null;
-        
+
         if (spMaps != null && !spMaps.isEmpty()) {
             ParametersMap parametersMap = spMaps.get(resourceType);
             if (parametersMap != null && !parametersMap.isEmpty()) {
                 result = parametersMap.lookupByUrl(uri.getValue());
             }
         }
-        
+
         return result;
     }
 
 
     /**
      * skips the empty extracted search parameters
-     * 
+     *
      * @param resource
      * @return
      * @throws Exception
@@ -523,7 +523,7 @@ public class SearchUtil {
 
     /**
      * extract parameter values.
-     * 
+     *
      * @param resource
      * @param skipEmpty
      * @return
@@ -563,7 +563,7 @@ public class SearchUtil {
                     log.finer(String.format(UNSUPPORTED_EXPR_NULL, parameter.getType(), parameter.getCode().getValue()));
                 }
                 continue;
-            } 
+            }
             try {
                 Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, expression.getValue());
 
@@ -806,7 +806,7 @@ public class SearchUtil {
         for (String v : queryParameterValuesString.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + ",")) {
             String[] componentValueStrings = v.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + "\\$");
             if (compTypes.size() != componentValueStrings.length) {
-                throw new FHIRSearchException(String.format("Expected %d components but found %d in composite query value '%s'", 
+                throw new FHIRSearchException(String.format("Expected %d components but found %d in composite query value '%s'",
                     compTypes.size(), componentValueStrings.length, v));
             }
             QueryParameterValue parameterValue = new QueryParameterValue();
@@ -822,12 +822,12 @@ public class SearchUtil {
                     parameterValue.addComponent(parameter);
                 }
             }
-            
+
             parameterValues.add(parameterValue);
         }
         return parameterValues;
     }
-    
+
     private static List<QueryParameterValue> parseQueryParameterValuesString(Type type,
             String queryParameterValuesString) throws FHIRSearchException {
         List<QueryParameterValue> parameterValues = new ArrayList<>();
@@ -920,17 +920,17 @@ public class SearchUtil {
                 break;
             }
             case SPECIAL: {
-                // Just in case any instance of SPECIAL supports prefix. 
+                // Just in case any instance of SPECIAL supports prefix.
                 prefix = getPrefix(v);
                 if (prefix != null) {
                     v = v.substring(2);
                     parameterValue.setPrefix(prefix);
                 }
-                
+
                 // One specific instance of SPECIAL is 'near'
-                //[parameter]=[latitude]|[longitude]|[distance]|[units] 
+                //[parameter]=[latitude]|[longitude]|[distance]|[units]
                 // As there may be more in the future, we're leaving the parameter as a String
-                // so the custom downstream logic can treat appropriately. 
+                // so the custom downstream logic can treat appropriately.
                 parameterValue.setValueString(unescapeSearchParm(v));
                 break;
             }
@@ -944,7 +944,7 @@ public class SearchUtil {
 
     /**
      * Un-escape search parameter values that were encoding based on FHIR escaping rules
-     * 
+     *
      * @param escapedString
      * @return unescapedString
      * @throws FHIRSearchException
@@ -1074,11 +1074,19 @@ public class SearchUtil {
             if (SearchConstants.COUNT.equals(name)) {
                 int pageSize = Integer.parseInt(first);
 
-                // If the user specified a value > max, then use the max.
-                if (pageSize > SearchConstants.MAX_PAGE_SIZE) {
-                    pageSize = SearchConstants.MAX_PAGE_SIZE;
+                if (pageSize < 0) {
+                    throw new IllegalArgumentException("pageSize must be greater than or equal to zero");
+                } else if (pageSize == 0) {
+                    // if _count has the value 0, this shall be treated the same as _summary=count
+                    // https://www.hl7.org/fhir/r4/search.html#count
+                    context.setSummaryParameter(SummaryValueSet.COUNT);
+                } else {
+                    // If the user specified a value > max, then use the max.
+                    if (pageSize > SearchConstants.MAX_PAGE_SIZE) {
+                        pageSize = SearchConstants.MAX_PAGE_SIZE;
+                    }
+                    context.setPageSize(pageSize);
                 }
-                context.setPageSize(pageSize);
             } else if (SearchConstants.PAGE.equals(name)) {
                 int pageNumber = Integer.parseInt(first);
                 context.setPageNumber(pageNumber);
@@ -1323,14 +1331,14 @@ public class SearchUtil {
 
     /**
      * Transforms the passed QueryParameter representing chained inclusion criteria, into
-     * an actual chain of QueryParameter objects. This method consumes QueryParameters 
+     * an actual chain of QueryParameter objects. This method consumes QueryParameters
      * with names of this form:
      * <pre>
      * "{attribute1}.{attribute2}:{resourceType}"
      * </pre>
      * For specific examples of chained inclusion criteria, see the FHIR spec for the
      * <a href="https://www.hl7.org/fhir/compartment-patient.html">Patient compartment</a>
-     * 
+     *
      * @param inclusionCriteriaParm
      * @return QueryParameter - The root of a parameter chain for chained inclusion
      *         criteria.
@@ -1390,7 +1398,7 @@ public class SearchUtil {
      * InclusionParameter objects to represent those parameters. The
      * InclusionParameter objects are included in the
      * appropriate collections encapsulated in the passed FHIRSearchContext.
-     * 
+     *
      * @throws Exception
      */
     private static void parseInclusionParameter(Class<?> resourceType, FHIRSearchContext context,
@@ -1453,7 +1461,7 @@ public class SearchUtil {
      * Builds and returns a collection of InclusionParameter objects representing
      * occurrences the _include search result
      * parameter in the query string.
-     * 
+     *
      * @throws FHIRSearchException
      */
     private static List<InclusionParameter> buildIncludeParameter(Class<?> resourceType, String joinResourceType,
@@ -1490,7 +1498,7 @@ public class SearchUtil {
     /**
      * Builds and returns a collection of InclusionParameter objects representing
      * occurrences the _revinclude search result parameter in the query string.
-     * 
+     *
      * @throws FHIRSearchException
      */
     private static InclusionParameter buildRevIncludeParameter(Class<?> resourceType, String joinResourceType,
@@ -1518,7 +1526,7 @@ public class SearchUtil {
     /**
      * Verifies that the passed searchParameterTargetType is a valid target type for
      * the passed searchParm
-     * 
+     *
      * @param searchParameterTargetType
      * @param searchParm
      * @return
@@ -1542,7 +1550,7 @@ public class SearchUtil {
      * represent the values for _elements. Those Strings are included in the
      * elementsParameters collection contained in
      * the passed FHIRSearchContext.
-     * 
+     *
      * @param lenient
      *                Whether to ignore unknown or unsupported elements
      * @throws Exception
@@ -1576,7 +1584,7 @@ public class SearchUtil {
 
     /**
      * Build the self link from the search parameters actually used by the server
-     * 
+     *
      * @throws URISyntaxException
      * @see https://hl7.org/fhir/r4/search.html#conformance
      */
@@ -1594,7 +1602,7 @@ public class SearchUtil {
      * only top-level mandatory elements.
      * The id, meta and the top-level mandatory elements will be added by the
      * ElementFilter automatically.
-     * 
+     *
      * @param resourceType
      * @return
      */
