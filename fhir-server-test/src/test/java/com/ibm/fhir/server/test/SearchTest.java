@@ -961,7 +961,6 @@ public class SearchTest extends FHIRServerTestBase {
         assertNotNull(practitioner.getText());
     }
 
-
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitioner" })
     public void testSearchPractitioner_Summary_Data() {
         WebTarget target = getWebTarget();
@@ -979,6 +978,34 @@ public class SearchTest extends FHIRServerTestBase {
         assertNull(practitioner.getText());
     }
 
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitioner" })
+    public void testSearchPractitioner_Summary_Count() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Practitioner").queryParam("_id", practitionerId)
+                .queryParam("_summary", "count")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getTotal().getValue().equals(1));
+        assertTrue(bundle.getEntry().isEmpty());
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitioner" })
+    public void testSearchPractitioner_Count0() {
+        // Should behave just like summary=count
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Practitioner").queryParam("_id", practitionerId)
+                .queryParam("_count", "0")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getTotal().getValue().equals(1));
+        assertTrue(bundle.getEntry().isEmpty());
+    }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })
     public void testSearchObservationWithSubjectIncluded_summary_text() {
