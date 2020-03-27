@@ -29,7 +29,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 
 /**
  * BulkImportJob's JSON response
- * 
+ *
  * <pre>
  *  {
    “jobName”: “BulkImportJob”,
@@ -63,8 +63,17 @@ public class BulkExportJobInstanceResponse {
     private String instanceName;
     private String lastUpdatedTime;
     private String instanceState;
+    private Integer executionId;
 
     private List<Link> _links = new ArrayList<>();
+
+    public Integer getExecutionId() {
+        return executionId;
+    }
+
+    public void setExecutionId(Integer executionId) {
+        this.executionId = executionId;
+    }
 
     public String getJobName() {
         return jobName;
@@ -180,6 +189,11 @@ public class BulkExportJobInstanceResponse {
 
         private Builder() {
             // Intentionally hiding from external callers.
+        }
+
+        public Builder executionId(Integer executionId) {
+            response.setExecutionId(executionId);
+            return this;
         }
 
         public Builder jobName(String jobName) {
@@ -318,6 +332,7 @@ public class BulkExportJobInstanceResponse {
                     builder.lastUpdatedTime(lastUpdatedTime);
                 }
 
+                int jobExecutionId = 0;
                 if (jsonObject.containsKey("_links")) {
                     JsonArray arr = jsonObject.getJsonArray("_links");
                     ListIterator<JsonValue> iter = arr.listIterator();
@@ -329,9 +344,18 @@ public class BulkExportJobInstanceResponse {
                             String rel = vObj.getString("rel");
                             String href = vObj.getString("href");
                             builder.link(rel, href);
+                            if (rel.equalsIgnoreCase("job execution")) {
+                                // e.g, https://localhost:9443/ibm/api/batch/jobinstances/9/jobexecutions/2
+                                // Get the job execution id of the job instance at the end of the url, because the same job instance can be
+                                // started, stopped and then restarted multipe times, so need to find the last job execution id and use it
+                                // as the current job execution id.
+                                int tmpJobExecutionId = Integer.parseInt(href.substring(href.indexOf("jobexecutions") + 14));
+                                jobExecutionId = jobExecutionId < tmpJobExecutionId ? tmpJobExecutionId : jobExecutionId;
+                            }
                         }
                     }
                 }
+                builder.executionId(jobExecutionId);
 
                 return builder.build();
             } catch (Exception e) {
