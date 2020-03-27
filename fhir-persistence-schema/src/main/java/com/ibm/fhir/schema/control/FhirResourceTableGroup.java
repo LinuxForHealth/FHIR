@@ -17,6 +17,7 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_RESOURCE_I
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATA;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_END;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_START;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUE_DROPPED_COLUMN;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.IDX;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.IS_DELETED;
@@ -59,6 +60,7 @@ import java.util.Set;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
+import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
@@ -402,8 +404,7 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
                     if (priorVersion == 1) {
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_PVR"));
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_RPV"));
-                        // Note: version 1 of this table had a DATE_VALUE column.
-                        // We chose not to DROP it here, but it is not used going forward.
+                        statements.add(new DropColumn(schemaName, tableName, DATE_VALUE_DROPPED_COLUMN));
                     }
                     return statements;
                 })
