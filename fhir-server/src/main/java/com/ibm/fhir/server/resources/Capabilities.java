@@ -263,6 +263,7 @@ public class Capabilities extends FHIRResource {
                           .id(buildInfo.getBuildId())
                           .build())
                 .rest(rest)
+                .instantiates(Canonical.of("http://www.hl7.org/fhir/bulk-data/CapabilityStatement-bulk-data.html"))
                 .build();
 
         try {
