@@ -32,7 +32,7 @@ public class DerbyMaster implements AutoCloseable {
     private static final Logger logger = Logger.getLogger(DerbyMaster.class.getName());
 
     // The directory holding our derby databases
-    private static final String DERBY_DIR = "derby/";
+    private static final String DERBY_DIR = "target/derby/";
 
     // The translator to help us out with Derby syntax
     private static final IDatabaseTranslator DERBY_TRANSLATOR = new DerbyTranslator();
@@ -62,6 +62,7 @@ public class DerbyMaster implements AutoCloseable {
             throw new IllegalStateException(e);
         }
 
+        DerbyServerPropertiesMgr.setServerProperties(DEBUG);
     }
 
     /**
