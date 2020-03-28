@@ -169,12 +169,11 @@ public class FHIRServletContextListener implements ServletContextListener {
      */
     private void bootstrapDerbyDatabases(PropertyGroup fhirConfig) throws Exception {
         Boolean performDbBootstrap = fhirConfig.getBooleanProperty(PROPERTY_JDBC_BOOTSTRAP_DB, Boolean.FALSE);
-        // Controls if we run derby in debugging mode which enables more logs.
-        boolean DEBUG = false;
         if (performDbBootstrap) {
             log.info("Performing Derby database bootstrapping...");
 
-            DerbyServerPropertiesMgr.setServerProperties(DEBUG);
+            // Start derby with debug off by default.
+            DerbyServerPropertiesMgr.setServerProperties(false);
 
             String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, "jdbc/fhirDB");
             InitialContext ctxt = new InitialContext();
