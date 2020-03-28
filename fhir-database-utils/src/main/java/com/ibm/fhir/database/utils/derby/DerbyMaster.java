@@ -51,8 +51,16 @@ public class DerbyMaster implements AutoCloseable {
     public DerbyMaster(String database) {
         this.database = database;
 
-        DerbyServerPropertiesMgr.setServerProperties(DEBUG);
+        // Any JDBC 4.0 drivers that are found in your class path are automatically loaded,
+        // However, any driver prior to JDBC 4.0 has to be loaded with the method Class.forName.
+        try {
+            Class.forName(DERBY_TRANSLATOR.getDriverClassName());
+        }
+        catch (ClassNotFoundException e) {
+            throw new IllegalStateException(e);
+        }
 
+        DerbyServerPropertiesMgr.setServerProperties(DEBUG);
         dropDatabase(database);
 
     }
