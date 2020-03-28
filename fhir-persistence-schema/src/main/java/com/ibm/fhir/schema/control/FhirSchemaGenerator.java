@@ -6,7 +6,43 @@
 
 package com.ibm.fhir.schema.control;
 
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.*;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_NAME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_END;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_START;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUE_DROPPED_COLUMN;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_REF_SEQUENCE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_SEQUENCE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.IDX;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAMES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANTS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_HASH;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_KEYS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_KEY_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_NAME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SALT;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SEQUENCE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_STATUS;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUES;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +50,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
+import com.ibm.fhir.database.utils.api.IDatabaseStatement;
+import com.ibm.fhir.database.utils.common.DropColumn;
+import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
 import com.ibm.fhir.database.utils.model.NopObject;
@@ -51,7 +91,7 @@ public class FhirSchemaGenerator {
     public static final String TAG_RESOURCE_TABLE = "RESOURCE_TABLE";
     public static final String TAG_SEQUENCE = "SEQUENCE";
     public static final String TAG_VARIABLE = "VARIABLE";
-    
+
     // The tags we use to separate the schemas
     public static final String SCHEMA_GROUP_TAG = "SCHEMA_GROUP";
     public static final String FHIRDATA_GROUP = "FHIRDATA";
@@ -80,12 +120,12 @@ public class FhirSchemaGenerator {
     // Marker used to indicate that the admin schema is all done
     private IDatabaseObject adminSchemaComplete;
 
-    // All the resource types
-    private final Set<String> resourceTypes = new HashSet<>();
+    // The resource types to generate schema for
+    private final Set<String> resourceTypes;
 
     // The common sequence used for allocated resource ids
     private Sequence fhirSequence;
-    
+
     // The sequence used for the reference tables (parameter_names, code_systems etc)
     private Sequence fhirRefSequence;
 
@@ -116,42 +156,51 @@ public class FhirSchemaGenerator {
     private Tablespace fhirTablespace;
 
     /**
-     * Public constructor
-     * 
+     * Generate the IBM FHIR Server Schema for all resourceTypes
+     *
      * @param adminSchemaName
      * @param schemaName
      */
     public FhirSchemaGenerator(String adminSchemaName, String schemaName) {
+        this(adminSchemaName, schemaName, Arrays.stream(FHIRResourceType.ValueSet.values())
+                .map(FHIRResourceType.ValueSet::value)
+                .collect(Collectors.toSet()));
+    }
+
+    /**
+     * Generate the IBM FHIR Server Schema with just the given resourceTypes
+     *
+     * @param adminSchemaName
+     * @param schemaName
+     */
+    public FhirSchemaGenerator(String adminSchemaName, String schemaName, Set<String> resourceTypes) {
         this.adminSchemaName = adminSchemaName;
         this.schemaName = schemaName;
 
         // The FHIR user (e.g. "FHIRSERVER") will need these privileges to be granted to it. Note that
         // we use the group identified by FHIR_USER_GRANT_GROUP here - these privileges can be applied
         // to any DB2 user using an admin user, or another user with sufficient GRANT TO privileges.
-        
-        
+
+
         // The FHIRSERVER user gets EXECUTE privilege specifically on the SET_TENANT procedure, which is
         // owned by the admin user, not the FHIRSERVER user.
         procedurePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.EXECUTE));
-        
+
         // FHIRSERVER needs INSERT, SELECT, UPDATE and DELETE on all the resource data tables
         resourceTablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.INSERT));
         resourceTablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.SELECT));
         resourceTablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.UPDATE));
         resourceTablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.DELETE));
-        
+
         // FHIRSERVER gets only READ privilege to the SV_TENANT_ID variable. The only way FHIRSERVER can
         // set (write to) SV_TENANT_ID is by calling the SET_TENANT stored procedure, which requires
         // both TENANT_NAME and TENANT_KEY to be provided.
         variablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.READ));
-        
+
         // FHIRSERVER gets to use the FHIR sequence
         sequencePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.USAGE));
 
-        // Create tables for each resource type
-        for (FHIRResourceType.ValueSet rt: FHIRResourceType.ValueSet.values()) {
-            resourceTypes.add(rt.value());
-        }
+        this.resourceTypes = resourceTypes;
     }
 
     /**
@@ -181,11 +230,11 @@ public class FhirSchemaGenerator {
         model.addObject(allAdminTablesComplete);
 
         // The set_tenant procedure can be created after all the admin tables are done
-        ProcedureDef setTenant = model.addProcedure(this.adminSchemaName, 
-                SET_TENANT, 
-                FhirSchemaConstants.INITIAL_VERSION, 
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName, SET_TENANT.toLowerCase() + ".sql", null), 
-                Arrays.asList(allAdminTablesComplete), 
+        ProcedureDef setTenant = model.addProcedure(this.adminSchemaName,
+                SET_TENANT,
+                FhirSchemaConstants.INITIAL_VERSION,
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName, SET_TENANT.toLowerCase() + ".sql", null),
+                Arrays.asList(allAdminTablesComplete),
                 procedurePrivileges);
         setTenant.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
 
@@ -195,7 +244,7 @@ public class FhirSchemaGenerator {
         this.adminSchemaComplete.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         model.addObject(adminSchemaComplete);
     }
-    
+
     /**
      * Add the session variable we need. This variable is used to support multi-tenancy
      * via the row-based access control permission predicate.
@@ -205,7 +254,7 @@ public class FhirSchemaGenerator {
         this.sessionVariable = new SessionVariableDef(adminSchemaName, "SV_TENANT_ID", FhirSchemaConstants.INITIAL_VERSION);
         this.sessionVariable.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         variablePrivileges.forEach(p -> p.addToObject(this.sessionVariable));
-        
+
         // Make sure any admin procedures are built after the session variable
         adminProcedureDependencies.add(this.sessionVariable);
         model.addObject(this.sessionVariable);
@@ -267,7 +316,7 @@ public class FhirSchemaGenerator {
           CACHE 1000
        NO CYCLE;
      </pre>
-     * 
+     *
      * @param pdm
      */
     protected void addTenantSequence(PhysicalDataModel pdm) {
@@ -293,12 +342,12 @@ public class FhirSchemaGenerator {
         addCodeSystems(model);
         addResourceTypes(model);
         addLogicalResources(model); // for system-level parameter search
-        
+
         Table globalTokenValues = addResourceTokenValues(model); // for system-level _tag and _security parameters
         Table globalStrValues = addResourceStrValues(model); // for system-level _profile parameters
         Table globalDateValues = addResourceDateValues(model); // for system-level date parameters
 
-        // The three "global" tables aren't true dependencies, but this was the easiest way to force sequential processing 
+        // The three "global" tables aren't true dependencies, but this was the easiest way to force sequential processing
         // and avoid a pesky deadlock issue we were hitting while adding foreign key constraints on the global tables
         addResourceTables(model, globalTokenValues, globalStrValues, globalDateValues);
 
@@ -315,35 +364,35 @@ public class FhirSchemaGenerator {
         // to avoid deadlocks, we only apply them after all the tables are done, so we make all
         // procedures depend on the allTablesComplete marker.
         ProcedureDef pd;
-        pd = model.addProcedure(this.schemaName, 
-                ADD_CODE_SYSTEM, 
-                FhirSchemaConstants.INITIAL_VERSION, 
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_CODE_SYSTEM.toLowerCase() + ".sql", null), 
-                Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete), 
-                procedurePrivileges);
-        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        
-        pd = model.addProcedure(this.schemaName, 
-                ADD_PARAMETER_NAME, 
-                FhirSchemaConstants.INITIAL_VERSION, 
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_PARAMETER_NAME.toLowerCase() + ".sql", null), 
-                Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete), 
+        pd = model.addProcedure(this.schemaName,
+                ADD_CODE_SYSTEM,
+                FhirSchemaConstants.INITIAL_VERSION,
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_CODE_SYSTEM.toLowerCase() + ".sql", null),
+                Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete),
                 procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
-        pd = model.addProcedure(this.schemaName, 
-                ADD_RESOURCE_TYPE, 
-                FhirSchemaConstants.INITIAL_VERSION, 
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_RESOURCE_TYPE.toLowerCase() + ".sql", null), 
-                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), 
+        pd = model.addProcedure(this.schemaName,
+                ADD_PARAMETER_NAME,
+                FhirSchemaConstants.INITIAL_VERSION,
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_PARAMETER_NAME.toLowerCase() + ".sql", null),
+                Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete),
                 procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        
-        pd = model.addProcedure(this.schemaName, 
-                ADD_ANY_RESOURCE, 
-                FhirSchemaConstants.INITIAL_VERSION, 
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_ANY_RESOURCE.toLowerCase() + ".sql", null), 
-                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), 
+
+        pd = model.addProcedure(this.schemaName,
+                ADD_RESOURCE_TYPE,
+                FhirSchemaConstants.INITIAL_VERSION,
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_RESOURCE_TYPE.toLowerCase() + ".sql", null),
+                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+                procedurePrivileges);
+        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        pd = model.addProcedure(this.schemaName,
+                ADD_ANY_RESOURCE,
+                FhirSchemaConstants.INITIAL_VERSION,
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_ANY_RESOURCE.toLowerCase() + ".sql", null),
+                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
                 procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
     }
@@ -411,19 +460,19 @@ public class FhirSchemaGenerator {
         this.procedureDependencies.add(tbl);
         pdm.addTable(tbl);
         pdm.addObject(tbl);
-        
+
         return tbl;
     }
 
     /**
      * Add system-wide RESOURCE_STR_VALUES table to support _profile
-     * properties (which are of type REFERENCE). 
+     * properties (which are of type REFERENCE).
      * @param pdm
      * @return Table the table that was added to the PhysicalDataModel
      */
     public Table addResourceStrValues(PhysicalDataModel pdm) {
         final int msb = MAX_SEARCH_STRING_BYTES;
-        
+
         Table tbl = Table.builder(schemaName, STR_VALUES)
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -445,7 +494,7 @@ public class FhirSchemaGenerator {
         this.procedureDependencies.add(tbl);
         pdm.addTable(tbl);
         pdm.addObject(tbl);
-        
+
         return tbl;
     }
 
@@ -457,16 +506,14 @@ public class FhirSchemaGenerator {
     public Table addResourceDateValues(PhysicalDataModel model) {
         final String tableName = DATE_VALUES;
         final String logicalResourcesTable = LOGICAL_RESOURCES;
-        
+
         Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(2)
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
-                .addTimestampColumn(      "DATE_VALUE",6,    true)
                 .addTimestampColumn(      DATE_START,6,    true)
                 .addTimestampColumn(        DATE_END,6,    true)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
-                .addIndex(IDX + tableName + "_PVR", PARAMETER_NAME_ID, "DATE_VALUE", LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_RPV", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, "DATE_VALUE")
                 .addIndex(IDX + tableName + "_PSER", PARAMETER_NAME_ID, DATE_START, DATE_END, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_PESR", PARAMETER_NAME_ID, DATE_END, DATE_START, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_RPSE", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, DATE_START, DATE_END)
@@ -475,13 +522,22 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion == 1) {
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_PVR"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_RPV"));
+                        statements.add(new DropColumn(schemaName, tableName, DATE_VALUE_DROPPED_COLUMN));
+                    }
+                    return statements;
+                })
                 .build(model);
 
         tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         this.procedureDependencies.add(tbl);
         model.addTable(tbl);
         model.addObject(tbl);
-        
+
         return tbl;
     }
 
@@ -493,11 +549,11 @@ public class FhirSchemaGenerator {
             CONSTRAINT pk_resource_type PRIMARY KEY,
             resource_type   VARCHAR(64) NOT NULL
         );
-        
+
         -- make sure resource_type values are unique
         CREATE UNIQUE INDEX unq_resource_types_rt ON resource_types(resource_type);
         </pre>
-     * 
+     *
      * @param model
      */
     protected void addResourceTypes(PhysicalDataModel model) {
@@ -564,14 +620,14 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     * 
-     * 
+     *
+     *
     CREATE TABLE parameter_names (
       parameter_name_id INT NOT NULL
                     CONSTRAINT pk_parameter_name PRIMARY KEY,
       parameter_name   VARCHAR(255 OCTETS) NOT NULL
     );
-    
+
     CREATE UNIQUE INDEX unq_parameter_name_rtnm ON parameter_names(parameter_name) INCLUDE (parameter_name_id);
 
      * @param model
@@ -607,7 +663,7 @@ public class FhirSchemaGenerator {
        CONSTRAINT pk_code_system PRIMARY KEY,
       code_system_name       VARCHAR(255 OCTETS) NOT NULL
     );
-    
+
     CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
 
      * @param model
@@ -659,14 +715,14 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     * <pre> 
+     * <pre>
     CREATE SEQUENCE fhir_sequence
              AS BIGINT
      START WITH 1
           CACHE 1000
        NO CYCLE;
      * </pre>
-     * 
+     *
      * @param pdm
      */
     protected void addFhirSequence(PhysicalDataModel pdm) {

@@ -284,9 +284,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#createForeignKeyConstraint(java.lang.String, java.lang.String, java.lang.String, java.util.List)
-     */
     @Override
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name,
             String targetSchema, String targetTable, String tenantColumnName,
@@ -422,7 +419,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
           CACHE 1000
        NO CYCLE;</CODE>
     */
-        // The move to start with 1000 gives room for manual creation and update of sequences. 
+        // The move to start with 1000 gives room for manual creation and update of sequences.
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 1000 CACHE " + cache + " NO CYCLE";
         runStatement(ddl);

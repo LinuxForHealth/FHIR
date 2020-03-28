@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,12 @@ public class AllVersionHistoryService implements IVersionHistoryService {
     public boolean applies(String objectSchema, String objectType, String objectName, int version) {
         // we always say yes
         return true;
+    }
+
+    @Override
+    public Integer getVersion(String objectSchema, String objectType, String objectName) {
+        // always return null
+        return null;
     }
 
 }

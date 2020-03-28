@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,6 +37,14 @@ public class RowArrayType extends BaseObject {
     @Override
     public void apply(IDatabaseAdapter target) {
         target.createArrType(getSchemaName(), getObjectName(), rowTypeName, arraySize);
+    }
+
+    @Override
+    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+        if (priorVersion != null && priorVersion > 0 && this.version > priorVersion) {
+            throw new UnsupportedOperationException("Upgrading row array types is not supported");
+        }
+        apply(target);
     }
 
     @Override

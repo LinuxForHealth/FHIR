@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,8 +18,8 @@ import com.ibm.fhir.task.api.ITaskGroup;
 /**
  * Used to create and drop tablespaces within a database
  */
-public class Tablespace extends DatabaseObject {    
-    
+public class Tablespace extends DatabaseObject {
+
     // The extent size to use for this tablespace
     private final int extentSizeKB;
 
@@ -42,6 +42,14 @@ public class Tablespace extends DatabaseObject {
             // Use database default
             target.createTablespace(getName());
         }
+    }
+
+    @Override
+    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+        if (priorVersion != null && priorVersion > 0) {
+            throw new UnsupportedOperationException("Modifying tablespaces is not supported");
+        }
+        apply(target);
     }
 
     @Override

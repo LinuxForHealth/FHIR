@@ -17,6 +17,7 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.CURRENT_RESOURCE_I
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATA;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_END;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_START;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUE_DROPPED_COLUMN;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.IDX;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.IS_DELETED;
@@ -57,6 +58,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import com.ibm.fhir.database.utils.api.IDatabaseStatement;
+import com.ibm.fhir.database.utils.common.AddColumn;
+import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
+import com.ibm.fhir.database.utils.common.DropColumn;
+import com.ibm.fhir.database.utils.common.DropForeignKeyConstraint;
+import com.ibm.fhir.database.utils.common.DropIndex;
+import com.ibm.fhir.database.utils.model.ColumnBase;
+import com.ibm.fhir.database.utils.model.ColumnDefBuilder;
+import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.Generated;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
@@ -354,15 +364,12 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
 CREATE TABLE device_date_values  (
   row_id                BIGINT             NOT NULL,
   parameter_name_id         INT NOT NULL,
-  date_value          TIMESTAMP,
   date_start          TIMESTAMP,
   date_end            TIMESTAMP,
   resource_id            BIGINT NOT NULL
 )
 ;
 
-CREATE INDEX idx_device_date_values_pvr ON device_date_values(parameter_name_id, date_value, resource_id);
-CREATE INDEX idx_device_date_values_rpv  ON device_date_values(resource_id, parameter_name_id, date_value);
 CREATE INDEX idx_device_date_values_pser ON device_date_values(parameter_name_id, date_start, date_end, resource_id);
 CREATE INDEX idx_device_date_values_pesr ON device_date_values(parameter_name_id, date_end, date_start, resource_id);
 CREATE INDEX idx_device_date_values_rpse   ON device_date_values(resource_id, parameter_name_id, date_start, date_end);
@@ -377,16 +384,14 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(2)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
-                .addTimestampColumn(      "DATE_VALUE",      true)
                 .addTimestampColumn(      DATE_START,      true)
                 .addTimestampColumn(        DATE_END,      true)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
-                .addIndex(IDX + tableName + "_PVR", PARAMETER_NAME_ID, "DATE_VALUE", LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_RPV", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, "DATE_VALUE")
                 .addIndex(IDX + tableName + "_PSER", PARAMETER_NAME_ID, DATE_START, DATE_END, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_PESR", PARAMETER_NAME_ID, DATE_END, DATE_START, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_RPSE", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, DATE_START, DATE_END)
@@ -397,6 +402,15 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion == 1) {
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_PVR"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_RPV"));
+                        statements.add(new DropColumn(schemaName, tableName, DATE_VALUE_DROPPED_COLUMN));
+                    }
+                    return statements;
+                })
                 .build(model)
                 ;
 
@@ -429,14 +443,15 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(2)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addDoubleColumn(       NUMBER_VALUE,       true)
+                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
                 .addDoubleColumn(   NUMBER_VALUE_LOW,       true)
                 .addDoubleColumn(  NUMBER_VALUE_HIGH,       true)
-                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
                 .addIndex(IDX + tableName + "_PNNV", PARAMETER_NAME_ID, NUMBER_VALUE, LOGICAL_RESOURCE_ID)
                 .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, NUMBER_VALUE)
                 .addPrimaryKey(PK + tableName, ROW_ID)
@@ -446,6 +461,19 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion == 1) {
+                        List<ColumnBase> columns = new ColumnDefBuilder()
+                                .addDoubleColumn(NUMBER_VALUE_LOW, true)
+                                .addDoubleColumn(NUMBER_VALUE_HIGH, true)
+                                .buildColumns();
+                        for (ColumnBase column : columns) {
+                            statements.add(new AddColumn(schemaName, tableName, column));
+                        }
+                    }
+                    return statements;
+                })
                 .build(model)
                 ;
 
@@ -635,6 +663,31 @@ ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_r  FOREIGN KEY
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable);
 
+        tbl.addMigration(priorVersion -> {
+            List<IDatabaseStatement> statements = new ArrayList<>();
+            if (priorVersion == 1) {
+                for (int i = 1; i <= MAX_COMP; i++) {
+                    String comp = COMP + i;
+                    statements.add(new AddForeignKeyConstraint(schemaName, tableName, MT_ID,
+                        new ForeignKeyConstraint(FK + tableName + "_" + comp + _STR, false, schemaName, prefix + "_STR_VALUES", comp + _STR),
+                        new ForeignKeyConstraint(FK + tableName + "_" + comp + _NUMBER, false, schemaName, prefix + "_NUMBER_VALUES", comp + _NUMBER),
+                        new ForeignKeyConstraint(FK + tableName + "_" + comp + _DATE, false, schemaName, prefix + "_DATE_VALUES", comp + _DATE),
+                        new ForeignKeyConstraint(FK + tableName + "_" + comp + _TOKEN, false, schemaName, prefix + "_TOKEN_VALUES", comp + _TOKEN),
+                        new ForeignKeyConstraint(FK + tableName + "_" + comp + _QUANTITY, false, schemaName, prefix + "_QUANTITY_VALUES", comp + _QUANTITY),
+                        new ForeignKeyConstraint(FK + tableName + "_" + comp + _LATLNG, false, schemaName, prefix + "_LATLNG_VALUES", comp + _LATLNG))
+                    );
+                }
+
+                statements.add(new DropForeignKeyConstraint(schemaName, tableName,
+                        "FK_OBSERVATION_COMPOSITES_DATE",
+                        "FK_OBSERVATION_COMPOSITES_LATLNG",
+                        "FK_OBSERVATION_COMPOSITES_NUMBER",
+                        "FK_OBSERVATION_COMPOSITES_QUANTITY",
+                        "FK_OBSERVATION_COMPOSITES_STR",
+                        "FK_OBSERVATION_COMPOSITES_TOKEN"));
+            }
+            return statements;
+        });
         Table composites = tbl.build(model);
         group.add(composites);
         model.addTable(composites);

@@ -1,10 +1,14 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.database.utils.model;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
@@ -21,13 +25,17 @@ public class VersionedSchemaObject {
 
     // The version, which can be changed during building
     protected int version = 1;
-    
+
+    // Conditional migration steps to perform to bring previous versions of this object up-to-date
+    protected List<Migration> migrations;
+
     public VersionedSchemaObject(String schemaName, String objectName) {
         DataDefinitionUtil.assertValidNames(schemaName, objectName);
         this.schemaName = schemaName;
         this.objectName = objectName;
+        this.migrations = new ArrayList<>();
     }
-    
+
     /**
      * Setter to override the default version number for this object
      * (usually used for alter statements, or new tables and indexes)
@@ -60,8 +68,18 @@ public class VersionedSchemaObject {
     public String getObjectName() {
         return this.objectName;
     }
-    
+
     public String getQualifiedName() {
         return DataDefinitionUtil.getQualifiedName(schemaName, objectName);
+    }
+
+    /**
+     * Add migration steps to perform to upgrade from previous versions of this object
+     * @param migration
+     * @return
+     */
+    public VersionedSchemaObject addMigration(Migration... migration) {
+        migrations.addAll(Arrays.asList(migration));
+        return this;
     }
 }

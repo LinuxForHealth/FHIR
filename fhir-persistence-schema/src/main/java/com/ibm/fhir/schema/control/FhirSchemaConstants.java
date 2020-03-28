@@ -11,8 +11,9 @@ package com.ibm.fhir.schema.control;
  */
 public class FhirSchemaConstants {
 
+    // A lower pool size is selected as default to limit the likelihood of contention on the DBMS.
     // Standard connection/thread pool size
-    public static final int DEFAULT_POOL_SIZE = 80;
+    public static final int DEFAULT_POOL_SIZE = 1;
     
     // Size of string columns in the search tables. DSTU2 was 511
     public static final int MAX_SEARCH_STRING_BYTES = 1024;
@@ -84,6 +85,7 @@ public class FhirSchemaConstants {
     public static final String RESOURCE_TYPE = "RESOURCE_TYPE";
     public static final String RESOURCE_TYPE_ID = "RESOURCE_TYPE_ID";
 
+    public static final String DATE_VALUE_DROPPED_COLUMN = "DATE_VALUE";
     public static final String DATE_START = "DATE_START";
     public static final String DATE_END = "DATE_END";
     public static final String NUMBER_VALUE = "NUMBER_VALUE";

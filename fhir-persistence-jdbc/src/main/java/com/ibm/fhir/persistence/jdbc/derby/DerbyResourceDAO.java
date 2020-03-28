@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,7 @@ import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 
 /**
  * Data access object for writing FHIR resources to an Apache Derby database.
- * 
+ *
  * @implNote The original implementation (for DSTU2) used a global temporary table
  * to pass the parameter list into the stored procedure, but this approach
  * exposed some query optimizer issues in DB2 resulting in significant
@@ -40,9 +40,9 @@ import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 public class DerbyResourceDAO {
     private static final Logger logger = Logger.getLogger(DerbyResourceDAO.class.getName());
     private static final String CLASSNAME = DerbyResourceDAO.class.getSimpleName();
-    
+
     private static final DerbyTranslator translator = new DerbyTranslator();
-    
+
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private final FhirRefSequenceDAO fhirRefSequenceDAO;
 
@@ -51,7 +51,7 @@ public class DerbyResourceDAO {
 
     // DAO used to manage code_systems
     private final CodeSystemDAO codeSystemDAO;
-    
+
     private final Connection conn;
 
     /**
@@ -80,13 +80,13 @@ public class DerbyResourceDAO {
      *     ...
      *   ...
      * </pre>
-     * 
+     *
      * This works because we never delete a logical_resource record, and so don't have to deal
      * with concurrency issues caused when deletes are mingled with inserts/updates
-     * 
+     *
      * Note the execution flow aligns very closely with the DB2 stored procedure
      * implementation (fhir-persistence-schema/src/main/resources/add_any_resource.sql)
-     * 
+     *
      * @param tablePrefix
      * @param parameters
      * @param p_logical_id
@@ -95,11 +95,11 @@ public class DerbyResourceDAO {
      * @param p_is_deleted
      * @param p_source_key
      * @param p_version
-     * 
+     *
      * @return the resource_id for the entry we created
      * @throws Exception
      */
-    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, byte[] p_payload, Timestamp p_last_updated, boolean p_is_deleted, 
+    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, byte[] p_payload, Timestamp p_last_updated, boolean p_is_deleted,
         String p_source_key, Integer p_version) throws Exception {
 
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
@@ -116,7 +116,7 @@ public class DerbyResourceDAO {
         int v_insert_version = 0;
 
         String v_resource_type = tablePrefix;
-        
+
         // Map the resource type name to the normalized id value in the database
         v_resource_type_id = getResourceTypeId(v_resource_type);
         if (v_resource_type_id == null) {
@@ -141,7 +141,7 @@ public class DerbyResourceDAO {
 
         // Create the logical resource if we don't have it already
         if (v_not_found) {
-            // grab the id we want to use for the new logical resource instance 
+            // grab the id we want to use for the new logical resource instance
             final String sql2 = "VALUES(NEXT VALUE FOR fhir_sequence)";
             try (PreparedStatement stmt = conn.prepareStatement(sql2)) {
                 ResultSet res = stmt.executeQuery();
@@ -192,10 +192,10 @@ public class DerbyResourceDAO {
                         throw new IllegalStateException("Logical resource was deleted: " + tablePrefix + "/" + p_logical_id);
                     }
                 }
-            } 
+            }
             else {
                 v_new_resource = true;
-                
+
                 // Insert the resource-specific logical resource record. Remember that logical_id is denormalized
                 // so it gets stored again here for convenience
                 final String sql3 = "INSERT INTO " + tablePrefix + "_logical_resources (logical_resource_id, logical_id) VALUES (?, ?)";
@@ -209,7 +209,7 @@ public class DerbyResourceDAO {
         }
 
         if (!v_new_resource) {
-            // existing resource.  We need to know the current version from the 
+            // existing resource.  We need to know the current version from the
             // resource-specific logical resources table.
             final String sql3 = "SELECT current_resource_id FROM " + tablePrefix + "_logical_resources WHERE logical_resource_id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
@@ -224,7 +224,7 @@ public class DerbyResourceDAO {
                     throw new SQLException("Logical_id record '" + p_logical_id + "' missing for resource " + tablePrefix);
                 }
             }
-            
+
             // so if we are storing a specific version, do a quick check to make
             // sure that this version doesn't currently exist. This is only done when processing
             // replication messages which might be duplicated. We want the operation to be idempotent,
@@ -254,13 +254,13 @@ public class DerbyResourceDAO {
                     v_version = res.getInt(1);
                 }
                 else {
-                    throw new IllegalStateException("current resource not found: " 
+                    throw new IllegalStateException("current resource not found: "
                             + tablePrefix + "_resources.resource_id=" + v_current_resource_id);
                 }
             }
 
             //If we have been passed a version number, this means that this is a replicated
-            //resource, and so we only need to delete parameters if the given version is 
+            //resource, and so we only need to delete parameters if the given version is
             // later than the current version
             if (p_version == null || p_version > v_version) {
                 // existing resource, so need to delete all its parameters
@@ -274,16 +274,16 @@ public class DerbyResourceDAO {
                 deleteFromParameterTable(conn, tablePrefix + "_quantity_values", v_logical_resource_id);
             }
         }
-        
+
         // Persist the data using the given version number if required
         if (p_version != null) {
             v_insert_version = p_version;
-        } 
+        }
         else {
             // remember we have a write (update) lock on the logical version, so we can safely calculate
             // the next version value here
             v_insert_version = v_version + 1;
-            
+
         }
 
         /**
@@ -295,7 +295,7 @@ public class DerbyResourceDAO {
             ResultSet res = stmt.executeQuery();
             if (res.next()) {
                 v_resource_id = res.getLong(1); //Assign result of the above query
-            } 
+            }
             else {
                 // unlikely
                 throw new IllegalStateException("no row returned: " + sql2);
@@ -332,7 +332,7 @@ public class DerbyResourceDAO {
             // Note we don't get any parameters for the resource soft-delete operation
             if (parameters != null) {
                 // Derby doesn't support partitioned multi-tenancy, so we disable it on the DAO:
-                try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_logical_resource_id, 100, 
+                try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_logical_resource_id, 100,
                     new ParameterNameCacheAdapter(parameterNameDAO), new CodeSystemCacheAdapter(codeSystemDAO))) {
                     for (ExtractedParameterValue p: parameters) {
                         p.accept(pvd);
@@ -343,11 +343,11 @@ public class DerbyResourceDAO {
         logger.exiting(CLASSNAME, METHODNAME);
         return v_resource_id;
     }
-    
+
 
     /**
      * Delete all parameters for the given resourceId from the parameters table
-     * 
+     *
      * @param conn
      * @param tableName
      * @param logicalResourceId
@@ -360,7 +360,7 @@ public class DerbyResourceDAO {
             stmt.setLong(1, logicalResourceId);
             stmt.executeUpdate();
         }
-        
+
     }
 
     /**
@@ -371,20 +371,20 @@ public class DerbyResourceDAO {
      */
     protected Integer getResourceTypeId(String resourceTypeName) throws SQLException {
         Integer result;
-        
+
         final String sql1 = "SELECT resource_type_id FROM resource_types WHERE resource_type = ?";
-        
+
         try (PreparedStatement stmt = conn.prepareStatement(sql1)) {
             stmt.setString(1, resourceTypeName);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 result = rs.getInt(1);
-            } 
+            }
             else {
                 result = null;
             }
-        }        
-        
+        }
+
         return result;
     }
 
@@ -397,12 +397,12 @@ public class DerbyResourceDAO {
         // As the system is concurrent, we have to handle cases where another thread
         // might create the entry after we selected and found nothing
         Integer result = getResourceTypeId(resourceTypeName);
-         
+
         // Create the resource if we don't have it already (set by the continue handler)
         if (result == null) {
             try {
                 result = fhirRefSequenceDAO.nextValue();
-             
+
                 final String INS = "INSERT INTO resource_types (resource_type_id, resource_type) VALUES (?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(INS)) {
                     // bind parameters
@@ -414,11 +414,12 @@ public class DerbyResourceDAO {
                 if ("23505".equals(e.getSQLState())) {
                     // another thread snuck in and created the record, so we need to fetch the correct id
                     result = getResourceTypeId(resourceTypeName);
+                } else {
+                    throw e;
                 }
             }
-
         }
-        
+
         return result;
     }
 }
