@@ -14,7 +14,7 @@ import java.util.Properties;
  * equal to setting in derby.properties.
  */
 public class DerbyServerPropertiesMgr {
-    public static void setServerProperties (boolean isDebug) {
+    public static void setServerProperties(boolean isDebug) {
         Properties sysProperties = System.getProperties();
         // This speeds up sequence fetching by pre-creating 1000 instead of the default 100.
         sysProperties.put("derby.language.sequence.preallocator", 1000);
