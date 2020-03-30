@@ -82,12 +82,15 @@ import com.ibm.fhir.model.type.Dosage;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.ElementDefinition;
 import com.ibm.fhir.model.type.Expression;
+import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.MarketingStatus;
 import com.ibm.fhir.model.type.Oid;
 import com.ibm.fhir.model.type.ParameterDefinition;
 import com.ibm.fhir.model.type.Population;
 import com.ibm.fhir.model.type.ProdCharacteristic;
 import com.ibm.fhir.model.type.ProductShelfLife;
+import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.RelatedArtifact;
 import com.ibm.fhir.model.type.SubstanceAmount;
 import com.ibm.fhir.model.type.TriggerDefinition;
@@ -1138,7 +1141,6 @@ public class FHIROpenApiGenerator {
                 modelClassName = modelClass.getName().substring(RESOURCEPACKAGENAME.length()+1);
             }
 
-
             if (modelClassName.startsWith(key.getSimpleName())
                     && key.getSimpleName().length() > nameLength) {
                 structureDefinition = structureDefinitionMap.get(key);
@@ -1180,8 +1182,9 @@ public class FHIROpenApiGenerator {
         }
     }
 
-    private static void generateProperty(StructureDefinition structureDefinition, Class<?> modelClass, Field field, JsonObjectBuilder properties,
-        String elementName, Class<?> fieldClass, boolean many, String description) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    private static void generateProperty(StructureDefinition structureDefinition, Class<?> modelClass, Field field,
+            JsonObjectBuilder properties, String elementName, Class<?> fieldClass, boolean many, String description)
+            throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
         JsonObjectBuilder property = factory.createObjectBuilder();
 
@@ -1251,11 +1254,32 @@ public class FHIROpenApiGenerator {
         } else if (com.ibm.fhir.model.type.Xhtml.class.equals(fieldClass)) {
             property.add("type", "string");
         } else {
+            // For non-primitives, point to the corresponding definition
             property.add("$ref", "#/components/schemas/" + getSimpleNameWithEnclosingNames(fieldClass));
         }
 
         if (description != null) {
             property.add("description", description);
+        }
+
+        // Include select examples to help tools avoid bumping into infinite recursion (if they try generate examples)
+        if (Element.class.equals(modelClass) && Extension.class.equals(fieldClass)) {
+            // "example": [{"url":"http://example.com","valueString":"textValue"}]
+            JsonObject obj = factory.createObjectBuilder()
+                .add("url", "http://example.com")
+                .add("valueString", "text value")
+                .build();
+            JsonArray example = factory.createArrayBuilder().add(obj).build();
+            property.add("example", example);
+        } else if (Identifier.class.equals(modelClass) && Reference.class.equals(fieldClass)) {
+            // "example": {"reference":"Organization/123","type":"Organization","display":"The Assigning Organization"}
+            JsonObject example = factory.createObjectBuilder()
+                    .add("reference", "Organization/123")
+                    .add("type", "Organization")
+                    .add("display", "The Assigning Organization")
+                    // skip assigner to break the recursion
+                    .build();
+            property.add("example", example);
         }
 
         if (many) {
