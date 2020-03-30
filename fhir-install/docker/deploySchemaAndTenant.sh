@@ -10,10 +10,10 @@ java -jar volumes/schema/fhir-persistence-schema-*-cli.jar \
   --prop-file db2.properties --schema-name FHIRDATA --create-schemas
 
 java -jar volumes/schema/fhir-persistence-schema-*-cli.jar \
-  --prop-file db2.properties --schema-name FHIRDATA --update-schema
+  --prop-file db2.properties --schema-name FHIRDATA --update-schema --pool-size 2
 
 java -jar volumes/schema/fhir-persistence-schema-*-cli.jar \
-  --prop-file db2.properties --schema-name FHIRDATA --grant-to FHIRSERVER
+  --prop-file db2.properties --schema-name FHIRDATA --grant-to FHIRSERVER --pool-size 2
 
 java -jar volumes/schema/fhir-persistence-schema-*-cli.jar \
   --prop-file db2.properties --schema-name FHIRDATA --allocate-tenant default
