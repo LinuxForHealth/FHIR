@@ -7,9 +7,7 @@
 package com.ibm.fhir.database.utils.derby;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -34,10 +32,7 @@ public class DerbyMaster implements AutoCloseable {
     private static final Logger logger = Logger.getLogger(DerbyMaster.class.getName());
 
     // The directory holding our derby databases
-    private static final String DERBY_DIR = "derby/";
-
-    // The derby properties file
-    private static final String DERBY_PROPERTIES = DERBY_DIR + "derby.properties";
+    private static final String DERBY_DIR = "target/derby/";
 
     // The translator to help us out with Derby syntax
     private static final IDatabaseTranslator DERBY_TRANSLATOR = new DerbyTranslator();
@@ -58,23 +53,16 @@ public class DerbyMaster implements AutoCloseable {
     public DerbyMaster(String database) {
         this.database = database;
 
-        try (PrintWriter out = new PrintWriter(DERBY_PROPERTIES)){
+        // Any JDBC 4.0 drivers that are found in class path are automatically loaded,
+        // However, any driver prior to JDBC 4.0 has to be loaded with the method Class.forName.
+        try {
             Class.forName(DERBY_TRANSLATOR.getDriverClassName());
-            // This speeds up sequence fetching by pre-creating 1000 instead of the default 100.
-            out.println("derby.language.sequence.preallocator=1000");
-            if (DEBUG) {
-                out.println("derby.language.logQueryPlan=true");
-                out.println("derby.language.logStatementText=true");
-                out.println("derby.locks.deadlockTrace=true");
-                out.println("derby.infolog.append=true");
-            }
         }
         catch (ClassNotFoundException e) {
             throw new IllegalStateException(e);
-        } catch (FileNotFoundException e1) {
-            logger.warning("Failed to create derby.properties file!");
         }
 
+        DerbyServerPropertiesMgr.setServerProperties(DEBUG);
     }
 
     /**

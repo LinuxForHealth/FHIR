@@ -32,6 +32,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.database.utils.derby.DerbyServerPropertiesMgr;
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
@@ -116,7 +117,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             } else {
                 log.info("Bypassing Kafka notification init.");
             }
-            
+
             Boolean checkReferenceTypes = fhirConfig.getBooleanProperty(PROPERTY_CHECK_REFERENCE_TYPES, Boolean.TRUE);
             FHIRModelConfig.setCheckReferenceTypes(checkReferenceTypes);
 
@@ -142,6 +143,10 @@ public class FHIRServletContextListener implements ServletContextListener {
         Boolean performDbBootstrap = fhirConfig.getBooleanProperty(PROPERTY_JDBC_BOOTSTRAP_DB, Boolean.FALSE);
         if (performDbBootstrap) {
             log.info("Performing Derby database bootstrapping...");
+
+            // Start derby with debug off by default.
+            DerbyServerPropertiesMgr.setServerProperties(false);
+
             String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, "jdbc/fhirDB");
             InitialContext ctxt = new InitialContext();
             DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
@@ -150,6 +155,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             bootstrapDb("tenant1", "profile", ds);
             bootstrapDb("tenant1", "reference", ds);
             bootstrapDb("tenant1", "study1", ds);
+
             log.info("Finished Derby database bootstrapping...");
         } else {
             log.info("Derby database bootstrapping is disabled.");
