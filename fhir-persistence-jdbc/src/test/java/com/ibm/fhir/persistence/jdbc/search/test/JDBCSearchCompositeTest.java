@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,7 +32,7 @@ public class JDBCSearchCompositeTest extends AbstractSearchCompositeTest {
             derbyInit.bootstrapDb();
         }
     }
-    
+
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         return new FHIRPersistenceJDBCImpl(this.testProps);

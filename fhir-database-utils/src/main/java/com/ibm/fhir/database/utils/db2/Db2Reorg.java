@@ -16,6 +16,10 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * Reorg the schema.table
+ *
+ * Be sure to complete all database operations and release all locks before you invoke REORG.
+ * @see <a href="https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.luw.admin.cmd.doc/doc/r0001966.html">
+ *      https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.luw.admin.cmd.doc/doc/r0001966.html</a>
  */
 public class Db2Reorg implements IDatabaseStatement {
     private final String schemaName;
