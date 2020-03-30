@@ -168,7 +168,7 @@ public class Capabilities extends FHIRResource {
                     .conditionalCreate(com.ibm.fhir.model.type.Boolean.of(true))
                     .conditionalUpdate(com.ibm.fhir.model.type.Boolean.of(true))
                     .updateCreate(com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled()))
-                    .conditionalDelete(ConditionalDeleteStatus.SINGLE)
+                    .conditionalDelete(ConditionalDeleteStatus.MULTIPLE)
                     .conditionalRead(ConditionalReadStatus.FULL_SUPPORT)
                     .searchParam(conformanceSearchParams)
                     .build();
