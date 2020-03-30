@@ -266,57 +266,56 @@ jobs:
       with:
         name: integration-test-results-db2-${{ matrix.java }}
         path: integration-test-results
-db2-migration:
-  runs-on: ubuntu-latest
-  strategy:
-    matrix:
-      java: [ 'openjdk11' ]
-    fail-fast: false
-  steps:
-  - uses: actions/checkout@v2
-  - name: Set up OpenJDK
-    uses: joschi/setup-jdk@v1
-    with:
-      java-version: ${{ matrix.java }}
-  - name: Build samples
-    run: mvn -B install --file fhir-examples --no-transfer-progress
-  - name: Build parent without tests
-    run: |
-      mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress
-  - name: Server Integration Tests
-    env:
-      # debian-based linux uses C.UTF-8 by default and Derby doesn't like that
-      LC_ALL: en_US.UTF-8
-    run: |
-      export WORKSPACE=${GITHUB_WORKSPACE}
-      build/pre-migration-test-docker.sh
-      env
-      mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress
-      build/post-integration-test-docker.sh
-  - name: Gather error logs
-    if: failure()
-    run: |
-      it_results=integration-test-results
-      rm -fr ${it_results} 2>/dev/null
-      mkdir -p ${it_results}/server-logs
-      mkdir -p ${it_results}/fhir-server-test
-      containerId=$(docker ps -a | grep fhir | cut -d ' ' -f 1)
-      if [[ -z "${containerId}" ]]; then
-          echo "Warning: Could not find fhir container!!!"
-      else
-          echo "fhir container id: $containerId"
+  db2-migration:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 'openjdk8' ]
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up OpenJDK
+      uses: joschi/setup-jdk@v1
+      with:
+        java-version: ${{ matrix.java }}
+    - name: Build samples
+      run: mvn -B install --file fhir-examples --no-transfer-progress
+    - name: Build parent without tests
+      run: |
+        mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress
+    - name: Server Integration Tests
+      env:
+        # debian-based linux uses C.UTF-8 by default and Derby doesn't like that
+        LC_ALL: en_US.UTF-8
+      run: |
+        export WORKSPACE=${GITHUB_WORKSPACE}
+        build/db2-migration-test-docker.sh
+        mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress
+        build/post-integration-test-docker.sh
+    - name: Gather error logs
+      if: failure()
+      run: |
+        it_results=integration-test-results
+        rm -fr ${it_results} 2>/dev/null
+        mkdir -p ${it_results}/server-logs
+        mkdir -p ${it_results}/fhir-server-test
+        containerId=$(docker ps -a | grep fhir | cut -d ' ' -f 1)
+        if [[ -z "${containerId}" ]]; then
+            echo "Warning: Could not find fhir container!!!"
+        else
+            echo "fhir container id: $containerId"
 
-          # Grab the container's console log
-          docker logs $containerId  >& ${it_results}/docker-console.txt
+            # Grab the container's console log
+            docker logs $containerId  >& ${it_results}/docker-console.txt
 
-          echo "Gathering post-test server logs from docker container: $containerId"
-          docker cp -L $containerId:/logs ${it_results}/server-logs
-      fi
-      echo "Gathering integration test output"
-      cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
-  - name: Upload logs
-    if: always()
-    uses: actions/upload-artifact@master
-    with:
-      name: integration-test-results-db2-${{ matrix.java }}
-      path: integration-test-results
+            echo "Gathering post-test server logs from docker container: $containerId"
+            docker cp -L $containerId:/logs ${it_results}/server-logs
+        fi
+        echo "Gathering integration test output"
+        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
+    - name: Upload logs
+      if: always()
+      uses: actions/upload-artifact@master
+      with:
+        name: db2-migration-test-results-${{ matrix.java }}
+        path: integration-test-results
