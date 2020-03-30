@@ -456,12 +456,10 @@ public class Db2Adapter extends CommonDatabaseAdapter {
 
             String qname = ((DropColumn) stmt).getSchemaName() + "." + ((DropColumn) stmt).getTableName();
 
-            Db2AdminCommand runstats = new Db2AdminCommand("RUNSTATS ON TABLE " + qname + " WITH DISTRIBUTION AND DETAILED INDEXES ALL");
-            super.runStatement(runstats);
-
             String reorgCommand = "REORG TABLE " + qname;
             super.runStatement(new Db2AdminCommand(reorgCommand));
 
+            Db2AdminCommand runstats = new Db2AdminCommand("RUNSTATS ON TABLE " + qname + " WITH DISTRIBUTION AND DETAILED INDEXES ALL");
             super.runStatement(runstats);
         }
     }

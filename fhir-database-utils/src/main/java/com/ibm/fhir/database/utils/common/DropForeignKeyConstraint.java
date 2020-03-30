@@ -42,8 +42,7 @@ public class DropForeignKeyConstraint implements IDatabaseStatement {
 
         for (String constraintName : constraintNames) {
             StringBuilder ddl = new StringBuilder("ALTER TABLE " + qTableName);
-            String qConstraintName = DataDefinitionUtil.getQualifiedName(schemaName, constraintName);
-            ddl.append("\n\t" + "DROP FOREIGN KEY " + qConstraintName);
+            ddl.append("\n\t" + "DROP FOREIGN KEY " + constraintName);
 
             try (Statement s = c.createStatement()) {
                 s.executeUpdate(ddl.toString());
