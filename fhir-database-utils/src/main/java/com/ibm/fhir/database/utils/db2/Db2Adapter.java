@@ -105,15 +105,15 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createPermission(String schemaName, String permissionName, String tableName, String predicate) {
+    public void createOrReplacePermission(String schemaName, String permissionName, String tableName, String predicate) {
         final String qualifiedPermissionName = DataDefinitionUtil.getQualifiedName(schemaName, permissionName);
         final String qualifiedTableName = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         DataDefinitionUtil.assertSecure(predicate);
 
         final String ddl = ""
-                + "       CREATE PERMISSION " + qualifiedPermissionName
-                + "                      ON " + qualifiedTableName
-                + "          FOR ROWS WHERE " + predicate
+                + "CREATE OR REPLACE PERMISSION " + qualifiedPermissionName
+                + "                          ON " + qualifiedTableName
+                + "              FOR ROWS WHERE " + predicate
                 + " ENFORCED FOR ALL ACCESS ENABLE ";
         runStatement(ddl);
     }

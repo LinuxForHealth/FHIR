@@ -95,7 +95,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createPermission(String schemaName, String permissionName, String tableName, String predicate) {
+    public void createOrReplacePermission(String schemaName, String permissionName, String tableName, String predicate) {
         warnOnce(MessageKey.CREATE_PERM, "Derby does not support CREATE PERMISSION for: " + permissionName);
     }
 
