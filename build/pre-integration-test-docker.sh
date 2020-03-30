@@ -15,7 +15,6 @@ fi
 # Set up installers and config files where docker processing can see them
 cd ${WORKSPACE}/fhir-install/docker
 ./copy-dependencies-db2.sh
-./copy-test-operations.sh
 
 # Stand up a docker container running the fhir server configured for integration tests
 echo "Bringing down any fhir server containers that might already be running as a precaution"
@@ -30,12 +29,12 @@ echo ">>> Current time: " $(date)
 # TODO wait for it to be healthy instead of just Sleeping
 (docker-compose logs --timestamps --follow db2 & P=$! && sleep 100 && kill $P)
 
-
 echo "Deploying the Db2 schema..."
 ./deploySchemaAndTenant.sh
 
 
 echo "Bringing up the FHIR server... be patient, this will take a minute"
+./copy-test-operations.sh
 docker-compose build --pull fhir
 docker-compose up -d fhir
 echo ">>> Current time: " $(date)
