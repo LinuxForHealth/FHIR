@@ -6,9 +6,9 @@ This document outlines the migration and management of changes in the IBM FHIR S
 |----------|---------------------------------------------|
 | `fhir-model` | The HL7 FHIR model - generated Java code |
 | `fhir-database-utils` | The SQL/database constructs used to create SQL compliant statements |
-| `fhir-persistence-schema` | The code bridges the model and database-utils |
+| `fhir-persistence-schema` | Uses database-utils to define a physical data model for storing FHIR resources and supporting the FHIR API |
 
-The schema generate the following object types, and require specific managements: 
+The schema generates the following object types that require management: 
 
 - DB2 PACKAGE
 - TABLESPACES
@@ -24,13 +24,13 @@ The schema generate the following object types, and require specific managements
 ----------------------------------------------------------------
 # Schema: FHIR_ADMIN
 
-The Schema FHIR_ADMIN is an administrative schema. 
+The Schema FHIR_ADMIN is an administrative schema.
 
 ## Managing TABLESPACES
 
-There are multiple TABLESPACES used. For the administrative tablesspaces, the `FHIR_TS` tablespace is created with automatic storage.  The tablespace is managed automatically with a default EXTENTSIZE of 4.  
+There are multiple TABLESPACES used. For the administrative tablespaces, the `FHIR_TS` tablespace is created with automatic storage.  The tablespace is managed automatically with a default EXTENTSIZE of 4.
 
-The `FHIR_TS` tablespace is created one time and should not be changed. 
+The `FHIR_TS` tablespace is created one time and should not be changed.
 
 ## Managing SEQUENCES
 
@@ -87,7 +87,7 @@ this.tenantKeysTable = Table.builder(adminSchemaName, TENANT_KEYS
     .build(model);
 ```
 
-Changes to the FHIR_ADMIN schema are not supported.  
+Changes to the FHIR_ADMIN schema are not supported.
 
 If a table in FHIR_ADMIN table is updated, the changes must be manually applied as the migration steps to the each table and their indices. The Java code must also be updated to indicate the version change, such as the following for `TENANTS`:
 
@@ -128,13 +128,13 @@ If you change the stored procedure signature, you MUST drop the stored procedure
 
 # Schema: Tenant Data 
 
-The schema is based on the resources and types identified in the `FHIRResourceType.ValueSet`.  Each resource has a set of supporting tables for FHIR Search Parameters. 
+The schema is based on the resource types in `FHIRResourceType.ValueSet`.  Each resource has a set of supporting tables for FHIR Search Parameters. 
 
 > ![mt-table.png](mt-table.png)
 
 ## Managing the TABLESPACE
 
-Each tenant receives a tenant specific tablespace. The tablespace is managed automatically with a default block storage size ([EXTENTSIZE](https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.luw.admin.dbobj.doc/doc/c0004964.html)) of 128. Note, The extentsize is multiplied by the pagesize to arrive at a storage block.
+Each tenant receives a tenant-specific tablespace. The tablespace is managed automatically with a default block storage size ([EXTENTSIZE](https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.luw.admin.dbobj.doc/doc/c0004964.html)) of 128. Note, The extentsize is multiplied by the pagesize to arrive at a storage block.
 
 The schema is created in the multi-tenant schema  and subsequently allocated using `fhir-persistence-schema`.
 
@@ -168,17 +168,19 @@ VISIONPRESCRIPTION_RESOURCES
 VISIONPRESCRIPTION_LOGICAL_RESOURCES
 ```
 
-The data definition has several reference tables to support FHIR Search for each Resoruce type. Each of the following table types are defined in the `FHIRResourceTableGroup.java`. 
+The resource tables store the FHIR resource as a compressed blob and so changes to the specification or extensions should only impact Search values.
+
+The data definition has several reference tables to support FHIR Search for each resource type. Each of the following table types are defined in the `FHIRResourceTableGroup.java`. 
 
 | Search Parameter Types | Search Value Table | Description |
-|----------|----------|---------------------------------------------|
-| [Number](https://www.hl7.org/fhir/r4/search.html#number) | **`<RESOURCE>`_NUMBER_VALUES** | Numerical Search for FHIR |
-| [Date/DateTime](https://www.hl7.org/fhir/r4/search.html#date) | **`<RESOURCE>`_DATE_VALUES** | Date, DateTime Search for FHIR |
-| [String](https://www.hl7.org/fhir/r4/search.html#string)<br> [Uri](https://www.hl7.org/fhir/r4/search.html#uri)<br> [Reference](https://www.hl7.org/fhir/r4/search.html#reference)| **`<RESOURCE>`_STR_VALUES** | String Search for FHIR |
-| [Token](https://www.hl7.org/fhir/r4/search.html#token) | **`<RESOURCE>`_TOKEN_VALUES** | Token Search for FHIR |
-| [Composite](https://www.hl7.org/fhir/r4/search.html#composite) | **`<RESOURCE>`_COMPOSITES** | Token Search for FHIR |
-| [Quantity](https://www.hl7.org/fhir/r4/search.html#quantity) | **`<RESOURCE>`_QUANTITY_VALUES** | Quantity Search for FHIR |
-| [Positional](https://www.hl7.org/fhir/r4/location.html#positional) | **`<RESOURCE>`_LATLNG_VALUES** | Positional (near) Search for FHIR |
+|------------------------|--------------------|-------------|
+| [Number](https://www.hl7.org/fhir/r4/search.html#number) | **`<RESOURCE>`_NUMBER_VALUES** | Numerical Search |
+| [Date/DateTime](https://www.hl7.org/fhir/r4/search.html#date) | **`<RESOURCE>`_DATE_VALUES** | Date Search |
+| [String](https://www.hl7.org/fhir/r4/search.html#string)<br> [Uri](https://www.hl7.org/fhir/r4/search.html#uri)<br> [Reference](https://www.hl7.org/fhir/r4/search.html#reference)| **`<RESOURCE>`_STR_VALUES** | String, URI, and Reference Search |
+| [Token](https://www.hl7.org/fhir/r4/search.html#token) | **`<RESOURCE>`_TOKEN_VALUES** | Token Search |
+| [Composite](https://www.hl7.org/fhir/r4/search.html#composite) | **`<RESOURCE>`_COMPOSITES** | Composite Search |
+| [Quantity](https://www.hl7.org/fhir/r4/search.html#quantity) | **`<RESOURCE>`_QUANTITY_VALUES** | Quantity Search |
+| [Positional](https://www.hl7.org/fhir/r4/location.html#positional) | **`<RESOURCE>`_LATLNG_VALUES** | Positional (near) Search |
 
 For instance, for VISIONPRESCRIPTION there are: 
 
@@ -192,9 +194,15 @@ VISIONPRESCRIPTION_QUANTITY_VALUES
 VISIONPRESCRIPTION_LATLNG_VALUES
 ```
 
-There are also additional tables to support search: `LOGICAL_RESOURCE`, `RESOURCE_TYPES` and `PARAMETER_NAMES` These tables are paritioned, and are specific for each tenant. 
+There are also additional tables to support search: `LOGICAL_RESOURCE`, `RESOURCE_TYPES` and `PARAMETER_NAMES` These tables are partitioned, and are specific for each tenant. 
 
-For any changes to any tables or indices, the table definition must be updated to a more recent version, one must update the table definition. For instance, for `addStrValues` one must increment the `setVersion` number: 
+The tables have various indices - PrimaryKey, Index, and UniqueIndex. These indices are created as part of the Java object - Table.
+
+To modify a table definition:
+1. Increment the version of the table (`setVersion`)
+2. Add migration steps to move from any previous version of the Table to this version
+
+For example, for the `STRING_VALUES` table:
 
 ``` java
 // Parameters are tied to the logical resource
@@ -218,10 +226,30 @@ Table tbl = Table.builder(schemaName, tableName)
     .setTablespace(fhirTablespace)
     .addPrivileges(resourceTablePrivileges)
     .enableAccessControl(this.sessionVariable)
+    .addMigration(priorVersion -> {
+            List<IDatabaseStatement> statements = new ArrayList<>();
+                if (priorVersion == 1) {
+                    // Add statements here
+                }
+                return statements;
+            })
     .build(model);
 ```
 
-If a new resource is added to the specification, the schema utility automatically provisions it on the next execution of the update schema actions. 
+When the schema is applied for the first time, it creates the table (and related constructs) as according to the definition.
+When the schema is applied to an existing database, the framework checks the `FHIR_ADMIN.VERSION_HISTORY` table and, 
+if the version in the table is less than the version being applied, the framework invokes the Migrations *instead*
+of calling CREATE with the table definition. **Care** should be taken to ensure that the migrated schema matches a freshly applied schema.
+See [Testing migrations](#testing-migrations) for information on verifying the fidelity of the schema migrations.
+
+NOTE: In Db2, certain alter table statements require a table REORG before the table becomes usable again. Additionally, the REORG
+may commit the current "unit of work" which can prevent the "all or nothing" semantics of the migration. For these reasons, its recommended
+to:
+1. avoid destructive changes like dropping columns;
+2. backup the database before invoking a migration; and
+3. perform the migration offline
+
+In this way, if a new resource is added to the specification, the schema utility automatically provisions the corresponding table on the next execution of the fhir-persistence-schema `--update-schema` action. 
 
 Common reasons to modify the Resource tables are: 
 - **Specification Change (Version-to-Version changes)**
@@ -238,12 +266,6 @@ Common reasons to modify the Resource tables are:
     - If there is a new or altered SearchParameter `code` added to the server, the SearchParameter values are only changed if/when the resource is updated. 
     - If a `SearchParameter.code` is removed, the corresponding parameter remains until the resource is reprocessed.  The code to parameter mapping remains in `PARAMETER_NAMES` table until manually removed. 
 
-For each of the above changes, the version of the table must be incremented. 
-
-The resource table stores the FHIR resource as a compressed blob, changes to the specification or extensions should only impact Search values. 
-
-The tables have various indices - PrimaryKey, Index and UniqueIndex. These indices are created as part of the Java object - Table.  These indices must be removed or altered manually.  
-
 Each of these tables has row-level permissions based on the conditional READ-only global variable `SV_TENANT_ID`. For example, for AUDITEVENT_COMPOSITES:
 
 ``` sql
@@ -253,7 +275,7 @@ CREATE PERMISSION FHIRDATA.AUDITEVENT_COMPOSITES_TENANT
     ENFORCED FOR ALL ACCESS ENABLE ;
 ```
 
-For security reasons, these permissions should not be removed, migrated, or altered.
+For security reasons, these permissions should not be removed, migrated, or altered. However, they are automatically REPLACED by the framework after applying migration steps to a given table (required for Db2).
 
 ## Managing Stored Procedures
 
@@ -293,6 +315,7 @@ The `fhir-persistence-schema` project includes a single DerbyMigrationTest. Curr
 This was necessary because version 4.0.1 of the fhir-persistence-schema cli doesn't support deploying schemas for Apache Derby. However, starting with 4.1.0, we should use the released cli jar to deploy the previous versions of the schema. This will ensure the validity of the test and improve maintainability.
 
 ## Testing migrations with IBM Db2
+
 The `fhir-install` module contains scripts for building Docker containers of the IBM FHIR Server and IBM Db2 and, optionally, bringing them up via `docker-compose`. When releasing new versions of the IBM FHIR Server, the `SCHEMA_VERSION` variable should be updated within `fhir-install/docker/copy-dependencies-db2-migration.sh` in order to test migrations from the previously released version of the `fhir-persistencne-schema` module.
 
 ## References
