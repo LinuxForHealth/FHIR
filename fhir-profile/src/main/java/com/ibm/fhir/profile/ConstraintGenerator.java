@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,24 +43,34 @@ import com.ibm.fhir.registry.FHIRRegistry;
  */
 public class ConstraintGenerator {
     private static final Logger log = Logger.getLogger(ConstraintGenerator.class.getName());
-    
+
     private final StructureDefinition profile;
+    private final Map<String, ElementDefinition> elementDefinitionMap;
     private final Tree tree;
 
     public ConstraintGenerator(StructureDefinition profile) {
         Objects.requireNonNull(profile);
         this.profile = profile;
+        elementDefinitionMap = buildElementDefinitionMap(this.profile);
         tree = buildTree(this.profile);
+    }
+
+    private Map<String, ElementDefinition> buildElementDefinitionMap(StructureDefinition profile2) {
+        Map<String, ElementDefinition> elementDefinitionMap = new LinkedHashMap<>();
+        for (ElementDefinition elementDefinition : profile.getSnapshot().getElement()) {
+            elementDefinitionMap.put(elementDefinition.getId(), elementDefinition);
+        }
+        return elementDefinitionMap;
     }
 
     public List<Constraint> generate() {
         List<Constraint> constraints = new ArrayList<>();
-    
+
         String url = profile.getUrl().getValue();
         String prefix = url.substring(url.lastIndexOf("/") + 1);
-    
+
         int index = 1;
-    
+
         log.fine("Generated constraint expressions:");
         for (Node child : tree.root.children) {
             String expr = generate(child);
@@ -70,7 +80,7 @@ public class ConstraintGenerator {
             index++;
         }
         log.fine("");
-    
+
         return constraints;
     }
 
@@ -107,7 +117,7 @@ public class ConstraintGenerator {
         tree.root = root;
         tree.nodeMap = nodeMap;
         tree.sliceDefinitionMap = sliceDefinitionMap;
-        
+
         if (log.isLoggable(Level.FINE)) {
             log.fine("Element definitions BEFORE pruning:");
             for (String id : nodeMap.keySet()) {
@@ -124,7 +134,7 @@ public class ConstraintGenerator {
                 log.fine(id);
             }
             log.fine("");
-    
+
             log.fine("Slice definitions:");
             for (String id : sliceDefinitionMap.keySet()) {
                 log.fine(id);
@@ -153,11 +163,11 @@ public class ConstraintGenerator {
         if (hasVocabularyConstraint(elementDefinition)) {
             return generateVocabularyConstraint(elementDefinition);
         }
-        
+
         if (hasExtensionConstraint(elementDefinition)) {
             return generateExtensionConstraint(elementDefinition);
         }
-        
+
         StringBuilder sb = new StringBuilder();
 
         String identifier = getIdentifier(elementDefinition);
@@ -180,7 +190,7 @@ public class ConstraintGenerator {
                 sb.append("('").append(url).append("')");
             }
         }
-            
+
         if (hasChoiceTypeConstraint(elementDefinition)) {
             Type type = getTypes(elementDefinition).get(0);
             if (type.getCode() != null) {
@@ -188,7 +198,7 @@ public class ConstraintGenerator {
                 sb.append(".as(").append(code).append(")");
             }
         }
-        
+
         if (!node.children.isEmpty()) {
             if (isRepeating(elementDefinition) && !isSlice(elementDefinition)) {
                 sb.append(".all(");
@@ -196,7 +206,7 @@ public class ConstraintGenerator {
                 // !isRepeating || isSlice
                 sb.append(".where(");
             }
-            
+
             StringJoiner joiner = new StringJoiner(" and ");
             for (Node child : node.children) {
                 if (isExtensionUrl(child.elementDefinition)) {
@@ -210,7 +220,7 @@ public class ConstraintGenerator {
             }
             sb.append(joiner.toString());
             sb.append(")");
-            
+
             if (!isRepeating(elementDefinition) || isSlice(elementDefinition)) {
                 sb.append(".exists()");
             }
@@ -227,18 +237,18 @@ public class ConstraintGenerator {
 
         return sb.toString();
     }
-    
+
     private String generateExtensionConstraint(ElementDefinition elementDefinition) {
         StringBuilder sb = new StringBuilder();
-        
+
         Type type = getTypes(elementDefinition).get(0);
         String profile = getProfiles(type).get(0);
-        
+
         Integer min = elementDefinition.getMin().getValue();
         String max = elementDefinition.getMax().getValue();
-                
+
         if ("*".equals(max)) {
-            sb.append("extension('").append(profile).append("').count()").append(" >= ").append(min);    
+            sb.append("extension('").append(profile).append("').count()").append(" >= ").append(min);
         } else if ("1".equals(max)) {
             if (min == 0) {
                 sb.append("extension('").append(profile).append("').count()").append(" <");
@@ -247,34 +257,34 @@ public class ConstraintGenerator {
         } else {
             sb.append(" >= ").append(min).append(" and ").append("extension('").append(profile).append("').count() <= ").append(max);
         }
-        
+
         sb.append(" and (");
-        
+
         if (isOptional(elementDefinition)) {
             sb.append("extension('").append(profile).append("')").append(".exists()").append(" implies (");
         }
-        
+
         if (isRepeating(elementDefinition)) {
             sb.append("extension('").append(profile).append("').all(conformsTo('").append(profile).append("'))");
         } else {
             sb.append("extension('").append(profile).append("').conformsTo('").append(profile).append("')");
         }
-        
+
         if (isOptional(elementDefinition)) {
             sb.append(")");
         }
-        
+
         sb.append(")");
-        
+
         return sb.toString();
     }
 
     private String generateFixedValueConstraint(ElementDefinition elementDefinition) {
         StringBuilder sb = new StringBuilder();
-        
+
         String identifier = getIdentifier(elementDefinition);
         sb.append(identifier);
-        
+
         Element fixed = elementDefinition.getFixed();
         if (fixed.is(Uri.class)) {
             // fixed uri
@@ -283,27 +293,30 @@ public class ConstraintGenerator {
             // fixed code
             sb.append(" = '").append(fixed.as(Code.class).getValue()).append("'");
         }
-        
+
         return sb.toString();
     }
 
     private String generatePatternValueConstraint(ElementDefinition elementDefinition) {
         StringBuilder sb = new StringBuilder();
-        
+
         String identifier = getIdentifier(elementDefinition);
         sb.append(identifier);
-        
+
         Element pattern = elementDefinition.getPattern();
         if (pattern.is(CodeableConcept.class)) {
             CodeableConcept codeableConcept = pattern.as(CodeableConcept.class);
             Coding coding = codeableConcept.getCoding().get(0);
-            sb.append(".where(coding.where(system = '")
-                .append(coding.getSystem().getValue())
-                .append("' and code = '")
+            String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
+            sb.append(".where(coding.where(");
+            if (system != null) {
+                sb.append("system = '").append(system).append("' and ");
+            }
+            sb.append("code = '")
                 .append(coding.getCode().getValue())
                 .append("').exists()).exists()");
         }
-        
+
         return sb.toString();
     }
 
@@ -311,7 +324,7 @@ public class ConstraintGenerator {
         StringBuilder sb = new StringBuilder();
 
         String identifier = getIdentifier(elementDefinition);
-        
+
         if (isOptional(elementDefinition)) {
             sb.append(identifier).append(".exists()").append(" implies (");
         }
@@ -339,7 +352,7 @@ public class ConstraintGenerator {
         if (isRepeating(elementDefinition)) {
             sb.append(")");
         }
-        
+
         if (isOptional(elementDefinition)) {
             sb.append(")");
         }
@@ -353,13 +366,13 @@ public class ConstraintGenerator {
 
     private String generateVocabularyConstraint(ElementDefinition elementDefinition) {
         StringBuilder sb = new StringBuilder();
-        
+
         String identifier = getIdentifier(elementDefinition);
         sb.append(identifier);
 
         Binding binding = elementDefinition.getBinding();
         String valueSet = binding.getValueSet().getValue();
-        
+
         if (hasChoiceTypeConstraint(elementDefinition)) {
             Type type = getTypes(elementDefinition).get(0);
             if (type.getCode() != null) {
@@ -367,12 +380,12 @@ public class ConstraintGenerator {
                 sb.append(".as(").append(code).append(")");
             }
         }
-        
+
         sb.append(".memberOf('").append(valueSet).append("')");
-        
+
         return sb.toString();
     }
-    
+
     private String getExtensionUrl(Node node) {
         for (Node child : node.children) {
             if (isExtensionUrl(child.elementDefinition) && child.elementDefinition.getFixed() instanceof Uri) {
@@ -381,7 +394,7 @@ public class ConstraintGenerator {
         }
         return null;
     }
-    
+
     private String getIdentifier(ElementDefinition elementDefinition) {
         String basePath = elementDefinition.getBase().getPath().getValue();
         int index = basePath.lastIndexOf(".");
@@ -411,11 +424,11 @@ public class ConstraintGenerator {
         }
         return targetProfiles;
     }
-    
+
     private List<Type> getTypes(ElementDefinition elementDefinition) {
         if (elementDefinition.getContentReference() != null) {
             String contentReference = elementDefinition.getContentReference().getValue();
-            return getElementDefinition(contentReference.substring(1)).getType();
+            return elementDefinitionMap.get(contentReference.substring(1)).getType();
         }
         return elementDefinition.getType();
     }
@@ -429,11 +442,11 @@ public class ConstraintGenerator {
     }
 
     private boolean hasConstraint(ElementDefinition elementDefinition) {
-        return hasCardinalityConstraint(elementDefinition) || 
-                hasValueConstraint(elementDefinition) || 
-                hasReferenceTypeConstraint(elementDefinition) || 
-                hasChoiceTypeConstraint(elementDefinition) || 
-                hasVocabularyConstraint(elementDefinition) || 
+        return hasCardinalityConstraint(elementDefinition) ||
+                hasValueConstraint(elementDefinition) ||
+                hasReferenceTypeConstraint(elementDefinition) ||
+                hasChoiceTypeConstraint(elementDefinition) ||
+                hasVocabularyConstraint(elementDefinition) ||
                 hasExtensionConstraint(elementDefinition);
     }
 
@@ -451,24 +464,24 @@ public class ConstraintGenerator {
 
     private boolean hasExtensionConstraint(ElementDefinition elementDefinition) {
         List<Type> types = getTypes(elementDefinition);
-        
+
         if (types.size() != 1) {
             return false;
         }
-        
+
         Type type = types.get(0);
         String code = type.getCode().getValue();
         if (!"Extension".equals(code)) {
             return false;
         }
-        
+
         List<Canonical> profile = type.getProfile();
         if (profile.size() != 1) {
             return false;
         }
-        
+
         String url = profile.get(0).getValue();
-        
+
         return FHIRRegistry.getInstance().hasResource(url);
     }
 
@@ -477,7 +490,10 @@ public class ConstraintGenerator {
     }
 
     private boolean hasPatternValueConstraint(ElementDefinition elementDefinition) {
-        return elementDefinition.getPattern() != null && (elementDefinition.getPattern() instanceof CodeableConcept);
+        return elementDefinition.getPattern() != null &&
+                (elementDefinition.getPattern() instanceof CodeableConcept) &&
+                (elementDefinition.getPattern().as(CodeableConcept.class).getCoding().stream()
+                        .allMatch(coding -> (coding.getCode() != null && coding.getCode().getValue() != null)));
     }
 
     private boolean hasReferenceTypeConstraint(ElementDefinition elementDefinition) {
@@ -499,19 +515,18 @@ public class ConstraintGenerator {
             String strength = binding.getStrength().getValue();
             String valueSet = binding.getValueSet().getValue();
             return (!"required".equals(baseStrength) && "required".equals(strength))
-//                  || ("required".equals(baseStrength) && "required".equals(strength) && !binding.getValueSet().equals(baseBinding.getValueSet()));
                     || ("required".equals(baseStrength) && "required".equals(strength) && !valueSetEqualsIgnoreVersion(valueSet, baseValueSet));
         }
         return false;
     }
-    
-    private boolean valueSetEqualsIgnoreVersion(String vs1, String vs2) {        
+
+    private boolean valueSetEqualsIgnoreVersion(String vs1, String vs2) {
         int index = vs1.indexOf("|");
         String url1 = (index != -1) ? vs1.substring(0, index) : vs1;
-        
+
         index = vs2.indexOf("|");
         String url2 = (index != -1) ? vs2.substring(0, index) : vs2;
-                
+
         return url1.equals(url2);
     }
 
@@ -606,7 +621,7 @@ public class ConstraintGenerator {
         List<Node> children = new ArrayList<>();
         ElementDefinition elementDefinition;
     }
-    
+
     static class Tree {
         Node root;
         Map<String, Node> nodeMap;
@@ -623,11 +638,11 @@ public class ConstraintGenerator {
             }
 
             @Override
-            public void flush() {                
+            public void flush() {
             }
 
             @Override
-            public void close() throws SecurityException {                
+            public void close() throws SecurityException {
             }
         });
         StructureDefinition profile = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/StructureDefinition/bodyweight", StructureDefinition.class);
