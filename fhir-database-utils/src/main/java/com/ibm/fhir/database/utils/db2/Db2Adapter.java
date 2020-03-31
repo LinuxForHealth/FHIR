@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -112,8 +112,8 @@ public class Db2Adapter extends CommonDatabaseAdapter {
 
         final String ddl = ""
                 + "CREATE OR REPLACE PERMISSION " + qualifiedPermissionName
-                + "                          ON " + qualifiedTableName
-                + "              FOR ROWS WHERE " + predicate
+                + " ON " + qualifiedTableName
+                + " FOR ROWS WHERE " + predicate
                 + " ENFORCED FOR ALL ACCESS ENABLE ";
         runStatement(ddl);
     }
