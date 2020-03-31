@@ -275,9 +275,25 @@ When the `fhir-persistence-schema` actions are executed with `--grant-to`, the *
 If you change the stored procedure signature, the `fhir-persistence-schema` does not automatically drop the prior stored procedure and signature, and the stored procedure MUST be dropped manually.
 
 ## Managing GRANTS
-The Db2 data definition secures data access using `GRANT` predicates. To update or change, use the `--grant-to` predicate to apply the grants. 
 
-If a grant is removed from the Java code, a manual process must be followed to remove or change the grant for the corresponding tables, procedures and variables. 
+The Db2 data definition secures data access using `GRANT` predicates. To update or change, use the `--grant-to` predicate to apply the grants.
+
+If a grant is removed from the Java code, a manual process must be followed to remove or change the grant for the corresponding tables, procedures and variables.
+
+# Testing migrations
+
+We currently have two migration tests in place; one for Apache Derby which runs with the Maven build and one for Db2 which runs as part of the CI pipeline.
+
+With each release of the IBM FHIR Server, these tests should be expanded to cover [at least] the migrations from the previous version.
+
+## Testing migrations with Apache Derby
+
+The `fhir-persistence-schema` project includes a single DerbyMigrationTest. Currently, this test invokes a copy of the FhirSchemaGenerator that was extracted from version 4.0.1 of the `fhir-persistence-schema` project and added directly to the package.
+
+This was necessary because version 4.0.1 of the fhir-persistence-schema cli doesn't support deploying schemas for Apache Derby. However, starting with 4.1.0, we should use the released cli jar to deploy the previous versions of the schema. This will ensure the validity of the test and improve maintainability.
+
+## Testing migrations with IBM Db2
+The `fhir-install` module contains scripts for building Docker containers of the IBM FHIR Server and IBM Db2 and, optionally, bringing them up via `docker-compose`. When releasing new versions of the IBM FHIR Server, the `SCHEMA_VERSION` variable should be updated within `fhir-install/docker/copy-dependencies-db2-migration.sh` in order to test migrations from the previously released version of the `fhir-persistencne-schema` module.
 
 ## References
 - [Git Issue: Document the schema migration process on the project wiki #270](https://github.com/IBM/FHIR/issues/270)

@@ -31,6 +31,7 @@ public class DropForeignKeyConstraint implements IDatabaseStatement {
     public DropForeignKeyConstraint(String schemaName, String tableName, String... constraintName) {
         DataDefinitionUtil.assertValidName(schemaName);
         DataDefinitionUtil.assertValidName(tableName);
+        Arrays.stream(constraintName).forEach(DataDefinitionUtil::assertValidName);
         this.schemaName = schemaName;
         this.tableName = tableName;
         this.constraintNames = Arrays.asList(constraintName);

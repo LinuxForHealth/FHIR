@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -49,7 +49,7 @@ public class DateMath {
         gc.add(Calendar.MONTH, howMany);
         return gc.getTime();
     }
-    
+
     /**
      * Parse the date string which is expected to be yyyy-MM-dd
      * @param str
@@ -114,7 +114,7 @@ public class DateMath {
         gc.set(Calendar.MILLISECOND, 0);
         return gc.getTime();
     }
-    
+
     /**
      * Add the requested number of seconds to the given date
      * @param d
@@ -127,7 +127,7 @@ public class DateMath {
         gc.add(Calendar.SECOND, howMany);
         return gc.getTime();
     }
-    
+
     /**
      * Return the max of 2 dates
      * @param d1
@@ -139,9 +139,9 @@ public class DateMath {
             return null;
         }
         if (d1 == null || d2 == null) {
-                return (d1 == null ? d2 : d1);    
+                return (d1 == null ? d2 : d1);
         }
-        return (d1.after(d2)) ? d1 : d2;        
+        return (d1.after(d2)) ? d1 : d2;
     }
 
 }
