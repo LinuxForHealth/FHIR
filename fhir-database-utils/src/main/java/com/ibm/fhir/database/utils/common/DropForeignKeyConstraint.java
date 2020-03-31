@@ -31,6 +31,7 @@ public class DropForeignKeyConstraint implements IDatabaseStatement {
     public DropForeignKeyConstraint(String schemaName, String tableName, String... constraintName) {
         DataDefinitionUtil.assertValidName(schemaName);
         DataDefinitionUtil.assertValidName(tableName);
+        Arrays.stream(constraintName).forEach(DataDefinitionUtil::assertValidName);
         this.schemaName = schemaName;
         this.tableName = tableName;
         this.constraintNames = Arrays.asList(constraintName);
@@ -42,8 +43,7 @@ public class DropForeignKeyConstraint implements IDatabaseStatement {
 
         for (String constraintName : constraintNames) {
             StringBuilder ddl = new StringBuilder("ALTER TABLE " + qTableName);
-            String qConstraintName = DataDefinitionUtil.getQualifiedName(schemaName, constraintName);
-            ddl.append("\n\t" + "DROP FOREIGN KEY " + qConstraintName);
+            ddl.append("\n\t" + "DROP FOREIGN KEY " + constraintName);
 
             try (Statement s = c.createStatement()) {
                 s.executeUpdate(ddl.toString());

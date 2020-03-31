@@ -14,7 +14,7 @@ fi
 
 # Set up installers and config files where docker processing can see them
 cd ${WORKSPACE}/fhir-install/docker
-./copy-dependencies-db2.sh
+./copy-dependencies-db2-migration.sh
 
 # Stand up a docker container running the fhir server configured for integration tests
 echo "Bringing down any fhir server containers that might already be running as a precaution"
@@ -39,8 +39,12 @@ docker-compose build --pull fhir
 docker-compose up -d fhir
 echo ">>> Current time: " $(date)
 
+echo "Migrating the schema to the latest version..."
+./copy-dependencies-db2.sh
+./updateSchema.sh
+
 # TODO wait for it to be healthy instead of just Sleeping
-(docker-compose logs --timestamps --follow fhir & P=$! && sleep 100 && kill $P)
+(docker-compose logs --timestamps --follow fhir & P=$! && sleep 60 && kill $P)
 
 # Gather up all the server logs so we can trouble-shoot any problems during startup
 cd -
