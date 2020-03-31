@@ -315,13 +315,6 @@ public class ConstraintGenerator {
             sb.append("code = '")
                 .append(coding.getCode().getValue())
                 .append("').exists()).exists()");
-            /*
-            sb.append(".where(coding.where(system = '")
-                .append(coding.getSystem().getValue())
-                .append("' and code = '")
-                .append(coding.getCode().getValue())
-                .append("').exists()).exists()");
-            */
         }
 
         return sb.toString();
@@ -522,7 +515,6 @@ public class ConstraintGenerator {
             String strength = binding.getStrength().getValue();
             String valueSet = binding.getValueSet().getValue();
             return (!"required".equals(baseStrength) && "required".equals(strength))
-//                  || ("required".equals(baseStrength) && "required".equals(strength) && !binding.getValueSet().equals(baseBinding.getValueSet()));
                     || ("required".equals(baseStrength) && "required".equals(strength) && !valueSetEqualsIgnoreVersion(valueSet, baseValueSet));
         }
         return false;
