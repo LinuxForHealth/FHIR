@@ -36,7 +36,8 @@ public class Canonical extends Uri {
     public static Canonical of(java.lang.String uri, java.lang.String version) {
         StringBuilder value = new StringBuilder(uri);
         if (version != null && !version.isEmpty()) {
-            value.append("|" + version);
+            value.append('|');
+            value.append(version);
         }
         return Canonical.builder().value(value.toString()).build();
     }
@@ -44,10 +45,12 @@ public class Canonical extends Uri {
     public static Canonical of(java.lang.String uri, java.lang.String version, java.lang.String fragment) {
         StringBuilder value = new StringBuilder(uri);
         if (version != null && !version.isEmpty()) {
-            value.append("|" + version);
+            value.append('|');
+            value.append(version);
         }
         if (fragment != null && !fragment.isEmpty()) {
-            value.append("#" + fragment);
+            value.append('#');
+            value.append(fragment);
         }
         return Canonical.builder().value(value.toString()).build();
     }
