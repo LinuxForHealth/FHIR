@@ -85,6 +85,10 @@ import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
+/**
+ * Helper methods for performing the "heavy lifting" with respect to implementing
+ * FHIR interactions.
+ */
 public class FHIRRestHelper implements FHIRResourceHelpers {
     private static final Logger log =
             java.util.logging.Logger.getLogger(FHIRRestHelper.class.getName());
@@ -113,20 +117,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         this.persistence = persistence;
     }
 
-    /**
-     * Performs the heavy lifting associated with a 'create' interaction.
-     *
-     * @param type
-     *            the resource type specified as part of the request URL
-     * @param resource
-     *            the Resource to be stored.
-     * @param ifNoneExist
-     *            whether to create the resource if none exists
-     * @param requestProperties
-     *            additional request properties which supplement the HTTP headers associated with this request
-     * @return a FHIRRestOperationResponse object containing the results of the operation
-     * @throws Exception
-     */
     @Override
     public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist,
             Map<String, String> requestProperties) throws Exception {
@@ -142,7 +132,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Make sure the expected type (specified in the URL string) is congruent with the actual type
             // of the resource.
-            String resourceType = ModelSupport.getTypeName(resource.getClass()); 
+            String resourceType = ModelSupport.getTypeName(resource.getClass());
             if (!resourceType.equals(type)) {
                 String msg = "Resource type '" + resourceType
                         + "' does not match type specified in request URI: " + type;
@@ -394,7 +384,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn.begin();
 
             // First, create the persistence event.
-            FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource, 
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource,
                     buildPersistenceEventProperties(type, newResource.getId(), null, requestProperties));
 
             // Next, set the "previous resource" in the persistence event.
@@ -639,7 +629,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRSearchContext searchContext = null;
             if (queryParameters != null) {
-                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters, 
+                searchContext = SearchUtil.parseQueryParameters(null, null, resourceType, queryParameters,
                         HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
             }
 
@@ -1097,7 +1087,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             BundleType.ValueSet requestType = bundle.getType().getValueAsEnumConstant();
-            
+
             // Determine the bundle type of the response bundle.
             BundleType responseBundleType = null;
 
@@ -1230,7 +1220,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         "One or more errors were encountered while validating a 'transaction' request bundle.";
                 throw buildRestException(msg, IssueType.INVALID).withIssue(issueList);
             }
-            
+
             // Create the response bundle with the appropriate type.
             Bundle responseBundle = Bundle.builder().type(responseBundleType).entry(responseList).build();
 
@@ -1337,7 +1327,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
     }
 
-    private FHIROperationException buildUnsupportedResourceTypeException(String resourceTypeName, IssueType issueType) 
+    private FHIROperationException buildUnsupportedResourceTypeException(String resourceTypeName, IssueType issueType)
             throws FHIROperationException {
         return buildRestException("'" + resourceTypeName + "' is not a valid resource type.", issueType);
     }
@@ -1731,7 +1721,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             resource = ior.getResource();
 
                             // Process and replace bundler Entry
-                            Bundle.Entry resultEntry = setBundleResponseFields(responseEntry, resource, ior.getOperationOutcome(), 
+                            Bundle.Entry resultEntry = setBundleResponseFields(responseEntry, resource, ior.getOperationOutcome(),
                                     ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
 
                             responseIndexAndEntries.put(entryIndex, resultEntry);
@@ -1787,7 +1777,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                                 doUpdate(type, id, resource, ifMatchBundleValue, query, null);
 
                         // Process and replace bundler Entry
-                        Bundle.Entry resultEntry = setBundleResponseFields(responseEntry, ior.getResource(), ior.getOperationOutcome(), 
+                        Bundle.Entry resultEntry = setBundleResponseFields(responseEntry, ior.getResource(), ior.getOperationOutcome(),
                                 ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
 
                         responseIndexAndEntries.put(entryIndex, resultEntry);
@@ -1818,7 +1808,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         FHIRRestOperationResponse ior = doDelete(type, id, query, null);
 
                         // Process and replace bundler Entry
-                        Bundle.Entry resultEntry = setBundleResponseFields(responseEntry, ior.getResource(), ior.getOperationOutcome(), 
+                        Bundle.Entry resultEntry = setBundleResponseFields(responseEntry, ior.getResource(), ior.getOperationOutcome(),
                                 null, ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
 
                         responseIndexAndEntries.put(entryIndex, resultEntry);
@@ -1859,7 +1849,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         String msg = "Error while processing request bundle.";
                         throw new FHIRRestBundledRequestException(msg).withIssue(e.getIssues());
                     }
-                    
+
                     Status status;
                     if (e instanceof FHIRSearchException) {
                         status = Status.BAD_REQUEST;
@@ -1876,7 +1866,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     setBundleResponseStatus(response, status.getStatusCode(), requestDescription.toString(), initialTime);
                 }
             } // end foreach entry
-            
+
             // Now, let's re-construct the responseBundle
             responseBundle = reconstructResponseBundle(responseBundle, responseIndexAndEntries);
             return responseBundle;
@@ -1922,7 +1912,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         for (int i = 0; i < requestBundle.getEntry().size(); i++) {
             Bundle.Entry requestEntry = requestBundle.getEntry().get(i);
             Bundle.Entry.Request request = requestEntry.getRequest();
-            
+
             Bundle.Entry responseEntry = responseBundle.getEntry().get(i);
             Bundle.Entry.Response response = responseEntry.getResponse();
 
@@ -2134,10 +2124,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the list of resources to include in the bundle
      * @param searchContext
      *            the FHIRSearchContext object associated with the search
-     * @param type 
+     * @param type
      *            the name of the resource type being searched
      * @return the bundle
-     * @throws Exception 
+     * @throws Exception
      */
     private Bundle createSearchBundle(List<Resource> resources, FHIRSearchContext searchContext, String type)
         throws Exception {
@@ -2183,7 +2173,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @param type
      *            the name of the resource type on which the history operation was requested
      * @return the bundle
-     * @throws Exception 
+     * @throws Exception
      */
     private Bundle createHistoryBundle(List<? extends Resource> resources, FHIRHistoryContext historyContext, String type)
             throws Exception {
@@ -2252,7 +2242,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         String selfUri = null;
         SummaryValueSet summaryParameter = null;
         Bundle.Builder bundleBuilder = responseBundle.toBuilder();
-        
+
         if (context instanceof FHIRSearchContext) {
             FHIRSearchContext searchContext = (FHIRSearchContext) context;
             summaryParameter = searchContext.getSummaryParameter();
@@ -2338,14 +2328,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     /**
      * Get the original request URI from either the HttpServletRequest or a configured Header (in case of re-writing proxies).
-     * 
+     *
      * <p>When the 'fhirServer/core/originalRequestUriHeaderName' property is empty, this method returns the equivalent of
-     * uriInfo.getRequestUri().toString(), except that uriInfo.getRequestUri() will throw an IllegalArgumentException 
-     * when the query string portion contains a vertical bar | character. The vertical bar is one known case of a special character 
+     * uriInfo.getRequestUri().toString(), except that uriInfo.getRequestUri() will throw an IllegalArgumentException
+     * when the query string portion contains a vertical bar | character. The vertical bar is one known case of a special character
      * causing the exception. There could be others.
      *
      * @return String The complete request URI
-     * @throws Exception if an error occurs while reading the config 
+     * @throws Exception if an error occurs while reading the config
      */
     private String getRequestUri() throws Exception {
         return FHIRRequestContext.get().getOriginalRequestUri();
@@ -2358,7 +2348,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *
      * @return The base endpoint URI associated with the current request.
      * @throws Exception if an error occurs while reading the config
-     * @implNote This method uses {@link #getRequestUri()} to get the original request URI and then strips it to the  
+     * @implNote This method uses {@link #getRequestUri()} to get the original request URI and then strips it to the
      *           <a href="https://www.hl7.org/fhir/http.html#general">Service Base URL</a>
      */
     private String getRequestBaseUri(String type) throws Exception {
@@ -2422,7 +2412,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *
      * @param operationContext
      *            the FHIROperationContext on which to set the properties
-     * @throws Exception 
+     * @throws Exception
      */
     private void setOperationContextProperties(FHIROperationContext operationContext, String resourceTypeName,
             Map<String, String> requestProperties) throws Exception {
