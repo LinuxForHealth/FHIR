@@ -18,6 +18,7 @@ public class Sequence extends BaseObject {
 
     /**
      * Public constructor
+     * 
      * @param schemaName
      * @param sequenceName
      * @param cache
@@ -37,7 +38,12 @@ public class Sequence extends BaseObject {
         if (priorVersion != null && priorVersion > 0 && this.version > priorVersion) {
             throw new UnsupportedOperationException("Upgrading sequences is not supported");
         }
-        apply(target);
+
+        // Only if VERSION1 then we want to apply, else fall through
+        // Re-creating a sequence can have unintended consequences.
+        if (this.version == 1 && priorVersion == 0) {
+            apply(target);
+        }
     }
 
     @Override
@@ -47,7 +53,7 @@ public class Sequence extends BaseObject {
 
     @Override
     protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
-         target.grantSequencePrivileges(getSchemaName(), getObjectName(), group, toUser);
-     }
+        target.grantSequencePrivileges(getSchemaName(), getObjectName(), group, toUser);
+    }
 
 }
