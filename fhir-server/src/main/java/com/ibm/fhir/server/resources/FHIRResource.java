@@ -54,6 +54,9 @@ import com.ibm.fhir.persistence.helper.PersistenceHelper;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.server.listener.FHIRServletContextListener;
 
+/**
+ * The base class for JAX-RS "Resource" classes which implement the FHIR HTTP API
+ */
 public class FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(FHIRResource.class.getName());
 
