@@ -1422,7 +1422,7 @@ must restart the server for that change to take effect.
 |`fhirServer/core/defaultHandling`|Y|Y|
 |`fhirServer/core/allowClientHandlingPref`|Y|Y|
 |`fhirServer/core/checkReferenceTypes`|N|N|
-|`fhirServer/core/conditionalDeleteMaxNumber`|N|N|
+|`fhirServer/core/conditionalDeleteMaxNumber`|Y|Y|
 |`fhirServer/searchParameterFilter`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|Y|Y|

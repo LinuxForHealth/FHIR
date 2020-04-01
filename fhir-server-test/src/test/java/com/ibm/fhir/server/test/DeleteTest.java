@@ -437,7 +437,7 @@ public class DeleteTest extends FHIRServerTestBase {
         }
 
         // A search that results in multiple matches:
-        // (1) if matches > FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT, then result in a 400 status code.
+        // (1) if matches > FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT, then result in a 412 status code.
         // (2) if matches <= FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT, then result in a 204 status code.
         WebTarget target = getWebTarget();
         Response response2 =
@@ -452,7 +452,7 @@ public class DeleteTest extends FHIRServerTestBase {
             if (searchResultBundle.getTotal().getValue() <= FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT ) {
                 assertResponse(response.getResponse(), Status.NO_CONTENT.getStatusCode());
             } else {
-                assertResponse(response, Status.BAD_REQUEST.getStatusCode());
+                assertResponse(response, Status.PRECONDITION_FAILED.getStatusCode());
                 assertExceptionOperationOutcome(response.getResponse().readEntity(OperationOutcome.class),
                         "The search criteria specified for a conditional delete operation returned too many matches");
             }
