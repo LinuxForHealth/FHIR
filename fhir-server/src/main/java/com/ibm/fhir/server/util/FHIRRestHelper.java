@@ -532,7 +532,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     return ior;
                 } else if (responseBundle.getTotal().getValue() > searchPageSize) {
                     String msg = "The search criteria specified for a conditional delete operation returned too many matches ( > " + searchPageSize + " ).";
-                    throw buildRestException(msg, IssueType.TOO_COSTLY);
+                    throw buildRestException(msg, IssueType.MULTIPLE_MATCHES);
                 }
             } else {
                 // Make sure an id value was passed in.
