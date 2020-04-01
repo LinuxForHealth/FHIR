@@ -1343,6 +1343,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultHandling`|string|The default handling preference of the server (`strict | lenient`) which determines how the server handles unrecognized search parameters and resource elements.|
 |`fhirServer/core/allowClientHandlingPref`|boolean|Indicates whether the client is allowed to override the server default handling preference using the `Prefer:handling` header value part.|
 |`fhirServer/core/checkReferenceTypes`|boolean|Indicates whether reference type checking is performed by the server during parsing / deserialization.|
+|`fhirServer/core/conditionalDeleteMaxNumber`|integer|The max number of matches supported in conditional delete. |
 |`fhirServer/searchParameterFilter`|property list|A set of inclusion rules for search parameters. See [FHIR Search Configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-Configuration--Filtering-of-search-parameters) for more information.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
@@ -1375,6 +1376,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultHandling`|strict|
 |`fhirServer/core/allowClientHandlingPref`|true|
 |`fhirServer/core/checkReferenceTypes`|true|
+|`fhirServer/core/conditionalDeleteMaxNumber`|10|
 |`fhirServer/searchParameterFilter`|`"*": [*]`|
 |`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
 |`fhirServer/notifications/websocket/enabled`|false|
@@ -1415,6 +1417,7 @@ must restart the server for that change to take effect.
 |`fhirServer/core/defaultHandling`|Y|Y|
 |`fhirServer/core/allowClientHandlingPref`|Y|Y|
 |`fhirServer/core/checkReferenceTypes`|N|N|
+|`fhirServer/core/conditionalDeleteMaxNumber`|N|N|
 |`fhirServer/searchParameterFilter`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|Y|Y|

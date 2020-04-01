@@ -6,7 +6,8 @@
             "truststorePassword": "change-password",
             "tenantIdHeaderName": "X-FHIR-TENANT-ID",
             "datastoreIdHeaderName": "X-FHIR-DSID",
-            "checkReferenceTypes": true
+            "checkReferenceTypes": true,
+            "conditionalDeleteMaxNumber": 10
         },
         "authFilter": {
             "enabled": false,

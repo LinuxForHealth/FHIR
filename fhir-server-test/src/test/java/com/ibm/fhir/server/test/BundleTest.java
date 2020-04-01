@@ -8,8 +8,8 @@ package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 import static com.ibm.fhir.model.type.String.string;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
@@ -2209,7 +2209,22 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 4);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode(), HTTPReturnPreference.MINIMAL);
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.NO_CONTENT.getStatusCode(), HTTPReturnPreference.MINIMAL);
-        assertGoodGetResponse(responseBundle.getEntry().get(2), Status.NO_CONTENT.getStatusCode(), HTTPReturnPreference.MINIMAL);
+
+        // A search that results in multiple matches:
+        // (1) if matches > FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT, then result in a 400 status code.
+        // (2) if matches <= FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT, then result in a 204 status code.
+        WebTarget target = getWebTarget();
+        Response response2 =
+                target.path("Patient").queryParam("name", "Doe").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response2, Response.Status.OK.getStatusCode());
+        Bundle searchResultBundle = response2.readEntity(Bundle.class);
+        if (searchResultBundle.getTotal().getValue() <= 10 ) {
+            assertGoodGetResponse(responseBundle.getEntry().get(2), Status.NO_CONTENT.getStatusCode(), HTTPReturnPreference.MINIMAL);
+        } else {
+            assertBadResponse(responseBundle.getEntry().get(2), Status.BAD_REQUEST.getStatusCode(),
+                    "The search criteria specified for a conditional delete operation returned too many matches");
+        }
+
         assertBadResponse(responseBundle.getEntry().get(3), Status.BAD_REQUEST.getStatusCode(),
                 "Search parameter 'NOTASEARCH' for resource type 'Patient' was not found.");
 
