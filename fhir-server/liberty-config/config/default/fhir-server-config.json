@@ -59,7 +59,7 @@
                 "enabled": true,
                 "cluster": "nats-streaming",
                 "channel": "fhirNotifications",
-                "server": "172.30.255.3:4222,172.30.255.4:4222"
+                "server": "nats_node1:4222,nats_node2:4222,nats_node3:4222"
             }
         },
         "audit": {
