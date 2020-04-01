@@ -180,7 +180,7 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
     }
 
     /**
-     * Create a anew FHIRPersistenceContext configure with a FHIRHistoryContext
+     * Create a new FHIRPersistenceContext configure with a FHIRHistoryContext
      * @return
      */
     protected FHIRPersistenceContext createHistoryPersistenceContext() {
