@@ -34,7 +34,10 @@ import javax.ws.rs.core.Response.Status;
 
 import org.owasp.encoder.Encode;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.core.context.FHIRPagingContext;
@@ -501,25 +504,27 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // to be deleted.
             Resource resourceToDelete = null;
             Bundle responseBundle = null;
+
             if (searchQueryString != null) {
+                int searchPageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_CONDITIONAL_DELETE_MAX_NUMBER, FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT);
+
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("Performing conditional delete with search criteria: "
                             + Encode.forHtml(searchQueryString));
                 }
                 try {
-                    MultivaluedMap<String, String> searchParameters =
-                            getQueryParameterMap(searchQueryString);
-                    responseBundle =
-                            doSearch(type, null, null, searchParameters, null, requestProperties, null);
+                    MultivaluedMap<String, String> searchParameters = getQueryParameterMap(searchQueryString);
+                    searchParameters.putSingle(SearchConstants.COUNT, Integer.toString(searchPageSize));
+                    responseBundle = doSearch(type, null, null, searchParameters, null, requestProperties, null);
                 } catch (FHIROperationException e) {
                     throw e;
                 } catch (Throwable t) {
-                    String msg =
-                            "An error occurred while performing the search for a conditional delete operation.";
+                    String msg = "An error occurred while performing the search for a conditional delete operation.";
                     throw new FHIROperationException(msg, t);
                 }
 
                 // Check the search results to determine whether or not to perform the update operation.
+
                 int resultCount = responseBundle.getEntry().size();
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("Conditional delete search yielded " + resultCount + " results.");
@@ -535,6 +540,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(msg, IssueType.NOT_FOUND, IssueSeverity.WARNING));
                     ior.setStatus(status);
                     return ior;
+                } else if (responseBundle.getTotal().getValue() > searchPageSize) {
+                    String msg = "The search criteria specified for a conditional delete operation returned too many matches ( > " + searchPageSize + " ).";
+                    throw buildRestException(msg, IssueType.TOO_COSTLY);
                 }
             } else {
                 // Make sure an id value was passed in.

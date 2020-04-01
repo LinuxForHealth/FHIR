@@ -11,4 +11,5 @@ package com.ibm.fhir.core;
  */
 public class FHIRConstants {
     public static final String FHIR_LOGGING_GROUP = "FHIRServer";
+    public static final int FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT = 10;
 }
