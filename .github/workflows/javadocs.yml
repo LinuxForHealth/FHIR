@@ -68,7 +68,7 @@ jobs:
             # Helps debug the situation 
             ls -al javadocs
             echo "Starting the movement of the data around"
-            mv -Rf ../apidocs/* javadocs/latest
+            mv -f ../apidocs/* javadocs/latest
             cp -Rf javadocs/latest javadocs/${TAG_VERSION}
             date > build.txt
             echo "[javadocs]" >> build.txt
