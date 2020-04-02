@@ -109,7 +109,6 @@
                 "cos.bucket.name": "fhir-r4-connectathon",
                 "cos.location": "us",
                 "cos.endpointurl": "fake",
-                "fhir.tenant": "default",
                 "cos.credential.ibm": "Y",
                 "cos.api.key": "fake",
                 "cos.srvinst.id": "fake"
@@ -119,7 +118,8 @@
             "batch-user": "fhiradmin",
             "batch-user-password": "change-password",
             "batch-truststore": "resources/security/fhirTruststore.jks",
-            "batch-truststore-password": "change-password"
+            "batch-truststore-password": "change-password",
+            "isExportPublic": true
         }
     }
 }
