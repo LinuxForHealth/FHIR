@@ -94,26 +94,21 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
     curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/$healthcheck'
     ```
     where `<username>` is one of the users configured in `server.xml` (default is `fhiruser`).  
-    Use single quotes around the URL to prevent $healthcheck from being evaluated as an environment variable on unix-based operating systems.  One should see `All OK` in the response.
+    Use single quotes around the URL to prevent $healthcheck from being evaluated as an environment variable on unix-based operating systems.  
 
-    The preceding command should produce output similar to the following:
+    One should see `All OK` in the response.  The preceding command should produce output similar to the following:
     ```
     {
-        "resourceType" : "CapabilityStatement",
-        "version" : "4.0.0",
-        "name" : "IBM FHIR Server",
-        "publisher" : "IBM Corporation",
-        "description" : "IBM FHIR Server version 4.0.0 build id development",
-        "copyright" : "(C) Copyright IBM Corporation 2016, 2019",
-        "kind" : "instance",
-        "software" : {
-            "id" : "development",
-            "name" : "IBM FHIR Server",
-            "version" : "4.0.0"
-        },
-        "fhirVersion" : "4.0.0",
-        "format" : [ "json","xml","application/json","application/fhir+json","application/xml","application/fhir+xml" ]
-        …
+    "resourceType": "OperationOutcome",
+    "issue": [
+        {
+            "severity": "information",
+            "code": "informational",
+            "details": {
+                "text": "All OK"
+            }
+        }
+    ]
     }
     ```
 
