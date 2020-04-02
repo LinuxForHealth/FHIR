@@ -40,8 +40,9 @@
                         "driverType": 4
                     }
                 }
-            },
-        	"bulkdata": {
+            }
+        },
+        "bulkdata": {
             "bulkDataBatchJobIdEncryptionKey": "change-password",
             "applicationName": "fhir-bulkimportexport-webapp",
             "moduleName": "fhir-bulkimportexport.war",
