@@ -170,6 +170,8 @@ public class ConstraintGenerator {
     }
 
     private String generate(Node node) {
+        StringBuffer sb = new StringBuffer();
+
         ElementDefinition elementDefinition = node.elementDefinition;
 
         if (hasValueConstraint(elementDefinition)) {
@@ -180,15 +182,17 @@ public class ConstraintGenerator {
             return generateReferenceTypeConstraint(elementDefinition);
         }
 
-        if (hasVocabularyConstraint(elementDefinition) && !hasValueConstraint(node)) {
-            return generateVocabularyConstraint(elementDefinition);
+        if (hasVocabularyConstraint(elementDefinition)) {
+            String expr = generateVocabularyConstraint(elementDefinition);
+            if (!hasValueConstraint(node)) {
+                return expr;
+            }
+            sb.append(expr).append(" and ");
         }
 
         if (hasExtensionConstraint(elementDefinition)) {
             return generateExtensionConstraint(elementDefinition);
         }
-
-        StringBuilder sb = new StringBuilder();
 
         String identifier = getIdentifier(elementDefinition);
 
