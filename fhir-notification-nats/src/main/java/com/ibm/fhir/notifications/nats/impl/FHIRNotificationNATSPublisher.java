@@ -22,7 +22,7 @@ import com.ibm.fhir.notification.exception.FHIRNotificationException;
 import com.ibm.fhir.notification.util.FHIRNotificationUtil;
 
 /**
- * This class implements the FHIR server notification service via a Kafka topic.
+ * This class implements the FHIR server notification service via a NATS channel.
  */
 public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber {
     private static final Logger log = Logger.getLogger(FHIRNotificationNATSPublisher.class.getName());
@@ -32,23 +32,23 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
     private AckHandler acb = null;
     private String channelName = null;
 
-    // "Hide" the default ctor.
+    // "Hide" the default constructor.
     protected FHIRNotificationNATSPublisher() {
     }
 
-    public FHIRNotificationNATSPublisher(String clusterId, String channelName, String server) {
-        log.entering(this.getClass().getName(), "ctor");
+    public FHIRNotificationNATSPublisher(String clusterId, String channelName, String servers) {
+        log.entering(this.getClass().getName(), "constructor");
         try {
-            init(clusterId, channelName, server);
+            init(clusterId, channelName, servers);
         } finally {
-            log.exiting(this.getClass().getName(), "ctor");
+            log.exiting(this.getClass().getName(), "constructor");
         }
     }
 
     /**
-     * Performs any required initialization to allow us to publish events to the topic.
+     * Performs any required initialization to allow us to publish events to the channel.
      */
-    private void init(String clusterId, String channelName, String server) {
+    private void init(String clusterId, String channelName, String servers) {
         log.entering(this.getClass().getName(), "init");
 
         try {
@@ -57,16 +57,16 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
             if (log.isLoggable(Level.FINER)) {
                 log.finer("ClusterId: " + clusterId);
                 log.finer("Channel name: " + channelName);
-                log.finer("Server: " + server);
+                log.finer("Servers: " + servers);
             }
 
             // Make sure that the properties file contains the servers property at a minimum.
-            if (server == null || clusterId == null) {
+            if (servers == null || clusterId == null) {
                 throw new IllegalStateException("Config property missing from the NATS connection properties.");
             }
 
             // Create the NATS connection
-            Options streamingOptions = new Options.Builder().natsUrl(server).clusterId(clusterId).clientId(clientId).build();
+            Options streamingOptions = new Options.Builder().natsUrl(servers).clusterId(clusterId).clientId(clientId).build();
             StreamingConnectionFactory cf = new StreamingConnectionFactory(streamingOptions);
             sc = cf.createConnection();
 
@@ -85,7 +85,7 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
             // Register this NATS implementation as a "subscriber" with our Notification Service.
             // This means that our "notify" method will be called when the server publishes an event.
             service.subscribe(this);
-            log.info("Initialized NATS publisher for channel '" + channelName + "' using server: " + server + ".");
+            log.info("Initialized NATS publisher for channel '" + channelName + "' using servers: " + servers + ".");
         } catch (Throwable t) {
             String msg = "Caught exception while initializing NATS publisher.";
             log.log(Level.SEVERE, msg, t);

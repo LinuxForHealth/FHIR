@@ -14,7 +14,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CLUSTER;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CHANNEL;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_SERVER;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_SERVERS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
 import java.util.List;
@@ -133,7 +133,7 @@ public class FHIRServletContextListener implements ServletContextListener {
                 // Retrieve the channel name.
                 String channelName = fhirConfig.getStringProperty(PROPERTY_NATS_CHANNEL, DEFAULT_NATS_CHANNEL);
                 // Retrieve the server URL.
-                String server = fhirConfig.getStringProperty(PROPERTY_NATS_SERVER);
+                String server = fhirConfig.getStringProperty(PROPERTY_NATS_SERVERS);
 
                 log.info("Initializing NATS notification publisher.");
                 natsPublisher = new FHIRNotificationNATSPublisher(clusterId, channelName, server);
