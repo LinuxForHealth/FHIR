@@ -160,6 +160,7 @@ public class ChunkWriter extends AbstractItemWriter {
                             + "_" + chunkData.getPartNum() + ".ndjson";
                 if (isExportPublic) {
                     // Set expiration time to 2 hours(7200 seconds).
+                    // Note: IBM COS doesn't honor this but also doesn't fail on this.
                     metadata.setExpirationTime(Date.from(Instant.now().plusSeconds(7200)));
                 }
 
