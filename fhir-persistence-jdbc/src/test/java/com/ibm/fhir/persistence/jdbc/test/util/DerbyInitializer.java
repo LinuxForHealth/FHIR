@@ -26,9 +26,8 @@ import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
  * It's intended that this class be consumed by TestNG tests in the fhir-persistence-jdbc project.
  */
 public class DerbyInitializer {
-
     // All tests use this same database, which we only have to bootstrap once
-    private static final String DB_NAME = "target/derby/fhirDB";
+    public static final String DB_NAME = "target/derby/fhirDB";
 
     // The translator to help us out with Derby urls/syntax/exceptions
     private static final IDatabaseTranslator DERBY_TRANSLATOR = new DerbyTranslator();
