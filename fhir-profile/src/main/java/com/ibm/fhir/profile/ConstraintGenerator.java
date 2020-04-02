@@ -14,10 +14,12 @@ import static com.ibm.fhir.profile.ProfileSupport.getBinding;
 import static com.ibm.fhir.profile.ProfileSupport.getElementDefinition;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.StringJoiner;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -71,13 +73,19 @@ public class ConstraintGenerator {
 
         int index = 1;
 
+        Set<String> generated = new HashSet<>();
+
         log.fine("Generated constraint expressions:");
         for (Node child : tree.root.children) {
             String expr = generate(child);
+            if (generated.contains(expr)) {
+                continue;
+            }
             log.fine(expr);
             String description = "Constraint violation: " + expr;
             constraints.add(constraint("generated-" + prefix + "-" + index, expr, description));
             index++;
+            generated.add(expr);
         }
         log.fine("");
 
