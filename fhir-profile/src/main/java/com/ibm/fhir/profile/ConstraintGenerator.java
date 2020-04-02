@@ -372,6 +372,7 @@ public class ConstraintGenerator {
 
         Binding binding = elementDefinition.getBinding();
         String valueSet = binding.getValueSet().getValue();
+        String strength = binding.getStrength().getValue();
 
         if (hasChoiceTypeConstraint(elementDefinition)) {
             Type type = getTypes(elementDefinition).get(0);
@@ -381,7 +382,7 @@ public class ConstraintGenerator {
             }
         }
 
-        sb.append(".memberOf('").append(valueSet).append("')");
+        sb.append(".memberOf('").append(valueSet).append("', '").append(strength).append("')");
 
         return sb.toString();
     }
@@ -514,8 +515,12 @@ public class ConstraintGenerator {
             String baseValueSet = (baseBinding != null) ? baseBinding.getValueSet().getValue() : null;
             String strength = binding.getStrength().getValue();
             String valueSet = binding.getValueSet().getValue();
-            return (!"required".equals(baseStrength) && "required".equals(strength))
-                    || ("required".equals(baseStrength) && "required".equals(strength) && !valueSetEqualsIgnoreVersion(valueSet, baseValueSet));
+            return (!"preferred".equals(baseStrength) && "preferred".equals(strength)) ||
+                    ("preferred".equals(baseStrength) && "preferred".equals(strength) && !valueSetEqualsIgnoreVersion(valueSet, baseValueSet)) ||
+                    (!"extensible".equals(baseStrength) && "extensible".equals(strength)) ||
+                    ("extensible".equals(baseStrength) && "extensible".equals(strength) && !valueSetEqualsIgnoreVersion(valueSet, baseValueSet)) ||
+                    (!"required".equals(baseStrength) && "required".equals(strength)) ||
+                    ("required".equals(baseStrength) && "required".equals(strength) && !valueSetEqualsIgnoreVersion(valueSet, baseValueSet));
         }
         return false;
     }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
+import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
 import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
@@ -28,6 +29,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.resource.ValueSet.Expansion;
 import com.ibm.fhir.model.resource.ValueSet.Expansion.Contains;
@@ -36,6 +38,8 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathType;
@@ -63,7 +67,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
 
     @Override
     public int getMaxArity() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -80,9 +84,14 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
             throw new IllegalArgumentException("The argument to the 'memberOf' function must be a string value");
         }
 
+        if (arguments.size() == 2 && !isStringValue(arguments.get(1))) {
+            throw new IllegalArgumentException("The optional second argument to the 'memberOf' function must be a string value");
+        }
+
         FHIRPathElementNode elementNode = getElementNode(context);
         Element element = elementNode.element();
         String url = getString(arguments.get(0));
+        String strength = (arguments.size() == 2) ? getString(arguments.get(1)) : null;
 
         if (FHIRRegistry.getInstance().hasResource(url)) {
             Map<String, Set<String>> codeSetMap = getCodeSetMap(url);
@@ -91,10 +100,26 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                     String system = getSystem(evaluationContext.getTree().getParent(elementNode));
                     String version = FHIRRegistry.getInstance().getLatestVersion(system);
                     String code = element.as(Code.class).getValue();
-                    return contains(codeSetMap, system, version, code) ? SINGLETON_TRUE : SINGLETON_FALSE;
+                    if (contains(codeSetMap, system, version, code)) {
+                        return SINGLETON_TRUE;
+                    }
+                    // membership check failed
+                    if ("extensible".equals(strength) || "preferred".equals(strength)) {
+                        generateIssue(evaluationContext, elementNode, url, strength);
+                        return SINGLETON_TRUE;
+                    }
+                    return SINGLETON_FALSE;
                 } else if (element.is(Coding.class)) {
                     Coding coding = element.as(Coding.class);
-                    return contains(codeSetMap, coding) ? SINGLETON_TRUE : SINGLETON_FALSE;
+                    if (contains(codeSetMap, coding)) {
+                        return SINGLETON_TRUE;
+                    }
+                    // membership check failed
+                    if ("extensible".equals(strength) || "preferred".equals(strength)) {
+                        generateIssue(evaluationContext, elementNode, url, strength);
+                        return SINGLETON_TRUE;
+                    }
+                    return SINGLETON_FALSE;
                 } else if (element.is(CodeableConcept.class)) {
                     CodeableConcept codeableConcept = element.as(CodeableConcept.class);
                     for (Coding coding : codeableConcept.getCoding()) {
@@ -102,12 +127,31 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                             return SINGLETON_TRUE;
                         }
                     }
+                    // membership check failed
+                    if ("extensible".equals(strength) || "preferred".equals(strength)) {
+                        generateIssue(evaluationContext, elementNode, url, strength);
+                        return SINGLETON_TRUE;
+                    }
                     return SINGLETON_FALSE;
                 }
             }
         }
 
         return SINGLETON_TRUE;
+    }
+
+    private void generateIssue(EvaluationContext evaluationContext, FHIRPathNode elementNode, String url, String strength) {
+        String description = "extensible".equals(strength) ?
+            String.format("The concept in this element must be from the specified value set %s if possible", url) :
+            String.format("The concept in this element should be from the specified value set %s if possible", url);
+        evaluationContext.getIssues().add(Issue.builder()
+            .severity(IssueSeverity.WARNING)
+            .code(IssueType.CODE_INVALID)
+            .details(CodeableConcept.builder()
+                .text(string((evaluationContext.hasConstraint() ? evaluationContext.getConstraint().id() + ": " : "") + description))
+                .build())
+            .expression(string(elementNode.path()))
+            .build());
     }
 
     private boolean contains(Map<String, Set<String>> codeSetMap, Coding coding) {

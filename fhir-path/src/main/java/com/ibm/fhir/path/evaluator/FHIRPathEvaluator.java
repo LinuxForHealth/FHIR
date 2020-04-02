@@ -56,6 +56,8 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.visitor.Visitable;
@@ -1341,6 +1343,9 @@ public class FHIRPathEvaluator {
         private final FHIRPathTree tree;
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
 
+        private Constraint constraint;
+        private final List<Issue> issues = new ArrayList<>();
+
         /**
          * Create an empty evaluation context, evaluating stand-alone expressions
          */
@@ -1456,6 +1461,60 @@ public class FHIRPathEvaluator {
          */
         public boolean hasExternalConstant(String name) {
             return externalConstantMap.containsKey(name);
+        }
+
+        /**
+         * Set the constraint currently under evaluation
+         *
+         * @param constraint
+         *     the constraint currently under evaluation
+         */
+        public void setConstraint(Constraint constraint) {
+            this.constraint = constraint;
+        }
+
+        /**
+         * Unset the constraint currently under evaluation
+         */
+        public void unsetConstraint() {
+            constraint = null;
+        }
+
+        /**
+         * Get the constraint currently under evaluation
+         *
+         * @return
+         *     the constraint currently under evaluation if exists, otherwise null
+         */
+        public Constraint getConstraint() {
+            return constraint;
+        }
+
+        /**
+         * Indicates whether this evaluation context has an associated constraint
+         *
+         * @return
+         *     true if this evaluation context has an associated constraint, otherwise false
+         */
+        public boolean hasConstraint() {
+            return constraint != null;
+        }
+
+        /**
+         * Get the list of issues that occurred during evaluation
+         *
+         * @return
+         *     the list of issues that occurred during evaluation
+         */
+        public List<Issue> getIssues() {
+            return issues;
+        }
+
+        /**
+         * Clear the list of issues that occurred during evaluation
+         */
+        public void clearIssues() {
+            issues.clear();
         }
     }
 }
