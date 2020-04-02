@@ -1143,7 +1143,30 @@ The *fhir-bulkimportexport-webapp* module is a wrapper for the whole BulkData we
     </webApplication>
 ```
 
-BulkData web application writes the exported FHIR resources to an IBM Cloud Object Storage (COS) or Amazon S3 bucket as configured in the per-tenant server configuration under fhirServer/bulkdata. 
+BulkData web application writes the exported FHIR resources to an IBM Cloud Object Storage (COS) or any Amazon S3-Compatible bucket as configured in the per-tenant server configuration under fhirServer/bulkdata. Following is an example configuration for bulkdata, please refer to section 5 for the detailed description of these properties:
+
+```
+        "bulkdata": {
+            "bulkDataBatchJobIdEncryptionKey": "change-password",
+            "applicationName": "fhir-bulkimportexport-webapp",
+            "moduleName": "fhir-bulkimportexport.war",
+            "jobParameters": {
+                "cos.bucket.name": "fhir-r4-connectathon",
+                "cos.location": "us",
+                "cos.endpointurl": "fake",
+                "cos.credential.ibm": "Y",
+                "cos.api.key": "fake",
+                "cos.srvinst.id": "fake"
+            },
+            "implementation_type": "cos",
+            "batch-uri": "https://localhost:9443/ibm/api/batch/jobinstances",
+            "batch-user": "fhiradmin",
+            "batch-user-password": "change-password",
+            "batch-truststore": "resources/security/fhirTruststore.jks",
+            "batch-truststore-password": "change-password",
+            "isExportPublic": true
+        }
+```
 
 To use Amazon S3 bucket for exporting, please set cos.credential.ibm to "N", set cos.api.key to S3 access key, and set cos.srvinst.id to S3 secret key. The following is a sample path to the exported ndjson file, the full path can be found in the response to the polling location request after the export request (please refer to the FHIR BulkDataAccess spec for details).  
 
@@ -1335,7 +1358,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/jobParameters/credential.ibm`| If use IBM credential, "Y" or "N" |
 |`fhirServer/bulkdata/jobParameters/cos.api.key`|string|API key for accessing IBM COS |
 |`fhirServer/bulkdata/jobParameters/cos.srvinst.id`|string|Service instance Id for accessing IBM COS |
-|`fhirServer/bulkdata/implementation_type`|string|"cos" or "dummy" which matches the desired bulk operation implementation type |
+|`fhirServer/bulkdata/implementation_type`|string|"cos" (Any Amazon S3-compatible object stores including IBM COS) or "dummy" which matches the desired bulk operation implementation type |
 |`fhirServer/bulkdata/batch-uri`|string|The URL to access the FHIR server hosting the batch web application |
 |`fhirServer/bulkdata/batch-user`|string|User for submitting JavaBatch job |
 |`fhirServer/bulkdata/batch-user-password`|string|Password for above batch user |
