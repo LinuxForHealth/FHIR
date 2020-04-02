@@ -1358,7 +1358,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/jobParameters/credential.ibm`| If use IBM credential, "Y" or "N" |
 |`fhirServer/bulkdata/jobParameters/cos.api.key`|string|API key for accessing IBM COS |
 |`fhirServer/bulkdata/jobParameters/cos.srvinst.id`|string|Service instance Id for accessing IBM COS |
-|`fhirServer/bulkdata/implementation_type`|string|"cos" (Any Amazon S3-compatible object stores including IBM COS) or "dummy" which matches the desired bulk operation implementation type |
+|`fhirServer/bulkdata/implementation_type`|string|Use "cos" for any S3-compatible object store |
 |`fhirServer/bulkdata/batch-uri`|string|The URL to access the FHIR server hosting the batch web application |
 |`fhirServer/bulkdata/batch-user`|string|User for submitting JavaBatch job |
 |`fhirServer/bulkdata/batch-user-password`|string|Password for above batch user |
