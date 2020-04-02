@@ -157,6 +157,18 @@ public class ConstraintGenerator {
         return createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, false);
     }
 
+    private boolean hasValueConstraint(Node node) {
+        if (hasValueConstraint(node.elementDefinition)) {
+            return true;
+        }
+        for (Node child : node.children) {
+            if (hasValueConstraint(child)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private String generate(Node node) {
         ElementDefinition elementDefinition = node.elementDefinition;
 
@@ -168,7 +180,7 @@ public class ConstraintGenerator {
             return generateReferenceTypeConstraint(elementDefinition);
         }
 
-        if (hasVocabularyConstraint(elementDefinition)) {
+        if (hasVocabularyConstraint(elementDefinition) && !hasValueConstraint(node)) {
             return generateVocabularyConstraint(elementDefinition);
         }
 
@@ -658,7 +670,7 @@ public class ConstraintGenerator {
             public void close() throws SecurityException {
             }
         });
-        StructureDefinition profile = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/StructureDefinition/bodyweight", StructureDefinition.class);
+        StructureDefinition profile = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/StructureDefinition/heartrate", StructureDefinition.class);
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         System.out.println("Generated constraints: ");
         generator.generate().stream().map(constraint -> constraint.expression()).forEach(System.out::println);
