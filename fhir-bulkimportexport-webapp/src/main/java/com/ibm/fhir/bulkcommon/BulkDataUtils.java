@@ -7,6 +7,7 @@
 package com.ibm.fhir.bulkcommon;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -24,6 +25,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import com.ibm.cloud.objectstorage.ClientConfiguration;
 import com.ibm.cloud.objectstorage.SDKGlobalConfiguration;
@@ -254,6 +257,12 @@ public class BulkDataUtils {
         return parseFailures;
     }
 
+
+    public static long getCosFileSize(AmazonS3 cosClient, String bucketName, String itemName) throws Exception {
+            S3Object item = cosClient.getObject(new GetObjectRequest(bucketName, itemName));
+            return item.getObjectMetadata().getContentLength();
+      }
+
     /**
      * @param filePath - file path to the ndjson file.
      * @param numOfLinesToSkip - number of lines to skip before read.
@@ -286,6 +295,11 @@ public class BulkDataUtils {
 
         return parseFailures;
     }
+
+
+    public static long getLocallFileSize(String filePath) throws Exception {
+        return (new File(filePath).length());
+      }
 
 
     /**
@@ -329,6 +343,20 @@ public class BulkDataUtils {
 
         return parseFailures;
     }
+
+
+    public static long getHttpsFileSize(String dataUrl) throws Exception {
+        HttpsURLConnection httpsConnection = null;
+        try {
+            httpsConnection = (HttpsURLConnection) new URL(dataUrl).openConnection();
+            httpsConnection.setRequestMethod("HEAD");
+            return httpsConnection.getContentLengthLong();
+        } finally {
+          if (httpsConnection != null) {
+              httpsConnection.disconnect();
+          }
+        }
+      }
 
     /**
      * Validate the input resource and throw if there are validation errors

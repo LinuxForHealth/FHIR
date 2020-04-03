@@ -8,6 +8,7 @@ package com.ibm.fhir.bulkimport;
 
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,6 +24,8 @@ import com.ibm.fhir.bulkcommon.Constants;
 
 public class ImportPartitionCollector implements PartitionCollector {
     private static final Logger logger = Logger.getLogger(ImportPartitionCollector.class.getName());
+    // Used for generating in-fly performance measurement per each resource type.
+    private HashMap<String, ImportCheckPointData> importedResourceTypeInFlySummaries = new HashMap<>();
     AmazonS3 cosClient = null;
     @Inject
     StepContext stepCtx;
@@ -69,7 +72,17 @@ public class ImportPartitionCollector implements PartitionCollector {
     @BatchProperty(name = Constants.COS_IS_IBM_CREDENTIAL)
     String cosCredentialIbm;
 
-    public ImportPartitionCollector() {
+    public ImportPartitionCollector() throws Exception {
+        if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
+            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+
+            if (cosClient == null) {
+                logger.warning("collectPartitionData: Failed to get CosClient!");
+                throw new Exception("Failed to get CosClient!!");
+            } else {
+                logger.finer("ImportPartitionCollector: Succeed get CosClient!");
+            }
+        }
     }
 
     @Override
@@ -88,17 +101,6 @@ public class ImportPartitionCollector implements PartitionCollector {
         // also upload the remaining OperationComes to COS/S3 if any and finish the multiple-parts uploads.
         if (partitionSummaryData.getNumOfToBeImported() == 0) {
             if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
-                // Create a COS/S3 client if it's not created yet.
-                if (cosClient == null) {
-                    cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
-
-                    if (cosClient == null) {
-                        logger.warning("collectPartitionData: Failed to get CosClient!");
-                        throw new Exception("Failed to get CosClient!!");
-                    } else {
-                        logger.finer("collectPartitionData: Succeed get CosClient!");
-                    }
-                }
                 // Upload remaining OperationOutcomes.
                 if (partitionSummaryData.getBufferStreamForImport().size() > 0) {
                     if (partitionSummaryData.getUploadIdForOperationOutcomes()  == null) {
@@ -153,6 +155,27 @@ public class ImportPartitionCollector implements PartitionCollector {
 
             return ImportCheckPointData.fromImportTransientUserData(partitionSummaryData);
         } else {
+            // Aggregate the processed resource numbers from different partitions for the same resource types.
+            ImportCheckPointData importedResourceTypeInFlySummary = importedResourceTypeInFlySummaries.get(partitionSummaryData.getImportPartitionResourceType());
+            if (importedResourceTypeInFlySummary == null) {
+                importedResourceTypeInFlySummaries.put(partitionSummaryData.getImportPartitionResourceType(), new ImportCheckPointData(partitionSummaryData.getImportPartitionResourceType(), Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD));
+            } else {
+                importedResourceTypeInFlySummary.setNumOfProcessedResources(importedResourceTypeInFlySummary.getNumOfProcessedResources() + Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD);
+
+                if (importedResourceTypeInFlySummary.getNumOfProcessedResources() % Constants.IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES == 0) {
+                    long currentTimeMilliSeconds = System.currentTimeMillis();
+                    double jobProcessingSeconds = (currentTimeMilliSeconds - importedResourceTypeInFlySummary.getInFlyRateBeginMilliSeconds()) / 1000.0;
+                    jobProcessingSeconds = jobProcessingSeconds < 1 ? 1.0 : jobProcessingSeconds;
+
+                    // log the in-fly rate.
+                    logger.info(Constants.IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES + " " + importedResourceTypeInFlySummary.getImportPartitionResourceType()
+                        + " resources imported in " + jobProcessingSeconds + "seconds, Rate: "
+                        + Constants.IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES/jobProcessingSeconds + "/Second");
+
+                    importedResourceTypeInFlySummary.setInFlyRateBeginMilliSeconds(currentTimeMilliSeconds);
+                }
+            }
+
             return null;
         }
     }
