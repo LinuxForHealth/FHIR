@@ -14,6 +14,7 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -170,7 +171,7 @@ public class FHIRValidator {
             this.includeResourceAssertedProfiles = includeResourceAssertedProfiles;
             this.profiles = Arrays.asList(profiles);
             this.evaluationContext.getTree().getRoot().accept(this);
-            return issues;
+            return Collections.unmodifiableList(issues);
         }
 
         private void reset() {

@@ -103,23 +103,13 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                     if (contains(codeSetMap, system, version, code)) {
                         return SINGLETON_TRUE;
                     }
-                    // membership check failed
-                    if ("extensible".equals(strength) || "preferred".equals(strength)) {
-                        generateIssue(evaluationContext, elementNode, url, strength);
-                        return SINGLETON_TRUE;
-                    }
-                    return SINGLETON_FALSE;
+                    return membershipCheckFailed(evaluationContext, elementNode, url, strength);
                 } else if (element.is(Coding.class)) {
                     Coding coding = element.as(Coding.class);
                     if (contains(codeSetMap, coding)) {
                         return SINGLETON_TRUE;
                     }
-                    // membership check failed
-                    if ("extensible".equals(strength) || "preferred".equals(strength)) {
-                        generateIssue(evaluationContext, elementNode, url, strength);
-                        return SINGLETON_TRUE;
-                    }
-                    return SINGLETON_FALSE;
+                    return membershipCheckFailed(evaluationContext, elementNode, url, strength);
                 } else if (element.is(CodeableConcept.class)) {
                     CodeableConcept codeableConcept = element.as(CodeableConcept.class);
                     for (Coding coding : codeableConcept.getCoding()) {
@@ -127,17 +117,20 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                             return SINGLETON_TRUE;
                         }
                     }
-                    // membership check failed
-                    if ("extensible".equals(strength) || "preferred".equals(strength)) {
-                        generateIssue(evaluationContext, elementNode, url, strength);
-                        return SINGLETON_TRUE;
-                    }
-                    return SINGLETON_FALSE;
+                    return membershipCheckFailed(evaluationContext, elementNode, url, strength);
                 }
             }
         }
 
         return SINGLETON_TRUE;
+    }
+
+    private Collection<FHIRPathNode> membershipCheckFailed(EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String url, String strength) {
+        if ("extensible".equals(strength) || "preferred".equals(strength)) {
+            generateIssue(evaluationContext, elementNode, url, strength);
+            return SINGLETON_TRUE;
+        }
+        return SINGLETON_FALSE;
     }
 
     private void generateIssue(EvaluationContext evaluationContext, FHIRPathNode elementNode, String url, String strength) {
@@ -183,22 +176,21 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
      */
     private boolean contains(Map<String, Set<String>> codeSetMap, String system, String version, String code) {
         if (system != null && version != null) {
-            String key = system + "|" + version;
-            Set<String> codeSet = codeSetMap.get(key);
+            Set<String> codeSet = codeSetMap.get(system + "|" + version);
             if (codeSet != null) {
                 if (codeSet.contains(code)) {
                     return true;
                 } else {
-                    key = system + "|" + VERSION_UNKNOWN;
-                    codeSet = codeSetMap.get(key);
+                    codeSet = codeSetMap.get(system + "|" + VERSION_UNKNOWN);
                     if (codeSet != null) {
                         return codeSet.contains(code);
                     }
                 }
             }
         } else if (system != null) {
+            String prefix = system + "|";
             for (String key : codeSetMap.keySet()) {
-                if (key.startsWith(system)) {
+                if (key.startsWith(prefix)) {
                     return codeSetMap.get(key).contains(code);
                 }
             }

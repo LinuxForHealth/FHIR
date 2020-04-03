@@ -157,18 +157,6 @@ public class ConstraintGenerator {
         return createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, false);
     }
 
-    private boolean hasValueConstraint(Node node) {
-        if (hasValueConstraint(node.elementDefinition)) {
-            return true;
-        }
-        for (Node child : node.children) {
-            if (hasValueConstraint(child)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private String generate(Node node) {
         StringBuffer sb = new StringBuffer();
 
@@ -184,7 +172,7 @@ public class ConstraintGenerator {
 
         if (hasVocabularyConstraint(elementDefinition)) {
             String expr = generateVocabularyConstraint(elementDefinition);
-            if (!hasValueConstraint(node)) {
+            if (node.children.stream().noneMatch(child -> hasConstraint(child))) {
                 return expr;
             }
             sb.append(expr).append(" and ");
@@ -392,6 +380,9 @@ public class ConstraintGenerator {
         StringBuilder sb = new StringBuilder();
 
         String identifier = getIdentifier(elementDefinition);
+        if (isOptional(elementDefinition)) {
+            sb.append(identifier).append(".exists() implies (");
+        }
         sb.append(identifier);
 
         Binding binding = elementDefinition.getBinding();
@@ -407,6 +398,10 @@ public class ConstraintGenerator {
         }
 
         sb.append(".memberOf('").append(valueSet).append("', '").append(strength).append("')");
+
+        if (isOptional(elementDefinition)) {
+            sb.append(")");
+        }
 
         return sb.toString();
     }
