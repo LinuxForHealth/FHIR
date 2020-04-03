@@ -52,12 +52,19 @@ Due to performance considerations and the complexities of the FHIR API (especial
 If you are using Maven, add the following dependencies to your persistence layer project (replacing the version variables with your desired version):
 ```
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>com.ibm.fhir</groupId>
             <artifactId>fhir-persistence</artifactId>
             <version>${fhir.persistence.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>com.ibm.fhir</groupId>
+            <artifactId>fhir-persistence</artifactId>
+            <version>${fhir.persistence.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.fhir</groupId>
             <artifactId>fhir-examples</artifactId>
             <version>${fhir.examples.version}</version>
             <scope>test</scope>
