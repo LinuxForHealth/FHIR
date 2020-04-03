@@ -8,6 +8,7 @@ package com.ibm.fhir.bulkimport;
 
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -158,7 +159,8 @@ public class ImportPartitionCollector implements PartitionCollector {
             // Aggregate the processed resource numbers from different partitions for the same resource types.
             ImportCheckPointData importedResourceTypeInFlySummary = importedResourceTypeInFlySummaries.get(partitionSummaryData.getImportPartitionResourceType());
             if (importedResourceTypeInFlySummary == null) {
-                importedResourceTypeInFlySummaries.put(partitionSummaryData.getImportPartitionResourceType(), new ImportCheckPointData(partitionSummaryData.getImportPartitionResourceType(), Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD));
+                importedResourceTypeInFlySummaries.put(partitionSummaryData.getImportPartitionResourceType(),
+                        new ImportCheckPointData(partitionSummaryData.getImportPartitionResourceType(), Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD, partitionSummaryData.getInFlyRateBeginMilliSeconds()));
             } else {
                 importedResourceTypeInFlySummary.setNumOfProcessedResources(importedResourceTypeInFlySummary.getNumOfProcessedResources() + Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD);
 
@@ -169,8 +171,8 @@ public class ImportPartitionCollector implements PartitionCollector {
 
                     // log the in-fly rate.
                     logger.info(Constants.IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES + " " + importedResourceTypeInFlySummary.getImportPartitionResourceType()
-                        + " resources imported in " + jobProcessingSeconds + "seconds, Rate: "
-                        + Constants.IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES/jobProcessingSeconds + "/Second");
+                        + " resources imported in " + jobProcessingSeconds + " seconds, ImportRate: "
+                        + new DecimalFormat("#0.00").format(Constants.IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES/jobProcessingSeconds) + "/Second");
 
                     importedResourceTypeInFlySummary.setInFlyRateBeginMilliSeconds(currentTimeMilliSeconds);
                 }

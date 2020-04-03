@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.bulkimport;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -94,7 +95,7 @@ public class ImportJobListener implements JobListener {
             totalImportedFhirResources += importedResourceTypeSummary.getNumOfImportedResources();
         }
         logger.info(" ---- Total: " + totalImportedFhirResources
-                + " ImportRate: " + totalImportedFhirResources/jobProcessingSeconds + " ----");
+                + " ImportRate: " + new DecimalFormat("#0.00").format(totalImportedFhirResources/jobProcessingSeconds) + " ----");
     }
 
     @Override
