@@ -19,17 +19,19 @@ This document guides a developer or administrator through the steps necessary to
 1. Choose `Db2 (transactional)`.
 
 1. Select the Pricing Plan: 
-    - The IBM FHIR Server recommends the Flex plan for a production workload.
-    - The IBM FHIR Server recommends the Flex plan for development, however, the Lite plan is possible for the development and evaluation. 
-      - **Note** The Lite plan has a limit of 5 concurrent connections, and the IBM FHIR Server `fhirProxyDataSource` needs to be updated to avoid failures. One should update the server.xml connectionManager with maxPoolSize - `<connectionManager maxPoolSize="5"/>`.  Further, your instance may not be enabled with IAM enabled, and you may use the `Service Credentials` that are created to connect to configure the datasource. This is only acceptable with **development** and **experimentation**. 
-      
+    - The IBM FHIR Server recommends the Flex plan for a production workload, development and experiments.
+
 1. Create `Create`
 
 Your instance is now creating or created.
 
 ### **Scale the Instance**
 
-If you chose the Flex plan, you may want to scale the instance after it has been created (e.g. 4 cores, 16GB). The instance can be scaled more than once, so it doesn't matter if you don't get the sizing right first time. Please note, the scaling of the instance requires a service restart.
+If you chose the Flex plan, you may want to scale the instance after it has been created (e.g. 4 cores, 16GB). The instance can be scaled more than once, so it doesn't matter if you don't get the sizing right first time. 
+
+Note:
+1. The scaling of the instance requires a service restart.
+2. The instance CPU/Memory are scalable up and down. The storage in only scaled up. 
 
 ### **Create the Administrator Credential**
 
@@ -72,9 +74,9 @@ Following the least-privilege principle, the IBM FHIR server itself does not use
 
 The IBM FHIR Server uses the access flow: 
 
-1. Read API Key from the fhir-server-config.json
-2. Connect to IAM which maps the ServiceId to a Db2 User
-3. Connect to Db2 to access authorized data
+1. Read API Key and the tenant key from the fhir-server-config.json
+2. Connect to Db2 to access authenticated data using IAM
+3. Confirm tenant-key to access authorized data
 
 The steps to create the API key are: 
 
@@ -168,7 +170,7 @@ The [Db2 driver](https://repo1.maven.org/maven2/com/ibm/db2/jcc/11.5.0.0/jcc-11.
 
 ### **Configuring IBM FHIR Server Datasource**
 
-The IBM FHIR server uses a proxy datasource mechanism, allowing new datasources to be added at runtime without requiring a (Liberty Profile) server restart. To configure a FHIR tenant datasource using an API-KEY, use the following template:
+The IBM FHIR Server uses a proxy datasource mechanism, allowing new datasources to be added at runtime without requiring a (Liberty Profile) server restart. To configure a FHIR tenant datasource using an API-KEY, use the following template:
 
 ``` json
         "persistence": {
@@ -193,6 +195,8 @@ The IBM FHIR server uses a proxy datasource mechanism, allowing new datasources 
             }
         }
 ```
+
+The persistence configuration is stored in the `fhir-server-config.json` in the tenant and default configuration folders. 
 
 #### Mapping from IBM Db2 on Cloud Endpoint Credentials
 
@@ -224,7 +228,7 @@ The IBM FHIR Server Bulk Data modules utilize Java Batch (JSR-352) from the Libe
 
 1. Create a Db2 user (e.g. FHIRBATCH)
 
-1. and associate it with a ServiceId (no need to create an Administration user, a simple user has sufficient privileges). 
+1. Associate it with a ServiceId (no need to create an Administration user, a simple user has sufficient privileges) using the same procedure you followed for the fhir-server ServiceId user.
 
 1. Using a valid API-KEY for the given ServiceId, configure a new datasource and the Java Batch persistence layer as follows:
 
@@ -246,7 +250,7 @@ The IBM FHIR Server Bulk Data modules utilize Java Batch (JSR-352) from the Libe
     <databaseStore id="BatchDatabaseStore" dataSourceRef="fhirbatchDS" schema="JBATCH" tablePrefix="" />
 ```
 
-- Note: The Java Batch is configured in `batchDs.xml` and included from the IBM FHIR Server's `server.xml` which is installed to the `{wlp}/usr/server/fhir-server`.
+- Note: The Java Batch is configured in `batchDs.xml` and included from the IBM FHIR Server's `server.xml` which is installed to `{wlp}/usr/server/fhir-server`.
 - Note: While this feature is not required, it's best to configure this datasource while configuring the main datasource.
 
 ### **SSL Certificate**
@@ -259,11 +263,10 @@ All passwords including apiKey values should be encrypted using the Liberty Prof
 
 # Appendix: Db2 Lite Plan
 
-If you are using the lite plan, you should test **connectivity** with this style command:
-
-```
-java -cp /path/to/jcc-11.5.0.0.jar com.ibm.db2.jcc.DB2Jcc  -url "jdbc:db2://<HOST>:50001/BLUDB:user=<USER>;password=<PASSWORD>;sslConnection=true;"
-```
+The Lite plan is not supported for development and evaluation. 
+- The schema size is larger than the available space. 
+- Concurrent Connections: The Lite plan has a limit of 5 concurrent connections, and the IBM FHIR Server `fhirProxyDataSource` needs to be updated to avoid failures. One should update the server.xml connectionManager with maxPoolSize - `<connectionManager maxPoolSize="5"/>`.  
+- The instance is not enabled with IAM, and you may use the `Service Credentials` that are created to connect to configure the datasource. 
 
 # **References**
 - [Db2 on Cloud: Database details and connection credentials](https://cloud.ibm.com/docs/services/Db2onCloud?topic=Db2onCloud-db_details_cxn_creds)
