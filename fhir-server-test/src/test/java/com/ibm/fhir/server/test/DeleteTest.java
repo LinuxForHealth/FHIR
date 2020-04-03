@@ -14,16 +14,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
+import com.ibm.fhir.core.FHIRConstants;
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.MedicationAdministration;
 import com.ibm.fhir.model.resource.Observation;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
@@ -45,7 +50,7 @@ public class DeleteTest extends FHIRServerTestBase {
 
     /**
      * Retrieve the server's conformance statement to determine the status of certain runtime options.
-     * 
+     *
      * @throws Exception
      */
     @BeforeClass
@@ -321,7 +326,7 @@ public class DeleteTest extends FHIRServerTestBase {
             // Read in the resource template.
             Patient patient = TestUtil.readLocalResource("Patient_MookieBetts.json");
 
-            // Add the uniqueFamily name         
+            // Add the uniqueFamily name
             patient = setUniqueFamilyName(patient, uniqueFamilyName);
 
             response = client.create(patient);
@@ -397,14 +402,14 @@ public class DeleteTest extends FHIRServerTestBase {
         if (!deleteSupported) {
             return;
         }
-        
+
         String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
         String obsId = UUID.randomUUID().toString();
         Observation obs = TestUtil.readLocalResource("Observation1.json");
-        
+
         obs = obs.toBuilder().id(obsId).subject(Reference.builder().reference(string(fakePatientRef)).build()).build();
 
-        
+
         // First conditional delete should find no matches, so we should get back a 200 OK.
         FHIRParameters query = new FHIRParameters().searchParam("_id", obsId);
         FHIRResponse response = client.conditionalDelete("Observation", query);
@@ -414,12 +419,12 @@ public class DeleteTest extends FHIRServerTestBase {
         } else {
             assertResponse(response.getResponse(), Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
         }
-        
+
         // Next, create an Observation (using update for create) so that we can test conditional delete.
         response = client.update(obs);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
-        
+
         // Second conditional delete should find 1 match, so we should get back a 200.
         response = client.conditionalDelete("Observation", query);
         assertNotNull(response);
@@ -430,17 +435,31 @@ public class DeleteTest extends FHIRServerTestBase {
         } else {
             assertResponse(response.getResponse(), Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
         }
-        
-        // A search that results in multiple matches should result in a 412 status code.
+
+        // A search that results in multiple matches:
+        // (1) if matches > FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT, then result in a 412 status code.
+        // (2) if matches <= FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT, then result in a 204 status code.
+        WebTarget target = getWebTarget();
+        Response response2 =
+                target.path("Observation").queryParam("status", "final").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response2, Response.Status.OK.getStatusCode());
+        Bundle searchResultBundle = response2.readEntity(Bundle.class);
+
         FHIRParameters multipleMatches = new FHIRParameters().searchParam("status", "final");
-        response = client.conditionalUpdate(obs, multipleMatches);
+        response = client.conditionalDelete("Observation", multipleMatches);
         assertNotNull(response);
         if (deleteSupported) {
-            assertResponse(response.getResponse(), Response.Status.PRECONDITION_FAILED.getStatusCode());
+            if (searchResultBundle.getTotal().getValue() <= FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT ) {
+                assertResponse(response.getResponse(), Status.NO_CONTENT.getStatusCode());
+            } else {
+                assertResponse(response, Status.PRECONDITION_FAILED.getStatusCode());
+                assertExceptionOperationOutcome(response.getResponse().readEntity(OperationOutcome.class),
+                        "The search criteria specified for a conditional delete operation returned too many matches");
+            }
         } else {
             assertResponse(response.getResponse(), Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
         }
-        
+
         // Finally, an invalid search should result in a 400 status code.
         FHIRParameters badSearch = new FHIRParameters().searchParam("invalid:search", "foo");
         response = client.conditionalUpdate(obs, badSearch);
@@ -450,5 +469,5 @@ public class DeleteTest extends FHIRServerTestBase {
         } else {
             assertResponse(response.getResponse(), Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
         }
-    }    
+    }
 }

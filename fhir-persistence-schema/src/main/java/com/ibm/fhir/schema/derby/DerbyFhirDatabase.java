@@ -8,13 +8,23 @@ package com.ibm.fhir.schema.derby;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
+import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
+import com.ibm.fhir.database.utils.common.JdbcTarget;
+import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
+import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
+import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
+import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
+import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 
 /**
@@ -25,6 +35,9 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     private static final String DATABASE_NAME = "derby/fhirDB";
     private static final String SCHEMA_NAME = "FHIRDATA";
     private static final String ADMIN_SCHEMA_NAME = "FHIR_ADMIN";
+
+    // The translator to help us out with Derby syntax
+    private static final IDatabaseTranslator DERBY_TRANSLATOR = new DerbyTranslator();
 
     // The wrapper for managing a derby in-memory instance
     final DerbyMaster derby;
@@ -53,7 +66,31 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         gen.buildProcedures(pdm);
 
         // apply the model we've defined to the new Derby database
-        derby.createSchema(pdm);
+        derby.createSchema(createVersionHistoryService(), pdm);
+    }
+
+    /**
+     * Configure the TransactionProvider
+     * @throws SQLException 
+     */
+    public VersionHistoryService createVersionHistoryService() throws SQLException {
+        Connection c = derby.getConnection();
+        JdbcTarget target = new JdbcTarget(c);
+
+        JdbcPropertyAdapter jdbcAdapter = new JdbcPropertyAdapter(new Properties());
+        JdbcConnectionProvider cp = new JdbcConnectionProvider(DERBY_TRANSLATOR, jdbcAdapter);
+        PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, 200);
+        ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
+
+        DerbyAdapter derbyAdapter = new DerbyAdapter(target);
+        CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, derbyAdapter);
+
+        // Current version history for the data schema
+        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        vhs.setTransactionProvider(transactionProvider);
+        vhs.setTarget(derbyAdapter);
+        vhs.init();
+        return vhs;
     }
 
     @Override

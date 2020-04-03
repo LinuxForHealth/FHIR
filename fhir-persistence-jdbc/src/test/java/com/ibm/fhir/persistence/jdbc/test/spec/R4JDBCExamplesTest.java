@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
@@ -30,7 +29,6 @@ import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 import com.ibm.fhir.validation.test.ValidationProcessor;
 
 public class R4JDBCExamplesTest extends AbstractPersistenceTest {
-
     // The Derby database instance used for the persistence tests
     private DerbyFhirDatabase database;
 
@@ -40,16 +38,13 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
         this.properties = TestUtil.readTestProperties("test.jdbc.properties");
     }
 
-    @BeforeSuite
-    public void bootstrapAndLoad() {
-        System.out.println("Bootstrapping database:");
-
-
-        System.out.println("Processing examples:");
-    }
-
-    @Test(groups = { "jdbc-seed" })
+    @Test(groups = { "jdbc-seed" }, singleThreaded = true, priority = -1)
     public void perform() throws Exception {
+        if(this.database == null) {
+            System.out.println("Bootstrapping database:");
+            this.database = new DerbyFhirDatabase(DerbyInitializer.DB_NAME);
+        }
+        
         // Use connection pool and transaction provider to make sure the resource operations
         // of each resource are committed after the processing is finished, and because this
         // testng test process the samples one by one, so set the connection pool size to 1.
@@ -79,8 +74,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
         R4ExamplesDriver driver = new R4ExamplesDriver();
         driver.setProcessor(processor);
         driver.setValidator(new ValidationProcessor());
-        String index = System.getProperty(this.getClass().getName()
-            + ".index", Index.MINIMAL_JSON.name());
+        String index = System.getProperty(this.getClass().getName() + ".index", Index.MINIMAL_JSON.name());
         driver.processIndex(Index.valueOf(index));
     }
 

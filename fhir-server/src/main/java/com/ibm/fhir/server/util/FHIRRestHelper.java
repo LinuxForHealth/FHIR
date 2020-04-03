@@ -34,13 +34,17 @@ import javax.ws.rs.core.Response.Status;
 
 import org.owasp.encoder.Encode;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
@@ -489,26 +493,28 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // resource to be deleted. Otherwise, we'll use the id value to identify the resource
             // to be deleted.
             Resource resourceToDelete = null;
+            Bundle responseBundle = null;
+
             if (searchQueryString != null) {
+                int searchPageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_CONDITIONAL_DELETE_MAX_NUMBER, FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT);
+
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("Performing conditional delete with search criteria: "
                             + Encode.forHtml(searchQueryString));
                 }
-                Bundle responseBundle = null;
                 try {
-                    MultivaluedMap<String, String> searchParameters =
-                            getQueryParameterMap(searchQueryString);
-                    responseBundle =
-                            doSearch(type, null, null, searchParameters, null, requestProperties, null);
+                    MultivaluedMap<String, String> searchParameters = getQueryParameterMap(searchQueryString);
+                    searchParameters.putSingle(SearchConstants.COUNT, Integer.toString(searchPageSize));
+                    responseBundle = doSearch(type, null, null, searchParameters, null, requestProperties, null);
                 } catch (FHIROperationException e) {
                     throw e;
                 } catch (Throwable t) {
-                    String msg =
-                            "An error occurred while performing the search for a conditional delete operation.";
+                    String msg = "An error occurred while performing the search for a conditional delete operation.";
                     throw new FHIROperationException(msg, t);
                 }
 
                 // Check the search results to determine whether or not to perform the update operation.
+
                 int resultCount = responseBundle.getEntry().size();
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("Conditional delete search yielded " + resultCount + " results.");
@@ -524,14 +530,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(msg, IssueType.NOT_FOUND, IssueSeverity.WARNING));
                     ior.setStatus(status);
                     return ior;
-                } else if (resultCount == 1) {
-                    // If we found a single match, then we'll delete this one.
-                    Resource resource = responseBundle.getEntry().get(0).getResource();
-                    id = resource.getId();
-                    resourceToDelete = resource;
-                } else {
-                    String msg =
-                            "The search criteria specified for a conditional delete operation returned multiple matches.";
+                } else if (responseBundle.getTotal().getValue() > searchPageSize) {
+                    String msg = "The search criteria specified for a conditional delete operation returned too many matches ( > " + searchPageSize + " ).";
                     throw buildRestException(msg, IssueType.MULTIPLE_MATCHES);
                 }
             } else {
@@ -544,36 +544,55 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 // Read the resource so it will be available to the beforeDelete interceptor methods.
                 try {
                     resourceToDelete = doRead(type, id, false, false, requestProperties, null);
+                    if (resourceToDelete != null) {
+                        responseBundle = Bundle.builder().type(BundleType.SEARCHSET)
+                                .id(UUID.randomUUID().toString())
+                                .entry(Entry.builder().id(id).resource(resourceToDelete).build())
+                                .total(UnsignedInt.of(1))
+                                .build();
+                    } else {
+                        throw new FHIRPersistenceResourceNotFoundException("Can not find " + type + " with id '" + id + "'.");
+                    }
                 } catch (FHIRPersistenceResourceDeletedException e) {
                     // Absorb this exception.
-                    resourceToDelete = null;
+                    ior.setResource(doRead(type, id, false, true, requestProperties, null));
+                    return ior;
                 }
             }
 
-            // Start a new txn in the persistence layer if one is not already active.
-            txn.begin();
+            if (responseBundle != null) {
+                // Start a new txn in the persistence layer if one is not already active.
+                txn.begin();
 
-            // First, invoke the 'beforeDelete' interceptor methods.
-            FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, requestProperties));
-            event.setFhirResource(resourceToDelete);
-            getInterceptorMgr().fireBeforeDeleteEvent(event);
+                for (Entry entry: responseBundle.getEntry()) {
+                    id = entry.getResource().getId();
+                    resourceToDelete = entry.getResource();
+                    // First, invoke the 'beforeDelete' interceptor methods.
+                    FHIRPersistenceEvent event =
+                            new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, requestProperties));
+                    event.setFhirResource(resourceToDelete);
+                    getInterceptorMgr().fireBeforeDeleteEvent(event);
 
-            FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(event);
+                    FHIRPersistenceContext persistenceContext =
+                            FHIRPersistenceContextFactory.createPersistenceContext(event);
 
-            Resource resource = persistence.delete(persistenceContext, resourceType, id).getResource();
-            ior.setResource(resource);
-            event.setFhirResource(resource);
-            ior.setStatus(Response.Status.NO_CONTENT);
+                    Resource resource = persistence.delete(persistenceContext, resourceType, id).getResource();
+                    event.setFhirResource(resource);
 
-            // Invoke the 'afterDelete' interceptor methods.
-            getInterceptorMgr().fireAfterDeleteEvent(event);
+                    if (responseBundle.getEntry().size() == 1) {
+                        ior.setResource(resource);
+                    }
 
-            // Commit our transaction if we started one before.
-            txn.commit();
-            txn = null;
-            status = ior.getStatus();
+                    // Invoke the 'afterDelete' interceptor methods.
+                    getInterceptorMgr().fireAfterDeleteEvent(event);
+                }
+
+                // Commit our transaction if we started one before.
+                txn.commit();
+                txn = null;
+
+                ior.setStatus(Response.Status.NO_CONTENT);
+            }
 
             return ior;
         } finally {
