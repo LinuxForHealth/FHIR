@@ -64,7 +64,7 @@ The administrator is `BLUADMIN` but you need to create a credential.
 
 4. Save these details for later, as these properties are needed to deploy and manage the IBM FHIR Server schema.
 
-This **BLUADMIN** user is used to deploy the schema objects (tables, indexes, stored procedures etc) only. 
+For improved security, the **BLUADMIN** user should only be used to deploy the schema objects (tables, indexes, stored procedures etc) and administer the database, NOT for connecting from the fhir-server application. 
 
 ### **Add the FHIRSERVER User and API Key**
 
