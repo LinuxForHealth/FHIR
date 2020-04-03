@@ -8,27 +8,34 @@ permalink: /db2oncloudsetup/
 
 ## Using Db2 for persistence
 
-This document walks a developer or administrator through the steps necessary to setup and configure IBM Db2 on IBM Cloud for the IBM FHIR Server.
+This document guides a developer or administrator through the steps necessary to setup and configure [IBM Db2 on IBM Cloud](https://cloud.ibm.com/catalog/services/db2) for the IBM FHIR Server.
 
 ### Create a Db2 instance
 
-Log in to your IBM Cloud account https://cloud.ibm.com/.
+1. Log in to your IBM Cloud account [Link](https://cloud.ibm.com/).
 
-Click `Create resource`.
+1. Click `Create resource`.
 
-Choose `Db2 (transactional)`.
+1. Choose `Db2 (transactional)`.
 
-Select the instance size. Flex is the best choice for a basic production workload.
+1. Select the Pricing Plan: 
+    - The IBM FHIR Server recommends the Flex plan for a production workload.
+    - The IBM FHIR Server recommends the Flex plan for development, however, the Lite plan is possible for the development and evaluation. 
+      - **Note** The Lite plan has a limit of 5 concurrent connections, and the IBM FHIR Server `fhirProxyDataSource` needs to be updated to avoid failures. One should update the server.xml connectionManager with maxPoolSize - `<connectionManager maxPoolSize="5"/>.
+      
+1. Create `Create`
 
-You can use the Lite plan for development or evaluation workloads. This plan has a limit of 5 concurrent connections; the IBM FHIR server connection-pool needs to be sized accordingly to avoid failures.
+Your instance is now creating or created.
 
 ### Scale the Instance
 
-If you chose Flex, you may want to scale the instance after it has been created (e.g. 4 cores, 16GB). The instance can be scaled more than once, so it doesn't matter if you don't get the sizing right first time. Scaling the instance requires a service restart.
+If you chose the Flex plan, you may want to scale the instance after it has been created (e.g. 4 cores, 16GB). The instance can be scaled more than once, so it doesn't matter if you don't get the sizing right first time. Please note, the scaling of the instance requires a service restart.
 
 ### Create the Administrator Credential
 
-The administrator will be BLUADMIN but you need to create a credential. Open the `Service credentials` panel for the Db2 instance resource you just created. If you don't yet have any service credentials in the table at the bottom of the page, create a new one by clicking the `New credential (+)` button. Any name will do.
+The administrator will be BLUADMIN but you need to create a credential. 
+
+1. Open the `Service credentials` panel for the Db2 instance resource you just created. If you don't yet have any service credentials in the table at the bottom of the page, create a new one by clicking the `New credential (+)` button. Any name will do.
 
 To access the credential, select View Credentials for the entry you just created. The result will be a block of JSON full of secrets (blanked out here):
 
