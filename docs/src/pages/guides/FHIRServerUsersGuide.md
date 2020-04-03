@@ -1138,50 +1138,30 @@ The *fhir-bulkimportexport-webapp* module is a wrapper for the whole BulkData we
     </webApplication>
 ```
 
-BulkData web application writes the exported FHIR resources to an IBM Cloud Object Storage (COS) or Amazon S3 bucket, as configured in the per-tenant bulkdata.json configuration file. The bulkdata.json file is stored in the tenant configuration directory of each fhir-server instance. The following is a bulkdata.json which is configured to export the FHIR resources into fhir-bulkdata-sample bucket of IBM COS:
+BulkData web application writes the exported FHIR resources to an IBM Cloud Object Storage (COS) or any Amazon S3-Compatible bucket as configured in the per-tenant server configuration under fhirServer/bulkdata. Following is an example configuration for bulkdata, please refer to section 5 for the detailed description of these properties:
 
-```json
-{
-  "applicationName": "fhir-bulkimportexport-webapp",
-  "moduleName": "fhir-bulkimportexport.war",
-  "jobParameters": {
-    "cos.bucket.name": "fhir-bulkdata-sample",
-    "cos.location": "us",
-    "cos.endpointurl": "https://s3.us-south.cloud-object-storage.appdomain.cloud",
-    "cos.credential.ibm": "Y",
-    "cos.api.key": "xxxxxxxxxxxxxxxxxxxxxxx",
-    "cos.srvinst.id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-  },
-  "implementation_type": "cos",
-  "batch-uri": "https://localhost:9443/ibm/api/batch/jobinstances",
-  "batch-user": "fhiradmin",
-  "batch-user-password": "xxxxxxxxxxxx",
-  "batch-truststore" : "resources/security/fhirTruststore.jks",
-  "batch-truststore-password" : "xxxxxxxxxxxx",
-  "serverHostname" : "localhost:9443",
-  "contextRoot" : "/fhir-server/api/v4"
-}
 ```
-The following configured parameters are:
-
-|Parameter Name   | Description|
-|--------------| ------------|
-|`applicationName`| fixed value, always set to fhir-bulkimportexport-webapp |
-|`moduleName`| fixed value, always set to fhir-bulkimportexport.war |
-|`jobParameters.cos.bucket.name`| object store bucket name |
-|`jobParameters.cos.location`| object store location |
-|`jobParameters.cos.endpointurl`| object store end point url |
-|`jobParameters.credential.ibm`| if use IBM credential |
-|`jobParameters.cos.api.key`| api key for accessing IBM COS |
-|`jobParameters.cos.srvinst.id`| service instance Id for accessing IBM COS |
-|`implementation_type`| cos or dummy which matches the desired bulk operation implementation type |
-|`batch-uri`| the URL to access the FHIR server hosting the batch web application |
-|`batch-user`| user for submitting JavaBatch job |
-|`batch-user-password`| password for above batch user |
-|`batch-truststore`| trust store for JavaBatch job submission |
-|`batch-truststore-password`| password for above trust store |
-|`serverHostname`| host name part of the server generated polling location url |
-|`contextRoot`| context root part of the server generated polling location url |
+        "bulkdata": {
+            "bulkDataBatchJobIdEncryptionKey": "change-password",
+            "applicationName": "fhir-bulkimportexport-webapp",
+            "moduleName": "fhir-bulkimportexport.war",
+            "jobParameters": {
+                "cos.bucket.name": "fhir-r4-connectathon",
+                "cos.location": "us",
+                "cos.endpointurl": "fake",
+                "cos.credential.ibm": "Y",
+                "cos.api.key": "fake",
+                "cos.srvinst.id": "fake"
+            },
+            "implementation_type": "cos",
+            "batch-uri": "https://localhost:9443/ibm/api/batch/jobinstances",
+            "batch-user": "fhiradmin",
+            "batch-user-password": "change-password",
+            "batch-truststore": "resources/security/fhirTruststore.jks",
+            "batch-truststore-password": "change-password",
+            "isExportPublic": true
+        }
+```
 
 To use Amazon S3 bucket for exporting, please set cos.credential.ibm to "N", set cos.api.key to S3 access key, and set cos.srvinst.id to S3 secret key. The following is a sample path to the exported ndjson file, the full path can be found in the response to the polling location request after the export request (please refer to the FHIR BulkDataAccess spec for details).  
 
@@ -1211,7 +1191,8 @@ Following is the beautified response of sample polling location request after th
 }
 ```
 
-The exported ndjson file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.  
+By default, the exported ndjson file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself. 
+Note: fhirServer/bulkdata/isExportPublic can be set to "false" to disable public access. 
 
 JavaBatch feature must be enabled in server.xml as following for liberty server:
 
@@ -1343,6 +1324,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultHandling`|string|The default handling preference of the server (`strict | lenient`) which determines how the server handles unrecognized search parameters and resource elements.|
 |`fhirServer/core/allowClientHandlingPref`|boolean|Indicates whether the client is allowed to override the server default handling preference using the `Prefer:handling` header value part.|
 |`fhirServer/core/checkReferenceTypes`|boolean|Indicates whether reference type checking is performed by the server during parsing / deserialization.|
+|`fhirServer/core/conditionalDeleteMaxNumber`|integer|The max number of matches supported in conditional delete. |
 |`fhirServer/searchParameterFilter`|property list|A set of inclusion rules for search parameters. See [FHIR Search Configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-Configuration--Filtering-of-search-parameters) for more information.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
@@ -1363,6 +1345,22 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/geoState`|string|The Geo State configure for CADF audit logging service.|
 |`fhirServer/audit/serviceProperties/geoCounty`|string|The Geo Country configure for CADF audit logging service.|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
+|`fhirServer/bulkdata/applicationName`| string|Fixed value, always set to fhir-bulkimportexport-webapp |
+|`fhirServer/bulkdata/moduleName`|string| Fixed value, always set to fhir-bulkimportexport.war |
+|`fhirServer/bulkdata/jobParameters/cos.bucket.name`|string|Object store bucket name |
+|`fhirServer/bulkdata/jobParameters/cos.location`|Object store location |
+|`fhirServer/bulkdata/jobParameters/cos.endpointurl`| Object store end point url |
+|`fhirServer/bulkdata/jobParameters/credential.ibm`| If use IBM credential, "Y" or "N" |
+|`fhirServer/bulkdata/jobParameters/cos.api.key`|string|API key for accessing IBM COS |
+|`fhirServer/bulkdata/jobParameters/cos.srvinst.id`|string|Service instance Id for accessing IBM COS |
+|`fhirServer/bulkdata/implementation_type`|string|Use "cos" for any S3-compatible object store |
+|`fhirServer/bulkdata/batch-uri`|string|The URL to access the FHIR server hosting the batch web application |
+|`fhirServer/bulkdata/batch-user`|string|User for submitting JavaBatch job |
+|`fhirServer/bulkdata/batch-user-password`|string|Password for above batch user |
+|`fhirServer/bulkdata/batch-truststore`|string|Trust store for JavaBatch job submission |
+|`fhirServer/bulkdata/batch-truststore-password`|string|Password for above trust store |
+|`fhirServer/bulkdata/bulkDataBatchJobIdEncryptionKey`|string|Encryption key for JavaBatch job id |
+|`fhirServer/bulkdata/isExportPublic`|boolean|If give public read only access to the exported files |
 
 
 ### 5.1.2 Default property values
@@ -1375,6 +1373,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultHandling`|strict|
 |`fhirServer/core/allowClientHandlingPref`|true|
 |`fhirServer/core/checkReferenceTypes`|true|
+|`fhirServer/core/conditionalDeleteMaxNumber`|10|
 |`fhirServer/searchParameterFilter`|`"*": [*]`|
 |`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
 |`fhirServer/notifications/websocket/enabled`|false|
@@ -1394,6 +1393,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/geoCity`|Dallas|
 |`fhirServer/audit/serviceProperties/geoState`|TX|
 |`fhirServer/audit/serviceProperties/geoCounty`|US|
+|`fhirServer/bulkdata/isExportPublic`|true|
 
 
 ### 5.1.3 Property attributes
@@ -1415,6 +1415,7 @@ must restart the server for that change to take effect.
 |`fhirServer/core/defaultHandling`|Y|Y|
 |`fhirServer/core/allowClientHandlingPref`|Y|Y|
 |`fhirServer/core/checkReferenceTypes`|N|N|
+|`fhirServer/core/conditionalDeleteMaxNumber`|Y|Y|
 |`fhirServer/searchParameterFilter`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|Y|Y|
@@ -1434,6 +1435,14 @@ must restart the server for that change to take effect.
 |`fhirServer/audit/serviceProperties/geoCity`|N|N|
 |`fhirServer/audit/serviceProperties/geoState`|N|N|
 |`fhirServer/audit/serviceProperties/geoCounty`|N|N|
+|`fhirServer/bulkdata/jobParameters/cos.bucket.name`|Y|Y|
+|`fhirServer/bulkdata/jobParameters/cos.location`|Y|Y|
+|`fhirServer/bulkdata/jobParameters/cos.endpointurl`|Y|Y|
+|`fhirServer/bulkdata/jobParameters/credential.ibm`|Y|Y|
+|`fhirServer/bulkdata/jobParameters/cos.api.key`|Y|Y|
+|`fhirServer/bulkdata/jobParameters/cos.srvinst.id`|Y|Y|
+|`fhirServer/bulkdata/bulkDataBatchJobIdEncryptionKey`|Y|Y|
+|`fhirServer/bulkdata/isExportPublic`|Y|Y|
 
 
 ## 5.2 Keystores, truststores, and the FHIR server

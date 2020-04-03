@@ -27,6 +27,8 @@ import com.ibm.cloud.objectstorage.services.s3.model.PutObjectRequest;
 import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.bulkexport.common.TransientUserData;
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 
 /**
  * Bulk export Chunk implementation - the Writer.
@@ -35,6 +37,8 @@ import com.ibm.fhir.bulkexport.common.TransientUserData;
 public class ChunkWriter extends AbstractItemWriter {
     private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
     private AmazonS3 cosClient = null;
+    private final boolean isExportPublic = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC, true);
+
     /**
      * The IBM COS API key or S3 access key.
      */
@@ -154,11 +158,19 @@ public class ChunkWriter extends AbstractItemWriter {
             if (cosBucketPathPrefix != null && cosBucketPathPrefix.trim().length() > 0) {
                 itemName = cosBucketPathPrefix + "/" + ResourceTypes.get(chunkData.getIndexOfCurrentResourceType())
                             + "_" + chunkData.getPartNum() + ".ndjson";
+                if (isExportPublic) {
+                    // Set expiration time to 2 hours(7200 seconds).
+                    // Note: IBM COS doesn't honor this but also doesn't fail on this.
+                    metadata.setExpirationTime(Date.from(Instant.now().plusSeconds(7200)));
+                }
+
                 req = new PutObjectRequest(cosBucketName, itemName, in, metadata);
-                // Allow public read only if cosBucketPathPrefix is used.
-                req.setCannedAcl(CannedAccessControlList.PublicRead);
-                // Set expiration time to 2 hours(7200 seconds).
-                metadata.setExpirationTime(Date.from(Instant.now().plusSeconds(7200)));
+
+                if (isExportPublic) {
+                    // Give public read only access.
+                    req.setCannedAcl(CannedAccessControlList.PublicRead);
+                }
+
             } else {
                 itemName = "job" + jobContext.getExecutionId() + "/" + ResourceTypes.get(chunkData.getIndexOfCurrentResourceType())
                             + "_" + chunkData.getPartNum() + ".ndjson";
