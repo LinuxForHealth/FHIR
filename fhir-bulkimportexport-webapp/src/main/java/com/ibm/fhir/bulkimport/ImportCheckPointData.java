@@ -68,10 +68,11 @@ public class ImportCheckPointData implements Serializable {
     }
 
 
-    public ImportCheckPointData(String importPartitionResourceType, int numOfProcessedResources) {
+    public ImportCheckPointData(String importPartitionResourceType, int numOfProcessedResources, long inFlyRateBeginMilliSeconds) {
         super();
         this.numOfProcessedResources = numOfProcessedResources;
         this.importPartitionResourceType = importPartitionResourceType;
+        this.inFlyRateBeginMilliSeconds = inFlyRateBeginMilliSeconds;
     }
 
     public ImportCheckPointData(String importPartitionWorkitem, int numOfProcessedResources, String importPartitionResourceType,
