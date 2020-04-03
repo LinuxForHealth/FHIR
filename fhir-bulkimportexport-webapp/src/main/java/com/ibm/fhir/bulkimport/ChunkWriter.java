@@ -7,7 +7,9 @@
 package com.ibm.fhir.bulkimport;
 
 import java.io.ByteArrayInputStream;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -124,6 +126,8 @@ public class ChunkWriter extends AbstractItemWriter {
     @Override
     public void writeItems(List<java.lang.Object> arg0) throws Exception {
         boolean isValidationOn = false;
+        Set<String> failValidationIds = new HashSet<>();
+
         if (fhirValidation != null) {
             isValidationOn = fhirValidation.equalsIgnoreCase("Y");
         }
@@ -146,6 +150,33 @@ public class ChunkWriter extends AbstractItemWriter {
         int processedNum = 0, succeededNum =0, failedNum = 0;
         ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
 
+        // Validate the resources first if required.
+        if (isValidationOn) {
+            long validationStartTimeInMilliSeconds = System.currentTimeMillis();
+            for (Object objResJsonList : arg0) {
+                @SuppressWarnings("unchecked")
+                List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
+
+                for (Resource fhirResource : fhirResourceList) {
+                    try {
+                        BulkDataUtils.validateInput(fhirResource);
+                    } catch (FHIRValidationException|FHIROperationException e) {
+                        logger.warning("Failed to validate '" + fhirResource.getId() + "' due to error: " + e.getMessage());
+                        failedNum++;
+                        failValidationIds.add(fhirResource.getId());
+                        if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
+                            OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
+                            FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
+                            chunkData.getBufferStreamForImportError().write(Constants.NDJSON_LINESEPERATOR);
+                        }
+                    }
+                }
+            }
+            chunkData.setTotalValidationMilliSeconds(chunkData.getTotalValidationMilliSeconds()
+                    + (System.currentTimeMillis() - validationStartTimeInMilliSeconds));
+        }
+
+        // Begin writing the resources into DB.
         long writeStartTimeInMilliSeconds = System.currentTimeMillis();
         // Acquire a DB connection which will be used in the batch.
         // This doesn't really start the transaction, because the transaction has already been started by the JavaBatch
@@ -158,10 +189,9 @@ public class ChunkWriter extends AbstractItemWriter {
             for (Resource fhirResource : fhirResourceList) {
                 try {
                     processedNum++;
-                    if (isValidationOn) {
-                        long validationStartTimeInMilliSeconds = System.currentTimeMillis();
-                        BulkDataUtils.validateInput(fhirResource);
-                        chunkData.setTotalValidationMilliSeconds(chunkData.getTotalValidationMilliSeconds() + (System.currentTimeMillis() - validationStartTimeInMilliSeconds));
+                    // Skip the resources which failed the validation
+                    if (failValidationIds.contains(fhirResource.getId())) {
+                        continue;
                     }
                     OperationOutcome operationOutcome = fhirPersistence.update(persistenceContext, fhirResource.getId(), fhirResource).getOutcome();
                     succeededNum++;
@@ -169,16 +199,11 @@ public class ChunkWriter extends AbstractItemWriter {
                         FHIRGenerator.generator(Format.JSON).generate(operationOutcome, chunkData.getBufferStreamForImport());
                         chunkData.getBufferStreamForImport().write(Constants.NDJSON_LINESEPERATOR);
                     }
-                } catch (FHIRValidationException | FHIROperationException e) {
+                } catch (FHIROperationException e) {
                     logger.warning("Failed to import '" + fhirResource.getId() + "' due to error: " + e.getMessage());
                     failedNum++;
                     if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
-                        OperationOutcome operationOutCome;
-                        if (e instanceof FHIROperationException && !((FHIROperationException) e).getIssues().isEmpty()) {
-                            operationOutCome = FHIRUtil.buildOperationOutcome(((FHIROperationException) e).getIssues());
-                        } else {
-                            operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
-                        }
+                        OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
                         FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
                         chunkData.getBufferStreamForImportError().write(Constants.NDJSON_LINESEPERATOR);
                     }
