@@ -146,6 +146,7 @@ public class ChunkWriter extends AbstractItemWriter {
         int processedNum = 0, succeededNum =0, failedNum = 0;
         ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
 
+        long writeStartTimeInMilliSeconds = System.currentTimeMillis();
         // Acquire a DB connection which will be used in the batch.
         // This doesn't really start the transaction, because the transaction has already been started by the JavaBatch
         // framework at this time point.
@@ -158,7 +159,9 @@ public class ChunkWriter extends AbstractItemWriter {
                 try {
                     processedNum++;
                     if (isValidationOn) {
+                        long validationStartTimeInMilliSeconds = System.currentTimeMillis();
                         BulkDataUtils.validateInput(fhirResource);
+                        chunkData.setTotalValidationMilliSeconds(chunkData.getTotalValidationMilliSeconds() + (System.currentTimeMillis() - validationStartTimeInMilliSeconds));
                     }
                     OperationOutcome operationOutcome = fhirPersistence.update(persistenceContext, fhirResource.getId(), fhirResource).getOutcome();
                     succeededNum++;
@@ -187,6 +190,7 @@ public class ChunkWriter extends AbstractItemWriter {
         // by the JavaBatch framework.
         txn.unenroll();
 
+        chunkData.setTotalWriteMilliSeconds(chunkData.getTotalWriteMilliSeconds() + (System.currentTimeMillis() - writeStartTimeInMilliSeconds));
         chunkData.setNumOfProcessedResources(chunkData.getNumOfProcessedResources() + processedNum + chunkData.getNumOfParseFailures());
         chunkData.setNumOfImportedResources(chunkData.getNumOfImportedResources() + succeededNum);
         chunkData.setNumOfImportFailures(chunkData.getNumOfImportFailures() + failedNum + chunkData.getNumOfParseFailures());

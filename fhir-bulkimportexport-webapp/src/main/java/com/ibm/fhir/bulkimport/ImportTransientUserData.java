@@ -27,11 +27,13 @@ public class ImportTransientUserData extends ImportCheckPointData {
             String importPartitionResourceType, int numOfImportedResource, int numOfImportFailures,
             String uniqueIDForImportFailureOperationOutcomes, String uniqueIDForImportOperationOutcome,
             String uploadIdForOperationOutcomes, List<PartETag> dataPacksForOperationOutcomes, int partNumForOperationOutcomes,
-            String uploadIdForFailureOperationOutcomes, List<PartETag> dataPacksForFailureOperationOutcomes, int partNumForFailureOperationOutcomes) {
+            String uploadIdForFailureOperationOutcomes, List<PartETag> dataPacksForFailureOperationOutcomes, int partNumForFailureOperationOutcomes,
+            long totalReadMilliSeconds, long totalValidationMilliSeconds, long totalWriteMilliSeconds, long importFileSize, long inFlyRateBeginMilliSeconds) {
         super(importPartitionWorkitem, numOfProcessedResources, importPartitionResourceType,
                 numOfImportedResource, numOfImportFailures, uniqueIDForImportFailureOperationOutcomes, uniqueIDForImportOperationOutcome,
                 uploadIdForOperationOutcomes, dataPacksForOperationOutcomes, partNumForOperationOutcomes,
-                uploadIdForFailureOperationOutcomes, dataPacksForFailureOperationOutcomes, partNumForFailureOperationOutcomes);
+                uploadIdForFailureOperationOutcomes, dataPacksForFailureOperationOutcomes, partNumForFailureOperationOutcomes,
+                totalReadMilliSeconds, totalValidationMilliSeconds, totalWriteMilliSeconds, importFileSize, inFlyRateBeginMilliSeconds);
     }
 
     public ImportTransientUserData(String importPartitionWorkitem, int numOfProcessedResources, String importPartitionResourceType) {
@@ -52,7 +54,9 @@ public class ImportTransientUserData extends ImportCheckPointData {
                 importCheckPointData.getNumOfImportedResources(), importCheckPointData.getNumOfImportFailures(),
                 importCheckPointData.getUniqueIDForImportFailureOperationOutcomes(), importCheckPointData.getUniqueIDForImportOperationOutcomes(),
                 importCheckPointData.getUploadIdForOperationOutcomes(), importCheckPointData.getDataPacksForOperationOutcomes(), importCheckPointData.getPartNumForOperationOutcomes(),
-                importCheckPointData.getUploadIdForFailureOperationOutcomes(), importCheckPointData.getDataPacksForFailureOperationOutcomes(), importCheckPointData.getPartNumForFailureOperationOutcomes());
+                importCheckPointData.getUploadIdForFailureOperationOutcomes(), importCheckPointData.getDataPacksForFailureOperationOutcomes(), importCheckPointData.getPartNumForFailureOperationOutcomes(),
+                importCheckPointData.getTotalReadMilliSeconds(), importCheckPointData.getTotalValidationMilliSeconds(), importCheckPointData.getTotalWriteMilliSeconds(),
+                importCheckPointData.getImportFileSize(), importCheckPointData.getInFlyRateBeginMilliSeconds());
     }
 
     public InputStream getInputStream() {
