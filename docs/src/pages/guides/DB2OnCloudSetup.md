@@ -21,7 +21,7 @@ This document guides a developer or administrator through the steps necessary to
 1. Select the Pricing Plan: 
     - The IBM FHIR Server recommends the Flex plan for a production workload.
     - The IBM FHIR Server recommends the Flex plan for development, however, the Lite plan is possible for the development and evaluation. 
-      - **Note** The Lite plan has a limit of 5 concurrent connections, and the IBM FHIR Server `fhirProxyDataSource` needs to be updated to avoid failures. One should update the server.xml connectionManager with maxPoolSize - `<connectionManager maxPoolSize="5"/>.  Further, your instance may not be enabled with IAM enabled, and you may use the `Service Credentials` that are created to connect to configure the datasource. This is only acceptable with **development** and **experimentation**. 
+      - **Note** The Lite plan has a limit of 5 concurrent connections, and the IBM FHIR Server `fhirProxyDataSource` needs to be updated to avoid failures. One should update the server.xml connectionManager with maxPoolSize - `<connectionManager maxPoolSize="5"/>`.  Further, your instance may not be enabled with IAM enabled, and you may use the `Service Credentials` that are created to connect to configure the datasource. This is only acceptable with **development** and **experimentation**. 
       
 1. Create `Create`
 
