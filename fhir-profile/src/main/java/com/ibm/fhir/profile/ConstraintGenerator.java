@@ -174,8 +174,10 @@ public class ConstraintGenerator {
         if (hasVocabularyConstraint(elementDefinition)) {
             String expr = generateVocabularyConstraint(elementDefinition);
             if (node.children.stream().noneMatch(child -> hasConstraint(child))) {
+                // no constraints exist on the children of this node, the expression is complete
                 return expr;
             }
+            // there are additional constraints to generate
             sb.append(expr).append(" and ");
         }
 

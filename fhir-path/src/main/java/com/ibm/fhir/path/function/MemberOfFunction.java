@@ -51,6 +51,9 @@ import com.ibm.fhir.registry.FHIRRegistry;
 
 /**
  * Implementation of the 'memberOf' FHIRPath function per: http://hl7.org/fhir/fhirpath.html#functions
+ *
+ * <p>This implementation also supports an optional second argument (binding strength). The binding strength
+ * is used to determine whether or not to add a warning to the evaluation context if the membership check fails.
  */
 public class MemberOfFunction extends FHIRPathAbstractFunction {
     private static final Logger log = Logger.getLogger(MemberOfFunction.class.getName());
