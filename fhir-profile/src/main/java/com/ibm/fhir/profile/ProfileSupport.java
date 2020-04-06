@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -100,46 +100,51 @@ public final class ProfileSupport {
         String location = path.contains(".") ? path.replace("[x]", "") : Constraint.LOCATION_BASE;
         String description = constraint.getHuman().getValue();
         String expression = constraint.getExpression().getValue();
-        return createConstraint(id, level, location, description, expression, false);
+        return createConstraint(id, level, location, description, expression, false, false);
     }
 
-    public static Constraint createConstraint(String id, String level, String location, String description, String expression, boolean modelChecked) {
+    public static Constraint createConstraint(String id, String level, String location, String description, String expression, boolean modelChecked, boolean generated) {
         return new Constraint() {
             @Override
             public Class<? extends Annotation> annotationType() {
                 return Constraint.class;
             }
-    
+
             @Override
             public String description() {
                 return description;
             }
-    
+
             @Override
             public String expression() {
                 return expression;
             }
-    
+
             @Override
             public String id() {
                 return id;
             }
-    
+
             @Override
             public String level() {
                 return level;
             }
-    
+
             @Override
             public String location() {
                 return location;
             }
-    
+
             @Override
             public boolean modelChecked() {
                 return modelChecked;
             }
-    
+
+            @Override
+            public boolean generated() {
+                return generated;
+            }
+
             @Override
             public String toString() {
                 return new StringBuilder()
@@ -149,7 +154,8 @@ public final class ProfileSupport {
                     .append("location=").append(location).append(", ")
                     .append("description=").append(description).append(", ")
                     .append("expression=").append(expression).append(", ")
-                    .append("modelChecked=").append(modelChecked)
+                    .append("modelChecked=").append(modelChecked).append(", ")
+                    .append("generated=").append(generated)
                     .append("]")
                     .toString();
             }
@@ -180,7 +186,7 @@ public final class ProfileSupport {
         }
         return constraints;
     }
-    
+
     public static List<Constraint> getConstraints(Resource resource) {
         Meta meta = resource.getMeta();
         if (meta != null) {
@@ -213,11 +219,11 @@ public final class ProfileSupport {
         Map<String, ElementDefinition> elementDefinitionMap = getElementDefinitionMap(url);
         return elementDefinitionMap.get(path);
     }
-    
+
     public static Map<String, ElementDefinition> getElementDefinitionMap(Class<?> type) {
         return getElementDefinitionMap(HL7_STRUCTURE_DEFINITION_URL_PREFIX + ModelSupport.getTypeName(type));
     }
-    
+
     public static Map<String, ElementDefinition> getElementDefinitionMap(String url) {
         Map<String, ElementDefinition> elementDefinitionMap = ELEMENT_DEFINITION_CACHE.get(url);
         if (elementDefinitionMap == null) {
@@ -225,7 +231,7 @@ public final class ProfileSupport {
         }
         return elementDefinitionMap;
     }
-    
+
     private static Set<String> getKeys(StructureDefinition structureDefinition) {
         Set<String> keys = new HashSet<>();
         for (ElementDefinition elementDefinition : structureDefinition.getSnapshot().getElement()) {
@@ -235,12 +241,12 @@ public final class ProfileSupport {
         }
         return keys;
     }
-    
+
     public static StructureDefinition getProfile(String url) {
         StructureDefinition structureDefinition = getStructureDefinition(url);
         return isProfile(structureDefinition) ? structureDefinition : null;
     }
-    
+
     public static StructureDefinition getProfile(String url, Class<?> type) {
         StructureDefinition profile = getProfile(url);
         return (profile != null && isApplicable(profile, type)) ? profile : null;
@@ -249,7 +255,7 @@ public final class ProfileSupport {
     private static StructureDefinition getStructureDefinition(Class<?> modelClass) {
         return getStructureDefinition(HL7_STRUCTURE_DEFINITION_URL_PREFIX + ModelSupport.getTypeName(modelClass));
     }
-    
+
     public static StructureDefinition getStructureDefinition(String url) {
         Resource resource = FHIRRegistry.getInstance().getResource(url, Resource.class);
         if (resource instanceof StructureDefinition) {
@@ -257,22 +263,22 @@ public final class ProfileSupport {
         }
         return null;
     }
-    
+
     private static String getUrl(String path) {
         int index = path.indexOf(".");
         String typeName = (index != -1) ? path.substring(0, index) : path;
         return HL7_STRUCTURE_DEFINITION_URL_PREFIX + typeName;
     }
-    
+
     public static boolean isApplicable(StructureDefinition profile, Class<?> type) {
         return isApplicable(profile, ModelSupport.getTypeNames(type));
     }
-    
+
     private static boolean isApplicable(StructureDefinition profile, Set<String> typeNames) {
         String type = profile.getType().getValue();
         return typeNames.contains(type.substring(type.lastIndexOf("/") + 1));
     }
-    
+
     public static boolean isProfile(StructureDefinition structureDefinition) {
         return structureDefinition != null && TypeDerivationRule.CONSTRAINT.equals(structureDefinition.getDerivation());
     }

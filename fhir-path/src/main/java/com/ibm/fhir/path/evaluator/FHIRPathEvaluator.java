@@ -32,9 +32,11 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.isComparableTo;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isQuantityNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isSingleton;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isStringElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isTrue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isTypeCompatible;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isUriElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
 import static com.ibm.fhir.path.util.FHIRPathUtil.unescape;
 
@@ -56,6 +58,8 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.visitor.Visitable;
@@ -783,7 +787,7 @@ public class FHIRPathEvaluator {
 
             switch (operator) {
             case "in":
-                if (isCodedElementNode(left) && isStringValue(right)) {
+                if ((isCodedElementNode(left) || isStringElementNode(left) || isUriElementNode(left)) && isStringValue(right)) {
                     // For backwards compatibility per: https://jira.hl7.org/projects/FHIR/issues/FHIR-26605
                     FHIRPathFunction memberOfFunction = FHIRPathFunction.registry().getFunction("memberOf");
                     result = memberOfFunction.apply(evaluationContext, left, Collections.singletonList(right));
@@ -1341,6 +1345,9 @@ public class FHIRPathEvaluator {
         private final FHIRPathTree tree;
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
 
+        private Constraint constraint;
+        private final List<Issue> issues = new ArrayList<>();
+
         /**
          * Create an empty evaluation context, evaluating stand-alone expressions
          */
@@ -1456,6 +1463,76 @@ public class FHIRPathEvaluator {
          */
         public boolean hasExternalConstant(String name) {
             return externalConstantMap.containsKey(name);
+        }
+
+        /**
+         * Set the constraint currently under evaluation
+         *
+         * <p>If a {@link Constraint} is the source of the expression under evaluation, then this method allows the
+         * client to make it available to the evaluation engine to access additional information about the constraint
+         * (e.g. id, level, location, description, etc.)
+         *
+         * @param constraint
+         *     the constraint currently under evaluation
+         */
+        public void setConstraint(Constraint constraint) {
+            this.constraint = constraint;
+        }
+
+        /**
+         * Unset the constraint currently under evaluation
+         */
+        public void unsetConstraint() {
+            constraint = null;
+        }
+
+        /**
+         * Get the constraint currently under evaluation
+         *
+         * @return
+         *     the constraint currently under evaluation if exists, otherwise null
+         */
+        public Constraint getConstraint() {
+            return constraint;
+        }
+
+        /**
+         * Indicates whether this evaluation context has an associated constraint
+         *
+         * @return
+         *     true if this evaluation context has an associated constraint, otherwise false
+         */
+        public boolean hasConstraint() {
+            return constraint != null;
+        }
+
+        /**
+         * Get the list of supplemental issues that were generated during evaluation
+         *
+         * <p>Supplemental issues are used to convey additional information about the evaluation to the client
+         *
+         * @return
+         *     the list of supplemental issues that were generated during evaluation
+         */
+        public List<Issue> getIssues() {
+            return issues;
+        }
+
+        /**
+         * Clear the list of supplemental issues that were generated during evaluation
+         */
+        public void clearIssues() {
+            issues.clear();
+        }
+
+        /**
+         * Indicates whether this evaluation context has supplemental issues that were generated during evaluation
+         *
+         * @return
+         *     true if this evaluation context has supplemental issues that were generated during evaluation, otherwise false
+         */
+        public boolean hasIssues() {
+            return !issues.isEmpty();
         }
     }
 }

@@ -14,10 +14,12 @@ import static com.ibm.fhir.profile.ProfileSupport.getBinding;
 import static com.ibm.fhir.profile.ProfileSupport.getElementDefinition;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.StringJoiner;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -35,6 +37,7 @@ import com.ibm.fhir.model.type.ElementDefinition;
 import com.ibm.fhir.model.type.ElementDefinition.Binding;
 import com.ibm.fhir.model.type.ElementDefinition.Type;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 
@@ -71,13 +74,19 @@ public class ConstraintGenerator {
 
         int index = 1;
 
+        Set<String> generated = new HashSet<>();
+
         log.fine("Generated constraint expressions:");
         for (Node child : tree.root.children) {
             String expr = generate(child);
+            if (generated.contains(expr)) {
+                continue;
+            }
             log.fine(expr);
             String description = "Constraint violation: " + expr;
             constraints.add(constraint("generated-" + prefix + "-" + index, expr, description));
             index++;
+            generated.add(expr);
         }
         log.fine("");
 
@@ -146,10 +155,12 @@ public class ConstraintGenerator {
     }
 
     private Constraint constraint(String id, String expr, String description) {
-        return createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, false);
+        return createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, false, true);
     }
 
     private String generate(Node node) {
+        StringBuffer sb = new StringBuffer();
+
         ElementDefinition elementDefinition = node.elementDefinition;
 
         if (hasValueConstraint(elementDefinition)) {
@@ -161,14 +172,18 @@ public class ConstraintGenerator {
         }
 
         if (hasVocabularyConstraint(elementDefinition)) {
-            return generateVocabularyConstraint(elementDefinition);
+            String expr = generateVocabularyConstraint(elementDefinition);
+            if (node.children.stream().noneMatch(child -> hasConstraint(child))) {
+                // no constraints exist on the children of this node, the expression is complete
+                return expr;
+            }
+            // there are additional constraints to generate
+            sb.append(expr).append(" and ");
         }
 
         if (hasExtensionConstraint(elementDefinition)) {
             return generateExtensionConstraint(elementDefinition);
         }
-
-        StringBuilder sb = new StringBuilder();
 
         String identifier = getIdentifier(elementDefinition);
 
@@ -368,10 +383,14 @@ public class ConstraintGenerator {
         StringBuilder sb = new StringBuilder();
 
         String identifier = getIdentifier(elementDefinition);
+        if (isOptional(elementDefinition)) {
+            sb.append(identifier).append(".exists() implies (");
+        }
         sb.append(identifier);
 
         Binding binding = elementDefinition.getBinding();
         String valueSet = binding.getValueSet().getValue();
+        String strength = binding.getStrength().getValue();
 
         if (hasChoiceTypeConstraint(elementDefinition)) {
             Type type = getTypes(elementDefinition).get(0);
@@ -381,7 +400,11 @@ public class ConstraintGenerator {
             }
         }
 
-        sb.append(".memberOf('").append(valueSet).append("')");
+        sb.append(".memberOf('").append(valueSet).append("', '").append(strength).append("')");
+
+        if (isOptional(elementDefinition)) {
+            sb.append(")");
+        }
 
         return sb.toString();
     }
@@ -486,12 +509,11 @@ public class ConstraintGenerator {
     }
 
     private boolean hasFixedValueConstraint(ElementDefinition elementDefinition) {
-        return elementDefinition.getFixed() != null && (elementDefinition.getFixed() instanceof Uri || elementDefinition.getFixed() instanceof Code);
+        return (elementDefinition.getFixed() instanceof Uri || elementDefinition.getFixed() instanceof Code);
     }
 
     private boolean hasPatternValueConstraint(ElementDefinition elementDefinition) {
-        return elementDefinition.getPattern() != null &&
-                (elementDefinition.getPattern() instanceof CodeableConcept) &&
+        return (elementDefinition.getPattern() instanceof CodeableConcept) &&
                 (elementDefinition.getPattern().as(CodeableConcept.class).getCoding().stream()
                         .allMatch(coding -> (coding.getCode() != null && coding.getCode().getValue() != null)));
     }
@@ -508,26 +530,36 @@ public class ConstraintGenerator {
 
     private boolean hasVocabularyConstraint(ElementDefinition elementDefinition) {
         Binding binding = elementDefinition.getBinding();
-        if (binding != null && isCodedElement(elementDefinition)) {
-            Binding baseBinding = getBinding(elementDefinition.getBase().getPath().getValue());
-            String baseStrength = (baseBinding != null) ? baseBinding.getStrength().getValue() : null;
-            String baseValueSet = (baseBinding != null) ? baseBinding.getValueSet().getValue() : null;
-            String strength = binding.getStrength().getValue();
+        if (binding != null && !BindingStrength.EXAMPLE.equals(binding.getStrength()) && binding.getValueSet() != null &&
+                (isCodedElement(elementDefinition) || isStringElement(elementDefinition) || isUriElement(elementDefinition))) {
+            BindingStrength.ValueSet strength = binding.getStrength().getValueAsEnumConstant();
             String valueSet = binding.getValueSet().getValue();
-            return (!"required".equals(baseStrength) && "required".equals(strength))
-                    || ("required".equals(baseStrength) && "required".equals(strength) && !valueSetEqualsIgnoreVersion(valueSet, baseValueSet));
+
+            Binding baseBinding = getBinding(elementDefinition.getBase().getPath().getValue());
+            BindingStrength.ValueSet baseStrength = (baseBinding != null) ? baseBinding.getStrength().getValueAsEnumConstant() : null;
+            String baseValueSet = (baseBinding != null && baseBinding.getValueSet() != null) ? baseBinding.getValueSet().getValue() : null;
+
+            return (isStronger(strength, baseStrength) || (strength.equals(baseStrength) && !valueSetEqualsIgnoreVersion(valueSet, baseValueSet)));
         }
         return false;
     }
 
-    private boolean valueSetEqualsIgnoreVersion(String vs1, String vs2) {
-        int index = vs1.indexOf("|");
-        String url1 = (index != -1) ? vs1.substring(0, index) : vs1;
+    private boolean isStronger(BindingStrength.ValueSet strength, BindingStrength.ValueSet baseStrength) {
+        return (baseStrength == null) || (strength.ordinal() < baseStrength.ordinal());
+    }
 
-        index = vs2.indexOf("|");
-        String url2 = (index != -1) ? vs2.substring(0, index) : vs2;
+    private boolean valueSetEqualsIgnoreVersion(String valueSet, String baseValueSet) {
+        if (baseValueSet == null) {
+            return false;
+        }
 
-        return url1.equals(url2);
+        int index = valueSet.indexOf("|");
+        String url = (index != -1) ? valueSet.substring(0, index) : valueSet;
+
+        index = baseValueSet.indexOf("|");
+        String baseUrl = (index != -1) ? baseValueSet.substring(0, index) : baseValueSet;
+
+        return url.equals(baseUrl);
     }
 
     private boolean isChoiceElement(ElementDefinition elementDefinition) {
@@ -543,6 +575,32 @@ public class ConstraintGenerator {
         if (type.getCode() != null) {
             String code = type.getCode().getValue();
             return "code".equals(code) || "Coding".equals(code) || "CodeableConcept".equals(code);
+        }
+        return false;
+    }
+
+    private boolean isStringElement(ElementDefinition elementDefinition) {
+        List<Type> types = getTypes(elementDefinition);
+        if (types.size() != 1) {
+            return false;
+        }
+        Type type = types.get(0);
+        if (type.getCode() != null) {
+            String code = type.getCode().getValue();
+            return "string".equals(code);
+        }
+        return false;
+    }
+
+    private boolean isUriElement(ElementDefinition elementDefinition) {
+        List<Type> types = getTypes(elementDefinition);
+        if (types.size() != 1) {
+            return false;
+        }
+        Type type = types.get(0);
+        if (type.getCode() != null) {
+            String code = type.getCode().getValue();
+            return "uri".equals(code);
         }
         return false;
     }
@@ -645,7 +703,7 @@ public class ConstraintGenerator {
             public void close() throws SecurityException {
             }
         });
-        StructureDefinition profile = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/StructureDefinition/bodyweight", StructureDefinition.class);
+        StructureDefinition profile = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/StructureDefinition/heartrate", StructureDefinition.class);
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         System.out.println("Generated constraints: ");
         generator.generate().stream().map(constraint -> constraint.expression()).forEach(System.out::println);
