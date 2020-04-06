@@ -297,7 +297,7 @@ public class BulkDataUtils {
     }
 
 
-    public static long getLocallFileSize(String filePath) throws Exception {
+    public static long getLocalFileSize(String filePath) throws Exception {
         return (new File(filePath).length());
       }
 
