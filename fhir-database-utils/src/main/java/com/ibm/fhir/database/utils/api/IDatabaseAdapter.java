@@ -176,7 +176,7 @@ public interface IDatabaseAdapter {
     /**
      *
      * <pre>
-     * CREATE PERMISSION ROW_ACCESS ON ptng.patients FOR ROWS WHERE patients.mt_id =
+     * CREATE OR REPLACE PERMISSION ROW_ACCESS ON ptng.patients FOR ROWS WHERE patients.mt_id =
      * ptng.session_tenant ENFORCED FOR ALL ACCESS ENABLE;
      * </pre>
      *
@@ -185,7 +185,7 @@ public interface IDatabaseAdapter {
      * @param tableName
      * @param predicate
      */
-    public void createPermission(String schemaName, String permissionName, String tableName, String predicate);
+    public void createOrReplacePermission(String schemaName, String permissionName, String tableName, String predicate);
 
     /**
      *

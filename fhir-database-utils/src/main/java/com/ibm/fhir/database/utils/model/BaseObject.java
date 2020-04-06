@@ -217,10 +217,10 @@ public abstract class BaseObject implements IDatabaseObject {
                     // Either a deadlock, or lock timeout, we allow the transaction to be
                     // tried again.
                     if (x.isDeadlock()) {
-                        logger.warning("Deadlock detected processing: " + this.getTypeAndName() + " [remaining=" + remainingAttempts + "]");
+                        logger.warning("Deadlock detected processing: " + this.getTypeAndName() + "; retrying up to " + remainingAttempts + " more times");
                     }
                     else {
-                        logger.warning("Lock timeout detected processing: " + this.getTypeAndName() + " [remaining=" + remainingAttempts + "]");
+                        logger.warning("Lock timeout detected processing: " + this.getTypeAndName() + "; retrying up to " + remainingAttempts + " more times");
                     }
                     tx.setRollbackOnly();
 

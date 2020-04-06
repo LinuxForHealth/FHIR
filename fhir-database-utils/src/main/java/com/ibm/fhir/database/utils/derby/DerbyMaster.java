@@ -28,7 +28,6 @@ import com.ibm.fhir.database.utils.model.PhysicalDataModel;
  * Set up an instance of Derby for use with unit tests
  */
 public class DerbyMaster implements AutoCloseable {
-
     private static final Logger logger = Logger.getLogger(DerbyMaster.class.getName());
 
     // The directory holding our derby databases
@@ -39,6 +38,9 @@ public class DerbyMaster implements AutoCloseable {
 
     // The name of the database we manage
     private final String database;
+
+    // The Version History Service default in this case. 
+    private AllVersionHistoryService vhs = new AllVersionHistoryService();
 
     // Controls if we run derby in debugging mode which enables more logs.
     private static final boolean DEBUG = false;
@@ -162,7 +164,7 @@ public class DerbyMaster implements AutoCloseable {
      * @param pdm
      */
     public void createSchema(PhysicalDataModel pdm) {
-        createSchema(new AllVersionHistoryService(), pdm);
+        createSchema(vhs, pdm);
     }
 
     /**
@@ -176,6 +178,7 @@ public class DerbyMaster implements AutoCloseable {
 
     /**
      * Run the function with an adapter configured for this database
+     * 
      * @param fn
      */
     public void runWithAdapter(java.util.function.Consumer<IDatabaseAdapter> fn) {
@@ -183,20 +186,16 @@ public class DerbyMaster implements AutoCloseable {
             Connection c = getConnection();
             try {
                 JdbcTarget target = new JdbcTarget(c);
+                DerbyAdapter adapter = new DerbyAdapter(target);
 
+                // Replace the target with a decorated output, so that we print all the DDL before executing
+                // The output is very FINE and logs out a lot. 
                 if (logger.isLoggable(Level.FINE)) {
-                    // Decorate the target so that we print all the DDL before executing
                     PrintTarget printer = new PrintTarget(target, logger.isLoggable(Level.FINE));
-                    DerbyAdapter adapter = new DerbyAdapter(printer);
-                    fn.accept(adapter);
+                    adapter = new DerbyAdapter(printer);
                 }
-                else {
-                    // Keep the logs a little cleaner by just executing instead of logging all the DDL
-                    DerbyAdapter adapter = new DerbyAdapter(target);
-                    fn.accept(adapter);
-                }
-            }
-            catch (DataAccessException x) {
+                fn.accept(adapter);
+            } catch (DataAccessException x) {
                 logger.log(Level.SEVERE, "Error while running", x);
                 c.rollback();
                 throw x;

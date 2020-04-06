@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ibm.fhir</groupId>
-    <version>4.0.1-SNAPSHOT</version>
+    <version>4.1.1-SNAPSHOT</version>
     <artifactId>fhir-tools</artifactId>
 
     <packaging>maven-plugin</packaging>
@@ -315,7 +315,7 @@
                         <configuration>
                             <!-- speed up the build -->
                             <isOffline>true</isOffline>
-                            <!-- no matter the JDK running the javadoc, it's 
+                            <!-- no matter the JDK running the javadoc, it's
                                 important this be at the minimum level we support, which is 8. -->
                             <source>8</source>
                             <!-- we don't need package -->
@@ -345,7 +345,7 @@
                             <windowtitle>IBM FHIR Server</windowtitle>
                             <doctitle>${project.name} ${project.version}</doctitle>
                             <additionalOptions>
-                                <!-- makes the frames visible, disabled and going 
+                                <!-- makes the frames visible, disabled and going
                                     away eventually -->
                                 <additionalOption>--frames</additionalOption>
                                 <!-- Fixes the undefined redirect in search -->
@@ -376,8 +376,8 @@
         </profile>
         <profile>
             <id>deploy-version-rc</id>
-            <!-- This profile enables automation to change version and DEPLOY 
-                rc to bintray. There are one input values. mvn clean -Drc=1 -Pdeploy-version-rc 
+            <!-- This profile enables automation to change version and DEPLOY
+                rc to bintray. There are one input values. mvn clean -Drc=1 -Pdeploy-version-rc
                 -f fhir-tools/pom.xml -->
             <properties>
                 <!-- the version to be set -->
@@ -413,8 +413,8 @@
         </profile>
         <profile>
             <id>deploy-version-release</id>
-            <!-- This profile enables automation to change version and DEPLOY 
-                release to bintray. There are one input values. mvn clean -Drc=1 -Pdeploy-version-release 
+            <!-- This profile enables automation to change version and DEPLOY
+                release to bintray. There are one input values. mvn clean -Drc=1 -Pdeploy-version-release
                 -f fhir-tools/pom.xml -->
             <properties>
                 <!-- the version to be set -->
@@ -449,7 +449,7 @@
         </profile>
         <profile>
             <id>deploy-bintray</id>
-            <!-- This profile enables automation DEPLOY to bintray. There 
+            <!-- This profile enables automation DEPLOY to bintray. There
                 are three input values. mvn clean install deploy -Pdeploy-bintray -f fhir-tools/pom.xml -->
             <properties>
                 <!-- switch to 1 to publish automatically -Dpublish=1 -->
@@ -463,7 +463,7 @@
             <build>
                 <plugins>
                     <plugin>
-                        <!-- Do not move this up to top level as it'll cause 
+                        <!-- Do not move this up to top level as it'll cause
                             a conflict with m2e restrictions on v2.6 -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
@@ -494,7 +494,7 @@
                     <url>https://api.bintray.com/maven/${bintray.org}/${bintray.repo}/fhir-tools/;publish=0</url>
                 </repository>
             </distributionManagement>
-            
+
         </profile>
     </profiles>
 </project>

@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.exception.FHIROperationException;
+import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.ResourceType;
@@ -84,7 +85,8 @@ public class FHIROperationRegistry {
     }
 
     private boolean isValid(FHIROperation operation) throws FHIRValidationException, FHIRValidationException {
-        List<Issue> issues = FHIRValidator.validator().validate(operation.getDefinition());
+        OperationDefinition opDef = operation.getDefinition();
+        List<Issue> issues = FHIRValidator.validator().validate(opDef);
         if (!issues.isEmpty()) {
             for (Issue issue : issues) {
                 log.info("Issue: " + issue.getCode().getValue() + ":"
@@ -94,9 +96,14 @@ public class FHIROperationRegistry {
                     return false;
                 }
             }
-
         }
-        if (operation.getName() == null) {
+        if (operation.getName() == null || !operation.getName().equals(opDef.getCode().getValue())) {
+            log.info("Name mismatch: the operation '" + operation.getName() + "' must match the OperationDefinition code '" +
+                    opDef.getCode() + "'");
+            return false;
+        }
+        if (opDef.getUrl() == null) {
+            log.info("Operation " + operation.getName() + " is missing a 'url'; this field is required by the IBM FHIR Server");
             return false;
         }
         return true;

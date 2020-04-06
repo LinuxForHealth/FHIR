@@ -89,6 +89,10 @@ import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
+/**
+ * Helper methods for performing the "heavy lifting" with respect to implementing
+ * FHIR interactions.
+ */
 public class FHIRRestHelper implements FHIRResourceHelpers {
     private static final Logger log =
             java.util.logging.Logger.getLogger(FHIRRestHelper.class.getName());
@@ -117,20 +121,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         this.persistence = persistence;
     }
 
-    /**
-     * Performs the heavy lifting associated with a 'create' interaction.
-     *
-     * @param type
-     *            the resource type specified as part of the request URL
-     * @param resource
-     *            the Resource to be stored.
-     * @param ifNoneExist
-     *            whether to create the resource if none exists
-     * @param requestProperties
-     *            additional request properties which supplement the HTTP headers associated with this request
-     * @return a FHIRRestOperationResponse object containing the results of the operation
-     * @throws Exception
-     */
     @Override
     public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist,
             Map<String, String> requestProperties) throws Exception {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -61,18 +61,18 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
                 log.finer("Kafka publisher is configured with the following properties:\n" + this.kafkaProps.toString());
                 log.finer("Topic name: " + this.topicName);
             }
-            
+
             // We'll hard-code some properties to ensure they are set correctly.
             this.kafkaProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
             this.kafkaProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
             this.kafkaProps.put(ProducerConfig.CLIENT_ID_CONFIG, "fhir-server");
-            
+
             // Make sure that the properties file contains the bootstrap.servers property at a minimum.
             String bootstrapServers = this.kafkaProps.getProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG);
             if (bootstrapServers == null) {
                 throw new IllegalStateException("The " + ProducerConfig.BOOTSTRAP_SERVERS_CONFIG + " property was missing from the Kafka connection properties.");
             }
-            
+
             // Create our producer object to be used for publishing.
             producer = new KafkaProducer<String, String>(this.kafkaProps);
 
@@ -96,7 +96,7 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
         log.entering(this.getClass().getName(), "shutdown");
 
         try {
-            if (log.isLoggable(Level.FINE)) {   
+            if (log.isLoggable(Level.FINE)) {
                 log.fine("Shutting down Kafka publisher for topic: '" + topicName + "'.");
             }
             if (producer != null) {
@@ -107,12 +107,6 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * com.ibm.fhir.notification.FHIRNotificationSubscriber#notify(com.ibm.fhir.notification.
-     * util.FHIRNotificationEvent)
-     */
     @Override
     public void notify(FHIRNotificationEvent event) throws FHIRNotificationException {
         log.entering(this.getClass().getName(), "notify");
@@ -121,10 +115,10 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
         try {
             jsonString = FHIRNotificationUtil.toJsonString(event, true);
 
-            if (log.isLoggable(Level.FINE)) { 
+            if (log.isLoggable(Level.FINE)) {
                 log.fine("Publishing kafka notification event to topic '" + topicId + "',\nmessage: " + jsonString);
             }
-            
+
             producer.send(new ProducerRecord<String, String>(topicName, jsonString), new KafkaPublisherCallback(event, jsonString, topicId));
 
             if (log.isLoggable(Level.FINE)) {
@@ -138,7 +132,7 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
             log.exiting(this.getClass().getName(), "notify");
         }
     }
-    
+
     public class KafkaPublisherCallback implements Callback {
         private FHIRNotificationEvent event;
         private String notificationEvent;
@@ -162,8 +156,8 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
                 // No exception implies that the send operation succeeded, so log an info message.
                 if (exception == null) {
                     log.info("Successfully published kafka notification event for resource: " + event.getLocation());
-                } 
-                
+                }
+
                 // If we detected a 'send' failure, then log an error message that includes the notification message
                 // that we tried to send.
                 else {
@@ -175,7 +169,7 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
             }
         }
     }
-    
+
     /**
      * Builds a formatted error message to indicate a notification publication failure.
      */

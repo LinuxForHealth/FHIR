@@ -58,6 +58,8 @@ To use the artifacts from a Maven project:
 |fhir-path|An implementation of version 2.0.0 of the FHIRPath specification assumed by FHIR R4|false|
 |fhir-validation|Validation utility for validating resource instances against the base specification and/or configured profiles|false|
 |fhir-ig-us-core|A packaging of the US Core Implementation Guide for extending the IBM FHIR Server with US Core Profile validation|false|
+|fhir-ig-mcode|A packaging of the minimal Common Oncology Data Elements for extending the IBM FHIR Server with minimal Common Oncology Data Elements Profile validation|false|
+|fhir-ig-carin-bb|A packaging of the Consumer-Directed Payer Data Exchange Guide for extending the IBM FHIR Server with  Consumer-Directed Payer Data Exchange Profile validation|false|
 
 #### Server
 |Module|Description|API-stable|
