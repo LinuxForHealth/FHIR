@@ -155,7 +155,7 @@ public class ConstraintGenerator {
     }
 
     private Constraint constraint(String id, String expr, String description) {
-        return createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, false);
+        return createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, false, true);
     }
 
     private String generate(Node node) {

@@ -1468,6 +1468,10 @@ public class FHIRPathEvaluator {
         /**
          * Set the constraint currently under evaluation
          *
+         * <p>If a {@link Constraint} is the source of the expression under evaluation, then this method allows the
+         * client to make it available to the evaluation engine to access additional information about the constraint
+         * (e.g. id, level, location, description, etc.)
+         *
          * @param constraint
          *     the constraint currently under evaluation
          */
@@ -1517,6 +1521,16 @@ public class FHIRPathEvaluator {
          */
         public void clearIssues() {
             issues.clear();
+        }
+
+        /**
+         * Indicates whether this evaluation context has issues that occurred during evaluation
+         *
+         * @return
+         *     true if this evaluation context has issues that occurred during evaluation, otherwise false
+         */
+        public boolean hasIssues() {
+            return !issues.isEmpty();
         }
     }
 }
