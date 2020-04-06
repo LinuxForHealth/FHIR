@@ -14,6 +14,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CLUSTER;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CHANNEL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CLIENT;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_SERVERS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
@@ -54,6 +55,7 @@ public class FHIRServletContextListener implements ServletContextListener {
     private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
     private static final String DEFAULT_NATS_CHANNEL = "fhirNotifications";
     private static final String DEFAULT_NATS_CLUSTER = "nats-streaming";
+    private static final String DEFAULT_NATS_CLIENT = "fhir-server";
     public static final String FHIR_SERVER_INIT_COMPLETE = "com.ibm.fhir.webappInitComplete";
     private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
     private static FHIRNotificationNATSPublisher natsPublisher = null;
@@ -132,11 +134,13 @@ public class FHIRServletContextListener implements ServletContextListener {
                 String clusterId = fhirConfig.getStringProperty(PROPERTY_NATS_CLUSTER, DEFAULT_NATS_CLUSTER);
                 // Retrieve the channel name.
                 String channelName = fhirConfig.getStringProperty(PROPERTY_NATS_CHANNEL, DEFAULT_NATS_CHANNEL);
+                // Retrieve the NATS client ID.
+                String clientId = fhirConfig.getStringProperty(PROPERTY_NATS_CLIENT, DEFAULT_NATS_CLIENT);
                 // Retrieve the server URL.
-                String server = fhirConfig.getStringProperty(PROPERTY_NATS_SERVERS);
+                String servers = fhirConfig.getStringProperty(PROPERTY_NATS_SERVERS);
 
                 log.info("Initializing NATS notification publisher.");
-                natsPublisher = new FHIRNotificationNATSPublisher(clusterId, channelName, server);
+                natsPublisher = new FHIRNotificationNATSPublisher(clusterId, channelName, clientId, servers);
             } else {
                 log.info("Bypassing NATS notification init.");
             }

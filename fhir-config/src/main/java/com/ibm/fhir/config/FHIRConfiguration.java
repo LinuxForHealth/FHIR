@@ -60,6 +60,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_NATS_ENABLED = "fhirServer/notifications/nats/enabled";
     public static final String PROPERTY_NATS_CLUSTER = "fhirServer/notifications/nats/cluster";
     public static final String PROPERTY_NATS_CHANNEL = "fhirServer/notifications/nats/channel";
+    public static final String PROPERTY_NATS_CLIENT = "fhirServer/notifications/nats/client";
     public static final String PROPERTY_NATS_SERVERS = "fhirServer/notifications/nats/servers";
 
     // Persistence layer properties

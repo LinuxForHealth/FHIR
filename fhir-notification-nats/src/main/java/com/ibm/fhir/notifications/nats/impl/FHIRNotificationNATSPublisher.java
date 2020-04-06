@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,10 +36,10 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
     protected FHIRNotificationNATSPublisher() {
     }
 
-    public FHIRNotificationNATSPublisher(String clusterId, String channelName, String servers) {
+    public FHIRNotificationNATSPublisher(String clusterId, String channelName, String clientId, String servers) {
         log.entering(this.getClass().getName(), "constructor");
         try {
-            init(clusterId, channelName, servers);
+            init(clusterId, channelName, clientId, servers);
         } finally {
             log.exiting(this.getClass().getName(), "constructor");
         }
@@ -48,20 +48,20 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
     /**
      * Performs any required initialization to allow us to publish events to the channel.
      */
-    private void init(String clusterId, String channelName, String servers) {
+    private void init(String clusterId, String channelName, String clientId, String servers) {
         log.entering(this.getClass().getName(), "init");
 
         try {
             this.channelName = channelName;
-            String clientId = "fhir-server";
             if (log.isLoggable(Level.FINER)) {
                 log.finer("ClusterId: " + clusterId);
                 log.finer("Channel name: " + channelName);
+                log.finer("ClientId: " + clientId);
                 log.finer("Servers: " + servers);
             }
 
-            // Make sure that the properties file contains the servers property at a minimum.
-            if (servers == null || clusterId == null) {
+            // Make sure that the properties file contains the expected properties.
+            if (clusterId == null || channelName == null || clientId == null || servers == null) {
                 throw new IllegalStateException("Config property missing from the NATS connection properties.");
             }
 
@@ -78,7 +78,6 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
                     if (ex != null) {
                         log.log(Level.SEVERE, "Error in server ack for guid " + nuid + ": " + ex.getMessage(), ex);
                     }
-                    // TODO: Do something else here
                 }
             };
 
@@ -117,11 +116,9 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * com.ibm.fhir.notification.FHIRNotificationSubscriber#notify(com.ibm.fhir.notification.
-     * util.FHIRNotificationEvent)
+
+    /**
+     * Publishes an event to NATS.
      */
     @Override
     public void notify(FHIRNotificationEvent event) throws FHIRNotificationException {
