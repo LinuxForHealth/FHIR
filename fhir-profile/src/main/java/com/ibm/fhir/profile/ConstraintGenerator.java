@@ -37,6 +37,7 @@ import com.ibm.fhir.model.type.ElementDefinition;
 import com.ibm.fhir.model.type.ElementDefinition.Binding;
 import com.ibm.fhir.model.type.ElementDefinition.Type;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 
@@ -506,12 +507,11 @@ public class ConstraintGenerator {
     }
 
     private boolean hasFixedValueConstraint(ElementDefinition elementDefinition) {
-        return elementDefinition.getFixed() != null && (elementDefinition.getFixed() instanceof Uri || elementDefinition.getFixed() instanceof Code);
+        return (elementDefinition.getFixed() instanceof Uri || elementDefinition.getFixed() instanceof Code);
     }
 
     private boolean hasPatternValueConstraint(ElementDefinition elementDefinition) {
-        return elementDefinition.getPattern() != null &&
-                (elementDefinition.getPattern() instanceof CodeableConcept) &&
+        return (elementDefinition.getPattern() instanceof CodeableConcept) &&
                 (elementDefinition.getPattern().as(CodeableConcept.class).getCoding().stream()
                         .allMatch(coding -> (coding.getCode() != null && coding.getCode().getValue() != null)));
     }
@@ -528,30 +528,36 @@ public class ConstraintGenerator {
 
     private boolean hasVocabularyConstraint(ElementDefinition elementDefinition) {
         Binding binding = elementDefinition.getBinding();
-        if (binding != null && isCodedElement(elementDefinition)) {
-            Binding baseBinding = getBinding(elementDefinition.getBase().getPath().getValue());
-            String baseStrength = (baseBinding != null) ? baseBinding.getStrength().getValue() : null;
-            String baseValueSet = (baseBinding != null) ? baseBinding.getValueSet().getValue() : null;
-            String strength = binding.getStrength().getValue();
+        if (binding != null && !BindingStrength.EXAMPLE.equals(binding.getStrength()) && binding.getValueSet() != null &&
+                (isCodedElement(elementDefinition) || isStringElement(elementDefinition) || isUriElement(elementDefinition))) {
+            BindingStrength.ValueSet strength = binding.getStrength().getValueAsEnumConstant();
             String valueSet = binding.getValueSet().getValue();
-            return (!"preferred".equals(baseStrength) && "preferred".equals(strength)) ||
-                    ("preferred".equals(baseStrength) && "preferred".equals(strength) && !valueSetEqualsIgnoreVersion(valueSet, baseValueSet)) ||
-                    (!"extensible".equals(baseStrength) && "extensible".equals(strength)) ||
-                    ("extensible".equals(baseStrength) && "extensible".equals(strength) && !valueSetEqualsIgnoreVersion(valueSet, baseValueSet)) ||
-                    (!"required".equals(baseStrength) && "required".equals(strength)) ||
-                    ("required".equals(baseStrength) && "required".equals(strength) && !valueSetEqualsIgnoreVersion(valueSet, baseValueSet));
+
+            Binding baseBinding = getBinding(elementDefinition.getBase().getPath().getValue());
+            BindingStrength.ValueSet baseStrength = (baseBinding != null) ? baseBinding.getStrength().getValueAsEnumConstant() : null;
+            String baseValueSet = (baseBinding != null && baseBinding.getValueSet() != null) ? baseBinding.getValueSet().getValue() : null;
+
+            return (isStronger(strength, baseStrength) || (strength.equals(baseStrength) && !valueSetEqualsIgnoreVersion(valueSet, baseValueSet)));
         }
         return false;
     }
 
-    private boolean valueSetEqualsIgnoreVersion(String vs1, String vs2) {
-        int index = vs1.indexOf("|");
-        String url1 = (index != -1) ? vs1.substring(0, index) : vs1;
+    private boolean isStronger(BindingStrength.ValueSet strength, BindingStrength.ValueSet baseStrength) {
+        return (baseStrength == null) || (strength.ordinal() < baseStrength.ordinal());
+    }
 
-        index = vs2.indexOf("|");
-        String url2 = (index != -1) ? vs2.substring(0, index) : vs2;
+    private boolean valueSetEqualsIgnoreVersion(String valueSet, String baseValueSet) {
+        if (baseValueSet == null) {
+            return false;
+        }
 
-        return url1.equals(url2);
+        int index = valueSet.indexOf("|");
+        String url = (index != -1) ? valueSet.substring(0, index) : valueSet;
+
+        index = baseValueSet.indexOf("|");
+        String baseUrl = (index != -1) ? baseValueSet.substring(0, index) : baseValueSet;
+
+        return url.equals(baseUrl);
     }
 
     private boolean isChoiceElement(ElementDefinition elementDefinition) {
@@ -567,6 +573,32 @@ public class ConstraintGenerator {
         if (type.getCode() != null) {
             String code = type.getCode().getValue();
             return "code".equals(code) || "Coding".equals(code) || "CodeableConcept".equals(code);
+        }
+        return false;
+    }
+
+    private boolean isStringElement(ElementDefinition elementDefinition) {
+        List<Type> types = getTypes(elementDefinition);
+        if (types.size() != 1) {
+            return false;
+        }
+        Type type = types.get(0);
+        if (type.getCode() != null) {
+            String code = type.getCode().getValue();
+            return "string".equals(code);
+        }
+        return false;
+    }
+
+    private boolean isUriElement(ElementDefinition elementDefinition) {
+        List<Type> types = getTypes(elementDefinition);
+        if (types.size() != 1) {
+            return false;
+        }
+        Type type = types.get(0);
+        if (type.getCode() != null) {
+            String code = type.getCode().getValue();
+            return "uri".equals(code);
         }
         return false;
     }

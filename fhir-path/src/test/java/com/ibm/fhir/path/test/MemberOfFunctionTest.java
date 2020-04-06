@@ -145,4 +145,40 @@ public class MemberOfFunctionTest {
         Assert.assertEquals(issue.getCode(), IssueType.CODE_INVALID);
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
+
+    @Test
+    public void testMemberOfFunction10() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(string("a"), "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+
+    @Test
+    public void testMemberOfFunction11() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(string("x"), "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+
+    @Test
+    public void testMemberOfFunction12() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(Uri.of("a"), "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+
+    @Test
+    public void testMemberOfFunction13() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(Uri.of("x"), "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
 }

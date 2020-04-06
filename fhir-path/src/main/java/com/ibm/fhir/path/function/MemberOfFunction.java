@@ -8,13 +8,16 @@ package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
 import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getString;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isCodedElementNode;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isStringElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isStringValue;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isUriElementNode;
 import static com.ibm.fhir.profile.ValueSetSupport.expand;
 import static com.ibm.fhir.profile.ValueSetSupport.getContains;
 import static com.ibm.fhir.profile.ValueSetSupport.getValueSet;
@@ -76,8 +79,8 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
             return empty();
         }
 
-        if (!isCodedElementNode(context)) {
-            throw new IllegalArgumentException("The 'memberOf' function must be invoked on a coded element node");
+        if (!isCodedElementNode(context) && !isStringElementNode(context) && !isUriElementNode(context)) {
+            throw new IllegalArgumentException("The 'memberOf' function must be invoked on a coded element node, string element node, or uri element node");
         }
 
         if (!isStringValue(arguments.get(0))) {
@@ -103,13 +106,11 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                     if (contains(codeSetMap, system, version, code)) {
                         return SINGLETON_TRUE;
                     }
-                    return membershipCheckFailed(evaluationContext, elementNode, url, strength);
                 } else if (element.is(Coding.class)) {
                     Coding coding = element.as(Coding.class);
                     if (contains(codeSetMap, coding)) {
                         return SINGLETON_TRUE;
                     }
-                    return membershipCheckFailed(evaluationContext, elementNode, url, strength);
                 } else if (element.is(CodeableConcept.class)) {
                     CodeableConcept codeableConcept = element.as(CodeableConcept.class);
                     for (Coding coding : codeableConcept.getCoding()) {
@@ -117,8 +118,16 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                             return SINGLETON_TRUE;
                         }
                     }
-                    return membershipCheckFailed(evaluationContext, elementNode, url, strength);
+                } else {
+                    // element.is(FHIR_STRING) || element.is(Uri.class)
+                    String value = element.is(FHIR_STRING) ?
+                            element.as(FHIR_STRING).getValue() :
+                                element.as(Uri.class).getValue();
+                    if (contains(codeSetMap, null, null, value)) {
+                        return SINGLETON_TRUE;
+                    }
                 }
+                return membershipCheckFailed(evaluationContext, elementNode, url, strength);
             }
         }
 
@@ -135,8 +144,8 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
 
     private void generateIssue(EvaluationContext evaluationContext, FHIRPathNode elementNode, String url, String strength) {
         String description = "extensible".equals(strength) ?
-            String.format("The concept in this element must be from the specified value set %s if possible", url) :
-            String.format("The concept in this element should be from the specified value set %s if possible", url);
+                String.format("The concept in this element must be from the specified value set %s if possible", url) :
+                    String.format("The concept in this element should be from the specified value set %s if possible", url);
         evaluationContext.getIssues().add(Issue.builder()
             .severity(IssueSeverity.WARNING)
             .code(IssueType.CODE_INVALID)
