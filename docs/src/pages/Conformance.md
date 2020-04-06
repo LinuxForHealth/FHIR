@@ -35,31 +35,31 @@ Alternatively, for operations with only simple input parameters (i.e. no complex
 #### System operations
 System operations are invoked at `[base]/$[operation]`
 
-|Operation|Definition|Short Description|Notes|
-|---------|----------|-----------------|-----|
-| $convert | https://hl7.org/fhir/R4/resource-operation-convert.html | Takes a resource in one form and returns it in another | Converts between JSON and XML but *not* between FHIR versions |
-| $export | https://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-export.html | Export data from the server | exports to an S3-compatible data store; see the (user guide)[https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export] for config info |
-| $healthcheck | https://github.com/IBM/FHIR/blob/master/fhir-operation-healthcheck/src/main/resources/healthcheck.json | Check the health of the server | Checks for a valid connection to the database |
+|Operation|Short Description|Notes|
+|---------|-----------------|-----|
+| [$convert](https://hl7.org/fhir/R4/resource-operation-convert.html) | Takes a resource in one form and returns it in another | Converts between JSON and XML but *not* between FHIR versions |
+| [$export](https://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-export.html) | Export data from the server | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info |
+| [$healthcheck](https://github.com/IBM/FHIR/blob/master/fhir-operation-healthcheck/src/main/resources/healthcheck.json) | Check the health of the server | Checks for a valid connection to the database |
 
 #### Type operations
 Type operations are invoked at `[base]/[resourceType]/$[operation]`
 
-|Operation|Type|Definition|Short Description|Notes|
-|---------|----------|-----------------|-----|
-| $validate | * | https://hl7.org/fhir/R4/operation-resource-validate.html | Validate a passed resource instance | Uses fhir-validate |
-| $export | Patient | https://hl7.org/fhir/uv/bulkdata/OperationDefinition-patient-export.html | Obtain a set of resources pertaining to all patients | exports to an S3-compatible data store; see the (user guide)[https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export] for config info |
-| $document | Composition | https://hl7.org/fhir/R4/operation-composition-document.html | Generate a document | Prototype-level implementation |
-| $apply | PlanDefinition | https://hl7.org/fhir/R4/operation-plandefinition-apply.html | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion ||
+|Operation|Type|Short Description|Notes|
+|---------|----|-----------------|-----|
+| [$validate](https://hl7.org/fhir/R4/operation-resource-validate.html) | * | Validate a passed resource instance | Uses fhir-validate |
+| [$export](https://hl7.org/fhir/uv/bulkdata/OperationDefinition-patient-export.html) | Patient | Obtain a set of resources pertaining to all patients | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info |
+| [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
+| [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
 
 #### Instance operations
 Instance operations are invoked at `[base]/[resourceType]/[id]/$[operation]`
 
-|Operation|Type|Definition|Short Description|Notes|
-|---------|----------|-----------------|-----|
-| $validate | * | https://hl7.org/fhir/R4/operation-resource-validate.html | Validate a resource instance | Uses fhir-validate |
-| $export | Group | https://hl7.org/fhir/uv/bulkdata/OperationDefinition-group-export.html | Obtain a set resources pertaining to patients in a specific Group | Only supports static membership; does not resolve inclusion/exclusion criteria |
-| $document | Composition | https://hl7.org/fhir/R4/operation-composition-document.html | Generate a document | Prototype-level implementation |
-| $apply | PlanDefinition | https://hl7.org/fhir/R4/operation-plandefinition-apply.html | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
+|Operation|Type|Short Description|Notes|
+|---------|----|-----------------|-----|
+| [$validate](https://hl7.org/fhir/R4/operation-resource-validate.html) | * | Validate a resource instance | Uses fhir-validate |
+| [$export](https://hl7.org/fhir/uv/bulkdata/OperationDefinition-group-export.html) | Group | Obtain a set resources pertaining to patients in a specific Group | Only supports static membership; does not resolve inclusion/exclusion criteria |
+| [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
+| [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
 
 ### HTTP Headers
 In addition to the content negotiation headers required in the FHIR specification, the IBM FHIR Server supports two client preferences via the `Prefer` header:
