@@ -177,14 +177,14 @@ public class ChunkReader extends AbstractItemReader {
                 importFileSize = BulkDataUtils.getHttpsFileSize(importPartitionWorkitem);
                 break;
             case FILE:
-                importFileSize = BulkDataUtils.getLocallFileSize(importPartitionWorkitem);
+                importFileSize = BulkDataUtils.getLocalFileSize(importPartitionWorkitem);
                 break;
             case AWSS3:
             case IBMCOS:
                 importFileSize = BulkDataUtils.getCosFileSize(cosClient, cosBucketName, importPartitionWorkitem);
                 break;
             default:
-                throw new Exception ("Doesn't support data source storage type!");
+                throw new IllegalStateException ("Doesn't support data source storage type '" + dataSourceStorageType + "'!");
             }
             chunkData.setImportFileSize(importFileSize);
             chunkData.setInFlyRateBeginMilliSeconds(System.currentTimeMillis());
