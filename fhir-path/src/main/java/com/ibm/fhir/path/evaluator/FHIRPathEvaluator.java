@@ -1509,7 +1509,7 @@ public class FHIRPathEvaluator {
         /**
          * Get the list of supplemental issues that were generated during evaluation
          *
-         * <p>Supplemental issues contain additional information about the evaluation to be conveyed to the client
+         * <p>Supplemental issues are used to convey additional information about the evaluation to the client
          *
          * @return
          *     the list of supplemental issues that were generated during evaluation
