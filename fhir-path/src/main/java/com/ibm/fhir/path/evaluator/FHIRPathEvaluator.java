@@ -1507,27 +1507,29 @@ public class FHIRPathEvaluator {
         }
 
         /**
-         * Get the list of issues that occurred during evaluation
+         * Get the list of supplemental issues that were generated during evaluation
+         *
+         * <p>Supplemental issues contain additional information about the evaluation to be conveyed to the client
          *
          * @return
-         *     the list of issues that occurred during evaluation
+         *     the list of supplemental issues that were generated during evaluation
          */
         public List<Issue> getIssues() {
             return issues;
         }
 
         /**
-         * Clear the list of issues that occurred during evaluation
+         * Clear the list of supplemental issues that were generated during evaluation
          */
         public void clearIssues() {
             issues.clear();
         }
 
         /**
-         * Indicates whether this evaluation context has issues that occurred during evaluation
+         * Indicates whether this evaluation context has supplemental issues that were generated during evaluation
          *
          * @return
-         *     true if this evaluation context has issues that occurred during evaluation, otherwise false
+         *     true if this evaluation context has supplemental issues that were generated during evaluation, otherwise false
          */
         public boolean hasIssues() {
             return !issues.isEmpty();
