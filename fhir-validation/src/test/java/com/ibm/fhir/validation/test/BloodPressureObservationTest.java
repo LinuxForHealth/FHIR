@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,20 +45,20 @@ public class BloodPressureObservationTest {
                 // asssert conformance to the blood pressure profile
                 .profile(Canonical.of("http://hl7.org/fhir/StructureDefinition/bp"))
                 .build())
-            
+
             // observation status
             .status(ObservationStatus.FINAL)
-            
+
             // observation subject (Patient)
             .subject(Reference.builder()
                 .reference(string("Patient/1234"))
                 .build())
-            
+
             // observation effective time
             .effective(DateTime.builder()
                 .value("2019-01-01")
                 .build())
-            
+
             // observation category (vital signs)
             .category(CodeableConcept.builder()
                 .coding(Coding.builder()
@@ -66,7 +66,7 @@ public class BloodPressureObservationTest {
                     .code(Code.of("vital-signs"))
                     .build())
                 .build())
-            
+
             // observation code (blood pressure)
             .code(CodeableConcept.builder()
                 .coding(Coding.builder()
@@ -74,7 +74,7 @@ public class BloodPressureObservationTest {
                     .code(Code.of("85354-9"))
                     .build())
                 .build())
-            
+
             // observation component (systolic blood pressure)
             .component(Component.builder()
                 .code(CodeableConcept.builder()
@@ -91,7 +91,7 @@ public class BloodPressureObservationTest {
                     .unit(string("mm[Hg]"))
                     .build())
                 .build())
-            
+
             // observation component (diastolic blood pressure)
             .component(Component.builder()
                 .code(CodeableConcept.builder()
@@ -109,11 +109,11 @@ public class BloodPressureObservationTest {
                     .build())
                 .build())
             .build();
-        
+
         // print the blood pressure observation to the console
         FHIRGenerator.generator(Format.JSON, true).generate(bloodPressureObservation, System.out);
         System.out.println("");
-        
+
         // validate the blood pressure observation in debug mode and print issues to console
         Logger logger = Logger.getLogger("");
         logger.setLevel(Level.FINE);
@@ -133,7 +133,7 @@ public class BloodPressureObservationTest {
         });
         List<Issue> issues = FHIRValidator.validator().validate(bloodPressureObservation);
         issues.forEach(System.out::println);
-        Assert.assertEquals(issues.size(), 2);
+        Assert.assertEquals(issues.size(), 4);
         Assert.assertTrue(issues.get(0).getDetails().getText().getValue().startsWith("dom-6"));
         Assert.assertTrue(issues.get(1).getDetails().getText().getValue().startsWith("generated-bp-8"));
 

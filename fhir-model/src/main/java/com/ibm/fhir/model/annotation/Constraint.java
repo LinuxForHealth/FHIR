@@ -25,4 +25,5 @@ public @interface Constraint {
     String description();
     String expression();
     boolean modelChecked() default false;
+    boolean generated() default false;
 }

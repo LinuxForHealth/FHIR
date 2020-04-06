@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,11 +33,11 @@ public class VitalSignsProfileTest {
             return first.id().compareTo(second.id());
         }
     };
-    
+
     static class Tree {
         Node root;
         Map<String, Node> nodeMap;
-        
+
         Node getNode(String path) {
             return nodeMap.get(path);
         }
@@ -60,51 +60,51 @@ public class VitalSignsProfileTest {
             return level;
         }
     }
-    
+
     public static Tree buildTree(StructureDefinition profile) {
         Node root = null;
-        
+
         Map<String, Node> nodeMap = new LinkedHashMap<>();
         for (ElementDefinition elementDefinition : profile.getDifferential().getElement()) {
             String path = elementDefinition.getPath().getValue();
-            
+
             Node node = nodeMap.get(path);
             if (node == null) {
                 node = new Node();
                 node.path = path;
-                
+
                 int index = path.lastIndexOf(".");
                 node.label = path.substring(index + 1);
                 node.parent = (index != -1) ? nodeMap.get(path.substring(0, index)) : null;
-                
+
                 if (node.parent == null) {
                     root = node;
                 } else {
                     node.parent.children.add(node);
                 }
-                
+
                 nodeMap.put(path, node);
             }
-            
+
             node.elementDefinitions.add(elementDefinition);
         }
-        
+
         Tree tree = new Tree();
         tree.root = root;
         tree.nodeMap = nodeMap;
-        
+
         return tree;
     }
 
     private static String transform(Node node) {
         StringBuilder sb = new StringBuilder();
-        
+
         Integer min = getMin(node);
         String max = getMax(node);
-        
+
         sb.append(node.label);
-        
-        Element fixed = getFixed(node);        
+
+        Element fixed = getFixed(node);
         if (fixed != null) {
             sb.append(" = ");
             if (fixed.is(Code.class)) {
@@ -113,25 +113,25 @@ public class VitalSignsProfileTest {
                 sb.append("'").append(fixed.as(Uri.class).getValue()).append("'");
             }
         }
-        
+
         // TODO: pattern
-        
+
         // TODO: value set binding
-        
+
         // TODO: reference types
-        
+
         if (!node.children.isEmpty()) {
             sb.append(".where(");
-            
+
             StringJoiner joiner = new StringJoiner(" and ");
             for (Node child : node.children) {
                 joiner.add(transform(child));
             }
             sb.append(joiner.toString());
-            
+
             sb.append(")");
         }
-        
+
         if (min != null && max != null && fixed == null) {
             if (min == 1 && "*".equals(max)) {
                 sb.append(".exists()");
@@ -139,7 +139,7 @@ public class VitalSignsProfileTest {
                 sb.append(".count() = 1");
             }
         }
-        
+
         return sb.toString();
     }
 
@@ -160,7 +160,7 @@ public class VitalSignsProfileTest {
         }
         return null;
     }
-    
+
     public static Element getFixed(Node node) {
         for (ElementDefinition elementDefinition : node.elementDefinitions) {
             if (elementDefinition.getFixed() != null) {
@@ -169,7 +169,7 @@ public class VitalSignsProfileTest {
         }
         return null;
     }
-    
+
     public static Element getPattern(Node node) {
         for (ElementDefinition elementDefinition : node.elementDefinitions) {
             if (elementDefinition.getPattern() != null) {
@@ -178,15 +178,15 @@ public class VitalSignsProfileTest {
         }
         return null;
     }
-    
+
     public static List<ElementDefinition.Constraint> getConstraints(Node node) {
-        List<ElementDefinition.Constraint> constraints = new ArrayList<>(); 
+        List<ElementDefinition.Constraint> constraints = new ArrayList<>();
         for (ElementDefinition elementDefinition : node.elementDefinitions) {
             constraints.addAll(elementDefinition.getConstraint());
         }
         return constraints;
     }
-    
+
     public static List<StructureDefinition> getProfiles(StructureDefinition profile) {
         List<StructureDefinition> profiles = new ArrayList<>();
         while (TypeDerivationRule.CONSTRAINT.equals(profile.getDerivation())) {
@@ -199,26 +199,26 @@ public class VitalSignsProfileTest {
 
     public static void main(String[] args) {
         FHIRModelConfig.setToStringPrettyPrinting(false);
-        
+
         StructureDefinition vitalSignsProfile = FHIRRegistry.getInstance().getResource(VITAL_SIGNS_PROFILE_URL, StructureDefinition.class);
-    
+
         Tree tree = buildTree(vitalSignsProfile);
         Node root = tree.root;
-        
+
         String result = transform(root);
         System.out.println("result: " + result);
-        
+
         for (Node child : root.children) {
             String expr = transform(child);
             System.out.println("expr: " + expr);
         }
-        
+
         System.out.println("Constraints: ");
         for (Constraint constraint : getConstraints(vitalSignsProfile)) {
             System.out.println("    " + constraint);
         }
     }
-    
+
     public static List<Constraint> getConstraints(List<StructureDefinition> profiles) {
         List<Constraint> constraints = new ArrayList<>();
         for (StructureDefinition profile : profiles) {
@@ -226,7 +226,7 @@ public class VitalSignsProfileTest {
         }
         return constraints;
     }
-    
+
     public static List<Constraint> getConstraints(StructureDefinition profile) {
         List<Constraint> constraints = new ArrayList<>();
         for (ElementDefinition elementDefinition : profile.getDifferential().getElement()) {
@@ -251,10 +251,10 @@ public class VitalSignsProfileTest {
         String location = path.contains(".") ? path.replace("[x]", "") : "(base)";
         String description = constraint.getHuman().getValue();
         String expression = constraint.getExpression().getValue();
-        return createConstraint(id, level, location, description, expression, false);
+        return createConstraint(id, level, location, description, expression, false, false);
     }
 
-    private static Constraint createConstraint(String id, String level, String location, String description, String expression, boolean modelChecked) {
+    private static Constraint createConstraint(String id, String level, String location, String description, String expression, boolean modelChecked, boolean generated) {
         return new Constraint() {
             @Override
             public Class<? extends Annotation> annotationType() {
@@ -288,9 +288,14 @@ public class VitalSignsProfileTest {
 
             @Override
             public boolean modelChecked() {
-                return false;
+                return modelChecked;
             }
-            
+
+            @Override
+            public boolean generated() {
+                return generated;
+            }
+
             @Override
             public String toString() {
                 return new StringBuilder()
@@ -300,7 +305,8 @@ public class VitalSignsProfileTest {
                     .append("location=").append(location).append(", ")
                     .append("description=").append(description).append(", ")
                     .append("expression=").append(expression).append(", ")
-                    .append("modelChecked=").append(modelChecked)
+                    .append("modelChecked=").append(modelChecked).append(", ")
+                    .append("generated=").append(generated)
                     .append("]")
                     .toString();
             }
