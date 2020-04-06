@@ -114,13 +114,9 @@ public class ChunkReader extends AbstractItemReader {
         }
 
         ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
-        if (chunkData == null) {
-            chunkData = new ImportTransientUserData(importPartitionWorkitem, numOfLinesToSkip, importPartitionResourceType);
-            stepCtx.setTransientUserData(chunkData);
-        } else {
-            numOfLinesToSkip = chunkData.getNumOfProcessedResources();
-        }
+        numOfLinesToSkip = chunkData.getNumOfProcessedResources();
 
+        long readStartTimeInMilliSeconds = System.currentTimeMillis();
         int numOfLoaded = 0;
         int numOfParseFailures = 0;
         switch (BulkImportDataSourceStorageType.from(dataSourceStorageType)) {
@@ -132,18 +128,6 @@ public class ChunkReader extends AbstractItemReader {
             break;
         case AWSS3:
         case IBMCOS:
-            // Create a COS/S3 client if it's not created yet.
-            if (cosClient == null) {
-                cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
-
-                if (cosClient == null) {
-                    logger.warning("readItem: Failed to get CosClient!");
-                    throw new Exception("Failed to get CosClient!!");
-                } else {
-                    logger.finer("readItem: Got CosClient successfully!");
-                }
-            }
-
             numOfParseFailures = BulkDataUtils.readFhirResourceFromObjectStore(cosClient, cosBucketName, importPartitionWorkitem,
                     numOfLinesToSkip, loadedFhirResources, chunkData);
             break;
@@ -152,6 +136,7 @@ public class ChunkReader extends AbstractItemReader {
             break;
         }
 
+        chunkData.setTotalReadMilliSeconds(chunkData.getTotalReadMilliSeconds() + (System.currentTimeMillis() - readStartTimeInMilliSeconds));
         chunkData.setNumOfParseFailures(chunkData.getNumOfParseFailures() + numOfParseFailures);
         numOfLoaded = loadedFhirResources.size();
         if (logger.isLoggable(Level.FINE)) {
@@ -167,12 +152,46 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public void open(Serializable checkpoint) throws Exception {
+        if (BulkImportDataSourceStorageType.from(dataSourceStorageType).equals(BulkImportDataSourceStorageType.AWSS3)
+                || BulkImportDataSourceStorageType.from(dataSourceStorageType).equals(BulkImportDataSourceStorageType.IBMCOS)) {
+            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+            if (cosClient == null) {
+                logger.warning("open: Failed to get CosClient!");
+                throw new Exception("Failed to get CosClient!!");
+            } else {
+                logger.finer("open: Got CosClient successfully!");
+            }
+        }
+
         if (checkpoint != null) {
             ImportCheckPointData checkPointData = (ImportCheckPointData) checkpoint;
             importPartitionWorkitem = checkPointData.getImportPartitionWorkitem();
             numOfLinesToSkip = checkPointData.getNumOfProcessedResources();
+            checkPointData.setInFlyRateBeginMilliSeconds(System.currentTimeMillis());
             stepCtx.setTransientUserData(ImportTransientUserData.fromImportCheckPointData(checkPointData));
+        } else {
+            ImportTransientUserData chunkData = new ImportTransientUserData(importPartitionWorkitem, numOfLinesToSkip, importPartitionResourceType);
+            long importFileSize = 0;
+            switch (BulkImportDataSourceStorageType.from(dataSourceStorageType)) {
+            case HTTPS:
+                importFileSize = BulkDataUtils.getHttpsFileSize(importPartitionWorkitem);
+                break;
+            case FILE:
+                importFileSize = BulkDataUtils.getLocalFileSize(importPartitionWorkitem);
+                break;
+            case AWSS3:
+            case IBMCOS:
+                importFileSize = BulkDataUtils.getCosFileSize(cosClient, cosBucketName, importPartitionWorkitem);
+                break;
+            default:
+                throw new IllegalStateException ("Doesn't support data source storage type '" + dataSourceStorageType + "'!");
+            }
+            chunkData.setImportFileSize(importFileSize);
+            chunkData.setInFlyRateBeginMilliSeconds(System.currentTimeMillis());
+            stepCtx.setTransientUserData(chunkData);
         }
+
+
     }
 
     @Override

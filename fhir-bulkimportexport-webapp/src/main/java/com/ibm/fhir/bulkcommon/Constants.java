@@ -30,6 +30,7 @@ public class Constants {
     public static final int IMPORT_NUMOFFHIRRESOURCES_PERREAD = 20;
     public static final String IMPORT_INPUT_RESOURCE_TYPE = "type";
     public static final String IMPORT_INPUT_RESOURCE_URL = "url";
+    public static final int IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES = 2000;
 
 
     // Job parameters

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.bulkimport;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -62,13 +63,15 @@ public class ImportJobListener implements JobListener {
         for (ImportCheckPointData partitionSummary : partitionSummaries) {
             ImportCheckPointData partitionSummaryInMap = importedResourceTypeSummaries.get(partitionSummary.getImportPartitionResourceType());
             if (partitionSummaryInMap == null) {
-                ImportCheckPointData importedResourceTypeSummary = new ImportCheckPointData(partitionSummary.getNumOfProcessedResources(),
-                        partitionSummary.getNumOfImportedResources(), partitionSummary.getNumOfImportFailures(), partitionSummary.getImportPartitionResourceType());
-                importedResourceTypeSummaries.put(partitionSummary.getImportPartitionResourceType(), importedResourceTypeSummary);
+                importedResourceTypeSummaries.put(partitionSummary.getImportPartitionResourceType(), partitionSummary);
             } else {
                 partitionSummaryInMap.setNumOfImportFailures(partitionSummaryInMap.getNumOfImportFailures() + partitionSummary.getNumOfImportFailures());
                 partitionSummaryInMap.setNumOfImportedResources(partitionSummaryInMap.getNumOfImportedResources() + partitionSummary.getNumOfImportedResources());
                 partitionSummaryInMap.setNumOfProcessedResources(partitionSummaryInMap.getNumOfProcessedResources() + partitionSummary.getNumOfProcessedResources());
+                partitionSummaryInMap.setTotalReadMilliSeconds(partitionSummaryInMap.getTotalReadMilliSeconds() + partitionSummary.getTotalReadMilliSeconds());
+                partitionSummaryInMap.setTotalValidationMilliSeconds(partitionSummaryInMap.getTotalValidationMilliSeconds() + partitionSummary.getTotalValidationMilliSeconds());
+                partitionSummaryInMap.setTotalWriteMilliSeconds(partitionSummaryInMap.getTotalWriteMilliSeconds() + partitionSummary.getTotalWriteMilliSeconds());
+                partitionSummaryInMap.setImportFileSize(partitionSummaryInMap.getImportFileSize() + partitionSummary.getImportFileSize());
             }
         }
 
@@ -77,15 +80,22 @@ public class ImportJobListener implements JobListener {
 
         // log the simple metrics.
         logger.info(" ---- Fhir resources imported in " + jobProcessingSeconds + "seconds ----");
-        logger.info("ResourceType \t Imported \t Failed");
+        logger.info("ResourceType \t| Imported \t| Failed \t| TotalReadMilliSeconds \t| TotalWriteMilliSeconds \t| TotalValidationMilliSeconds"
+                    + " \t| TotalSize \t| AverageSize");
         int totalImportedFhirResources = 0;
         for (ImportCheckPointData importedResourceTypeSummary : importedResourceTypeSummaries.values()) {
-            logger.info(importedResourceTypeSummary.getImportPartitionResourceType() + "\t" +
-                        importedResourceTypeSummary.getNumOfImportedResources() + "\t" + importedResourceTypeSummary.getNumOfImportFailures());
+            logger.info(importedResourceTypeSummary.getImportPartitionResourceType() + "\t|"
+                        + importedResourceTypeSummary.getNumOfImportedResources() + "\t|"
+                        + importedResourceTypeSummary.getNumOfImportFailures() + "\t|"
+                        + importedResourceTypeSummary.getTotalReadMilliSeconds() + "\t|"
+                        + importedResourceTypeSummary.getTotalWriteMilliSeconds() + "\t|"
+                        + importedResourceTypeSummary.getTotalValidationMilliSeconds() + "\t|"
+                        + importedResourceTypeSummary.getImportFileSize() + "\t|"
+                        + importedResourceTypeSummary.getImportFileSize()/(importedResourceTypeSummary.getNumOfImportedResources() + importedResourceTypeSummary.getNumOfImportFailures()));
             totalImportedFhirResources += importedResourceTypeSummary.getNumOfImportedResources();
         }
         logger.info(" ---- Total: " + totalImportedFhirResources
-                + " ImportRate: " + totalImportedFhirResources/jobProcessingSeconds + " ----");
+                + " ImportRate: " + new DecimalFormat("#0.00").format(totalImportedFhirResources/jobProcessingSeconds) + " ----");
     }
 
     @Override
