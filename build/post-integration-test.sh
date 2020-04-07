@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 ###############################################################################
-# (C) Copyright IBM Corp. 2016, 2018
+# (C) Copyright IBM Corp. 2016, 2020
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
 echo "Performing integration test post-processing..."
-if [[ -z "${WORKSPACE}" ]]; then
-    echo "ERROR: WORKSPACE environment variable not set!"
-    exit 2
-fi
+
+# The full path to the directory of this script, no matter where its called from
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+WORKSPACE="$( dirname "${DIR}" )"
 
 export SIT=${WORKSPACE}/SIT
 if [ ! -d ${SIT} ]; then

@@ -7,13 +7,13 @@
 set -ex
 
 echo "Preparing environment for fhir-server integration tests..."
-if [[ -z "${WORKSPACE}" ]]; then
-    echo "ERROR: WORKSPACE environment variable not set!"
-    exit 2
-fi
+
+# The full path to the directory of this script, no matter where its called from
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+export WORKSPACE="$( dirname "${DIR}" )"
 
 # Set up installers and config files where docker processing can see them
-cd ${WORKSPACE}/fhir-install/docker
+cd ${DIR}/docker
 ./copy-dependencies-db2-migration.sh
 
 # Stand up a docker container running the fhir server configured for integration tests
@@ -31,7 +31,6 @@ echo ">>> Current time: " $(date)
 
 echo "Deploying the Db2 schema..."
 ./deploySchemaAndTenant.sh
-
 
 echo "Bringing up the FHIR server... be patient, this will take a minute"
 ./copy-test-operations.sh

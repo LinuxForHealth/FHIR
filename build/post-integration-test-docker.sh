@@ -4,12 +4,13 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
+set -x
 
 echo "Performing integration test post-processing..."
-if [[ -z "${WORKSPACE}" ]]; then
-    echo "ERROR: WORKSPACE environment variable not set!"
-    exit 2
-fi
+
+# The full path to the directory of this script, no matter where its called from
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+WORKSPACE="$( dirname "${DIR}" )"
 
 # Gather up all the log files and test results
 it_results=${WORKSPACE}/integration-test-results
@@ -35,7 +36,7 @@ echo "Gathering integration test output"
 cp -pr ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
 
 echo "Bringing down the fhir server docker container(s)..."
-cd ${WORKSPACE}/fhir-install/docker
+cd ${DIR}/docker
 docker-compose down
 
 echo "Integration test post-processing completed!"

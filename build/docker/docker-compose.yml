@@ -3,11 +3,10 @@ services:
 
   fhir:
     build:
-      context: .
-      dockerfile: Dockerfile-ol
+      context: liberty
     hostname: fhir
     healthcheck:
-      start_period: 30s
+      start_period: 60s
       interval: 10s
       timeout: 10s
       retries: 2
@@ -18,8 +17,7 @@ services:
 
   db2:
     build:
-      context: .
-      dockerfile: Dockerfile-db2
+      context: db2
     hostname: db2
     privileged: true
     environment:
