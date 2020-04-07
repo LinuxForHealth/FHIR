@@ -1,20 +1,20 @@
 ###############################################################################
 # (C) Copyright IBM Corp. 2020
-# 
+#
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-<# 
+<#
  This script will install the fhir server on the local machine and then
  start it up so that we can run server integration tests
  . - top level directory of the GitHub Actions workspace
  .\SIT - holds everything related to server integration tests
  .\SIT\fhir-server-dist - installer contents (after unzipping)
- .\SIT\wlp - fhir server installation 
+ .\SIT\wlp - fhir server installation
 #>
 
 # Initial wait time after the "server start" command returns
-$SERVER_WAITTIME=30
+$SERVER_WAITTIME=60
 
 # Sleep interval after each "metadata" invocation
 $SLEEP_INTERVAL=10
@@ -49,7 +49,7 @@ Write-Host 'Installing fhir server in Integration Tests'
 Write-Host ' - Directory - ' $SIT
 & $SIT\fhir-server-dist\install.bat $SIT
 
-# If the Config Exists, let's wipe it outfind 
+# If the Config Exists, let's wipe it outfind
 Write-Host 'Copying configuration to install location'
 $RM_ITEM=[string]$SIT + '\wlp\usr\servers\fhir-server\config'
 If ( Test-Path $RM_ITEM ) {
@@ -84,7 +84,7 @@ Write-Host '>>> Current time: ' $DATE_PS
 
 Write-Host 'Starting fhir server'
 $PROC=$SIT + '\wlp\bin\server'
-& $PROC start fhir-server 
+& $PROC start fhir-server
 
 # Get the Updated Start Time
 $DATE_PS=[System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'Greenwich Standard Time').ToString('t')
@@ -113,21 +113,21 @@ $AllProtocols = [System.Net.SecurityProtocolType]'Ssl3,Tls,Tls11,Tls12'
 [System.Net.ServicePointManager]::SecurityProtocol = $AllProtocols
 [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
 
-# Next, we'll invoke the metadata API to detect when the
+# Next, we'll invoke the $healthcheck operation to detect when the
 # server is ready to accept requests.
 Write-Host 'Waiting for fhir-server to complete initialization'
-$metadata_url='https://localhost:9443/fhir-server/api/v4/metadata'
+$metadata_url='https://localhost:9443/fhir-server/api/v4/$healthcheck'
 $tries=1
 $STATUS=0
 
 while ( ($STATUS -ne 200) -and ($tries -le $MAX_TRIES) ) {
     Write-Host 'Executing[' $tries ']: server check'
 
-    # Execute the connection to the HTTP Endpoint 
+    # Execute the connection to the HTTP Endpoint
     $UserPassword = 'fhiruser:change-password'
     $bytes = [System.Text.Encoding]::ASCII.GetBytes($UserPassword)
     $base64 = [System.Convert]::ToBase64String($bytes)
-    $req = Invoke-WebRequest -Method Get -Uri $metadata_url -Headers @{"Authorization" = "Basic $base64"; "Content-Type" = "application/json"} -UseBasicParsing    
+    $req = Invoke-WebRequest -Method Get -Uri $metadata_url -Headers @{"Authorization" = "Basic $base64"; "Content-Type" = "application/json"} -UseBasicParsing
 
     # Check the Status Code that comes back
     $STATUS = $req.StatusCode
@@ -156,7 +156,7 @@ New-Item -Path $SIT -Name 'pre-it-logs' -ItemType 'directory'
 $LOG_DIR=[string]$SIT + '\wlp\usr\servers\fhir-server\logs'
 Copy-Item -Path $LOG_DIR -destination $pre_it_logs -Recurse
 
-# Create the Zip File 
+# Create the Zip File
 $compress = @{
 LiteralPath= $pre_it_logs
 CompressionLevel = 'Fastest'
@@ -170,10 +170,10 @@ If ( $STATUS -ne 200 ) {
     [string]$ERROR_MSG = 'Could not establish a connection to the fhir-server within ' + $tries + 'REST API invocations'
     Write-Error $ERROR_MSG
     exit 1
-} 
+}
 
 Write-Host 'The fhir-server is apparently running'
 
 exit 0
 
-# End of Script 
+# End of Script
