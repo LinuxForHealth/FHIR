@@ -1296,7 +1296,8 @@ public class FHIROpenApiGenerator {
      */
     private static String cleanse(String description) {
         return description.replaceAll("“", "&ldquo;")
-                .replaceAll("”", "&rdquo;");
+                .replaceAll("”", "&rdquo;")
+                .replaceAll("…", "&hellip;");
     }
 
     /**
