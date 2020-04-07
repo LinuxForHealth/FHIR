@@ -33,37 +33,37 @@ import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
 
 public class Index {
-    private static JsonProvider PROVIDER = JsonProvider.provider();
-    private static JsonParserFactory PARSER_FACTORY = PROVIDER.createParserFactory(null);
-    private static JsonGeneratorFactory GENERATOR_FACTORY = PROVIDER.createGeneratorFactory(Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true));
-    
+    private static final JsonProvider PROVIDER = JsonProvider.provider();
+    private static final JsonParserFactory PARSER_FACTORY = PROVIDER.createParserFactory(null);
+    private static final JsonGeneratorFactory GENERATOR_FACTORY = PROVIDER.createGeneratorFactory(Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true));
+
     private int version = -1;
     private final List<Entry> entries = new ArrayList<>();
-    
+
     public Index() { }
-    
+
     public Index(int version) {
         if (version < 1) {
             throw new IllegalArgumentException("index version must be a positive integer");
         }
         this.version = version;
     }
-    
+
     public int getVersion() {
         return version;
     }
-    
+
     public List<Entry> getEntries() {
         return Collections.unmodifiableList(entries);
     }
-    
+
     public void load(InputStream in) {
         load(new BufferedReader(new InputStreamReader(in,  StandardCharsets.UTF_8)));
     }
-    
-    public void load(Reader reader) {        
+
+    public void load(Reader reader) {
         JsonParser parser = PARSER_FACTORY.createParser(reader);
-        
+
         String keyName = null;
         while (parser.hasNext()) {
             Event event = parser.next();
@@ -84,9 +84,9 @@ public class Index {
                 break;
             }
         }
-        
+
         parser.close();
-        
+
         if (version < 1) {
             throw new IllegalStateException("index version was not set");
         }
@@ -115,7 +115,7 @@ public class Index {
         String version = null;
         String kind = null;
         String type = null;
-        
+
         String keyName = null;
         while (parser.hasNext()) {
             Event event = parser.next();
@@ -160,7 +160,7 @@ public class Index {
     public void store(OutputStream out) {
         store(new OutputStreamWriter(out, StandardCharsets.UTF_8));
     }
-    
+
     public void store(Writer writer) {
         if (version < 1) {
             throw new IllegalStateException("index version was not set");
@@ -174,14 +174,14 @@ public class Index {
         generator.write("index-version", version);
         generator.writeStartArray("files");
         for (Entry entry : entries) {
-            write(generator, entry);  
+            write(generator, entry);
         }
         generator.writeEnd();
         generator.writeEnd();
         generator.flush();
         generator.close();
     }
-    
+
     private void write(JsonGenerator generator, Entry entry) {
         generator.writeStartObject();
         generator.write("filename", entry.getFileName());
@@ -197,14 +197,14 @@ public class Index {
         }
         generator.writeEnd();
     }
-    
+
     public boolean add(Entry entry) {
         if (entry == null) {
             return false;
         }
         return entries.add(entry);
     }
-    
+
     public static class Entry implements Comparable<Entry> {
         private final String fileName;
         private final String resourceType;
@@ -213,14 +213,14 @@ public class Index {
         private final String version;
         private final String kind;
         private final String type;
-        
+
         private Entry(
-                String fileName, 
-                String resourceType, 
-                String id, 
-                String url, 
-                String version, 
-                String kind, 
+                String fileName,
+                String resourceType,
+                String id,
+                String url,
+                String version,
+                String kind,
                 String type) {
             this.fileName = Objects.requireNonNull(fileName);
             this.resourceType = Objects.requireNonNull(resourceType);
@@ -230,27 +230,27 @@ public class Index {
             this.kind = kind;
             this.type = type;
         }
-        
+
         public String getFileName() {
             return fileName;
         }
-        
+
         public String getResourceType() {
             return resourceType;
         }
-        
+
         public String getId() {
             return id;
         }
-        
+
         public String getUrl() {
             return url;
         }
-        
+
         public String getVersion() {
             return version;
         }
-        
+
         public String getKind() {
             return kind;
         }
@@ -258,36 +258,36 @@ public class Index {
         public String getType() {
             return type;
         }
-        
+
         public static Entry entry(Resource resource) {
             Objects.requireNonNull(resource);
-            
+
             if (!isDefinitionalResource(resource)) {
                 return null;
             }
-            
+
             String id = resource.getId();
             if (id == null) {
                 return null;
             }
-            
+
             String url = FHIRRegistryUtil.getUrl(resource);
             String version = FHIRRegistryUtil.getVersion(resource);
             if (url == null || version == null) {
                 return null;
             }
-            
+
             int idx = url.indexOf("|");
             if (idx != -1) {
                 version = url.substring(idx + 1);
                 url = url.substring(0, idx);
             }
-            
+
             String resourceType = resource.getClass().getSimpleName();
             String fileName = resourceType + "-" + id + ".json";
             String kind = null;
             String type = null;
-            
+
             if (resource instanceof StructureDefinition) {
                 StructureDefinition structureDefinition = (StructureDefinition) resource;
                 kind = structureDefinition.getKind().getValue();
@@ -296,10 +296,10 @@ public class Index {
                 SearchParameter searchParameter = (SearchParameter) resource;
                 type = searchParameter.getType().getValue();
             }
-            
+
             return new Entry(fileName, resourceType, id, url, version, kind, type);
         }
-        
+
         @Override
         public boolean equals(Object obj) {
             if (this == obj) {
@@ -312,24 +312,24 @@ public class Index {
                 return false;
             }
             Entry other = (Entry) obj;
-            return Objects.equals(fileName, other.fileName) && 
-                    Objects.equals(resourceType, other.resourceType) && 
-                    Objects.equals(id, other.id) && 
-                    Objects.equals(url, other.url) && 
-                    Objects.equals(version, other.version) && 
-                    Objects.equals(kind, other.kind) && 
+            return Objects.equals(fileName, other.fileName) &&
+                    Objects.equals(resourceType, other.resourceType) &&
+                    Objects.equals(id, other.id) &&
+                    Objects.equals(url, other.url) &&
+                    Objects.equals(version, other.version) &&
+                    Objects.equals(kind, other.kind) &&
                     Objects.equals(type, other.type);
         }
-        
+
         @Override
         public int hashCode() {
             return Objects.hash(
-                fileName, 
-                resourceType, 
-                id, 
-                url, 
-                version, 
-                kind, 
+                fileName,
+                resourceType,
+                id,
+                url,
+                version,
+                kind,
                 type);
         }
 

@@ -58,56 +58,58 @@ import com.ibm.fhir.registry.util.Index.Entry;
 
 public final class FHIRRegistryUtil {
     private static final Logger log = Logger.getLogger(FHIRRegistryUtil.class.getName());
-    
+
+    private static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
+
     private static final Set<Class<?>> DEFINITIONAL_RESOURCE_TYPES = new HashSet<>(Arrays.asList(
-        ActivityDefinition.class, 
-        CapabilityStatement.class, 
-        ChargeItemDefinition.class, 
-        CodeSystem.class, 
-        CompartmentDefinition.class, 
-        ConceptMap.class, 
-        EffectEvidenceSynthesis.class, 
-        EventDefinition.class, 
-        Evidence.class, 
-        EvidenceVariable.class, 
-        ExampleScenario.class, 
-        GraphDefinition.class, 
-        ImplementationGuide.class, 
-        Library.class, 
-        Measure.class, 
-        MessageDefinition.class, 
-        NamingSystem.class, 
-        OperationDefinition.class, 
-        PlanDefinition.class, 
-        Questionnaire.class, 
-        ResearchDefinition.class, 
-        ResearchElementDefinition.class, 
-        RiskEvidenceSynthesis.class, 
-        SearchParameter.class, 
-        StructureDefinition.class, 
-        StructureMap.class, 
-        TerminologyCapabilities.class, 
-        TestScript.class, 
+        ActivityDefinition.class,
+        CapabilityStatement.class,
+        ChargeItemDefinition.class,
+        CodeSystem.class,
+        CompartmentDefinition.class,
+        ConceptMap.class,
+        EffectEvidenceSynthesis.class,
+        EventDefinition.class,
+        Evidence.class,
+        EvidenceVariable.class,
+        ExampleScenario.class,
+        GraphDefinition.class,
+        ImplementationGuide.class,
+        Library.class,
+        Measure.class,
+        MessageDefinition.class,
+        NamingSystem.class,
+        OperationDefinition.class,
+        PlanDefinition.class,
+        Questionnaire.class,
+        ResearchDefinition.class,
+        ResearchElementDefinition.class,
+        RiskEvidenceSynthesis.class,
+        SearchParameter.class,
+        StructureDefinition.class,
+        StructureMap.class,
+        TerminologyCapabilities.class,
+        TestScript.class,
         ValueSet.class));
-    
+
     private FHIRRegistryUtil() { }
-    
+
     public static String getUrl(Resource resource) {
         DefinitionalResourceVisitor visitor = new DefinitionalResourceVisitor();
         resource.accept(visitor);
         return visitor.getUrl();
     }
-    
+
     public static String getVersion(Resource resource) {
         DefinitionalResourceVisitor visitor = new DefinitionalResourceVisitor();
         resource.accept(visitor);
         return visitor.getVersion();
     }
-    
+
     public static boolean isDefinitionalResource(Resource resource) {
         return isDefinitionalResourceType(resource.getClass());
     }
-    
+
     private static boolean isDefinitionalResourceType(Class<?> resourceType) {
         return DEFINITIONAL_RESOURCE_TYPES.contains(resourceType);
     }
@@ -120,23 +122,23 @@ public final class FHIRRegistryUtil {
         }
         return null;
     }
-    
+
     public static Collection<FHIRRegistryResource> getResources(String packageId) {
         List<FHIRRegistryResource> resources = new ArrayList<>();
         String packageDirectory = packageId.replace(".", "/") + "/package";
         for (Entry entry : readIndex(packageDirectory + "/.index.json")) {
             resources.add(new FHIRRegistryResource(
-                ModelSupport.getResourceType(entry.getResourceType()), 
-                entry.getId(), 
-                entry.getUrl(), 
-                Version.from(entry.getVersion()), 
-                entry.getKind(), 
-                entry.getType(), 
+                ModelSupport.getResourceType(entry.getResourceType()),
+                entry.getId(),
+                entry.getUrl(),
+                Version.from(entry.getVersion()),
+                entry.getKind(),
+                entry.getType(),
                 packageDirectory + "/" + entry.getFileName()));
         }
         return Collections.unmodifiableList(resources);
     }
-    
+
     public static List<Entry> readIndex(String indexPath) {
         try (InputStream in = FHIRRegistryUtil.class.getClassLoader().getResourceAsStream(indexPath)) {
             Index index = new Index();
@@ -146,5 +148,16 @@ public final class FHIRRegistryUtil {
             log.warning("Unable to read index: " + indexPath + " due to the following exception: " + e.getMessage());
         }
         return Collections.emptyList();
+    }
+
+    public static boolean isProfile(FHIRRegistryResource resource) {
+        String url = resource.getUrl();
+        if (url.startsWith(HL7_STRUCTURE_DEFINITION_URL_PREFIX)) {
+            String name = url.substring(HL7_STRUCTURE_DEFINITION_URL_PREFIX.length());
+            if (ModelSupport.isResourceType(name)) {
+                return false;
+            }
+        }
+        return StructureDefinition.class.equals(resource.getResourceType()) && "resource".equals(resource.getKind());
     }
 }
