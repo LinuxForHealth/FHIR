@@ -25,12 +25,12 @@ else
     exit 1
 fi
 
-echo "Deploying fhir-server in existing Websphere Liberty runtime location: ${WLP_ROOT}"
+echo "Deploying fhir-server in existing Liberty runtime location: ${WLP_ROOT}"
 
 # Validate the WLP root directory.
 if [ ! -d "${WLP_ROOT}" ]; then
     echo -n "
-The specified Websphere Liberty installation directory does not exist: ${WLP_ROOT}
+The specified Liberty installation directory does not exist: ${WLP_ROOT}
 Please specify the location of an existing WLP runtime. "
     exit 2
 fi
@@ -38,7 +38,7 @@ fi
 # Make sure we actually have Liberty installed there.
 if [ ! -f "${WLP_ROOT}/bin/server" ]; then
     echo -n "
-Invalid installation directory specified for WebSphere Liberty runtime: ${WLP_ROOT}
+Invalid installation directory specified for Liberty runtime: ${WLP_ROOT}
 Please specify the location of an existing WLP runtime."
     exit 3
 fi
@@ -51,7 +51,7 @@ fi
 
 # Create our server
 echo -n "
-Creating Websphere Liberty server definition for fhir-server... "
+Creating Liberty server definition for fhir-server... "
 ${WLP_ROOT}/bin/server create fhir-server
 rc=$?
 if [ $rc != 0 ]; then
@@ -77,7 +77,7 @@ fi
 echo "
 
 The FHIR Server has been successfully deployed to the
-existing Websphere Liberty runtime located at: ${WLP_ROOT}
+existing Liberty runtime located at: ${WLP_ROOT}
 
 1) You can start and stop the server with these commands:
    ${WLP_ROOT}/bin/server start fhir-server

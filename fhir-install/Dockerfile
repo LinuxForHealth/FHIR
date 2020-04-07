@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
 # (C) Copyright IBM Corp. 2016, 2020
-# 
+#
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
@@ -14,15 +14,15 @@ RUN \
   yum install -y unzip nmap-ncat && \
   yum -y clean all
 
-RUN mkdir /fhir-installer && chown -R 1001:0 /fhir-installer
 USER 1001
+COPY target/fhir-server-distribution.zip /tmp/dist/
+RUN unzip -qq /tmp/dist/fhir-server-distribution.zip -d /tmp && \
+    /tmp/fhir-server-dist/install-fhir.sh /opt/ol/wlp
 
-ADD --chown=1001:0 target/fhir-server-distribution.zip /fhir-installer/
-RUN unzip -qq /fhir-installer/fhir-server-distribution.zip -d /fhir-installer/ && \
-    /fhir-installer/fhir-server-dist/install-fhir.sh /opt/ol/wlp
+# ----------------------------------------------------------------------------
 
 FROM openliberty/open-liberty
-COPY --chown=1001:0 --from=base /opt/ol/wlp/ /opt/ol/wlp
+COPY --chown=1001:0 --from=base /opt/ol/wlp /opt/ol/wlp
 
 MAINTAINER Lee Surprenant <lmsurpre@us.ibm.com>
 

@@ -6,8 +6,7 @@
 
 FROM ibmcom/db2
 
-# Create a non-admin user for the FHIR server
-# This non-admin user will be used by fhir server to access db2
+# Create a non-admin user for the FHIR server to use to access db2
 RUN groupadd -g 1002 fhir && \
     useradd -u 1002 -g fhir -M -d /database/config/fhirserver fhirserver && \
     echo "change-password" | passwd --stdin fhirserver
@@ -19,4 +18,4 @@ EXPOSE 50000
 # per https://hub.docker.com/r/ibmcom/db2
 RUN mkdir /var/custom
 COPY create-database.sh /var/custom
-RUN chmod a+x /var/custom/create-database.sh
+RUN chmod +x /var/custom/create-database.sh

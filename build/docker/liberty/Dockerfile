@@ -15,17 +15,19 @@ RUN \
   yum -y clean all
 
 USER 1001
-COPY volumes/dist /dist
-COPY volumes/scripts  /scripts
-RUN unzip -qq /dist/fhir-server-distribution.zip -d /tmp && \
+COPY dist /tmp/dist
+COPY config /tmp/config
+COPY userlib /tmp/userlib
+RUN unzip -qq /tmp/dist/fhir-server-distribution.zip -d /tmp && \
     /tmp/fhir-server-dist/install-fhir.sh /opt/ol/wlp && \
-    rm -fr /opt/ol/wlp/usr/servers/fhir-server/config/* && \
-    cp -pr /dist/config/* /opt/ol/wlp/usr/servers/fhir-server/config/ && \
-    cp -pr /dist/userlib/* /opt/ol/wlp/usr/servers/fhir-server/userlib/
+    rm -rf /opt/ol/wlp/usr/servers/fhir-server/config/* && \
+    cp -pr /tmp/config/* /opt/ol/wlp/usr/servers/fhir-server/config/ && \
+    cp -pr /tmp/userlib/* /opt/ol/wlp/usr/servers/fhir-server/userlib/
 
+# -----------------------------------------------------------------------------
 
 FROM openliberty/open-liberty
-COPY --chown=1001:0 --from=base /opt/ol/wlp/ /opt/ol/wlp
+COPY --chown=1001:0 --from=base /opt/ol/wlp /opt/ol/wlp
 
 MAINTAINER Lee Surprenant <lmsurpre@us.ibm.com>
 
