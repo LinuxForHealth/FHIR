@@ -840,7 +840,6 @@ public class FHIROpenApiGenerator {
         path.add("get", get);
     }
 
-    @SuppressWarnings("unchecked")
     private static void generateSearchParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
         List<SearchParameter> searchParameters = new ArrayList<SearchParameter>(
                 SearchUtil.getSearchParameters(modelClass));
@@ -1259,7 +1258,7 @@ public class FHIROpenApiGenerator {
         }
 
         if (description != null) {
-            property.add("description", description);
+            property.add("description", cleanse(description));
         }
 
         // Include select examples to help tools avoid bumping into infinite recursion (if they try generate examples)
@@ -1290,6 +1289,14 @@ public class FHIROpenApiGenerator {
         } else {
             properties.add(elementName, property);
         }
+    }
+
+    /*
+     * clean up description to make valid unicode encoded output. 
+     */
+    private static String cleanse(String description) {
+        return description.replaceAll("“", "&ldquo;")
+                .replaceAll("”", "&rdquo;");
     }
 
     /**
