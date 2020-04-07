@@ -9,10 +9,10 @@ package com.ibm.fhir.ig.mcode;
 import java.util.Collection;
 
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
-import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 import com.ibm.fhir.registry.util.FHIRRegistryUtil;
+import com.ibm.fhir.registry.util.PackageRegistryResourceProvider;
 
-public class MCODEResourceProvider implements FHIRRegistryResourceProvider {
+public class MCODEResourceProvider extends PackageRegistryResourceProvider {
     @Override
     public Collection<FHIRRegistryResource> getResources() {
         return FHIRRegistryUtil.getResources("hl7.fhir.us.mcode");
