@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,15 +44,15 @@ public class FHIRValidator {
     private FHIRValidator() { }
 
     /**
-     * Validate a {@link Resource} against constraints in the base specification and 
-     * resource-asserted profile references or specific profile references but not both. 
-     * 
+     * Validate a {@link Resource} against constraints in the base specification and
+     * resource-asserted profile references or specific profile references but not both.
+     *
      * <p>Resource-asserted profiles which are unknown to the server will be ignored. Conversely,
      * unknown profiles passed explicitly as arguments will result in a FHIRValidationException.
-     * 
-     * <p>Profile references that are passed into this method are only applicable to the outermost 
+     *
+     * <p>Profile references that are passed into this method are only applicable to the outermost
      * resource (not contained resources).
-     * 
+     *
      * @param resource
      *     a {@link Resource} instance (the target of validation)
      * @param profiles
@@ -64,17 +65,17 @@ public class FHIRValidator {
     public List<Issue> validate(Resource resource, String... profiles) throws FHIRValidationException {
         return validate(resource, (profiles.length == 0), profiles);
     }
-    
+
     /**
-     * Validate a {@link Resource} against constraints in the base specification and 
-     * resource-asserted profile references and/or specific profile references. 
-     * 
+     * Validate a {@link Resource} against constraints in the base specification and
+     * resource-asserted profile references and/or specific profile references.
+     *
      * <p>Resource-asserted profiles which are unknown to the server will be ignored. Conversely,
      * unknown profiles passed explicitly as arguments will result in a FHIRValidationException.
-     * 
-     * <p>Profile references that are passed into this method are only applicable to the outermost 
+     *
+     * <p>Profile references that are passed into this method are only applicable to the outermost
      * resource (not contained resources).
-     * 
+     *
      * @param resource
      *     a {@link Resource} instance (the target of validation)
      * @param includeResourceAssertedProfiles
@@ -89,19 +90,19 @@ public class FHIRValidator {
     public List<Issue> validate(Resource resource, boolean includeResourceAssertedProfiles, String... profiles) throws FHIRValidationException {
         return validate(new EvaluationContext(resource), includeResourceAssertedProfiles, profiles);
     }
-    
+
     /**
-     * Validate a resource, using an {@link EvaluationContext}, against constraints in the base specification and 
+     * Validate a resource, using an {@link EvaluationContext}, against constraints in the base specification and
      * resource-asserted profile references or specific profile references but not both.
-     * 
+     *
      * <p>Resource-asserted profiles which are unknown to the server will be ignored. Conversely,
      * unknown profiles passed explicitly as arguments will result in a FHIRValidationException.
-     * 
-     * <p>Profile references that are passed into this method are only applicable to the outermost 
+     *
+     * <p>Profile references that are passed into this method are only applicable to the outermost
      * resource (not contained resources).
-     * 
+     *
      * @param evaluationContext
-     *     the {@link EvaluationContext} for this validation which includes a {@link FHIRPathTree} 
+     *     the {@link EvaluationContext} for this validation which includes a {@link FHIRPathTree}
      *     built from a {@link Resource} instance (the target of validation)
      * @param profiles
      *     specific profile references to validate the evaluation context against
@@ -116,17 +117,17 @@ public class FHIRValidator {
     }
 
     /**
-     * Validate a resource, using an {@link EvaluationContext}, against constraints in the base specification and 
+     * Validate a resource, using an {@link EvaluationContext}, against constraints in the base specification and
      * resource-asserted profile references and/or specific profile references.
-     * 
+     *
      * <p>Resource-asserted profiles which are unknown to the server will be ignored. Conversely,
      * unknown profiles passed explicitly as arguments will result in a FHIRValidationException.
-     * 
-     * <p>Profile references that are passed into this method are only applicable to the outermost 
+     *
+     * <p>Profile references that are passed into this method are only applicable to the outermost
      * resource (not contained resources).
-     * 
+     *
      * @param evaluationContext
-     *     the {@link EvaluationContext} for this validation which includes a {@link FHIRPathTree} 
+     *     the {@link EvaluationContext} for this validation which includes a {@link FHIRPathTree}
      *     built from a {@link Resource} instance (the target of validation)
      * @param includeResourceAssertedProfiles
      *     whether or not to consider resource-asserted profiles during validation
@@ -170,18 +171,18 @@ public class FHIRValidator {
             this.includeResourceAssertedProfiles = includeResourceAssertedProfiles;
             this.profiles = Arrays.asList(profiles);
             this.evaluationContext.getTree().getRoot().accept(this);
-            return issues;
+            return Collections.unmodifiableList(issues);
         }
 
         private void reset() {
             issues.clear();
         }
-        
+
         @Override
         public void doVisit(FHIRPathElementNode node) {
             validate(node);
         }
-        
+
         @Override
         public void doVisit(FHIRPathResourceNode node) {
             validate(node);
@@ -194,7 +195,7 @@ public class FHIRValidator {
             Class<?> elementType = elementNode.element().getClass();
             validate(elementType, elementNode, ModelSupport.getConstraints(elementType));
         }
-        
+
         /**
          * @throws IllegalStateException if the registered constraints cannot be evaluated for the passed node
          */
@@ -208,7 +209,7 @@ public class FHIRValidator {
                 validate(resourceType, resourceNode, ProfileSupport.getConstraints(profiles, resourceType));
             }
         }
-        
+
         /**
          * @throws IllegalStateException if one of the passed constraints cannot be evaluated for the passed node
          * @implNote IllegalStateException is favored over IllegalArgumentException because the constraints
@@ -222,7 +223,9 @@ public class FHIRValidator {
                     }
                     continue;
                 }
+                evaluationContext.setConstraint(constraint);
                 validate(type, node, constraint);
+                evaluationContext.unsetConstraint();
             }
         }
 
@@ -241,6 +244,8 @@ public class FHIRValidator {
                 Collection<FHIRPathNode> initialContext = singleton(node);
                 if (!Constraint.LOCATION_BASE.equals(constraint.location())) {
                     initialContext = evaluator.evaluate(evaluationContext, constraint.location(), initialContext);
+                    issues.addAll(evaluationContext.getIssues());
+                    evaluationContext.clearIssues();
                 }
 
                 IssueSeverity severity = Constraint.LEVEL_WARNING.equals(constraint.level()) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
@@ -249,19 +254,19 @@ public class FHIRValidator {
                     evaluationContext.setExternalConstant("rootResource", getRootResourceNode(contextNode));
                     evaluationContext.setExternalConstant("resource", getResourceNode(contextNode));
                     Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), singleton(contextNode));
+                    issues.addAll(evaluationContext.getIssues());
+                    evaluationContext.clearIssues();
 
                     if (evaluatesToBoolean(result) && isFalse(result)) {
                         // constraint validation failed
-                        Issue issue = Issue.builder()
+                        issues.add(Issue.builder()
                             .severity(severity)
                             .code(IssueType.INVARIANT)
                             .details(CodeableConcept.builder()
                                 .text(string(constraint.id() + ": " + constraint.description()))
                                 .build())
                             .expression(string(contextNode.path()))
-                            .build();
-
-                        issues.add(issue);
+                            .build());
                     }
 
                     if (DEBUG) {
@@ -277,7 +282,7 @@ public class FHIRValidator {
 
         /**
          * Get the resource node to use as a value for the %resource external constant.
-         * 
+         *
          * @param node
          *     the context node
          * @return
@@ -290,10 +295,10 @@ public class FHIRValidator {
             // return nearest resource node ancestor
             return resourceNodes.get(0);
         }
-        
+
         /**
          * Get the resource node to use as a value for the %rootResource external constant.
-         * 
+         *
          * @param node
          *     the context node
          * @return
@@ -308,10 +313,10 @@ public class FHIRValidator {
                 return resourceNodes.get(0);
             }
         }
-        
+
         /**
          * Determine whether the list of resource node ancestors indicates containment within a domain resource.
-         * 
+         *
          * @param resourceNodes
          *     the list of resource node ancestors
          * @return
@@ -320,12 +325,12 @@ public class FHIRValidator {
         private boolean isContained(List<FHIRPathResourceNode> resourceNodes) {
             return resourceNodes.size() > 1 && resourceNodes.get(1).resource().is(DomainResource.class);
         }
-        
+
         /**
          * Get the list of resource nodes in the path of the given context node (including the context node itself).
-         * The ancestors are ordered from node to root (i.e. the node at index 0 is either the current node or 
+         * The ancestors are ordered from node to root (i.e. the node at index 0 is either the current node or
          * the nearest resource node ancestor).
-         * 
+         *
          * @param node
          *     the context node
          * @return
@@ -333,11 +338,11 @@ public class FHIRValidator {
          */
         private List<FHIRPathResourceNode> getResourceNodes(FHIRPathNode node) {
             List<FHIRPathResourceNode> resourceNodes = new ArrayList<>();
-            
+
             if (node.isResourceNode()) {
                 resourceNodes.add(node.asResourceNode());
             }
-            
+
             String path = node.path();
             int index = path.lastIndexOf(".");
             while (index != -1) {

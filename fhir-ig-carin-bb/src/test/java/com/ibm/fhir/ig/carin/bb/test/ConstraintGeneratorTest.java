@@ -9,6 +9,7 @@ package com.ibm.fhir.ig.carin.bb.test;
 import com.ibm.fhir.ig.carin.bb.BBResourceProvider;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.StructureDefinition;
+import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
@@ -22,7 +23,9 @@ public class ConstraintGeneratorTest {
                 if (StructureDefinition.class.equals(registryResource.getResourceType())) {
                     String url = registryResource.getUrl();
                     System.out.println(url);
-                    for (Constraint constraint : ProfileSupport.getConstraints(url, ModelSupport.getResourceType(registryResource.getType()))) {
+                    Class<?> type = ModelSupport.isResourceType(registryResource.getType()) ?
+                            ModelSupport.getResourceType(registryResource.getType()) : Extension.class;
+                    for (Constraint constraint : ProfileSupport.getConstraints(url, type)) {
                         System.out.println("    " + constraint);
                     }
                 }

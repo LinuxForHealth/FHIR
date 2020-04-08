@@ -8,9 +8,9 @@ For a detailed description of FHIR conformance, see https://ibm.github.io/FHIR/C
 The server can be packaged as a set of jar files, a web application archive (war), an application installer, or a Docker image.
 
 ### Running the IBM FHIR Server
-The IBM FHIR Server is available from the [Releases tab](https://github.com/IBM/FHIR/releases) as a zip file with installation scripts for Mac/Linux and Windows.
+The IBM FHIR Server is available from the [Releases tab](https://github.com/IBM/FHIR/releases) as a zip file with installation scripts for Mac/Linux and Windows or as a docker image at https://hub.docker.com/r/ibmcom/ibm-fhir-server.
 
-Information on installing and running the server is available in the User Guide at https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide.
+More information on installing and running the server is available in the User Guide at https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide.
 
 ### Building on top of the IBM FHIR Server Modules
 Each of the IBM FHIR Server modules are published to a public Maven repository on [JFrog Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases).

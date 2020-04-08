@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.path.util;
 
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
@@ -38,6 +39,7 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ModelSupport.ElementInfo;
 import com.ibm.fhir.model.visitor.Visitable;
@@ -127,6 +129,22 @@ public final class FHIRPathUtil {
 
     public static boolean isCodedElement(Element element) {
         return element.is(Code.class) || element.is(Coding.class) || element.is(CodeableConcept.class);
+    }
+
+    public static boolean isStringElementNode(Collection<FHIRPathNode> nodes) {
+        return isElementNode(nodes) && isStringElementNode(getElementNode(nodes));
+    }
+
+    public static boolean isStringElementNode(FHIRPathElementNode elementNode) {
+        return elementNode.element().is(FHIR_STRING);
+    }
+
+    public static boolean isUriElementNode(Collection<FHIRPathNode> nodes) {
+        return isElementNode(nodes) && isUriElementNode(getElementNode(nodes));
+    }
+
+    private static boolean isUriElementNode(FHIRPathElementNode elementNode) {
+        return elementNode.element().is(Uri.class);
     }
 
     public static boolean isQuantityNode(Collection<FHIRPathNode> nodes) {
