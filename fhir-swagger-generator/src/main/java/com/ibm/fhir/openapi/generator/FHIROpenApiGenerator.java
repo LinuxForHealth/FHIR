@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1292,12 +1293,25 @@ public class FHIROpenApiGenerator {
     }
 
     /*
-     * clean up description to make valid unicode encoded output. 
+     * clean up description to make valid unicode encoded output.
      */
     private static String cleanse(String description) {
-        return description.replaceAll("“", "&ldquo;")
+        String cleansed = description.replaceAll("“", "&ldquo;")
                 .replaceAll("”", "&rdquo;")
-                .replaceAll("…", "&hellip;");
+                .replaceAll("…", "&hellip;")
+                .replaceAll("’", "&rsquo;")
+                .replaceAll("‘", "&lsquo;")
+                .replaceAll("-", "&ndash;")
+                .replaceAll("—", "&mdash;")
+                .replaceAll("‑", "&#8209;"); // Non-Breaking Hyphen
+
+        if (!Charset.forName("US-ASCII").newEncoder().canEncode(cleansed)) {
+            // If a new character sneaks in - it'll output here. 
+            // Best place to look up entity is https://unicodelookup.com
+            System.out.println("[Failure to cleanse the description] - " + cleansed);
+        }
+
+        return cleansed;
     }
 
     /**
