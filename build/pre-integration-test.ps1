@@ -91,7 +91,7 @@ $DATE_PS=[System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'Green
 Write-Host '>>> Current time: ' $DATE_PS
 
 # Sleep for a bit to let the server startup
-Write-Host 'Sleeping ' $SERVER_WAITTIME ' to let the server start'
+Write-Host 'Sleeping ' $SERVER_WAITTIME ' seconds to let the server start'
 Start-Sleep -s $SERVER_WAITTIME
 
 # Ignore Self Signed Certificates and use TLS

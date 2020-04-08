@@ -1,13 +1,20 @@
 version: '3.7'
 services:
 
-  fhir:
-    build:
-      context: .
-      dockerfile: Dockerfile-ol
+  fhir-server:
+    image: ibmcom/ibm-fhir-server
     hostname: fhir
+    volumes:
+      - type: bind
+        source: ./fhir-server/volumes/config
+        target: /opt/ol/wlp/usr/servers/fhir-server/config
+        read_only: true
+      - type: bind
+        source: ./fhir-server/volumes/userlib
+        target: /opt/ol/wlp/usr/servers/fhir-server/userlib
+        read_only: true
     healthcheck:
-      start_period: 30s
+      start_period: 60s
       interval: 10s
       timeout: 10s
       retries: 2
@@ -18,8 +25,7 @@ services:
 
   db2:
     build:
-      context: .
-      dockerfile: Dockerfile-db2
+      context: db2
     hostname: db2
     privileged: true
     environment:

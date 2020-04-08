@@ -6,5 +6,9 @@
 ###############################################################################
 set -ex
 
-java -jar volumes/schema/fhir-persistence-schema-*-cli.jar \
+# The full path to the directory of this script, no matter where its called from
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd ${DIR}
+
+java -jar schema/fhir-persistence-schema-*-cli.jar \
   --prop-file db2.properties --schema-name FHIRDATA --update-schema

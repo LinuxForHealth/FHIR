@@ -38,6 +38,8 @@ jobs:
         BINTRAY_PASSWORD: ${{ secrets.BINTRAY_PASSWORD }}
         CODECOV_RUNME: ${{ secrets.CODECOV_RUNME }}
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
         CI: true
         JAVA_HOME: /opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
       run: |
@@ -50,6 +52,7 @@ jobs:
         # only covers unit tests (not server integration tests)
         # bash build/release/ibm-java-regression.sh
         bash build/release/release.sh
+        bash build/release/docker-push.sh
         bash build/release/sync-maven-central.sh
         bash build/release/release-commit-details.sh
         bash build/release/diagnostics.sh
