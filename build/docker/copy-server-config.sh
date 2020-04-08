@@ -8,7 +8,7 @@ set -e
 
 if [[ -z "${WORKSPACE}" ]]; then
     echo "ERROR: WORKSPACE environment variable not set!"
-    exit 2
+    exit 1
 fi
 
 echo "Removing the old server config..."
