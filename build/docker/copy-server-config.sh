@@ -11,26 +11,14 @@ if [[ -z "${WORKSPACE}" ]]; then
     exit 2
 fi
 
-echo "Removing old dependencies..."
-DIST="${WORKSPACE}/build/docker/liberty/dist"
-CONFIG="${WORKSPACE}/build/docker/liberty/config"
-SCHEMA="${WORKSPACE}/build/docker/schema"
-rm -rf $DIST/* 2> /dev/null
+echo "Removing the old server config..."
+CONFIG="${WORKSPACE}/build/docker/fhir-server/volumes/config"
 rm -rf $CONFIG/* 2> /dev/null
-rm -rf $SCHEMA/* 2> /dev/null
-mkdir -p $DIST
 mkdir -p $CONFIG
-mkdir -p $SCHEMA
 
-echo "Copying installation zip files..."
-cp -p ${WORKSPACE}/fhir-install/target/fhir-server-distribution.zip ${DIST}
-
-echo "Copying fhir configuration files..."
+echo "Copying the server config files..."
 cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/* ${CONFIG}
 cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* ${CONFIG}
 cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/default/fhir-server-config-db2.json ${CONFIG}/default/fhir-server-config.json
 
-echo "Copying fhir-persistence-schema tool..."
-cp -pr ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar ${SCHEMA}
-
-echo "Finished copying fhir-server dependencies..."
+echo "Finished copying the server config."

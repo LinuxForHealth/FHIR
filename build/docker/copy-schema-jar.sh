@@ -11,12 +11,12 @@ if [[ -z "${WORKSPACE}" ]]; then
     exit 2
 fi
 
-echo "Removing old test operations..."
-USERLIB="${WORKSPACE}/build/docker/fhir-server/volumes/userlib"
-rm -rf $USERLIB/* 2> /dev/null
-mkdir -p $USERLIB
+echo "Removing the old fhir-persistence-schema tool..."
+SCHEMA="${WORKSPACE}/build/docker/schema"
+rm -rf $SCHEMA/* 2> /dev/null
+mkdir -p $SCHEMA
 
-echo "Copying test artifacts to install location..."
-cp -pr ${WORKSPACE}/fhir-operation/target/fhir-operation-*-tests.jar ${USERLIB}
+echo "Copying fhir-persistence-schema tool..."
+cp -pr ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar ${SCHEMA}
 
-echo "Finished copying test operations."
+echo "Finished copying the fhir-persistence-schema tool."

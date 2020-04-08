@@ -30,4 +30,4 @@ tenantKey=$(java -jar schema/fhir-persistence-schema-*-cli.jar \
 
 # Creating a backup file is the easiest way to make in-place sed portable across OSX and Linux
 sed -i'.bak' -e 's%"default": {%"default": { "tenantKey":"'${tenantKey}'",%' \
-  liberty/config/default/fhir-server-config.json
+  fhir-server/volumes/config/default/fhir-server-config.json

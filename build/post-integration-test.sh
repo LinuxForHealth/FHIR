@@ -24,7 +24,7 @@ ${SIT}/wlp/bin/server stop fhir-server
 
 # Gather up all the log files and test results
 it_results=${SIT}/integration-test-results
-rm -fr ${it_results} 2>/dev/null
+rm -rf ${it_results} 2>/dev/null
 mkdir -p ${it_results}/server-logs
 mkdir -p ${it_results}/fhir-server-test
 

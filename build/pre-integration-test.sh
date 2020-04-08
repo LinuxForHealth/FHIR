@@ -20,7 +20,7 @@ export WORKSPACE="$( dirname "${DIR}" )"
 # $WORKSPACE/SIT/wlp - fhir server installation
 
 # Initial wait time after the "server start" command returns
-SERVER_WAITTIME="40"
+SERVER_WAITTIME="60"
 
 # Sleep interval after each "$healthcheck" invocation
 SLEEP_INTERVAL="10"
@@ -32,27 +32,24 @@ MAX_TRIES=10
 export SIT=${WORKSPACE}/SIT
 if [ -d "${SIT}" ]; then
     echo "Removing ${SIT}"
-    rm -fr ${SIT}
+    rm -rf ${SIT}
 fi
-
 mkdir -p ${SIT}
-
-# Collect the installers and config files in a common place (same as the docker process)
-cd ${DIR}/docker
-./copy-dependencies.sh
 
 # Install a fresh copy of the fhir server
 echo "Unzipping fhir-server installer..."
-unzip liberty/dist/fhir-server-distribution.zip -d ${SIT}
+unzip ${WORKSPACE}/fhir-install/target/fhir-server-distribution.zip -d ${SIT}
 
 echo "Installing fhir server in ${SIT}"
 ${SIT}/fhir-server-dist/install.sh ${SIT}
 
 echo "Copying configuration to install location..."
-rm -fr ${SIT}/wlp/usr/servers/fhir-server/config/*
-cp -pr liberty/config ${SIT}/wlp/usr/servers/fhir-server/
+rm -rf ${SIT}/wlp/usr/servers/fhir-server/config/*
+cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
+cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
 
 echo "Copying test artifacts to install location..."
+rm -rf ${SIT}/wlp/usr/servers/fhir-server/userlib/*
 cp -pr ${WORKSPACE}/fhir-operation/target/fhir-operation-*-tests.jar ${SIT}/wlp/usr/servers/fhir-server/userlib/
 
 # Start up the fhir server
@@ -90,7 +87,7 @@ done
 echo "Collecting pre-test server logs..."
 pre_it_logs=${SIT}/pre-it-logs
 zip_file=${WORKSPACE}/pre-it-logs.zip
-rm -fr ${pre_it_logs} 2>/dev/null
+rm -rf ${pre_it_logs} 2>/dev/null
 mkdir -p ${pre_it_logs}
 rm -f ${zip_file} 2>/dev/null
 cp -pr ${SIT}/wlp/usr/servers/fhir-server/logs ${pre_it_logs}

@@ -12,9 +12,11 @@ echo "Preparing environment for fhir-server integration tests..."
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 export WORKSPACE="$( dirname "${DIR}" )"
 
-# Set up installers and config files where docker processing can see them
+# Set the working directory
 cd ${DIR}/docker
-./copy-dependencies-db2.sh
+
+# Set up the server config files
+./copy-server-config.sh
 
 # Stand up a docker container running the fhir server configured for integration tests
 echo "Bringing down any containers that might already be running as a precaution"
@@ -30,22 +32,23 @@ echo ">>> Current time: " $(date)
 (docker-compose logs --timestamps --follow db2 & P=$! && sleep 100 && kill $P)
 
 echo "Deploying the Db2 schema..."
+./copy-schema-jar.sh
+# Note: this adds the tenant key to the server config file so make sure thats set up first
 ./deploySchemaAndTenant.sh
 
 echo "Bringing up the FHIR server... be patient, this will take a minute"
 ./copy-test-operations.sh
-docker-compose build --pull fhir
-docker-compose up -d fhir
+docker-compose up -d fhir-server
 echo ">>> Current time: " $(date)
 
 # TODO wait for it to be healthy instead of just Sleeping
-(docker-compose logs --timestamps --follow fhir & P=$! && sleep 100 && kill $P)
+(docker-compose logs --timestamps --follow fhir-server & P=$! && sleep 60 && kill $P)
 
 # Gather up all the server logs so we can trouble-shoot any problems during startup
 cd -
 pre_it_logs=${WORKSPACE}/pre-it-logs
 zip_file=${WORKSPACE}/pre-it-logs.zip
-rm -fr ${pre_it_logs} 2>/dev/null
+rm -rf ${pre_it_logs} 2>/dev/null
 mkdir -p ${pre_it_logs}
 rm -f ${zip_file}
 

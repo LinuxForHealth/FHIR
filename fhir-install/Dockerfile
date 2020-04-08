@@ -9,14 +9,13 @@ FROM openliberty/open-liberty as base
 ENV LICENSE accept
 
 USER root
-RUN \
-  yum update -y && \
-  yum install -y unzip nmap-ncat && \
-  yum -y clean all
+RUN yum update -y && \
+    yum install -y unzip && \
+    yum clean all -y
 
 USER 1001
-COPY target/fhir-server-distribution.zip /tmp/dist/
-RUN unzip -qq /tmp/dist/fhir-server-distribution.zip -d /tmp && \
+COPY target/fhir-server-distribution.zip /tmp/
+RUN unzip -qq /tmp/fhir-server-distribution.zip -d /tmp && \
     /tmp/fhir-server-dist/install-fhir.sh /opt/ol/wlp
 
 # ----------------------------------------------------------------------------
