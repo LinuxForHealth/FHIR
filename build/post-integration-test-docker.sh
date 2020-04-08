@@ -15,7 +15,7 @@ WORKSPACE="$( dirname "${DIR}" )"
 # Gather up all the log files and test results
 it_results=${WORKSPACE}/integration-test-results
 zip_file=${WORKSPACE}/integration-test-results.zip
-rm -fr ${it_results} 2>/dev/null
+rm -rf ${it_results} 2>/dev/null
 mkdir -p ${it_results}/server-logs
 mkdir -p ${it_results}/fhir-server-test
 

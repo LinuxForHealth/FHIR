@@ -1,10 +1,18 @@
 version: '3.7'
 services:
 
-  fhir:
-    build:
-      context: liberty
+  fhir-server:
+    image: ibmcom/ibm-fhir-server
     hostname: fhir
+    volumes:
+      - type: bind
+        source: ./fhir-server/volumes/config
+        target: /opt/ol/wlp/usr/servers/fhir-server/config
+        read_only: true
+      - type: bind
+        source: ./fhir-server/volumes/userlib
+        target: /opt/ol/wlp/usr/servers/fhir-server/userlib
+        read_only: true
     healthcheck:
       start_period: 60s
       interval: 10s
