@@ -14,7 +14,7 @@ if [[ -z "${WORKSPACE}" ]]; then
 fi
 
 # Set up installers and config files where docker processing can see them
-./setup-dependencies-docker.sh
+bash ./setup-dependencies-docker.sh
 
 # Stand up a docker container running the fhir server configured for integration tests
 echo "Bringing down any fhir server containers that might already be running as a precaution"
@@ -30,10 +30,10 @@ echo ">>> Current time: " $(date)
 (docker-compose logs --timestamps --follow fhirdb-postgres & P=$! && sleep 100 && kill $P)
 
 echo "Deploying the Postgres schema..."
-./setup-deploy-schema-and-tenant.sh
+bash ./setup-deploy-schema-and-tenant.sh
 
 echo "Bringing up the FHIR server... be patient, this will take a minute"
-./setup-copy-test-operations.sh
+bash ./setup-copy-test-operations.sh
 docker-compose build --pull fhir
 docker-compose up -d fhir
 echo ">>> Current time: " $(date)

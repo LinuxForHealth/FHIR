@@ -29,9 +29,9 @@ jobs:
       env: 
         WORKSPACE: ${{ github.workspace }}
       run: |
-        build/persistence/${{matrix.persistence}}/pre-integration-test-docker.sh
+        bash build/persistence/${{matrix.persistence}}/pre-integration-test-docker.sh
         mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress
-        build/persistence/${{matrix.persistence}}/post-integration-test-docker.sh
+        bash build/persistence/${{matrix.persistence}}/post-integration-test-docker.sh
     - name: Gather error logs
       if: failure()
       run: |
