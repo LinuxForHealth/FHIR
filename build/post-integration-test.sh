@@ -14,7 +14,7 @@ WORKSPACE="$( dirname "${DIR}" )"
 export SIT=${WORKSPACE}/SIT
 if [ ! -d ${SIT} ]; then
     echo "ERROR: ${SIT} not found!"
-    exit 2
+    exit 1
 fi
 
 # Stop the fhir server.
