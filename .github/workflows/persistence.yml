@@ -1,0 +1,61 @@
+name: Persistence Layer Integration Tests
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '.github/site.yml'
+      - '.github/release.yml'
+
+jobs:
+  e2e-persistence:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 'openjdk11' ]
+        persistence: [ 'postgres' ]
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up OpenJDK
+      uses: joschi/setup-jdk@v1
+      with:
+        java-version: ${{ matrix.java }}
+    - name: Setup Pre-Requisites
+      run: |
+        mvn -B install --file fhir-examples --no-transfer-progress
+        mvn -B install --file fhir-parent -DskipTests -Pintegration --no-transfer-progress
+    - name: Run Server Integration Tests with Persistence Layer
+      env: 
+        WORKSPACE: ${{ github.workspace }}
+      run: |
+        build/persistence/${{matrix.persistence}}/pre-integration-test-docker.sh
+        mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress
+        build/persistence/${{matrix.persistence}}/post-integration-test-docker.sh
+    - name: Gather error logs
+      if: failure()
+      run: |
+        it_results=integration-test-results
+        rm -fr ${it_results} 2>/dev/null
+        mkdir -p ${it_results}/server-logs
+        mkdir -p ${it_results}/fhir-server-test
+        containerId=$(docker ps -a | grep fhir | cut -d ' ' -f 1)
+        if [[ -z "${containerId}" ]]; then
+            echo "Warning: Could not find fhir container!!!"
+        else
+            echo "fhir container id: $containerId"
+
+            # Grab the container's console log
+            docker logs $containerId  >& ${it_results}/docker-console.txt
+
+            echo "Gathering post-test server logs from docker container: $containerId"
+            docker cp -L $containerId:/logs ${it_results}/server-logs
+        fi
+        echo "Gathering integration test output"
+        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
+    - name: Upload logs
+      if: always()
+      uses: actions/upload-artifact@master
+      with:
+        name: integration-test-results-${{ matrix.persistence }}-${{ matrix.java }}
+        path: integration-test-results

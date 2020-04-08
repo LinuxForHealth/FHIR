@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  fhir:
+    build:
+      context: .
+      dockerfile: ../../fhir-install/Dockerfile-ol
+    hostname: fhir
+    healthcheck:
+      start_period: 30s
+      interval: 10s
+      timeout: 10s
+      retries: 2
+      # https://docs.docker.com/compose/compose-file/#variable-substitution
+      test: curl -v -f -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
+    ports:
+      - 9443:9443
+
+  template:
+    build:
+      context: .
+      dockerfile: Dockerfile-template
+    hostname: postgres
+    privileged: true
+    environment:
+      TEMPLATE_PASSWORD: change-password
+    ports:
+      - 50000:50000

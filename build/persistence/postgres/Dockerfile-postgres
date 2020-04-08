@@ -1,0 +1,31 @@
+###############################################################################
+# (C) Copyright IBM Corp. 2020
+#
+# SPDX-License-Identifier: Apache-2.0
+###############################################################################
+
+FROM postgres:12.2
+
+# Set working directory
+WORKDIR /fhir
+
+# Hard Coded environment values
+ENV POSTGRES_DB fhirdb
+ENV POSTGRES_USER fhiruser
+ENV PGDATA /fhir/data
+
+RUN mkdir -p /fhir/data && chown -R postgres:postgres /fhir
+
+COPY --chown=postgres:postgres resources/init-user-db.sh /docker-entrypoint-initdb.d/init-user-db.sh
+
+COPY ./resources/entrypoint.sh /
+RUN chmod +x /entrypoint.sh
+
+COPY ./resources/run.sh /
+RUN chmod +x /run.sh
+
+COPY --chown=postgres:postgres ./resources/db.sql /
+
+EXPOSE 5432/tcp
+
+ENTRYPOINT exec /entrypoint.sh

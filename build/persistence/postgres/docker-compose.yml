@@ -1,0 +1,48 @@
+version: '3.7'
+services:
+  fhirdb-postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile-postgres
+    shm_size: 256MB
+    tty: true
+    stdin_open: true
+    hostname: fhirpostgres
+    volumes:
+       - type: bind
+         source: ./db
+         target: /fhir/data
+    privileged: true
+    environment:
+      POSTGRES_PASSWORD: change-password
+      PG_SYSTEM_SHARED_BUFFERS: 256MB
+      PG_SYSTEM_MAX_CONNECTIONS: 100
+    networks:
+      - backend
+    ports:
+      - 5432:5432
+
+  fhir:
+    build:
+      context: ../../../fhir-install/docker/
+      dockerfile: Dockerfile-ol
+    hostname: fhir
+    healthcheck:
+      start_period: 30s
+      interval: 10s
+      timeout: 10s
+      retries: 2
+      # https://docs.docker.com/compose/compose-file/#variable-substitution
+      test: curl -v -f -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
+    networks:
+      - frontend
+    ports:
+      - 9443:9443
+    depends_on: 
+      - fhirdb-postgres
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
