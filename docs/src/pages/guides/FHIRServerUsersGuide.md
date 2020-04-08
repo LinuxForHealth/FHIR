@@ -1445,7 +1445,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/jobParameters/cos.api.key`|Y|Y|
 |`fhirServer/bulkdata/jobParameters/cos.srvinst.id`|Y|Y|
 |`fhirServer/bulkdata/bulkDataBatchJobIdEncryptionKey`|Y|Y|
-|`fhirServer/bulkdata/isExportPublic`|Y|Y|
+|`fhirServer/bulkdata/isExportPublic`|N|Y|
 
 
 ## 5.2 Keystores, truststores, and the FHIR server
