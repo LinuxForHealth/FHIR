@@ -25,7 +25,7 @@ public interface FHIRRegistryResourceProvider {
      * @param url
      *     the url of the registry resource
      * @param version
-     *     the version of the registry resource
+     *     the version of the registry resource (optional)
      * @return
      *     the registry resource from this provider for the given resource type, url and version if exists, null otherwise
      */
@@ -50,12 +50,12 @@ public interface FHIRRegistryResourceProvider {
     Collection<FHIRRegistryResource> getRegistryResources();
 
     /**
-     * Get the profile resources from this provider that constrain the given type
+     * Get the profile resources from this provider that constrain the given resource type
      *
      * @param type
-     *     the constrained type
+     *     the constrained resource type
      * @return
-     *     the profile resources from this provider that constrain the given type
+     *     the profile resources from this provider that constrain the given resource type
      */
     Collection<FHIRRegistryResource> getProfileResources(String type);
 

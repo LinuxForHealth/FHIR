@@ -20,6 +20,8 @@ import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Canonical;
+import com.ibm.fhir.model.type.code.SearchParamType;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
@@ -114,6 +116,8 @@ public final class FHIRRegistry {
      *     the resource type
      * @return
      *     the resource for the given canonical url and resource type if exists, null otherwise
+     * @throws ClassCastException
+     *     if the resource exists in the registry but its type does not match given resource type
      */
     public <T extends Resource> T getResource(String url, Class<T> resourceType) {
         Objects.requireNonNull(url);
@@ -154,15 +158,18 @@ public final class FHIRRegistry {
     }
 
     /**
-     * Get the profiles that constrain the given type as a collection of {@link Canonical} URLs
+     * Get the profiles that constrain the given resource type as a collection of {@link Canonical} URLs
      *
      * @param type
-     *     the constrained type
+     *     the constrained resource type
      * @return
      *     the profiles that constrain the given type as a collection of {@link Canonical} URLs
      */
     public Collection<Canonical> getProfiles(String type) {
         Objects.requireNonNull(type);
+        if (!ModelSupport.isResourceType(type)) {
+            throw new IllegalArgumentException("The type argument must be a valid FHIR resource type name");
+        }
         return providers.stream().map(provider -> provider.getProfileResources(type))
                 .flatMap(Collection::stream)
                 .map(registryResource -> Canonical.of(registryResource.getUrl(), registryResource.getVersion().toString()))
@@ -173,6 +180,8 @@ public final class FHIRRegistry {
     /**
      * Get the search parameters with the given search parameter type (e.g. string, token, etc.)
      *
+     * <p>The method {@link FHIRRegistry#getResources(Class)} can be used to get all search parameters regardless of type
+     *
      * @param type
      *     the search parameter type
      * @return
@@ -180,6 +189,7 @@ public final class FHIRRegistry {
      */
     public Collection<SearchParameter> getSearchParameters(String type) {
         Objects.requireNonNull(type);
+        SearchParamType.ValueSet.from(type);
         return providers.stream()
                 .map(provider -> provider.getSearchParameterResources(type))
                 .flatMap(Collection::stream)
