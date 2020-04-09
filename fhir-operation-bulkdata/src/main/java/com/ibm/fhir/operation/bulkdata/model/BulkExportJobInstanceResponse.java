@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.model;
 
 import java.io.ByteArrayInputStream;
@@ -263,7 +264,6 @@ public class BulkExportJobInstanceResponse {
      * Parser
      */
     public static class Parser {
-
         private Parser() {
             // NO Op
         }
@@ -282,8 +282,7 @@ public class BulkExportJobInstanceResponse {
         }
 
         public static BulkExportJobInstanceResponse parse(InputStream in) throws FHIROperationException {
-            try (JsonReader jsonReader =
-                    JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
+            try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
                 JsonObject jsonObject = jsonReader.readObject();
                 BulkExportJobInstanceResponse.Builder builder = BulkExportJobInstanceResponse.builder();
 
@@ -349,8 +348,10 @@ public class BulkExportJobInstanceResponse {
                                 // Get the job execution id of the job instance at the end of the url, because the same job instance can be
                                 // started, stopped and then restarted multipe times, so need to find the last job execution id and use it
                                 // as the current job execution id.
-                                int tmpJobExecutionId = Integer.parseInt(href.substring(href.indexOf("jobexecutions") + 14));
-                                jobExecutionId = jobExecutionId < tmpJobExecutionId ? tmpJobExecutionId : jobExecutionId;
+                                int tmpJobExecutionId =
+                                        Integer.parseInt(href.substring(href.indexOf("jobexecutions") + 14));
+                                jobExecutionId =
+                                        jobExecutionId < tmpJobExecutionId ? tmpJobExecutionId : jobExecutionId;
                             }
                         }
                     }
@@ -369,6 +370,7 @@ public class BulkExportJobInstanceResponse {
      * Generates JSON from this object.
      */
     public static class Writer {
+        // This is an internal model and does not need to honor _pretty printing as it is only communicating with the java batch framework. 
         private static final Map<java.lang.String, Object> properties =
                 Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true);
         private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY =
@@ -381,8 +383,7 @@ public class BulkExportJobInstanceResponse {
         public static String generate(BulkExportJobInstanceResponse obj) throws IOException {
             String o = "{}";
             try (StringWriter writer = new StringWriter();) {
-                try (JsonGenerator generator =
-                        PRETTY_PRINTING_GENERATOR_FACTORY.createGenerator(writer);) {
+                try (JsonGenerator generator = PRETTY_PRINTING_GENERATOR_FACTORY.createGenerator(writer);) {
                     generator.writeStartObject();
 
                     if (obj.getJobName() != null) {

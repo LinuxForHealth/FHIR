@@ -17,7 +17,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.AbstractOperation;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
-import com.ibm.fhir.operation.bulkdata.util.BulkDataUtil;
+import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
 
@@ -27,10 +27,10 @@ import com.ibm.fhir.rest.FHIRResourceHelpers;
  * <li>status of a bulkdata export/import job</li>
  * <li>delete a bulkdata export/import job</li>
  */
-public class ExportStatusOperation extends AbstractOperation {
-    private static final String FILE = "export-status.json";
+public class StatusOperation extends AbstractOperation {
+    private static final String FILE = "status.json";
 
-    public ExportStatusOperation() {
+    public StatusOperation() {
         super();
     }
 
@@ -51,13 +51,13 @@ public class ExportStatusOperation extends AbstractOperation {
             String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
             if ("DELETE".equalsIgnoreCase(method)) {
                 // Assume GET or POST
-                String job = BulkDataUtil.checkAndValidateJob(parameters);
+                String job = BulkDataExportUtil.checkAndValidateJob(parameters);
                 // For now, we're going to execute the status update, and check. 
                 // If Base, Export Status (Else Invalid)
                 return BulkDataFactory.getTenantInstance().delete(job, operationContext);
             } else {
                 // Assume GET or POST
-                String job = BulkDataUtil.checkAndValidateJob(parameters);
+                String job = BulkDataExportUtil.checkAndValidateJob(parameters);
                 // For now, we're going to execute the status update, and check. 
                 // If Base, Export Status (Else Invalid)
                 return BulkDataFactory.getTenantInstance().status(job, operationContext);
@@ -66,7 +66,7 @@ public class ExportStatusOperation extends AbstractOperation {
             // Unsupported on Resource Type
             // Root operation is only supported, and we signal it back here. 
             // Don't get fancy, just send it back. 
-            throw buildExceptionWithIssue("Invalid call $export-status operation call", IssueType.INVALID);
+            throw buildExceptionWithIssue("Invalid call $bulkdata-status operation call", IssueType.INVALID);
         }
     }
 }

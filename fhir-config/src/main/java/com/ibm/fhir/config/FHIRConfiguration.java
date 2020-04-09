@@ -87,6 +87,9 @@ public class FHIRConfiguration {
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTORE = "fhirServer/bulkdata/batch-truststore";
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTOREPWD = "fhirServer/bulkdata/batch-truststore-password";
     public static final String PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC = "fhirServer/bulkdata/isExportPublic";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_VALID_BASE_URLS = "fhirServer/bulkdata/validBaseUrls";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_MAX_INPUT_PER_TENANT =
+            "fhirServer/bulkdata/maxInputPerRequest";
 
     // Custom header names
     public static final String DEFAULT_TENANT_ID_HEADER_NAME = "X-FHIR-TENANT-ID";

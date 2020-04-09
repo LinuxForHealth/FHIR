@@ -4,14 +4,31 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.operation.bulkdata.model;
+package com.ibm.fhir.operation.bulkdata.model.type;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Base64.Decoder;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
+import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
+import javax.json.JsonValue;
 import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonGeneratorFactory;
 
 import com.ibm.fhir.exception.FHIROperationException;
+import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
 
 /**
  * Common Configuration Parameters for the Job Request/Response.
@@ -23,6 +40,8 @@ public class JobParameter {
     private String fhirDataStoreId;
     private String fhirPatientGroupId;
     private String fhirTypeFilters;
+    private List<Input> inputs;
+    private StorageDetail storageDetail;
 
     private String cosBucketName;
     private String cosLocation;
@@ -136,10 +155,31 @@ public class JobParameter {
         this.fhirTypeFilters = fhirTypeFilters;
     }
 
+    public List<Input> getInputs() {
+        return inputs;
+    }
+
+    public void setInputs(List<Input> inputs) {
+        this.inputs = inputs;
+    }
+
+    public StorageDetail getStorageDetails() {
+        return storageDetail;
+    }
+
+    public void setStorageDetails(StorageDetail storageDetail) {
+        this.storageDetail = storageDetail;
+    }
+
     /**
      * Generates JSON from this object.
      */
     public static class Writer {
+        private static final Map<java.lang.String, Object> properties =
+                Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true);
+        private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY =
+                Json.createGeneratorFactory(properties);
+
         private Writer() {
             // No Operation
         }
@@ -212,7 +252,37 @@ public class JobParameter {
             if (parameter.getFhirTypeFilters() != null) {
                 generator.write("fhir.typeFilters", parameter.getFhirTypeFilters());
             }
+
+            if (parameter.getInputs() != null) {
+                generator.write("fhir.dataSourcesInfo", writeToBase64(parameter.getInputs()));
+            }
+
+            String type = BulkDataConstants.DataSourceStorageType.HTTPS.value();
+            if (parameter.getStorageDetails() != null) {
+                type = parameter.getStorageDetails().getType();
+            }
+            generator.write("import.fhir.storagetype", type);
+
             generator.writeEnd();
+        }
+
+        public static String writeToBase64(List<Input> inputs) throws IOException {
+            String sources = "";
+            try (StringWriter writer = new StringWriter();) {
+                try (JsonGenerator generator = PRETTY_PRINTING_GENERATOR_FACTORY.createGenerator(writer);) {
+                    generator.writeStartArray();
+                    for (Input input : inputs) {
+                        generator.writeStartObject();
+                        generator.write("type", input.getType());
+                        generator.write("url", input.getUrl());
+                        generator.writeEnd();
+                    }
+                    generator.writeEnd();
+                }
+                sources = writer.toString();
+            }
+
+            return Base64.getEncoder().encodeToString(sources.getBytes());
         }
     }
 
@@ -245,14 +315,20 @@ public class JobParameter {
         public Builder cosBucketPathPrefix(String cosBucketPathPrefix);
 
         public Builder fhirTypeFilters(String fhirTypeFilters);
+
+        public Builder fhirDataSourcesInfo(List<Input> inputs);
+
+        public Builder fhirStorageType(StorageDetail storageDetail);
     }
 
     public static class Parser {
+        private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
+
         private Parser() {
             // No Op
         }
 
-        public static void parse(Builder builder, JsonObject obj) throws FHIROperationException {
+        public static void parse(Builder builder, JsonObject obj) throws FHIROperationException, IOException {
             if (obj.containsKey("fhir.resourcetype")) {
                 String fhirResourceType = obj.getString("fhir.resourcetype");
                 builder.fhirResourceType(fhirResourceType);
@@ -317,6 +393,46 @@ public class JobParameter {
                 String fhirPatientGroupId = obj.getString("fhir.search.patientgroupid");
                 builder.fhirPatientGroupId(fhirPatientGroupId);
             }
+
+            if (obj.containsKey("fhir.dataSourcesInfo")) {
+                String dataSourcesInfo = obj.getString("fhir.dataSourcesInfo");
+                // Base64 at this point, and we just dump it into an intermediate value until it's needed.
+                builder.fhirDataSourcesInfo(parseInputsFromString(dataSourcesInfo));
+            }
+
+            if (obj.containsKey("import.fhir.storagetype")) {
+                String storageType = obj.getString("import.fhir.storagetype");
+                builder.fhirStorageType(new StorageDetail(storageType, Collections.emptyList()));
+            }
+        }
+
+        /**
+         * converts back from input string to objects
+         * 
+         * @param input
+         * @return
+         * @throws IOException
+         */
+        public static List<Input> parseInputsFromString(String input) throws IOException {
+            List<Input> inputs = new ArrayList<>();
+            Decoder decoder = Base64.getDecoder();
+            byte[] bytes = decoder.decode(input);
+
+            try (ByteArrayInputStream in = new ByteArrayInputStream(bytes)) {
+                try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
+                    JsonArray jsonArray = jsonReader.readArray();
+                    /*
+                     * the input is intentionally base64 to capture the JSON Array and maintain integrity as part of a
+                     * name:value pair when submitted to the Batch framework.
+                     */
+                    ListIterator<JsonValue> iter = jsonArray.listIterator();
+                    while (iter.hasNext()) {
+                        JsonObject obj = iter.next().asJsonObject();
+                        inputs.add(new Input(obj.getString("type"), obj.getString("url")));
+                    }
+                }
+            }
+            return inputs;
         }
     }
 

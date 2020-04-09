@@ -60,7 +60,8 @@
             "batch-user-password": "change-password",
             "batch-truststore": "resources/security/fhirTruststore.jks",
             "batch-truststore-password": "change-password",
-            "isExportPublic": true
+            "isExportPublic": true,
+            "validBaseUrls": []
         }
     }
 }

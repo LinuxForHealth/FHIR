@@ -55,7 +55,7 @@ import com.ibm.fhir.operation.context.FHIROperationContext.Type;
 /**
  *
  */
-public class BulkDataUtilTest {
+public class BulkDataExportUtilTest {
 
     @Test
     public void testBatchJobIdEnDecryption() throws Exception {
@@ -63,14 +63,14 @@ public class BulkDataUtilTest {
         SecretKeySpec secretKey = BulkDataConfigUtil.getBatchJobIdEncryptionKey("test-key");
         assertNotNull(secretKey);
 
-        String encryptedJobId = BulkDataUtil.encryptBatchJobId(jobId, secretKey);
+        String encryptedJobId = BulkDataExportUtil.encryptBatchJobId(jobId, secretKey);
         assertNotNull(encryptedJobId);
         assertFalse(encryptedJobId.equals(jobId));
 
         encryptedJobId = URLDecoder.decode(encryptedJobId, StandardCharsets.UTF_8.toString());
         assertNotNull(encryptedJobId);
 
-        String decryptedJobId = BulkDataUtil.decryptBatchJobId(encryptedJobId, secretKey);
+        String decryptedJobId = BulkDataExportUtil.decryptBatchJobId(encryptedJobId, secretKey);
         assertNotNull(decryptedJobId);
         assertEquals(decryptedJobId, jobId);
     }
@@ -81,11 +81,11 @@ public class BulkDataUtilTest {
         SecretKeySpec secretKey = BulkDataConfigUtil.getBatchJobIdEncryptionKey(null);
         assertNull(secretKey);
 
-        String encryptedJobId = BulkDataUtil.encryptBatchJobId(jobId, secretKey);
+        String encryptedJobId = BulkDataExportUtil.encryptBatchJobId(jobId, secretKey);
         assertNotNull(encryptedJobId);
         assertEquals(encryptedJobId, jobId);
 
-        String decryptedJobId = BulkDataUtil.decryptBatchJobId(encryptedJobId, secretKey);
+        String decryptedJobId = BulkDataExportUtil.decryptBatchJobId(encryptedJobId, secretKey);
         assertNotNull(decryptedJobId);
         assertEquals(decryptedJobId, jobId);
     }
@@ -95,15 +95,15 @@ public class BulkDataUtilTest {
         FHIROperationContext.Type type = Type.INSTANCE;
 
         Class<? extends Resource> resourceType = Patient.class;
-        BulkDataConstants.ExportType exportType = BulkDataUtil.checkExportType(type, resourceType);
+        BulkDataConstants.ExportType exportType = BulkDataExportUtil.checkExportType(type, resourceType);
         assertEquals(exportType, ExportType.INVALID);
 
         resourceType = Medication.class;
-        exportType   = BulkDataUtil.checkExportType(type, resourceType);
+        exportType   = BulkDataExportUtil.checkExportType(type, resourceType);
         assertEquals(exportType, ExportType.INVALID);
 
         resourceType = Group.class;
-        exportType   = BulkDataUtil.checkExportType(type, resourceType);
+        exportType   = BulkDataExportUtil.checkExportType(type, resourceType);
         assertEquals(exportType, ExportType.GROUP);
     }
 
@@ -112,15 +112,15 @@ public class BulkDataUtilTest {
         FHIROperationContext.Type type = Type.RESOURCE_TYPE;
 
         Class<? extends Resource> resourceType = Patient.class;
-        BulkDataConstants.ExportType exportType = BulkDataUtil.checkExportType(type, resourceType);
+        BulkDataConstants.ExportType exportType = BulkDataExportUtil.checkExportType(type, resourceType);
         assertEquals(exportType, ExportType.PATIENT);
 
         resourceType = Medication.class;
-        exportType   = BulkDataUtil.checkExportType(type, resourceType);
+        exportType   = BulkDataExportUtil.checkExportType(type, resourceType);
         assertEquals(exportType, ExportType.INVALID);
 
         resourceType = Group.class;
-        exportType   = BulkDataUtil.checkExportType(type, resourceType);
+        exportType   = BulkDataExportUtil.checkExportType(type, resourceType);
         assertEquals(exportType, ExportType.INVALID);
     }
 
@@ -129,15 +129,15 @@ public class BulkDataUtilTest {
         FHIROperationContext.Type type = Type.SYSTEM;
 
         Class<? extends Resource> resourceType = Patient.class;
-        BulkDataConstants.ExportType exportType = BulkDataUtil.checkExportType(type, resourceType);
+        BulkDataConstants.ExportType exportType = BulkDataExportUtil.checkExportType(type, resourceType);
         assertEquals(exportType, ExportType.SYSTEM);
 
         resourceType = Medication.class;
-        exportType   = BulkDataUtil.checkExportType(type, resourceType);
+        exportType   = BulkDataExportUtil.checkExportType(type, resourceType);
         assertEquals(exportType, ExportType.SYSTEM);
 
         resourceType = Group.class;
-        exportType   = BulkDataUtil.checkExportType(type, resourceType);
+        exportType   = BulkDataExportUtil.checkExportType(type, resourceType);
         assertEquals(exportType, ExportType.SYSTEM);
     }
 
@@ -148,14 +148,14 @@ public class BulkDataUtilTest {
         _mvm.put("_outputFormat", Arrays.asList("application/fhir+ndjson"));
 
         // Default Format
-        MediaType type = BulkDataUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+        MediaType type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
         assertNotNull(type);
         assertEquals(type.getType(), "application");
         assertEquals(type.getSubtype(), "fhir+ndjson");
 
         // No Format
         _mvm.clear();
-        type = BulkDataUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+        type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
         assertNotNull(type);
         assertEquals(type.getType(), "application");
         assertEquals(type.getSubtype(), "fhir+ndjson");
@@ -164,7 +164,7 @@ public class BulkDataUtilTest {
         try {
             _mvm.clear();
             _mvm.put("_outputFormat", Collections.emptyList());
-            type = BulkDataUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+            type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
             fail();
         } catch (FHIROperationException e) {
             assertNotNull(e);
@@ -174,7 +174,7 @@ public class BulkDataUtilTest {
         try {
             _mvm.clear();
             _mvm.put("_outputFormat", Arrays.asList("application/ndjson", "ndjson"));
-            type = BulkDataUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+            type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
             fail();
         } catch (FHIROperationException e) {
             assertNotNull(e);
@@ -184,7 +184,7 @@ public class BulkDataUtilTest {
         try {
             _mvm.clear();
             _mvm.put("_outputFormat", Arrays.asList("application/json"));
-            type = BulkDataUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+            type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
             fail();
         } catch (FHIROperationException e) {
             assertNotNull(e);
@@ -194,7 +194,7 @@ public class BulkDataUtilTest {
         try {
             _mvm.clear();
             _mvm.put("_outputFormat", Arrays.asList("application/nd fred"));
-            type = BulkDataUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+            type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
             fail();
         } catch (FHIROperationException e) {
             assertNotNull(e);
@@ -203,21 +203,21 @@ public class BulkDataUtilTest {
         //  Liberty Encoded + to ' '
         _mvm.clear();
         _mvm.put("_outputFormat", Arrays.asList("application/fhir ndjson"));
-        type = BulkDataUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+        type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
         assertNotNull(type);
         assertEquals(type.getType(), "application");
         assertEquals(type.getSubtype(), "fhir+ndjson");
 
         //Test the format application/ndjson
         _mvm.put("_outputFormat", Arrays.asList("application/ndjson"));
-        type = BulkDataUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+        type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
         assertNotNull(type);
         assertEquals(type.getType(), "application");
         assertEquals(type.getSubtype(), "fhir+ndjson");
 
         //Test the format ndjson
         _mvm.put("_outputFormat", Arrays.asList("ndjson"));
-        type = BulkDataUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
+        type = BulkDataExportUtil.checkAndConvertToMediaType(generateFHIROperationContextWithUriInfo(_mvm));
         assertNotNull(type);
         assertEquals(type.getType(), "application");
         assertEquals(type.getSubtype(), "fhir+ndjson");
@@ -226,7 +226,7 @@ public class BulkDataUtilTest {
     @Test
     public void testCheckAndExtractSinceNull() {
         // No Parameters
-        assertNull(BulkDataUtil.checkAndExtractSince(null));
+        assertNull(BulkDataExportUtil.checkAndExtractSince(null));
 
         // parameters
         List<Parameter> parameters = new ArrayList<>();
@@ -236,7 +236,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        Instant inst = BulkDataUtil.checkAndExtractSince(ps);
+        Instant inst = BulkDataExportUtil.checkAndExtractSince(ps);
         assertNull(inst);
     }
 
@@ -249,7 +249,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        Instant inst = BulkDataUtil.checkAndExtractSince(ps);
+        Instant inst = BulkDataExportUtil.checkAndExtractSince(ps);
         assertNull(inst);
     }
 
@@ -263,7 +263,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        Instant inst = BulkDataUtil.checkAndExtractSince(ps);
+        Instant inst = BulkDataExportUtil.checkAndExtractSince(ps);
         assertNotNull(inst);
     }
 
@@ -277,7 +277,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        Instant inst = BulkDataUtil.checkAndExtractSince(ps);
+        Instant inst = BulkDataExportUtil.checkAndExtractSince(ps);
         assertNull(inst);
     }
 
@@ -291,7 +291,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        Instant inst = BulkDataUtil.checkAndExtractSince(ps);
+        Instant inst = BulkDataExportUtil.checkAndExtractSince(ps);
         assertNotNull(inst);
     }
 
@@ -305,7 +305,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        Instant inst = BulkDataUtil.checkAndExtractSince(ps);
+        Instant inst = BulkDataExportUtil.checkAndExtractSince(ps);
         assertNull(inst);
     }
 
@@ -320,7 +320,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        BulkDataUtil.checkAndValidateTypes(ps);
+        BulkDataExportUtil.checkAndValidateTypes(ps);
         fail();
     }
 
@@ -334,7 +334,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        BulkDataUtil.checkAndValidateTypes(ps);
+        BulkDataExportUtil.checkAndValidateTypes(ps);
         fail();
     }
 
@@ -348,7 +348,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        List<String> types = BulkDataUtil.checkAndValidateTypes(ps);
+        List<String> types = BulkDataExportUtil.checkAndValidateTypes(ps);
         assertNotNull(types);
     }
 
@@ -362,7 +362,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        List<String> types = BulkDataUtil.checkAndValidateTypes(ps);
+        List<String> types = BulkDataExportUtil.checkAndValidateTypes(ps);
         assertNotNull(types);
     }
 
@@ -376,7 +376,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        List<String> types = BulkDataUtil.checkAndValidateTypes(ps);
+        List<String> types = BulkDataExportUtil.checkAndValidateTypes(ps);
         assertNotNull(types);
     }
 
@@ -390,7 +390,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        BulkDataUtil.checkAndValidateTypes(ps);
+        BulkDataExportUtil.checkAndValidateTypes(ps);
         fail();
     }
 
@@ -404,7 +404,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        List<String> result = BulkDataUtil.checkAndValidateTypes(ps);
+        List<String> result = BulkDataExportUtil.checkAndValidateTypes(ps);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -419,21 +419,21 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        List<String> result = BulkDataUtil.checkAndValidateTypes(ps);
+        List<String> result = BulkDataExportUtil.checkAndValidateTypes(ps);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
 
     @Test
     public void testCheckAndValidateTypesEmptyParameters() throws FHIROperationException {
-        List<String> result = BulkDataUtil.checkAndValidateTypes(null);
+        List<String> result = BulkDataExportUtil.checkAndValidateTypes(null);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
 
     @Test
     public void testCheckAndValidateTypeFilters() throws FHIROperationException {
-        List<String> result = BulkDataUtil.checkAndValidateTypeFilters(null);
+        List<String> result = BulkDataExportUtil.checkAndValidateTypeFilters(null);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -448,7 +448,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        List<String> result = BulkDataUtil.checkAndValidateTypeFilters(ps);
+        List<String> result = BulkDataExportUtil.checkAndValidateTypeFilters(ps);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -463,7 +463,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        List<String> result = BulkDataUtil.checkAndValidateTypeFilters(ps);
+        List<String> result = BulkDataExportUtil.checkAndValidateTypeFilters(ps);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
@@ -478,7 +478,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        List<String> result = BulkDataUtil.checkAndValidateTypeFilters(ps);
+        List<String> result = BulkDataExportUtil.checkAndValidateTypeFilters(ps);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
@@ -493,7 +493,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        List<String> result = BulkDataUtil.checkAndValidateTypeFilters(ps);
+        List<String> result = BulkDataExportUtil.checkAndValidateTypeFilters(ps);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
@@ -508,7 +508,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        BulkDataUtil.checkAndValidateTypeFilters(ps);
+        BulkDataExportUtil.checkAndValidateTypeFilters(ps);
         fail();
     }
 
@@ -522,7 +522,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        BulkDataUtil.checkAndValidateTypeFilters(ps);
+        BulkDataExportUtil.checkAndValidateTypeFilters(ps);
         fail();
     }
 
@@ -536,7 +536,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        BulkDataUtil.checkAndValidateJob(ps);
+        BulkDataExportUtil.checkAndValidateJob(ps);
         fail();
     }
 
@@ -550,7 +550,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        BulkDataUtil.checkAndValidateJob(ps);
+        BulkDataExportUtil.checkAndValidateJob(ps);
         fail();
     }
 
@@ -564,13 +564,13 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        BulkDataUtil.checkAndValidateJob(ps);
+        BulkDataExportUtil.checkAndValidateJob(ps);
         fail();
     }
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateJobNullParameters() throws FHIROperationException {
-        BulkDataUtil.checkAndValidateJob(null);
+        BulkDataExportUtil.checkAndValidateJob(null);
         fail();
     }
 
@@ -584,7 +584,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        BulkDataUtil.checkAndValidateJob(ps);
+        BulkDataExportUtil.checkAndValidateJob(ps);
         fail();
     }
 
@@ -598,7 +598,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        BulkDataUtil.checkAndValidateJob(ps);
+        BulkDataExportUtil.checkAndValidateJob(ps);
         fail();
     }
 
@@ -612,7 +612,7 @@ public class BulkDataUtilTest {
         builder.parameter(parameters);
         Parameters ps = builder.build();
 
-        String result = BulkDataUtil.checkAndValidateJob(ps);
+        String result = BulkDataExportUtil.checkAndValidateJob(ps);
         assertNotNull(result);
         assertEquals(result, "1234q346");
     }
@@ -620,7 +620,7 @@ public class BulkDataUtilTest {
     @Test
     public void testGetOutputParametersWithJson() throws Exception {
         PollingLocationResponse pollingLocationResponse = new PollingLocationResponse();
-        Parameters result = BulkDataUtil.getOutputParametersWithJson(pollingLocationResponse);
+        Parameters result = BulkDataExportUtil.getOutputParametersWithJson(pollingLocationResponse);
         assertNotNull(result);
         assertFalse(result.getParameter().isEmpty());
         assertFalse(

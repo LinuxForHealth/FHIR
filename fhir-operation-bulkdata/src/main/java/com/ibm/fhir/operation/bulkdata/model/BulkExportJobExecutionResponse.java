@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.model;
 
 import java.io.ByteArrayInputStream;
@@ -26,6 +27,9 @@ import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 
 import com.ibm.fhir.exception.FHIROperationException;
+import com.ibm.fhir.operation.bulkdata.model.type.Input;
+import com.ibm.fhir.operation.bulkdata.model.type.JobParameter;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 
 /**
  * BulkImportJob's JSON response
@@ -326,6 +330,16 @@ public class BulkExportJobExecutionResponse {
             response.setJobParameters(jobParameter);
             return response;
         }
+
+        public Builder fhirDataSourcesInfo(List<Input> inputs) {
+            jobParameter.setInputs(inputs);
+            return this;
+        }
+
+        public Builder fhirStorageType(StorageDetail storageDetails) {
+            jobParameter.setStorageDetails(storageDetails);
+            return this;
+        }
     }
 
     public static Builder builder() {
@@ -437,6 +451,7 @@ public class BulkExportJobExecutionResponse {
      * Generates JSON from this object.
      */
     public static class Writer {
+        // This is an internal model and does not need to honor _pretty printing as it is only communicating with the java batch framework. 
         private static final Map<java.lang.String, Object> properties =
                 Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true);
         private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY =
