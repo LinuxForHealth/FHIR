@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,7 @@ public class DataDefinitionUtil {
     private static final Pattern NAME_PATTERN = Pattern.compile(NAME_PATTERN_RGX);
 
     /**
-     * 
+     *
      * @param schemaName
      * @param tableName
      * @param indexName
@@ -34,18 +34,18 @@ public class DataDefinitionUtil {
      */
     public static String createUniqueIndex(String schemaName, String tableName, String indexName, List<String> indexColumns,
             List<String> includeColumns) {
-        
+
         StringBuilder result = new StringBuilder();
         result.append(createUniqueIndex(schemaName, tableName, indexName, indexColumns));
         result.append(" INCLUDE (");
         result.append(join(includeColumns));
         result.append(")");
-        
+
         return result.toString();
     }
 
     /**
-     * 
+     *
      * @param schemaName
      * @param tableName
      * @param indexName
@@ -53,23 +53,26 @@ public class DataDefinitionUtil {
      * @return
      */
     public static String createUniqueIndex(String schemaName, String tableName, String indexName, List<String> indexColumns) {
-        
+
         StringBuilder result = new StringBuilder();
         result.append("CREATE UNIQUE INDEX ");
-        result.append(getQualifiedName(schemaName, indexName));
+        // PostgreSql doesn't allow schema name for the index, e.g, fhirdata.index1, so we use "_" to join schemaName and indexName instead of using '.'.
+//        result.append(schemaName);
+//        result.append("_");
+        result.append(indexName);
         result.append(" ON ");
         result.append(getQualifiedName(schemaName, tableName));
         result.append("(");
         result.append(join(indexColumns));
         result.append(")");
-                
+
         return result.toString();
     }
 
 
     /**
      * Create the DDL for a plain old index
-     * 
+     *
      * @param schemaName
      * @param tableName
      * @param indexName
@@ -77,16 +80,17 @@ public class DataDefinitionUtil {
      * @return
      */
     public static String createIndex(String schemaName, String tableName, String indexName, List<String> indexColumns) {
-                
+
         StringBuilder result = new StringBuilder();
         result.append("CREATE INDEX ");
-        result.append(getQualifiedName(schemaName, indexName));
+        // PostgreSql doesn't allow schema name for the index, e.g, fhirdata.index1.
+        result.append(indexName);
         result.append(" ON ");
         result.append(getQualifiedName(schemaName, tableName));
         result.append("(");
         result.append(join(indexColumns));
         result.append(")");
-                
+
         return result.toString();
     }
 
@@ -111,7 +115,7 @@ public class DataDefinitionUtil {
     /**
      * Although the variables used to build various DDL/DML statements are
      * all sourced internally within the program, we still check that the
-     * strings are safe, just to add that extra layer of protection 
+     * strings are safe, just to add that extra layer of protection
      * @param name
      * @return
      */
@@ -132,7 +136,7 @@ public class DataDefinitionUtil {
         }
         return name;
     }
-    
+
     /**
      * Assert each of the given names in the list (array) is valid
      * @param names
@@ -156,7 +160,7 @@ public class DataDefinitionUtil {
             throw new IllegalArgumentException("Value not permitted in SQL statements: " + value);
         }
     }
-    
+
     /**
      * Return the fully qualified name in the form "SCHEMA.OBJECT"
      * Validates that both schema and object names are valid
@@ -172,12 +176,12 @@ public class DataDefinitionUtil {
     }
 
     /**
-     * 
+     *
      * @param adapter
      * @param columns
      * @return
      */
-    public static String columnSpecList(IDatabaseTypeAdapter adapter, Collection<ColumnBase> columns) {        
+    public static String columnSpecList(IDatabaseTypeAdapter adapter, Collection<ColumnBase> columns) {
         // Behold the power of streams/lambdas etc. This saves a ton of code
         return columns.stream().map(c -> c.getTypeDef(adapter)).collect(Collectors.joining(","));
     }

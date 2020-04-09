@@ -87,5 +87,14 @@
                 <include>com.ibm.db2:jcc</include>
             </includes>
         </dependencySet>
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>fhir/server/usr/shared/resources/lib/postgresql</outputDirectory>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>org.postgresql:postgresql</include>
+            </includes>
+        </dependencySet>
     </dependencySets>
 </assembly>

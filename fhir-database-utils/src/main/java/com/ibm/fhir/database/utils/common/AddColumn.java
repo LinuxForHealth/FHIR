@@ -10,9 +10,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
+import com.ibm.fhir.database.utils.db2.Db2Adapter;
+import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.model.ColumnBase;
+import com.ibm.fhir.database.utils.postgresql.PostgreSqlAdapter;
 
 /**
  * Drop columns from the schema.table
@@ -38,7 +43,19 @@ public class AddColumn implements IDatabaseStatement {
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
-        String ddl = "ALTER TABLE " + qname + " ADD COLUMN " + columnDef(column);
+
+        // DatabaseTypeAdapter is needed to find the correct data type for the column.
+        IDatabaseTypeAdapter dbAdapter = null;
+        String driveClassName = translator.getDriverClassName();
+        if (driveClassName.contains("db2")) {
+            dbAdapter = new Db2Adapter((IConnectionProvider)null);
+        } else if (driveClassName.contains("derby")) {
+            dbAdapter = new DerbyAdapter((IConnectionProvider)null);
+        } else if (driveClassName.contains("postgresql")) {
+            dbAdapter = new PostgreSqlAdapter((IConnectionProvider)null);
+        }
+
+        String ddl = "ALTER TABLE " + qname + " ADD COLUMN " + columnDef(column, dbAdapter);
 
         try (Statement s = c.createStatement()) {
             s.executeUpdate(ddl.toString());
@@ -51,13 +68,12 @@ public class AddColumn implements IDatabaseStatement {
     /**
      * Build the list of columns in the create table statement
      */
-    private String columnDef(ColumnBase column) {
+    private String columnDef(ColumnBase column, IDatabaseTypeAdapter dbTypeAdapter) {
         StringBuilder result = new StringBuilder();
         result.append(column.getName());
         result.append(" ");
-        // XXX: this only works for certain column types
         try {
-            result.append(column.getTypeInfo(null));
+            result.append(column.getTypeInfo(dbTypeAdapter));
         } catch (IllegalArgumentException | NullPointerException e) {
             throw new UnsupportedOperationException("Adding columns of type " + column.getClass().getSimpleName() +
                     " is not supported at this time.");

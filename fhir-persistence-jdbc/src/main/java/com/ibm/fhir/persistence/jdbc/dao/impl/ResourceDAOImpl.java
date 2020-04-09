@@ -6,7 +6,10 @@
 
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.*;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.END;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.THEN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHEN;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -40,6 +43,7 @@ import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
+import com.ibm.fhir.persistence.jdbc.postgresql.PostgreSqlResourceDAO;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
@@ -459,6 +463,15 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     }
 
+    public boolean isPostgreSqlDatabase() throws FHIRPersistenceDBConnectException, SQLException {
+
+        String dbUrl;
+
+        dbUrl = this.getConnection().getMetaData().getURL();
+        dbUrl = dbUrl.toLowerCase();
+        return dbUrl.contains("postgresql");
+    }
+
     @Override
     public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
             throws FHIRPersistenceException {
@@ -468,6 +481,8 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         try {
             if (this.isDb2Database()) {
                 resource = this.insertToDb2(resource, parameters, parameterDao);
+            } else if (this.isPostgreSqlDatabase()) {
+                resource = this.insertToPostgreSql(resource, parameters, parameterDao);
             } else {
                 resource = this.insertToDerby(resource, parameters, parameterDao);
             }
@@ -608,6 +623,94 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         try {
             connection = this.getConnection();
             DerbyResourceDAO derbyResourceDAO = new DerbyResourceDAO(connection);
+
+            resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
+            if (resourceTypeId == null) {
+                acquiredFromCache = false;
+                resourceTypeId = derbyResourceDAO.getOrCreateResourceType(resource.getResourceType());
+                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
+            } else {
+                acquiredFromCache = true;
+            }
+
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
+                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
+            }
+
+            lastUpdated = resource.getLastUpdated();
+            dbCallStartTime = System.nanoTime();
+
+            final String sourceKey = UUID.randomUUID().toString();
+
+            long resourceId = derbyResourceDAO.storeResource(resource.getResourceType(),
+                parameters,
+                resource.getLogicalId(),
+                resource.getData(),
+                lastUpdated,
+                resource.isDeleted(),
+                sourceKey,
+                resource.getVersionId()
+                );
+
+
+            dbCallDuration = (System.nanoTime() - dbCallStartTime)/1e6;
+
+            resource.setId(resourceId);
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+            }
+        } catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
+            throw e;
+        } catch(SQLIntegrityConstraintViolationException e) {
+            FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.");
+            throw severe(log, fx, e);
+        } catch(SQLException e) {
+            if ("99001".equals(e.getSQLState())) {
+                // this is just a concurrency update, so there's no need to log the SQLException here
+                throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
+            } else {
+                FHIRPersistenceException fx = new FHIRPersistenceException("SQLException encountered while inserting Resource.");
+                throw severe(log, fx, e);
+            }
+        } catch(Throwable e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
+            throw severe(log, fx, e);
+        } finally {
+            this.cleanup(null, connection);
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+
+        return resource;
+
+    }
+
+    /**
+     * Inserts the passed FHIR Resource and associated search parameters to a Derby FHIR database.
+     * The search parameters are stored first by calling the passed parameterDao. Then the Resource is stored.
+     * @param resource The FHIR Resource to be inserted.
+     * @param parameters The Resource's search parameters to be inserted.
+     * @param parameterDao
+     * @return The Resource DTO
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     * @throws FHIRPersistenceVersionIdMismatchException
+     */
+    private Resource insertToPostgreSql(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
+            throws FHIRPersistenceException {
+        final String METHODNAME = "insertToPostgreSql";
+        log.entering(CLASSNAME, METHODNAME);
+
+        Connection connection = null;
+        Integer resourceTypeId;
+        Timestamp lastUpdated;
+        boolean acquiredFromCache;
+        long dbCallStartTime;
+        double dbCallDuration;
+
+        try {
+            connection = this.getConnection();
+            PostgreSqlResourceDAO derbyResourceDAO = new PostgreSqlResourceDAO(connection);
 
             resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
             if (resourceTypeId == null) {

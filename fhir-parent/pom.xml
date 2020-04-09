@@ -13,6 +13,7 @@
         <liberty.version>20.0.0.3</liberty.version>
         <derby.version>10.14.2.0</derby.version>
         <db2.version>11.5.0.0</db2.version>
+        <postgresql.version>42.2.12</postgresql.version>
         <cxf.version>3.3.3</cxf.version>
         <surefire.plugin.version>3.0.0-M3</surefire.plugin.version>
         <!-- needed for generating jacoco aggregate report in fhir-coverage-reports -->
@@ -304,6 +305,11 @@
                 <groupId>net.jcip</groupId>
                 <artifactId>jcip-annotations</artifactId>
                 <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
