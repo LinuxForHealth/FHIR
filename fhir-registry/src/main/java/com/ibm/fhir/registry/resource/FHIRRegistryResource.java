@@ -92,7 +92,11 @@ public abstract class FHIRRegistryResource implements Comparable<FHIRRegistryRes
 
     @Override
     public int compareTo(FHIRRegistryResource other) {
-        return this.version.compareTo(other.version);
+        int result = url.compareTo(other.url);
+        if (result == 0) {
+            return version.compareTo(other.version);
+        }
+        return result;
     }
 
     /**

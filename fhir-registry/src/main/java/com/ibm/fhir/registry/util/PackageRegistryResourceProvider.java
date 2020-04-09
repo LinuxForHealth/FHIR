@@ -109,12 +109,10 @@ public abstract class PackageRegistryResourceProvider implements FHIRRegistryRes
 
     private Map<Class<? extends Resource>, Map<String, List<FHIRRegistryResource>>> buildRegistryResourceMap() {
         Map<Class<? extends Resource>, Map<String, List<FHIRRegistryResource>>> registryResourceMap = new HashMap<>();
-        for (FHIRRegistryResource packageRegistryResource : registryResources) {
-            Map<String, List<FHIRRegistryResource>> map = registryResourceMap.computeIfAbsent(packageRegistryResource.getResourceType(), k -> new HashMap<>());
-            List<FHIRRegistryResource> list = map.computeIfAbsent(packageRegistryResource.getUrl(), k -> new ArrayList<>());
-            if (!list.contains(packageRegistryResource)) {
-                list.add(packageRegistryResource);
-            }
+        for (FHIRRegistryResource registryResource : registryResources) {
+            Map<String, List<FHIRRegistryResource>> map = registryResourceMap.computeIfAbsent(registryResource.getResourceType(), k -> new HashMap<>());
+            List<FHIRRegistryResource> list = map.computeIfAbsent(registryResource.getUrl(), k -> new ArrayList<>());
+            list.add(registryResource);
             Collections.sort(list);
         }
         return registryResourceMap;

@@ -31,13 +31,6 @@ import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 public final class FHIRRegistry {
     private static final Logger log = Logger.getLogger(FHIRRegistry.class.getName());
 
-    private static final Comparator<Canonical> CANONICAL_COMPARATOR = new Comparator<Canonical>() {
-        @Override
-        public int compare(Canonical first, Canonical second) {
-            return first.getValue().compareTo(second.getValue());
-        }
-    };
-
     private static final FHIRRegistry INSTANCE = new FHIRRegistry();
 
     private final List<FHIRRegistryResourceProvider> providers;
@@ -172,8 +165,8 @@ public final class FHIRRegistry {
         }
         return providers.stream().map(provider -> provider.getProfileResources(type))
                 .flatMap(Collection::stream)
+                .sorted()
                 .map(registryResource -> Canonical.of(registryResource.getUrl(), registryResource.getVersion().toString()))
-                .sorted(CANONICAL_COMPARATOR)
                 .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
     }
 
