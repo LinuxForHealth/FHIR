@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,14 @@ public interface IDatabaseTypeAdapter {
      * @return
      */
     public String blobClause(long size, int inlineSize);
+
+    /**
+     * Generate a clause for double data type
+     * @return
+     */
+    default public String doubleClause() {
+        return "DOUBLE";
+    }
 
     /**
      * Generate a clause for VARCHAR

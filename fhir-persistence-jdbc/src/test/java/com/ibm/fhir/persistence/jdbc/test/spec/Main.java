@@ -26,6 +26,8 @@ import com.ibm.fhir.database.utils.derby.DerbyNetworkTranslator;
 import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
+import com.ibm.fhir.database.utils.postgresql.PostgreSqlPropertyAdapter;
+import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
@@ -104,7 +106,7 @@ public class Main {
 
     // mode of operation
     private static enum Operation {
-        DB2, DERBY, DERBYNETWORK, PARSE
+        DB2, DERBY, DERBYNETWORK, POSTGRESQL, PARSE
     }
 
     private Operation mode = Operation.DB2;
@@ -203,6 +205,9 @@ public class Main {
             case "--derbynetwork":
                 this.mode = Operation.DERBYNETWORK;
                 break;
+            case "--postgresql":
+                this.mode = Operation.POSTGRESQL;
+                break;
             case "--parse":
                 this.mode = Operation.PARSE;
                 break;
@@ -278,6 +283,9 @@ public class Main {
             break;
         case DERBYNETWORK:
             processDerbyNetwork();
+            break;
+        case POSTGRESQL:
+            processPostgreSql();
             break;
         case PARSE:
             processParse();
@@ -423,7 +431,56 @@ public class Main {
         JdbcConnectionProvider cp = new JdbcConnectionProvider(translator, adapter);
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
-        //persistence = new FHIRPersistenceJDBCImpl(this.configProps, database);
+
+        // create a custom list of operations to apply in order to each resource
+        DriverMetrics dm = new DriverMetrics();
+        List<ITestResourceOperation> operations = new ArrayList<>();
+        populateOperationsList(operations, dm);
+
+        R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(
+                operations,
+                this.configProps,
+                connectionPool,
+                null,
+                null,
+                transactionProvider);
+
+        // The driver will iterate over all the JSON examples in the R4 specification, parse
+        // the resource and call the processor.
+        long start = System.nanoTime();
+        R4ExamplesDriver driver = new R4ExamplesDriver();
+        driver.setMetrics(dm);
+        driver.setProcessor(processor);
+
+        // enable optional validation
+        if (this.validate) {
+            driver.setValidator(new ValidationProcessor());
+        }
+
+        if (pool != null) {
+            driver.setPool(pool, maxInflight);
+        }
+
+        runDriver(driver);
+
+        // print out some simple stats
+        long elapsed = (System.nanoTime() - start) / DriverMetrics.NANOS_MS;
+        renderReport(dm, elapsed);
+    }
+
+
+    /**
+     * Use a postgresql target to process the examples
+     * @throws Exception
+     */
+    protected void processPostgreSql() throws Exception {
+        // Set up a connection provider pointing to the PostgreSql instance described
+        // by the configProps
+        JdbcPropertyAdapter adapter = new PostgreSqlPropertyAdapter(configProps);
+        PostgreSqlTranslator translator = new PostgreSqlTranslator();
+        JdbcConnectionProvider cp = new JdbcConnectionProvider(translator, adapter);
+        PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
+        ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
 
         // create a custom list of operations to apply in order to each resource
         DriverMetrics dm = new DriverMetrics();

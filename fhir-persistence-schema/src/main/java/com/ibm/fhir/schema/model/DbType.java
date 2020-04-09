@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,11 @@ public enum DbType {
      * Apache Derby
      */
     DERBY("derby"),
+
+    /**
+     * PostgreSql
+     */
+    POSTGRESQL("postgresql"),
 
     /**
      * IBM Db2
