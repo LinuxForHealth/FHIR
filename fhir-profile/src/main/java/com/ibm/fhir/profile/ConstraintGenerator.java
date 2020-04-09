@@ -505,7 +505,7 @@ public class ConstraintGenerator {
 
         String url = profile.get(0).getValue();
 
-        return FHIRRegistry.getInstance().hasResource(url);
+        return FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class);
     }
 
     private boolean hasFixedValueConstraint(ElementDefinition elementDefinition) {

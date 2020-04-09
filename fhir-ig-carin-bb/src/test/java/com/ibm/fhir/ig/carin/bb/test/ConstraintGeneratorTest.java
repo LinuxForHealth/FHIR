@@ -18,7 +18,7 @@ import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 public class ConstraintGeneratorTest {
     public static void main(String[] args) {
         FHIRRegistryResourceProvider provider = new BBResourceProvider();
-        for (FHIRRegistryResource registryResource : provider.getResources()) {
+        for (FHIRRegistryResource registryResource : provider.getRegistryResources()) {
             try {
                 if (StructureDefinition.class.equals(registryResource.getResourceType())) {
                     String url = registryResource.getUrl();

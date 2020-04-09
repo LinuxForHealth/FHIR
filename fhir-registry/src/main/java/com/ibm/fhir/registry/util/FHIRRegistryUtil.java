@@ -59,8 +59,6 @@ import com.ibm.fhir.registry.util.Index.Entry;
 public final class FHIRRegistryUtil {
     private static final Logger log = Logger.getLogger(FHIRRegistryUtil.class.getName());
 
-    private static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
-
     private static final Set<Class<?>> DEFINITIONAL_RESOURCE_TYPES = new HashSet<>(Arrays.asList(
         ActivityDefinition.class,
         CapabilityStatement.class,
@@ -123,11 +121,11 @@ public final class FHIRRegistryUtil {
         return null;
     }
 
-    public static Collection<FHIRRegistryResource> getResources(String packageId) {
+    public static Collection<FHIRRegistryResource> getRegistryResources(String packageId) {
         List<FHIRRegistryResource> resources = new ArrayList<>();
         String packageDirectory = packageId.replace(".", "/") + "/package";
         for (Entry entry : readIndex(packageDirectory + "/.index.json")) {
-            resources.add(new FHIRRegistryResource(
+            resources.add(new PackageRegistryResource(
                 ModelSupport.getResourceType(entry.getResourceType()),
                 entry.getId(),
                 entry.getUrl(),
@@ -148,16 +146,5 @@ public final class FHIRRegistryUtil {
             log.warning("Unable to read index: " + indexPath + " due to the following exception: " + e.getMessage());
         }
         return Collections.emptyList();
-    }
-
-    public static boolean isProfile(FHIRRegistryResource resource) {
-        String url = resource.getUrl();
-        if (url.startsWith(HL7_STRUCTURE_DEFINITION_URL_PREFIX)) {
-            String name = url.substring(HL7_STRUCTURE_DEFINITION_URL_PREFIX.length());
-            if (ModelSupport.isResourceType(name)) {
-                return false;
-            }
-        }
-        return StructureDefinition.class.equals(resource.getResourceType()) && "resource".equals(resource.getKind());
     }
 }

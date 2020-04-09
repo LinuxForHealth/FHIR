@@ -7,15 +7,18 @@
 package com.ibm.fhir.registry;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
@@ -26,6 +29,13 @@ import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 public final class FHIRRegistry {
     private static final Logger log = Logger.getLogger(FHIRRegistry.class.getName());
 
+    private static final Comparator<Canonical> CANONICAL_COMPARATOR = new Comparator<Canonical>() {
+        @Override
+        public int compare(Canonical first, Canonical second) {
+            return first.getValue().compareTo(second.getValue());
+        }
+    };
+
     private static final FHIRRegistry INSTANCE = new FHIRRegistry();
 
     private final List<FHIRRegistryResourceProvider> providers;
@@ -34,57 +44,55 @@ public final class FHIRRegistry {
         providers = loadProviders();
     }
 
-    private List<FHIRRegistryResourceProvider> loadProviders() {
-        List<FHIRRegistryResourceProvider> providers = new ArrayList<>();
-        for (FHIRRegistryResourceProvider provider : ServiceLoader.load(FHIRRegistryResourceProvider.class)) {
-            providers.add(provider);
-        }
-        return providers;
-    }
-
     public static FHIRRegistry getInstance() {
         return INSTANCE;
     }
 
     /**
-     * Get the profiles associated with the type parameter as a list of {@link Canonical} URLs.
+     * Indicates whether a resource for the given canonical url and resource type exists in the registry
      *
-     * @param type
-     *     the type
+     * @param url
+     *     the canonical url
+     * @param resourceType
+     *     the resource type
      * @return
-     *     the profiles associated with the type parameter as a list of {@link Canonical} URLs
+     *     true if a resource for the given canonical url and resource type exists in the registry, false otherwise
      */
-    public List<Canonical> getProfiles(String type) {
-        Objects.requireNonNull(type);
-
-        List<Canonical> profiles = new ArrayList<>();
-
-        for (FHIRRegistryResourceProvider provider : providers) {
-            for (FHIRRegistryResource profileResource : provider.getProfileResources(type)) {
-                profiles.add(Canonical.of(profileResource.getUrl() + "|" + profileResource.getVersion()));
-            }
+    public boolean hasResource(String url, Class<? extends Resource> resourceType) {
+        if (url == null || resourceType == null) {
+            return false;
         }
 
-        Collections.sort(profiles, new Comparator<Canonical>() {
-            @Override
-            public int compare(Canonical first, Canonical second) {
-                return first.getValue().compareTo(second.getValue());
-            }
-        });
+        String id = null;
+        int index = url.indexOf("#");
+        if (index != -1) {
+            id = url.substring(index + 1);
+            url = url.substring(0, index);
+        }
 
-        return Collections.unmodifiableList(profiles);
+        String version = null;
+        index = url.indexOf("|");
+        if (index != -1) {
+            version = url.substring(index + 1);
+            url = url.substring(0, index);
+        }
+
+        FHIRRegistryResource registryResource = findRegistryResource(resourceType, url, version);
+        return (id != null) ? (getResource(registryResource, url, id) != null) : (registryResource != null);
     }
 
     /**
-     * Get the latest version of a resource for the given url.
+     * Get the latest version of a resource for the given url and resource type
      *
      * @param url
-     *     the url of the resource
+     *     the url
+     * @param resourceType
+     *     the resource type
      * @return
-     *     the version of the resource associated with the input parameter, or null if no such resource exists
+     *     the latest version of a resource for the given url and resource type if exists, null otherwise
      */
-    public String getLatestVersion(String url) {
-        if (url == null) {
+    public String getLatestVersion(String url, Class<? extends Resource> resourceType) {
+        if (url == null || resourceType == null) {
             return null;
         }
 
@@ -93,15 +101,19 @@ public final class FHIRRegistry {
             url = url.substring(0, index);
         }
 
-        FHIRRegistryResource resource = findResource(url, null);
+        FHIRRegistryResource resource = findRegistryResource(resourceType, url, null);
         return (resource != null) ? resource.getVersion().toString() : null;
     }
 
     /**
-     * Get the resource for the given canonical url.
+     * Get the resource for the given canonical url and resource type
      *
+     * @param url
+     *     the canonical url
+     * @param resourceType
+     *     the resource type
      * @return
-     *    the resource associated with the input parameter, or null if no such resource exists
+     *     the resource for the given canonical url and resource type if exists, null otherwise
      */
     public <T extends Resource> T getResource(String url, Class<T> resourceType) {
         Objects.requireNonNull(url);
@@ -121,89 +133,77 @@ public final class FHIRRegistry {
             url = url.substring(0, index);
         }
 
-        return resourceType.cast(getResource(findResource(url, version), url, id));
+        return resourceType.cast(getResource(findRegistryResource(resourceType, url, version), url, id));
     }
 
     /**
-     * Determine if the resource associated with the given url exists in the registry.
+     * Get the resources for the given resource type
      *
-     * @param url
-     *     the url of the resource
+     * @param resourceType
+     *     the resource type
      * @return
-     *     true if the resource associated with the given url exists in the registry, false otherwise
+     *     the resources for the given resource type
      */
-    public boolean hasResource(String url) {
-        if (url == null) {
-            return false;
-        }
-
-        String id = null;
-        int index = url.indexOf("#");
-        if (index != -1) {
-            id = url.substring(index + 1);
-            url = url.substring(0, index);
-        }
-
-        String version = null;
-        index = url.indexOf("|");
-        if (index != -1) {
-            version = url.substring(index + 1);
-            url = url.substring(0, index);
-        }
-
-        FHIRRegistryResource resource = findResource(url, version);
-        return (id != null) ? (getResource(resource, url, id) != null) : (resource != null);
+    public <T extends Resource> Collection<T> getResources(Class<T> resourceType) {
+        Objects.requireNonNull(resourceType);
+        return providers.stream()
+                .map(provider -> provider.getRegistryResources(resourceType))
+                .flatMap(Collection::stream)
+                .map(registryResource -> resourceType.cast(registryResource.getResource()))
+                .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
     }
-
 
     /**
-     * Unload the resource associated with the given url.
+     * Get the profiles that constrain the given type as a collection of {@link Canonical} URLs
      *
-     * @param url
-     *     the url of the resource
+     * @param type
+     *     the constrained type
+     * @return
+     *     the profiles that constrain the given type as a collection of {@link Canonical} URLs
      */
-    public void unloadResource(String url) {
-        if (url == null) {
-            return;
-        }
-
-        int index = url.indexOf("#");
-        if (index != -1) {
-            url = url.substring(0, index);
-        }
-
-        String version = null;
-        index = url.indexOf("|");
-        if (index != -1) {
-            version = url.substring(index + 1);
-            url = url.substring(0, index);
-        }
-
-        FHIRRegistryResource resource = findResource(url, version);
-        if (resource != null) {
-            resource.unload();
-        }
+    public Collection<Canonical> getProfiles(String type) {
+        Objects.requireNonNull(type);
+        return providers.stream().map(provider -> provider.getProfileResources(type))
+                .flatMap(Collection::stream)
+                .map(registryResource -> Canonical.of(registryResource.getUrl(), registryResource.getVersion().toString()))
+                .sorted(CANONICAL_COMPARATOR)
+                .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
     }
 
-    private FHIRRegistryResource findResource(String url, String version) {
-        for (FHIRRegistryResourceProvider provider : providers) {
-            FHIRRegistryResource resource = provider.getResource(url, version);
-            if (resource != null) {
-                return resource;
-            }
-        }
-        return null;
+    /**
+     * Get the search parameters with the given search parameter type (e.g. string, token, etc.)
+     *
+     * @param type
+     *     the search parameter type
+     * @return
+     *     the search parameters with the given search parameter type
+     */
+    public Collection<SearchParameter> getSearchParameters(String type) {
+        Objects.requireNonNull(type);
+        return providers.stream()
+                .map(provider -> provider.getSearchParameterResources(type))
+                .flatMap(Collection::stream)
+                .map(registryResource -> registryResource.getResource().as(SearchParameter.class))
+                .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
     }
 
-    private Resource getResource(FHIRRegistryResource resource, String url, String id) {
-        if (resource == null) {
+    private FHIRRegistryResource findRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
+        return providers.stream()
+                .map(provider -> provider.getRegistryResource(resourceType, url, version))
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private Resource getResource(FHIRRegistryResource registryResource, String url, String id) {
+        if (registryResource == null) {
             return null;
         }
-        Resource result = resource.getResource();
-        if (result != null && id != null) {
-            if (result.is(DomainResource.class)) {
-                for (Resource contained : result.as(DomainResource.class).getContained()) {
-                    if (contained.getId() != null && id.equals(contained.getId())) {
+        Resource resource = registryResource.getResource();
+        if (resource != null && id != null) {
+            if (resource.is(DomainResource.class)) {
+                for (Resource contained : resource.as(DomainResource.class).getContained()) {
+                    if (id.equals(contained.getId())) {
                         return contained;
                     }
                 }
@@ -213,6 +213,27 @@ public final class FHIRRegistry {
             }
             return null;
         }
-        return result;
+        return resource;
+    }
+
+    private List<FHIRRegistryResourceProvider> loadProviders() {
+        List<FHIRRegistryResourceProvider> providers = new ArrayList<>();
+        for (FHIRRegistryResourceProvider provider : ServiceLoader.load(FHIRRegistryResourceProvider.class)) {
+            providers.add(provider);
+        }
+        Collections.sort(providers, new Comparator<FHIRRegistryResourceProvider>() {
+            @Override
+            public int compare(FHIRRegistryResourceProvider first, FHIRRegistryResourceProvider second) {
+                // ensure static providers are first
+                if (first.isStatic() && !second.isStatic()) {
+                    return -1;
+                }
+                if (!first.isStatic() && second.isStatic()) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+        return providers;
     }
 }
