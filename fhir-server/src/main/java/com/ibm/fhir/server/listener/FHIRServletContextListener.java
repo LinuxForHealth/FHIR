@@ -40,6 +40,7 @@ import com.ibm.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.jdbc.util.DerbyBootstrapper;
+import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchUtil;
 
 @WebListener("IBM FHIR Server Servlet Context Listener")
@@ -122,6 +123,9 @@ public class FHIRServletContextListener implements ServletContextListener {
             FHIRModelConfig.setCheckReferenceTypes(checkReferenceTypes);
 
             bootstrapDerbyDatabases(fhirConfig);
+
+            log.fine("Initializing FHIRRegistry...");
+            FHIRRegistry.getInstance();
 
             // Finally, set our "initComplete" flag to true.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.TRUE);

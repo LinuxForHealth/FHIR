@@ -257,11 +257,7 @@ public final class ProfileSupport {
     }
 
     public static StructureDefinition getStructureDefinition(String url) {
-        Resource resource = FHIRRegistry.getInstance().getResource(url, Resource.class);
-        if (resource instanceof StructureDefinition) {
-            return (StructureDefinition) resource;
-        }
-        return null;
+        return FHIRRegistry.getInstance().getResource(url, StructureDefinition.class);
     }
 
     private static String getUrl(String path) {

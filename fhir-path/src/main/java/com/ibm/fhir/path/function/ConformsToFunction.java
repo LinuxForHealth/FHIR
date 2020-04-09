@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
@@ -72,7 +73,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
         Class<?> modelClass = node.type().modelClass();
         String url = getStringValue(arguments.get(0)).string();
 
-        if (modelClass != null && FHIRRegistry.getInstance().hasResource(url)) {
+        if (modelClass != null && FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
             if (url.startsWith(HL7_STRUCTURE_DEFINITION_URL_PREFIX)) {
                 String s = url.substring(HL7_STRUCTURE_DEFINITION_URL_PREFIX.length());
                 if (s.equals(modelClass.getSimpleName())) {
