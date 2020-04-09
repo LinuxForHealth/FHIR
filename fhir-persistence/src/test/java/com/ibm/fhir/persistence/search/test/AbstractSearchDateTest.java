@@ -17,7 +17,7 @@ import java.util.TimeZone;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.test.TestUtil;
 

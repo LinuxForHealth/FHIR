@@ -29,7 +29,8 @@ import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.bulkexport.common.CheckPointUserData;
 import com.ibm.fhir.bulkexport.common.TransientUserData;
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
@@ -299,11 +300,11 @@ public class ChunkReader extends AbstractItemReader {
         }
 
         if (fhirTenant == null) {
-            fhirTenant = Constants.DEFAULT_FHIR_TENANT;
+            fhirTenant = FHIRConfiguration.DEFAULT_TENANT_ID;
             logger.fine("open: Set tenant to default!");
         }
         if (fhirDatastoreId == null) {
-            fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
+            fhirDatastoreId = FHIRConfiguration.DEFAULT_DATASTORE_ID;
             logger.fine("open: Set DatastoreId to default!");
         }
         if (fhirSearchPageSize != null) {

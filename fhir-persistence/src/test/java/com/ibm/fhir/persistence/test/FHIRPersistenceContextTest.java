@@ -14,7 +14,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.persistence.context.FHIRHistoryContext;
+import com.ibm.fhir.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.impl.FHIRPersistenceContextImpl;

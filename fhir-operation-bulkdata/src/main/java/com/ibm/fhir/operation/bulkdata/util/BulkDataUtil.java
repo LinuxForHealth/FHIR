@@ -18,6 +18,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
@@ -29,6 +32,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
+import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 
@@ -250,7 +254,11 @@ public class BulkDataUtil {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 if (BulkDataConstants.PARAM_JOB.equals(parameter.getName().getValue())
                         && parameter.getValue() != null && parameter.getValue().is(com.ibm.fhir.model.type.String.class)) {
-                    String job = decryptBatchJobId(parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue(), BulkDataConstants.BATCHJOBID_ENCRYPTION_KEY);
+                    // Encryption key used for JavaBatch Job ID
+                    String raw_key = FHIRConfigHelper.getStringProperty(FHIRRequestContext.get().getTenantId(),
+                            FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOBID_ENCRYPTION_KEY, null);
+                    String job = decryptBatchJobId(parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue(),
+                            BulkDataConfigUtil.getBatchJobIdEncryptionKey(raw_key));
 
                     // The job is never going to be empty or null as STRING is never empty at this point.
                     if (job.contains("/") || job.contains("?")) {

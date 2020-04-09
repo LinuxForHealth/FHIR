@@ -6,11 +6,11 @@
 
 package com.ibm.fhir.persistence.test.common;
 
+import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
-import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,7 +21,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRHistoryContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
@@ -35,7 +36,6 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.MultiResourceResult;
-import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.search.context.FHIRSearchContext;

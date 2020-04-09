@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.util.type.LocationParmBehaviorUtil;

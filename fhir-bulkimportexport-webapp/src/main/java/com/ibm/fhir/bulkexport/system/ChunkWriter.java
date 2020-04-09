@@ -12,6 +12,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.batch.api.BatchProperty;
@@ -27,8 +28,8 @@ import com.ibm.cloud.objectstorage.services.s3.model.PutObjectRequest;
 import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.bulkexport.common.TransientUserData;
-import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.PropertyGroup;
 
 /**
  * Bulk export Chunk implementation - the Writer.
@@ -37,7 +38,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 public class ChunkWriter extends AbstractItemWriter {
     private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
     private AmazonS3 cosClient = null;
-    private final boolean isExportPublic = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC, true);
+    private boolean isExportPublic;
 
     /**
      * The IBM COS API key or S3 access key.
@@ -110,6 +111,13 @@ public class ChunkWriter extends AbstractItemWriter {
      */
     public ChunkWriter() {
         super();
+        try {
+            PropertyGroup config = FHIRConfiguration.getInstance().loadConfiguration();
+            isExportPublic = config.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC, true);
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "Unable to load the server configuration; proceeding with defaults", e);
+            isExportPublic = true;
+        }
     }
 
 

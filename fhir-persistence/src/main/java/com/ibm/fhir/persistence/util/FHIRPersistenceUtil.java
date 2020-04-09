@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.context.FHIRHistoryContext;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
-import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
@@ -67,10 +67,10 @@ public class FHIRPersistenceUtil {
         return context;
     }
 
-    
+
     /**
      * Create a minimal deleted resource marker from the given resource
-     * 
+     *
      * @param deletedResource
      * @return deletedResourceMarker
      */

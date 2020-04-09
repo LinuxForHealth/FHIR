@@ -44,8 +44,9 @@ import javax.transaction.UserTransaction;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.context.FHIRHistoryContext;
+import com.ibm.fhir.context.FHIRPagingContext;
 import com.ibm.fhir.core.FHIRUtilities;
-import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
@@ -75,7 +76,6 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
-import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;

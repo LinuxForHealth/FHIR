@@ -36,7 +36,7 @@ import javax.ws.rs.ext.MessageBodyWriter;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.model.format.Format;
@@ -77,11 +77,13 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             InputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "readFrom");
         try {
+            // XXX fhir-provider probably shouldn't depend on fhir-context or fhir-config
             FHIRRequestContext requestContext = FHIRRequestContext.get();
             Format format = getFormat(mediaType);
             FHIRParser parser = FHIRParser.parser(format);
             if (parser.isPropertySupported(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS)) {
-                parser.setProperty(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
+                parser.setProperty(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS,
+                        HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
             }
             return parser.parse(entityStream);
         } catch (FHIRParserException e) {
@@ -135,7 +137,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         // Header evaluation
         String value = httpHeaders.getHeaderString(FHIRConfiguration.DEFAULT_PRETTY_RESPONSE_HEADER_NAME);
 
-        // IFF not Header set, then grab the Query Parameter. 
+        // IFF not Header set, then grab the Query Parameter.
         // and use the FIRST value for _pretty.
         if (value == null) {
             value = uriInfo.getQueryParameters().getFirst("_pretty");
@@ -152,7 +154,8 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         }
 
         // Config evaluation (default false)
-        return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_DEFAULT_PRETTY_PRINT, false);
+        return FHIRConfigHelper.getBooleanProperty(FHIRRequestContext.get().getTenantId(),
+                FHIRConfiguration.PROPERTY_DEFAULT_PRETTY_PRINT, false);
     }
 
     @Override

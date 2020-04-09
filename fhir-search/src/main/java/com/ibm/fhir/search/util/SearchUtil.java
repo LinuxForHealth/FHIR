@@ -27,9 +27,9 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.SearchParameter.Component;
@@ -188,7 +188,7 @@ public class SearchUtil {
             ParametersMap spMapResourceType = ParametersUtil.getBuiltInSearchParametersMap().get(resourceType);
             if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
                 // Retrieve the current tenant's search parameter filtering rules.
-                Map<String, List<String>> filterRules = getFilterRules();
+                Map<String, List<String>> filterRules = getFilterRules(tenantId);
 
                 // Add only the "included" search parameters for this resource type to our result list.
                 result.addAll(filterSearchParameters(filterRules, resourceType, spMapResourceType.values()));
@@ -245,7 +245,7 @@ public class SearchUtil {
         Map<String, ParametersMap> spBuiltin = ParametersUtil.getBuiltInSearchParametersMap();
 
         // Retrieve the current tenant's search parameter filtering rules.
-        Map<String, List<String>> filterRules = getFilterRules();
+        Map<String, List<String>> filterRules = getFilterRules(FHIRRequestContext.get().getTenantId());
 
         // Retrieve the SPs associated with the specified resource type and filter per the filter rules.
         ParametersMap spMap = spBuiltin.get(resourceType);
@@ -322,16 +322,17 @@ public class SearchUtil {
     }
 
     /**
-     * Retrieves the search parameter filtering rules for the current tenant.
+     * Retrieves the search parameter filtering rules for the passed tenant.
      *
+     * @param tenantId
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    private static Map<String, List<String>> getFilterRules() throws Exception {
+    private static Map<String, List<String>> getFilterRules(String tenantId) throws Exception {
         Map<String, List<String>> result = new HashMap<>();
 
         // Retrieve the "searchParameterFilter" config property group.
-        PropertyGroup spFilter = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_SEARCH_PARAMETER_FILTER);
+        PropertyGroup spFilter = FHIRConfigHelper.getPropertyGroup(tenantId, FHIRConfiguration.PROPERTY_SEARCH_PARAMETER_FILTER);
         List<PropertyEntry> ruleEntries = null;
         if (spFilter != null) {
             ruleEntries = spFilter.getProperties();
@@ -428,7 +429,7 @@ public class SearchUtil {
 
                 ResourceType rt = result.getBase().get(0).as(ResourceType.class);
                 Collection<SearchParameter> filteredResult =
-                        filterSearchParameters(getFilterRules(), rt.getValue(), Collections.singleton(result));
+                        filterSearchParameters(getFilterRules(tenantId), rt.getValue(), Collections.singleton(result));
 
                 // If our filtered result is non-empty, then just return the first (and only) item.
                 result = (filteredResult.isEmpty() ? null : filteredResult.iterator().next());
@@ -480,7 +481,7 @@ public class SearchUtil {
             if (result != null) {
                 ResourceType rt = result.getBase().get(0);
                 Collection<SearchParameter> filteredResult =
-                        filterSearchParameters(getFilterRules(), rt.getValue(), Collections.singleton(result));
+                        filterSearchParameters(getFilterRules(tenantId), rt.getValue(), Collections.singleton(result));
 
                 // If our filtered result is non-empty, then just return the first (and only) item.
                 result = (filteredResult.isEmpty() ? null : filteredResult.iterator().next());
@@ -987,8 +988,7 @@ public class SearchUtil {
     }
 
     /**
-     * Returns a list of SearchParameters that consist of those associated with the
-     * "Resource" base resource type, as
+     * Returns a list of SearchParameters that consist of those associated with the "Resource" base type, as
      * well as those associated with the specified resource type.
      */
     public static List<SearchParameter> getApplicableSearchParameters(String resourceType) throws Exception {

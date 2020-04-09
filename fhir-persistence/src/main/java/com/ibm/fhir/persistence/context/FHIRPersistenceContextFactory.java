@@ -6,7 +6,8 @@
 
 package com.ibm.fhir.persistence.context;
 
-import com.ibm.fhir.persistence.context.impl.FHIRHistoryContextImpl;
+import com.ibm.fhir.context.FHIRHistoryContext;
+import com.ibm.fhir.context.impl.FHIRHistoryContextImpl;
 import com.ibm.fhir.persistence.context.impl.FHIRPersistenceContextImpl;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -21,7 +22,7 @@ public class FHIRPersistenceContextFactory {
      */
     private FHIRPersistenceContextFactory() {
     }
-    
+
     /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent instance.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
@@ -29,7 +30,7 @@ public class FHIRPersistenceContextFactory {
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event) {
         return new FHIRPersistenceContextImpl(event);
     }
-    
+
     /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent instance.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
@@ -38,7 +39,7 @@ public class FHIRPersistenceContextFactory {
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, boolean includeDeleted) {
         return new FHIRPersistenceContextImpl(event, includeDeleted);
     }
-    
+
     /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent and a FHIRHistoryContext.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
@@ -47,7 +48,7 @@ public class FHIRPersistenceContextFactory {
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, FHIRHistoryContext historyContext) {
         return new FHIRPersistenceContextImpl(event, historyContext);
     }
-    
+
     /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent and a FHIRSearchContext.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
@@ -56,7 +57,7 @@ public class FHIRPersistenceContextFactory {
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, FHIRSearchContext searchContext) {
         return new FHIRPersistenceContextImpl(event, searchContext);
     }
-    
+
     /**
      * Returns a FHIRHistoryContext instance with default values.
      */

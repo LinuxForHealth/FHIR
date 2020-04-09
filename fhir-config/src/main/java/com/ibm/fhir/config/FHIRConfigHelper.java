@@ -20,44 +20,42 @@ import javax.json.JsonValue;
 public class FHIRConfigHelper {
     private static final Logger log = Logger.getLogger(FHIRConfigHelper.class.getName());
 
-    public static String getStringProperty(String propertyName, String defaultValue) {
-        return getTypedProperty(String.class, propertyName, defaultValue);
+    public static String getStringProperty(String tenantId, String propertyName, String defaultValue) {
+        return getTypedProperty(tenantId, String.class, propertyName, defaultValue);
     }
 
-    public static Boolean getBooleanProperty(String propertyName, Boolean defaultValue) {
-        return getTypedProperty(Boolean.class, propertyName, defaultValue);
+    public static Boolean getBooleanProperty(String tenantId, String propertyName, Boolean defaultValue) {
+        return getTypedProperty(tenantId, Boolean.class, propertyName, defaultValue);
     }
 
-    public static Integer getIntProperty(String propertyName, Integer defaultValue) {
-        return getTypedProperty(Integer.class, propertyName, defaultValue);
+    public static Integer getIntProperty(String tenantId, String propertyName, Integer defaultValue) {
+        return getTypedProperty(tenantId, Integer.class, propertyName, defaultValue);
     }
 
-    public static Double getDoubleProperty(String propertyName, Double defaultValue) {
-        return getTypedProperty(Double.class, propertyName, defaultValue);
+    public static Double getDoubleProperty(String tenantId, String propertyName, Double defaultValue) {
+        return getTypedProperty(tenantId, Double.class, propertyName, defaultValue);
     }
 
     @SuppressWarnings("unchecked")
-    public static List<String> getStringListProperty(String propertyName) {
-        return getTypedProperty(List.class, propertyName, null);
+    public static List<String> getStringListProperty(String tenantId, String propertyName) {
+        return getTypedProperty(tenantId, List.class, propertyName, null);
     }
 
-    public static PropertyGroup getPropertyGroup(String propertyName) {
-        return getTypedProperty(PropertyGroup.class, propertyName, null);
+    public static PropertyGroup getPropertyGroup(String tenantId, String propertyName) {
+        return getTypedProperty(tenantId, PropertyGroup.class, propertyName, null);
     }
 
     /**
      * This function retrieves the specified property as a generic JsonValue. First we try to retrieve the property from
      * the current tenant's config, and then if not found we'll also look in the "default" config.
-     * 
+     *
      * @param propertyName
      *            the hierarchical name of the property to be retrieved (e.g. "level1/level2/prop1")
      * @return a JsonValue representing the property's value or null if it wasn't found in either config
      */
-    private static JsonValue getPropertyFromTenantOrDefault(String propertyName) {
+    private static JsonValue getPropertyFromTenantOrDefault(String tenantId, String propertyName) {
         JsonValue result = null;
-
         PropertyGroup pg = null;
-        String tenantId = FHIRRequestContext.get().getTenantId();
 
         // First, try to retrieve the configuration (property group) associated with the
         // current thread's tenant-id.
@@ -89,7 +87,7 @@ public class FHIRConfigHelper {
     /**
      * This generic function will perform the work of retrieving a property from either the tenant-specific config, or
      * the default config, and then converting the resulting value to the appropriate type.
-     * 
+     *
      * @param propertyName
      *            the name of the property to retrieve
      * @param defaultValue
@@ -97,11 +95,11 @@ public class FHIRConfigHelper {
      * @return
      */
     @SuppressWarnings("unchecked")
-    private static <T> T getTypedProperty(Class<T> expectedDataType, String propertyName, T defaultValue) {
+    private static <T> T getTypedProperty(String tenantId, Class<T> expectedDataType, String propertyName, T defaultValue) {
         T result = null;
 
         // Find the property as a generic JsonValue from either the current tenant's config or the default config.
-        JsonValue jsonValue = getPropertyFromTenantOrDefault(propertyName);
+        JsonValue jsonValue = getPropertyFromTenantOrDefault(tenantId, propertyName);
 
         // If found, then convert the value to the expected type.
         if (jsonValue != null) {

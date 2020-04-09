@@ -23,7 +23,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;

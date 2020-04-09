@@ -36,11 +36,12 @@ import org.owasp.encoder.Encode;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRHistoryContext;
+import com.ibm.fhir.context.FHIRPagingContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.core.HTTPReturnPreference;
-import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle;
@@ -67,7 +68,6 @@ import com.ibm.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.fhir.operation.util.FHIROperationUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
-import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -496,7 +496,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Bundle responseBundle = null;
 
             if (searchQueryString != null) {
-                int searchPageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_CONDITIONAL_DELETE_MAX_NUMBER, FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT);
+                int searchPageSize = FHIRConfigHelper.getIntProperty(FHIRRequestContext.get().getTenantId(),
+                        FHIRConfiguration.PROPERTY_CONDITIONAL_DELETE_MAX_NUMBER, FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT);
 
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("Performing conditional delete with search criteria: "

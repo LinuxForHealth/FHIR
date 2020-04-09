@@ -21,7 +21,8 @@ import javax.inject.Inject;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -132,11 +133,11 @@ public class ChunkWriter extends AbstractItemWriter {
             isValidationOn = fhirValidation.equalsIgnoreCase("Y");
         }
         if (fhirTenant == null) {
-            fhirTenant = "default";
+            fhirTenant = FHIRConfiguration.DEFAULT_TENANT_ID;
             logger.info("writeItems: Set tenant to default!");
         }
         if (fhirDatastoreId == null) {
-            fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
+            fhirDatastoreId = FHIRConfiguration.DEFAULT_DATASTORE_ID;
             logger.info("writeItems: Set DatastoreId to default!");
         }
 

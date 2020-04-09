@@ -23,10 +23,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.context.FHIRHistoryContext;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.MultiResourceResult;
-import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.search.context.FHIRSearchContext;

@@ -16,26 +16,26 @@ import java.util.logging.Logger;
  * This class is a parameterized abstract base class to be used for situations where
  * we need to implement a tenant-specific cache of file-based objects.
  * Examples include: configuration parameters, structure definitions, search parameters, etc.
- * 
+ *
  * @author padams
  */
 public abstract class TenantSpecificFileBasedCache<T> {
     private static final Logger log = Logger.getLogger(TenantSpecificFileBasedCache.class.getName());
 
     private Map<String, CachedObjectHolder<T>> cache;
-    
+
     // cacheType is used only in trace messages.
     private String cacheType = "<unknown>";
-    
+
     public TenantSpecificFileBasedCache() {
         cache = new HashMap<String, CachedObjectHolder<T>>();
     }
-    
+
     public TenantSpecificFileBasedCache(String cacheType) {
         this();
         this.cacheType = cacheType;
     }
-    
+
     /**
      * Clears the entire cache.
      * This might be useful during testing when you need to clear out the entire cache and re-load.
@@ -48,7 +48,7 @@ public abstract class TenantSpecificFileBasedCache<T> {
 
     public abstract String getCacheEntryFilename(String tenantId);
     public abstract T createCachedObject(File file) throws Exception;
-    
+
     /**
      * @param tenantId
      * @return the cached object for the tenant or null if it could not be found
@@ -81,12 +81,12 @@ public abstract class TenantSpecificFileBasedCache<T> {
                         String fileName = getCacheEntryFilename(tenantId);
                         File f = new File(fileName);
                         T cachedObject = null;
-                        
+
                         // If the file exists, then try to load it.
                         if (f.exists()) {
                             cachedObject = createCachedObject(f);
                         }
-                        
+
                         // If we were able to load the object from disk, then add it to the cache.
                         if (cachedObject != null) {
                             holder = new CachedObjectHolder<T>(fileName, cachedObject);

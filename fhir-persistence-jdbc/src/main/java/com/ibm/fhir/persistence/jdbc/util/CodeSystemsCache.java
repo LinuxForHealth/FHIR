@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;

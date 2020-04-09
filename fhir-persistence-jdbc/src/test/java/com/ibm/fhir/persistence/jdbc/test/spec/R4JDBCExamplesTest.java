@@ -13,6 +13,7 @@ import java.util.Properties;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.context.FHIRHistoryContext;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
@@ -20,7 +21,6 @@ import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;

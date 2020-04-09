@@ -17,11 +17,12 @@ import javax.crypto.spec.SecretKeySpec;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.context.FHIRRequestContext;
 
 public class BulkDataConfigUtil {
     private static final String CLASSNAME = BulkDataConfigUtil.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
-    
+
     public static final String APPLICATION_NAME = "applicationName";
     public static final String MODULE_NAME = "moduleName";
     public static final String JOB_XML_NAME = "jobXMLName";
@@ -48,20 +49,30 @@ public class BulkDataConfigUtil {
     }
 
     /**
-     * Get JavaBatch Job configuration from server configure. 
+     * Get JavaBatch Job configuration from server configure.
      */
     public static Map<String, String> getBatchJobConfig() throws Exception {
-        Map<String, String> properties = new HashMap<>();
-        properties.put(APPLICATION_NAME, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_APPLICATIONNAME, null));
-        properties.put(MODULE_NAME, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_MODULENAME, null));
-        properties.put(BATCH_USER, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHUSER, null));
-        properties.put(BATCH_USER_PASS, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHUSERPWD, null));
-        properties.put(BATCH_URL, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHURI, null));
-        properties.put(BATCH_TRUSTSTORE, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTORE, null));
-        properties.put(BATCH_TRUSTSTORE_PASS, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTOREPWD, null));
-        properties.put(IMPLEMENTATION_TYPE, FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_IMPTYPE, null));
+        String tenantId = FHIRRequestContext.get().getTenantId();
 
-        PropertyGroup jobParameters = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_PARAMETERS);
+        Map<String, String> properties = new HashMap<>();
+        properties.put(APPLICATION_NAME, FHIRConfigHelper.getStringProperty(tenantId,
+                FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_APPLICATIONNAME, null));
+        properties.put(MODULE_NAME, FHIRConfigHelper.getStringProperty(tenantId,
+                FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_MODULENAME, null));
+        properties.put(BATCH_USER, FHIRConfigHelper.getStringProperty(tenantId,
+                FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHUSER, null));
+        properties.put(BATCH_USER_PASS, FHIRConfigHelper.getStringProperty(tenantId,
+                FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHUSERPWD, null));
+        properties.put(BATCH_URL, FHIRConfigHelper.getStringProperty(tenantId,
+                FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHURI, null));
+        properties.put(BATCH_TRUSTSTORE, FHIRConfigHelper.getStringProperty(tenantId,
+                FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTORE, null));
+        properties.put(BATCH_TRUSTSTORE_PASS, FHIRConfigHelper.getStringProperty(tenantId,
+                FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTOREPWD, null));
+        properties.put(IMPLEMENTATION_TYPE, FHIRConfigHelper.getStringProperty(tenantId,
+                FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_IMPTYPE, null));
+
+        PropertyGroup jobParameters = FHIRConfigHelper.getPropertyGroup(tenantId, FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_PARAMETERS);
         if (jobParameters != null) {
             properties.put(JOB_PARAMETERS_BUCKET, jobParameters.getStringProperty(JOB_PARAMETERS_BUCKET));
             properties.put(JOB_PARAMETERS_LOCATION, jobParameters.getStringProperty(JOB_PARAMETERS_LOCATION));

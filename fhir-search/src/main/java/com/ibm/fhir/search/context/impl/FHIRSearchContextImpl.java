@@ -9,7 +9,7 @@ package com.ibm.fhir.search.context.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ibm.fhir.core.context.impl.FHIRPagingContextImpl;
+import com.ibm.fhir.context.impl.FHIRPagingContextImpl;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.parameters.InclusionParameter;
@@ -24,7 +24,7 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     private List<InclusionParameter> includeParameters = new ArrayList<>();
     private List<InclusionParameter> revIncludeParameters = new ArrayList<>();
     private List<String> elementsParameters = null;
-    private SummaryValueSet summaryParameter = null; 
+    private SummaryValueSet summaryParameter = null;
 
     public FHIRSearchContextImpl() {
         searchParameters = new ArrayList<>();

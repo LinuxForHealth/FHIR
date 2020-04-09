@@ -22,7 +22,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;

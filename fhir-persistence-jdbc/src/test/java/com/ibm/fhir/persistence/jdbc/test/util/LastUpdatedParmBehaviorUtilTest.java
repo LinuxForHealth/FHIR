@@ -20,7 +20,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants;

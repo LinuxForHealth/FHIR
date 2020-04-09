@@ -35,8 +35,8 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;

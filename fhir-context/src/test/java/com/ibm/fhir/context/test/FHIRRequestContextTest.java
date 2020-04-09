@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.config.test;
+package com.ibm.fhir.context.test;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -12,10 +12,10 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 
 public class FHIRRequestContextTest {
-    
+
     /**
      * This is a class we'll use for running some test code in a separate thread.
      */
@@ -23,17 +23,18 @@ public class FHIRRequestContextTest {
         private String tenantId;
         private String dsId;
         private boolean testPassed;
-        
+
         public ThreadTest(String t, String d) {
             this.tenantId = t;
             this.dsId = d;
             this.testPassed = false;
         }
-        
+
         public boolean getTestPassed() {
             return testPassed;
         }
-        
+
+        @Override
         public void run() {
             try {
                 // If we've been given a tenant id to test with, then explicitly
@@ -58,7 +59,7 @@ public class FHIRRequestContextTest {
             }
         }
     }
-    
+
     @Test
     public void testDefault1() throws Exception {
         FHIRRequestContext.remove();
@@ -67,7 +68,7 @@ public class FHIRRequestContextTest {
         assertEquals("default", ctxt.getTenantId());
         assertEquals("default", ctxt.getDataStoreId());
     }
-    
+
     @Test
     public void testDefault2() throws Exception {
         ThreadTest test = new ThreadTest(null, null);
@@ -80,13 +81,13 @@ public class FHIRRequestContextTest {
     @Test
     public void testNonDefault1() throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext("tenant1", "dsid1"));
-        
+
         FHIRRequestContext ctxt = FHIRRequestContext.get();
         assertNotNull(ctxt);
         assertEquals("tenant1", ctxt.getTenantId());
         assertEquals("dsid1", ctxt.getDataStoreId());
     }
-    
+
     @Test
     public void testNonDefault2() throws Exception {
         ThreadTest test = new ThreadTest("tenant1", "dsid1");

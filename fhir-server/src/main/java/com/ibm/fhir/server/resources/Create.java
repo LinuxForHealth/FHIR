@@ -23,7 +23,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -41,9 +41,10 @@ public class Create extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Create.class.getName());
 
     /**
-     * This HL7-defined extension header supports "conditional create", allowing a client to create a new resource only if some equivalent 
+     * This HL7-defined extension header supports "conditional create", allowing a client to create a new resource only if some equivalent
      * resource does not already exist on the server.
-     * The client defines what equivalence means in this case by supplying a FHIR search query using an HL7 defined extension header "If-None-Exist" as shown:
+     *
+     * <p>The client defines what equivalence means in this case by supplying a FHIR search query as shown:
      * <pre>
      * If-None-Exist: [search parameters]
      * </pre>

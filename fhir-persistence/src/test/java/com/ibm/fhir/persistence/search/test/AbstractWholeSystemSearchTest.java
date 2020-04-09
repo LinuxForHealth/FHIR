@@ -6,11 +6,11 @@
 
 package com.ibm.fhir.persistence.search.test;
 
+import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
-import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.format.Format;

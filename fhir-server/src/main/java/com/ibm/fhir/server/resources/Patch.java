@@ -26,7 +26,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIROperationException;

@@ -17,6 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.context.FHIRHistoryContext;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
@@ -34,7 +35,6 @@ import com.ibm.fhir.model.spec.test.Expectation;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
 import com.ibm.fhir.model.spec.test.SerializationProcessor;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;

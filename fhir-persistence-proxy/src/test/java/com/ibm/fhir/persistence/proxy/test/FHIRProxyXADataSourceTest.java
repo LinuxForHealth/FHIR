@@ -14,8 +14,8 @@ import java.sql.SQLException;
 
 import javax.sql.XADataSource;
 
-import org.apache.derby.jdbc.EmbeddedXADataSource;
 import org.apache.derby.jdbc.ClientXADataSource;
+import org.apache.derby.jdbc.EmbeddedXADataSource;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.db2.jcc.DB2XADataSource;
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.persistence.proxy.FHIRProxyXADataSource;
 
 /**

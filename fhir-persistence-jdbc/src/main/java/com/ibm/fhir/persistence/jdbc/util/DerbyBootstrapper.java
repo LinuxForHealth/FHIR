@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;

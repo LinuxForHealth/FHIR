@@ -6,7 +6,10 @@
 
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.*;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.END;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.THEN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHEN;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;

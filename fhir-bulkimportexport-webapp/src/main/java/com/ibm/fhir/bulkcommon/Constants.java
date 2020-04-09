@@ -12,7 +12,6 @@ package com.ibm.fhir.bulkcommon;
  */
 public class Constants {
 
-    public static final String DEFAULT_FHIR_TENANT = "default";
     public static final String DEFAULT_COS_BUCKETNAME = "fhir-bulkImExport-Connectathon";
 
     // The minimal size (5M bytes) for COS multiple-parts upload.

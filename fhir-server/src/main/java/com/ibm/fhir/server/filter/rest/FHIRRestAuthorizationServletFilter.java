@@ -25,11 +25,12 @@ import org.owasp.encoder.Encode;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.context.FHIRRequestContext;
 
 /**
  * This servlet filter is configured with the FHIR Server webapp and will perform an authorization "whitelist" check to
  * ensure that the incoming client CN and issuer OU values specified via request headers are valid.
- * 
+ *
  */
 public class FHIRRestAuthorizationServletFilter implements Filter {
     private static final Logger log = Logger.getLogger(FHIRRestAuthorizationServletFilter.class.getName());
@@ -42,9 +43,10 @@ public class FHIRRestAuthorizationServletFilter implements Filter {
         log.entering(this.getClass().getName(), "doFilter");
         try {
             boolean failedAuthCheck = false;
+            String tenantId = FHIRRequestContext.get().getTenantId();
 
             // If this filter is enabled, then check the supplied request headers against our whitelist values.
-            Boolean enabled = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_AUTHFILTER_ENABLED, Boolean.FALSE);
+            Boolean enabled = FHIRConfigHelper.getBooleanProperty(tenantId, FHIRConfiguration.PROPERTY_AUTHFILTER_ENABLED, Boolean.FALSE);
             if (enabled) {
                 log.fine("FHIR Server authorization filter is enabled.");
                 HttpServletRequest httpServletRequest = (HttpServletRequest) request;
@@ -62,11 +64,11 @@ public class FHIRRestAuthorizationServletFilter implements Filter {
                     log.log(Level.SEVERE, "The '" + CLIENT_CERT_ISSUER_OU_HEADER + "' request header was not specified.");
                 }
 
-                String authorizedClientCertClientCN = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN, "");
+                String authorizedClientCertClientCN = FHIRConfigHelper.getStringProperty(tenantId, FHIRConfiguration.PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN, "");
                 log.fine("authorizedClientCertClientCN: " + Encode.forHtml(authorizedClientCertClientCN));
                 List<String> authorizedClientCertClientCNs = Arrays.asList(authorizedClientCertClientCN.split(","));
 
-                String authorizedClientCertIssuerOU = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU, "");
+                String authorizedClientCertIssuerOU = FHIRConfigHelper.getStringProperty(tenantId, FHIRConfiguration.PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU, "");
                 log.fine("authorizedClientCertIssuerOU: " + Encode.forHtml(authorizedClientCertIssuerOU));
 
                 // If we fail the whitelist check, then send back a FORBIDDEN response.

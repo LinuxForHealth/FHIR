@@ -15,7 +15,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.InsurancePlan;

@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.config;
+package com.ibm.fhir.context;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -15,15 +16,22 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIRException;
+import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 
 /**
  * This class is used to hold FHIR REST API context information.
- * There are non-static methods for maintaining individual instances, as
+ *
+ * <p>There are non-static methods for maintaining individual instances, as
  * well as static methods for setting instances on and getting instances from thread local.
- * The overall strategy is for the REST API servlet filter to retrieve the request context
+ *
+ * <p>The overall strategy is for the REST API servlet filter to retrieve the request context
  * information, create an instance of this class and set it on the current thread for use
  * by the FHIR Server as it processes the request.
  */
@@ -36,6 +44,7 @@ public class FHIRRequestContext {
     private String requestUniqueId;
     private String originalRequestUri;
     private Map<String, List<String>> httpHeaders;
+    private List<OperationOutcome.Issue> issues;
 
     // Default to the "strict" handling which means the server will reject unrecognized search parameters and elements
     private HTTPHandlingPreference handlingPreference = HTTPHandlingPreference.STRICT;
@@ -59,6 +68,7 @@ public class FHIRRequestContext {
 
     public FHIRRequestContext() {
         this.requestUniqueId = UUID.randomUUID().toString();
+        this.issues = new ArrayList<>();
     }
 
     public FHIRRequestContext(String tenantId) throws FHIRException {
@@ -217,5 +227,52 @@ public class FHIRRequestContext {
      */
     public void setHttpHeaders(Map<String, List<String>> httpHeaders) {
         this.httpHeaders = httpHeaders;
+    }
+
+    /**
+     * @return the issues
+     */
+    public List<OperationOutcome.Issue> getIssues() {
+        return issues;
+    }
+
+    /**
+     * Associate a supplemental warning with the current request
+     */
+    public void addWarning(IssueType issueType, com.ibm.fhir.model.type.String message, com.ibm.fhir.model.type.String... expression) {
+        this.issues.add(OperationOutcome.Issue.builder()
+                .severity(IssueSeverity.WARNING)
+                .code(issueType)
+                .details(CodeableConcept.builder()
+                    .text(message)
+                    .build())
+                .expression(expression)
+                .build());
+    }
+
+    /**
+     * Associate a supplemental informational message with the current request
+     */
+    public void addInfo(IssueType issueType, com.ibm.fhir.model.type.String message, com.ibm.fhir.model.type.String... expression) {
+        this.issues.add(OperationOutcome.Issue.builder()
+                .severity(IssueSeverity.INFORMATION)
+                .code(issueType)
+                .details(CodeableConcept.builder()
+                    .text(message)
+                    .build())
+                .expression(expression)
+                .build());
+    }
+
+    /**
+     * Associate a list of supplemental issues with the current request
+     *
+     * @implSpec issues will be appended in-order to the resulting OperationOutcome
+     * @implNote these issues are supplemental and therefor it is NOT recommended to use this method
+     *           to communicate issues of SEVERITY greater than warning (i.e. do not be use for issues
+     *           of severity IssueSeverity.ValueSet.ERROR or IssueSeverity.ValueSet.FATAL)
+     */
+    public void addIssue(List<OperationOutcome.Issue> issues) {
+        this.issues.addAll(issues);
     }
 }

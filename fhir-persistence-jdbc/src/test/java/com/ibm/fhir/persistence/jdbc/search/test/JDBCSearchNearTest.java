@@ -29,7 +29,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;

@@ -15,7 +15,7 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.search.exception.FHIRSearchException;

@@ -29,9 +29,9 @@ import org.owasp.encoder.Encode;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.database.utils.derby.DerbyServerPropertiesMgr;
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -168,7 +168,7 @@ public class FHIRServletContextListener implements ServletContextListener {
      */
     private void bootstrapDb(String tenantId, String dsId, DataSource ds) throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext(tenantId, dsId));
-        PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId);
+        PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(tenantId, FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId);
         if (pg != null) {
             String type = pg.getStringProperty("type");
             if (type != null && !type.isEmpty() && (type.toLowerCase().equals("derby") || type.toLowerCase().equals("derby_network_server"))) {

@@ -23,7 +23,7 @@ import java.util.TimeZone;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;

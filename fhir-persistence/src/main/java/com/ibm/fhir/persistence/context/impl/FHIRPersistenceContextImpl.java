@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.persistence.context.impl;
 
-import com.ibm.fhir.persistence.context.FHIRHistoryContext;
+import com.ibm.fhir.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -21,16 +21,16 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     private FHIRHistoryContext historyContext;
     private FHIRSearchContext searchContext;
     private boolean includeDeleted;
-    
+
     public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe) {
         this.persistenceEvent = pe;
     }
-    
+
     public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, boolean includeDeleted) {
         this.persistenceEvent = pe;
         setIncludeDeleted(includeDeleted);
     }
-    
+
     public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, FHIRHistoryContext hc) {
         this.persistenceEvent = pe;
         this.historyContext = hc;
@@ -69,7 +69,7 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     public FHIRSearchContext getSearchContext() {
         return this.searchContext;
     }
-    
+
     /* (non-Javadoc)
      * @see com.ibm.fhir.persistence.context.FHIRPersistenceContext#includeDeleted()
      */
@@ -77,7 +77,7 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     public boolean includeDeleted() {
         return includeDeleted;
     }
-    
+
     public void setIncludeDeleted(boolean includeDeleted) {
         this.includeDeleted = includeDeleted;
     }

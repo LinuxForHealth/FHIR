@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.core.context.impl;
+package com.ibm.fhir.context.impl;
 
-import com.ibm.fhir.core.context.FHIRPagingContext;
+import com.ibm.fhir.context.FHIRPagingContext;
 
 public class FHIRPagingContextImpl implements FHIRPagingContext {
     protected static final int DEFAULT_PAGE_SIZE = 10;

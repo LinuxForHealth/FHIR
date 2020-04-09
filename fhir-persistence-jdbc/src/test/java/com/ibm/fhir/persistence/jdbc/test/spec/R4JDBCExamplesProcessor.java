@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.Properties;
 import java.util.function.Supplier;
 
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRHistoryContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.spec.test.IExampleProcessor;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;

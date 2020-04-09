@@ -20,7 +20,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
@@ -31,8 +31,8 @@ import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.QuantityParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 public class QuantityParmBehaviorUtilTest {
     private static final Logger log = java.util.logging.Logger.getLogger(QuantityParmBehaviorUtilTest.class.getName());

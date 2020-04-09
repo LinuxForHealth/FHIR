@@ -33,7 +33,9 @@ import javax.ws.rs.core.Response;
 import org.apache.http.HttpStatus;
 
 import com.ibm.fhir.client.impl.FHIRBasicAuthenticator;
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.context.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -233,10 +235,12 @@ public class BulkDataClient {
         // From the response
         String jobId = Integer.toString(response.getInstanceId());
 
+        String raw_key = FHIRConfigHelper.getStringProperty(FHIRRequestContext.get().getTenantId(),
+            FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOBID_ENCRYPTION_KEY, null);
 
         String baseUri = properties.get(BulkDataConfigUtil.BASE_URI);
         return baseUri + "/$export-status?job=" +
-                BulkDataUtil.encryptBatchJobId(jobId, BulkDataConstants.BATCHJOBID_ENCRYPTION_KEY);
+                BulkDataUtil.encryptBatchJobId(jobId, BulkDataConfigUtil.getBatchJobIdEncryptionKey(raw_key));
     }
 
     /**
