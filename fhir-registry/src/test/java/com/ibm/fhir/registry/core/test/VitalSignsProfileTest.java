@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.registry.spec.test;
+package com.ibm.fhir.registry.core.test;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;

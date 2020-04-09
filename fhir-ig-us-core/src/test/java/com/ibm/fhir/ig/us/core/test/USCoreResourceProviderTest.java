@@ -26,7 +26,7 @@ public class USCoreResourceProviderTest {
     @Test
     public void testUSCoreResourceProvider() {
         FHIRRegistryResourceProvider provider = new USCoreResourceProvider();
-        assertEquals(provider.getResources().size(), 145);
+        assertEquals(provider.getRegistryResources().size(), 145);
     }
 
     @Test(enabled = false)
@@ -38,7 +38,7 @@ public class USCoreResourceProviderTest {
 
         FHIRValidator validator = FHIRValidator.validator();
 
-        for (FHIRRegistryResource registryResource : provider.getResources()) {
+        for (FHIRRegistryResource registryResource : provider.getRegistryResources()) {
             try {
                 Resource resource = registryResource.getResource();
                 issues.addAll(validator.validate(resource));
