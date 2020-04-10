@@ -30,15 +30,14 @@
             },
             "datasources": {
                 "default": {
-                    "type": "db2",
+                    "type": "postgresql",
                     "connectionProperties": {
-                        "serverName": "db2",
-                        "portNumber": 50000,
+                        "serverName": "localhost",
+                        "portNumber": 5432,
+                        "databaseName": "fhirdata",
                         "user": "fhirserver",
                         "password": "change-password",
-                        "databaseName": "FHIRDB",
-                        "currentSchema": "FHIRDATA",
-                        "driverType": 4
+                        "currentSchema": "fhirdata"
                     }
                 }
             }

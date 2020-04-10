@@ -111,6 +111,17 @@
                         "sslTrustStoreLocation": "resources/security/fhirTruststore.jks",
                         "sslTrustStorePassword": "change-password"
                     }
+                },
+                "_postgresql_default": {
+                    "type": "postgresql",
+                    "connectionProperties": {
+                        "serverName": "localhost",
+                        "portNumber": 5432,
+                        "databaseName": "fhirdata",
+                        "user": "fhirserver",
+                        "password": "change-password",
+                        "currentSchema": "fhirdata"
+                    }
                 }
             }
         },
