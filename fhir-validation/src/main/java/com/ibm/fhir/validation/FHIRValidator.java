@@ -58,7 +58,7 @@ public class FHIRValidator {
      * @param profiles
      *     specific profile references to validate the resource against
      * @return
-     *     list of issues generated during validation
+     *     a non-null, possibly empty list of issues generated during validation
      * @throws FHIRValidationException
      *     for errors that occur during validation
      */
@@ -83,7 +83,7 @@ public class FHIRValidator {
      * @param profiles
      *     specific profile references to validate the resource against
      * @return
-     *     list of issues generated during validation
+     *     a non-null, possibly empty list of issues generated during validation
      * @throws FHIRValidationException
      *     for errors that occur during validation
      */
@@ -134,7 +134,7 @@ public class FHIRValidator {
      * @param profiles
      *     specific profile references to validate the evaluation context against
      * @return
-     *     list of issues generated during validation
+     *     a non-null, possibly empty list of issues generated during validation
      * @throws FHIRValidationException
      *     for errors that occur during validation
      * @see {@link FHIRPathEvaluator.EvaluationContext}

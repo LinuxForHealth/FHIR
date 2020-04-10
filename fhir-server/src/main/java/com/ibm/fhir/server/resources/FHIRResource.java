@@ -308,7 +308,7 @@ public class FHIRResource {
         if (persistence == null) {
             persistence = getPersistenceHelper().getFHIRPersistenceImplementation();
             if (log.isLoggable(Level.FINE)) {
-                log.fine("Obtained new  FHIRPersistence instance: " + persistence);
+                log.fine("Obtained new FHIRPersistence instance: " + persistence);
             }
         }
         return persistence;

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2020
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -96,9 +96,9 @@ public class FHIRUtil {
 
     /**
      * Converts a Visitable (Element or Resource) instance to a string using a FHIRGenerator.
-     * 
+     *
      * <p>The toString format (JSON or XML) can be specified through {@link FHIRModelConfig#setToStringFormat(Format)}.
-     * 
+     *
      * @param visitable
      *     the Element or Resource instance to be converted
      * @return
@@ -147,7 +147,7 @@ public class FHIRUtil {
     public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity severity, IssueType code, String details) {
         return buildOperationOutcomeIssue(severity, code, details, null);
     }
-    
+
     public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity severity, IssueType code, String details,
             String expression) {
         if (expression == null || expression.isEmpty()) {
@@ -467,7 +467,7 @@ public class FHIRUtil {
     private static String getExtensionStringValue(String extensionUrl, List<Extension> extensions) {
         String value = null;
         for (Extension ext : extensions) {
-            if (ext.getValue() != null && ext.getUrl().equals(extensionUrl) && 
+            if (ext.getValue() != null && ext.getUrl().equals(extensionUrl) &&
                     ext.getValue().is(com.ibm.fhir.model.type.String.class)) {
                 value = ext.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
                 break;
@@ -552,7 +552,7 @@ public class FHIRUtil {
      * @return
      */
     public static boolean isFailure(IssueSeverity severity) {
-        switch (IssueSeverity.ValueSet.from(severity.getValue())) {
+        switch (severity.getValueAsEnumConstant()) {
         case INFORMATION:
         case WARNING:
             return false;
