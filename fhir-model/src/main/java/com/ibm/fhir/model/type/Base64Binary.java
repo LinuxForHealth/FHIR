@@ -178,7 +178,11 @@ public class Base64Binary extends Element {
         }
 
         public Builder value(java.lang.String value) {
-            this.value = Base64.getDecoder().decode(value.replaceAll("\\s", ""));
+            java.lang.String valueNoWhitespace = value.replaceAll("\\s", "");
+            if ((valueNoWhitespace.length() % 4) != 0) {
+                throw new IllegalArgumentException("Invalid base64 encoded string: incorrect padding");
+            }
+            this.value = Base64.getDecoder().decode(valueNoWhitespace);
             return this;
         }
 
