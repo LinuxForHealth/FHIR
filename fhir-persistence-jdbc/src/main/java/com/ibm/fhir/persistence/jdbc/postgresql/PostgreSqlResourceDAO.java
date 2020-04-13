@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.NoDB2InsertAPI;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -37,7 +38,7 @@ import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
  * So this class follows the logic of the stored procedure, but does so
  * using a series of individual JDBC statements.
  */
-public class PostgreSqlResourceDAO {
+public class PostgreSqlResourceDAO implements NoDB2InsertAPI {
     private static final Logger logger = Logger.getLogger(PostgreSqlResourceDAO.class.getName());
     private static final String CLASSNAME = PostgreSqlResourceDAO.class.getSimpleName();
 

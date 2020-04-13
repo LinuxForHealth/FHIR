@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.NoDB2InsertAPI;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -37,7 +38,7 @@ import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
  * So this class follows the logic of the stored procedure, but does so
  * using a series of individual JDBC statements.
  */
-public class DerbyResourceDAO {
+public class DerbyResourceDAO implements NoDB2InsertAPI {
     private static final Logger logger = Logger.getLogger(DerbyResourceDAO.class.getName());
     private static final String CLASSNAME = DerbyResourceDAO.class.getSimpleName();
 
@@ -99,6 +100,7 @@ public class DerbyResourceDAO {
      * @return the resource_id for the entry we created
      * @throws Exception
      */
+    @Override
     public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, byte[] p_payload, Timestamp p_last_updated, boolean p_is_deleted,
         String p_source_key, Integer p_version) throws Exception {
 
@@ -393,6 +395,7 @@ public class DerbyResourceDAO {
      * @param resourceTypeName
      * @throw SQLException
      */
+    @Override
     public int getOrCreateResourceType(String resourceTypeName) throws SQLException {
         // As the system is concurrent, we have to handle cases where another thread
         // might create the entry after we selected and found nothing
