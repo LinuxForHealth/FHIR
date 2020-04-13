@@ -150,8 +150,8 @@
     <library id="fhirSharedLib">
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
         <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
-        <fileset dir="${shared.resource.dir}/lib/fhir" includes="*.jar"/>
         <fileset dir="${shared.resource.dir}/lib/postgresql" includes="*.jar"/>
+        <fileset dir="${shared.resource.dir}/lib/fhir" includes="*.jar"/>
     </library>
     
     <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource"
