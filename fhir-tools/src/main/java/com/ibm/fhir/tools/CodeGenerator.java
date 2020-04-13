@@ -629,10 +629,9 @@ public class CodeGenerator {
 
         if (isBase64Binary(structureDefinition)) {
             cb.method(mods("public"), "Builder", "value", params("java.lang.String value"))
+                .invoke("Objects.requireNonNull", args("value"))
                 .assign("java.lang.String valueNoWhitespace", "value.replaceAll(\"\\\\s\", \"\")")
-                ._if("(valueNoWhitespace.length() % 4) != 0")
-                    ._throw(_new("IllegalArgumentException", args(quote("Invalid base64 encoded string: incorrect padding"))))
-                ._end()
+                .invoke("ValidationSupport.validateBase64EncodedString", args("valueNoWhitespace"))
                 .assign("this.value", "Base64.getDecoder().decode(valueNoWhitespace)")
                 ._return("this")
             .end().newLine();

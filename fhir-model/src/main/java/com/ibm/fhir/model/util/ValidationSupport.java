@@ -11,7 +11,9 @@ import static com.ibm.fhir.model.util.FHIRUtil.REFERENCE_PATTERN;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -52,10 +54,24 @@ public final class ValidationSupport {
             return SCHEMA.newValidator();
         }
     };
+    private static final Set<Character> WHITESPACE = new HashSet<>(Arrays.asList(' ', '\t', '\r', '\n'));
+    private static final char [] BASE64_CHARS = {
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+        'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+        'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+        'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
+    };
+    private static final Map<Character, Integer> BASE64_INDEX_MAP = buildBase64IndexMap();
 
     private ValidationSupport() { }
 
-    private static final Set<Character> WHITESPACE = new HashSet<>(Arrays.asList(' ', '\t', '\r', '\n'));
+    private static Map<Character, Integer> buildBase64IndexMap() {
+        Map<Character, Integer> base64IndexMap = new LinkedHashMap<>();
+        for (int i = 0; i < BASE64_CHARS.length; i++) {
+            base64IndexMap.put(BASE64_CHARS[i], i);
+        }
+        return base64IndexMap;
+    }
 
     /**
      * A sequence of Unicode characters
@@ -99,7 +115,7 @@ public final class ValidationSupport {
         if (s == null) {
             return;
         }
-        if (Character.isWhitespace(s.charAt(0)) || s.length() == 0) {
+        if (s.length() == 0 || Character.isWhitespace(s.charAt(0))) {
             throw new IllegalStateException(String.format("Code value: '%s' must begin with a non-whitespace character", s));
         }
         if (Character.isWhitespace(s.charAt(s.length() - 1))) {
@@ -457,5 +473,27 @@ public final class ValidationSupport {
             return reference.getType().getValue();
         }
         return null;
+    }
+
+    public static void validateBase64EncodedString(String value) {
+        int length = value.length();
+        if ((length % 4) != 0) {
+            throw new IllegalArgumentException("Invalid base64 string length: " + value.length());
+        }
+        if (value.endsWith("==") || value.endsWith("=")) {
+            int charIndex = value.endsWith("==") ? (length - 3) : (length - 2);
+            char ch = value.charAt(charIndex);
+            if (ch == '=') {
+                throw new IllegalArgumentException("Unexpected base64 padding character: '=' found at index: " + charIndex);
+            }
+            int base64Index = BASE64_INDEX_MAP.getOrDefault(ch, -1);
+            if (base64Index == -1) {
+                throw new IllegalArgumentException("Illegal base64 character: '" + ch + "' found at index: " + charIndex);
+            }
+            int mask = value.endsWith("==") ? 0b001111 : 0b000011;
+            if ((base64Index & mask) != 0) {
+                throw new IllegalArgumentException("Invalid base64 string: non-zero padding bits; character: '" + ch + "' found at index: " + charIndex + " should be: '" + BASE64_CHARS[(base64Index & ~mask)] + "'");
+            }
+        }
     }
 }
