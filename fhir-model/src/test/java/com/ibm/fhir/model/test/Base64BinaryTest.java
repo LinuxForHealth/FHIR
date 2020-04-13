@@ -21,13 +21,46 @@ public class Base64BinaryTest {
     }
 
     @Test
-    public void testBase64BinaryInvalid() throws Exception {
+    public void testBase64BinaryInvalidLength() throws Exception {
         try {
             Base64Binary.builder().value("ABCDEF").build();
             fail();
         } catch (Exception e) {
             Assert.assertTrue(e instanceof IllegalArgumentException);
-            Assert.assertEquals(e.getMessage(), "Invalid base64 encoded string: incorrect padding");
+            Assert.assertEquals(e.getMessage(), "Invalid base64 string length: 6");
+        }
+    }
+
+    @Test
+    public void testBase64BinaryUnexpectedPaddingCharacter() throws Exception {
+        try {
+            Base64Binary.builder().value("ABCDE===").build();
+            fail();
+        } catch (Exception e) {
+            Assert.assertTrue(e instanceof IllegalArgumentException);
+            Assert.assertEquals(e.getMessage(), "Unexpected base64 padding character: '=' found at index: 5");
+        }
+    }
+
+    @Test
+    public void testBase64BinaryIllegalCharacter() throws Exception {
+        try {
+            Base64Binary.builder().value("ABCDE&==").build();
+            fail();
+        } catch (Exception e) {
+            Assert.assertTrue(e instanceof IllegalArgumentException);
+            Assert.assertEquals(e.getMessage(), "Illegal base64 character: '&' found at index: 5");
+        }
+    }
+
+    @Test
+    public void testBase64BinaryNonZeroPadding() throws Exception {
+        try {
+            Base64Binary.builder().value("ABCDEF==").build();
+            fail();
+        } catch (Exception e) {
+            Assert.assertTrue(e instanceof IllegalArgumentException);
+            Assert.assertEquals(e.getMessage(), "Invalid base64 string: non-zero padding bits; character: 'F' found at index: 5 should be: 'A'");
         }
     }
 }
