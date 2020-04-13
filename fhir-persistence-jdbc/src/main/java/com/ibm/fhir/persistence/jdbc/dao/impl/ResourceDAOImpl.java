@@ -35,6 +35,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
+import com.ibm.fhir.persistence.jdbc.dao.api.NoDB2InsertAPI;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
@@ -481,10 +482,8 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         try {
             if (this.isDb2Database()) {
                 resource = this.insertToDb2(resource, parameters, parameterDao);
-            } else if (this.isPostgreSqlDatabase()) {
-                resource = this.insertToPostgreSql(resource, parameters, parameterDao);
             } else {
-                resource = this.insertToDerby(resource, parameters, parameterDao);
+                resource = this.insertToNoDb2(resource, parameters, parameterDao);
             }
         } catch(SQLException e) {
             throw new FHIRPersistenceDataAccessException("Failure determining database type.",e);
@@ -596,10 +595,9 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     /**
-     * Inserts the passed FHIR Resource and associated search parameters to a Derby FHIR database.
-     * This method will call the Derby stored procedure defined in the SQL_INSERT constant.
+     * Inserts the passed FHIR Resource and associated search parameters to a Derby or PostgreSql FHIR database.
      * The search parameters are stored first by calling the passed parameterDao. Then the Resource is stored
-     * by invoking the stored procedure.
+     * by sql.
      * @param resource The FHIR Resource to be inserted.
      * @param parameters The Resource's search parameters to be inserted.
      * @param parameterDao
@@ -608,9 +606,9 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceVersionIdMismatchException
      */
-    private Resource insertToDerby(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
+    private Resource insertToNoDb2(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
             throws FHIRPersistenceException {
-        final String METHODNAME = "insertToDerby";
+        final String METHODNAME = "insertToNoDb2";
         log.entering(CLASSNAME, METHODNAME);
 
         Connection connection = null;
@@ -620,14 +618,19 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         long dbCallStartTime;
         double dbCallDuration;
 
+        NoDB2InsertAPI noDb2DAO;
         try {
             connection = this.getConnection();
-            DerbyResourceDAO derbyResourceDAO = new DerbyResourceDAO(connection);
+            if (this.isPostgreSqlDatabase()) {
+                noDb2DAO = new PostgreSqlResourceDAO(connection);
+            } else {
+                noDb2DAO = new DerbyResourceDAO(connection);
+            }
 
             resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
             if (resourceTypeId == null) {
                 acquiredFromCache = false;
-                resourceTypeId = derbyResourceDAO.getOrCreateResourceType(resource.getResourceType());
+                resourceTypeId = noDb2DAO.getOrCreateResourceType(resource.getResourceType());
                 this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
             } else {
                 acquiredFromCache = true;
@@ -643,7 +646,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
             final String sourceKey = UUID.randomUUID().toString();
 
-            long resourceId = derbyResourceDAO.storeResource(resource.getResourceType(),
+            long resourceId = noDb2DAO.storeResource(resource.getResourceType(),
                 parameters,
                 resource.getLogicalId(),
                 resource.getData(),
@@ -685,93 +688,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     }
 
-    /**
-     * Inserts the passed FHIR Resource and associated search parameters to a Derby FHIR database.
-     * The search parameters are stored first by calling the passed parameterDao. Then the Resource is stored.
-     * @param resource The FHIR Resource to be inserted.
-     * @param parameters The Resource's search parameters to be inserted.
-     * @param parameterDao
-     * @return The Resource DTO
-     * @throws FHIRPersistenceDataAccessException
-     * @throws FHIRPersistenceDBConnectException
-     * @throws FHIRPersistenceVersionIdMismatchException
-     */
-    private Resource insertToPostgreSql(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
-            throws FHIRPersistenceException {
-        final String METHODNAME = "insertToPostgreSql";
-        log.entering(CLASSNAME, METHODNAME);
-
-        Connection connection = null;
-        Integer resourceTypeId;
-        Timestamp lastUpdated;
-        boolean acquiredFromCache;
-        long dbCallStartTime;
-        double dbCallDuration;
-
-        try {
-            connection = this.getConnection();
-            PostgreSqlResourceDAO derbyResourceDAO = new PostgreSqlResourceDAO(connection);
-
-            resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
-            if (resourceTypeId == null) {
-                acquiredFromCache = false;
-                resourceTypeId = derbyResourceDAO.getOrCreateResourceType(resource.getResourceType());
-                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
-            } else {
-                acquiredFromCache = true;
-            }
-
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
-                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
-            }
-
-            lastUpdated = resource.getLastUpdated();
-            dbCallStartTime = System.nanoTime();
-
-            final String sourceKey = UUID.randomUUID().toString();
-
-            long resourceId = derbyResourceDAO.storeResource(resource.getResourceType(),
-                parameters,
-                resource.getLogicalId(),
-                resource.getData(),
-                lastUpdated,
-                resource.isDeleted(),
-                sourceKey,
-                resource.getVersionId()
-                );
-
-
-            dbCallDuration = (System.nanoTime() - dbCallStartTime)/1e6;
-
-            resource.setId(resourceId);
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
-            }
-        } catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
-            throw e;
-        } catch(SQLIntegrityConstraintViolationException e) {
-            FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.");
-            throw severe(log, fx, e);
-        } catch(SQLException e) {
-            if ("99001".equals(e.getSQLState())) {
-                // this is just a concurrency update, so there's no need to log the SQLException here
-                throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
-            } else {
-                FHIRPersistenceException fx = new FHIRPersistenceException("SQLException encountered while inserting Resource.");
-                throw severe(log, fx, e);
-            }
-        } catch(Throwable e) {
-            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
-            throw severe(log, fx, e);
-        } finally {
-            this.cleanup(null, connection);
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-
-        return resource;
-
-    }
 
     @Override
     public List<Resource> search(String sqlSelect) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {

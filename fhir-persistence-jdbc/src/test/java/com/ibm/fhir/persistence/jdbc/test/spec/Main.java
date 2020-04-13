@@ -270,7 +270,7 @@ public class Main {
     }
 
     /**
-     * Run the test with Derby or DB2, depending on the chosen option
+     * Run the test with Derby or DB2 etc, depending on the chosen option
      * @throws Exception
      */
     protected void process() throws Exception {
