@@ -15,13 +15,25 @@ import com.ibm.fhir.model.type.Base64Binary;
 
 public class Base64BinaryTest {
     @Test
-    public void testBase64BinaryValid() throws Exception {
+    public void testBase64BinaryValid1() throws Exception {
         Base64Binary base64Binary = Base64Binary.builder().value("ABCDEA==").build();
         Assert.assertNotNull(base64Binary);
     }
 
     @Test
-    public void testBase64BinaryInvalidLength() throws Exception {
+    public void testBase64BinaryValid2() throws Exception {
+        Base64Binary base64Binary = Base64Binary.builder().value("ABCDEFE=").build();
+        Assert.assertNotNull(base64Binary);
+    }
+
+    @Test
+    public void testBase64BinaryValid3() throws Exception {
+        Base64Binary base64Binary = Base64Binary.builder().value("ABCDEFGH").build();
+        Assert.assertNotNull(base64Binary);
+    }
+
+    @Test
+    public void testBase64BinaryInvalidStringLength() throws Exception {
         try {
             Base64Binary.builder().value("ABCDEF").build();
             fail();
@@ -54,7 +66,7 @@ public class Base64BinaryTest {
     }
 
     @Test
-    public void testBase64BinaryNonZeroPadding() throws Exception {
+    public void testBase64BinaryNonZeroPaddingBits() throws Exception {
         try {
             Base64Binary.builder().value("ABCDEF==").build();
             fail();
