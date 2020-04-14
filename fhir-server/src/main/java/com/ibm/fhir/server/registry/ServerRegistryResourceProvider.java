@@ -207,8 +207,8 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
         String url = getUrl(resource);
         if (url != null) {
             List<FHIRRegistryResource> previous = registryResourceMap.remove(url);
-            if (previous != null) {
-                log.fine("Removed registry resource(s) with url: " + url);
+            if (previous != null && !previous.isEmpty()) {
+                log.info("Removed registry resource(s) with url: " + url);
             }
         }
     }
