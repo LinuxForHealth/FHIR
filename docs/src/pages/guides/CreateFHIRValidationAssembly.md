@@ -2,7 +2,7 @@
 layout: post
 title:  Creating the fhir-validation assembly
 description: Creating the fhir-validation assembly
-date:   2019-10-08 09:59:05 -0400
+date:   2020-04-14 09:59:05 -0400
 permalink: /CreateFHIRValidationAssembly/
 ---
 
@@ -18,6 +18,8 @@ Open a terminal window
 Clone to a local working directory 
 `git clone git@github.com:IBM/FHIR.git`
 
+If you need to work off a specific tag release, please use `git checkout TAGVERSION` where TAGVERSION is the release you are interested in.  For instance, `git checkout 4.1.0` for the 4.1.0 release.
+
 **Maven**  
 You must have maven installed to create the build. https://maven.apache.org/ 
 It must be in the `PATH`.
@@ -32,6 +34,16 @@ The `fhir-validation` module requires the `fhir-examples` be installed prior.
 You should see `[INFO] BUILD SUCCESS`, and are ready to proceed.
 
 This installs the examples which are part of the build. 
+
+The `fhir-validation` module requires the `fhir-parent` be installed prior. 
+
+``` 
+ mvn clean install -f fhir-parent/ -DskipTests 
+ ```
+
+You should see `[INFO] BUILD SUCCESS`, and are ready to proceed.
+
+This installs the modules which are part of the build.
  
 ### Build 
  To create the distribution, you can run the following profile. 
@@ -70,6 +82,7 @@ Archive:  ./tmp-fhir4/FHIR/fhir-validation/target/fhir-validation-distribution.z
 - Json https://repo1.maven.org/maven2/jakarta/json/jakarta.json-api/1.1.5/
 - Annotations https://repo1.maven.org/maven2/jakarta/annotation/jakarta.annotation-api/
 - JCIP https://repo1.maven.org/maven2/net/jcip/jcip-annotations/1.0/
+
 <p>
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
 </p>
