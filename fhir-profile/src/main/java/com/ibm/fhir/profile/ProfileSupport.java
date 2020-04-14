@@ -207,9 +207,11 @@ public final class ProfileSupport {
 
     private static List<Constraint> getConstraints(StructureDefinition profile, Class<?> type) {
         String url = profile.getUrl().getValue();
-        List<Constraint> constraints = CONSTRAINT_CACHE.get(url);
+        String version = profile.getVersion().getValue();
+        String key = url + "|" + version;
+        List<Constraint> constraints = CONSTRAINT_CACHE.get(key);
         if (constraints == null) {
-            constraints = CONSTRAINT_CACHE.computeIfAbsent(url, key -> computeConstraints(profile, type));
+            constraints = CONSTRAINT_CACHE.computeIfAbsent(key, k -> computeConstraints(profile, type));
         }
         return constraints;
     }
