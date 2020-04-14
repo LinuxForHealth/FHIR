@@ -70,15 +70,4 @@ public interface FHIRRegistryResourceProvider {
      *     the search parameter resources from this provider with the given search parameter type
      */
     Collection<FHIRRegistryResource> getSearchParameterResources(String type);
-
-
-    /**
-     * Indicates whether this registry resource provider is static
-     *
-     * <p>The contents of a static registry resource provider do not change during runtime operation
-     *
-     * @return
-     *     true if this registry resource provider is static, false otherwise
-     */
-    boolean isStatic();
 }

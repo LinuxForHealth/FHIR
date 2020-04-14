@@ -59,7 +59,7 @@ import com.ibm.fhir.registry.util.Index.Entry;
 public final class FHIRRegistryUtil {
     private static final Logger log = Logger.getLogger(FHIRRegistryUtil.class.getName());
 
-    private static final Set<Class<?>> DEFINITIONAL_RESOURCE_TYPES = new HashSet<>(Arrays.asList(
+    private static final Set<Class<? extends Resource>> DEFINITIONAL_RESOURCE_TYPES = new HashSet<>(Arrays.asList(
         ActivityDefinition.class,
         CapabilityStatement.class,
         ChargeItemDefinition.class,
@@ -108,7 +108,13 @@ public final class FHIRRegistryUtil {
         return isDefinitionalResourceType(resource.getClass());
     }
 
-    private static boolean isDefinitionalResourceType(Class<?> resourceType) {
+    public static void requireDefinitionalResourceType(Class<? extends Resource> resourceType) {
+        if (!isDefinitionalResourceType(resourceType)) {
+            throw new IllegalArgumentException(resourceType.getSimpleName() + " is not a definitional resource type");
+        }
+    }
+
+    public static boolean isDefinitionalResourceType(Class<? extends Resource> resourceType) {
         return DEFINITIONAL_RESOURCE_TYPES.contains(resourceType);
     }
 
