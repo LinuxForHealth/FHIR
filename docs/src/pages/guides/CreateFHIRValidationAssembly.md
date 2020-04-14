@@ -18,7 +18,7 @@ Open a terminal window
 Clone to a local working directory 
 `git clone git@github.com:IBM/FHIR.git`
 
-If you need to work off a specific tag release, please use `git checkout TAGVERSION` where TAGVERSION is the release you are interested in.  For instance, `git checkout 4.1.0` for the 4.1.0 release.
+If you need to work off a specific tag release, please use `git checkout TAGVERSION` where TAGVERSION is the release you are interested in.  For instance, `git checkout 4.1.0` for the 4.1.0 release. You must update the pom.xml versions to the release tag version. 
 
 **Maven**  
 You must have maven installed to create the build. https://maven.apache.org/ 
@@ -75,6 +75,24 @@ Archive:  ./tmp-fhir4/FHIR/fhir-validation/target/fhir-validation-distribution.z
 ---------                     -------
  16960682                     9 files
 ```
+
+### Adding Profiles to the Assembly 
+
+ To create the distribution with a set of profiles and/or a single user profile, you add the following profiles to the build step. 
+ 
+- fhir-ig-carin-bb
+- fhir-ig-mcode
+- fhir-ig-us-core
+- `fhir-ig-user-defined` - A user defined profile 
+
+If you chose to add the user defined profile, you must pass in the name of the dependency using a commandline parameter `-Dfhir-ig-user-defined=fhir-ig-example`.
+  
+ ``` 
+ mvn clean package -f fhir-validation/ -Pfhir-validation-distribution,fhir-ig-carin-bb,fhir-ig-mcode,fhir-ig-us-core,fhir-ig-user-defined
+ ```
+ It'll create the following zip file - `fhir-validation/target/fhir-validation-distribution.zip` 
+
+You should see `[INFO] BUILD SUCCESS`, and the assembly is ready.
 
 # Download Dependencies
 - FHIR [Download from BinTray](https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-snapshots/com/ibm/fhir)
