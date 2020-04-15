@@ -48,11 +48,14 @@ public class FHIRValidator {
      * Validate a {@link Resource} against constraints in the base specification and
      * resource-asserted profile references or specific profile references but not both.
      *
-     * <p>Resource-asserted profile references that are unknown, generate an issue with severity WARNING. Profile references
-     * passed in as arguments to this method, generate an issue with severity ERROR.
+     * <p>Resource-asserted profile references that are not available in the FHIRRegistry result in issues with severity WARNING.
      *
-     * <p>If a specific profile is known but incompatible with the resource being validated, then an issue with severity
-     * ERROR is generated.
+     * <p>Unknown profile references passed as arguments to this method result in issues with severity ERROR.
+     *
+     * <p>Profiles that are incompatible with the resource being validated result in issues with severity ERROR.
+     *
+     * <p>Profile references that are passed into this method are only applicable to the outermost
+     * resource (not contained resources).
      *
      * @param resource
      *     a {@link Resource} instance (the target of validation)
@@ -71,11 +74,14 @@ public class FHIRValidator {
      * Validate a {@link Resource} against constraints in the base specification and
      * resource-asserted profile references and/or specific profile references.
      *
-     * <p>Resource-asserted profile references that are unknown, generate an issue with severity WARNING. Profile references
-     * passed in as arguments to this method, generate an issue with severity ERROR.
+     * <p>Resource-asserted profile references that are not available in the FHIRRegistry result in issues with severity WARNING.
      *
-     * <p>If a specific profile is known but incompatible with the resource being validated, then an issue with severity
-     * ERROR is generated.
+     * <p>Unknown profile references passed as arguments to this method result in issues with severity ERROR.
+     *
+     * <p>Profiles that are incompatible with the resource being validated result in issues with severity ERROR.
+     *
+     * <p>Profile references that are passed into this method are only applicable to the outermost
+     * resource (not contained resources).
      *
      * @param resource
      *     a {@link Resource} instance (the target of validation)
@@ -96,11 +102,14 @@ public class FHIRValidator {
      * Validate a resource, using an {@link EvaluationContext}, against constraints in the base specification and
      * resource-asserted profile references or specific profile references but not both.
      *
-     * <p>Resource-asserted profile references that are unknown, generate an issue with severity WARNING. Profile references
-     * passed in as arguments to this method, generate an issue with severity ERROR.
+     * <p>Resource-asserted profile references that are not available in the FHIRRegistry result in issues with severity WARNING.
      *
-     * <p>If a specific profile is known but incompatible with the resource being validated, then an issue with severity
-     * ERROR is generated.
+     * <p>Unknown profile references passed as arguments to this method result in issues with severity ERROR.
+     *
+     * <p>Profiles that are incompatible with the resource being validated result in issues with severity ERROR.
+     *
+     * <p>Profile references that are passed into this method are only applicable to the outermost
+     * resource (not contained resources).
      *
      * @param evaluationContext
      *     the {@link EvaluationContext} for this validation which includes a {@link FHIRPathTree}
@@ -121,11 +130,14 @@ public class FHIRValidator {
      * Validate a resource, using an {@link EvaluationContext}, against constraints in the base specification and
      * resource-asserted profile references and/or specific profile references.
      *
-     * <p>Resource-asserted profile references that are unknown, generate an issue with severity WARNING. Profile references
-     * passed in as arguments to this method, generate an issue with severity ERROR.
+     * <p>Resource-asserted profile references that are not available in the FHIRRegistry result in issues with severity WARNING.
      *
-     * <p>If a specific profile is known but incompatible with the resource being validated, then an issue with severity
-     * ERROR is generated.
+     * <p>Unknown profile references passed as arguments to this method result in issues with severity ERROR.
+     *
+     * <p>Profiles that are incompatible with the resource being validated result in issues with severity ERROR.
+     *
+     * <p>Profile references that are passed into this method are only applicable to the outermost
+     * resource (not contained resources).
      *
      * @param evaluationContext
      *     the {@link EvaluationContext} for this validation which includes a {@link FHIRPathTree}
@@ -169,12 +181,11 @@ public class FHIRValidator {
      * Validate a list of profile references to ensure they are supported (known by the FHIR registry) and applicable
      * (the type constrained by the profile is compatible with the resource being validated).
      *
-     * <p>Resource-asserted profile references that are unknown, generate an issue with severity WARNING. Profile references
-     * passed in as arguments to the {@link FHIRValidator#validate(EvaluationContext, boolean, String...)} method, generate an
-     * issue with severity ERROR.
+     * <p>Resource-asserted profile references that are not available in the FHIRRegistry result in issues with severity WARNING.
      *
-     * <p>If a specific profile is known but incompatible with the resource being validated, then an issue with severity
-     * ERROR is generated.
+     * <p>Unknown profile references passed as arguments to this method result in issues with severity ERROR.
+     *
+     * <p>Profiles that are incompatible with the resource being validated result in issues with severity ERROR.
      *
      * @param resourceNode
      *     the resource node being validated by a FHIRValidator instance
