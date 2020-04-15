@@ -1,6 +1,14 @@
+/*
+ * (C) Copyright IBM Corp. 2020
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package com.ibm.fhir.registry.util;
 
 import static com.ibm.fhir.registry.util.FHIRRegistryUtil.loadResource;
+
+import java.util.Objects;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
@@ -22,7 +30,7 @@ public class PackageRegistryResource extends FHIRRegistryResource {
             String type,
             String path) {
         super(resourceType, id, url, version, kind, type);
-        this.path = path;
+        this.path = Objects.requireNonNull(path);
     }
 
     public String getPath() {

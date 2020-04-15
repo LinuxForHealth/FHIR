@@ -16,6 +16,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CLUSTER;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CHANNEL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CLIENT;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_SERVERS;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
 import java.util.List;
@@ -45,9 +46,11 @@ import com.ibm.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.fhir.notifications.nats.impl.FHIRNotificationNATSPublisher;
 import com.ibm.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
+import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.persistence.jdbc.util.DerbyBootstrapper;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
 
 @WebListener("IBM FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
@@ -92,7 +95,8 @@ public class FHIRServletContextListener implements ServletContextListener {
             // we'll add them to our servlet context so that the resource class can easily retrieve them.
 
             // Set the shared FHIRPersistenceHelper.
-            event.getServletContext().setAttribute(FHIRPersistenceHelper.class.getName(), new FHIRPersistenceHelper());
+            FHIRPersistenceHelper persistenceHelper = new FHIRPersistenceHelper();
+            event.getServletContext().setAttribute(FHIRPersistenceHelper.class.getName(), persistenceHelper);
             log.fine("Set shared persistence helper on servlet context.");
 
             // If websocket notifications are enabled, then initialize the endpoint.
@@ -154,6 +158,14 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             log.fine("Initializing FHIRRegistry...");
             FHIRRegistry.getInstance();
+
+            Boolean serverRegistryResourceProviderEnabled = fhirConfig.getBooleanProperty(PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED, Boolean.FALSE);
+            if (serverRegistryResourceProviderEnabled) {
+                log.info("Registering ServerRegistryResourceProvider...");
+                ServerRegistryResourceProvider provider = new ServerRegistryResourceProvider(persistenceHelper);
+                FHIRRegistry.getInstance().register(provider);
+                FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(provider);
+            }
 
             // Finally, set our "initComplete" flag to true.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.TRUE);
