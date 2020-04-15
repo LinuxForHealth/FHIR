@@ -29,7 +29,7 @@ import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
 /**
- * A singleton registry for FHIR definitional resources: http://hl7.org/fhir/definition.html
+ * A singleton registry for FHIR definitional resources: <a href="http://hl7.org/fhir/definition.html">http://hl7.org/fhir/definition.html</a>
  */
 public final class FHIRRegistry {
     private static final Logger log = Logger.getLogger(FHIRRegistry.class.getName());
@@ -42,17 +42,30 @@ public final class FHIRRegistry {
         providers = new CopyOnWriteArrayList<>(loadProviders());
     }
 
+    /**
+     * Get the singleton instance of this class
+     *
+     * <p>This first time that this method is called, all registry resource providers made available through the
+     * service loader are added to the registry
+     *
+     * @return
+     *     the singleton instance of this class
+     */
     public static FHIRRegistry getInstance() {
         return INSTANCE;
     }
 
     /**
-     * Register a provider
+     * Add a registry resource provider to the registry
      *
+     * @implNote
+     *     This method should not be called by consumers that make their registry resource providers available through
+     *     the service loader
      * @param provider
-     *     the provider to register
+     *     the registry resource provider to be added
      */
     public void register(FHIRRegistryResourceProvider provider) {
+        Objects.requireNonNull(provider);
         providers.add(provider);
     }
 
@@ -124,6 +137,8 @@ public final class FHIRRegistry {
      *     the resource for the given canonical url and resource type if exists, null otherwise
      * @throws ClassCastException
      *     if the resource exists in the registry but its type does not match given resource type
+     * @throws IllegalArgumentException
+     *     if the resource type is not a definitional resource type
      */
     public <T extends Resource> T getResource(String url, Class<T> resourceType) {
         Objects.requireNonNull(url);
@@ -154,6 +169,8 @@ public final class FHIRRegistry {
      *     the resource type
      * @return
      *     the resources for the given resource type
+     * @throws IllegalArgumentException
+     *     if the resource type is not a definitional resource type
      */
     public <T extends Resource> Collection<T> getResources(Class<T> resourceType) {
         Objects.requireNonNull(resourceType);
