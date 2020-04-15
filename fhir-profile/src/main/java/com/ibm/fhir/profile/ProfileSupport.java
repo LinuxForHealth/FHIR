@@ -14,13 +14,14 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
-import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.ElementDefinition;
 import com.ibm.fhir.model.type.ElementDefinition.Binding;
 import com.ibm.fhir.model.type.Meta;
@@ -188,15 +189,16 @@ public final class ProfileSupport {
     }
 
     public static List<Constraint> getConstraints(Resource resource) {
+        return getConstraints(getResourceAssertedProfiles(resource), resource.getClass());
+    }
+
+    public static List<String> getResourceAssertedProfiles(Resource resource) {
         Meta meta = resource.getMeta();
         if (meta != null) {
-            List<String> urls = new ArrayList<>();
-            for (Canonical canonical : meta.getProfile()) {
-                if (canonical.getValue() != null) {
-                    urls.add(canonical.getValue());
-                }
-            }
-            return getConstraints(urls, resource.getClass());
+            return meta.getProfile().stream()
+                    .map(profile -> profile.getValue())
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
         }
         return Collections.emptyList();
     }
