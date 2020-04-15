@@ -52,7 +52,7 @@ public class FHIRValidator {
      *
      * <p>Unknown profile references passed as arguments to this method result in issues with severity ERROR.
      *
-     * <p>Profiles that are incompatible with the resource being validated result in issues with severity ERROR.
+     * <p>Profiles that are incompatible with the resource type being validated result in issues with severity ERROR.
      *
      * <p>Profile references that are passed into this method are only applicable to the outermost
      * resource (not contained resources).
@@ -78,7 +78,7 @@ public class FHIRValidator {
      *
      * <p>Unknown profile references passed as arguments to this method result in issues with severity ERROR.
      *
-     * <p>Profiles that are incompatible with the resource being validated result in issues with severity ERROR.
+     * <p>Profiles that are incompatible with the resource type being validated result in issues with severity ERROR.
      *
      * <p>Profile references that are passed into this method are only applicable to the outermost
      * resource (not contained resources).
@@ -106,7 +106,7 @@ public class FHIRValidator {
      *
      * <p>Unknown profile references passed as arguments to this method result in issues with severity ERROR.
      *
-     * <p>Profiles that are incompatible with the resource being validated result in issues with severity ERROR.
+     * <p>Profiles that are incompatible with the resource type being validated result in issues with severity ERROR.
      *
      * <p>Profile references that are passed into this method are only applicable to the outermost
      * resource (not contained resources).
@@ -134,7 +134,7 @@ public class FHIRValidator {
      *
      * <p>Unknown profile references passed as arguments to this method result in issues with severity ERROR.
      *
-     * <p>Profiles that are incompatible with the resource being validated result in issues with severity ERROR.
+     * <p>Profiles that are incompatible with the resource type being validated result in issues with severity ERROR.
      *
      * <p>Profile references that are passed into this method are only applicable to the outermost
      * resource (not contained resources).
@@ -185,7 +185,7 @@ public class FHIRValidator {
      *
      * <p>Unknown profile references passed as arguments to this method result in issues with severity ERROR.
      *
-     * <p>Profiles that are incompatible with the resource being validated result in issues with severity ERROR.
+     * <p>Profiles that are incompatible with the resource type being validated result in issues with severity ERROR.
      *
      * @param resourceNode
      *     the resource node being validated by a FHIRValidator instance
@@ -218,7 +218,7 @@ public class FHIRValidator {
                     .severity(IssueSeverity.ERROR)
                     .code(IssueType.INVALID)
                     .details(CodeableConcept.builder()
-                        .text(string("Profile '" + url + "' is not applicable to resource type: " + resourceType.getSimpleName()))
+                        .text(string("Profile: " + url + " is not applicable to resource type: " + resourceType.getSimpleName()))
                         .build())
                     .expression(string(resourceNode.path()))
                     .build());
