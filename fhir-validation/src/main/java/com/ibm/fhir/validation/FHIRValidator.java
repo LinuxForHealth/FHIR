@@ -218,7 +218,7 @@ public class FHIRValidator {
                     .severity(IssueSeverity.ERROR)
                     .code(IssueType.INVALID)
                     .details(CodeableConcept.builder()
-                        .text(string("Profile: " + url + " is not applicable to resource type: " + resourceType.getSimpleName()))
+                        .text(string("Profile '" + url + "' is not applicable to resource type: " + resourceType.getSimpleName()))
                         .build())
                     .expression(string(resourceNode.path()))
                     .build());
