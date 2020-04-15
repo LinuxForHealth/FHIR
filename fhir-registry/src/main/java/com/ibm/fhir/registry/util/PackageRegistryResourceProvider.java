@@ -102,11 +102,6 @@ public abstract class PackageRegistryResourceProvider implements FHIRRegistryRes
                 .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
     }
 
-    @Override
-    public boolean isStatic() {
-        return true;
-    }
-
     private Map<Class<? extends Resource>, Map<String, List<FHIRRegistryResource>>> buildRegistryResourceMap() {
         Map<Class<? extends Resource>, Map<String, List<FHIRRegistryResource>>> registryResourceMap = new HashMap<>();
         for (FHIRRegistryResource registryResource : registryResources) {

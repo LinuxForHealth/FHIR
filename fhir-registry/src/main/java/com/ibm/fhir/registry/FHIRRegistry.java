@@ -6,13 +6,16 @@
 
 package com.ibm.fhir.registry;
 
+import static com.ibm.fhir.registry.util.FHIRRegistryUtil.isDefinitionalResourceType;
+import static com.ibm.fhir.registry.util.FHIRRegistryUtil.requireDefinitionalResourceType;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.ServiceLoader;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -26,7 +29,7 @@ import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
 /**
- * A singleton registry for FHIR definitional resources: http://hl7.org/fhir/definition.html
+ * A singleton registry for FHIR definitional resources: <a href="http://hl7.org/fhir/definition.html">http://hl7.org/fhir/definition.html</a>
  */
 public final class FHIRRegistry {
     private static final Logger log = Logger.getLogger(FHIRRegistry.class.getName());
@@ -36,11 +39,34 @@ public final class FHIRRegistry {
     private final List<FHIRRegistryResourceProvider> providers;
 
     private FHIRRegistry() {
-        providers = loadProviders();
+        providers = new CopyOnWriteArrayList<>(loadProviders());
     }
 
+    /**
+     * Get the singleton instance of this class
+     *
+     * <p>This first time that this method is called, all registry resource providers made available through the
+     * service loader are added to the registry
+     *
+     * @return
+     *     the singleton instance of this class
+     */
     public static FHIRRegistry getInstance() {
         return INSTANCE;
+    }
+
+    /**
+     * Add a registry resource provider to the registry
+     *
+     * @implNote
+     *     This method should not be called by consumers that make their registry resource providers available through
+     *     the service loader
+     * @param provider
+     *     the registry resource provider to be added
+     */
+    public void register(FHIRRegistryResourceProvider provider) {
+        Objects.requireNonNull(provider);
+        providers.add(provider);
     }
 
     /**
@@ -54,7 +80,7 @@ public final class FHIRRegistry {
      *     true if a resource for the given canonical url and resource type exists in the registry, false otherwise
      */
     public boolean hasResource(String url, Class<? extends Resource> resourceType) {
-        if (url == null || resourceType == null) {
+        if (url == null || resourceType == null || !isDefinitionalResourceType(resourceType)) {
             return false;
         }
 
@@ -87,7 +113,7 @@ public final class FHIRRegistry {
      *     the latest version of a resource for the given url and resource type if exists, null otherwise
      */
     public String getLatestVersion(String url, Class<? extends Resource> resourceType) {
-        if (url == null || resourceType == null) {
+        if (url == null || resourceType == null || !isDefinitionalResourceType(resourceType)) {
             return null;
         }
 
@@ -111,10 +137,13 @@ public final class FHIRRegistry {
      *     the resource for the given canonical url and resource type if exists, null otherwise
      * @throws ClassCastException
      *     if the resource exists in the registry but its type does not match given resource type
+     * @throws IllegalArgumentException
+     *     if the resource type is not a definitional resource type
      */
     public <T extends Resource> T getResource(String url, Class<T> resourceType) {
         Objects.requireNonNull(url);
         Objects.requireNonNull(resourceType);
+        requireDefinitionalResourceType(resourceType);
 
         String id = null;
         int index = url.indexOf("#");
@@ -140,9 +169,12 @@ public final class FHIRRegistry {
      *     the resource type
      * @return
      *     the resources for the given resource type
+     * @throws IllegalArgumentException
+     *     if the resource type is not a definitional resource type
      */
     public <T extends Resource> Collection<T> getResources(Class<T> resourceType) {
         Objects.requireNonNull(resourceType);
+        requireDefinitionalResourceType(resourceType);
         return providers.stream()
                 .map(provider -> provider.getRegistryResources(resourceType))
                 .flatMap(Collection::stream)
@@ -224,19 +256,6 @@ public final class FHIRRegistry {
         for (FHIRRegistryResourceProvider provider : ServiceLoader.load(FHIRRegistryResourceProvider.class)) {
             providers.add(provider);
         }
-        Collections.sort(providers, new Comparator<FHIRRegistryResourceProvider>() {
-            @Override
-            public int compare(FHIRRegistryResourceProvider first, FHIRRegistryResourceProvider second) {
-                // ensure static providers are first
-                if (first.isStatic() && !second.isStatic()) {
-                    return -1;
-                }
-                if (!first.isStatic() && second.isStatic()) {
-                    return 1;
-                }
-                return 0;
-            }
-        });
         return providers;
     }
 }
