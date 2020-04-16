@@ -1204,7 +1204,7 @@ JavaBatch feature must be enabled in server.xml as following for liberty server:
         ...
     </featureManager>
 ```
-The JavaBatch user is configured in server.xml and the bulkdata.json:
+The JavaBatch user is configured in server.xml and the fhir-server-config.json:
 
 ```xml    
 <authorization-roles id="com.ibm.ws.batch">
@@ -1220,9 +1220,81 @@ The JavaBatch user is configured in server.xml and the bulkdata.json:
 	</security-role>
 </authorization-roles>
 ```
-Note: The user referenced in the bulkdata.json must have a role of at least batchSubmitter.
+Note: The user referenced in the fhir-server-config.json must have a role of at least batchSubmitter.
 
-By default, in-memory Derby database is used for persistence of the JavaBatch Jobs. Instruction is also provided in "Configuring a Liberty Datasource with API Key" section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. Liberty JavaBatch framework creates DB schema and tables automatically by default for both approaches, and the configured database is created automatically, if the in-memory Apache Derby approach is used.   
+By default, in-memory Derby database is used for persistence of the JavaBatch Jobs as configured in batchDs.xml. Instruction is also provided in "Configuring a Liberty Datasource with API Key" section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. Liberty JavaBatch framework creates DB schema and tables automatically by default for both approaches, and the configured database is created automatically, if the in-memory Apache Derby approach is used.
+
+You can also choose to use postgresql or other RDBMS as your Job repository, if taking this approach, you will need to generate the DDL for the job tables first following [IBM Websphere Liberty Batch - Job Repository Configuration](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/WebIndex/WP102716) , then make necessary changes to the generated DDL to make it valid for your RDBMS, and then create the job database, create javabatch user, create jbatch schema and then run the DDL to generate the job tables and enable it in batchDs.xml let's use postgresql as an example:
+
+(1) Generate DDL and modify it according to your RDBMS.
+
+``` shell
+ ./ddlGen generate fhir-server
+```
+Following is a modified version for postgresql:
+
+``` shell
+CREATE TABLE JBATCH.JOBINSTANCE (JOBINSTANCEID BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL, AMCNAME VARCHAR(512), BATCHSTATUS INTEGER NOT NULL, CREATETIME TIMESTAMP NOT NULL, EXITSTATUS VARCHAR(512) , INSTANCESTATE INTEGER NOT NULL, JOBNAME VARCHAR(256) , JOBXMLNAME VARCHAR(128) , JOBXML BYTEA, NUMEXECS INTEGER NOT NULL, RESTARTON VARCHAR(128) , SUBMITTER VARCHAR(256) , UPDATETIME TIMESTAMP, PRIMARY KEY (JOBINSTANCEID));
+CREATE TABLE JBATCH.STEPTHREADINSTANCE (PARTNUM INTEGER NOT NULL, STEPNAME VARCHAR(128)  NOT NULL, THREADTYPE VARCHAR(31) , CHECKPOINTDATA BYTEA, FK_JOBINSTANCEID BIGINT NOT NULL, FK_LATEST_STEPEXECID BIGINT NOT NULL, PARTITIONED BOOLEAN DEFAULT FALSE NOT NULL, PARTITIONPLANSIZE INTEGER, STARTCOUNT INTEGER, PRIMARY KEY (PARTNUM, STEPNAME, FK_JOBINSTANCEID));
+CREATE INDEX STI_FKINSTANCEID_IX ON JBATCH.STEPTHREADINSTANCE (FK_JOBINSTANCEID);
+CREATE INDEX STI_FKLATEST_SEI_IX ON JBATCH.STEPTHREADINSTANCE (FK_LATEST_STEPEXECID);
+CREATE TABLE JBATCH.STEPTHREADEXECUTION (STEPEXECID BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL, THREADTYPE VARCHAR(31) , BATCHSTATUS INTEGER NOT NULL, M_COMMIT BIGINT NOT NULL, ENDTIME TIMESTAMP, EXITSTATUS VARCHAR(512) , M_FILTER BIGINT NOT NULL, INTERNALSTATUS INTEGER NOT NULL, PARTNUM INTEGER NOT NULL, USERDATA BYTEA, M_PROCESSSKIP BIGINT NOT NULL, M_READ BIGINT NOT NULL, M_READSKIP BIGINT NOT NULL, M_ROLLBACK BIGINT NOT NULL, STARTTIME TIMESTAMP, STEPNAME VARCHAR(128)  NOT NULL, M_WRITE BIGINT NOT NULL, M_WRITESKIP BIGINT NOT NULL, FK_JOBEXECID BIGINT NOT NULL, FK_TOPLVL_STEPEXECID BIGINT, ISPARTITIONEDSTEP BOOLEAN, PRIMARY KEY (STEPEXECID));
+CREATE INDEX STE_FKJOBEXECID_IX ON JBATCH.STEPTHREADEXECUTION (FK_JOBEXECID);
+CREATE INDEX STE_FKTLSTEPEID_IX ON JBATCH.STEPTHREADEXECUTION (FK_TOPLVL_STEPEXECID);
+CREATE TABLE JBATCH.JOBEXECUTION (JOBEXECID BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL, BATCHSTATUS INTEGER NOT NULL, CREATETIME TIMESTAMP NOT NULL, ENDTIME TIMESTAMP, EXECNUM INTEGER NOT NULL, EXITSTATUS VARCHAR(512) , JOBPARAMETERS BYTEA, UPDATETIME TIMESTAMP, LOGPATH VARCHAR(512) , RESTURL VARCHAR(512) , SERVERID VARCHAR(256) , STARTTIME TIMESTAMP, FK_JOBINSTANCEID BIGINT NOT NULL, PRIMARY KEY (JOBEXECID));
+CREATE INDEX JE_FKINSTANCEID_IX ON JBATCH.JOBEXECUTION (FK_JOBINSTANCEID);
+CREATE TABLE JBATCH.REMOTABLEPARTITION (PARTNUM INTEGER NOT NULL, STEPNAME VARCHAR(255)  NOT NULL, INTERNALSTATE INTEGER, LASTUPDATED TIMESTAMP, LOGPATH VARCHAR(512) , RESTURL VARCHAR(512) , SERVERID VARCHAR(256) , FK_JOBEXECUTIONID BIGINT NOT NULL, FK_STEPEXECUTIONID BIGINT, PRIMARY KEY (PARTNUM, STEPNAME, FK_JOBEXECUTIONID));
+CREATE TABLE JBATCH.GROUPASSOCIATION (FK_JOBINSTANCEID BIGINT, GROUPNAMES VARCHAR(255) );
+CREATE INDEX GA_FKINSTANCEID_IX ON JBATCH.GROUPASSOCIATION (FK_JOBINSTANCEID);
+CREATE TABLE JBATCH.JOBPARAMETER (NAME VARCHAR(255) , VALUE VARCHAR(4096) , FK_JOBEXECID BIGINT);
+CREATE INDEX JP_FKJOBEXECID_IX ON JBATCH.JOBPARAMETER (FK_JOBEXECID);
+ALTER TABLE JBATCH.STEPTHREADEXECUTION ADD CONSTRAINT STPTHRADEXECUTION0 UNIQUE (FK_JOBEXECID, STEPNAME, PARTNUM);
+ALTER TABLE JBATCH.STEPTHREADINSTANCE ADD CONSTRAINT STPTHRFKLTSTSTPXCD FOREIGN KEY (FK_LATEST_STEPEXECID) REFERENCES JBATCH.STEPTHREADEXECUTION (STEPEXECID);
+ALTER TABLE JBATCH.STEPTHREADINSTANCE ADD CONSTRAINT STPTHRDNFKJBNSTNCD FOREIGN KEY (FK_JOBINSTANCEID) REFERENCES JBATCH.JOBINSTANCE (JOBINSTANCEID);
+ALTER TABLE JBATCH.STEPTHREADEXECUTION ADD CONSTRAINT STPTHFKTPLVLSTPXCD FOREIGN KEY (FK_TOPLVL_STEPEXECID) REFERENCES JBATCH.STEPTHREADEXECUTION (STEPEXECID);
+ALTER TABLE JBATCH.STEPTHREADEXECUTION ADD CONSTRAINT STPTHRDXCTNFKJBXCD FOREIGN KEY (FK_JOBEXECID) REFERENCES JBATCH.JOBEXECUTION (JOBEXECID);
+ALTER TABLE JBATCH.JOBEXECUTION ADD CONSTRAINT JBXCTNFKJBNSTNCEID FOREIGN KEY (FK_JOBINSTANCEID) REFERENCES JBATCH.JOBINSTANCE (JOBINSTANCEID);
+ALTER TABLE JBATCH.REMOTABLEPARTITION ADD CONSTRAINT RMTBLPRTFKSTPXCTND FOREIGN KEY (FK_STEPEXECUTIONID) REFERENCES JBATCH.STEPTHREADEXECUTION (STEPEXECID);
+ALTER TABLE JBATCH.REMOTABLEPARTITION ADD CONSTRAINT RMTBLPRTTFKJBXCTND FOREIGN KEY (FK_JOBEXECUTIONID) REFERENCES JBATCH.JOBEXECUTION (JOBEXECID);
+ALTER TABLE JBATCH.GROUPASSOCIATION ADD CONSTRAINT GRPSSCTNFKJBNSTNCD FOREIGN KEY (FK_JOBINSTANCEID) REFERENCES JBATCH.JOBINSTANCE (JOBINSTANCEID);
+ALTER TABLE JBATCH.JOBPARAMETER ADD CONSTRAINT JBPRMETERFKJBXECID FOREIGN KEY (FK_JOBEXECID) REFERENCES JBATCH.JOBEXECUTION (JOBEXECID);
+```
+(2) Create the Job database and user.  
+
+``` shell
+psql postgres
+>postgres=# create database jobdb;
+>postgres=# create user javabatch with password 'change-password';
+>postgres=# grant all privileges on database jobdb to javabatch;
+```
+(3) Create jbatch schema.
+
+``` shell
+psql -d jobdb -U javabatch
+jobdb=> CREATE SCHEMA jbatch;
+```
+(4) Run the modified DDL with javabatch user against the job database.
+
+``` shell
+psql -v ON_ERROR_STOP=1 -1 -U javabatch -f batchPersistence.ddl -d jobdb
+```
+(5) Enable postgresql job repository in batchDs.xml as following.
+
+```
+<server description="fhir-server">
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB" schema="JBATCH">
+    <jdbcDriver libraryRef="fhirSharedLib" />
+    <properties.postgresql 
+        databaseName="jobdb" 
+        portNumber="5432"
+        serverName="postgresql-server-hostname"
+        user="javabatch" 
+        password="change-password" />
+    </dataSource>
+    <batchPersistence jobStoreRef="BatchDatabaseStore"/>
+    <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="JBATCH" tablePrefix=""/>
+</server>
+```
 
 For more information about liberty JavaBatch configuration, please refer to [IBM WebSphere Liberty Java Batch White paper](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/webindex/wp102544).  
 
