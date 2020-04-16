@@ -168,7 +168,6 @@ public class FHIRValidator {
             issues.addAll(visitor.getIssues());
             return issues;
         } catch (Exception e) {
-            e.printStackTrace();
             throw new FHIRValidationException("An error occurred during validation", e);
         }
     }
