@@ -530,6 +530,8 @@ public class Basic extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Basic}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Basic per the base specification
          */
         @Override
         public Basic build() {

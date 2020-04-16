@@ -1404,6 +1404,8 @@ public class CodeSystem extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link CodeSystem}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid CodeSystem per the base specification
          */
         @Override
         public CodeSystem build() {
@@ -1796,6 +1798,8 @@ public class CodeSystem extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Filter}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Filter per the base specification
              */
             @Override
             public Filter build() {
@@ -2147,6 +2151,8 @@ public class CodeSystem extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Property}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Property per the base specification
              */
             @Override
             public Property build() {
@@ -2611,6 +2617,8 @@ public class CodeSystem extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Concept}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Concept per the base specification
              */
             @Override
             public Concept build() {
@@ -2926,6 +2934,8 @@ public class CodeSystem extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Designation}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Designation per the base specification
                  */
                 @Override
                 public Designation build() {
@@ -3210,6 +3220,8 @@ public class CodeSystem extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Property}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Property per the base specification
                  */
                 @Override
                 public Property build() {

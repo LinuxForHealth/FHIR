@@ -982,6 +982,8 @@ public class PractitionerRole extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link PractitionerRole}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid PractitionerRole per the base specification
          */
         @Override
         public PractitionerRole build() {
@@ -1340,6 +1342,8 @@ public class PractitionerRole extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link AvailableTime}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid AvailableTime per the base specification
              */
             @Override
             public AvailableTime build() {
@@ -1609,6 +1613,8 @@ public class PractitionerRole extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link NotAvailable}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid NotAvailable per the base specification
              */
             @Override
             public NotAvailable build() {

@@ -1028,6 +1028,8 @@ public class Composition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Composition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Composition per the base specification
          */
         @Override
         public Composition build() {
@@ -1355,6 +1357,8 @@ public class Composition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Attester}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Attester per the base specification
              */
             @Override
             public Attester build() {
@@ -1640,6 +1644,8 @@ public class Composition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link RelatesTo}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid RelatesTo per the base specification
              */
             @Override
             public RelatesTo build() {
@@ -1990,6 +1996,8 @@ public class Composition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Event}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Event per the base specification
              */
             @Override
             public Event build() {
@@ -2600,6 +2608,8 @@ public class Composition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Section}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Section per the base specification
              */
             @Override
             public Section build() {

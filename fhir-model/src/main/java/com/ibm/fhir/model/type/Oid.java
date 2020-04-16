@@ -171,6 +171,8 @@ public class Oid extends Uri {
          * 
          * @return
          *     An immutable object of type {@link Oid}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Oid per the base specification
          */
         @Override
         public Oid build() {

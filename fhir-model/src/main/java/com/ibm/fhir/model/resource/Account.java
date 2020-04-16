@@ -805,6 +805,8 @@ public class Account extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Account}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Account per the base specification
          */
         @Override
         public Account build() {
@@ -1096,6 +1098,8 @@ public class Account extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Coverage}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Coverage per the base specification
              */
             @Override
             public Coverage build() {
@@ -1403,6 +1407,8 @@ public class Account extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Guarantor}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Guarantor per the base specification
              */
             @Override
             public Guarantor build() {

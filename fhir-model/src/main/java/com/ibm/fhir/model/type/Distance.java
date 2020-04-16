@@ -241,6 +241,8 @@ public class Distance extends Quantity {
          * 
          * @return
          *     An immutable object of type {@link Distance}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Distance per the base specification
          */
         @Override
         public Distance build() {

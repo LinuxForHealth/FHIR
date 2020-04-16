@@ -1079,6 +1079,8 @@ public class Patient extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Patient}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Patient per the base specification
          */
         @Override
         public Patient build() {
@@ -1567,6 +1569,8 @@ public class Patient extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Contact}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Contact per the base specification
              */
             @Override
             public Contact build() {
@@ -1850,6 +1854,8 @@ public class Patient extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Communication}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Communication per the base specification
              */
             @Override
             public Communication build() {
@@ -2137,6 +2143,8 @@ public class Patient extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Link}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Link per the base specification
              */
             @Override
             public Link build() {

@@ -166,6 +166,8 @@ public class Markdown extends String {
          * 
          * @return
          *     An immutable object of type {@link Markdown}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Markdown per the base specification
          */
         @Override
         public Markdown build() {

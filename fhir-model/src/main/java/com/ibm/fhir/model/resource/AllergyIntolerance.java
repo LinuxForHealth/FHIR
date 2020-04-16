@@ -1052,6 +1052,8 @@ public class AllergyIntolerance extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link AllergyIntolerance}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid AllergyIntolerance per the base specification
          */
         @Override
         public AllergyIntolerance build() {
@@ -1567,6 +1569,8 @@ public class AllergyIntolerance extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Reaction}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Reaction per the base specification
              */
             @Override
             public Reaction build() {

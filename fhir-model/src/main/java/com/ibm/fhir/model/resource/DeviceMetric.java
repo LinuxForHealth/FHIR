@@ -772,6 +772,8 @@ public class DeviceMetric extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link DeviceMetric}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid DeviceMetric per the base specification
          */
         @Override
         public DeviceMetric build() {
@@ -1084,6 +1086,8 @@ public class DeviceMetric extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Calibration}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Calibration per the base specification
              */
             @Override
             public Calibration build() {

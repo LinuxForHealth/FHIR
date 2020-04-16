@@ -1079,6 +1079,8 @@ public class Goal extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Goal}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Goal per the base specification
          */
         @Override
         public Goal build() {
@@ -1421,6 +1423,8 @@ public class Goal extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Target}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Target per the base specification
              */
             @Override
             public Target build() {

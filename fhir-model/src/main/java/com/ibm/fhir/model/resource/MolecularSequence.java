@@ -1052,6 +1052,8 @@ public class MolecularSequence extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MolecularSequence}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MolecularSequence per the base specification
          */
         @Override
         public MolecularSequence build() {
@@ -1601,6 +1603,8 @@ public class MolecularSequence extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link ReferenceSeq}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid ReferenceSeq per the base specification
              */
             @Override
             public ReferenceSeq build() {
@@ -2031,6 +2035,8 @@ public class MolecularSequence extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Variant}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Variant per the base specification
              */
             @Override
             public Variant build() {
@@ -2761,6 +2767,8 @@ public class MolecularSequence extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Quality}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Quality per the base specification
              */
             @Override
             public Quality build() {
@@ -3334,6 +3342,8 @@ public class MolecularSequence extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Roc}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Roc per the base specification
                  */
                 @Override
                 public Roc build() {
@@ -3748,6 +3758,8 @@ public class MolecularSequence extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Repository}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Repository per the base specification
              */
             @Override
             public Repository build() {
@@ -4115,6 +4127,8 @@ public class MolecularSequence extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link StructureVariant}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid StructureVariant per the base specification
              */
             @Override
             public StructureVariant build() {
@@ -4382,6 +4396,8 @@ public class MolecularSequence extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Outer}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Outer per the base specification
                  */
                 @Override
                 public Outer build() {
@@ -4647,6 +4663,8 @@ public class MolecularSequence extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Inner}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Inner per the base specification
                  */
                 @Override
                 public Inner build() {

@@ -760,6 +760,8 @@ public class Person extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Person}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Person per the base specification
          */
         @Override
         public Person build() {
@@ -1050,6 +1052,8 @@ public class Person extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Link}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Link per the base specification
              */
             @Override
             public Link build() {

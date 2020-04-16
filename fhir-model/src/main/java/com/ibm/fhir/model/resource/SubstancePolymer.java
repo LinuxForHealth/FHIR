@@ -595,6 +595,8 @@ public class SubstancePolymer extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link SubstancePolymer}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid SubstancePolymer per the base specification
          */
         @Override
         public SubstancePolymer build() {
@@ -879,6 +881,8 @@ public class SubstancePolymer extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link MonomerSet}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid MonomerSet per the base specification
              */
             @Override
             public MonomerSet build() {
@@ -1203,6 +1207,8 @@ public class SubstancePolymer extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link StartingMaterial}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid StartingMaterial per the base specification
                  */
                 @Override
                 public StartingMaterial build() {
@@ -1551,6 +1557,8 @@ public class SubstancePolymer extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Repeat}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Repeat per the base specification
              */
             @Override
             public Repeat build() {
@@ -1949,6 +1957,8 @@ public class SubstancePolymer extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link RepeatUnit}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid RepeatUnit per the base specification
                  */
                 @Override
                 public RepeatUnit build() {
@@ -2212,6 +2222,8 @@ public class SubstancePolymer extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link DegreeOfPolymerisation}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid DegreeOfPolymerisation per the base specification
                      */
                     @Override
                     public DegreeOfPolymerisation build() {
@@ -2505,6 +2517,8 @@ public class SubstancePolymer extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link StructuralRepresentation}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid StructuralRepresentation per the base specification
                      */
                     @Override
                     public StructuralRepresentation build() {

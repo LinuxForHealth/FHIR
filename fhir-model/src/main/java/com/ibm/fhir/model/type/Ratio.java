@@ -219,6 +219,8 @@ public class Ratio extends Element {
          * 
          * @return
          *     An immutable object of type {@link Ratio}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Ratio per the base specification
          */
         @Override
         public Ratio build() {

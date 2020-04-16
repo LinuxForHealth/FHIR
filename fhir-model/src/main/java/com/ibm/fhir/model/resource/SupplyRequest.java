@@ -1002,6 +1002,8 @@ public class SupplyRequest extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link SupplyRequest}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid SupplyRequest per the base specification
          */
         @Override
         public SupplyRequest build() {
@@ -1287,6 +1289,8 @@ public class SupplyRequest extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Parameter}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Parameter per the base specification
              */
             @Override
             public Parameter build() {

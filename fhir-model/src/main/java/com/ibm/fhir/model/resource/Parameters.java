@@ -278,6 +278,8 @@ public class Parameters extends Resource {
          * 
          * @return
          *     An immutable object of type {@link Parameters}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Parameters per the base specification
          */
         @Override
         public Parameters build() {
@@ -684,6 +686,8 @@ public class Parameters extends Resource {
              * 
              * @return
              *     An immutable object of type {@link Parameter}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Parameter per the base specification
              */
             @Override
             public Parameter build() {

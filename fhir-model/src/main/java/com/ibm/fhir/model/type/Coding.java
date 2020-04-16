@@ -313,6 +313,8 @@ public class Coding extends Element {
          * 
          * @return
          *     An immutable object of type {@link Coding}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Coding per the base specification
          */
         @Override
         public Coding build() {

@@ -1766,6 +1766,8 @@ public class ResearchElementDefinition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ResearchElementDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ResearchElementDefinition per the base specification
          */
         @Override
         public ResearchElementDefinition build() {
@@ -2444,6 +2446,8 @@ public class ResearchElementDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Characteristic}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Characteristic per the base specification
              */
             @Override
             public Characteristic build() {

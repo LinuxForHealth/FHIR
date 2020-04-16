@@ -1207,6 +1207,8 @@ public class DiagnosticReport extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link DiagnosticReport}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid DiagnosticReport per the base specification
          */
         @Override
         public DiagnosticReport build() {
@@ -1500,6 +1502,8 @@ public class DiagnosticReport extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Media}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Media per the base specification
              */
             @Override
             public Media build() {

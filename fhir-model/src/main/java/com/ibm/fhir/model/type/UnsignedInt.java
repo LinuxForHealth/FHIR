@@ -184,6 +184,8 @@ public class UnsignedInt extends Integer {
          * 
          * @return
          *     An immutable object of type {@link UnsignedInt}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid UnsignedInt per the base specification
          */
         @Override
         public UnsignedInt build() {

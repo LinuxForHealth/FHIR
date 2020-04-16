@@ -999,6 +999,8 @@ public class CoverageEligibilityResponse extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link CoverageEligibilityResponse}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid CoverageEligibilityResponse per the base specification
          */
         @Override
         public CoverageEligibilityResponse build() {
@@ -1372,6 +1374,8 @@ public class CoverageEligibilityResponse extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Insurance}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Insurance per the base specification
              */
             @Override
             public Insurance build() {
@@ -2116,6 +2120,8 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Item}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Item per the base specification
                  */
                 @Override
                 public Item build() {
@@ -2447,6 +2453,8 @@ public class CoverageEligibilityResponse extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Benefit}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Benefit per the base specification
                      */
                     @Override
                     public Benefit build() {
@@ -2692,6 +2700,8 @@ public class CoverageEligibilityResponse extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Error}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Error per the base specification
              */
             @Override
             public Error build() {

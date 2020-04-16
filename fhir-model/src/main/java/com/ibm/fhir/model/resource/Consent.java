@@ -981,6 +981,8 @@ public class Consent extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Consent}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Consent per the base specification
          */
         @Override
         public Consent build() {
@@ -1255,6 +1257,8 @@ public class Consent extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Policy}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Policy per the base specification
              */
             @Override
             public Policy build() {
@@ -1563,6 +1567,8 @@ public class Consent extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Verification}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Verification per the base specification
              */
             @Override
             public Verification build() {
@@ -2318,6 +2324,8 @@ public class Consent extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Provision}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Provision per the base specification
              */
             @Override
             public Provision build() {
@@ -2620,6 +2628,8 @@ public class Consent extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Actor}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Actor per the base specification
                  */
                 @Override
                 public Actor build() {
@@ -2899,6 +2909,8 @@ public class Consent extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Data}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Data per the base specification
                  */
                 @Override
                 public Data build() {

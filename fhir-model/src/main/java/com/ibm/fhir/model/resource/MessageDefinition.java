@@ -1386,6 +1386,8 @@ public class MessageDefinition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MessageDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MessageDefinition per the base specification
          */
         @Override
         public MessageDefinition build() {
@@ -1753,6 +1755,8 @@ public class MessageDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Focus}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Focus per the base specification
              */
             @Override
             public Focus build() {
@@ -2024,6 +2028,8 @@ public class MessageDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link AllowedResponse}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid AllowedResponse per the base specification
              */
             @Override
             public AllowedResponse build() {

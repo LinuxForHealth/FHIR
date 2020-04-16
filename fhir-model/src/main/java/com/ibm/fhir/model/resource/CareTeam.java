@@ -947,6 +947,8 @@ public class CareTeam extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link CareTeam}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid CareTeam per the base specification
          */
         @Override
         public CareTeam build() {
@@ -1329,6 +1331,8 @@ public class CareTeam extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Participant}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Participant per the base specification
              */
             @Override
             public Participant build() {

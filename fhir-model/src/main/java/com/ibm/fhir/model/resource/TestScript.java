@@ -1433,6 +1433,8 @@ public class TestScript extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link TestScript}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid TestScript per the base specification
          */
         @Override
         public TestScript build() {
@@ -1731,6 +1733,8 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Origin}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Origin per the base specification
              */
             @Override
             public Origin build() {
@@ -2008,6 +2012,8 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Destination}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Destination per the base specification
              */
             @Override
             public Destination build() {
@@ -2317,6 +2323,8 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Metadata}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Metadata per the base specification
              */
             @Override
             public Metadata build() {
@@ -2583,6 +2591,8 @@ public class TestScript extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Link}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Link per the base specification
                  */
                 @Override
                 public Link build() {
@@ -3059,6 +3069,8 @@ public class TestScript extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Capability}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Capability per the base specification
                  */
                 @Override
                 public Capability build() {
@@ -3375,6 +3387,8 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Fixture}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Fixture per the base specification
              */
             @Override
             public Fixture build() {
@@ -3833,6 +3847,8 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Variable}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Variable per the base specification
              */
             @Override
             public Variable build() {
@@ -4097,6 +4113,8 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Setup}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Setup per the base specification
              */
             @Override
             public Setup build() {
@@ -4354,6 +4372,8 @@ public class TestScript extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Action}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Action per the base specification
                  */
                 @Override
                 public Action build() {
@@ -5141,6 +5161,8 @@ public class TestScript extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Operation}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Operation per the base specification
                      */
                     @Override
                     public Operation build() {
@@ -5426,6 +5448,8 @@ public class TestScript extends DomainResource {
                          * 
                          * @return
                          *     An immutable object of type {@link RequestHeader}
+                         * @throws IllegalStateException
+                         *     if the current state cannot be built into a valid RequestHeader per the base specification
                          */
                         @Override
                         public RequestHeader build() {
@@ -6359,6 +6383,8 @@ public class TestScript extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Assert}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Assert per the base specification
                      */
                     @Override
                     public Assert build() {
@@ -6701,6 +6727,8 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Test}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Test per the base specification
              */
             @Override
             public Test build() {
@@ -6960,6 +6988,8 @@ public class TestScript extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Action}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Action per the base specification
                  */
                 @Override
                 public Action build() {
@@ -7219,6 +7249,8 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Teardown}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Teardown per the base specification
              */
             @Override
             public Teardown build() {
@@ -7453,6 +7485,8 @@ public class TestScript extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Action}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Action per the base specification
                  */
                 @Override
                 public Action build() {

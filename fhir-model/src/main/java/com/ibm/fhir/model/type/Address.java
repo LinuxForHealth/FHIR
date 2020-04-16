@@ -517,6 +517,8 @@ public class Address extends Element {
          * 
          * @return
          *     An immutable object of type {@link Address}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Address per the base specification
          */
         @Override
         public Address build() {

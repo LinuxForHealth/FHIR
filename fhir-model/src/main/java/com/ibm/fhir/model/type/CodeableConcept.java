@@ -236,6 +236,8 @@ public class CodeableConcept extends Element {
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid CodeableConcept per the base specification
          */
         @Override
         public CodeableConcept build() {

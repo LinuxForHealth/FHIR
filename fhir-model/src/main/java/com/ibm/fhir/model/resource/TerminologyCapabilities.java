@@ -1299,6 +1299,8 @@ public class TerminologyCapabilities extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link TerminologyCapabilities}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid TerminologyCapabilities per the base specification
          */
         @Override
         public TerminologyCapabilities build() {
@@ -1590,6 +1592,8 @@ public class TerminologyCapabilities extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Software}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Software per the base specification
              */
             @Override
             public Software build() {
@@ -1860,6 +1864,8 @@ public class TerminologyCapabilities extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Implementation}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Implementation per the base specification
              */
             @Override
             public Implementation build() {
@@ -2171,6 +2177,8 @@ public class TerminologyCapabilities extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link CodeSystem}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid CodeSystem per the base specification
              */
             @Override
             public CodeSystem build() {
@@ -2616,6 +2624,8 @@ public class TerminologyCapabilities extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Version}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Version per the base specification
                  */
                 @Override
                 public Version build() {
@@ -2912,6 +2922,8 @@ public class TerminologyCapabilities extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Filter}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Filter per the base specification
                      */
                     @Override
                     public Filter build() {
@@ -3286,6 +3298,8 @@ public class TerminologyCapabilities extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Expansion}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Expansion per the base specification
              */
             @Override
             public Expansion build() {
@@ -3555,6 +3569,8 @@ public class TerminologyCapabilities extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Parameter}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Parameter per the base specification
                  */
                 @Override
                 public Parameter build() {
@@ -3792,6 +3808,8 @@ public class TerminologyCapabilities extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link ValidateCode}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid ValidateCode per the base specification
              */
             @Override
             public ValidateCode build() {
@@ -4027,6 +4045,8 @@ public class TerminologyCapabilities extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Translation}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Translation per the base specification
              */
             @Override
             public Translation build() {
@@ -4254,6 +4274,8 @@ public class TerminologyCapabilities extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Closure}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Closure per the base specification
              */
             @Override
             public Closure build() {
