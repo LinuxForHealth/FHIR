@@ -22,7 +22,7 @@ To create the PostgreSql database and database user, use the following commands:
 ``` shell
 psql postgres
 >postgres=# create database fhirdb;
->postgres=# postgres=# create user fhirserver with password 'change-password';
+>postgres=# create user fhirserver with password 'change-password';
 >postgres=# grant all privileges on database fhirdata to fhirserver;
 ```
 
