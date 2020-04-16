@@ -11,6 +11,14 @@
             securityMechanism="15" 
             serverName="${env.BATCH_DB_HOSTNAME}"
             sslConnection="true" /> -->
+        
+        <!-- <properties.postgresql 
+            databaseName="jobdb" 
+            portNumber="5432"
+            serverName="localhost"
+            user="javabatch" 
+            password="change-password" /> -->
+            
         <properties.derby.embedded databaseName="derby/fhirDB" />
     </dataSource>
     
