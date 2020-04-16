@@ -472,6 +472,8 @@ public class Linkage extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Linkage}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Linkage per the base specification
          */
         @Override
         public Linkage build() {
@@ -754,6 +756,8 @@ public class Linkage extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Item}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Item per the base specification
              */
             @Override
             public Item build() {

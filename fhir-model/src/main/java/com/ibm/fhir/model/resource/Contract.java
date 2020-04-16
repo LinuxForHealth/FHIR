@@ -1795,6 +1795,8 @@ public class Contract extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Contract}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Contract per the base specification
          */
         @Override
         public Contract build() {
@@ -2259,6 +2261,8 @@ public class Contract extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link ContentDefinition}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid ContentDefinition per the base specification
              */
             @Override
             public ContentDefinition build() {
@@ -2953,6 +2957,8 @@ public class Contract extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Term}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Term per the base specification
              */
             @Override
             public Term build() {
@@ -3375,6 +3381,8 @@ public class Contract extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link SecurityLabel}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid SecurityLabel per the base specification
                  */
                 @Override
                 public SecurityLabel build() {
@@ -4027,6 +4035,8 @@ public class Contract extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Offer}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Offer per the base specification
                  */
                 @Override
                 public Offer build() {
@@ -4333,6 +4343,8 @@ public class Contract extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Party}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Party per the base specification
                      */
                     @Override
                     public Party build() {
@@ -4590,6 +4602,8 @@ public class Contract extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Answer}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Answer per the base specification
                      */
                     @Override
                     public Answer build() {
@@ -5506,6 +5520,8 @@ public class Contract extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Asset}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Asset per the base specification
                  */
                 @Override
                 public Asset build() {
@@ -5836,6 +5852,8 @@ public class Contract extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Context}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Context per the base specification
                      */
                     @Override
                     public Context build() {
@@ -6552,6 +6570,8 @@ public class Contract extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link ValuedItem}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid ValuedItem per the base specification
                      */
                     @Override
                     public ValuedItem build() {
@@ -7774,6 +7794,8 @@ public class Contract extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Action}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Action per the base specification
                  */
                 @Override
                 public Action build() {
@@ -8087,6 +8109,8 @@ public class Contract extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Subject}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Subject per the base specification
                      */
                     @Override
                     public Subject build() {
@@ -8436,6 +8460,8 @@ public class Contract extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Signer}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Signer per the base specification
              */
             @Override
             public Signer build() {
@@ -8685,6 +8711,8 @@ public class Contract extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Friendly}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Friendly per the base specification
              */
             @Override
             public Friendly build() {
@@ -8927,6 +8955,8 @@ public class Contract extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Legal}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Legal per the base specification
              */
             @Override
             public Legal build() {
@@ -9169,6 +9199,8 @@ public class Contract extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Rule}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Rule per the base specification
              */
             @Override
             public Rule build() {

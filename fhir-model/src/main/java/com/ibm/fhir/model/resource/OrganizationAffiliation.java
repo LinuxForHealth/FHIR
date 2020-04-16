@@ -901,6 +901,8 @@ public class OrganizationAffiliation extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link OrganizationAffiliation}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid OrganizationAffiliation per the base specification
          */
         @Override
         public OrganizationAffiliation build() {

@@ -1567,6 +1567,8 @@ public class Evidence extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Evidence}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Evidence per the base specification
          */
         @Override
         public Evidence build() {

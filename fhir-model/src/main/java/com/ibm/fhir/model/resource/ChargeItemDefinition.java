@@ -1356,6 +1356,8 @@ public class ChargeItemDefinition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ChargeItemDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ChargeItemDefinition per the base specification
          */
         @Override
         public ChargeItemDefinition build() {
@@ -1672,6 +1674,8 @@ public class ChargeItemDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Applicability}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Applicability per the base specification
              */
             @Override
             public Applicability build() {
@@ -1982,6 +1986,8 @@ public class ChargeItemDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link PropertyGroup}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid PropertyGroup per the base specification
              */
             @Override
             public PropertyGroup build() {
@@ -2321,6 +2327,8 @@ public class ChargeItemDefinition extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link PriceComponent}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid PriceComponent per the base specification
                  */
                 @Override
                 public PriceComponent build() {

@@ -427,6 +427,8 @@ public class Attachment extends Element {
          * 
          * @return
          *     An immutable object of type {@link Attachment}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Attachment per the base specification
          */
         @Override
         public Attachment build() {

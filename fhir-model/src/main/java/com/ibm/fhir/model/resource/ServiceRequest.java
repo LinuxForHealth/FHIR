@@ -1941,6 +1941,8 @@ public class ServiceRequest extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ServiceRequest}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ServiceRequest per the base specification
          */
         @Override
         public ServiceRequest build() {

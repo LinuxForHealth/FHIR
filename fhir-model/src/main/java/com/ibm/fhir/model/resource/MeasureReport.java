@@ -830,6 +830,8 @@ public class MeasureReport extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MeasureReport}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MeasureReport per the base specification
          */
         @Override
         public MeasureReport build() {
@@ -1206,6 +1208,8 @@ public class MeasureReport extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Group}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Group per the base specification
              */
             @Override
             public Group build() {
@@ -1512,6 +1516,8 @@ public class MeasureReport extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Population}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Population per the base specification
                  */
                 @Override
                 public Population build() {
@@ -1816,6 +1822,8 @@ public class MeasureReport extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Stratifier}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Stratifier per the base specification
                  */
                 @Override
                 public Stratifier build() {
@@ -2181,6 +2189,8 @@ public class MeasureReport extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Stratum}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Stratum per the base specification
                      */
                     @Override
                     public Stratum build() {
@@ -2453,6 +2463,8 @@ public class MeasureReport extends DomainResource {
                          * 
                          * @return
                          *     An immutable object of type {@link Component}
+                         * @throws IllegalStateException
+                         *     if the current state cannot be built into a valid Component per the base specification
                          */
                         @Override
                         public Component build() {
@@ -2759,6 +2771,8 @@ public class MeasureReport extends DomainResource {
                          * 
                          * @return
                          *     An immutable object of type {@link Population}
+                         * @throws IllegalStateException
+                         *     if the current state cannot be built into a valid Population per the base specification
                          */
                         @Override
                         public Population build() {

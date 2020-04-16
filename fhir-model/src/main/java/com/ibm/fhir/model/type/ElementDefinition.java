@@ -1914,6 +1914,8 @@ public class ElementDefinition extends BackboneElement {
          * 
          * @return
          *     An immutable object of type {@link ElementDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ElementDefinition per the base specification
          */
         @Override
         public ElementDefinition build() {
@@ -2316,6 +2318,8 @@ public class ElementDefinition extends BackboneElement {
              * 
              * @return
              *     An immutable object of type {@link Slicing}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Slicing per the base specification
              */
             @Override
             public Slicing build() {
@@ -2598,6 +2602,8 @@ public class ElementDefinition extends BackboneElement {
                  * 
                  * @return
                  *     An immutable object of type {@link Discriminator}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Discriminator per the base specification
                  */
                 @Override
                 public Discriminator build() {
@@ -2914,6 +2920,8 @@ public class ElementDefinition extends BackboneElement {
              * 
              * @return
              *     An immutable object of type {@link Base}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Base per the base specification
              */
             @Override
             public Base build() {
@@ -3387,6 +3395,8 @@ public class ElementDefinition extends BackboneElement {
              * 
              * @return
              *     An immutable object of type {@link Type}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Type per the base specification
              */
             @Override
             public Type build() {
@@ -3716,6 +3726,8 @@ public class ElementDefinition extends BackboneElement {
              * 
              * @return
              *     An immutable object of type {@link Example}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Example per the base specification
              */
             @Override
             public Example build() {
@@ -4160,6 +4172,8 @@ public class ElementDefinition extends BackboneElement {
              * 
              * @return
              *     An immutable object of type {@link Constraint}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Constraint per the base specification
              */
             @Override
             public Constraint build() {
@@ -4473,6 +4487,8 @@ public class ElementDefinition extends BackboneElement {
              * 
              * @return
              *     An immutable object of type {@link Binding}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Binding per the base specification
              */
             @Override
             public Binding build() {
@@ -4815,6 +4831,8 @@ public class ElementDefinition extends BackboneElement {
              * 
              * @return
              *     An immutable object of type {@link Mapping}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Mapping per the base specification
              */
             @Override
             public Mapping build() {

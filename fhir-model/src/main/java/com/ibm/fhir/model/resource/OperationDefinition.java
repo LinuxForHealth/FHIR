@@ -1407,6 +1407,8 @@ public class OperationDefinition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link OperationDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid OperationDefinition per the base specification
          */
         @Override
         public OperationDefinition build() {
@@ -2078,6 +2080,8 @@ public class OperationDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Parameter}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Parameter per the base specification
              */
             @Override
             public Parameter build() {
@@ -2365,6 +2369,8 @@ public class OperationDefinition extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Binding}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Binding per the base specification
                  */
                 @Override
                 public Binding build() {
@@ -2634,6 +2640,8 @@ public class OperationDefinition extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link ReferencedFrom}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid ReferencedFrom per the base specification
                  */
                 @Override
                 public ReferencedFrom build() {
@@ -2915,6 +2923,8 @@ public class OperationDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Overload}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Overload per the base specification
              */
             @Override
             public Overload build() {

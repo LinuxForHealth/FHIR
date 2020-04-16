@@ -680,6 +680,8 @@ public class AppointmentResponse extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link AppointmentResponse}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid AppointmentResponse per the base specification
          */
         @Override
         public AppointmentResponse build() {

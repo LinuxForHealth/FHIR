@@ -1648,6 +1648,8 @@ public class StructureDefinition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link StructureDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid StructureDefinition per the base specification
          */
         @Override
         public StructureDefinition build() {
@@ -2001,6 +2003,8 @@ public class StructureDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Mapping}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Mapping per the base specification
              */
             @Override
             public Mapping build() {
@@ -2282,6 +2286,8 @@ public class StructureDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Context}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Context per the base specification
              */
             @Override
             public Context build() {
@@ -2541,6 +2547,8 @@ public class StructureDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Snapshot}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Snapshot per the base specification
              */
             @Override
             public Snapshot build() {
@@ -2798,6 +2806,8 @@ public class StructureDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Differential}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Differential per the base specification
              */
             @Override
             public Differential build() {

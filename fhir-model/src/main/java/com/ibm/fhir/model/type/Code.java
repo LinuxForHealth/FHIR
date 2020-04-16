@@ -173,6 +173,8 @@ public class Code extends String {
          * 
          * @return
          *     An immutable object of type {@link Code}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Code per the base specification
          */
         @Override
         public Code build() {

@@ -191,6 +191,8 @@ public class Base64Binary extends Element {
          * 
          * @return
          *     An immutable object of type {@link Base64Binary}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Base64Binary per the base specification
          */
         @Override
         public Base64Binary build() {

@@ -188,6 +188,8 @@ public class Canonical extends Uri {
          * 
          * @return
          *     An immutable object of type {@link Canonical}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Canonical per the base specification
          */
         @Override
         public Canonical build() {

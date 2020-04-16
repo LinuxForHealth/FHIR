@@ -752,6 +752,8 @@ public class MedicinalProductPackaged extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MedicinalProductPackaged}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MedicinalProductPackaged per the base specification
          */
         @Override
         public MedicinalProductPackaged build() {
@@ -1027,6 +1029,8 @@ public class MedicinalProductPackaged extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link BatchIdentifier}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid BatchIdentifier per the base specification
              */
             @Override
             public BatchIdentifier build() {
@@ -1800,6 +1804,8 @@ public class MedicinalProductPackaged extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link PackageItem}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid PackageItem per the base specification
              */
             @Override
             public PackageItem build() {

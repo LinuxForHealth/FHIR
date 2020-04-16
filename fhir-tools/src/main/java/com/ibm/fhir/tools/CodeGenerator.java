@@ -708,6 +708,8 @@ public class CodeGenerator {
                 cb.javadoc("");
             }
             cb.javadocReturn("An immutable object of type {@link " + className + "}");
+            cb.javadocThrows("IllegalStateException", "if the current state cannot be built into a valid "
+                    + className + " per the base specification");
             cb.javadocEnd();
             cb.override();
             cb.method(mods("public"), className, "build")

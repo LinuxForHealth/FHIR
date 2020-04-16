@@ -1084,6 +1084,8 @@ public class ConceptMap extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ConceptMap}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ConceptMap per the base specification
          */
         @Override
         public ConceptMap build() {
@@ -1514,6 +1516,8 @@ public class ConceptMap extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Group}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Group per the base specification
              */
             @Override
             public Group build() {
@@ -1827,6 +1831,8 @@ public class ConceptMap extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Element}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Element per the base specification
                  */
                 @Override
                 public Element build() {
@@ -2275,6 +2281,8 @@ public class ConceptMap extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Target}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Target per the base specification
                      */
                     @Override
                     public Target build() {
@@ -2616,6 +2624,8 @@ public class ConceptMap extends DomainResource {
                          * 
                          * @return
                          *     An immutable object of type {@link DependsOn}
+                         * @throws IllegalStateException
+                         *     if the current state cannot be built into a valid DependsOn per the base specification
                          */
                         @Override
                         public DependsOn build() {
@@ -2964,6 +2974,8 @@ public class ConceptMap extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Unmapped}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Unmapped per the base specification
                  */
                 @Override
                 public Unmapped build() {

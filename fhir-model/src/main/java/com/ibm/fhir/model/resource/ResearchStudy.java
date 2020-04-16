@@ -1497,6 +1497,8 @@ public class ResearchStudy extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ResearchStudy}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ResearchStudy per the base specification
          */
         @Override
         public ResearchStudy build() {
@@ -1817,6 +1819,8 @@ public class ResearchStudy extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Arm}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Arm per the base specification
              */
             @Override
             public Arm build() {
@@ -2084,6 +2088,8 @@ public class ResearchStudy extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Objective}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Objective per the base specification
              */
             @Override
             public Objective build() {

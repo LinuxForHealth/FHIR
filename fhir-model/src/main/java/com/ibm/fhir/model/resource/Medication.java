@@ -660,6 +660,8 @@ public class Medication extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Medication}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Medication per the base specification
          */
         @Override
         public Medication build() {
@@ -972,6 +974,8 @@ public class Medication extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Ingredient}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Ingredient per the base specification
              */
             @Override
             public Ingredient build() {
@@ -1232,6 +1236,8 @@ public class Medication extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Batch}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Batch per the base specification
              */
             @Override
             public Batch build() {

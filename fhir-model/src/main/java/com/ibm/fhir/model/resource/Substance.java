@@ -660,6 +660,8 @@ public class Substance extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Substance}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Substance per the base specification
          */
         @Override
         public Substance build() {
@@ -957,6 +959,8 @@ public class Substance extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Instance}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Instance per the base specification
              */
             @Override
             public Instance build() {
@@ -1240,6 +1244,8 @@ public class Substance extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Ingredient}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Ingredient per the base specification
              */
             @Override
             public Ingredient build() {

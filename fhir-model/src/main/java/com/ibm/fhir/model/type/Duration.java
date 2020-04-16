@@ -241,6 +241,8 @@ public class Duration extends Quantity {
          * 
          * @return
          *     An immutable object of type {@link Duration}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Duration per the base specification
          */
         @Override
         public Duration build() {

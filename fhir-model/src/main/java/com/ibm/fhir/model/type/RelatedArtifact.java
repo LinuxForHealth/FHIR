@@ -393,6 +393,8 @@ public class RelatedArtifact extends Element {
          * 
          * @return
          *     An immutable object of type {@link RelatedArtifact}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid RelatedArtifact per the base specification
          */
         @Override
         public RelatedArtifact build() {

@@ -1522,6 +1522,8 @@ public class Observation extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Observation}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Observation per the base specification
          */
         @Override
         public Observation build() {
@@ -1983,6 +1985,8 @@ public class Observation extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link ReferenceRange}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid ReferenceRange per the base specification
              */
             @Override
             public ReferenceRange build() {
@@ -2425,6 +2429,8 @@ public class Observation extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Component}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Component per the base specification
              */
             @Override
             public Component build() {

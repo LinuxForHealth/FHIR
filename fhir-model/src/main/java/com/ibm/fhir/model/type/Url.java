@@ -166,6 +166,8 @@ public class Url extends Uri {
          * 
          * @return
          *     An immutable object of type {@link Url}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Url per the base specification
          */
         @Override
         public Url build() {

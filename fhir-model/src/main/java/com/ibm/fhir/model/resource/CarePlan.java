@@ -1439,6 +1439,8 @@ public class CarePlan extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link CarePlan}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid CarePlan per the base specification
          */
         @Override
         public CarePlan build() {
@@ -1904,6 +1906,8 @@ public class CarePlan extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Activity}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Activity per the base specification
              */
             @Override
             public Activity build() {
@@ -2834,6 +2838,8 @@ public class CarePlan extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Detail}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Detail per the base specification
                  */
                 @Override
                 public Detail build() {

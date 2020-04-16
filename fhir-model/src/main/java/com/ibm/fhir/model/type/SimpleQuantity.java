@@ -236,6 +236,8 @@ public class SimpleQuantity extends Quantity {
          * 
          * @return
          *     An immutable object of type {@link SimpleQuantity}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid SimpleQuantity per the base specification
          */
         @Override
         public SimpleQuantity build() {

@@ -959,6 +959,8 @@ public class GraphDefinition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link GraphDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid GraphDefinition per the base specification
          */
         @Override
         public GraphDefinition build() {
@@ -1374,6 +1376,8 @@ public class GraphDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Link}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Link per the base specification
              */
             @Override
             public Link build() {
@@ -1783,6 +1787,8 @@ public class GraphDefinition extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Target}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Target per the base specification
                  */
                 @Override
                 public Target build() {
@@ -2173,6 +2179,8 @@ public class GraphDefinition extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Compartment}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Compartment per the base specification
                      */
                     @Override
                     public Compartment build() {

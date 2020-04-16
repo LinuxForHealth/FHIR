@@ -1492,6 +1492,8 @@ public class ClaimResponse extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ClaimResponse}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ClaimResponse per the base specification
          */
         @Override
         public ClaimResponse build() {
@@ -1915,6 +1917,8 @@ public class ClaimResponse extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Item}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Item per the base specification
              */
             @Override
             public Item build() {
@@ -2262,6 +2266,8 @@ public class ClaimResponse extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Adjudication}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Adjudication per the base specification
                  */
                 @Override
                 public Adjudication build() {
@@ -2659,6 +2665,8 @@ public class ClaimResponse extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Detail}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Detail per the base specification
                  */
                 @Override
                 public Detail build() {
@@ -2998,6 +3006,8 @@ public class ClaimResponse extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link SubDetail}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid SubDetail per the base specification
                      */
                     @Override
                     public SubDetail build() {
@@ -4027,6 +4037,8 @@ public class ClaimResponse extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link AddItem}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid AddItem per the base specification
              */
             @Override
             public AddItem build() {
@@ -4630,6 +4642,8 @@ public class ClaimResponse extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Detail}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Detail per the base specification
                  */
                 @Override
                 public Detail build() {
@@ -5173,6 +5187,8 @@ public class ClaimResponse extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link SubDetail}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid SubDetail per the base specification
                      */
                     @Override
                     public SubDetail build() {
@@ -5464,6 +5480,8 @@ public class ClaimResponse extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Total}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Total per the base specification
              */
             @Override
             public Total build() {
@@ -5873,6 +5891,8 @@ public class ClaimResponse extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Payment}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Payment per the base specification
              */
             @Override
             public Payment build() {
@@ -6219,6 +6239,8 @@ public class ClaimResponse extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link ProcessNote}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid ProcessNote per the base specification
              */
             @Override
             public ProcessNote build() {
@@ -6607,6 +6629,8 @@ public class ClaimResponse extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Insurance}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Insurance per the base specification
              */
             @Override
             public Insurance build() {
@@ -6951,6 +6975,8 @@ public class ClaimResponse extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Error}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Error per the base specification
              */
             @Override
             public Error build() {

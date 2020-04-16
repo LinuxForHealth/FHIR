@@ -2078,6 +2078,8 @@ public class Measure extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Measure}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Measure per the base specification
          */
         @Override
         public Measure build() {
@@ -2482,6 +2484,8 @@ public class Measure extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Group}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Group per the base specification
              */
             @Override
             public Group build() {
@@ -2788,6 +2792,8 @@ public class Measure extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Population}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Population per the base specification
                  */
                 @Override
                 public Population build() {
@@ -3138,6 +3144,8 @@ public class Measure extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Stratifier}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Stratifier per the base specification
                  */
                 @Override
                 public Stratifier build() {
@@ -3442,6 +3450,8 @@ public class Measure extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Component}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Component per the base specification
                      */
                     @Override
                     public Component build() {
@@ -3815,6 +3825,8 @@ public class Measure extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link SupplementalData}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid SupplementalData per the base specification
              */
             @Override
             public SupplementalData build() {

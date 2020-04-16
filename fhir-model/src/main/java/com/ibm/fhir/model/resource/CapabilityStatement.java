@@ -1585,6 +1585,8 @@ public class CapabilityStatement extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link CapabilityStatement}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid CapabilityStatement per the base specification
          */
         @Override
         public CapabilityStatement build() {
@@ -1910,6 +1912,8 @@ public class CapabilityStatement extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Software}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Software per the base specification
              */
             @Override
             public Software build() {
@@ -2224,6 +2228,8 @@ public class CapabilityStatement extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Implementation}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Implementation per the base specification
              */
             @Override
             public Implementation build() {
@@ -2794,6 +2800,8 @@ public class CapabilityStatement extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Rest}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Rest per the base specification
              */
             @Override
             public Rest build() {
@@ -3117,6 +3125,8 @@ public class CapabilityStatement extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Security}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Security per the base specification
                  */
                 @Override
                 public Security build() {
@@ -4056,6 +4066,8 @@ public class CapabilityStatement extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Resource}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Resource per the base specification
                  */
                 @Override
                 public Resource build() {
@@ -4345,6 +4357,8 @@ public class CapabilityStatement extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Interaction}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Interaction per the base specification
                      */
                     @Override
                     public Interaction build() {
@@ -4693,6 +4707,8 @@ public class CapabilityStatement extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link SearchParam}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid SearchParam per the base specification
                      */
                     @Override
                     public SearchParam build() {
@@ -5012,6 +5028,8 @@ public class CapabilityStatement extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Operation}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Operation per the base specification
                      */
                     @Override
                     public Operation build() {
@@ -5289,6 +5307,8 @@ public class CapabilityStatement extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Interaction}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Interaction per the base specification
                  */
                 @Override
                 public Interaction build() {
@@ -5656,6 +5676,8 @@ public class CapabilityStatement extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Messaging}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Messaging per the base specification
              */
             @Override
             public Messaging build() {
@@ -5936,6 +5958,8 @@ public class CapabilityStatement extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Endpoint}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Endpoint per the base specification
                  */
                 @Override
                 public Endpoint build() {
@@ -6215,6 +6239,8 @@ public class CapabilityStatement extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link SupportedMessage}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid SupportedMessage per the base specification
                  */
                 @Override
                 public SupportedMessage build() {
@@ -6528,6 +6554,8 @@ public class CapabilityStatement extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Document}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Document per the base specification
              */
             @Override
             public Document build() {

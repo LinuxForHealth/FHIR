@@ -1370,6 +1370,8 @@ public class Appointment extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Appointment}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Appointment per the base specification
          */
         @Override
         public Appointment build() {
@@ -1806,6 +1808,8 @@ public class Appointment extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Participant}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Participant per the base specification
              */
             @Override
             public Participant build() {

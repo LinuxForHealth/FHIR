@@ -995,6 +995,8 @@ public class InsurancePlan extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link InsurancePlan}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid InsurancePlan per the base specification
          */
         @Override
         public InsurancePlan build() {
@@ -1353,6 +1355,8 @@ public class InsurancePlan extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Contact}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Contact per the base specification
              */
             @Override
             public Contact build() {
@@ -1701,6 +1705,8 @@ public class InsurancePlan extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Coverage}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Coverage per the base specification
              */
             @Override
             public Coverage build() {
@@ -2019,6 +2025,8 @@ public class InsurancePlan extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Benefit}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Benefit per the base specification
                  */
                 @Override
                 public Benefit build() {
@@ -2280,6 +2288,8 @@ public class InsurancePlan extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Limit}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Limit per the base specification
                      */
                     @Override
                     public Limit build() {
@@ -2770,6 +2780,8 @@ public class InsurancePlan extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Plan}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Plan per the base specification
              */
             @Override
             public Plan build() {
@@ -3094,6 +3106,8 @@ public class InsurancePlan extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link GeneralCost}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid GeneralCost per the base specification
                  */
                 @Override
                 public GeneralCost build() {
@@ -3383,6 +3397,8 @@ public class InsurancePlan extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link SpecificCost}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid SpecificCost per the base specification
                  */
                 @Override
                 public SpecificCost build() {
@@ -3671,6 +3687,8 @@ public class InsurancePlan extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Benefit}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Benefit per the base specification
                      */
                     @Override
                     public Benefit build() {
@@ -4028,6 +4046,8 @@ public class InsurancePlan extends DomainResource {
                          * 
                          * @return
                          *     An immutable object of type {@link Cost}
+                         * @throws IllegalStateException
+                         *     if the current state cannot be built into a valid Cost per the base specification
                          */
                         @Override
                         public Cost build() {

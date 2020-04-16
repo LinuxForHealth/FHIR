@@ -241,6 +241,8 @@ public class Age extends Quantity {
          * 
          * @return
          *     An immutable object of type {@link Age}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Age per the base specification
          */
         @Override
         public Age build() {

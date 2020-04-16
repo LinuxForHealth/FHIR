@@ -803,6 +803,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link BiologicallyDerivedProduct}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid BiologicallyDerivedProduct per the base specification
          */
         @Override
         public BiologicallyDerivedProduct build() {
@@ -1126,6 +1128,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Collection}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Collection per the base specification
              */
             @Override
             public Collection build() {
@@ -1469,6 +1473,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Processing}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Processing per the base specification
              */
             @Override
             public Processing build() {
@@ -1738,6 +1744,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Manipulation}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Manipulation per the base specification
              */
             @Override
             public Manipulation build() {
@@ -2065,6 +2073,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Storage}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Storage per the base specification
              */
             @Override
             public Storage build() {

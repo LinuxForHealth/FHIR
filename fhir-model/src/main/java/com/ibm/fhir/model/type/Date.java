@@ -206,6 +206,8 @@ public class Date extends Element {
          * 
          * @return
          *     An immutable object of type {@link Date}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Date per the base specification
          */
         @Override
         public Date build() {

@@ -234,6 +234,8 @@ public class ContactDetail extends Element {
          * 
          * @return
          *     An immutable object of type {@link ContactDetail}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ContactDetail per the base specification
          */
         @Override
         public ContactDetail build() {

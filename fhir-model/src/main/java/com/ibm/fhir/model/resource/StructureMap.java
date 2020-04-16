@@ -1180,6 +1180,8 @@ public class StructureMap extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link StructureMap}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid StructureMap per the base specification
          */
         @Override
         public StructureMap build() {
@@ -1538,6 +1540,8 @@ public class StructureMap extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Structure}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Structure per the base specification
              */
             @Override
             public Structure build() {
@@ -1999,6 +2003,8 @@ public class StructureMap extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Group}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Group per the base specification
              */
             @Override
             public Group build() {
@@ -2344,6 +2350,8 @@ public class StructureMap extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Input}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Input per the base specification
                  */
                 @Override
                 public Input build() {
@@ -2828,6 +2836,8 @@ public class StructureMap extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Rule}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Rule per the base specification
                  */
                 @Override
                 public Rule build() {
@@ -3455,6 +3465,8 @@ public class StructureMap extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Source}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Source per the base specification
                      */
                     @Override
                     public Source build() {
@@ -3975,6 +3987,8 @@ public class StructureMap extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Target}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Target per the base specification
                      */
                     @Override
                     public Target build() {
@@ -4227,6 +4241,8 @@ public class StructureMap extends DomainResource {
                          * 
                          * @return
                          *     An immutable object of type {@link Parameter}
+                         * @throws IllegalStateException
+                         *     if the current state cannot be built into a valid Parameter per the base specification
                          */
                         @Override
                         public Parameter build() {
@@ -4522,6 +4538,8 @@ public class StructureMap extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Dependent}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Dependent per the base specification
                      */
                     @Override
                     public Dependent build() {

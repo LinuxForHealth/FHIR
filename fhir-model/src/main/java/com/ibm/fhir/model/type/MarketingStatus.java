@@ -406,6 +406,8 @@ public class MarketingStatus extends BackboneElement {
          * 
          * @return
          *     An immutable object of type {@link MarketingStatus}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MarketingStatus per the base specification
          */
         @Override
         public MarketingStatus build() {

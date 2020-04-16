@@ -1159,6 +1159,8 @@ public class NutritionOrder extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link NutritionOrder}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid NutritionOrder per the base specification
          */
         @Override
         public NutritionOrder build() {
@@ -1676,6 +1678,8 @@ public class NutritionOrder extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link OralDiet}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid OralDiet per the base specification
              */
             @Override
             public OralDiet build() {
@@ -1945,6 +1949,8 @@ public class NutritionOrder extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Nutrient}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Nutrient per the base specification
                  */
                 @Override
                 public Nutrient build() {
@@ -2216,6 +2222,8 @@ public class NutritionOrder extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Texture}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Texture per the base specification
                  */
                 @Override
                 public Texture build() {
@@ -2600,6 +2608,8 @@ public class NutritionOrder extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Supplement}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Supplement per the base specification
              */
             @Override
             public Supplement build() {
@@ -3136,6 +3146,8 @@ public class NutritionOrder extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link EnteralFormula}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid EnteralFormula per the base specification
              */
             @Override
             public EnteralFormula build() {
@@ -3441,6 +3453,8 @@ public class NutritionOrder extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Administration}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Administration per the base specification
                  */
                 @Override
                 public Administration build() {

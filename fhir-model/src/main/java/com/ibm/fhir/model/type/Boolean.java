@@ -196,6 +196,8 @@ public class Boolean extends Element {
          * 
          * @return
          *     An immutable object of type {@link Boolean}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Boolean per the base specification
          */
         @Override
         public Boolean build() {

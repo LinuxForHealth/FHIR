@@ -535,6 +535,8 @@ public class SubstanceProtein extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link SubstanceProtein}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid SubstanceProtein per the base specification
          */
         @Override
         public SubstanceProtein build() {
@@ -1023,6 +1025,8 @@ public class SubstanceProtein extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Subunit}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Subunit per the base specification
              */
             @Override
             public Subunit build() {

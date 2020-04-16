@@ -382,6 +382,8 @@ public class ProductShelfLife extends BackboneElement {
          * 
          * @return
          *     An immutable object of type {@link ProductShelfLife}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ProductShelfLife per the base specification
          */
         @Override
         public ProductShelfLife build() {

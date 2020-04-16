@@ -864,6 +864,8 @@ public class ImmunizationEvaluation extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ImmunizationEvaluation}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ImmunizationEvaluation per the base specification
          */
         @Override
         public ImmunizationEvaluation build() {
