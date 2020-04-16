@@ -582,6 +582,8 @@ public class DataRequirement extends Element {
          * 
          * @return
          *     An immutable object of type {@link DataRequirement}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid DataRequirement per the base specification
          */
         @Override
         public DataRequirement build() {
@@ -951,6 +953,8 @@ public class DataRequirement extends Element {
              * 
              * @return
              *     An immutable object of type {@link CodeFilter}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid CodeFilter per the base specification
              */
             @Override
             public CodeFilter build() {
@@ -1269,6 +1273,8 @@ public class DataRequirement extends Element {
              * 
              * @return
              *     An immutable object of type {@link DateFilter}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid DateFilter per the base specification
              */
             @Override
             public DateFilter build() {
@@ -1551,6 +1557,8 @@ public class DataRequirement extends Element {
              * 
              * @return
              *     An immutable object of type {@link Sort}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Sort per the base specification
              */
             @Override
             public Sort build() {

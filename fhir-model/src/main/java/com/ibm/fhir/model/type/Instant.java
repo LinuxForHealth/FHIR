@@ -210,6 +210,8 @@ public class Instant extends Element {
          * 
          * @return
          *     An immutable object of type {@link Instant}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Instant per the base specification
          */
         @Override
         public Instant build() {

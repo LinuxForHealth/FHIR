@@ -756,6 +756,8 @@ public class Group extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Group}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Group per the base specification
          */
         @Override
         public Group build() {
@@ -1120,6 +1122,8 @@ public class Group extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Characteristic}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Characteristic per the base specification
              */
             @Override
             public Characteristic build() {
@@ -1435,6 +1439,8 @@ public class Group extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Member}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Member per the base specification
              */
             @Override
             public Member build() {

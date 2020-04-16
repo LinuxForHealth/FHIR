@@ -994,6 +994,8 @@ public class Invoice extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Invoice}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Invoice per the base specification
          */
         @Override
         public Invoice build() {
@@ -1288,6 +1290,8 @@ public class Invoice extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Participant}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Participant per the base specification
              */
             @Override
             public Participant build() {
@@ -1625,6 +1629,8 @@ public class Invoice extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link LineItem}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid LineItem per the base specification
              */
             @Override
             public LineItem build() {
@@ -1965,6 +1971,8 @@ public class Invoice extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link PriceComponent}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid PriceComponent per the base specification
                  */
                 @Override
                 public PriceComponent build() {

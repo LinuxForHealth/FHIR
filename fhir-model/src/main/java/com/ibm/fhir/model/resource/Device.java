@@ -1415,6 +1415,8 @@ public class Device extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Device}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Device per the base specification
          */
         @Override
         public Device build() {
@@ -1860,6 +1862,8 @@ public class Device extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link UdiCarrier}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid UdiCarrier per the base specification
              */
             @Override
             public UdiCarrier build() {
@@ -2145,6 +2149,8 @@ public class Device extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link DeviceName}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid DeviceName per the base specification
              */
             @Override
             public DeviceName build() {
@@ -2413,6 +2419,8 @@ public class Device extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Specialization}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Specialization per the base specification
              */
             @Override
             public Specialization build() {
@@ -2711,6 +2719,8 @@ public class Device extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Version}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Version per the base specification
              */
             @Override
             public Version build() {
@@ -3050,6 +3060,8 @@ public class Device extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Property}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Property per the base specification
              */
             @Override
             public Property build() {

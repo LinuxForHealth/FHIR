@@ -1720,6 +1720,8 @@ public class Procedure extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Procedure}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Procedure per the base specification
          */
         @Override
         public Procedure build() {
@@ -2072,6 +2074,8 @@ public class Procedure extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Performer}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Performer per the base specification
              */
             @Override
             public Performer build() {
@@ -2354,6 +2358,8 @@ public class Procedure extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link FocalDevice}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid FocalDevice per the base specification
              */
             @Override
             public FocalDevice build() {

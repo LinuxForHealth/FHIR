@@ -793,6 +793,8 @@ public class PaymentNotice extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link PaymentNotice}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid PaymentNotice per the base specification
          */
         @Override
         public PaymentNotice build() {

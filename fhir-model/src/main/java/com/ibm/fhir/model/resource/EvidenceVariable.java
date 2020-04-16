@@ -1532,6 +1532,8 @@ public class EvidenceVariable extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link EvidenceVariable}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid EvidenceVariable per the base specification
          */
         @Override
         public EvidenceVariable build() {
@@ -2032,6 +2034,8 @@ public class EvidenceVariable extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Characteristic}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Characteristic per the base specification
              */
             @Override
             public Characteristic build() {

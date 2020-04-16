@@ -219,6 +219,8 @@ public class Money extends Element {
          * 
          * @return
          *     An immutable object of type {@link Money}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Money per the base specification
          */
         @Override
         public Money build() {

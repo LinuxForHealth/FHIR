@@ -2185,6 +2185,8 @@ public class ExplanationOfBenefit extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ExplanationOfBenefit}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ExplanationOfBenefit per the base specification
          */
         @Override
         public ExplanationOfBenefit build() {
@@ -2529,6 +2531,8 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Related}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Related per the base specification
              */
             @Override
             public Related build() {
@@ -2806,6 +2810,8 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Payee}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Payee per the base specification
              */
             @Override
             public Payee build() {
@@ -3191,6 +3197,8 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link CareTeam}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid CareTeam per the base specification
              */
             @Override
             public CareTeam build() {
@@ -3629,6 +3637,8 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link SupportingInfo}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid SupportingInfo per the base specification
              */
             @Override
             public SupportingInfo build() {
@@ -4050,6 +4060,8 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Diagnosis}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Diagnosis per the base specification
              */
             @Override
             public Diagnosis build() {
@@ -4476,6 +4488,8 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Procedure}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Procedure per the base specification
              */
             @Override
             public Procedure build() {
@@ -4815,6 +4829,8 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Insurance}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Insurance per the base specification
              */
             @Override
             public Insurance build() {
@@ -5121,6 +5137,8 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Accident}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Accident per the base specification
              */
             @Override
             public Accident build() {
@@ -6357,6 +6375,8 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Item}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Item per the base specification
              */
             @Override
             public Item build() {
@@ -6723,6 +6743,8 @@ public class ExplanationOfBenefit extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Adjudication}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Adjudication per the base specification
                  */
                 @Override
                 public Adjudication build() {
@@ -7524,6 +7546,8 @@ public class ExplanationOfBenefit extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Detail}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Detail per the base specification
                  */
                 @Override
                 public Detail build() {
@@ -8283,6 +8307,8 @@ public class ExplanationOfBenefit extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link SubDetail}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid SubDetail per the base specification
                      */
                     @Override
                     public SubDetail build() {
@@ -9319,6 +9345,8 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link AddItem}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid AddItem per the base specification
              */
             @Override
             public AddItem build() {
@@ -9916,6 +9944,8 @@ public class ExplanationOfBenefit extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Detail}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Detail per the base specification
                  */
                 @Override
                 public Detail build() {
@@ -10453,6 +10483,8 @@ public class ExplanationOfBenefit extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link SubDetail}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid SubDetail per the base specification
                      */
                     @Override
                     public SubDetail build() {
@@ -10744,6 +10776,8 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Total}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Total per the base specification
              */
             @Override
             public Total build() {
@@ -11141,6 +11175,8 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Payment}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Payment per the base specification
              */
             @Override
             public Payment build() {
@@ -11479,6 +11515,8 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link ProcessNote}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid ProcessNote per the base specification
              */
             @Override
             public ProcessNote build() {
@@ -11980,6 +12018,8 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link BenefitBalance}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid BenefitBalance per the base specification
              */
             @Override
             public BenefitBalance build() {
@@ -12304,6 +12344,8 @@ public class ExplanationOfBenefit extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Financial}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Financial per the base specification
                  */
                 @Override
                 public Financial build() {

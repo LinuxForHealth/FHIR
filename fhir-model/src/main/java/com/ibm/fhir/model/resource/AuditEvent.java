@@ -825,6 +825,8 @@ public class AuditEvent extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link AuditEvent}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid AuditEvent per the base specification
          */
         @Override
         public AuditEvent build() {
@@ -1495,6 +1497,8 @@ public class AuditEvent extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Agent}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Agent per the base specification
              */
             @Override
             public Agent build() {
@@ -1768,6 +1772,8 @@ public class AuditEvent extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Network}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Network per the base specification
                  */
                 @Override
                 public Network build() {
@@ -2108,6 +2114,8 @@ public class AuditEvent extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Source}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Source per the base specification
              */
             @Override
             public Source build() {
@@ -2652,6 +2660,8 @@ public class AuditEvent extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Entity}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Entity per the base specification
              */
             @Override
             public Entity build() {
@@ -2936,6 +2946,8 @@ public class AuditEvent extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Detail}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Detail per the base specification
                  */
                 @Override
                 public Detail build() {

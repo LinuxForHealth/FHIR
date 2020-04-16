@@ -916,6 +916,8 @@ public class SubstanceSourceMaterial extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link SubstanceSourceMaterial}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid SubstanceSourceMaterial per the base specification
          */
         @Override
         public SubstanceSourceMaterial build() {
@@ -1195,6 +1197,8 @@ public class SubstanceSourceMaterial extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link FractionDescription}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid FractionDescription per the base specification
              */
             @Override
             public FractionDescription build() {
@@ -1679,6 +1683,8 @@ public class SubstanceSourceMaterial extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Organism}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Organism per the base specification
              */
             @Override
             public Organism build() {
@@ -1956,6 +1962,8 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Author}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Author per the base specification
                  */
                 @Override
                 public Author build() {
@@ -2325,6 +2333,8 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Hybrid}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Hybrid per the base specification
                  */
                 @Override
                 public Hybrid build() {
@@ -2653,6 +2663,8 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link OrganismGeneral}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid OrganismGeneral per the base specification
                  */
                 @Override
                 public OrganismGeneral build() {
@@ -2920,6 +2932,8 @@ public class SubstanceSourceMaterial extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link PartDescription}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid PartDescription per the base specification
              */
             @Override
             public PartDescription build() {

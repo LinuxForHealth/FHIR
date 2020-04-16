@@ -820,6 +820,8 @@ public class Organization extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Organization}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Organization per the base specification
          */
         @Override
         public Organization build() {
@@ -1174,6 +1176,8 @@ public class Organization extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Contact}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Contact per the base specification
              */
             @Override
             public Contact build() {

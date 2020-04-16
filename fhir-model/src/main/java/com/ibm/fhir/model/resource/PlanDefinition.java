@@ -1694,6 +1694,8 @@ public class PlanDefinition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link PlanDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid PlanDefinition per the base specification
          */
         @Override
         public PlanDefinition build() {
@@ -2240,6 +2242,8 @@ public class PlanDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Goal}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Goal per the base specification
              */
             @Override
             public Goal build() {
@@ -2554,6 +2558,8 @@ public class PlanDefinition extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Target}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Target per the base specification
                  */
                 @Override
                 public Target build() {
@@ -3930,6 +3936,8 @@ public class PlanDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Action}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Action per the base specification
              */
             @Override
             public Action build() {
@@ -4227,6 +4235,8 @@ public class PlanDefinition extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Condition}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Condition per the base specification
                  */
                 @Override
                 public Condition build() {
@@ -4543,6 +4553,8 @@ public class PlanDefinition extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link RelatedAction}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid RelatedAction per the base specification
                  */
                 @Override
                 public RelatedAction build() {
@@ -4823,6 +4835,8 @@ public class PlanDefinition extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Participant}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Participant per the base specification
                  */
                 @Override
                 public Participant build() {
@@ -5092,6 +5106,8 @@ public class PlanDefinition extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link DynamicValue}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid DynamicValue per the base specification
                  */
                 @Override
                 public DynamicValue build() {

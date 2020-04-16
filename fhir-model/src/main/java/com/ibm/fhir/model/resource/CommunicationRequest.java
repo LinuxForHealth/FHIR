@@ -1358,6 +1358,8 @@ public class CommunicationRequest extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link CommunicationRequest}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid CommunicationRequest per the base specification
          */
         @Override
         public CommunicationRequest build() {
@@ -1621,6 +1623,8 @@ public class CommunicationRequest extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Payload}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Payload per the base specification
              */
             @Override
             public Payload build() {

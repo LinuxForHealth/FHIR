@@ -1369,6 +1369,8 @@ public class Questionnaire extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Questionnaire}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Questionnaire per the base specification
          */
         @Override
         public Questionnaire build() {
@@ -2256,6 +2258,8 @@ public class Questionnaire extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Item}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Item per the base specification
              */
             @Override
             public Item build() {
@@ -2603,6 +2607,8 @@ public class Questionnaire extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link EnableWhen}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid EnableWhen per the base specification
                  */
                 @Override
                 public EnableWhen build() {
@@ -2888,6 +2894,8 @@ public class Questionnaire extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link AnswerOption}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid AnswerOption per the base specification
                  */
                 @Override
                 public AnswerOption build() {
@@ -3148,6 +3156,8 @@ public class Questionnaire extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Initial}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Initial per the base specification
                  */
                 @Override
                 public Initial build() {

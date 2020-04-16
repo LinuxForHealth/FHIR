@@ -898,6 +898,8 @@ public class EpisodeOfCare extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link EpisodeOfCare}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid EpisodeOfCare per the base specification
          */
         @Override
         public EpisodeOfCare build() {
@@ -1185,6 +1187,8 @@ public class EpisodeOfCare extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link StatusHistory}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid StatusHistory per the base specification
              */
             @Override
             public StatusHistory build() {
@@ -1499,6 +1503,8 @@ public class EpisodeOfCare extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Diagnosis}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Diagnosis per the base specification
              */
             @Override
             public Diagnosis build() {

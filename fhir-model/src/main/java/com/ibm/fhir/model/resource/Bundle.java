@@ -542,6 +542,8 @@ public class Bundle extends Resource {
          * 
          * @return
          *     An immutable object of type {@link Bundle}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Bundle per the base specification
          */
         @Override
         public Bundle build() {
@@ -823,6 +825,8 @@ public class Bundle extends Resource {
              * 
              * @return
              *     An immutable object of type {@link Link}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Link per the base specification
              */
             @Override
             public Link build() {
@@ -1247,6 +1251,8 @@ public class Bundle extends Resource {
              * 
              * @return
              *     An immutable object of type {@link Entry}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Entry per the base specification
              */
             @Override
             public Entry build() {
@@ -1519,6 +1525,8 @@ public class Bundle extends Resource {
                  * 
                  * @return
                  *     An immutable object of type {@link Search}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Search per the base specification
                  */
                 @Override
                 public Search build() {
@@ -1939,6 +1947,8 @@ public class Bundle extends Resource {
                  * 
                  * @return
                  *     An immutable object of type {@link Request}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Request per the base specification
                  */
                 @Override
                 public Request build() {
@@ -2313,6 +2323,8 @@ public class Bundle extends Resource {
                  * 
                  * @return
                  *     An immutable object of type {@link Response}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Response per the base specification
                  */
                 @Override
                 public Response build() {

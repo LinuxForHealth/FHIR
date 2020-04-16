@@ -882,6 +882,8 @@ public class ObservationDefinition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ObservationDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ObservationDefinition per the base specification
          */
         @Override
         public ObservationDefinition build() {
@@ -1225,6 +1227,8 @@ public class ObservationDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link QuantitativeDetails}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid QuantitativeDetails per the base specification
              */
             @Override
             public QuantitativeDetails build() {
@@ -1719,6 +1723,8 @@ public class ObservationDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link QualifiedInterval}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid QualifiedInterval per the base specification
              */
             @Override
             public QualifiedInterval build() {

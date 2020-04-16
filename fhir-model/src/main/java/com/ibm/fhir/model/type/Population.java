@@ -334,6 +334,8 @@ public class Population extends BackboneElement {
          * 
          * @return
          *     An immutable object of type {@link Population}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Population per the base specification
          */
         @Override
         public Population build() {

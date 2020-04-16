@@ -199,6 +199,8 @@ public class Time extends Element {
          * 
          * @return
          *     An immutable object of type {@link Time}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Time per the base specification
          */
         @Override
         public Time build() {

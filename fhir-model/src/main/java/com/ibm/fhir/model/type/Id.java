@@ -169,6 +169,8 @@ public class Id extends String {
          * 
          * @return
          *     An immutable object of type {@link Id}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Id per the base specification
          */
         @Override
         public Id build() {

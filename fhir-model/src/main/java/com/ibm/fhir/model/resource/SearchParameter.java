@@ -1481,6 +1481,8 @@ public class SearchParameter extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link SearchParameter}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid SearchParameter per the base specification
          */
         @Override
         public SearchParameter build() {
@@ -1777,6 +1779,8 @@ public class SearchParameter extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Component}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Component per the base specification
              */
             @Override
             public Component build() {

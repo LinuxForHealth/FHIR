@@ -288,6 +288,8 @@ public class Contributor extends Element {
          * 
          * @return
          *     An immutable object of type {@link Contributor}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Contributor per the base specification
          */
         @Override
         public Contributor build() {

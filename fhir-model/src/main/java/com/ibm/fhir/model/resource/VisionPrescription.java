@@ -690,6 +690,8 @@ public class VisionPrescription extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link VisionPrescription}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid VisionPrescription per the base specification
          */
         @Override
         public VisionPrescription build() {
@@ -1393,6 +1395,8 @@ public class VisionPrescription extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link LensSpecification}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid LensSpecification per the base specification
              */
             @Override
             public LensSpecification build() {
@@ -1681,6 +1685,8 @@ public class VisionPrescription extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Prism}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Prism per the base specification
                  */
                 @Override
                 public Prism build() {

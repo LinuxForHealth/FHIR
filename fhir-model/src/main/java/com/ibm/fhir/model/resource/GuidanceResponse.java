@@ -1014,6 +1014,8 @@ public class GuidanceResponse extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link GuidanceResponse}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid GuidanceResponse per the base specification
          */
         @Override
         public GuidanceResponse build() {
