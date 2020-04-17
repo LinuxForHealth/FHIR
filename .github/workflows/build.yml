@@ -281,7 +281,7 @@ jobs:
       uses: joschi/setup-jdk@v1
       with:
         java-version: ${{ matrix.java }}
-	- name: free disk space
+    - name: free disk space
       run: |
         sudo swapoff -a
         sudo rm -f /swapfile
