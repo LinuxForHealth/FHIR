@@ -54,6 +54,10 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         super(cp, new DerbyTranslator());
     }
 
+    public DerbyAdapter() {
+        super();
+    }
+
     /**
      * Once write each warning message once
      * @param msg

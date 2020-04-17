@@ -54,6 +54,10 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         super(cp, new PostgreSqlTranslator());
     }
 
+    public PostgreSqlAdapter() {
+        super();
+    }
+
     /**
      * Once write each warning message once
      * @param msg
