@@ -178,6 +178,9 @@ public class ImportOperationTest extends FHIRServerTestBase {
         String resourceType = "Patient";
         String url = "https://s3.us-east.cloud-object-storage.appdomain.cloud/fhir-integration-test/test-import.ndjson";
         Response response = doPost(path, inputFormat, inputSource, resourceType, url);
+
+        String body = response.readEntity(String.class);
+        System.out.println(body);
         assertEquals(response.getStatus(), 202);
 
         // check the content-location that's returned.
