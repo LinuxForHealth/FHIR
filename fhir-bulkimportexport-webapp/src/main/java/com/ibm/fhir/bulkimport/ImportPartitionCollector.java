@@ -8,8 +8,6 @@ package com.ibm.fhir.bulkimport;
 
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,8 +23,6 @@ import com.ibm.fhir.bulkcommon.Constants;
 
 public class ImportPartitionCollector implements PartitionCollector {
     private static final Logger logger = Logger.getLogger(ImportPartitionCollector.class.getName());
-    // Used for generating in-fly performance measurement per each resource type.
-    private HashMap<String, ImportCheckPointData> importedResourceTypeInFlySummaries = new HashMap<>();
     AmazonS3 cosClient = null;
     @Inject
     StepContext stepCtx;
@@ -98,8 +94,10 @@ public class ImportPartitionCollector implements PartitionCollector {
         }
 
         // This function is called at partition chunk check points and also at the end of partition processing.
-        // So, check the NumOfToBeImported to make sure collect the statistic data for the partition only at the end,
-        // also upload the remaining OperationComes to COS/S3 if any and finish the multiple-parts uploads.
+        // So, check the NumOfToBeImported to make sure at the end of partition processing:
+        // (1) upload the remaining OperationComes to COS/S3.
+        // (2) finish the multiple-parts uploads.
+        // (3) release the resources hold by this partition.
         if (partitionSummaryData.getNumOfToBeImported() == 0) {
             if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
                 // Upload remaining OperationOutcomes.
@@ -153,33 +151,11 @@ public class ImportPartitionCollector implements PartitionCollector {
 
             // Clean up.
             BulkDataUtils.cleanupTransientUserData(partitionSummaryData, false);
-
-            return ImportCheckPointData.fromImportTransientUserData(partitionSummaryData);
-        } else {
-            // Aggregate the processed resource numbers from different partitions for the same resource types.
-            ImportCheckPointData importedResourceTypeInFlySummary = importedResourceTypeInFlySummaries.get(partitionSummaryData.getImportPartitionResourceType());
-            if (importedResourceTypeInFlySummary == null) {
-                importedResourceTypeInFlySummaries.put(partitionSummaryData.getImportPartitionResourceType(),
-                        new ImportCheckPointData(partitionSummaryData.getImportPartitionResourceType(), Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD, partitionSummaryData.getInFlyRateBeginMilliSeconds()));
-            } else {
-                importedResourceTypeInFlySummary.setNumOfProcessedResources(importedResourceTypeInFlySummary.getNumOfProcessedResources() + Constants.IMPORT_NUMOFFHIRRESOURCES_PERREAD);
-
-                if (importedResourceTypeInFlySummary.getNumOfProcessedResources() % Constants.IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES == 0) {
-                    long currentTimeMilliSeconds = System.currentTimeMillis();
-                    double jobProcessingSeconds = (currentTimeMilliSeconds - importedResourceTypeInFlySummary.getInFlyRateBeginMilliSeconds()) / 1000.0;
-                    jobProcessingSeconds = jobProcessingSeconds < 1 ? 1.0 : jobProcessingSeconds;
-
-                    // log the in-fly rate.
-                    logger.info(Constants.IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES + " " + importedResourceTypeInFlySummary.getImportPartitionResourceType()
-                        + " resources imported in " + jobProcessingSeconds + " seconds, ImportRate: "
-                        + new DecimalFormat("#0.00").format(Constants.IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES/jobProcessingSeconds) + "/Second");
-
-                    importedResourceTypeInFlySummary.setInFlyRateBeginMilliSeconds(currentTimeMilliSeconds);
-                }
-            }
-
-            return null;
         }
+
+        ImportCheckPointData partitionSummaryForMetrics = ImportCheckPointData.fromImportTransientUserData(partitionSummaryData);
+        partitionSummaryForMetrics.setNumOfToBeImported(partitionSummaryData.getNumOfToBeImported());
+        return partitionSummaryForMetrics;
     }
 
 }
