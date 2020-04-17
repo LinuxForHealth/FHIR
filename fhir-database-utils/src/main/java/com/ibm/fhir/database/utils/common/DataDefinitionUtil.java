@@ -56,9 +56,7 @@ public class DataDefinitionUtil {
 
         StringBuilder result = new StringBuilder();
         result.append("CREATE UNIQUE INDEX ");
-        // PostgreSql doesn't allow schema name for the index, e.g, fhirdata.index1, so we use "_" to join schemaName and indexName instead of using '.'.
-//        result.append(schemaName);
-//        result.append("_");
+        // Postgresql doesn't support index name prefixed with the schema name.
         result.append(indexName);
         result.append(" ON ");
         result.append(getQualifiedName(schemaName, tableName));

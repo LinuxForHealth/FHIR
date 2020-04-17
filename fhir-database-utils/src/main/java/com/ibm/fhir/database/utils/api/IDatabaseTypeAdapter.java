@@ -31,7 +31,7 @@ public interface IDatabaseTypeAdapter {
      * Generate a clause for double data type
      * @return
      */
-    default public String doubleClause() {
+    public default String doubleClause() {
         return "DOUBLE";
     }
 
@@ -49,7 +49,7 @@ public interface IDatabaseTypeAdapter {
      * @implSpec the default implementation returns TIMESTAMP[(precision)]
      *           and excludes the precision if it is null
      */
-    default public String timestampClause(Integer precision) {
+    public default String timestampClause(Integer precision) {
         StringBuilder typeDef = new StringBuilder("TIMESTAMP");
         if (precision != null) {
             typeDef.append("(" + precision + ")");

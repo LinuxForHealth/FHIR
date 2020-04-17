@@ -82,13 +82,13 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -158,7 +158,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                                     Boolean.TRUE));
         ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE,
                                       Boolean.TRUE));
-        this.resourceDao = new ResourceDAOImpl(this.getTrxSynchRegistry());
+
+        sharedConnection = this.createConnection();
+        this.resourceDao = FHIRResourceDAOFactory.getResourceDAO(sharedConnection, this.getTrxSynchRegistry());
         this.parameterDao = new ParameterDAOImpl(this.getTrxSynchRegistry());
 
         log.exiting(CLASSNAME, METHODNAME);
@@ -178,7 +180,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
         this.setBaseDao(dao);
         this.setManagedConnection(this.getBaseDao().getConnection());
-        this.resourceDao = new ResourceDAOImpl(this.getManagedConnection());
+        this.resourceDao = FHIRResourceDAOFactory.getResourceDAO(this.getManagedConnection());
         this.parameterDao = new ParameterDAOImpl(this.getManagedConnection());
 
         log.exiting(CLASSNAME, METHODNAME);
@@ -198,7 +200,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
         this.setBaseDao(dao);
         this.setManagedConnection(this.getBaseDao().getConnection());
-        this.resourceDao = new ResourceDAOImpl(this.getManagedConnection());
+        this.resourceDao = FHIRResourceDAOFactory.getResourceDAO(this.getManagedConnection());
         this.parameterDao = new ParameterDAOImpl(this.getManagedConnection());
 
         log.exiting(CLASSNAME, METHODNAME);
@@ -1277,7 +1279,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
         try {
             if (userTransaction != null) {
-                sharedConnection = createConnection();
+                if (sharedConnection == null) {
+                    sharedConnection = createConnection();
+                }
                 resourceDao.setExternalConnection(sharedConnection);
                 parameterDao.setExternalConnection(sharedConnection);
                 userTransaction.begin();
@@ -1625,7 +1629,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
         try {
             if (userTransaction != null) {
-                sharedConnection = createConnection();
+                if (sharedConnection == null) {
+                    sharedConnection = createConnection();
+                }
                 resourceDao.setExternalConnection(sharedConnection);
                 parameterDao.setExternalConnection(sharedConnection);
             } else {

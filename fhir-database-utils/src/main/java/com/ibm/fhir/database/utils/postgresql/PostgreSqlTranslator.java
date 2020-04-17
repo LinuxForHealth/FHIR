@@ -131,8 +131,8 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
 
     @Override
     public String reorgTableCommand(String tableName) {
-        // REORG TABLE not supported by PostgreSql, so return null
-        return null;
+        // REORG TABLE not supported by PostgreSql
+        throw new UnsupportedOperationException("reorg table is not supported!");
     }
 
     @Override

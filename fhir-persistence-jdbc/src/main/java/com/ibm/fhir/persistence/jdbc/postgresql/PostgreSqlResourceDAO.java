@@ -12,17 +12,35 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.transaction.TransactionSynchronizationRegistry;
+
 import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.NoDB2InsertAPI;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
+import com.ibm.fhir.persistence.jdbc.derby.CodeSystemCacheAdapter;
+import com.ibm.fhir.persistence.jdbc.derby.DerbyCodeSystemDAO;
+import com.ibm.fhir.persistence.jdbc.derby.DerbyParameterNamesDAO;
+import com.ibm.fhir.persistence.jdbc.derby.FhirRefSequenceDAOImpl;
+import com.ibm.fhir.persistence.jdbc.derby.ParameterNameCacheAdapter;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
+import com.ibm.fhir.persistence.jdbc.dto.Resource;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
+import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
  * Data access object for writing FHIR resources to an Apache PostgreSql database.
@@ -38,32 +56,121 @@ import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
  * So this class follows the logic of the stored procedure, but does so
  * using a series of individual JDBC statements.
  */
-public class PostgreSqlResourceDAO implements NoDB2InsertAPI {
+public class PostgreSqlResourceDAO extends ResourceDAOImpl {
     private static final Logger logger = Logger.getLogger(PostgreSqlResourceDAO.class.getName());
     private static final String CLASSNAME = PostgreSqlResourceDAO.class.getSimpleName();
 
     private static final PostgreSqlTranslator translator = new PostgreSqlTranslator();
 
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
-    private final FhirRefSequenceDAO fhirRefSequenceDAO;
+    private FhirRefSequenceDAO fhirRefSequenceDAO;
 
     // DAO used to manage parameter_names
-    private final ParameterNameDAO parameterNameDAO;
+    private ParameterNameDAO parameterNameDAO;
 
     // DAO used to manage code_systems
-    private final CodeSystemDAO codeSystemDAO;
+    private CodeSystemDAO codeSystemDAO;
 
-    private final Connection conn;
+    public PostgreSqlResourceDAO(Connection managedConnection) {
+        super(managedConnection);
+    }
+
+    public PostgreSqlResourceDAO(TransactionSynchronizationRegistry trxSynchRegistry) {
+        super(trxSynchRegistry);
+    }
 
     /**
-     * public constructor
-     * @param connection the database connection
+     * Inserts the passed FHIR Resource and associated search parameters to a Derby or PostgreSql FHIR database.
+     * The search parameters are stored first by calling the passed parameterDao. Then the Resource is stored
+     * by sql.
+     * @param resource The FHIR Resource to be inserted.
+     * @param parameters The Resource's search parameters to be inserted.
+     * @param parameterDao
+     * @return The Resource DTO
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     * @throws FHIRPersistenceVersionIdMismatchException
      */
-    public PostgreSqlResourceDAO(Connection connection) {
-        this.conn = connection;
-        this.fhirRefSequenceDAO = new FhirRefSequenceDAOImpl(connection);
-        this.parameterNameDAO = new PostgreSqlParameterNamesDAO(connection, fhirRefSequenceDAO);
-        this.codeSystemDAO = new PostgreSqlCodeSystemDAO(connection, fhirRefSequenceDAO);
+    @Override
+    public Resource  insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
+            throws FHIRPersistenceException {
+        final String METHODNAME = "insert";
+        logger.entering(CLASSNAME, METHODNAME);
+
+        Connection connection = null;
+        Integer resourceTypeId;
+        Timestamp lastUpdated;
+        boolean acquiredFromCache;
+        long dbCallStartTime;
+        double dbCallDuration;
+
+        try {
+            connection = this.getConnection();
+
+            this.fhirRefSequenceDAO = new FhirRefSequenceDAOImpl(connection);
+            this.parameterNameDAO = new DerbyParameterNamesDAO(connection, fhirRefSequenceDAO);
+            this.codeSystemDAO = new DerbyCodeSystemDAO(connection, fhirRefSequenceDAO);
+
+            resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
+            if (resourceTypeId == null) {
+                acquiredFromCache = false;
+                resourceTypeId = getOrCreateResourceType(resource.getResourceType(), connection);
+                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
+            } else {
+                acquiredFromCache = true;
+            }
+
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
+                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
+            }
+
+            lastUpdated = resource.getLastUpdated();
+            dbCallStartTime = System.nanoTime();
+
+            final String sourceKey = UUID.randomUUID().toString();
+
+            long resourceId = this.storeResource(resource.getResourceType(),
+                parameters,
+                resource.getLogicalId(),
+                resource.getData(),
+                lastUpdated,
+                resource.isDeleted(),
+                sourceKey,
+                resource.getVersionId(),
+                connection
+                );
+
+
+            dbCallDuration = (System.nanoTime() - dbCallStartTime)/1e6;
+
+            resource.setId(resourceId);
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+            }
+        } catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
+            throw e;
+        } catch(SQLIntegrityConstraintViolationException e) {
+            FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.");
+            throw severe(logger, fx, e);
+        } catch(SQLException e) {
+            if ("99001".equals(e.getSQLState())) {
+                // this is just a concurrency update, so there's no need to log the SQLException here
+                throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
+            } else {
+                FHIRPersistenceException fx = new FHIRPersistenceException("SQLException encountered while inserting Resource.");
+                throw severe(logger, fx, e);
+            }
+        } catch(Throwable e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
+            throw severe(logger, fx, e);
+        } finally {
+            this.cleanup(null, connection);
+            logger.exiting(CLASSNAME, METHODNAME);
+        }
+
+        return resource;
+
     }
 
     /**
@@ -101,7 +208,7 @@ public class PostgreSqlResourceDAO implements NoDB2InsertAPI {
      * @throws Exception
      */
     public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, byte[] p_payload, Timestamp p_last_updated, boolean p_is_deleted,
-        String p_source_key, Integer p_version) throws Exception {
+        String p_source_key, Integer p_version, Connection conn) throws Exception {
 
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
         logger.entering(CLASSNAME, METHODNAME);
@@ -119,13 +226,13 @@ public class PostgreSqlResourceDAO implements NoDB2InsertAPI {
         String v_resource_type = tablePrefix;
 
         // Map the resource type name to the normalized id value in the database
-        v_resource_type_id = getResourceTypeId(v_resource_type);
+        v_resource_type_id = getResourceTypeId(v_resource_type, conn);
         if (v_resource_type_id == null) {
             // programming error, as this should've been created earlier
             throw new IllegalStateException("resource type not found: " + v_resource_type);
         }
 
-        // Get a lock at the system-wide logical resource level. Note the PostgreSql-specific syntax
+        // Get a lock at the system-wide logical resource level. Note the Derby-specific syntax
         final String SELECT_FOR_UPDATE = "SELECT logical_resource_id FROM logical_resources WHERE resource_type_id = ? AND logical_id = ? FOR UPDATE";
         try (PreparedStatement stmt = conn.prepareStatement(SELECT_FOR_UPDATE)) {
             stmt.setInt(1, v_resource_type_id);
@@ -328,11 +435,11 @@ public class PostgreSqlResourceDAO implements NoDB2InsertAPI {
                 stmt.executeUpdate();
             }
 
-            // To keep things simple for the PostgreSql use-case, we just use a visitor to
+            // To keep things simple for the Derby use-case, we just use a visitor to
             // handle inserts of parameters directly in the resource parameter tables.
             // Note we don't get any parameters for the resource soft-delete operation
             if (parameters != null) {
-                // PostgreSql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
+                // Derby doesn't support partitioned multi-tenancy, so we disable it on the DAO:
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_logical_resource_id, 100,
                     new ParameterNameCacheAdapter(parameterNameDAO), new CodeSystemCacheAdapter(codeSystemDAO))) {
                     for (ExtractedParameterValue p: parameters) {
@@ -370,7 +477,7 @@ public class PostgreSqlResourceDAO implements NoDB2InsertAPI {
      * @return the database id, or null if the named record is not found
      * @throws SQLException
      */
-    protected Integer getResourceTypeId(String resourceTypeName) throws SQLException {
+    protected Integer getResourceTypeId(String resourceTypeName, Connection conn) throws SQLException {
         Integer result;
 
         final String sql1 = "SELECT resource_type_id FROM resource_types WHERE resource_type = ?";
@@ -394,10 +501,10 @@ public class PostgreSqlResourceDAO implements NoDB2InsertAPI {
      * @param resourceTypeName
      * @throw SQLException
      */
-    public int getOrCreateResourceType(String resourceTypeName) throws SQLException {
+    public int getOrCreateResourceType(String resourceTypeName, Connection conn) throws SQLException {
         // As the system is concurrent, we have to handle cases where another thread
         // might create the entry after we selected and found nothing
-        Integer result = getResourceTypeId(resourceTypeName);
+        Integer result = getResourceTypeId(resourceTypeName, conn);
 
         // Create the resource if we don't have it already (set by the continue handler)
         if (result == null) {
@@ -414,7 +521,7 @@ public class PostgreSqlResourceDAO implements NoDB2InsertAPI {
             } catch (SQLException e) {
                 if ("23505".equals(e.getSQLState())) {
                     // another thread snuck in and created the record, so we need to fetch the correct id
-                    result = getResourceTypeId(resourceTypeName);
+                    result = getResourceTypeId(resourceTypeName, conn);
                 } else {
                     throw e;
                 }
