@@ -224,6 +224,13 @@ jobs:
       uses: joschi/setup-jdk@v1
       with:
         java-version: ${{ matrix.java }}
+    - name: free disk space
+      run: |
+        sudo swapoff -a
+        sudo rm -f /swapfile
+        sudo apt clean
+        docker rmi $(docker image ls -aq)
+        df -h
     - name: Build samples
       run: mvn -B install --file fhir-examples --no-transfer-progress
     - name: Build parent without tests
@@ -274,6 +281,13 @@ jobs:
       uses: joschi/setup-jdk@v1
       with:
         java-version: ${{ matrix.java }}
+	- name: free disk space
+      run: |
+        sudo swapoff -a
+        sudo rm -f /swapfile
+        sudo apt clean
+        docker rmi $(docker image ls -aq)
+        df -h
     - name: Build samples
       run: mvn -B install --file fhir-examples --no-transfer-progress
     - name: Build parent without tests
