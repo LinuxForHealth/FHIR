@@ -27,6 +27,7 @@ import com.ibm.fhir.server.resources.Read;
 import com.ibm.fhir.server.resources.Search;
 import com.ibm.fhir.server.resources.Update;
 import com.ibm.fhir.server.resources.VRead;
+import com.ibm.fhir.server.resources.WellKnown;
 
 public class FHIRApplication extends Application {
     private static final Logger log = Logger.getLogger(FHIRApplication.class.getName());
@@ -36,10 +37,10 @@ public class FHIRApplication extends Application {
 
     public FHIRApplication() {
         log.entering(this.getClass().getName(), "ctor");
-        
+
         FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
         log.info("FHIR Server version " + buildInfo.getBuildVersion() + " build id '" + buildInfo.getBuildId() + "' starting.");
-        
+
         log.exiting(this.getClass().getName(), "ctor");
     }
 
@@ -60,6 +61,7 @@ public class FHIRApplication extends Application {
                 classes.add(Search.class);
                 classes.add(Update.class);
                 classes.add(VRead.class);
+                classes.add(WellKnown.class);
             }
             return classes;
         } finally {
