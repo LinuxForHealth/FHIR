@@ -16,6 +16,11 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CLUSTER;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CHANNEL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CLIENT;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_SERVERS;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TLS_ENABLED;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE_PW;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_KEYSTORE;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_KEYSTORE_PW;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
@@ -148,8 +153,16 @@ public class FHIRServletContextListener implements ServletContextListener {
                 // Retrieve the server URL.
                 String servers = fhirConfig.getStringProperty(PROPERTY_NATS_SERVERS);
 
+                // Gather up the NATS TLS properties.
+                Properties tlsProps = new Properties();
+                tlsProps.setProperty("useTLS", fhirConfig.getBooleanProperty(PROPERTY_NATS_TLS_ENABLED).toString());
+                tlsProps.setProperty("truststore", fhirConfig.getStringProperty(PROPERTY_NATS_TRUSTSTORE));
+                tlsProps.setProperty("truststore-pw", fhirConfig.getStringProperty(PROPERTY_NATS_TRUSTSTORE_PW));
+                tlsProps.setProperty("keystore", fhirConfig.getStringProperty(PROPERTY_NATS_KEYSTORE));
+                tlsProps.setProperty("keystore-pw", fhirConfig.getStringProperty(PROPERTY_NATS_KEYSTORE_PW));
+
                 log.info("Initializing NATS notification publisher.");
-                natsPublisher = new FHIRNotificationNATSPublisher(clusterId, channelName, clientId, servers);
+                natsPublisher = new FHIRNotificationNATSPublisher(clusterId, channelName, clientId, servers, tlsProps);
             } else {
                 log.info("Bypassing NATS notification init.");
             }
