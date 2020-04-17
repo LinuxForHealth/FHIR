@@ -93,7 +93,7 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
             // Create the NATS client connection options
             io.nats.client.Options.Builder builder = new io.nats.client.Options.Builder();
             builder.maxReconnects(-1);
-            builder.connectionName("FHIR-publisher");
+            builder.connectionName(channelName);
             builder.servers(servers.split(","));
             if (ctx != null) {
                 builder.sslContext(ctx);
@@ -197,7 +197,7 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
 */
 class SSLUtils {
 
-    public static KeyStore loadKeystore(String path, String password) throws Exception {
+    static KeyStore loadKeystore(String path, String password) throws Exception {
         KeyStore store = KeyStore.getInstance("PKCS12");
         BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
 
@@ -212,21 +212,21 @@ class SSLUtils {
         return store;
     }
 
-    public static KeyManager[] createTestKeyManagers(Properties tlsProps) throws Exception {
+    static KeyManager[] createTestKeyManagers(Properties tlsProps) throws Exception {
         KeyStore store = loadKeystore(tlsProps.getProperty("keystore"), tlsProps.getProperty("keystore-pw"));
         KeyManagerFactory factory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         factory.init(store, tlsProps.getProperty("keystore-pw").toCharArray());
         return factory.getKeyManagers();
     }
 
-    public static TrustManager[] createTestTrustManagers(Properties tlsProps) throws Exception {
+    static TrustManager[] createTestTrustManagers(Properties tlsProps) throws Exception {
         KeyStore store = loadKeystore(tlsProps.getProperty("truststore"), tlsProps.getProperty("truststore-pw"));
         TrustManagerFactory factory = TrustManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         factory.init(store);
         return factory.getTrustManagers();
     }
 
-    public static SSLContext createSSLContext(Properties tlsProps) throws Exception {
+    static SSLContext createSSLContext(Properties tlsProps) throws Exception {
         SSLContext ctx = SSLContext.getInstance("TLSv1.2");
         ctx.init(createTestKeyManagers(tlsProps), createTestTrustManagers(tlsProps), new SecureRandom());
         return ctx;
