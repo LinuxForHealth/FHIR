@@ -398,6 +398,8 @@ public class SampledData extends Element {
          * 
          * @return
          *     An immutable object of type {@link SampledData}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid SampledData per the base specification
          */
         @Override
         public SampledData build() {

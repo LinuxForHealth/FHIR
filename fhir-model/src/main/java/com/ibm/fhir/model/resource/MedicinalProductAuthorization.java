@@ -943,6 +943,8 @@ public class MedicinalProductAuthorization extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MedicinalProductAuthorization}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MedicinalProductAuthorization per the base specification
          */
         @Override
         public MedicinalProductAuthorization build() {
@@ -1353,6 +1355,8 @@ public class MedicinalProductAuthorization extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link JurisdictionalAuthorization}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid JurisdictionalAuthorization per the base specification
              */
             @Override
             public JurisdictionalAuthorization build() {
@@ -1716,6 +1720,8 @@ public class MedicinalProductAuthorization extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Procedure}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Procedure per the base specification
              */
             @Override
             public Procedure build() {

@@ -284,6 +284,8 @@ public class Extension extends Element {
          * 
          * @return
          *     An immutable object of type {@link Extension}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Extension per the base specification
          */
         @Override
         public Extension build() {

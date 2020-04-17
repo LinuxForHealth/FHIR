@@ -629,6 +629,8 @@ public class EnrollmentResponse extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link EnrollmentResponse}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid EnrollmentResponse per the base specification
          */
         @Override
         public EnrollmentResponse build() {

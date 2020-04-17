@@ -22,7 +22,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
@@ -57,8 +59,14 @@ public class Delete extends FHIRResource {
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             ior = helper.doDelete(type, id, null, null);
 
-            status = Status.NO_CONTENT;
-            ResponseBuilder response = Response.noContent();
+            ResponseBuilder response;
+
+            // The server should return either a 200 OK if the response contains a payload, or a 204 No Content with no response payload
+            if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
+                response = Response.ok(ior.getOperationOutcome());
+            } else {
+                response = Response.noContent();
+            }
 
             if (ior.getResource() != null) {
                 response = addHeaders(response, ior.getResource());

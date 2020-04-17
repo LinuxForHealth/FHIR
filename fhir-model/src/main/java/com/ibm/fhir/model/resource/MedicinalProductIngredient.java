@@ -566,6 +566,8 @@ public class MedicinalProductIngredient extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MedicinalProductIngredient}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MedicinalProductIngredient per the base specification
          */
         @Override
         public MedicinalProductIngredient build() {
@@ -926,6 +928,8 @@ public class MedicinalProductIngredient extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link SpecifiedSubstance}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid SpecifiedSubstance per the base specification
              */
             @Override
             public SpecifiedSubstance build() {
@@ -1405,6 +1409,8 @@ public class MedicinalProductIngredient extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Strength}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Strength per the base specification
                  */
                 @Override
                 public Strength build() {
@@ -1794,6 +1800,8 @@ public class MedicinalProductIngredient extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link ReferenceStrength}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid ReferenceStrength per the base specification
                      */
                     @Override
                     public ReferenceStrength build() {
@@ -2088,6 +2096,8 @@ public class MedicinalProductIngredient extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Substance}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Substance per the base specification
              */
             @Override
             public Substance build() {

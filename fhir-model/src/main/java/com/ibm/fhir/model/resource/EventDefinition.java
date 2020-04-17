@@ -1533,6 +1533,8 @@ public class EventDefinition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link EventDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid EventDefinition per the base specification
          */
         @Override
         public EventDefinition build() {

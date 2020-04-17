@@ -1049,6 +1049,8 @@ public class Location extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Location}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Location per the base specification
          */
         @Override
         public Location build() {
@@ -1372,6 +1374,8 @@ public class Location extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Position}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Position per the base specification
              */
             @Override
             public Position build() {
@@ -1720,6 +1724,8 @@ public class Location extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link HoursOfOperation}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid HoursOfOperation per the base specification
              */
             @Override
             public HoursOfOperation build() {

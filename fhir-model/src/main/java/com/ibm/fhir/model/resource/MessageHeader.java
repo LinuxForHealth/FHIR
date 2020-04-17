@@ -803,6 +803,8 @@ public class MessageHeader extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MessageHeader}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MessageHeader per the base specification
          */
         @Override
         public MessageHeader build() {
@@ -1162,6 +1164,8 @@ public class MessageHeader extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Destination}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Destination per the base specification
              */
             @Override
             public Destination build() {
@@ -1529,6 +1533,8 @@ public class MessageHeader extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Source}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Source per the base specification
              */
             @Override
             public Source build() {
@@ -1852,6 +1858,8 @@ public class MessageHeader extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Response}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Response per the base specification
              */
             @Override
             public Response build() {

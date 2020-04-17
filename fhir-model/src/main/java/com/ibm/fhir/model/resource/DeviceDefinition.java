@@ -1327,6 +1327,8 @@ public class DeviceDefinition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link DeviceDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid DeviceDefinition per the base specification
          */
         @Override
         public DeviceDefinition build() {
@@ -1657,6 +1659,8 @@ public class DeviceDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link UdiDeviceIdentifier}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid UdiDeviceIdentifier per the base specification
              */
             @Override
             public UdiDeviceIdentifier build() {
@@ -1937,6 +1941,8 @@ public class DeviceDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link DeviceName}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid DeviceName per the base specification
              */
             @Override
             public DeviceName build() {
@@ -2205,6 +2211,8 @@ public class DeviceDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Specialization}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Specialization per the base specification
              */
             @Override
             public Specialization build() {
@@ -2492,6 +2500,8 @@ public class DeviceDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Capability}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Capability per the base specification
              */
             @Override
             public Capability build() {
@@ -2830,6 +2840,8 @@ public class DeviceDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Property}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Property per the base specification
              */
             @Override
             public Property build() {
@@ -3129,6 +3141,8 @@ public class DeviceDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Material}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Material per the base specification
              */
             @Override
             public Material build() {

@@ -1091,6 +1091,8 @@ public class ExampleScenario extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ExampleScenario}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ExampleScenario per the base specification
          */
         @Override
         public ExampleScenario build() {
@@ -1444,6 +1446,8 @@ public class ExampleScenario extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Actor}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Actor per the base specification
              */
             @Override
             public Actor build() {
@@ -1887,6 +1891,8 @@ public class ExampleScenario extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Instance}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Instance per the base specification
              */
             @Override
             public Instance build() {
@@ -2161,6 +2167,8 @@ public class ExampleScenario extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Version}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Version per the base specification
                  */
                 @Override
                 public Version build() {
@@ -2428,6 +2436,8 @@ public class ExampleScenario extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link ContainedInstance}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid ContainedInstance per the base specification
                  */
                 @Override
                 public ContainedInstance build() {
@@ -2810,6 +2820,8 @@ public class ExampleScenario extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Process}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Process per the base specification
              */
             @Override
             public Process build() {
@@ -3176,6 +3188,8 @@ public class ExampleScenario extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Step}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Step per the base specification
                  */
                 @Override
                 public Step build() {
@@ -3692,6 +3706,8 @@ public class ExampleScenario extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Operation}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Operation per the base specification
                      */
                     @Override
                     public Operation build() {
@@ -4021,6 +4037,8 @@ public class ExampleScenario extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Alternative}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Alternative per the base specification
                      */
                     @Override
                     public Alternative build() {

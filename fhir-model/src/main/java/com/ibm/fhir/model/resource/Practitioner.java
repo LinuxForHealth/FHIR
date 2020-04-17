@@ -813,6 +813,8 @@ public class Practitioner extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Practitioner}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Practitioner per the base specification
          */
         @Override
         public Practitioner build() {
@@ -1184,6 +1186,8 @@ public class Practitioner extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Qualification}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Qualification per the base specification
              */
             @Override
             public Qualification build() {

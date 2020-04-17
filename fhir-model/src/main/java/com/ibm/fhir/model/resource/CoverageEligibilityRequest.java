@@ -978,6 +978,8 @@ public class CoverageEligibilityRequest extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link CoverageEligibilityRequest}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid CoverageEligibilityRequest per the base specification
          */
         @Override
         public CoverageEligibilityRequest build() {
@@ -1294,6 +1296,8 @@ public class CoverageEligibilityRequest extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link SupportingInfo}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid SupportingInfo per the base specification
              */
             @Override
             public SupportingInfo build() {
@@ -1602,6 +1606,8 @@ public class CoverageEligibilityRequest extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Insurance}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Insurance per the base specification
              */
             @Override
             public Insurance build() {
@@ -2225,6 +2231,8 @@ public class CoverageEligibilityRequest extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Item}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Item per the base specification
              */
             @Override
             public Item build() {
@@ -2473,6 +2481,8 @@ public class CoverageEligibilityRequest extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Diagnosis}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Diagnosis per the base specification
                  */
                 @Override
                 public Diagnosis build() {

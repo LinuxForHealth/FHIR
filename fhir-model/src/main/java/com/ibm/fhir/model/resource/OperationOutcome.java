@@ -386,6 +386,8 @@ public class OperationOutcome extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link OperationOutcome}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid OperationOutcome per the base specification
          */
         @Override
         public OperationOutcome build() {
@@ -865,6 +867,8 @@ public class OperationOutcome extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Issue}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Issue per the base specification
              */
             @Override
             public Issue build() {

@@ -388,6 +388,8 @@ public class TriggerDefinition extends Element {
          * 
          * @return
          *     An immutable object of type {@link TriggerDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid TriggerDefinition per the base specification
          */
         @Override
         public TriggerDefinition build() {

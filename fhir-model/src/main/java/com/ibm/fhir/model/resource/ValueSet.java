@@ -1099,6 +1099,8 @@ public class ValueSet extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ValueSet}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ValueSet per the base specification
          */
         @Override
         public ValueSet build() {
@@ -1497,6 +1499,8 @@ public class ValueSet extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Compose}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Compose per the base specification
              */
             @Override
             public Compose build() {
@@ -1923,6 +1927,8 @@ public class ValueSet extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Include}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Include per the base specification
                  */
                 @Override
                 public Include build() {
@@ -2248,6 +2254,8 @@ public class ValueSet extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Concept}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Concept per the base specification
                      */
                     @Override
                     public Concept build() {
@@ -2560,6 +2568,8 @@ public class ValueSet extends DomainResource {
                          * 
                          * @return
                          *     An immutable object of type {@link Designation}
+                         * @throws IllegalStateException
+                         *     if the current state cannot be built into a valid Designation per the base specification
                          */
                         @Override
                         public Designation build() {
@@ -2884,6 +2894,8 @@ public class ValueSet extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Filter}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Filter per the base specification
                      */
                     @Override
                     public Filter build() {
@@ -3332,6 +3344,8 @@ public class ValueSet extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Expansion}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Expansion per the base specification
              */
             @Override
             public Expansion build() {
@@ -3617,6 +3631,8 @@ public class ValueSet extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Parameter}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Parameter per the base specification
                  */
                 @Override
                 public Parameter build() {
@@ -4117,6 +4133,8 @@ public class ValueSet extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Contains}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Contains per the base specification
                  */
                 @Override
                 public Contains build() {

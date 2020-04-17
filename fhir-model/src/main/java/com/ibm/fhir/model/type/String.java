@@ -189,6 +189,8 @@ public class String extends Element {
          * 
          * @return
          *     An immutable object of type {@link String}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid String per the base specification
          */
         @Override
         public String build() {

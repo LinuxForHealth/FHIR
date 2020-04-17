@@ -1143,6 +1143,8 @@ public class Condition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Condition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Condition per the base specification
          */
         @Override
         public Condition build() {
@@ -1479,6 +1481,8 @@ public class Condition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Stage}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Stage per the base specification
              */
             @Override
             public Stage build() {
@@ -1788,6 +1792,8 @@ public class Condition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Evidence}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Evidence per the base specification
              */
             @Override
             public Evidence build() {

@@ -362,6 +362,8 @@ public class Identifier extends Element {
          * 
          * @return
          *     An immutable object of type {@link Identifier}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Identifier per the base specification
          */
         @Override
         public Identifier build() {

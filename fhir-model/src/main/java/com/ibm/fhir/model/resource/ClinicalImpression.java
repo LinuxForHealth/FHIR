@@ -1239,6 +1239,8 @@ public class ClinicalImpression extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ClinicalImpression}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ClinicalImpression per the base specification
          */
         @Override
         public ClinicalImpression build() {
@@ -1555,6 +1557,8 @@ public class ClinicalImpression extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Investigation}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Investigation per the base specification
              */
             @Override
             public Investigation build() {
@@ -1860,6 +1864,8 @@ public class ClinicalImpression extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Finding}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Finding per the base specification
              */
             @Override
             public Finding build() {

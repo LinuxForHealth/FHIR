@@ -233,6 +233,8 @@ public class MoneyQuantity extends Quantity {
          * 
          * @return
          *     An immutable object of type {@link MoneyQuantity}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MoneyQuantity per the base specification
          */
         @Override
         public MoneyQuantity build() {

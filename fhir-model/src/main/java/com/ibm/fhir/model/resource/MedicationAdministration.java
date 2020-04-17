@@ -1267,6 +1267,8 @@ public class MedicationAdministration extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MedicationAdministration}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MedicationAdministration per the base specification
          */
         @Override
         public MedicationAdministration build() {
@@ -1568,6 +1570,8 @@ public class MedicationAdministration extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Performer}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Performer per the base specification
              */
             @Override
             public Performer build() {
@@ -1992,6 +1996,8 @@ public class MedicationAdministration extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Dosage}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Dosage per the base specification
              */
             @Override
             public Dosage build() {

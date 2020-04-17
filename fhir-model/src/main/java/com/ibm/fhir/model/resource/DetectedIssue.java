@@ -852,6 +852,8 @@ public class DetectedIssue extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link DetectedIssue}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid DetectedIssue per the base specification
          */
         @Override
         public DetectedIssue build() {
@@ -1167,6 +1169,8 @@ public class DetectedIssue extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Evidence}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Evidence per the base specification
              */
             @Override
             public Evidence build() {
@@ -1483,6 +1487,8 @@ public class DetectedIssue extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Mitigation}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Mitigation per the base specification
              */
             @Override
             public Mitigation build() {

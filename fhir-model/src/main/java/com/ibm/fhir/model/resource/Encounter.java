@@ -1427,6 +1427,8 @@ public class Encounter extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Encounter}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Encounter per the base specification
          */
         @Override
         public Encounter build() {
@@ -1725,6 +1727,8 @@ public class Encounter extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link StatusHistory}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid StatusHistory per the base specification
              */
             @Override
             public StatusHistory build() {
@@ -2006,6 +2010,8 @@ public class Encounter extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link ClassHistory}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid ClassHistory per the base specification
              */
             @Override
             public ClassHistory build() {
@@ -2335,6 +2341,8 @@ public class Encounter extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Participant}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Participant per the base specification
              */
             @Override
             public Participant build() {
@@ -2653,6 +2661,8 @@ public class Encounter extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Diagnosis}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Diagnosis per the base specification
              */
             @Override
             public Diagnosis build() {
@@ -3246,6 +3256,8 @@ public class Encounter extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Hospitalization}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Hospitalization per the base specification
              */
             @Override
             public Hospitalization build() {
@@ -3605,6 +3617,8 @@ public class Encounter extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Location}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Location per the base specification
              */
             @Override
             public Location build() {

@@ -1379,6 +1379,8 @@ public class MedicationKnowledge extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MedicationKnowledge}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MedicationKnowledge per the base specification
          */
         @Override
         public MedicationKnowledge build() {
@@ -1691,6 +1693,8 @@ public class MedicationKnowledge extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link RelatedMedicationKnowledge}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid RelatedMedicationKnowledge per the base specification
              */
             @Override
             public RelatedMedicationKnowledge build() {
@@ -1958,6 +1962,8 @@ public class MedicationKnowledge extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Monograph}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Monograph per the base specification
              */
             @Override
             public Monograph build() {
@@ -2265,6 +2271,8 @@ public class MedicationKnowledge extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Ingredient}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Ingredient per the base specification
              */
             @Override
             public Ingredient build() {
@@ -2570,6 +2578,8 @@ public class MedicationKnowledge extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Cost}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Cost per the base specification
              */
             @Override
             public Cost build() {
@@ -2830,6 +2840,8 @@ public class MedicationKnowledge extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link MonitoringProgram}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid MonitoringProgram per the base specification
              */
             @Override
             public MonitoringProgram build() {
@@ -3170,6 +3182,8 @@ public class MedicationKnowledge extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link AdministrationGuidelines}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid AdministrationGuidelines per the base specification
              */
             @Override
             public AdministrationGuidelines build() {
@@ -3463,6 +3477,8 @@ public class MedicationKnowledge extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Dosage}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Dosage per the base specification
                  */
                 @Override
                 public Dosage build() {
@@ -3758,6 +3774,8 @@ public class MedicationKnowledge extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link PatientCharacteristics}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid PatientCharacteristics per the base specification
                  */
                 @Override
                 public PatientCharacteristics build() {
@@ -4046,6 +4064,8 @@ public class MedicationKnowledge extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link MedicineClassification}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid MedicineClassification per the base specification
              */
             @Override
             public MedicineClassification build() {
@@ -4313,6 +4333,8 @@ public class MedicationKnowledge extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Packaging}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Packaging per the base specification
              */
             @Override
             public Packaging build() {
@@ -4587,6 +4609,8 @@ public class MedicationKnowledge extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link DrugCharacteristic}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid DrugCharacteristic per the base specification
              */
             @Override
             public DrugCharacteristic build() {
@@ -4963,6 +4987,8 @@ public class MedicationKnowledge extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Regulatory}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Regulatory per the base specification
              */
             @Override
             public Regulatory build() {
@@ -5235,6 +5261,8 @@ public class MedicationKnowledge extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Substitution}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Substitution per the base specification
                  */
                 @Override
                 public Substitution build() {
@@ -5471,6 +5499,8 @@ public class MedicationKnowledge extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Schedule}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Schedule per the base specification
                  */
                 @Override
                 public Schedule build() {
@@ -5737,6 +5767,8 @@ public class MedicationKnowledge extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link MaxDispense}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid MaxDispense per the base specification
                  */
                 @Override
                 public MaxDispense build() {
@@ -6068,6 +6100,8 @@ public class MedicationKnowledge extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Kinetics}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Kinetics per the base specification
              */
             @Override
             public Kinetics build() {

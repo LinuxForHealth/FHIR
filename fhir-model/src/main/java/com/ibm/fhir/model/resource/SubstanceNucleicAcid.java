@@ -520,6 +520,8 @@ public class SubstanceNucleicAcid extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link SubstanceNucleicAcid}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid SubstanceNucleicAcid per the base specification
          */
         @Override
         public SubstanceNucleicAcid build() {
@@ -1034,6 +1036,8 @@ public class SubstanceNucleicAcid extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Subunit}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Subunit per the base specification
              */
             @Override
             public Subunit build() {
@@ -1373,6 +1377,8 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Linkage}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Linkage per the base specification
                  */
                 @Override
                 public Linkage build() {
@@ -1671,6 +1677,8 @@ public class SubstanceNucleicAcid extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Sugar}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Sugar per the base specification
                  */
                 @Override
                 public Sugar build() {

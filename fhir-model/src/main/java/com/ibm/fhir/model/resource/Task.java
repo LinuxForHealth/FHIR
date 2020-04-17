@@ -1663,6 +1663,8 @@ public class Task extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Task}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Task per the base specification
          */
         @Override
         public Task build() {
@@ -2002,6 +2004,8 @@ public class Task extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Restriction}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Restriction per the base specification
              */
             @Override
             public Restriction build() {
@@ -2334,6 +2338,8 @@ public class Task extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Input}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Input per the base specification
              */
             @Override
             public Input build() {
@@ -2665,6 +2671,8 @@ public class Task extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Output}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Output per the base specification
              */
             @Override
             public Output build() {

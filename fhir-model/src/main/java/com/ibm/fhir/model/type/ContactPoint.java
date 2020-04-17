@@ -336,6 +336,8 @@ public class ContactPoint extends Element {
          * 
          * @return
          *     An immutable object of type {@link ContactPoint}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ContactPoint per the base specification
          */
         @Override
         public ContactPoint build() {

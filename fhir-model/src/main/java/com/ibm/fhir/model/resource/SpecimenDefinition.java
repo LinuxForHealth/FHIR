@@ -600,6 +600,8 @@ public class SpecimenDefinition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link SpecimenDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid SpecimenDefinition per the base specification
          */
         @Override
         public SpecimenDefinition build() {
@@ -1119,6 +1121,8 @@ public class SpecimenDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link TypeTested}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid TypeTested per the base specification
              */
             @Override
             public TypeTested build() {
@@ -1617,6 +1621,8 @@ public class SpecimenDefinition extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Container}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Container per the base specification
                  */
                 @Override
                 public Container build() {
@@ -1874,6 +1880,8 @@ public class SpecimenDefinition extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Additive}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Additive per the base specification
                      */
                     @Override
                     public Additive build() {
@@ -2206,6 +2214,8 @@ public class SpecimenDefinition extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Handling}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Handling per the base specification
                  */
                 @Override
                 public Handling build() {

@@ -1686,6 +1686,8 @@ public class Library extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Library}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Library per the base specification
          */
         @Override
         public Library build() {
