@@ -19,7 +19,10 @@ echo "[Docker Containers]"
 docker container ps
 
 echo "[Clean up images]"
-docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+if [ ! -z "$(docker images --filter "dangling=true" -q --no-trunc)" ]
+then
+    docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+fi 
 
 echo "[Docker Prune]"
 docker system prune -f
