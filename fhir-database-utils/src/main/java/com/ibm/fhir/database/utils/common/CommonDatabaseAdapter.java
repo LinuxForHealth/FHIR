@@ -77,7 +77,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     }
 
     /**
-     * Constructor used by AddColum only for getting DB type specific column name.
+     * Constructor used by AddColumn only for getting DB type specific column name.
      */
     protected CommonDatabaseAdapter() {
         this.target = null;
