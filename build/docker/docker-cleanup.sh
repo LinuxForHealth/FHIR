@@ -6,18 +6,20 @@
 ###############################################################################
 set -ex
 
+echo "[Cleaning up Apt]"
+sudo apt clean
+
 echo "[Check Status for Disk space]"
 docker system df
-
-echo "[Clean up images]"
-docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
-sudo apt clean
 
 echo "[Docker Images on System]"
 docker image ls -aq
 
 echo "[Docker Containers]"
 docker container ps
+
+echo "[Clean up images]"
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
 
 echo "[Docker Prune]"
 docker system prune -f
