@@ -1,0 +1,42 @@
+version: "3.7"
+networks:
+  main:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.0/24
+      driver: default
+services:
+    nats-node1:
+        image: nats-streaming:0.17.0
+        container_name: nats-node1
+        volumes:
+            - .:/nats
+        command: --config /nats/config-1.conf
+        networks:
+            - main
+        ports:
+            - 4222:4222
+            - 6222:6222
+    nats-node2:
+        image: nats-streaming:0.17.0
+        container_name: nats-node2
+        volumes:
+            - .:/nats
+        command: --config /nats/config-2.conf
+        networks:
+            - main
+        ports:
+            - 4223:4222
+            - 6223:6222
+    nats-node3:
+        image: nats-streaming:0.17.0
+        container_name: nats-node3
+        volumes:
+            - .:/nats
+        command: --config /nats/config-3.conf
+        networks:
+            - main
+        ports:
+            - 4224:4222
+            - 6224:6222
