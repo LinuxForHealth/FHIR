@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
@@ -48,11 +47,11 @@ public class AddColumn implements IDatabaseStatement {
         IDatabaseTypeAdapter dbAdapter = null;
         String driveClassName = translator.getDriverClassName();
         if (driveClassName.contains("db2")) {
-            dbAdapter = new Db2Adapter((IConnectionProvider)null);
+            dbAdapter = new Db2Adapter();
         } else if (driveClassName.contains("derby")) {
-            dbAdapter = new DerbyAdapter((IConnectionProvider)null);
+            dbAdapter = new DerbyAdapter();
         } else if (driveClassName.contains("postgresql")) {
-            dbAdapter = new PostgreSqlAdapter((IConnectionProvider)null);
+            dbAdapter = new PostgreSqlAdapter();
         }
 
         String ddl = "ALTER TABLE " + qname + " ADD COLUMN " + columnDef(column, dbAdapter);

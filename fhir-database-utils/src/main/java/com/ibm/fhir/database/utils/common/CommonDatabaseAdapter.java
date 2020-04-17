@@ -76,6 +76,15 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         this.connectionProvider = cp;
     }
 
+    /**
+     * Constructor used by AddColum only for getting DB type specific column name.
+     */
+    protected CommonDatabaseAdapter() {
+        this.target = null;
+        this.translator = null;
+        this.connectionProvider = null;
+    }
+
     @Override
     public IDatabaseTranslator getTranslator() {
         return this.translator;
