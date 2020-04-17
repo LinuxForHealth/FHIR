@@ -13,7 +13,7 @@ echo "[Check Status for Disk space]"
 docker system df
 
 echo "[Docker Images on System]"
-docker image ls -aq
+docker image ls -a
 
 echo "[Docker Containers]"
 docker container ps
