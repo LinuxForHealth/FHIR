@@ -9,6 +9,12 @@ set -ex
 echo "[Cleaning up Apt]"
 sudo apt clean
 
+echo "[System Disk Space]"
+df -h
+
+echo "[Space in Git Repo]"
+du -sh
+
 echo "[Check Status for Disk space]"
 docker system df
 
