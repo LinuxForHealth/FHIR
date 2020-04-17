@@ -224,8 +224,6 @@ jobs:
       uses: joschi/setup-jdk@v1
       with:
         java-version: ${{ matrix.java }}
-    - name: Cleanup Docker and System Space
-      run: bash build/docker/docker-cleanup.sh
     - name: Build samples
       run: mvn -B install --file fhir-examples --no-transfer-progress
     - name: Build parent without tests
@@ -277,8 +275,6 @@ jobs:
       uses: joschi/setup-jdk@v1
       with:
         java-version: ${{ matrix.java }}
-    - name: Cleanup Docker and System Space
-      run: bash build/docker/docker-cleanup.sh
     - name: Build samples
       run: mvn -B install --file fhir-examples --no-transfer-progress
     - name: Build parent without tests

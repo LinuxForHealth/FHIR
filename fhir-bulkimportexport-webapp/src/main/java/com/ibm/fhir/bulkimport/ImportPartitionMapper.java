@@ -34,7 +34,7 @@ import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 
 public class ImportPartitionMapper implements PartitionMapper {
-    private final static Logger logger = Logger.getLogger(ImportPartitionMapper.class.getName());
+    private static final Logger logger = Logger.getLogger(ImportPartitionMapper.class.getName());
     private AmazonS3 cosClient = null;
 
     @Inject
@@ -50,7 +50,10 @@ public class ImportPartitionMapper implements PartitionMapper {
 
     /**
      * The data sources info - base64 encoded data sources in Json array like following:
-     * <p> https </p>
+     * <p>
+     * https
+     * </p>
+     * 
      * <pre>
        [{
          "type": "Patient",
@@ -59,9 +62,11 @@ public class ImportPartitionMapper implements PartitionMapper {
          "type": "Observations",
          "url": "https://client.example.org/obseration_file_19.ndjson?sig=RHIX5Xcg0Mq2rqI3OlWT"
        }]
-     *  </pre>
-     *
-     * <p> ibm-cos or aws-s3</p>
+     * </pre>
+     * <p>
+     * ibm-cos or aws-s3
+     * </p>
+     * 
      * <pre>
        [{
           "type": "Patient",
@@ -70,9 +75,11 @@ public class ImportPartitionMapper implements PartitionMapper {
           "type": "Observations",
           "url": "QHvFOj705i+9+WQXmuMHuiyH/QDCAZLl86aS6GydVp4=/Observation_1.ndjson"
         }]
-     *  </pre>
-     *
-     * <p> file </p>
+     * </pre>
+     * <p>
+     * file
+     * </p>
+     * 
      * <pre>
        [{
           "type": "Patient",
@@ -81,7 +88,7 @@ public class ImportPartitionMapper implements PartitionMapper {
           "type": "Observations",
           "url": "/tmp/Observation_1.ndjson"
         }]
-     *  </pre>
+     * </pre>
      */
     @Inject
     @BatchProperty(name = "fhir.dataSourcesInfo")
@@ -130,128 +137,137 @@ public class ImportPartitionMapper implements PartitionMapper {
     String cosCredentialIbm;
 
     public ImportPartitionMapper() {
-
+        // No Operation
     }
 
-
-    class FhirDataSource
-    {
+    class FhirDataSource {
         private String type;
         private String url;
 
         public FhirDataSource(String type, String url) {
             super();
             this.type = type;
-            this.url = url;
+            this.url  = url;
         }
 
         public String getType() {
             return type;
         }
+
         public void setType(String type) {
             this.type = type;
         }
+
         public String getUrl() {
             return url;
         }
+
         public void setUrl(String url) {
             this.url = url;
         }
-     };
 
-     private List<FhirDataSource> getFhirDataSourcesForObjectStore(String DSTypeInfo, String DSDataLocationInfo) throws Exception {
-         String nextToken = null;
-         List<FhirDataSource> fhirDataSources = new ArrayList<>();
-         // Create a COS/S3 client if it's not created yet.
-         if (cosClient == null) {
-             cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+        @Override
+        public String toString() {
+            return "FhirDataSource [type=" + type + ", url=" + url + "]";
+        }
+    }
 
-             if (cosClient == null) {
-                 logger.warning("getFhirDataSourcesForObjectStore: Failed to get CosClient!");
-                 throw new Exception("Failed to get CosClient!!");
-             } else {
-                 logger.finer("getFhirDataSourcesForObjectStore: Succeed get CosClient!");
-             }
-         }
-         if (cosBucketName == null) {
-             logger.warning("getFhirDataSourcesForObjectStore: Failed to get BucketName!");
-             return fhirDataSources;
-         }else {
-             logger.finer("getFhirDataSourcesForObjectStore: Succeed get BucketName!");
-         }
-         cosBucketName = cosBucketName.toLowerCase();
-         if (!cosClient.doesBucketExistV2(cosBucketName)) {
-             logger.warning("getFhirDataSourcesForObjectStore: Bucket '" + cosBucketName + "' not found!");
-             BulkDataUtils.listBuckets(cosClient);
-             return fhirDataSources;
-         }
+    private List<FhirDataSource> getFhirDataSourcesForObjectStore(String dsTypeInfo, String dsDataLocationInfo)
+            throws Exception {
+        String nextToken = null;
+        List<FhirDataSource> fhirDataSources = new ArrayList<>();
+        // Create a COS/S3 client if it's not created yet.
+        if (cosClient == null) {
+            cosClient =
+                    BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
+                            cosLocation);
 
-         ListObjectsV2Result result = null;
-         do {
-             if (result != null) {
-                 nextToken = result.getNextContinuationToken();
-             }
-             ListObjectsV2Request request = new ListObjectsV2Request().withBucketName(cosBucketName).withMaxKeys(1000)
-                     .withContinuationToken(nextToken);
-             result = cosClient.listObjectsV2(request);
-             for (S3ObjectSummary objectSummary : result.getObjectSummaries()) {
-                 boolean isToBeProccessed = false;
-                 if (DSDataLocationInfo != null && !DSDataLocationInfo.trim().isEmpty()) {
-                     if (objectSummary.getKey().startsWith(DSDataLocationInfo.trim())) {
-                         isToBeProccessed = true;
-                     }
-                 } else {
-                     isToBeProccessed = true;
-                 }
-                 if (isToBeProccessed) {
-                     logger.info("getFhirDataSourcesForObjectStore: ObjectStorge Object(" + objectSummary.getKey() + ") - " + objectSummary.getSize()
-                             + " bytes.");
-                     if (objectSummary.getSize() > 0) {
-                         fhirDataSources.add(new FhirDataSource(DSTypeInfo, objectSummary.getKey()));
-                     }
-                 }
-             }
-         } while (result != null && result.isTruncated());
+            if (cosClient == null) {
+                logger.warning("getFhirDataSourcesForObjectStore: Failed to get CosClient!");
+                throw new Exception("Failed to get CosClient!!");
+            } else {
+                logger.finer("getFhirDataSourcesForObjectStore: Succeed get CosClient!");
+            }
+        }
+        if (cosBucketName == null) {
+            logger.warning("getFhirDataSourcesForObjectStore: Failed to get BucketName!");
+            return fhirDataSources;
+        } else {
+            logger.finer("getFhirDataSourcesForObjectStore: Succeed get BucketName!");
+        }
+        cosBucketName = cosBucketName.toLowerCase();
+        if (!cosClient.doesBucketExistV2(cosBucketName)) {
+            logger.warning("getFhirDataSourcesForObjectStore: Bucket '" + cosBucketName + "' not found!");
+            BulkDataUtils.listBuckets(cosClient);
+            return fhirDataSources;
+        }
 
-         return fhirDataSources;
-     }
+        ListObjectsV2Result result = null;
+        do {
+            if (result != null) {
+                nextToken = result.getNextContinuationToken();
+            }
+            ListObjectsV2Request request =
+                    new ListObjectsV2Request().withBucketName(cosBucketName).withMaxKeys(1000)
+                            .withContinuationToken(nextToken);
+            result = cosClient.listObjectsV2(request);
+            for (S3ObjectSummary objectSummary : result.getObjectSummaries()) {
+                boolean isToBeProccessed = false;
+                if (dsDataLocationInfo != null && !dsDataLocationInfo.trim().isEmpty()) {
+                    if (objectSummary.getKey().startsWith(dsDataLocationInfo.trim())) {
+                        isToBeProccessed = true;
+                    }
+                } else {
+                    isToBeProccessed = true;
+                }
+                if (isToBeProccessed) {
+                    logger.info("getFhirDataSourcesForObjectStore: ObjectStorge Object(" + objectSummary.getKey()
+                            + ") - " + objectSummary.getSize() + " bytes.");
+                    if (objectSummary.getSize() > 0) {
+                        fhirDataSources.add(new FhirDataSource(dsTypeInfo, objectSummary.getKey()));
+                    }
+                }
+            }
+        } while (result != null && result.isTruncated());
 
+        return fhirDataSources;
+    }
 
-     private List<FhirDataSource> getFhirDataSources(JsonArray dataSourceArray, BulkImportDataSourceStorageType type) throws Exception
-     {
-         List<FhirDataSource> fhirDataSources = new ArrayList<>();
-         for (JsonValue jsonValue : dataSourceArray) {
-             JsonObject dataSourceInfo = jsonValue.asJsonObject();
-             String DSTypeInfo = dataSourceInfo.getString(Constants.IMPORT_INPUT_RESOURCE_TYPE);
-             String DSDataLocationInfo = dataSourceInfo.getString(Constants.IMPORT_INPUT_RESOURCE_URL);
+    private List<FhirDataSource> getFhirDataSources(JsonArray dataSourceArray, BulkImportDataSourceStorageType type)
+            throws Exception {
+        List<FhirDataSource> fhirDataSources = new ArrayList<>();
+        for (JsonValue jsonValue : dataSourceArray) {
+            JsonObject dataSourceInfo = jsonValue.asJsonObject();
+            String dsTypeInfo = dataSourceInfo.getString(Constants.IMPORT_INPUT_RESOURCE_TYPE);
+            String dsDataLocationInfo = dataSourceInfo.getString(Constants.IMPORT_INPUT_RESOURCE_URL);
 
-             switch (type) {
-             case HTTPS:
-             case FILE:
-                 fhirDataSources.add(new FhirDataSource(DSTypeInfo, DSDataLocationInfo));
-                 break;
-             case AWSS3:
-             case IBMCOS:
-                 fhirDataSources.addAll(getFhirDataSourcesForObjectStore(DSTypeInfo, DSDataLocationInfo));
-                 break;
-             default:
-                 break;
-             }
-         }
+            switch (type) {
+            case HTTPS:
+            case FILE:
+                fhirDataSources.add(new FhirDataSource(dsTypeInfo, dsDataLocationInfo));
+                break;
+            case AWSS3:
+            case IBMCOS:
+                fhirDataSources.addAll(getFhirDataSourcesForObjectStore(dsTypeInfo, dsDataLocationInfo));
+                break;
+            default:
+                break;
+            }
+        }
 
-         return fhirDataSources;
-     }
-
+        return fhirDataSources;
+    }
 
     @Override
     public PartitionPlan mapPartitions() throws Exception {
-        JsonReader reader = Json.createReader(new StringReader(
-                new String(Base64.getDecoder().decode(dataSourcesInfo), StandardCharsets.UTF_8)));
+        JsonReader reader =
+                Json.createReader(new StringReader(
+                        new String(Base64.getDecoder().decode(dataSourcesInfo), StandardCharsets.UTF_8)));
         JsonArray dataSourceArray = reader.readArray();
         reader.close();
 
-        List<FhirDataSource> fhirDataSources = getFhirDataSources(dataSourceArray, BulkImportDataSourceStorageType.from(dataSourceStorageType));
-
+        BulkImportDataSourceStorageType dsType = BulkImportDataSourceStorageType.from(dataSourceStorageType);
+        List<FhirDataSource> fhirDataSources = getFhirDataSources(dataSourceArray, dsType);
         PartitionPlanImpl pp = new PartitionPlanImpl();
         pp.setPartitions(fhirDataSources.size());
         pp.setThreads(Math.min(Constants.IMPORT_MAX_PARTITIONPROCESSING_THREADNUMBER, fhirDataSources.size()));
@@ -262,11 +278,10 @@ public class ImportPartitionMapper implements PartitionMapper {
             Properties p = new Properties();
             p.setProperty(Constants.IMPORT_PARTITTION_WORKITEM, fhirDataSource.getUrl());
             p.setProperty(Constants.IMPORT_PARTITTION_RESOURCE_TYPE, fhirDataSource.getType());
-            partitionProps[ propCount++ ] = p;
+            partitionProps[propCount++] = p;
         }
         pp.setPartitionProperties(partitionProps);
 
         return pp;
     }
-
 }

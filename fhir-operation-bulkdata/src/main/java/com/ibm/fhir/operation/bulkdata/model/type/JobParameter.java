@@ -282,7 +282,9 @@ public class JobParameter {
                 sources = writer.toString();
             }
 
-            return Base64.getEncoder().encodeToString(sources.getBytes());
+            // Intentionally NOT returning immediately as there may be a need to debug
+            String base64 = Base64.getEncoder().encodeToString(sources.getBytes());
+            return base64;
         }
     }
 

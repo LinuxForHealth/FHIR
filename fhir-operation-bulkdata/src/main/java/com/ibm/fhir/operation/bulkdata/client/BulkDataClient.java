@@ -303,8 +303,9 @@ public class BulkDataClient {
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw BulkDataExportUtil.buildOperationException(
-                    "An unexpected error has ocurred while checking the export status", IssueType.TRANSIENT);
+                    "An unexpected error has ocurred while checking the status", IssueType.TRANSIENT);
         }
 
         return result;
@@ -380,7 +381,10 @@ public class BulkDataClient {
         String bucket = properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET);
 
         // Request - somewhere along the way a space is injected
-        String request = "$export?_type=" + resourceTypes.replaceAll(" ", "");
+        String request = "$import";
+        if (resourceTypes != null) {
+            request = "$export?_type=" + resourceTypes.replaceAll(" ", "");
+        }
         result.setRequest(request);
         result.setRequiresAccessToken(false);
 
@@ -393,7 +397,7 @@ public class BulkDataClient {
         // e.g, Patient[1000,1000,200]:Observation[1000,1000,200],
         //      COMPLETED means no file exported.
         String exitStatus = response.getExitStatus();
-        if (!"COMPLETED".contentEquals(exitStatus)) {
+        if (!"COMPLETED".contentEquals(exitStatus) && request.contains("$export")) {
             List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
             List<PollingLocationResponse.Output> outputList = new ArrayList<>();
             for (String resourceTypeInf : resourceTypeInfs) {
@@ -410,6 +414,20 @@ public class BulkDataClient {
             }
             result.setOutput(outputList);
         }
+
+        if ("COMPLETED".contentEquals(exitStatus) && request.contains("$import")) {
+            // Currently there is no output
+            log.fine("Hit the case where we don't form output with counts");
+            List<Input> inputs = response.getJobParameters().getInputs();
+
+            List<PollingLocationResponse.Output> outputs = new ArrayList<>();
+            for (Input input : inputs) {
+                // The count is optional, and we're passing back null
+                outputs.add(new PollingLocationResponse.Output("OperationOutcome", input.getUrl(), null));
+            }
+            result.setOutput(outputs);
+        }
+
         return result;
     }
 

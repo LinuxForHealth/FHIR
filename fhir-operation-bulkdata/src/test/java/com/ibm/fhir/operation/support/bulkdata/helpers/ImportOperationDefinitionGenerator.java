@@ -125,6 +125,7 @@ public class ImportOperationDefinitionGenerator {
         opBuilder = OperationDefinition.Parameter.builder();
         opBuilder.name(Code.code("storageDetail"));
         opBuilder.use(OperationParameterUse.IN);
+        opBuilder.type(FHIRAllTypes.STRING);
         opBuilder.min(com.ibm.fhir.model.type.Integer.of(1));
         opBuilder.max(string("1"));
         opBuilder.documentation(string("The type of storage input"));

@@ -169,7 +169,8 @@ public class BulkDataImportUtil {
         }
 
         for (String baseUrl : baseUrls) {
-            if (url.startsWith(baseUrl)) {
+            // When the URL does not contain a double // by-pass the URL verification
+            if (url.startsWith(baseUrl) || !url.contains("//")) {
                 return;
             }
         }

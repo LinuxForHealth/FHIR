@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -40,6 +39,44 @@ import com.ibm.fhir.model.type.Url;
 
 /**
  * These tests exercise the $import operation a bulkdata proposal
+ * 
+ * <pre>
+ * curl -k -X POST -u "fhiruser:change-password" -H 'Content-Type: application/fhir+json' 'https://localhost:9443/fhir-server/api/v4/$import' -d '{
+    "resourceType": "Parameters",
+    "id": "30321130-5032-49fb-be54-9b8b82b2445a",
+    "parameter": [
+        {
+            "name": "inputFormat",
+            "valueString": "application/fhir+ndjson"
+        },
+        {
+            "name": "inputSource",
+            "valueUri": "https://localhost:9443/source-fhir-server"
+        },
+        {
+            "name": "input",
+            "part": [
+                {
+                    "name": "type",
+                    "valueString": "Patient"
+                },
+                {
+                    "name": "url",
+                    "valueUrl": "test-import.ndjson"
+                }
+            ]
+        },
+        {
+            "name": "storageDetail",
+            "valueString": "ibm-cos"
+        }
+    ]
+}'
+
+grab content-location
+
+curl 'https://localhost:9443/fhir-server/api/v4/$bulkdata-status?job=FvHrLGPv0oKZNyLzBnY5iA%3D%3D' -k -u "fhiruser:change-password" -v
+ * </pre>
  */
 public class ImportOperationTest extends FHIRServerTestBase {
     // Test Specific
@@ -51,21 +88,6 @@ public class ImportOperationTest extends FHIRServerTestBase {
     public static final String BASE_VALID_URL = "/$import";
     public static final String BASE_VALID_STATUS_URL = "/$bulkdata-status";
     public static final String FORMAT = "application/fhir+ndjson";
-
-    // Cross Test Values
-    private String statusUrl;
-
-    public Response doPost(String path, String inputFormat, String inputSource, String resourceType, String url)
-            throws FHIRGeneratorException, IOException {
-        WebTarget target = getWebTarget();
-        target = target.path(path);
-        if (DEBUG) {
-            System.out.println("URL -> " + target.getUri());
-        }
-        Parameters parameters = generateParameters(inputFormat, inputSource, resourceType, url);
-        Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
-        return target.request(FHIRMediaType.APPLICATION_FHIR_JSON).post(entity, Response.class);
-    }
 
     private Parameters generateParameters(String inputFormat, String inputSource, String resourceType, String url)
             throws FHIRGeneratorException, IOException {
@@ -81,11 +103,8 @@ public class ImportOperationTest extends FHIRServerTestBase {
         Parameter part1 = Parameter.builder().name(string("type")).value(string(resourceType)).build();
         Parameter part2 = Parameter.builder().name(string("url")).value(Url.of(url)).build();
 
-        // Required: Input
+        // Required: Input (relative to bucket)
         Parameter inputParameter = Parameter.builder().name(string("input")).part(part1, part2).build();
-        parameters.add(inputParameter);
-
-        inputParameter = Parameter.builder().name(string("input")).part(part1, part2).build();
         parameters.add(inputParameter);
 
         // Optional: Storage Detail
@@ -100,7 +119,9 @@ public class ImportOperationTest extends FHIRServerTestBase {
 
         try (StringWriter writer = new StringWriter();) {
             FHIRGenerator.generator(Format.JSON, true).generate(ps, writer);
-            System.out.println(writer.toString());
+            if (DEBUG) {
+                System.out.println(writer.toString());
+            }
         }
         return ps;
     }
@@ -131,8 +152,20 @@ public class ImportOperationTest extends FHIRServerTestBase {
         return target.request(mimeType).get(Response.class);
     }
 
+    public Response doPost(String path, String inputFormat, String inputSource, String resourceType, String url)
+            throws FHIRGeneratorException, IOException {
+        WebTarget target = getWebTarget();
+        target = target.path(path);
+        if (DEBUG) {
+            System.out.println("URL -> " + target.getUri());
+        }
+        Parameters parameters = generateParameters(inputFormat, inputSource, resourceType, url);
+        Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
+        return target.request(FHIRMediaType.APPLICATION_FHIR_JSON).post(entity, Response.class);
+    }
+
     public Response polling(String statusUrl) throws InterruptedException {
-        int status = -1;
+        int status = 202;
         int totalTime = 0;
         Response response = null;
         while (Response.Status.ACCEPTED.getStatusCode() == status) {
@@ -154,34 +187,17 @@ public class ImportOperationTest extends FHIRServerTestBase {
         return response;
     }
 
-    public void checkStatus() throws InterruptedException {
-        Response response = polling(statusUrl);
-
-        // Export finished successfully, we should be about to find the "output" part in the message body
-        // which includes all the COS objects download urls.
-        String body = response.readEntity(String.class);
-        assertTrue(body.contains("output"));
-        // Find and try the first download link
-        String downloadUrl = body.substring(body.lastIndexOf("\"output\" :"));
-        int endIndex = downloadUrl.indexOf(".ndjson") + 7;
-        downloadUrl = downloadUrl.substring(downloadUrl.indexOf("https"), endIndex);
-        WebTarget client = ClientBuilder.newClient().target(downloadUrl);
-        response = client.request().get(Response.class);
-        assertEquals(response.getStatus(), 200);
-    }
-
     @Test(groups = { TEST_GROUP_NAME }, enabled = ON)
     public void testImport() throws Exception {
         String path = BASE_VALID_URL;
         String inputFormat = FORMAT;
         String inputSource = "https://localhost:9443/source-fhir-server";
         String resourceType = "Patient";
-        String url = "https://s3.us-east.cloud-object-storage.appdomain.cloud/fhir-integration-test/test-import.ndjson";
-        Response response = doPost(path, inputFormat, inputSource, resourceType, url);
+        // https://s3.us-east.cloud-object-storage.appdomain.cloud/fhir-integration-test/test-import.ndjson
+        String url = "test-import.ndjson";
 
-        String body = response.readEntity(String.class);
-        System.out.println(body);
-        assertEquals(response.getStatus(), 202);
+        Response response = doPost(path, inputFormat, inputSource, resourceType, url);
+        assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
 
         // check the content-location that's returned.
         String contentLocation = response.getHeaderString("Content-Location");
@@ -190,8 +206,10 @@ public class ImportOperationTest extends FHIRServerTestBase {
         }
 
         assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
-        statusUrl = contentLocation;
-        checkStatus();
+
+        // Check eventual value
+        response = polling(contentLocation);
+        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
     }
 
     /*

@@ -55,7 +55,7 @@ public class CosExportImpl implements ExportImportBulkData {
                 tmpProperties.put(BulkDataConstants.PARAM_GROUP_ID, logicalId);
             }
 
-            if (typeFilters != null && typeFilters.size() > 0) {
+            if (typeFilters != null && !typeFilters.isEmpty()) {
                 tmpProperties.put(BulkDataConstants.PARAM_TYPE_FILTER, String.join(",", typeFilters));
             }
 
