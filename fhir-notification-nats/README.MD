@@ -3,7 +3,7 @@
 The fhir-notification-nats module is designed to publish patient records to a [NATS](http://nats.io) streaming cluster for pub/sub, so published patient records can be consumed by designated downstream applications.  
 
 ## Configure IBM FHIR
-In fhir-server-config.json, find the default NATS configuration shown here:  
+In fhir-server/liberty-config/config/default/fhir-server-config.json, find the default NATS configuration shown here:  
 
     "nats": {
         "enabled": false,
@@ -18,15 +18,28 @@ In fhir-server-config.json, find the default NATS configuration shown here:
         "keystorePassword": "change-password"
     }
  
-Set "enabled" to true and provide the name of your NATS cluster for the value of "cluster".  You can leave "channel" and "clientId" as defined.  Provide the URL for one or more NATS servers as the value for "servers".  
+Set "enabled" to true and provide the name of your NATS cluster for the value of "cluster".  You can leave "channel" and "clientId" as defined.  Provide the URL for one or more NATS servers as the value for "servers". See the "Use TLS" section below for a discussion of the TLS settings, if required.  
 
-For use with the test configuration in the next section, set "enabled" to true and set "servers" to `nats://127.0.0.1:4222, nats://127.0.0.1:4223, nats://127.0.0.1:4224` and make no other changes.
+For use with the test configuration in the next section, set "enabled" to true and make no other changes.
 
 ## Create a simple NATS cluster for testing
 
-In the directory fhir-notification-nats/src/test/integration you will find the files to set up a basic NATS cluster.  Follow these steps to test:
+In the directory fhir-notification-nats/src/test/integration you will find the files to set up a basic NATS cluster and IBM FHIR server on the same docker network.  Follow these steps to test:
 
-* Start the NATS cluster.  
+* Build your IBM FHIR image with the NATS configuration discussed above and publish it to Docker Hub.  Edit the fhir_server service image in fhir-notification-nats/src/test/integration/docker-compose.yml to point to this new image.  
+
+	```    
+fhir_server:
+		image: <your-repo>/<your-image>
+```
+Note: As an alternative to building and publishing your own image, you can start an IBM FHIR server image that contains the NATS publisher functionality, then copy the updated configuration file containing the above changes into the IBM FHIR container and restart the container.  
+ 
+	```
+	Example: 
+docker cp ./fhir-server-config.json fhir_server:/opt/ibm/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json
+```        
+
+* Start the NATS cluster and IBM FHIR server.  
 
 	```
 docker-compose up -d
@@ -36,9 +49,8 @@ You can view the logs with:
 	```
 docker-compose logs -f
 ```
-* Start the FHIR server with NATS notification enabled, as described above.  The FHIR server will connect to the NATS cluster during startup.
 
-* Start the NATS subscriber using [Node.js](https://nodejs.org/en/download/).
+* Start the NATS subscriber using [Node.js](https://nodejs.org/en/download/).  
 
 	```
 node nats-subscriber
@@ -51,9 +63,12 @@ To use TLS (which you must do if your NATS cluster requires TLS) set "useTLS" to
 
 ### To create a truststore and keystore
 
-On MacOS, install the mkcert tool with `brew install mkcert`, then follow these steps to create a Java keystore and truststore for use with NATS.  You will also need Java keytool and openssl installed. Set $PASSWORD to be any value. 
+On MacOS, install the [mkcert tool](https://github.com/FiloSottile/mkcert) with `brew install mkcert`, then follow these steps to create a Java keystore and truststore for use with NATS.  You will also need Java keytool and openssl installed. Set $PASSWORD to be any value. 
 
 ```
+# Install the CA locally
+./mkcert -install 
+ 
 # Create the cert to use for the IBM FHIR server client connection
 ./mkcert -cert-file fhir-cert.pem -key-file fhir-key.pem localhost 127.0.0.1. 
 
@@ -64,9 +79,9 @@ keytool -keystore nats.client.truststore.jks -alias CARoot -import -file ./rootC
 cat ./fhir-key.pem ./fhir-cert.pem > combined.pem
 openssl pkcs12 -export -in combined.pem -out cert.p12 -passin pass:$PASSWORD -passout pass:$PASSWORD
 
-# Import the cert into the keystore
+# Import the pkcs12 cert into a new keystore
 keytool -importkeystore -srckeystore cert.p12 -srcstoretype pkcs12 -deststoretype pkcs12 -destkeystore nats.client.keystore.jks -srcstorepass $PASSWORD -deststorepass $PASSWORD
 
-# Import the cert into the keystore & clean up
+# Import the CA cert into the keystore & clean up
 keytool -keystore nats.client.keystore.jks -alias CARoot -import -file ./rootCA.pem -storepass $PASSWORD -noprompt
 rm cert.p12 combined.pem
