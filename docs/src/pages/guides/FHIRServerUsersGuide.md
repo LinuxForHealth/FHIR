@@ -32,7 +32,7 @@ permalink: /FHIRServerUsersGuide/
 - [5 Appendix](#5-appendix)
   * [5.1 Configuration properties reference](#51-configuration-properties-reference)
   * [5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server)
-  * [5.3 OpenID Connect and OAuth 2.0](#53-openid-connect-and-oauth-2_0)
+  * [5.3 OpenID Connect and OAuth 2.0](#53-openid-connect-and-oauth-20)
   * [5.4 Custom HTTP Headers](#54-custom-http-headers)
 - [6 Related topics](#6-related-topics)
 
@@ -1536,7 +1536,7 @@ must restart the server for that change to take effect.
 As stated earlier, the FHIR server is installed with a default configuration in `server.xml` which includes the definition of a keystore (`fhirKeystore.jks`) and a truststore (`fhirTruststore.jks`)<sup id="a7">[7](#f7)</sup>. These files are provided only as examples and while they may suffice in a test environment, the FHIR server deployer should generate a new keystore and truststore for any installations where security is a concern. Review the information in the following topics to learn how to configure a secure keystore and truststore.
 
 ### 5.2.2 WebApp security
-By default, the FHIR server REST API is only available via HTTPS on port 9443 and protect by HTTP basic authentication.
+By default, the FHIR server REST API is only available via HTTPS on port 9443 and is protected by HTTP basic authentication.
 Alternatively, the server can use OpenID Connect and OAuth 2.0 via a Bearer Token as described in [Section 5.2.4 Oauth 2.0](#524-oauth-20).
 In addition, the FHIR server web application can be secured via client certificate-based authentication.
 
@@ -1546,7 +1546,7 @@ Here are some notes related to these authentication schemes:
 *   Client certificate-based authentication can only be used in conjunction with an HTTPS endpoint since it involves SSL handshake negotiations. The main value of client authentication is that the server is able to securely authenticate the client through the use of certificates.
 
 ### 5.2.3 Configuring mutual TLS authentication
-To properly configure the FHIR server's keystore and truststore files, perform the following steps:
+To properly configure the FHIR server's keystore and truststore files, perform the following steps.
 
 ### 5.2.3.1 Configure the keyStores
 1.  Create a new self-signed server certificate<sup id="a8">[8](#f8)</sup> and store it in a new keystore file located in the `$WLP_HOME/usr/servers/fhir-server/resources/security` directory.
@@ -1602,22 +1602,21 @@ Copy the server keystore (`serverKeystore.jks`) and truststore (`serverTruststor
 ### 5.2.3.2 Configure the client
 The precise steps required to configure certificate-based authentication for a client application depend on the specific REST API client framework, but these are the general rules:
 
-*   If the client is using the FHIR server's HTTPS endpoint, then the client truststore should be configured with the REST API client framework<sup id="a11">[11](#f11)</sup>.
+*   If the client is using the FHIR server's HTTPS endpoint, then the client's truststore should be configured with the certificate of the FHIR server<sup id="a11">[11](#f11)</sup>.
 *   If the client is using basic authentication, then it must send an appropriate Authorization request header containing the username and password information in the HTTP request.
-*   If the client is using client certificate-based Authentication, then the client keystore must be configured with the REST API client framework<sup id="a12">[12](#f12)</sup>.
+*   If the client is using client certificate-based Authentication, then the client keystore must be configured with a certificate that is trusted by the FHIR server<sup id="a12">[12](#f12)</sup>.
 *   If the client is using OAuth 2.0 Authentication, then the client keystore must be configured with the REST API client framework. In addition, it must send an appropriate Authorization request header containing the Bearer token in the HTTP request.
 
 ## 5.3 OpenID Connect and OAuth 2.0
 The FHIR specification recommends the use of OpenID Connect and OAuth 2.0.
 The IBM FHIR Server supports these via Liberty's OpenID Connect support.
-The following sections are adapted from https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_config_oidc_pc_examp_beginner.html and related pages in the WebSphere Liberty knowledge center, but they apply to OpenLiberty
-as well.
+The following sections are adapted from [WebSphere Liberty knowledge center](https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_config_oidc_pc_examp_beginner.html) and related pages; the steps apply to OpenLiberty as well.
 
 ### 5.3.1 Configure Liberty as the OpenID Connect Provider
-Liberty can be configured to act as an OpenID Connect Provider via the [openidConnectServer-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectServer-1.0.html).
+Liberty can be configured to act as an OpenID Connect Provider via the [openidConnectServer-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectServer-1.0.html). This feature is enabled by default, but must be configured as described in the following sections to take effect.
 
 ### 5.3.1.1 Configure Liberty as an OAuth 2.0 Provider
-OpenID Connect is built on OAuth 2.0 and so you must first configure Liberty as an OAuth provider as described at https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_oauth_defining.html.
+OpenID Connect is built on OAuth 2.0 and so you must first configure Liberty as an OAuth provider as described at [Defining OAuth](https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_oauth_defining.html).
 
 Liberty supports the registration of clients through either a localStore in the server.xml or a databaseStore in a configured dataSource.
 To support "dynamic client registration", use a databaseStore by:
@@ -1649,7 +1648,7 @@ To support "dynamic client registration", use a databaseStore by:
     </library>
     ```
 
-2. Manually creating the necessary tables in your database as described at https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_oauth_dbs.html:
+2. Manually creating the necessary tables in your database as described at [OAuth Databases](https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_oauth_dbs.html):
 
 ```
 ----- CREATE TABLES -----
@@ -1743,11 +1742,9 @@ curl -u 'fhiruser:change-password' 'https://localhost:9443/oidc/endpoint/oauth2-
 
 ### 5.3.1.2 Configure Liberty as an OAuth 2.0 Provider
 
-To add the OpenID Connect Provider config, you must first create a key to use for
-the signatureAlgorithm.
+To add the OpenID Connect Provider config, you must first create a key to use for the signatureAlgorithm.
 
-Note: the current private key in the fhirKeystore.jks keystore is NOT usable as a signing key.
-Instead, allow Liberty to generate its own keystore and use that.
+Note: the current private key in the fhirKeystore.jks keystore is NOT usable as a signing key.  Instead, allow Liberty to generate its own keystore and use that.
 
 Assuming the defaultKeyStore has a valid key for signing, add the openidConnectProvider element to your server.xml:
 ```
@@ -1758,28 +1755,27 @@ Assuming the defaultKeyStore has a valid key for signing, add the openidConnectP
 ```
 
 ### 5.3.1.3 Request an access token
-After you've registered a client (either via dynamic registration or static config) and configured the openidConnectProvider, invoke
-the token endpoint with the configured code for your client to obtain an access token.
+After you've registered a client (either via dynamic registration or static config) and configured the openidConnectProvider, invoke the token endpoint with the configured code for your client to obtain an access token.
 
 The specific endpoint is determined by the id value of the openidConnectProvider element from the previous section.
-For example, for an OpenID Connect provider with `id="oidc-provider"`, the auth URL will be
-`https://[host]:[port]/oauth2/endpoint/oidc-provider/authorize` and the token URL will be `https://[host]:[port]/oauth2/endpoint/oidc-provider/token`.
+For example, for an OpenID Connect provider with `id="oidc-provider"`, the auth URL is
+`https://[host]:[port]/oauth2/endpoint/oidc-provider/authorize` and the token URL is `https://[host]:[port]/oauth2/endpoint/oidc-provider/token`.
 
 ### 5.3.2 Configure Liberty as the OpenID Connect Relying Party
 Liberty can be configured to act as an OpenID Connect Relying Party via the [openidConnectClient-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectClient-1.0.html).
 
 ### 5.3.2.1 Configure the trustStore
 1. Export the server's certificate from the configured keystore via one of the following commands:
-* keytool -exportcert -keystore key.p12 -storepass Password -alias default -file libertyOP.cer
-* keytool -exportcert -keystore key.jks -storepass Password -alias default -file libertyOP.cer
+* `keytool -exportcert -keystore key.p12 -storepass Password -alias default -file libertyOP.cer`
+* `keytool -exportcert -keystore key.jks -storepass Password -alias default -file libertyOP.cer`
 
 2. Import the certificate into the server's trustStore. Assuming you use the same keystore for both, then use of these:
-* keytool -importcert -keystore key.p12 -storepass Password -alias libertyop -file libertyOP.cer -noprompt
-* keytool -importcert -keystore key.jks -storepass Password -alias libertyop -file libertyOP.cer -noprompt
+* `keytool -importcert -keystore key.p12 -storepass Password -alias libertyop -file libertyOP.cer -noprompt`
+* `keytool -importcert -keystore key.jks -storepass Password -alias libertyop -file libertyOP.cer -noprompt`
 
 ### 5.3.2.2 Configure server.xml
 Add an openidConnectClient element to the server.xml config and point at the trustStore from the previous section:
-```
+``` xml
 <openidConnectClient id="RS" inboundPropagation="required"
     clientId="inferno"
     mapIdentityToRegistryUser="true"
@@ -1796,21 +1792,17 @@ Add an openidConnectClient element to the server.xml config and point at the tru
 </authFilter>
 ```
 
-Note: if the server is also acting as an OAuth/OpenId Connect provider, be sure to include an authFilter to avoid a catch-22 where
-the token and authorization endpoints are themselves protected by the openidConnectClient.
+Note: if the server is also acting as an OAuth/OpenId Connect provider, be sure to include an authFilter to avoid the problem where the token and authorization endpoints are protected by the openidConnectClient.
 
 ### 5.3.3 Configure the fhir-server
-To configure the FHIR Server with the OpenID Connect and OAuth 2.0 endpoints for the providers,
-specify the following values in the default fhir-server-config.json file:
+To configure the FHIR Server with the OpenID Connect and OAuth 2.0 endpoints for the providers, specify the following values in the default fhir-server-config.json file:
 * `fhirServer/oauth/regUrl`
 * `fhirServer/oauth/authUrl`
 * `fhirServer/oauth/tokenUrl`
 
-When the Liberty server is the OpenID Connect / OAuth 2.0 provider, use a placeholder of `<host>` in the property values
-to have the server automatically replace this text with the hostname of the original request (see `fhirServer/core/originalRequestUriHeaderName`).
+When the Liberty server is the OpenID Connect / OAuth 2.0 provider, use a placeholder of `<host>` in the property values to have the server automatically replace this text with the hostname of the original request (see `fhirServer/core/originalRequestUriHeaderName`).
 
-These values will be used to populate the corresponding entries in both the server capability statement (`GET [base]/metadata`)
-and the smart-configuration (`GET [base]/.well-known/smart-configuration`).
+These values will be used to populate the corresponding entries in both the server capability statement (`GET [base]/metadata`) and the smart-configuration (`GET [base]/.well-known/smart-configuration`).
 
 For example, the following excerpt from a CapabilityStatement shows sample OAuth-related URLs (token, authorize, and register) as values of the `valueUri` elements.
 ```
@@ -1841,7 +1833,7 @@ For example, the following excerpt from a CapabilityStatement shows sample OAuth
 …
 ```
 
-SMART on FHIR applications should use the `.well-known` endpoint to determine the OAuth URLs to use for authorization,
+SMART on FHIR applications should use the `.well-known/smart-configuration` endpoint to determine the OAuth URLs to use for authorization,
 but the entries in the Capability Statement are needed for backwards compatibility.
 
 ## 5.4 Custom HTTP Headers
