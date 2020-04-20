@@ -47,6 +47,7 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
     @Override
     public boolean isDuplicate(SQLException x) {
         // Class Code 23: Constraint Violation
+        // Refer to https://www.postgresql.org/docs/12/errcodes-appendix.html for more detail
         return "23505".equals(x.getSQLState());
     }
 
