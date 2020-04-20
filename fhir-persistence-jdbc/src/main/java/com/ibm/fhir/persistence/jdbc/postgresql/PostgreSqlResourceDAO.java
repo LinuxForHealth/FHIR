@@ -168,7 +168,6 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
         }
 
         return resource;
-
     }
 
     /**
