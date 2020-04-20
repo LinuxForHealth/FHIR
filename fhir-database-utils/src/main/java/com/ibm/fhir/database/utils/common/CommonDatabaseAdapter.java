@@ -163,7 +163,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
         List<String> indexColumns, List<String> includeColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
-        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns);
+        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns, true);
         runStatement(ddl);
     }
 
@@ -171,7 +171,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
         List<String> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
-        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns);
+        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, true);
         runStatement(ddl);
     }
 
@@ -179,7 +179,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
         List<String> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
-        String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns);
+        String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, true);
         runStatement(ddl);
     }
 
