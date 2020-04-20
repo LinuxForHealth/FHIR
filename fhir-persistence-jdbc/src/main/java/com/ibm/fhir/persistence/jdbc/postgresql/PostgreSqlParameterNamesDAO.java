@@ -55,7 +55,6 @@ public class PostgreSqlParameterNamesDAO extends ParameterNameDAOImpl {
                     throw new FHIRPersistenceDataAccessException("parameterName=" + parameterName, e);
                 }
             }
-
         }
 
         // cannot be null, so safe to return as an int
