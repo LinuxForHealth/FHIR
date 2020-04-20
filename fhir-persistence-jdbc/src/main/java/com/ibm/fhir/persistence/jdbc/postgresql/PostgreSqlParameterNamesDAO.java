@@ -70,9 +70,9 @@ public class PostgreSqlParameterNamesDAO extends ParameterNameDAOImpl {
     protected Integer getParameterId(String parameterName) throws FHIRPersistenceDataAccessException {
         Integer result;
 
-        String sql1 = "SELECT parameter_name_id FROM parameter_names WHERE parameter_name = ?";
+        String sql = "SELECT parameter_name_id FROM parameter_names WHERE parameter_name = ?";
 
-        try (PreparedStatement stmt = getConnection().prepareStatement(sql1)) {
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
             stmt.setString(1, parameterName);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {

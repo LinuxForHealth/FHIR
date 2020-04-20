@@ -18,8 +18,8 @@ import com.ibm.fhir.persistence.jdbc.postgresql.PostgreSqlResourceDAO;
 
 public class FHIRResourceDAOFactory {
 
-    // The various DAO Types that are used in the JDBC Persistence layer. 
-    public enum DAOType {
+    // The various DAO Types that are used in the JDBC Persistence layer.
+    public enum FHIRResourceDAOType {
         DB2("db2"),
         DERBY("derby"),
         POSTGRESQL("postgresql");
@@ -52,7 +52,7 @@ public class FHIRResourceDAOFactory {
 
    public static ResourceDAO getResourceDAO (Connection conn, TransactionSynchronizationRegistry trxSynchRegistry) throws IllegalArgumentException, SQLException {
         ResourceDAO resourceDAO = null;
-        switch (FHIRResourceDAOType.of(con)) {
+        switch (FHIRResourceDAOType.of(conn)) {
             case DB2:
                 resourceDAO = new ResourceDAOImpl(trxSynchRegistry);
                 break;

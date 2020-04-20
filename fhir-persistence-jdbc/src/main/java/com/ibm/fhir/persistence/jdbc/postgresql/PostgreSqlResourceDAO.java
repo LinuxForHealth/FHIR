@@ -45,15 +45,7 @@ import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 /**
  * Data access object for writing FHIR resources to an PostgreSql database.
  *
- * @implNote The original implementation (for DSTU2) used a global temporary table
- * to pass the parameter list into the stored procedure, but this approach
- * exposed some query optimizer issues in DB2 resulting in significant
- * concurrency problems (related to dynamic statistics collection and
- * query compilation). The solution used row type arrays instead, but these
- * aren't supported in PostgreSql, and have since been replaced by a DAO-based
- * batch statements due to issues with dynamic SQL and array types in DB2.
- * <br>
- * So this class follows the logic of the stored procedure, but does so
+ * @implNote This class follows the logic of the DB2 stored procedure, but does so
  * using a series of individual JDBC statements.
  */
 public class PostgreSqlResourceDAO extends ResourceDAOImpl {
@@ -467,9 +459,9 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
     protected Integer getResourceTypeId(String resourceTypeName, Connection conn) throws SQLException {
         Integer result = null;
 
-        final String sql1 = "SELECT resource_type_id FROM resource_types WHERE resource_type = ?";
+        final String sql = "SELECT resource_type_id FROM resource_types WHERE resource_type = ?";
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql1)) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, resourceTypeName);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
