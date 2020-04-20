@@ -355,8 +355,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
                 ResultSet res = stmt.executeQuery();
                 if (res.next()) {
                     v_version = res.getInt(1);
-                }
-                else {
+                } else {
                     throw new IllegalStateException("current resource not found: "
                             + tablePrefix + "_resources.resource_id=" + v_current_resource_id);
                 }
