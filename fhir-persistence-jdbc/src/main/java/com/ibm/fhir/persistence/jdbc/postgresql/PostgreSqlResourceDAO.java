@@ -291,8 +291,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
                     ResultSet res = stmt.executeQuery();
                     if (res.next()) {
                         v_logical_resource_id = res.getLong(1);
-                    }
-                    else {
+                    } else {
                         // Extremely unlikely as we should never delete logical resource records
                         throw new IllegalStateException("Logical resource was deleted: " + tablePrefix + "/" + p_logical_id);
                     }
