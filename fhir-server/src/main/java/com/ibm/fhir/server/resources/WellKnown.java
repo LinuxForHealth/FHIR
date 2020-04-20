@@ -100,13 +100,14 @@ public class WellKnown extends FHIRResource {
                 .add("authorization_endpoint", authURL) // required
                 .add("token_endpoint", tokenURL) // required
                 .add("scopes_supported", Json.createArrayBuilder() // recommended
-                    .add("launch")
-                    .add("launch/patient")
-                    .add("offline_access")
                     .add("openid")
                     .add("profile")
-                    .add("user/*.*")
-                    .add("patient/*.*")
+                    .add("offline_access")
+                    // TODO
+//                    .add("launch")
+//                    .add("launch/patient")
+//                    .add("user/*.*")
+//                    .add("patient/*.*")
                     .build())
                 .add("response_types", Json.createArrayBuilder() // recommended
                     .add("code")
@@ -117,11 +118,12 @@ public class WellKnown extends FHIRResource {
                     .add("launch-standalone")
                     .add("client-public")
                     .add("client-confidential-symmetric")
-                    .add("context-standalone-patient")
-                    .add("context-standalone-encounter")
-                    .add("permission-user")
-                    .add("permission-patient")
                     .add("permission-offline")
+                    // TODO
+//                    .add("context-standalone-patient")
+//                    .add("context-standalone-encounter")
+//                    .add("permission-user")
+//                    .add("permission-patient")
                     .build())
 // management_endpoint: RECOMMENDED, URL where an end-user can view which applications currently have access to data and can make adjustments to these access rights.
 // introspection_endpoint : RECOMMENDED, URL to a server’s introspection endpoint that can be used to validate a token.
