@@ -1255,7 +1255,7 @@ psql -v ON_ERROR_STOP=1 -1 -U javabatch -f batchPersistence-postgresql.ddl -d jo
 ```
 (5) Enable postgresql job repository in batchDs.xml as following.
 
-```
+``` xml
 <server description="fhir-server">
     <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB" schema="JBATCH">
     <jdbcDriver libraryRef="fhirSharedLib" />
