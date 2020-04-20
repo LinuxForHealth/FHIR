@@ -27,9 +27,7 @@
         deferServletLoad="true"/>
 
     <!-- IBM FHIR Server's keystore and truststore configuration -->
-    <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" sslProtocol="TLSv1.2" trustDefaultCerts="true"/>
-    <keyStore id="defaultKeyStore" location="${server.output.dir}/resources/security/fhirKeyStore.p12" password="change-password"/>
-    <keyStore id="defaultTrustStore" location="${server.output.dir}/resources/security/fhirTrustStore.p12" password="change-password"/>
+    <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" sslProtocol="TLSv1.2"/>
 
     <!-- This entry defines the ports that the server will listen on.
         By default, the httpPort is disabled (set to "-1").
