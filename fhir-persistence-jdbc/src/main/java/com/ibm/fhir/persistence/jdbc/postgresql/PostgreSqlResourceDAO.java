@@ -320,8 +320,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
                     v_current_resource_id = rs.getLong(1);
-                }
-                else {
+                } else {
                     // This database is broken, because we shouldn't have logical_resource records without
                     // corresponding resource-specific logical_resource records.
                     throw new SQLException("Logical_id record '" + p_logical_id + "' missing for resource " + tablePrefix);
