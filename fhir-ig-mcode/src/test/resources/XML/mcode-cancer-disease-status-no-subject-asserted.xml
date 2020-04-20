@@ -1,0 +1,41 @@
+<Observation xmlns="http://hl7.org/fhir">
+  <id value="mCODECancerDiseaseStatusExample01"/>
+  <meta>
+    <profile value="http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-disease-status"/>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: mCODECancerDiseaseStatusExample01</p><p><b>meta</b>: </p><p><b>status</b>: final</p><p><b>category</b>: Laboratory <span style="background: LightGoldenRodYellow">(Details : {http://terminology.hl7.org/CodeSystem/observation-category code 'laboratory' = 'Laboratory)</span></p><p><b>code</b>: Response to cancer treatment <span style="background: LightGoldenRodYellow">(Details : {LOINC code '88040-1' = 'Response to cancer treatment)</span></p><p><b>subject</b>: <a href="StructureDefinition-cancer-disease-status.html">Generated Summary: id: mCODEPatientExample01; Medical record number = m123 (USUAL); John B. Anyperson ; gender: male; birthDate: 1951-01-20</a></p><p><b>effective</b>: Apr 1, 2019 12:00:00 AM</p><p><b>performer</b>: <a href="StructureDefinition-cancer-disease-status.html">Generated Summary: id: mCODEPractitionerExample01; 9988776655; Kyle Anydoc ; gender: male</a></p><p><b>value</b>: Patient's condition improved <span style="background: LightGoldenRodYellow">(Details : {SNOMED CT code '268910001' = 'Patient's condition improved)</span></p></div>
+  </text>
+  <extension url="http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-evidence-type">
+    <valueCodeableConcept>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="252416005"/>
+      </coding>
+    </valueCodeableConcept>
+  </extension>
+  <status value="final"/>
+  <category>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/observation-category"/>
+      <code value="laboratory"/>
+    </coding>
+  </category>
+  <code>
+    <coding>
+      <system value="http://loinc.org"/>
+      <code value="88040-1"/>
+    </coding>
+  </code>
+  <effectiveDateTime value="2019-04-01"/>
+  <performer>
+    <reference value="Practitioner/mCODEPractitionerExample01"/>
+  </performer>
+  <valueCodeableConcept>
+    <coding>
+      <system value="http://snomed.info/sct"/>
+      <code value="268910001"/>
+    </coding>
+  </valueCodeableConcept>
+</Observation>

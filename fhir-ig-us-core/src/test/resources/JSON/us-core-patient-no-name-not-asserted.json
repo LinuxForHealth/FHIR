@@ -1,0 +1,36 @@
+{
+    "resourceType": "Patient",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">empty</div>"
+    },
+    "identifier": [
+        {
+            "type": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/v2/0203",
+                        "version": "2.5",
+                        "code": "MR",
+                        "display": "Medical record number"
+                    }
+                ]
+            },
+            "system": "http://example.com/medical-record-number",
+            "value": "1",
+            "assigner": {
+                "display": "EXAMPLE"
+            }
+        },
+        {
+            "system": "http://example.com/patient-identifier",
+            "value": "1-2-3-4",
+            "assigner": {
+                "display": "EXAMPLE"
+            }
+        }
+    ],
+    "gender": "male",
+    "birthDate": "2000-01-01",
+    "deceasedBoolean": true
+}
