@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.database.utils.derby;
+package com.ibm.fhir.database.utils.postgresql;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,34 +27,43 @@ import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Table;
 
 /**
- * A Derby database target
+ * A PostgreSql database target
  */
-public class DerbyAdapter extends CommonDatabaseAdapter {
-    private static final Logger logger = Logger.getLogger(DerbyAdapter.class.getName());
+public class PostgreSqlAdapter extends CommonDatabaseAdapter {
+    private static final Logger logger = Logger.getLogger(PostgreSqlAdapter.class.getName());
 
     // Different warning messages we track so that we only have to report them once
     private enum MessageKey {
-        MULTITENANCY, CREATE_VAR, CREATE_PERM, ENABLE_ROW_ACCESS, DISABLE_ROW_ACCESS, PARTITIONING,
-        ROW_TYPE, ROW_ARR_TYPE, DROP_TYPE, CREATE_PROC, DROP_PROC, TABLESPACE
+        MULTITENANCY,
+        CREATE_VAR,
+        CREATE_PERM,
+        ENABLE_ROW_ACCESS,
+        DISABLE_ROW_ACCESS,
+        PARTITIONING,
+        ROW_TYPE,
+        ROW_ARR_TYPE,
+        DROP_TYPE,
+        CREATE_PROC,
+        DROP_PROC,
+        TABLESPACE
     }
 
     // Just warn once for each unique message key. This cleans up build logs a lot
     private static final Set<MessageKey> warned = ConcurrentHashMap.newKeySet();
 
-
     /**
      * Public constructor
      * @param tgt the target database we want to manage
      */
-    public DerbyAdapter(IDatabaseTarget tgt) {
-        super(tgt, new DerbyTranslator());
+    public PostgreSqlAdapter(IDatabaseTarget tgt) {
+        super(tgt, new PostgreSqlTranslator());
     }
 
-    public DerbyAdapter(IConnectionProvider cp) {
-        super(cp, new DerbyTranslator());
+    public PostgreSqlAdapter(IConnectionProvider cp) {
+        super(cp, new PostgreSqlTranslator());
     }
 
-    public DerbyAdapter() {
+    public PostgreSqlAdapter() {
         super();
     }
 
@@ -73,15 +82,13 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
             IdentityDef identity, String tablespaceName) {
 
-        // Derby doesn't support partitioning, so we ignore tenantColumnName
+        // PostgreSql doesn't support partitioning, so we ignore tenantColumnName
         if (tenantColumnName != null) {
-            warnOnce(MessageKey.MULTITENANCY, "Derby does support not multi-tenancy: " + name);
+            warnOnce(MessageKey.MULTITENANCY, "PostgreSql does support not multi-tenancy: " + name);
         }
 
-        // We also ignore tablespace for Derby
+        // We also ignore tablespace for PostgreSql
         String ddl = buildCreateTableStatement(schemaName, name, columns, primaryKey, identity, null);
-
-
         runStatement(ddl);
     }
 
@@ -89,97 +96,97 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<String> indexColumns,
             List<String> includeColumns) {
 
-        // Derby doesn't support include columns, so we just have to create a normal index
+        // PostgreSql doesn't support include columns, so we just have to create a normal index
         createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
     }
 
     @Override
     public void createIntVariable(String schemaName, String variableName) {
-        warnOnce(MessageKey.CREATE_VAR, "Derby does not support CREATE VARIABLE for: " + variableName);
+        warnOnce(MessageKey.CREATE_VAR, "PostgreSql does not support CREATE VARIABLE for: " + variableName);
     }
 
     @Override
     public void createOrReplacePermission(String schemaName, String permissionName, String tableName, String predicate) {
-        warnOnce(MessageKey.CREATE_PERM, "Derby does not support CREATE PERMISSION for: " + permissionName);
+        warnOnce(MessageKey.CREATE_PERM, "PostgreSql does not support CREATE PERMISSION for: " + permissionName);
     }
 
     @Override
     public void activateRowAccessControl(String schemaName, String tableName) {
-        warnOnce(MessageKey.ENABLE_ROW_ACCESS, "Derby does not support ROW ACCESS CONTROL for table: " + tableName);
+        warnOnce(MessageKey.ENABLE_ROW_ACCESS, "PostgreSql does not support ROW ACCESS CONTROL for table: " + tableName);
     }
 
     @Override
     public void setIntVariable(String schemaName, String variableName, int value) {
         // As this is a runtime issue, we throw as an exception instead of
         // simply logging a warning. This shouldn't be called in the case
-        // of a Derby database
-        throw new IllegalStateException("setIntVariable not supported on Derby for: " + variableName);
+        // of a PostgreSql database
+        throw new IllegalStateException("setIntVariable not supported on PostgreSql for: " + variableName);
     }
 
     @Override
     public void deactivateRowAccessControl(String schemaName, String tableName) {
-        warnOnce(MessageKey.DISABLE_ROW_ACCESS, "Derby does not support ROW ACCESS CONTROL for table: " + tableName);
+        warnOnce(MessageKey.DISABLE_ROW_ACCESS, "PostgreSql does not support ROW ACCESS CONTROL for table: " + tableName);
     }
 
     @Override
     public void createTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId, int extentSizeKB) {
-        warnOnce(MessageKey.PARTITIONING, "Derby does not support tenant partitioning");
+        warnOnce(MessageKey.PARTITIONING, "PostgreSql does not support tenant partitioning");
     }
 
     @Override
     public void createRowType(String schemaName, String typeName, List<ColumnBase> columns) {
-        warnOnce(MessageKey.ROW_TYPE, "Create row type not supported in Derby");
+        warnOnce(MessageKey.ROW_TYPE, "Create row type not supported in PostgreSql");
     }
 
     @Override
     public void createArrType(String schemaName, String typeName, String valueType, int arraySize) {
-        warnOnce(MessageKey.ROW_ARR_TYPE, "Create array row type not supported in Derby");
+        warnOnce(MessageKey.ROW_ARR_TYPE, "Create array row type not supported in PostgreSql");
     }
 
     @Override
     public void dropType(String schemaName, String typeName) {
-        warnOnce(MessageKey.DROP_TYPE, "Drop type not supported in Derby");
+        warnOnce(MessageKey.DROP_TYPE, "Drop type not supported in PostgreSql");
     }
 
     @Override
     public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
-        warnOnce(MessageKey.CREATE_PROC, "Create procedure not supported in Derby");
+        warnOnce(MessageKey.CREATE_PROC, "Create procedure not supported in PostgreSql");
     }
 
     @Override
     public void dropProcedure(String schemaName, String procedureName) {
-        warnOnce(MessageKey.DROP_PROC, "Drop procedure not supported in Derby");
+        warnOnce(MessageKey.DROP_PROC, "Drop procedure not supported in PostgreSql");
     }
 
     @Override
     public void createTablespace(String tablespaceName) {
-        warnOnce(MessageKey.TABLESPACE, "Create tablespace not supported in Derby");
+        warnOnce(MessageKey.TABLESPACE, "Create tablespace not supported in PostgreSql");
     }
 
     @Override
     public void dropTablespace(String tablespaceName) {
-        warnOnce(MessageKey.TABLESPACE, "Drop tablespace not supported in Derby");
+        warnOnce(MessageKey.TABLESPACE, "Drop tablespace not supported in PostgreSql");
     }
 
     @Override
     public void detachPartition(String schemaName, String tableName, String partitionName, String newTableName) {
-        warnOnce(MessageKey.PARTITIONING, "Detach partition not supported in Derby");
+        warnOnce(MessageKey.PARTITIONING, "Detach partition not supported in PostgreSql");
     }
 
     @Override
     public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId,
             String tenantStagingTable) {
-        warnOnce(MessageKey.PARTITIONING, "Remove tenant partitions not supported in Derby");
+        warnOnce(MessageKey.PARTITIONING, "Remove tenant partitions not supported in PostgreSql");
     }
 
     @Override
     public void createTablespace(String tablespaceName, int extentSizeKB) {
-        warnOnce(MessageKey.TABLESPACE, "Create tablespace not supported in Derby");
+        warnOnce(MessageKey.TABLESPACE, "Create tablespace not supported in PostgreSql");
     }
 
     @Override
     public boolean doesTableExist(String schemaName, String tableName) {
-        DerbyDoesTableExist dao = new DerbyDoesTableExist(schemaName, tableName);
+        PostgreSqlDoesTableExist dao = new PostgreSqlDoesTableExist(schemaName, tableName);
         return runStatement(dao);
     }
 
@@ -187,28 +194,24 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     public void createSequence(String schemaName, String sequenceName, int cache) {
         /* CREATE SEQUENCE fhir_sequence
          *     AS BIGINT
-         *     START WITH 1
+         *     START WITH 1000
          *     CACHE 1000
          *     NO CYCLE;
         */
-        // Derby doesn't support CACHE
+        // PostgreSql doesn't support CACHE
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 1 NO CYCLE";
+        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 1000 CACHE 1000 NO CYCLE";
         runStatement(ddl);
-
     }
 
     @Override
     public String varbinaryClause(int size) {
-        // I have no idea why Derby doesn't use VARBINARY...but oh well
-        return "VARCHAR(" + size + ") FOR BIT DATA";
+        return "BYTEA";
     }
 
     @Override
     public String blobClause(long size, int inlineSize) {
-        // Derby doesn't support the INLINE feature (which greatly helps with
-        // performance on DB2)
-        return "BLOB(" + size + ")";
+        return "BYTEA";
     }
 
     @Override
@@ -218,7 +221,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public String timestampClause(Integer precision) {
-        // Derby doesn't support the timestamp precision argument
+        // PostgreSql doesn't support the timestamp precision argument
         return "TIMESTAMP";
     }
 
@@ -228,8 +231,8 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
             List<String> columns, boolean enforced) {
 
         // Make the call, but
-        // 1. without the tenantColumnName because Derby doesn't support our multi-tenant implementation; and
-        // 2. with enforced=true because Derby doesn't support non-default constraint characteristics
+        // 1. without the tenantColumnName because PostgreSql doesn't support our multi-tenant implementation; and
+        // 2. with enforced=true because PostgreSql doesn't support non-default constraint characteristics
         super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, null, columns, true);
     }
 
@@ -260,5 +263,28 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         } else {
             super.runStatement(stmt);
         }
+    }
+
+    @Override
+    public String doubleClause() {
+        return "DOUBLE PRECISION";
+    }
+
+    @Override
+    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
+        List<String> indexColumns) {
+        indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
+        // Postgresql doesn't support index name prefixed with the schema name.
+        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, false);
+        runStatement(ddl);
+    }
+
+    @Override
+    public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
+        List<String> indexColumns) {
+        indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
+        // Postgresql doesn't support index name prefixed with the schema name.
+        String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, false);
+        runStatement(ddl);
     }
 }

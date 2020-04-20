@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.derby;
+package com.ibm.fhir.persistence.jdbc.postgresql;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
 
@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
-import com.ibm.fhir.database.utils.derby.DerbyTranslator;
+import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
@@ -30,6 +30,11 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
+import com.ibm.fhir.persistence.jdbc.derby.CodeSystemCacheAdapter;
+import com.ibm.fhir.persistence.jdbc.derby.DerbyCodeSystemDAO;
+import com.ibm.fhir.persistence.jdbc.derby.DerbyParameterNamesDAO;
+import com.ibm.fhir.persistence.jdbc.derby.FhirRefSequenceDAOImpl;
+import com.ibm.fhir.persistence.jdbc.derby.ParameterNameCacheAdapter;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
@@ -38,24 +43,16 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
- * Data access object for writing FHIR resources to an Apache Derby database.
+ * Data access object for writing FHIR resources to an PostgreSql database.
  *
- * @implNote The original implementation (for DSTU2) used a global temporary table
- * to pass the parameter list into the stored procedure, but this approach
- * exposed some query optimizer issues in DB2 resulting in significant
- * concurrency problems (related to dynamic statistics collection and
- * query compilation). The solution used row type arrays instead, but these
- * aren't supported in Derby, and have since been replaced by a DAO-based
- * batch statements due to issues with dynamic SQL and array types in DB2.
- * <br>
- * So this class follows the logic of the stored procedure, but does so
+ * @implNote This class follows the logic of the DB2 stored procedure, but does so
  * using a series of individual JDBC statements.
  */
-public class DerbyResourceDAO extends ResourceDAOImpl {
-    private static final Logger logger = Logger.getLogger(DerbyResourceDAO.class.getName());
-    private static final String CLASSNAME = DerbyResourceDAO.class.getSimpleName();
+public class PostgreSqlResourceDAO extends ResourceDAOImpl {
+    private static final Logger logger = Logger.getLogger(PostgreSqlResourceDAO.class.getName());
+    private static final String CLASSNAME = PostgreSqlResourceDAO.class.getSimpleName();
 
-    private static final DerbyTranslator translator = new DerbyTranslator();
+    private static final PostgreSqlTranslator translator = new PostgreSqlTranslator();
 
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private FhirRefSequenceDAO fhirRefSequenceDAO;
@@ -66,12 +63,11 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
     // DAO used to manage code_systems
     private CodeSystemDAO codeSystemDAO;
 
-    public DerbyResourceDAO(Connection managedConnection) {
+    public PostgreSqlResourceDAO(Connection managedConnection) {
         super(managedConnection);
     }
 
-
-    public DerbyResourceDAO(TransactionSynchronizationRegistry trxSynchRegistry) {
+    public PostgreSqlResourceDAO(TransactionSynchronizationRegistry trxSynchRegistry) {
         super(trxSynchRegistry);
     }
 
@@ -136,8 +132,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 resource.getVersionId(),
                 connection
                 );
-
-
             dbCallDuration = (System.nanoTime() - dbCallStartTime)/1e6;
 
             resource.setId(resourceId);
@@ -166,7 +160,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         }
 
         return resource;
-
     }
 
     /**
@@ -236,8 +229,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 v_logical_resource_id = rs.getLong(1);
-            }
-            else {
+            } else {
                 v_not_found = true;
                 v_logical_resource_id = -1L; // just to be careful
             }
@@ -246,13 +238,12 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         // Create the logical resource if we don't have it already
         if (v_not_found) {
             // grab the id we want to use for the new logical resource instance
-            final String sql2 = "VALUES(NEXT VALUE FOR fhir_sequence)";
+            final String sql2 = "SELECT nextval('fhir_sequence')";
             try (PreparedStatement stmt = conn.prepareStatement(sql2)) {
                 ResultSet res = stmt.executeQuery();
                 if (res.next()) {
                     v_logical_resource_id = res.getLong(1);
-                }
-                else {
+                } else {
                     // not going to happen, unless someone butchers the statement being executed
                     throw new IllegalStateException("VALUES failed to return a row: " + sql2);
                 }
@@ -271,8 +262,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             } catch (SQLException e) {
                 if (translator.isDuplicate(e)) {
                     v_duplicate = true;
-                }
-                else {
+                }  else {
                     throw e;
                 }
             }
@@ -290,14 +280,12 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                     ResultSet res = stmt.executeQuery();
                     if (res.next()) {
                         v_logical_resource_id = res.getLong(1);
-                    }
-                    else {
+                    } else {
                         // Extremely unlikely as we should never delete logical resource records
                         throw new IllegalStateException("Logical resource was deleted: " + tablePrefix + "/" + p_logical_id);
                     }
                 }
-            }
-            else {
+            } else {
                 v_new_resource = true;
 
                 // Insert the resource-specific logical resource record. Remember that logical_id is denormalized
@@ -321,8 +309,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
                     v_current_resource_id = rs.getLong(1);
-                }
-                else {
+                } else {
                     // This database is broken, because we shouldn't have logical_resource records without
                     // corresponding resource-specific logical_resource records.
                     throw new SQLException("Logical_id record '" + p_logical_id + "' missing for resource " + tablePrefix);
@@ -356,8 +343,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 ResultSet res = stmt.executeQuery();
                 if (res.next()) {
                     v_version = res.getInt(1);
-                }
-                else {
+                } else {
                     throw new IllegalStateException("current resource not found: "
                             + tablePrefix + "_resources.resource_id=" + v_current_resource_id);
                 }
@@ -382,8 +368,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         // Persist the data using the given version number if required
         if (p_version != null) {
             v_insert_version = p_version;
-        }
-        else {
+        } else {
             // remember we have a write (update) lock on the logical version, so we can safely calculate
             // the next version value here
             v_insert_version = v_version + 1;
@@ -392,15 +377,14 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
         /**
          * Create the new resource version.
-         * Alpha version uses last_updated time from the app-server, so we keep that here
+         * uses last_updated time from the app-server, so we have consistency between the various DAOs
          */
-        String sql2 = "VALUES (NEXT VALUE FOR fhir_sequence)";
+        String sql2 = "SELECT nextval('fhir_sequence')";
         try (PreparedStatement stmt = conn.prepareStatement(sql2)) {
             ResultSet res = stmt.executeQuery();
             if (res.next()) {
                 v_resource_id = res.getLong(1); //Assign result of the above query
-            }
-            else {
+            } else {
                 // unlikely
                 throw new IllegalStateException("no row returned: " + sql2);
             }
@@ -464,7 +448,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             stmt.setLong(1, logicalResourceId);
             stmt.executeUpdate();
         }
-
     }
 
     /**
@@ -474,18 +457,15 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * @throws SQLException
      */
     protected Integer getResourceTypeId(String resourceTypeName, Connection conn) throws SQLException {
-        Integer result;
+        Integer result = null;
 
-        final String sql1 = "SELECT resource_type_id FROM resource_types WHERE resource_type = ?";
+        final String sql = "SELECT resource_type_id FROM resource_types WHERE resource_type = ?";
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql1)) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, resourceTypeName);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 result = rs.getInt(1);
-            }
-            else {
-                result = null;
             }
         }
 

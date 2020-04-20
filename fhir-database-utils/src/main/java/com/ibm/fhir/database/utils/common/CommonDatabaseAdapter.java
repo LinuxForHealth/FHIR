@@ -76,6 +76,15 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         this.connectionProvider = cp;
     }
 
+    /**
+     * Constructor used by AddColumn only for getting DB type specific column name.
+     */
+    protected CommonDatabaseAdapter() {
+        this.target = null;
+        this.translator = null;
+        this.connectionProvider = null;
+    }
+
     @Override
     public IDatabaseTranslator getTranslator() {
         return this.translator;
@@ -154,7 +163,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
         List<String> indexColumns, List<String> includeColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
-        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns);
+        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns, true);
         runStatement(ddl);
     }
 
@@ -162,7 +171,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
         List<String> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
-        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns);
+        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, true);
         runStatement(ddl);
     }
 
@@ -170,7 +179,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
         List<String> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
-        String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns);
+        String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, true);
         runStatement(ddl);
     }
 
