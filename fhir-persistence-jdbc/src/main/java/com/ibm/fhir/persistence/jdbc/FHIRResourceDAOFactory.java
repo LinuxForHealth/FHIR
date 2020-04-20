@@ -34,8 +34,8 @@ public class FHIRResourceDAOFactory {
             return value;
         }
 
-        public static FHIRResourceDAOType of(Connection con) throws SQLException, IllegalArgumentException {
-            String dbUrl = con.getMetaData().getURL();
+        public static FHIRResourceDAOType of(Connection conn) throws SQLException, IllegalArgumentException {
+            String dbUrl = conn.getMetaData().getURL();
             dbUrl = dbUrl.toLowerCase();
             if (dbUrl.contains(DB2.value)) {
                 return DB2;
