@@ -28,7 +28,7 @@ For use with the test configuration in the next section, set "enabled" to true a
 
 In the directory fhir-server-test/src/test/resources/nats you will find the files to set up a basic NATS cluster and IBM FHIR Server on the same docker network.  Follow these steps to test:
 
-* Build your IBM FHIR image with the NATS configuration discussed above and publish it to Docker Hub.  Edit the fhir_server service image in fhir-notification-nats/src/test/integration/docker-compose.yml to point to this new image.  
+* Build your IBM FHIR image with the NATS configuration discussed above and publish it to Docker Hub.  Edit the fhir_server service image in fhir-server-test/src/test/resources/nats/docker-compose.yml to point to this new image.  
 
 
 ```  
