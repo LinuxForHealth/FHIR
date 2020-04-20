@@ -35,8 +35,7 @@ public class FhirSequenceDAOImpl implements FhirSequenceDAO {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 result = rs.getLong(1);
-            }
-            else {
+            } else {
                 // not gonna happen
                 throw new IllegalStateException("no value returned from fhir_sequence!");
             }
