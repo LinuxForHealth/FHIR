@@ -380,8 +380,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
         // Persist the data using the given version number if required
         if (p_version != null) {
             v_insert_version = p_version;
-        }
-        else {
+        } else {
             // remember we have a write (update) lock on the logical version, so we can safely calculate
             // the next version value here
             v_insert_version = v_version + 1;
