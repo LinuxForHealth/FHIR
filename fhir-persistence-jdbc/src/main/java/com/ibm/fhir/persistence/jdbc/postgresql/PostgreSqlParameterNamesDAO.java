@@ -77,8 +77,7 @@ public class PostgreSqlParameterNamesDAO extends ParameterNameDAOImpl {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 result = rs.getInt(1);
-            }
-            else {
+            }  else {
                 result = null;
             }
         }
