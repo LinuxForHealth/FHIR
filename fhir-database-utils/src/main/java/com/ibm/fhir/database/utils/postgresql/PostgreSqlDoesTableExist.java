@@ -59,8 +59,7 @@ public class PostgreSqlDoesTableExist implements IDatabaseSupplier<Boolean> {
         catch (SQLException x) {
             if (translator.isConnectionError(x)) {
                 throw translator.translate(x);
-            }
-            else {
+            } else {
                 result = false;
             }
         }
