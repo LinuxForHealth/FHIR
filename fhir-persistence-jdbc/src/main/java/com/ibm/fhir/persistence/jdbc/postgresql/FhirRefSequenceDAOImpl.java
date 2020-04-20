@@ -36,8 +36,7 @@ public class FhirRefSequenceDAOImpl implements FhirRefSequenceDAO {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 result = rs.getInt(1);
-            }
-            else {
+            } else {
                 // not gonna happen
                 throw new IllegalStateException("no value returned from fhir_ref_sequence!");
             }
