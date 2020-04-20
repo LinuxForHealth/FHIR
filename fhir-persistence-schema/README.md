@@ -1,6 +1,6 @@
 # IBM FHIR Server - fhir-persistence-schema
 
-Builds and manages the multi-tenant FHIR R4 RDBMS schema (Db2), includes creates and updates schema for PostgreSql, also includes Derby support for use in tests.
+Builds and manages the multi-tenant FHIR R4 RDBMS schema for Db2 and PostgreSQL and includes Derby support for testing.
 
 This module is built into two different jar files. The default jar is included with the IBM FHIR Server web application and is used for bootstrapping Apache Derby databases (if configured). There is also an executable command line interface (cli) version of this jar that packages this module with all of its dependencies.
 
