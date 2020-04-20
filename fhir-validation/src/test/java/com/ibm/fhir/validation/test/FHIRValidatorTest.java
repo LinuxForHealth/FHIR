@@ -7,18 +7,23 @@
 package com.ibm.fhir.validation.test;
 
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.validation.util.FHIRValidationUtil.countErrors;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.parser.FHIRParser;
+import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.Boolean;
@@ -134,5 +139,45 @@ public class FHIRValidatorTest {
         assertEquals(issues.size(), 2);
         assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
         assertEquals(issues.get(0).getCode(), IssueType.INVALID);
+    }
+
+    @Test
+    public void testBPValidation1() throws Exception {
+        try (InputStream in = FHIRValidatorTest.class.getClassLoader().getResourceAsStream("JSON/bp-missing-code-asserted.json")) {
+            Observation observation = FHIRParser.parser(Format.JSON).parse(in);
+            List<Issue> issues = FHIRValidator.validator().validate(observation);
+            issues.forEach(System.out::println);
+            Assert.assertEquals(countErrors(issues), 1);
+        }
+    }
+
+    @Test
+    public void testBPValidation2() throws Exception {
+        try (InputStream in = FHIRValidatorTest.class.getClassLoader().getResourceAsStream("JSON/bp-missing-code-not-asserted.json")) {
+            Observation observation = FHIRParser.parser(Format.JSON).parse(in);
+            List<Issue> issues = FHIRValidator.validator().validate(observation);
+            issues.forEach(System.out::println);
+            Assert.assertEquals(countErrors(issues), 0);
+        }
+    }
+
+    @Test
+    public void testBPValidation3() throws Exception {
+        try (InputStream in = FHIRValidatorTest.class.getClassLoader().getResourceAsStream("XML/bp-missing-code-asserted.xml")) {
+            Observation observation = FHIRParser.parser(Format.XML).parse(in);
+            List<Issue> issues = FHIRValidator.validator().validate(observation);
+            issues.forEach(System.out::println);
+            Assert.assertEquals(countErrors(issues), 1);
+        }
+    }
+
+    @Test
+    public void testBPValidation4() throws Exception {
+        try (InputStream in = FHIRValidatorTest.class.getClassLoader().getResourceAsStream("XML/bp-missing-code-not-asserted.xml")) {
+            Observation observation = FHIRParser.parser(Format.XML).parse(in);
+            List<Issue> issues = FHIRValidator.validator().validate(observation);
+            issues.forEach(System.out::println);
+            Assert.assertEquals(countErrors(issues), 0);
+        }
     }
 }
