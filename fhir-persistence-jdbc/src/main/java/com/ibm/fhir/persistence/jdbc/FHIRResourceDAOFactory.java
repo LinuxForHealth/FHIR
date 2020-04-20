@@ -66,17 +66,17 @@ public class FHIRResourceDAOFactory {
         return resourceDAO;
     }
 
-    public static ResourceDAO getResourceDAO (Connection con) throws IllegalArgumentException, SQLException {
+    public static ResourceDAO getResourceDAO (Connection conn) throws IllegalArgumentException, SQLException {
         ResourceDAO resourceDAO = null;
-        switch (FHIRResourceDAOType.of(con)) {
+        switch (FHIRResourceDAOType.of(conn)) {
             case DB2:
-                resourceDAO = new ResourceDAOImpl(con);
+                resourceDAO = new ResourceDAOImpl(conn);
                 break;
             case DERBY:
-                resourceDAO = new DerbyResourceDAO(con);
+                resourceDAO = new DerbyResourceDAO(conn);
                 break;
             case POSTGRESQL:
-                resourceDAO = new PostgreSqlResourceDAO(con);
+                resourceDAO = new PostgreSqlResourceDAO(conn);
                 break;
         }
         return resourceDAO;
