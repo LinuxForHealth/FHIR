@@ -269,4 +269,22 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     public String doubleClause() {
         return "DOUBLE PRECISION";
     }
+
+    @Override
+    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
+        List<String> indexColumns) {
+        indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
+        // Postgresql doesn't support index name prefixed with the schema name.
+        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, false);
+        runStatement(ddl);
+    }
+
+    @Override
+    public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
+        List<String> indexColumns) {
+        indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
+        // Postgresql doesn't support index name prefixed with the schema name.
+        String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, false);
+        runStatement(ddl);
+    }
 }

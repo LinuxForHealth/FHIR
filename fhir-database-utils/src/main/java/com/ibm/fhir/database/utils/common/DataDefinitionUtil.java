@@ -33,10 +33,10 @@ public class DataDefinitionUtil {
      * @return
      */
     public static String createUniqueIndex(String schemaName, String tableName, String indexName, List<String> indexColumns,
-            List<String> includeColumns) {
+            List<String> includeColumns, boolean isUseSchemaPrefix) {
 
         StringBuilder result = new StringBuilder();
-        result.append(createUniqueIndex(schemaName, tableName, indexName, indexColumns));
+        result.append(createUniqueIndex(schemaName, tableName, indexName, indexColumns, isUseSchemaPrefix));
         result.append(" INCLUDE (");
         result.append(join(includeColumns));
         result.append(")");
@@ -50,14 +50,18 @@ public class DataDefinitionUtil {
      * @param tableName
      * @param indexName
      * @param indexColumns
+     * @param isUseSchemaPrefix
      * @return
      */
-    public static String createUniqueIndex(String schemaName, String tableName, String indexName, List<String> indexColumns) {
+    public static String createUniqueIndex(String schemaName, String tableName, String indexName, List<String> indexColumns, boolean isUseSchemaPrefix) {
 
         StringBuilder result = new StringBuilder();
         result.append("CREATE UNIQUE INDEX ");
-        // Postgresql doesn't support index name prefixed with the schema name.
-        result.append(indexName);
+        if (isUseSchemaPrefix) {
+            result.append(getQualifiedName(schemaName, indexName));
+        } else {
+            result.append(indexName);
+        }
         result.append(" ON ");
         result.append(getQualifiedName(schemaName, tableName));
         result.append("(");
@@ -75,14 +79,18 @@ public class DataDefinitionUtil {
      * @param tableName
      * @param indexName
      * @param indexColumns
+     * @param isUseSchemaPrefix
      * @return
      */
-    public static String createIndex(String schemaName, String tableName, String indexName, List<String> indexColumns) {
+    public static String createIndex(String schemaName, String tableName, String indexName, List<String> indexColumns, boolean isUseSchemaPrefix) {
 
         StringBuilder result = new StringBuilder();
         result.append("CREATE INDEX ");
-        // PostgreSql doesn't allow schema name for the index, e.g, fhirdata.index1.
-        result.append(indexName);
+        if (isUseSchemaPrefix) {
+            result.append(getQualifiedName(schemaName, indexName));
+        } else {
+            result.append(indexName);
+        }
         result.append(" ON ");
         result.append(getQualifiedName(schemaName, tableName));
         result.append("(");
