@@ -147,7 +147,7 @@ public class ImportPartitionMapper implements PartitionMapper {
         public FhirDataSource(String type, String url) {
             super();
             this.type = type;
-            this.url  = url;
+            this.url = url;
         }
 
         public String getType() {
@@ -266,8 +266,8 @@ public class ImportPartitionMapper implements PartitionMapper {
         JsonArray dataSourceArray = reader.readArray();
         reader.close();
 
-        BulkImportDataSourceStorageType dsType = BulkImportDataSourceStorageType.from(dataSourceStorageType);
-        List<FhirDataSource> fhirDataSources = getFhirDataSources(dataSourceArray, dsType);
+        List<FhirDataSource> fhirDataSources =
+                getFhirDataSources(dataSourceArray, BulkImportDataSourceStorageType.from(dataSourceStorageType));
         PartitionPlanImpl pp = new PartitionPlanImpl();
         pp.setPartitions(fhirDataSources.size());
         pp.setThreads(Math.min(Constants.IMPORT_MAX_PARTITIONPROCESSING_THREADNUMBER, fhirDataSources.size()));

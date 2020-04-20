@@ -199,11 +199,11 @@ public class ExportOperationTest extends FHIRServerTestBase {
         savedPatientId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response       = target.path("Patient/" + savedPatientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Patient/" + savedPatientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         // Create 2nd Patient.
-        entity   = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         location = response.getLocation();
@@ -215,7 +215,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         savedPatientId2 = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response        = target.path("Patient/" + savedPatientId2).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Patient/" + savedPatientId2).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
@@ -261,7 +261,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         savedGroupId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new group and verify it.
-        response     = target.path("Group/" + savedGroupId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Group/" + savedGroupId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Group responseGroup = response.readEntity(Group.class);
         assertNotNull(responseGroup);
@@ -280,8 +280,8 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 Member.builder().entity(Reference.builder()
                         .reference(com.ibm.fhir.model.type.String.of("Group/" + savedGroupId)).build()).build();
         members.add(member);
-        group    = group.toBuilder().member(members).build();
-        entity   = Entity.entity(group, FHIRMediaType.APPLICATION_FHIR_JSON);
+        group = group.toBuilder().member(members).build();
+        entity = Entity.entity(group, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("Group").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         location = response.getLocation();
@@ -293,7 +293,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         savedGroupId2 = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new group and verify it.
-        response      = target.path("Group/" + savedGroupId2).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Group/" + savedGroupId2).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         responseGroup = response.readEntity(Group.class);
         assertNotNull(responseGroup);
@@ -313,10 +313,10 @@ public class ExportOperationTest extends FHIRServerTestBase {
                                 .reference(com.ibm.fhir.model.type.String.of("Group/" + savedGroupId2)).build())
                         .build();
         members.add(member);
-        group    = group.toBuilder().id(savedGroupId).member(members).build();
+        group = group.toBuilder().id(savedGroupId).member(members).build();
 
         // Update the patient and verify the response.
-        entity   = Entity.entity(group, FHIRMediaType.APPLICATION_FHIR_JSON);
+        entity = Entity.entity(group, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("Group/" + savedGroupId).request().put(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
 

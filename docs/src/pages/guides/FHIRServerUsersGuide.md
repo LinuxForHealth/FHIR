@@ -1109,7 +1109,7 @@ database hostname or database schema name.
 ## 4.10 Bulk data operations
 Bulk data export is implemented according to the [HL7 FHIR BulkDataAccess IG: STU1](http://hl7.org/fhir/uv/bulkdata/STU1/export/index.html), and Bulk data import is implemented according to the [Proposal for $import Operation](https://github.com/smart-on-fhir/bulk-import/blob/master/import.md).
 
-There are 2 modules involved inside the implementation:
+There are 2 modules involved are:
 
 - fhir-operation-bulkdata
 - fhir-bulkimportexport-webapp   
@@ -1120,7 +1120,7 @@ The *fhir-operation-bulkdata* module implements the REST APIs for bulk data expo
 * PatientExportOperation - Patient export
 * GroupExportOperation - group export
 * ImportOperation - import resources using the system endpoint
-* StatusOperation - polling status for import and export
+* StatusOperation - polling status for import and export ($bulkdata-status)
 
 Each operation calls the JavaBatch framework defined in the *fhir-bulkimportexport-webapp* module to execute the export unit-of-work.
 There are 4 JavaBatch jobs defined as following in *fhir-bulkimportexport-webapp* module for the above 3 export operations and 1 import operation:
@@ -1185,7 +1185,11 @@ To import using the `$import` proposal, one must additionally configure the `fhi
     ]
 ```
 
-The `fhirServer/bulkdata/maxInputPerRequest` is used to configure a maximum number of inputs supported by the instance.  
+These base urls are not checked when using cloud object store and bulk-import.
+
+The `fhirServer/bulkdata/maxInputPerRequest` is used to configure a maximum number of inputs supported by the instance.  The default number is 5.
+
+Note: When `$import` is executed, the data must include a specified `Resource.id`, if not specified, the data is logged as being in Error. 
 
 Following is the beautified response of sample polling location request after the export is finished:
 

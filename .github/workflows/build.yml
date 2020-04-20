@@ -306,7 +306,6 @@ jobs:
         containerId=$(docker ps -a | grep fhir | cut -d ' ' -f 1)
         if [[ -z "${containerId}" ]]; then
             echo "Warning: Could not find fhir container!!!"
-            bash build/docker/docker-cleanup.sh
         else
             echo "fhir container id: $containerId"
 

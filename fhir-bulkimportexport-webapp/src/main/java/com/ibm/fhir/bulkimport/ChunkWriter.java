@@ -190,10 +190,6 @@ public class ChunkWriter extends AbstractItemWriter {
             for (Resource fhirResource : fhirResourceList) {
                 try {
                     String id = fhirResource.getId();
-                    if (id == null) {
-                        id = UUID.randomUUID().toString();
-                    }
-
                     processedNum++;
                     // Skip the resources which failed the validation
                     if (failValidationIds.contains(id)) {
