@@ -1232,7 +1232,7 @@ You can also choose to use postgresql or other RDBMS as your Job repository, if 
  ./ddlGen generate fhir-server
 ```
 then modify the generated DLL file to make it valid for postgresql. 
-or you can simply use this sample DDL file: fhir-bulkimportexport-webapp/src/test/resources/batchPersistence-postgresql.ddl
+or you can simply use this sample DDL file: [fhir-bulkimportexport-webapp/src/test/resources/batchPersistence-postgresql.ddl](https://github.com/IBM/FHIR/tree/master/fhir-bulkimportexport-webapp/src/test/resources/batchPersistence-postgresql.ddl)
 
 (2) Create the Job database and user.  
 
