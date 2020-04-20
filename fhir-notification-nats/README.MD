@@ -24,9 +24,9 @@ For use with the test configuration in the next section, set "enabled" to true a
 
 ## Create a simple NATS cluster for testing
 
-In the directory fhir-notification-nats/src/test/integration you will find the files to set up a basic NATS cluster and IBM FHIR server on the same docker network.  Follow these steps to test:
+In the directory fhir-server-test/src/test/resources/nats you will find the files to set up a basic NATS cluster and IBM FHIR server on the same docker network.  Follow these steps to test:
 
-* Build your IBM FHIR image with the NATS configuration discussed above and publish it to Docker Hub.  Edit the fhir_server service image in fhir-notification-nats/src/test/integration/docker-compose.yml to point to this new image.  
+* Build your IBM FHIR image with the NATS configuration discussed above and publish it to Docker Hub.  Edit the fhir_server service image in fhir-server-test/src/test/resources/nats/docker-compose.yml to point to this new image.  
 
 	```    
 fhir_server:
@@ -36,13 +36,13 @@ Note: As an alternative to building and publishing your own image, you can start
  
 	```
 	Example: 
-docker cp ./fhir-server-config.json fhir_server:/opt/ibm/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json
+docker cp ./fhir-server-config.json fhir_server:/opt/ol/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json
 ```        
 
 * Start the NATS cluster and IBM FHIR server.  
 
 	```
-cd fhir-notification-nats/src/test/integration
+cd fhir-server-test/src/test/resources/nats
 docker-compose up -d
 ```  
 You can view the logs with:  
