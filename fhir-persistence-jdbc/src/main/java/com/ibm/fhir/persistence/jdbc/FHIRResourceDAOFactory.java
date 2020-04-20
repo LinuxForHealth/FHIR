@@ -49,7 +49,7 @@ public class FHIRResourceDAOFactory {
         }
     }
 
-   public static ResourceDAO getResourceDAO (Connection con, TransactionSynchronizationRegistry trxSynchRegistry) throws IllegalArgumentException, SQLException {
+   public static ResourceDAO getResourceDAO (Connection conn, TransactionSynchronizationRegistry trxSynchRegistry) throws IllegalArgumentException, SQLException {
         ResourceDAO resourceDAO = null;
         switch (FHIRResourceDAOType.of(con)) {
             case DB2:
