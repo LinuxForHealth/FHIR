@@ -51,8 +51,7 @@ public class PostgreSqlDoesTableExist implements IDatabaseSupplier<Boolean> {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 result = rs.getBoolean(1);
-            }
-            else {
+            } else {
                 result = false;
             }
         }
