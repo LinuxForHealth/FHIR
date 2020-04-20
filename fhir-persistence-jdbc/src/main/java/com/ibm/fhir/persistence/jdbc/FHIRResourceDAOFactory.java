@@ -18,7 +18,8 @@ import com.ibm.fhir.persistence.jdbc.postgresql.PostgreSqlResourceDAO;
 
 public class FHIRResourceDAOFactory {
 
-    public enum FHIRResourceDAOType {
+    // The various DAO Types that are used in the JDBC Persistence layer. 
+    public enum DAOType {
         DB2("db2"),
         DERBY("derby"),
         POSTGRESQL("postgresql");
