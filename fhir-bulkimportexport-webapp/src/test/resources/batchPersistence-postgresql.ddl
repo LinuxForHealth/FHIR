@@ -7,6 +7,8 @@
 -- ----------------------------------------------------------------------------
 -- Sample DDL for generating javabatch job tables for postgresql, please refer
 -- to 4.10.1 of IBM FHIR Server User's Guide about how this DDL is used.
+-- 
+-- This DDL is modified with a larger JOB_PARAMETER.VALUE VARCHAR size of 4096.
 -- ----------------------------------------------------------------------------
 
 CREATE TABLE JBATCH.JOBINSTANCE (JOBINSTANCEID BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL, AMCNAME VARCHAR(512), BATCHSTATUS INTEGER NOT NULL, CREATETIME TIMESTAMP NOT NULL, EXITSTATUS VARCHAR(512) , INSTANCESTATE INTEGER NOT NULL, JOBNAME VARCHAR(256) , JOBXMLNAME VARCHAR(128) , JOBXML BYTEA, NUMEXECS INTEGER NOT NULL, RESTARTON VARCHAR(128) , SUBMITTER VARCHAR(256) , UPDATETIME TIMESTAMP, PRIMARY KEY (JOBINSTANCEID));
