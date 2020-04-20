@@ -33,7 +33,6 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.visitor.PathAwareVisitor;
 import com.ibm.fhir.validation.FHIRValidator;
 
 public class FHIRValidatorTest {
@@ -80,7 +79,6 @@ public class FHIRValidatorTest {
 
         System.out.println("");
 
-        PathAwareVisitor.DEBUG = false;
         List<Issue> issues = FHIRValidator.validator().validate(patient);
 
         if (!issues.isEmpty()) {

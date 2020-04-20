@@ -23,19 +23,19 @@ import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
-import com.ibm.fhir.model.visitor.PathAwareVisitor;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.search.test.ExtractorValidator.Builder;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * Extract Parameter Values Test
- * 
+ *
  * @author pbastide
  *
  */
 public class ExtractParameterValuesTest extends BaseSearchTest {
 
+    @Override
     @BeforeClass
     public void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
@@ -43,7 +43,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
     /**
      * run test
-     * 
+     *
      * @param file
      * @param cls
      * @param debug
@@ -52,12 +52,8 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
      * @throws Exception
      */
     public static void runTest(String file, Class<? extends Resource> cls, boolean debug, ExtractorValidator validator, boolean skip) throws Exception {
-        // Are you debugging....
-        // Set to true to enable, false to turn off
-        PathAwareVisitor.DEBUG = debug;
-
         try (InputStream stream = ExtractParameterValuesTest.class.getResourceAsStream("/testdata/" + file)) {
-            Resource res = FHIRParser.parser(Format.JSON).parse(stream);  
+            Resource res = FHIRParser.parser(Format.JSON).parse(stream);
 
             Map<SearchParameter, List<FHIRPathNode>> output;
             if (skip) {
@@ -165,7 +161,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
         runTest(testFile, InsurancePlan.class, false, builder.build());
     }
-    
+
     @Test
     public void testInsurancePlanAlias() throws Exception {
         // Insurance Plan: name
@@ -182,7 +178,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
         runTest(testFile, InsurancePlan.class, false, builder.build(), false);
     }
-    
+
     @Test
     public void testPatientDeceasedBoolean() throws Exception {
         // search-parameters.json -> Patient: deceased
@@ -195,7 +191,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
         runTest(testFile, Patient.class, false, builder.build(), false);
     }
-    
+
     @Test
     public void testPatientDeceasedTime() throws Exception {
         // search-parameters.json -> Patient: deceased
@@ -209,7 +205,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
         runTest(testFile, Patient.class, false, builder.build(), false);
     }
 
-    
-    
-    
+
+
+
 }
