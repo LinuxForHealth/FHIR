@@ -465,7 +465,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
      * @throws SQLException
      */
     protected Integer getResourceTypeId(String resourceTypeName, Connection conn) throws SQLException {
-        Integer result;
+        Integer result = null;
 
         final String sql1 = "SELECT resource_type_id FROM resource_types WHERE resource_type = ?";
 
