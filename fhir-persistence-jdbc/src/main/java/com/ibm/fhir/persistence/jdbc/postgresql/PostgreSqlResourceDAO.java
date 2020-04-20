@@ -43,7 +43,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
- * Data access object for writing FHIR resources to an Apache PostgreSql database.
+ * Data access object for writing FHIR resources to an PostgreSql database.
  *
  * @implNote The original implementation (for DSTU2) used a global temporary table
  * to pass the parameter list into the stored procedure, but this approach
