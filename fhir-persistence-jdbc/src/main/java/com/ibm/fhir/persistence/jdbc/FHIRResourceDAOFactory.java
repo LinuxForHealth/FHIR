@@ -65,7 +65,6 @@ public class FHIRResourceDAOFactory {
         return resourceDAO;
     }
 
-
     public static ResourceDAO getResourceDAO (Connection con) throws IllegalArgumentException, SQLException {
         ResourceDAO resourceDAO = null;
         switch (FHIRResourceDAOType.of(con)) {
