@@ -1649,104 +1649,97 @@ To support "dynamic client registration", use a databaseStore by:
     ```
 
 2. Manually creating the necessary tables in your database as described at [OAuth Databases](https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_oauth_dbs.html):
+    ```
+    ----- CREATE TABLES -----
+    CREATE TABLE OAuthDBSchema.OAUTH20CACHE
+    (
+      LOOKUPKEY VARCHAR(256) NOT NULL,
+      UNIQUEID VARCHAR(128) NOT NULL,
+      COMPONENTID VARCHAR(256) NOT NULL,
+      TYPE VARCHAR(64) NOT NULL,
+      SUBTYPE VARCHAR(64),
+      CREATEDAT BIGINT,
+      LIFETIME INT,
+      EXPIRES BIGINT,
+      TOKENSTRING VARCHAR(2048) NOT NULL,
+      CLIENTID VARCHAR(64) NOT NULL,
+      USERNAME VARCHAR(64) NOT NULL,
+      SCOPE VARCHAR(512) NOT NULL,
+      REDIRECTURI VARCHAR(2048),
+      STATEID VARCHAR(64) NOT NULL,
+      EXTENDEDFIELDS CLOB NOT NULL DEFAULT '{}'
+    );
 
-```
------ CREATE TABLES -----
-CREATE TABLE OAuthDBSchema.OAUTH20CACHE
-(
-  LOOKUPKEY VARCHAR(256) NOT NULL,
-  UNIQUEID VARCHAR(128) NOT NULL,
-  COMPONENTID VARCHAR(256) NOT NULL,
-  TYPE VARCHAR(64) NOT NULL,
-  SUBTYPE VARCHAR(64),
-  CREATEDAT BIGINT,
-  LIFETIME INT,
-  EXPIRES BIGINT,
-  TOKENSTRING VARCHAR(2048) NOT NULL,
-  CLIENTID VARCHAR(64) NOT NULL,
-  USERNAME VARCHAR(64) NOT NULL,
-  SCOPE VARCHAR(512) NOT NULL,
-  REDIRECTURI VARCHAR(2048),
-  STATEID VARCHAR(64) NOT NULL,
-  EXTENDEDFIELDS CLOB NOT NULL DEFAULT '{}'
-);
+    CREATE TABLE OAuthDBSchema.OAUTH20CLIENTCONFIG
+    (
+      COMPONENTID VARCHAR(256) NOT NULL,
+      CLIENTID VARCHAR(256) NOT NULL,
+      CLIENTSECRET VARCHAR(256),
+      DISPLAYNAME VARCHAR(256) NOT NULL,
+      REDIRECTURI VARCHAR(2048),
+      ENABLED INT,
+      CLIENTMETADATA CLOB NOT NULL DEFAULT '{}'
+    );
 
-CREATE TABLE OAuthDBSchema.OAUTH20CLIENTCONFIG
-(
-  COMPONENTID VARCHAR(256) NOT NULL,
-  CLIENTID VARCHAR(256) NOT NULL,
-  CLIENTSECRET VARCHAR(256),
-  DISPLAYNAME VARCHAR(256) NOT NULL,
-  REDIRECTURI VARCHAR(2048),
-  ENABLED INT,
-  CLIENTMETADATA CLOB NOT NULL DEFAULT '{}'
-);
+    CREATE TABLE OAuthDBSchema.OAUTH20CONSENTCACHE
+    (
+      CLIENTID VARCHAR(256) NOT NULL,
+      USERID VARCHAR(256),
+      PROVIDERID VARCHAR(256) NOT NULL,
+      SCOPE VARCHAR(1024) NOT NULL,
+      EXPIRES BIGINT,
+      EXTENDEDFIELDS CLOB NOT NULL DEFAULT '{}'
+    );
 
-CREATE TABLE OAuthDBSchema.OAUTH20CONSENTCACHE
-(
-  CLIENTID VARCHAR(256) NOT NULL,
-  USERID VARCHAR(256),
-  PROVIDERID VARCHAR(256) NOT NULL,
-  SCOPE VARCHAR(1024) NOT NULL,
-  EXPIRES BIGINT,
-  EXTENDEDFIELDS CLOB NOT NULL DEFAULT '{}'
-);
+    ----- ADD CONSTRAINTS -----
+    ALTER TABLE OAuthDBSchema.OAUTH20CACHE
+      ADD CONSTRAINT PK_LOOKUPKEY PRIMARY KEY (LOOKUPKEY);
 
------ ADD CONSTRAINTS -----
-ALTER TABLE OAuthDBSchema.OAUTH20CACHE
-  ADD CONSTRAINT PK_LOOKUPKEY PRIMARY KEY (LOOKUPKEY);
+    ALTER TABLE OAuthDBSchema.OAUTH20CLIENTCONFIG
+      ADD CONSTRAINT PK_COMPIDCLIENTID PRIMARY KEY (COMPONENTID,CLIENTID);
 
-ALTER TABLE OAuthDBSchema.OAUTH20CLIENTCONFIG
-  ADD CONSTRAINT PK_COMPIDCLIENTID PRIMARY KEY (COMPONENTID,CLIENTID);
-
------ CREATE INDEXES -----
-CREATE INDEX OAUTH20CACHE_EXPIRES ON OAUTHDBSCHEMA.OAUTH20CACHE (EXPIRES ASC);
-```
+    ----- CREATE INDEXES -----
+    CREATE INDEX OAUTH20CACHE_EXPIRES ON OAUTHDBSCHEMA.OAUTH20CACHE (EXPIRES ASC);
+    ```
 
 3. Attempting to register a client (based on https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_client_registration.html). The endpoint is determined by the id value of the oauthProvider element from the previous step.
+    For example, for an OAuth provider with `id="oauth2-provider"`:
+    ```
+    curl -u 'fhiruser:change-password' 'https://localhost:9443/oauth2/endpoint/oauth2-provider/registration' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+       "token_endpoint_auth_method":"client_secret_basic",
+       "scope":"launch launch/patient offline_access openid profile user/*.* patient/*.*",
+       "grant_types":[
+          "authorization_code",
+          "client_credentials",
+          "implicit",
+          "refresh_token",
+          "urn:ietf:params:oauth:grant-type:jwt-bearer"
+       ],
+       "response_types":[
+          "code",
+          "token",
+          "id_token token"
+       ],
+       "application_type":"web",
+       "subject_type":"public",
+       "post_logout_redirect_uris":[
+          "http://localhost:4567/inferno/oauth2/static/redirect"
+       ],
+       "preauthorized_scope":"launch launch/patient offline_access openid profile user/*.* patient/*.*",
+       "introspect_tokens":true,
+       "trusted_uri_prefixes":[
+          "https://server.example.com:9000/trusted/"
+       ],
+       "redirect_uris":[
+          "http://localhost:4567/inferno/oauth2/static/redirect"
+       ]
+    }'
+    ```
 
-For example, for an OAuth provider with `id="oauth2-provider"`:
-```
-curl -u 'fhiruser:change-password' 'https://localhost:9443/oidc/endpoint/oauth2-provider/registration' \
---header 'Content-Type: application/json' \
---data-raw '{
-   "token_endpoint_auth_method":"client_secret_basic",
-   "scope":"launch launch/patient offline_access openid profile user/*.* patient/*.*",
-   "grant_types":[
-      "authorization_code",
-      "client_credentials",
-      "implicit",
-      "refresh_token",
-      "urn:ietf:params:oauth:grant-type:jwt-bearer"
-   ],
-   "response_types":[
-      "code",
-      "token",
-      "id_token token"
-   ],
-   "application_type":"web",
-   "subject_type":"public",
-   "post_logout_redirect_uris":[
-      "http://localhost:4567/inferno/oauth2/static/redirect"
-   ],
-   "preauthorized_scope":"launch launch/patient offline_access openid profile user/*.* patient/*.*",
-   "introspect_tokens":true,
-   "trusted_uri_prefixes":[
-      "https://server.example.com:9000/trusted/"
-   ],
-   "redirect_uris":[
-      "http://localhost:4567/inferno/oauth2/static/redirect"
-   ]
-}'
-```
-
-### 5.3.1.2 Configure Liberty as an OAuth 2.0 Provider
-
-To add the OpenID Connect Provider config, you must first create a key to use for the signatureAlgorithm.
-
-Note: the current private key in the fhirKeystore.jks keystore is NOT usable as a signing key.  Instead, allow Liberty to generate its own keystore and use that.
-
-Assuming the defaultKeyStore has a valid key for signing, add the openidConnectProvider element to your server.xml:
+### 5.3.1.2 Add the openidConnectProvider element
+Now that Liberty is configured as an OAuth 2.0 provider, add the openidConnectProvider element to your server.xml:
 ```
 <openidConnectProvider id="oidc-provider"
     oauthProviderRef="oauth2-provider"
@@ -1755,14 +1748,17 @@ Assuming the defaultKeyStore has a valid key for signing, add the openidConnectP
 ```
 
 ### 5.3.1.3 Request an access token
-After you've registered a client (either via dynamic registration or static config) and configured the openidConnectProvider, invoke the token endpoint with the configured code for your client to obtain an access token.
+After you've registered a client (either via dynamic registration or static config) and configured the openidConnectProvider, invoke the authorization endpoint with the configured client_secret for your client in order to obtain an authorization code that can be exchanged for an access token.
 
-The specific endpoint is determined by the id value of the openidConnectProvider element from the previous section.
+The specific endpoints are determined by the id value of the openidConnectProvider element from the previous section.
 For example, for an OpenID Connect provider with `id="oidc-provider"`, the auth URL is
-`https://[host]:[port]/oauth2/endpoint/oidc-provider/authorize` and the token URL is `https://[host]:[port]/oauth2/endpoint/oidc-provider/token`.
+`https://[host]:[port]/oidc/endpoint/oidc-provider/authorize` and the token URL is `https://[host]:[port]/oidc/endpoint/oidc-provider/token`.
 
-### 5.3.2 Configure Liberty as the OpenID Connect Relying Party
-Liberty can be configured to act as an OpenID Connect Relying Party via the [openidConnectClient-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectClient-1.0.html).
+The provider endpoint will present an HTML login form and you must enter a valid username/password from Liberty's configured user registry (e.g. `fhiruser`/`change-password`).
+This will redirect you to the configured redirect uri, passing this client (the "Relying Party") a code that can be exchanged for an access token.
+
+### 5.3.2 Configure Liberty to be an Oauth 2.0 Protected Resource Server
+Liberty can be configured to act as an OAuth 2.0 Protected Resource Server via the [openidConnectClient-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectClient-1.0.html).
 
 ### 5.3.2.1 Configure the trustStore
 1. Export the server's certificate from the configured keystore via one of the following commands:
@@ -1777,14 +1773,12 @@ Liberty can be configured to act as an OpenID Connect Relying Party via the [ope
 Add an openidConnectClient element to the server.xml config and point at the trustStore from the previous section:
 ``` xml
 <openidConnectClient id="RS" inboundPropagation="required"
-    clientId="inferno"
-    mapIdentityToRegistryUser="true"
-    trustStoreRef="defaultKeyStore"
+    trustStoreRef="defaultTrustStore"
     trustAliasName="libertyop"
-    validationEndpointUrl="https://localhost:9443/oidc/endpoint/oidc-provider/introspect"
+    issuerIdentifier="https://localhost:9443/oauth2/endpoint/oauth2-provider,https://host.docker.internal:9443/oauth2/endpoint/oauth2-provider"
+    validationEndpointUrl="https://localhost:9443/oauth2/endpoint/oauth2-provider/introspect"
     signatureAlgorithm="RS256"
     authFilterRef="filter"
-    issuerIdentifier="https://localhost:9443/oauth2/endpoint/oauth2-provider,https://host.docker.internal:9443/oauth2/endpoint/oauth2-provider"
     />
 
 <authFilter id="filter">
@@ -1794,13 +1788,13 @@ Add an openidConnectClient element to the server.xml config and point at the tru
 
 Note: if the server is also acting as an OAuth/OpenId Connect provider, be sure to include an authFilter to avoid the problem where the token and authorization endpoints are protected by the openidConnectClient.
 
-### 5.3.3 Configure the fhir-server
-To configure the FHIR Server with the OpenID Connect and OAuth 2.0 endpoints for the providers, specify the following values in the default fhir-server-config.json file:
+### 5.3.3 Advertise the OAuth endpoints via fhir-server-config
+To configure the FHIR Server with the OpenID Connect and OAuth 2.0 endpoints of the providers, specify the following values in the default fhir-server-config.json file:
 * `fhirServer/oauth/regUrl`
 * `fhirServer/oauth/authUrl`
 * `fhirServer/oauth/tokenUrl`
 
-When the Liberty server is the OpenID Connect / OAuth 2.0 provider, use a placeholder of `<host>` in the property values to have the server automatically replace this text with the hostname of the original request (see `fhirServer/core/originalRequestUriHeaderName`).
+When the Liberty server is the OpenID Connect / OAuth 2.0 provider, use a placeholder of `<host>` in the property values to have the server automatically replace this text with the hostname used by requestors (see `fhirServer/core/originalRequestUriHeaderName`).
 
 These values will be used to populate the corresponding entries in both the server capability statement (`GET [base]/metadata`) and the smart-configuration (`GET [base]/.well-known/smart-configuration`).
 
@@ -1816,16 +1810,16 @@ For example, the following excerpt from a CapabilityStatement shows sample OAuth
             "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris"
             "extension": [
               {
-                "url": "token",
-                "valueUri": "https://localhost:9443/oauth2/endpoint/oauth2-provider/token"
+                "url": "register",
+                "valueUri": "https://localhost:9443/oauth2/endpoint/oauth2-provider/registration"
               },
               {
                 "url": "authorize",
                 "valueUri": "https://localhost:9443/oauth2/endpoint/oauth2-provider/authorize"
               },
               {
-                "url": "register",
-                "valueUri": "https://localhost:9443/oidc/endpoint/oidc-provider/registration"
+                "url": "token",
+                "valueUri": "https://localhost:9443/oauth2/endpoint/oauth2-provider/token"
               }
             ]
           }

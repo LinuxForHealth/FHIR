@@ -2,99 +2,35 @@
 
     <!-- Enable features -->
     <featureManager>
+        <feature>transportSecurity-1.0</feature>
         <feature>appSecurity-2.0</feature>
-        <feature>batchManagement-1.0</feature>
         <feature>jaxrs-2.1</feature>
+        <feature>servlet-4.0</feature>
+        <feature>jsonp-1.1</feature>
         <!-- the db2 jcc driver for 11.5.0.0 doesn't fully implement jdbc-4.2 -->
         <feature>jdbc-4.1</feature>
-        <feature>jsonp-1.1</feature>
-        <feature>mpOpenAPI-1.0</feature>
-        <feature>openidConnectServer-1.0</feature>
-        <feature>servlet-4.0</feature>
-        <feature>transportSecurity-1.0</feature>
         <feature>websocket-1.1</feature>
+        <feature>localConnector-1.0</feature>
+        <feature>mpOpenAPI-1.0</feature>
     </featureManager>
 
     <!-- Disable welcome page so that internal server info won't be revealed in responses
          to requests with an invalid context root.
     -->
-    <httpDispatcher enableWelcomePage="false" />
+    <httpDispatcher enableWelcomePage="false"/>
     <!-- Disable X-Powered-By header to avoid leaking information and
          override the default error pages to avoid showing stack traces
          for nonsensical queries like requests for a JSP page that doesn't exist.
     -->
-    <webContainer disableXPoweredBy="true" 
-        displaytextwhennoerrorpagedefined="Unexpected request/response. Please check the URL and try again."
-        deferServletLoad="false" />
+    <webContainer disableXPoweredBy="true"
+        displayTextWhenNoErrorPageDefined="Unexpected request/response. Please check the URL and try again."
+        deferServletLoad="true"/>
 
     <!-- IBM FHIR Server's keystore and truststore configuration -->
-    <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" sslProtocol="TLSv1.2"/>
-    <keyStore id="defaultKeyStore" location="${server.config.dir}/resources/security/fhirKeystore.jks" password="change-password"/>
-    <keyStore id="defaultTrustStore" location="${server.config.dir}/resources/security/fhirTruststore.jks" password="change-password"/>
-    <webAppSecurity allowFailOverToBasicAuth="true" singleSignonEnabled="false"/>
+    <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" sslProtocol="TLSv1.2" trustDefaultCerts="true"/>
+    <keyStore id="defaultKeyStore" location="${server.output.dir}/resources/security/fhirKeyStore.p12" password="change-password"/>
+    <keyStore id="defaultTrustStore" location="${server.output.dir}/resources/security/fhirTrustStore.p12" password="change-password"/>
 
-    <!-- Define a basic user registry with a few users. -->
-    <basicRegistry id="basic" realm="BasicRealm"> 
-        <user name="fhiruser" password="change-password"/>
-        <user name="fhiradmin" password="change-password"/>
-        <group name="FHIRUsers">
-            <member name="fhiruser"/>
-        </group>
-        <group name="clientAdministrator">
-            <member name="fhiruser"/>
-        </group>
-    </basicRegistry>
-
-    <authorization-roles id="com.ibm.ws.batch">
-        <security-role name="batchAdmin">
-            <user name="fhiradmin" />
-        </security-role>
-        <security-role name="batchSubmitter">
-            <user name="fhiruser" />
-        </security-role>
-        <security-role name="batchMonitor">
-            <user name="fhiradmin" />
-            <user name="fhiruser" />
-        </security-role>
-    </authorization-roles>
-
-    <!--    
-    <openidConnectProvider id="oidc-provider" oauthProviderRef="oauth2-provider"/> 
-    
-    <oauth-roles>
-        <authenticated>
-            <special-subject type="ALL_AUTHENTICATED_USERS"/>  
-        </authenticated>
-        <clientManager>
-            <group name="clientAdministrator" />
-            <user name="fhiruser" />
-        </clientManager>
-    </oauth-roles>
-    
-    <oauthProvider id="oauth2-provider" oauthOnly="false">
-        <grantType>client_credentials</grantType>
-        <databaseStore dataSourceRef="OAuthDataSource" />
-    </oauthProvider>
-    -->
-    
-    <!-- Enable CORS (Cross Origin Resource Sharing) -->
-    <!--  
-    <cors allowCredentials="true" allowedMethods="GET, PUT, POST"
-        allowedHeaders="Content-Type, Authorization, Accept, Origin"
-        allowedOrigins="*" domain="/fhir-server/api/v4" maxAge="3600" />
-    -->    
-    
-    <!-- Uncomment this section to configure a remote Open ID Connect Provider that overrides the oauthProvider configured above. 
-         Update fhir-server-config.json to publish the remote provider OAuth URLs. -->
-    <!-- 
-    <openidConnectClient authorizationEndpointUrl="https://change-me/authorize" 
-                    clientId="change-me" 
-                    clientSecret="{xor}change-me" 
-                    id="client01" 
-                    tokenEndpointUrl="https://change-me/token">     
-    </openidConnectClient> 
-    -->
-    
     <!-- This entry defines the ports that the server will listen on.
         By default, the httpPort is disabled (set to "-1").
         Modify the port #'s as needed to satisfy your config requirements.
@@ -108,7 +44,8 @@
         <logging traceSpecification="*=info" traceFormat="BASIC"/>
         <logging traceSpecification="*=info:com.ibm.fhir.*=finer" traceFormat="BASIC"/>
     -->
-    
+    <logging traceFormat="BASIC" traceSpecification="*=info:com.ibm.fhir.*=finer"/>
+
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
 
@@ -127,8 +64,8 @@
 
     <!-- This is the openapi definition for the IBM FHIR Server -->
     <webApplication id="fhir-openapi" location="fhir-openapi.war" name="fhir-openapi"/>
-    
-    <!-- 
+
+    <!--
         This library element puts a specific directory in the classpath so that it can be used
         for user-provided configuration files (e.g. extension-search-parameters.xml)
     -->
@@ -136,7 +73,7 @@
         <folder dir="${server.config.dir}/config"/>
         <fileset dir="${server.config.dir}/config" includes="*.jar"/>
     </library>
-    
+
     <!-- 
         This sharedlib can contain user-contributed jars that are intended to augment
         the IBM FHIR Server installation (persistence interceptors, persistence layer impl's,
@@ -145,7 +82,7 @@
     <library id="fhirUserLib">
         <fileset dir="${server.config.dir}/userlib" includes="*.jar"/>
     </library>
-   
+
     <!-- Definitions related to the JDBC proxy datasource -->
     <library id="fhirSharedLib">
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
@@ -153,51 +90,23 @@
         <fileset dir="${shared.resource.dir}/lib/postgresql" includes="*.jar"/>
         <fileset dir="${shared.resource.dir}/lib/fhir" includes="*.jar"/>
     </library>
-    
-    <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource"
-        type="javax.sql.XADataSource">
-        <jdbcDriver libraryRef="fhirSharedLib"
-            javax.sql.XADataSource="com.ibm.fhir.persistence.proxy.FHIRProxyXADataSource" />
-        <connectionManager />
-    </dataSource>
-    
-    
-    <!-- Derby/Embedded-related configuration
-    <library id="derbyLib">
-        <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
-    </library>
-    
-    <dataSource id="OAuthDataSource" jndiName="jdbc/oAuthConfigDB">
-        <jdbcDriver libraryRef="derbyLib"/>
-        <properties.derby.embedded createDatabase="create" databaseName="derby/oauth2db"/>
-    </dataSource>
-    -->
-     
-    <!-- DB2-related configuration
-    <library id="db2Lib">
-        <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
-    </library>
-    
-    <dataSource id="OAuthDataSource" jndiName="jdbc/oAuthConfigDB">
-        <jdbcDriver libraryRef="db2Lib"/>
-        <properties.db2.jcc 
-            serverName="dbserver1.mycompany.com" 
-            portNumber="50000" 
-            user="db2inst1" 
-            password="change-password" 
-            databaseName="OAUTH2DB" 
-            currentSchema="OAUTHDBSCHEMA" 
-            driverType="4"/>
-    </dataSource>
-    -->
 
-    <webApplication id="fhir-bulkimportexport-webapp" location="fhir-bulkimportexport.war" name="fhir-bulkimportexport-webapp">
-        <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
-        <application-bnd>
-            <security-role id="users" name="FHIRUsers">
-                <group name="FHIRUsers"/>
-            </security-role>
-        </application-bnd>
-    </webApplication>
-    <include optional="true" location="${server.config.dir}/batchDs.xml"/>
+    <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource" type="javax.sql.XADataSource">
+        <jdbcDriver javax.sql.XADataSource="com.ibm.fhir.persistence.proxy.FHIRProxyXADataSource" libraryRef="fhirSharedLib"/>
+        <connectionManager/>
+    </dataSource>
+
+    <webAppSecurity allowFailOverToBasicAuth="true"/>
+
+    <!-- Define a basic user registry with a few users. -->
+    <basicRegistry id="basic" realm="BasicRealm"> 
+        <user name="fhiruser" password="change-password"/>
+        <user name="fhiradmin" password="change-password"/>
+        <group name="FHIRUsers">
+            <member name="fhiruser"/>
+        </group>
+        <group name="clientAdministrator">
+            <member name="fhiruser"/>
+        </group>
+    </basicRegistry>
 </server>
