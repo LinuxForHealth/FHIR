@@ -9,10 +9,6 @@ package com.ibm.fhir.validation.test;
 import static com.ibm.fhir.model.type.String.string;
 
 import java.util.List;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -115,22 +111,6 @@ public class BloodPressureObservationTest {
         System.out.println("");
 
         // validate the blood pressure observation in debug mode and print issues to console
-        Logger logger = Logger.getLogger("");
-        logger.setLevel(Level.FINE);
-        logger.addHandler(new Handler() {
-            @Override
-            public void publish(LogRecord record) {
-                System.out.println(record.getMessage());
-            }
-
-            @Override
-            public void flush() {
-            }
-
-            @Override
-            public void close() throws SecurityException {
-            }
-        });
         List<Issue> issues = FHIRValidator.validator().validate(bloodPressureObservation);
         issues.forEach(System.out::println);
         Assert.assertEquals(issues.size(), 4);
