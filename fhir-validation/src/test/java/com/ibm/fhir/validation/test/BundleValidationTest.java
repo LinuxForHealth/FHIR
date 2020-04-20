@@ -35,7 +35,6 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueSeverity;
-import com.ibm.fhir.model.visitor.PathAwareVisitor;
 import com.ibm.fhir.validation.FHIRValidator;
 
 public class BundleValidationTest {
@@ -102,7 +101,6 @@ public class BundleValidationTest {
         FHIRGenerator.generator(Format.JSON, true).generate(bundle, System.out);
         System.out.println();
 
-        PathAwareVisitor.DEBUG = false;
         List<Issue> issues = FHIRValidator.validator().validate(bundle);
 
         if (!issues.isEmpty()) {
@@ -143,7 +141,6 @@ public class BundleValidationTest {
         FHIRGenerator.generator(Format.JSON, true).generate(bundle, System.out);
         System.out.println();
 
-        PathAwareVisitor.DEBUG = false;
         List<Issue> issues = FHIRValidator.validator().validate(bundle);
 
         if (!issues.isEmpty()) {
@@ -197,7 +194,6 @@ public class BundleValidationTest {
         FHIRGenerator.generator(Format.JSON, true).generate(patient, System.out);
         System.out.println();
 
-        PathAwareVisitor.DEBUG = false;
         List<Issue> issues = FHIRValidator.validator().validate(bundle);
 
         if (!issues.isEmpty()) {
@@ -228,7 +224,6 @@ public class BundleValidationTest {
         FHIRGenerator.generator(Format.JSON, true).generate(patient, System.out);
         System.out.println();
 
-        PathAwareVisitor.DEBUG = false;
         List<Issue> issues = FHIRValidator.validator().validate(bundle);
 
         List<Issue> errors = new ArrayList<>();
