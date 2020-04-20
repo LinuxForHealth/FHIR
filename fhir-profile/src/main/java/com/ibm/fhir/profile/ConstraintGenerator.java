@@ -340,6 +340,8 @@ public class ConstraintGenerator {
 
         if (isOptional(elementDefinition)) {
             sb.append(identifier).append(".exists()").append(" implies (");
+        } else {
+            sb.append(identifier).append(".exists()").append(" and ");
         }
 
         String prefix = "";
