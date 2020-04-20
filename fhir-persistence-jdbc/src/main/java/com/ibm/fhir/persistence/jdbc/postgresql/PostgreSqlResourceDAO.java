@@ -240,8 +240,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 v_logical_resource_id = rs.getLong(1);
-            }
-            else {
+            } else {
                 v_not_found = true;
                 v_logical_resource_id = -1L; // just to be careful
             }
