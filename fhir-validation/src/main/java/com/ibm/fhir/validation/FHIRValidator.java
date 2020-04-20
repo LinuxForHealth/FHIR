@@ -42,6 +42,8 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
 public class FHIRValidator {
     private static final Logger log = Logger.getLogger(FHIRValidator.class.getName());
 
+    private final ValidatingNodeVisitor visitor = new ValidatingNodeVisitor();
+
     private FHIRValidator() { }
 
     /**
@@ -159,14 +161,10 @@ public class FHIRValidator {
             throw new IllegalArgumentException("Root must be resource node");
         }
         try {
-            FHIRPathResourceNode resourceNode = evaluationContext.getTree().getRoot().asResourceNode();
-            List<String> profileReferences = Arrays.asList(profiles);
             List<Issue> issues = new ArrayList<>();
-            validateProfileReferences(resourceNode, profileReferences, false, issues);
-            ValidatingNodeVisitor visitor = new ValidatingNodeVisitor(evaluationContext, includeResourceAssertedProfiles, profileReferences);
-            resourceNode.accept(visitor);
-            issues.addAll(visitor.getIssues());
-            return issues;
+            validateProfileReferences(evaluationContext.getTree().getRoot().asResourceNode(), Arrays.asList(profiles), false, issues);
+            issues.addAll(visitor.validate(evaluationContext, includeResourceAssertedProfiles, profiles));
+            return Collections.unmodifiableList(issues);
         } catch (Exception e) {
             throw new FHIRValidationException("An error occurred during validation", e);
         }
@@ -188,7 +186,7 @@ public class FHIRValidator {
      *
      * @param resourceNode
      *     the resource node being validated by a FHIRValidator instance
-     * @param profileReferences
+     * @param profiles
      *     the list of profile references to validate
      * @param resourceAsserted
      *     indicates whether the profile references came from the resource or were explicitly passed in as arguments
@@ -197,11 +195,11 @@ public class FHIRValidator {
      */
     private static void validateProfileReferences(
             FHIRPathResourceNode resourceNode,
-            List<String> profileReferences,
+            List<String> profiles,
             boolean resourceAsserted,
             List<Issue> issues) {
         Class<?> resourceType = resourceNode.resource().getClass();
-        for (String url : profileReferences) {
+        for (String url : profiles) {
             StructureDefinition profile = ProfileSupport.getProfile(url);
             if (profile == null) {
                 issues.add(Issue.builder()
@@ -226,20 +224,26 @@ public class FHIRValidator {
     }
 
     private static class ValidatingNodeVisitor extends FHIRPathDefaultNodeVisitor {
-        private final FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-        private final EvaluationContext evaluationContext;
-        private final boolean includeResourceAssertedProfiles;
-        private final List<String> profiles;
-        private final List<Issue> issues = new ArrayList<>();
+        private FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        private EvaluationContext evaluationContext;
+        private boolean includeResourceAssertedProfiles;
+        private List<String> profiles;
 
-        private ValidatingNodeVisitor(EvaluationContext evaluationContext, boolean includeResourceAssertedProfiles, List<String> profiles) {
+        private List<Issue> issues = new ArrayList<>();
+
+        private ValidatingNodeVisitor() { }
+
+        private List<Issue> validate(EvaluationContext evaluationContext, boolean includeResourceAssertedProfiles, String... profiles) {
+            reset();
             this.evaluationContext = evaluationContext;
             this.includeResourceAssertedProfiles = includeResourceAssertedProfiles;
-            this.profiles = profiles;
+            this.profiles = Arrays.asList(profiles);
+            this.evaluationContext.getTree().getRoot().accept(this);
+            return issues;
         }
 
-        private List<Issue> getIssues() {
-            return Collections.unmodifiableList(issues);
+        private void reset() {
+            issues.clear();
         }
 
         @Override
