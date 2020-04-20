@@ -55,17 +55,17 @@ public class FHIRPathSpecTest implements ITest {
     protected static XMLStreamReader testFileReader;
     protected static String currentGroupName;
     protected static String currentGroupDescription;
-    
+
     String testName;
     protected EvaluationContext context;
     TestExpression expression;
     List<ExpectedOutput> outputs;
     boolean isPredicate;
-    
+
     public FHIRPathSpecTest(String testName, EvaluationContext context, TestExpression expression, List<ExpectedOutput> outputs) {
         this(testName, context, expression, outputs, false);
     }
-    
+
     @Factory(dataProvider = "provideAllTestData")
     public FHIRPathSpecTest(String testName, EvaluationContext context, TestExpression expression, List<ExpectedOutput> outputs, boolean isPredicate) {
         this.testName = testName;
@@ -74,23 +74,23 @@ public class FHIRPathSpecTest implements ITest {
         this.outputs = outputs;
         this.isPredicate = isPredicate;
     }
-    
+
     @Test
     private void executeTest() throws Exception {
         System.out.println(testName + ":  " + expression.text);
-        
+
         if (testName.startsWith("testEquivalent") || testName.startsWith("testNotEquivalent")) {
             throw new SkipException("'~' (equivalent) and '!~' (not equivalent) operators are not supported");
         }
-        
+
         if (testName.startsWith("testQuantity")) {
             throw new SkipException("quantity unit conversion is not supported");
         }
-        
+
         if (testName.startsWith("testConformsTo")) {
             throw new SkipException("'conformsTo' function is not supported");
         }
-                
+
         Collection<FHIRPathNode> results = null;
         try {
             results = evaluator.evaluate(context, expression.text);
@@ -109,7 +109,7 @@ public class FHIRPathSpecTest implements ITest {
         } catch (Throwable t) {
             throw new IllegalStateException(testName + ": unexpected error while executing the expression", t);
         }
-        
+
         if (expression.isInvalid()) {
             if (results != null) {
                 fail("Expected an exception for invalid expression[" + expression + "] but instead obtained " + results);
@@ -121,7 +121,7 @@ public class FHIRPathSpecTest implements ITest {
                 fail("Expected a valid result for expression[" + expression + "] but instead obtained null");
             }
         }
-        
+
         assertEquals(results.size(), outputs.size(), testName + ": number of results");
 
         if (isPredicate) {
@@ -132,7 +132,7 @@ public class FHIRPathSpecTest implements ITest {
         int i = 0;
         for (FHIRPathNode result : results) {
             ExpectedOutput expectedOutput = outputs.get(i++);
-            
+
             switch(expectedOutput.type) {
             case "boolean":
                 assertEquals(getBooleanValue(singleton(result))._boolean().toString(), expectedOutput.text);
@@ -160,29 +160,29 @@ public class FHIRPathSpecTest implements ITest {
             }
         }
     }
-    
+
     static class TestExpression {
         final String text;
         final String invalidCode;
-        
+
         public TestExpression(String expression) {
             this(expression, null);
         }
-        
+
         public TestExpression(String expression, String invalidCode) {
             this.text = expression;
             this.invalidCode = invalidCode;
         }
-        
+
         boolean isInvalid() {
             return invalidCode != null;
         }
     }
-    
+
     static class ExpectedOutput {
         final String type;
         final String text;
-        
+
         public ExpectedOutput(String type, String text) {
             this.type = type;
             this.text = text;
@@ -193,7 +193,7 @@ public class FHIRPathSpecTest implements ITest {
     public String getTestName() {
         return testName;
     }
-    
+
     /**
      * Hack to override the method name in the TestNG reports (but still doesn't work to override the method name on the Eclipse TestNG view)
      * @see <a href="https://stackoverflow.com/a/49522435/161022">https://stackoverflow.com/a/49522435/161022</a>
@@ -209,11 +209,11 @@ public class FHIRPathSpecTest implements ITest {
             Reporter.log("Exception : " + e.getMessage());
         }
     }
-    
+
     @DataProvider
     public static Object[][] provideAllTestData() throws Exception {
         List<Object[]> testData = new ArrayList<>();
-        
+
         Resource observation = TestUtil.readLocalResource("FHIRPath/input/observation-example.xml");
         Resource patient = TestUtil.readLocalResource("FHIRPath/input/patient-example.xml");
         Resource questionnaire = TestUtil.readLocalResource("FHIRPath/input/questionnaire-example.xml");
@@ -222,10 +222,10 @@ public class FHIRPathSpecTest implements ITest {
         patientContext = new EvaluationContext(patient);
         questionnaireContext = new EvaluationContext(questionnaire);
         valuesetContext = new EvaluationContext(valueset);
-        
+
         InputStream testFile = TestUtil.resolveFileLocation("FHIRPath/tests-fhir-r4.xml");
         testFileReader = XMLSupport.createXMLStreamReader(testFile);
-        
+
         while (testFileReader.hasNext()) {
             switch (testFileReader.next()) {
             case XMLStreamReader.START_ELEMENT:
@@ -246,14 +246,14 @@ public class FHIRPathSpecTest implements ITest {
         }
         return testData.toArray(new Object[testData.size()][]);
     }
-    
+
     private static Object[] createSingleTest() throws Exception {
         String testName = testFileReader.getAttributeValue(null, "name");
         if (testName == null) {
             testName = currentGroupName;
         }
         String isPredicate = testFileReader.getAttributeValue(null, "predicate");
-        
+
         String inputfile = testFileReader.getAttributeValue(null, "inputfile");
         EvaluationContext context;
         switch(inputfile) {
@@ -272,12 +272,12 @@ public class FHIRPathSpecTest implements ITest {
         default:
             throw new IllegalStateException("unknown input file:" + inputfile);
         }
-        
+
         testFileReader.nextTag();
         String invalidCode = testFileReader.getAttributeValue(null, "invalid");
         String expression = testFileReader.getElementText();
         FHIRPathSpecTest.TestExpression testExpression = new FHIRPathSpecTest.TestExpression(expression, invalidCode);
-        
+
         List<FHIRPathSpecTest.ExpectedOutput> outputs = new ArrayList<>();
         a:while (testFileReader.hasNext()) {
             switch(testFileReader.next()) {
@@ -293,21 +293,19 @@ public class FHIRPathSpecTest implements ITest {
                 }
             }
         }
-        
+
         return new Object[] { testName, context, testExpression, outputs, "true".equals(isPredicate) };
     }
-    
+
     public static void main(String[] args) throws Exception {
         try (InputStream in = FHIRPathSpecTest.class.getClassLoader().getResourceAsStream("FHIRPath/input/patient-example.xml")) {
             Patient patient = FHIRParser.parser(Format.XML).parse(in);
-            FHIRPathEvaluator.DEBUG = true;
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
             Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.active.type().name = 'boolean'");
             System.out.println("result: " + result);
         }
         try (InputStream in = FHIRPathSpecTest.class.getClassLoader().getResourceAsStream("FHIRPath/input/observation-example.xml")) {
             Observation observation = FHIRParser.parser(Format.XML).parse(in);
-            FHIRPathEvaluator.DEBUG = true;
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
             Collection<FHIRPathNode> result = evaluator.evaluate(observation, "(Observation.value as Period).unit");
             System.out.println("result: " + result);
