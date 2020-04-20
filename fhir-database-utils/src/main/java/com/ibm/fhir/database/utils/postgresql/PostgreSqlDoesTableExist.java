@@ -47,7 +47,6 @@ public class PostgreSqlDoesTableExist implements IDatabaseSupplier<Boolean> {
                 "WHERE  LOWER(table_schema) = LOWER('" + schemaName +
                 "') AND LOWER(table_name) = LOWER('" + tableName + "'))";
 
-
         try (PreparedStatement ps = c.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
