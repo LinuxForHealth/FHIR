@@ -456,7 +456,6 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
             stmt.setLong(1, logicalResourceId);
             stmt.executeUpdate();
         }
-
     }
 
     /**
