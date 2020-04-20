@@ -254,8 +254,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
                 ResultSet res = stmt.executeQuery();
                 if (res.next()) {
                     v_logical_resource_id = res.getLong(1);
-                }
-                else {
+                } else {
                     // not going to happen, unless someone butchers the statement being executed
                     throw new IllegalStateException("VALUES failed to return a row: " + sql2);
                 }
