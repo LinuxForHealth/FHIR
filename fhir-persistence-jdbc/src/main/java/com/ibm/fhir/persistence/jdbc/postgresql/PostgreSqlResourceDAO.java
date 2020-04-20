@@ -273,8 +273,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
             } catch (SQLException e) {
                 if (translator.isDuplicate(e)) {
                     v_duplicate = true;
-                }
-                else {
+                }  else {
                     throw e;
                 }
             }
