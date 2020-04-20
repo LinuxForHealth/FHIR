@@ -385,7 +385,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
 
         /**
          * Create the new resource version.
-         * Alpha version uses last_updated time from the app-server, so we keep that here
+         * uses last_updated time from the app-server, so we have consistency between the various DAOs
          */
         String sql2 = "SELECT nextval('fhir_sequence')";
         try (PreparedStatement stmt = conn.prepareStatement(sql2)) {
