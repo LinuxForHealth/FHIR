@@ -42,6 +42,7 @@ docker cp ./fhir-server-config.json fhir_server:/opt/ibm/wlp/usr/servers/fhir-se
 * Start the NATS cluster and IBM FHIR server.  
 
 	```
+cd fhir-notification-nats/src/test/integration
 docker-compose up -d
 ```  
 You can view the logs with:  
@@ -53,13 +54,14 @@ docker-compose logs -f
 * Start the NATS subscriber using [Node.js](https://nodejs.org/en/download/).  
 
 	```
+npm install node-nats-streaming
 node nats-subscriber
 ```
 * POST a patient record to IBM FHIR server and observe the NATS message received by the subscriber in the console output.
 
 ## Use TLS (advanced)
 
-To use TLS (which you must do if your NATS cluster requires TLS) set "useTLS" to true and provide client truststore and keystore locations and passwords as the remaining config values.  Furthermore, to use TLS to connect to a NATS cluster, that NATS cluster must be enabled to use TLS.  The example above does not use TLS.
+To use TLS (which you must do if your NATS cluster requires TLS) set "useTLS" to true in fhir-server-config.json and provide client truststore and keystore locations and passwords as the remaining config values.  Furthermore, to use TLS to connect to a NATS cluster, that NATS cluster must be enabled to use TLS.  The example above does not use TLS.
 
 ### To create a truststore and keystore
 
