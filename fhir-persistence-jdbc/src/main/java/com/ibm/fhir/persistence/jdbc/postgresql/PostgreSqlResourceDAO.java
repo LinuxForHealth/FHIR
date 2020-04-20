@@ -296,8 +296,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
                         throw new IllegalStateException("Logical resource was deleted: " + tablePrefix + "/" + p_logical_id);
                     }
                 }
-            }
-            else {
+            } else {
                 v_new_resource = true;
 
                 // Insert the resource-specific logical resource record. Remember that logical_id is denormalized
