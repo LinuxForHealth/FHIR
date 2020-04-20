@@ -140,8 +140,6 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
                 resource.getVersionId(),
                 connection
                 );
-
-
             dbCallDuration = (System.nanoTime() - dbCallStartTime)/1e6;
 
             resource.setId(resourceId);
