@@ -34,13 +34,22 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
 
     // Different warning messages we track so that we only have to report them once
     private enum MessageKey {
-        MULTITENANCY, CREATE_VAR, CREATE_PERM, ENABLE_ROW_ACCESS, DISABLE_ROW_ACCESS, PARTITIONING,
-        ROW_TYPE, ROW_ARR_TYPE, DROP_TYPE, CREATE_PROC, DROP_PROC, TABLESPACE
+        MULTITENANCY,
+        CREATE_VAR,
+        CREATE_PERM,
+        ENABLE_ROW_ACCESS,
+        DISABLE_ROW_ACCESS,
+        PARTITIONING,
+        ROW_TYPE,
+        ROW_ARR_TYPE,
+        DROP_TYPE,
+        CREATE_PROC,
+        DROP_PROC,
+        TABLESPACE
     }
 
     // Just warn once for each unique message key. This cleans up build logs a lot
     private static final Set<MessageKey> warned = ConcurrentHashMap.newKeySet();
-
 
     /**
      * Public constructor
@@ -80,8 +89,6 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
 
         // We also ignore tablespace for PostgreSql
         String ddl = buildCreateTableStatement(schemaName, name, columns, primaryKey, identity, null);
-
-
         runStatement(ddl);
     }
 
@@ -187,15 +194,14 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     public void createSequence(String schemaName, String sequenceName, int cache) {
         /* CREATE SEQUENCE fhir_sequence
          *     AS BIGINT
-         *     START WITH 1
+         *     START WITH 1000
          *     CACHE 1000
          *     NO CYCLE;
         */
         // PostgreSql doesn't support CACHE
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 1 NO CYCLE";
+        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 1000 CACHE 1000 NO CYCLE";
         runStatement(ddl);
-
     }
 
     @Override

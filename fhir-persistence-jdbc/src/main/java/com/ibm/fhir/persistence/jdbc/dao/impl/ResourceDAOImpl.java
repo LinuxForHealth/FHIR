@@ -461,15 +461,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     }
 
-    public boolean isPostgreSqlDatabase() throws FHIRPersistenceDBConnectException, SQLException {
-
-        String dbUrl;
-
-        dbUrl = this.getConnection().getMetaData().getURL();
-        dbUrl = dbUrl.toLowerCase();
-        return dbUrl.contains("postgresql");
-    }
-
     @Override
     public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
             throws FHIRPersistenceException {

@@ -40,7 +40,7 @@ public class PostgreSqlDoesTableExist implements IDatabaseSupplier<Boolean> {
 
     @Override
     public Boolean run(IDatabaseTranslator translator, Connection c) {
-        Boolean result;
+        Boolean result = false;
         // For PostgreSQL, identifier names are always in lowercase unless they are surround with double quotes.
         final String sql = "SELECT EXISTS (" +
                 "SELECT FROM information_schema.tables " +
@@ -51,15 +51,11 @@ public class PostgreSqlDoesTableExist implements IDatabaseSupplier<Boolean> {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 result = rs.getBoolean(1);
-            } else {
-                result = false;
             }
         }
         catch (SQLException x) {
             if (translator.isConnectionError(x)) {
                 throw translator.translate(x);
-            } else {
-                result = false;
             }
         }
 
