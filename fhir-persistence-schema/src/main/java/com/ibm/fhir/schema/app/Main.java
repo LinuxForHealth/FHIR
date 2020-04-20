@@ -51,6 +51,9 @@ import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
+import com.ibm.fhir.database.utils.postgresql.PostgreSqlAdapter;
+import com.ibm.fhir.database.utils.postgresql.PostgreSqlPropertyAdapter;
+import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
@@ -271,6 +274,10 @@ public class Main {
                     // For some reason, embedded derby deadlocks if we use multiple threads
                     maxConnectionPoolSize = 1;
                     break;
+                case POSTGRESQL:
+                    translator = new PostgreSqlTranslator();
+                   // maxConnectionPoolSize = 1;
+                    break;
                 case DB2:
                 default:
                     break;
@@ -488,6 +495,8 @@ public class Main {
             return new Db2PropertyAdapter(props);
         case DERBY:
             return new DerbyPropertyAdapter(props);
+        case POSTGRESQL:
+            return new PostgreSqlPropertyAdapter(props);
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
         }
@@ -499,6 +508,8 @@ public class Main {
             return new Db2Adapter(target);
         case DERBY:
             return new DerbyAdapter(target);
+        case POSTGRESQL:
+            return new PostgreSqlAdapter(target);
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
         }
@@ -510,6 +521,8 @@ public class Main {
             return new Db2Adapter(connectionProvider);
         case DERBY:
             return new DerbyAdapter(connectionProvider);
+        case POSTGRESQL:
+            return new PostgreSqlAdapter(connectionProvider);
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
         }
@@ -562,7 +575,7 @@ public class Main {
      * into the FHIR resource tables
      */
     protected void updateProcedures() {
-        if (dbType == DbType.DERBY) {
+        if (dbType == DbType.DERBY || dbType == DbType.POSTGRESQL) {
             return;
         }
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
@@ -765,7 +778,7 @@ public class Main {
      * @param groupName
      */
     protected void grantPrivileges(String groupName) {
-        if (dbType == DbType.DERBY) {
+        if (dbType == DbType.DERBY || dbType == DbType.POSTGRESQL) {
             return;
         }
 
@@ -793,7 +806,7 @@ public class Main {
      * avoids any service interruption.
      */
     protected void addTenantKey() {
-        if (dbType == DbType.DERBY) {
+        if (dbType == DbType.DERBY || dbType == DbType.POSTGRESQL) {
             return;
         }
 
@@ -835,7 +848,7 @@ public class Main {
      * Allocate this tenant, creating new partitions if required.
      */
     protected void allocateTenant() {
-        if (dbType == DbType.DERBY) {
+        if (dbType == DbType.DERBY || dbType == DbType.POSTGRESQL) {
             return;
         }
         // The key we'll use for this tenant. This key should be used in subsequent

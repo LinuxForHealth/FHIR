@@ -56,6 +56,10 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         super(cp, new Db2Translator());
     }
 
+    public Db2Adapter() {
+        super();
+    }
+
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
             IdentityDef identity, String tablespaceName) {

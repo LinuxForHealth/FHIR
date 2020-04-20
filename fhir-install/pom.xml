@@ -60,6 +60,10 @@
             <version>${project.version}</version>
             <classifier>cli</classifier>
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

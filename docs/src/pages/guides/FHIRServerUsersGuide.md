@@ -1227,6 +1227,7 @@ JavaBatch feature must be enabled in `server.xml` as following on the Liberty se
     ...
 </featureManager>
 ```
+
 The JavaBatch user is configured in `server.xml` and the `fhir-server-config.json`:
 
 ```xml
@@ -1246,7 +1247,54 @@ The JavaBatch user is configured in `server.xml` and the `fhir-server-config.jso
 
 Note: The user referenced in the `fhir-server-config.json` must have a role of at least batchSubmitter.
 
-By default, in-memory Derby database is used for persistence of the JavaBatch Jobs. Instruction is also provided in "Configuring a Liberty Datasource with API Key" section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. Liberty JavaBatch framework creates DB schema and tables automatically by default for both approaches, and the configured database is created automatically, if the in-memory Apache Derby approach is used.   
+By default, in-memory Derby database is used for persistence of the JavaBatch Jobs as configured in batchDs.xml. Instruction is also provided in "Configuring a Liberty Datasource with API Key" section of the DB2OnCloudSetup guide to configure DB2 service in IBM Clouds as JavaBatch persistence store. Liberty JavaBatch framework creates DB schema and tables automatically by default for both approaches, and the configured database is created automatically, if the in-memory Apache Derby approach is used.
+
+You can also choose to use postgresql or other RDBMS as your Job repository, if taking this approach, you will need to generate the DDL for the job tables first following [IBM Websphere Liberty Batch - Job Repository Configuration](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/WebIndex/WP102716) , then make necessary changes to the generated DDL to make it valid for your RDBMS, and then create the job database, create javabatch user, create jbatch schema and then run the DDL to generate the job tables and enable it in batchDs.xml. let's use postgresql as an example:
+
+(1) Generate DDL and modify it according to your RDBMS.
+
+``` shell
+ ./ddlGen generate fhir-server
+```
+then modify the generated DLL file to make it valid for postgresql. 
+or you can simply use this sample DDL file: [fhir-bulkimportexport-webapp/src/test/resources/batchPersistence-postgresql.ddl](https://github.com/IBM/FHIR/tree/master/fhir-bulkimportexport-webapp/src/test/resources/batchPersistence-postgresql.ddl)
+
+(2) Create the Job database and user.  
+
+``` shell
+psql postgres
+>postgres=# create database jobdb;
+>postgres=# create user javabatch with password 'change-password';
+>postgres=# grant all privileges on database jobdb to javabatch;
+```
+(3) Create jbatch schema.
+
+``` shell
+psql -d jobdb -U javabatch
+jobdb=> CREATE SCHEMA jbatch;
+```
+(4) Run the modified DDL with javabatch user against the job database.
+
+``` shell
+psql -v ON_ERROR_STOP=1 -1 -U javabatch -f batchPersistence-postgresql.ddl -d jobdb
+```
+(5) Enable postgresql job repository in batchDs.xml as following.
+
+``` xml
+<server description="fhir-server">
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB" schema="JBATCH">
+    <jdbcDriver libraryRef="fhirSharedLib" />
+    <properties.postgresql 
+        databaseName="jobdb" 
+        portNumber="5432"
+        serverName="postgresql-server-hostname"
+        user="javabatch" 
+        password="change-password" />
+    </dataSource>
+    <batchPersistence jobStoreRef="BatchDatabaseStore"/>
+    <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="JBATCH" tablePrefix=""/>
+</server>
+```
 
 For more information about Liberty JavaBatch configuration, please refer to [IBM WebSphere Liberty Java Batch White paper](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/webindex/wp102544).
 
@@ -1474,10 +1522,9 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/jobParameters/cos.api.key`|Y|Y|
 |`fhirServer/bulkdata/jobParameters/cos.srvinst.id`|Y|Y|
 |`fhirServer/bulkdata/bulkDataBatchJobIdEncryptionKey`|Y|Y|
-|`fhirServer/bulkdata/isExportPublic`|Y|Y|
+|`fhirServer/bulkdata/isExportPublic`|N|Y|
 |`fhirServer/bulkdata/validBaseUrls`|Y|Y|
 |`fhirServer/bulkdata/maxInputPerRequest`|Y|Y|
-
 
 ## 5.2 Keystores, truststores, and the FHIR server
 

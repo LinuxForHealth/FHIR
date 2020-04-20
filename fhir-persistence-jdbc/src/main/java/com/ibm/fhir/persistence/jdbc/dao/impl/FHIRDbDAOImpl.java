@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -513,10 +513,12 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         this.dbProps = dbProps;
     }
 
+    @Override
     public Connection getExternalConnection() {
         return externalConnection;
     }
 
+    @Override
     public void setExternalConnection(Connection externalConnection) {
         this.externalConnection = externalConnection;
     }
