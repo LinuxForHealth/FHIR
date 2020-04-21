@@ -387,7 +387,7 @@ public class BulkDataClient {
         // e.g, Patient[1000,1000,200]:Observation[1000,1000,200],
         //      COMPLETED means no file exported.
         String exitStatus = response.getExitStatus();
-        if (!"COMPLETED".contentEquals(exitStatus)) {
+        if (!"COMPLETED".equals(exitStatus)) {
             List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
             List<PollingLocationResponse.Output> outputList = new ArrayList<>();
             for (String resourceTypeInf : resourceTypeInfs) {

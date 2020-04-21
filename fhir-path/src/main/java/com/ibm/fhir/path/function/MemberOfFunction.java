@@ -7,7 +7,6 @@
 package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
-import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
@@ -33,7 +32,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.CodeSystem;
-import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.resource.ValueSet.Expansion;
 import com.ibm.fhir.model.resource.ValueSet.Expansion.Contains;
@@ -124,15 +122,17 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                     }
                 } else {
                     // element.is(FHIR_STRING) || element.is(Uri.class)
-                    String value = element.is(FHIR_STRING) ?
-                            element.as(FHIR_STRING).getValue() :
-                                element.as(Uri.class).getValue();
+                    String value = element.is(FHIR_STRING) ? element.as(FHIR_STRING).getValue() : element.as(Uri.class).getValue();
                     if (contains(codeSetMap, null, null, value)) {
                         return SINGLETON_TRUE;
                     }
                 }
                 return membershipCheckFailed(evaluationContext, elementNode, url, strength);
+            } else {
+                generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.INCOMPLETE, "Value set '" + url + "' is empty or could not be expanded", elementNode);
             }
+        } else {
+            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Value set '" + url + "' is not supported", elementNode);
         }
 
         return SINGLETON_TRUE;
@@ -140,24 +140,12 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
 
     private Collection<FHIRPathNode> membershipCheckFailed(EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String url, String strength) {
         if ("extensible".equals(strength) || "preferred".equals(strength)) {
-            generateIssue(evaluationContext, elementNode, url, strength);
+            String prefix = evaluationContext.hasConstraint() ? evaluationContext.getConstraint().id() + ": " : "";
+            String description = prefix + "The concept in this element " + ("extensible".equals(strength) ? "must" : "should") + " be from the specified value set '" + url + "' if possible";
+            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.CODE_INVALID, description, elementNode);
             return SINGLETON_TRUE;
         }
         return SINGLETON_FALSE;
-    }
-
-    private void generateIssue(EvaluationContext evaluationContext, FHIRPathNode elementNode, String url, String strength) {
-        String description = "extensible".equals(strength) ?
-                String.format("The concept in this element must be from the specified value set %s if possible", url) :
-                    String.format("The concept in this element should be from the specified value set %s if possible", url);
-        evaluationContext.getIssues().add(Issue.builder()
-            .severity(IssueSeverity.WARNING)
-            .code(IssueType.CODE_INVALID)
-            .details(CodeableConcept.builder()
-                .text(string((evaluationContext.hasConstraint() ? evaluationContext.getConstraint().id() + ": " : "") + description))
-                .build())
-            .expression(string(elementNode.path()))
-            .build());
     }
 
     private boolean contains(Map<String, Set<String>> codeSetMap, Coding coding) {

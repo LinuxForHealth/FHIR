@@ -942,24 +942,6 @@ public class FHIRPathEvaluator {
                 result = SINGLETON_TRUE;
             }
 
-            /*
-            if (evaluatesToBoolean(left)) {
-                if (isTrue(left)) {
-                    Collection<FHIRPathNode> right = visit(ctx.expression(1));
-                    if (evaluatesToBoolean(right)) {
-                        result = isTrue(right) ? SINGLETON_TRUE : SINGLETON_FALSE;
-                    }
-                } else {
-                    result = SINGLETON_TRUE;
-                }
-            } else if (left.isEmpty()) {
-                Collection<FHIRPathNode> right = visit(ctx.expression(1));
-                if (evaluatesToBoolean(right) && isTrue(right)) {
-                    result = SINGLETON_TRUE;
-                }
-            }
-            */
-
             indentLevel--;
             return result;
         }
@@ -1006,17 +988,12 @@ public class FHIRPathEvaluator {
                     if (type.isAssignableFrom(node.type())) {
                         result.add(node);
                     }
-                    /*
-                    else {
-                        throw new IllegalArgumentException("Type: '" + type.getName() + " is not assignable from type: '" + node.type().getName() + "'");
-                    }
-                    */
                 }
                 break;
             }
 
             indentLevel--;
-            return Collections.unmodifiableCollection(result);
+            return result;
         }
 
         @Override

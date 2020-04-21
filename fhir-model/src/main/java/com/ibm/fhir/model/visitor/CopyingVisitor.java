@@ -32,13 +32,13 @@ import net.jcip.annotations.NotThreadSafe;
 /**
  * Copy a Resource or Element. Because model objects are immutable, by default this will return a reference to
  * the exact same object that was originally visited.
- * 
+ *
  * However, subclasses may override this class in order to modify the copied Resource or Element
- * by setting new values on the current builder via ({@link BuilderWrapper#getBuilder()) and 
+ * by setting new values on the current builder via ({@link BuilderWrapper#getBuilder()) and
  * marking it dirty via ({@link BuilderWrapper#markDirty())).
- *  
+ *
  * Note: this class is NOT threadsafe.  Only one object should be visited at a time.
- * 
+ *
  * @param <T> The type to copy. Only visitables of this type should be visited.
  */
 @NotThreadSafe
@@ -47,7 +47,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
     private final Stack<BuilderWrapper> builderStack = new Stack<>();
     private final Stack<ListWrapper> listStack = new Stack<>();
     private Object result;
-    
+
     // subclasses may implement these to customize visit behavior without messing up our stacks
     protected void doVisitEnd(String elementName, int elementIndex, Element element) {}
     protected void doVisitEnd(String elementName, int elementIndex, Resource resource) {}
@@ -58,7 +58,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
 
     /**
      * Retrieve a copy of the resource last visited.
-     * 
+     *
      * @return null if no object has been visited yet
      * @throws ClassCastException if the copied object cannot be cast to type T
      */
@@ -69,12 +69,12 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
 
     /**
      * Get the FHIRPath path of the Resource or Element currently being visited.
-     * 
+     *
      * This method is primarily for subclasses but can also be used externally to retrieve a path to the Resource
      * or Element that was being visited when an Exception occurs.
-     * 
+     *
      * @return The path of the Resource or Element currently being visited, the path that was being visited when an
-     *         exception was thrown, or null if there is no Resource or Element being visited. 
+     *         exception was thrown, or null if there is no Resource or Element being visited.
      * @implSpec Path segments are appended in the visitStart methods and removed in the visitEnd methods.
      */
     public final String getPath() {
@@ -83,14 +83,14 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
         }
         return null;
     }
-    
+
     public CopyingVisitor() {
         super(true);
     }
 
     /**
      * Reset the state of the CopyingVisitor.
-     * 
+     *
      * Invoke this method when visiting has failed and you want to clear the state in order to re-use the visitor.
      */
     public final void reset() {
@@ -114,7 +114,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
         pathStackPush(elementName, index);
         doVisitStart(elementName, index, element);
     }
-    
+
     /**
      * Subclasses may override doVisitStart
      */
@@ -124,7 +124,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
         pathStackPush(elementName, index);
         doVisitStart(elementName, index, resource);
     }
-    
+
     /**
      * Subclasses may override doVisitEnd
      */
@@ -133,7 +133,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
         doVisitEnd(elementName, index, element);
         _visitEnd(elementName, index, element, Element.class);
     }
-    
+
     /**
      * Subclasses may override doVisitEnd
      */
@@ -142,7 +142,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
         doVisitEnd(elementName, index, resource);
         _visitEnd(elementName, index, resource, Resource.class);
     }
-    
+
     private void _visitEnd(java.lang.String elementName, int index, Visitable visited, Class<? extends Visitable> elementOrResource) {
         pathStackPop();
         BuilderWrapper wrapper = builderStack.pop();
@@ -154,7 +154,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
             // No way to know if one of the other elements in the list will be dirty so we need to build them all
             Visitable item = wrapper.getBuilder().build();
             if (item != null) {
-                listWrapper.getList().add((Visitable) wrapper.getBuilder().build());
+                listWrapper.getList().add(wrapper.getBuilder().build());
             }
         } else {
             if (builderStack.isEmpty()) {
@@ -165,16 +165,16 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
                 }
             } else {
                 BuilderWrapper parent = builderStack.peek();
-                
+
                 if (wrapper.isDirty()) {
                     parent.dirty(true);
                     Builder<?> parentBuilder = parent.getBuilder();
                     Object obj = wrapper.getBuilder().build();
-                    
+
                     MethodHandle methodHandle;
                     try {
                         MethodType mt;
-                        if ((visited instanceof Element && ModelSupport.isChoiceElement(parentBuilder.getClass().getEnclosingClass(), elementName)) 
+                        if ((visited instanceof Element && ModelSupport.isChoiceElement(parentBuilder.getClass().getEnclosingClass(), elementName))
                                 || (visited instanceof Resource && isResourceContainer(parentBuilder, elementName))) {
                             mt = MethodType.methodType(parentBuilder.getClass(), elementOrResource);
                         } else {
@@ -190,13 +190,13 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
             }
         }
     }
-    
+
     private boolean isResourceContainer(Builder<?> parentBuilder, String elementName) {
-        return (parentBuilder instanceof Bundle.Entry.Builder && "resource".contentEquals(elementName)) ||
-                (parentBuilder instanceof Bundle.Entry.Response.Builder && "outcome".contentEquals(elementName)) ||
-                (parentBuilder instanceof Parameters.Parameter.Builder && "resource".contentEquals(elementName));
+        return (parentBuilder instanceof Bundle.Entry.Builder && "resource".equals(elementName)) ||
+                (parentBuilder instanceof Bundle.Entry.Response.Builder && "outcome".equals(elementName)) ||
+                (parentBuilder instanceof Parameters.Parameter.Builder && "resource".equals(elementName));
     }
-    
+
     /**
      * Subclasses may override doVisitListStart
      */
@@ -205,7 +205,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
         doVisitListStart(elementName, visitables, type);
         listStack.push(new ListWrapper(new ArrayList<>()));
     }
-    
+
     /**
      * Subclasses may override doVisitListEnd
      */
@@ -228,7 +228,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
             }
         }
     }
-    
+
     private String setterName(String elementName) {
         if ("class".equals(elementName)) {
             return "clazz";
@@ -238,18 +238,18 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
         }
         return elementName;
     }
-    
+
     @Override
     public void postVisit(Element element) {
     }
     @Override
     public void postVisit(Resource resource) {
     }
-    
+
     private void pathStackPop() {
         pathStack.pop();
     }
-    
+
     private void pathStackPush(String elementName, int index) {
         if (isKeyword(elementName)) {
             elementName = delimit(elementName);
@@ -260,27 +260,27 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
             pathStack.push(elementName);
         }
     }
-    
+
     protected Builder<?> getBuilder() {
         return builderStack.peek().getBuilder();
     }
-    
+
     protected List<Visitable> getList() {
         return listStack.peek().getList();
     }
-    
+
     protected void replace(Resource.Builder builder) {
         builderStack.pop();
         builderStack.push(new ResourceWrapper(builder));
         markDirty();
     }
-    
+
     protected void replace(Element.Builder builder) {
         builderStack.pop();
         builderStack.push(new ElementWrapper(builder));
         markDirty();
     }
-    
+
     protected void delete() {
         builderStack.pop();
         builderStack.push(new BuilderWrapper() {
@@ -297,7 +297,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
         });
         markDirty();
     }
-    
+
     protected void markDirty() {
         builderStack.peek().dirty(true);
     }
@@ -312,9 +312,9 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
             MethodType mt = MethodType.methodType(targetType, String.class);
             try {
                 MethodHandle methodHandle = MethodHandles.publicLookup().findStatic(targetType, "of", mt);
-                value = (Code) methodHandle.invoke(((Code)value).getValue());
+                value = (Code) methodHandle.invoke(value.getValue());
             } catch (Throwable e) {
-                throw new IllegalArgumentException("Value of type '" + value.getClass() + 
+                throw new IllegalArgumentException("Value of type '" + value.getClass() +
                     "' cannot be used to populate target of type '" + targetType + "'");
             }
         }
@@ -323,7 +323,7 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
 
     private abstract class Markable {
         private boolean dirty = false;
-        
+
         public boolean isDirty() {
             return dirty;
         }
@@ -332,26 +332,26 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
             this.dirty = dirty;
         }
     }
-    
+
     private class ListWrapper extends Markable {
         private final List<Visitable> list;
-        
+
         public ListWrapper(List<Visitable> list) {
             this.list = list;
         }
-        
+
         public List<Visitable> getList() {
             return list;
         }
     }
-    
+
     private abstract class BuilderWrapper extends Markable {
         public abstract Builder<? extends Visitable> getBuilder();
     }
-    
+
     private class ElementWrapper extends BuilderWrapper {
         private final Element.Builder builder;
-        
+
         public ElementWrapper(Element.Builder builder) {
             // TODO can we wrap all the setters so that subclasses don't need to explicitly call markDirty()?
             this.builder = builder;
@@ -362,15 +362,15 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
             return builder;
         }
     }
-    
+
     private class ResourceWrapper extends BuilderWrapper {
         private final Resource.Builder builder;
-        
+
         public ResourceWrapper(Resource.Builder builder) {
             // TODO can we wrap all the setters so that subclasses don't need to explicitly call markDirty()?
             this.builder = builder;
         }
-        
+
         @Override
         public Resource.Builder getBuilder() {
             return builder;
