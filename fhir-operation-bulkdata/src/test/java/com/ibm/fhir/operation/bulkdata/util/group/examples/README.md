@@ -1,4 +1,42 @@
-# Dynamic Groups (Cohorts)
+# Group: Descriptive
+
+These descriptive groups are used as part of the support for Descriptive Groups, also known as Dynamic Groups or Cohorts.
+
+The code in this package supports the development of the BulkData Group Export feature. [BulkData STU1](http://hl7.org/fhir/uv/bulkdata/export/index.html)
+
+The package builds in the following use cases:
+
+1. [AgeRangeExample](AgeRangeExample.java)
+    * All Patients within a Range. These age ranges
+    * No Nesting
+1. [MultipleCharacterisitcsExample](MultipleCharacterisitcsExample.java)
+1. [Wellness Annual](AnnualWellnessExample.java)
+1. [Annual OB-GYN](AnnualObGynExample.java)
+1. [Well Child Exam](WellChildExample.java)
+1. [Breast Cancer Screening](BreastCancerScreeningExample.java)
+1. [Cervical Cancer Screening](CervicalCancerScreeningExample.java)
+1. [Colorectal Cancer Screening]()
+1. [Diabetes]()
+1. [Asthma]()
+1. [Heart Failure]()
+1. [Hypertension]()
+1. [Diabetes Type II]()
+
+https://www.hl7.org/fhir/group-example-patientlist.json.html
+https://www.hl7.org/fhir/group-example-patientlist.json.html
+
+Profiles: 
+http://hl7.org/fhir/group-profiles.html
+http://hl7.org/fhir/groupdefinition.html
+
+If a FHIR server supports Group-level data export, it SHOULD support reading and searching for Group resource. This enables clients to discover available groups based on stable characteristics such as Group.identifier.
+
+Note: How these Groups are defined is specific to each FHIR system’s implementation. For example, a payer may send a healthcare institution a roster file that can be imported into their EHR to create or update a FHIR group. Group membership could be based upon explicit attributes of the patient, such as age, sex or a particular condition such as PTSD or Chronic Opioid use, or on more complex attributes, such as a recent inpatient discharge or membership in the population used to calculate a quality measure. FHIR-based group management is out of scope for the current version of this implementation guide.
+
+
+`http://hl7.org/fhir/StructureDefinition/groupdefinition`
+
+ s (Cohorts)
 
 The following are test groups: 
 
@@ -31,3 +69,6 @@ The following are test groups:
     99335, 99336, 99337, 99341, 99342, 99343, 99344, 99345, 99347, 99348, 99349, 99350, G0270, G0271,
     G0402, G0438, G0439
     ```
+
+    Actual Group http://hl7.org/fhir/actualgroup.html
+    

@@ -5,17 +5,19 @@ import java.util.List;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Group;
 
-/**
- * #2 Annual Visit OB-GYN
+/*
+ * @see README.md for Group details.
  */
-public class AnnualObGynExample extends GroupExample {
+public class MultipleCharacterisitcsExample extends GroupExample {
     @Override
     public String typeName() {
-        return "AnnualObGynExample";
+        return "AgeRangeExample";
     }
 
     @Override
     public List<Group> groups() {
+        // Range: >= 13 to < 56
+
         // 0 compliant and non-compliant
 
         // #1 Population 
