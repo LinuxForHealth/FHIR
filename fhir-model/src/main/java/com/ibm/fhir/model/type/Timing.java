@@ -405,6 +405,8 @@ public class Timing extends BackboneElement {
          * 
          * @return
          *     An immutable object of type {@link Timing}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Timing per the base specification
          */
         @Override
         public Timing build() {
@@ -1194,6 +1196,8 @@ public class Timing extends BackboneElement {
              * 
              * @return
              *     An immutable object of type {@link Repeat}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Repeat per the base specification
              */
             @Override
             public Repeat build() {

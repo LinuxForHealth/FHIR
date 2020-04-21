@@ -6,15 +6,11 @@
 
 package com.ibm.fhir.registry.core;
 
-import java.util.Collection;
-
-import com.ibm.fhir.registry.resource.FHIRRegistryResource;
-import com.ibm.fhir.registry.util.FHIRRegistryUtil;
 import com.ibm.fhir.registry.util.PackageRegistryResourceProvider;
 
 public class CoreResourceProvider extends PackageRegistryResourceProvider {
     @Override
-    public Collection<FHIRRegistryResource> getResources() {
-        return FHIRRegistryUtil.getResources("hl7.fhir.core");
+    public String getPackageId() {
+        return "hl7.fhir.core";
     }
 }

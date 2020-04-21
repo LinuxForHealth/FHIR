@@ -855,6 +855,8 @@ public class DocumentManifest extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link DocumentManifest}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid DocumentManifest per the base specification
          */
         @Override
         public DocumentManifest build() {
@@ -1123,6 +1125,8 @@ public class DocumentManifest extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Related}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Related per the base specification
              */
             @Override
             public Related build() {

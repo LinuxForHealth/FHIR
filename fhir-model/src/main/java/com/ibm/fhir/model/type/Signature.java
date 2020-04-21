@@ -466,6 +466,8 @@ public class Signature extends Element {
          * 
          * @return
          *     An immutable object of type {@link Signature}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Signature per the base specification
          */
         @Override
         public Signature build() {

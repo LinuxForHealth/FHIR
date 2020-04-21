@@ -914,6 +914,8 @@ public class NamingSystem extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link NamingSystem}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid NamingSystem per the base specification
          */
         @Override
         public NamingSystem build() {
@@ -1298,6 +1300,8 @@ public class NamingSystem extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link UniqueId}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid UniqueId per the base specification
              */
             @Override
             public UniqueId build() {

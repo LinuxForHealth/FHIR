@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.resource.ValueSet.Expansion;
@@ -99,12 +100,12 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         String url = getString(arguments.get(0));
         String strength = (arguments.size() == 2) ? getString(arguments.get(1)) : null;
 
-        if (FHIRRegistry.getInstance().hasResource(url)) {
+        if (FHIRRegistry.getInstance().hasResource(url, ValueSet.class)) {
             Map<String, Set<String>> codeSetMap = getCodeSetMap(url);
             if (!codeSetMap.isEmpty()) {
                 if (element.is(Code.class)) {
                     String system = getSystem(evaluationContext.getTree().getParent(elementNode));
-                    String version = FHIRRegistry.getInstance().getLatestVersion(system);
+                    String version = FHIRRegistry.getInstance().getLatestVersion(system, CodeSystem.class);
                     String code = element.as(Code.class).getValue();
                     if (contains(codeSetMap, system, version, code)) {
                         return SINGLETON_TRUE;
@@ -161,7 +162,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
 
     private boolean contains(Map<String, Set<String>> codeSetMap, Coding coding) {
         String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
-        String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : FHIRRegistry.getInstance().getLatestVersion(system);
+        String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : FHIRRegistry.getInstance().getLatestVersion(system, CodeSystem.class);
         String code = (coding.getCode() != null) ? coding.getCode().getValue() : null;
         return contains(codeSetMap, system, version, code);
     }

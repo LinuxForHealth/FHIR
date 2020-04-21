@@ -1,6 +1,6 @@
 /*
- * (C) Copyright IBM Corp. 2019
- * 
+ * (C) Copyright IBM Corp. 2019, 2020
+ *
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -25,6 +25,7 @@ public class ConformsToTest {
         try (InputStream in = ConformsToTest.class.getClassLoader().getResourceAsStream("JSON/us-core-patient.json")) {
             Patient patient = FHIRParser.parser(Format.JSON).parse(in);
             List<Issue> issues = FHIRValidator.validator().validate(patient);
+            issues.forEach(System.out::println);
             assertEquals(issues.size(), 1);
         }
     }

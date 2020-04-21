@@ -28,7 +28,7 @@
         deferServletLoad="false" />
 
     <!-- IBM FHIR Server's keystore and truststore configuration -->
-    <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" />
+    <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" sslProtocol="TLSv1.2"/>
     <keyStore id="defaultKeyStore" location="${server.config.dir}/resources/security/fhirKeystore.jks" password="change-password"/>
     <keyStore id="defaultTrustStore" location="${server.config.dir}/resources/security/fhirTruststore.jks" password="change-password"/>
     <webAppSecurity allowFailOverToBasicAuth="true" singleSignonEnabled="false"/>
@@ -150,6 +150,7 @@
     <library id="fhirSharedLib">
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
         <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
+        <fileset dir="${shared.resource.dir}/lib/postgresql" includes="*.jar"/>
         <fileset dir="${shared.resource.dir}/lib/fhir" includes="*.jar"/>
     </library>
     

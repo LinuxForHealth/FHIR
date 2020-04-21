@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.resource.ValueSet.Compose;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include;
@@ -53,12 +54,12 @@ import com.ibm.fhir.registry.FHIRRegistry;
  */
 public final class ValueSetSupport {
     private static final Logger log = Logger.getLogger(ValueSetSupport.class.getName());
-    
+
     private ValueSetSupport() { }
-    
+
     /**
      * Expand the given value set per the algorithm here: http://hl7.org/fhir/valueset.html#expansion
-     * 
+     *
      * @param valueSet
      *     the value set to be expanded
      * @return
@@ -80,11 +81,11 @@ public final class ValueSetSupport {
         }
         return valueSet;
     }
-    
+
     /**
      * Get a set containing {@link ValueSet.Expansion.Contains} instances where all structural
      * hierarchies has been flattened.
-     * 
+     *
      * @param expansion
      *     the expansion containing the list of Contains instances to flatten
      * @return
@@ -100,10 +101,10 @@ public final class ValueSetSupport {
         }
         return result;
     }
-    
+
     /**
      * Get the value set associated with the given url from the FHIR registry.
-     * 
+     *
      * @param url
      *     the url of the value set
      * @return
@@ -219,8 +220,8 @@ public final class ValueSetSupport {
 
     private static ConceptFilter createEqualsFilter(CodeSystem codeSystem, Filter filter) {
         Code property = filter.getProperty();
-        if ("parent".equals(property.getValue()) || 
-                "child".equals(property.getValue()) || 
+        if ("parent".equals(property.getValue()) ||
+                "child".equals(property.getValue()) ||
                 hasCodeSystemProperty(codeSystem, property)) {
             return new EqualsFilter(codeSystem, property, filter.getValue());
         }
@@ -298,23 +299,23 @@ public final class ValueSetSupport {
         if (compose == null) {
             return Collections.emptySet();
         }
-        
+
         Set<Contains> result = new LinkedHashSet<>();
-    
+
         Set<Contains> included = new LinkedHashSet<>();
         for (Include include : compose.getInclude()) {
             included.addAll(expand(include));
         }
-    
+
         Set<Contains> excluded = new LinkedHashSet<>();
         for (Include exclude : compose.getExclude()) {
             excluded.addAll(expand(exclude));
         }
-        
+
         Set<Contains> difference = new LinkedHashSet<>(included);
         difference.removeAll(excluded);
         result.addAll(difference);
-        
+
         return result;
     }
 
@@ -322,11 +323,11 @@ public final class ValueSetSupport {
         if (includeOrExclude == null) {
             return Collections.emptySet();
         }
-        
+
         Set<Contains> systemContains = new LinkedHashSet<>();
         if (includeOrExclude.getSystem() != null) {
             Uri system = includeOrExclude.getSystem();
-            String version = (includeOrExclude.getVersion() != null) ? 
+            String version = (includeOrExclude.getVersion() != null) ?
                     includeOrExclude.getVersion() : getLatestVersion(system);
             if (!includeOrExclude.getConcept().isEmpty()) {
                 for (Include.Concept concept : includeOrExclude.getConcept()) {
@@ -340,7 +341,7 @@ public final class ValueSetSupport {
                 if (version != null) {
                     url = url + "|" + version.getValue();
                 }
-                if (hasResource(url)) {
+                if (hasResource(url, CodeSystem.class)) {
                     CodeSystem codeSystem = getCodeSystem(url);
                     List<ConceptFilter> conceptFilters = buildConceptFilters(codeSystem, includeOrExclude.getFilter());
                     for (Concept concept : getConcepts(codeSystem)) {
@@ -354,21 +355,21 @@ public final class ValueSetSupport {
                 }
             }
         }
-        
+
         Set<Contains> valueSetContains = new LinkedHashSet<>();
         for (Canonical valueSet : includeOrExclude.getValueSet()) {
             java.lang.String url = valueSet.getValue();
-            if (hasResource(url)) {
+            if (hasResource(url, ValueSet.class)) {
                 valueSetContains.addAll(getContains(expand(getValueSet(url)).getExpansion()));
             }
         }
-        
+
         if (!systemContains.isEmpty() && !valueSetContains.isEmpty()) {
             Set<Contains> intersection = new LinkedHashSet<>(systemContains);
             intersection.retainAll(valueSetContains);
             return intersection;
         }
-        
+
         return !systemContains.isEmpty() ? systemContains : valueSetContains;
     }
 
@@ -385,12 +386,12 @@ public final class ValueSetSupport {
     }
 
     private static String getLatestVersion(Uri system) {
-        java.lang.String version = FHIRRegistry.getInstance().getLatestVersion(system.getValue());
+        java.lang.String version = FHIRRegistry.getInstance().getLatestVersion(system.getValue(), CodeSystem.class);
         return (version != null) ? string(version) : null;
     }
 
-    private static boolean hasResource(java.lang.String url) {
-        return FHIRRegistry.getInstance().hasResource(url);
+    private static boolean hasResource(java.lang.String url, Class<? extends Resource> resourceType) {
+        return FHIRRegistry.getInstance().hasResource(url, resourceType);
     }
 
     private static Boolean toBoolean(String value) {
@@ -421,7 +422,7 @@ public final class ValueSetSupport {
         private final String value;
         private final Set<Concept> children;
         private final Concept child;
-        
+
         public EqualsFilter(CodeSystem codeSystem, Code property, String value) {
             this.property = property;
             this.value = value;
@@ -452,11 +453,11 @@ public final class ValueSetSupport {
             return false;
         }
     }
-    
+
     private static class ExistsFilter implements ConceptFilter {
         private Code property;
         private Boolean value;
-        
+
         public ExistsFilter(Code property, Boolean value) {
             this.property = property;
             this.value = value;
@@ -464,8 +465,8 @@ public final class ValueSetSupport {
 
         @Override
         public boolean accept(Concept concept) {
-            return Boolean.TRUE.equals(value) ? 
-                    hasConceptProperty(concept, property) : 
+            return Boolean.TRUE.equals(value) ?
+                    hasConceptProperty(concept, property) :
                         !hasConceptProperty(concept, property);
         }
     }
@@ -486,7 +487,7 @@ public final class ValueSetSupport {
     private static class InFilter implements ConceptFilter {
         protected final Code property;
         protected final Set<Code> set;
-        
+
         public InFilter(Code property, Set<Code> set) {
             this.property = property;
             this.set = set;
@@ -494,15 +495,15 @@ public final class ValueSetSupport {
 
         @Override
         public boolean accept(Concept concept) {
-            return "concept".equals(property.getValue()) ? 
-                    set.contains(concept.getCode()) : 
+            return "concept".equals(property.getValue()) ?
+                    set.contains(concept.getCode()) :
                         set.contains(getConceptPropertyValue(concept, property));
         }
     }
 
     private static class IsAFilter implements ConceptFilter {
         protected final Set<Concept> descendantsAndSelf;
-        
+
         public IsAFilter(Concept concept) {
             descendantsAndSelf = getConcepts(concept);
         }
@@ -512,12 +513,12 @@ public final class ValueSetSupport {
             return descendantsAndSelf.contains(concept);
         }
     }
-    
+
     private static class IsNotAFilter extends IsAFilter {
         public IsNotAFilter(Concept concept) {
             super(concept);
         }
-        
+
         @Override
         public boolean accept(Concept concept) {
             return !super.accept(concept);
@@ -528,7 +529,7 @@ public final class ValueSetSupport {
         public NotInFilter(Code property, Set<Code> set) {
             super(property, set);
         }
-        
+
         @Override
         public boolean accept(Concept concept) {
             return !super.accept(concept);
@@ -538,7 +539,7 @@ public final class ValueSetSupport {
     private static class RegexFilter implements ConceptFilter {
         private final Code property;
         private final Pattern pattern;
-        
+
         public RegexFilter(Code property, String value) {
             this.property = property;
             this.pattern = Pattern.compile(value.getValue());

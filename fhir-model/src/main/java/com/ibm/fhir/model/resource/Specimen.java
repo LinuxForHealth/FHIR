@@ -924,6 +924,8 @@ public class Specimen extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Specimen}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Specimen per the base specification
          */
         @Override
         public Specimen build() {
@@ -1396,6 +1398,8 @@ public class Specimen extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Collection}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Collection per the base specification
              */
             @Override
             public Collection build() {
@@ -1757,6 +1761,8 @@ public class Specimen extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Processing}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Processing per the base specification
              */
             @Override
             public Processing build() {
@@ -2188,6 +2194,8 @@ public class Specimen extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Container}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Container per the base specification
              */
             @Override
             public Container build() {

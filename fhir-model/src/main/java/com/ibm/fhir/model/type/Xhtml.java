@@ -202,6 +202,8 @@ public class Xhtml extends Element {
          * 
          * @return
          *     An immutable object of type {@link Xhtml}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Xhtml per the base specification
          */
         @Override
         public Xhtml build() {

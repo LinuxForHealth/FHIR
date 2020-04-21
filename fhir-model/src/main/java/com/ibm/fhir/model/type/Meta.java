@@ -435,6 +435,8 @@ public class Meta extends Element {
          * 
          * @return
          *     An immutable object of type {@link Meta}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Meta per the base specification
          */
         @Override
         public Meta build() {

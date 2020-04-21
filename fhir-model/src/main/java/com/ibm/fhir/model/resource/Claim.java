@@ -1504,6 +1504,8 @@ public class Claim extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Claim}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Claim per the base specification
          */
         @Override
         public Claim build() {
@@ -1832,6 +1834,8 @@ public class Claim extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Related}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Related per the base specification
              */
             @Override
             public Related build() {
@@ -2117,6 +2121,8 @@ public class Claim extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Payee}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Payee per the base specification
              */
             @Override
             public Payee build() {
@@ -2502,6 +2508,8 @@ public class Claim extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link CareTeam}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid CareTeam per the base specification
              */
             @Override
             public CareTeam build() {
@@ -2940,6 +2948,8 @@ public class Claim extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link SupportingInfo}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid SupportingInfo per the base specification
              */
             @Override
             public SupportingInfo build() {
@@ -3361,6 +3371,8 @@ public class Claim extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Diagnosis}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Diagnosis per the base specification
              */
             @Override
             public Diagnosis build() {
@@ -3787,6 +3799,8 @@ public class Claim extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Procedure}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Procedure per the base specification
              */
             @Override
             public Procedure build() {
@@ -4264,6 +4278,8 @@ public class Claim extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Insurance}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Insurance per the base specification
              */
             @Override
             public Insurance build() {
@@ -4582,6 +4598,8 @@ public class Claim extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Accident}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Accident per the base specification
              */
             @Override
             public Accident build() {
@@ -5713,6 +5731,8 @@ public class Claim extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Item}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Item per the base specification
              */
             @Override
             public Item build() {
@@ -6428,6 +6448,8 @@ public class Claim extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Detail}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Detail per the base specification
                  */
                 @Override
                 public Detail build() {
@@ -7083,6 +7105,8 @@ public class Claim extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link SubDetail}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid SubDetail per the base specification
                      */
                     @Override
                     public SubDetail build() {

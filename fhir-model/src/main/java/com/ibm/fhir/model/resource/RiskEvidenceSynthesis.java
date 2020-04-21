@@ -1668,6 +1668,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link RiskEvidenceSynthesis}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid RiskEvidenceSynthesis per the base specification
          */
         @Override
         public RiskEvidenceSynthesis build() {
@@ -1986,6 +1988,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link SampleSize}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid SampleSize per the base specification
              */
             @Override
             public SampleSize build() {
@@ -2433,6 +2437,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link RiskEstimate}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid RiskEstimate per the base specification
              */
             @Override
             public RiskEstimate build() {
@@ -2764,6 +2770,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link PrecisionEstimate}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid PrecisionEstimate per the base specification
                  */
                 @Override
                 public PrecisionEstimate build() {
@@ -3123,6 +3131,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Certainty}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Certainty per the base specification
              */
             @Override
             public Certainty build() {
@@ -3465,6 +3475,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link CertaintySubcomponent}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid CertaintySubcomponent per the base specification
                  */
                 @Override
                 public CertaintySubcomponent build() {

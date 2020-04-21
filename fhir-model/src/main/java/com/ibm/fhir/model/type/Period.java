@@ -223,6 +223,8 @@ public class Period extends Element {
          * 
          * @return
          *     An immutable object of type {@link Period}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Period per the base specification
          */
         @Override
         public Period build() {

@@ -1273,6 +1273,8 @@ public class ImagingStudy extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ImagingStudy}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ImagingStudy per the base specification
          */
         @Override
         public ImagingStudy build() {
@@ -1998,6 +2000,8 @@ public class ImagingStudy extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Series}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Series per the base specification
              */
             @Override
             public Series build() {
@@ -2295,6 +2299,8 @@ public class ImagingStudy extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Performer}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Performer per the base specification
                  */
                 @Override
                 public Performer build() {
@@ -2634,6 +2640,8 @@ public class ImagingStudy extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Instance}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Instance per the base specification
                  */
                 @Override
                 public Instance build() {

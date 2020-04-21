@@ -587,6 +587,8 @@ public class MedicinalProductInteraction extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MedicinalProductInteraction}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MedicinalProductInteraction per the base specification
          */
         @Override
         public MedicinalProductInteraction build() {
@@ -835,6 +837,8 @@ public class MedicinalProductInteraction extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Interactant}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Interactant per the base specification
              */
             @Override
             public Interactant build() {

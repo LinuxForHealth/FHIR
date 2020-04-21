@@ -21,13 +21,12 @@ import com.ibm.fhir.validation.FHIRValidator;
 
 public class ActivityDefinitionTest {
     public static void main(String[] args) throws Exception {
-        try (InputStream in = ActivityDefinitionTest.class.getClassLoader().getResourceAsStream("JSON/activitydefinition.json")) {  
+        try (InputStream in = ActivityDefinitionTest.class.getClassLoader().getResourceAsStream("JSON/activitydefinition.json")) {
             ActivityDefinition activityDefinition = FHIRParser.parser(Format.JSON).parse(in);
             List<Issue> issues = FHIRValidator.validator().validate(activityDefinition);
             for (Issue issue : issues) {
                 System.out.println("severity: " + issue.getSeverity().getValue() + ", details: " + issue.getDetails().getText().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
             }
-            FHIRPathEvaluator.DEBUG = true;
             Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate(activityDefinition, "contained.id");
             System.out.println("result: " + result);
             FHIRGenerator.generator(Format.XML).generate(activityDefinition, System.out);

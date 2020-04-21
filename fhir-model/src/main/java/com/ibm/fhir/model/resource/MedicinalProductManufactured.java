@@ -617,6 +617,8 @@ public class MedicinalProductManufactured extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MedicinalProductManufactured}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MedicinalProductManufactured per the base specification
          */
         @Override
         public MedicinalProductManufactured build() {

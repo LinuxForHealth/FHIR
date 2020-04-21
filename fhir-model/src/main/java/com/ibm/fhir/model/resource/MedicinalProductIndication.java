@@ -712,6 +712,8 @@ public class MedicinalProductIndication extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MedicinalProductIndication}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MedicinalProductIndication per the base specification
          */
         @Override
         public MedicinalProductIndication build() {
@@ -1001,6 +1003,8 @@ public class MedicinalProductIndication extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link OtherTherapy}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid OtherTherapy per the base specification
              */
             @Override
             public OtherTherapy build() {

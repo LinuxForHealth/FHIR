@@ -706,6 +706,8 @@ public class Dosage extends BackboneElement {
          * 
          * @return
          *     An immutable object of type {@link Dosage}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Dosage per the base specification
          */
         @Override
         public Dosage build() {
@@ -1028,6 +1030,8 @@ public class Dosage extends BackboneElement {
              * 
              * @return
              *     An immutable object of type {@link DoseAndRate}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid DoseAndRate per the base specification
              */
             @Override
             public DoseAndRate build() {

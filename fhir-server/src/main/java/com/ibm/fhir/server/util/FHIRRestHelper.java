@@ -67,6 +67,7 @@ import com.ibm.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.fhir.operation.util.FHIROperationUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
@@ -175,6 +176,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     ior.setLocationURI(FHIRUtil.buildLocationURI(type, matchedResource));
                     ior.setStatus(Response.Status.OK);
                     ior.setResource(matchedResource);
+                    ior.setOperationOutcome(FHIRUtil.buildOperationOutcome("Found a single match; check the Location header",
+                            IssueType.INFORMATIONAL, IssueSeverity.INFORMATION));
                     log.fine("Returning location URI of matched resource: " + ior.getLocationURI());
                     return ior;
                 } else {
@@ -184,15 +187,18 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
             }
 
+            // Validate the input and, if valid, start collecting supplemental warnings
+            List<Issue> warnings = new ArrayList<>(validateInput(resource));
+
             // For R4, resources may contain an id. For create, this should be ignored and
             // we no longer reject the request.
-            if (resource.getId() != null && log.isLoggable(Level.FINE)) {
-                log.fine(String.format("create request resource includes id: '%s'", resource.getId()));
+            if (resource.getId() != null) {
+                String msg = "The create request resource included id: '" + resource.getId() + "'; this id has been replaced";
+                warnings.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.INFORMATION, IssueType.INFORMATIONAL, msg));
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine(msg);
+                }
             }
-
-            // Validate the input resource and return any validation errors, but warnings are OK
-            List<Issue> validationWarnings = validateInput(resource);
-            ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(validationWarnings));
 
             // If there were no validation errors, then create the resource and return the location header.
 
@@ -208,10 +214,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
 
             // R4: remember model objects are immutable, so we get back a new resource with the id/meta stuff
-            resource = persistence.create(persistenceContext, resource).getResource();
+            SingleResourceResult<Resource> result = persistence.create(persistenceContext, resource);
+            resource = result.getResource();
+            if (result.isSuccess() && result.getOutcome() != null) {
+                warnings.addAll(result.getOutcome().getIssue());
+            }
             event.setFhirResource(resource); // update event with latest
             ior.setStatus(Response.Status.CREATED);
             ior.setResource(resource);
+            ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(warnings));
 
             // Build our location URI and add it to the interceptor event structure since it is now known.
             ior.setLocationURI(FHIRUtil.buildLocationURI(ModelSupport.getTypeName(resource.getClass()), resource));
@@ -368,9 +379,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 newResource = patch.apply(ior.getPrevResource());
             }
 
-            // Validate the input resource and return any validation errors.
-            List<Issue> validationWarnings = validateInput(newResource);
-            ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(validationWarnings));
+            // Validate the input and, if valid, start collecting supplemental warnings
+            List<Issue> warnings = new ArrayList<>(validateInput(newResource));
 
             // Perform the "version-aware" update check, and also find out if the resource was deleted.
             boolean isDeleted = false;
@@ -410,9 +420,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
-            newResource = persistence.update(persistenceContext, id, newResource).getResource();
+            SingleResourceResult<Resource> result = persistence.update(persistenceContext, id, newResource);
+            if (result.isSuccess() && result.getOutcome() != null) {
+                warnings.addAll(result.getOutcome().getIssue());
+            }
+            newResource = result.getResource();
             event.setFhirResource(newResource); // update event with latest
             ior.setResource(newResource);
+            ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(warnings));
 
             // Build our location URI and add it to the interceptor event structure since it is now known.
             ior.setLocationURI(FHIRUtil.buildLocationURI(ModelSupport.getTypeName(newResource.getClass()), newResource));
@@ -1042,31 +1057,27 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * Validate the input resource and throw if there are validation errors
      *
      * @param resource
-     * @throws FHIRValidationException
-     * @throws FHIROperationException
+     * @throws FHIRValidationException if an error occurs during validation
+     * @throws FHIROperationException if there are validation errors
+     * @return A list of validation warnings
      */
     private List<OperationOutcome.Issue> validateInput(Resource resource)
             throws FHIRValidationException, FHIROperationException {
         List<OperationOutcome.Issue> issues = FHIRValidator.validator().validate(resource);
         if (!issues.isEmpty()) {
-            boolean includesFailure = false;
             for (OperationOutcome.Issue issue : issues) {
                 if (FHIRUtil.isFailure(issue.getSeverity())) {
-                    includesFailure = true;
+                    throw new FHIROperationException("Input resource failed validation.").withIssue(issues);
                 }
             }
 
-            if (includesFailure) {
-                throw new FHIROperationException("Input resource failed validation.").withIssue(issues);
-            } else {
-                if (log.isLoggable(Level.FINE)) {
-                    String info = issues.stream()
-                                .flatMap(issue -> Stream.of(issue.getDetails()))
-                                .flatMap(details -> Stream.of(details.getText()))
-                                .flatMap(text -> Stream.of(text.getValue()))
-                                .collect(Collectors.joining(", "));
-                    log.fine("Validation warnings for input resource: " + info);
-                }
+            if (log.isLoggable(Level.FINE)) {
+                String info = issues.stream()
+                        .flatMap(issue -> Stream.of(issue.getDetails()))
+                        .flatMap(details -> Stream.of(details.getText()))
+                        .flatMap(text -> Stream.of(text.getValue()))
+                        .collect(Collectors.joining(", "));
+                log.fine("Validation warnings for input resource: " + info);
             }
         }
         return issues;

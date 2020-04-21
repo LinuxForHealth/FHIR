@@ -189,6 +189,8 @@ public class Uri extends Element {
          * 
          * @return
          *     An immutable object of type {@link Uri}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Uri per the base specification
          */
         @Override
         public Uri build() {

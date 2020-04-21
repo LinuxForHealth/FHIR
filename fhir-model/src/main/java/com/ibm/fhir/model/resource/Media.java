@@ -1244,6 +1244,8 @@ public class Media extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Media}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Media per the base specification
          */
         @Override
         public Media build() {

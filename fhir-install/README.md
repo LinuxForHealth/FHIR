@@ -4,7 +4,7 @@ Running the IBM FHIR Server as a Docker container.
 
 ## Prerequisites
 
-- [Docker]
+- [Docker](http://docker.com)
 - Updated fhir-install/target/fhir-server-distribution.zip
 
 ## Build
@@ -12,7 +12,7 @@ Running the IBM FHIR Server as a Docker container.
 Using Docker Terminal, access the fhir-install directory and run:
 
 ```sh
-docker build -t fhir-server . --squash
+docker build -t fhir-server .
 ```
 
 ## Run
@@ -51,5 +51,3 @@ This request makes a connection to the configured database (embedded Derby by de
 ```
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
-
-[Docker]: <http://docker.com>

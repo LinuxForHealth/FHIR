@@ -1480,6 +1480,8 @@ public class HealthcareService extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link HealthcareService}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid HealthcareService per the base specification
          */
         @Override
         public HealthcareService build() {
@@ -1765,6 +1767,8 @@ public class HealthcareService extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Eligibility}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Eligibility per the base specification
              */
             @Override
             public Eligibility build() {
@@ -2112,6 +2116,8 @@ public class HealthcareService extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link AvailableTime}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid AvailableTime per the base specification
              */
             @Override
             public AvailableTime build() {
@@ -2381,6 +2387,8 @@ public class HealthcareService extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link NotAvailable}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid NotAvailable per the base specification
              */
             @Override
             public NotAvailable build() {

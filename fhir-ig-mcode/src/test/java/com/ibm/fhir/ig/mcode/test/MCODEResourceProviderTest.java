@@ -16,6 +16,6 @@ public class MCODEResourceProviderTest {
     @Test
     public void testMCODEResourceProvider() {
         FHIRRegistryResourceProvider provider = new MCODEResourceProvider();
-        Assert.assertEquals(provider.getResources().size(), 56);
+        Assert.assertEquals(provider.getRegistryResources().size(), 56);
     }
 }

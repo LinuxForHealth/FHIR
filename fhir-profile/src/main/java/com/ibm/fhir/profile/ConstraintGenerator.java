@@ -21,9 +21,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.annotation.Constraint;
@@ -342,6 +340,8 @@ public class ConstraintGenerator {
 
         if (isOptional(elementDefinition)) {
             sb.append(identifier).append(".exists()").append(" implies (");
+        } else {
+            sb.append(identifier).append(".exists()").append(" and ");
         }
 
         String prefix = "";
@@ -505,7 +505,7 @@ public class ConstraintGenerator {
 
         String url = profile.get(0).getValue();
 
-        return FHIRRegistry.getInstance().hasResource(url);
+        return FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class);
     }
 
     private boolean hasFixedValueConstraint(ElementDefinition elementDefinition) {
@@ -684,28 +684,5 @@ public class ConstraintGenerator {
         Node root;
         Map<String, Node> nodeMap;
         Map<String, ElementDefinition> sliceDefinitionMap;
-    }
-
-    public static void main(String[] args) throws Exception {
-        Logger logger = Logger.getLogger("");
-        logger.setLevel(Level.FINE);
-        logger.addHandler(new Handler() {
-            @Override
-            public void publish(LogRecord record) {
-                System.out.println(record.getMessage());
-            }
-
-            @Override
-            public void flush() {
-            }
-
-            @Override
-            public void close() throws SecurityException {
-            }
-        });
-        StructureDefinition profile = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/StructureDefinition/heartrate", StructureDefinition.class);
-        ConstraintGenerator generator = new ConstraintGenerator(profile);
-        System.out.println("Generated constraints: ");
-        generator.generate().stream().map(constraint -> constraint.expression()).forEach(System.out::println);
     }
 }

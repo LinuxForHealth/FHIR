@@ -107,11 +107,63 @@ The FHIR registry component keeps track of definitional resource types (e.g. Str
 
 ```java
 public interface FHIRRegistryResourceProvider {
-    Collection<FHIRRegistryResource> getResources();
+    /**
+     * Get the registry resource from this provider for the given resource type, url and version
+     *
+     * <p>If the version is null, then the latest version of the registry resource is returned (if available)
+     *
+     * @param resourceType
+     *     the resource type of the registry resource
+     * @param url
+     *     the url of the registry resource
+     * @param version
+     *     the version of the registry resource (optional)
+     * @return
+     *     the registry resource from this provider for the given resource type, url and version if exists, null otherwise
+     */
+    FHIRRegistryResource getRegistryResource(Class<? extends Resource> resourceType, String url, String version);
+
+    /**
+     * Get the registry resources from this provider for the given resource type
+     *
+     * @param resourceType
+     *     the resource type of the registry resource
+     * @return
+     *     the registry resources from this provider for the given resource type
+     */
+    Collection<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType);
+
+    /**
+     * Get all the registry resources from this provider
+     *
+     * @return
+     *     all of the registry resources from this provider
+     */
+    Collection<FHIRRegistryResource> getRegistryResources();
+
+    /**
+     * Get the profile resources from this provider that constrain the given resource type
+     *
+     * @param type
+     *     the constrained resource type
+     * @return
+     *     the profile resources from this provider that constrain the given resource type
+     */
+    Collection<FHIRRegistryResource> getProfileResources(String type);
+
+
+    /**
+     * Get the search parameter resources from this provider with the given search parameter type
+     * (e.g. string, token, etc.)
+     *
+     * @param type
+     *     the search parameter type
+     * @return
+     *     the search parameter resources from this provider with the given search parameter type
+     */
+    Collection<FHIRRegistryResource> getSearchParameterResources(String type);
 }
 ```
-
-The FHIRRegistry loads FHIRRegistryResource instances into a map on startup. The FHIRRegistryResource class lazily loads the underlying resource into memory when it is accessed. Multiple versions of the same resource can be registered. FHIR registry resource providers can be bundled into a jar file and deployed with the IBM FHIR server in the user lib directory.
 
 ### NPM package format support
 
@@ -120,18 +172,18 @@ The IBM FHIR Server Registry module ([fhir-registry](https://github.com/IBM/FHIR
 ![https://ibm.github.io/FHIR/images/us-core-package.png](https://ibm.github.io/FHIR/images/us-core-package.png)
 
 
-The implementation of the `FHIRRegistryResourceProvider` SPI looks like this:
+For convenience, we have created a base implementation of `FHIRRegistryResourceProvider` called `PackageRegistryResourceProvider`. The implementation of the `USCoreResourceProvider` using this implementation looks like this:
 
 ```java
-public class USCoreResourceProvider implements FHIRRegistryResourceProvider {
+public class USCoreResourceProvider extends PackageRegistryResourceProvider {
     @Override
-    public Collection<FHIRRegistryResource> getResources() {
-        return FHIRRegistryUtil.getResources("hl7.fhir.us.core");
+    public String getPackageId() {
+        return "hl7.fhir.us.core";
     }
 }
 ```
 
-The `FHIRRegistryUtil.getResources(String)` method takes a packageId (e.g. hl7.fhir.us.core) as input and converts it to a path where it can find the NPM package index file: `.index.json`.
+The `PackgageRegistryResourceProvider` class converts the packageId (e.g. hl7.fhir.us.core) to a path where it can find the NPM package index file: `.index.json`. The `PackageRegistryResourceProvider` class creates `FHIRRegistryResource` instances, using the index file, and caches them in a map on startup. The `PackageRegistryResource` (an implementation of `FHIRRegistryResource` class lazily loads the underlying FHIR resource into memory when it is accessed. Multiple versions of the same resource can be registered. FHIR registry resource providers can be bundled into a jar file and deployed with the IBM FHIR server in the user lib directory.
 
 For more information, please see: [https://confluence.hl7.org/display/FHIR/NPM+Package+Specification](https://confluence.hl7.org/display/FHIR/NPM+Package+Specification)
 

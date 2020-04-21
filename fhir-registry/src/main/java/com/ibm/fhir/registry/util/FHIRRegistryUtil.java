@@ -59,9 +59,7 @@ import com.ibm.fhir.registry.util.Index.Entry;
 public final class FHIRRegistryUtil {
     private static final Logger log = Logger.getLogger(FHIRRegistryUtil.class.getName());
 
-    private static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
-
-    private static final Set<Class<?>> DEFINITIONAL_RESOURCE_TYPES = new HashSet<>(Arrays.asList(
+    private static final Set<Class<? extends Resource>> DEFINITIONAL_RESOURCE_TYPES = new HashSet<>(Arrays.asList(
         ActivityDefinition.class,
         CapabilityStatement.class,
         ChargeItemDefinition.class,
@@ -110,7 +108,29 @@ public final class FHIRRegistryUtil {
         return isDefinitionalResourceType(resource.getClass());
     }
 
-    private static boolean isDefinitionalResourceType(Class<?> resourceType) {
+    /**
+     * Throw an {@link IllegalArgumentException} if the resource type is not a definitional resource type per:
+     * <a href="http://hl7.org/fhir/definition.html">http://hl7.org/fhir/definition.html</a>
+     *
+     * @param resourceType
+     *     the resourceType
+     */
+    public static void requireDefinitionalResourceType(Class<? extends Resource> resourceType) {
+        if (!isDefinitionalResourceType(resourceType)) {
+            throw new IllegalArgumentException(resourceType.getSimpleName() + " is not a definitional resource type");
+        }
+    }
+
+    /**
+     * Indicates whether the resource type is a definitional resource type per:
+     * <a href="http://hl7.org/fhir/definition.html">http://hl7.org/fhir/definition.html</a>
+     *
+     * @param resourceType
+     *     the resource type
+     * @return
+     *     true if the resource type is a definitional resource, false otherwise
+     */
+    public static boolean isDefinitionalResourceType(Class<? extends Resource> resourceType) {
         return DEFINITIONAL_RESOURCE_TYPES.contains(resourceType);
     }
 
@@ -123,11 +143,11 @@ public final class FHIRRegistryUtil {
         return null;
     }
 
-    public static Collection<FHIRRegistryResource> getResources(String packageId) {
+    public static Collection<FHIRRegistryResource> getRegistryResources(String packageId) {
         List<FHIRRegistryResource> resources = new ArrayList<>();
         String packageDirectory = packageId.replace(".", "/") + "/package";
         for (Entry entry : readIndex(packageDirectory + "/.index.json")) {
-            resources.add(new FHIRRegistryResource(
+            resources.add(new PackageRegistryResource(
                 ModelSupport.getResourceType(entry.getResourceType()),
                 entry.getId(),
                 entry.getUrl(),
@@ -148,16 +168,5 @@ public final class FHIRRegistryUtil {
             log.warning("Unable to read index: " + indexPath + " due to the following exception: " + e.getMessage());
         }
         return Collections.emptyList();
-    }
-
-    public static boolean isProfile(FHIRRegistryResource resource) {
-        String url = resource.getUrl();
-        if (url.startsWith(HL7_STRUCTURE_DEFINITION_URL_PREFIX)) {
-            String name = url.substring(HL7_STRUCTURE_DEFINITION_URL_PREFIX.length());
-            if (ModelSupport.isResourceType(name)) {
-                return false;
-            }
-        }
-        return StructureDefinition.class.equals(resource.getResourceType()) && "resource".equals(resource.getKind());
     }
 }

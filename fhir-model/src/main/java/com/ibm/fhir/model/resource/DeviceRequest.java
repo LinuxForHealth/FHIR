@@ -1468,6 +1468,8 @@ public class DeviceRequest extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link DeviceRequest}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid DeviceRequest per the base specification
          */
         @Override
         public DeviceRequest build() {
@@ -1762,6 +1764,8 @@ public class DeviceRequest extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Parameter}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Parameter per the base specification
              */
             @Override
             public Parameter build() {

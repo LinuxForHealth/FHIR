@@ -1,0 +1,66 @@
+{
+    "__comment": "FHIR Server configuration",
+    "fhirServer": {
+        "core": {
+            "truststoreLocation": "resources/security/fhirTruststore.jks",
+            "truststorePassword": "change-password",
+            "tenantIdHeaderName": "X-FHIR-TENANT-ID",
+            "datastoreIdHeaderName": "X-FHIR-DSID",
+            "checkReferenceTypes": true,
+            "conditionalDeleteMaxNumber": 10
+        },
+        "audit": {
+            "serviceClassName" : "com.ibm.fhir.audit.logging.impl.DisabledAuditLogService",
+            "serviceProperties" : {
+            }
+        },
+        "persistence": {
+            "factoryClassname": "com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "common": {
+                "__comment": "Configuration properties common to all persistence layer implementations",
+                "updateCreateEnabled": true
+            },
+            "jdbc": {
+                "__comment": "Configuration properties for the JDBC persistence implementation",
+                "bootstrapDb": true,
+                "dataSourceJndiName": "jdbc/fhirProxyDataSource",
+                "enableCodeSystemsCache": true,
+                "enableParameterNamesCache": true,
+                "enableResourceTypesCache": true
+            },
+            "datasources": {
+                "default": {
+                    "type": "postgresql",
+                    "connectionProperties": {
+                        "serverName": "localhost",
+                        "portNumber": 5432,
+                        "databaseName": "fhirdata",
+                        "user": "fhirserver",
+                        "password": "change-password",
+                        "currentSchema": "fhirdata"
+                    }
+                }
+            }
+        },
+        "bulkdata": {
+            "bulkDataBatchJobIdEncryptionKey": "change-password",
+            "applicationName": "fhir-bulkimportexport-webapp",
+            "moduleName": "fhir-bulkimportexport.war",
+            "jobParameters": {
+                "cos.bucket.name": "fhir-r4-connectathon",
+                "cos.location": "us",
+                "cos.endpointurl": "fake",
+                "cos.credential.ibm": "Y",
+                "cos.api.key": "fake",
+                "cos.srvinst.id": "fake"
+            },
+            "implementation_type": "cos",
+            "batch-uri": "https://localhost:9443/ibm/api/batch/jobinstances",
+            "batch-user": "fhiradmin",
+            "batch-user-password": "change-password",
+            "batch-truststore": "resources/security/fhirTruststore.jks",
+            "batch-truststore-password": "change-password",
+            "isExportPublic": true
+        }
+    }
+}

@@ -896,6 +896,8 @@ public class List extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link List}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid List per the base specification
          */
         @Override
         public List build() {
@@ -1241,6 +1243,8 @@ public class List extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Entry}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Entry per the base specification
              */
             @Override
             public Entry build() {

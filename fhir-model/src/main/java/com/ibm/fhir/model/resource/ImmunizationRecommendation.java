@@ -569,6 +569,8 @@ public class ImmunizationRecommendation extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ImmunizationRecommendation}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ImmunizationRecommendation per the base specification
          */
         @Override
         public ImmunizationRecommendation build() {
@@ -1321,6 +1323,8 @@ public class ImmunizationRecommendation extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Recommendation}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Recommendation per the base specification
              */
             @Override
             public Recommendation build() {
@@ -1607,6 +1611,8 @@ public class ImmunizationRecommendation extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link DateCriterion}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid DateCriterion per the base specification
                  */
                 @Override
                 public DateCriterion build() {
