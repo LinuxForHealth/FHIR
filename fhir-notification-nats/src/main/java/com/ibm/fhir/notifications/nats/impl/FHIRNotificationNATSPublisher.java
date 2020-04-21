@@ -110,7 +110,7 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
                 @Override
                 public void onAck(String nuid, Exception ex) {
                     log.finer("Received ACK for guid: " + nuid);
-                    if (ex != null && log.isLoggable(Level.SEVERE)) {) {
+                    if (ex != null && log.isLoggable(Level.SEVERE)) {
                         log.log(Level.SEVERE, "Error in server ack for guid " + nuid + ": " + ex.getMessage(), ex);
                     }
                 }
