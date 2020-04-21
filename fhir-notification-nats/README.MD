@@ -75,7 +75,7 @@ To use TLS (which you must do if your NATS cluster requires TLS) set "useTLS" to
 
 On MacOS, install the [mkcert tool](https://github.com/FiloSottile/mkcert) with `brew install mkcert`, then follow these steps to create a Java keystore and truststore for use with NATS.  You also need Java keytool and openssl installed. Set change-password to be any value. 
 
-```
+```shell
 # Install the CA locally
 ./mkcert -install 
  
