@@ -23,6 +23,8 @@ import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.client.BulkDataClient;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
+import com.ibm.fhir.operation.bulkdata.model.type.Input;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.processor.ExportImportBulkData;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.util.FHIROperationUtil;
@@ -53,7 +55,7 @@ public class CosExportImpl implements ExportImportBulkData {
                 tmpProperties.put(BulkDataConstants.PARAM_GROUP_ID, logicalId);
             }
 
-            if (typeFilters != null && typeFilters.size() > 0) {
+            if (typeFilters != null && !typeFilters.isEmpty()) {
                 tmpProperties.put(BulkDataConstants.PARAM_TYPE_FILTER, String.join(",", typeFilters));
             }
 
@@ -62,7 +64,7 @@ public class CosExportImpl implements ExportImportBulkData {
             // Submit Job
             BulkDataClient client = new BulkDataClient(tmpProperties);
             // If we add multiple formats, shove the mediatype into a properties map.
-            String url = client.submit(since, types, tmpProperties, exportType);
+            String url = client.submitExport(since, types, tmpProperties, exportType);
 
             // As we are now 'modifying' the response, we're PUSHING it into the operation context. The
             // OperationContext is checked for ACCEPTED, and picks out the custom response.
@@ -106,7 +108,7 @@ public class CosExportImpl implements ExportImportBulkData {
             Response response = null;
             if (pollingResponse != null) {
                 response =
-                        Response.status(Status.OK).entity(pollingResponse.toJsonString())
+                        Response.status(Status.OK).entity(PollingLocationResponse.Writer.generate(pollingResponse))
                                 .type(MediaType.APPLICATION_JSON).build();
             } else {
                 // Technically we should also do 429 - Throttled when we get too many repeated requests.
@@ -128,8 +130,7 @@ public class CosExportImpl implements ExportImportBulkData {
     }
 
     @Override
-    public Parameters delete(String job, FHIROperationContext operationContext)
-            throws FHIROperationException {
+    public Parameters delete(String job, FHIROperationContext operationContext) throws FHIROperationException {
         try {
             // Send the DELETE
             Map<String, String> tmpProperties = new HashMap<>();
@@ -151,22 +152,33 @@ public class CosExportImpl implements ExportImportBulkData {
     }
 
     @Override
-    public Parameters importBulkData(String logicalId, Parameters parameters, FHIROperationContext operationContext,
-            FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+    public Parameters importBulkData(String inputFormat, String inputSource, List<Input> inputs,
+            StorageDetail storageDetail, FHIROperationContext operationContext) throws FHIROperationException {
         try {
             Map<String, String> tmpProperties = new HashMap<>();
             tmpProperties.putAll(properties);
             addBaseUri(operationContext, tmpProperties);
 
-            /*
-             * The framework is in place. However, the deserialized $import operation request format is not balloted
-             * yet.
-             */
+            // Submit Job
+            BulkDataClient client = new BulkDataClient(tmpProperties);
+            // If we add multiple formats, shove the media-type into a properties map.
+            String url = client.submitImport(inputFormat, inputSource, inputs, storageDetail, tmpProperties);
+
+            // As we are now 'modifying' the response, we're PUSHING it into the operation context. The
+            // OperationContext is checked for ACCEPTED, and picks out the custom response.
+            Response response = Response.status(Status.ACCEPTED).header("Content-Location", url).build();
+            operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, Response.Status.ACCEPTED);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_RESPONSE, response);
+
             return FHIROperationUtil.getOutputParameters(null);
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception e) {
-            throw new FHIROperationException("exception with $import operation", e);
+            // Conditionally output the log detail:
+            if (log.isLoggable(Level.FINE)) {
+                log.log(Level.FINE, "Exception is " + e.getMessage(), e);
+            }
+            throw new FHIROperationException("Error while processing the $export request", e);
         }
     }
 }

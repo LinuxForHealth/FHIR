@@ -41,12 +41,14 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
-import com.ibm.fhir.operation.bulkdata.model.BulkExportJobExecutionResponse;
-import com.ibm.fhir.operation.bulkdata.model.BulkExportJobInstanceRequest;
-import com.ibm.fhir.operation.bulkdata.model.BulkExportJobInstanceResponse;
-import com.ibm.fhir.operation.bulkdata.model.JobParameter;
+import com.ibm.fhir.operation.bulkdata.model.JobExecutionResponse;
+import com.ibm.fhir.operation.bulkdata.model.JobInstanceRequest;
+import com.ibm.fhir.operation.bulkdata.model.JobInstanceResponse;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
-import com.ibm.fhir.operation.bulkdata.util.BulkDataUtil;
+import com.ibm.fhir.operation.bulkdata.model.type.Input;
+import com.ibm.fhir.operation.bulkdata.model.type.JobParameter;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
+import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 
 /**
  * BulkData Client to connect to the other server.
@@ -136,18 +138,15 @@ public class BulkDataClient {
 
             // If we couldn't open the file, throw an exception now.
             if (is == null) {
-                throw new FileNotFoundException("KeyStore file '" + ksFilename
-                        + "' was not found.");
+                throw new FileNotFoundException("KeyStore file '" + ksFilename + "' was not found.");
             }
 
             // Load up the truststore file.
             ks.load(is, ksPassword.toCharArray());
 
             return ks;
-        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException
-                | IOException e) {
-            throw new IllegalStateException("Error loading keystore file '" + ksFilename + "' : "
-                    + e);
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException e) {
+            throw new IllegalStateException("Error loading keystore file '" + ksFilename + "' : " + e);
         } finally {
             if (is != null) {
                 try {
@@ -167,11 +166,11 @@ public class BulkDataClient {
      * @return
      * @throws Exception
      */
-    public String submit(Instant since, List<String> types, Map<String, String> properties, ExportType exportType)
+    public String submitExport(Instant since, List<String> types, Map<String, String> properties, ExportType exportType)
             throws Exception {
         WebTarget target = getWebTarget(properties.get(BulkDataConfigUtil.BATCH_URL));
 
-        BulkExportJobInstanceRequest.Builder builder = BulkExportJobInstanceRequest.builder();
+        JobInstanceRequest.Builder builder = JobInstanceRequest.builder();
         builder.applicationName(properties.get(BulkDataConfigUtil.APPLICATION_NAME));
         builder.moduleName(properties.get(BulkDataConfigUtil.MODULE_NAME));
         builder.cosBucketName(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
@@ -204,7 +203,7 @@ public class BulkDataClient {
         String fhirDataStoreId = FHIRRequestContext.get().getDataStoreId();
         builder.fhirDataStoreId(fhirDataStoreId);
 
-        String resourceType = String.join(", ", types);
+        String resourceType = String.join(",", types);
         builder.fhirResourceType(resourceType);
 
         if (since != null) {
@@ -217,7 +216,7 @@ public class BulkDataClient {
             builder.fhirTypeFilters(properties.get(BulkDataConstants.PARAM_TYPE_FILTER));
         }
 
-        String entityStr = BulkExportJobInstanceRequest.Writer.generate(builder.build(), true);
+        String entityStr = JobInstanceRequest.Writer.generate(builder.build(), true);
         Entity<String> entity = Entity.json(entityStr);
         Response r = target.request().post(entity);
 
@@ -228,15 +227,14 @@ public class BulkDataClient {
             log.warning("JSON -> \n" + responseStr);
         }
 
-        BulkExportJobInstanceResponse response = BulkExportJobInstanceResponse.Parser.parse(responseStr);
+        JobInstanceResponse response = JobInstanceResponse.Parser.parse(responseStr);
 
         // From the response
         String jobId = Integer.toString(response.getInstanceId());
 
-
         String baseUri = properties.get(BulkDataConfigUtil.BASE_URI);
-        return baseUri + "/$export-status?job=" +
-                BulkDataUtil.encryptBatchJobId(jobId, BulkDataConstants.BATCHJOBID_ENCRYPTION_KEY);
+        return baseUri + "/$bulkdata-status?job="
+                + BulkDataExportUtil.encryptBatchJobId(jobId, BulkDataConstants.BATCHJOBID_ENCRYPTION_KEY);
     }
 
     /**
@@ -254,36 +252,40 @@ public class BulkDataClient {
 
         String responseStr = r.readEntity(String.class);
 
-        if (responseStr == null || responseStr.isEmpty()
-                || responseStr.startsWith("Unexpected request/response.")) {
-            throw BulkDataUtil.buildOperationException("Invalid job id sent to $export-status", IssueType.INVALID);
+        if (responseStr == null || responseStr.isEmpty() || responseStr.startsWith("Unexpected request/response.")) {
+            throw BulkDataExportUtil.buildOperationException("Invalid job id sent to $bulkdata-status",
+                    IssueType.INVALID);
         }
 
         PollingLocationResponse result = null;
         try {
-            BulkExportJobInstanceResponse  bulkExportJobInstanceResponse = BulkExportJobInstanceResponse.Parser.parse(responseStr);
+            JobInstanceResponse bulkExportJobInstanceResponse =
+                    JobInstanceResponse.Parser.parse(responseStr);
 
             // Example: https://localhost:9443/ibm/api/batch/jobinstances/9/jobexecutions/2
             // Get the current job execution status of the job instance.
-            baseUrl = properties.get(BulkDataConfigUtil.BATCH_URL) + "/" + bulkExportJobInstanceResponse.getInstanceId()
-                        + "/jobexecutions/" +  bulkExportJobInstanceResponse.getExecutionId();
-            target = getWebTarget(baseUrl);
-            r = target.request().get();
+            baseUrl     =
+                    properties.get(BulkDataConfigUtil.BATCH_URL) + "/" + bulkExportJobInstanceResponse.getInstanceId()
+                            + "/jobexecutions/" + bulkExportJobInstanceResponse.getExecutionId();
+            target      = getWebTarget(baseUrl);
+            r           = target.request().get();
 
             responseStr = r.readEntity(String.class);
 
             // Intermediate Response is - BulkExportJobExecutionResponse
-            BulkExportJobExecutionResponse bulkExportJobExecutionResponse = BulkExportJobExecutionResponse.Parser.parse(responseStr);
+            JobExecutionResponse bulkExportJobExecutionResponse =
+                    JobExecutionResponse.Parser.parse(responseStr);
             verifyTenant(bulkExportJobExecutionResponse.getJobParameters());
 
             if (log.isLoggable(Level.FINE)) {
                 log.warning("Logging the BulkExportJobExecutionResponse Details -> \n "
-                        + BulkExportJobExecutionResponse.Writer.generate(bulkExportJobExecutionResponse, false));
+                        + JobExecutionResponse.Writer.generate(bulkExportJobExecutionResponse, false));
             }
 
             String batchStatus = bulkExportJobExecutionResponse.getBatchStatus();
             if (batchStatus == null) {
-                throw BulkDataUtil.buildOperationException("Error while reading the bulk export status", IssueType.INVALID);
+                throw BulkDataExportUtil.buildOperationException("Error while reading the bulk export status",
+                        IssueType.INVALID);
             } else if (BulkDataConstants.SUCCESS_STATUS.contains(batchStatus)) {
                 result = process(bulkExportJobExecutionResponse);
             } else if (BulkDataConstants.FAILED_STATUS.contains(batchStatus)) {
@@ -292,15 +294,18 @@ public class BulkDataClient {
                  * The choice of when to determine that an export job has failed in its entirety (error status) vs
                  * returning a partial success (complete status) is left up to the implementer.
                  *
-                 * XXX Can we do something better like return a 2XX response with a link to a file that explains the error?
+                 * XXX Can we do something better like return a 2XX response with a link to a file that explains the
+                 * error?
                  * What if we couldn't connect with S3 / Cloud object store in the first place?
                  */
-                throw BulkDataUtil.buildOperationException("The export job has failed", IssueType.EXCEPTION);
+                throw BulkDataExportUtil.buildOperationException("The export job has failed", IssueType.EXCEPTION);
             }
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception ex) {
-            throw BulkDataUtil.buildOperationException("An unexpected error has ocurred while checking the export status", IssueType.TRANSIENT);
+            ex.printStackTrace();
+            throw BulkDataExportUtil.buildOperationException(
+                    "An unexpected error has ocurred while checking the status", IssueType.TRANSIENT);
         }
 
         return result;
@@ -314,32 +319,33 @@ public class BulkDataClient {
     public void delete(String job) throws Exception {
         // Example: https://localhost:9443/ibm/api/batch/jobexecutions/9
         String baseUrl =
-                properties.get(BulkDataConfigUtil.BATCH_URL).replace("jobinstances", "jobexecutions")
-                        + "/" + job;
+                properties.get(BulkDataConfigUtil.BATCH_URL).replace("jobinstances", "jobexecutions") + "/" + job;
 
         WebTarget target = getWebTarget(baseUrl);
         Response r = target.request().get();
 
         String responseStr = r.readEntity(String.class);
 
-        if (responseStr == null || responseStr.isEmpty()
-                || responseStr.startsWith("Unexpected request/response.")) {
-            throw BulkDataUtil.buildOperationException("Invalid job id sent to $export-status", IssueType.INVALID);
+        if (responseStr == null || responseStr.isEmpty() || responseStr.startsWith("Unexpected request/response.")) {
+            throw BulkDataExportUtil.buildOperationException("Invalid job id sent to $bulkdata-status",
+                    IssueType.INVALID);
         }
 
         try {
-            BulkExportJobExecutionResponse response = BulkExportJobExecutionResponse.Parser.parse(responseStr);
+            JobExecutionResponse response = JobExecutionResponse.Parser.parse(responseStr);
             verifyTenant(response.getJobParameters());
 
             // The tenant is known, and now we need to query to delete the Job.
             r = target.request().delete();
             if (r.getStatus() != HttpStatus.SC_NO_CONTENT) {
-                throw BulkDataUtil.buildOperationException("Deleting the job has failed; the content is not abandonded", IssueType.EXCEPTION);
+                throw BulkDataExportUtil.buildOperationException(
+                        "Deleting the job has failed; the content is not abandonded", IssueType.EXCEPTION);
             }
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception ex) {
-            throw BulkDataUtil.buildOperationException("An unexpected error has ocurred while deleting the export job", IssueType.TRANSIENT);
+            throw BulkDataExportUtil.buildOperationException(
+                    "An unexpected error has ocurred while deleting the export job", IssueType.TRANSIENT);
         }
     }
 
@@ -355,7 +361,8 @@ public class BulkDataClient {
                 || !jobParameters.getFhirTenant().equals(fhirTenant)) {
             log.warning(
                     "Tenant not authorized to access job [" + fhirTenant + "] jobParameter [" + jobParameters + "]");
-            throw BulkDataUtil.buildOperationException("Tenant not authorized to access job", IssueType.FORBIDDEN);
+            throw BulkDataExportUtil.buildOperationException("Tenant not authorized to access job",
+                    IssueType.FORBIDDEN);
         }
     }
 
@@ -363,7 +370,7 @@ public class BulkDataClient {
      * @param response
      * @return
      */
-    private PollingLocationResponse process(BulkExportJobExecutionResponse response) {
+    private PollingLocationResponse process(JobExecutionResponse response) {
         PollingLocationResponse result = new PollingLocationResponse();
 
         // Assemble the URL
@@ -373,8 +380,10 @@ public class BulkDataClient {
         String baseCosUrl = properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT);
         String bucket = properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET);
 
-        // Request
-        String request = "$export?_type=" + resourceTypes;
+        String request = "$import";
+        if (resourceTypes != null) {
+            request = "$export?_type=" + resourceTypes;
+        }
         result.setRequest(request);
         result.setRequiresAccessToken(false);
 
@@ -387,7 +396,7 @@ public class BulkDataClient {
         // e.g, Patient[1000,1000,200]:Observation[1000,1000,200],
         //      COMPLETED means no file exported.
         String exitStatus = response.getExitStatus();
-        if (!"COMPLETED".equals(exitStatus)) {
+        if (!"COMPLETED".contentEquals(exitStatus) && request.contains("$export")) {
             List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
             List<PollingLocationResponse.Output> outputList = new ArrayList<>();
             for (String resourceTypeInf : resourceTypeInfs) {
@@ -404,6 +413,84 @@ public class BulkDataClient {
             }
             result.setOutput(outputList);
         }
+
+        if ("COMPLETED".contentEquals(exitStatus) && request.contains("$import")) {
+            // Currently there is no output
+            log.fine("Hit the case where we don't form output with counts");
+            List<Input> inputs = response.getJobParameters().getInputs();
+
+            List<PollingLocationResponse.Output> outputs = new ArrayList<>();
+            for (Input input : inputs) {
+                // The count is optional, and we're passing back null
+                outputs.add(new PollingLocationResponse.Output("OperationOutcome", input.getUrl(), null));
+            }
+            result.setOutput(outputs);
+        }
+
         return result;
+    }
+
+    /**
+     * submit import job with bulkdata.
+     * 
+     * @param inputFormat
+     * @param inputSource
+     * @param inputs
+     * @param storageDetail
+     * @param properties
+     * @return
+     * @throws Exception
+     */
+    public String submitImport(String inputFormat, String inputSource, List<Input> inputs, StorageDetail storageDetail,
+            Map<String, String> properties) throws Exception {
+        WebTarget target = getWebTarget(properties.get(BulkDataConfigUtil.BATCH_URL));
+
+        JobInstanceRequest.Builder builder = JobInstanceRequest.builder();
+        builder.applicationName(properties.get(BulkDataConfigUtil.APPLICATION_NAME));
+        builder.moduleName(properties.get(BulkDataConfigUtil.MODULE_NAME));
+        builder.cosBucketName(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
+        builder.cosLocation(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_LOCATION));
+        builder.cosEndpointUrl(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT));
+        builder.cosCredentialIbm(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_IBM));
+        builder.cosApiKey(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_KEY));
+        builder.cosSrvInstId(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT));
+        builder.jobXMLName("FhirBulkImportChunkJob");
+
+        // Add import specific: fhir.dataSourcesInfo
+        // Base64 conversion is done in the builder method
+        builder.fhirDataSourcesInfo(inputs);
+
+        // Add import specific storage type
+        // import.fhir.storagetype
+        builder.fhirStorageType(storageDetail);
+
+        // Fetch a string generated from random 32 bytes
+        builder.cosBucketPathPrefix(FHIRUtil.getRandomKey("AES"));
+
+        String fhirTenant = FHIRRequestContext.get().getTenantId();
+        builder.fhirTenant(fhirTenant);
+
+        String fhirDataStoreId = FHIRRequestContext.get().getDataStoreId();
+        builder.fhirDataStoreId(fhirDataStoreId);
+
+        String entityStr = JobInstanceRequest.Writer.generate(builder.build(), true);
+        Entity<String> entity = Entity.json(entityStr);
+        Response r = target.request().post(entity);
+
+        String responseStr = r.readEntity(String.class);
+
+        // Debug / Dev only
+        if (log.isLoggable(Level.FINE)) {
+            log.warning("$import json -> \n" + responseStr);
+        }
+
+        JobInstanceResponse response = JobInstanceResponse.Parser.parse(responseStr);
+
+        // From the response
+        String jobId = Integer.toString(response.getInstanceId());
+
+        String baseUri = properties.get(BulkDataConfigUtil.BASE_URI);
+        return baseUri + "/$bulkdata-status?job="
+                + BulkDataExportUtil.encryptBatchJobId(jobId, BulkDataConstants.BATCHJOBID_ENCRYPTION_KEY);
     }
 }

@@ -48,7 +48,7 @@ public class BulkDataConfigUtil {
     }
 
     /**
-     * Get JavaBatch Job configuration from server configure. 
+     * Get JavaBatch Job configuration from the default/tenant configuration.
      */
     public static Map<String, String> getBatchJobConfig() throws Exception {
         Map<String, String> properties = new HashMap<>();
