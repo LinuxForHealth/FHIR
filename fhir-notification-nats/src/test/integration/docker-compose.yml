@@ -41,7 +41,7 @@ services:
             - 4224:4222
             - 6224:6222
     fhir_server:
-        image: ccorley/fhir-server:4.0.1-nats-basic-test
+        image: ibmcom/ibm-fhir-server
         container_name: fhir_server
         networks:
             - main

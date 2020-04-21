@@ -110,7 +110,7 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
                 @Override
                 public void onAck(String nuid, Exception ex) {
                     log.finer("Received ACK for guid: " + nuid);
-                    if (ex != null) {
+                    if (ex != null && log.isLoggable(Level.SEVERE)) {
                         log.log(Level.SEVERE, "Error in server ack for guid " + nuid + ": " + ex.getMessage(), ex);
                     }
                 }
@@ -119,7 +119,7 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
             // Register this NATS implementation as a "subscriber" with our Notification Service.
             // This means that our "notify" method will be called when the server publishes an event.
             service.subscribe(this);
-            log.info("Initialized NATS publisher for channel '" + channelName + "' using servers: " + servers + ".");
+            log.info("Initialized NATS publisher for channel '" + channelName + "' using servers: '" + servers + "'.");
         } catch (Throwable t) {
             String msg = "Caught exception while initializing NATS publisher.";
             log.log(Level.SEVERE, msg, t);
@@ -162,7 +162,7 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
             jsonString = FHIRNotificationUtil.toJsonString(event, true);
 
             if (log.isLoggable(Level.FINE)) { 
-                log.fine("Publishing NATS notification event to channel '" + channelName + "',\nmessage: " + jsonString);
+                log.fine("Publishing NATS notification event to channel '" + channelName + "',\nmessage: '" + jsonString + "'.");
             }
             
             sc.publish("FHIRNotificationEvent", jsonString.getBytes(), acb);
@@ -183,7 +183,7 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
      * Builds a formatted error message to indicate a notification publication failure.
      */
     private String buildNotificationErrorMessage(String channelName, String notificationEvent) {
-        return String.format("NATS publication failure; channel '%s'\nNotification event: %s\n.", channelName, notificationEvent);
+        return String.format("NATS publication failure; channel '%s'\nNotification event: '%s'\n.", channelName, notificationEvent);
     }
 }
 
@@ -195,20 +195,14 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
 * The resulting file is then imported int a java keystore named keystore.jks using keytool which is part of java jdk.
 * keytool is also used to import the CA certificate rootCA.pem into truststore.jks.  
 */
-class SSLUtils {
+class SSLUtils extends FHIRNotificationNATSPublisher {
 
     static KeyStore loadKeystore(String path, String password) throws Exception {
         KeyStore store = KeyStore.getInstance("PKCS12");
-        BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));
 
-        try {
+        try(BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));) {
             store.load(in, password.toCharArray());
-        } finally {
-            if (in != null) {
-                in.close();
-            }
         }
-
         return store;
     }
 

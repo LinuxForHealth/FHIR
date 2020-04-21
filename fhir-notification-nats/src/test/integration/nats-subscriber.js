@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+/*
+ * (C) Copyright IBM Corp. 2020
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 "use-strict";
 
 var server = 'nats://127.0.0.1:4222'
