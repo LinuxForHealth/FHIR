@@ -79,7 +79,7 @@ On MacOS, install the [mkcert tool](https://github.com/FiloSottile/mkcert) with 
 # Install the CA locally
 ./mkcert -install 
  
-# Create the cert to use for the IBM FHIR server client connection
+# Create the cert to use for the IBM FHIR Server client connection
 ./mkcert -cert-file fhir-cert.pem -key-file fhir-key.pem localhost 127.0.0.1. 
 
 # Create the java trust store
