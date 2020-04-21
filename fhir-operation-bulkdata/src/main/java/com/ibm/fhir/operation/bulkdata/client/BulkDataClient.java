@@ -203,7 +203,7 @@ public class BulkDataClient {
         String fhirDataStoreId = FHIRRequestContext.get().getDataStoreId();
         builder.fhirDataStoreId(fhirDataStoreId);
 
-        String resourceType = String.join(", ", types);
+        String resourceType = String.join(",", types);
         builder.fhirResourceType(resourceType);
 
         if (since != null) {
@@ -380,10 +380,9 @@ public class BulkDataClient {
         String baseCosUrl = properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT);
         String bucket = properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET);
 
-        // Request - somewhere along the way a space is injected
         String request = "$import";
         if (resourceTypes != null) {
-            request = "$export?_type=" + resourceTypes.replaceAll(" ", "");
+            request = "$export?_type=" + resourceTypes;
         }
         result.setRequest(request);
         result.setRequiresAccessToken(false);

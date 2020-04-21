@@ -156,26 +156,33 @@ public class BulkDataImportUtil {
     }
 
     /**
-     * verify url is allowed
+     * verify url is allowed.
      * 
      * @param url
      * @throws FHIROperationException
      */
     public static void verifyUrlAllowed(String url) throws FHIROperationException {
-        List<String> baseUrls =
-                FHIRConfigHelper.getStringListProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_VALID_BASE_URLS);
-        if (url == null || baseUrls == null) {
-            throw buildExceptionWithIssue("$import requires an approved and valid 'fhirServer/bulkdata/validBaseUrls'",
-                    IssueType.INVALID);
-        }
-
-        for (String baseUrl : baseUrls) {
-            // When the URL does not contain a double // by-pass the URL verification
-            if (url.startsWith(baseUrl) || !url.contains("//")) {
-                return;
+        Boolean disabled =
+                FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_DISABLED,
+                        Boolean.FALSE);
+        if (!disabled.booleanValue()) {
+            List<String> baseUrls =
+                    FHIRConfigHelper
+                            .getStringListProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_VALID_BASE_URLS);
+            if (url == null || baseUrls == null) {
+                throw buildExceptionWithIssue(
+                        "$import requires an approved and valid 'fhirServer/bulkdata/validBaseUrls'",
+                        IssueType.INVALID);
             }
+
+            for (String baseUrl : baseUrls) {
+                // When the URL does not contain a double // by-pass the URL verification
+                if (url.startsWith(baseUrl) || !url.contains("//")) {
+                    return;
+                }
+            }
+            throw buildExceptionWithIssue("$import does not have a valid base url", IssueType.INVALID);
         }
-        throw buildExceptionWithIssue("$import does not have a valid base url", IssueType.INVALID);
     }
 
     public static StorageDetail retrieveStorageDetails(Parameters parameters) throws FHIROperationException {

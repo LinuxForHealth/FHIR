@@ -1185,7 +1185,7 @@ To import using the `$import` proposal, one must additionally configure the `fhi
     ]
 ```
 
-These base urls are not checked when using cloud object store and bulk-import.
+These base urls are not checked when using cloud object store and bulk-import. If you need to disable the validBaseUrls feature you may add `fhirServer/bulkdata/validBaseUrlsDisabled` as `true`.
 
 The `fhirServer/bulkdata/maxInputPerRequest` is used to configure a maximum number of inputs supported by the instance.  The default number is 5.
 
