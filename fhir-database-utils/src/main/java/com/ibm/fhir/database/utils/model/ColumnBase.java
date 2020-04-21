@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,12 +12,15 @@ import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
  * An immutable definition of a column in a table
  */
 public abstract class ColumnBase {
-    
+
     // Name of the column
     private final String name;
-    
+
     // Does the column allow null values
     private final boolean nullable;
+
+    // The default value for the column (usually null)
+    private final String defaultVal;
 
     /**
      * Protected constructor - for use by subclasses
@@ -27,6 +30,19 @@ public abstract class ColumnBase {
     protected ColumnBase(String name, boolean nullable) {
         this.name = name;
         this.nullable = nullable;
+        this.defaultVal = null;
+    }
+
+    /**
+     * Protected constructor - for use by subclasses
+     * @param name
+     * @param nullable
+     * @param defaultVal
+     */
+    protected ColumnBase(String name, boolean nullable, String defaultVal) {
+        this.name = name;
+        this.nullable = nullable;
+        this.defaultVal = defaultVal;
     }
 
     /**
@@ -43,6 +59,14 @@ public abstract class ColumnBase {
      */
     public boolean isNullable() {
         return nullable;
+    }
+
+    /**
+     * Getter for the default value of this column
+     * @return possibly null
+     */
+    public String getDefaultVal() {
+        return defaultVal;
     }
 
     /**

@@ -16,7 +16,7 @@
             "authorizedClientCertIssuerOU": ""
         },
         "oauth": {
-            "regUrl": "https://<host>:9443/oidc/endpoint/oidc-provider/registration",
+            "regUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/registration",
             "authUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/authorize",
             "tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token"
         },

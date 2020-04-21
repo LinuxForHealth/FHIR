@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -507,5 +508,15 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
         logger.info("Applying: " + grant); // Grants are very useful to see logged
         runStatement(grant);
+    }
+
+    @Override
+    public void createSchema(String schemaName) {
+        try {
+            String ddl = "CREATE SCHEMA " + schemaName;
+            runStatement(ddl);
+        } catch (DuplicateNameException e) {
+            logger.log(Level.WARNING, "The schema '" + schemaName + "' already exists; proceed with caution.");
+        }
     }
 }

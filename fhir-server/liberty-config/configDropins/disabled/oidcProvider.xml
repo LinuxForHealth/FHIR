@@ -8,24 +8,24 @@
     <openidConnectProvider id="oidc-provider" 
         oauthProviderRef="oauth2-provider" 
         keyStoreRef="defaultKeyStore"
-        signatureAlgorithm="RS256" />
+        signatureAlgorithm="RS256"/>
 
     <oauth-roles>
         <authenticated>
             <special-subject type="ALL_AUTHENTICATED_USERS"/>
         </authenticated>
         <clientManager>
-            <group name="clientAdministrator" />
+            <group name="clientAdministrator"/>
         </clientManager>
     </oauth-roles>
 
     <oauthProvider id="oauth2-provider" oauthOnly="false" allowPublicClients="true" jwtAccessToken="true">
         <grantType>authorization_code</grantType>
-        <databaseStore dataSourceRef="OAuthDataSource" />
+        <databaseStore dataSourceRef="OAuthDataSource" schema="FHIR_OAUTH"/>
     </oauthProvider>
 
     <dataSource id="OAuthDataSource" jndiName="jdbc/OAuth2DB">
-        <properties.derby.embedded createDatabase="create" databaseName="derby/oauth2db" />
+        <properties.derby.embedded createDatabase="create" databaseName="derby/oauth2db"/>
         <jdbcDriver libraryRef="derbyLib"/>
     </dataSource>
 

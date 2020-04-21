@@ -376,6 +376,19 @@ public class Table extends BaseObject {
             return this;
         }
 
+        public Builder addClobColumn(String columnName, boolean nullable, String defaultVal) {
+            ColumnDef cd = new ColumnDef(columnName);
+            if (columns.contains(cd)) {
+                throw new IllegalArgumentException("Duplicate column: " + columnName);
+            }
+
+            cd.setNullable(nullable);
+            cd.setColumnType(ColumnType.CLOB);
+            cd.setDefaultVal(defaultVal);
+            columns.add(cd);
+            return this;
+        }
+
         /**
          * Set one of the columns to be the identity column for the table
          * @param constraintName
@@ -588,6 +601,9 @@ public class Table extends BaseObject {
                     break;
                 case BLOB:
                     column = new BlobColumn(cd.getName(), cd.getSize(), cd.getInlineSize(), cd.isNullable());
+                    break;
+                case CLOB:
+                    column = new ClobColumn(cd.getName(), cd.isNullable(), cd.getDefaultVal());
                     break;
                 default:
                     throw new IllegalStateException("Unsupported column type: " + cd.getColumnType().name());

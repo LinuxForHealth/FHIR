@@ -148,15 +148,13 @@ Configuration properties stored within a `fhir-server-config.json` file are stru
     {
         "fhirServer":{
             "core":{
-                "truststoreLocation":"resources/security/fhirTruststore.jks",
-                "truststorePassword":"change-password",
+                "defaultPrettyPrint":false
             }
-        …
         }
     }
     ```
 
-Throughout this document, we use a path notation to refer to property names. For example, the name of the `truststorePassword` property in the preceding example would be `fhirServer/core/truststorePassword`.
+Throughout this document, we use a path notation to refer to property names. For example, the name of the `defaultPrettyPrint` property in the preceding example would be `fhirServer/core/defaultPrettyPrint`.
 
 ## 3.3 Tenant-specific configuration properties
 The FHIR server supports certain multi-tenant features. One such feature is the ability to set certain configuration properties on a per-tenant basis.
@@ -220,9 +218,9 @@ To configure the FHIR server to use the JDBC persistence layer, complete the fol
 1.  First, modify the `fhirServer/persistence/factoryClassname` property in `fhir-server-config.json` to specify the JDBC persistence factory, like this:
     ```
     {
-        “fhirServer”: {
+        "fhirServer": {
             …
-            “persistence”: {
+            "persistence": {
                 "factoryClassname": "com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
                 …
             }
@@ -232,13 +230,13 @@ To configure the FHIR server to use the JDBC persistence layer, complete the fol
 2.  Next, modify the `fhirServer/persistence/jdbc/dataSourceJndiName` property in `fhir-server-config.json` to specify the proxy datasource's JNDI name, like this:
     ```
     {
-        “fhirServer”: {
+        "fhirServer": {
             …
-            “persistence”: {
+            "persistence": {
                 …
                 "jdbc": {
                     …
-                    “dataSourceJndiName”: “jdbc/fhirProxyDataSource”
+                    "dataSourceJndiName": "jdbc/fhirProxyDataSource"
                 }
                 …
             }
@@ -557,7 +555,7 @@ By default, notification messages are published for all _create_ and _update_ pe
             "common":{
                 "includeResourceTypes":[
                      "Observation",
-                     “Patient”
+                     "Patient"
                 ]
             },
         …
@@ -851,7 +849,7 @@ Response resource:
 ```
 
 ## 4.8 Using local references within request bundles
-Inter-dependencies between resources are typically defined by one resource containing a field of type `Reference` which contains an _external reference_<sup id="a5">[5](#f5)</sup> to another resource. For example, an `Observation` resource could reference a `Patient` resource via the Observation's `subject` field. The value that is stored in the `Reference-type` field (for example, `subject` in the case of the `Observation` resource) could be an absolute URL, such as `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, or a relative URL (for example, `“Patient/12345”`).
+Inter-dependencies between resources are typically defined by one resource containing a field of type `Reference` which contains an _external reference_<sup id="a5">[5](#f5)</sup> to another resource. For example, an `Observation` resource could reference a `Patient` resource via the Observation's `subject` field. The value that is stored in the `Reference-type` field (for example, `subject` in the case of the `Observation` resource) could be an absolute URL, such as `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, or a relative URL (for example, `Patient/12345`).
 
 In order to establish a reference to a resource, you must first know its resource identifier. However, if you are using a request bundle to create both the referenced resource (`Patient` in this example) and the resource which references it (`Observation`), then it is impossible to know the `Patient`resource identifier before the request bundle has been process (that is, before the new `Patient` resource is created).
 
@@ -1533,7 +1531,7 @@ must restart the server for that change to take effect.
 ## 5.2 Keystores, truststores, and the FHIR server
 
 ### 5.2.1 Background
-As stated earlier, the FHIR server is installed with a default configuration in `server.xml` which includes the definition of a keystore (`fhirKeystore.jks`) and a truststore (`fhirTruststore.jks`)<sup id="a7">[7](#f7)</sup>. These files are provided only as examples and while they may suffice in a test environment, the FHIR server deployer should generate a new keystore and truststore for any installations where security is a concern. Review the information in the following topics to learn how to configure a secure keystore and truststore.
+As stated earlier, the FHIR server is installed with a default configuration in `server.xml` which includes the definition of a keystore (`fhirKeyStore.p12`) and a truststore (`fhirTrustStore.p12`)<sup id="a7">[7](#f7)</sup>. These files are provided only as examples and while they may suffice in a test environment, the FHIR server deployer should generate a new keystore and truststore for any installations where security is a concern. Review the information in the following topics to learn how to configure a secure keystore and truststore.
 
 ### 5.2.2 WebApp security
 By default, the FHIR server REST API is only available via HTTPS on port 9443 and is protected by HTTP basic authentication.
@@ -1610,183 +1608,144 @@ The precise steps required to configure certificate-based authentication for a c
 ## 5.3 OpenID Connect and OAuth 2.0
 The FHIR specification recommends the use of OpenID Connect and OAuth 2.0.
 The IBM FHIR Server supports these via Liberty's OpenID Connect support.
-The following sections are adapted from [WebSphere Liberty knowledge center](https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_config_oidc_pc_examp_beginner.html) and related pages; the steps apply to OpenLiberty as well.
+The following sections are adapted from the [WebSphere Liberty Knowledge Center](https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_config_oidc_pc_examp_beginner.html), but the steps apply to OpenLiberty as well.
 
 ### 5.3.1 Configure Liberty as the OpenID Connect Provider
-Liberty can be configured to act as an OpenID Connect Provider via the [openidConnectServer-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectServer-1.0.html). This feature is enabled by default, but must be configured as described in the following sections to take effect.
+Liberty can be configured to act as an OpenID Connect Provider via the [openidConnectServer-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectServer-1.0.html). To enable this feature without modifying the default `server.xml`, move the `oidcProvider.xml` config snippet on the installed FHIR Server from `$WLP_HOME/usr/servers/fhir-server/configDropins/disabled/` to `$WLP_HOME/usr/servers/fhir-server/configDropins/defaults/` and modify as desired.
 
-### 5.3.1.1 Configure Liberty as an OAuth 2.0 Provider
-OpenID Connect is built on OAuth 2.0 and so you must first configure Liberty as an OAuth provider as described at [Defining OAuth](https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_oauth_defining.html).
+A copy of this snippet is provided here for illustrative purposes:
+```xml
+<featureManager>
+    <feature>openidConnectServer-1.0</feature>
+</featureManager>
 
-Liberty supports the registration of clients through either a localStore in the server.xml or a databaseStore in a configured dataSource.
-To support "dynamic client registration", use a databaseStore by:
-
-1. Configuring a clientManager oauth-role and specifying a databaseStore in the oauthProvider element of `server.xml`.
-    For example, to use Apache Derby for the store, include something like the following:
-    ```
-    <oauth-roles>
-        <authenticated>
-            <special-subject type="ALL_AUTHENTICATED_USERS"/>
-        </authenticated>
-        <clientManager>
-            <group name="clientAdministrator" />
-        </clientManager>
-    </oauth-roles>
-
-    <oauthProvider id="oauth2-provider" oauthOnly="false" allowPublicClients="true" jwtAccessToken="true">
-        <grantType>authorization_code</grantType>
-        <databaseStore dataSourceRef="OAuthDataSource" />
-    </oauthProvider>
-
-    <dataSource id="OAuthDataSource" jndiName="jdbc/OAuth2DB">
-        <properties.derby.embedded createDatabase="create" databaseName="derby/oauth2db" />
-        <jdbcDriver libraryRef="derbyLib"/>
-    </dataSource>
-
-    <library id="derbyLib">
-        <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
-    </library>
-    ```
-
-2. Manually creating the necessary tables in your database as described at [OAuth Databases](https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_oauth_dbs.html):
-    ```
-    ----- CREATE TABLES -----
-    CREATE TABLE OAuthDBSchema.OAUTH20CACHE
-    (
-      LOOKUPKEY VARCHAR(256) NOT NULL,
-      UNIQUEID VARCHAR(128) NOT NULL,
-      COMPONENTID VARCHAR(256) NOT NULL,
-      TYPE VARCHAR(64) NOT NULL,
-      SUBTYPE VARCHAR(64),
-      CREATEDAT BIGINT,
-      LIFETIME INT,
-      EXPIRES BIGINT,
-      TOKENSTRING VARCHAR(2048) NOT NULL,
-      CLIENTID VARCHAR(64) NOT NULL,
-      USERNAME VARCHAR(64) NOT NULL,
-      SCOPE VARCHAR(512) NOT NULL,
-      REDIRECTURI VARCHAR(2048),
-      STATEID VARCHAR(64) NOT NULL,
-      EXTENDEDFIELDS CLOB NOT NULL DEFAULT '{}'
-    );
-
-    CREATE TABLE OAuthDBSchema.OAUTH20CLIENTCONFIG
-    (
-      COMPONENTID VARCHAR(256) NOT NULL,
-      CLIENTID VARCHAR(256) NOT NULL,
-      CLIENTSECRET VARCHAR(256),
-      DISPLAYNAME VARCHAR(256) NOT NULL,
-      REDIRECTURI VARCHAR(2048),
-      ENABLED INT,
-      CLIENTMETADATA CLOB NOT NULL DEFAULT '{}'
-    );
-
-    CREATE TABLE OAuthDBSchema.OAUTH20CONSENTCACHE
-    (
-      CLIENTID VARCHAR(256) NOT NULL,
-      USERID VARCHAR(256),
-      PROVIDERID VARCHAR(256) NOT NULL,
-      SCOPE VARCHAR(1024) NOT NULL,
-      EXPIRES BIGINT,
-      EXTENDEDFIELDS CLOB NOT NULL DEFAULT '{}'
-    );
-
-    ----- ADD CONSTRAINTS -----
-    ALTER TABLE OAuthDBSchema.OAUTH20CACHE
-      ADD CONSTRAINT PK_LOOKUPKEY PRIMARY KEY (LOOKUPKEY);
-
-    ALTER TABLE OAuthDBSchema.OAUTH20CLIENTCONFIG
-      ADD CONSTRAINT PK_COMPIDCLIENTID PRIMARY KEY (COMPONENTID,CLIENTID);
-
-    ----- CREATE INDEXES -----
-    CREATE INDEX OAUTH20CACHE_EXPIRES ON OAUTHDBSCHEMA.OAUTH20CACHE (EXPIRES ASC);
-    ```
-
-3. Attempting to register a client (based on https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_client_registration.html). The endpoint is determined by the id value of the oauthProvider element from the previous step.
-    For example, for an OAuth provider with `id="oauth2-provider"`:
-    ```
-    curl -u 'fhiruser:change-password' 'https://localhost:9443/oauth2/endpoint/oauth2-provider/registration' \
-    --header 'Content-Type: application/json' \
-    --data-raw '{
-       "token_endpoint_auth_method":"client_secret_basic",
-       "scope":"launch launch/patient offline_access openid profile user/*.* patient/*.*",
-       "grant_types":[
-          "authorization_code",
-          "client_credentials",
-          "implicit",
-          "refresh_token",
-          "urn:ietf:params:oauth:grant-type:jwt-bearer"
-       ],
-       "response_types":[
-          "code",
-          "token",
-          "id_token token"
-       ],
-       "application_type":"web",
-       "subject_type":"public",
-       "post_logout_redirect_uris":[
-          "http://localhost:4567/inferno/oauth2/static/redirect"
-       ],
-       "preauthorized_scope":"launch launch/patient offline_access openid profile user/*.* patient/*.*",
-       "introspect_tokens":true,
-       "trusted_uri_prefixes":[
-          "https://server.example.com:9000/trusted/"
-       ],
-       "redirect_uris":[
-          "http://localhost:4567/inferno/oauth2/static/redirect"
-       ]
-    }'
-    ```
-
-### 5.3.1.2 Add the openidConnectProvider element
-Now that Liberty is configured as an OAuth 2.0 provider, add the openidConnectProvider element to your server.xml:
-```
 <openidConnectProvider id="oidc-provider"
     oauthProviderRef="oauth2-provider"
     keyStoreRef="defaultKeyStore"
     signatureAlgorithm="RS256" />
+
+<oauth-roles>
+    <authenticated>
+        <special-subject type="ALL_AUTHENTICATED_USERS" />
+    </authenticated>
+    <clientManager>
+        <group name="clientAdministrator" />
+    </clientManager>
+</oauth-roles>
+
+<oauthProvider id="oauth2-provider" oauthOnly="false" allowPublicClients="true" jwtAccessToken="true">
+    <grantType>authorization_code</grantType>
+    <databaseStore dataSourceRef="OAuthDataSource" schema="FHIR_OAUTH" />
+</oauthProvider>
+
+<dataSource id="OAuthDataSource" jndiName="jdbc/OAuth2DB">
+    <properties.derby.embedded createDatabase="create" databaseName="derby/oauth2db" />
+    <jdbcDriver libraryRef="derbyLib" />
+</dataSource>
+
+<library id="derbyLib">
+    <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar" />
+</library>
 ```
 
-### 5.3.1.3 Request an access token
-After you've registered a client (either via dynamic registration or static config) and configured the openidConnectProvider, invoke the authorization endpoint with the configured client_secret for your client in order to obtain an authorization code that can be exchanged for an access token.
+### 5.3.1.1 oidcProvider.xml snippet details
+OpenID Connect is built on OAuth 2.0 and so the `oidcProvider.xml` snippet configures Liberty as an OAuth 2.0 provider as described at [Defining OAuth](https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_oauth_defining.html).
 
-The specific endpoints are determined by the id value of the openidConnectProvider element from the previous section.
-For example, for an OpenID Connect provider with `id="oidc-provider"`, the auth URL is
-`https://[host]:[port]/oidc/endpoint/oidc-provider/authorize` and the token URL is `https://[host]:[port]/oidc/endpoint/oidc-provider/token`.
+Liberty supports the registration of clients through either a localStore in the server.xml or a databaseStore in a configured dataSource.
+To support "dynamic client registration", the snippet configures an oauthProvider databaseStore and a clientManager oauth-role for managing the OAuth 2.0 clients.
+
+Additionally, the `fhir-persistence-schema` project (which is also used to deploy the main IBM FHIR Server schema) creates the tables required by this Liberty feature by default (as described at [OAuth Databases](https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_oauth_dbs.html)).
+
+Finally, the `openidConnectProvider` element is specified with a default signatureAlgorithm of RS256 and a reference to the defaultKeyStore which must contain a private key that can be used for signing.
+
+### 5.3.1.2 Register a client
+Now that the server is configured as an OAuth 2.0 provider, clients can self-register by invoking the https://[host]:9443/oauth2/endpoint/oauth2-provider/registration endpoint.
+
+For example, for a server running on localhost:
+```sh
+curl -u 'fhiruser:change-password' 'https://localhost:9443/oauth2/endpoint/oauth2-provider/registration' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+   "token_endpoint_auth_method":"client_secret_basic",
+   "scope":"launch launch/patient offline_access openid profile user/*.* patient/*.*",
+   "grant_types":[
+      "authorization_code",
+      "client_credentials",
+      "implicit",
+      "refresh_token",
+      "urn:ietf:params:oauth:grant-type:jwt-bearer"
+   ],
+   "response_types":[
+      "code",
+      "token",
+      "id_token token"
+   ],
+   "application_type":"web",
+   "subject_type":"public",
+   "post_logout_redirect_uris":[
+      "http://localhost:4567/inferno/oauth2/static/redirect"
+   ],
+   "preauthorized_scope":"launch launch/patient offline_access openid profile user/*.* patient/*.*",
+   "introspect_tokens":true,
+   "trusted_uri_prefixes":[
+      "https://server.example.com:9000/trusted/"
+   ],
+   "redirect_uris":[
+      "http://localhost:4567/inferno/oauth2/static/redirect"
+   ]
+}'
+```
+
+For more information on Liberty's support for client registration, see https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_client_registration.html.
+
+### 5.3.1.3 Request an access token
+After you've registered a client, invoke the authorization endpoint with the client_id assigned to your client in order to obtain an authorization code that can be exchanged for an access token.
+For a server running on localhost, the auth URL is `https://localhost:9443/oidc/endpoint/oidc-provider/authorize`.
 
 The provider endpoint will present an HTML login form and you must enter a valid username/password from Liberty's configured user registry (e.g. `fhiruser`/`change-password`).
-This will redirect you to the configured redirect uri, passing this client (the "Relying Party") a code that can be exchanged for an access token.
+This will redirect you to the configured redirect uri for your client, passing it a code that can be exchanged for an access token at the token endpoint.
+For a server running on localhost, the token URL is `https://localhost:9443/oidc/endpoint/oidc-provider/token`.
 
 ### 5.3.2 Configure Liberty to be an Oauth 2.0 Protected Resource Server
-Liberty can be configured to act as an OAuth 2.0 Protected Resource Server via the [openidConnectClient-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectClient-1.0.html).
+Liberty can be configured to act as an OAuth 2.0 Protected Resource Server via the [openidConnectClient-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectClient-1.0.html). To enable this feature without modifying the default `server.xml`, move the `oauthResourceServer.xml` config snippet on the installed FHIR Server from `$WLP_HOME/usr/servers/fhir-server/configDropins/disabled/` to `$WLP_HOME/usr/servers/fhir-server/configDropins/defaults/` and modify as desired.
 
-### 5.3.2.1 Configure the trustStore
-1. Export the server's certificate from the configured keystore via one of the following commands:
-* `keytool -exportcert -keystore key.p12 -storepass Password -alias default -file libertyOP.cer`
-* `keytool -exportcert -keystore key.jks -storepass Password -alias default -file libertyOP.cer`
+A copy of this snippet is provided here for illustrative purposes:
+```xml
+<featureManager>
+    <feature>openidConnectClient-1.0</feature>
+</featureManager>
 
-2. Import the certificate into the server's trustStore. Assuming you use the same keystore for both, then use of these:
-* `keytool -importcert -keystore key.p12 -storepass Password -alias libertyop -file libertyOP.cer -noprompt`
-* `keytool -importcert -keystore key.jks -storepass Password -alias libertyop -file libertyOP.cer -noprompt`
-
-### 5.3.2.2 Configure server.xml
-Add an openidConnectClient element to the server.xml config and point at the trustStore from the previous section:
-``` xml
+<!-- Liberty acts as an OAuth 2.0 protected resource server when inboundPropagation=”required” -->
 <openidConnectClient id="RS" inboundPropagation="required"
     trustStoreRef="defaultTrustStore"
     trustAliasName="libertyop"
     issuerIdentifier="https://localhost:9443/oauth2/endpoint/oauth2-provider,https://host.docker.internal:9443/oauth2/endpoint/oauth2-provider"
     validationEndpointUrl="https://localhost:9443/oauth2/endpoint/oauth2-provider/introspect"
     signatureAlgorithm="RS256"
-    authFilterRef="filter"
-    />
+    authFilterRef="filter"/>
 
 <authFilter id="filter">
-    <requestUrl urlPattern="/fhir-server" />
+    <requestUrl urlPattern="/fhir-server"/>
 </authFilter>
 ```
 
-Note: if the server is also acting as an OAuth/OpenId Connect provider, be sure to include an authFilter to avoid the problem where the token and authorization endpoints are protected by the openidConnectClient.
+### 5.3.2.1 oauthResourceServer.xml snippet details
+By default, the server is configured with a defaultTrustStore that includes a copy of the server's signed certificate with alias `libertyop` ("op" for OpenID Connect Provider).
+
+The server is configured to accept tokens with an issuerIdentifier that has a hostname of either localhost or host.docker.internal so that we can test it from the [Inferno test tool's](https://github.com/onc-healthit/inferno) docker-compose environment.
+
+The signatureAlgorithm must match the signature used by the OAuth provider and the authFilter is required when the server is also acting as both an OAuth Resource Server *and* an OAuth/OpenId Connect provider so that the OAuth endpoints themselves can be accessed to grant the access tokens needed for accessing the rest of the server endpoints.
+
+### 5.3.2.2 Configuring the trustStore
+If you are using Liberty as both the openIdConnect server and the openIdConnect client and you have modified the defaultKeyStore to use a different key, you can configure the corresponding trustStore based on the following keytool commands:
+
+1. Export the OAuth 2.0 provider's certificate from the configured keystore via one of the following commands:
+* `keytool -exportcert -keystore key.p12 -storepass Password -alias default -file libertyOP.cer`
+* `keytool -exportcert -keystore key.jks -storepass Password -alias default -file libertyOP.cer`
+
+2. Import the certificate into the server's trustStore. Assuming you use the same keystore for both, then use of these:
+* `keytool -importcert -keystore key.p12 -storepass Password -alias libertyop -file libertyOP.cer -noprompt`
+* `keytool -importcert -keystore key.jks -storepass Password -alias libertyop -file libertyOP.cer -noprompt`
 
 ### 5.3.3 Advertise the OAuth endpoints via fhir-server-config
 To configure the FHIR Server with the OpenID Connect and OAuth 2.0 endpoints of the providers, specify the following values in the default fhir-server-config.json file:
@@ -1866,15 +1825,15 @@ For more information about topics related to configuring a FHIR server, see the 
 
 - <b id="f5">5</b>
 
-    An external reference is a reference to a resource which is meaningful outside a particular request bundle.  The value typically includes the resource type and the resource identifier, and could  be an absolute or relative URL.  Examples:  `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, `Patient/12345`, etc. [↩](#a5)
+    An external reference is a reference to a resource which is meaningful outside a particular request bundle.  The value typically includes the resource type and the resource identifier, and could  be an absolute or relative URL. Examples:  `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, `Patient/12345`, etc. [↩](#a5)
 
 - <b id="f6">6</b>
 
-    A local reference is a reference used within a request bundle that refers to another resource within the same request bundle and is meaningful only within that request bundle.  A local reference starts with `urn:`. [↩](#a6)
+    A local reference is a reference used within a request bundle that refers to another resource within the same request bundle and is meaningful only within that request bundle. A local reference starts with `urn:`. [↩](#a6)
 
 - <b id="f7">7</b>
 
-    Keystore and truststore files have the same basic structure.   They both provide a secure means for storing certificates.   Typically, we think of a keystore as a file that contains certifcates that consist of a private/public key pair.   And we typically think of a truststore as a file that contains certificates that consist of a public key or trusted certificates. [↩](#a7)
+    Keystore and truststore files have the same basic structure. They both provide a secure means for storing certificates. Typically, we think of a keystore as a file that contains certificates that consist of a private/public key pair, whereas a truststore contains certificates that consist of a public key or trusted certificates. [↩](#a7)
 
 - <b id="f8">8</b>
 
