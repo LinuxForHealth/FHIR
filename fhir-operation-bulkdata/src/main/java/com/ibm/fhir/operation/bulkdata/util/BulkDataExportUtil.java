@@ -35,15 +35,14 @@ import com.ibm.fhir.operation.context.FHIROperationContext;
 /**
  * BulkData Util captures common methods
  */
-public class BulkDataUtil {
+public class BulkDataExportUtil {
 
-
-    private BulkDataUtil() {
+    private BulkDataExportUtil() {
         // No Operation
     }
 
     /**
-     * coverts to one of the export types.
+     * Check the Export Type is valid and converts to intermediate enum
      *
      * @param type
      * @param resourceType
@@ -234,7 +233,8 @@ public class BulkDataUtil {
     public static Parameters getOutputParametersWithJson(PollingLocationResponse resource) throws Exception {
         Parameters.Builder parametersBuilder = Parameters.builder();
         parametersBuilder
-                .parameter(Parameter.builder().name(string("return")).value(string(resource.toJsonString())).build());
+                .parameter(Parameter.builder().name(string("return"))
+                        .value(string(PollingLocationResponse.Writer.generate(resource))).build());
         return parametersBuilder.build();
     }
 

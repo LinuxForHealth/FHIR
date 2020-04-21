@@ -25,7 +25,7 @@
     }
   ],
   "description": "Checks the status of an asynchronous request",
-  "code": "export-status",
+  "code": "bulkdata-status",
   "base": "/",
   "system": true,
   "type": false,
@@ -36,7 +36,7 @@
       "use": "in",
       "min": 1,
       "max": "1",
-      "documentation": "The Job Identifier that is used to check the batch processor",
+      "documentation": "The Job Identifier that is used to check the bulkdata processor",
       "type": "string"
     }
   ]

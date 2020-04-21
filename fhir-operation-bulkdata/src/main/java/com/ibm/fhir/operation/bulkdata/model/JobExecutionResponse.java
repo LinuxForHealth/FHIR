@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.model;
 
 import java.io.ByteArrayInputStream;
@@ -26,6 +27,9 @@ import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonGeneratorFactory;
 
 import com.ibm.fhir.exception.FHIROperationException;
+import com.ibm.fhir.operation.bulkdata.model.type.Input;
+import com.ibm.fhir.operation.bulkdata.model.type.JobParameter;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 
 /**
  * BulkImportJob's JSON response
@@ -53,7 +57,7 @@ import com.ibm.fhir.exception.FHIROperationException;
     }
  * </pre>
  */
-public class BulkExportJobExecutionResponse {
+public class JobExecutionResponse {
     private String jobName;
     private Integer instanceId;
     private String appName;
@@ -192,7 +196,7 @@ public class BulkExportJobExecutionResponse {
      * Builder is a convenience pattern to assemble to Java Object that reflects the BatchManagement pattern.
      */
     public static class Builder implements JobParameter.Builder {
-        private BulkExportJobExecutionResponse response = new BulkExportJobExecutionResponse();
+        private JobExecutionResponse response = new JobExecutionResponse();
         private JobParameter jobParameter = new JobParameter();
 
         private Builder() {
@@ -322,9 +326,19 @@ public class BulkExportJobExecutionResponse {
             return this;
         }
 
-        public BulkExportJobExecutionResponse build() {
+        public JobExecutionResponse build() {
             response.setJobParameters(jobParameter);
             return response;
+        }
+
+        public Builder fhirDataSourcesInfo(List<Input> inputs) {
+            jobParameter.setInputs(inputs);
+            return this;
+        }
+
+        public Builder fhirStorageType(StorageDetail storageDetails) {
+            jobParameter.setStorageDetails(storageDetails);
+            return this;
         }
     }
 
@@ -342,20 +356,20 @@ public class BulkExportJobExecutionResponse {
             // No Op
         }
 
-        public static BulkExportJobExecutionResponse parse(String jsonString) throws FHIROperationException {
+        public static JobExecutionResponse parse(String jsonString) throws FHIROperationException {
             try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-                return BulkExportJobExecutionResponse.Parser.parse(in);
+                return JobExecutionResponse.Parser.parse(in);
             } catch (Exception e) {
                 throw new FHIROperationException(
                         "Problem parsing the Bulk Export Job's from jsonString response from the server", e);
             }
         }
 
-        public static BulkExportJobExecutionResponse parse(InputStream in) throws FHIROperationException {
+        public static JobExecutionResponse parse(InputStream in) throws FHIROperationException {
             try (JsonReader jsonReader =
                     JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
                 JsonObject jsonObject = jsonReader.readObject();
-                BulkExportJobExecutionResponse.Builder builder = BulkExportJobExecutionResponse.builder();
+                JobExecutionResponse.Builder builder = JobExecutionResponse.builder();
 
                 if (jsonObject.containsKey("jobName")) {
                     String jobName = jsonObject.getString("jobName");
@@ -437,6 +451,7 @@ public class BulkExportJobExecutionResponse {
      * Generates JSON from this object.
      */
     public static class Writer {
+        // This is an internal model and does not need to honor _pretty printing as it is only communicating with the java batch framework. 
         private static final Map<java.lang.String, Object> properties =
                 Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true);
         private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY =
@@ -446,7 +461,7 @@ public class BulkExportJobExecutionResponse {
             // No Op
         }
 
-        public static String generate(BulkExportJobExecutionResponse obj, boolean withSensitive) throws IOException {
+        public static String generate(JobExecutionResponse obj, boolean withSensitive) throws IOException {
             String o = "{}";
             try (StringWriter writer = new StringWriter();) {
                 try (JsonGenerator generator =
