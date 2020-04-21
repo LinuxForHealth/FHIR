@@ -37,7 +37,7 @@ fhir_server:
 ```  
 
 
-Note: As an alternative to building and publishing your own image, you can start an IBM FHIR server image that contains the NATS publisher functionality, then copy the updated configuration file containing the above changes into the IBM FHIR container and restart the container.  
+Note: As an alternative to building and publishing your own image, you can start an IBM FHIR Server image that contains the NATS publisher functionality, then copy the updated configuration file containing the above changes into the IBM FHIR container and restart the container.  
  
 ```
 Example: 
@@ -71,7 +71,7 @@ node nats-subscriber
 
 To use TLS (which you must do if your NATS cluster requires TLS) set "useTLS" to true in fhir-server-config.json and provide client truststore and keystore locations and passwords as the remaining config values.  Furthermore, to use TLS to connect to a NATS cluster, that NATS cluster must be enabled to use TLS.  The example above does not use TLS.
 
-### To create a truststore and keystore
+### Create a truststore and keystore
 
 On MacOS, install the [mkcert tool](https://github.com/FiloSottile/mkcert) with `brew install mkcert`, then follow these steps to create a Java keystore and truststore for use with NATS.  You also need Java keytool and openssl installed. Set change-password to be any value. 
 
