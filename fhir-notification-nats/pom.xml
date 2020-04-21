@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>fhir-notification-nats</artifactId>
-    <description>FHIR server notifications implementation for NATS</description>
+    <description>IBM FHIR Server Notifications for NATS</description>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -17,16 +17,6 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-notification</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.nats</groupId>
-            <artifactId>java-nats-streaming</artifactId>
-            <version>2.2.3</version>
-        </dependency>
-        <dependency>
-            <groupId>io.nats</groupId>
-            <artifactId>jnats</artifactId>
-            <version>2.6.7</version>
         </dependency>
     </dependencies>
 </project>
