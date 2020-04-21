@@ -589,7 +589,8 @@ public class SearchAllTest extends FHIRServerTestBase {
             parameters.searchParam(name, value);
         }
 
-        FHIRResponse response = client.searchAll(parameters, false);
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
