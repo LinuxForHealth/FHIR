@@ -47,7 +47,7 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
     }
  * </pre>
  */
-public class BulkExportJobInstanceRequest {
+public class JobInstanceRequest {
     private String applicationName;
     private String moduleName;
     private String jobXMLName;
@@ -89,7 +89,7 @@ public class BulkExportJobInstanceRequest {
      * Builder is a convenience pattern to assemble to Java Object that reflects the BatchManagement pattern.
      */
     public static class Builder implements JobParameter.Builder {
-        private BulkExportJobInstanceRequest request = new BulkExportJobInstanceRequest();
+        private JobInstanceRequest request = new JobInstanceRequest();
         private JobParameter jobParameter = new JobParameter();
 
         private Builder() {
@@ -186,7 +186,7 @@ public class BulkExportJobInstanceRequest {
             return this;
         }
 
-        public BulkExportJobInstanceRequest build() {
+        public JobInstanceRequest build() {
             request.setJobParameters(jobParameter);
             return request;
         }
@@ -206,10 +206,10 @@ public class BulkExportJobInstanceRequest {
             // No Imp
         }
 
-        public static BulkExportJobInstanceRequest parse(InputStream in) throws FHIROperationException {
+        public static JobInstanceRequest parse(InputStream in) throws FHIROperationException {
             try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
                 JsonObject jsonObject = jsonReader.readObject();
-                BulkExportJobInstanceRequest.Builder builder = BulkExportJobInstanceRequest.builder();
+                JobInstanceRequest.Builder builder = JobInstanceRequest.builder();
 
                 if (jsonObject.containsKey("applicationName")) {
                     String applicationName = jsonObject.getString("applicationName");
@@ -260,7 +260,7 @@ public class BulkExportJobInstanceRequest {
          * @return
          * @throws IOException
          */
-        public static String generate(BulkExportJobInstanceRequest obj, boolean withSensitive) throws IOException {
+        public static String generate(JobInstanceRequest obj, boolean withSensitive) throws IOException {
             String o = "{}";
             try (StringWriter writer = new StringWriter();) {
                 try (JsonGenerator generator = PRETTY_PRINTING_GENERATOR_FACTORY.createGenerator(writer);) {

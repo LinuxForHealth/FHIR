@@ -146,7 +146,8 @@ public class BulkDataImportUtil {
      */
     public static void checkAllowedTotalSizeForTenantOrSystem(Integer inputSize) throws FHIROperationException {
         Integer tenantCount =
-                FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_MAX_INPUT_PER_TENANT, 5);
+                FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_MAX_INPUT_PER_TENANT,
+                        BulkDataConstants.IMPORT_MAX_DEFAULT_INPUTS);
         if (tenantCount == null || tenantCount < inputSize) {
             throw buildExceptionWithIssue(
                     "$import maximum input per bulkdata import request 'fhirServer/bulkdata/maxInputPerRequest'",

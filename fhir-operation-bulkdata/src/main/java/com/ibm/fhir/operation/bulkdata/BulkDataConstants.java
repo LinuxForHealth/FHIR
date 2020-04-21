@@ -30,6 +30,7 @@ public class BulkDataConstants {
                             DataSourceStorageType.AWSS3.value, DataSourceStorageType.IBMCOS.value));
     public static final List<String> STORAGE_CONTENT_ENCODING =
             Collections.unmodifiableList(Arrays.asList("text", "text/plain"));
+    public static final int IMPORT_MAX_DEFAULT_INPUTS = 5;
 
     // Export
     public static final String EXPORT_FORMAT = MEDIA_TYPE_ND_JSON;

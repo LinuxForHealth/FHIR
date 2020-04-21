@@ -214,11 +214,8 @@ public class PollingLocationResponse {
                         }
                         generator.writeEnd();
                     }
-
                     generator.writeEnd();
-
                 }
-
                 o = writer.toString();
             }
             return o;

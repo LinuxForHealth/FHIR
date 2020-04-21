@@ -41,9 +41,9 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.config.BulkDataConfigUtil;
-import com.ibm.fhir.operation.bulkdata.model.BulkExportJobExecutionResponse;
-import com.ibm.fhir.operation.bulkdata.model.BulkExportJobInstanceRequest;
-import com.ibm.fhir.operation.bulkdata.model.BulkExportJobInstanceResponse;
+import com.ibm.fhir.operation.bulkdata.model.JobExecutionResponse;
+import com.ibm.fhir.operation.bulkdata.model.JobInstanceRequest;
+import com.ibm.fhir.operation.bulkdata.model.JobInstanceResponse;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.JobParameter;
@@ -170,7 +170,7 @@ public class BulkDataClient {
             throws Exception {
         WebTarget target = getWebTarget(properties.get(BulkDataConfigUtil.BATCH_URL));
 
-        BulkExportJobInstanceRequest.Builder builder = BulkExportJobInstanceRequest.builder();
+        JobInstanceRequest.Builder builder = JobInstanceRequest.builder();
         builder.applicationName(properties.get(BulkDataConfigUtil.APPLICATION_NAME));
         builder.moduleName(properties.get(BulkDataConfigUtil.MODULE_NAME));
         builder.cosBucketName(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
@@ -216,7 +216,7 @@ public class BulkDataClient {
             builder.fhirTypeFilters(properties.get(BulkDataConstants.PARAM_TYPE_FILTER));
         }
 
-        String entityStr = BulkExportJobInstanceRequest.Writer.generate(builder.build(), true);
+        String entityStr = JobInstanceRequest.Writer.generate(builder.build(), true);
         Entity<String> entity = Entity.json(entityStr);
         Response r = target.request().post(entity);
 
@@ -227,7 +227,7 @@ public class BulkDataClient {
             log.warning("JSON -> \n" + responseStr);
         }
 
-        BulkExportJobInstanceResponse response = BulkExportJobInstanceResponse.Parser.parse(responseStr);
+        JobInstanceResponse response = JobInstanceResponse.Parser.parse(responseStr);
 
         // From the response
         String jobId = Integer.toString(response.getInstanceId());
@@ -259,8 +259,8 @@ public class BulkDataClient {
 
         PollingLocationResponse result = null;
         try {
-            BulkExportJobInstanceResponse bulkExportJobInstanceResponse =
-                    BulkExportJobInstanceResponse.Parser.parse(responseStr);
+            JobInstanceResponse bulkExportJobInstanceResponse =
+                    JobInstanceResponse.Parser.parse(responseStr);
 
             // Example: https://localhost:9443/ibm/api/batch/jobinstances/9/jobexecutions/2
             // Get the current job execution status of the job instance.
@@ -273,13 +273,13 @@ public class BulkDataClient {
             responseStr = r.readEntity(String.class);
 
             // Intermediate Response is - BulkExportJobExecutionResponse
-            BulkExportJobExecutionResponse bulkExportJobExecutionResponse =
-                    BulkExportJobExecutionResponse.Parser.parse(responseStr);
+            JobExecutionResponse bulkExportJobExecutionResponse =
+                    JobExecutionResponse.Parser.parse(responseStr);
             verifyTenant(bulkExportJobExecutionResponse.getJobParameters());
 
             if (log.isLoggable(Level.FINE)) {
                 log.warning("Logging the BulkExportJobExecutionResponse Details -> \n "
-                        + BulkExportJobExecutionResponse.Writer.generate(bulkExportJobExecutionResponse, false));
+                        + JobExecutionResponse.Writer.generate(bulkExportJobExecutionResponse, false));
             }
 
             String batchStatus = bulkExportJobExecutionResponse.getBatchStatus();
@@ -332,7 +332,7 @@ public class BulkDataClient {
         }
 
         try {
-            BulkExportJobExecutionResponse response = BulkExportJobExecutionResponse.Parser.parse(responseStr);
+            JobExecutionResponse response = JobExecutionResponse.Parser.parse(responseStr);
             verifyTenant(response.getJobParameters());
 
             // The tenant is known, and now we need to query to delete the Job.
@@ -370,7 +370,7 @@ public class BulkDataClient {
      * @param response
      * @return
      */
-    private PollingLocationResponse process(BulkExportJobExecutionResponse response) {
+    private PollingLocationResponse process(JobExecutionResponse response) {
         PollingLocationResponse result = new PollingLocationResponse();
 
         // Assemble the URL
@@ -446,7 +446,7 @@ public class BulkDataClient {
             Map<String, String> properties) throws Exception {
         WebTarget target = getWebTarget(properties.get(BulkDataConfigUtil.BATCH_URL));
 
-        BulkExportJobInstanceRequest.Builder builder = BulkExportJobInstanceRequest.builder();
+        JobInstanceRequest.Builder builder = JobInstanceRequest.builder();
         builder.applicationName(properties.get(BulkDataConfigUtil.APPLICATION_NAME));
         builder.moduleName(properties.get(BulkDataConfigUtil.MODULE_NAME));
         builder.cosBucketName(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
@@ -474,7 +474,7 @@ public class BulkDataClient {
         String fhirDataStoreId = FHIRRequestContext.get().getDataStoreId();
         builder.fhirDataStoreId(fhirDataStoreId);
 
-        String entityStr = BulkExportJobInstanceRequest.Writer.generate(builder.build(), true);
+        String entityStr = JobInstanceRequest.Writer.generate(builder.build(), true);
         Entity<String> entity = Entity.json(entityStr);
         Response r = target.request().post(entity);
 
@@ -485,7 +485,7 @@ public class BulkDataClient {
             log.warning("$import json -> \n" + responseStr);
         }
 
-        BulkExportJobInstanceResponse response = BulkExportJobInstanceResponse.Parser.parse(responseStr);
+        JobInstanceResponse response = JobInstanceResponse.Parser.parse(responseStr);
 
         // From the response
         String jobId = Integer.toString(response.getInstanceId());
