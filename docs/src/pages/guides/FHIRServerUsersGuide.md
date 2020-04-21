@@ -1437,7 +1437,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/batch-truststore-password`|string|Password for above trust store |
 |`fhirServer/bulkdata/bulkDataBatchJobIdEncryptionKey`|string|Encryption key for JavaBatch job id |
 |`fhirServer/bulkdata/isExportPublic`|boolean|If give public read only access to the exported files |
-|`fhirServer/bulkdata/validBaseUrls`|boolean|The list of supported urls which are approved for the fhir server to access|
+|`fhirServer/bulkdata/validBaseUrls`|string|The list of supported urls which are approved for the fhir server to access|
+|`fhirServer/bulkdata/validBaseUrlsDisabled`|boolean|Disables the URL checking feature|
 |`fhirServer/bulkdata/maxInputPerRequest`|integer|The maximum inputs per bulk import|
 
 
@@ -1473,6 +1474,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/geoState`|TX|
 |`fhirServer/audit/serviceProperties/geoCounty`|US|
 |`fhirServer/bulkdata/isExportPublic`|true|
+|`fhirServer/bulkdata/validBaseUrlsDisabled`|false|
 
 
 ### 5.1.3 Property attributes
@@ -1525,6 +1527,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/isExportPublic`|N|Y|
 |`fhirServer/bulkdata/validBaseUrls`|Y|Y|
 |`fhirServer/bulkdata/maxInputPerRequest`|Y|Y|
+|`fhirServer/bulkdata/validBaseUrlsDisabled`|Y|Y|
 
 ## 5.2 Keystores, truststores, and the FHIR server
 
