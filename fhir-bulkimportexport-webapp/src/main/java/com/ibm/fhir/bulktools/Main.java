@@ -95,23 +95,26 @@ public class Main {
 
     /**
      * Parse the command line arguments
-     *   --cosapikey:       the IBM COS API key or S3 access key.
-     *   --cossrvinstid:    the IBM COS service instance id or S3 secret key.
-     *   --cosEndpointUrl:   the IBM COS or S3 End point URL.
-     *   --coslocation:     the IBM COS or S3 location.
-     *   --cosbucketname:   the IBM COS or S3 bucket name to import from.
-     *   --coscredentialibm: if use IBM credential(Y/N), default(Y).
-     *   --cosfiletobreak:    the file(COS/S3 object) to break.
-     *   --numberoffiles:    how many pieces (COS/S3 objects) to break into.
-     *   --numberoftotalresources: the total number of distinct FHIR resources we want to include in the target files.
-     *                             used only when segBySize is 'N'(by number of records).
-     *   --segbysize:        break the file by file size(default) or by number of records("N").
-     *                       (1) if by file size, then we get the total file size from the object meta directly,
-     *                           and each piece with size close to (total-file-size/numberOfFiles).
-     *                       (2) if by number of records
-     *                           (a) with numberOfTotalResources, then each piece has (numberOfTotalResources/numberOfFiles) distinct FHIR resources.
-     *                           (b) without numberOfTotalResources, then we go thought the COS/S3 once to get the total record number, then each piece
-     *                               will have (total-record-number/numberOfFiles) lines in it.
+     * --cosapikey: the IBM COS API key or S3 access key.
+     * --cossrvinstid: the IBM COS service instance id or S3 secret key.
+     * --cosendpointurl: the IBM COS or S3 End point URL.
+     * --coslocation: the IBM COS or S3 location.
+     * --cosbucketname: the IBM COS or S3 bucket name to import from.
+     * --coscredentialibm: if use IBM credential(Y/N), default(Y).
+     * --cosfiletobreak: the file(COS/S3 object) to break.
+     * --numberoffiles: how many pieces (COS/S3 objects) to break into.
+     * --numberoftotalresources: the total number of distinct FHIR resources we want to include in the target files.
+     * used only when segBySize is 'N'(by number of records).
+     * --segbysize: break the file by file size(default) or by number of records("N").
+     * (1) if by file size, then we get the total file size from the object meta directly,
+     * and each piece with size close to (total-file-size/numberOfFiles).
+     * (2) if by number of records
+     * (a) with numberOfTotalResources, then each piece has (numberOfTotalResources/numberOfFiles) distinct FHIR
+     * resources.
+     * (b) without numberOfTotalResources, then we go thought the COS/S3 once to get the total record number, then each
+     * piece
+     * will have (total-record-number/numberOfFiles) lines in it.
+     * 
      * @param args
      */
     public void parseArgs(String[] args) {
@@ -134,7 +137,7 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for --cosSrvinstId argument at posn: " + i);
                 }
                 break;
-            case "--cosEndpointUrl":
+            case "--cosendpointurl":
                 if (++i < args.length) {
                     cosEndpointUrl = args[i];
                 }
