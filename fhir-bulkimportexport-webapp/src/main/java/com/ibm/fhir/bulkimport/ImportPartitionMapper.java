@@ -113,7 +113,7 @@ public class ImportPartitionMapper implements PartitionMapper {
      */
     @Inject
     @BatchProperty(name = Constants.COS_ENDPOINT_URL)
-    String cosEndpintUrl;
+    String cosEndpointUrl;
 
     /**
      * The IBM COS or S3 location.
@@ -179,7 +179,7 @@ public class ImportPartitionMapper implements PartitionMapper {
         // Create a COS/S3 client if it's not created yet.
         if (cosClient == null) {
             cosClient =
-                    BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl,
+                    BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
                             cosLocation);
 
             if (cosClient == null) {

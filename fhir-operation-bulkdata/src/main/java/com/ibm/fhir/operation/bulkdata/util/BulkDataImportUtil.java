@@ -163,7 +163,7 @@ public class BulkDataImportUtil {
      */
     public static void verifyUrlAllowed(String url) throws FHIROperationException {
         Boolean disabled =
-                FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_DISABLED,
+                FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_VALID_URLS_DISABLED,
                         Boolean.FALSE);
         if (!disabled.booleanValue()) {
             List<String> baseUrls =
@@ -175,9 +175,14 @@ public class BulkDataImportUtil {
                         IssueType.INVALID);
             }
 
-            for (String baseUrl : baseUrls) {
+            if (!url.contains("//")) {
                 // When the URL does not contain a double // by-pass the URL verification
-                if (url.startsWith(baseUrl) || !url.contains("//")) {
+                return;
+            }
+
+            // We have Urls
+            for (String baseUrl : baseUrls) {
+                if (url.startsWith(baseUrl)) {
                     return;
                 }
             }

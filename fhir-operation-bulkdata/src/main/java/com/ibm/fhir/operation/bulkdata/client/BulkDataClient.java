@@ -278,7 +278,7 @@ public class BulkDataClient {
             verifyTenant(bulkExportJobExecutionResponse.getJobParameters());
 
             if (log.isLoggable(Level.FINE)) {
-                log.warning("Logging the BulkExportJobExecutionResponse Details -> \n "
+                log.warning("Logging the JobExecutionResponse Details -> \n "
                         + JobExecutionResponse.Writer.generate(bulkExportJobExecutionResponse, false));
             }
 
@@ -298,12 +298,11 @@ public class BulkDataClient {
                  * error?
                  * What if we couldn't connect with S3 / Cloud object store in the first place?
                  */
-                throw BulkDataExportUtil.buildOperationException("The export job has failed", IssueType.EXCEPTION);
+                throw BulkDataExportUtil.buildOperationException("The job has failed", IssueType.EXCEPTION);
             }
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception ex) {
-            ex.printStackTrace();
             throw BulkDataExportUtil.buildOperationException(
                     "An unexpected error has ocurred while checking the status", IssueType.TRANSIENT);
         }
@@ -453,7 +452,7 @@ public class BulkDataClient {
         builder.cosEndpointUrl(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT));
         builder.cosCredentialIbm(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_IBM));
         builder.cosApiKey(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_KEY));
-        builder.cosSrvInstId(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT));
+        builder.cosSrvInstId(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ID));
         builder.jobXMLName("FhirBulkImportChunkJob");
 
         // Add import specific: fhir.dataSourcesInfo

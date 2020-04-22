@@ -61,7 +61,7 @@ public class ChunkReader extends AbstractItemReader {
      */
     @Inject
     @BatchProperty(name = Constants.COS_ENDPOINT_URL)
-    String cosEndpintUrl;
+    String cosEndpointUrl;
 
     /**
      * The IBM COS or S3 location.
@@ -154,7 +154,7 @@ public class ChunkReader extends AbstractItemReader {
     public void open(Serializable checkpoint) throws Exception {
         if (BulkImportDataSourceStorageType.from(dataSourceStorageType).equals(BulkImportDataSourceStorageType.AWSS3)
                 || BulkImportDataSourceStorageType.from(dataSourceStorageType).equals(BulkImportDataSourceStorageType.IBMCOS)) {
-            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl, cosLocation);
             if (cosClient == null) {
                 logger.warning("open: Failed to get CosClient!");
                 throw new Exception("Failed to get CosClient!!");

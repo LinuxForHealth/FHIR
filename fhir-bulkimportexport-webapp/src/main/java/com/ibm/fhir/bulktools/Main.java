@@ -54,7 +54,7 @@ public class Main {
     /**
      * The IBM COS or S3 End point URL.
      */
-    private static String cosEndpintUrl;
+    private static String cosEndpointUrl;
 
     /**
      * The IBM COS or S3 location.
@@ -97,7 +97,7 @@ public class Main {
      * Parse the command line arguments
      *   --cosapikey:       the IBM COS API key or S3 access key.
      *   --cossrvinstid:    the IBM COS service instance id or S3 secret key.
-     *   --cosendpinturl:   the IBM COS or S3 End point URL.
+     *   --cosEndpointUrl:   the IBM COS or S3 End point URL.
      *   --coslocation:     the IBM COS or S3 location.
      *   --cosbucketname:   the IBM COS or S3 bucket name to import from.
      *   --coscredentialibm: if use IBM credential(Y/N), default(Y).
@@ -134,12 +134,12 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for --cosSrvinstId argument at posn: " + i);
                 }
                 break;
-            case "--cosendpinturl":
+            case "--cosEndpointUrl":
                 if (++i < args.length) {
-                    cosEndpintUrl = args[i];
+                    cosEndpointUrl = args[i];
                 }
                 else {
-                    throw new IllegalArgumentException("Missing value for --cosEndpintUrl argument at posn: " + i);
+                    throw new IllegalArgumentException("Missing value for --cosEndpointUrl argument at posn: " + i);
                 }
                 break;
             case "--coslocation":
@@ -311,7 +311,7 @@ public class Main {
             long start = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime());
             int totalNum = 0;
 
-            AmazonS3 cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKey, cosSrvinstId, cosEndpintUrl,
+            AmazonS3 cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKey, cosSrvinstId, cosEndpointUrl,
                     cosLocation);
             if (cosClient == null) {
                 throw new Exception("Failed to get CosClient!");
