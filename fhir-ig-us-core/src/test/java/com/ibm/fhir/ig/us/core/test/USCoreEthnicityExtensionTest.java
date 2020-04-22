@@ -31,6 +31,9 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.validation.FHIRValidator;
 
 public class USCoreEthnicityExtensionTest {
+    /**
+     * Test the FHIRPath 'conformsTo' function on a valid US Core Ethnicity Extension
+     */
     @Test
     public void testUSCoreEthnicityExtension1() throws Exception {
         Extension extension = Extension.builder()
@@ -71,6 +74,9 @@ public class USCoreEthnicityExtensionTest {
         Assert.assertEquals(issues.size(), 0);
     }
 
+    /**
+     * Test the FHIRPath 'conformsTo' function on a US Core Ethnicity Extension with an invalid detailed race code
+     */
     @Test
     public void testUSCoreEthnicityExtension2() throws Exception {
         Extension extension = Extension.builder()
@@ -111,6 +117,9 @@ public class USCoreEthnicityExtensionTest {
         Assert.assertEquals(issues.size(), 1);
     }
 
+    /**
+     * Test the FHIRValidator on a US Core Patient with a valid US Core Ethnicity Extension
+     */
     @Test
     public void testUSCoreEthnicityExtension3() throws Exception {
         Patient patient = Patient.builder()
@@ -153,6 +162,9 @@ public class USCoreEthnicityExtensionTest {
         Assert.assertEquals(countErrors(issues), 0);
     }
 
+    /**
+     * Test the FHIRValidator on a US Core Patient with a US Core Ethnicity Extension containing an invalid detailed race code
+     */
     @Test
     public void testUSCoreEthnicityExtension4() throws Exception {
         Patient patient = Patient.builder()
