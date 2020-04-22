@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -124,7 +124,7 @@ public class FHIRClientSample {
      */
     private Properties readProperties() throws Exception {
         Properties props = new Properties();
-        try (InputStream is = resolveFileLocation("fhir-client.properties")) {
+        try (InputStream is = resolveFileLocation("test.properties")) {
             props.load(is);
             return props;
         }
@@ -173,7 +173,7 @@ public class FHIRClientSample {
 
     /**
      * Create a new Patient resource with the specified name and mobile
-     * 
+     *
      * @param firstName
      * @param lastName
      * @param mobilePhoneNum

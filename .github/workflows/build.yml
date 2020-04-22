@@ -234,6 +234,7 @@ jobs:
     - name: Build parent without tests
       run: |
         mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress
+        mvn -B dockerfile:build -f fhir-install --no-transfer-progress
     - name: Server Integration Tests
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}
@@ -290,6 +291,7 @@ jobs:
     - name: Build parent without tests
       run: |
         mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress
+        mvn -B dockerfile:build -f fhir-install --no-transfer-progress
     - name: Server Integration Tests
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}

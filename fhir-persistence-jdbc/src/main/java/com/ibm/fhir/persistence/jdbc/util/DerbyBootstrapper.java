@@ -14,12 +14,14 @@ import java.util.logging.Logger;
 import javax.sql.DataSource;
 
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
+import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 
 /**
  * This class contains bootstrapping code for the Derby Database.
@@ -27,6 +29,9 @@ import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 public class DerbyBootstrapper {
     private static final Logger log = Logger.getLogger(DerbyBootstrapper.class.getName());
     private static final String className = DerbyBootstrapper.class.getName();
+
+    private static final String ADMIN_SCHEMANAME = "FHIR_ADMIN";
+    private static final String OAUTH_SCHEMANAME = "FHIR_OAUTH";
 
     /**
      * Bootstraps the FHIR database (only for Derby databases)
@@ -108,5 +113,37 @@ public class DerbyBootstrapper {
         // Use the new fhir-persistence-schema mechanism to create/update the derby database
         pdm.applyWithHistory(adapter, vhs);
 
+    }
+
+    /**
+     * Bootstraps the Liberty OAuth 2.0 tables for supporting management of OAuth 2.0 Clients
+     */
+    public static void bootstrapOauthDb(DataSource ds) throws Exception {
+        try (Connection c = ds.getConnection()) {
+            try {
+                JdbcTarget target = new JdbcTarget(c);
+                IDatabaseAdapter adapter = new DerbyAdapter(target);
+
+                // Set up the version history service first if it doesn't yet exist
+                CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMANAME, adapter);
+
+                // Current version history for the database. This is used by applyWithHistory
+                // to determine which updates to apply and to record the new changes as they
+                // are applied
+                VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMANAME, OAUTH_SCHEMANAME);
+                vhs.setTarget(adapter);
+                vhs.init();
+
+                // Build/update the Liberty OAuth-related tables
+                PhysicalDataModel pdm = new PhysicalDataModel();
+                OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(OAUTH_SCHEMANAME);
+                oauthSchemaGenerator.buildOAuthSchema(pdm);
+                pdm.applyWithHistory(adapter, vhs);
+                c.commit();
+            } catch (Exception x) {
+                c.rollback();
+                throw x;
+            }
+        }
     }
 }

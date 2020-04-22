@@ -396,12 +396,9 @@ public interface IDatabaseAdapter {
 
 
     /**
-     * Create FHIR data and admin schemas
+     * Create a database schema
      *
      * @param schemaName
-     * @param adminSchemaName
      */
-    public void createFhirSchemas(String schemaName, String adminSchemaName);
-
-
+    public void createSchema(String schemaName);
 }

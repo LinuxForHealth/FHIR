@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,8 @@ public class ColumnDef implements Comparable<ColumnDef> {
     private long size;
     private Integer precision;
     private int inlineSize;
-    
+    private String defaultVal;
+
     /**
      * Public constructor
      * @param name
@@ -24,11 +25,11 @@ public class ColumnDef implements Comparable<ColumnDef> {
     public ColumnDef(String name) {
         this.name = name;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public boolean isNullable() {
         return nullable;
     }
@@ -53,13 +54,22 @@ public class ColumnDef implements Comparable<ColumnDef> {
     public void setPrecision(int precision) {
         this.precision = precision;
     }
+    public String getDefaultVal() {
+        return defaultVal;
+    }
+    /**
+     * @implNote Currently only works for CLOB columns
+     */
+    public void setDefaultVal(String defaultVal) {
+        this.defaultVal = defaultVal;
+    }
 
     @Override
     public int compareTo(ColumnDef that) {
         return this.name.compareTo(that.name);
     }
-    
-    @Override 
+
+    @Override
     public boolean equals(Object other) {
         if (other instanceof ColumnDef) {
             ColumnDef that = (ColumnDef)other;
@@ -69,8 +79,8 @@ public class ColumnDef implements Comparable<ColumnDef> {
             return false;
         }
     }
-    
-    @Override 
+
+    @Override
     public int hashCode() {
         return this.name.hashCode();
     }
@@ -82,5 +92,4 @@ public class ColumnDef implements Comparable<ColumnDef> {
     public void setInlineSize(int inlineSize) {
         this.inlineSize = inlineSize;
     }
-    
 }

@@ -108,14 +108,14 @@
                         <executions>
                             <execution>
                                 <id>default-cli</id>
-                                <phase>install</phase>
+                                <phase>none</phase>
                                 <goals>
                                     <goal>build</goal>
                                 </goals>
                             </execution>
                             <execution>
                                 <id>tag-version</id>
-                                <phase>install</phase>
+                                <phase>none</phase>
                                 <goals>
                                     <goal>tag</goal>
                                 </goals>
@@ -125,7 +125,7 @@
                             </execution>
                             <execution>
                                 <id>push-latest</id>
-                                <phase>deploy</phase>
+                                <phase>none</phase>
                                 <goals>
                                     <goal>push</goal>
                                 </goals>
@@ -135,7 +135,7 @@
                             </execution>
                             <execution>
                                 <id>push-version</id>
-                                <phase>deploy</phase>
+                                <phase>none</phase>
                                 <goals>
                                     <goal>push</goal>
                                 </goals>
