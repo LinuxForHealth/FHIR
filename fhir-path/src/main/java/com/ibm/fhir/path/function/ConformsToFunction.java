@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isResourceNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isStringValue;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,7 +25,11 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.StructureDefinition;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.StructureDefinitionKind;
 import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
@@ -33,7 +38,6 @@ import com.ibm.fhir.registry.FHIRRegistry;
 
 public class ConformsToFunction extends FHIRPathAbstractFunction {
     private static final Logger log = Logger.getLogger(ConformsToFunction.class.getName());
-    private static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
 
     @Override
     public String getName() {
@@ -65,33 +69,69 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
         }
 
         FHIRPathNode node = getSingleton(context);
-
-        if (node.isResourceNode() && node.asResourceNode().resource() == null) {
-            return SINGLETON_TRUE;
-        }
-
-        Class<?> modelClass = node.type().modelClass();
+        FHIRPathType type = node.type();
+        Class<?> modelClass = type.modelClass();
         String url = getStringValue(arguments.get(0)).string();
 
-        if (modelClass != null && FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
-            if (url.startsWith(HL7_STRUCTURE_DEFINITION_URL_PREFIX)) {
-                String s = url.substring(HL7_STRUCTURE_DEFINITION_URL_PREFIX.length());
-                if (s.equals(modelClass.getSimpleName())) {
-                    return SINGLETON_TRUE;
+        if (FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
+            StructureDefinition structureDefinition = FHIRRegistry.getInstance().getResource(url,  StructureDefinition.class);
+
+            if (FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE.equals(type)) {
+                if (!StructureDefinitionKind.RESOURCE.equals(structureDefinition.getKind())) {
+                    // the profile (or base definition) is not applicable to type: UnknownResourceType
+                    generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.INVALID, "Profile (or base definition) '" + url + "' is not applicable to type: UnknownResourceType", node);
+                    return SINGLETON_FALSE;
                 }
+
+                // unknown resource type conforms to any resource profile (or base resource definition)
+                return SINGLETON_TRUE;
+            }
+
+
+            if (!ProfileSupport.isApplicable(structureDefinition, modelClass)) {
+                // the profile (or base definition) is not applicable to type: modelClass
+                generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.INVALID, "Profile (or base definition) '" + url + "' is not applicable to type: " + modelClass.getSimpleName(), node);
+                return SINGLETON_FALSE;
+            }
+
+            if (node.isResourceNode() && node.asResourceNode().resource() == null) {
+                // the node was created by the 'resolve' function and is not backed by a FHIR resource
+                return SINGLETON_TRUE;
+            }
+
+            // save parent constraint reference
+            Constraint parentConstraint = evaluationContext.getConstraint();
+
+            List<Constraint> constraints = new ArrayList<>();
+            if (ProfileSupport.isProfile(structureDefinition)) {
+                // only generated constraints are checked (base model constraints should be checked by FHIRValidator)
+                constraints.addAll(ProfileSupport.getConstraints(url, modelClass));
             }
 
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-            for (Constraint constraint : ProfileSupport.getConstraints(url, modelClass)) {
+            for (Constraint constraint : constraints) {
+                evaluationContext.setConstraint(constraint);
                 try {
                     Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), context);
                     if (evaluatesToBoolean(result) && isFalse(result)) {
+                        // constraint validation failed
+                        generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.INVARIANT, constraint.id() + ": " + constraint.description(), node);
+
+                        // restore parent constraint reference
+                        evaluationContext.setConstraint(parentConstraint);
+
                         return SINGLETON_FALSE;
                     }
                 } catch (FHIRPathException e) {
                     log.log(Level.WARNING, "An unexpected error occurred while evaluating the following expression: " + constraint.expression(), e);
                 }
+                evaluationContext.unsetConstraint();
             }
+
+            // restore parent constraint reference
+            evaluationContext.setConstraint(parentConstraint);
+        } else {
+            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Profile '" + url + "' is not supported", node);
         }
 
         return SINGLETON_TRUE;

@@ -365,7 +365,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         // Make sure patient ids are equal, and versionIds are NOT equal.
         assertEquals(originalPatient.getId(), updatedPatient.getId());
         assertTrue(!updatedPatient.getMeta().getVersionId().getValue()
-                .contentEquals(originalPatient.getMeta().getVersionId().getValue()));
+                .equals(originalPatient.getMeta().getVersionId().getValue()));
         // Patient create time should be earlier than Patient update time.
         assertTrue(originalPatient.getMeta().getLastUpdated().getValue()
                 .compareTo(updatedPatient.getMeta().getLastUpdated().getValue()) < 0);
@@ -394,7 +394,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         // Make sure observation ids are equal, and versionIds are NOT equal.
         assertEquals(originalObservation.getId(), updatedObservation.getId());
         assertTrue(!updatedObservation.getMeta().getVersionId().getValue()
-                .contentEquals(originalObservation.getMeta().getVersionId().getValue()));
+                .equals(originalObservation.getMeta().getVersionId().getValue()));
         // Observation create time should be earlier than Observation update time.
         assertTrue(originalObservation.getMeta().getLastUpdated().getValue()
                 .compareTo(updatedObservation.getMeta().getLastUpdated().getValue()) < 0);
