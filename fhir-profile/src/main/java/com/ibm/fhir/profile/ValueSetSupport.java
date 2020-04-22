@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,6 +46,7 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.CodeSystemContentMode;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.registry.FHIRRegistry;
@@ -66,10 +68,7 @@ public final class ValueSetSupport {
      *     the expanded value set, or the original value set if already expanded or unable to expand
      */
     public static ValueSet expand(ValueSet valueSet) {
-        if (valueSet == null) {
-            return null;
-        }
-        if (valueSet.getExpansion() == null && valueSet.getCompose() != null) {
+        if (!isExpanded(valueSet) && isExpandable(valueSet)) {
             Set<Contains> result = expand(valueSet.getCompose());
             return valueSet.toBuilder()
                 .expansion(Expansion.builder()
@@ -80,6 +79,71 @@ public final class ValueSetSupport {
                 .build();
         }
         return valueSet;
+    }
+
+    public static boolean isExpanded(ValueSet valueSet) {
+        return valueSet != null && valueSet.getExpansion() != null;
+    }
+
+    public static boolean isExpandable(ValueSet valueSet) {
+        if (valueSet == null || valueSet.getCompose() == null) {
+            return false;
+        }
+
+        Compose compose = valueSet.getCompose();
+
+        List<Include> includesAndExcludes = new ArrayList<>(compose.getInclude());
+        includesAndExcludes.addAll(compose.getExclude());
+
+        for (java.lang.String codeSystemReference : getCodeSystemReferences(includesAndExcludes)) {
+            if (!hasResource(codeSystemReference, CodeSystem.class)) {
+                return false;
+            }
+            CodeSystem codeSystem = getCodeSystem(codeSystemReference);
+            if (!CodeSystemContentMode.COMPLETE.equals(codeSystem.getContent())) {
+                return false;
+            }
+        }
+
+        for (java.lang.String valueSetReference : getValueSetReferences(includesAndExcludes)) {
+            if (!hasResource(valueSetReference, ValueSet.class)) {
+                return false;
+            }
+            ValueSet vs = getValueSet(valueSetReference);
+            if (!isExpanded(vs) && !isExpandable(vs)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static Set<java.lang.String> getCodeSystemReferences(List<Include> includesAndExcludes) {
+        return includesAndExcludes.stream()
+                .filter(includeOrExclude -> includeOrExclude.getConcept().isEmpty())
+                .map(ValueSetSupport::getCodeSystemReference)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+    }
+
+    private static java.lang.String getCodeSystemReference(Include includeOrExclude) {
+        if (includeOrExclude.getSystem() != null && includeOrExclude.getSystem().getValue() != null) {
+            StringBuilder sb = new StringBuilder(includeOrExclude.getSystem().getValue());
+            if (includeOrExclude.getVersion() != null && includeOrExclude.getVersion().getValue() != null) {
+                sb.append("|").append(includeOrExclude.getVersion().getValue());
+            }
+            return sb.toString();
+        }
+        return null;
+    }
+
+    private static Set<java.lang.String> getValueSetReferences(List<Include> includesAndExcludes) {
+        return includesAndExcludes.stream()
+                .map(includeOrExclude -> includeOrExclude.getValueSet())
+                .flatMap(List::stream)
+                .map(canonical -> canonical.getValue())
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 
     /**
