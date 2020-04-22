@@ -263,6 +263,11 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
+    public String clobClause() {
+        return "TEXT";
+    }
+
+    @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
         List<String> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);

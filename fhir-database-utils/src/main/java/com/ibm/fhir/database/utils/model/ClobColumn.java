@@ -22,6 +22,6 @@ public class ClobColumn extends ColumnBase {
 
     @Override
     public String getTypeInfo(IDatabaseTypeAdapter adapter) {
-        return "CLOB";
+        return adapter.clobClause();
     }
 }
