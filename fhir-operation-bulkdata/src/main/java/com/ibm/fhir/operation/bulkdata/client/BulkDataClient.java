@@ -120,7 +120,7 @@ public class BulkDataClient {
     private KeyStore loadKeyStoreFile(String ksFilename, String ksPassword) {
         InputStream is = null;
         try {
-            KeyStore ks = KeyStore.getInstance("JKS");
+            KeyStore ks = KeyStore.getInstance("PKCS12");
 
             // First, search the classpath for the truststore file.
             URL tsURL = Thread.currentThread().getContextClassLoader().getResource(ksFilename);

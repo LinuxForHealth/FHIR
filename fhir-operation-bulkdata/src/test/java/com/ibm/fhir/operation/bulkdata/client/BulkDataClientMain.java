@@ -20,7 +20,8 @@ public class BulkDataClientMain {
         properties.put(BulkDataConfigUtil.BATCH_USER, "fhiradmin");
         properties.put(BulkDataConfigUtil.BATCH_USER_PASS, "change-password");
                 
-        properties.put(BulkDataConfigUtil.BATCH_TRUSTSTORE, "/Users/paulbastide/git/wffh/wlp/wlp/usr/servers/defaultServer/resources/security/fhirTruststore.jks");
+        properties.put(BulkDataConfigUtil.BATCH_TRUSTSTORE,
+                "/Users/paulbastide/git/wffh/wlp/wlp/usr/servers/defaultServer/resources/security/fhirTruststore.p12");
         properties.put(BulkDataConfigUtil.BATCH_TRUSTSTORE_PASS, "change-password");
         
         BulkDataClient client = new BulkDataClient(properties);
