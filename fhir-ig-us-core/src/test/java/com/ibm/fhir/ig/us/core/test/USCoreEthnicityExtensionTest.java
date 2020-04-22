@@ -75,7 +75,7 @@ public class USCoreEthnicityExtensionTest {
     }
 
     /**
-     * Test the FHIRPath 'conformsTo' function on a US Core Ethnicity Extension with an invalid detailed race code
+     * Test the FHIRPath 'conformsTo' function on a US Core Ethnicity Extension with an invalid detailed ethnicity code
      */
     @Test
     public void testUSCoreEthnicityExtension2() throws Exception {
@@ -163,7 +163,7 @@ public class USCoreEthnicityExtensionTest {
     }
 
     /**
-     * Test the FHIRValidator on a US Core Patient with a US Core Ethnicity Extension containing an invalid detailed race code
+     * Test the FHIRValidator on a US Core Patient with a US Core Ethnicity Extension containing an invalid detailed ethnicity code
      */
     @Test
     public void testUSCoreEthnicityExtension4() throws Exception {
