@@ -1296,6 +1296,8 @@ psql -v ON_ERROR_STOP=1 -1 -U javabatch -f batchPersistence-postgresql.ddl -d jo
 </server>
 ```
 
+Note: If you use PostgreSQL database as IBM FHIR Server data store or the JavaBatch job repository, please enable `max_prepared_transactions` in postgresql.conf, otherwise the import/export JavaBatch jobs fail.
+
 For more information about Liberty JavaBatch configuration, please refer to [IBM WebSphere Liberty Java Batch White paper](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/webindex/wp102544).
 
 ### 4.10.1 Integration Testing
