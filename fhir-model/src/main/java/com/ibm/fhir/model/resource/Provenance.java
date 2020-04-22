@@ -828,6 +828,8 @@ public class Provenance extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Provenance}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Provenance per the base specification
          */
         @Override
         public Provenance build() {
@@ -1226,6 +1228,8 @@ public class Provenance extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Agent}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Agent per the base specification
              */
             @Override
             public Agent build() {
@@ -1564,6 +1568,8 @@ public class Provenance extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Entity}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Entity per the base specification
              */
             @Override
             public Entity build() {

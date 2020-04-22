@@ -1168,6 +1168,8 @@ public class MedicationStatement extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MedicationStatement}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MedicationStatement per the base specification
          */
         @Override
         public MedicationStatement build() {

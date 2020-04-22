@@ -1166,6 +1166,8 @@ public class FamilyMemberHistory extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link FamilyMemberHistory}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid FamilyMemberHistory per the base specification
          */
         @Override
         public FamilyMemberHistory build() {
@@ -1592,6 +1594,8 @@ public class FamilyMemberHistory extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Condition}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Condition per the base specification
              */
             @Override
             public Condition build() {

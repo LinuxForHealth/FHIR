@@ -1778,6 +1778,8 @@ public class ResearchDefinition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ResearchDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ResearchDefinition per the base specification
          */
         @Override
         public ResearchDefinition build() {

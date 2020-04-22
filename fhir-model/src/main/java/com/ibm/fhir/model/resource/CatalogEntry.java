@@ -894,6 +894,8 @@ public class CatalogEntry extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link CatalogEntry}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid CatalogEntry per the base specification
          */
         @Override
         public CatalogEntry build() {
@@ -1188,6 +1190,8 @@ public class CatalogEntry extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link RelatedEntry}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid RelatedEntry per the base specification
              */
             @Override
             public RelatedEntry build() {

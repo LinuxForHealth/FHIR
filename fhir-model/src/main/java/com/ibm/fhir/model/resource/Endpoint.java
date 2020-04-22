@@ -843,6 +843,8 @@ public class Endpoint extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Endpoint}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Endpoint per the base specification
          */
         @Override
         public Endpoint build() {

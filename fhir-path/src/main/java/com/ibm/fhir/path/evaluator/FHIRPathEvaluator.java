@@ -52,6 +52,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.antlr.v4.runtime.CharStreams;
@@ -87,7 +89,7 @@ import com.ibm.fhir.path.function.FHIRPathFunction;
  * A FHIRPath evaluation engine that implements the FHIRPath 2.0.0 <a href="http://hl7.org/fhirpath/N1/">specification</a>
  */
 public class FHIRPathEvaluator {
-    public static boolean DEBUG = false;
+    private static final Logger log = Logger.getLogger(FHIRPathEvaluator.class.getName());
 
     public static final Collection<FHIRPathNode> SINGLETON_TRUE = singleton(FHIRPathBooleanValue.TRUE);
     public static final Collection<FHIRPathNode> SINGLETON_FALSE = singleton(FHIRPathBooleanValue.FALSE);
@@ -475,9 +477,8 @@ public class FHIRPathEvaluator {
             Collection<FHIRPathNode> currentContext = getCurrentContext();
             Collection<FHIRPathNode> nodes = (arguments.size() == 1) ? currentContext : visit(arguments.get(1));
             if (!nodes.isEmpty()) {
-                // TODO: add to log
-                if (DEBUG) {
-                    System.out.println(name + ": " + nodes);
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine(name + ": " + nodes);
                 }
             }
             return currentContext;
@@ -941,24 +942,6 @@ public class FHIRPathEvaluator {
                 result = SINGLETON_TRUE;
             }
 
-            /*
-            if (evaluatesToBoolean(left)) {
-                if (isTrue(left)) {
-                    Collection<FHIRPathNode> right = visit(ctx.expression(1));
-                    if (evaluatesToBoolean(right)) {
-                        result = isTrue(right) ? SINGLETON_TRUE : SINGLETON_FALSE;
-                    }
-                } else {
-                    result = SINGLETON_TRUE;
-                }
-            } else if (left.isEmpty()) {
-                Collection<FHIRPathNode> right = visit(ctx.expression(1));
-                if (evaluatesToBoolean(right) && isTrue(right)) {
-                    result = SINGLETON_TRUE;
-                }
-            }
-            */
-
             indentLevel--;
             return result;
         }
@@ -1005,17 +988,12 @@ public class FHIRPathEvaluator {
                     if (type.isAssignableFrom(node.type())) {
                         result.add(node);
                     }
-                    /*
-                    else {
-                        throw new IllegalArgumentException("Type: '" + type.getName() + " is not assignable from type: '" + node.type().getName() + "'");
-                    }
-                    */
                 }
                 break;
             }
 
             indentLevel--;
-            return Collections.unmodifiableCollection(result);
+            return result;
         }
 
         @Override
@@ -1323,8 +1301,8 @@ public class FHIRPathEvaluator {
         }
 
         private void debug(ParseTree ctx) {
-            if (DEBUG) {
-                System.out.println(indent() + ctx.getClass().getSimpleName() + ": " + ctx.getText() + ", childCount: " + ctx.getChildCount());
+            if (log.isLoggable(Level.FINE)) {
+                log.fine(indent() + ctx.getClass().getSimpleName() + ": " + ctx.getText() + ", childCount: " + ctx.getChildCount());
             }
         }
     }

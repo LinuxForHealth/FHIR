@@ -1051,6 +1051,8 @@ public class DocumentReference extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link DocumentReference}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid DocumentReference per the base specification
          */
         @Override
         public DocumentReference build() {
@@ -1350,6 +1352,8 @@ public class DocumentReference extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link RelatesTo}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid RelatesTo per the base specification
              */
             @Override
             public RelatesTo build() {
@@ -1627,6 +1631,8 @@ public class DocumentReference extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Content}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Content per the base specification
              */
             @Override
             public Content build() {
@@ -2137,6 +2143,8 @@ public class DocumentReference extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Context}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Context per the base specification
              */
             @Override
             public Context build() {

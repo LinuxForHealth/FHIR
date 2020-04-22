@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,7 +32,7 @@ public class ExtensionFunction extends FHIRPathAbstractFunction {
     public int getMaxArity() {
         return 1;
     }
-    
+
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         List<FHIRPathNode> result = new ArrayList<>();
@@ -43,11 +43,11 @@ public class ExtensionFunction extends FHIRPathAbstractFunction {
                     if (child.isElementNode() && child.asElementNode().element().is(Extension.class)) {
                         Extension extension = child.asElementNode().element().as(Extension.class);
                         if (extension.getUrl().equals(url)) {
-                            result.add(node);
+                            result.add(child);
                         }
                     }
                 }
-            }      
+            }
         }
         return result;
     }

@@ -907,6 +907,8 @@ public class CompartmentDefinition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link CompartmentDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid CompartmentDefinition per the base specification
          */
         @Override
         public CompartmentDefinition build() {
@@ -1247,6 +1249,8 @@ public class CompartmentDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Resource}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Resource per the base specification
              */
             @Override
             public Resource build() {

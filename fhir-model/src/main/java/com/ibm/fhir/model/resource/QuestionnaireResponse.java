@@ -810,6 +810,8 @@ public class QuestionnaireResponse extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link QuestionnaireResponse}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid QuestionnaireResponse per the base specification
          */
         @Override
         public QuestionnaireResponse build() {
@@ -1218,6 +1220,8 @@ public class QuestionnaireResponse extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Item}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Item per the base specification
              */
             @Override
             public Item build() {
@@ -1522,6 +1526,8 @@ public class QuestionnaireResponse extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Answer}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Answer per the base specification
                  */
                 @Override
                 public Answer build() {

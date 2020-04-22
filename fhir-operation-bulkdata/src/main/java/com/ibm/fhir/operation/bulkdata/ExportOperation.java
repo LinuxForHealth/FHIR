@@ -22,7 +22,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.AbstractOperation;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
-import com.ibm.fhir.operation.bulkdata.util.BulkDataUtil;
+import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
 
@@ -52,19 +52,19 @@ public class ExportOperation extends AbstractOperation {
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
         // Pick off parameters
-        MediaType outputFormat = BulkDataUtil.checkAndConvertToMediaType(operationContext);
-        Instant since = BulkDataUtil.checkAndExtractSince(parameters);
-        List<String> types = BulkDataUtil.checkAndValidateTypes(parameters);
-        List<String> typeFilters = BulkDataUtil.checkAndValidateTypeFilters(parameters);
+        MediaType outputFormat = BulkDataExportUtil.checkAndConvertToMediaType(operationContext);
+        Instant since = BulkDataExportUtil.checkAndExtractSince(parameters);
+        List<String> types = BulkDataExportUtil.checkAndValidateTypes(parameters);
+        List<String> typeFilters = BulkDataExportUtil.checkAndValidateTypeFilters(parameters);
 
         // If Patient - Export Patient Filter Resources
         Parameters response = null;
-        BulkDataConstants.ExportType exportType = BulkDataUtil.checkExportType(operationContext.getType(), resourceType);
+        BulkDataConstants.ExportType exportType = BulkDataExportUtil.checkExportType(operationContext.getType(), resourceType);
 
         if (!ExportType.INVALID.equals(exportType)) {
             // For System $export, resource type(s) is required.
             if (ExportType.SYSTEM.equals(exportType) && types == null) {
-                throw BulkDataUtil.buildOperationException("Missing resource type(s)!", IssueType.INVALID);
+                throw BulkDataExportUtil.buildOperationException("Missing resource type(s)!", IssueType.INVALID);
             }
 
             response = BulkDataFactory.getTenantInstance().export(logicalId, exportType, outputFormat, since, types, 

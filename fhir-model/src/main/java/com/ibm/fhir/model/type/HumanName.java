@@ -453,6 +453,8 @@ public class HumanName extends Element {
          * 
          * @return
          *     An immutable object of type {@link HumanName}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid HumanName per the base specification
          */
         @Override
         public HumanName build() {

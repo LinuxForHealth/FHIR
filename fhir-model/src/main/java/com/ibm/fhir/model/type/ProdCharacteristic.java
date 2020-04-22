@@ -666,6 +666,8 @@ public class ProdCharacteristic extends BackboneElement {
          * 
          * @return
          *     An immutable object of type {@link ProdCharacteristic}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ProdCharacteristic per the base specification
          */
         @Override
         public ProdCharacteristic build() {

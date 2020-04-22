@@ -401,6 +401,8 @@ public class ParameterDefinition extends Element {
          * 
          * @return
          *     An immutable object of type {@link ParameterDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ParameterDefinition per the base specification
          */
         @Override
         public ParameterDefinition build() {

@@ -1488,6 +1488,8 @@ public class ChargeItem extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ChargeItem}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ChargeItem per the base specification
          */
         @Override
         public ChargeItem build() {
@@ -1797,6 +1799,8 @@ public class ChargeItem extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Performer}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Performer per the base specification
              */
             @Override
             public Performer build() {

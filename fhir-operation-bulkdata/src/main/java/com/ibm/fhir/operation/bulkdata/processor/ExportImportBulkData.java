@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.processor;
 
 import java.util.List;
@@ -13,6 +14,8 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
+import com.ibm.fhir.operation.bulkdata.model.type.Input;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
 
@@ -49,15 +52,16 @@ public interface ExportImportBulkData {
     /**
      * Pattern: POST [Base]/$import
      * 
-     * @param logicalId
-     * @param parameters
+     * @param inputFormat
+     * @param inputSource
+     * @param inputs
+     * @param storageDetail
      * @param operationContext
-     * @param resourceHelper
      * @return
      * @throws FHIROperationException
      */
-    public Parameters importBulkData(String logicalId, Parameters parameters, FHIROperationContext operationContext,
-            FHIRResourceHelpers resourceHelper) throws FHIROperationException;
+    public Parameters importBulkData(String inputFormat, String inputSource, List<Input> inputs,
+            StorageDetail storageDetails, FHIROperationContext operationContext) throws FHIROperationException;
 
     /**
      * deletes the export/import job

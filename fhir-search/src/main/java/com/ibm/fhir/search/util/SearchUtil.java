@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2020
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -629,12 +629,14 @@ public class SearchUtil {
                         if (ModelSupport.isResourceType(resType)) {
                             resourceTypes.add(resType);
                         } else {
+                            String msg = "_type search parameter has invalid resource type:" + resType;
                             if (lenient) {
-                                log.log(Level.FINE, resType + " is not valid resource type!");
+                                // TODO add this to the list of supplemental warnings?
+                                log.log(Level.FINE, resType + " is not a valid resource type");
                                 continue;
                             } else {
                                 throw SearchExceptionUtil.buildNewInvalidSearchException(
-                                        "_type search parameter has invilid resource type:" + resType);
+                                        "_type search parameter has invalid resource type:" + resType);
                             }
                         }
                     }
@@ -754,6 +756,7 @@ public class SearchUtil {
                         "Error while parsing search parameter '" + name + "' for resource type "
                                 + resourceType.getSimpleName();
                 if (lenient) {
+                    // TODO add this to the list of supplemental warnings?
                     log.log(Level.FINE, msg, se);
                 } else {
                     throw se;
@@ -1431,6 +1434,7 @@ public class SearchUtil {
             if (searchParm == null) {
                 String msg = "Undefined Inclusion Parameter: " + inclusionValue;
                 if (lenient) {
+                    // TODO add this to the list of supplemental warnings?
                     log.fine(msg);
                     continue;
                 } else {
@@ -1570,6 +1574,7 @@ public class SearchUtil {
                 }
                 if (!resourceFieldNames.contains(elementName)) {
                     if (lenient) {
+                        // TODO add this to the list of supplemental warnings?
                         log.fine("Skipping unknown element name: " + elementName);
                         continue;
                     } else {

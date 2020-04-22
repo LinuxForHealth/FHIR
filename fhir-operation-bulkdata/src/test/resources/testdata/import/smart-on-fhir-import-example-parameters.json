@@ -1,0 +1,44 @@
+{
+    "resourceType": "Parameters",
+    "id": "e4acf94f-e0e9-40f1-9030-cdab0c0f4340",
+    "parameter": [
+        {
+            "name": "inputFormat",
+            "valueString": "application/fhir+ndjson"
+        },
+        {
+            "name": "inputSource",
+            "valueUri": "https://other-server.example.org"
+        },
+        {
+            "name": "input",
+            "part": [
+                {
+                    "name": "type",
+                    "valueString": "Patient"
+                },
+                {
+                    "name": "url",
+                    "valueUrl": "https://client.example.org/patient_file_2.ndjson?sig=RHIX5Xcg0Mq2rqI3OlWT"
+                }
+            ]
+        },
+        {
+            "name": "input",
+            "part": [
+                {
+                    "name": "type",
+                    "valueString": "Observation"
+                },
+                {
+                    "name": "url",
+                    "valueUrl": "https://client.example.org/obseration_file_19.ndjson?sig=RHIX5Xcg0Mq2rqI3OlWT"
+                }
+            ]
+        },
+        {
+            "name": "storageDetail",
+            "valueString": "https"
+        }
+    ]
+}

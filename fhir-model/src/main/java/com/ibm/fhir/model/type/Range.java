@@ -219,6 +219,8 @@ public class Range extends Element {
          * 
          * @return
          *     An immutable object of type {@link Range}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Range per the base specification
          */
         @Override
         public Range build() {

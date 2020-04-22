@@ -629,7 +629,10 @@ public class CodeGenerator {
 
         if (isBase64Binary(structureDefinition)) {
             cb.method(mods("public"), "Builder", "value", params("java.lang.String value"))
-                .assign("this.value", "Base64.getDecoder().decode(value.replaceAll(\"\\\\s\", \"\"))")
+                .invoke("Objects.requireNonNull", args("value"))
+                .assign("java.lang.String valueNoWhitespace", "value.replaceAll(\"\\\\s\", \"\")")
+                .invoke("ValidationSupport.validateBase64EncodedString", args("valueNoWhitespace"))
+                .assign("this.value", "Base64.getDecoder().decode(valueNoWhitespace)")
                 ._return("this")
             .end().newLine();
         }
@@ -704,6 +707,8 @@ public class CodeGenerator {
                 cb.javadoc("");
             }
             cb.javadocReturn("An immutable object of type {@link " + className + "}");
+            cb.javadocThrows("IllegalStateException", "if the current state cannot be built into a valid "
+                    + className + " per the base specification");
             cb.javadocEnd();
             cb.override();
             cb.method(mods("public"), className, "build")

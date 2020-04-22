@@ -7,7 +7,6 @@
 package com.ibm.fhir.config;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -33,6 +32,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_ALLOW_CLIENT_HANDLING_PREF = "fhirServer/core/allowClientHandlingPref";
     public static final String PROPERTY_CHECK_REFERENCE_TYPES = "fhirServer/core/checkReferenceTypes";
     public static final String PROPERTY_CONDITIONAL_DELETE_MAX_NUMBER = "fhirServer/core/conditionalDeleteMaxNumber";
+    public static final String PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED = "fhirServer/core/serverRegistryResourceProviderEnabled";
 
     public static final String PROPERTY_SEARCH_PARAMETER_FILTER = "fhirServer/searchParameterFilter";
 
@@ -87,6 +87,10 @@ public class FHIRConfiguration {
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTORE = "fhirServer/bulkdata/batch-truststore";
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTOREPWD = "fhirServer/bulkdata/batch-truststore-password";
     public static final String PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC = "fhirServer/bulkdata/isExportPublic";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_VALID_BASE_URLS = "fhirServer/bulkdata/validBaseUrls";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_DISABLED = "fhirServer/bulkdata/validBaseUrlsDisabled";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_MAX_INPUT_PER_TENANT =
+            "fhirServer/bulkdata/maxInputPerRequest";
 
     // Custom header names
     public static final String DEFAULT_TENANT_ID_HEADER_NAME = "X-FHIR-TENANT-ID";
@@ -142,9 +146,10 @@ public class FHIRConfiguration {
     }
 
     /**
-     * Retrieves the FHIR Server configuration and returns it as a PropertyGroup.
+     * Retrieves the FHIR Server default configuration and returns it as a PropertyGroup.
      *
-     * @throws FileNotFoundException
+     * @return the top-level property group of the default tenant or null if it doesn't exist
+     * @throws Exception if the configuration file was found but couldn't be loaded
      */
     public PropertyGroup loadConfiguration() throws Exception {
         return loadConfigurationForTenant(DEFAULT_TENANT_ID);
@@ -155,7 +160,7 @@ public class FHIRConfiguration {
      *
      * @param tenantId
      *            a shortname representing the tenant whose configuration will be loaded
-     * @return the top-level property group representing this tenant's configuration
+     * @return the top-level property group representing this tenant's configuration or null if it doesn't exist
      * @throws Exception
      */
     public PropertyGroup loadConfigurationForTenant(String tenantId) throws Exception {

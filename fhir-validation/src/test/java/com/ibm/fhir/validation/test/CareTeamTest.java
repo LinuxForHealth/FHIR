@@ -21,18 +21,16 @@ import com.ibm.fhir.validation.FHIRValidator;
 
 public class CareTeamTest {
     public static void main(String[] args) throws Exception {
-        try (InputStream in = CareTeamTest.class.getClassLoader().getResourceAsStream("JSON/careteam.json")) {  
+        try (InputStream in = CareTeamTest.class.getClassLoader().getResourceAsStream("JSON/careteam.json")) {
             CareTeam careTeam = FHIRParser.parser(Format.JSON).parse(in);
             List<Issue> issues = FHIRValidator.validator().validate(careTeam);
             for (Issue issue : issues) {
                 System.out.println("severity: " + issue.getSeverity().getValue() + ", details: " + issue.getDetails().getText().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
             }
-            
-            FHIRPathEvaluator.DEBUG = true;
-            
+
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
             EvaluationContext evaluationContext = new EvaluationContext(careTeam);
-            
+
             Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "CareTeam.participant");
             for (FHIRPathNode node : result) {
                 result = evaluator.evaluate(evaluationContext, "member.resolve() is Practitioner", node);

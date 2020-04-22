@@ -805,6 +805,8 @@ public class TestReport extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link TestReport}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid TestReport per the base specification
          */
         @Override
         public TestReport build() {
@@ -1122,6 +1124,8 @@ public class TestReport extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Participant}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Participant per the base specification
              */
             @Override
             public Participant build() {
@@ -1381,6 +1385,8 @@ public class TestReport extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Setup}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Setup per the base specification
              */
             @Override
             public Setup build() {
@@ -1638,6 +1644,8 @@ public class TestReport extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Action}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Action per the base specification
                  */
                 @Override
                 public Action build() {
@@ -1941,6 +1949,8 @@ public class TestReport extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Operation}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Operation per the base specification
                      */
                     @Override
                     public Operation build() {
@@ -2246,6 +2256,8 @@ public class TestReport extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link Assert}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid Assert per the base specification
                      */
                     @Override
                     public Assert build() {
@@ -2569,6 +2581,8 @@ public class TestReport extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Test}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Test per the base specification
              */
             @Override
             public Test build() {
@@ -2828,6 +2842,8 @@ public class TestReport extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Action}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Action per the base specification
                  */
                 @Override
                 public Action build() {
@@ -3088,6 +3104,8 @@ public class TestReport extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Teardown}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Teardown per the base specification
              */
             @Override
             public Teardown build() {
@@ -3322,6 +3340,8 @@ public class TestReport extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Action}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Action per the base specification
                  */
                 @Override
                 public Action build() {

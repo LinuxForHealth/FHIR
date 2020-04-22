@@ -1113,6 +1113,8 @@ public class SubstanceSpecification extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link SubstanceSpecification}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid SubstanceSpecification per the base specification
          */
         @Override
         public SubstanceSpecification build() {
@@ -1557,6 +1559,8 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Moiety}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Moiety per the base specification
              */
             @Override
             public Moiety build() {
@@ -1933,6 +1937,8 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Property}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Property per the base specification
              */
             @Override
             public Property build() {
@@ -2452,6 +2458,8 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Structure}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Structure per the base specification
              */
             @Override
             public Structure build() {
@@ -2814,6 +2822,8 @@ public class SubstanceSpecification extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Isotope}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Isotope per the base specification
                  */
                 @Override
                 public Isotope build() {
@@ -3112,6 +3122,8 @@ public class SubstanceSpecification extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link MolecularWeight}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid MolecularWeight per the base specification
                      */
                     @Override
                     public MolecularWeight build() {
@@ -3407,6 +3419,8 @@ public class SubstanceSpecification extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Representation}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Representation per the base specification
                  */
                 @Override
                 public Representation build() {
@@ -3786,6 +3800,8 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Code}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Code per the base specification
              */
             @Override
             public Code build() {
@@ -4491,6 +4507,8 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Name}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Name per the base specification
              */
             @Override
             public Name build() {
@@ -4792,6 +4810,8 @@ public class SubstanceSpecification extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Official}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Official per the base specification
                  */
                 @Override
                 public Official build() {
@@ -5257,6 +5277,8 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Relationship}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Relationship per the base specification
              */
             @Override
             public Relationship build() {

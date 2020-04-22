@@ -1167,6 +1167,8 @@ public class RequestGroup extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link RequestGroup}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid RequestGroup per the base specification
          */
         @Override
         public RequestGroup build() {
@@ -2151,6 +2153,8 @@ public class RequestGroup extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Action}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Action per the base specification
              */
             @Override
             public Action build() {
@@ -2440,6 +2444,8 @@ public class RequestGroup extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Condition}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Condition per the base specification
                  */
                 @Override
                 public Condition build() {
@@ -2756,6 +2762,8 @@ public class RequestGroup extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link RelatedAction}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid RelatedAction per the base specification
                  */
                 @Override
                 public RelatedAction build() {

@@ -602,6 +602,8 @@ public class Subscription extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Subscription}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Subscription per the base specification
          */
         @Override
         public Subscription build() {
@@ -975,6 +977,8 @@ public class Subscription extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Channel}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Channel per the base specification
              */
             @Override
             public Channel build() {

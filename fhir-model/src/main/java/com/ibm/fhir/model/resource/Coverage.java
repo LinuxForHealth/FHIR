@@ -1053,6 +1053,8 @@ public class Coverage extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Coverage}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Coverage per the base specification
          */
         @Override
         public Coverage build() {
@@ -1380,6 +1382,8 @@ public class Coverage extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Class}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Class per the base specification
              */
             @Override
             public Class build() {
@@ -1715,6 +1719,8 @@ public class Coverage extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link CostToBeneficiary}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid CostToBeneficiary per the base specification
              */
             @Override
             public CostToBeneficiary build() {
@@ -1990,6 +1996,8 @@ public class Coverage extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Exception}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Exception per the base specification
                  */
                 @Override
                 public Exception build() {

@@ -1800,6 +1800,8 @@ public class MedicationRequest extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MedicationRequest}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MedicationRequest per the base specification
          */
         @Override
         public MedicationRequest build() {
@@ -2263,6 +2265,8 @@ public class MedicationRequest extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link DispenseRequest}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid DispenseRequest per the base specification
              */
             @Override
             public DispenseRequest build() {
@@ -2526,6 +2530,8 @@ public class MedicationRequest extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link InitialFill}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid InitialFill per the base specification
                  */
                 @Override
                 public InitialFill build() {
@@ -2815,6 +2821,8 @@ public class MedicationRequest extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Substitution}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Substitution per the base specification
              */
             @Override
             public Substitution build() {

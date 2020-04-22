@@ -679,6 +679,8 @@ public class BodyStructure extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link BodyStructure}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid BodyStructure per the base specification
          */
         @Override
         public BodyStructure build() {

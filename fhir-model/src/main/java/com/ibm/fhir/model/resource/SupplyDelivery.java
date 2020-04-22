@@ -801,6 +801,8 @@ public class SupplyDelivery extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link SupplyDelivery}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid SupplyDelivery per the base specification
          */
         @Override
         public SupplyDelivery build() {
@@ -1083,6 +1085,8 @@ public class SupplyDelivery extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link SuppliedItem}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid SuppliedItem per the base specification
              */
             @Override
             public SuppliedItem build() {
