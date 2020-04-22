@@ -130,8 +130,7 @@ public final class ValueSetSupport {
         if (includeOrExclude.getSystem() != null && includeOrExclude.getSystem().getValue() != null) {
             StringBuilder sb = new StringBuilder(includeOrExclude.getSystem().getValue());
             if (includeOrExclude.getVersion() != null && includeOrExclude.getVersion().getValue() != null) {
-                java.lang.String version = includeOrExclude.getVersion().getValue();
-                sb.append("|").append(version);
+                sb.append("|").append(includeOrExclude.getVersion().getValue());
             }
             return sb.toString();
         }
