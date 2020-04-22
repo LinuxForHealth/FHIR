@@ -63,8 +63,10 @@ public class Delete extends FHIRResource {
 
             // The server should return either a 200 OK if the response contains a payload, or a 204 No Content with no response payload
             if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
+                status = Status.OK;
                 response = Response.ok(ior.getOperationOutcome());
             } else {
+                status = Status.NO_CONTENT;
                 response = Response.noContent();
             }
 
@@ -119,10 +121,18 @@ public class Delete extends FHIRResource {
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             ior = helper.doDelete(type, null, searchQueryString, null);
             status = ior.getStatus();
-            ResponseBuilder response = Response.status(status);
-            if (ior.getOperationOutcome() != null) {
-                response.entity(ior.getOperationOutcome());
+
+            ResponseBuilder response;
+
+            // The server should return either a 200 OK if the response contains a payload, or a 204 No Content with no response payload
+            if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
+                status = Status.OK;
+                response = Response.ok(ior.getOperationOutcome());
+            } else {
+                status = Status.NO_CONTENT;
+                response = Response.noContent();
             }
+
             if (ior.getResource() != null) {
                 response = addHeaders(response, ior.getResource());
             }

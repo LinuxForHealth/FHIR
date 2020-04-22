@@ -491,8 +491,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
-        Response.Status status = null;
-
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
 
         try {
@@ -511,7 +509,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Bundle responseBundle = null;
 
             if (searchQueryString != null) {
-                int searchPageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_CONDITIONAL_DELETE_MAX_NUMBER, FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT);
+                int searchPageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_CONDITIONAL_DELETE_MAX_NUMBER,
+                        FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT);
 
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("Performing conditional delete with search criteria: "
@@ -541,9 +540,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     if (log.isLoggable(Level.FINE)) {
                         log.fine(msg);
                     }
-                    status = Response.Status.OK;
                     ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(msg, IssueType.NOT_FOUND, IssueSeverity.WARNING));
-                    ior.setStatus(status);
+                    ior.setStatus(Status.OK);
                     return ior;
                 } else if (responseBundle.getTotal().getValue() > searchPageSize) {
                     String msg = "The search criteria specified for a conditional delete operation returned too many matches ( > " + searchPageSize + " ).";
