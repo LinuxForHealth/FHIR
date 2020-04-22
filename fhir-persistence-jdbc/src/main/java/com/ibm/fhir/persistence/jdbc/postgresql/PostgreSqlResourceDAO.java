@@ -30,11 +30,6 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
-import com.ibm.fhir.persistence.jdbc.derby.CodeSystemCacheAdapter;
-import com.ibm.fhir.persistence.jdbc.derby.DerbyCodeSystemDAO;
-import com.ibm.fhir.persistence.jdbc.derby.DerbyParameterNamesDAO;
-import com.ibm.fhir.persistence.jdbc.derby.FhirRefSequenceDAOImpl;
-import com.ibm.fhir.persistence.jdbc.derby.ParameterNameCacheAdapter;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
@@ -43,7 +38,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
- * Data access object for writing FHIR resources to an PostgreSql database.
+ * Data access object for writing FHIR resources to an postgresql database.
  *
  * @implNote This class follows the logic of the DB2 stored procedure, but does so
  * using a series of individual JDBC statements.
@@ -72,7 +67,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
     }
 
     /**
-     * Inserts the passed FHIR Resource and associated search parameters to a Derby or PostgreSql FHIR database.
+     * Inserts the passed FHIR Resource and associated search parameters to a postgresql FHIR database.
      * The search parameters are stored first by calling the passed parameterDao. Then the Resource is stored
      * by sql.
      * @param resource The FHIR Resource to be inserted.
@@ -100,8 +95,8 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
             connection = this.getConnection();
 
             this.fhirRefSequenceDAO = new FhirRefSequenceDAOImpl(connection);
-            this.parameterNameDAO = new DerbyParameterNamesDAO(connection, fhirRefSequenceDAO);
-            this.codeSystemDAO = new DerbyCodeSystemDAO(connection, fhirRefSequenceDAO);
+            this.parameterNameDAO = new PostgreSqlParameterNamesDAO(connection, fhirRefSequenceDAO);
+            this.codeSystemDAO = new PostgreSqlCodeSystemDAO(connection, fhirRefSequenceDAO);
 
             resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
             if (resourceTypeId == null) {
@@ -221,7 +216,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
             throw new IllegalStateException("resource type not found: " + v_resource_type);
         }
 
-        // Get a lock at the system-wide logical resource level. Note the Derby-specific syntax
+        // Get a lock at the system-wide logical resource level.
         final String SELECT_FOR_UPDATE = "SELECT logical_resource_id FROM logical_resources WHERE resource_type_id = ? AND logical_id = ? FOR UPDATE";
         try (PreparedStatement stmt = conn.prepareStatement(SELECT_FOR_UPDATE)) {
             stmt.setInt(1, v_resource_type_id);
@@ -415,11 +410,11 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
                 stmt.executeUpdate();
             }
 
-            // To keep things simple for the Derby use-case, we just use a visitor to
+            // To keep things simple for the postgresql use-case, we just use a visitor to
             // handle inserts of parameters directly in the resource parameter tables.
             // Note we don't get any parameters for the resource soft-delete operation
             if (parameters != null) {
-                // Derby doesn't support partitioned multi-tenancy, so we disable it on the DAO:
+                // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_logical_resource_id, 100,
                     new ParameterNameCacheAdapter(parameterNameDAO), new CodeSystemCacheAdapter(codeSystemDAO))) {
                     for (ExtractedParameterValue p: parameters) {
