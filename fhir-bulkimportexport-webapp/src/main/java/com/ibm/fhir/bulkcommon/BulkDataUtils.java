@@ -95,7 +95,7 @@ public class BulkDataUtils {
     }
 
     public static AmazonS3 getCosClient(String cosCredentialIbm, String cosApiKeyProperty, String cosSrvinstId,
-            String cosEndpintUrl, String cosLocation) {
+            String cosEndpointUrl, String cosLocation) {
         SDKGlobalConfiguration.IAM_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token";
         AWSCredentials credentials;
         if (cosCredentialIbm.equalsIgnoreCase("Y")) {
@@ -110,7 +110,7 @@ public class BulkDataUtils {
                 .withSocketTimeout(Constants.COS_SOCKET_TIMEOUT);
 
         return AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withEndpointConfiguration(new EndpointConfiguration(cosEndpintUrl, cosLocation))
+                .withEndpointConfiguration(new EndpointConfiguration(cosEndpointUrl, cosLocation))
                 .withPathStyleAccessEnabled(true).withClientConfiguration(clientConfig).build();
     }
 

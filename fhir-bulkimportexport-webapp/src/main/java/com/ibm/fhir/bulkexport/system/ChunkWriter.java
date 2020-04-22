@@ -58,7 +58,7 @@ public class ChunkWriter extends AbstractItemWriter {
      */
     @Inject
     @BatchProperty(name = "cos.endpointurl")
-    String cosEndpintUrl;
+    String cosEndpointUrl;
 
     /**
      * The Cos End point location.
@@ -211,7 +211,7 @@ public class ChunkWriter extends AbstractItemWriter {
     @Override
     public void writeItems(List<java.lang.Object> arg0) throws Exception {
         if (cosClient == null) {
-            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl, cosLocation);
             if (cosClient == null) {
                 logger.warning("writeItems: Failed to get CosClient!");
                 throw new Exception("writeItems: Failed to get CosClient!!");
