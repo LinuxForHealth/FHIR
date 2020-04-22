@@ -24,7 +24,7 @@
     -->
     <webContainer disableXPoweredBy="true"
         displayTextWhenNoErrorPageDefined="Unexpected request/response. Please check the URL and try again."
-        deferServletLoad="true"/>
+        deferServletLoad="false"/>
 
     <!-- IBM FHIR Server's keystore and truststore configuration -->
     <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" sslProtocol="TLSv1.2"/>
