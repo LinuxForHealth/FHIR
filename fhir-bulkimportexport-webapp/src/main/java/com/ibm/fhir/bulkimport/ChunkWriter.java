@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -188,12 +189,14 @@ public class ChunkWriter extends AbstractItemWriter {
 
             for (Resource fhirResource : fhirResourceList) {
                 try {
+                    String id = fhirResource.getId();
                     processedNum++;
                     // Skip the resources which failed the validation
-                    if (failValidationIds.contains(fhirResource.getId())) {
+                    if (failValidationIds.contains(id)) {
                         continue;
                     }
-                    OperationOutcome operationOutcome = fhirPersistence.update(persistenceContext, fhirResource.getId(), fhirResource).getOutcome();
+                    OperationOutcome operationOutcome =
+                            fhirPersistence.update(persistenceContext, id, fhirResource).getOutcome();
                     succeededNum++;
                     if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES && operationOutcome != null) {
                         FHIRGenerator.generator(Format.JSON).generate(operationOutcome, chunkData.getBufferStreamForImport());

@@ -1,0 +1,43 @@
+{
+  "resourceType": "OperationDefinition",
+  "id": "export",
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>BulkDataExportStatus</h2></div>"
+  },
+  "url": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/export-status",
+  "version": "1.0.0",
+  "name": "BulkDataExportSTatus",
+  "title": "FHIR Bulk Data Export (Flat FHIR) - System Level Export Status",
+  "status": "active",
+  "kind": "operation",
+  "date": "2019-09-13T00:00:00+00:00",
+  "publisher": "IBM",
+  "contact": [
+    {
+      "name": "Paul Bastide",
+      "telecom": [
+        {
+          "system": "email",
+          "value": "pbastide@us.ibm.com"
+        }
+      ]
+    }
+  ],
+  "description": "Checks the status of an asynchronous request",
+  "code": "bulkdata-status",
+  "base": "/",
+  "system": true,
+  "type": false,
+  "instance": false,
+  "parameter": [
+    {
+      "name": "job",
+      "use": "in",
+      "min": 1,
+      "max": "1",
+      "documentation": "The Job Identifier that is used to check the bulkdata processor",
+      "type": "string"
+    }
+  ]
+}

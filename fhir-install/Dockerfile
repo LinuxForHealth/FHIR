@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-FROM openliberty/open-liberty as base
+FROM openliberty/open-liberty:20.0.0.3-full-java8-openj9-ubi as base
 
 ENV LICENSE accept
 
@@ -20,7 +20,7 @@ RUN unzip -qq /tmp/fhir-server-distribution.zip -d /tmp && \
 
 # ----------------------------------------------------------------------------
 
-FROM openliberty/open-liberty
+FROM openliberty/open-liberty:20.0.0.3-full-java8-openj9-ubi
 COPY --chown=1001:0 --from=base /opt/ol/wlp /opt/ol/wlp
 
 MAINTAINER Lee Surprenant <lmsurpre@us.ibm.com>
@@ -44,6 +44,7 @@ RUN ln -sfn ${FHIR} /output && \
     rm -rf /opt/ol/wlp/usr/servers/defaultServer
 
 USER 1001
+
 # Create the configDropins directories for the fhir-server
 RUN mkdir -p /config/configDropins/defaults /config/configDropins/overrides
 CMD ["/opt/ol/wlp/bin/server", "run", "fhir-server"]

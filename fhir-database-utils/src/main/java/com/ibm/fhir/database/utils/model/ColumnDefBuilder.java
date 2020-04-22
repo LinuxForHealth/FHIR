@@ -173,6 +173,9 @@ public class ColumnDefBuilder {
             case BLOB:
                 column = new BlobColumn(cd.getName(), cd.getSize(), cd.getInlineSize(), cd.isNullable());
                 break;
+            case CLOB:
+                column = new ClobColumn(cd.getName(), cd.isNullable(), cd.getDefaultVal());
+                break;
             default:
                 throw new IllegalStateException("Unsupported column type: " + cd.getColumnType().name());
             }

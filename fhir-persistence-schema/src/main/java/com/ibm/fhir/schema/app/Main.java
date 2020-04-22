@@ -64,6 +64,7 @@ import com.ibm.fhir.schema.control.AddResourceType;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
+import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
 import com.ibm.fhir.schema.model.DbType;
 import com.ibm.fhir.schema.model.ResourceType;
@@ -72,7 +73,7 @@ import com.ibm.fhir.task.api.ITaskGroup;
 import com.ibm.fhir.task.core.service.TaskService;
 
 /**
- * Utility app to connect to a Db2 database and create/update the FHIR schema.
+ * Utility app to connect to a database and create/update the IBM FHIR Server schema.
  * The DDL processing is idempotent, with only the necessary changes applied.
  * <br>
  * This utility also includes an option to exercise the tenant partitioning code.
@@ -95,14 +96,19 @@ public class Main {
     // The schema used for administration of tenants
     private String adminSchemaName = "FHIR_ADMIN";
 
+    // The schema used for administration of OAuth 2.0 clients
+    private String oauthSchemaName = "FHIR_OAUTH";
+
     // Arguments requesting we drop the objects from the schema
     private boolean dropSchema = false;
     private boolean dropAdmin = false;
     private boolean confirmDrop = false;
-    private boolean updateSchema = false;
     private boolean updateProc = false;
     private boolean checkCompatibility = false;
-    private boolean createFhirSchemas = false;
+    private boolean createFhirSchema = false;
+    private boolean updateFhirSchema = false;
+    private boolean createOauthSchema = false;
+    private boolean updateOauthSchema = false;
 
     // By default, the dryRun option is OFF, and FALSE
     // When overridden, it simulates the actions.
@@ -213,14 +219,16 @@ public class Main {
                 }
                 break;
             case "--update-schema":
-                this.updateSchema = true;
+                this.updateFhirSchema = true;
                 this.dropSchema = false;
+                this.updateOauthSchema = true;
                 break;
             case "--create-schemas":
-                this.createFhirSchemas = true;
+                this.createFhirSchema = true;
+                this.createOauthSchema = true;
                 break;
             case "--drop-schema":
-                this.updateSchema = false;
+                this.updateFhirSchema = false;
                 this.dropSchema = true;
                 break;
             case "--pool-size":
@@ -533,11 +541,17 @@ public class Main {
      */
     protected void updateSchema() {
 
-        // Build/update the tables as well as the stored procedures
+        // Build/update the FHIR-related tables as well as the stored procedures
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
         gen.buildProcedures(pdm);
+
+        // Build/update the Liberty OAuth-related tables
+        if (updateOauthSchema) {
+            OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(oauthSchemaName);
+            oauthSchemaGenerator.buildOAuthSchema(pdm);
+        }
 
         // The objects are applied in parallel, which relies on each object
         // expressing its dependencies correctly. Changes are only applied
@@ -558,7 +572,11 @@ public class Main {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
                     IDatabaseAdapter adapter = getDbAdapter(target);
-                    adapter.createFhirSchemas(schemaName, adminSchemaName);
+                    adapter.createSchema(schemaName);
+                    adapter.createSchema(adminSchemaName);
+                    if (createOauthSchema) {
+                        adapter.createSchema(oauthSchemaName);
+                    }
                 } catch (Exception x) {
                     c.rollback();
                     throw x;
@@ -748,9 +766,9 @@ public class Main {
             } else {
                 throw new IllegalArgumentException("[ERROR] Drop not confirmed with --confirm-drop");
             }
-        } else if (updateSchema) {
+        } else if (updateFhirSchema) {
             updateSchema();
-        } else if (createFhirSchemas) {
+        } else if (createFhirSchema) {
             createFhirSchemas();
         } else if (updateProc) {
             updateProcedures();

@@ -6,14 +6,12 @@
 
 package com.ibm.fhir.operation.bulkdata.processor;
 
-import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -28,10 +26,11 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Parameters;
-import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
+import com.ibm.fhir.operation.bulkdata.model.type.Input;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.processor.impl.DummyImportExportImpl;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
@@ -75,8 +74,8 @@ public class DummyImportExportImplTest {
         FHIROperationException e = null;
         while (idx != 4) {
             try {
-                impl.export(logicalId, ExportType.GROUP, MediaType.valueOf("application/fhir+ndjson"),
-                        Instant.now(), null, null, operationContext, resourceHelper);
+                impl.export(logicalId, ExportType.GROUP, MediaType.valueOf("application/fhir+ndjson"), Instant.now(),
+                        null, null, operationContext, resourceHelper);
                 break;
             } catch (Exception fe) {
                 if (fe instanceof FHIROperationException) {
@@ -105,8 +104,8 @@ public class DummyImportExportImplTest {
         FHIROperationException e = null;
         while (idx != 4) {
             try {
-                impl.export(logicalId, ExportType.GROUP, MediaType.valueOf("application/fhir+ndjson"),
-                        Instant.now(), null, null, operationContext, resourceHelper);
+                impl.export(logicalId, ExportType.GROUP, MediaType.valueOf("application/fhir+ndjson"), Instant.now(),
+                        null, null, operationContext, resourceHelper);
                 break;
             } catch (Exception fe) {
                 if (fe instanceof FHIROperationException) {
@@ -134,8 +133,8 @@ public class DummyImportExportImplTest {
         int idx = 1;
         while (idx != 4) {
             try {
-                impl.export(logicalId, ExportType.GROUP, MediaType.valueOf("application/fhir+ndjson"),
-                        Instant.now(), null, null, operationContext, resourceHelper);
+                impl.export(logicalId, ExportType.GROUP, MediaType.valueOf("application/fhir+ndjson"), Instant.now(),
+                        null, null, operationContext, resourceHelper);
                 break;
             } catch (Exception e) {
             }
@@ -143,7 +142,7 @@ public class DummyImportExportImplTest {
         }
         assertTrue(idx <= 4);
     }
-    
+
     @Test
     public void testExportBulkDataSystemValid() throws FHIRException {
         String logicalId = "3";
@@ -156,8 +155,8 @@ public class DummyImportExportImplTest {
         int idx = 1;
         while (idx != 4) {
             try {
-                impl.export(logicalId, ExportType.SYSTEM, MediaType.valueOf("application/fhir+ndjson"),
-                        Instant.now(), null, null, operationContext, resourceHelper);
+                impl.export(logicalId, ExportType.SYSTEM, MediaType.valueOf("application/fhir+ndjson"), Instant.now(),
+                        null, null, operationContext, resourceHelper);
                 break;
             } catch (Exception e) {
             }
@@ -168,20 +167,15 @@ public class DummyImportExportImplTest {
 
     @Test(expectedExceptions = { FHIROperationException.class })
     public void testImportBulkData() throws FHIROperationException {
-        String logicalId = null;
         FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
-        FHIRResourceHelpers resourceHelper = generateFHIRResourceHelpers();
 
-        // parameters
-        List<Parameter> pss = new ArrayList<>();
-        pss.add(Parameter.builder().name(string("job")).value(string("1234q346")).build());
-        Parameters.Builder builder = Parameters.builder();
-        builder.id(UUID.randomUUID().toString());
-        builder.parameter(pss);
-        Parameters parameters = builder.build();
+        String inputFormat = "app/json";
+        String inputSource = "https://secure-location";
+        List<Input> inputs = Collections.emptyList();
+        StorageDetail storageDetail = new StorageDetail("https");
 
         DummyImportExportImpl impl = new DummyImportExportImpl();
-        impl.importBulkData(logicalId, parameters, operationContext, resourceHelper);
+        impl.importBulkData(inputFormat, inputSource, inputs, storageDetail, operationContext);
     }
 
     @Test(expectedExceptions = { FHIROperationException.class })

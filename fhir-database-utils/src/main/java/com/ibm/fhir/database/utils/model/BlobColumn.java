@@ -9,12 +9,12 @@ package com.ibm.fhir.database.utils.model;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 
 /**
- * Blob Column
+ * Binary Large OBject (BLOB) Column
  */
 public class BlobColumn extends ColumnBase {
-    
+
     private final long size;
-    
+
     private final int inlineSize;
 
     /**

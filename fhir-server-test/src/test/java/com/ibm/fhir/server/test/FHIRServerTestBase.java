@@ -451,7 +451,7 @@ public abstract class FHIRServerTestBase {
 
         boolean txnSupported = false;
 
-        if (transactionMode.getValue().contentEquals(SystemRestfulInteraction.TRANSACTION.getValue())) {
+        if (transactionMode.getValue().equals(SystemRestfulInteraction.TRANSACTION.getValue())) {
             txnSupported = true;
         }
 

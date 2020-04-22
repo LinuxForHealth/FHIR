@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
+import javax.naming.NameNotFoundException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -170,10 +171,21 @@ public class FHIRServletContextListener implements ServletContextListener {
             InitialContext ctxt = new InitialContext();
             DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
 
-            bootstrapDb("default", "default", ds);
-            bootstrapDb("tenant1", "profile", ds);
-            bootstrapDb("tenant1", "reference", ds);
-            bootstrapDb("tenant1", "study1", ds);
+            bootstrapFhirDb("default", "default", ds);
+            bootstrapFhirDb("tenant1", "profile", ds);
+            bootstrapFhirDb("tenant1", "reference", ds);
+            bootstrapFhirDb("tenant1", "study1", ds);
+
+            datasourceJndiName = "jdbc/OAuth2DB";
+            try {
+                ds = (DataSource) ctxt.lookup(datasourceJndiName);
+                if (ds != null) {
+                    log.info("Found '" + datasourceJndiName + "'; bootstrapping the OAuth client tables");
+                    DerbyBootstrapper.bootstrapOauthDb(ds);
+                }
+            } catch (NameNotFoundException e) {
+                log.info("No '" + datasourceJndiName + "' dataSource found; skipping OAuth client table bootstrapping");
+            }
 
             log.info("Finished Derby database bootstrapping...");
         } else {
@@ -185,7 +197,7 @@ public class FHIRServletContextListener implements ServletContextListener {
      * Bootstraps the database specified by tenantId and dsId, assuming the specified datastore definition can be
      * retrieved from the configuration.
      */
-    private void bootstrapDb(String tenantId, String dsId, DataSource ds) throws Exception {
+    private void bootstrapFhirDb(String tenantId, String dsId, DataSource ds) throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext(tenantId, dsId));
         PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId);
         if (pg != null) {

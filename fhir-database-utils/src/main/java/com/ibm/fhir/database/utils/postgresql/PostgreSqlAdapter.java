@@ -244,14 +244,6 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createFhirSchemas(String schemaName, String adminSchemaName) {
-        String ddl = "CREATE SCHEMA " + schemaName;
-        runStatement(ddl);
-        ddl = "CREATE SCHEMA " + adminSchemaName;
-        runStatement(ddl);
-    }
-
-    @Override
     public void runStatement(IDatabaseStatement stmt) {
         if (stmt instanceof AddForeignKeyConstraint) {
             AddForeignKeyConstraint afk = (AddForeignKeyConstraint) stmt;

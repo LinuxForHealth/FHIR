@@ -11,9 +11,10 @@ import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.OperationDefinition;
+import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
+import com.ibm.fhir.operation.bulkdata.processor.ExportImportBulkData;
 
 public class BulkdataOperationTest {
-
     @Test
     public void testExportOperation() {
         ExportOperation exportOperation = new ExportOperation();
@@ -23,7 +24,7 @@ public class BulkdataOperationTest {
 
     @Test
     public void testExportStatusOperation() {
-        ExportStatusOperation exportStatusOperation = new ExportStatusOperation();
+        StatusOperation exportStatusOperation = new StatusOperation();
         OperationDefinition operationDefinition = exportStatusOperation.buildOperationDefinition();
         assertNotNull(operationDefinition);
     }
@@ -47,5 +48,11 @@ public class BulkdataOperationTest {
         PatientExportOperation patientExportOperation = new PatientExportOperation();
         OperationDefinition operationDefinition = patientExportOperation.buildOperationDefinition();
         assertNotNull(operationDefinition);
+    }
+
+    @Test
+    public void testBulkDataFactory() {
+        ExportImportBulkData eibd = BulkDataFactory.getTenantInstance();
+        assertNotNull(eibd);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -58,7 +58,7 @@ import com.ibm.fhir.provider.FHIRProvider;
  */
 public class FHIRClientImpl implements FHIRClient {
 
-    private static final String KEYSTORE_TYPE_JKS = "JKS";
+    private static final String KEYSTORE_TYPE = "pkcs12";
 
     private Client client = null;
     private Properties clientProperties = null;
@@ -866,7 +866,7 @@ public class FHIRClientImpl implements FHIRClient {
                 if (trustStoreLoc != null && trustStoreEncodedPwd != null) {
                     setTrustStoreLocation(trustStoreLoc);
                     setTrustStorePassword(FHIRUtilities.decode(trustStoreEncodedPwd));
-                    setTrustStore(loadKeyStoreFile(getTrustStoreLocation(), getTrustStorePassword(), KEYSTORE_TYPE_JKS));
+                    setTrustStore(loadKeyStoreFile(getTrustStoreLocation(), getTrustStorePassword(), KEYSTORE_TYPE));
                 }
             }
 
@@ -875,7 +875,7 @@ public class FHIRClientImpl implements FHIRClient {
                 setKeyStoreLocation(getRequiredProperty(PROPNAME_KEYSTORE_LOCATION));
                 setKeyStorePassword(FHIRUtilities.decode(getRequiredProperty(PROPNAME_KEYSTORE_PASSWORD)));
                 setKeyStoreKeyPassword(FHIRUtilities.decode(getRequiredProperty(PROPNAME_KEYSTORE_KEY_PASSWORD)));
-                setKeyStore(loadKeyStoreFile(getKeyStoreLocation(), getKeyStorePassword(), KEYSTORE_TYPE_JKS));
+                setKeyStore(loadKeyStoreFile(getKeyStoreLocation(), getKeyStorePassword(), KEYSTORE_TYPE));
             }
 
             setLoggingEnabled(Boolean.parseBoolean(getProperty(PROPNAME_LOGGING_ENABLED, "false")));

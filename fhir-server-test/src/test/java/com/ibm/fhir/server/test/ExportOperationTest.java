@@ -50,7 +50,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
     public static final String PATIENT_VALID_URL = "Patient/$export";
     public static final String GROUP_VALID_URL = "Group/?/$export";
     public static final String BASE_VALID_URL = "/$export";
-    public static final String BASE_VALID_STATUS_URL = "/$export-status";
+    public static final String BASE_VALID_STATUS_URL = "/$bulkdata-status";
     public static final String FORMAT = "application/fhir+ndjson";
     public static final boolean ON = true;
 
@@ -59,8 +59,8 @@ public class ExportOperationTest extends FHIRServerTestBase {
     private String savedPatientId, savedPatientId2;
     private String savedGroupId, savedGroupId2;
 
-    public Response doPost(String path, String mimeType, String outputFormat, Instant since,
-        List<String> types, List<String> typeFilters) throws FHIRGeneratorException, IOException {
+    public Response doPost(String path, String mimeType, String outputFormat, Instant since, List<String> types,
+            List<String> typeFilters) throws FHIRGeneratorException, IOException {
         WebTarget target = getWebTarget();
         target = target.path(path);
         target = addQueryParameter(target, "_outputFormat", outputFormat);
@@ -79,15 +79,21 @@ public class ExportOperationTest extends FHIRServerTestBase {
     /*
      *
      * @param outputFormat
+     * 
      * @param since
+     * 
      * @param types
+     * 
      * @param typeFilters
+     * 
      * @return
+     * 
      * @throws FHIRGeneratorException
+     * 
      * @throws IOException
      */
     private Parameters generateParameters(String outputFormat, Instant since, List<String> types,
-        List<String> typeFilters) throws FHIRGeneratorException, IOException {
+            List<String> typeFilters) throws FHIRGeneratorException, IOException {
         List<Parameter> parameters = new ArrayList<>();
 
         if (outputFormat != null) {
@@ -99,11 +105,13 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
 
         if (types != null) {
-            parameters.add(Parameter.builder().name(string("_type")).value(string(types.stream().collect(Collectors.joining(",")))).build());
+            parameters.add(Parameter.builder().name(string("_type"))
+                    .value(string(types.stream().collect(Collectors.joining(",")))).build());
         }
 
         if (typeFilters != null) {
-            parameters.add(Parameter.builder().name(string("_typeFilters")).value(string(types.stream().collect(Collectors.joining(",")))).build());
+            parameters.add(Parameter.builder().name(string("_typeFilters"))
+                    .value(string(types.stream().collect(Collectors.joining(",")))).build());
         }
 
         Parameters.Builder builder = Parameters.builder();
@@ -149,30 +157,33 @@ public class ExportOperationTest extends FHIRServerTestBase {
     private void checkBaseExportStatus() throws InterruptedException {
         Response response;
         do {
-            response =
-                doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON);
+            response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON);
             // 202 accept means the request is still under processing
             // 200 mean export is finished
-            assertTrue(response.getStatus() == 200 || response.getStatus() == 202);
+            assertTrue(response.getStatus() == Response.Status.OK.getStatusCode()
+                    || response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
             Thread.sleep(5000);
-        } while (response.getStatus() == 202);
+        } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
 
-        assertEquals(response.getStatus(), 200);
+        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
         // Export finished successfully, we should be about to find the "output" part in the message body
         // which includes all the COS objects download urls.
         String body = response.readEntity(String.class);
+        if (DEBUG) {
+            System.out.println(body);
+        }
         assertTrue(body.contains("output"));
         // Find and try the first download link
-        String downloadUrl = body.substring(body.lastIndexOf("\"output\" :"));
+        String downloadUrl = body.substring(body.lastIndexOf("\"output\":"));
         int endIndex = downloadUrl.indexOf(".ndjson") + 7;
         downloadUrl = downloadUrl.substring(downloadUrl.indexOf("https"), endIndex);
         WebTarget client = ClientBuilder.newClient().target(downloadUrl);
         response = client.request().get(Response.class);
-        assertEquals(response.getStatus(), 200);
+        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
     }
 
     @Test(groups = { TEST_GROUP_NAME })
-    public void testCreate2Patients() throws Exception {
+    public void testCreateTwoPatients() throws Exception {
         WebTarget target = getWebTarget();
         // Build a new Patient and then call the 'create' API.
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
@@ -208,8 +219,8 @@ public class ExportOperationTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
-    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods={"testCreate2Patients"})
-    public void testCreateResource4Patients() throws Exception {
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testCreateTwoPatients" })
+    public void testCreateResourceForPatients() throws Exception {
         WebTarget target = getWebTarget();
 
         // Next, create an Observation for patient1.
@@ -233,7 +244,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
-    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods={"testCreateResource4Patients"})
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testCreateResourceForPatients" })
     public void testGroup() throws Exception {
         WebTarget target = getWebTarget();
 
@@ -259,13 +270,15 @@ public class ExportOperationTest extends FHIRServerTestBase {
         // (2) Build a new Group with patient2 and the above group only as members.
         ArrayList<Member> members = new ArrayList<>();
         group = group.toBuilder().member(members).build();
-        Member member = Member.builder().entity(Reference.builder()
-                .reference(com.ibm.fhir.model.type.String.of("Patient/" + savedPatientId2)).build())
-                .build();
+        Member member =
+                Member.builder()
+                        .entity(Reference.builder()
+                                .reference(com.ibm.fhir.model.type.String.of("Patient/" + savedPatientId2)).build())
+                        .build();
         members.add(member);
-        member = Member.builder().entity(Reference.builder()
-                .reference(com.ibm.fhir.model.type.String.of("Group/" + savedGroupId)).build())
-                .build();
+        member =
+                Member.builder().entity(Reference.builder()
+                        .reference(com.ibm.fhir.model.type.String.of("Group/" + savedGroupId)).build()).build();
         members.add(member);
         group = group.toBuilder().member(members).build();
         entity = Entity.entity(group, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -288,13 +301,17 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
         // (3) Modify the first group to contain the second group and patient1 only, this creates a circle reference situation.
         members.clear();
-        member = Member.builder().entity(Reference.builder()
-                .reference(com.ibm.fhir.model.type.String.of("Patient/" + savedPatientId)).build())
-                .build();
+        member =
+                Member.builder()
+                        .entity(Reference.builder()
+                                .reference(com.ibm.fhir.model.type.String.of("Patient/" + savedPatientId)).build())
+                        .build();
         members.add(member);
-        member = Member.builder().entity(Reference.builder()
-                .reference(com.ibm.fhir.model.type.String.of("Group/" + savedGroupId2)).build())
-                .build();
+        member =
+                Member.builder()
+                        .entity(Reference.builder()
+                                .reference(com.ibm.fhir.model.type.String.of("Group/" + savedGroupId2)).build())
+                        .build();
         members.add(member);
         group = group.toBuilder().id(savedGroupId).member(members).build();
 
@@ -314,8 +331,9 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME }, enabled = ON)
     public void testBaseExport() throws Exception {
         Response response =
-            doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Patient"), null);
-        assertEquals(response.getStatus(), 202);
+                doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT,
+                        Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Patient"), null);
+        assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
 
         // check the content-location that's returned.
         String contentLocation = response.getHeaderString("Content-Location");
@@ -327,13 +345,13 @@ public class ExportOperationTest extends FHIRServerTestBase {
         exportStatusUrl = contentLocation;
         checkBaseExportStatus();
     }
-
 
     @Test(groups = { TEST_GROUP_NAME }, enabled = ON)
     public void testPatientExport() throws Exception {
         Response response =
-            doPost(PATIENT_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Observation,Condition"), null);
-        assertEquals(response.getStatus(), 202);
+                doPost(PATIENT_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT,
+                        Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Observation,Condition"), null);
+        assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
 
         // check the content-location that's returned.
         String contentLocation = response.getHeaderString("Content-Location");
@@ -346,11 +364,12 @@ public class ExportOperationTest extends FHIRServerTestBase {
         checkBaseExportStatus();
     }
 
-    @Test(groups = { TEST_GROUP_NAME }, enabled = ON, dependsOnMethods={"testGroup"})
+    @Test(groups = { TEST_GROUP_NAME }, enabled = ON, dependsOnMethods = { "testGroup" })
     public void testGroupExport() throws Exception {
         Response response =
-            doPost(GROUP_VALID_URL.replace("?", savedGroupId2), FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT, Instant.of("2019-01-01T08:21:26.94-04:00"), null, null);
-        assertEquals(response.getStatus(), 202);
+                doPost(GROUP_VALID_URL.replace("?", savedGroupId2), FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT,
+                        Instant.of("2019-01-01T08:21:26.94-04:00"), null, null);
+        assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
 
         // check the content-location that's returned.
         String contentLocation = response.getHeaderString("Content-Location");
@@ -366,42 +385,44 @@ public class ExportOperationTest extends FHIRServerTestBase {
     private void checkGroupExportStatus() throws InterruptedException {
         Response response;
         do {
-            response =
-                doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON);
+            response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON);
             // 202 accept means the request is still under processing
             // 200 mean export is finished
-            assertTrue(response.getStatus() == 200 || response.getStatus() == 202);
+            assertTrue(response.getStatus() == Response.Status.OK.getStatusCode()
+                    || response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
             Thread.sleep(5000);
-        } while (response.getStatus() == 202);
+        } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
 
-        assertEquals(response.getStatus(), 200);
+        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
         // Export finished successfully, we should be about to find the "output" part in the message body
         // which includes all the COS objects download urls.
         String body = response.readEntity(String.class);
         assertTrue(body.contains("output"));
         // Find and try the first download link
-        String downloadUrl = body.substring(body.lastIndexOf("\"output\" :"));
+        String downloadUrl = body.substring(body.lastIndexOf("\"output\":"));
         int endIndex = downloadUrl.indexOf(".ndjson") + 7;
         downloadUrl = downloadUrl.substring(downloadUrl.indexOf("https"), endIndex);
-        System.out.println("downloadUrl = " + downloadUrl);
+        if (DEBUG) {
+            System.out.println("downloadUrl = " + downloadUrl);
+        }
         WebTarget client = ClientBuilder.newClient().target(downloadUrl);
         response = client.request().get(Response.class);
-        assertEquals(response.getStatus(), 200);
+        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
         // Verify to make sure there are Groups, Condition and Observation in the output
         // (1) Verify that there is one condition exported
         assertTrue(body.contains("Condition_1.ndjson"));
         String conditionStr = body.substring(body.lastIndexOf("Condition_1.ndjson"));
         conditionStr = conditionStr.substring(0, conditionStr.indexOf("}") + 1);
-        assertTrue(conditionStr.contains("\"count\": 1}"));
+        assertTrue(conditionStr.contains("\"count\": 1"));
         // (2) Verify that there is one observation exported
         assertTrue(body.contains("Observation_1.ndjson"));
         String observationStr = body.substring(body.lastIndexOf("Observation_1.ndjson"));
         observationStr = observationStr.substring(0, observationStr.indexOf("}") + 1);
-        assertTrue(observationStr.contains("\"count\": 1}"));
+        assertTrue(observationStr.contains("\"count\": 1"));
         // (3) Verify that there are 2 groups exported
         assertTrue(body.contains("Group_1.ndjson"));
         String groupStr = body.substring(body.lastIndexOf("Group_1.ndjson"));
         groupStr = groupStr.substring(0, groupStr.indexOf("}") + 1);
-        assertTrue(groupStr.contains("\"count\": 2}"));
+        assertTrue(groupStr.contains("\"count\": 2"));
     }
 }
