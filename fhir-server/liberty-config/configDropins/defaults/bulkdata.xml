@@ -30,9 +30,10 @@
         </application-bnd>
     </webApplication>
 
+    <!-- use IBM Cloud DB2 for job repository 
     <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
         <jdbcDriver libraryRef="fhirSharedLib"/>
-        <!-- <properties.db2.jcc
+        <properties.db2.jcc
             apiKey="${env.BATCH_DB_APIKEY}"
             currentSchema="JBATCH"
             databaseName="BLUDB"
@@ -41,15 +42,21 @@
             portNumber="50001"
             securityMechanism="15"
             serverName="${env.BATCH_DB_HOSTNAME}"
-            sslConnection="true" /> -->
-        <!-- <properties.postgresql
+            sslConnection="true" />
+    </dataSource>
+     -->
+   
+   <!-- use postgresql for job repository  
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
+        <jdbcDriver libraryRef="fhirSharedLib"/>
+        <properties.postgresql
             databaseName="jobdb"
             portNumber="5432"
             serverName="localhost"
             user="javabatch"
-            password="change-password" /> -->
-        <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
+            password="change-password" />
     </dataSource>
+    -->
 
     <batchPersistence jobStoreRef="BatchDatabaseStore"/>
     <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="JBATCH" tablePrefix=""/>
