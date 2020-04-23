@@ -200,11 +200,11 @@ If you are configuring the FHIR server to use a single embedded Derby database, 
 This database bootstrap step is only performed for a Derby database.
 
 ##### 3.4.1.1.2 Db2
-If you configure the FHIR server to use an IBM Db2 database, you must
+If you configure the FHIR server to use an IBM Db2 database, you must:
 
-1. create the database if it doesn't already exist; and  
+1. create the database if it doesn't already exist
 
-2. execute `com.ibm.fhir.schema.app.Main` from `fhir-persistence-schema` to create the necessary schemas (tables, indices, stored procedures, etc) and tenants; and
+2. execute the `fhir-persistence-schema` utility to create the necessary schemas (tables, indices, stored procedures, etc) and tenants
 
 3. configure the server with the tenantKey generated in step number 2.
 
@@ -270,6 +270,7 @@ The next example defines the `default` datastore as a Db2 database accessible on
             "persistence":{
                 "datasources": {
                     "default": {
+                        "tenantKey": "<the-base64-tenant-key>",
                         "type": "db2",
                         "connectionProperties": {
                             "serverName": "db2server1",
@@ -352,6 +353,7 @@ Furthermore, the REST API consumers associated with Acme applications will be co
             …
             "datasources": {
                 "study1": {
+                    "tenantKey": "<the-base64-tenant-key>",
                     "type": "db2",
                     "connectionProperties": {
                         "serverName": "dbserver1",
@@ -363,6 +365,7 @@ Furthermore, the REST API consumers associated with Acme applications will be co
                     }
                 },
                 "study2": {
+                    "tenantKey": "<the-base64-tenant-key>",
                     "type": "db2",
                     "connectionProperties": {
                         "serverName": "dbserver1",
@@ -389,6 +392,7 @@ Within each tenant's `fhir-server-config.json` file, the `fhirServer/persistence
             "factoryClassname":"com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             "datasources": {
                 "study1": {
+                    "tenantKey": "<the-base64-tenant-key>",
                     "type": "db2",
                     "connectionProperties": {
                         "serverName": "mydb2server",
