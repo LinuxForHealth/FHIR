@@ -129,10 +129,10 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                 }
                 return membershipCheckFailed(evaluationContext, elementNode, url, strength);
             } else {
-                generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.INCOMPLETE, "Value set '" + url + "' is empty or could not be expanded", elementNode);
+                generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.INCOMPLETE, "Membership check was not performed: value set '" + url + "' is empty or could not be expanded", elementNode);
             }
         } else {
-            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Value set '" + url + "' is not supported", elementNode);
+            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Membership check was not performed: value set '" + url + "' is not supported", elementNode);
         }
 
         return SINGLETON_TRUE;
