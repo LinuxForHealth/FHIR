@@ -52,7 +52,7 @@ The `fhir-persistence-schema` tool uses a properties file for database connectio
 
 A sample properties file can be found at https://github.com/IBM/FHIR/blob/master/fhir-persistence-schema/db2.properties
 
-Alternatively, properties may be passed via the command line interface `--prop` flag (`--prop <propname>=<propvalue>`).
+Alternatively, properties may be passed via the command line interface `--prop` flag (`--prop <propname>=<propvalue>`). The flag can be repeated for setting multiple properties.
 
 ## Execute the fhir-persistence-schema command line interface (CLI)
 
