@@ -91,7 +91,7 @@ public class ImportPartitionMapper implements PartitionMapper {
      * </pre>
      */
     @Inject
-    @BatchProperty(name = "fhir.dataSourcesInfo")
+    @BatchProperty(name = Constants.IMPORT_FHIR_DATASOURCES)
     String dataSourcesInfo;
 
     /**

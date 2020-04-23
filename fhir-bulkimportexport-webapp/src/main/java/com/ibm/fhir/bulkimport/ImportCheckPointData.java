@@ -62,9 +62,14 @@ public class ImportCheckPointData implements Serializable {
         this.importPartitionWorkitem = importPartitionWorkitem;
         this.numOfProcessedResources = numOfProcessedResources;
         this.importPartitionResourceType = importPartitionResourceType;
-        String ramdomID = FHIRUtil.getRandomKey("AES");
-        this.setUniqueIDForImportOperationOutcomes(ramdomID + "_ok_file.ndjson");
-        this.setUniqueIDForImportFailureOperationOutcomes(ramdomID + "_error_file.ndjson");
+
+        // This naming pattern is used in bulkdata operation to generate file links for import OperationOutcomes.
+        // e.g, for input file test1.ndjson, if there is any error during the importing, then the errors are in 
+        // test1.ndjson_errors.ndjson
+        // Note: for those good imports, we don't really generate any meaningful OperationOutcome, so only error import 
+        //       OperationOutcomes are supported for now.
+        this.setUniqueIDForImportOperationOutcomes(importPartitionWorkitem + "_ok_file.ndjson");
+        this.setUniqueIDForImportFailureOperationOutcomes(importPartitionWorkitem + "_errors.ndjson");
     }
 
 
