@@ -197,7 +197,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
     }
 
     @Test(dependsOnMethods={"testConditionalDeletePatient"})
-    public void testConditionalDeletePatientError() throws Exception {
+    public void testConditionalDeletePatientTwice() throws Exception {
         if (!deleteSupported) {
             return;
         }

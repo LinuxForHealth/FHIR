@@ -22,13 +22,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.rest.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 import com.ibm.fhir.server.util.RestAuditLogger;
@@ -58,26 +55,8 @@ public class Delete extends FHIRResource {
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             ior = helper.doDelete(type, id, null, null);
-
-            ResponseBuilder response;
-
-            // The server should return either a 200 OK if the response contains a payload, or a 204 No Content with no response payload
-            if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
-                status = Status.OK;
-                response = Response.ok(ior.getOperationOutcome());
-            } else {
-                status = Status.NO_CONTENT;
-                response = Response.noContent();
-            }
-
-            if (ior.getResource() != null) {
-                response = addHeaders(response, ior.getResource());
-            }
-            return response.build();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
-            // Overwrite the exception response status because we want NOT_FOUND to be success for delete
-            status = Status.OK;
-            return exceptionResponse(e, status);
+            status = ior.getStatus();
+            return buildResponse(ior);
         } catch (FHIRPersistenceNotSupportedException e) {
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
@@ -121,26 +100,7 @@ public class Delete extends FHIRResource {
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             ior = helper.doDelete(type, null, searchQueryString, null);
             status = ior.getStatus();
-
-            ResponseBuilder response;
-
-            // The server should return either a 200 OK if the response contains a payload, or a 204 No Content with no response payload
-            if (ior.getOperationOutcome() != null && HTTPReturnPreference.OPERATION_OUTCOME == FHIRRequestContext.get().getReturnPreference()) {
-                status = Status.OK;
-                response = Response.ok(ior.getOperationOutcome());
-            } else {
-                status = Status.NO_CONTENT;
-                response = Response.noContent();
-            }
-
-            if (ior.getResource() != null) {
-                response = addHeaders(response, ior.getResource());
-            }
-            return response.build();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
-            // Return 200 instead of 404 to pass TouchStone test
-            status = Status.OK;
-            return exceptionResponse(e, status);
+            return buildResponse(ior);
         } catch (FHIRPersistenceNotSupportedException e) {
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
@@ -161,5 +121,18 @@ public class Delete extends FHIRResource {
 
             log.exiting(this.getClass().getName(), "conditionalDelete(String)");
         }
+    }
+
+    private Response buildResponse(FHIRRestOperationResponse ior) {
+        ResponseBuilder response = Response.status(ior.getStatus());
+
+        if (ior.getOperationOutcome() != null) {
+            response.entity(ior.getOperationOutcome());
+        }
+
+        if (ior.getResource() != null) {
+            addHeaders(response, ior.getResource());
+        }
+        return response.build();
     }
 }

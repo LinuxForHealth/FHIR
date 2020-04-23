@@ -493,6 +493,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
 
+        // A list of supplemental warnings to include in the response
+        List<Issue> warnings = new ArrayList<>();
+
         try {
             String resourceTypeName = type;
             if (!ModelSupport.isResourceType(type)) {
@@ -519,6 +522,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 try {
                     MultivaluedMap<String, String> searchParameters = getQueryParameterMap(searchQueryString);
                     searchParameters.putSingle(SearchConstants.COUNT, Integer.toString(searchPageSize));
+                    // TODO add support for collecting the warnings from the search
                     responseBundle = doSearch(type, null, null, searchParameters, null, requestProperties, null);
                 } catch (FHIROperationException e) {
                     throw e;
@@ -564,12 +568,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                                 .total(UnsignedInt.of(1))
                                 .build();
                     } else {
-                        throw new FHIRPersistenceResourceNotFoundException("Can not find " + type + " with id '" + id + "'.");
+                        warnings.add(buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_FOUND, "Cannot find "
+                                + type + " with id '" + id + "'."));
                     }
                 } catch (FHIRPersistenceResourceDeletedException e) {
                     // Absorb this exception.
                     ior.setResource(doRead(type, id, false, true, requestProperties, null));
-                    return ior;
+                    warnings.add(buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.DELETED, "Resource of type'"
+                        + type + "' with id '" + id + "' is already deleted."));
                 }
             }
 
@@ -589,7 +595,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     FHIRPersistenceContext persistenceContext =
                             FHIRPersistenceContextFactory.createPersistenceContext(event);
 
-                    Resource resource = persistence.delete(persistenceContext, resourceType, id).getResource();
+                    SingleResourceResult<? extends Resource> result = persistence.delete(persistenceContext, resourceType, id);
+                    if (result.getOutcome() != null) {
+                        warnings.addAll(result.getOutcome().getIssue());
+                    }
+                    Resource resource = result.getResource();
                     event.setFhirResource(resource);
 
                     if (responseBundle.getEntry().size() == 1) {
@@ -604,7 +614,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 txn.commit();
                 txn = null;
 
-                ior.setStatus(Response.Status.NO_CONTENT);
+            }
+
+            // The server should return either a 200 OK if the response contains a payload, or a 204 No Content with no response payload
+            if (!warnings.isEmpty()) {
+                ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(warnings));
+                ior.setStatus(Status.OK);
+            } else {
+                ior.setStatus(Status.NO_CONTENT);
             }
 
             return ior;

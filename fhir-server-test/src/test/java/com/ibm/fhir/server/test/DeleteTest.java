@@ -115,7 +115,7 @@ public class DeleteTest extends FHIRServerTestBase {
     }
 
     @Test(dependsOnMethods = {
-            "testReadDeletedResource"
+            "testDeleteNewResource"
     })
     public void testVreadDeletedResource() throws Exception {
         if (!deleteSupported) {
@@ -131,7 +131,7 @@ public class DeleteTest extends FHIRServerTestBase {
     }
 
     @Test(dependsOnMethods = {
-            "testVreadDeletedResource"
+            "testDeleteNewResource"
     })
     public void testDeleteDeletedResource() throws Exception {
         if (!deleteSupported) {
@@ -143,8 +143,9 @@ public class DeleteTest extends FHIRServerTestBase {
 
         FHIRResponse response = client.delete(deletedType, deletedId);
         assertNotNull(response);
-        assertResponse(response.getResponse(), Response.Status.NO_CONTENT.getStatusCode());
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         assertNotNull(response.getETag());
+        assertNotNull(response.getResource(OperationOutcome.class));
         assertEquals("W/\"2\"", response.getETag());
     }
 
@@ -450,7 +451,12 @@ public class DeleteTest extends FHIRServerTestBase {
         assertNotNull(response);
         if (deleteSupported) {
             if (searchResultBundle.getTotal().getValue() <= FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT ) {
-                assertResponse(response.getResponse(), Status.NO_CONTENT.getStatusCode());
+                if (searchResultBundle.getTotal().getValue() > 0) {
+                    assertResponse(response.getResponse(), Status.NO_CONTENT.getStatusCode());
+                } else {
+                    assertResponse(response.getResponse(), Status.OK.getStatusCode());
+                    assertNotNull(response.getResource(OperationOutcome.class));
+                }
             } else {
                 assertResponse(response, Status.PRECONDITION_FAILED.getStatusCode());
                 assertExceptionOperationOutcome(response.getResponse().readEntity(OperationOutcome.class),
