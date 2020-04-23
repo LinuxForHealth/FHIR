@@ -28,6 +28,7 @@ import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.StructureDefinitionKind;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
@@ -79,7 +80,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
             if (FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE.equals(type)) {
                 if (!StructureDefinitionKind.RESOURCE.equals(structureDefinition.getKind())) {
                     // the profile (or base definition) is not applicable to type: UnknownResourceType
-                    generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.INVALID, "Profile (or base definition) '" + url + "' is not applicable to type: UnknownResourceType", node);
+                    generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.INVALID, "Conformance check failed: profile (or base definition) '" + url + "' is not applicable to type: UnknownResourceType", node);
                     return SINGLETON_FALSE;
                 }
 
@@ -90,7 +91,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
 
             if (!ProfileSupport.isApplicable(structureDefinition, modelClass)) {
                 // the profile (or base definition) is not applicable to type: modelClass
-                generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.INVALID, "Profile (or base definition) '" + url + "' is not applicable to type: " + modelClass.getSimpleName(), node);
+                generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.INVALID, "Conformance check failed: profile (or base definition) '" + url + "' is not applicable to type: " + ModelSupport.getTypeName(modelClass), node);
                 return SINGLETON_FALSE;
             }
 
@@ -131,7 +132,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
             // restore parent constraint reference
             evaluationContext.setConstraint(parentConstraint);
         } else {
-            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Profile '" + url + "' is not supported", node);
+            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Conformance check was not performed: profile (or base definition) '" + url + "' is not supported", node);
         }
 
         return SINGLETON_TRUE;
