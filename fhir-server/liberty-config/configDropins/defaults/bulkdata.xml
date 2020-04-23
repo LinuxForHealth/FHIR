@@ -30,7 +30,9 @@
         </application-bnd>
     </webApplication>
 
-    <!-- use IBM Cloud DB2 for job repository 
+    <!-- By default, in-memory derby is used for job repository, no configuration is needed. -->
+    
+    <!-- Use IBM Cloud DB2 for job repository 
     <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
         <jdbcDriver libraryRef="fhirSharedLib"/>
         <properties.db2.jcc
@@ -46,7 +48,7 @@
     </dataSource>
      -->
    
-   <!-- use postgresql for job repository  
+   <!-- Use postgresql for job repository  
     <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
         <jdbcDriver libraryRef="fhirSharedLib"/>
         <properties.postgresql
