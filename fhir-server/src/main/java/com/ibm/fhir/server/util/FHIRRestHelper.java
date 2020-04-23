@@ -610,10 +610,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     getInterceptorMgr().fireAfterDeleteEvent(event);
                 }
 
+                warnings.add(Issue.builder()
+                        .severity(IssueSeverity.INFORMATION)
+                        .code(IssueType.INFORMATIONAL)
+                        .details(CodeableConcept.builder()
+                            .text(string("Deleted " + responseBundle.getEntry().size() + " " + type + " resource(s) " +
+                                " with the following id(s): " + 
+                                responseBundle.getEntry().stream().map(Bundle.Entry::getId).collect(Collectors.joining(","))))
+                            .build())
+                        .build());
+
                 // Commit our transaction if we started one before.
                 txn.commit();
                 txn = null;
-
             }
 
             // The server should return either a 200 OK if the response contains a payload, or a 204 No Content with no response payload

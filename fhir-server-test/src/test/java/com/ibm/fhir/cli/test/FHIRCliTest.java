@@ -147,7 +147,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
         assertNotNull(patientId);
         runTest("testDeletePatient", "-p", propsFile(), "--operation", "delete", "--type", "Patient", "--resourceId", patientId);
         if (deleteSupported) {
-            verifyConsoleOutput("Status code: 204", "ETag: W/\"3\"");
+            verifyConsoleOutput("Status code: 200", "ETag: W/\"3\"");
         } else {
             verifyConsoleOutput("Status code: 405");
 
@@ -193,7 +193,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
 
         assertNotNull(patientId);
         runTest("testConditionalDeletePatient", "-p", propsFile(), "--operation", "conditional-delete", "--type", "Patient", "-qp", "_id=" + patientId);
-        verifyConsoleOutput("Status code: 204", "ETag: W/\"6\"");
+        verifyConsoleOutput("Status code: 200", "ETag: W/\"6\"");
     }
 
     @Test(dependsOnMethods={"testConditionalDeletePatient"})

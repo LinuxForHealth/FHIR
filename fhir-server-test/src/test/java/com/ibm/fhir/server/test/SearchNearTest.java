@@ -58,9 +58,9 @@ public class SearchNearTest extends FHIRServerTestBase {
     public void testDeleteLocations() {
         WebTarget target = getWebTarget();
         Response response   = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.NO_CONTENT.getStatusCode());
+        assertResponse(response, Response.Status.OK.getStatusCode());
         response   = target.path("Location/" + locationAbsId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.NO_CONTENT.getStatusCode());
+        assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
     @Test(groups = { "server-search-near" }, dependsOnMethods = { "testCreateLocation" })
