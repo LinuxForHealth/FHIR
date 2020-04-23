@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
-import com.ibm.fhir.model.util.FHIRUtil;
 
 // Class for tracking the partition import progress and for Batch job check points.
 // Also used as data carrier for collecting and aggregation of import metrics.

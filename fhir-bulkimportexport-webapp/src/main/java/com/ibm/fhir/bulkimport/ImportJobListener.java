@@ -6,11 +6,8 @@
 
 package com.ibm.fhir.bulkimport;
 
-import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +21,11 @@ import javax.batch.runtime.BatchRuntime;
 import javax.batch.runtime.JobExecution;
 import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.json.JsonReader;
 import javax.json.JsonValue;
 
+import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 
 public class ImportJobListener implements JobListener {
@@ -79,10 +75,7 @@ public class ImportJobListener implements JobListener {
 
         // Generate import summary and pass it into ExitStatus of the job execution.
         // e.g, [3:0, 4:1] means 3 resources imported and 0 failures for the 1st file, and 4 imported and 1 failure for the 2nd file.
-        JsonReader reader = Json.createReader(new StringReader(
-                new String(Base64.getDecoder().decode(dataSourcesInfo), StandardCharsets.UTF_8)));
-        JsonArray dataSourceArray = reader.readArray();
-        reader.close();
+        JsonArray dataSourceArray = BulkDataUtils.getDataSourcesFromJobInput(dataSourcesInfo);
 
         Map<String, Integer> inputUrlSequenceMap = new HashMap<>();
         int sequnceNum = 0;

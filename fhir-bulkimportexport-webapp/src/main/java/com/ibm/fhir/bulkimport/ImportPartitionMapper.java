@@ -6,10 +6,7 @@
 
 package com.ibm.fhir.bulkimport;
 
-import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -20,10 +17,8 @@ import javax.batch.api.partition.PartitionPlan;
 import javax.batch.api.partition.PartitionPlanImpl;
 import javax.batch.runtime.context.StepContext;
 import javax.inject.Inject;
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.json.JsonReader;
 import javax.json.JsonValue;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
@@ -260,11 +255,7 @@ public class ImportPartitionMapper implements PartitionMapper {
 
     @Override
     public PartitionPlan mapPartitions() throws Exception {
-        JsonReader reader =
-                Json.createReader(new StringReader(
-                        new String(Base64.getDecoder().decode(dataSourcesInfo), StandardCharsets.UTF_8)));
-        JsonArray dataSourceArray = reader.readArray();
-        reader.close();
+        JsonArray dataSourceArray = BulkDataUtils.getDataSourcesFromJobInput(dataSourcesInfo);
 
         List<FhirDataSource> fhirDataSources =
                 getFhirDataSources(dataSourceArray, BulkImportDataSourceStorageType.from(dataSourceStorageType));
