@@ -64,7 +64,7 @@ public class ImportCheckPointData implements Serializable {
 
         // This naming pattern is used in bulkdata operation to generate file links for import OperationOutcomes.
         // e.g, for input file test1.ndjson, if there is any error during the importing, then the errors are in 
-        // test1.ndjson_errors.ndjson
+        // test1.ndjson_oo_errors.ndjson
         // Note: for those good imports, we don't really generate any meaningful OperationOutcome, so only error import 
         //       OperationOutcomes are supported for now.
         this.setUniqueIDForImportOperationOutcomes(importPartitionWorkitem + "_oo_success.ndjson");
