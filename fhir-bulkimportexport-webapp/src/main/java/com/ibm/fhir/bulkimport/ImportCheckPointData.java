@@ -68,7 +68,7 @@ public class ImportCheckPointData implements Serializable {
         // test1.ndjson_errors.ndjson
         // Note: for those good imports, we don't really generate any meaningful OperationOutcome, so only error import 
         //       OperationOutcomes are supported for now.
-        this.setUniqueIDForImportOperationOutcomes(importPartitionWorkitem + "_ok_file.ndjson");
+        this.setUniqueIDForImportOperationOutcomes(importPartitionWorkitem + "_oo_success.ndjson");
         this.setUniqueIDForImportFailureOperationOutcomes(importPartitionWorkitem + "_errors.ndjson");
     }
 
