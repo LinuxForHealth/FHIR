@@ -239,9 +239,9 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
             Expansion expansion = expanded.getExpansion();
             for (Contains contains : getContains(expansion)) {
                 String system = (contains.getSystem() != null) ? contains.getSystem().getValue() : null;
-                String version = (contains.getVersion() != null) ? contains.getVersion().getValue() : VERSION_UNKNOWN;
+                String version = (contains.getVersion() != null && contains.getVersion().getValue() != null) ? contains.getVersion().getValue() : VERSION_UNKNOWN;
                 String code = (contains.getCode() != null) ? contains.getCode().getValue() : null;
-                if (system != null && version != null && code != null) {
+                if (system != null && code != null) {
                     codeSetMap.computeIfAbsent(system + "|" + version, k -> new LinkedHashSet<>()).add(code);
                 }
             }
