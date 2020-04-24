@@ -569,7 +569,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
             if (existingResourceDTO == null) {
                 throw new FHIRPersistenceResourceNotFoundException("resource does not exist: " + 
-                        resourceType.getSimpleName() + ":" + logicalId);
+                        resourceType.getSimpleName() + "/" + logicalId);
             }
 
             if (existingResourceDTO.isDeleted()) {
@@ -903,7 +903,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      */
     protected List<Resource> buildSortedFhirResources(FHIRPersistenceContext context, Class<? extends Resource> resourceType, List<Long> sortedIdList,
             List<String> elements) throws FHIRException, FHIRPersistenceException, IOException {
-        final String METHOD_NAME = "buildFhirResource";
+        final String METHOD_NAME = "buildSortedFhirResources";
         log.entering(this.getClass().getName(), METHOD_NAME);
 
         long resourceId;
