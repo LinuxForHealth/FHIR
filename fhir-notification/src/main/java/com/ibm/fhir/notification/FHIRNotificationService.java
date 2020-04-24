@@ -126,17 +126,12 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
         }
     }
 
-    /**
-     * The following set of methods are from the FHIRPersistenceInterceptor interface and are implemented here to allow
-     * the notification service to be registered as a persistence interceptor. All we really need to do in these methods
-     * is perform the "publish" action.
-     */
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // The following set of methods are from the FHIRPersistenceInterceptor interface and are implemented here to allow
+    // the notification service to be registered as a persistence interceptor. All we really need to do in these methods
+    // is perform the "publish" action.
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor#afterCreate(com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent)
-     */
     @Override
     public void afterCreate(FHIRPersistenceEvent pEvent) throws FHIRPersistenceInterceptorException {
         if (shouldPublish(pEvent)) {
@@ -144,11 +139,6 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor#afterUpdate(com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent)
-     */
     @Override
     public void afterUpdate(FHIRPersistenceEvent pEvent) throws FHIRPersistenceInterceptorException {
         if (shouldPublish(pEvent)) {
@@ -156,21 +146,11 @@ public class FHIRNotificationService implements FHIRPersistenceInterceptor {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor#beforeCreate(com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent)
-     */
     @Override
     public void beforeCreate(FHIRPersistenceEvent pEvent) throws FHIRPersistenceInterceptorException {
         // Nothing to do for 'beforeCreate'.
     }
 
-    /*
-     * (non-Javadoc)
-     * @see
-     * com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor#beforeUpdate(com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent)
-     */
     @Override
     public void beforeUpdate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         // Nothing to do for 'beforeUpdate'.
