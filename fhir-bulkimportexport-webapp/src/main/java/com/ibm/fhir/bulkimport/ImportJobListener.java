@@ -7,17 +7,26 @@
 package com.ibm.fhir.bulkimport;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+import javax.batch.api.BatchProperty;
 import javax.batch.api.listener.JobListener;
 import javax.batch.operations.JobOperator;
 import javax.batch.runtime.BatchRuntime;
 import javax.batch.runtime.JobExecution;
 import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
+
+import com.ibm.fhir.bulkcommon.BulkDataUtils;
+import com.ibm.fhir.bulkcommon.Constants;
 
 public class ImportJobListener implements JobListener {
     private static final Logger logger = Logger.getLogger(ImportJobListener.class.getName());
@@ -26,6 +35,10 @@ public class ImportJobListener implements JobListener {
 
     @Inject
     JobContext jobContext;
+    
+    @Inject
+    @BatchProperty(name = Constants.IMPORT_FHIR_DATASOURCES)
+    String dataSourcesInfo;
 
     public ImportJobListener() {
 
@@ -60,6 +73,27 @@ public class ImportJobListener implements JobListener {
             return;
         }
 
+        // Generate import summary and pass it into ExitStatus of the job execution.
+        // e.g, [3:0, 4:1] means 3 resources imported and 0 failures for the 1st file, and 4 imported and 1 failure for the 2nd file.
+        JsonArray dataSourceArray = BulkDataUtils.getDataSourcesFromJobInput(dataSourcesInfo);
+
+        Map<String, Integer> inputUrlSequenceMap = new HashMap<>();
+        int sequnceNum = 0;
+        for (JsonValue jsonValue : dataSourceArray) {
+            JsonObject dataSourceInfo = jsonValue.asJsonObject();
+            String DSTypeInfo = dataSourceInfo.getString(Constants.IMPORT_INPUT_RESOURCE_TYPE);
+            String DSDataLocationInfo = dataSourceInfo.getString(Constants.IMPORT_INPUT_RESOURCE_URL);
+            inputUrlSequenceMap.put(DSTypeInfo + ":" + DSDataLocationInfo, sequnceNum++);
+        }
+
+        String resultInExitStatus[] = new String[sequnceNum];
+        for (ImportCheckPointData partitionSummary : partitionSummaries) {
+            int index = inputUrlSequenceMap.get(partitionSummary.getImportPartitionResourceType() + ":" + partitionSummary.getImportPartitionWorkitem());
+            resultInExitStatus[index] = partitionSummary.getNumOfImportedResources() + ":" + partitionSummary.getNumOfImportFailures();
+        }
+
+        jobContext.setExitStatus(Arrays.toString(resultInExitStatus));
+        
         for (ImportCheckPointData partitionSummary : partitionSummaries) {
             ImportCheckPointData partitionSummaryInMap = importedResourceTypeSummaries.get(partitionSummary.getImportPartitionResourceType());
             if (partitionSummaryInMap == null) {

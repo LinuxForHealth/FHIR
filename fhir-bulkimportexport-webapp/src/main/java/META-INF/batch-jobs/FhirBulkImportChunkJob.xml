@@ -4,7 +4,11 @@
         <property name="fhir.cosreadsperdbbatch" value="#{jobParameters['fhir.cosreadsperdbbatch']}?:1;" />
     </properties>
     <listeners>
-        <listener ref="com.ibm.fhir.bulkimport.ImportJobListener" />
+        <listener ref="com.ibm.fhir.bulkimport.ImportJobListener">
+            <properties>
+                <property name="fhir.dataSourcesInfo" value="#{jobParameters['fhir.dataSourcesInfo']}"/>
+            </properties>
+        </listener>
     </listeners>
     <step id="step1">
         <chunk checkpoint-policy="item" item-count="#{jobProperties['fhir.cosreadsperdbbatch']}">
