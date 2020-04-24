@@ -2,8 +2,6 @@
     "__comment": "FHIR Server configuration",
     "fhirServer": {
         "core": {
-            "truststoreLocation": "resources/security/fhirTruststore.p12",
-            "truststorePassword": "change-password",
             "tenantIdHeaderName": "X-FHIR-TENANT-ID",
             "datastoreIdHeaderName": "X-FHIR-DSID",
             "checkReferenceTypes": true,
