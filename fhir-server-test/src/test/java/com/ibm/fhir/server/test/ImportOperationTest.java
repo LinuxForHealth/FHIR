@@ -41,7 +41,7 @@ import com.ibm.fhir.model.type.Url;
  * These tests exercise the $import operation a bulkdata proposal
  * 
  * <pre>
- * curl -k -X POST -u "fhiruser:change-password" -H 'Content-Type: application/fhir+json' 'https://localhost:9443/fhir-server/api/v4/$import' -d '{
+ * curl -k -v -X POST -u "fhiruser:change-password" -H 'Content-Type: application/fhir+json' 'https://localhost:9443/fhir-server/api/v4/$import' -d '{
     "resourceType": "Parameters",
     "id": "30321130-5032-49fb-be54-9b8b82b2445a",
     "parameter": [
