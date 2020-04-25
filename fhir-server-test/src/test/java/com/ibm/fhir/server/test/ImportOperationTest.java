@@ -76,6 +76,8 @@ import com.ibm.fhir.model.type.Url;
 grab content-location
 
 curl 'https://localhost:9443/fhir-server/api/v4/$bulkdata-status?job=FvHrLGPv0oKZNyLzBnY5iA%3D%3D' -k -u "fhiruser:change-password" -v
+
+curl -X DELETE 'https://localhost:9443/fhir-server/api/v4/$bulkdata-status?job=k%2Fd8cTAU%2BUeVEwqURPZ3oA%3D%3D' -k -u "fhiruser:change-password" -v
  * </pre>
  */
 public class ImportOperationTest extends FHIRServerTestBase {
