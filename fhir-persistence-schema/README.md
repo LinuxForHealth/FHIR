@@ -223,5 +223,11 @@ Note: the jar file is stored locally in `fhir-persistence-schema/target` or in t
     - grants.sql:  `db2 -tvf grants.sql`
     - stored-procedures.sql:  `db2 -td@ -vf stored-procedures.sql`
 
+### Extended Properties
+You may pass additional properties via the commandline or in the properties file: 
+
+| Property | Description |
+|---------|---------|
+| db.ssl | Y or anything else, Y triggers sslConnection=true | 
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
