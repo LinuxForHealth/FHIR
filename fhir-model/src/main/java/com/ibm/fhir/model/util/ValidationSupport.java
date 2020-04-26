@@ -180,7 +180,7 @@ public final class ValidationSupport {
      * pattern:  \S*
      * </pre>
      *
-     * @throws IllegalStateException if the passed String is not a valid FHIR Id value
+     * @throws IllegalStateException if the passed String is not a valid FHIR uri value
      */
     public static void checkUri(String s) {
         if (s == null) {

@@ -10,7 +10,6 @@ import java.io.ByteArrayInputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -66,7 +65,7 @@ public class ChunkWriter extends AbstractItemWriter {
      */
     @Inject
     @BatchProperty(name = Constants.COS_ENDPOINT_URL)
-    String cosEndpintUrl;
+    String cosEndpointUrl;
 
     /**
      * The IBM COS or S3 location.
@@ -237,7 +236,7 @@ public class ChunkWriter extends AbstractItemWriter {
     private void pushImportOperationOutcomes2COS(ImportTransientUserData chunkData) throws Exception{
         // Create the COS/S3 client if it's not created yet.
         if (cosClient == null) {
-            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl, cosLocation);
 
             if (cosClient == null) {
                 logger.warning("pushImportOperationOutcomes2COS: Failed to get CosClient!");

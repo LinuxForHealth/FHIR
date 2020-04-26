@@ -257,7 +257,7 @@ public class FHIRValidator {
         }
 
         /**
-         * @throws IllegalStateException if the registered constraints cannot be evaluated for the passed node
+         * @throws RuntimeException if the registered constraints cannot be evaluated for the passed element node
          */
         private void validate(FHIRPathElementNode elementNode) {
             Class<?> elementType = elementNode.element().getClass();
@@ -265,7 +265,7 @@ public class FHIRValidator {
         }
 
         /**
-         * @throws IllegalStateException if the registered constraints cannot be evaluated for the passed node
+         * @throws RuntimeException if the registered constraints cannot be evaluated for the passed resource node
          */
         private void validate(FHIRPathResourceNode resourceNode) {
             Class<?> resourceType = resourceNode.resource().getClass();
@@ -281,9 +281,7 @@ public class FHIRValidator {
         }
 
         /**
-         * @throws IllegalStateException if one of the passed constraints cannot be evaluated for the passed node
-         * @implNote IllegalStateException is favored over IllegalArgumentException because the constraints
-         *           are coming directly from the spec and we'd rather not wrap the IllegalArgumentException from the caller
+         * @throws RuntimeException if one of the passed constraints cannot be evaluated for the passed node
          */
         private void validate(Class<?> type, FHIRPathNode node, Collection<Constraint> constraints) {
             for (Constraint constraint : constraints) {
@@ -300,9 +298,7 @@ public class FHIRValidator {
         }
 
         /**
-         * @throws IllegalStateException if the passed constraint cannot be evaluated for the passed node
-         * @implNote IllegalStateException is favored over IllegalArgumentException because the constraints
-         *           are coming directly from the spec and we'd rather not wrap the IllegalArgumentException from the caller
+         * @throws RuntimeException if the passed constraint cannot be evaluated for the passed node
          */
         private void validate(Class<?> type, FHIRPathNode node, Constraint constraint) {
             String path = node.path();
@@ -344,7 +340,7 @@ public class FHIRValidator {
                     }
                 }
             } catch (Exception e) {
-                throw new IllegalStateException("An error occurred while validating constraint: " + constraint.id() +
+                throw new RuntimeException("An error occurred while validating constraint: " + constraint.id() +
                     " with location: " + constraint.location() + " and expression: " + constraint.expression() +
                     " at path: " + path, e);
             }

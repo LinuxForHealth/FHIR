@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1881,8 +1881,8 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle responseBundle = getEntityWithExtraWork(response,method);
 
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 3);
-        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.NO_CONTENT.getStatusCode(), HTTPReturnPreference.MINIMAL);
-        assertGoodGetResponse(responseBundle.getEntry().get(1), Status.NO_CONTENT.getStatusCode(), HTTPReturnPreference.MINIMAL);
+        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode(), HTTPReturnPreference.MINIMAL);
+        assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode(), HTTPReturnPreference.MINIMAL);
         assertBadResponse(responseBundle.getEntry().get(2), Status.BAD_REQUEST.getStatusCode(),
                 "Bundle.Entry.resource not allowed for BundleEntry with DELETE method.");
     }
@@ -1973,8 +1973,8 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle responseBundle = getEntityWithExtraWork(response,method);
 
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
-        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.NO_CONTENT.getStatusCode(), HTTPReturnPreference.MINIMAL);
-        assertGoodGetResponse(responseBundle.getEntry().get(1), Status.NO_CONTENT.getStatusCode(), HTTPReturnPreference.MINIMAL);
+        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode(), HTTPReturnPreference.MINIMAL);
+        assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode(), HTTPReturnPreference.MINIMAL);
     }
 
     @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionDeletes" })
@@ -2208,7 +2208,7 @@ public class BundleTest extends FHIRServerTestBase {
         printBundle(method, "response", responseBundle);
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 4);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode(), HTTPReturnPreference.MINIMAL);
-        assertGoodGetResponse(responseBundle.getEntry().get(1), Status.NO_CONTENT.getStatusCode(), HTTPReturnPreference.MINIMAL);
+        assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode(), HTTPReturnPreference.MINIMAL);
 
         // A search that results in multiple matches:
         // (1) if matches > FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT, then result in a 412 status code.
@@ -2332,8 +2332,8 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
-        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.NO_CONTENT.getStatusCode(), HTTPReturnPreference.MINIMAL);
-        assertGoodGetResponse(responseBundle.getEntry().get(1), Status.NO_CONTENT.getStatusCode(), HTTPReturnPreference.MINIMAL);
+        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode(), HTTPReturnPreference.MINIMAL);
+        assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode(), HTTPReturnPreference.MINIMAL);
     }
 
 

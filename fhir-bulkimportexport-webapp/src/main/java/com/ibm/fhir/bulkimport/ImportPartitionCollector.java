@@ -46,7 +46,7 @@ public class ImportPartitionCollector implements PartitionCollector {
      */
     @Inject
     @BatchProperty(name = Constants.COS_ENDPOINT_URL)
-    String cosEndpintUrl;
+    String cosEndpointUrl;
 
     /**
      * The IBM COS or S3 location.
@@ -71,7 +71,7 @@ public class ImportPartitionCollector implements PartitionCollector {
 
     public ImportPartitionCollector() throws Exception {
         if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
-            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl, cosLocation);
 
             if (cosClient == null) {
                 logger.warning("collectPartitionData: Failed to get CosClient!");

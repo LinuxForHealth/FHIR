@@ -55,6 +55,10 @@ public interface IDatabaseTypeAdapter {
             typeDef.append("(" + precision + ")");
         }
         return typeDef.toString();
-    };
+    }
+
+    public default String clobClause() {
+        return "CLOB";
+    }
 
 }
