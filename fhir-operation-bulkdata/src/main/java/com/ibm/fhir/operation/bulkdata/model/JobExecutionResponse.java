@@ -340,6 +340,11 @@ public class JobExecutionResponse {
             jobParameter.setStorageDetails(storageDetails);
             return this;
         }
+
+        public Builder cosBucketNameOo(String cosBucketNameOo) {
+            jobParameter.setCosOperationBucketNameOo(cosBucketNameOo);
+            return this;
+        }
     }
 
     public static Builder builder() {

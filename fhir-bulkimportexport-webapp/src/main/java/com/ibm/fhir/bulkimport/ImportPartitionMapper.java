@@ -125,6 +125,13 @@ public class ImportPartitionMapper implements PartitionMapper {
     String cosBucketName;
 
     /**
+     * The IBM COS or S3 bucket name to write output to
+     */
+    @Inject
+    @BatchProperty(name = Constants.COS_OPERATIONOUTCOMES_BUCKET_NAME)
+    String cosOperationOutcomesBucketName;
+
+    /**
      * If use IBM credential.
      */
     @Inject
@@ -269,6 +276,13 @@ public class ImportPartitionMapper implements PartitionMapper {
             Properties p = new Properties();
             p.setProperty(Constants.IMPORT_PARTITTION_WORKITEM, fhirDataSource.getUrl());
             p.setProperty(Constants.IMPORT_PARTITTION_RESOURCE_TYPE, fhirDataSource.getType());
+            p.setProperty(Constants.COS_API_KEY, cosApiKeyProperty);
+            p.setProperty(Constants.COS_SRVINST_ID, cosSrvinstId);
+            p.setProperty(Constants.COS_ENDPOINT_URL, cosEndpointUrl);
+            p.setProperty(Constants.COS_LOCATION, cosLocation);
+            p.setProperty(Constants.COS_OPERATIONOUTCOMES_BUCKET_NAME, cosOperationOutcomesBucketName);
+            p.setProperty(Constants.COS_IS_IBM_CREDENTIAL, cosCredentialIbm);
+
             partitionProps[propCount++] = p;
         }
         pp.setPartitionProperties(partitionProps);

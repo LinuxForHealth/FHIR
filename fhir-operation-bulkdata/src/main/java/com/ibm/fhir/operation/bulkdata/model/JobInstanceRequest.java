@@ -190,6 +190,11 @@ public class JobInstanceRequest {
             request.setJobParameters(jobParameter);
             return request;
         }
+
+        public Builder cosBucketNameOo(String cosBucketNameOo) {
+            jobParameter.setCosOperationBucketNameOo(cosBucketNameOo);
+            return this;
+        }
     }
 
     public static Builder builder() {

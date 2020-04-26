@@ -44,12 +44,21 @@ public class JobParameter {
     private StorageDetail storageDetail;
 
     private String cosBucketName;
+    private String cosOperationBucketNameOo;
     private String cosLocation;
     private String cosEndpointUrl;
     private String cosCredentialIbm;
     private String cosApiKey;
     private String cosSrvInstId;
     private String cosBucketPathPrefix;
+
+    public String getCosOperationBucketNameOo() {
+        return cosOperationBucketNameOo;
+    }
+
+    public void setCosOperationBucketNameOo(String cosOperationBucketNameOo) {
+        this.cosOperationBucketNameOo = cosOperationBucketNameOo;
+    }
 
     public String getFhirPatientGroupId() {
         return fhirPatientGroupId;
@@ -208,6 +217,10 @@ public class JobParameter {
                 generator.write("cos.credential.ibm", parameter.getCosCredentialIbm());
             }
 
+            if (parameter.getCosOperationBucketNameOo() != null) {
+                generator.write("cos.operationoutcomes.bucket.name", parameter.getCosOperationBucketNameOo());
+            }
+
             if (withSensitive) {
                 if (parameter.getCosEndpointUrl() != null) {
                     generator.write("cos.endpointurl", parameter.getCosEndpointUrl());
@@ -298,6 +311,8 @@ public class JobParameter {
 
         public Builder cosBucketName(String cosBucketName);
 
+        public Builder cosBucketNameOo(String cosBucketNameOo);
+
         public Builder cosLocation(String cosLocation);
 
         public Builder cosEndpointUrl(String cosEndpointUrl);
@@ -344,6 +359,11 @@ public class JobParameter {
             if (obj.containsKey("cos.bucket.name")) {
                 String cosBucketName = obj.getString("cos.bucket.name");
                 builder.cosBucketName(cosBucketName);
+            }
+
+            if (obj.containsKey("cos.operationoutcomes.bucket.name")) {
+                String cosBucketNameOo = obj.getString("cos.operationoutcomes.bucket.name");
+                builder.cosBucketNameOo(cosBucketNameOo);
             }
 
             if (obj.containsKey("cos.location")) {

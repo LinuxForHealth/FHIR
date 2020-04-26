@@ -49,12 +49,13 @@
                     <property name="cos.location" value="#{jobParameters['cos.location']}"/>
                     <property name="cos.credential.ibm" value="#{jobParameters['cos.credential.ibm']}"/>
                     <property name="cos.bucket.name" value="#{jobParameters['cos.bucket.name']}"/>
+                    <property name="cos.operationoutcomes.bucket.name" value="#{jobParameters['cos.operationoutcomes.bucket.name']}"/>
                     <property name="fhir.dataSourcesInfo" value="#{jobParameters['fhir.dataSourcesInfo']}"/>
                     <property name="import.fhir.storagetype" value="#{jobParameters['import.fhir.storagetype']}"/>
                 </properties>
             </mapper>
             <collector ref="com.ibm.fhir.bulkimport.ImportPartitionCollector">
-                <properties >
+                <properties>
                     <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
                     <property name="cos.srvinst.id" value="#{jobParameters['cos.srvinst.id']}"/>
                     <property name="cos.endpointurl" value="#{jobParameters['cos.endpointurl']}"/>
@@ -63,7 +64,7 @@
                     <property name="cos.operationoutcomes.bucket.name" value="#{jobParameters['cos.operationoutcomes.bucket.name']}"/>
                 </properties>
             </collector>
-            <analyzer ref="com.ibm.fhir.bulkimport.ImportPartitionAnalyzer" />
+            <analyzer ref="com.ibm.fhir.bulkimport.ImportPartitionAnalyzer"/>
         </partition>
     </step>
 </job>

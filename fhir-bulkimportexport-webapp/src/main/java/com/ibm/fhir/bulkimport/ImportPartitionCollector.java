@@ -69,7 +69,13 @@ public class ImportPartitionCollector implements PartitionCollector {
     @BatchProperty(name = Constants.COS_IS_IBM_CREDENTIAL)
     String cosCredentialIbm;
 
-    public ImportPartitionCollector() throws Exception {
+    public ImportPartitionCollector() {
+        // The injected properties are not available at class construction time
+        // These values are lazy injected BEFORE calling 'collectPartitionData'. 
+    }
+
+    @Override
+    public Serializable collectPartitionData() throws Exception {
         if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
             cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl, cosLocation);
 
@@ -80,10 +86,7 @@ public class ImportPartitionCollector implements PartitionCollector {
                 logger.finer("ImportPartitionCollector: Succeed get CosClient!");
             }
         }
-    }
 
-    @Override
-    public Serializable collectPartitionData() throws Exception{
         ImportTransientUserData partitionSummaryData  = (ImportTransientUserData)stepCtx.getTransientUserData();
         BatchStatus batchStatus = stepCtx.getBatchStatus();
 
