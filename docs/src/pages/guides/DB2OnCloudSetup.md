@@ -16,7 +16,7 @@ This document guides a developer or administrator through the steps necessary to
 
 1. Click `Create resource`.
 
-1. Choose `Db2 (transactional)`.
+1. Choose [Db2](https://cloud.ibm.com/catalog/services/db2).
 
 1. Select the Pricing Plan:
     - The IBM FHIR Server recommends the Flex plan for a production workload, development and experiments.
