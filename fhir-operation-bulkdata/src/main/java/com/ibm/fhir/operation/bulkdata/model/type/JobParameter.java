@@ -311,7 +311,7 @@ public class JobParameter {
 
         public Builder cosBucketName(String cosBucketName);
 
-        public Builder cosBucketNameOo(String cosBucketNameOo);
+        public Builder cosBucketNameOperationOutcome(String cosBucketNameOperationOutcome);
 
         public Builder cosLocation(String cosLocation);
 
@@ -362,8 +362,8 @@ public class JobParameter {
             }
 
             if (obj.containsKey("cos.operationoutcomes.bucket.name")) {
-                String cosBucketNameOo = obj.getString("cos.operationoutcomes.bucket.name");
-                builder.cosBucketNameOo(cosBucketNameOo);
+                String cosBucketNameOperationOutcome = obj.getString("cos.operationoutcomes.bucket.name");
+                builder.cosBucketNameOperationOutcome(cosBucketNameOperationOutcome);
             }
 
             if (obj.containsKey("cos.location")) {

@@ -453,7 +453,7 @@ public class BulkDataClient {
         builder.applicationName(properties.get(BulkDataConfigUtil.APPLICATION_NAME));
         builder.moduleName(properties.get(BulkDataConfigUtil.MODULE_NAME));
         builder.cosBucketName(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
-        builder.cosBucketNameOo(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
+        builder.cosBucketNameOperationOutcome(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
         builder.cosLocation(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_LOCATION));
         builder.cosEndpointUrl(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT));
         builder.cosCredentialIbm(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_IBM));
