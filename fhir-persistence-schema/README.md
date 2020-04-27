@@ -228,6 +228,6 @@ You may pass additional properties via the commandline or in the properties file
 
 | Property | Description |
 |---------|---------|
-| db.ssl | Y or anything else, Y triggers JDBC sslConnection=true, an example --prop db.ssl=Y| 
+| ssl | Y or anything else, Y triggers JDBC sslConnection=true, an example --prop ssl=Y| 
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
