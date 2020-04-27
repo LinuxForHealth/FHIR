@@ -102,7 +102,7 @@ public class BulkDataUtils {
             String cosEndpointUrl, String cosLocation) {
         SDKGlobalConfiguration.IAM_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token";
         AWSCredentials credentials;
-        if (cosCredentialIbm.equalsIgnoreCase("Y")) {
+        if (cosCredentialIbm != null && cosCredentialIbm.equalsIgnoreCase("Y")) {
             credentials = new BasicIBMOAuthCredentials(cosApiKeyProperty, cosSrvinstId);
         } else {
             credentials = new BasicAWSCredentials(cosApiKeyProperty, cosSrvinstId);

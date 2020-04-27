@@ -20,6 +20,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -259,22 +260,20 @@ public class BulkDataClient {
 
         PollingLocationResponse result = null;
         try {
-            JobInstanceResponse bulkExportJobInstanceResponse =
-                    JobInstanceResponse.Parser.parse(responseStr);
+            JobInstanceResponse bulkExportJobInstanceResponse = JobInstanceResponse.Parser.parse(responseStr);
 
             // Example: https://localhost:9443/ibm/api/batch/jobinstances/9/jobexecutions/2
             // Get the current job execution status of the job instance.
-            baseUrl     =
+            baseUrl =
                     properties.get(BulkDataConfigUtil.BATCH_URL) + "/" + bulkExportJobInstanceResponse.getInstanceId()
                             + "/jobexecutions/" + bulkExportJobInstanceResponse.getExecutionId();
-            target      = getWebTarget(baseUrl);
-            r           = target.request().get();
+            target = getWebTarget(baseUrl);
+            r = target.request().get();
 
             responseStr = r.readEntity(String.class);
 
             // Intermediate Response is - BulkExportJobExecutionResponse
-            JobExecutionResponse bulkExportJobExecutionResponse =
-                    JobExecutionResponse.Parser.parse(responseStr);
+            JobExecutionResponse bulkExportJobExecutionResponse = JobExecutionResponse.Parser.parse(responseStr);
             verifyTenant(bulkExportJobExecutionResponse.getJobParameters());
 
             if (log.isLoggable(Level.FINE)) {
@@ -293,7 +292,6 @@ public class BulkDataClient {
                  * In the case of a partial success, the server SHALL use a 200 status code instead of 4XX or 5XX.
                  * The choice of when to determine that an export job has failed in its entirety (error status) vs
                  * returning a partial success (complete status) is left up to the implementer.
-                 *
                  * XXX Can we do something better like return a 2XX response with a link to a file that explains the
                  * error?
                  * What if we couldn't connect with S3 / Cloud object store in the first place?
@@ -413,17 +411,24 @@ public class BulkDataClient {
             result.setOutput(outputList);
         }
 
-        if ("COMPLETED".equals(exitStatus) && request.contains("$import")) {
+        if (request.contains("$import")) {
             // Currently there is no output
             log.fine("Hit the case where we don't form output with counts");
             List<Input> inputs = response.getJobParameters().getInputs();
 
             List<PollingLocationResponse.Output> outputs = new ArrayList<>();
+            List<PollingLocationResponse.Output> errors = new ArrayList<>();
+            List<String> responseCounts = Arrays.asList(exitStatus.split(","));
+            Iterator<String> iter = responseCounts.iterator();
             for (Input input : inputs) {
-                // The count is optional, and we're passing back null
-                outputs.add(new PollingLocationResponse.Output("OperationOutcome", input.getUrl(), null));
+                String[] counts = iter.next().replace("[", "").replace("]", "").split(":");
+                outputs.add(new PollingLocationResponse.Output("OperationOutcome",
+                        input.getUrl() + "_oo_success.ndjson", counts[0]));
+                errors.add(new PollingLocationResponse.Output("OperationOutcome", input.getUrl() + "_oo_errors.ndjson",
+                        counts[1]));
             }
             result.setOutput(outputs);
+            result.setError(errors);
         }
 
         return result;
@@ -448,6 +453,7 @@ public class BulkDataClient {
         builder.applicationName(properties.get(BulkDataConfigUtil.APPLICATION_NAME));
         builder.moduleName(properties.get(BulkDataConfigUtil.MODULE_NAME));
         builder.cosBucketName(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
+        builder.cosBucketNameOperationOutcome(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
         builder.cosLocation(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_LOCATION));
         builder.cosEndpointUrl(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT));
         builder.cosCredentialIbm(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_IBM));

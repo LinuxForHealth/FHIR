@@ -1199,7 +1199,7 @@ Following is the beautified response of sample polling location request after th
 ```json
 {
 "transactionTime": "2020/01/20 16:53:41.160 -0500",
-"request": "/$export?_type=",
+"request": "/$export?_type=Patient",
 "requiresAccessToken": false,
 "output" : [
   { "type" : "AllergyIntolerance",
@@ -1216,6 +1216,10 @@ Following is the beautified response of sample polling location request after th
     "count": 81}]
 }
 ```
+
+For the Import Operation, the polled status includes an indication of `$import` and the location of the OperationOutcome NDJsons and the corresonding failure and success counts. 
+
+Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the oepration is stopped or removed, and then 204. 
 
 By default, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.
 
