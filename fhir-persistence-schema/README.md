@@ -49,7 +49,7 @@ The `fhir-persistence-schema` tool uses a properties file for database connectio
 |db.database | The name of the database|
 |user | A username with connect and admin permissions on the target database|
 |password | The user password for connecting to the database|
-| ssl | Y or anything else, Y triggers JDBC sslConnection=true, an example --prop ssl=Y|
+|sslConnection | true or anything else, true triggers JDBC to use ssl, an example --prop sslConnection=true |
 
 A sample properties file can be found at https://github.com/IBM/FHIR/blob/master/fhir-persistence-schema/db2.properties
 
