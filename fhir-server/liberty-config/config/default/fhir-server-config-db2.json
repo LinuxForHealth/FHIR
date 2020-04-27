@@ -9,6 +9,56 @@
             "checkReferenceTypes": true,
             "conditionalDeleteMaxNumber": 10
         },
+        "notifications": {
+            "common": {
+                "__comment_includeResourceTypes": [
+                    "QuestionnaireResponse",
+                    "CarePlan",
+                    "MedicationAdministration",
+                    "Device",
+                    "DeviceComponent",
+                    "DeviceMetric",
+                    "MedicationOrder",
+                    "Observation"
+                ]
+            },
+            "websocket": {
+                "enabled": true
+            },
+            "kafka": {
+                "enabled": false,
+                "topicName": "fhirNotifications",
+                "connectionProperties": {
+                    "group.id": "securing-kafka-group",
+                    "bootstrap.servers": "localhost:9093",
+                    "security.protocol": "SSL",
+                    "ssl.truststore.location": "resources/security/kafka.client.truststore.p12",
+                    "ssl.truststore.password": "change-password",
+                    "ssl.keystore.location": "resources/security/kafka.client.keystore.p12",
+                    "ssl.keystore.password": "change-password",
+                    "ssl.key.password": "change-password",
+                    "ssl.truststore.type": "PKCS12",
+                    "ssl.keystore.type": "PKCS12",
+                    "acks": "all",
+                    "retries": "60",
+                    "request.timeout.ms": "10000",
+                    "max.block.ms": "60000",
+                    "max.in.flight.requests.per.connection": "5"
+                }
+            },
+            "nats": {
+                "enabled": true,
+                "cluster": "nats-streaming",
+                "channel": "fhirNotifications",
+                "clientId": "fhir-server",
+                "servers": "nats://nats-node1:4222,nats://nats-node2:4223,nats://nats-node3:4224",
+                "useTLS": false,
+                "truststoreLocation": "resources/security/nats.client.truststore.jks",
+                "truststorePassword": "change-password",
+                "keystoreLocation": "resources/security/nats.client.keystore.jks",
+                "keystorePassword": "change-password"
+            }
+        },
         "audit": {
             "serviceClassName" : "com.ibm.fhir.audit.logging.impl.DisabledAuditLogService",
             "serviceProperties" : {
