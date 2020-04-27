@@ -332,7 +332,7 @@ public class BulkDataClient {
         runVerificationOfTenantForJob(job);
 
         // 3 optimistic delete (empty)
-        Response.Status status = runDeleteOfTenantForJob(job);
+        Response.Status status = runDeleteJobForTenant(job);
 
         // Check 3 (B), else fall through (A).
         // Default Response is Accepted (202)
@@ -347,7 +347,7 @@ public class BulkDataClient {
         } else if (HttpStatus.SC_NO_CONTENT != status.getStatusCode()) {
             // The Delete is unsuccessful (SC_NO_CONTENT)
             // 3.B - STOP Condition and now step 4 in the flow.
-            status = runStopOfTenantForJob(job);
+            status = runStopOfTenantJob(job);
         }
         return status;
     }
@@ -355,7 +355,7 @@ public class BulkDataClient {
     /*
      * stops the job (local or remote batch processor).
      */
-    private Response.Status runStopOfTenantForJob(String job) throws Exception {
+    private Response.Status runStopOfTenantJob(String job) throws Exception {
         // 4 - Check the State of the Job (batchStatus)
         //      - batchStatus - STARTING, STARTED, STOPPING, STOPPED, FAILED, COMPLETED, ABANDONED
 
@@ -418,7 +418,7 @@ public class BulkDataClient {
     /*
      * deletes the job
      */
-    private Response.Status runDeleteOfTenantForJob(String job) throws Exception {
+    private Response.Status runDeleteJobForTenant(String job) throws Exception {
         Response.Status status = Response.Status.NO_CONTENT;
         try {
             // Example: https://localhost:9443/ibm/api/batch/jobexecutions/9
