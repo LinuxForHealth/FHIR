@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- (C) Copyright IBM Corp. 2016, 2019
+-- (C) Copyright IBM Corp. 2016, 2020
 --
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ BEGIN
 	  THEN
 	    -- applications should not be passing invalid keys, so treat this as
 	    -- an exception
-	    SIGNAL SQLSTATE '99401' SET MESSAGE_TEXT = 'NOT AUTHORIZED: INVALID TENANT ID';
+	    SIGNAL SQLSTATE '99401' SET MESSAGE_TEXT = 'NOT AUTHORIZED: INVALID TENANT ID OR TENANT KEY';
 	  ELSEIF v_tenant_status = 'FROZEN'
 	  THEN
 	    -- the tenant_key is valid, but the status of tenant has been set to frozen
