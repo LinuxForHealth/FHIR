@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.POST;
@@ -104,7 +105,7 @@ public class Operation extends FHIRResource {
                     FHIROperationContext.createSystemOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
-            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST );
+            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             Resource result = helper.doInvoke(operationContext, null, null, null, operationName,
@@ -122,6 +123,48 @@ public class Operation extends FHIRResource {
             try {
                 RestAuditLogger.logOperation(httpServletRequest, operationName, null, null, null,
                         startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
+            log.exiting(this.getClass().getName(), "invoke(String,Resource)");
+        }
+    }
+
+    @DELETE
+    @Path("${operationName}")
+    public Response invokeDelete(@PathParam("operationName") String operationName) {
+        // Support for calling a HTTP DELETE for a System-Level Operation calls.
+
+        log.entering(this.getClass().getName(), "invokeDelete(String)");
+        Date startTime = new Date();
+        Response.Status status = null;
+
+        try {
+            checkInitComplete();
+
+            FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
+            operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.DELETE);
+
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            Resource result =
+                    helper.doInvoke(operationContext, null, null, null, operationName, null,
+                            uriInfo.getQueryParameters(), null);
+            Response response = buildResponse(operationContext, null, result);
+            status = Response.Status.fromStatusCode(response.getStatus());
+            return response;
+        } catch (FHIROperationException e) {
+            status = issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
+        } catch (Exception e) {
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
+        } finally {
+            try {
+                RestAuditLogger.logOperation(httpServletRequest, operationName, null, null, null, startTime, new Date(),
+                        status);
             } catch (Exception e) {
                 log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
             }
