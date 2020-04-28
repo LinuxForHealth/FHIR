@@ -11,15 +11,16 @@ Running fhir server integration tests using docker db2.
 
 ## Run
 
-From the root of the project (aka the "WORKSPACE"):
-1. Set up and start the containers
+From the root of the project (aka the "WORKSPACE"):  
+1. Set up and start the containers  
     ```sh
     build/pre-integration-test-docker.sh
-    ```
-2. Run the tests
+    ```  
+    Note: If you are testing NATS notifications, invoke fhir-server-test/src/test/nodejs/nats-subscriber.js via `node nats-subscriber`.  
+2. Run the tests. 
     ```sh
     mvn test -DskipTests=false -f fhir-server-test
-    ```
+    ```  
 3. Collect logs and tear down the containers
     ```sh
     build/post-integration-test-docker.sh
