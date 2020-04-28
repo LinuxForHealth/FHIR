@@ -190,10 +190,9 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
 /* 
 * Modified from original NATS documentation @ https://docs.nats.io/developing-with-nats/security/tls
 *
-* This example requires certificates to be in the java keystore format (.jks).
-* To do so openssl is used to generate a pkcs12 file (.p12) from client-cert.pem and client-key.pem.
-* The resulting file is then imported int a java keystore named keystore.jks using keytool which is part of java jdk.
-* keytool is also used to import the CA certificate rootCA.pem into truststore.jks.  
+* openssl is used to generate a pkcs12 file (.p12) from client-cert.pem and client-key.pem.
+* The resulting file is then imported into a java keystore using keytool which is part of java jdk.
+* keytool is also used to import the CA certificate rootCA.pem into the truststore.  
 */
 class SSLUtils extends FHIRNotificationNATSPublisher {
 
