@@ -2,16 +2,7 @@
     "fhirServer":{
         "__comment":"FHIR Server configuration",
         "server-core":{
-            "__comment":"Configuration properties for the core server",
-            "truststoreLocation":"resources/security/fhirTruststore.p12",
-            "truststorePassword":"change-password"
-        },
-        "virtualResources":{
-            "enabled":true,
-            "allowableResourceTypes":[
-                "WeatherDetail",
-                "XYZStudy"
-            ]
+            "__comment":"Configuration properties for the core server"
         },
         "notifications":{
             "count-time-1" : 11.0,
@@ -47,11 +38,6 @@
                     "ssl.keystore.type":"PKCS12"
                 }
             }
-        },
-        "audit":{
-            "enabled":true,
-            "logPath":"${server.config.dir}/logs/",
-            "tenantId":"Customer"
         }
     }
 }

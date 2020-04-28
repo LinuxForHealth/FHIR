@@ -269,6 +269,7 @@ public class ImportPartitionMapper implements PartitionMapper {
             Properties p = new Properties();
             p.setProperty(Constants.IMPORT_PARTITTION_WORKITEM, fhirDataSource.getUrl());
             p.setProperty(Constants.IMPORT_PARTITTION_RESOURCE_TYPE, fhirDataSource.getType());
+
             partitionProps[propCount++] = p;
         }
         pp.setPartitionProperties(partitionProps);

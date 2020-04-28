@@ -49,6 +49,7 @@ The `fhir-persistence-schema` tool uses a properties file for database connectio
 |db.database | The name of the database|
 |user | A username with connect and admin permissions on the target database|
 |password | The user password for connecting to the database|
+|sslConnection | true or anything else, true triggers JDBC to use ssl, an example --prop sslConnection=true |
 
 A sample properties file can be found at https://github.com/IBM/FHIR/blob/master/fhir-persistence-schema/db2.properties
 
@@ -222,6 +223,5 @@ Note: the jar file is stored locally in `fhir-persistence-schema/target` or in t
     - schema.sql:  `db2 -tvf schema.sql`
     - grants.sql:  `db2 -tvf grants.sql`
     - stored-procedures.sql:  `db2 -td@ -vf stored-procedures.sql`
-
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.

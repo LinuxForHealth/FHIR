@@ -41,7 +41,7 @@ public class Sequence extends BaseObject {
 
         // Only if VERSION1 then we want to apply, else fall through
         // Re-creating a sequence can have unintended consequences.
-        if (this.version == 1 && (priorVersion == 0 || priorVersion == null)) {
+        if (this.version == 1 && (priorVersion == null || priorVersion == 0)) {
             apply(target);
         }
     }
