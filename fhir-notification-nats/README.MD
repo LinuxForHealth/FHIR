@@ -26,7 +26,6 @@ Set "enabled" to true and provide the name of your NATS cluster for the value of
 Manually invoke fhir-server-test/src/test/nodejs/nats-subscriber.js via `node nats-subscriber` and POST or PUT a patient record to the IBM FHIR Server to test the NATS notification module.
 
 ## Use TLS (Advanced)
-
 To use TLS (which you must do if your NATS streaming cluster requires TLS) set "useTLS" to true in fhir-server-config.json and provide client truststore and keystore locations and passwords as the remaining config values.  Furthermore, to use TLS to connect to a NATS cluster, that NATS cluster must be enabled to use TLS.  The example above does not use TLS.
 
 ### Create a truststore and keystore
@@ -54,3 +53,5 @@ keytool -importkeystore -srckeystore cert.p12 -srcstoretype pkcs12 -deststoretyp
 keytool -keystore nats.client.keystore.p12 -alias CARoot -import -file ./rootCA.pem -storepass change-password -noprompt
 rm cert.p12 combined.pem  
 ```
+  
+FHIR® is the registered trademark of HL7 and is used with the permission of HL7.
