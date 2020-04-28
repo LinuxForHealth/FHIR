@@ -13,6 +13,9 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.security.RolesAllowed;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HttpMethod;
@@ -25,6 +28,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -40,8 +45,16 @@ import com.ibm.fhir.server.util.RestAuditLogger;
         FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
         FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@RolesAllowed("FHIRUsers")
+@RequestScoped
 public class Operation extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Operation.class.getName());
+
+    // The JWT of the current caller. Since this is a request scoped resource, the
+    // JWT will be injected for each JAX-RS request. The injection is performed by
+    // the mpJwt feature.
+    @Inject
+    private JsonWebToken jwt;
 
     public Operation() throws Exception {
         super();
@@ -329,7 +342,7 @@ public class Operation extends FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, 
+            Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName,
                     null, uriInfo.getQueryParameters(), null);
             Response response = buildResponse(operationContext, resourceTypeName, result);
             status = Response.Status.fromStatusCode(response.getStatus());
