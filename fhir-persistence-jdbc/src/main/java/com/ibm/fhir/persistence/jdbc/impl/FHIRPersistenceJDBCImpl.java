@@ -149,6 +149,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         log.entering(CLASSNAME, METHODNAME);
 
         PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
+        if (fhirConfig == null) {
+            throw new IllegalStateException("Unable to load the default fhir-server-config.json");
+        }
         this.updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
         this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
 
@@ -567,75 +570,77 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         try {
             existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
 
-            if (existingResourceDTO != null) {
-                if (existingResourceDTO.isDeleted()) {
-                    existingResource = this.convertResourceDTO(existingResourceDTO, resourceType, null);
-                    resourceBuilder = existingResource.toBuilder();
-
-                    SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
-                            .success(true)
-                            .resource(existingResource)
-                            .build();
-
-                    return result;
-                }
-                else {
-                    existingResource = this.convertResourceDTO(existingResourceDTO, resourceType, null);
-
-                    // Resources are immutable, so we need a new builder to update it (since R4)
-                    resourceBuilder = existingResource.toBuilder();
-
-                    int newVersionNumber = existingResourceDTO.getVersionId() + 1;
-                    Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-
-                    // Update the soft-delete resource to reflect the new version and lastUpdated values.
-                    Meta meta = existingResource.getMeta();
-                    Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
-                    metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
-                    metaBuilder.lastUpdated(lastUpdated);
-                    resourceBuilder.meta(metaBuilder.build());
-
-
-                    @SuppressWarnings("unchecked")
-                    T updatedResource = (T) resourceBuilder.build();
-
-                    // Create a new Resource DTO instance to represent the deleted version.
-                    com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.fhir.persistence.jdbc.dto.Resource();
-                    resourceDTO.setLogicalId(logicalId);
-                    resourceDTO.setVersionId(newVersionNumber);
-
-                    // Serialize and compress the Resource
-                    GZIPOutputStream zipStream = new GZIPOutputStream(stream);
-                    FHIRGenerator.generator(Format.JSON, false).generate(updatedResource, zipStream);
-                    zipStream.finish();
-                    resourceDTO.setData(stream.toByteArray());
-                    zipStream.close();
-
-                    Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
-                    resourceDTO.setLastUpdated(timestamp);
-                    resourceDTO.setResourceType(resourceType.getSimpleName());
-                    resourceDTO.setDeleted(true);
-
-                    // Persist the logically deleted Resource DTO.
-                    this.getResourceDao().setPersistenceContext(context);
-                    this.getResourceDao().insert(resourceDTO, null, null);
-
-                    if (log.isLoggable(Level.FINE)) {
-                        log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-                                    + ", version=" + resourceDTO.getVersionId());
-                    }
-
-                    SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
-                            .success(true)
-                            .resource(updatedResource)
-                            .build();
-
-                    return result;
-                }
+            if (existingResourceDTO == null) {
+                throw new FHIRPersistenceResourceNotFoundException("resource does not exist: " + 
+                        resourceType.getSimpleName() + "/" + logicalId);
             }
-            else {
-                throw new FHIRPersistenceResourceNotFoundException("resource does not exist: " + resourceType.getSimpleName() + ":" + logicalId);
+
+            if (existingResourceDTO.isDeleted()) {
+                existingResource = this.convertResourceDTO(existingResourceDTO, resourceType, null);
+                resourceBuilder = existingResource.toBuilder();
+
+                addWarning(IssueType.DELETED, "Resource of type'" + resourceType.getSimpleName() + 
+                        "' with id '" + logicalId + "' is already deleted.");
+                        
+                SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
+                        .success(true)
+                        .resource(existingResource)
+                        .build();
+
+                return result;
             }
+            
+            existingResource = this.convertResourceDTO(existingResourceDTO, resourceType, null);
+
+            // Resources are immutable, so we need a new builder to update it (since R4)
+            resourceBuilder = existingResource.toBuilder();
+
+            int newVersionNumber = existingResourceDTO.getVersionId() + 1;
+            Instant lastUpdated = Instant.now(ZoneOffset.UTC);
+
+            // Update the soft-delete resource to reflect the new version and lastUpdated values.
+            Meta meta = existingResource.getMeta();
+            Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
+            metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
+            metaBuilder.lastUpdated(lastUpdated);
+            resourceBuilder.meta(metaBuilder.build());
+
+
+            @SuppressWarnings("unchecked")
+            T updatedResource = (T) resourceBuilder.build();
+
+            // Create a new Resource DTO instance to represent the deleted version.
+            com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.fhir.persistence.jdbc.dto.Resource();
+            resourceDTO.setLogicalId(logicalId);
+            resourceDTO.setVersionId(newVersionNumber);
+
+            // Serialize and compress the Resource
+            GZIPOutputStream zipStream = new GZIPOutputStream(stream);
+            FHIRGenerator.generator(Format.JSON, false).generate(updatedResource, zipStream);
+            zipStream.finish();
+            resourceDTO.setData(stream.toByteArray());
+            zipStream.close();
+
+            Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
+            resourceDTO.setLastUpdated(timestamp);
+            resourceDTO.setResourceType(resourceType.getSimpleName());
+            resourceDTO.setDeleted(true);
+
+            // Persist the logically deleted Resource DTO.
+            this.getResourceDao().setPersistenceContext(context);
+            this.getResourceDao().insert(resourceDTO, null, null);
+
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+                            + ", version=" + resourceDTO.getVersionId());
+            }
+
+            SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
+                    .success(true)
+                    .resource(updatedResource)
+                    .build();
+
+            return result;
         }
         catch(FHIRPersistenceFKVException e) {
             log.log(Level.INFO, this.performCacheDiagnostics());
@@ -654,9 +659,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         }
     }
 
+    /**
+     * @throws FHIRPersistenceResourceDeletedException if the resource being read is currently in a deleted state and
+     *         FHIRPersistenceContext.includeDeleted() is set to false
+     */
     @Override
     public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
-                            throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+                            throws FHIRPersistenceException {
         final String METHODNAME = "read";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -838,7 +847,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         return issues;
     }
 
-
+    /**
+     * @throws FHIRPersistenceResourceDeletedException if the resource being read is currently in a deleted state and
+     *         FHIRPersistenceContext.includeDeleted() is set to false
+     */
     @Override
     public <T extends Resource> SingleResourceResult<T> vread(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, String versionId)
                         throws FHIRPersistenceException {
@@ -852,7 +864,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         try {
             version = Integer.parseInt(versionId);
             resourceDTO = this.getResourceDao().versionRead(logicalId, resourceType.getSimpleName(), version);
-            if (resourceDTO != null && resourceDTO.isDeleted()) {
+            if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
                 throw new FHIRPersistenceResourceDeletedException("Resource '" +
                         resourceType.getSimpleName() + "/" + logicalId + "' version " + versionId + " is deleted.");
             }
@@ -893,9 +905,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @throws IOException
      */
     protected List<Resource> buildSortedFhirResources(FHIRPersistenceContext context, Class<? extends Resource> resourceType, List<Long> sortedIdList,
-                                                      List<String> elements)
-                            throws FHIRException, FHIRPersistenceException, IOException {
-        final String METHOD_NAME = "buildFhirResource";
+            List<String> elements) throws FHIRException, FHIRPersistenceException, IOException {
+        final String METHOD_NAME = "buildSortedFhirResources";
         log.entering(this.getClass().getName(), METHOD_NAME);
 
         long resourceId;

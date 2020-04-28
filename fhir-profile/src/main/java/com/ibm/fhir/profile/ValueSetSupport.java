@@ -148,7 +148,7 @@ public final class ValueSetSupport {
 
     /**
      * Get a set containing {@link ValueSet.Expansion.Contains} instances where all structural
-     * hierarchies has been flattened.
+     * hierarchies have been flattened.
      *
      * @param expansion
      *     the expansion containing the list of Contains instances to flatten

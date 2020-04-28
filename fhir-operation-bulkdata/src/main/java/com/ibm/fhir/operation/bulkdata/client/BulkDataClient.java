@@ -20,6 +20,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -531,17 +532,24 @@ public class BulkDataClient {
             result.setOutput(outputList);
         }
 
-        if ("COMPLETED".equals(exitStatus) && request.contains("$import")) {
+        if (request.contains("$import")) {
             // Currently there is no output
             log.fine("Hit the case where we don't form output with counts");
             List<Input> inputs = response.getJobParameters().getInputs();
 
             List<PollingLocationResponse.Output> outputs = new ArrayList<>();
+            List<PollingLocationResponse.Output> errors = new ArrayList<>();
+            List<String> responseCounts = Arrays.asList(exitStatus.split(","));
+            Iterator<String> iter = responseCounts.iterator();
             for (Input input : inputs) {
-                // The count is optional, and we're passing back null
-                outputs.add(new PollingLocationResponse.Output("OperationOutcome", input.getUrl(), null));
+                String[] counts = iter.next().replace("[", "").replace("]", "").split(":");
+                outputs.add(new PollingLocationResponse.Output("OperationOutcome",
+                        input.getUrl() + "_oo_success.ndjson", counts[0]));
+                errors.add(new PollingLocationResponse.Output("OperationOutcome", input.getUrl() + "_oo_errors.ndjson",
+                        counts[1]));
             }
             result.setOutput(outputs);
+            result.setError(errors);
         }
 
         return result;
@@ -566,6 +574,7 @@ public class BulkDataClient {
         builder.applicationName(properties.get(BulkDataConfigUtil.APPLICATION_NAME));
         builder.moduleName(properties.get(BulkDataConfigUtil.MODULE_NAME));
         builder.cosBucketName(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
+        builder.cosBucketNameOperationOutcome(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_BUCKET));
         builder.cosLocation(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_LOCATION));
         builder.cosEndpointUrl(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_ENDPOINT));
         builder.cosCredentialIbm(properties.get(BulkDataConfigUtil.JOB_PARAMETERS_IBM));

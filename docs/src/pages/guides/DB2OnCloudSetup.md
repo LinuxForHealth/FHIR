@@ -16,30 +16,30 @@ This document guides a developer or administrator through the steps necessary to
 
 1. Click `Create resource`.
 
-1. Choose `Db2 (transactional)`.
+1. Choose [Db2](https://cloud.ibm.com/catalog/services/db2).
 
-1. Select the Pricing Plan: 
+1. Select the Pricing Plan:
     - The IBM FHIR Server recommends the Flex plan for a production workload, development and experiments.
 
 1. Create `Create`
 
 Your instance is now creating or created.
 
-### **Scale the Instance**
+### **Scale the instance**
 
-If you chose the Flex plan, you may want to scale the instance after it has been created (e.g. 4 cores, 16GB). The instance can be scaled more than once, so it doesn't matter if you don't get the sizing right first time. 
+If you chose the Flex plan, you may want to scale the instance after it has been created (e.g. 4 cores, 16GB). The instance can be scaled more than once, so it doesn't matter if you don't get the sizing right first time.
 
 Note:
 1. The scaling of the instance requires a service restart.
-2. The instance CPU/Memory are scalable up and down. The storage in only scaled up. 
+2. The instance CPU/Memory are scalable up and down. The storage in only scaled up.
 
-### **Create the Administrator Credential**
+### **Create the administrator credential**
 
-The administrator is `BLUADMIN` but you need to create a credential. 
+The administrator is `BLUADMIN` but you need to create a credential.
 
-1. Navigate to the Db2 instance you created. 
+1. Navigate to the Db2 instance you created.
 
-1. Click on the `Service credentials` panel. 
+1. Click on the `Service credentials` panel.
     - If the list of service credentials is empty, create a new one.
         1. Click `New credential (+)`
         1. Enter the Name. Any name works for example, `ibm-fhir-server-db2`.
@@ -49,7 +49,7 @@ The administrator is `BLUADMIN` but you need to create a credential.
 
     ``` json
     {
-        "hostname": "dashdb-txn-flex-.***********.services.dal.bluemix.net",
+        "hostname": "dashdb-txn-flex-***********.services.dal.bluemix.net",
         "password": "bluadmin-password-very-secret",
         "https_url": "https://dashdb-txn-flex-************.services.dal.bluemix.net:8443",
         "port": 50000,
@@ -66,42 +66,42 @@ The administrator is `BLUADMIN` but you need to create a credential.
 
 4. Save these details for later, as these properties are needed to deploy and manage the IBM FHIR Server schema.
 
-For improved security, the **BLUADMIN** user should only be used to deploy the schema objects (tables, indexes, stored procedures etc) and administer the database, NOT for connecting from the fhir-server application. 
+For improved security, the **BLUADMIN** user should only be used to deploy the schema objects (tables, indexes, stored procedures etc) and administer the database, NOT for connecting from the fhir-server application.
 
-### **Add the FHIRSERVER User and API Key**
+### **Add the FHIRSERVER user and API key**
 
 Following the least-privilege principle, the IBM FHIR server itself does not use **BLUADMIN**. The IBM FHIR server uses an API Key associated with an [IAM Service Id](https://cloud.ibm.com/iam/serviceids). The IAM Service Id is mapped to a Db2 user which is granted explicit privileges to the tables and stored procedures.
 
-The IBM FHIR Server uses the access flow: 
+The IBM FHIR Server uses the access flow:
 
 1. Read API Key and the tenant key from the fhir-server-config.json
 2. Connect to Db2 to access authenticated data using IAM
 3. Confirm tenant-key to access authorized data
 
-The steps to create the API key are: 
+The steps to create the API key are:
 
 1. On the IBM Cloud console, select `Manage` > `Access (IAM)`.
 
 1. Select the [Service IDs panel](https://cloud.ibm.com/iam/serviceids).
 
 1. Click `Create (+)`
-    
+
     1. Enter a meaningful name, such as `fhir-service-id`.
     1. Enter a description, such as `for instance db2-ho`.
     1. Click the `Create`.
-    
-    - Note (1): If you have already created the entry, click the entry. 
-    - Note (2): You may have to wait for the table to populate. 
 
-1. Select the `API keys` tab. 
+    - Note (1): If you have already created the entry, click the entry.
+    - Note (2): You may have to wait for the table to populate.
+
+1. Select the `API keys` tab.
     - Note: This tab is not the same `IBM Cloud API keys` on the left.
 
 1. To create an API Key, select `Create (+)`.
 
     1. Enter a name for the api key, for example, `fhir-server-api`.
     1. Click `Create`.
-    1. Copy or download the key. 
-    
+    1. Copy or download the key.
+
     - Note: if you don't retain a copy, don't panic - you can simply delete the API key and create a new one. API keys are designed to support additions and deletions, so you add as many as you need and delete others for any reason.
 
 This API key is used in the database configuration section of the `fhir-server-config.json` file.
@@ -110,7 +110,7 @@ Before the API key can be used, you need to create a Db2 user and associate it w
 
 1. Navigate to the [Resources](https://cloud.ibm.com/resources) page
 
-1. Find and click on your IBM Db2 on Cloud instance. 
+1. Find and click on your IBM Db2 on Cloud instance.
 
 1. Click on Manage.
 
@@ -118,13 +118,13 @@ Before the API key can be used, you need to create a Db2 user and associate it w
 
 1. Click `SETTINGS` > `Manage Users`.
 
-    - Note: If you do not see `Manage Users`, you are probably using a [non-IAM instance](https://www.ibm.com/support/knowledgecenter/SS6NHC/com.ibm.swg.im.dashdb.security.doc/doc/iam.html). To confirm: 
+    - Note: If you do not see `Manage Users`, you are probably using a [non-IAM instance](https://www.ibm.com/support/knowledgecenter/SS6NHC/com.ibm.swg.im.dashdb.security.doc/doc/iam.html). To confirm:
         1. Click Run Sql
         1. Enter the SQL
             ``` sql
             SELECT CASE WHEN VALUE = 'IBMIAMauth' THEN 1 ELSE 0 END AS IAM_ENABLED FROM SYSIBMADM.DBMCFG WHERE NAME = 'srvcon_gssplugin_list'
             ```
-        1. You see `0` if not IAM enabled. 
+        1. You see `0` if not IAM enabled.
 
 1. Click Add. A panel opens on the right-hand side.
 
@@ -142,7 +142,7 @@ Before the API key can be used, you need to create a Db2 user and associate it w
 
 You are now able to connect to the database as the FHIRSERVER user using only the API key created above.
 
-### **Testing the Connection**
+### **Testing the connection**
 
 The [Db2 driver](https://repo1.maven.org/maven2/com/ibm/db2/jcc/11.5.0.0/jcc-11.5.0.0.jar) is able to execute a connectivity test to check the configuration of the combo of API-key/Service-Id/Db2-User-Id.
 
@@ -155,20 +155,52 @@ The [Db2 driver](https://repo1.maven.org/maven2/com/ibm/db2/jcc/11.5.0.0/jcc-11.
     - Note: Don't forget the trailing `;` in the URL. Some of the documented examples don't include it, but it is required in order for the connection to work, although this may be fixed in a future driver release. This only affects this test URL, not the actual FHIR server configuration.
 
 1. Replace the following values with your service details:
-    - `/path/to/db2jcc4.jar` : replace with the path to your driver jar. 
+    - `/path/to/db2jcc4.jar` : replace with the path to your driver jar.
     - `<DB-HOSTNAME>`: the hostname of your Db2 service from the Service Credentials page
     - `<API-KEY>`: the API key value created in the previous section
     - `<TRUSTSTORE-PASSWORD>`: the password for your truststore
-   
+
     - Note: When using an API Key, no username needs to be provided. This is because the API Key maps to a ServiceId, and that ServiceId is mapped to the Db2 user.
 
-1. Run in your favorite terminal, and you should see no errors in the output. You should see output like: 
+1. Run in your favorite terminal, and you should see no errors in the output. You should see output like:
 
 ```
 [jcc][10516][13709]Test Connection Successful.
 ```
 
-### **Configuring IBM FHIR Server Datasource**
+### **Deploy the IBM FHIR Server schema**
+
+Now that you've created the database and credentials, use the `fhir-persistence-schema` utility to deploy the IBM FHIR Server schema:
+
+1. download the `fhir-persistence-schema` cli jar from the corresponding project release: https://github.com/IBM/FHIR/releases
+
+2. create a properties file named db2.properties with the db2 connection info from IBM Cloud; for example:
+    ```
+    db.host=dashdb-txn-flex-***********.services.dal.bluemix.net
+    db.port=50001
+    db.database=BLUDB
+    user=bluadmin
+    password=bluadmin-password-very-secret
+    sslConnection=true
+    ```
+
+3. execute the following commands:
+    ```sh
+    java -jar schema/fhir-persistence-schema-*-cli.jar \
+      --prop-file db2.properties --schema-name FHIRDATA --create-schemas
+    java -jar schema/fhir-persistence-schema-*-cli.jar \
+      --prop-file db2.properties --schema-name FHIRDATA --update-schema --pool-size 2
+    java -jar schema/fhir-persistence-schema-*-cli.jar \
+      --prop-file db2.properties --schema-name FHIRDATA --grant-to FHIRSERVER --pool-size 2
+    java -jar schema/fhir-persistence-schema-*-cli.jar \
+      --prop-file db2.properties --schema-name FHIRDATA --allocate-tenant default --pool-size 2
+    ```
+
+4. note the tenantKey from the allocate-tenant step above; this will be needed to configure the IBM FHIR Server datasource in the next step
+
+For more information on using the fhir-persistence-schema cli jar, see https://github.com/IBM/FHIR/tree/master/fhir-persistence-schema/README.md.
+
+### **Configuring an IBM FHIR Server datasource**
 
 The IBM FHIR Server uses a proxy datasource mechanism, allowing new datasources to be added at runtime without requiring a (Liberty Profile) server restart. To configure a FHIR tenant datasource using an API-KEY, use the following template:
 
@@ -196,13 +228,13 @@ The IBM FHIR Server uses a proxy datasource mechanism, allowing new datasources 
         }
 ```
 
-The persistence configuration is stored in the `fhir-server-config.json` in the tenant and default configuration folders. 
+The persistence configuration is stored in the `fhir-server-config.json` in the tenant and default configuration folders.
 
-#### Mapping from IBM Db2 on Cloud Endpoint Credentials
+#### Mapping from IBM Db2 on Cloud endpoint credentials
 
-This section explains how to populate the FHIR datasource from IBM Db2 on Cloud configuration details from an example configuration: 
+This section explains how to populate the FHIR datasource from IBM Db2 on Cloud configuration details from an example configuration:
 
-Use the following table to populate your datasource. 
+Use the following table to populate your datasource.
 
 | IBM FHIR Server Configuration  | Description |
 |----|----|
@@ -212,13 +244,13 @@ Use the following table to populate your datasource.
 | apiKey | from the created user in the assigned to the `fhiruser` group. Reference Section **FHIRSERVER User and API Key** |
 | securityMechanism | `15` generally set to 15 to trigger the `apiKey` use with IBM Cloud |
 | pluginName | `IBMIAMauth` fixed for use with the IBM Cloud|
-| currentSchema | the schema name of your deployed tenant Schema, for instance `FHIRDATA` | 
+| currentSchema | the schema name of your deployed tenant Schema, for instance `FHIRDATA` |
 | driverType | `4`, always JDBC Type-4|
-| sslConnection | `true`, if you are using IBM Cloud | 
+| sslConnection | `true`, if you are using IBM Cloud |
 | sslTrustStoreLocation | Local server path to the truststore, `resources/security/dbTruststore.jks` |
 | sslTrustStorePassword | The password to the truststore |
 
-* Reference the section **Create the Administrator Credential** to see an example. 
+* Reference the section **Create the Administrator Credential** to see an example.
 
 Note, no username properties are given, because the authentication module only requires the API-KEY.
 
@@ -263,10 +295,10 @@ All passwords including apiKey values should be encrypted using the Liberty Prof
 
 # Appendix: Db2 Lite Plan
 
-The Lite plan is not supported for development and evaluation. 
-- The schema size is larger than the available space. 
+The Lite plan is not supported for development and evaluation.
+- The schema size is larger than the available space.
 - Concurrent Connections: The Lite plan has a limit of 5 concurrent connections, and the IBM FHIR Server `fhirProxyDataSource` needs to be updated to avoid failures. One should update the server.xml connectionManager with maxPoolSize - `<connectionManager maxPoolSize="5"/>`.  
-- The instance is not enabled with IAM, and you may use the `Service Credentials` that are created to connect to configure the datasource. 
+- The instance is not enabled with IAM, and you may use the `Service Credentials` that are created to connect to configure the datasource.
 
 # **References**
 - [Db2 on Cloud: Database details and connection credentials](https://cloud.ibm.com/docs/services/Db2onCloud?topic=Db2onCloud-db_details_cxn_creds)

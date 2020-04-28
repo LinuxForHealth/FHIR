@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -90,7 +90,7 @@ public class DeleteTest extends FHIRServerTestBase {
         FHIRResponse response = client.delete(deletedType, deletedId);
         assertNotNull(response);
         if (deleteSupported) {
-            assertResponse(response.getResponse(), Response.Status.NO_CONTENT.getStatusCode());
+            assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
             assertNotNull(response.getETag());
             assertEquals("W/\"2\"", response.getETag());
         } else {
@@ -115,7 +115,7 @@ public class DeleteTest extends FHIRServerTestBase {
     }
 
     @Test(dependsOnMethods = {
-            "testReadDeletedResource"
+            "testDeleteNewResource"
     })
     public void testVreadDeletedResource() throws Exception {
         if (!deleteSupported) {
@@ -131,7 +131,7 @@ public class DeleteTest extends FHIRServerTestBase {
     }
 
     @Test(dependsOnMethods = {
-            "testVreadDeletedResource"
+            "testDeleteNewResource"
     })
     public void testDeleteDeletedResource() throws Exception {
         if (!deleteSupported) {
@@ -143,8 +143,9 @@ public class DeleteTest extends FHIRServerTestBase {
 
         FHIRResponse response = client.delete(deletedType, deletedId);
         assertNotNull(response);
-        assertResponse(response.getResponse(), Response.Status.NO_CONTENT.getStatusCode());
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         assertNotNull(response.getETag());
+        assertNotNull(response.getResource(OperationOutcome.class));
         assertEquals("W/\"2\"", response.getETag());
     }
 
@@ -285,7 +286,7 @@ public class DeleteTest extends FHIRServerTestBase {
 
         FHIRResponse response = client.delete(deletedType, deletedId);
         assertNotNull(response);
-        assertResponse(response.getResponse(), Response.Status.NO_CONTENT.getStatusCode());
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
     }
 
     @Test(dependsOnMethods = {
@@ -356,10 +357,10 @@ public class DeleteTest extends FHIRServerTestBase {
 
         // Delete a couple of resources created by the search test, then re-invoke the search.
         response = client.delete("Patient", patientIds.get(3));
-        assertResponse(response.getResponse(), Response.Status.NO_CONTENT.getStatusCode());
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
 
         response = client.delete("Patient", patientIds.get(7));
-        assertResponse(response.getResponse(), Response.Status.NO_CONTENT.getStatusCode());
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
 
         FHIRParameters parameters = new FHIRParameters().searchParam("name", uniqueFamilyName);
         response = client.search("Patient", parameters);
@@ -382,13 +383,13 @@ public class DeleteTest extends FHIRServerTestBase {
 
         // Delete 3 more patients.
         response = client.delete("Patient", patientIds.get(2));
-        assertResponse(response.getResponse(), Response.Status.NO_CONTENT.getStatusCode());
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
 
         response = client.delete("Patient", patientIds.get(8));
-        assertResponse(response.getResponse(), Response.Status.NO_CONTENT.getStatusCode());
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
 
         response = client.delete("Patient", patientIds.get(9));
-        assertResponse(response.getResponse(), Response.Status.NO_CONTENT.getStatusCode());
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
 
         FHIRParameters parameters = new FHIRParameters().searchParam("name", uniqueFamilyName);
         response = client.search("Patient", parameters);
@@ -429,7 +430,7 @@ public class DeleteTest extends FHIRServerTestBase {
         response = client.conditionalDelete("Observation", query);
         assertNotNull(response);
         if (deleteSupported) {
-            assertResponse(response.getResponse(), Response.Status.NO_CONTENT.getStatusCode());
+            assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
             assertNotNull(response.getETag());
             assertEquals("W/\"2\"", response.getETag());
         } else {
@@ -450,7 +451,12 @@ public class DeleteTest extends FHIRServerTestBase {
         assertNotNull(response);
         if (deleteSupported) {
             if (searchResultBundle.getTotal().getValue() <= FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT ) {
-                assertResponse(response.getResponse(), Status.NO_CONTENT.getStatusCode());
+                if (searchResultBundle.getTotal().getValue() > 0) {
+                    assertResponse(response.getResponse(), Status.OK.getStatusCode());
+                } else {
+                    assertResponse(response.getResponse(), Status.OK.getStatusCode());
+                    assertNotNull(response.getResource(OperationOutcome.class));
+                }
             } else {
                 assertResponse(response, Status.PRECONDITION_FAILED.getStatusCode());
                 assertExceptionOperationOutcome(response.getResponse().readEntity(OperationOutcome.class),

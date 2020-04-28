@@ -200,11 +200,11 @@ If you are configuring the FHIR server to use a single embedded Derby database, 
 This database bootstrap step is only performed for a Derby database.
 
 ##### 3.4.1.1.2 Db2
-If you configure the FHIR server to use an IBM Db2 database, you must
+If you configure the FHIR server to use an IBM Db2 database, you must:
 
-1. create the database if it doesn't already exist; and  
+1. create the database if it doesn't already exist
 
-2. execute `com.ibm.fhir.schema.app.Main` from `fhir-persistence-schema` to create the necessary schemas (tables, indices, stored procedures, etc) and tenants; and
+2. execute the `fhir-persistence-schema` utility to create the necessary schemas (tables, indices, stored procedures, etc) and tenants
 
 3. configure the server with the tenantKey generated in step number 2.
 
@@ -270,6 +270,7 @@ The next example defines the `default` datastore as a Db2 database accessible on
             "persistence":{
                 "datasources": {
                     "default": {
+                        "tenantKey": "<the-base64-tenant-key>",
                         "type": "db2",
                         "connectionProperties": {
                             "serverName": "db2server1",
@@ -352,6 +353,7 @@ Furthermore, the REST API consumers associated with Acme applications will be co
             …
             "datasources": {
                 "study1": {
+                    "tenantKey": "<the-base64-tenant-key>",
                     "type": "db2",
                     "connectionProperties": {
                         "serverName": "dbserver1",
@@ -363,6 +365,7 @@ Furthermore, the REST API consumers associated with Acme applications will be co
                     }
                 },
                 "study2": {
+                    "tenantKey": "<the-base64-tenant-key>",
                     "type": "db2",
                     "connectionProperties": {
                         "serverName": "dbserver1",
@@ -389,6 +392,7 @@ Within each tenant's `fhir-server-config.json` file, the `fhirServer/persistence
             "factoryClassname":"com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             "datasources": {
                 "study1": {
+                    "tenantKey": "<the-base64-tenant-key>",
                     "type": "db2",
                     "connectionProperties": {
                         "serverName": "mydb2server",
@@ -1195,7 +1199,7 @@ Following is the beautified response of sample polling location request after th
 ```json
 {
 "transactionTime": "2020/01/20 16:53:41.160 -0500",
-"request": "/$export?_type=",
+"request": "/$export?_type=Patient",
 "requiresAccessToken": false,
 "output" : [
   { "type" : "AllergyIntolerance",
@@ -1212,6 +1216,10 @@ Following is the beautified response of sample polling location request after th
     "count": 81}]
 }
 ```
+
+For the Import Operation, the polled status includes an indication of `$import` and the location of the OperationOutcome NDJsons and the corresonding failure and success counts. 
+
+Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the oepration is stopped or removed, and then 204. 
 
 By default, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.
 

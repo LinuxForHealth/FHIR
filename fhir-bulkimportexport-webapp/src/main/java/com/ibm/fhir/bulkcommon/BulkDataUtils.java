@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,9 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonReader;
 import javax.net.ssl.HttpsURLConnection;
 
 import com.ibm.cloud.objectstorage.ClientConfiguration;
@@ -98,7 +102,7 @@ public class BulkDataUtils {
             String cosEndpointUrl, String cosLocation) {
         SDKGlobalConfiguration.IAM_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token";
         AWSCredentials credentials;
-        if (cosCredentialIbm.equalsIgnoreCase("Y")) {
+        if (cosCredentialIbm != null && cosCredentialIbm.equalsIgnoreCase("Y")) {
             credentials = new BasicIBMOAuthCredentials(cosApiKeyProperty, cosSrvinstId);
         } else {
             credentials = new BasicAWSCredentials(cosApiKeyProperty, cosSrvinstId);
@@ -415,5 +419,14 @@ public class BulkDataUtils {
             }
         }
         return searchParametersForResoureTypes;
+    }
+    
+    public static JsonArray getDataSourcesFromJobInput(String dataSourcesInfo) {
+        try (JsonReader reader =
+                Json.createReader(new StringReader(
+                        new String(Base64.getDecoder().decode(dataSourcesInfo), StandardCharsets.UTF_8)))) {
+            JsonArray dataSourceArray = reader.readArray();
+            return dataSourceArray;
+        }
     }
 }

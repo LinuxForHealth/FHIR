@@ -129,10 +129,10 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                 }
                 return membershipCheckFailed(evaluationContext, elementNode, url, strength);
             } else {
-                generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.INCOMPLETE, "Value set '" + url + "' is empty or could not be expanded", elementNode);
+                generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.INCOMPLETE, "Membership check was not performed: value set '" + url + "' is empty or could not be expanded", elementNode);
             }
         } else {
-            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Value set '" + url + "' is not supported", elementNode);
+            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Membership check was not performed: value set '" + url + "' is not supported", elementNode);
         }
 
         return SINGLETON_TRUE;
@@ -141,7 +141,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
     private Collection<FHIRPathNode> membershipCheckFailed(EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String url, String strength) {
         if ("extensible".equals(strength) || "preferred".equals(strength)) {
             String prefix = evaluationContext.hasConstraint() ? evaluationContext.getConstraint().id() + ": " : "";
-            String description = prefix + "The concept in this element " + ("extensible".equals(strength) ? "must" : "should") + " be from the specified value set '" + url + "' if possible";
+            String description = prefix + "Membership check failed: the concept in this element " + ("extensible".equals(strength) ? "must" : "should") + " be from the specified value set '" + url + "' if possible";
             generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.CODE_INVALID, description, elementNode);
             return SINGLETON_TRUE;
         }
@@ -239,9 +239,9 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
             Expansion expansion = expanded.getExpansion();
             for (Contains contains : getContains(expansion)) {
                 String system = (contains.getSystem() != null) ? contains.getSystem().getValue() : null;
-                String version = (contains.getVersion() != null) ? contains.getVersion().getValue() : VERSION_UNKNOWN;
+                String version = (contains.getVersion() != null && contains.getVersion().getValue() != null) ? contains.getVersion().getValue() : VERSION_UNKNOWN;
                 String code = (contains.getCode() != null) ? contains.getCode().getValue() : null;
-                if (system != null && version != null && code != null) {
+                if (system != null && code != null) {
                     codeSetMap.computeIfAbsent(system + "|" + version, k -> new LinkedHashSet<>()).add(code);
                 }
             }
