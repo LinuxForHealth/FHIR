@@ -373,10 +373,17 @@ public class BulkDataClient {
                             + "?action=stop";
             WebTarget target = getWebTarget(baseUrl);
 
-            // The documentation says this is a PUT, however in practice it's actually a get.
+            // The documentation says this is a PUT and confirmed in the source code.
             // @see https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_rest_api.html#rwlp_batch_rest_api__http_return_codes
-            Response r = target.request().get();
+            // Intentionally setting a null on the put entity.
+            Response r = target.request().put(null);
             String responseStr = r.readEntity(String.class);
+
+            // Debug Logging outputs the API response.
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Stop Job for Tenant Status " + r.getStatus());
+                log.fine("The Response body is [" + responseStr + "]");
+            }
 
             if (HttpStatus.SC_MOVED_TEMPORARILY == r.getStatus()) {
                 // It's on a different server, and must be in the cluster.
@@ -385,8 +392,8 @@ public class BulkDataClient {
                 if (location != null) {
                     // No matter what, tell people we accepted the call.
                     target = getWebTarget(location + "?action=stop");
-                    // no assignment intentionally.
-                    target.request().get();
+                    // no assignment intentionally, and no body sent.
+                    target.request().put(null);
                 }
                 // Here, we could easily respond with an Exception/OperationOutcome, however An unexpected error has 
                 // occurred while stopping/deleting the job on a batch cluster member
@@ -400,9 +407,11 @@ public class BulkDataClient {
                 }
                 // Don't Delete, let the client flow through again and DELETE.
             } else if (HttpStatus.SC_CONFLICT == r.getStatus()) {
+                // SC_CONFLICT is used by the Open Liberty JBatch container to signal that the job is NOT RUNNING. 
+                // This is generally due to a conflicting identical call, we're responding immediately
                 status = Response.Status.ACCEPTED;
             } else {
-                // Error Condition
+                // Error Condition (should be 400, but capturing here as a general error including Server Error).
                 throw BulkDataExportUtil.buildOperationException(
                         "An unexpected error has ocurred while stopping/deleting the job", IssueType.TRANSIENT);
             }
@@ -429,7 +438,15 @@ public class BulkDataClient {
                     properties.get(BulkDataConfigUtil.BATCH_URL).replace("jobinstances", "jobexecutions") + "/" + job;
             // The tenant is known, and now we need to query to delete the Job.
             Response r = getWebTarget(baseUrl).request().delete();
-            if (HttpStatus.SC_NO_CONTENT != r.getStatus()) {
+
+            // Debug Logging outputs the API response.
+            if (log.isLoggable(Level.FINE)) {
+                String responseStr = r.readEntity(String.class);
+                log.fine("Delete Job for Tenant Status " + r.getStatus());
+                log.fine("The Response body is [" + responseStr + "]");
+            }
+
+            if (HttpStatus.SC_NO_CONTENT != r.getStatus() && HttpStatus.SC_BAD_REQUEST != r.getStatus()) {
                 status = Response.Status.fromStatusCode(r.getStatus());
             }
         } catch (Exception ex) {

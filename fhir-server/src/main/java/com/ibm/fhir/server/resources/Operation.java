@@ -134,8 +134,7 @@ public class Operation extends FHIRResource {
     @DELETE
     @Path("${operationName}")
     public Response invokeDelete(@PathParam("operationName") String operationName) {
-        // This operation is at a top-level, there are no extra values passed through.
-        // This feature is used by operations to execute a specific operation.
+        // Support for calling a HTTP DELETE for a System-Level Operation calls.
 
         log.entering(this.getClass().getName(), "invokeDelete(String)");
         Date startTime = new Date();
