@@ -548,35 +548,36 @@ Before you enable Kafka notifications, it's important to understand the topology
 On the other hand, if you have two completely independent FHIR server instances, then you should configure each one with its own topic name.
 
 ### 4.2.3 NATS
-The [NATS](http://nats.io) implementation of the notification service will publish notification event messages to a NATS streaming cluster. To configure the NATS notification publisher, configure properties in the `fhir-server-config.json` file as indicated in the following example:
+The [NATS](http://nats.io) implementation of the notification service publishes notification event messages to a NATS streaming cluster. To configure the NATS notification publisher, configure properties in the `fhir-server-config.json` file as shown in the following example:
 
 ```
 {
     "fhirServer":{
-        …
+        ...
         "notifications":{
-            …
+            ...
             "nats": {
 		        "enabled": true,
 		        "cluster": "nats-streaming",
 		        "channel": "fhirNotifications",
 		        "clientId": "fhir-server",
 		        "servers": "nats://nats-node1:4222,nats://nats-node2:4222,nats://nats-node3:4222",
-		        "useTLS": false,
+		        "useTLS": true,
 		        "truststoreLocation": "resources/security/nats.client.truststore.p12",
 		        "truststorePassword": "change-password",
 		        "keystoreLocation": "resources/security/nats.client.keystore.p12",
 		        "keystorePassword": "change-password"
     }
-        …
+        ...
     }
 }
 ```
+
 Set the `fhirServer/notifications/nats/enabled` property to true and provide the name of your NATS cluster for the value of `fhirServer/notifications/nats/cluster`.  You may leave `fhirServer/notifications/nats/channel` and `fhirServer/notifications/nats/clientId` as defined.  Provide the URL for one or more NATS servers as the value for `fhirServer/notifications/nats/servers`. 
 
 To use TLS to connect to your NATS cluster, set `fhirServer/notifications/nats/useTLS` to true and provide client truststore and keystore locations and passwords as the remaining config values. Ensure that your NATS cluster is configured for TLS client connections.
 
-To store a value requiring security (such as a password), you can use Liberty's securityUtility command to encode the value. See Section 3.1 Encoded passwords for details.
+To store a value requiring security, such as a password, use Liberty's `securityUtility` command to encode the value. See Section 3.1 Encoded passwords for details.
 
 ### 4.2.4 Resource type filtering
 By default, notification messages are published for all _create_ and _update_ persistence operations. However, the FHIR server allows you to configure a list of resource types for which notification events will be published. To do this, list the resource types for which you want to generate notifications in an array of strings within the  `fhirServer/notifications/common/includeResourceTypes` property in the `fhir-server-config.json` file, as in the following example:
@@ -1450,7 +1451,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/notifications/nats/servers`|string|The URL of one or more NATS servers in the NATS streaming cluster.|
 |`fhirServer/notifications/nats/useTLS`|boolean|A boolean flag which indicates whether or not to use TLS for connections to the NATS streaming cluster.|
 |`fhirServer/notifications/nats/truststoreLocation`|string|The file location of the truststore to use for TLS.|
-|`fhirServer/notifications/nats/truststorePassword`|string|The password for the  truststore.|
+|`fhirServer/notifications/nats/truststorePassword`|string|The password for the truststore.|
 |`fhirServer/notifications/nats/keystoreLocation`|string|The file location of the keystore to use for TLS.|
 |`fhirServer/notifications/nats/keystorePassword`|string|The password for the keystore.|
 |`fhirServer/persistence/factoryClassname`|string|The name of the factory class to use for creating instances of the persistence layer implementation.|
