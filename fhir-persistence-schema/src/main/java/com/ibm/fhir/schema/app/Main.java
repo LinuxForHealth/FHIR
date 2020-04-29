@@ -965,15 +965,15 @@ public class Main {
         Db2Adapter adapter = new Db2Adapter(connectionPool);
         checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey);
 
-        // Open a new transaction and associate it with our connection pool. Remember
-        // that we don't support distributed transactions, so all connections within
-        // this transaction must come from the same pool
         if (tenantKeyFileName == null) {
             logger.info("Allocating new tenant: " + tenantName + " [key=" + tenantKey + "]");
         } else {
             logger.info("Allocating new tenant: " + tenantName + " [tenantKeyFileName=" + tenantKeyFileName + "]");
         }
 
+        // Open a new transaction and associate it with our connection pool. Remember
+        // that we don't support distributed transactions, so all connections within
+        // this transaction must come from the same pool
         int tenantId;
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
