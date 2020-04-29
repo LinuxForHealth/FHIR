@@ -62,7 +62,7 @@
                 "cluster": "nats-streaming",
                 "channel": "fhirNotifications",
                 "clientId": "fhir-server",
-                "servers": "nats://nats-node1:4222,nats://nats-node2:4223,nats://nats-node3:4224",
+                "servers": "nats://nats-node1:4222,nats://nats-node2:4222,nats://nats-node3:4222",
                 "useTLS": false,
                 "truststoreLocation": "resources/security/nats.client.truststore.jks",
                 "truststorePassword": "change-password",

@@ -561,7 +561,7 @@ The [NATS](http://nats.io) implementation of the notification service will publi
 		        "cluster": "nats-streaming",
 		        "channel": "fhirNotifications",
 		        "clientId": "fhir-server",
-		        "servers": "nats://nats-node1:4222,nats://nats-node2:4223,nats://nats-node3:4224",
+		        "servers": "nats://nats-node1:4222,nats://nats-node2:4222,nats://nats-node3:4222",
 		        "useTLS": false,
 		        "truststoreLocation": "resources/security/nats.client.truststore.p12",
 		        "truststorePassword": "change-password",
@@ -1510,7 +1510,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/notifications/nats/cluster`|nats-streaming|
 |`fhirServer/notifications/nats/channel`|fhirNotifications|
 |`fhirServer/notifications/nats/clientId`|fhir-server|
-|`fhirServer/notifications/nats/servers`|nats://nats-node1:4222,nats://nats-node2:4223,nats://nats-node3:4224|
+|`fhirServer/notifications/nats/servers`|nats://nats-node1:4222,nats://nats-node2:4222,nats://nats-node3:4222|
 |`fhirServer/notifications/nats/useTLS`|false|
 |`fhirServer/notifications/nats/truststoreLocation`|resources/security/nats.client.truststore.p12|
 |`fhirServer/notifications/nats/truststorePassword`|change-password|
