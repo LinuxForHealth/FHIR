@@ -121,10 +121,6 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         return fx;
     }
 
-
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAO#getConnection()
-     */
     @Override
     public Connection getConnection() throws FHIRPersistenceDBConnectException {
         final String METHODNAME = "getConnection";
@@ -192,13 +188,13 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                 }
             }
 
-            // Configure the connection for the tenant
+            // For the multi-tenant feature, configure the connection for the tenant by setting the sv_tenant_id.
             String tenantName = FHIRRequestContext.get().getTenantId();
             String tenantKey = FHIRRequestContext.get().getTenantKey();
 
             if (tenantName != null && tenantKey != null) {
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Setting tenant access on connection for: " + tenantName);
+                    log.fine("Setting tenant access on connection for: [" + tenantName + "]");
                 }
                 Db2SetTenantVariable cmd = new Db2SetTenantVariable("FHIR_ADMIN", tenantName, tenantKey);
                 JdbcTarget target = new JdbcTarget(connection);

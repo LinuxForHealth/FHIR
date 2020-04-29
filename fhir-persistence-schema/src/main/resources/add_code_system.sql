@@ -19,11 +19,6 @@ BEGIN
   DECLARE CONTINUE HANDLER FOR NOT FOUND          SET v_not_found = 1;
   DECLARE CONTINUE HANDLER FOR c_duplicate        SET v_duplicate = 1;
 
-  -- Stop right here if we don't have a valid tenant
-  IF (fhir_admin.sv_tenant_id IS NULL) THEN
-  	SIGNAL SQLSTATE '99401' SET MESSAGE_TEXT = 'NOT AUTHORIZED: INVALID TENANT ID OR TENANT KEY';
-  END IF;
-  
   -- See if we already have it
   SELECT code_system_id INTO p_code_system_id
     FROM {{SCHEMA_NAME}}.code_systems

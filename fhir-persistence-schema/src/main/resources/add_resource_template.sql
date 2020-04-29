@@ -58,11 +58,6 @@ BEGIN
   SELECT t.tenant_id INTO {{SCHEMA_NAME}}.session_tenant
     FROM {{SCHEMA_NAME}}.tenants t
    WHERE t.tenant_name = p_tenant_data_id;
-  
-  -- Stop right here if we don't have a valid tenant
-  IF ({{SCHEMA_NAME}}.session_tenant IS NULL) THEN
-  	SIGNAL SQLSTATE '99401' SET MESSAGE_TEXT = 'NOT AUTHORIZED: INVALID TENANT ID';
-  END IF;
 
   SELECT resource_type_id INTO v_resource_type_id 
     FROM {{SCHEMA_NAME}}.resource_types WHERE resource_type = v_resource_type;
