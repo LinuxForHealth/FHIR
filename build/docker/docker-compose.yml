@@ -54,7 +54,7 @@ services:
           - ./nats:/nats
       command: --config /nats/config-2.conf
       ports:
-          - 4223:4223
+          - 4223:4222
   nats-node3:
       image: nats-streaming:0.17.0
       container_name: nats-node3
@@ -62,4 +62,4 @@ services:
           - ./nats:/nats
       command: --config /nats/config-3.conf
       ports:
-          - 4224:4224
+          - 4224:4222
