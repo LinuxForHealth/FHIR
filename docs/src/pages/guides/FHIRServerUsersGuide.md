@@ -573,7 +573,7 @@ The [NATS](http://nats.io) implementation of the notification service publishes 
 }
 ```
 
-Set the `fhirServer/notifications/nats/enabled` property to true and provide the name of your NATS cluster for the value of `fhirServer/notifications/nats/cluster`.  You may leave `fhirServer/notifications/nats/channel` and `fhirServer/notifications/nats/clientId` as defined.  Provide the URL for one or more NATS servers as the value for `fhirServer/notifications/nats/servers`. 
+Set the `fhirServer/notifications/nats/enabled` property to true and provide the name of your NATS cluster for the value of `fhirServer/notifications/nats/cluster`.  You may leave `fhirServer/notifications/nats/channel` and `fhirServer/notifications/nats/clientId` as defined.  Provide the URL for one or more NATS servers as the value for `fhirServer/notifications/nats/servers`.
 
 To use TLS to connect to your NATS cluster, set `fhirServer/notifications/nats/useTLS` to true and provide client truststore and keystore locations and passwords as the remaining config values. Ensure that your NATS cluster is configured for TLS client connections.
 
@@ -1557,20 +1557,20 @@ must restart the server for that change to take effect.
 |`fhirServer/core/conditionalDeleteMaxNumber`|Y|Y|
 |`fhirServer/searchParameterFilter`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
-|`fhirServer/notifications/websocket/enabled`|Y|Y|
-|`fhirServer/notifications/kafka/enabled`|Y|Y|
+|`fhirServer/notifications/websocket/enabled`|N|N|
+|`fhirServer/notifications/kafka/enabled`|N|N|
 |`fhirServer/notifications/kafka/topicName`|N|N|
 |`fhirServer/notifications/kafka/connectionProperties`|N|N|
 |`fhirServer/notifications/nats/enabled`|N|N|
-|`fhirServer/notifications/nats/cluster`|Y|N|
+|`fhirServer/notifications/nats/cluster`|N|N|
 |`fhirServer/notifications/nats/channel`|N|N|
 |`fhirServer/notifications/nats/clientId`|N|N|
-|`fhirServer/notifications/nats/servers`|Y|N|
+|`fhirServer/notifications/nats/servers`|N|N|
 |`fhirServer/notifications/nats/useTLS`|N|N|
-|`fhirServer/notifications/nats/truststoreLocation`|Y|N|
-|`fhirServer/notifications/nats/truststorePassword`|Y|N|
-|`fhirServer/notifications/nats/keystoreLocation`|Y|N|
-|`fhirServer/notifications/nats/keystorePassword`|Y|N|
+|`fhirServer/notifications/nats/truststoreLocation`|N|N|
+|`fhirServer/notifications/nats/truststorePassword`|N|N|
+|`fhirServer/notifications/nats/keystoreLocation`|N|N|
+|`fhirServer/notifications/nats/keystorePassword`|N|N|
 |`fhirServer/persistence/factoryClassname`|N|N|
 |`fhirServer/persistence/common/updateCreateEnabled`|N|N|
 |`fhirServer/persistence/datasources`|Y|N|
