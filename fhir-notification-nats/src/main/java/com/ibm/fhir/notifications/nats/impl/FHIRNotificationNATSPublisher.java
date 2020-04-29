@@ -185,6 +185,39 @@ public class FHIRNotificationNATSPublisher implements FHIRNotificationSubscriber
     private String buildNotificationErrorMessage(String channelName, String notificationEvent) {
         return String.format("NATS publication failure; channel '%s'\nNotification event: '%s'\n.", channelName, notificationEvent);
     }
+    /*
+     * Modified from original NATS documentation @ https://docs.nats.io/developing-with-nats/security/tls
+     * openssl is used to generate a pkcs12 file (.p12) from client-cert.pem and client-key.pem.
+     * The resulting file is then imported into a java keystore using keytool which is part of java jdk.
+     * keytool is also used to import the CA certificate rootCA.pem into the truststore.
+     */
+    private static KeyStore loadKeystore(String path, String password) throws Exception {
+        KeyStore store = KeyStore.getInstance("PKCS12");
+        try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(path));) {
+            store.load(in, password.toCharArray());
+        }
+        return store;
+    }
+
+    private static KeyManager[] createKeyManagers(Properties tlsProps) throws Exception {
+        KeyStore store = loadKeystore(tlsProps.getProperty("keystore"), tlsProps.getProperty("keystore-pw"));
+        KeyManagerFactory factory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+        factory.init(store, tlsProps.getProperty("keystore-pw").toCharArray());
+        return factory.getKeyManagers();
+    }
+
+    private static TrustManager[] createTrustManagers(Properties tlsProps) throws Exception {
+        KeyStore store = loadKeystore(tlsProps.getProperty("truststore"), tlsProps.getProperty("truststore-pw"));
+        TrustManagerFactory factory = TrustManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+        factory.init(store);
+        return factory.getTrustManagers();
+    }
+
+    private static SSLContext createSSLContext(Properties tlsProps) throws Exception {
+        SSLContext ctx = SSLContext.getInstance("TLSv1.2");
+        ctx.init(createKeyManagers(tlsProps), createTrustManagers(tlsProps), new SecureRandom());
+        return ctx;
+    }
 }
 
 /* 
