@@ -158,9 +158,9 @@ public class FHIRServletContextListener implements ServletContextListener {
                 Properties tlsProps = new Properties();
                 tlsProps.setProperty("useTLS", fhirConfig.getBooleanProperty(PROPERTY_NATS_TLS_ENABLED).toString());
                 tlsProps.setProperty("truststore", fhirConfig.getStringProperty(PROPERTY_NATS_TRUSTSTORE));
-                tlsProps.setProperty("truststore-pw", fhirConfig.getStringProperty(PROPERTY_NATS_TRUSTSTORE_PW));
+                tlsProps.setProperty("truststorePass", fhirConfig.getStringProperty(PROPERTY_NATS_TRUSTSTORE_PW));
                 tlsProps.setProperty("keystore", fhirConfig.getStringProperty(PROPERTY_NATS_KEYSTORE));
-                tlsProps.setProperty("keystore-pw", fhirConfig.getStringProperty(PROPERTY_NATS_KEYSTORE_PW));
+                tlsProps.setProperty("keystorePass", fhirConfig.getStringProperty(PROPERTY_NATS_KEYSTORE_PW));
 
                 log.info("Initializing NATS notification publisher.");
                 natsPublisher = new FHIRNotificationNATSPublisher(clusterId, channelName, clientId, servers, tlsProps);
