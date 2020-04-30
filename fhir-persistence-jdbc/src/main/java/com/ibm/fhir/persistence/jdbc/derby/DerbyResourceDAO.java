@@ -107,15 +107,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             this.parameterNameDAO = new DerbyParameterNamesDAO(connection, fhirRefSequenceDAO);
             this.codeSystemDAO = new DerbyCodeSystemDAO(connection, fhirRefSequenceDAO);
 
-            // Get resourceTypeId from ResourceTypesCache first.
-            resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
-            // If no found, then get resourceTypeId from local newResourceTypeIds in case this id is already in newResourceTypeIds
-            // but has not been updated to ResourceTypesCache yet. newResourceTypeIds is updated to ResourceTypesCache only when the
-            // current transaction is committed.
-            if (resourceTypeId == null) {
-                resourceTypeId = getResourceTypeIdFromCandidatorsCache(resource.getResourceType());
-            }
-            
+            resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());
             if (resourceTypeId == null) {
                 acquiredFromCache = false;
                 resourceTypeId = getOrCreateResourceType(resource.getResourceType(), connection);
