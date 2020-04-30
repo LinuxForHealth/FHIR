@@ -13,7 +13,11 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.security.RolesAllowed;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.POST;
@@ -25,6 +29,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -40,8 +46,16 @@ import com.ibm.fhir.server.util.RestAuditLogger;
         FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
         FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@RolesAllowed("FHIRUsers")
+@RequestScoped
 public class Operation extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Operation.class.getName());
+
+    // The JWT of the current caller. Since this is a request scoped resource, the
+    // JWT will be injected for each JAX-RS request. The injection is performed by
+    // the mpJwt feature.
+    @Inject
+    private JsonWebToken jwt;
 
     public Operation() throws Exception {
         super();
@@ -104,7 +118,7 @@ public class Operation extends FHIRResource {
                     FHIROperationContext.createSystemOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
-            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST );
+            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             Resource result = helper.doInvoke(operationContext, null, null, null, operationName,
@@ -122,6 +136,48 @@ public class Operation extends FHIRResource {
             try {
                 RestAuditLogger.logOperation(httpServletRequest, operationName, null, null, null,
                         startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
+            log.exiting(this.getClass().getName(), "invoke(String,Resource)");
+        }
+    }
+
+    @DELETE
+    @Path("${operationName}")
+    public Response invokeDelete(@PathParam("operationName") String operationName) {
+        // Support for calling a HTTP DELETE for a System-Level Operation calls.
+
+        log.entering(this.getClass().getName(), "invokeDelete(String)");
+        Date startTime = new Date();
+        Response.Status status = null;
+
+        try {
+            checkInitComplete();
+
+            FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
+            operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.DELETE);
+
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            Resource result =
+                    helper.doInvoke(operationContext, null, null, null, operationName, null,
+                            uriInfo.getQueryParameters(), null);
+            Response response = buildResponse(operationContext, null, result);
+            status = Response.Status.fromStatusCode(response.getStatus());
+            return response;
+        } catch (FHIROperationException e) {
+            status = issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
+        } catch (Exception e) {
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
+        } finally {
+            try {
+                RestAuditLogger.logOperation(httpServletRequest, operationName, null, null, null, startTime, new Date(),
+                        status);
             } catch (Exception e) {
                 log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
             }
@@ -329,7 +385,7 @@ public class Operation extends FHIRResource {
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName, 
+            Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName,
                     null, uriInfo.getQueryParameters(), null);
             Response response = buildResponse(operationContext, resourceTypeName, result);
             status = Response.Status.fromStatusCode(response.getStatus());

@@ -5,6 +5,10 @@
         <feature>openidConnectServer-1.0</feature>
     </featureManager>
 
+    <!-- oauthProvider requires singleSignonEnabled to be set to true due to the use of form login -->
+    <!-- https://stackoverflow.com/a/53526545/161022 -->
+    <webAppSecurity singleSignonEnabled="true"/>
+
     <openidConnectProvider id="oidc-provider" 
         oauthProviderRef="oauth2-provider" 
         keyStoreRef="defaultKeyStore"

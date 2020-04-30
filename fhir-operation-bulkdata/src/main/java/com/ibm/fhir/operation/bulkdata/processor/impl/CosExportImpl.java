@@ -137,11 +137,11 @@ public class CosExportImpl implements ExportImportBulkData {
             tmpProperties.putAll(properties);
             addBaseUri(operationContext, tmpProperties);
             BulkDataClient client = new BulkDataClient(tmpProperties);
-            client.delete(job);
+            Response.Status status = client.delete(job);
 
             // Set to accepted for signaling purposes, it does not OVERRIDE the above Status
             Response response = Response.status(Status.ACCEPTED).build();
-            operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, Response.Status.ACCEPTED);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, status);
             operationContext.setProperty(FHIROperationContext.PROPNAME_RESPONSE, response);
             return FHIROperationUtil.getOutputParameters(null);
         } catch (FHIROperationException fe) {

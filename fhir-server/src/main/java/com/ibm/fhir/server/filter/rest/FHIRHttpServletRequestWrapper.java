@@ -582,12 +582,13 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-     * @param arg0
+     * @param headerName
      * @return
      * @see javax.servlet.http.HttpServletRequest#getDateHeader(java.lang.String)
+     * @throws IllegalArgumentException
      */
-    public long getDateHeader(String arg0) {
-        return delegate.getDateHeader(arg0);
+    public long getDateHeader(String headerName) {
+        return delegate.getDateHeader(headerName);
     }
 
     /**

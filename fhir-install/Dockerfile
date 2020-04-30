@@ -9,7 +9,7 @@ FROM openliberty/open-liberty:20.0.0.3-full-java8-openj9-ubi as base
 ENV LICENSE accept
 
 USER root
-RUN yum update -y && \
+RUN yum update -y --nobest && \
     yum install -y unzip && \
     yum clean all -y
 
