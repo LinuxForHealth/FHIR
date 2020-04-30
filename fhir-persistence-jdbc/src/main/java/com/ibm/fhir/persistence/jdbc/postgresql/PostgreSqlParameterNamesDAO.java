@@ -42,18 +42,7 @@ public class PostgreSqlParameterNamesDAO extends ParameterNameDAOImpl {
                     stmt.executeUpdate();
                 }
             } catch (SQLException e) {
-                if ("23505".equals(e.getSQLState())) {
-                    // another thread snuck in and created the record, so we need to fetch the correct id
-                    result = getParameterId(parameterName);
-
-                    if (result == null) {
-                        // would be extremely weird, but good to protect against anyway
-                        throw new IllegalStateException("No parameter id returned after duplicate found!");
-                    }
-                }
-                else {
-                    throw new FHIRPersistenceDataAccessException("parameterName=" + parameterName, e);
-                }
+                throw new FHIRPersistenceDataAccessException("parameterName=" + parameterName, e);
             }
         }
 

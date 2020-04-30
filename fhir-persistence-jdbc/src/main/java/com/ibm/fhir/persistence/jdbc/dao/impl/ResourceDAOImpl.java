@@ -460,6 +460,12 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         log.exiting(CLASSNAME, METHODNAME);
 
     }
+    
+    protected  Integer getResourceTypeIdFromCandidatorsCache(String resourceType) {
+        // Get resourceTypeId from local newResourceTypeIds in case this id is already in newResourceTypeIds
+        // but has not been updated to ResourceTypesCache yet.
+        return this.newResourceTypeIds.get(resourceType);
+    }
 
     @Override
     public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
@@ -480,7 +486,15 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         try {
             connection = this.getConnection();
 
+            // Get resourceTypeId from ResourceTypesCache first.
             resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
+            // If no found, then get resourceTypeId from local newResourceTypeIds in case this id is already in newResourceTypeIds
+            // but has not been updated to ResourceTypesCache yet. newResourceTypeIds is updated to ResourceTypesCache only when the
+            // current transaction is committed.
+            if (resourceTypeId == null) {
+                resourceTypeId = getResourceTypeIdFromCandidatorsCache(resource.getResourceType());
+            }
+            
             if (resourceTypeId == null) {
                 acquiredFromCache = false;
                 resourceTypeId = this.readResourceTypeId(resource.getResourceType());
