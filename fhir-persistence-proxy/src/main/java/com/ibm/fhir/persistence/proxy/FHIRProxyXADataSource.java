@@ -233,7 +233,8 @@ public class FHIRProxyXADataSource implements XADataSource {
                     tenantMap = datasourceCache.get(tenantId);
                     if (tenantMap == null) {
                         if (log.isLoggable(Level.FINER)) {
-                            log.finer("Tenant datasource cache was not found, creating new cache for tenant-id " + tenantId + ".");
+                            log.finer("Tenant datasource cache was not found, creating new cache for tenant-id ["
+                                    + tenantId + "].");
                         }
                         tenantMap = new ConcurrentHashMap<String, DataSourceCacheEntry>();
                         datasourceCache.put(tenantId, tenantMap);
@@ -249,7 +250,8 @@ public class FHIRProxyXADataSource implements XADataSource {
                     dsCacheEntry = tenantMap.get(dsId);
                     if (dsCacheEntry == null) {
                         if (log.isLoggable(Level.FINER)) {
-                            log.finer("Datasource " + dsId + " was not found in cache, creating a new datasource and adding to the cache.");
+                            log.finer("Datasource [" + dsId
+                                    + "] was not found in cache, creating a new datasource and adding to the cache.");
                         }
                         dsCacheEntry = createDataSourceCacheEntry(dsId);
                         tenantMap.put(dsId, dsCacheEntry);

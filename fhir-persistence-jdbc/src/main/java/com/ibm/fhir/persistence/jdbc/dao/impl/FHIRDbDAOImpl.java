@@ -144,8 +144,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                     FHIRPersistenceDBConnectException fx = new FHIRPersistenceDBConnectException("Failed to acquire database connection from provider");
                     throw severe(log, fx, x);
                 }
-            }
-            else if (this.getDbProps() == null) {
+            } else if (this.getDbProps() == null) {
                 try {
                     String tenantId = FHIRRequestContext.get().getTenantId();
                     String dsId = FHIRRequestContext.get().getDataStoreId();
