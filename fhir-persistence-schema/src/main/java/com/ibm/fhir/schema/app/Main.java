@@ -582,6 +582,12 @@ public class Main {
         ITaskCollector collector = taskService.makeTaskCollector(pool);
         IDatabaseAdapter adapter = getDbAdapter(connectionPool);
         applyDataModel(pdm, adapter, collector);
+
+        // There is a working data model at this point.
+        // Populate the Resource Type Table Entries
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            populateResourceTypeTableEntries(null);
+        }
     }
 
     /**
@@ -1006,21 +1012,8 @@ public class Main {
         populateStaticTables(gen, tenantKey);
 
         // Prepopulate the Resource Type Tables
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try (Connection c = connectionPool.getConnection();) {
+        populateResourceTypeTableEntries(tenantId);
 
-                PopulateResourceTypes populateResourceTypes =
-                        new PopulateResourceTypes(adminSchemaName, schemaName, tenantId);
-                populateResourceTypes.run(translator, c);
-            } catch (SQLException ex) {
-                tx.setRollbackOnly();
-                throw new DataAccessException(ex);
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
 
         // Now all the table partitions have been allocated, we can mark the tenant as ready
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -1040,6 +1033,30 @@ public class Main {
                     + tenantId);
             if (!tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
                 tenantKeyFileUtil.writeTenantFile(tenantKeyFileName, tenantKey);
+            }
+        }
+    }
+
+    /**
+     * populates for the given tenantId the RESOURCE_TYPE table.
+     * 
+     * @param tenantId the mt_id that is used to setup the partition.
+     *                 passing in null signals not multi-tenant.
+     */
+    protected void populateResourceTypeTableEntries(Integer tenantId) {
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try (Connection c = connectionPool.getConnection();) {
+
+                PopulateResourceTypes populateResourceTypes =
+                        new PopulateResourceTypes(adminSchemaName, schemaName, tenantId);
+                populateResourceTypes.run(translator, c);
+            } catch (SQLException ex) {
+                tx.setRollbackOnly();
+                throw new DataAccessException(ex);
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
             }
         }
     }

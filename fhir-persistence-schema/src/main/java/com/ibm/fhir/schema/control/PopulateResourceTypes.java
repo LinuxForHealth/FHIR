@@ -27,31 +27,34 @@ import com.ibm.fhir.model.type.code.FHIRResourceType;
 /**
  * Populates the Resource Types Table
  *
- * @implNote This class only supports the multi-tenant schema. Consider updating the class
- *           in order to support single-tenant schemas for DBs that don't support setting tenant id
+ * @implNote This class supports the multi-tenant schema and the single tenant.
  */
 public class PopulateResourceTypes implements IDatabaseStatement {
     private static final Logger LOGGER = Logger.getLogger(PopulateResourceTypes.class.getName());
     private final String adminSchemaName;
     private final String schemaName;
-    private final int tenantId;
+    private final Integer tenantId;
 
-    public PopulateResourceTypes(String adminSchemaName, String schemaName, int tenantId) {
+    public PopulateResourceTypes(String adminSchemaName, String schemaName, Integer tenantId) {
         this.adminSchemaName = adminSchemaName;
-        this.schemaName      = schemaName;
-        this.tenantId        = tenantId;
+        this.schemaName = schemaName;
+        this.tenantId = tenantId;
     }
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         final String stmtVariable = String.format("SET %s.SV_TENANT_ID = %d", adminSchemaName, tenantId);
         final String stmtResourceTypeInsert =
-                String.format(
-                        "INSERT INTO %s.resource_types (mt_id, resource_type_id, resource_type) " +
-                                "VALUES %s.sv_tenant_id, ?, ?);",
-                        schemaName, adminSchemaName);
-        try (Statement s = c.createStatement(); PreparedStatement batch = c.prepareStatement(stmtResourceTypeInsert)) {
-            s.execute(stmtVariable);
+                String.format("INSERT INTO %s.resource_types (mt_id, resource_type_id, resource_type) "
+                        + "VALUES %s.sv_tenant_id, ?, ?);", schemaName, adminSchemaName);
+        try (PreparedStatement batch = c.prepareStatement(stmtResourceTypeInsert)) {
+            // Only if it's multitenant is tenantId not null.
+            if (tenantId != null) {
+                try (Statement s = c.createStatement();) {
+                    s.execute(stmtVariable);
+                }
+            }
+
             try (InputStream fis =
                     PopulateResourceTypes.class.getClassLoader().getResourceAsStream("resource_types.properties")) {
                 Properties props = new Properties();
