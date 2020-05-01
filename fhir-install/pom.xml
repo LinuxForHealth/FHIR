@@ -32,6 +32,21 @@
             <type>war</type>
         </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-ig-us-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-ig-carin-bb</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-ig-mcode</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbyclient</artifactId>
         </dependency>
