@@ -64,11 +64,11 @@ import com.ibm.fhir.database.utils.transaction.TransactionFactory;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.app.util.TenantKeyFileUtil;
-import com.ibm.fhir.schema.control.AddResourceType;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
+import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
 import com.ibm.fhir.schema.model.DbType;
 import com.ibm.fhir.schema.model.ResourceType;
@@ -584,9 +584,9 @@ public class Main {
         applyDataModel(pdm, adapter, collector);
 
         // There is a working data model at this point.
-        // Populate the Resource Type Table Entries
+        // Populate the Resource Type Table Entries and Parameters Name/Code Table
         if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            populateResourceTypeTableEntries(null);
+            populateResourceTypeAndParameterNameTableEntries(null);
         }
     }
 
@@ -1009,11 +1009,8 @@ public class Main {
         pdm.addTenantPartitions(adapter, schemaName, tenantId, FhirSchemaConstants.FHIR_TS_EXTENT_KB);
 
         // Fill any static data tables (which are also partitioned by tenant)
-        populateStaticTables(gen, tenantKey);
-
-        // Prepopulate the Resource Type Tables
-        populateResourceTypeTableEntries(tenantId);
-
+        // Prepopulate the Resource Type Tables and Parameters Name/Code Table
+        populateResourceTypeAndParameterNameTableEntries(tenantId);
 
         // Now all the table partitions have been allocated, we can mark the tenant as ready
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -1040,16 +1037,25 @@ public class Main {
     /**
      * populates for the given tenantId the RESOURCE_TYPE table.
      * 
+     * @implNote if you update this method, be sure to update
+     *           DerbyBootstrapper.populateResourceTypeAndParameterNameTableEntries
+     *           and DerbyFhirDatabase.populateResourceTypeAndParameterNameTableEntries
+     *           The reason is there are three different ways of managing the transaction.
      * @param tenantId the mt_id that is used to setup the partition.
      *                 passing in null signals not multi-tenant.
      */
-    protected void populateResourceTypeTableEntries(Integer tenantId) {
+    protected void populateResourceTypeAndParameterNameTableEntries(Integer tenantId) {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try (Connection c = connectionPool.getConnection();) {
-
+                logger.info("tenantId [" + tenantId + "] is being pre-populated with lookup table data.");
                 PopulateResourceTypes populateResourceTypes =
                         new PopulateResourceTypes(adminSchemaName, schemaName, tenantId);
                 populateResourceTypes.run(translator, c);
+
+                PopulateParameterNames populateParameterNames =
+                        new PopulateParameterNames(adminSchemaName, schemaName, tenantId);
+                populateParameterNames.run(translator, c);
+                logger.info("Finished prepopulating the resource type and search parameter code/name tables tables");
             } catch (SQLException ex) {
                 tx.setRollbackOnly();
                 throw new DataAccessException(ex);
@@ -1059,45 +1065,6 @@ public class Main {
                 throw x;
             }
         }
-    }
-
-    /**
-     * Populate all the static tables we need
-     *
-     * @param gen
-     * @param tenantKey
-     */
-    protected void populateStaticTables(FhirSchemaGenerator gen, String tenantKey) {
-        IDatabaseAdapter adapter = getDbAdapter(connectionPool);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                // Very important. Establish the value of the session variable so that we
-                // pass the row permission predicate
-                Db2SetTenantVariable cmd = new Db2SetTenantVariable(adminSchemaName, tenantName, tenantKey);
-                adapter.runStatement(cmd);
-
-                addResourceTypes(adapter, gen);
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-    }
-
-    /**
-     * Add all the resource types
-     *
-     * @param adapter
-     * @param gen
-     */
-    protected void addResourceTypes(IDatabaseAdapter adapter, FhirSchemaGenerator gen) {
-
-        // Now get all the resource types and insert them into the tenant-based table
-        gen.applyResourceTypes(c -> {
-            AddResourceType art = new AddResourceType(schemaName, c);
-            adapter.runStatement(art);
-        });
     }
 
     /**
@@ -1124,12 +1091,6 @@ public class Main {
         }
 
         logger.info("Testing tenant: [" + tenantName + "]");
-
-        // We don't need to build the physical data model. We just need some info
-        // from the generator in order to populate the static tables
-        // The admin model needs to be added before any schema (fhir data) model
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
-        populateStaticTables(gen, this.tenantKey);
 
         Db2Adapter adapter = new Db2Adapter(connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
