@@ -107,7 +107,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             this.parameterNameDAO = new DerbyParameterNamesDAO(connection, fhirRefSequenceDAO);
             this.codeSystemDAO = new DerbyCodeSystemDAO(connection, fhirRefSequenceDAO);
 
-            resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
+            resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());
             if (resourceTypeId == null) {
                 acquiredFromCache = false;
                 resourceTypeId = getOrCreateResourceType(resource.getResourceType(), connection);
