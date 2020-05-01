@@ -460,16 +460,16 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         log.exiting(CLASSNAME, METHODNAME);
 
     }
-    
+
     protected  Integer getResourceTypeIdFromCaches(String resourceType) {
         // Get resourceTypeId from ResourceTypesCache first.
-    	Integer resourceTypeId = ResourceTypesCache.getResourceTypeId(resourceType);
+        Integer resourceTypeId = ResourceTypesCache.getResourceTypeId(resourceType);
         // If no found, then get resourceTypeId from local newResourceTypeIds in case this id is already in newResourceTypeIds
         // but has not been updated to ResourceTypesCache yet. newResourceTypeIds is updated to ResourceTypesCache only when the
         // current transaction is committed.
         if (resourceTypeId == null) {
             resourceTypeId = this.newResourceTypeIds.get(resourceType);
-        }       
+        }
         return resourceTypeId;
     }
 
