@@ -42,7 +42,7 @@ public class PostgreSqlParameterNamesDAO extends ParameterNameDAOImpl {
                     stmt.executeUpdate();
                 }
             } catch (SQLException e) {
-                throw new FHIRPersistenceDataAccessException("parameterName=" + parameterName, e);
+                throw new FHIRPersistenceDataAccessException("Error while getting or inserting parameterName '" + parameterName + "'", e);
             }
         }
 
