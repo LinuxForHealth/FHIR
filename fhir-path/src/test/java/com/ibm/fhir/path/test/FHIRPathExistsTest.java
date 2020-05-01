@@ -27,7 +27,6 @@ public class FHIRPathExistsTest {
 
     @Test
     public void testExists1() throws Exception {
-        Patient patient = readPatient();
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.birthDate.exists()");
         assertEquals(result, SINGLETON_TRUE);
