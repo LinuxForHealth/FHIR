@@ -1,4 +1,4 @@
-<WLP_HOME>---
+---
 layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
