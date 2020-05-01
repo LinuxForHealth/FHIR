@@ -1249,9 +1249,9 @@ Following is the beautified response of sample polling location request after th
 }
 ```
 
-For the Import Operation, the polled status includes an indication of `$import` and the location of the OperationOutcome NDJsons and the corresonding failure and success counts. 
+For the Import Operation, the polled status includes an indication of `$import` and the location of the OperationOutcome NDJsons and the corresonding failure and success counts.
 
-Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the oepration is stopped or removed, and then 204. 
+Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the oepration is stopped or removed, and then 204.
 
 By default, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.
 
@@ -1515,12 +1515,12 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/notifications/nats/cluster`|nats-streaming|
 |`fhirServer/notifications/nats/channel`|fhirNotifications|
 |`fhirServer/notifications/nats/clientId`|fhir-server|
-|`fhirServer/notifications/nats/servers`|nats://nats-node1:4222,nats://nats-node2:4222,nats://nats-node3:4222|
-|`fhirServer/notifications/nats/useTLS`|false|
-|`fhirServer/notifications/nats/truststoreLocation`|resources/security/nats.client.truststore.p12|
-|`fhirServer/notifications/nats/truststorePassword`|change-password|
-|`fhirServer/notifications/nats/keystoreLocation`|resources/security/nats.client.keystore.p12|
-|`fhirServer/notifications/nats/keystorePassword`|change-password|
+|`fhirServer/notifications/nats/servers`||
+|`fhirServer/notifications/nats/useTLS`|true|
+|`fhirServer/notifications/nats/truststoreLocation`||
+|`fhirServer/notifications/nats/truststorePassword`||
+|`fhirServer/notifications/nats/keystoreLocation`||
+|`fhirServer/notifications/nats/keystorePassword`||
 |`fhirServer/persistence/factoryClassname`|com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory|
 |`fhirServer/persistence/common/updateCreateEnabled`|true|
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
