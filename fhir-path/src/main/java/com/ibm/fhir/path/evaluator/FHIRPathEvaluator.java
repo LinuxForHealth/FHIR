@@ -367,8 +367,10 @@ public class FHIRPathEvaluator {
             if (arguments.size() < 0 || arguments.size() > 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "exists");
             }
-            Collection<FHIRPathNode> nodes = arguments.isEmpty() ? getCurrentContext() : visit(arguments.get(0));
-            return !nodes.isEmpty() ? SINGLETON_TRUE : SINGLETON_FALSE;
+            if (arguments.isEmpty()) {
+                return !getCurrentContext().isEmpty() ? SINGLETON_TRUE : SINGLETON_FALSE;
+            }
+            return isTrue(visit(arguments.get(0))) ? SINGLETON_TRUE : SINGLETON_FALSE;
         }
 
         private Collection<FHIRPathNode> getCurrentContext() {
