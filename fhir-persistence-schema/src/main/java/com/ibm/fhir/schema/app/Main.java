@@ -51,6 +51,7 @@ import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
+import com.ibm.fhir.database.utils.model.DatabaseObjectType;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
@@ -581,11 +582,28 @@ public class Main {
         ExecutorService pool = Executors.newFixedThreadPool(this.maxConnectionPoolSize);
         ITaskCollector collector = taskService.makeTaskCollector(pool);
         IDatabaseAdapter adapter = getDbAdapter(connectionPool);
-        applyDataModel(pdm, adapter, collector);
 
+        // Before we start anything, we need to make sure our schema history
+        // tables are in place. There's only a single history table, which
+        // resides in the admin schema and handles the history of all objects
+        // in any schema being managed.
+        CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);
+
+        // Current version history for the data schema
+        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, schemaName);
+        vhs.setTransactionProvider(transactionProvider);
+        vhs.setTarget(adapter);
+        vhs.init();
+
+        // Use the version history service to determine if this table existed before we run `applyWithHistory`
+        boolean newDb = vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null;
+
+        applyModel(pdm, adapter, collector, vhs);
         // There is a working data model at this point.
-        // Populate the Resource Type Table Entries and Parameters Name/Code Table
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+
+        // If the db is multi-tenant, we populate the resource types and parameter names in allocate-tenant.
+        // Otherwise, if its a new schema, populate the resource types and parameters names (codes) now
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && newDb) {
             populateResourceTypeAndParameterNameTableEntries(null);
         }
     }
@@ -672,50 +690,6 @@ public class Main {
                     failedTaskGroups.stream().map((tg) -> tg.getTaskId()).collect(Collectors.joining(","));
             logger.severe("List of failed task groups: " + failedStr);
         }
-    }
-
-    /**
-     * Apply the given physical data model to the database
-     *
-     * @param pdm
-     * @param adapter
-     * @param collector
-     */
-    protected void applyDataModel(PhysicalDataModel pdm, IDatabaseAdapter adapter, ITaskCollector collector) {
-
-        // Before we start anything, we need to make sure our schema history
-        // tables are in place. There's only a single history table, which
-        // resides in the admin schema and handles the history of all objects
-        // in any schema being managed.
-        CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);
-
-        // Current version history for the data schema
-        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, schemaName);
-        vhs.setTransactionProvider(transactionProvider);
-        vhs.setTarget(adapter);
-        vhs.init();
-
-        applyModel(pdm, adapter, collector, vhs);
-
-        //         The old way
-        //         try {
-        //             try (Connection c = createConnection()) {
-        //                 try {
-        //                     JdbcTarget target = new JdbcTarget(c);
-        //                     Db2Adapter adapter = new Db2Adapter(target);
-        //                     pdm.apply(adapter);
-        //                 }
-        //                 catch (Exception x) {
-        //                     c.rollback();
-        //                     throw x;
-        //                 }
-        //                 c.commit();
-        //             }
-        //         }
-        //         catch (SQLException x) {
-        //             throw translator.translate(x);
-        //         }
-
     }
 
     /**
@@ -855,7 +829,7 @@ public class Main {
             return;
         }
 
-        // Only if the Tenant Key file is provided as a parameter is it not null. 
+        // Only if the Tenant Key file is provided as a parameter is it not null.
         // in  this case we want special behavior.
         if (tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
             tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
@@ -908,7 +882,7 @@ public class Main {
 
     /**
      * checks if tenant name and tenant key exists.
-     * 
+     *
      * @param adapter    the db2 adapter as this is a db2 feature only now
      * @param tenantName the tenant's name
      * @param tenantKey  tenant key
@@ -955,7 +929,7 @@ public class Main {
         // The key we'll use for this tenant. This key should be used in subsequent
         // activities related to this tenant, such as setting the tenant context.
         if (tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
-            // Only if the Tenant Key file is provided as a parameter is it not null. 
+            // Only if the Tenant Key file is provided as a parameter is it not null.
             // in  this case we want special behavior.
             tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
         } else {
@@ -1036,7 +1010,7 @@ public class Main {
 
     /**
      * populates for the given tenantId the RESOURCE_TYPE table.
-     * 
+     *
      * @implNote if you update this method, be sure to update
      *           DerbyBootstrapper.populateResourceTypeAndParameterNameTableEntries
      *           and DerbyFhirDatabase.populateResourceTypeAndParameterNameTableEntries
@@ -1079,7 +1053,7 @@ public class Main {
 
         // Part of Bring your own Tenant Key
         if (tenantKeyFileName != null) {
-            // Only if the Tenant Key file is provided as a parameter is it not null. 
+            // Only if the Tenant Key file is provided as a parameter is it not null.
             // in  this case we want special behavior.
             tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
         } else {
