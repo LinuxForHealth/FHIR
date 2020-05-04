@@ -26,6 +26,8 @@ import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
+import com.ibm.fhir.schema.control.PopulateParameterNames;
+import com.ibm.fhir.schema.control.PopulateResourceTypes;
 
 /**
  * An Apache Derby implementation of the IBM FHIR Server database (useful for supporting unit tests).
@@ -67,6 +69,31 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
 
         // apply the model we've defined to the new Derby database
         derby.createSchema(createVersionHistoryService(), pdm);
+
+        // Populates Lookup tables
+        populateResourceTypeAndParameterNameTableEntries();
+    }
+
+    /**
+     * prepopulates the bootstrapped derby database with static lookup data.
+     * 
+     * @throws SQLException
+     */
+    public void populateResourceTypeAndParameterNameTableEntries() throws SQLException {
+        // Fill any static data tables (which are also partitioned by tenant)
+        // Prepopulate the Resource Type Tables and Parameters Name/Code Table
+        logger.info("started prepopulating lookup table data.");
+        DerbyTranslator translator = new DerbyTranslator();
+        Connection connection = getConnection();
+
+        PopulateResourceTypes populateResourceTypes = new PopulateResourceTypes(ADMIN_SCHEMA_NAME, SCHEMA_NAME, null);
+        populateResourceTypes.run(translator, connection);
+
+        PopulateParameterNames populateParameterNames =
+                new PopulateParameterNames(ADMIN_SCHEMA_NAME, SCHEMA_NAME, null);
+        populateParameterNames.run(translator, connection);
+        connection.commit();
+        logger.info("Finished prepopulating the resource type and search parameter code/name tables tables");
     }
 
     /**

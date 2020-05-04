@@ -361,6 +361,12 @@ public class Capabilities extends FHIRResource {
                 .build();
         extentions.add(extension);
 
+        extension = Extension.builder()
+                .url(EXTENSION_URL + "/natsNotificationsEnabled")
+                .value(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_NATS_ENABLED, Boolean.FALSE)))
+                .build();
+        extentions.add(extension);
+
         String notificationResourceTypes = getNotificationResourceTypes();
         if ("".equals(notificationResourceTypes)) {
             notificationResourceTypes = "<not specified - all resource types>";

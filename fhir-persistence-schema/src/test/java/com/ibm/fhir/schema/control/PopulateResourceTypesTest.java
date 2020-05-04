@@ -9,12 +9,12 @@ package com.ibm.fhir.schema.control;
 import org.testng.annotations.Test;
 
 /**
- * Test to verify the resource_types.properties
+ * Test to verify the parameter_names.properties
  */
 public class PopulateResourceTypesTest {
     @Test
     public void testVerify() {
-        PopulateResourceTypes.verify();
+        PopulateParameterNames.verify();
         assert true;
     }
 }

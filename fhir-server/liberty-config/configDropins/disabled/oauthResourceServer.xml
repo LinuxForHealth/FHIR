@@ -16,5 +16,7 @@
 
     <authFilter id="filter">
         <requestUrl urlPattern="/fhir-server"/>
+        <requestUrl matchType="notContain" urlPattern="/fhir-server/api/v4/metadata" />
+        <requestUrl matchType="notContain" urlPattern="/fhir-server/api/v4/.well-known/smart-configuration" />
     </authFilter>
 </server>

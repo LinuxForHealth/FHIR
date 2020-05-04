@@ -11,6 +11,16 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_BOOTSTRAP_DB;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CHANNEL;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CLIENT;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CLUSTER;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_ENABLED;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_KEYSTORE;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_KEYSTORE_PW;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_SERVERS;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TLS_ENABLED;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE_PW;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
@@ -39,6 +49,7 @@ import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
 import com.ibm.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
+import com.ibm.fhir.notifications.nats.impl.FHIRNotificationNATSPublisher;
 import com.ibm.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
@@ -53,8 +64,12 @@ public class FHIRServletContextListener implements ServletContextListener {
 
     private static final String ATTRNAME_WEBSOCKET_SERVERCONTAINER = "javax.websocket.server.ServerContainer";
     private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
+    private static final String DEFAULT_NATS_CHANNEL = "fhirNotifications";
+    private static final String DEFAULT_NATS_CLUSTER = "nats-streaming";
+    private static final String DEFAULT_NATS_CLIENT = "fhir-server";
     public static final String FHIR_SERVER_INIT_COMPLETE = "com.ibm.fhir.webappInitComplete";
     private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
+    private static FHIRNotificationNATSPublisher natsPublisher = null;
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -125,6 +140,32 @@ public class FHIRServletContextListener implements ServletContextListener {
                 kafkaPublisher = new FHIRNotificationKafkaPublisher(topicName, kafkaProps);
             } else {
                 log.info("Bypassing Kafka notification init.");
+            }
+
+            // If NATS notifications are enabled, start up our NATS notification publisher.
+            Boolean natsEnabled = fhirConfig.getBooleanProperty(PROPERTY_NATS_ENABLED, Boolean.FALSE);
+            if (natsEnabled) {
+                // Retrieve the cluster ID.
+                String clusterId = fhirConfig.getStringProperty(PROPERTY_NATS_CLUSTER, DEFAULT_NATS_CLUSTER);
+                // Retrieve the channel name.
+                String channelName = fhirConfig.getStringProperty(PROPERTY_NATS_CHANNEL, DEFAULT_NATS_CHANNEL);
+                // Retrieve the NATS client ID.
+                String clientId = fhirConfig.getStringProperty(PROPERTY_NATS_CLIENT, DEFAULT_NATS_CLIENT);
+                // Retrieve the server URL.
+                String servers = fhirConfig.getStringProperty(PROPERTY_NATS_SERVERS);
+
+                // Gather up the NATS TLS properties.
+                Properties tlsProps = new Properties();
+                tlsProps.setProperty("useTLS", fhirConfig.getBooleanProperty(PROPERTY_NATS_TLS_ENABLED, Boolean.TRUE).toString());
+                tlsProps.setProperty("truststore", fhirConfig.getStringProperty(PROPERTY_NATS_TRUSTSTORE));
+                tlsProps.setProperty("truststorePass", fhirConfig.getStringProperty(PROPERTY_NATS_TRUSTSTORE_PW));
+                tlsProps.setProperty("keystore", fhirConfig.getStringProperty(PROPERTY_NATS_KEYSTORE));
+                tlsProps.setProperty("keystorePass", fhirConfig.getStringProperty(PROPERTY_NATS_KEYSTORE_PW));
+
+                log.info("Initializing NATS notification publisher.");
+                natsPublisher = new FHIRNotificationNATSPublisher(clusterId, channelName, clientId, servers, tlsProps);
+            } else {
+                log.info("Bypassing NATS notification init.");
             }
 
             Boolean checkReferenceTypes = fhirConfig.getBooleanProperty(PROPERTY_CHECK_REFERENCE_TYPES, Boolean.TRUE);
@@ -225,6 +266,12 @@ public class FHIRServletContextListener implements ServletContextListener {
             if (kafkaPublisher != null) {
                 kafkaPublisher.shutdown();
                 kafkaPublisher = null;
+            }
+
+            // If we previously initialized the NATS publisher, then shut it down now.
+            if (natsPublisher != null) {
+                natsPublisher.shutdown();
+                natsPublisher = null;
             }
         } catch (Exception e) {
         } finally {

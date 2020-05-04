@@ -54,6 +54,18 @@
                     "max.block.ms": "60000",
                     "max.in.flight.requests.per.connection": "5"
                 }
+            },
+            "nats": {
+                "enabled": false,
+                "cluster": "nats-streaming",
+                "channel": "fhirNotifications",
+                "clientId": "fhir-server",
+                "servers": "nats://nats-node1:4222,nats://nats-node2:4222,nats://nats-node3:4222",
+                "useTLS": false,
+                "truststoreLocation": "resources/security/nats.client.truststore.jks",
+                "truststorePassword": "change-password",
+                "keystoreLocation": "resources/security/nats.client.keystore.jks",
+                "keystorePassword": "change-password"
             }
         },
         "audit": {

@@ -12,6 +12,9 @@
         <feature>websocket-1.1</feature>
         <feature>localConnector-1.0</feature>
         <feature>mpOpenAPI-1.0</feature>
+        <!-- mpJwt-1.1 isn't used by default, 
+             but we include it here to avoid NoClassDefFound in our classes that *can* use it -->
+        <feature>mpJwt-1.1</feature>
     </featureManager>
 
     <!-- Disable welcome page so that internal server info won't be revealed in responses
@@ -54,7 +57,7 @@
     <webApplication contextRoot="fhir-server/api/v4" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
         <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
         <!-- Include id attributes to make it easier to override this via dropinConfig -->
-        <application-bnd id="binding">
+        <application-bnd>
             <security-role id="users" name="FHIRUsers">
                 <group name="FHIRUsers"/>
             </security-role>
@@ -95,7 +98,7 @@
         <connectionManager/>
     </dataSource>
 
-    <webAppSecurity allowFailOverToBasicAuth="true"/>
+    <webAppSecurity allowFailOverToBasicAuth="true" singleSignonEnabled="false"/>
 
     <!-- Define a basic user registry with a few users. -->
     <basicRegistry id="basic" realm="BasicRealm"> 

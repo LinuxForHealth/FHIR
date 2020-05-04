@@ -310,11 +310,156 @@ public class BulkDataClient {
 
     /**
      * @param job
-     * @return
+     * @return status code
      * @throws Exception
      */
-    public void delete(String job) throws Exception {
-        // Example: https://localhost:9443/ibm/api/batch/jobexecutions/9
+    public Response.Status delete(String job) throws Exception {
+        // <b>Code Flow</b>
+        // 1 - Check if the Job Exists and is Valid
+        // 2 - Check if the Tenant is expected
+        // 3 - Try to immediately DELETE (Optimistic)
+        //      A - SC_NO_CONTENT = SUCCESS GO_TO End
+        //      B - !SC_INTERNAL_ERROR GO_TO STOP 
+        //      C - ERROR GO_TO Error 
+        // 4 - Try to stop the PUT /ibm/api/batch/jobinstances/<job>?action=stop
+        //     A - SC_CONTENT_REDIRECT (302) GO_TO Location to PUT
+        //       - Stop requests sent to the batch REST API must be sent directly to the executor where the job is running.
+        //       - Link - https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_rest_api.html#rwlp_batch_rest_api__STOP_requests
+        //     B - SC_ACCEPTED (202) GO_TO ACCEPTED
+        // RETURN - ACCEPTED: SC_ACCEPTED - STILL PROCESSING
+        // RETURN - DONE: SC_OK - DONE DELETING
+
+        // 1 and 2 (We know it exists)
+        runVerificationOfTenantForJob(job);
+
+        // 3 optimistic delete (empty)
+        Response.Status status = runDeleteJobForTenant(job);
+
+        // Check 3 (B), else fall through (A).
+        // Default Response is Accepted (202)
+        // The Alternative Response is 200
+
+        // Check for a server-side error
+        if (HttpStatus.SC_INTERNAL_SERVER_ERROR == status.getStatusCode()) {
+            // 3.C - ERROR Condition
+            // The Server hit an error 
+            throw BulkDataExportUtil.buildOperationException(
+                    "Deleting the job has failed; the content is not abandonded", IssueType.EXCEPTION);
+        } else if (HttpStatus.SC_NO_CONTENT != status.getStatusCode()) {
+            // The Delete is unsuccessful (SC_NO_CONTENT)
+            // 3.B - STOP Condition and now step 4 in the flow.
+            status = runStopOfTenantJob(job);
+        }
+        return status;
+    }
+
+    /*
+     * stops the job (local or remote batch processor).
+     */
+    private Response.Status runStopOfTenantJob(String job) throws Exception {
+        // 4 - Check the State of the Job (batchStatus)
+        //      - batchStatus - STARTING, STARTED, STOPPING, STOPPED, FAILED, COMPLETED, ABANDONED
+
+        // 4 - Try to stop the PUT /ibm/api/batch/jobinstances/<job>?action=stop
+        //     A - SC_CONTENT_REDIRECT (302) GO_TO Location to PUT
+        //       - Stop requests sent to the batch REST API must be sent directly to the executor where the job is running.
+        //       - Link - https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_rest_api.html#rwlp_batch_rest_api__STOP_requests
+        //     B - SC_ACCEPTED (202) GO_TO ACCEPTED
+        Response.Status status = Response.Status.NO_CONTENT;
+        try {
+            // NOT_LOCAL - follow location 
+            String baseUrl =
+                    properties.get(BulkDataConfigUtil.BATCH_URL).replace("jobinstances", "jobexecutions") + "/" + job
+                            + "?action=stop";
+            WebTarget target = getWebTarget(baseUrl);
+
+            // The documentation says this is a PUT and confirmed in the source code.
+            // @see https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_rest_api.html#rwlp_batch_rest_api__http_return_codes
+            // Intentionally setting a null on the put entity.
+            Response r = target.request().put(null);
+            String responseStr = r.readEntity(String.class);
+
+            // Debug Logging outputs the API response.
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Stop Job for Tenant Status " + r.getStatus());
+                log.fine("The Response body is [" + responseStr + "]");
+            }
+
+            if (HttpStatus.SC_MOVED_TEMPORARILY == r.getStatus()) {
+                // It's on a different server, and must be in the cluster.
+                // If not, we're going to connect to location, and try a put.
+                String location = r.getHeaderString("location");
+                if (location != null) {
+                    // No matter what, tell people we accepted the call.
+                    target = getWebTarget(location + "?action=stop");
+                    // no assignment intentionally, and no body sent.
+                    target.request().put(null);
+                }
+                // Here, we could easily respond with an Exception/OperationOutcome, however An unexpected error has 
+                // occurred while stopping/deleting the job on a batch cluster member
+                status = Response.Status.ACCEPTED;
+            } else if (HttpStatus.SC_OK == r.getStatus()) {
+                // Check if the Status is GOOD
+                JobExecutionResponse response = JobExecutionResponse.Parser.parse(responseStr);
+                if (response.getBatchStatus().contains("STOPPING")) {
+                    // Signal that we're in a stopping condition.
+                    status = Response.Status.ACCEPTED;
+                }
+                // Don't Delete, let the client flow through again and DELETE.
+            } else if (HttpStatus.SC_CONFLICT == r.getStatus()) {
+                // SC_CONFLICT is used by the Open Liberty JBatch container to signal that the job is NOT RUNNING. 
+                // This is generally due to a conflicting identical call, we're responding immediately
+                status = Response.Status.ACCEPTED;
+            } else {
+                // Error Condition (should be 400, but capturing here as a general error including Server Error).
+                throw BulkDataExportUtil.buildOperationException(
+                        "An unexpected error has ocurred while stopping/deleting the job", IssueType.TRANSIENT);
+            }
+
+        } catch (FHIROperationException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw BulkDataExportUtil.buildOperationException("An unexpected error has ocurred while deleting the job",
+                    IssueType.TRANSIENT);
+        }
+        return status;
+    }
+
+    /*
+     * deletes the job
+     */
+    private Response.Status runDeleteJobForTenant(String job) throws Exception {
+        Response.Status status = Response.Status.NO_CONTENT;
+        try {
+            // Example: https://localhost:9443/ibm/api/batch/jobexecutions/9
+            // We choose to purgeJobStoreOnly=false which is the default.
+            // The logs are purged when deleted.
+            String baseUrl =
+                    properties.get(BulkDataConfigUtil.BATCH_URL).replace("jobinstances", "jobexecutions") + "/" + job;
+            // The tenant is known, and now we need to query to delete the Job.
+            Response r = getWebTarget(baseUrl).request().delete();
+
+            // Debug Logging outputs the API response.
+            if (log.isLoggable(Level.FINE)) {
+                String responseStr = r.readEntity(String.class);
+                log.fine("Delete Job for Tenant Status " + r.getStatus());
+                log.fine("The Response body is [" + responseStr + "]");
+            }
+
+            if (HttpStatus.SC_NO_CONTENT != r.getStatus() && HttpStatus.SC_BAD_REQUEST != r.getStatus()) {
+                status = Response.Status.fromStatusCode(r.getStatus());
+            }
+        } catch (Exception ex) {
+            throw BulkDataExportUtil.buildOperationException("An unexpected error has ocurred while deleting the job",
+                    IssueType.TRANSIENT);
+        }
+        return status;
+    }
+
+    /*
+     * checks the job is owned by the tenant.
+     */
+    private void runVerificationOfTenantForJob(String job) throws Exception {
         String baseUrl =
                 properties.get(BulkDataConfigUtil.BATCH_URL).replace("jobinstances", "jobexecutions") + "/" + job;
 
@@ -331,13 +476,6 @@ public class BulkDataClient {
         try {
             JobExecutionResponse response = JobExecutionResponse.Parser.parse(responseStr);
             verifyTenant(response.getJobParameters());
-
-            // The tenant is known, and now we need to query to delete the Job.
-            r = target.request().delete();
-            if (r.getStatus() != HttpStatus.SC_NO_CONTENT) {
-                throw BulkDataExportUtil.buildOperationException(
-                        "Deleting the job has failed; the content is not abandonded", IssueType.EXCEPTION);
-            }
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception ex) {

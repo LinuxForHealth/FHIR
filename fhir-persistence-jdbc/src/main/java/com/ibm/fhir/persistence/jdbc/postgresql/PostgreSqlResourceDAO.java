@@ -98,7 +98,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
             this.parameterNameDAO = new PostgreSqlParameterNamesDAO(connection, fhirRefSequenceDAO);
             this.codeSystemDAO = new PostgreSqlCodeSystemDAO(connection, fhirRefSequenceDAO);
 
-            resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
+            resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());
             if (resourceTypeId == null) {
                 acquiredFromCache = false;
                 resourceTypeId = getOrCreateResourceType(resource.getResourceType(), connection);
@@ -479,23 +479,14 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
 
         // Create the resource if we don't have it already (set by the continue handler)
         if (result == null) {
-            try {
-                result = fhirRefSequenceDAO.nextValue();
+            result = fhirRefSequenceDAO.nextValue();
 
-                final String INS = "INSERT INTO resource_types (resource_type_id, resource_type) VALUES (?, ?)";
-                try (PreparedStatement stmt = conn.prepareStatement(INS)) {
-                    // bind parameters
-                    stmt.setInt(1, result);
-                    stmt.setString(2, resourceTypeName);
-                    stmt.executeUpdate();
-                }
-            } catch (SQLException e) {
-                if ("23505".equals(e.getSQLState())) {
-                    // another thread snuck in and created the record, so we need to fetch the correct id
-                    result = getResourceTypeId(resourceTypeName, conn);
-                } else {
-                    throw e;
-                }
+            final String INS = "INSERT INTO resource_types (resource_type_id, resource_type) VALUES (?, ?)";
+            try (PreparedStatement stmt = conn.prepareStatement(INS)) {
+                // bind parameters
+                stmt.setInt(1, result);
+                stmt.setString(2, resourceTypeName);
+                stmt.executeUpdate();
             }
         }
 
