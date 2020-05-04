@@ -9,14 +9,17 @@ package com.ibm.fhir.database.utils.db2;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import com.ibm.fhir.database.utils.api.BadTenantFrozenException;
+import com.ibm.fhir.database.utils.api.BadTenantKeyException;
+import com.ibm.fhir.database.utils.api.BadTenantNameException;
 import com.ibm.fhir.database.utils.api.ConnectionDetails;
 import com.ibm.fhir.database.utils.api.ConnectionException;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.DuplicateNameException;
-import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
+import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 
 
 /**
@@ -85,27 +88,56 @@ public class Db2Translator implements IDatabaseTranslator {
 
     @Override
     public DataAccessException translate(SQLException x) {
-        if (isDeadlock(x)) {
+        if (isBadTenantKeyError(x)){
+            return new BadTenantKeyException(x);
+        } else if (isBadTenantNameError(x)) {
+            return new BadTenantNameException(x);
+        } else if (isTenantFrozenError(x)) {
+            return new BadTenantFrozenException(x);
+        } else if (isDeadlock(x)) {
             return new LockException(x, true);
-        }
-        else if (isLockTimeout(x)) {
+        } else if (isLockTimeout(x)) {
             return new LockException(x, false);
-        }
-        else if (isConnectionError(x)) {
+        } else if (isConnectionError(x)) {
             return new ConnectionException(x);
-        }
-        else if (isDuplicate(x)) {
+        } else if (isDuplicate(x)) {
             return new UniqueConstraintViolationException(x);
-        }
-        else if (isAlreadyExists(x)) {
+        } else if (isAlreadyExists(x)) {
             return new DuplicateNameException(x);
-        }
-        else if (isUndefinedName(x)) {
+        } else if (isUndefinedName(x)) {
             return new UndefinedNameException(x);
-        }
-        else {
+        } else {
             return new DataAccessException(x);
         }
+    }
+    /*
+     * This is specific to Db2 schema's multi-tenant feature.
+     */
+    public boolean isTenantFrozenError(SQLException x) {
+        String sqlState = x.getSQLState();
+        String sqlMsg = x.getMessage();
+        return sqlState != null && sqlState.equals("99401") && sqlMsg != null
+                && sqlMsg.contains("NOT AUTHORIZED: TENANT IS FROZEN");
+    }
+
+    /*
+     * This is specific to Db2 schema's multi-tenant feature.
+     */
+    public boolean isBadTenantKeyError(SQLException x) {
+        String sqlState = x.getSQLState();
+        String sqlMsg = x.getMessage();
+        return sqlState != null && sqlState.equals("99401") && sqlMsg != null
+                && sqlMsg.contains("NOT AUTHORIZED: MISSING OR INVALID TENANT KEY");
+    }
+
+    /*
+     * This is specific to Db2 schema's multi-tenant feature.
+     */
+    public boolean isBadTenantNameError(SQLException x) {
+        String sqlState = x.getSQLState();
+        String sqlMsg = x.getMessage();
+        return sqlState != null && sqlState.equals("99401") && sqlMsg != null
+                && sqlMsg.contains("NOT AUTHORIZED: MISSING OR INVALID TENANT NAME");
     }
 
     @Override

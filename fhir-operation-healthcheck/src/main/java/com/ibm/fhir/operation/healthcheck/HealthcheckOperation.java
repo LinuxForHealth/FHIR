@@ -39,32 +39,34 @@ public class HealthcheckOperation extends AbstractOperation {
     }
 
     @Override
-    protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters,
-        FHIRResourceHelpers resourceHelper) throws FHIROperationException {
+    protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
+            String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
+            throws FHIROperationException {
         try {
-            FHIRPersistence pl = (FHIRPersistence) operationContext.getProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL);
+            FHIRPersistence pl =
+                    (FHIRPersistence) operationContext.getProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL);
             OperationOutcome operationOutcome = pl.getHealth();
             checkOperationOutcome(operationOutcome);
             return FHIROperationUtil.getOutputParameters(operationOutcome);
         } catch (FHIROperationException e) {
             throw e;
         } catch (Throwable t) {
-            throw new FHIROperationException("Unexpected error occurred while processing request for operation '" +
-                    getName() + "': " + getCausedByMessage(t), t);
+            throw new FHIROperationException("Unexpected error occurred while processing request for operation '"
+                    + getName() + "': " + getCausedByMessage(t), t);
         }
     }
-    
+
     private void checkOperationOutcome(OperationOutcome oo) throws FHIROperationException {
         List<Issue> issues = oo.getIssue();
         for (Issue issue : issues) {
             IssueSeverity severity = issue.getSeverity();
-            if (severity != null) {
-                if(severity.getValue()==IssueSeverity.ERROR.getValue() || severity.getValue()==IssueSeverity.FATAL.getValue())
-                    throw new FHIROperationException("The persistence layer reported one or more issues").withIssue(issues);
+            if (severity != null && (IssueSeverity.ERROR.getValue().equals(severity.getValue())
+                    || IssueSeverity.FATAL.getValue().equals(severity.getValue()))) {
+                throw new FHIROperationException("The persistence layer reported one or more issues").withIssue(issues);
             }
         }
     }
-    
+
     private String getCausedByMessage(Throwable throwable) {
         return throwable.getClass().getName() + ": " + throwable.getMessage();
     }
