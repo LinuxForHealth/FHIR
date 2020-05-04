@@ -159,11 +159,11 @@ Throughout this document, we use a path notation to refer to property names. For
 ## 3.3 Tenant-specific configuration properties
 The FHIR server supports certain multi-tenant features. One such feature is the ability to set certain configuration properties on a per-tenant basis.
 
-In general, the configuration properties for a particular tenant are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/fhir-server-config.json` file, where `<tenant-id>` refers to the tenant's “short name” or tenant id.
+In general, the configuration properties for a particular tenant are stored in the `<WLP_HOME>/usr/servers/fhir-server/config/<tenant-id>/fhir-server-config.json` file, where `<tenant-id>` refers to the tenant's “short name” or tenant id.
 
-The global configuration is considered to be associated with a tenant named `default`, so those properties are stored in the `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json` file.
+The global configuration is considered to be associated with a tenant named `default`, so those properties are stored in the `<WLP_HOME>/usr/servers/fhir-server/config/default/fhir-server-config.json` file.
 
-Similarly, tenant-specific search parameters are found at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/<tenant-id>/extension-search-parameters.json`, whereas the global/default extension search parameters are at `<WLP_HOME>/wlp/usr/servers/fhir-server/config/default/extension-search-parameters.json`.
+Similarly, tenant-specific search parameters are found at `<WLP_HOME>/usr/servers/fhir-server/config/<tenant-id>/extension-search-parameters.json`, whereas the global/default extension search parameters are at `<WLP_HOME>/usr/servers/fhir-server/config/default/extension-search-parameters.json`.
 
 Search parameters are handled like a single configuration properly; providing a tenant-specific file will override the global/default extension search parameters as defined at [FHIRSearchConfiguration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration).
 
@@ -337,7 +337,7 @@ Here is a simple example of a single (default) datastore:
     }
 }
 ```
-In this example, we define an embedded Derby database named `derby/fhirDB` (a location relative to the `<WLP_HOME>/wlp/usr/servers/fhir-server` directory. The datastore-id associated with this datastore is `default`, which is the value that is used if no `X-FHIR-DSID` request header is found in the incoming request. So, when only a single database is being used, it's wise to leverage the `default` datastore-id value to allow REST API consumers to avoid having to set the `X-FHIR-DSID` request header on each request.
+In this example, we define an embedded Derby database named `derby/fhirDB` (a location relative to the `<WLP_HOME>/usr/servers/fhir-server` directory. The datastore-id associated with this datastore is `default`, which is the value that is used if no `X-FHIR-DSID` request header is found in the incoming request. So, when only a single database is being used, it's wise to leverage the `default` datastore-id value to allow REST API consumers to avoid having to set the `X-FHIR-DSID` request header on each request.
 
 ##### 3.4.2.2.2 Example 2
 This example shows a slightly more complex scenario. In this scenario, the `acme` tenant would like to store data in one of two study-specific Db2 databases with datastore-id values `study1` and `study2`. All resource types pertaining to a given study will be stored in that study's database so there's no need for a proxy persistence layer or routing rules, and so forth.
@@ -453,7 +453,7 @@ To contribute an operation:
 
 2. Create a file named `com.ibm.fhir.operation.FHIROperation` with one or more fully qualified `FHIROperation` classnames and package it in your jar under `META-INF/services/`.
 
-3. Include your jar file under the `<WLP_HOME>/wlp/usr/servers/fhir-server/userlib/` directory of your installation.
+3. Include your jar file under the `<WLP_HOME>/usr/servers/fhir-server/userlib/` directory of your installation.
 
 4. Restart the FHIR server. Changes to custom operations require a server restart, because the server discovers and instantiates operations during server startup only.
 
@@ -1249,9 +1249,9 @@ Following is the beautified response of sample polling location request after th
 }
 ```
 
-For the Import Operation, the polled status includes an indication of `$import` and the location of the OperationOutcome NDJsons and the corresonding failure and success counts. 
+For the Import Operation, the polled status includes an indication of `$import` and the location of the OperationOutcome NDJsons and the corresonding failure and success counts.
 
-Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the oepration is stopped or removed, and then 204. 
+Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the oepration is stopped or removed, and then 204.
 
 By default, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.
 
@@ -1515,12 +1515,12 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/notifications/nats/cluster`|nats-streaming|
 |`fhirServer/notifications/nats/channel`|fhirNotifications|
 |`fhirServer/notifications/nats/clientId`|fhir-server|
-|`fhirServer/notifications/nats/servers`|nats://nats-node1:4222,nats://nats-node2:4222,nats://nats-node3:4222|
-|`fhirServer/notifications/nats/useTLS`|false|
-|`fhirServer/notifications/nats/truststoreLocation`|resources/security/nats.client.truststore.p12|
-|`fhirServer/notifications/nats/truststorePassword`|change-password|
-|`fhirServer/notifications/nats/keystoreLocation`|resources/security/nats.client.keystore.p12|
-|`fhirServer/notifications/nats/keystorePassword`|change-password|
+|`fhirServer/notifications/nats/servers`||
+|`fhirServer/notifications/nats/useTLS`|true|
+|`fhirServer/notifications/nats/truststoreLocation`||
+|`fhirServer/notifications/nats/truststorePassword`||
+|`fhirServer/notifications/nats/keystoreLocation`||
+|`fhirServer/notifications/nats/keystorePassword`||
 |`fhirServer/persistence/factoryClassname`|com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory|
 |`fhirServer/persistence/common/updateCreateEnabled`|true|
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
@@ -1619,7 +1619,7 @@ Here are some notes related to these authentication schemes:
 To properly configure the FHIR server's keystore and truststore files, perform the following steps.
 
 ### 5.2.3.1 Configure the keyStores
-1.  Create a new self-signed server certificate<sup id="a8">[8](#f8)</sup> and store it in a new keystore file located in the `$WLP_HOME/usr/servers/fhir-server/resources/security` directory.
+1.  Create a new self-signed server certificate<sup id="a8">[8](#f8)</sup> and store it in a new keystore file located in the `<WLP_HOME>/usr/servers/fhir-server/resources/security` directory.
 
     In these instructions, we'll call this file `serverKeystore.jks`, although you can name your server keystore file anything you choose. We'll use the `keytool`<sup id="a9">[9](#f9)</sup> command for all keystore- and truststore-related steps, although there are several ways to perform these actions.
 
@@ -1667,7 +1667,7 @@ To properly configure the FHIR server's keystore and truststore files, perform t
 At this point, you should have a client keystore that contains a client certificate whose Distinguished Name's Common Name component is set to the username. You should also have a client truststore which contains the server's public key certificate. Essentially, the server and client both have a keystore that contains their own private and public key certificate and they both have a truststore which contains the public key certificate of their counterpart.
 
 ### 5.2.3.1 Configure the server
-Copy the server keystore (`serverKeystore.jks`) and truststore (`serverTruststore.jks`) files to the appropriate directory (`$WLP_HOME/usr/servers/fhir-server/resources/security`). Then configure the `server.xml` file correctly to reference your new keystore and truststore files.
+Copy the server keystore (`serverKeystore.jks`) and truststore (`serverTruststore.jks`) files to the appropriate directory (`<WLP_HOME>/usr/servers/fhir-server/resources/security`). Then configure the `server.xml` file correctly to reference your new keystore and truststore files.
 
 ### 5.2.3.2 Configure the client
 The precise steps required to configure certificate-based authentication for a client application depend on the specific REST API client framework, but these are the general rules:
@@ -1683,7 +1683,7 @@ The IBM FHIR Server supports these via Liberty's OpenID Connect support.
 The following sections are adapted from the [WebSphere Liberty Knowledge Center](https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_config_oidc_pc_examp_beginner.html), but the steps apply to OpenLiberty as well.
 
 ### 5.3.1 Configure Liberty as the OpenID Connect Provider
-Liberty can be configured to act as an OpenID Connect Provider via the [openidConnectServer-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectServer-1.0.html). To enable this feature without modifying the default `server.xml`, move the `oidcProvider.xml` config snippet on the installed FHIR Server from `$WLP_HOME/usr/servers/fhir-server/configDropins/disabled/` to `$WLP_HOME/usr/servers/fhir-server/configDropins/defaults/` and modify as desired.
+Liberty can be configured to act as an OpenID Connect Provider via the [openidConnectServer-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectServer-1.0.html). To enable this feature without modifying the default `server.xml`, move the `oidcProvider.xml` config snippet on the installed FHIR Server from `<WLP_HOME>/usr/servers/fhir-server/configDropins/disabled/` to `<WLP_HOME>/usr/servers/fhir-server/configDropins/defaults/` and modify as desired.
 
 A copy of this snippet is provided here for illustrative purposes:
 ```xml
@@ -1779,7 +1779,7 @@ This will redirect you to the configured redirect uri for your client, passing i
 For a server running on localhost, the token URL is `https://localhost:9443/oidc/endpoint/oidc-provider/token`.
 
 ### 5.3.2 Configure Liberty to be an Oauth 2.0 Protected Resource Server
-Liberty can be configured to act as an OAuth 2.0 Protected Resource Server via the [openidConnectClient-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectClient-1.0.html). To enable this feature without modifying the default `server.xml`, move the `oauthResourceServer.xml` config snippet on the installed FHIR Server from `$WLP_HOME/usr/servers/fhir-server/configDropins/disabled/` to `$WLP_HOME/usr/servers/fhir-server/configDropins/defaults/` and modify as desired.
+Liberty can be configured to act as an OAuth 2.0 Protected Resource Server via the [openidConnectClient-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectClient-1.0.html). To enable this feature without modifying the default `server.xml`, move the `oauthResourceServer.xml` config snippet on the installed FHIR Server from `<WLP_HOME>/usr/servers/fhir-server/configDropins/disabled/` to `<WLP_HOME>/usr/servers/fhir-server/configDropins/defaults/` and modify as desired.
 
 A copy of this snippet is provided here for illustrative purposes:
 ```xml

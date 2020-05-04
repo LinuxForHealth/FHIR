@@ -9,9 +9,9 @@ package com.ibm.fhir.schema.control;
 import org.testng.annotations.Test;
 
 /**
- * Test to verify the parameter_names.properties
+ * Test to verify the resource_types.properties
  */
-public class PopulateResourceTypesTest {
+public class PopulateParameterNamesTest {
     @Test
     public void testVerify() {
         PopulateParameterNames.verify();

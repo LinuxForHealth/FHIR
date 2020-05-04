@@ -11,17 +11,17 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_BOOTSTRAP_DB;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_ENABLED;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CLUSTER;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CHANNEL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CLIENT;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_CLUSTER;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_ENABLED;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_KEYSTORE;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_KEYSTORE_PW;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_SERVERS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TLS_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE_PW;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_KEYSTORE;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_KEYSTORE_PW;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
 import java.util.List;
@@ -156,7 +156,7 @@ public class FHIRServletContextListener implements ServletContextListener {
 
                 // Gather up the NATS TLS properties.
                 Properties tlsProps = new Properties();
-                tlsProps.setProperty("useTLS", fhirConfig.getBooleanProperty(PROPERTY_NATS_TLS_ENABLED).toString());
+                tlsProps.setProperty("useTLS", fhirConfig.getBooleanProperty(PROPERTY_NATS_TLS_ENABLED, Boolean.TRUE).toString());
                 tlsProps.setProperty("truststore", fhirConfig.getStringProperty(PROPERTY_NATS_TRUSTSTORE));
                 tlsProps.setProperty("truststorePass", fhirConfig.getStringProperty(PROPERTY_NATS_TRUSTSTORE_PW));
                 tlsProps.setProperty("keystore", fhirConfig.getStringProperty(PROPERTY_NATS_KEYSTORE));
@@ -167,7 +167,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             } else {
                 log.info("Bypassing NATS notification init.");
             }
-            
+
             Boolean checkReferenceTypes = fhirConfig.getBooleanProperty(PROPERTY_CHECK_REFERENCE_TYPES, Boolean.TRUE);
             FHIRModelConfig.setCheckReferenceTypes(checkReferenceTypes);
 

@@ -22,9 +22,11 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 /**
  * Database interaction for parameter_names. Caching etc is handled
  * elsewhere...we're just doing JDBC stuff here.
+ * 
+ * @implNote this class references NAME but in fact uses `code` from SearchParameter.
  */
 public class ParameterNameDAOImpl implements ParameterNameDAO {
-    private static final Logger log = Logger.getLogger(ParameterDAOImpl.class.getName());
+    private static final Logger log = Logger.getLogger(ParameterNameDAOImpl.class.getName());
     private static final String CLASSNAME = ParameterDAOImpl.class.getName(); 
     
     public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
@@ -37,13 +39,14 @@ public class ParameterNameDAOImpl implements ParameterNameDAO {
     
     // The JDBC connection to be used by this instance of the DAO
     private final Connection connection;
+
     /**
      * Public constructor
      */
     public ParameterNameDAOImpl(Connection connection) {
         this.connection = connection;
     }
-    
+
     /**
      * Provide the connection to subclasses
      * @return
