@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- (C) Copyright IBM Corp. 2016
+-- (C) Copyright IBM Corp. 2016, 2020
 --
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ BEGIN
   DECLARE c_duplicate CONDITION FOR SQLSTATE '23505';
   DECLARE CONTINUE HANDLER FOR NOT FOUND          SET v_not_found = 1;
   DECLARE CONTINUE HANDLER FOR c_duplicate        SET v_duplicate = 1;
-  
+
   -- See if we already have it
   SELECT code_system_id INTO p_code_system_id
     FROM {{SCHEMA_NAME}}.code_systems

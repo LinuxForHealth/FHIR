@@ -211,7 +211,6 @@ public class FhirSchemaGenerator {
      * @param model
      */
     public void buildAdminSchema(PhysicalDataModel model) {
-
         // All tables are added to this new tablespace (which has a small extent size.
         // Each tenant partition gets its own tablespace
         fhirTablespace = new Tablespace(FhirSchemaConstants.FHIR_TS, FhirSchemaConstants.INITIAL_VERSION, FhirSchemaConstants.FHIR_TS_EXTENT_KB);
@@ -231,8 +230,7 @@ public class FhirSchemaGenerator {
 
         // The set_tenant procedure can be created after all the admin tables are done
         ProcedureDef setTenant = model.addProcedure(this.adminSchemaName,
-                SET_TENANT,
-                FhirSchemaConstants.INITIAL_VERSION,
+                        SET_TENANT, 2,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName, SET_TENANT.toLowerCase() + ".sql", null),
                 Arrays.asList(allAdminTablesComplete),
                 procedurePrivileges);

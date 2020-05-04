@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2020
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,9 @@ import javax.sql.DataSource;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.database.utils.api.BadTenantFrozenException;
+import com.ibm.fhir.database.utils.api.BadTenantKeyException;
+import com.ibm.fhir.database.utils.api.BadTenantNameException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
@@ -43,10 +46,8 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 /**
  * This class is a root Data Access Object for managing JDBC access to the FHIR database. It contains common functions for managing connections, closing used
  * JDBC resources, and running database queries.
- *
  */
 public class FHIRDbDAOImpl implements FHIRDbDAO {
-
     private static final Logger log = Logger.getLogger(FHIRDbDAOImpl.class.getName());
     private static final String CLASSNAME = FHIRDbDAOImpl.class.getName();
     private static final String NEWLINE = System.getProperty("line.separator");
@@ -121,10 +122,6 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         return fx;
     }
 
-
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAO#getConnection()
-     */
     @Override
     public Connection getConnection() throws FHIRPersistenceDBConnectException {
         final String METHODNAME = "getConnection";
@@ -132,6 +129,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         if (log.isLoggable(Level.FINEST)) {
             log.entering(CLASSNAME, METHODNAME);
         }
+
         try {
             Connection connection = null;
             String dbDriverName = null;
@@ -139,23 +137,22 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
             if (this.getExternalConnection() != null) {
                 connection = this.getExternalConnection();
-            }
-            else if (this.connectionProvider != null) {
+            } else if (this.connectionProvider != null) {
                 try {
                     connection = connectionProvider.getConnection();
-                }
-                catch (SQLException x) {
+                } catch (SQLException x) {
                     FHIRPersistenceDBConnectException fx = new FHIRPersistenceDBConnectException("Failed to acquire database connection from provider");
                     throw severe(log, fx, x);
                 }
-            }
-            else if (this.getDbProps() == null) {
+            } else if (this.getDbProps() == null) {
                 try {
                     String tenantId = FHIRRequestContext.get().getTenantId();
                     String dsId = FHIRRequestContext.get().getDataStoreId();
                     if (log.isLoggable(Level.FINE)) {
                         log.fine("Getting connection for tenantId/dsId: [" + tenantId + "/" + dsId + "]...");
                     }
+
+                    // As this connection is part of a pool, we don't make this try-catch-close.
                     connection = getFhirDatasource().getConnection(tenantId, dsId);
 
                     if (log.isLoggable(Level.FINE)) {
@@ -192,18 +189,27 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                 }
             }
 
-            // Configure the connection for the tenant
+            // For the multi-tenant feature, configure the connection for the tenant by setting the sv_tenant_id.
             String tenantName = FHIRRequestContext.get().getTenantId();
             String tenantKey = FHIRRequestContext.get().getTenantKey();
-
             if (tenantName != null && tenantKey != null) {
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Setting tenant access on connection for: " + tenantName);
+                    log.fine("Setting tenant access on connection for: [" + tenantName + "]");
                 }
                 Db2SetTenantVariable cmd = new Db2SetTenantVariable("FHIR_ADMIN", tenantName, tenantKey);
                 JdbcTarget target = new JdbcTarget(connection);
                 Db2Adapter adapter = new Db2Adapter(target);
-                adapter.runStatement(cmd);
+                try {
+                    adapter.runStatement(cmd);
+                } catch (BadTenantKeyException x) {
+                    throw buildExceptionWithIssue("MISSING OR INVALID TENANT KEY [" + tenantName + "]",
+                            IssueType.EXCEPTION);
+                } catch (BadTenantNameException x) {
+                    throw buildExceptionWithIssue("MISSING OR INVALID TENANT NAME [" + tenantName + "]",
+                            IssueType.EXCEPTION);
+                } catch (BadTenantFrozenException x) {
+                    throw buildExceptionWithIssue("TENANT FROZEN [" + tenantName + "]", IssueType.EXCEPTION);
+                }
             }
 
             return connection;
@@ -216,7 +222,6 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             if (log.isLoggable(Level.FINEST)) {
                 log.exiting(CLASSNAME, METHODNAME);
             }
-
         }
     }
 
@@ -242,10 +247,9 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
      * @throws Exception
      */
     private static DataSource getFhirDatasource() throws Exception {
-        final String METHODNAME = "getFhirDb";
+        final String METHODNAME = "getFhirDatasource";
         log.entering(CLASSNAME, METHODNAME);
         try {
-
             if (fhirDb == null) {
                 acquireFhirDb();
             }
