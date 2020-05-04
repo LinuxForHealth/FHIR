@@ -18,6 +18,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
+import com.ibm.fhir.database.utils.model.DatabaseObjectType;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
@@ -39,7 +40,7 @@ public class DerbyBootstrapper {
     /**
      * Bootstraps the FHIR database (only for Derby databases)
      * Note: Since v4.0.0, the schema is generated and applied using fhir-persistence-schema, not liquibase
-     * 
+     *
      * @throws SQLException
      */
     public static void bootstrapDb(DataSource fhirDb) throws SQLException {
@@ -89,7 +90,7 @@ public class DerbyBootstrapper {
      * Bootstrap the (derby) connection with all the DML we need for an operational FHIR schema
      * Should be idempotent, because we use a version_history table to track which DML statements
      * have been applied, and which are still required
-     * 
+     *
      * @param connection
      * @param adminSchemaName
      * @param dataSchemaName
@@ -110,6 +111,9 @@ public class DerbyBootstrapper {
         vhs.setTarget(adapter);
         vhs.init();
 
+        // Use the version history service to determine if this table existed before we run `applyWithHistory`
+        boolean newDb = vhs.getVersion(dataSchemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null;
+
         // Define the schema and apply it (or required updates)
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, dataSchemaName);
         PhysicalDataModel pdm = new PhysicalDataModel();
@@ -117,14 +121,16 @@ public class DerbyBootstrapper {
 
         // Use the new fhir-persistence-schema mechanism to create/update the derby database
         pdm.applyWithHistory(adapter, vhs);
-
-        // prepopulates static lookup data.
-        populateResourceTypeAndParameterNameTableEntries(connection, adminSchemaName, dataSchemaName);
+        
+        if (newDb) {
+            // prepopulates static lookup data.
+            populateResourceTypeAndParameterNameTableEntries(connection, adminSchemaName, dataSchemaName);
+        }
     }
 
     /**
      * prepopulates the bootstrapped derby database with static lookup data.
-     * 
+     *
      * @param connection
      * @param adminSchemaName
      * @param dataSchemaName
