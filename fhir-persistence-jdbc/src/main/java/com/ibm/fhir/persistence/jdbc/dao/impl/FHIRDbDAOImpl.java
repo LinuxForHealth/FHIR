@@ -132,8 +132,8 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             log.entering(CLASSNAME, METHODNAME);
         }
 
-        Connection connection = null;
         try {
+            Connection connection = null;
             String dbDriverName = null;
             String dbUrl;
 
