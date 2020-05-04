@@ -22,10 +22,8 @@ import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.database.utils.api.BadTenantFrozenException;
 import com.ibm.fhir.database.utils.api.BadTenantKeyException;
 import com.ibm.fhir.database.utils.api.BadTenantNameException;
@@ -156,25 +154,6 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
                     // As this connection is part of a pool, we don't make this try-catch-close.
                     connection = getFhirDatasource().getConnection(tenantId, dsId);
-
-                    // Find and set the tenantKey for the request, otherwise subsequent pulls from the pool 
-                    // miss the tenantKey.
-                    String tenantKey = FHIRRequestContext.get().getTenantKey();
-                    if (tenantKey == null) {
-                        PropertyGroup datasourcesPG =
-                                FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES);
-                        for (PropertyGroup.PropertyEntry propEntry : datasourcesPG.getProperties()) {
-                            String datasourceId = propEntry.getName();
-                            if (datasourceId.equals(dsId)) {
-                                PropertyGroup dsPG = datasourcesPG.getPropertyGroup(datasourceId);
-                                // Retrieve the "tenantKey" property.
-                                tenantKey = dsPG.getStringProperty("tenantKey");
-                                if (tenantKey != null) {
-                                    FHIRRequestContext.get().setTenantKey(tenantKey);
-                                }
-                            }
-                        }
-                    }
 
                     if (log.isLoggable(Level.FINE)) {
                         log.fine("Got the connection for [" + tenantId + "/" + dsId + "]!");

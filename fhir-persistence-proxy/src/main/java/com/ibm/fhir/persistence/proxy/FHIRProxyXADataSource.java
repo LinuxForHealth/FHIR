@@ -59,19 +59,9 @@ public class FHIRProxyXADataSource implements XADataSource {
      */
     public static class DataSourceCacheEntry {
         private final XADataSource datasource;
-        private final String tenantKey;
 
-        public DataSourceCacheEntry(XADataSource ds, String tenantKey) {
+        public DataSourceCacheEntry(XADataSource ds) {
             this.datasource = ds;
-            this.tenantKey = tenantKey;
-        }
-
-        /**
-         * Getter for the tenantKey property. Can be null if datasource is not multi-tenant
-         * @return
-         */
-        public String getTenantKey() {
-            return this.tenantKey;
         }
 
         /**
@@ -84,6 +74,7 @@ public class FHIRProxyXADataSource implements XADataSource {
     }
 
     public FHIRProxyXADataSource() {
+        // No Operation
     }
 
     /**
@@ -103,7 +94,7 @@ public class FHIRProxyXADataSource implements XADataSource {
                 }
             }
 
-            log.fine("Returning XADataSource list of size: " + result.size());
+            log.fine("Returning XADataSource list of size: '" + result.size() + "'");
 
             return result;
         } finally {
@@ -111,46 +102,26 @@ public class FHIRProxyXADataSource implements XADataSource {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.sql.CommonDataSource#getLogWriter()
-     */
     @Override
     public PrintWriter getLogWriter() throws SQLException {
         return getDelegate().getLogWriter();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.sql.CommonDataSource#setLogWriter(java.io.PrintWriter)
-     */
     @Override
     public void setLogWriter(PrintWriter out) throws SQLException {
         getDelegate().setLogWriter(out);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.sql.CommonDataSource#setLoginTimeout(int)
-     */
     @Override
     public void setLoginTimeout(int seconds) throws SQLException {
         getDelegate().setLoginTimeout(seconds);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.sql.CommonDataSource#getLoginTimeout()
-     */
     @Override
     public int getLoginTimeout() throws SQLException {
         return getDelegate().getLoginTimeout();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.sql.CommonDataSource#getParentLogger()
-     */
     @Override
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
         try {
@@ -160,10 +131,6 @@ public class FHIRProxyXADataSource implements XADataSource {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.sql.XADataSource#getXAConnection()
-     */
     @Override
     public XAConnection getXAConnection() throws SQLException {
         log.entering(this.getClass().getName(), "getXAConnection()");
@@ -187,10 +154,6 @@ public class FHIRProxyXADataSource implements XADataSource {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.sql.XADataSource#getXAConnection(java.lang.String, java.lang.String)
-     */
     @Override
     public XAConnection getXAConnection(String tenantId, String dsId) throws SQLException {
         log.entering(this.getClass().getName(), "getXAConnection(String,String)", new Object[]{tenantId, dsId});
@@ -205,9 +168,7 @@ public class FHIRProxyXADataSource implements XADataSource {
                         + FHIRRequestContext.get().getDataStoreId() + ").");
             }
 
-            XAConnection connection = getDelegate().getXAConnection();
-
-            return connection;
+            return getDelegate().getXAConnection();
         } finally {
             log.exiting(this.getClass().getName(), "getXAConnection(String,String)");
         }
@@ -236,7 +197,7 @@ public class FHIRProxyXADataSource implements XADataSource {
                             log.finer("Tenant datasource cache was not found, creating new cache for tenant-id ["
                                     + tenantId + "].");
                         }
-                        tenantMap = new ConcurrentHashMap<String, DataSourceCacheEntry>();
+                        tenantMap = new ConcurrentHashMap<>();
                         datasourceCache.put(tenantId, tenantMap);
                     }
                 }
@@ -257,12 +218,6 @@ public class FHIRProxyXADataSource implements XADataSource {
                         tenantMap.put(dsId, dsCacheEntry);
                     }
                 }
-            }
-
-            String tenantKey = dsCacheEntry.getTenantKey();
-            if (tenantKey != null) {
-                // write the tenantKey for the chosen datasource into the request context
-                FHIRRequestContext.get().setTenantKey(tenantKey);
             }
 
             return dsCacheEntry.getDataSource();
@@ -304,9 +259,6 @@ public class FHIRProxyXADataSource implements XADataSource {
                 throw new IllegalStateException("Could not locate 'type' property within datasource property group: " + dsPropertyName);
             }
 
-            // The tenant key required when using a multi-tenant schema. Null for single-tenant schemas
-            String tenantKey = dsPG.getStringProperty("tenantKey", null);
-
             // Get the connection properties
             PropertyGroup connectionProps = dsPG.getPropertyGroup("connectionProperties");
             if (connectionProps == null) {
@@ -345,13 +297,12 @@ public class FHIRProxyXADataSource implements XADataSource {
                 log.info(msg);
             }
 
-            // Finally, set the properties found in the "connectionProperties" property group
-            // on the XADataSource instance.
+            // Finally, set the properties found in the "connectionProperties" property group on the XADataSource instance.
             // Note: this requires the "connectionProperties" property group to contain ONLY
             // properties that map to valid field names within the vendor-specific XADataSource impl class.
             setConnectionProperties(datasource, connectionProps);
 
-            return new DataSourceCacheEntry(datasource, tenantKey);
+            return new DataSourceCacheEntry(datasource);
         } finally {
             log.exiting(CLASSNAME, "createDataSource");
         }
