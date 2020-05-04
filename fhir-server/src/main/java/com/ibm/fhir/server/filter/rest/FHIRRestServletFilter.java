@@ -134,6 +134,15 @@ public class FHIRRestServletFilter extends HttpFilter {
                 if (tenantKey != null) {
                     context.setTenantKey(tenantKey);
                 }
+
+                String type = dsPG.getStringProperty("type", null);
+                if (type != null) {
+                    // Based on the default for the database type, the code.
+                    Boolean enabled =
+                            FHIRConfigHelper.getBooleanProperty("multitenant",
+                                    FHIRConfiguration.DATASTORE_MULTITENANT_DEFAULT.contains(type));
+                    context.setDataStoreMultiTenant(enabled);
+                }
             }
             FHIRRequestContext.set(context);
 
