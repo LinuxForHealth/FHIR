@@ -24,6 +24,10 @@ import java.util.List;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
+/**
+ * An implementation defined FHIRPath function that calculates the time between two date/time values. The behavior of this function is specified by the underlying java.time library function:
+ * <a href="https://docs.oracle.com/javase/8/docs/api/java/time/temporal/ChronoUnit.html#between-java.time.temporal.Temporal-java.time.temporal.Temporal-">ChronoUnit.between(Temporal, Temporal)</a>
+ */
 public class BetweenFunction extends FHIRPathAbstractFunction {
     @Override
     public String getName() {

@@ -306,13 +306,13 @@ public final class FHIRPathUtil {
     }
 
     /**
-     * Indicates whether the collection of nodes evaluates to a boolean per:
+     * Indicates whether the input collection evaluates to a boolean value per:
      * <a href="http://hl7.org/fhirpath/N1/index.html#singleton-evaluation-of-collections">Singleton Evaluation of Collections</a>
      *
      * @param nodes
-     *    the collection of nodes
+     *    the input collection
      * @return
-     *    true if the collection of nodes evaluates to a boolean, false otherwise
+     *    true if the input collection evaluates to a boolean value, false otherwise
      */
     public static boolean evaluatesToTrue(Collection<FHIRPathNode> nodes) {
         if (convertsToBoolean(nodes)) {
@@ -321,14 +321,39 @@ public final class FHIRPathUtil {
         return isSingleton(nodes);
     }
 
+    /**
+     * Indicates whether {@link FHIRPathUtil#convertsToBoolean} returns a true value for the input collection
+     *
+     * @param nodes
+     *     the input collection
+     * @return
+     *     true iff {@link FHIRPathUtil#convertsToBoolean} returns a true value for the input collection, false otherwise
+     */
     public static boolean isTrue(Collection<FHIRPathNode> nodes) {
         return convertsToBoolean(nodes) && toBoolean(nodes) == true;
     }
 
+    /**
+     * Indicates whether {@link FHIRPathUtil#convertsToBoolean} returns a false value for the input collection
+     *
+     * @param nodes
+     *     the input collection
+     * @return
+     *     true iff {@link FHIRPathUtil#convertsToBoolean} returns a false value for the input collection, false otherwise
+     */
     public static boolean isFalse(Collection<FHIRPathNode> nodes) {
         return convertsToBoolean(nodes) && toBoolean(nodes) == false;
     }
 
+    /**
+     * Indicates whether the input collection can be implicitly or explicitly converted to a boolean value per:
+     * <a href="http://hl7.org/fhirpath/N1/index.html#boolean-conversion-functions">Boolean Conversion Functions</a>
+     *
+     * @param nodes
+     *     the input collection
+     * @return
+     *     true if the input collection can be explicitly or implicitly converted to a boolean value, false otherwise
+     */
     public static boolean convertsToBoolean(Collection<FHIRPathNode> nodes) {
         if (hasBooleanValue(nodes)) {
             return true;
