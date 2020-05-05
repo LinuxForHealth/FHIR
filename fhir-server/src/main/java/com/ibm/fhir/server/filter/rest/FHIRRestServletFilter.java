@@ -139,7 +139,7 @@ public class FHIRRestServletFilter extends HttpFilter {
                 if (type != null) {
                     // Based on the default for the database type, the code.
                     Boolean enabled =
-                            FHIRConfigHelper.getBooleanProperty("multitenant",
+                            dsPG.getBooleanProperty("multitenant",
                                     FHIRConfiguration.DATASTORE_MULTITENANT_DEFAULT.contains(type));
                     context.setDataStoreMultiTenant(enabled);
                 }
