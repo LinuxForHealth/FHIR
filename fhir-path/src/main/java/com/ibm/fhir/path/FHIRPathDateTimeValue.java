@@ -32,14 +32,14 @@ import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
  * A {@link FHIRPathTemporalValue} node that wraps a {@link TemporalAccessor} date/time value
  */
 public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRPathTemporalValue {
-    private static final DateTimeFormatter DATE_TIME_PARSER_FORMATTER = new DateTimeFormatterBuilder()
+    public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder()
             .appendPattern("yyyy")
             .optionalStart()
                 .appendPattern("-MM")
                 .optionalStart()
                     .appendPattern("-dd")
                 .optionalEnd()
-            .optionalEnd()            
+            .optionalEnd()
             .appendLiteral("T")
             .optionalStart()
                 .appendPattern("HH")
@@ -60,73 +60,78 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
             .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
             .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
             .toFormatter();
-    
+
     private final TemporalAccessor dateTime;
     private final TimePrecision timePrecision;
     private final Temporal temporal;
-    
+
     protected FHIRPathDateTimeValue(Builder builder) {
         super(builder);
         dateTime = builder.dateTime;
         timePrecision = builder.timePrecision;
         temporal = getTemporal(dateTime);
     }
-    
+
     @Override
     public boolean isDateTimeValue() {
         return true;
     }
-    
+
     /**
      * Indicates whether the date/time value wrapped by this FHIRPathDateTimeValue node is partial
-     * 
+     *
      * @return
      *     true if the date/time value wrapped by this FHIRPathDateTimeValue node is partial, otherwise false
      */
     public boolean isPartial() {
         return !(dateTime instanceof ZonedDateTime);
     }
-    
+
     @Override
     public TemporalAccessor temporalAccessor() {
         return dateTime;
     }
-    
+
     /**
      * The date/time value wrapped by this FHIRPathDateTimeValue node
-     * 
+     *
      * @return
      *     the date/time value wrapped by this FHIRPathDateTimeValue node
      */
     public TemporalAccessor dateTime() {
         return dateTime;
     }
-    
+
     @Override
     public TimePrecision timePrecision() {
         return timePrecision;
     }
-    
+
     @Override
     public Temporal temporal() {
         return temporal;
     }
-    
+
     /**
      * Static factory method for creating FHIRPathDateTimeValue instances from a {@link String} value
-     * 
+     *
      * @param text
      *     the {@link String} value that is parsed into a {@link TemporalAccessor} date/time
      * @return
      *     a new FHIRPathDateTimeValue instance
      */
     public static FHIRPathDateTimeValue dateTimeValue(String text) {
-        return FHIRPathDateTimeValue.builder(DATE_TIME_PARSER_FORMATTER.parseBest(text, ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from), getTimePrecision(text)).build();
+//      return FHIRPathDateTimeValue.builder(PARSER_FORMATTER.parseBest(text, ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from), getTimePrecision(text)).build();
+        TemporalAccessor dateTime = text.contains("T") ?
+                PARSER_FORMATTER.parseBest(text, ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from) :
+                FHIRPathDateValue.PARSER_FORMATTER.parseBest(text, LocalDate::from, YearMonth::from, Year::from);
+        TimePrecision timePrecision = text.contains("T") ? getTimePrecision(text) : TimePrecision.NONE;
+        return FHIRPathDateTimeValue.builder(dateTime, timePrecision).build();
     }
-    
+
     /**
      * Static factory method for creating FHIRPathDateTimeValue instances from a {@link TemporalAccessor} date/time value
-     * 
+     *
      * @param dateTime
      *     the {@link TemporalAccessor} date/time value
      * @return
@@ -135,10 +140,10 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
     public static FHIRPathDateTimeValue dateTimeValue(TemporalAccessor dateTime) {
         return FHIRPathDateTimeValue.builder(dateTime, getTimePrecision(dateTime)).build();
     }
-    
+
     /**
      * Static factory method for creating named FHIRPathDateTimeValue instances from a {@link TemporalAccessor} date/time value
-     * 
+     *
      * @param name
      *     the name
      * @param dateTime
@@ -149,16 +154,16 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
     public static FHIRPathDateTimeValue dateTimeValue(String name, TemporalAccessor dateTime) {
         return FHIRPathDateTimeValue.builder(dateTime, getTimePrecision(dateTime)).name(name).build();
     }
-    
+
     @Override
     public Builder toBuilder() {
         return new Builder(type, dateTime, timePrecision);
     }
-    
+
     /**
      * Static factory method for creating builder instances from a {@link TemporalAccess} date/time value with
      * a specified time precision
-     * 
+     *
      * @param dateTime
      *     the {@link TemporalAccessor} date/time value
      * @param timePrecision
@@ -169,45 +174,45 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
     public static Builder builder(TemporalAccessor dateTime, TimePrecision timePrecision) {
         return new Builder(FHIRPathType.SYSTEM_DATE_TIME, dateTime, timePrecision);
     }
-    
+
     public static class Builder extends FHIRPathAbstractNode.Builder {
         private final TemporalAccessor dateTime;
         private final TimePrecision timePrecision;
-        
+
         private Builder(FHIRPathType type, TemporalAccessor dateTime, TimePrecision timePrecision) {
             super(type);
             this.dateTime = dateTime;
             this.timePrecision = timePrecision;
         }
-        
+
         @Override
         public Builder name(String name) {
             return (Builder) super.name(name);
         }
-        
+
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
         }
-        
+
         @Override
         public Builder value(FHIRPathSystemValue value) {
             return this;
         }
-        
+
         @Override
         public Builder children(FHIRPathNode... children) {
             return this;
         }
-        
+
         @Override
         public Builder children(Collection<FHIRPathNode> children) {
             return this;
         }
-        
+
         /**
          * Build a FHIRPathDateTimeValue instance using this builder
-         * 
+         *
          * @return
          *     a new FHIRPathDateTimeValue instance
          */
@@ -216,24 +221,22 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
             return new FHIRPathDateTimeValue(this);
         }
     }
-    
+
     @Override
     public FHIRPathDateTimeValue add(FHIRPathQuantityValue quantityValue) {
-        Temporal temporal = getTemporal(dateTime);
         TemporalAmount temporalAmount = getTemporalAmount(quantityValue);
         return dateTimeValue(getTemporalAccessor(temporal.plus(temporalAmount), dateTime.getClass()));
     }
-    
+
     @Override
     public FHIRPathDateTimeValue subtract(FHIRPathQuantityValue quantityValue) {
-        Temporal temporal = getTemporal(dateTime);
         TemporalAmount temporalAmount = getTemporalAmount(quantityValue);
         return dateTimeValue(getTemporalAccessor(temporal.minus(temporalAmount), dateTime.getClass()));
     }
-    
+
     /**
      * Indicates whether this FHIRPathDateTimeValue is comparable to the parameter
-     * 
+     *
      * @param other
      *     the other {@link FHIRPathNode}
      * @return
@@ -242,17 +245,17 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
     @Override
     public boolean isComparableTo(FHIRPathNode other) {
         if (other instanceof FHIRPathTemporalValue || other.getValue() instanceof FHIRPathTemporalValue) {
-            FHIRPathTemporalValue temporalValue = (other instanceof FHIRPathTemporalValue) ? 
+            FHIRPathTemporalValue temporalValue = (other instanceof FHIRPathTemporalValue) ?
                     (FHIRPathTemporalValue) other : (FHIRPathTemporalValue) other.getValue();
-            return dateTime.getClass().equals(temporalValue.temporalAccessor().getClass()) && 
+            return dateTime.getClass().equals(temporalValue.temporalAccessor().getClass()) &&
                     timePrecision.equals(temporalValue.timePrecision());
         }
         return false;
     }
-    
+
     /**
      * Compare the date/time value wrapped by this FHIRPathDateTimeValue node to the parameter
-     * 
+     *
      * @param other
      *     the other {@link FHIRPathNode}
      * @return
@@ -264,11 +267,11 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         if (!isComparableTo(other)) {
             throw new IllegalArgumentException();
         }
-        FHIRPathTemporalValue temporalValue = (other instanceof FHIRPathTemporalValue) ? 
-                (FHIRPathTemporalValue) other : (FHIRPathTemporalValue) other.getValue();        
+        FHIRPathTemporalValue temporalValue = (other instanceof FHIRPathTemporalValue) ?
+                (FHIRPathTemporalValue) other : (FHIRPathTemporalValue) other.getValue();
         return compareTo(temporalValue.temporalAccessor());
     }
-    
+
     private int compareTo(TemporalAccessor temporalAccessor) {
         if (dateTime instanceof Year && temporalAccessor instanceof Year) {
             return ((Year) dateTime).compareTo((Year) temporalAccessor);
@@ -284,10 +287,10 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         }
         return compareTo((ZonedDateTime) temporalAccessor);
     }
-    
+
     /**
      * Indicates whether the date/time value wrapped by this FHIRPathDateTimeValue node is equal the parameter (or its primitive value)
-     * 
+     *
      * @param obj
      *     the other {@link Object}
      * @return
@@ -308,16 +311,16 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         if (!isComparableTo(other)) {
             return false;
         }
-        FHIRPathTemporalValue temporalValue = (other instanceof FHIRPathTemporalValue) ? 
+        FHIRPathTemporalValue temporalValue = (other instanceof FHIRPathTemporalValue) ?
                 (FHIRPathTemporalValue) other : (FHIRPathTemporalValue) other.getValue();
         TemporalAccessor temporalAccessor = temporalValue.temporalAccessor();
         if (temporalAccessor instanceof ZonedDateTime) {
             return compareTo(temporalAccessor) == 0;
         } else {
             return Objects.equals(dateTime, temporalAccessor);
-        }        
+        }
     }
-    
+
     private int compareTo(ZonedDateTime other) {
         ZonedDateTime zdt = (ZonedDateTime) dateTime;
         if (zdt.isBefore(other)) {
@@ -327,17 +330,17 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
         }
         return 0;
     }
-    
+
     @Override
     public int hashCode() {
         return Objects.hashCode(dateTime);
     }
-    
+
     @Override
     public String toString() {
-        return DATE_TIME_PARSER_FORMATTER.format(dateTime);
+        return PARSER_FORMATTER.format(dateTime);
     }
-    
+
     @Override
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);

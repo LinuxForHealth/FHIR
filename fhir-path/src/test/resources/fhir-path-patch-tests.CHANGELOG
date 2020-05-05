@@ -2,3 +2,5 @@ Renamed file from "patch\fhir-path-tests.xml" to "fhir-path-patch-tests.xml" to 
 To workaround global-1 I added a Resource.id to all FHIR Resources in the file (except the "Full Resource" test case which already had one)
 I commented out the Patient.text.div replace operation in the test case Full Resource
 Replace tabs with spaces and remove trailing whitespace
+Updated testDateTimeGreaterThanDate to include explicit conversion to Date
+Updated testNow1 to include explicit conversion to Date

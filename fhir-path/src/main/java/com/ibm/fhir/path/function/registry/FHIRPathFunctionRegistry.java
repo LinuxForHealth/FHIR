@@ -1,6 +1,6 @@
 /*
- * (C) Copyright IBM Corp. 2019
- * 
+ * (C) Copyright IBM Corp. 2019, 2020
+ *
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -15,6 +15,7 @@ import com.ibm.fhir.path.function.AllFalseFunction;
 import com.ibm.fhir.path.function.AllTrueFunction;
 import com.ibm.fhir.path.function.AnyFalseFunction;
 import com.ibm.fhir.path.function.AnyTrueFunction;
+import com.ibm.fhir.path.function.BetweenFunction;
 import com.ibm.fhir.path.function.CheckModifiersFunction;
 import com.ibm.fhir.path.function.ChildrenFunction;
 import com.ibm.fhir.path.function.CombineFunction;
@@ -27,6 +28,7 @@ import com.ibm.fhir.path.function.ConvertsToDecimalFunction;
 import com.ibm.fhir.path.function.ConvertsToIntegerFunction;
 import com.ibm.fhir.path.function.ConvertsToQuantityFunction;
 import com.ibm.fhir.path.function.ConvertsToStringFunction;
+import com.ibm.fhir.path.function.ConvertsToTimeFunction;
 import com.ibm.fhir.path.function.CountFunction;
 import com.ibm.fhir.path.function.DescendantsFunction;
 import com.ibm.fhir.path.function.DistinctFunction;
@@ -64,6 +66,7 @@ import com.ibm.fhir.path.function.SubsumesFunction;
 import com.ibm.fhir.path.function.SupersetOfFunction;
 import com.ibm.fhir.path.function.TailFunction;
 import com.ibm.fhir.path.function.TakeFunction;
+import com.ibm.fhir.path.function.TimeOfDayFunction;
 import com.ibm.fhir.path.function.ToBooleanFunction;
 import com.ibm.fhir.path.function.ToCharsFunction;
 import com.ibm.fhir.path.function.ToDateFunction;
@@ -72,6 +75,7 @@ import com.ibm.fhir.path.function.ToDecimalFunction;
 import com.ibm.fhir.path.function.ToIntegerFunction;
 import com.ibm.fhir.path.function.ToQuantityFunction;
 import com.ibm.fhir.path.function.ToStringFunction;
+import com.ibm.fhir.path.function.ToTimeFunction;
 import com.ibm.fhir.path.function.TodayFunction;
 import com.ibm.fhir.path.function.TypeFunction;
 import com.ibm.fhir.path.function.UnionFunction;
@@ -80,7 +84,7 @@ import com.ibm.fhir.path.function.UpperFunction;
 public final class FHIRPathFunctionRegistry {
     private static final FHIRPathFunctionRegistry INSTANCE = new FHIRPathFunctionRegistry();
     private Map<String, FHIRPathFunction> functionMap = new ConcurrentHashMap<>();
-    
+
     private FHIRPathFunctionRegistry() {
         registerFunctions();
     }
@@ -88,24 +92,25 @@ public final class FHIRPathFunctionRegistry {
     public static FHIRPathFunctionRegistry getInstance() {
         return INSTANCE;
     }
-    
+
     public void register(FHIRPathFunction function) {
         functionMap.put(function.getName(), function);
     }
-    
+
     public FHIRPathFunction getFunction(String functionName) {
         return functionMap.get(functionName);
     }
-    
+
     public Set<String> getFunctionNames() {
         return Collections.unmodifiableSet(functionMap.keySet());
     }
-    
+
     private void registerFunctions() {
         register(new AllFalseFunction());
         register(new AllTrueFunction());
         register(new AnyFalseFunction());
         register(new AnyTrueFunction());
+        register(new BetweenFunction());
         register(new CheckModifiersFunction());
         register(new ChildrenFunction());
         register(new CombineFunction());
@@ -118,6 +123,7 @@ public final class FHIRPathFunctionRegistry {
         register(new ConvertsToIntegerFunction());
         register(new ConvertsToQuantityFunction());
         register(new ConvertsToStringFunction());
+        register(new ConvertsToTimeFunction());
         register(new CountFunction());
         register(new DescendantsFunction());
         register(new DistinctFunction());
@@ -154,6 +160,7 @@ public final class FHIRPathFunctionRegistry {
         register(new SupersetOfFunction());
         register(new TailFunction());
         register(new TakeFunction());
+        register(new TimeOfDayFunction());
         register(new ToBooleanFunction());
         register(new ToCharsFunction());
         register(new ToDateFunction());
@@ -162,6 +169,7 @@ public final class FHIRPathFunctionRegistry {
         register(new ToIntegerFunction());
         register(new ToQuantityFunction());
         register(new ToStringFunction());
+        register(new ToTimeFunction());
         register(new TodayFunction());
         register(new TypeFunction());
         register(new UnionFunction());

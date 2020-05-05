@@ -26,9 +26,9 @@ import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
 /**
  * A {@link FHIRPathTemporalValue} node that wraps a {@link LocalTime} value
  */
-public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathTemporalValue {    
-    private static final DateTimeFormatter TIME_PARSER_FORMATTER = new DateTimeFormatterBuilder()
-            .appendLiteral("T")
+public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathTemporalValue {
+    public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder()
+//          .appendLiteral("T")
             .appendPattern("HH")
             .optionalStart()
                 .appendPattern(":mm")
@@ -42,41 +42,41 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
             .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
             .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
             .toFormatter();
-    
+
     private final LocalTime time;
     private final TimePrecision timePrecision;
     private final Temporal temporal;
-    
+
     protected FHIRPathTimeValue(Builder builder) {
         super(builder);
         time = builder.time;
         timePrecision = builder.timePrecision;
         temporal = getTemporal(time);
     }
-    
+
     @Override
     public boolean isTimeValue() {
         return true;
     }
-    
+
     @Override
     public TemporalAccessor temporalAccessor() {
         return time;
     }
-    
+
     /**
      * The {@link LocalTime} value that is wrapped by this FHIRPathTimeValue
-     * 
+     *
      * @return
      *     the {@link LocalTime} value that is wrapped by this FHIRPathTimeValue
      */
     public LocalTime time() {
         return time;
     }
-    
+
     /**
      * The time precision of this FHIRPathTimeValue
-     * 
+     *
      * @return
      *     the time precision of this FHIRPathTimeValue
      */
@@ -84,39 +84,39 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
     public TimePrecision timePrecision() {
         return timePrecision;
     }
-    
+
     @Override
     public Temporal temporal() {
         return temporal;
     }
-    
+
     /**
      * Static factory method for creating FHIRPathTimeValue instances from a {@link String} value
-     * 
+     *
      * @param text
      *     the text that is parsed into a {@link LocalTime} value
      * @return
      *     a new FHIRPathTimeValue instance
      */
     public static FHIRPathTimeValue timeValue(String text) {
-        return FHIRPathTimeValue.builder(LocalTime.parse(text, TIME_PARSER_FORMATTER), getTimePrecision(text)).build();
+        return FHIRPathTimeValue.builder(LocalTime.parse(text, PARSER_FORMATTER), getTimePrecision(text)).build();
     }
-    
+
     /**
      * Static factory method for creating FHIRPathTimeValue instances from a {@link LocalTime} value
-     * 
+     *
      * @param time
      *     the {@link LocalTime} value
      * @return
      *     a new FHIRPathTimeValue instance
      */
-    private static FHIRPathTimeValue timeValue(LocalTime time) {
+    public static FHIRPathTimeValue timeValue(LocalTime time) {
         return FHIRPathTimeValue.builder(time, getTimePrecision(time)).build();
     }
-    
+
     /**
      * Static factory method for creating named FHIRPathTimeValue instances from a {@link LocalTime} value
-     * 
+     *
      * @param name
      *     the name
      * @param time
@@ -127,15 +127,15 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
     public static FHIRPathTimeValue timeValue(String name, LocalTime time) {
         return FHIRPathTimeValue.builder(time, getTimePrecision(time)).name(name).build();
     }
-    
+
     @Override
     public Builder toBuilder() {
         return new Builder(type, time, timePrecision);
     }
-    
+
     /**
      * Static factory method for creating builder instances from a {@link LocalTime} value and a {@link TimePrecision}
-     * 
+     *
      * @param time
      *     the {@link LocalTime} value
      * @return
@@ -144,45 +144,45 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
     public static Builder builder(LocalTime time, TimePrecision timePrecision) {
         return new Builder(FHIRPathType.SYSTEM_TIME, time, timePrecision);
     }
-    
+
     public static class Builder extends FHIRPathAbstractNode.Builder {
         private final LocalTime time;
         private final TimePrecision timePrecision;
-        
+
         private Builder(FHIRPathType type, LocalTime time, TimePrecision timePrecision) {
             super(type);
             this.time = time;
             this.timePrecision = timePrecision;
         }
-        
+
         @Override
         public Builder name(String name) {
             return (Builder) super.name(name);
         }
-        
+
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
         }
-        
+
         @Override
         public Builder value(FHIRPathSystemValue value) {
             return this;
         }
-        
+
         @Override
         public Builder children(FHIRPathNode... children) {
             return this;
         }
-        
+
         @Override
         public Builder children(Collection<FHIRPathNode> children) {
             return this;
         }
-        
+
         /**
          * Build a FHIRPathTimeValue instance using this builder
-         * 
+         *
          * @return
          *     a new FHIRPathTimeValue instance
          */
@@ -191,24 +191,22 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
             return new FHIRPathTimeValue(this);
         }
     }
-    
+
     @Override
     public FHIRPathTimeValue add(FHIRPathQuantityValue quantityValue) {
-        Temporal temporal = getTemporal(time);
         TemporalAmount temporalAmount = getTemporalAmount(quantityValue);
         return timeValue(LocalTime.from(temporal.plus(temporalAmount)));
     }
-    
+
     @Override
     public FHIRPathTimeValue subtract(FHIRPathQuantityValue quantityValue) {
-        Temporal temporal = getTemporal(time);
         TemporalAmount temporalAmount = getTemporalAmount(quantityValue);
         return timeValue(LocalTime.from(temporal.minus(temporalAmount)));
     }
-    
+
     /**
      * Indicates whether this FHIRPathTimeValue is comparable to the parameter
-     * 
+     *
      * @param other
      *     the other {@link FHIRPathNode}
      * @return
@@ -218,15 +216,15 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
     public boolean isComparableTo(FHIRPathNode other) {
         if (other instanceof FHIRPathTimeValue || other.getValue() instanceof FHIRPathTimeValue) {
             FHIRPathTimeValue timeValue = (other instanceof FHIRPathTimeValue) ? (FHIRPathTimeValue) other : (FHIRPathTimeValue) other.getValue();
-            return time.getClass().equals(timeValue.time().getClass()) && 
+            return time.getClass().equals(timeValue.time().getClass()) &&
                     timePrecision.equals(timeValue.timePrecision());
         }
         return false;
     }
-    
+
     /**
      * Compare the {@link LocalTime} value wrapped by this FHIRPathTimeValue node to the parameter
-     * 
+     *
      * @param other
      *     the other {@link FHIRPathNode}
      * @return
@@ -241,10 +239,10 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
         FHIRPathTimeValue timeValue = (other instanceof FHIRPathTimeValue) ? (FHIRPathTimeValue) other : (FHIRPathTimeValue) other.getValue();
         return time.compareTo(timeValue.time());
     }
-    
+
     /**
      * Indicates whether the {@link LocalTime} value wrapped by this FHIRPathTimeValue node is equal the parameter (or its primitive value)
-     * 
+     *
      * @param obj
      *     the other {@link Object}
      * @return
@@ -268,17 +266,17 @@ public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathT
         FHIRPathTimeValue timeValue = (other instanceof FHIRPathTimeValue) ? (FHIRPathTimeValue) other : (FHIRPathTimeValue) other.getValue();
         return Objects.equals(time, timeValue.time());
     }
-    
+
     @Override
     public int hashCode() {
         return Objects.hashCode(time);
     }
-    
+
     @Override
     public String toString() {
-        return TIME_PARSER_FORMATTER.format(time);
+        return PARSER_FORMATTER.format(time);
     }
-    
+
     @Override
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);
