@@ -28,7 +28,6 @@ import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
  */
 public class FHIRPathTimeValue extends FHIRPathAbstractNode implements FHIRPathTemporalValue {
     public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder()
-//          .appendLiteral("T")
             .appendPattern("HH")
             .optionalStart()
                 .appendPattern(":mm")

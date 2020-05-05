@@ -1091,7 +1091,6 @@ public class FHIRPathEvaluator {
         @Override
         public Collection<FHIRPathNode> visitTimeLiteral(FHIRPathParser.TimeLiteralContext ctx) {
             debug(ctx);
-//          return singleton(timeValue(ctx.getText().substring(1)));
             return singleton(timeValue(ctx.getText().substring(2)));
         }
 

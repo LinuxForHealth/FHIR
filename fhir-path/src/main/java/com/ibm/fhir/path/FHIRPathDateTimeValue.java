@@ -121,7 +121,6 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractNode implements FHIRP
      *     a new FHIRPathDateTimeValue instance
      */
     public static FHIRPathDateTimeValue dateTimeValue(String text) {
-//      return FHIRPathDateTimeValue.builder(PARSER_FORMATTER.parseBest(text, ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from), getTimePrecision(text)).build();
         TemporalAccessor dateTime = text.contains("T") ?
                 PARSER_FORMATTER.parseBest(text, ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from) :
                 FHIRPathDateValue.PARSER_FORMATTER.parseBest(text, LocalDate::from, YearMonth::from, Year::from);

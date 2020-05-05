@@ -694,10 +694,9 @@ public final class FHIRPathUtil {
     public enum TimePrecision { HOURS, MINUTES, SECONDS, NONE };
 
     public static TimePrecision getTimePrecision(String text) {
-        if (text == null || text.endsWith("T")/* || !text.contains("T") */) {
+        if (text == null || text.endsWith("T")) {
             return TimePrecision.NONE;
         }
-//      String time = text.substring(text.indexOf("T") + 1);
         String time = text.contains("T") ? text.substring(text.indexOf("T") + 1) : text;
         if (time.contains("+")) {
             time = time.substring(0, time.indexOf("+"));
