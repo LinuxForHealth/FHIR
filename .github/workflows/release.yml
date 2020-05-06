@@ -71,5 +71,5 @@ jobs:
       if: success()
       uses: actions/upload-artifact@master
       with:
-        name: fhir-server-distribution.zip
+        name: fhir-server-distribution
         path: fhir-install/target/fhir-server-distribution.zip
