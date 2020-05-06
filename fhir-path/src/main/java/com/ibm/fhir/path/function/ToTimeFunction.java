@@ -1,15 +1,15 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.path.function;
 
-import static com.ibm.fhir.path.util.FHIRPathUtil.convertsToDateTime;
+import static com.ibm.fhir.path.util.FHIRPathUtil.convertsToTime;
 import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
-import static com.ibm.fhir.path.util.FHIRPathUtil.toDateTime;
+import static com.ibm.fhir.path.util.FHIRPathUtil.toTime;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,10 +17,10 @@ import java.util.List;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
-public class ToDateTimeFunction extends FHIRPathAbstractFunction {
+public class ToTimeFunction extends FHIRPathAbstractFunction {
     @Override
     public String getName() {
-        return "toDateTime";
+        return "toTime";
     }
 
     @Override
@@ -35,9 +35,9 @@ public class ToDateTimeFunction extends FHIRPathAbstractFunction {
 
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        if (!convertsToDateTime(context)) {
+        if (!convertsToTime(context)) {
             return empty();
         }
-        return singleton(toDateTime(context));
+        return singleton(toTime(context));
     }
 }
