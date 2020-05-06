@@ -6,13 +6,15 @@
 
 package com.ibm.fhir.persistence.jdbc.postgresql;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.Types;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.CodeSystemDAOImpl;
+import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBCleanupException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
@@ -21,84 +23,95 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
  *
  */
 public class PostgreSqlCodeSystemDAO extends CodeSystemDAOImpl {
-    private final FhirRefSequenceDAO fhirRefSequenceDAO;
+    private static final Logger log = Logger.getLogger(PostgreSqlCodeSystemDAO.class.getName());
+    private static final String CLASSNAME = PostgreSqlCodeSystemDAO.class.getName();
+    private static final String SQL_CALL_ADD_CODE_SYSTEM_ID = "{CALL %s.add_code_system(?, ?)}";
 
     /**
      * Public constructor
      * @param c
      * @param fsd
      */
-    public PostgreSqlCodeSystemDAO(Connection c, FhirRefSequenceDAO fsd) {
+    public PostgreSqlCodeSystemDAO(Connection c) {
         super(c);
-        this.fhirRefSequenceDAO = fsd;
-    }
-
-    @Override
-    public int readOrAddCodeSystem(String codeSystem) throws FHIRPersistenceDataAccessException   {
-        // As the system is concurrent, we have to handle cases where another thread
-        // might create the entry after we selected and found nothing
-        Integer result = getCodeSystemId(codeSystem);
-
-        // Create the resource if we don't have it already (set by the continue handler)
-        if (result == null) {
-            try {
-                result = fhirRefSequenceDAO.nextValue();
-
-                String INS = "INSERT INTO code_systems (code_system_id, code_system_name) VALUES (?, ?)";
-                try (PreparedStatement stmt = getConnection().prepareStatement(INS)) {
-                    // bind parameters
-                    stmt.setInt(1, result);
-                    stmt.setString(2, codeSystem);
-                    stmt.executeUpdate();
-                }
-            }
-            catch (SQLException e) {
-                if ("23505".equals(e.getSQLState())) {
-                    // another thread snuck in and created the record, so we need to fetch the correct id
-                    result = getCodeSystemId(codeSystem);
-
-                    if (result == null) {
-                        // This would be truly weird, but we protect against it anyway
-                        throw new IllegalStateException("No code system returned after duplicate found!");
-                    }
-                }
-                else {
-                    throw new FHIRPersistenceDataAccessException("codeSystem=" + codeSystem, e);
-                }
-            }
-
-        }
-
-        // There's no way result can be null here, so we're OK returning an int
-        return result;
     }
 
     /**
-     * Read the id for the named type
-     * @param codeSystem
-     * @return the database id, or null if the named record is not found
+     * Calls a stored procedure to read the system contained in the passed Parameter in the Code_Systems table.
+     * If it's not in the DB, it will be stored and a unique id will be returned.
+     * @param systemName
+     *
+     * @return The generated id of the stored system.
      * @throws FHIRPersistenceDataAccessException
      */
-    protected Integer getCodeSystemId(String codeSystem) throws FHIRPersistenceDataAccessException {
-        Integer result;
+    @Override
+    public int readOrAddCodeSystem(String systemName) throws FHIRPersistenceDataAccessException   {
+        final String METHODNAME = "readOrAddCodeSystem";
+        log.entering(CLASSNAME, METHODNAME);
 
-        String sql1 = "SELECT code_system_id FROM code_systems WHERE code_system_name = ?";
+        int systemId;
+        String currentSchema;
+        String stmtString;
+        String errMsg = "Failure storing code system id: name=" + systemName;
+        long dbCallStartTime;
+        double dbCallDuration;
 
-        try (PreparedStatement stmt = getConnection().prepareStatement(sql1)) {
-            stmt.setString(1, codeSystem);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                result = rs.getInt(1);
-            }
-            else {
-                result = null;
+        try {
+            currentSchema = getConnection().getSchema().trim();
+            stmtString = String.format(SQL_CALL_ADD_CODE_SYSTEM_ID, currentSchema);
+            try (CallableStatement stmt = getConnection().prepareCall(stmtString)) {
+                stmt.setString(1, systemName);
+                stmt.registerOutParameter(2, Types.INTEGER);
+                dbCallStartTime = System.nanoTime();
+                stmt.execute();
+                dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+                if (log.isLoggable(Level.FINE)) {
+                        log.fine("DB read code system id complete. executionTime=" + dbCallDuration + "ms");
+                }
+                systemId = stmt.getInt(2);
             }
         }
-        catch (SQLException e) {
-            throw new FHIRPersistenceDataAccessException("codeSystem=" + codeSystem, e);
+        catch (Throwable e) {
+            throw new FHIRPersistenceDataAccessException(errMsg,e);
         }
-
-        return result;
+        finally {
+            this.cleanup(null, getConnection());
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return systemId;
     }
+
+    /**
+     * Closes the passed PreparedStatement and Connection objects.
+     * @param stmt
+     * @param connection
+     */
+    protected void cleanup(PreparedStatement stmt, Connection connection)  {
+        final String METHODNAME = "cleanup(PreparedStatement, Connection)";
+        log.entering(CLASSNAME, METHODNAME);
+
+        FHIRPersistenceDBCleanupException ce;
+
+        if (stmt != null) {
+            try {
+                stmt.close();
+            }
+            catch (Throwable e) {
+                ce =  new FHIRPersistenceDBCleanupException("Failure closing PreparedStatement.",e);
+                log.log(Level.SEVERE, ce.getMessage(), ce);
+            }
+        }
+        if(connection != null && this.getConnection() == null) {
+            try {
+                connection.close();
+            }
+            catch (Throwable e) {
+                ce =  new FHIRPersistenceDBCleanupException("Failure closing Connection.",e);
+                log.log(Level.SEVERE, ce.getMessage(), ce);
+            }
+        }
+        log.exiting(CLASSNAME, METHODNAME);
+    }
+
 
 }

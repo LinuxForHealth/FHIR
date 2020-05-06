@@ -52,6 +52,7 @@ import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DatabaseObjectType;
+import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
@@ -71,7 +72,6 @@ import com.ibm.fhir.schema.control.GetResourceTypeList;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
-import com.ibm.fhir.schema.model.DbType;
 import com.ibm.fhir.schema.model.ResourceType;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
@@ -180,7 +180,8 @@ public class Main {
                     DataDefinitionUtil.assertValidName(args[i]);
 
                     // Force upper-case to avoid tricky-to-catch errors related to quoting names
-                    this.schemaName = args[i].toUpperCase();
+                    //this.schemaName = args[i].toUpperCase();
+                    this.schemaName = args[i];
 
                     if (!schemaName.equals(args[i])) {
                         logger.info("Schema name forced to upper case: " + schemaName);
@@ -638,7 +639,7 @@ public class Main {
      * into the FHIR resource tables
      */
     protected void updateProcedures() {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) || DbType.POSTGRESQL == dbType) {
             return;
         }
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
@@ -651,7 +652,12 @@ public class Main {
             try (Connection c = createConnection()) {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
-                    Db2Adapter adapter = new Db2Adapter(target);
+                    IDatabaseAdapter adapter;
+                    if (dbType == DbType.POSTGRESQL) {
+                        adapter = new PostgreSqlAdapter(target);
+                    } else {
+                        adapter = new Db2Adapter(target);
+                    }
                     pdm.applyProcedures(adapter);
                 } catch (Exception x) {
                     c.rollback();

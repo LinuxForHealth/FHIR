@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
 import com.ibm.fhir.database.utils.model.NopObject;
@@ -109,7 +110,7 @@ public class AdminSchemaGenerator {
         model.addProcedure(this.adminSchemaName, SET_TENANT, 2,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName,
                         SET_TENANT.toLowerCase() + ".sql", null),
-                Arrays.asList(allTablesComplete), procedurePrivileges);
+                Arrays.asList(allTablesComplete), procedurePrivileges, DbType.DB2);
 
     }
 
@@ -175,7 +176,7 @@ public class AdminSchemaGenerator {
          START WITH 1
               CACHE 1000
            NO CYCLE;
-     * 
+     *
      * @param pdm
      */
     protected void addTenantSequence(PhysicalDataModel pdm) {

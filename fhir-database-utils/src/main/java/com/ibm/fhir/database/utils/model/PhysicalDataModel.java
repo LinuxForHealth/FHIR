@@ -140,9 +140,13 @@ public class PhysicalDataModel implements IDataModel {
     public void applyProcedures(IDatabaseAdapter target) {
         int total = procedures.size();
         int count = 1;
-        for (IDatabaseObject obj: procedures) {
-            logger.fine(String.format("Applying [%d/%d] %s", count++, total, obj.toString()));
-            obj.apply(target);
+        for (ProcedureDef obj: procedures) {
+            String driveClassName = target.getTranslator().getDriverClassName();
+            // Only apply DB Type specific store procedures.
+            if (driveClassName.contains(obj.getDbType().value())) {
+                logger.fine(String.format("Applying [%d/%d] %s", count++, total, obj.toString()));
+                obj.apply(target);
+            }
         }
     }
 
@@ -247,8 +251,8 @@ public class PhysicalDataModel implements IDataModel {
      * @return
      */
     public ProcedureDef addProcedure(String schemaName, String objectName, int version, Supplier<String> templateProvider,
-            Collection<IDatabaseObject> dependencies, Collection<GroupPrivilege> privileges) {
-        ProcedureDef proc = new ProcedureDef(schemaName, objectName, version, templateProvider);
+            Collection<IDatabaseObject> dependencies, Collection<GroupPrivilege> privileges, DbType dbType) {
+        ProcedureDef proc = new ProcedureDef(schemaName, objectName, version, templateProvider, dbType);
         privileges.forEach(p -> p.addToObject(proc));
 
         if (dependencies != null) {

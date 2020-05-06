@@ -150,7 +150,22 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
-        warnOnce(MessageKey.CREATE_PROC, "Create procedure not supported in PostgreSql");
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
+        logger.info("Create or replace procedure " + objectName);
+
+        // Build the create procedure DDL and apply it
+        final StringBuilder ddl = new StringBuilder();
+        ddl.append("CREATE OR REPLACE FUNCTION ");
+        ddl.append(objectName);
+        ddl.append(System.lineSeparator());
+        ddl.append(supplier.get());
+
+        final String ddlString = ddl.toString();
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(ddlString);
+        }
+
+        runStatement(ddlString);
     }
 
     @Override
