@@ -23,6 +23,7 @@ import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
@@ -716,40 +717,60 @@ public final class FHIRPathUtil {
         }
     }
 
-    public enum TimePrecision { HOURS, MINUTES, SECONDS, NONE };
-
-    public static TimePrecision getTimePrecision(String text) {
-        if (text == null || text.endsWith("T")) {
-            return TimePrecision.NONE;
-        }
-        String time = text.contains("T") ? text.substring(text.indexOf("T") + 1) : text;
-        if (time.contains("+")) {
-            time = time.substring(0, time.indexOf("+"));
-        } else if (time.contains("-")) {
-            time = time.substring(0, time.indexOf("-"));
-        } else if (time.endsWith("Z")) {
-            time = time.substring(0, time.length() - 1);
-        }
-        int count = count(text, ':');
-        switch (count) {
-        case 0:
-            return TimePrecision.HOURS;
-        case 1:
-            return TimePrecision.MINUTES;
-        case 2:
-            return TimePrecision.SECONDS;
-        default:
-            return TimePrecision.NONE;
-        }
+    public static ChronoField getPrecision(TemporalAccessor temporalAccessor) {
+        return getPrecision(temporalAccessor, null);
     }
 
-    public static TimePrecision getTimePrecision(TemporalAccessor temporalAccessor) {
-        if (temporalAccessor instanceof ZonedDateTime ||
-                temporalAccessor instanceof LocalDateTime ||
-                temporalAccessor instanceof LocalTime) {
-            return TimePrecision.SECONDS;
+    public static ChronoField getPrecision(TemporalAccessor temporalAccessor, String text) {
+        if (temporalAccessor instanceof Year) {
+            return ChronoField.YEAR;
         }
-        return TimePrecision.NONE;
+
+        if (temporalAccessor instanceof YearMonth) {
+            return ChronoField.MONTH_OF_YEAR;
+        }
+
+        if (temporalAccessor instanceof LocalDate) {
+            return ChronoField.DAY_OF_MONTH;
+        }
+
+        if (temporalAccessor instanceof LocalDateTime ||
+                temporalAccessor instanceof ZonedDateTime ||
+                temporalAccessor instanceof LocalTime) {
+            if (text != null) {
+                return getPrecision(text);
+            }
+
+            return (temporalAccessor instanceof ZonedDateTime) ?
+                    ChronoField.OFFSET_SECONDS : ChronoField.MICRO_OF_SECOND;
+        }
+
+        throw new IllegalArgumentException();
+    }
+
+    private static ChronoField getPrecision(String text) {
+        if (text.endsWith("T")) {
+            return ChronoField.DAY_OF_YEAR;
+        }
+
+        String time = text.contains("T") ? text.substring(text.indexOf("T") + 1) : text;
+
+        if (time.contains("+") || time.contains("-") || time.endsWith("Z")) {
+            return ChronoField.OFFSET_SECONDS;
+        }
+
+        int count = count(time, ':');
+
+        switch (count) {
+        case 0:
+            return ChronoField.HOUR_OF_DAY;
+        case 1:
+            return ChronoField.MINUTE_OF_HOUR;
+        case 2:
+            return ChronoField.MICRO_OF_SECOND;
+        }
+
+        throw new IllegalArgumentException(text);
     }
 
     private static int count(String text, char ch) {
@@ -766,16 +787,20 @@ public final class FHIRPathUtil {
         if (left.size() != right.size()) {
             throw new IllegalArgumentException();
         }
+
         Iterator<FHIRPathNode> leftIterator = left.iterator();
         Iterator<FHIRPathNode> rightIterator = right.iterator();
+
         while (leftIterator.hasNext() && rightIterator.hasNext()) {
             FHIRPathNode leftNode = leftIterator.next();
             FHIRPathNode rightNode = rightIterator.next();
+
             if (hasTemporalValue(leftNode) && hasTemporalValue(rightNode) &&
-                    !getTemporalValue(leftNode).isComparableTo(getTemporalValue(rightNode))) {
+                    !getTemporalValue(leftNode).precision().equals(getTemporalValue(rightNode).precision())) {
                 return false;
             }
         }
+
         return true;
     }
 
