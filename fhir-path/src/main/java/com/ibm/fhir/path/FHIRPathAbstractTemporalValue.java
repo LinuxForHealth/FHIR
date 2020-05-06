@@ -68,6 +68,9 @@ public abstract class FHIRPathAbstractTemporalValue extends FHIRPathAbstractNode
     }
 
     @Override
+    public abstract boolean isPartial();
+
+    @Override
     public abstract FHIRPathTemporalValue add(FHIRPathQuantityValue quantityValue);
 
     @Override
