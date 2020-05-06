@@ -67,3 +67,9 @@ jobs:
       with:
         name: release-tag-${{ matrix.java }}
         path: release-and-coverage-and-logs.tgz
+    - name: Upload Artifacts - Distribution
+      if: success()
+      uses: actions/upload-artifact@master
+      with:
+        name: fhir-server-distribution.zip
+        path: fhir-install/target/fhir-server-distribution.zip
