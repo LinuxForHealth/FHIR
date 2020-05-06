@@ -23,8 +23,10 @@ import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.database.utils.api.BadTenantFrozenException;
 import com.ibm.fhir.database.utils.api.BadTenantKeyException;
 import com.ibm.fhir.database.utils.api.BadTenantNameException;
@@ -53,6 +55,9 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
     private static final Logger log = Logger.getLogger(FHIRDbDAOImpl.class.getName());
     private static final String CLASSNAME = FHIRDbDAOImpl.class.getName();
     private static final String NEWLINE = System.getProperty("line.separator");
+
+    // Used to indicate the default behavior of a datastore as multitenant.
+    public static final List<String> DATASTORE_REQUIRES_ROW_PERMISSIONS = Arrays.asList("db2");
 
     private static DataSource fhirDb = null;
     private static String datasourceJndiName = null;
@@ -200,37 +205,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                 }
             }
 
-            // For the multi-tenant feature, configure the connection for the tenant by setting the sv_tenant_id.
-            String tenantName = FHIRRequestContext.get().getTenantId();
-            String tenantKey = FHIRRequestContext.get().getTenantKey();
-            boolean multiTenantFeature = FHIRRequestContext.get().isDataStoreMultiTenant();
-            if (multiTenantFeature) {
-                if (Objects.isNull(tenantKey)) {
-                    // Should have been set.
-                    throw buildFHIRPersistenceDBConnectException("MISSING TENANT KEY [" + tenantName + "]",
-                            IssueType.EXCEPTION);
-                }
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine("Setting tenant access on connection for: [" + tenantName + "]");
-                }
-
-                // At this point, tenantName and tenantKey should be non-null.
-                Db2SetTenantVariable cmd = new Db2SetTenantVariable("FHIR_ADMIN", tenantName, tenantKey);
-                JdbcTarget target = new JdbcTarget(connection);
-                Db2Adapter adapter = new Db2Adapter(target);
-                try {
-                    adapter.runStatement(cmd);
-                } catch (BadTenantKeyException x) {
-                    throw buildFHIRPersistenceDBConnectException("MISSING OR INVALID TENANT KEY [" + tenantName + "]",
-                            IssueType.EXCEPTION);
-                } catch (BadTenantNameException x) {
-                    throw buildFHIRPersistenceDBConnectException("MISSING OR INVALID TENANT NAME [" + tenantName + "]",
-                            IssueType.EXCEPTION);
-                } catch (BadTenantFrozenException x) {
-                    throw buildFHIRPersistenceDBConnectException("TENANT FROZEN [" + tenantName + "]",
-                            IssueType.EXCEPTION);
-                }
-            }
+            executeRowAccessFeature(connection);
 
             return connection;
         } catch (FHIRPersistenceDBConnectException e) {
@@ -243,6 +218,67 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         } finally {
             if (log.isLoggable(Level.FINEST)) {
                 log.exiting(CLASSNAME, METHODNAME);
+            }
+        }
+    }
+
+    /**
+     * this feature is executes row access control
+     * 
+     * @param connection
+     * @throws Exception
+     */
+    public void executeRowAccessFeature(Connection connection) throws Exception {
+        // For the multi-tenant feature, configure the connection for the tenant by setting the sv_tenant_id.
+        String tenantName = FHIRRequestContext.get().getTenantId();
+        String tenantKey = null;
+        String dsId = FHIRRequestContext.get().getDataStoreId();
+        boolean multiTenantFeature = false;
+
+        // Retrieve the property group pertaining to the specified datastore.
+        // Find and set the tenantKey for the request, otherwise subsequent pulls from the pool
+        // miss the tenantKey.
+        String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId;
+        PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+        if (dsPG != null) {
+            tenantKey = dsPG.getStringProperty("tenantKey", null);
+            if (log.isLoggable(Level.FINE)) {
+                log.finer("tenantKey is null? = [" + Objects.isNull(tenantKey) + "]");
+            }
+
+            // Specific to Db2 right now, we want to switch behavior if multitenant row level permission is required.
+            String type = dsPG.getStringProperty("type", null);
+            if (type != null) {
+                // Based on the default for the database type, the code.
+                multiTenantFeature =
+                        dsPG.getBooleanProperty("multitenant", DATASTORE_REQUIRES_ROW_PERMISSIONS.contains(type));
+            }
+        }
+
+        if (multiTenantFeature) {
+            if (Objects.isNull(tenantKey)) {
+                // Should have been set.
+                throw buildFHIRPersistenceDBConnectException("MISSING TENANT KEY [" + tenantName + "]",
+                        IssueType.EXCEPTION);
+            }
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Setting tenant access on connection for: [" + tenantName + "]");
+            }
+
+            // At this point, tenantName and tenantKey should be non-null.
+            Db2SetTenantVariable cmd = new Db2SetTenantVariable("FHIR_ADMIN", tenantName, tenantKey);
+            JdbcTarget target = new JdbcTarget(connection);
+            Db2Adapter adapter = new Db2Adapter(target);
+            try {
+                adapter.runStatement(cmd);
+            } catch (BadTenantKeyException x) {
+                throw buildFHIRPersistenceDBConnectException("MISSING OR INVALID TENANT KEY [" + tenantName + "]",
+                        IssueType.EXCEPTION);
+            } catch (BadTenantNameException x) {
+                throw buildFHIRPersistenceDBConnectException("MISSING OR INVALID TENANT NAME [" + tenantName + "]",
+                        IssueType.EXCEPTION);
+            } catch (BadTenantFrozenException x) {
+                throw buildFHIRPersistenceDBConnectException("TENANT FROZEN [" + tenantName + "]", IssueType.EXCEPTION);
             }
         }
     }
