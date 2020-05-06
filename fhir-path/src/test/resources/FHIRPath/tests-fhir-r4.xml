@@ -255,7 +255,7 @@
 		<test name="testDateNotEqualTimeSecond" inputfile="patient-example.xml"><expression>Patient.birthDate != @T12:14:15</expression></test>
 		<test name="testDateNotEqualTimeMinute" inputfile="patient-example.xml"><expression>Patient.birthDate != @T12:14</expression></test>
 		<test name="testDateNotEqualToday" inputfile="patient-example.xml"><expression>Patient.birthDate &lt; today()</expression><output type="boolean">true</output></test>
-		<test name="testDateTimeGreaterThanDate" inputfile="patient-example.xml"><expression>now().toDate() &gt; Patient.birthDate</expression><output type="boolean">true</output></test>
+		<test name="testDateTimeGreaterThanDate" inputfile="patient-example.xml"><expression>now() &gt; Patient.birthDate</expression><output type="boolean">true</output></test>
 
 		<test name="testLiteralDateTimeTZGreater" inputfile="patient-example.xml"><expression>@2017-11-05T01:30:00.0-04:00 > @2017-11-05T01:15:00.0-05:00</expression><output type="boolean">false</output></test>
 		<test name="testLiteralDateTimeTZLess" inputfile="patient-example.xml"><expression>@2017-11-05T01:30:00.0-04:00 &lt; @2017-11-05T01:15:00.0-05:00</expression><output type="boolean">true</output></test>
@@ -635,7 +635,7 @@
 	</group>
 
 	<group name="testNow">
-		<test name="testNow1" inputfile="patient-example.xml"><expression>Patient.birthDate &lt; now().toDate()</expression><output type="boolean">true</output></test>
+		<test name="testNow1" inputfile="patient-example.xml"><expression>Patient.birthDate &lt; now()</expression><output type="boolean">true</output></test>
 		<test name="testNow2" inputfile="patient-example.xml"><expression>now().toString().length() > 10</expression><output type="boolean">true</output></test>
 	</group>
 
