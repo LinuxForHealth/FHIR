@@ -253,6 +253,8 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                 multiTenantFeature =
                         dsPG.getBooleanProperty("multitenant", DATASTORE_REQUIRES_ROW_PERMISSIONS.contains(type));
             }
+        } else {
+            log.warning("there are no datasource properties found for : [" + dsPropertyName + "]");
         }
 
         if (multiTenantFeature) {
