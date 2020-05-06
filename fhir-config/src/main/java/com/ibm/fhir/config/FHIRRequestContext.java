@@ -33,8 +33,6 @@ public class FHIRRequestContext {
     private String tenantId;
     private String tenantKey;
     private String dataStoreId;
-    // By default, setting to False.
-    private Boolean dataStoreMultiTenant = Boolean.FALSE;
     private String requestUniqueId;
     private String originalRequestUri;
     private Map<String, List<String>> httpHeaders;
@@ -219,23 +217,5 @@ public class FHIRRequestContext {
      */
     public void setHttpHeaders(Map<String, List<String>> httpHeaders) {
         this.httpHeaders = httpHeaders;
-    }
-
-    /**
-     * set the datastore multitenant feature status
-     * 
-     * @param enabled
-     */
-    public void setDataStoreMultiTenant(Boolean enabled) {
-        dataStoreMultiTenant = enabled;
-    }
-
-    /**
-     * get the status of the multitenant feature.
-     * 
-     * @return
-     */
-    public Boolean isDataStoreMultiTenant() {
-        return dataStoreMultiTenant;
     }
 }
