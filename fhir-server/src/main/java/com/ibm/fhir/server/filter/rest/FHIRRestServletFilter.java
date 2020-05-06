@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -118,6 +119,31 @@ public class FHIRRestServletFilter extends HttpFilter {
         try {
             // Create a new FHIRRequestContext and set it on the current thread.
             FHIRRequestContext context = new FHIRRequestContext(tenantId, dsId);
+
+            // Retrieve the property group pertaining to the specified datastore.
+            // Find and set the tenantKey for the request, otherwise subsequent pulls from the pool 
+            // miss the tenantKey.
+            String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId;
+            PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+            if (dsPG != null) {
+                String tenantKey = dsPG.getStringProperty("tenantKey", null);
+                if (log.isLoggable(Level.FINE)) {
+                    log.finer("tenantKey is null? = [" + Objects.isNull(tenantKey) + "]");
+                }
+
+                if (tenantKey != null) {
+                    context.setTenantKey(tenantKey);
+                }
+
+                String type = dsPG.getStringProperty("type", null);
+                if (type != null) {
+                    // Based on the default for the database type, the code.
+                    Boolean enabled =
+                            dsPG.getBooleanProperty("multitenant",
+                                    FHIRConfiguration.DATASTORE_MULTITENANT_DEFAULT.contains(type));
+                    context.setDataStoreMultiTenant(enabled);
+                }
+            }
             FHIRRequestContext.set(context);
 
             context.setOriginalRequestUri(originalRequestUri);

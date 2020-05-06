@@ -7,6 +7,8 @@
 package com.ibm.fhir.schema.derby;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -68,7 +70,8 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         gen.buildProcedures(pdm);
 
         // apply the model we've defined to the new Derby database
-        derby.createSchema(createVersionHistoryService(), pdm);
+        VersionHistoryService vhs = createVersionHistoryService();
+        derby.createSchema(vhs, pdm);
 
         // Populates Lookup tables
         populateResourceTypeAndParameterNameTableEntries();
@@ -86,19 +89,40 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         DerbyTranslator translator = new DerbyTranslator();
         Connection connection = getConnection();
 
-        PopulateResourceTypes populateResourceTypes = new PopulateResourceTypes(ADMIN_SCHEMA_NAME, SCHEMA_NAME, null);
-        populateResourceTypes.run(translator, connection);
+        // Ensures we don't double up the generated derby db prepopulation.
+        // Docs for the table are at https://db.apache.org/derby/docs/10.5/ref/rrefsistabs24269.html
+        boolean process = true;
+        final String sql = "SELECT COUNT(TABLENAME) AS CNT FROM SYS.SYSTABLES WHERE TABLENAME = 'PARAMETER_NAMES'";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.execute();
+            ResultSet set = stmt.getResultSet();
+            if (set.next()) {
+                int val = set.getInt("CNT");
+                if (val > 0) {
+                    process = false;
+                }
+            }
+        }
 
-        PopulateParameterNames populateParameterNames =
-                new PopulateParameterNames(ADMIN_SCHEMA_NAME, SCHEMA_NAME, null);
-        populateParameterNames.run(translator, connection);
-        connection.commit();
-        logger.info("Finished prepopulating the resource type and search parameter code/name tables tables");
+        if (process) {
+            PopulateResourceTypes populateResourceTypes =
+                    new PopulateResourceTypes(ADMIN_SCHEMA_NAME, SCHEMA_NAME, null);
+            populateResourceTypes.run(translator, connection);
+
+            PopulateParameterNames populateParameterNames =
+                    new PopulateParameterNames(ADMIN_SCHEMA_NAME, SCHEMA_NAME, null);
+            populateParameterNames.run(translator, connection);
+            connection.commit();
+            logger.info("Finished prepopulating the resource type and search parameter code/name tables tables");
+        } else {
+            logger.info("Skipped prepopulating the resource type and search parameter code/name tables tables");
+        }
     }
 
     /**
      * Configure the TransactionProvider
-     * @throws SQLException 
+     * 
+     * @throws SQLException
      */
     public VersionHistoryService createVersionHistoryService() throws SQLException {
         Connection c = derby.getConnection();

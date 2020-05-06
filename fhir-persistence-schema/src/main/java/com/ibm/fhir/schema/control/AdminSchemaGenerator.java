@@ -106,7 +106,10 @@ public class AdminSchemaGenerator {
         this.allTablesComplete.addDependencies(procedureDependencies);
         model.addObject(allTablesComplete);
 
-        model.addProcedure(this.adminSchemaName, SET_TENANT, FhirSchemaConstants.INITIAL_VERSION, () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName, SET_TENANT.toLowerCase() + ".sql", null), Arrays.asList(allTablesComplete), procedurePrivileges);
+        model.addProcedure(this.adminSchemaName, SET_TENANT, 2,
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName,
+                        SET_TENANT.toLowerCase() + ".sql", null),
+                Arrays.asList(allTablesComplete), procedurePrivileges);
 
     }
 

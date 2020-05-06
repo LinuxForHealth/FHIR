@@ -33,6 +33,8 @@ public class FHIRRequestContext {
     private String tenantId;
     private String tenantKey;
     private String dataStoreId;
+    // By default, setting to False.
+    private Boolean dataStoreMultiTenant = Boolean.FALSE;
     private String requestUniqueId;
     private String originalRequestUri;
     private Map<String, List<String>> httpHeaders;
@@ -90,15 +92,15 @@ public class FHIRRequestContext {
 
     /**
      * Setter for the tenant key
-     * @param b64
+     * 
+     * @param base64
      * @throws FHIRException if the given value is not a valid Base64 string
      */
-    public void setTenantKey(String b64) throws FHIRException {
+    public void setTenantKey(String base64) throws FHIRException {
         try {
-            Base64.getDecoder().decode(b64);
-            this.tenantKey = b64;
-        }
-        catch (IllegalArgumentException x) {
+            Base64.getDecoder().decode(base64);
+            this.tenantKey = base64;
+        } catch (IllegalArgumentException x) {
             // Tenant key is a secret, so don't include it in any error message
             throw new FHIRException("Invalid tenantKey.");
         }
@@ -217,5 +219,23 @@ public class FHIRRequestContext {
      */
     public void setHttpHeaders(Map<String, List<String>> httpHeaders) {
         this.httpHeaders = httpHeaders;
+    }
+
+    /**
+     * set the datastore multitenant feature status
+     * 
+     * @param enabled
+     */
+    public void setDataStoreMultiTenant(Boolean enabled) {
+        dataStoreMultiTenant = enabled;
+    }
+
+    /**
+     * get the status of the multitenant feature.
+     * 
+     * @return
+     */
+    public Boolean isDataStoreMultiTenant() {
+        return dataStoreMultiTenant;
     }
 }

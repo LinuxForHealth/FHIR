@@ -141,7 +141,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
     private Collection<FHIRPathNode> membershipCheckFailed(EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String url, String strength) {
         if ("extensible".equals(strength) || "preferred".equals(strength)) {
             String prefix = evaluationContext.hasConstraint() ? evaluationContext.getConstraint().id() + ": " : "";
-            String description = prefix + "Membership check failed: the concept in this element " + ("extensible".equals(strength) ? "must" : "should") + " be from the specified value set '" + url + "' if possible";
+            String description = prefix + "The concept in this element " + ("extensible".equals(strength) ? "must" : "should") + " be from the specified value set '" + url + "' if possible";
             generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.CODE_INVALID, description, elementNode);
             return SINGLETON_TRUE;
         }
