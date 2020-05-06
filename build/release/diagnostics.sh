@@ -33,6 +33,6 @@ diagnostic_details > diagnostic_details.log
 
 # To include the distribution, include ' -or -iname fhir-server-distribution.zip'
 # or '-or -iname surefire-reports -or -iname jacoco.exec'
-tar -czf release-and-coverage-and-logs.tgz $(find . -iname diagnostic_details.log -or -iname jacoco-aggregate -or -iname release-commit-details.txt -or -iname fhir-cli.zip -or -iname fhir-validation-distribution.zip -or -iname fhir-server-distribution.zip -or -iname fhir-persistence-proxy-distribution.zip)
+tar -czf release-test-coverage-and-logs.tgz $(find . -iname diagnostic_details.log -or -iname jacoco-aggregate -or -iname release-commit-details.txt)
 
 # EOF

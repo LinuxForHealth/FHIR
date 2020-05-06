@@ -119,9 +119,11 @@ public class FHIRRestServletFilter extends HttpFilter {
         try {
             // Create a new FHIRRequestContext and set it on the current thread.
             FHIRRequestContext context = new FHIRRequestContext(tenantId, dsId);
+            // Don't try using FHIRConfigHelper before setting the context!
+            FHIRRequestContext.set(context);
 
             // Retrieve the property group pertaining to the specified datastore.
-            // Find and set the tenantKey for the request, otherwise subsequent pulls from the pool 
+            // Find and set the tenantKey for the request, otherwise subsequent pulls from the pool
             // miss the tenantKey.
             String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId;
             PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
@@ -144,7 +146,6 @@ public class FHIRRestServletFilter extends HttpFilter {
                     context.setDataStoreMultiTenant(enabled);
                 }
             }
-            FHIRRequestContext.set(context);
 
             context.setOriginalRequestUri(originalRequestUri);
 
