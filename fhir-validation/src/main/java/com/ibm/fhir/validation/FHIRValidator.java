@@ -286,8 +286,8 @@ public class FHIRValidator {
         private void validate(Class<?> type, FHIRPathNode node, Collection<Constraint> constraints) {
             for (Constraint constraint : constraints) {
                 if (constraint.modelChecked()) {
-                    if (log.isLoggable(Level.FINE)) {
-                        log.fine("    Constraint: " + constraint.id() + " is model-checked");
+                    if (log.isLoggable(Level.FINER)) {
+                        log.finer("    Constraint: " + constraint.id() + " is model-checked");
                     }
                     continue;
                 }
@@ -303,8 +303,8 @@ public class FHIRValidator {
         private void validate(Class<?> type, FHIRPathNode node, Constraint constraint) {
             String path = node.path();
             try {
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine("    Constraint: " + constraint);
+                if (log.isLoggable(Level.FINER)) {
+                    log.finer("    Constraint: " + constraint);
                 }
 
                 Collection<FHIRPathNode> initialContext = singleton(node);
@@ -335,8 +335,8 @@ public class FHIRValidator {
                             .build());
                     }
 
-                    if (log.isLoggable(Level.FINE)) {
-                        log.fine("    Evaluation result: " + result + ", Path: " + contextNode.path());
+                    if (log.isLoggable(Level.FINER)) {
+                        log.finer("    Evaluation result: " + result + ", Path: " + contextNode.path());
                     }
                 }
             } catch (Exception e) {
