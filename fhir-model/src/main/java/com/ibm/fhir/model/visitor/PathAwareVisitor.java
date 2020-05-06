@@ -94,8 +94,8 @@ public class PathAwareVisitor extends DefaultVisitor {
         } else {
             pathStack.push(elementName);
         }
-        if (log.isLoggable(Level.FINE)) {
-            log.fine(getPath());
+        if (log.isLoggable(Level.FINEST)) {
+            log.finest(getPath());
         }
     }
 

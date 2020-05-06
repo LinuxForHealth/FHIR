@@ -479,8 +479,8 @@ public class FHIRPathEvaluator {
             Collection<FHIRPathNode> currentContext = getCurrentContext();
             Collection<FHIRPathNode> nodes = (arguments.size() == 1) ? currentContext : visit(arguments.get(1));
             if (!nodes.isEmpty()) {
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine(name + ": " + nodes);
+                if (log.isLoggable(Level.FINER)) {
+                    log.finer(name + ": " + nodes);
                 }
             }
             return currentContext;
@@ -1303,8 +1303,8 @@ public class FHIRPathEvaluator {
         }
 
         private void debug(ParseTree ctx) {
-            if (log.isLoggable(Level.FINE)) {
-                log.fine(indent() + ctx.getClass().getSimpleName() + ": " + ctx.getText() + ", childCount: " + ctx.getChildCount());
+            if (log.isLoggable(Level.FINEST)) {
+                log.finest(indent() + ctx.getClass().getSimpleName() + ": " + ctx.getText() + ", childCount: " + ctx.getChildCount());
             }
         }
     }
