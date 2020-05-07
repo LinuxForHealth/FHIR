@@ -70,9 +70,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
      * @param parameters The Resource's search parameters to be inserted.
      * @param parameterDao
      * @return The Resource DTO
-     * @throws FHIRPersistenceDataAccessException
-     * @throws FHIRPersistenceDBConnectException
-     * @throws FHIRPersistenceVersionIdMismatchException
+     * @throws FHIRPersistenceException
      */
     @Override
     public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)

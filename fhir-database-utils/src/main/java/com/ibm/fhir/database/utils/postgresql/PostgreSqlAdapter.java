@@ -154,6 +154,8 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         logger.info("Create or replace procedure " + objectName);
 
         // Build the create procedure DDL and apply it
+        // Because postgresql version 12 doesn't support OUT parameter yet, so we use Function with exactly the similar
+        // parameters as DB2 stored procedures for now.
         final StringBuilder ddl = new StringBuilder()
                 .append("CREATE OR REPLACE FUNCTION ")
                 .append(objectName)
