@@ -21,23 +21,24 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
  */
 public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
     private final FhirRefSequenceDAO fhirRefSequenceDAO;
-    
-    public DerbyParameterNamesDAO(Connection c, FhirRefSequenceDAO fsd) {
+
+    public DerbyParameterNamesDAO(Connection c) {
         super(c);
-        this.fhirRefSequenceDAO = fsd;
+        this.fhirRefSequenceDAO = new FhirRefSequenceDAOImpl(c);
+
     }
-    
+
     @Override
     public int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDataAccessException  {
         // As the system is concurrent, we have to handle cases where another thread
         // might create the entry after we selected and found nothing
         Integer result = getParameterId(parameterName);
-         
+
         // Create the resource if we don't have it already (set by the continue handler)
         if (result == null) {
             try {
                 result = fhirRefSequenceDAO.nextValue();
-             
+
                 final String INS = "INSERT INTO parameter_names (parameter_name_id, parameter_name) VALUES (?, ?)";
                 try (PreparedStatement stmt = getConnection().prepareStatement(INS)) {
                     // bind parameters
@@ -49,7 +50,7 @@ public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
                 if ("23505".equals(e.getSQLState())) {
                     // another thread snuck in and created the record, so we need to fetch the correct id
                     result = getParameterId(parameterName);
-                    
+
                     if (result == null) {
                         // would be extremely weird, but good to protect against anyway
                         throw new IllegalStateException("No parameter id returned after duplicate found!");
@@ -61,7 +62,7 @@ public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
             }
 
         }
-        
+
         // cannot be null, so safe to return as an int
         return result;
     }
@@ -74,15 +75,15 @@ public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
      */
     protected Integer getParameterId(String parameterName) throws FHIRPersistenceDataAccessException {
         Integer result;
-        
+
         String sql1 = "SELECT parameter_name_id FROM parameter_names WHERE parameter_name = ?";
-        
+
         try (PreparedStatement stmt = getConnection().prepareStatement(sql1)) {
             stmt.setString(1, parameterName);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 result = rs.getInt(1);
-            } 
+            }
             else {
                 result = null;
             }
@@ -90,7 +91,7 @@ public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
         catch (SQLException x) {
             throw new FHIRPersistenceDataAccessException("parameterName=" + parameterName, x);
         }
-        
+
         return result;
     }
 

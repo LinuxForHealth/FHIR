@@ -26,10 +26,10 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
-import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
+import com.ibm.fhir.persistence.jdbc.dao.impl.CodeSystemCacheAdapter;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterNameCacheAdapter;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -56,12 +56,6 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private FhirRefSequenceDAO fhirRefSequenceDAO;
 
-    // DAO used to manage parameter_names
-    private ParameterNameDAO parameterNameDAO;
-
-    // DAO used to manage code_systems
-    private CodeSystemDAO codeSystemDAO;
-
     public PostgreSqlResourceDAO(Connection managedConnection) {
         super(managedConnection);
     }
@@ -72,8 +66,6 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
 
     /**
      * Inserts the passed FHIR Resource and associated search parameters to a postgresql FHIR database.
-     * The search parameters are stored first by calling the passed parameterDao. Then the Resource is stored
-     * by sql.
      * @param resource The FHIR Resource to be inserted.
      * @param parameters The Resource's search parameters to be inserted.
      * @param parameterDao
@@ -82,94 +74,6 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceVersionIdMismatchException
      */
-//    @Override
-//    public Resource  insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
-//            throws FHIRPersistenceException {
-//        final String METHODNAME = "insert";
-//        logger.entering(CLASSNAME, METHODNAME);
-//
-//        Connection connection = null;
-//        Integer resourceTypeId;
-//        Timestamp lastUpdated;
-//        boolean acquiredFromCache;
-//        long dbCallStartTime;
-//        double dbCallDuration;
-//
-//        try {
-//            connection = this.getConnection();
-//
-//            this.fhirRefSequenceDAO = new FhirRefSequenceDAOImpl(connection);
-//            this.parameterNameDAO = new PostgreSqlParameterNamesDAO(connection, fhirRefSequenceDAO);
-//            this.codeSystemDAO = new PostgreSqlCodeSystemDAO(connection, fhirRefSequenceDAO);
-//
-//            // Get resourceTypeId from ResourceTypesCache first.
-//            resourceTypeId = ResourceTypesCache.getResourceTypeId(resource.getResourceType());
-//            // If no found, then get resourceTypeId from local newResourceTypeIds in case this id is already in newResourceTypeIds
-//            // but has not been updated to ResourceTypesCache yet. newResourceTypeIds is updated to ResourceTypesCache only when the
-//            // current transaction is committed.
-//            if (resourceTypeId == null) {
-//                resourceTypeId = getResourceTypeIdFromCandidatorsCache(resource.getResourceType());
-//            }
-//
-//            if (resourceTypeId == null) {
-//                acquiredFromCache = false;
-//                resourceTypeId = getOrCreateResourceType(resource.getResourceType(), connection);
-//                this.addResourceTypeCacheCandidate(resource.getResourceType(), resourceTypeId);
-//            } else {
-//                acquiredFromCache = true;
-//            }
-//
-//            if (logger.isLoggable(Level.FINE)) {
-//                logger.fine("resourceType=" + resource.getResourceType() + "  resourceTypeId=" + resourceTypeId +
-//                         "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ResourceTypesCache.getCacheNameForTenantDatastore());
-//            }
-//
-//            lastUpdated = resource.getLastUpdated();
-//            dbCallStartTime = System.nanoTime();
-//
-//            final String sourceKey = UUID.randomUUID().toString();
-//
-//            long resourceId = this.storeResource(resource.getResourceType(),
-//                parameters,
-//                resource.getLogicalId(),
-//                resource.getData(),
-//                lastUpdated,
-//                resource.isDeleted(),
-//                sourceKey,
-//                resource.getVersionId(),
-//                connection
-//                );
-//            dbCallDuration = (System.nanoTime() - dbCallStartTime)/1e6;
-//
-//            resource.setId(resourceId);
-//            if (logger.isLoggable(Level.FINE)) {
-//                logger.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
-//            }
-//        } catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
-//            throw e;
-//        } catch(SQLIntegrityConstraintViolationException e) {
-//            FHIRPersistenceFKVException fx = new FHIRPersistenceFKVException("Encountered FK violation while inserting Resource.");
-//            throw severe(logger, fx, e);
-//        } catch(SQLException e) {
-//            if ("99001".equals(e.getSQLState())) {
-//                // this is just a concurrency update, so there's no need to log the SQLException here
-//                throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
-//            } else {
-//                FHIRPersistenceException fx = new FHIRPersistenceException("SQLException encountered while inserting Resource.");
-//                throw severe(logger, fx, e);
-//            }
-//        } catch(Throwable e) {
-//            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
-//            throw severe(logger, fx, e);
-//        } finally {
-//            this.cleanup(null, connection);
-//            logger.exiting(CLASSNAME, METHODNAME);
-//        }
-//
-//        return resource;
-//    }
-
-
     @Override
     public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
             throws FHIRPersistenceException {
@@ -188,10 +92,6 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
 
         try {
             connection = this.getConnection();
-
-            this.parameterNameDAO = new PostgreSqlParameterNamesDAO(connection);
-            this.codeSystemDAO = new PostgreSqlCodeSystemDAO(connection);
-
             resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());
             if (resourceTypeId == null) {
                 acquiredFromCache = false;
@@ -233,7 +133,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
             if (parameters != null) {
                 // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getId(), 100,
-                    new ParameterNameCacheAdapter(parameterNameDAO), new CodeSystemCacheAdapter(codeSystemDAO))) {
+                    new ParameterNameCacheAdapter(parameterDao), new CodeSystemCacheAdapter(parameterDao))) {
                     for (ExtractedParameterValue p: parameters) {
                         p.accept(pvd);
                     }

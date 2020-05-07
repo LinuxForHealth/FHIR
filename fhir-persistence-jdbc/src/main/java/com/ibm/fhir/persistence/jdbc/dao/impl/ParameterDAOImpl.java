@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -14,12 +15,17 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
+import com.ibm.fhir.persistence.jdbc.derby.DerbyCodeSystemDAO;
+import com.ibm.fhir.persistence.jdbc.derby.DerbyParameterNamesDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.jdbc.postgresql.PostgreSqlCodeSystemDAO;
+import com.ibm.fhir.persistence.jdbc.postgresql.PostgreSqlParameterNamesDAO;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
@@ -110,15 +116,27 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
      */
     @Override
     public int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
-        final String METHODNAME = "readParameterNameId";
+        final String METHODNAME = "readOrAddParameterNameId";
         log.entering(CLASSNAME, METHODNAME);
 
         Connection connection = null;
 
         try {
             connection = this.getConnection();
-            ParameterNameDAO pnd = new ParameterNameDAOImpl(connection);
+            String dbProductName = connection.getMetaData().getDatabaseProductName().toLowerCase();
+            ParameterNameDAO pnd;
+            if (dbProductName.equals(DbType.POSTGRESQL.value())) {
+                pnd = new PostgreSqlParameterNamesDAO(connection);
+            } else if (dbProductName.contains(DbType.DERBY.value())) {
+                pnd = new DerbyParameterNamesDAO(connection);
+            } else {
+                pnd = new ParameterNameDAOImpl(connection);
+            }
+
             return pnd.readOrAddParameterNameId(parameterName);
+        }
+        catch (SQLException e) {
+            throw new FHIRPersistenceDataAccessException("Failed to tell database type from connection!", e);
         }
         finally {
             this.cleanup(null, connection);
@@ -137,14 +155,26 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
      */
     @Override
     public int readOrAddCodeSystemId(String codeSystemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException   {
-        final String METHODNAME = "storeCodeSystemId";
+        final String METHODNAME = "readOrAddCodeSystemId";
         log.entering(CLASSNAME, METHODNAME);
 
         Connection connection = null;
         try {
             connection = this.getConnection();
-            CodeSystemDAO csd = new CodeSystemDAOImpl(connection);
+            String dbProductName = connection.getMetaData().getDatabaseProductName().toLowerCase();
+            CodeSystemDAO csd;
+            if (dbProductName.equals(DbType.POSTGRESQL.value())) {
+                csd = new PostgreSqlCodeSystemDAO(connection);
+            } else if (dbProductName.contains(DbType.DERBY.value())) {
+                csd = new DerbyCodeSystemDAO(connection);
+            } else {
+                csd = new CodeSystemDAOImpl(connection);
+            }
+
             return csd.readOrAddCodeSystem(codeSystemName);
+        }
+        catch (SQLException e) {
+            throw new FHIRPersistenceDataAccessException("Failed to tell database type from connection!", e);
         }
         finally {
             this.cleanup(null, connection);
@@ -216,6 +246,19 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
 
     }
 
+
+    protected  Integer getParameterNameIdFromCaches(String parameterName) {
+        // Get ParameterNameId from ParameterNameIdCache first.
+        Integer parameterNameId = ParameterNamesCache.getParameterNameId(parameterName);
+        // If no found, then get ParameterNameId from local newParameterNameIds in case this id is already in newParameterNameIds
+        // but has not been updated to ParameterNamesCache yet. newParameterNameIds is updated to ParameterNamesCache only when the
+        // current transaction is committed.
+        if (parameterNameId == null) {
+            parameterNameId = this.newParameterNameIds.get(parameterName);
+        }
+        return parameterNameId;
+    }
+
     /**
      * Acquire and return the id associated with the passed parameter name.
      * @param parameterName The name of a valid FHIR search parameter.
@@ -231,7 +274,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         boolean acquiredFromCache;
 
         try {
-            parameterNameId = ParameterNamesCache.getParameterNameId(parameterName);
+            parameterNameId = getParameterNameIdFromCaches(parameterName);
             if (parameterNameId == null) {
                 acquiredFromCache = false;
                 parameterNameId = this.readOrAddParameterNameId(parameterName);
@@ -250,6 +293,18 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         }
         return parameterNameId;
 
+    }
+
+    protected  Integer getCodeSystemIdFromCaches(String codeSystemName) {
+        // Get CodeSystemId from CodeSystemsCache first.
+        Integer codeSystemId = CodeSystemsCache.getCodeSystemId(codeSystemName);
+        // If no found, then get codeSystemId from local newCodeSystemIds in case this id is already in newCodeSystemIds
+        // but has not been updated to CodeSystemsCache yet. newCodeSystemIds is updated to CodeSystemsCache only when the
+        // current transaction is committed.
+        if (codeSystemId == null) {
+            codeSystemId = this.newCodeSystemIds.get(codeSystemName);
+        }
+        return codeSystemId;
     }
 
     /**
@@ -271,7 +326,8 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
             if (myCodeSystemName == null || myCodeSystemName.isEmpty()) {
                 myCodeSystemName = DEFAULT_TOKEN_SYSTEM;
             }
-            codeSystemId = CodeSystemsCache.getCodeSystemId(myCodeSystemName);
+            codeSystemId = getCodeSystemIdFromCaches(myCodeSystemName);
+
             if (codeSystemId == null) {
                 acquiredFromCache = false;
                 myCodeSystemName = SqlParameterEncoder.encode(myCodeSystemName);

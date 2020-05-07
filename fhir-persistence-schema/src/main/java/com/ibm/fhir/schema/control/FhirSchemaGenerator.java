@@ -407,7 +407,7 @@ public class FhirSchemaGenerator {
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_CODE_SYSTEM.toLowerCase()
                         + "_" + DbType.POSTGRESQL.value() + ".sql", null),
                 Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete),
-                procedurePrivileges, DbType.DB2);
+                procedurePrivileges, DbType.POSTGRESQL);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
         pd = model.addProcedure(this.schemaName,
@@ -416,7 +416,7 @@ public class FhirSchemaGenerator {
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_PARAMETER_NAME.toLowerCase()
                         + "_" + DbType.POSTGRESQL.value() + ".sql", null),
                 Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete),
-                procedurePrivileges, DbType.DB2);
+                procedurePrivileges, DbType.POSTGRESQL);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
         pd = model.addProcedure(this.schemaName,
@@ -425,7 +425,7 @@ public class FhirSchemaGenerator {
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_RESOURCE_TYPE.toLowerCase()
                         + "_" + DbType.POSTGRESQL.value() + ".sql", null),
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
-                procedurePrivileges, DbType.DB2);
+                procedurePrivileges, DbType.POSTGRESQL);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
         pd = model.addProcedure(this.schemaName,
@@ -434,7 +434,7 @@ public class FhirSchemaGenerator {
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_ANY_RESOURCE.toLowerCase()
                         + "_" + DbType.POSTGRESQL.value() + ".sql", null),
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
-                procedurePrivileges, DbType.DB2);
+                procedurePrivileges, DbType.POSTGRESQL);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
     }
 
