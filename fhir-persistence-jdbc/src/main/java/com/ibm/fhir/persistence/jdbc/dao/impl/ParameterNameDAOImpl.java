@@ -82,11 +82,9 @@ public class ParameterNameDAOImpl implements ParameterNameDAO {
                 parameterName = resultSet.getString(2);
                 parameterMap.put(parameterName, parameterId);
             }
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             throw new FHIRPersistenceDataAccessException(errMsg,e);
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
 
@@ -128,11 +126,9 @@ public class ParameterNameDAOImpl implements ParameterNameDAO {
                 }
                 parameterNameId = stmt.getInt(2);
             }
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             throw new FHIRPersistenceDataAccessException(errMsg,e);
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return parameterNameId;
@@ -160,15 +156,12 @@ public class ParameterNameDAOImpl implements ParameterNameDAO {
 
             if (resultSet.next()) {
                 result = resultSet.getInt(1);
-            }
-            else {
+            } else {
                 result = null;
             }
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             throw new FHIRPersistenceDataAccessException(errMsg,e);
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
 

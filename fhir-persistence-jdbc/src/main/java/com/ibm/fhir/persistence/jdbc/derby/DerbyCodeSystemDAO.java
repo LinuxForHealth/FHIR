@@ -51,8 +51,7 @@ public class DerbyCodeSystemDAO extends CodeSystemDAOImpl {
                     stmt.setString(2, codeSystem);
                     stmt.executeUpdate();
                 }
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 if ("23505".equals(e.getSQLState())) {
                     // another thread snuck in and created the record, so we need to fetch the correct id
                     result = getCodeSystemId(codeSystem);
@@ -61,8 +60,7 @@ public class DerbyCodeSystemDAO extends CodeSystemDAOImpl {
                         // This would be truly weird, but we protect against it anyway
                         throw new IllegalStateException("No code system returned after duplicate found!");
                     }
-                }
-                else {
+                } else {
                     throw new FHIRPersistenceDataAccessException("codeSystem=" + codeSystem, e);
                 }
             }
@@ -89,12 +87,10 @@ public class DerbyCodeSystemDAO extends CodeSystemDAOImpl {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 result = rs.getInt(1);
-            }
-            else {
+            } else {
                 result = null;
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new FHIRPersistenceDataAccessException("codeSystem=" + codeSystem, e);
         }
 

@@ -55,8 +55,7 @@ public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
                         // would be extremely weird, but good to protect against anyway
                         throw new IllegalStateException("No parameter id returned after duplicate found!");
                     }
-                }
-                else {
+                } else {
                     throw new FHIRPersistenceDataAccessException("parameterName=" + parameterName, e);
                 }
             }
@@ -83,8 +82,7 @@ public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 result = rs.getInt(1);
-            }
-            else {
+            } else {
                 result = null;
             }
         }
