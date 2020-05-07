@@ -260,13 +260,15 @@ public class ConstraintGenerator {
         Integer min = elementDefinition.getMin().getValue();
         String max = elementDefinition.getMax().getValue();
 
+        sb.append("extension('").append(profile).append("').count()");
         if ("*".equals(max)) {
-            sb.append("extension('").append(profile).append("').count()").append(" >= ").append(min);
+            sb.append(" >= ").append(min);
         } else if ("1".equals(max)) {
             if (min == 0) {
-                sb.append("extension('").append(profile).append("').count()").append(" <");
+                sb.append(" <= 1");
+            } else {
+                sb.append(" = 1");
             }
-            sb.append("= 1");
         } else {
             sb.append(" >= ").append(min).append(" and ").append("extension('").append(profile).append("').count() <= ").append(max);
         }
