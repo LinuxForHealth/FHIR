@@ -8,13 +8,11 @@ package com.ibm.fhir.persistence.jdbc.postgresql;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.jdbc.dao.impl.CodeSystemDAOImpl;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBCleanupException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
@@ -70,48 +68,12 @@ public class PostgreSqlCodeSystemDAO extends CodeSystemDAOImpl {
                 }
                 systemId = stmt.getInt(2);
             }
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             throw new FHIRPersistenceDataAccessException(errMsg,e);
-        }
-        finally {
-            this.cleanup(null, getConnection());
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return systemId;
     }
-
-    /**
-     * Closes the passed PreparedStatement and Connection objects.
-     * @param stmt
-     * @param connection
-     */
-    protected void cleanup(PreparedStatement stmt, Connection connection)  {
-        final String METHODNAME = "cleanup(PreparedStatement, Connection)";
-        log.entering(CLASSNAME, METHODNAME);
-
-        FHIRPersistenceDBCleanupException ce;
-
-        if (stmt != null) {
-            try {
-                stmt.close();
-            }
-            catch (Throwable e) {
-                ce =  new FHIRPersistenceDBCleanupException("Failure closing PreparedStatement.",e);
-                log.log(Level.SEVERE, ce.getMessage(), ce);
-            }
-        }
-        if(connection != null && this.getConnection() == null) {
-            try {
-                connection.close();
-            }
-            catch (Throwable e) {
-                ce =  new FHIRPersistenceDBCleanupException("Failure closing Connection.",e);
-                log.log(Level.SEVERE, ce.getMessage(), ce);
-            }
-        }
-        log.exiting(CLASSNAME, METHODNAME);
-    }
-
 
 }

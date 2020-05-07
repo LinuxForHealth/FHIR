@@ -154,11 +154,11 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         logger.info("Create or replace procedure " + objectName);
 
         // Build the create procedure DDL and apply it
-        final StringBuilder ddl = new StringBuilder();
-        ddl.append("CREATE OR REPLACE FUNCTION ");
-        ddl.append(objectName);
-        ddl.append(System.lineSeparator());
-        ddl.append(supplier.get());
+        final StringBuilder ddl = new StringBuilder()
+                .append("CREATE OR REPLACE FUNCTION ")
+                .append(objectName)
+                .append(System.lineSeparator())
+                .append(supplier.get());
 
         final String ddlString = ddl.toString();
         if (logger.isLoggable(Level.FINE)) {

@@ -1,12 +1,28 @@
-( IN p_resource_type                 VARCHAR( 36),
+-------------------------------------------------------------------------------
+-- (C) Copyright IBM Corp. 2020
+--
+-- SPDX-License-Identifier: Apache-2.0
+-------------------------------------------------------------------------------
+
+-- ----------------------------------------------------------------------------
+-- Procedure to add a resource version and its associated parameters. These
+-- parameters only ever point to the latest version of a resource, never to
+-- previous versions, which are kept to support history queries.
+-- p_logical_id: the logical id given to the resource by the FHIR server
+-- p_payload:    the BLOB (of JSON) which is the resource content
+-- p_last_updated the last_updated time given by the FHIR server
+-- p_is_deleted: the soft delete flag
+-- p_version_id: the version id if this is a replicated message
+-- o_resource_id: output field returning the newly assigned resource_id value
+-- ----------------------------------------------------------------------------
+    ( IN p_resource_type                 VARCHAR( 36),
       IN p_logical_id                    VARCHAR(255), 
       IN p_payload                          BYTEA,
       IN p_last_updated                TIMESTAMP,
       IN p_is_deleted                       CHAR(  1),
       IN p_source_key                    VARCHAR( 64),
       IN p_version                           INT,
-      OUT o_logical_resource_id            BIGINT
-    )
+      OUT o_logical_resource_id            BIGINT)
     LANGUAGE plpgsql
      AS $$
 
@@ -18,29 +34,17 @@
   v_resource_id          BIGINT := NULL;
   v_resource_type_id        INT := NULL;
   v_new_resource            INT := 0;
-    --  DECLARE v_not_found               INT     DEFAULT 0;
   v_duplicate               INT := 0;
   v_version                 INT := 0;
   v_insert_version          INT := 0;
-  
-  --DECLARE c_duplicate CONDITION FOR SQLSTATE '23505';
-  --stmt STATEMENT;
-  --lock_stmt STATEMENT;
   lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id FROM {{SCHEMA_NAME}}.logical_resources WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR UPDATE;
---  DECLARE CONTINUE HANDLER FOR NOT FOUND          SET v_not_found = 1;
---  DECLARE CONTINUE HANDLER FOR c_duplicate        v_duplicate := 1;
 
-  -- use a variable for the schema in our prepared statements to make them easier 
-  -- to write
-  
-  
 BEGIN
   v_schema_name := '{{SCHEMA_NAME}}';
   SELECT resource_type_id INTO v_resource_type_id 
     FROM {{SCHEMA_NAME}}.resource_types WHERE resource_type = p_resource_type;
 
   -- Get a lock at the system-wide logical resource level
-
   -- we need to use a cursor in this context because we need the FOR UPDATE WITH RS support
   -- and this does not work with the SET (?,?) = (select ...) construct
   OPEN lock_cur(t_resource_type_id := v_resource_type_id, t_logical_id := p_logical_id);
@@ -165,10 +169,6 @@ BEGIN
     -- the current resource. mt_id isn't needed here...implied via permission
     EXECUTE 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = $1 WHERE logical_resource_id = $2'
       USING v_resource_id, v_logical_resource_id;
-
-    -- DB2 doesn't support user defined array types in dynamic SQL UNNEST/CAST statements,
-    -- so we can no longer insert the parameters here - instead we have to use individual
-    -- JDBC statements.
   END IF;
 
   -- Hand back the id of the logical resource we created earlier. In the new R4 schema

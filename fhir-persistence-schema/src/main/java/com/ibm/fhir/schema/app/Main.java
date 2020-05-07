@@ -94,6 +94,7 @@ public class Main {
 
     // Indicates if the feature is enabled for the DbType
     public List<DbType> MULTITENANT_FEATURE_ENABLED = Arrays.asList(DbType.DB2);
+    public List<DbType> STORED_PROCEDURE_ENABLED = Arrays.asList(DbType.DB2, DbType.POSTGRESQL);
 
     // Properties accumulated as we parse args and read configuration files
     private final Properties properties = new Properties();
@@ -639,7 +640,7 @@ public class Main {
      * into the FHIR resource tables
      */
     protected void updateProcedures() {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) || DbType.POSTGRESQL == dbType) {
+        if (!STORED_PROCEDURE_ENABLED.contains(dbType)) {
             return;
         }
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
