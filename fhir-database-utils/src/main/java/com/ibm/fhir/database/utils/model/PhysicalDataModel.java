@@ -141,12 +141,8 @@ public class PhysicalDataModel implements IDataModel {
         int total = procedures.size();
         int count = 1;
         for (ProcedureDef obj: procedures) {
-            String driveClassName = target.getTranslator().getDriverClassName();
-            // Only apply DB Type specific store procedures.
-            if (driveClassName.contains(obj.getDbType().value())) {
-                logger.fine(String.format("Applying [%d/%d] %s", count++, total, obj.toString()));
-                obj.apply(target);
-            }
+            logger.fine(String.format("Applying [%d/%d] %s", count++, total, obj.toString()));
+            obj.apply(target);
         }
     }
 

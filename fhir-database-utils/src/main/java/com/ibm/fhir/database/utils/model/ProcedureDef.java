@@ -40,7 +40,12 @@ public class ProcedureDef extends BaseObject {
         // Serialize the execution of the procedure, to try and avoid the
         // horrible deadlocks we keep getting
         synchronized(target) {
-            target.createOrReplaceProcedure(getSchemaName(), getObjectName(), supplier);
+            String driveClassName = target.getTranslator().getDriverClassName();
+            // Only apply DB Type specific store procedures.
+            if (driveClassName.contains(this.getDbType().value())) {
+                // Remove the postgresql tag "_pg" from the end of the object name and create the stored procedure.
+                target.createOrReplaceProcedure(getSchemaName(), getObjectName().replace("_pg",""), supplier);
+            }
         }
     }
 

@@ -401,8 +401,10 @@ public class FhirSchemaGenerator {
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
         // Add stored procedures/functions for postgresql.
+        // Have to use different object names from DB2, because the group processing doesn't support 2 objects with the same name.
+        // and the appended "_pg" will be removed when creating the stored procedure for postgresql.
         pd = model.addProcedure(this.schemaName,
-                ADD_CODE_SYSTEM,
+                ADD_CODE_SYSTEM + "_pg",
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_CODE_SYSTEM.toLowerCase()
                         + "_" + DbType.POSTGRESQL.value() + ".sql", null),
@@ -411,7 +413,7 @@ public class FhirSchemaGenerator {
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
         pd = model.addProcedure(this.schemaName,
-                ADD_PARAMETER_NAME,
+                ADD_PARAMETER_NAME + "_pg",
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_PARAMETER_NAME.toLowerCase()
                         + "_" + DbType.POSTGRESQL.value() + ".sql", null),
@@ -420,7 +422,7 @@ public class FhirSchemaGenerator {
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
         pd = model.addProcedure(this.schemaName,
-                ADD_RESOURCE_TYPE,
+                ADD_RESOURCE_TYPE + "_pg",
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_RESOURCE_TYPE.toLowerCase()
                         + "_" + DbType.POSTGRESQL.value() + ".sql", null),
@@ -429,7 +431,7 @@ public class FhirSchemaGenerator {
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
         pd = model.addProcedure(this.schemaName,
-                ADD_ANY_RESOURCE,
+                ADD_ANY_RESOURCE + "_pg",
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_ANY_RESOURCE.toLowerCase()
                         + "_" + DbType.POSTGRESQL.value() + ".sql", null),

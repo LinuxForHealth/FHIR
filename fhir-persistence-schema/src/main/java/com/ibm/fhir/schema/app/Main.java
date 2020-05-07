@@ -653,12 +653,7 @@ public class Main {
             try (Connection c = createConnection()) {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
-                    IDatabaseAdapter adapter;
-                    if (dbType == DbType.POSTGRESQL) {
-                        adapter = new PostgreSqlAdapter(target);
-                    } else {
-                        adapter = new Db2Adapter(target);
-                    }
+                    IDatabaseAdapter adapter = getDbAdapter(target);
                     pdm.applyProcedures(adapter);
                 } catch (Exception x) {
                     c.rollback();
