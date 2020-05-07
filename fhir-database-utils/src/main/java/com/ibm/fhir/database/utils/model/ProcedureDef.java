@@ -68,7 +68,12 @@ public class ProcedureDef extends BaseObject {
 
     @Override
     protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
-        target.grantProcedurePrivileges(getSchemaName(), getObjectName(), group, toUser);
+        String driveClassName = target.getTranslator().getDriverClassName();
+        // Only apply DB Type specific store procedures.
+        if (driveClassName.contains(this.getDbType().value())) {
+            // Remove the postgresql tag "_pg" from the end of the object name and create the stored procedure.
+            target.grantProcedurePrivileges(getSchemaName(), getObjectName(), group, toUser);
+        }
     }
 
     public DbType getDbType() {
