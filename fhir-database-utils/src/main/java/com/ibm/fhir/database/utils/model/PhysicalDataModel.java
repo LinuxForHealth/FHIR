@@ -246,7 +246,7 @@ public class PhysicalDataModel implements IDataModel {
      * @param privileges
      * @return
      */
-    public ProcedureDef addProcedure(String schemaName, String objectName, int version, Supplier<String> templateProvider,
+    public ProcedureDef addProcedureAndFunctions(String schemaName, String objectName, int version, Supplier<String> templateProvider,
             Collection<IDatabaseObject> dependencies, Collection<GroupPrivilege> privileges, DbType dbType) {
         ProcedureDef proc = new ProcedureDef(schemaName, objectName, version, templateProvider, dbType);
         privileges.forEach(p -> p.addToObject(proc));

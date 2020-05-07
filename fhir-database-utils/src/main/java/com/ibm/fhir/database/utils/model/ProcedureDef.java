@@ -44,7 +44,7 @@ public class ProcedureDef extends BaseObject {
             // Only apply DB Type specific store procedures.
             if (driveClassName.contains(this.getDbType().value())) {
                 // Remove the postgresql tag "_pg" from the end of the object name and create the stored procedure.
-                target.createOrReplaceProcedure(getSchemaName(), getObjectName().replace("_pg",""), supplier);
+                target.createOrReplaceProcedureAndFunctions(getSchemaName(), getObjectName().replace("_pg",""), supplier);
             }
         }
     }

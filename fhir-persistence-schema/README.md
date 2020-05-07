@@ -195,7 +195,7 @@ Note, you may want to add a tenant key when a key is lost or needs to be changed
 
 Use `--tenant-key-file tenant.key.file` to direct the action to read the tenant-key from file.  If the file exists the tenant key (up to 44 characters is read from the file.  If the file does not exist, the generated tenantKey is written out to the file.
 
-### Update the stored procedures for FHIRDATA (and not FHIR_ADMIN) (Db2 and PostgreSQL)
+### Update the stored procedures and functions for FHIRDATA (and not FHIR_ADMIN) (Db2 and PostgreSQL)
 
 For Db2:
 

@@ -50,7 +50,6 @@ public class PostgreSqlCodeSystemDAO extends CodeSystemDAOImpl {
         int systemId;
         String currentSchema;
         String stmtString;
-        String errMsg = "Failure storing code system id: name=" + systemName;
         long dbCallStartTime;
         double dbCallDuration;
 
@@ -69,6 +68,7 @@ public class PostgreSqlCodeSystemDAO extends CodeSystemDAOImpl {
                 systemId = stmt.getInt(2);
             }
         } catch (Throwable e) {
+            String errMsg = "Failure storing code system id: name=" + systemName;
             throw new FHIRPersistenceDataAccessException(errMsg,e);
         } finally {
             log.exiting(CLASSNAME, METHODNAME);

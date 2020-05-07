@@ -149,7 +149,7 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
+    public void createOrReplaceProcedureAndFunctions(String schemaName, String procedureName, Supplier<String> supplier) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
         logger.info("Create or replace procedure " + objectName);
 

@@ -230,7 +230,7 @@ public class FhirSchemaGenerator {
         model.addObject(allAdminTablesComplete);
 
         // The set_tenant procedure can be created after all the admin tables are done
-        ProcedureDef setTenant = model.addProcedure(this.adminSchemaName,
+        ProcedureDef setTenant = model.addProcedureAndFunctions(this.adminSchemaName,
                         SET_TENANT, 2,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName, SET_TENANT.toLowerCase() + ".sql", null),
                 Arrays.asList(allAdminTablesComplete),
@@ -364,7 +364,7 @@ public class FhirSchemaGenerator {
         // to avoid deadlocks, we only apply them after all the tables are done, so we make all
         // procedures depend on the allTablesComplete marker.
         ProcedureDef pd;
-        pd = model.addProcedure(this.schemaName,
+        pd = model.addProcedureAndFunctions(this.schemaName,
                 ADD_CODE_SYSTEM,
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_CODE_SYSTEM.toLowerCase() + ".sql", null),
@@ -373,7 +373,7 @@ public class FhirSchemaGenerator {
                 DbType.DB2);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
-        pd = model.addProcedure(this.schemaName,
+        pd = model.addProcedureAndFunctions(this.schemaName,
                 ADD_PARAMETER_NAME,
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_PARAMETER_NAME.toLowerCase() + ".sql", null),
@@ -382,7 +382,7 @@ public class FhirSchemaGenerator {
                 DbType.DB2);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
-        pd = model.addProcedure(this.schemaName,
+        pd = model.addProcedureAndFunctions(this.schemaName,
                 ADD_RESOURCE_TYPE,
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_RESOURCE_TYPE.toLowerCase() + ".sql", null),
@@ -391,7 +391,7 @@ public class FhirSchemaGenerator {
                 DbType.DB2);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
-        pd = model.addProcedure(this.schemaName,
+        pd = model.addProcedureAndFunctions(this.schemaName,
                 ADD_ANY_RESOURCE,
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_ANY_RESOURCE.toLowerCase() + ".sql", null),
@@ -403,7 +403,7 @@ public class FhirSchemaGenerator {
         // Add stored procedures/functions for postgresql.
         // Have to use different object names from DB2, because the group processing doesn't support 2 objects with the same name.
         // and the appended "_pg" will be removed when creating the stored procedure for postgresql.
-        pd = model.addProcedure(this.schemaName,
+        pd = model.addProcedureAndFunctions(this.schemaName,
                 ADD_CODE_SYSTEM + "_pg",
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_CODE_SYSTEM.toLowerCase()
@@ -412,7 +412,7 @@ public class FhirSchemaGenerator {
                 procedurePrivileges, DbType.POSTGRESQL);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
-        pd = model.addProcedure(this.schemaName,
+        pd = model.addProcedureAndFunctions(this.schemaName,
                 ADD_PARAMETER_NAME + "_pg",
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_PARAMETER_NAME.toLowerCase()
@@ -421,7 +421,7 @@ public class FhirSchemaGenerator {
                 procedurePrivileges, DbType.POSTGRESQL);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
-        pd = model.addProcedure(this.schemaName,
+        pd = model.addProcedureAndFunctions(this.schemaName,
                 ADD_RESOURCE_TYPE + "_pg",
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_RESOURCE_TYPE.toLowerCase()
@@ -430,7 +430,7 @@ public class FhirSchemaGenerator {
                 procedurePrivileges, DbType.POSTGRESQL);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
-        pd = model.addProcedure(this.schemaName,
+        pd = model.addProcedureAndFunctions(this.schemaName,
                 ADD_ANY_RESOURCE + "_pg",
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_ANY_RESOURCE.toLowerCase()

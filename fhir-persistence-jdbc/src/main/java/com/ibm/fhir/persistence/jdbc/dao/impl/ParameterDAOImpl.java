@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -80,8 +80,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
             connection = this.getConnection();
             ParameterNameDAO pnd = new ParameterNameDAOImpl(connection);
             return pnd.readAllSearchParameterNames();
-        }
-        finally {
+        } finally {
             this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
@@ -98,8 +97,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
             connection = this.getConnection();
             CodeSystemDAO csd = new CodeSystemDAOImpl(connection);
             return csd.readAllCodeSystems();
-        }
-        finally {
+        } finally {
             this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
@@ -134,11 +132,9 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
             }
 
             return pnd.readOrAddParameterNameId(parameterName);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new FHIRPersistenceDataAccessException("Failed to tell database type from connection!", e);
-        }
-        finally {
+        } finally {
             this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
@@ -172,11 +168,9 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
             }
 
             return csd.readOrAddCodeSystem(codeSystemName);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new FHIRPersistenceDataAccessException("Failed to tell database type from connection!", e);
-        }
-        finally {
+        } finally {
             this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
@@ -201,8 +195,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 try {
                     trxSynchRegistry.registerInterposedSynchronization(csCacheUpdater);
                     log.fine("Registered CodeSystemsCacheUpdater.");
-                }
-                catch(Throwable e) {
+                } catch(Throwable e) {
                     FHIRPersistenceException fx = new FHIRPersistenceException("Failure registering CodeSystemsCacheUpdater");
                     throw severe(log, fx, e);
                 }
@@ -233,8 +226,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 try {
                     trxSynchRegistry.registerInterposedSynchronization(pnCacheUpdater);
                     log.fine("Registered ParameterNamesCacheUpdater.");
-                }
-                catch(Throwable e) {
+                } catch(Throwable e) {
                     FHIRPersistenceException fx = new FHIRPersistenceException("Failure registering ParameterNamesCacheUpdater");
                     throw severe(log, fx, e);
                 }
@@ -250,7 +242,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
     protected  Integer getParameterNameIdFromCaches(String parameterName) {
         // Get ParameterNameId from ParameterNameIdCache first.
         Integer parameterNameId = ParameterNamesCache.getParameterNameId(parameterName);
-        // If no found, then get ParameterNameId from local newParameterNameIds in case this id is already in newParameterNameIds
+        // If not found, then get ParameterNameId from local newParameterNameIds in case this id is already in newParameterNameIds
         // but has not been updated to ParameterNamesCache yet. newParameterNameIds is updated to ParameterNamesCache only when the
         // current transaction is committed.
         if (parameterNameId == null) {
@@ -279,16 +271,14 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 acquiredFromCache = false;
                 parameterNameId = this.readOrAddParameterNameId(parameterName);
                 this.addParameterNamesCacheCandidate(parameterName, parameterNameId);
-            }
-            else {
+            } else {
                 acquiredFromCache = true;
             }
             if (log.isLoggable(Level.FINE)) {
                 log.fine("paramenterName=" + parameterName + "  parameterNameId=" + parameterNameId +
                           "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + ParameterNamesCache.getCacheNameForTenantDatastore());
             }
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return parameterNameId;
@@ -333,16 +323,14 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 myCodeSystemName = SqlParameterEncoder.encode(myCodeSystemName);
                 codeSystemId = this.readOrAddCodeSystemId(myCodeSystemName);
                 this.addCodeSystemsCacheCandidate(myCodeSystemName, codeSystemId);
-            }
-            else {
+            } else {
                 acquiredFromCache = true;
             }
             if (log.isLoggable(Level.FINE)) {
                 log.fine("codeSystemName=" + myCodeSystemName + "  codeSystemId=" + codeSystemId +
                           "  acquiredFromCache=" + acquiredFromCache + "  tenantDatastoreCacheName=" + CodeSystemsCache.getCacheNameForTenantDatastore());
             }
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
 
@@ -359,8 +347,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
             connection = this.getConnection();
             ParameterNameDAO pnd = new ParameterNameDAOImpl(connection);
             return pnd.readParameterNameId(parameterName);
-        }
-        finally {
+        } finally {
             this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
@@ -376,8 +363,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
             connection = this.getConnection();
             CodeSystemDAO csd = new CodeSystemDAOImpl(connection);
             return csd.readCodeSystemId(codeSystemName);
-        }
-        finally {
+        } finally {
             this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
