@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,14 +31,13 @@ import javax.ws.rs.core.HttpHeaders;
 
 import org.owasp.encoder.Encode;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.FHIRMediaType;
 
 /**
- * This class is used to wrap a HttpServletRequest instance. The main purpose is to implement common behaviors for the
+ * This class is used to wrap an HttpServletRequest instance. The main purpose is to implement common behaviors for the
  * FHIR REST API layer. For example, we will initially use this class to support the "_format" query parameter as an
  * alternative to the "Accept" HTTP header.
- * 
- * @author padams
  */
 public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     private static final Logger log = Logger.getLogger(FHIRHttpServletRequestWrapper.class.getName());
@@ -67,7 +66,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     // This map allows us to use default values for selected HTTP headers.
     private static Map<String, String> defaultHeaderValues;
 
-    // This map allows us to implement shortcuts/aliases for the values specified for the_format query parameter.
+    // This map allows us to implement shortcuts/aliases for the values specified for the _format query parameter.
     private static Map<String, String> _formatShortcuts;
 
     static {
@@ -81,7 +80,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         delegate = req;
 
         if (log.isLoggable(Level.FINER)) {
-            log.finer("Creating FHIRHttpServletRequestWrapper for HttpServletRequest: " + 
+            log.finer("Creating FHIRHttpServletRequestWrapper for HttpServletRequest: " +
                     Encode.forHtml(req.toString()));
         }
 
@@ -102,7 +101,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
     }
 
     /**
-     * This map will contain the "aliases" that we support as values of the _format 
+     * This map will contain the "aliases" that we support as values of the _format
      * query parameter (overrides the Accept header value).
      */
     private static void initFormatShortcuts() {
@@ -138,9 +137,9 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                 headerQueryParameters.put(headerName, headerValue);
             }
         }
-        
-        if (log.isLoggable(Level.FINER)) { 
-            log.finer("Retrieved these 'header' query parameters from the request URI: " + 
+
+        if (log.isLoggable(Level.FINER)) {
+            log.finer("Retrieved these 'header' query parameters from the request URI: " +
                     Encode.forHtml(headerQueryParameters.toString()));
         }
     }
@@ -161,7 +160,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
     /**
      * Called when the parameters are in a form. The parameters are appended to the query String
-     * 
+     *
      * @param req
      *            HTTpServletRequest
      */
@@ -169,7 +168,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         // Get the original queury String
         String originalQueryString = req.getQueryString();
         if (log.isLoggable(Level.FINER)) {
-            log.finer("Processing form parameters, original queryString is " + 
+            log.finer("Processing form parameters, original queryString is " +
                     Encode.forHtml(originalQueryString));
         }
 
@@ -210,19 +209,19 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         }
 
         if (log.isLoggable(Level.FINER)) {
-            log.finer("After processing form parameters, queryString is " + 
+            log.finer("After processing form parameters, queryString is " +
                     Encode.forHtml(queryString));
         }
     }
-    
-    
+
+
     /**
      * This function is called to modified the accept header to add the missing charset setting,
      * the content of the updated accept header will be used in content-type header of the response by the javax
-     * framework. 
+     * framework.
      * This function fixes the missing charset errors which are caused by:
      * (1) charset is defined in "Accept-Charset" header instead of in "Accept" header.
-     * (2) _format overrides json/xml only, but charset is defined in either "Accept-Charset" or "Accept" header.  
+     * (2) _format overrides json/xml only, but charset is defined in either "Accept-Charset" or "Accept" header.
      * @param s
      * @return
      */
@@ -234,8 +233,8 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
             } else {
                 String originalAcceptCharset = delegate.getHeader(ACCEPT_CHARSET);
                 if (originalAcceptCharset != null) {
-                    s = s + ";" + CHARSET + "=" + originalAcceptCharset; 
-                } 
+                    s = s + ";" + CHARSET + "=" + originalAcceptCharset;
+                }
             }
         }
         return s;
@@ -246,22 +245,23 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * method is called for the "Accept" header, we'll allow the "_format" query parameter to act as an override for the
      * HTTP header value. We support this behavior for several HTTP headers. They are inserted into the
      * "headerNameMappings" map defined above.
-     * 
+     *
      * Also for selected HTTP headers, we'll support a default value in the event that no value is specified via the
      * HTTP request header or via the query string.
-     * 
+     *
      * Finally, if headerName includes a ":" we interpret that as a request for the value of a specific part of a complex header.
      * For example, given a header value like:
-     * <pre> 
+     * <pre>
      * X-TEST: part1=a;part2=multipart;part3=value;
      * </pre>
      * getHeader("X-TEST:part2") would return "multipart".
-     * 
+     *
      * @param headerName
      *            the name of the HTTP header to be retrieved
      * @return the value of the specified header
      * @see javax.servlet.http.HttpServletRequest#getHeader(java.lang.String)
      */
+    @Override
     public String getHeader(String headerName) {
         if (headerName == null) {
             throw new IllegalArgumentException();
@@ -321,14 +321,14 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         if (log.isLoggable(Level.FINEST)) {
             log.finest("getHeader(\"" + headerName + "\"): " + s);
         }
-        
+
         return s;
     }
 
     /**
-     * For specific request headers specified as a query parameter (e.g. "accept/_format"), we'll attempt 
+     * For specific request headers specified as a query parameter (e.g. "accept/_format"), we'll attempt
      * to map the input value (specified by the user in the URI string) to a more official value.
-     * 
+     *
      * @param headerName
      *            the name of the request header that was specified as a query parameter
      * @param value
@@ -337,9 +337,9 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      */
     private String possiblyMapQueryParameterValue(String headerName, String value) {
         if (headerName.equals("accept")) {
-            
+
             String mappedValue = _formatShortcuts.get(value);
-            
+
             // We've entered a special situation where the value may have been remapped via the next step
             // in the jaxrs framework
             if (mappedValue == null) {
@@ -353,10 +353,10 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                     value = FHIRMediaType.APPLICATION_FHIR_XML;
                     addCharset = true;
                 }
-                
+
                 // if there is charset defined in _format, then take it.
                 if (addCharset) {
-                    List<String> formats = Arrays.asList(delegate.getParameter("_format").split(";"));
+                    List<String> formats = Arrays.asList(delegate.getParameter(FHIRConstants.FORMAT).split(";"));
                     for (String format : formats) {
                         if (format.contains(CHARSET)) {
                             value = value + ";" + format;
@@ -375,12 +375,13 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
     /**
      * We need to make sure that the Accept header is returned as one of the header names.
-     * 
+     *
      * @return
      * @see javax.servlet.http.HttpServletRequest#getHeaderNames()
      */
+    @Override
     public Enumeration<String> getHeaderNames() {
-        
+
         // Retrieve the header names from our delegate.
         // If the delegate returns null, that means the servlet container does not want
         // this method to be used.
@@ -395,16 +396,16 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         while (e.hasMoreElements()) {
             v.add(e.nextElement());
         }
-        
+
         // Make sure the ACCEPT header is in the returned list since we
         // have a default value for that one.
         addHeaderNameIfNotPresent(v, HttpHeaders.ACCEPT);
-        
+
         // Next, add names of headers that were specified via the query string.
         for (String s : headerQueryParameters.keySet()) {
             addHeaderNameIfNotPresent(v, s);
         }
-        
+
         if (log.isLoggable(Level.FINEST)) {
             log.finest("getHeaderNames() returning: " + v.toString());
         }
@@ -422,7 +423,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                 break;
             }
         }
-        
+
         // If we didn't find it, then add it to the vector.
         if (!foundIt) {
             v.add(value);
@@ -434,13 +435,14 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * method is called for the "Accept" header, we'll allow the "accept" query parameter to act as an override for the
      * HTTP header value. We support this behavior for several HTTP headers. They are inserted into the
      * "headerNameMappings" map defined above.
-     * 
+     *
      * Also for selected HTTP headers, we'll support a default value in the event that no value is specified via the
      * HTTP request header or via the query string.
-     * 
+     *
      * @return the value of the specified header
      * @see javax.servlet.http.HttpServletRequest#getHeaders(java.lang.String)
      */
+    @Override
     public Enumeration<String> getHeaders(String headerName) {
         Enumeration<String> e = null;
         Vector<String> v = null;
@@ -475,7 +477,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                 e = v.elements();
             }
         }
-        
+
         // Add charset according to the Accept|Accept-Charset header of the request
         if (headerName.equalsIgnoreCase(ACCEPT)) {
                 v = new Vector<String>();
@@ -484,7 +486,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
                 }
                 e = v.elements();
         }
-        
+
         // In order to display the header values in a trace message, we actually need to
         // get at the vector containing the individual values.  Otherwise if we visit the values
         // in the returned Enumeration, the caller won't be able to see the values.
@@ -498,7 +500,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
             }
             log.finest("getHeaders(\"" + headerName + "\") : " + v.toString());
         }
-        
+
         return e;
     }
 
@@ -507,7 +509,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
         StringBuffer sb = new StringBuffer();
         sb.append("[");
         while (headers.hasMoreElements()) {
-            String s = (String) headers.nextElement();
+            String s = headers.nextElement();
             sb.append("{");
             sb.append(s);
             sb.append("}");
@@ -521,6 +523,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getAttribute(java.lang.String)
      */
+    @Override
     public Object getAttribute(String arg0) {
         return delegate.getAttribute(arg0);
     }
@@ -529,6 +532,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getAttributeNames()
      */
+    @Override
     public Enumeration<String> getAttributeNames() {
         return delegate.getAttributeNames();
     }
@@ -537,6 +541,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getAuthType()
      */
+    @Override
     public String getAuthType() {
         return delegate.getAuthType();
     }
@@ -545,6 +550,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getCharacterEncoding()
      */
+    @Override
     public String getCharacterEncoding() {
         return delegate.getCharacterEncoding();
     }
@@ -553,6 +559,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getContentLength()
      */
+    @Override
     public int getContentLength() {
         return delegate.getContentLength();
     }
@@ -561,6 +568,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getContentType()
      */
+    @Override
     public String getContentType() {
         return delegate.getContentType();
     }
@@ -569,6 +577,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getContextPath()
      */
+    @Override
     public String getContextPath() {
         return delegate.getContextPath();
     }
@@ -577,6 +586,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getCookies()
      */
+    @Override
     public Cookie[] getCookies() {
         return delegate.getCookies();
     }
@@ -587,6 +597,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @see javax.servlet.http.HttpServletRequest#getDateHeader(java.lang.String)
      * @throws IllegalArgumentException
      */
+    @Override
     public long getDateHeader(String headerName) {
         return delegate.getDateHeader(headerName);
     }
@@ -596,6 +607,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @throws IOException
      * @see javax.servlet.ServletRequest#getInputStream()
      */
+    @Override
     public ServletInputStream getInputStream() throws IOException {
         return delegate.getInputStream();
     }
@@ -605,6 +617,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getIntHeader(java.lang.String)
      */
+    @Override
     public int getIntHeader(String arg0) {
         return delegate.getIntHeader(arg0);
     }
@@ -613,6 +626,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getLocalAddr()
      */
+    @Override
     public String getLocalAddr() {
         return delegate.getLocalAddr();
     }
@@ -621,6 +635,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getLocalName()
      */
+    @Override
     public String getLocalName() {
         return delegate.getLocalName();
     }
@@ -629,6 +644,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getLocalPort()
      */
+    @Override
     public int getLocalPort() {
         return delegate.getLocalPort();
     }
@@ -637,6 +653,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getLocale()
      */
+    @Override
     public Locale getLocale() {
         return delegate.getLocale();
     }
@@ -645,6 +662,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getLocales()
      */
+    @Override
     public Enumeration<Locale> getLocales() {
         return delegate.getLocales();
     }
@@ -653,6 +671,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getMethod()
      */
+    @Override
     public String getMethod() {
         String override = this.getHeader(HEADER_X_METHOD_OVERRIDE);
         if (override != null) {
@@ -670,6 +689,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getParameter(java.lang.String)
      */
+    @Override
     public String getParameter(String arg0) {
         return delegate.getParameter(arg0);
     }
@@ -678,6 +698,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getParameterMap()
      */
+    @Override
     public Map<String, String[]> getParameterMap() {
         return delegate.getParameterMap();
     }
@@ -686,6 +707,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getParameterNames()
      */
+    @Override
     public Enumeration<String> getParameterNames() {
         return delegate.getParameterNames();
     }
@@ -695,6 +717,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getParameterValues(java.lang.String)
      */
+    @Override
     public String[] getParameterValues(String arg0) {
         return delegate.getParameterValues(arg0);
     }
@@ -703,6 +726,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getPathInfo()
      */
+    @Override
     public String getPathInfo() {
         return delegate.getPathInfo();
     }
@@ -711,6 +735,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getPathTranslated()
      */
+    @Override
     public String getPathTranslated() {
         return delegate.getPathTranslated();
     }
@@ -719,6 +744,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getProtocol()
      */
+    @Override
     public String getProtocol() {
         return delegate.getProtocol();
     }
@@ -727,6 +753,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getQueryString()
      */
+    @Override
     public String getQueryString() {
         // Return the amended queryString containing the form parameters
         if (queryString != null) {
@@ -740,6 +767,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @throws IOException
      * @see javax.servlet.ServletRequest#getReader()
      */
+    @Override
     public BufferedReader getReader() throws IOException {
         return delegate.getReader();
     }
@@ -750,6 +778,8 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @deprecated
      * @see javax.servlet.ServletRequest#getRealPath(java.lang.String)
      */
+    @Deprecated
+    @Override
     public String getRealPath(String arg0) {
         return delegate.getRealPath(arg0);
     }
@@ -758,6 +788,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getRemoteAddr()
      */
+    @Override
     public String getRemoteAddr() {
         return delegate.getRemoteAddr();
     }
@@ -766,6 +797,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getRemoteHost()
      */
+    @Override
     public String getRemoteHost() {
         return delegate.getRemoteHost();
     }
@@ -774,6 +806,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getRemotePort()
      */
+    @Override
     public int getRemotePort() {
         return delegate.getRemotePort();
     }
@@ -782,6 +815,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getRemoteUser()
      */
+    @Override
     public String getRemoteUser() {
         return delegate.getRemoteUser();
     }
@@ -791,6 +825,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getRequestDispatcher(java.lang.String)
      */
+    @Override
     public RequestDispatcher getRequestDispatcher(String arg0) {
         return delegate.getRequestDispatcher(arg0);
     }
@@ -799,6 +834,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getRequestURI()
      */
+    @Override
     public String getRequestURI() {
         return delegate.getRequestURI();
     }
@@ -807,6 +843,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getRequestURL()
      */
+    @Override
     public StringBuffer getRequestURL() {
         return delegate.getRequestURL();
     }
@@ -815,6 +852,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getRequestedSessionId()
      */
+    @Override
     public String getRequestedSessionId() {
         return delegate.getRequestedSessionId();
     }
@@ -823,6 +861,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getScheme()
      */
+    @Override
     public String getScheme() {
         return delegate.getScheme();
     }
@@ -831,6 +870,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getServerName()
      */
+    @Override
     public String getServerName() {
         return delegate.getServerName();
     }
@@ -839,6 +879,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#getServerPort()
      */
+    @Override
     public int getServerPort() {
         return delegate.getServerPort();
     }
@@ -847,6 +888,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getServletPath()
      */
+    @Override
     public String getServletPath() {
         return delegate.getServletPath();
     }
@@ -855,6 +897,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getSession()
      */
+    @Override
     public HttpSession getSession() {
         return delegate.getSession();
     }
@@ -864,6 +907,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getSession(boolean)
      */
+    @Override
     public HttpSession getSession(boolean arg0) {
         return delegate.getSession(arg0);
     }
@@ -872,6 +916,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#getUserPrincipal()
      */
+    @Override
     public Principal getUserPrincipal() {
         return delegate.getUserPrincipal();
     }
@@ -880,6 +925,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromCookie()
      */
+    @Override
     public boolean isRequestedSessionIdFromCookie() {
         return delegate.isRequestedSessionIdFromCookie();
     }
@@ -888,6 +934,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromURL()
      */
+    @Override
     public boolean isRequestedSessionIdFromURL() {
         return delegate.isRequestedSessionIdFromURL();
     }
@@ -897,6 +944,8 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @deprecated
      * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromUrl()
      */
+    @Deprecated
+    @Override
     public boolean isRequestedSessionIdFromUrl() {
         return delegate.isRequestedSessionIdFromUrl();
     }
@@ -905,6 +954,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdValid()
      */
+    @Override
     public boolean isRequestedSessionIdValid() {
         return delegate.isRequestedSessionIdValid();
     }
@@ -913,6 +963,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.ServletRequest#isSecure()
      */
+    @Override
     public boolean isSecure() {
         return delegate.isSecure();
     }
@@ -922,6 +973,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @return
      * @see javax.servlet.http.HttpServletRequest#isUserInRole(java.lang.String)
      */
+    @Override
     public boolean isUserInRole(String arg0) {
         return delegate.isUserInRole(arg0);
     }
@@ -930,6 +982,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @param arg0
      * @see javax.servlet.ServletRequest#removeAttribute(java.lang.String)
      */
+    @Override
     public void removeAttribute(String arg0) {
         delegate.removeAttribute(arg0);
     }
@@ -939,6 +992,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @param arg1
      * @see javax.servlet.ServletRequest#setAttribute(java.lang.String, java.lang.Object)
      */
+    @Override
     public void setAttribute(String arg0, Object arg1) {
         delegate.setAttribute(arg0, arg1);
     }
@@ -948,6 +1002,7 @@ public class FHIRHttpServletRequestWrapper extends HttpServletRequestWrapper {
      * @throws UnsupportedEncodingException
      * @see javax.servlet.ServletRequest#setCharacterEncoding(java.lang.String)
      */
+    @Override
     public void setCharacterEncoding(String arg0) throws UnsupportedEncodingException {
         delegate.setCharacterEncoding(arg0);
     }

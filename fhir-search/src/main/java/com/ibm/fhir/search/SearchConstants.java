@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,7 +27,7 @@ public class SearchConstants {
     private SearchConstants() {
         // No Op
     }
-    
+
     private static final String SUBSETTED_TAG_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ObservationValue";
     private static final String SUBSETTED_TAG_CODE = "SUBSETTED";
     private static final String SUBSETTED_TAG_DISPLAY = "subsetted";
@@ -38,7 +38,7 @@ public class SearchConstants {
             .build();
 
     public static final String LOG_BOUNDARY = "---------------------------------------------------------";
-    
+
     // XML Processing.
     public static final String DTM_MANAGER = "com.sun.org.apache.xml.internal.dtm.DTMManager";
 
@@ -52,8 +52,8 @@ public class SearchConstants {
     public static final String BACKSLASH_NEGATIVE_LOOKBEHIND = "(?<!\\\\)";
 
     public static final String COMPARTMENTS_JSON = "compartments.json";
-    
-    // Value Types Regex. 
+
+    // Value Types Regex.
     public static final String PARAMETER_DELIMITER_REGEX = "\\|";
     public static final String COMPONENT_PATH_REGEX = "\\.";
     public static final char START_WHERE = '(';
@@ -62,9 +62,6 @@ public class SearchConstants {
     // If the user specifies a value greater than this, we'll just use this value instead.
     // In the future, we might want to make this value configurable.
     public static final int MAX_PAGE_SIZE = 1000;
-
-    // _format
-    public static final String FORMAT = "_format";
 
     // _sort
     public static final String SORT = "_sort";
@@ -83,20 +80,17 @@ public class SearchConstants {
 
     // _count
     public static final String COUNT = "_count";
-    
+
     // _summary
     public static final String SUMMARY = "_summary";
-    
-    // _pretty
-    public static final String PRETTY = "_pretty";
-    
+
     // _type
     public static final String RESOURCE_TYPE = "_type";
 
     // set as unmodifiable
     public static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
             Collections.unmodifiableList(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY));
-    
+
     // set as unmodifiable
     public static final List<String> SYSTEM_LEVEL_SORT_PARAMETER_NAMES = Collections.unmodifiableList(Arrays.asList("_id", "_lastUpdated"));
 
@@ -109,29 +103,29 @@ public class SearchConstants {
     public static final String CHAINED_PARAMETER_CHARACTER = ".";
 
     public static final String PARAMETER_DELIMITER = "|";
-    
+
     public static final char COLON_DELIMITER = ':';
 
     public static final String COLON_DELIMITER_STR = ":";
-    
+
     public static final String WILDCARD = "*";
-    
+
     public static final char AND_CHAR = '&';
-    
+
     public static final char EQUALS_CHAR = '=';
-    
+
     public static final String JOIN_STR = ",";
-    
+
     public static final String AND_CHAR_STR = "&";
-    
+
     // Filter
     public static final String WILDCARD_FILTER = "*";
-    
-    // Resource Constants to reflect a hierarchy: 
+
+    // Resource Constants to reflect a hierarchy:
     // RESOURCE -> DOMAIN_RESOURCE -> Instance (e.g. Claim);
     public static final String RESOURCE_RESOURCE = "Resource";
     public static final String DOMAIN_RESOURCE_RESOURCE = "DomainResource";
-    
+
     // The resourceTypeModifierMap is set one time on startup and is a final value.
     // Set as unmodifiable.
     public static final Map<Type, List<Modifier>> RESOURCE_TYPE_MODIFIER_MAP =
@@ -143,7 +137,7 @@ public class SearchConstants {
                     put(SearchConstants.Type.STRING, Arrays.asList(Modifier.EXACT, Modifier.CONTAINS, Modifier.MISSING));
                     put(SearchConstants.Type.REFERENCE, Arrays.asList(Modifier.TYPE, Modifier.IDENTIFIER, Modifier.MISSING));
                     put(SearchConstants.Type.URI, Arrays.asList(Modifier.BELOW, Modifier.ABOVE, Modifier.MISSING));
-                    put(SearchConstants.Type.TOKEN, Arrays.asList(Modifier.TEXT, Modifier.NOT, 
+                    put(SearchConstants.Type.TOKEN, Arrays.asList(Modifier.TEXT, Modifier.NOT,
                             Modifier.ABOVE, Modifier.BELOW, Modifier.IN, Modifier.NOT_IN, Modifier.OF_TYPE, Modifier.MISSING));
                     put(SearchConstants.Type.NUMBER, Arrays.asList(Modifier.MISSING));
                     put(SearchConstants.Type.DATE, Arrays.asList(Modifier.MISSING));
@@ -157,14 +151,14 @@ public class SearchConstants {
      * Prefixes for Search parameters
      */
     public enum Prefix {
-        EQ("eq"), 
-        NE("ne"), 
-        GT("gt"), 
-        LT("lt"), 
-        GE("ge"), 
-        LE("le"), 
-        SA("sa"), 
-        EB("eb"), 
+        EQ("eq"),
+        NE("ne"),
+        GT("gt"),
+        LT("lt"),
+        GE("ge"),
+        LE("le"),
+        SA("sa"),
+        EB("eb"),
         AP("ap");
 
         private String value = null;
@@ -189,19 +183,19 @@ public class SearchConstants {
 
     /**
      * Types
-     * 
+     *
      * @author markd
      *
      */
     public enum Type {
-        NUMBER("number"), 
-        DATE("date"), 
-        STRING("string"), 
-        TOKEN("token"), 
-        REFERENCE("reference"), 
-        COMPOSITE("composite"), 
-        QUANTITY("quantity"), 
-        URI("uri"), 
+        NUMBER("number"),
+        DATE("date"),
+        STRING("string"),
+        TOKEN("token"),
+        REFERENCE("reference"),
+        COMPOSITE("composite"),
+        QUANTITY("quantity"),
+        URI("uri"),
         SPECIAL("special");
 
         private String value = null;
@@ -237,8 +231,8 @@ public class SearchConstants {
         ABOVE("above"),
         NOT("not"),
         NOT_IN("not-in"),
-        TYPE("[type]"), 
-        OF_TYPE("of-type"), 
+        TYPE("[type]"),
+        OF_TYPE("of-type"),
         IDENTIFIER("identifier");
 
         private String value = null;
