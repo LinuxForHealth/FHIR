@@ -66,7 +66,8 @@ To create an import request, the IBM FHIR Server requires the body fields of the
 
 The IBM FHIR Server limits the number of inputs per each `$import` request based on `fhirServer/bulkdata/maxInputPerRequest`, which defaults to 5 input entries.
 
-The IBM FHIR Server supports an additional `storageDetail.type` with the value of `ibm-cos`.
+The IBM FHIR Server supports `storageDetail.type` with the value of `ibm-cos`, `https` and `aws-s3`.
+To import using the $import on https, one must additionally configure the fhirServer/bulkdata/validBaseUrls. For example, if one stores bulkdata on https://test-url.ibm.com/folder1 and https://test-url.ibm.com/folder2 you must specify both baseUrls. Please refer to the [IBM FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#410-bulk-data-operations)
 
 #### Example Request
 The following is a request to load data from the IBM COS endpoint into the IBM FHIR Server.
@@ -179,7 +180,7 @@ The Bulk Data Request is deleted using the Content-Location and executing the `D
 
 - Request
 ```sh
-curl -X DELETE 'https://localhost:9443/fhir-server/api/v4/$bulkdata-status?job=k%2Fd8cTAU%2BUeVEwqURPZ3oA%3D%3D' -k -u "fhiruser:change-password" -v
+curl -k -v -u "fhiruser:change-password" -X DELETE 'https://localhost:9443/fhir-server/api/v4/$bulkdata-status?job=k%2Fd8cTAU%2BUeVEwqURPZ3oA%3D%3D'
 ```
 
 - Response
