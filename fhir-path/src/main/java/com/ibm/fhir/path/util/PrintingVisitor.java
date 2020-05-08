@@ -1,5 +1,11 @@
 package com.ibm.fhir.path.util;
 
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import com.ibm.fhir.path.FHIRPathBaseVisitor;
@@ -7,6 +13,16 @@ import com.ibm.fhir.path.FHIRPathParser;
 
 public class PrintingVisitor extends FHIRPathBaseVisitor<Object> {
     int indentLevel = 0;
+
+    private final PrintWriter writer;
+
+    public PrintingVisitor(OutputStream out) {
+        this(new OutputStreamWriter(out, StandardCharsets.UTF_8));
+    }
+
+    public PrintingVisitor(Writer writer) {
+        this.writer = new PrintWriter(writer, true);
+    }
 
     private String indent() {
         StringBuilder builder = new StringBuilder();
@@ -17,7 +33,7 @@ public class PrintingVisitor extends FHIRPathBaseVisitor<Object> {
     }
 
     private void print(ParseTree ctx) {
-        System.out.println(indent() + ctx.getClass().getSimpleName() + ": " + ctx.getText() + ", childCount: " + ctx.getChildCount());
+        writer.println(indent() + ctx.getClass().getSimpleName() + ": " + ctx.getText() + ", childCount: " + ctx.getChildCount());
     }
 
     @Override
