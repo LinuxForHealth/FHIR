@@ -21,7 +21,7 @@ The IBM FHIR Server bulk data module configuration is described in more detail a
 The `$export` operation uses three OperationDefinition: 
 - [System](http://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-export.html) - Export data from the server. Exports to an S3-compatible data store.
 - [Patient](http://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-patient-export.html) - Obtain a set of resources pertaining to all patients. Exports to an S3-compatible data store.
-- [Group](http://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-group-export.html) - Obtain a set resources pertaining to patients in a specific Group. Only supports static membership; does not resolve inclusion/exclusion criteria.
+- [Group](http://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-group-export.html) - Obtain a set of resources pertaining to patients in a specific Group. Only supports static membership; does not resolve inclusion/exclusion criteria.
 
 ### **$export: Create a Bulk Data Request**
 To create an import request, the IBM FHIR Server requires the body fields of the request object to be a FHIR Resource `Parameters` JSON Object.  The request must be posted to the server using `POST`. Each request is limited to a single resource type in each imported or referenced file.
