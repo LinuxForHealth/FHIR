@@ -74,6 +74,14 @@ public interface FHIRPathTemporalValue extends FHIRPathSystemValue {
     ChronoField precision();
 
     /**
+     * The text that this FHIRPathTemporalValue was parsed from (if applicable)
+     *
+     * @return
+     *     the text that this FHIRPathTemporvalValue was parsed from (if applicable), otherwise null
+     */
+    String getText();
+
+    /**
      * Indicates whether the specified field is supported by this FHIRPathTemporalValue
      *
      * @param field

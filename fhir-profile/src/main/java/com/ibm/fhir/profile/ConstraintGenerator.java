@@ -74,19 +74,19 @@ public class ConstraintGenerator {
 
         Set<String> generated = new HashSet<>();
 
-        log.fine("Generated constraint expressions:");
+        log.finest("Generated constraint expressions:");
         for (Node child : tree.root.children) {
             String expr = generate(child);
             if (generated.contains(expr)) {
                 continue;
             }
-            log.fine(expr);
+            log.finest(expr);
             String description = "Constraint violation: " + expr;
             constraints.add(constraint("generated-" + prefix + "-" + index, expr, description));
             index++;
             generated.add(expr);
         }
-        log.fine("");
+        log.finest("");
 
         return constraints;
     }
@@ -125,28 +125,28 @@ public class ConstraintGenerator {
         tree.nodeMap = nodeMap;
         tree.sliceDefinitionMap = sliceDefinitionMap;
 
-        if (log.isLoggable(Level.FINE)) {
-            log.fine("Element definitions BEFORE pruning:");
+        if (log.isLoggable(Level.FINEST)) {
+            log.finest("Element definitions BEFORE pruning:");
             for (String id : nodeMap.keySet()) {
-                log.fine(id);
+                log.finest(id);
             }
-            log.fine("");
+            log.finest("");
         }
 
         prune(tree);
 
-        if (log.isLoggable(Level.FINE)) {
-            log.fine("Element definitions AFTER pruning:");
+        if (log.isLoggable(Level.FINEST)) {
+            log.finest("Element definitions AFTER pruning:");
             for (String id : nodeMap.keySet()) {
-                log.fine(id);
+                log.finest(id);
             }
-            log.fine("");
+            log.finest("");
 
-            log.fine("Slice definitions:");
+            log.finest("Slice definitions:");
             for (String id : sliceDefinitionMap.keySet()) {
-                log.fine(id);
+                log.finest(id);
             }
-            log.fine("");
+            log.finest("");
         }
 
         return tree;
@@ -260,13 +260,15 @@ public class ConstraintGenerator {
         Integer min = elementDefinition.getMin().getValue();
         String max = elementDefinition.getMax().getValue();
 
+        sb.append("extension('").append(profile).append("').count()");
         if ("*".equals(max)) {
-            sb.append("extension('").append(profile).append("').count()").append(" >= ").append(min);
+            sb.append(" >= ").append(min);
         } else if ("1".equals(max)) {
             if (min == 0) {
-                sb.append("extension('").append(profile).append("').count()").append(" <");
+                sb.append(" <= 1");
+            } else {
+                sb.append(" = 1");
             }
-            sb.append("= 1");
         } else {
             sb.append(" >= ").append(min).append(" and ").append("extension('").append(profile).append("').count() <= ").append(max);
         }

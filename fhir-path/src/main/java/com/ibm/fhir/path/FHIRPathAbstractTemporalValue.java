@@ -39,12 +39,14 @@ public abstract class FHIRPathAbstractTemporalValue extends FHIRPathAbstractNode
     protected final TemporalAccessor temporalAccessor;
     protected final ChronoField precision;
     protected final Temporal temporal;
+    protected final String text;
 
     protected FHIRPathAbstractTemporalValue(Builder builder) {
         super(builder);
         temporalAccessor = Objects.requireNonNull(builder.temporalAccessor);
         precision = Objects.requireNonNull(builder.precision);
         temporal = getTemporal(temporalAccessor);
+        text = builder.text;
     }
 
     @Override
@@ -63,7 +65,15 @@ public abstract class FHIRPathAbstractTemporalValue extends FHIRPathAbstractNode
     }
 
     @Override
+    public String getText() {
+        return text;
+    }
+
+    @Override
     public boolean isSupported(ChronoField field) {
+        if (!FIELD_INDEX_MAP.containsKey(field)) {
+            return false;
+        }
         return fieldIndex(precision) >= fieldIndex(field);
     }
 
@@ -82,6 +92,7 @@ public abstract class FHIRPathAbstractTemporalValue extends FHIRPathAbstractNode
     public static abstract class Builder extends FHIRPathAbstractNode.Builder {
         protected final TemporalAccessor temporalAccessor;
         protected final ChronoField precision;
+        protected String text;
 
         protected Builder(FHIRPathType type, TemporalAccessor temporalAccessor, ChronoField precision) {
             super(type);
@@ -111,6 +122,11 @@ public abstract class FHIRPathAbstractTemporalValue extends FHIRPathAbstractNode
 
         @Override
         public Builder children(Collection<FHIRPathNode> children) {
+            return this;
+        }
+
+        public Builder text(String text) {
+            this.text = text;
             return this;
         }
 

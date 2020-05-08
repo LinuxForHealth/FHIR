@@ -16,6 +16,8 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
+import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.validation.FHIRValidator;
@@ -58,6 +60,25 @@ public class USCoreValidationTest {
             List<Issue> issues = FHIRValidator.validator().validate(patient);
             issues.forEach(System.out::println);
             Assert.assertEquals(countErrors(issues), 0);
+        }
+    }
+
+    @Test
+    public void testUSCoreValidation5() throws Exception {
+        try (InputStream in = USCoreValidationTest.class.getClassLoader().getResourceAsStream("JSON/Pamela954_Johns824_4818eca9-c6d2-4fa0-a234-7244e620391e.json")) {
+            Bundle bundle = FHIRParser.parser(Format.JSON).parse(in);
+            FHIRValidator validator = FHIRValidator.validator();
+            List<Issue> issues = validator.validate(bundle);
+            Assert.assertEquals(countErrors(issues), 0);
+        }
+    }
+
+    @Test
+    public void testUSCoreValidation6() throws Exception {
+        try (InputStream in = USCoreValidationTest.class.getClassLoader().getResourceAsStream("JSON/1.json")) {
+            Observation observation = FHIRParser.parser(Format.JSON).parse(in);
+            List<Issue> issues = FHIRValidator.validator().validate(observation);
+            Assert.assertEquals(countErrors(issues), 1);
         }
     }
 }

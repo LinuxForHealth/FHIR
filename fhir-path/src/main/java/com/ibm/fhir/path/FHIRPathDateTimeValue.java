@@ -98,7 +98,7 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractTemporalValue {
                 PARSER_FORMATTER.parseBest(text, ZonedDateTime::from, LocalDateTime::from, LocalDate::from, YearMonth::from, Year::from) :
                 FHIRPathDateValue.PARSER_FORMATTER.parseBest(text, LocalDate::from, YearMonth::from, Year::from);
         ChronoField precision = getPrecision(dateTime, text);
-        return FHIRPathDateTimeValue.builder(dateTime, precision).build();
+        return FHIRPathDateTimeValue.builder(dateTime, precision).text(text).build();
     }
 
     /**
@@ -180,6 +180,11 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractTemporalValue {
             return this;
         }
 
+        @Override
+        public Builder text(String text) {
+            return (Builder) super.text(text);
+        }
+
         /**
          * Build a FHIRPathDateTimeValue instance using this builder
          *
@@ -243,7 +248,7 @@ public class FHIRPathDateTimeValue extends FHIRPathAbstractTemporalValue {
 
     @Override
     public String toString() {
-        return PARSER_FORMATTER.format(dateTime);
+        return (text != null) ? text : PARSER_FORMATTER.format(dateTime);
     }
 
     @Override
