@@ -10,7 +10,7 @@ public class PrintingVisitor extends FHIRPathBaseVisitor<Object> {
 
     private String indent() {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0;i < indentLevel; i++) {
+        for (int i = 0; i < indentLevel; i++) {
             builder.append("    ");
         }
         return builder.toString();

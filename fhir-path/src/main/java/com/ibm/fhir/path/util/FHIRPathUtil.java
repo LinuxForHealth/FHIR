@@ -117,7 +117,7 @@ public final class FHIRPathUtil {
         UNESCAPED.put("\\t", "\t");
     }
 
-    private static final ANTLRErrorListener ERROR_LISTENER = new BaseErrorListener() {
+    private static final ANTLRErrorListener SYNTAX_ERROR_LISTENER = new BaseErrorListener() {
         @Override
         public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
             throw new ParseCancellationException(String.format("line %d:%d %s", line, charPositionInLine, msg), e);
@@ -129,13 +129,13 @@ public final class FHIRPathUtil {
     public static ExpressionContext compile(String expr) {
         FHIRPathLexer lexer = new FHIRPathLexer(CharStreams.fromString(expr));
         lexer.removeErrorListeners();
-        lexer.addErrorListener(ERROR_LISTENER);
+        lexer.addErrorListener(SYNTAX_ERROR_LISTENER);
 
         CommonTokenStream tokens = new CommonTokenStream(lexer);
 
         FHIRPathParser parser = new FHIRPathParser(tokens);
         parser.removeErrorListeners();
-        parser.addErrorListener(ERROR_LISTENER);
+        parser.addErrorListener(SYNTAX_ERROR_LISTENER);
 
         return parser.expression();
     }
