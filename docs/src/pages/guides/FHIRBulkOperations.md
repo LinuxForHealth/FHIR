@@ -62,7 +62,7 @@ curl -k -u "fhiruser:change-password" -H "Content-Type: application/fhir+json" -
 The `$import` operation is System operation are invoked at `[base]/$import`.  The Import Operation uses a custom crafted OperationDefinition [link](https://github.com/IBM/FHIR/blob/master/fhir-operation-bulkdata/src/main/resources/import.json), which follows the proposal from [Smart-on-FHIR: import.md](https://github.com/smart-on-fhir/bulk-import/blob/master/import.md).
 
 ### **$import: Create a Bulk Data Request**
-To create an import request, the IBM FHIR Server requires the body fields of the request object to be a FHIR Resource `Parameters` JSON Object.  The request must be posted to the server using `POST`. Each request is limited to a single resource type in each imported or referenced file.
+To create an import request, the IBM FHIR Server requires the body fields of the request object to be a FHIR Resource `Parameters` JSON Object.  The request must be posted to the server using `POST`. Each input url in the request is limited to a single resource type.
 
 The IBM FHIR Server limits the number of inputs per each `$import` request based on `fhirServer/bulkdata/maxInputPerRequest`, which defaults to 5 input entries.
 
@@ -106,10 +106,10 @@ curl -k -v -X POST -u "fhiruser:change-password" -H 'Content-Type: application/f
 ```
 
 #### Example Response
-The response body is populated only on error, the response status code is 202 and the `content-location` is populated with the polling location, such as the response header:
+The response body is populated only on error, the response status code is 202 and the `content-location` is populated with the polling location in a response header:
 
 ``` sh
-content-location: https://localhost:9443/fhir-server/api/v4/$bulkdata-status?job=JKyViJ5Y0zcqQ2Uv1aBSMw%3D%3D
+Content-Location: https://localhost:9443/fhir-server/api/v4/$bulkdata-status?job=JKyViJ5Y0zcqQ2Uv1aBSMw%3D%3D
 ```
 
 ## Status Operation: $bulkdata-status
@@ -119,12 +119,12 @@ There are two custom features - *Poll Job* and *Delete Job*.
 
 ### **$bulkdata-status: Poll Job**
 The response returned is 202 if the job is queued or not yet complete.
-The response returned is 200 if the job is the job is completed.
+The response returned is 200 if the job is completed.
 
 #### Example
 - Request
 ```sh
-curl 'https://localhost:9443/fhir-server/api/v4/$bulkdata-status?job=FvHrLGPv0oKZNyLzBnY5iA%3D%3D' -k -u "fhiruser:change-password" -v
+curl -k -v -u "fhiruser:change-password" 'https://localhost:9443/fhir-server/api/v4/$bulkdata-status?job=FvHrLGPv0oKZNyLzBnY5iA%3D%3D'
 ```
 - Response for `$import` or `$export` not yet complete
 The response code is 202.
