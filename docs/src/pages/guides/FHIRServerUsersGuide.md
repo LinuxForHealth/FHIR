@@ -1198,7 +1198,7 @@ BulkData web application writes the exported FHIR resources to an IBM Cloud Obje
     "batch-uri": "https://localhost:9443/ibm/api/batch/jobinstances",
     "batch-user": "fhiradmin",
     "batch-user-password": "change-password",
-    "batch-truststore": "resources/security/fhirTruststore.jks",
+    "batch-truststore": "resources/security/fhirTrustStore.p12",
     "batch-truststore-password": "change-password",
     "isExportPublic": true,
     "validBaseUrls": [
