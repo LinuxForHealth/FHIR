@@ -564,12 +564,10 @@ public class Main {
      * Update the schema
      */
     protected void updateSchema() {
-
         // Build/update the FHIR-related tables as well as the stored procedures
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
-        gen.buildProcedures(pdm);
 
         // Build/update the Liberty OAuth-related tables
         if (updateOauthSchema) {

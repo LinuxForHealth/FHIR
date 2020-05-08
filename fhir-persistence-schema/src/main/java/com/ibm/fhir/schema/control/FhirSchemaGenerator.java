@@ -49,7 +49,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -649,20 +648,6 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     * Add the sequence objects to the given model object
-     * -------------------------------------------------------------------------------
-        CREATE SEQUENCE test_sequence
-             AS BIGINT
-         START WITH 1
-          CACHE 1000
-           NO CYCLE;
-     * @param model
-     */
-    protected void addSequences(PhysicalDataModel model) {
-
-    }
-
-    /**
      *
      *
     CREATE TABLE parameter_names (
@@ -732,37 +717,11 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     * @param pdm
-     */
-    public void buildProcedures(PhysicalDataModel pdm) {
-
-        // Add a stored procedure for every resource type we have. We don't apply these procedures
-        // until all the tables are done...just for simplicity.
-        //for (String resourceType: this.resourceTypes) {
-        //final String lcResourceName = resourceType.toLowerCase();
-        //pdm.addProcedure(this.schemaName, lcResourceName + "_add_resource3", () -> this.readResourceTemplate(resourceType), Arrays.asList(allTablesComplete));
-        //}
-    }
-
-    /**
-     * Read the create procedure template which is made resource-type specific
-     * @param resourceType
-     * @return
-     */
-    protected String readResourceTemplate(String resourceType) {
-        List<Replacer> replacers = new ArrayList<>();
-        replacers.add(new Replacer("LC_RESOURCE_TYPE", resourceType.toLowerCase()));
-        replacers.add(new Replacer("RESOURCE_TYPE", resourceType));
-
-        return SchemaGeneratorUtil.readTemplate(this.adminSchemaName, this.schemaName, ADD_RESOURCE_TEMPLATE, replacers);
-    }
-
-    /**
      * <pre>
     CREATE SEQUENCE fhir_sequence
              AS BIGINT
      START WITH 1
-          CACHE 1000
+          CACHE 20000
        NO CYCLE;
      * </pre>
      *
@@ -784,15 +743,5 @@ public class FhirSchemaGenerator {
         sequencePrivileges.forEach(p -> p.addToObject(fhirRefSequence));
 
         pdm.addObject(fhirRefSequence);
-    }
-
-    /**
-     * Visitor for the resource types
-     * @param consumer
-     */
-    public void applyResourceTypes(Consumer<String> consumer) {
-        for (String resourceType: this.resourceTypes) {
-            consumer.accept(resourceType);
-        }
     }
 }
