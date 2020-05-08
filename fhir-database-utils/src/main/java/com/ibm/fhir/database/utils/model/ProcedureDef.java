@@ -20,6 +20,7 @@ public class ProcedureDef extends BaseObject {
 
     // supplier provides the procedure body when requested
     private Supplier<String> supplier;
+    private DbType dbType;
 
     /**
      * Public constructor
@@ -28,9 +29,10 @@ public class ProcedureDef extends BaseObject {
      * @param version
      * @param supplier
      */
-    public ProcedureDef(String schemaName, String procedureName, int version, Supplier<String> supplier) {
+    public ProcedureDef(String schemaName, String procedureName, int version, Supplier<String> supplier, DbType dbType) {
         super(schemaName, procedureName, DatabaseObjectType.PROCEDURE, version);
         this.supplier = supplier;
+        this.dbType = dbType;
     }
 
     @Override
@@ -38,7 +40,12 @@ public class ProcedureDef extends BaseObject {
         // Serialize the execution of the procedure, to try and avoid the
         // horrible deadlocks we keep getting
         synchronized(target) {
-            target.createOrReplaceProcedure(getSchemaName(), getObjectName(), supplier);
+            String driveClassName = target.getTranslator().getDriverClassName();
+            // Only apply DB Type specific store procedures.
+            if (driveClassName.contains(this.getDbType().value())) {
+                // Remove the postgresql tag "_pg" from the end of the object name and create the stored procedure.
+                target.createOrReplaceProcedureAndFunctions(getSchemaName(), getObjectName().replace("_pg",""), supplier);
+            }
         }
     }
 
@@ -61,6 +68,15 @@ public class ProcedureDef extends BaseObject {
 
     @Override
     protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
-        target.grantProcedurePrivileges(getSchemaName(), getObjectName(), group, toUser);
+        String driveClassName = target.getTranslator().getDriverClassName();
+        // Only apply DB Type specific store procedures.
+        if (driveClassName.contains(this.getDbType().value())) {
+            // Remove the postgresql tag "_pg" from the end of the object name and create the stored procedure.
+            target.grantProcedurePrivileges(getSchemaName(), getObjectName(), group, toUser);
+        }
+    }
+
+    public DbType getDbType() {
+        return dbType;
     }
 }

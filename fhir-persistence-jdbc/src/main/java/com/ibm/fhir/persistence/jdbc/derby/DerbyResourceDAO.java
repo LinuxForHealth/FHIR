@@ -24,10 +24,9 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
-import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
+import com.ibm.fhir.persistence.jdbc.dao.impl.CodeSystemCacheAdapter;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterNameCacheAdapter;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -56,15 +55,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
     private static final String CLASSNAME = DerbyResourceDAO.class.getSimpleName();
 
     private static final DerbyTranslator translator = new DerbyTranslator();
-
-    // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
-    private FhirRefSequenceDAO fhirRefSequenceDAO;
-
-    // DAO used to manage parameter_names
-    private ParameterNameDAO parameterNameDAO;
-
-    // DAO used to manage code_systems
-    private CodeSystemDAO codeSystemDAO;
 
     public DerbyResourceDAO(Connection managedConnection) {
         super(managedConnection);
@@ -102,11 +92,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
         try {
             connection = this.getConnection();
-
-            this.fhirRefSequenceDAO = new FhirRefSequenceDAOImpl(connection);
-            this.parameterNameDAO = new DerbyParameterNamesDAO(connection, fhirRefSequenceDAO);
-            this.codeSystemDAO = new DerbyCodeSystemDAO(connection, fhirRefSequenceDAO);
-
             resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());
             if (resourceTypeId == null) {
                 acquiredFromCache = false;
@@ -134,7 +119,8 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 resource.isDeleted(),
                 sourceKey,
                 resource.getVersionId(),
-                connection
+                connection,
+                parameterDao
                 );
 
 
@@ -204,7 +190,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * @throws Exception
      */
     public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, byte[] p_payload, Timestamp p_last_updated, boolean p_is_deleted,
-        String p_source_key, Integer p_version, Connection conn) throws Exception {
+        String p_source_key, Integer p_version, Connection conn, ParameterDAO parameterDao) throws Exception {
 
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
         logger.entering(CLASSNAME, METHODNAME);
@@ -437,7 +423,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             if (parameters != null) {
                 // Derby doesn't support partitioned multi-tenancy, so we disable it on the DAO:
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_logical_resource_id, 100,
-                    new ParameterNameCacheAdapter(parameterNameDAO), new CodeSystemCacheAdapter(codeSystemDAO))) {
+                    new ParameterNameCacheAdapter(parameterDao), new CodeSystemCacheAdapter(parameterDao))) {
                     for (ExtractedParameterValue p: parameters) {
                         p.accept(pvd);
                     }
@@ -505,6 +491,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         // Create the resource if we don't have it already (set by the continue handler)
         if (result == null) {
             try {
+                FhirRefSequenceDAOImpl fhirRefSequenceDAO = new FhirRefSequenceDAOImpl(conn);
                 result = fhirRefSequenceDAO.nextValue();
 
                 final String INS = "INSERT INTO resource_types (resource_type_id, resource_type) VALUES (?, ?)";

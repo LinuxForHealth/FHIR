@@ -149,8 +149,25 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
-        warnOnce(MessageKey.CREATE_PROC, "Create procedure not supported in PostgreSql");
+    public void createOrReplaceProcedureAndFunctions(String schemaName, String procedureName, Supplier<String> supplier) {
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
+        logger.info("Create or replace procedure " + objectName);
+
+        // Build the create procedure DDL and apply it
+        // Because postgresql version 12 doesn't support OUT parameter yet, so we use Function with exactly the similar
+        // parameters as DB2 stored procedures for now.
+        final StringBuilder ddl = new StringBuilder()
+                .append("CREATE OR REPLACE FUNCTION ")
+                .append(objectName)
+                .append(System.lineSeparator())
+                .append(supplier.get());
+
+        final String ddlString = ddl.toString();
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(ddlString);
+        }
+
+        runStatement(ddlString);
     }
 
     @Override

@@ -6,75 +6,63 @@
 
 package com.ibm.fhir.persistence.jdbc.postgresql;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.Types;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterNameDAOImpl;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 public class PostgreSqlParameterNamesDAO extends ParameterNameDAOImpl {
-    private final FhirRefSequenceDAO fhirRefSequenceDAO;
+    private static final Logger log = Logger.getLogger(PostgreSqlParameterNamesDAO.class.getName());
+    private static final String CLASSNAME = PostgreSqlParameterNamesDAO.class.getName();
+    private static final String SQL_CALL_ADD_PARAMETER_NAME = "{CALL %s.add_parameter_name(?, ?)}";
 
-    public PostgreSqlParameterNamesDAO(Connection c, FhirRefSequenceDAO fsd) {
+    public PostgreSqlParameterNamesDAO(Connection c) {
         super(c);
-        this.fhirRefSequenceDAO = fsd;
-    }
-
-    @Override
-    public int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDataAccessException  {
-        // As the system is concurrent, we have to handle cases where another thread
-        // might create the entry after we selected and found nothing
-        Integer result = getParameterId(parameterName);
-
-        // Create the resource if we don't have it already (set by the continue handler)
-        if (result == null) {
-            try {
-                result = fhirRefSequenceDAO.nextValue();
-
-                final String INS = "INSERT INTO parameter_names (parameter_name_id, parameter_name) VALUES (?, ?)";
-                try (PreparedStatement stmt = getConnection().prepareStatement(INS)) {
-                    // bind parameters
-                    stmt.setInt(1, result);
-                    stmt.setString(2, parameterName);
-                    stmt.executeUpdate();
-                }
-            } catch (SQLException e) {
-                throw new FHIRPersistenceDataAccessException("Error while getting or inserting parameterName '" + parameterName + "'", e);
-            }
-        }
-
-        // cannot be null, so safe to return as an int
-        return result;
     }
 
     /**
-     * Read the id for the named type
+     * Calls a stored procedure to read the name contained in the passed Parameter in the Parameter_Names table.
+     * If it's not in the DB, it will be stored and a unique id will be returned.
      * @param parameterName
-     * @return the database id, or null if the named record is not found
+     * @return The generated id of the stored system.
      * @throws FHIRPersistenceDataAccessException
      */
-    protected Integer getParameterId(String parameterName) throws FHIRPersistenceDataAccessException {
-        Integer result;
+    @Override
+    public int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDataAccessException  {
+        final String METHODNAME = "readOrAddParameterNameId";
+        log.entering(CLASSNAME, METHODNAME);
 
-        String sql = "SELECT parameter_name_id FROM parameter_names WHERE parameter_name = ?";
+        int parameterNameId;
+        String currentSchema;
+        String stmtString;
+        String errMsg = "Failure storing search parameter name id: name=" + parameterName;
+        long dbCallStartTime;
+        double dbCallDuration;
 
-        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
-            stmt.setString(1, parameterName);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                result = rs.getInt(1);
-            }  else {
-                result = null;
+        try {
+            // TODO: schema should be known by application. Fix to avoid an extra round-trip.
+            currentSchema = getConnection().getSchema().trim();
+            stmtString = String.format(SQL_CALL_ADD_PARAMETER_NAME, currentSchema);
+            try (CallableStatement stmt = getConnection().prepareCall(stmtString)) {
+                stmt.setString(1, parameterName);
+                stmt.registerOutParameter(2, Types.INTEGER);
+                dbCallStartTime = System.nanoTime();
+                stmt.execute();
+                dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+                if (log.isLoggable(Level.FINE)) {
+                        log.fine("DB read/store parameter name id complete. executionTime=" + dbCallDuration + "ms");
+                }
+                parameterNameId = stmt.getInt(2);
             }
+        } catch (Throwable e) {
+            throw new FHIRPersistenceDataAccessException(errMsg,e);
+        } finally {
+            log.exiting(CLASSNAME, METHODNAME);
         }
-        catch (SQLException x) {
-            throw new FHIRPersistenceDataAccessException("parameterName=" + parameterName, x);
-        }
-
-        return result;
+        return parameterNameId;
     }
-
 }

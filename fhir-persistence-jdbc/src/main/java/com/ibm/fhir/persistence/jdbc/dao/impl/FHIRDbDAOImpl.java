@@ -80,7 +80,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
     /**
      * Constructs a DAO instance suitable for acquiring connections based on the passed database type specific
      * properties.
-     * 
+     *
      * @param dbProperties
      */
     public FHIRDbDAOImpl(Properties dbProperties) {
@@ -91,7 +91,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
     /**
      * Constructs a DAO using the passed externally managed database connection.
      * The connection used by this instance for all DB operations will be the passed connection.
-     * 
+     *
      * @param Connection - A database connection that will be managed by the caller.
      */
     public FHIRDbDAOImpl(Connection conn) {
@@ -103,7 +103,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
      * Convenience function to log the cause of an exception about to be thrown. This
      * is useful when avoiding chaining the cause with the persistence exception, which
      * could inadvertently leak sensitive information (details of the schema, for example)
-     * 
+     *
      * @param logger
      * @param fx
      * @param cause
@@ -117,7 +117,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
     /**
      * Log the exception message here along with the cause stack. Return the
      * exception fx to the caller so that it can be thrown easily.
-     * 
+     *
      * @param logger
      * @param fx
      * @param errorMessage
@@ -224,7 +224,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
     /**
      * this feature is executes row access control
-     * 
+     *
      * @param connection
      * @throws Exception
      */
@@ -254,7 +254,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                         dsPG.getBooleanProperty("multitenant", DATASTORE_REQUIRES_ROW_PERMISSIONS.contains(type));
             }
         } else {
-            log.warning("there are no datasource properties found for : [" + dsPropertyName + "]");
+            log.fine("there are no datasource properties found for : [" + dsPropertyName + "]");
         }
 
         if (multiTenantFeature) {
@@ -287,7 +287,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
     /**
      * Retrieves the datasource JNDI name to be used from the fhir server configuration.
-     * 
+     *
      * @return the datasource JNDI name
      * @throws Exception
      */
@@ -305,7 +305,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
     /**
      * Looks up and returns a Datasource JDBC object representing the FHIR database via JNDI.
-     * 
+     *
      * @return
      * @throws Exception
      */
@@ -351,7 +351,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
     /**
      * Closes the passed PreparedStatement and Connection objects.
-     * 
+     *
      * @param stmt
      * @param connection
      */
@@ -382,7 +382,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
     /**
      * Closes the passed ResultSet, PreparedStatement, and Connection objects.
-     * 
+     *
      * @param resultSet
      * @param stmt
      * @param connection
@@ -408,7 +408,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
     /**
      * Creates and executes a PreparedStatement using the passed parameters that returns a collection of FHIR Data
      * Transfer Objects of type T.
-     * 
+     *
      * @param sql        - The SQL template to execute.
      * @param searchArgs - An array of arguments to be substituted into the SQL template.
      * @return List<T> - A List of FHIR Data Transfer Objects resulting from the executed query.
@@ -468,7 +468,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
     /**
      * Creates and executes a PreparedStatement for the passed sql containing a 'SELECT COUNT...'.
      * The count value is extracted from the ResultSet and returned as an int.
-     * 
+     *
      * @param sql        - The SQL SELECT COUNT template to execute.
      * @param searchArgs - An array of arguments to be substituted into the SQL template.
      * @return int - The count of results returned by the SQL query.
@@ -533,7 +533,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
     /**
      * An method for creating a collection of Data Transfer Objects of type T from the contents of the passed ResultSet.
-     * 
+     *
      * @param resultSet A ResultSet containing FHIR persistent object data.
      * @return List<Resource> - A collection of FHIR Data Transfer objects of the same type.
      * @throws FHIRPersistenceDataAccessException
@@ -564,7 +564,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
     /**
      * A method for creating a Data Transfer Object of type T from the contents of the passed ResultSet.
-     * 
+     *
      * @param resultSet A ResultSet containing FHIR persistent object data.
      * @return T - An instance of type T, which is a FHIR Data Transfer Object.
      * @throws FHIRPersistenceDataAccessException
@@ -613,7 +613,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
     /**
      * Creates and executes a PreparedStatement using the passed parameters that returns a collection of String values.
-     * 
+     *
      * @param sql        - The SQL template to execute.
      * @param searchArgs - An array of arguments to be substituted into the SQL template.
      * @return List<String> - A List of strings resulting from the executed query.

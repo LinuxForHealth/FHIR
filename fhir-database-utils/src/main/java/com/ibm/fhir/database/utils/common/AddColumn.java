@@ -16,6 +16,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.model.ColumnBase;
+import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.postgresql.PostgreSqlAdapter;
 
 /**
@@ -46,11 +47,11 @@ public class AddColumn implements IDatabaseStatement {
         // DatabaseTypeAdapter is needed to find the correct data type for the column.
         IDatabaseTypeAdapter dbAdapter = null;
         String driveClassName = translator.getDriverClassName();
-        if (driveClassName.contains("db2")) {
+        if (driveClassName.contains(DbType.DB2.value())) {
             dbAdapter = new Db2Adapter();
-        } else if (driveClassName.contains("derby")) {
+        } else if (driveClassName.contains(DbType.DERBY.value())) {
             dbAdapter = new DerbyAdapter();
-        } else if (driveClassName.contains("postgresql")) {
+        } else if (driveClassName.contains(DbType.POSTGRESQL.value())) {
             dbAdapter = new PostgreSqlAdapter();
         }
 

@@ -52,6 +52,7 @@ import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DatabaseObjectType;
+import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
@@ -71,7 +72,6 @@ import com.ibm.fhir.schema.control.GetResourceTypeList;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
-import com.ibm.fhir.schema.model.DbType;
 import com.ibm.fhir.schema.model.ResourceType;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
@@ -94,6 +94,7 @@ public class Main {
 
     // Indicates if the feature is enabled for the DbType
     public List<DbType> MULTITENANT_FEATURE_ENABLED = Arrays.asList(DbType.DB2);
+    public List<DbType> STORED_PROCEDURE_ENABLED = Arrays.asList(DbType.DB2, DbType.POSTGRESQL);
 
     // Properties accumulated as we parse args and read configuration files
     private final Properties properties = new Properties();
@@ -180,7 +181,8 @@ public class Main {
                     DataDefinitionUtil.assertValidName(args[i]);
 
                     // Force upper-case to avoid tricky-to-catch errors related to quoting names
-                    this.schemaName = args[i].toUpperCase();
+                    //this.schemaName = args[i].toUpperCase();
+                    this.schemaName = args[i];
 
                     if (!schemaName.equals(args[i])) {
                         logger.info("Schema name forced to upper case: " + schemaName);
@@ -638,7 +640,7 @@ public class Main {
      * into the FHIR resource tables
      */
     protected void updateProcedures() {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+        if (!STORED_PROCEDURE_ENABLED.contains(dbType)) {
             return;
         }
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
@@ -651,7 +653,7 @@ public class Main {
             try (Connection c = createConnection()) {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
-                    Db2Adapter adapter = new Db2Adapter(target);
+                    IDatabaseAdapter adapter = getDbAdapter(target);
                     pdm.applyProcedures(adapter);
                 } catch (Exception x) {
                     c.rollback();
