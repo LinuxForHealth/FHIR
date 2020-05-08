@@ -20,7 +20,7 @@ The IBM FHIR Server bulk data module configuration is described in more detail a
 ## Export Operation: $export
 The `$export` operation uses three OperationDefinition: 
 - [System](http://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-export.html) - Export data from the server. Exports to an S3-compatible data store.
-- [Patient](http://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-patient-export.html) - An instance level execution, Obtain a set of resources pertaining to all patients. exports to an S3-compatible data store.
+- [Patient](http://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-patient-export.html) - Obtain a set of resources pertaining to all patients. Exports to an S3-compatible data store.
 - [Group](http://hl7.org/fhir/uv/bulkdata/STU1/ OperationDefinition-group-export.html) - Obtain a set resources pertaining to patients in a specific Group. Only supports static membership; does not resolve inclusion/exclusion criteria.
 
 ### **$export: Create a Bulk Data Request**
@@ -30,14 +30,14 @@ To create an import request, the IBM FHIR Server requires the body fields of the
 The following is a request to export data to the IBM COS endpoint from the IBM FHIR Server using GET.
 
 ```sh
-curl -u "fhiruser:change-password" -k -H "Content-Type: application/fhir+json" -X GET 'https://localhost:9443/fhir-server/api/v4/$export?_outputFormat=application/fhir%2Bndjson&_type=Patient' -v
+curl -k -u "fhiruser:change-password" -H "Content-Type: application/fhir+json" -X GET 'https://localhost:9443/fhir-server/api/v4/$export?_outputFormat=application/fhir%2Bndjson&_type=Patient' -v
 ```
 
 #### Example Request - POST
 The following is a request to export data to the IBM COS endpoint from the IBM FHIR Server using POST and FHIR Resource Parameters.
 
 ```sh
-curl -u "fhiruser:change-password" -k -H "Content-Type: application/fhir+json" -X POST 'https://localhost:9443/fhir-server/api/v4/$export' -d '{
+curl -k -u "fhiruser:change-password" -H "Content-Type: application/fhir+json" -X POST 'https://localhost:9443/fhir-server/api/v4/$export' -d '{
     "resourceType": "Parameters",
     "id": "e33a6a4e-29b5-4f62-a3e9-8d09f50ae54d",
     "parameter": [
