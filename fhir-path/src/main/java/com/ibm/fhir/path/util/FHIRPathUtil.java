@@ -40,6 +40,14 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import org.antlr.v4.runtime.ANTLRErrorListener;
+import org.antlr.v4.runtime.BaseErrorListener;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.misc.ParseCancellationException;
+
 import com.ibm.fhir.model.patch.exception.FHIRPatchException;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -57,8 +65,11 @@ import com.ibm.fhir.path.FHIRPathDateValue;
 import com.ibm.fhir.path.FHIRPathDecimalValue;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathIntegerValue;
+import com.ibm.fhir.path.FHIRPathLexer;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathNumberValue;
+import com.ibm.fhir.path.FHIRPathParser;
+import com.ibm.fhir.path.FHIRPathParser.ExpressionContext;
 import com.ibm.fhir.path.FHIRPathQuantityNode;
 import com.ibm.fhir.path.FHIRPathQuantityValue;
 import com.ibm.fhir.path.FHIRPathResourceNode;
@@ -106,7 +117,28 @@ public final class FHIRPathUtil {
         UNESCAPED.put("\\t", "\t");
     }
 
+    private static final ANTLRErrorListener SYNTAX_ERROR_LISTENER = new BaseErrorListener() {
+        @Override
+        public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+            throw new ParseCancellationException(String.format("line %d:%d %s", line, charPositionInLine, msg), e);
+        }
+    };
+
     private FHIRPathUtil() { }
+
+    public static ExpressionContext compile(String expr) {
+        FHIRPathLexer lexer = new FHIRPathLexer(CharStreams.fromString(expr));
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(SYNTAX_ERROR_LISTENER);
+
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+        FHIRPathParser parser = new FHIRPathParser(tokens);
+        parser.removeErrorListeners();
+        parser.addErrorListener(SYNTAX_ERROR_LISTENER);
+
+        return parser.expression();
+    }
 
     public static boolean isTypeCompatible(FHIRPathSystemValue leftValue, FHIRPathSystemValue rightValue) {
         return TYPE_COMPATIBILITY_MAP.get(leftValue.type()).contains(rightValue.type());
@@ -1037,10 +1069,5 @@ public final class FHIRPathUtil {
             }
         }
         return parent;
-    }
-
-    public static void main(String[] args) throws Exception {
-
-        System.out.println(convertsToDateTime(singleton(FHIRPathStringValue.stringValue("2020-05-05"))));
     }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,9 +16,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  */
 public class MockPersistenceFactory implements FHIRPersistenceFactory {
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.FHIRPersistenceFactory#getInstance()
-     */
     @Override
     public FHIRPersistence getInstance() throws FHIRPersistenceException {
         return new MockPersistenceImpl();

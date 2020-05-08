@@ -98,7 +98,7 @@ public final class ProfileSupport {
     private static Constraint createConstraint(String path, ElementDefinition.Constraint constraint) {
         String id = constraint.getKey().getValue();
         String level = "error".equals(constraint.getSeverity().getValue()) ? Constraint.LEVEL_RULE : Constraint.LEVEL_WARNING;
-        String location = path.contains(".") ? path.replace("[x]", "") : Constraint.LOCATION_BASE;
+        String location = path.contains(".") ? path.replace(".div", ".`div`").replace("[x]", "") : Constraint.LOCATION_BASE;
         String description = constraint.getHuman().getValue();
         String expression = constraint.getExpression().getValue();
         return createConstraint(id, level, location, description, expression, false, false);

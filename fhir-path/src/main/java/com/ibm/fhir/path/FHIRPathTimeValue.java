@@ -76,7 +76,7 @@ public class FHIRPathTimeValue extends FHIRPathAbstractTemporalValue {
     public static FHIRPathTimeValue timeValue(String text) {
         LocalTime time = LocalTime.parse(text, PARSER_FORMATTER);
         ChronoField precision = getPrecision(time, text);
-        return FHIRPathTimeValue.builder(time, precision).build();
+        return FHIRPathTimeValue.builder(time, precision).text(text).build();
     }
 
     /**
@@ -157,6 +157,11 @@ public class FHIRPathTimeValue extends FHIRPathAbstractTemporalValue {
             return this;
         }
 
+        @Override
+        public Builder text(String text) {
+            return (Builder) super.text(text);
+        }
+
         /**
          * Build a FHIRPathTimeValue instance using this builder
          *
@@ -217,7 +222,7 @@ public class FHIRPathTimeValue extends FHIRPathAbstractTemporalValue {
 
     @Override
     public String toString() {
-        return PARSER_FORMATTER.format(time);
+        return (text != null) ? text : PARSER_FORMATTER.format(time);
     }
 
     @Override

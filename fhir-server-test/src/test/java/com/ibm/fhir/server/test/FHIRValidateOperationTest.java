@@ -38,12 +38,12 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
     public void testValidatePatient() {
         JsonObject patient = buildPatient();
         Entity<JsonObject> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_JSON);
-        
+
         WebTarget target = getWebTarget();
         Response response = target.path("Resource/$validate").request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
-        
+
         assertEquals("NoError", operationOutcome.getId());
         assertEquals(1, operationOutcome.getIssue().size());
         assertEquals(IssueSeverity.WARNING, operationOutcome.getIssue().get(0).getSeverity());
@@ -59,13 +59,15 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         Response response = target.path("Resource/$validate").request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
-        
+
         assertEquals("Error", operationOutcome.getId());
         assertEquals(2, operationOutcome.getIssue().size());
-        assertEquals(IssueSeverity.WARNING, operationOutcome.getIssue().get(0).getSeverity());
-        assertTrue(operationOutcome.getIssue().get(0).getDetails().getText().getValue().startsWith("dom-6"));
-        assertEquals(IssueSeverity.ERROR, operationOutcome.getIssue().get(1).getSeverity());
-        assertTrue(operationOutcome.getIssue().get(1).getDetails().getText().getValue().startsWith("cpt-2"));
+
+        assertEquals(IssueSeverity.ERROR, operationOutcome.getIssue().get(0).getSeverity());
+        assertTrue(operationOutcome.getIssue().get(0).getDetails().getText().getValue().startsWith("cpt-2"));
+
+        assertEquals(IssueSeverity.WARNING, operationOutcome.getIssue().get(1).getSeverity());
+        assertTrue(operationOutcome.getIssue().get(1).getDetails().getText().getValue().startsWith("dom-6"));
     }
 
     @Test(groups = { "validate-operation" })

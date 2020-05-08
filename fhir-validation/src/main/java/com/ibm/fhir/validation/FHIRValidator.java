@@ -10,6 +10,7 @@ import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.path.util.FHIRPathUtil.evaluatesToBoolean;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
+import static com.ibm.fhir.validation.util.FHIRValidationUtil.ISSUE_COMPARATOR;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,7 +65,7 @@ public class FHIRValidator {
      * @param profiles
      *     specific profile references to validate the resource against
      * @return
-     *     a non-null, possibly empty list of issues generated during validation
+     *     a non-null, possibly empty list of issues generated during validation (sorted by severity)
      * @throws FHIRValidationException
      *     for errors that occur during validation
      */
@@ -92,7 +93,7 @@ public class FHIRValidator {
      * @param profiles
      *     specific profile references to validate the resource against
      * @return
-     *     a non-null, possibly empty list of issues generated during validation
+     *     a non-null, possibly empty list of issues generated during validation (sorted by severity)
      * @throws FHIRValidationException
      *     for errors that occur during validation
      */
@@ -119,7 +120,7 @@ public class FHIRValidator {
      * @param profiles
      *     specific profile references to validate the evaluation context against
      * @return
-     *     list of issues generated during validation
+     *     a non-null, possibly empty list of issues generated during validation (sorted by severity)
      * @throws FHIRValidationException
      *     for errors that occur during validation
      * @see {@link FHIRPathEvaluator.EvaluationContext}
@@ -149,7 +150,7 @@ public class FHIRValidator {
      * @param profiles
      *     specific profile references to validate the evaluation context against
      * @return
-     *     a non-null, possibly empty list of issues generated during validation
+     *     a non-null, possibly empty list of issues generated during validation (sorted by severity)
      * @throws FHIRValidationException
      *     for errors that occur during validation
      * @see {@link FHIRPathEvaluator.EvaluationContext}
@@ -164,6 +165,7 @@ public class FHIRValidator {
             List<Issue> issues = new ArrayList<>();
             validateProfileReferences(evaluationContext.getTree().getRoot().asResourceNode(), Arrays.asList(profiles), false, issues);
             issues.addAll(visitor.validate(evaluationContext, includeResourceAssertedProfiles, profiles));
+            Collections.sort(issues, ISSUE_COMPARATOR);
             return Collections.unmodifiableList(issues);
         } catch (Exception e) {
             throw new FHIRValidationException("An error occurred during validation", e);

@@ -62,8 +62,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import com.ibm.fhir.model.annotation.Constraint;
@@ -73,7 +71,6 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.visitor.Visitable;
 import com.ibm.fhir.path.FHIRPathBaseVisitor;
 import com.ibm.fhir.path.FHIRPathBooleanValue;
-import com.ibm.fhir.path.FHIRPathLexer;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathParser;
 import com.ibm.fhir.path.FHIRPathParser.ExpressionContext;
@@ -87,6 +84,7 @@ import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.function.FHIRPathFunction;
+import com.ibm.fhir.path.util.FHIRPathUtil;
 
 /**
  * A FHIRPath evaluation engine that implements the FHIRPath 2.0.0 <a href="http://hl7.org/fhirpath/N1/">specification</a>
@@ -267,14 +265,7 @@ public class FHIRPathEvaluator {
     }
 
     private static ExpressionContext getExpressionContext(String expr) {
-        return EXPRESSION_CONTEXT_CACHE.computeIfAbsent(Objects.requireNonNull(expr), FHIRPathEvaluator::compile);
-    }
-
-    private static ExpressionContext compile(String expr) {
-        FHIRPathLexer lexer = new FHIRPathLexer(CharStreams.fromString(expr));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        FHIRPathParser parser = new FHIRPathParser(tokens);
-        return parser.expression();
+        return EXPRESSION_CONTEXT_CACHE.computeIfAbsent(Objects.requireNonNull(expr), FHIRPathUtil::compile);
     }
 
     /**

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.validation.util;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -14,6 +15,13 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 
 public final class FHIRValidationUtil {
+    public static final Comparator<Issue> ISSUE_COMPARATOR = new Comparator<Issue>() {
+        @Override
+        public int compare(Issue first, Issue second) {
+            return first.getSeverity().getValueAsEnumConstant().compareTo(second.getSeverity().getValueAsEnumConstant());
+        }
+    };
+
     private FHIRValidationUtil() { }
 
     public static List<Issue> getErrors(List<Issue> issues) {
