@@ -82,7 +82,7 @@ if errorlevel 1 (
 
 @REM Copy our server assets
 echo Deploying fhir-server assets to server runtime environment.
-xcopy /S /Y /Q %BASEDIR%\* %WLP_ROOT%\usr\
+xcopy /S /Y /Q %BASEDIR%\artifacts\* %WLP_ROOT%\usr\
 if errorlevel 1 (
     set rc=%ERRORLEVEL%
     echo Error deploying fhir-server assets to server runtime environment: %rc%
