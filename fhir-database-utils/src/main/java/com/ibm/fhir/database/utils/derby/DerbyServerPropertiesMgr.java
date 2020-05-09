@@ -52,8 +52,8 @@ public class DerbyServerPropertiesMgr {
         // Link https://db.apache.org/derby/docs/10.9/ref/crefproper22250.html
         try (Statement s = conn.createStatement();) {
             // Preallocation - https://db.apache.org/derby/docs/10.9/ref/rrefproperpreallocator.html
-            // Since we're driving contention with 1000, we're jumping to 5000.
-            setProperty(s, "derby.language.sequence.preallocator", "5000");
+            // Since we're driving contention with 1000, we're jumping to 10000.
+            setProperty(s, "derby.language.sequence.preallocator", "10000");
             if (isDebug) {
                 setProperty(s, "derby.language.logQueryPlan", "true");
                 setProperty(s, "derby.language.logStatementText", "true");
