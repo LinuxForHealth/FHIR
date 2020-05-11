@@ -421,6 +421,11 @@ public final class ValidationSupport {
         boolean checkReferenceTypes = FHIRModelConfig.getCheckReferenceTypes();
         if (reference != null && checkReferenceTypes) {
             String referenceType = getReferenceType(reference);
+            if (referenceType != null && !ModelSupport.isResourceType(referenceType)) {
+                throw new IllegalStateException(
+                    String.format("Resource type found in Reference.type: '%s' for element: '%s' must be a valid resource type name",
+                        referenceType, elementName));
+            }
             List<String> referenceTypeList = Arrays.asList(referenceTypes);
 
             // If there is an explicit Reference.type, ensure its an allowed type
