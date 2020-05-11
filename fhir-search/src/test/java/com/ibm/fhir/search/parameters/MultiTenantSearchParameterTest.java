@@ -31,8 +31,6 @@ import com.ibm.fhir.search.util.SearchUtil;
 /**
  * This class tests various multi-tenant enabled search parameter-related methods of the SearchUtil class.
  *
- * @author padams
- * @author pbastide
  *
  */
 public class MultiTenantSearchParameterTest extends BaseSearchTest {
