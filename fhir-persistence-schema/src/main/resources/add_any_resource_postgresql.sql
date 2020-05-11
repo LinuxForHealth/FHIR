@@ -37,7 +37,8 @@
   v_duplicate               INT := 0;
   v_version                 INT := 0;
   v_insert_version          INT := 0;
-  lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id FROM {{SCHEMA_NAME}}.logical_resources WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR UPDATE;
+  -- Because we don't really update any existing key, so use NO KEY UPDATE to achieve better concurrence performance. 
+  lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id FROM {{SCHEMA_NAME}}.logical_resources WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR NO KEY UPDATE;
 
 BEGIN
   v_schema_name := '{{SCHEMA_NAME}}';
@@ -45,8 +46,6 @@ BEGIN
     FROM {{SCHEMA_NAME}}.resource_types WHERE resource_type = p_resource_type;
 
   -- Get a lock at the system-wide logical resource level
-  -- we need to use a cursor in this context because we need the FOR UPDATE WITH RS support
-  -- and this does not work with the SET (?,?) = (select ...) construct
   OPEN lock_cur(t_resource_type_id := v_resource_type_id, t_logical_id := p_logical_id);
   FETCH lock_cur INTO v_logical_resource_id;
   CLOSE lock_cur;

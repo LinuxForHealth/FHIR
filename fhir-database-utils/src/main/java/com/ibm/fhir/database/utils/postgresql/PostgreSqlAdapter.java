@@ -250,7 +250,9 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         // Make the call, but
         // 1. without the tenantColumnName because PostgreSql doesn't support our multi-tenant implementation; and
         // 2. with enforced=true because PostgreSql doesn't support non-default constraint characteristics
-        super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, null, columns, true);
+        if (enforced) {
+            super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, null, columns, true);
+        }
     }
 
     @Override
