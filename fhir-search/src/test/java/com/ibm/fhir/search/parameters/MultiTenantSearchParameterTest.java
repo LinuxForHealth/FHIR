@@ -95,9 +95,9 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters4/Observation", result);
         assertEquals(8, result.size());
-        List<String> names = getSearchParameterNames(result);
-        assertTrue(names.contains("code"));
-        assertTrue(names.contains("_id"));
+        List<String> codes = getSearchParameterNames(result);
+        assertTrue(codes.contains("code"));
+        assertTrue(codes.contains("_id"));
     }
 
     @Test
