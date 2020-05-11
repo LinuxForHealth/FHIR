@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.ConnectionDetails;
 import com.ibm.fhir.database.utils.api.ConnectionException;
 import com.ibm.fhir.database.utils.api.DataAccessException;
+import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
@@ -52,7 +53,8 @@ public class DerbyTranslator implements IDatabaseTranslator {
 
     @Override
     public boolean isAlreadyExists(SQLException x) {
-        return "42710".equals(x.getSQLState());
+        // X0Y68 is for a schema, X0Y32 is for an object (e.g. a table)
+        return "X0Y68".equals(x.getSQLState()) || "X0Y32".equals(x.getSQLState());
     }
 
     @Override
@@ -85,6 +87,9 @@ public class DerbyTranslator implements IDatabaseTranslator {
         }
         else if (isDuplicate(x)) {
             return new UniqueConstraintViolationException(x);
+        }
+        else if (isAlreadyExists(x)) {
+            return new DuplicateNameException(x);
         }
         else if (isUndefinedName(x)) {
             return new UndefinedNameException(x);

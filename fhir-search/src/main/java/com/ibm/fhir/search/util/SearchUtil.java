@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2020
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.SearchParameter.Component;
@@ -629,12 +630,13 @@ public class SearchUtil {
                         if (ModelSupport.isResourceType(resType)) {
                             resourceTypes.add(resType);
                         } else {
+                            String msg = "_type search parameter has invalid resource type:" + resType;
                             if (lenient) {
-                                log.log(Level.FINE, resType + " is not valid resource type!");
+                                // TODO add this to the list of supplemental warnings?
+                                log.log(Level.FINE, msg);
                                 continue;
                             } else {
-                                throw SearchExceptionUtil.buildNewInvalidSearchException(
-                                        "_type search parameter has invilid resource type:" + resType);
+                                throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                             }
                         }
                     }
@@ -654,9 +656,6 @@ public class SearchUtil {
             String name = entry.getKey();
             try {
                 List<String> params = entry.getValue();
-                if (SearchConstants.FORMAT.equals(name)) {
-                    continue;
-                }
 
                 if (isSearchResultParameter(name)) {
                     parseSearchResultParameter(resourceType, context, name, params, lenient);
@@ -667,6 +666,8 @@ public class SearchUtil {
                         context.getIncludeParameters().clear();
                         context.getRevIncludeParameters().clear();
                     }
+                } else if (isGeneralParameter(name) ) {
+                    // we'll handle it somewhere else, so just ignore it here
                 } else if (isChainedParameter(name)) {
                     List<String> chainedParemeters = params;
                     for (String chainedParameterString : chainedParemeters) {
@@ -754,6 +755,7 @@ public class SearchUtil {
                         "Error while parsing search parameter '" + name + "' for resource type "
                                 + resourceType.getSimpleName();
                 if (lenient) {
+                    // TODO add this to the list of supplemental warnings?
                     log.log(Level.FINE, msg, se);
                 } else {
                     throw se;
@@ -1063,6 +1065,10 @@ public class SearchUtil {
 
     public static boolean isSearchResultParameter(String name) {
         return SearchConstants.SEARCH_RESULT_PARAMETER_NAMES.contains(name);
+    }
+
+    public static boolean isGeneralParameter(String name) {
+        return FHIRConstants.GENERAL_PARAMETER_NAMES.contains(name);
     }
 
     private static void parseSearchResultParameter(Class<?> resourceType, FHIRSearchContext context, String name,
@@ -1431,6 +1437,7 @@ public class SearchUtil {
             if (searchParm == null) {
                 String msg = "Undefined Inclusion Parameter: " + inclusionValue;
                 if (lenient) {
+                    // TODO add this to the list of supplemental warnings?
                     log.fine(msg);
                     continue;
                 } else {
@@ -1570,6 +1577,7 @@ public class SearchUtil {
                 }
                 if (!resourceFieldNames.contains(elementName)) {
                     if (lenient) {
+                        // TODO add this to the list of supplemental warnings?
                         log.fine("Skipping unknown element name: " + elementName);
                         continue;
                     } else {

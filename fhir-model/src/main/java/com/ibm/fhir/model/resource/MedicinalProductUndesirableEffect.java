@@ -519,6 +519,8 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MedicinalProductUndesirableEffect}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MedicinalProductUndesirableEffect per the base specification
          */
         @Override
         public MedicinalProductUndesirableEffect build() {

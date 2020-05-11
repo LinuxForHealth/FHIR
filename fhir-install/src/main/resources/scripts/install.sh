@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-export LIBERTY_VERSION="19.0.0.12"
+export LIBERTY_VERSION="20.0.0.3"
 
 echo "
 Executing $0 to deploy the fhir-server web application...
@@ -30,7 +30,7 @@ echo "Deploying fhir-server in location: ${LIBERTY_INSTALL_DIR}"
 # If the liberty install directory doesn't exist, then create it.
 if [ ! -d "$LIBERTY_INSTALL_DIR" ]; then
     echo -n "
-The Websphere Liberty installation directory does not exist; will attempt to create it... "
+The Liberty installation directory does not exist; will attempt to create it... "
     mkdir -p $LIBERTY_INSTALL_DIR
     rc=$?
     if [ $rc != 0 ]; then
@@ -43,7 +43,7 @@ fi
 
 # Unzip liberty runtime zip
 echo -n "
-Extracting WebSphere Liberty runtime... "
+Extracting the Liberty runtime... "
 unzip -qq ${basedir}/server-runtime/openliberty-runtime-${LIBERTY_VERSION}.zip -d ${LIBERTY_INSTALL_DIR}
 rc=$?
 if [ $rc != 0 ]; then
@@ -77,7 +77,7 @@ fi
 # Copy our server assets
 echo -n "
 Deploying fhir-server assets to server runtime environment... "
-cp -pr ${basedir}/fhir/server/* ${LIBERTY_ROOT}
+cp -pr ${basedir}/artifacts/* ${LIBERTY_ROOT}/usr/
 rc=$?
 if [ $rc != 0 ]; then
     echo "Error deploying fhir-server assets to server runtime environment: $rc"
@@ -90,7 +90,7 @@ fi
 echo "
 
 The FHIR Server has been successfully deployed to the
-Websphere Liberty runtime located at: ${LIBERTY_ROOT}
+Liberty runtime located at: ${LIBERTY_ROOT}
 
 The following manual steps must be completed before the server can be started:
 

@@ -252,6 +252,8 @@ public class UsageContext extends Element {
          * 
          * @return
          *     An immutable object of type {@link UsageContext}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid UsageContext per the base specification
          */
         @Override
         public UsageContext build() {

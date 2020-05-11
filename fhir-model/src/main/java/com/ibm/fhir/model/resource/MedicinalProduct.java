@@ -1258,6 +1258,8 @@ public class MedicinalProduct extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MedicinalProduct}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MedicinalProduct per the base specification
          */
         @Override
         public MedicinalProduct build() {
@@ -1616,6 +1618,8 @@ public class MedicinalProduct extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Name}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Name per the base specification
              */
             @Override
             public Name build() {
@@ -1889,6 +1893,8 @@ public class MedicinalProduct extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link NamePart}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid NamePart per the base specification
                  */
                 @Override
                 public NamePart build() {
@@ -2194,6 +2200,8 @@ public class MedicinalProduct extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link CountryLanguage}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid CountryLanguage per the base specification
                  */
                 @Override
                 public CountryLanguage build() {
@@ -2612,6 +2620,8 @@ public class MedicinalProduct extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link ManufacturingBusinessOperation}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid ManufacturingBusinessOperation per the base specification
              */
             @Override
             public ManufacturingBusinessOperation build() {
@@ -3064,6 +3074,8 @@ public class MedicinalProduct extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link SpecialDesignation}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid SpecialDesignation per the base specification
              */
             @Override
             public SpecialDesignation build() {

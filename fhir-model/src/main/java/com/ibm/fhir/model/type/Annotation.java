@@ -260,6 +260,8 @@ public class Annotation extends Element {
          * 
          * @return
          *     An immutable object of type {@link Annotation}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Annotation per the base specification
          */
         @Override
         public Annotation build() {

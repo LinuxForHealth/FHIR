@@ -2322,6 +2322,8 @@ public class ActivityDefinition extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ActivityDefinition}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ActivityDefinition per the base specification
          */
         @Override
         public ActivityDefinition build() {
@@ -2644,6 +2646,8 @@ public class ActivityDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Participant}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Participant per the base specification
              */
             @Override
             public Participant build() {
@@ -2925,6 +2929,8 @@ public class ActivityDefinition extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link DynamicValue}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid DynamicValue per the base specification
              */
             @Override
             public DynamicValue build() {

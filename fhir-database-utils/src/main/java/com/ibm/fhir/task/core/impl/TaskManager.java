@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,6 @@ import com.ibm.fhir.task.api.ITaskGroup;
 /**
  * Manages the execution of a set of dependent task groups using the
  * {@link java.util.concurrent.ExecutorService } provided.
-
  */
 public class TaskManager implements ITaskCollector {
     private static final Logger logger = Logger.getLogger(TaskManager.class.getName());
@@ -48,7 +47,7 @@ public class TaskManager implements ITaskCollector {
     private List<TaskGroup> failedTaskGroups = new ArrayList<>();
 
     /**
-     * Public constructor 
+     * Public constructor
      * @param pool
      */
     public TaskManager(ExecutorService pool) {

@@ -354,6 +354,8 @@ public class SubstanceAmount extends BackboneElement {
          * 
          * @return
          *     An immutable object of type {@link SubstanceAmount}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid SubstanceAmount per the base specification
          */
         @Override
         public SubstanceAmount build() {
@@ -614,6 +616,8 @@ public class SubstanceAmount extends BackboneElement {
              * 
              * @return
              *     An immutable object of type {@link ReferenceRange}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid ReferenceRange per the base specification
              */
             @Override
             public ReferenceRange build() {

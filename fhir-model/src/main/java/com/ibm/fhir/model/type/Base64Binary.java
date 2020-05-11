@@ -178,7 +178,10 @@ public class Base64Binary extends Element {
         }
 
         public Builder value(java.lang.String value) {
-            this.value = Base64.getDecoder().decode(value.replaceAll("\\s", ""));
+            Objects.requireNonNull(value);
+            java.lang.String valueNoWhitespace = value.replaceAll("\\s", "");
+            ValidationSupport.validateBase64EncodedString(valueNoWhitespace);
+            this.value = Base64.getDecoder().decode(valueNoWhitespace);
             return this;
         }
 
@@ -187,6 +190,8 @@ public class Base64Binary extends Element {
          * 
          * @return
          *     An immutable object of type {@link Base64Binary}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Base64Binary per the base specification
          */
         @Override
         public Base64Binary build() {

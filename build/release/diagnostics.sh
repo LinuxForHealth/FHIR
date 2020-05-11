@@ -8,7 +8,7 @@ set -eu -o pipefail
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-# gather diagnostics 
+# gather diagnostics and relevant files
 
 # Store the current directory to reset to
 pushd $(pwd) > /dev/null

@@ -6,15 +6,11 @@
 
 package com.ibm.fhir.profile.test;
 
-import java.util.Collection;
+import com.ibm.fhir.registry.util.PackageRegistryResourceProvider;
 
-import com.ibm.fhir.registry.resource.FHIRRegistryResource;
-import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
-import com.ibm.fhir.registry.util.FHIRRegistryUtil;
-
-public class FHIRProfileTestResourceProvider implements FHIRRegistryResourceProvider {
+public class FHIRProfileTestResourceProvider extends PackageRegistryResourceProvider {
     @Override
-    public Collection<FHIRRegistryResource> getResources() {
-        return FHIRRegistryUtil.getResources("fhir.profile.test");
+    public String getPackageId() {
+        return "fhir.profile.test";
     }
 }

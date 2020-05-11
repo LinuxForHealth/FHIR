@@ -7,7 +7,7 @@
 
 SETLOCAL ENABLEDELAYEDEXPANSION
 
-set LIBERTY_VERSION=19.0.0.12
+set LIBERTY_VERSION=20.0.0.3
 
 echo Executing %0 to deploy the fhir-server web application...
 
@@ -51,7 +51,7 @@ echo Deploying fhir-server in location: %WLP_INSTALL_DIR%
 
 @REM If the liberty install directory doesnt exist, then create it.
 if not exist %WLP_INSTALL_DIR% (
-    echo The Websphere Liberty installation directory does not exist; will attempt to create it.
+    echo The Liberty installation directory does not exist; will attempt to create it.
     mkdir %WLP_INSTALL_DIR%
     if errorlevel 1 (
         set rc=%ERRORLEVEL%
@@ -61,7 +61,7 @@ if not exist %WLP_INSTALL_DIR% (
 )
 
 @REM Unzip liberty runtime zip
-echo Extracting WebSphere Liberty runtime.
+echo Extracting Liberty runtime.
 call :UnZip  %BASEDIR%\server-runtime\openliberty-runtime-%LIBERTY_VERSION%.zip\  %WLP_INSTALL_DIR%
 if %rc% neq 0 (
     echo Error extracting liberty runtime: %rc%
@@ -72,7 +72,7 @@ if %rc% neq 0 (
 set WLP_ROOT=%WLP_INSTALL_DIR%wlp
 
 @REM Create our server
-echo Creating Websphere Liberty server definition for fhir-server.
+echo Creating Liberty server definition for fhir-server.
 %COMSPEC% /c %WLP_ROOT%\bin\server.bat create fhir-server
 if errorlevel 1 (
     set rc=%ERRORLEVEL%
@@ -82,7 +82,7 @@ if errorlevel 1 (
 
 @REM Copy our server assets
 echo Deploying fhir-server assets to server runtime environment.
-xcopy /S /Y /Q %BASEDIR%\fhir\server\* %WLP_ROOT%
+xcopy /S /Y /Q %BASEDIR%\artifacts\* %WLP_ROOT%\usr\
 if errorlevel 1 (
     set rc=%ERRORLEVEL%
     echo Error deploying fhir-server assets to server runtime environment: %rc%
@@ -91,7 +91,7 @@ if errorlevel 1 (
 
 
 echo The FHIR Server has been successfully deployed to the
-echo Websphere Liberty runtime located at: %WLP_ROOT%
+echo Liberty runtime located at: %WLP_ROOT%
 echo The following manual steps must be completed before the server can be started:
 echo 1. Make sure that your selected database (e.g. Derby, DB2) is active and
 echo    ready to accept requests.

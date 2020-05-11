@@ -7,12 +7,16 @@
 package com.ibm.fhir.path.evaluator;
 
 import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
+import static com.ibm.fhir.path.FHIRPathDateTimeValue.dateTimeValue;
+import static com.ibm.fhir.path.FHIRPathDateValue.dateValue;
 import static com.ibm.fhir.path.FHIRPathDecimalValue.decimalValue;
 import static com.ibm.fhir.path.FHIRPathIntegerValue.integerValue;
 import static com.ibm.fhir.path.FHIRPathStringValue.EMPTY_STRING;
 import static com.ibm.fhir.path.FHIRPathStringValue.stringValue;
+import static com.ibm.fhir.path.FHIRPathTimeValue.timeValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.evaluatesToBoolean;
+import static com.ibm.fhir.path.util.FHIRPathUtil.evaluatesToTrue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getInteger;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getNumberValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getQuantityNode;
@@ -32,13 +36,17 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.isComparableTo;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isQuantityNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isSingleton;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isStringElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isStringValue;
-import static com.ibm.fhir.path.util.FHIRPathUtil.isTrue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isTypeCompatible;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isUriElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
 import static com.ibm.fhir.path.util.FHIRPathUtil.unescape;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -50,20 +58,19 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.visitor.Visitable;
 import com.ibm.fhir.path.FHIRPathBaseVisitor;
 import com.ibm.fhir.path.FHIRPathBooleanValue;
-import com.ibm.fhir.path.FHIRPathDateTimeValue;
-import com.ibm.fhir.path.FHIRPathDateValue;
-import com.ibm.fhir.path.FHIRPathLexer;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathParser;
 import com.ibm.fhir.path.FHIRPathParser.ExpressionContext;
@@ -73,17 +80,17 @@ import com.ibm.fhir.path.FHIRPathQuantityValue;
 import com.ibm.fhir.path.FHIRPathStringValue;
 import com.ibm.fhir.path.FHIRPathSystemValue;
 import com.ibm.fhir.path.FHIRPathTemporalValue;
-import com.ibm.fhir.path.FHIRPathTimeValue;
 import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.function.FHIRPathFunction;
+import com.ibm.fhir.path.util.FHIRPathUtil;
 
 /**
  * A FHIRPath evaluation engine that implements the FHIRPath 2.0.0 <a href="http://hl7.org/fhirpath/N1/">specification</a>
  */
 public class FHIRPathEvaluator {
-    public static boolean DEBUG = false;
+    private static final Logger log = Logger.getLogger(FHIRPathEvaluator.class.getName());
 
     public static final Collection<FHIRPathNode> SINGLETON_TRUE = singleton(FHIRPathBooleanValue.TRUE);
     public static final Collection<FHIRPathNode> SINGLETON_FALSE = singleton(FHIRPathBooleanValue.FALSE);
@@ -243,21 +250,22 @@ public class FHIRPathEvaluator {
         Objects.requireNonNull(initialContext);
         try {
             evaluationContext.setExternalConstant("context", initialContext);
+            setDateTimeConstants(evaluationContext);
             return visitor.evaluate(evaluationContext, getExpressionContext(expr), initialContext);
         } catch (Exception e) {
             throw new FHIRPathException("An error occurred while evaluating expression: " + expr, e);
         }
     }
 
-    private static ExpressionContext getExpressionContext(String expr) {
-        return EXPRESSION_CONTEXT_CACHE.computeIfAbsent(Objects.requireNonNull(expr), FHIRPathEvaluator::compile);
+    private void setDateTimeConstants(EvaluationContext evaluationContext) {
+        ZonedDateTime now = ZonedDateTime.now();
+        evaluationContext.setExternalConstant("now", singleton(dateTimeValue(now)));
+        evaluationContext.setExternalConstant("today", singleton(dateValue(LocalDate.from(now))));
+        evaluationContext.setExternalConstant("timeOfDay", singleton(timeValue(LocalTime.from(now))));
     }
 
-    private static ExpressionContext compile(String expr) {
-        FHIRPathLexer lexer = new FHIRPathLexer(CharStreams.fromString(expr));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        FHIRPathParser parser = new FHIRPathParser(tokens);
-        return parser.expression();
+    private static ExpressionContext getExpressionContext(String expr) {
+        return EXPRESSION_CONTEXT_CACHE.computeIfAbsent(Objects.requireNonNull(expr), FHIRPathUtil::compile);
     }
 
     /**
@@ -361,8 +369,10 @@ public class FHIRPathEvaluator {
             if (arguments.size() < 0 || arguments.size() > 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "exists");
             }
-            Collection<FHIRPathNode> nodes = arguments.isEmpty() ? getCurrentContext() : visit(arguments.get(0));
-            return !nodes.isEmpty() ? SINGLETON_TRUE : SINGLETON_FALSE;
+            if (arguments.isEmpty()) {
+                return !getCurrentContext().isEmpty() ? SINGLETON_TRUE : SINGLETON_FALSE;
+            }
+            return evaluatesToTrue(visit(arguments.get(0))) ? SINGLETON_TRUE : SINGLETON_FALSE;
         }
 
         private Collection<FHIRPathNode> getCurrentContext() {
@@ -381,7 +391,7 @@ public class FHIRPathEvaluator {
                 throw new IllegalArgumentException("'iff' function criterion must evaluate to a boolean or empty");
             }
             // criterion
-            if (isTrue(criterion)) {
+            if (evaluatesToTrue(criterion)) {
                 // true-result
                 return visit(arguments.get(1));
             } else if (arguments.size() == 3) {
@@ -471,9 +481,8 @@ public class FHIRPathEvaluator {
             Collection<FHIRPathNode> currentContext = getCurrentContext();
             Collection<FHIRPathNode> nodes = (arguments.size() == 1) ? currentContext : visit(arguments.get(1));
             if (!nodes.isEmpty()) {
-                // TODO: add to log
-                if (DEBUG) {
-                    System.out.println(name + ": " + nodes);
+                if (log.isLoggable(Level.FINER)) {
+                    log.finer(name + ": " + nodes);
                 }
             }
             return currentContext;
@@ -491,7 +500,7 @@ public class FHIRPathEvaluator {
             Collection<FHIRPathNode> result = new ArrayList<>();
             for (FHIRPathNode node : getCurrentContext()) {
                 pushContext(singleton(node));
-                if (isTrue(visit(criteria))) {
+                if (evaluatesToTrue(visit(criteria))) {
                     result.add(node);
                 }
                 popContext();
@@ -711,13 +720,13 @@ public class FHIRPathEvaluator {
             switch (operator) {
             case "or":
                 // Returns false if both operands evaluate to false, true if either operand evaluates to true, and empty ({ }) otherwise:
-                if (evaluatesToBoolean(left) && isTrue(left)) {
+                if (evaluatesToBoolean(left) && evaluatesToTrue(left)) {
                     // short-circuit evaluation
                     result = SINGLETON_TRUE;
                 } else {
                     // evaluate right operand
                     Collection<FHIRPathNode> right = visit(ctx.expression(1));
-                    if (evaluatesToBoolean(right) && isTrue(right)) {
+                    if (evaluatesToBoolean(right) && evaluatesToTrue(right)) {
                         result = SINGLETON_TRUE;
                     } else if (evaluatesToBoolean(left) && evaluatesToBoolean(right) &&
                             isFalse(left) && isFalse(right)) {
@@ -731,7 +740,7 @@ public class FHIRPathEvaluator {
 
                 // Returns true if exactly one of the operands evaluates to true, false if either both operands evaluate to true or both operands evaluate to false, and the empty collection ({ }) otherwise:
                 if (evaluatesToBoolean(left) && evaluatesToBoolean(right)) {
-                    result = ((isTrue(left) || isTrue(right)) && !(isTrue(left) && isTrue(right))) ? SINGLETON_TRUE : SINGLETON_FALSE;
+                    result = ((evaluatesToTrue(left) || evaluatesToTrue(right)) && !(evaluatesToTrue(left) && evaluatesToTrue(right))) ? SINGLETON_TRUE : SINGLETON_FALSE;
                 }
                 break;
             }
@@ -760,7 +769,7 @@ public class FHIRPathEvaluator {
                 if (evaluatesToBoolean(right) && isFalse(right)) {
                     result = SINGLETON_FALSE;
                 } else if (evaluatesToBoolean(left) && evaluatesToBoolean(right) &&
-                        isTrue(left) && isTrue(right)) {
+                        evaluatesToTrue(left) && evaluatesToTrue(right)) {
                     result = SINGLETON_TRUE;
                 }
             }
@@ -783,7 +792,7 @@ public class FHIRPathEvaluator {
 
             switch (operator) {
             case "in":
-                if (isCodedElementNode(left) && isStringValue(right)) {
+                if ((isCodedElementNode(left) || isStringElementNode(left) || isUriElementNode(left)) && isStringValue(right)) {
                     // For backwards compatibility per: https://jira.hl7.org/projects/FHIR/issues/FHIR-26605
                     FHIRPathFunction memberOfFunction = FHIRPathFunction.registry().getFunction("memberOf");
                     result = memberOfFunction.apply(evaluationContext, left, Collections.singletonList(right));
@@ -931,29 +940,11 @@ public class FHIRPathEvaluator {
             // If the left operand evaluates to true, this operator returns the boolean evaluation of the right operand. If the left operand evaluates to false, this operator returns true. Otherwise, this operator returns true if the right operand evaluates to true, and the empty collection ({ }) otherwise.
             if (evaluatesToBoolean(left) && evaluatesToBoolean(right)) {
                 // !left || right
-                result = (!isTrue(left) || isTrue(right)) ? SINGLETON_TRUE : SINGLETON_FALSE;
-            } else if ((left.isEmpty() && evaluatesToBoolean(right) && isTrue(right)) ||
+                result = (!evaluatesToTrue(left) || evaluatesToTrue(right)) ? SINGLETON_TRUE : SINGLETON_FALSE;
+            } else if ((left.isEmpty() && evaluatesToBoolean(right) && evaluatesToTrue(right)) ||
                     (evaluatesToBoolean(left) && isFalse(left) && right.isEmpty())) {
                 result = SINGLETON_TRUE;
             }
-
-            /*
-            if (evaluatesToBoolean(left)) {
-                if (isTrue(left)) {
-                    Collection<FHIRPathNode> right = visit(ctx.expression(1));
-                    if (evaluatesToBoolean(right)) {
-                        result = isTrue(right) ? SINGLETON_TRUE : SINGLETON_FALSE;
-                    }
-                } else {
-                    result = SINGLETON_TRUE;
-                }
-            } else if (left.isEmpty()) {
-                Collection<FHIRPathNode> right = visit(ctx.expression(1));
-                if (evaluatesToBoolean(right) && isTrue(right)) {
-                    result = SINGLETON_TRUE;
-                }
-            }
-            */
 
             indentLevel--;
             return result;
@@ -1001,17 +992,12 @@ public class FHIRPathEvaluator {
                     if (type.isAssignableFrom(node.type())) {
                         result.add(node);
                     }
-                    /*
-                    else {
-                        throw new IllegalArgumentException("Type: '" + type.getName() + " is not assignable from type: '" + node.type().getName() + "'");
-                    }
-                    */
                 }
                 break;
             }
 
             indentLevel--;
-            return Collections.unmodifiableCollection(result);
+            return result;
         }
 
         @Override
@@ -1084,19 +1070,19 @@ public class FHIRPathEvaluator {
         @Override
         public Collection<FHIRPathNode> visitDateLiteral(FHIRPathParser.DateLiteralContext ctx) {
             debug(ctx);
-            return singleton(FHIRPathDateValue.dateValue(ctx.getText().substring(1)));
+            return singleton(dateValue(ctx.getText().substring(1)));
         }
 
         @Override
         public Collection<FHIRPathNode> visitDateTimeLiteral(FHIRPathParser.DateTimeLiteralContext ctx) {
             debug(ctx);
-            return singleton(FHIRPathDateTimeValue.dateTimeValue(ctx.getText().substring(1)));
+            return singleton(dateTimeValue(ctx.getText().substring(1)));
         }
 
         @Override
         public Collection<FHIRPathNode> visitTimeLiteral(FHIRPathParser.TimeLiteralContext ctx) {
             debug(ctx);
-            return singleton(FHIRPathTimeValue.timeValue(ctx.getText().substring(1)));
+            return singleton(timeValue(ctx.getText().substring(2)));
         }
 
         @Override
@@ -1312,15 +1298,15 @@ public class FHIRPathEvaluator {
 
         private String indent() {
             StringBuilder builder = new StringBuilder();
-            for (int i = 0;i < indentLevel; i++) {
+            for (int i = 0; i < indentLevel; i++) {
                 builder.append("    ");
             }
             return builder.toString();
         }
 
         private void debug(ParseTree ctx) {
-            if (DEBUG) {
-                System.out.println(indent() + ctx.getClass().getSimpleName() + ": " + ctx.getText() + ", childCount: " + ctx.getChildCount());
+            if (log.isLoggable(Level.FINEST)) {
+                log.finest(indent() + ctx.getClass().getSimpleName() + ": " + ctx.getText() + ", childCount: " + ctx.getChildCount());
             }
         }
     }
@@ -1340,6 +1326,9 @@ public class FHIRPathEvaluator {
 
         private final FHIRPathTree tree;
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
+
+        private Constraint constraint;
+        private final List<Issue> issues = new ArrayList<>();
 
         /**
          * Create an empty evaluation context, evaluating stand-alone expressions
@@ -1456,6 +1445,76 @@ public class FHIRPathEvaluator {
          */
         public boolean hasExternalConstant(String name) {
             return externalConstantMap.containsKey(name);
+        }
+
+        /**
+         * Set the constraint currently under evaluation
+         *
+         * <p>If a {@link Constraint} is the source of the expression under evaluation, then this method allows the
+         * client to make it available to the evaluation engine to access additional information about the constraint
+         * (e.g. id, level, location, description, etc.)
+         *
+         * @param constraint
+         *     the constraint currently under evaluation
+         */
+        public void setConstraint(Constraint constraint) {
+            this.constraint = constraint;
+        }
+
+        /**
+         * Unset the constraint currently under evaluation
+         */
+        public void unsetConstraint() {
+            constraint = null;
+        }
+
+        /**
+         * Get the constraint currently under evaluation
+         *
+         * @return
+         *     the constraint currently under evaluation if exists, otherwise null
+         */
+        public Constraint getConstraint() {
+            return constraint;
+        }
+
+        /**
+         * Indicates whether this evaluation context has an associated constraint
+         *
+         * @return
+         *     true if this evaluation context has an associated constraint, otherwise false
+         */
+        public boolean hasConstraint() {
+            return constraint != null;
+        }
+
+        /**
+         * Get the list of supplemental issues that were generated during evaluation
+         *
+         * <p>Supplemental issues are used to convey additional information about the evaluation to the client
+         *
+         * @return
+         *     the list of supplemental issues that were generated during evaluation
+         */
+        public List<Issue> getIssues() {
+            return issues;
+        }
+
+        /**
+         * Clear the list of supplemental issues that were generated during evaluation
+         */
+        public void clearIssues() {
+            issues.clear();
+        }
+
+        /**
+         * Indicates whether this evaluation context has supplemental issues that were generated during evaluation
+         *
+         * @return
+         *     true if this evaluation context has supplemental issues that were generated during evaluation, otherwise false
+         */
+        public boolean hasIssues() {
+            return !issues.isEmpty();
         }
     }
 }

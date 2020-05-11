@@ -113,9 +113,6 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
         this.operations.addAll(operations);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.test.spec.IExampleProcessor#process(java.lang.String, com.ibm.fhir.model.resource.Resource)
-     */
     @Override
     public void process(String jsonFile, Resource resource) throws Exception {
 
@@ -131,6 +128,7 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
                 rc.setTenantId(this.tenantName);
                 rc.setTenantKey(this.tenantKey);
             }
+
             tmpPersistence = new FHIRPersistenceJDBCImpl(this.configProps, this.cp);
 
             context = new TestContext(tmpPersistence,
@@ -182,7 +180,7 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
     }
 
     /**
-     * Createa anew FHIRPersistenceContext configure with a FHIRHistoryContext
+     * Create a new FHIRPersistenceContext configure with a FHIRHistoryContext
      * @return
      */
     protected FHIRPersistenceContext createHistoryPersistenceContext() {

@@ -62,18 +62,19 @@ jobs:
             if [ -d './javadocs/latest/' ]
             then
               rm -rf ./javadocs/latest/
-            else 
-              mkdir -p javadocs/latest
             fi
-            ls -al 
-            cp -Rf ../apidocs/* ./javadocs/latest/
+            # Helps debug the situation 
+            ls -al javadocs
+            echo "Starting the movement of the data around"
+            mkdir -p javadocs/latest
+            mv -f ../apidocs/* javadocs/latest/
             cp -Rf javadocs/latest javadocs/${TAG_VERSION}
             date > build.txt
             echo "[javadocs]" >> build.txt
 
             # Regenerate the index.html for javadocs/index.html
             echo "<html><title>Javadocs</title><body>" > javadocs/index.html
-            for DIR in `find ./javadocs -type d -maxdepth 1 -mindepth 1 -exec basename {} \;`
+            for DIR in `find ./javadocs -type d -maxdepth 1 -mindepth 1 -exec basename {} \; | sort -r | grep -v rc3 `
             do
               echo "<a href=\"https://ibm.github.io/FHIR/javadocs/${DIR}/index.html?overview-summary.html\">${DIR}</a>" >> javadocs/index.html 
               echo "<br>" >> javadocs/index.html

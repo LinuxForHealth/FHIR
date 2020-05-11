@@ -648,6 +648,8 @@ public class MedicinalProductContraindication extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MedicinalProductContraindication}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MedicinalProductContraindication per the base specification
          */
         @Override
         public MedicinalProductContraindication build() {
@@ -935,6 +937,8 @@ public class MedicinalProductContraindication extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link OtherTherapy}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid OtherTherapy per the base specification
              */
             @Override
             public OtherTherapy build() {

@@ -1,6 +1,6 @@
 /*
  * (C) Copyright IBM Corp. 2019, 2020
- * 
+ *
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -105,63 +105,67 @@ import com.ibm.fhir.model.type.Xhtml;
 public final class ModelSupport {
     public static boolean DEBUG = false;
 
+    public static final Class<com.ibm.fhir.model.type.Boolean> FHIR_BOOLEAN = com.ibm.fhir.model.type.Boolean.class;
+    public static final Class<com.ibm.fhir.model.type.Integer> FHIR_INTEGER = com.ibm.fhir.model.type.Integer.class;
+    public static final Class<com.ibm.fhir.model.type.String> FHIR_STRING = com.ibm.fhir.model.type.String.class;
+
     private static final Map<Class<?>, Class<?>> CONCRETE_TYPE_MAP = buildConcreteTypeMap();
     private static final Map<Class<?>, Map<String, ElementInfo>> MODEL_CLASS_ELEMENT_INFO_MAP = buildModelClassElementInfoMap();
     private static final Map<String, Class<? extends Resource>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
     private static final Map<Class<?>, Set<Constraint>> MODEL_CLASS_CONSTRAINT_MAP = buildModelClassConstraintMap();
     // LinkedHashSet is used just to preserve the order, for convenience only
     private static final Set<Class<? extends Element>> CHOICE_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
-        Base64Binary.class, 
-        com.ibm.fhir.model.type.Boolean.class, 
-        Canonical.class, 
-        Code.class, 
-        Date.class, 
-        DateTime.class, 
-        Decimal.class, 
-        Id.class, 
-        Instant.class, 
-        com.ibm.fhir.model.type.Integer.class, 
-        Markdown.class, 
-        Oid.class, 
-        PositiveInt.class, 
-        com.ibm.fhir.model.type.String.class, 
-        Time.class, 
-        UnsignedInt.class, 
-        Uri.class, 
-        Url.class, 
-        Uuid.class, 
-        Address.class, 
-        Age.class, 
-        Annotation.class, 
-        Attachment.class, 
-        CodeableConcept.class, 
-        Coding.class, 
-        ContactPoint.class, 
-        Count.class, 
-        Distance.class, 
-        Duration.class, 
-        HumanName.class, 
-        Identifier.class, 
-        Money.class, 
+        Base64Binary.class,
+        com.ibm.fhir.model.type.Boolean.class,
+        Canonical.class,
+        Code.class,
+        Date.class,
+        DateTime.class,
+        Decimal.class,
+        Id.class,
+        Instant.class,
+        com.ibm.fhir.model.type.Integer.class,
+        Markdown.class,
+        Oid.class,
+        PositiveInt.class,
+        com.ibm.fhir.model.type.String.class,
+        Time.class,
+        UnsignedInt.class,
+        Uri.class,
+        Url.class,
+        Uuid.class,
+        Address.class,
+        Age.class,
+        Annotation.class,
+        Attachment.class,
+        CodeableConcept.class,
+        Coding.class,
+        ContactPoint.class,
+        Count.class,
+        Distance.class,
+        Duration.class,
+        HumanName.class,
+        Identifier.class,
+        Money.class,
         MoneyQuantity.class, // profiled type
-        Period.class, 
-        Quantity.class, 
-        Range.class, 
-        Ratio.class, 
-        Reference.class, 
-        SampledData.class, 
+        Period.class,
+        Quantity.class,
+        Range.class,
+        Ratio.class,
+        Reference.class,
+        SampledData.class,
         SimpleQuantity.class, // profiled type
-        Signature.class, 
-        Timing.class, 
-        ContactDetail.class, 
-        Contributor.class, 
-        DataRequirement.class, 
-        Expression.class, 
-        ParameterDefinition.class, 
-        RelatedArtifact.class, 
-        TriggerDefinition.class, 
-        UsageContext.class, 
-        Dosage.class, 
+        Signature.class,
+        Timing.class,
+        ContactDetail.class,
+        Contributor.class,
+        DataRequirement.class,
+        Expression.class,
+        ParameterDefinition.class,
+        RelatedArtifact.class,
+        TriggerDefinition.class,
+        UsageContext.class,
+        Dosage.class,
         Meta.class));
     private static final Set<Class<? extends Element>> DATA_TYPES;
     static {
@@ -180,36 +184,36 @@ public final class ModelSupport {
     }
     private static final Map<String, Class<?>> DATA_TYPE_MAP = buildDataTypeMap();
     private static final Set<String> KEYWORDS = new HashSet<>(Arrays.asList(
-        "$index", 
-        "$this", 
-        "$total", 
-        "and", 
-        "as", 
-        "contains", 
-        "day", 
-        "days", 
-        "div", 
-        "false", 
-        "hour", 
-        "hours", 
-        "implies", 
-        "in", 
-        "is", 
-        "millisecond", 
-        "milliseconds", 
-        "minute", 
-        "minutes", 
-        "mod", 
-        "month", 
-        "months", 
-        "or", 
-        "seconds", 
-        "true", 
-        "week", 
-        "weeks", 
-        "xor", 
-        "year", 
-        "years", 
+        "$index",
+        "$this",
+        "$total",
+        "and",
+        "as",
+        "contains",
+        "day",
+        "days",
+        "div",
+        "false",
+        "hour",
+        "hours",
+        "implies",
+        "in",
+        "is",
+        "millisecond",
+        "milliseconds",
+        "minute",
+        "minutes",
+        "mod",
+        "month",
+        "months",
+        "or",
+        "seconds",
+        "true",
+        "week",
+        "weeks",
+        "xor",
+        "year",
+        "years",
         "second"
     ));
 
@@ -234,16 +238,16 @@ public final class ModelSupport {
         private final boolean summary;
 
         private final Set<String> choiceElementNames;
-        
+
         ElementInfo(String name,
-                Class<?> type, 
-                Class<?> declaringType, 
-                boolean required, 
-                boolean repeating, 
-                boolean choice, 
-                Set<Class<?>> choiceTypes, 
-                boolean reference, 
-                Set<String> referenceTypes, 
+                Class<?> type,
+                Class<?> declaringType,
+                boolean required,
+                boolean repeating,
+                boolean choice,
+                Set<Class<?>> choiceTypes,
+                boolean reference,
+                Set<String> referenceTypes,
                 Binding binding,
                 boolean isSummary) {
             this.name = name;
@@ -372,15 +376,15 @@ public final class ModelSupport {
                     Set<Class<?>> choiceTypes = choice ? Collections.unmodifiableSet(getChoiceTypes(field)) : Collections.emptySet();
                     Set<String> referenceTypes = reference ? Collections.unmodifiableSet(getReferenceTypes(field)) : Collections.emptySet();
                     elementInfoMap.put(elementName, new ElementInfo(
-                            elementName, 
-                            type, 
-                            declaringType, 
-                            required, 
-                            repeating, 
-                            choice, 
-                            choiceTypes, 
-                            reference, 
-                            referenceTypes, 
+                            elementName,
+                            type,
+                            declaringType,
+                            required,
+                            repeating,
+                            choice,
+                            choiceTypes,
+                            reference,
+                            referenceTypes,
                             binding,
                             summary
                         )
@@ -576,7 +580,7 @@ public final class ModelSupport {
 
     /**
      * Get the model class which declares the elementName found on the passed modelClass.
-     * 
+     *
      * @param modelClass
      *            a model class which represents a FHIR resource or element
      * @param elementName
@@ -754,11 +758,11 @@ public final class ModelSupport {
     public static boolean isMetadataType(Class<?> type) {
         return ContactDetail.class.equals(type) ||
                 Contributor.class.equals(type) ||
-                DataRequirement.class.isAssignableFrom(type) || 
+                DataRequirement.class.isAssignableFrom(type) ||
                 RelatedArtifact.class.isAssignableFrom(type) ||
-                UsageContext.class.equals(type) || 
+                UsageContext.class.equals(type) ||
                 ParameterDefinition.class.equals(type) ||
-                Expression.class.equals(type) || 
+                Expression.class.equals(type) ||
                 TriggerDefinition.class.equals(type);
     }
 
@@ -779,14 +783,14 @@ public final class ModelSupport {
     public static boolean isPrimitiveType(Class<?> type) {
         return Base64Binary.class.equals(type) ||
             com.ibm.fhir.model.type.Boolean.class.equals(type) ||
-            com.ibm.fhir.model.type.String.class.isAssignableFrom(type) || 
+            com.ibm.fhir.model.type.String.class.isAssignableFrom(type) ||
             Uri.class.isAssignableFrom(type) ||
-            DateTime.class.equals(type) || 
+            DateTime.class.equals(type) ||
             Date.class.equals(type) ||
-            Time.class.equals(type) || 
-            Instant.class.equals(type) || 
-            com.ibm.fhir.model.type.Integer.class.isAssignableFrom(type) || 
-            Decimal.class.equals(type) || 
+            Time.class.equals(type) ||
+            Instant.class.equals(type) ||
+            com.ibm.fhir.model.type.Integer.class.isAssignableFrom(type) ||
+            Decimal.class.equals(type) ||
             Xhtml.class.equals(type);
     }
 
@@ -930,7 +934,7 @@ public final class ModelSupport {
     public static String delimit(String identifier) {
         return String.format("`%s`", identifier);
     }
-    
+
     /**
      * @return the implicit system for {@code code} if present, otherwise null
      */

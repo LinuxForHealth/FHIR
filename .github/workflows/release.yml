@@ -7,6 +7,7 @@ on:
     paths-ignore:
     - 'docs/**'
     - '.github/workflows/site.yml'
+    - '.github/workflows/javadocs.yml'
 
 jobs:
   release-on-push:
@@ -37,6 +38,8 @@ jobs:
         BINTRAY_PASSWORD: ${{ secrets.BINTRAY_PASSWORD }}
         CODECOV_RUNME: ${{ secrets.CODECOV_RUNME }}
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
         CI: true
         JAVA_HOME: /opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
       run: |
@@ -49,6 +52,7 @@ jobs:
         # only covers unit tests (not server integration tests)
         # bash build/release/ibm-java-regression.sh
         bash build/release/release.sh
+        bash build/release/docker-push.sh
         bash build/release/sync-maven-central.sh
         bash build/release/release-commit-details.sh
         bash build/release/diagnostics.sh
@@ -59,7 +63,13 @@ jobs:
         bash build/release/diagnostics.sh
     - name: Upload logs
       if: always()
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@v2
       with:
         name: release-tag-${{ matrix.java }}
         path: release-test-coverage-and-logs.tgz
+    - name: Upload Artifacts - Distribution
+      if: success()
+      uses: actions/upload-artifact@v2
+      with:
+        name: fhir-server-distribution
+        path: fhir-install/target/fhir-server-distribution.zip

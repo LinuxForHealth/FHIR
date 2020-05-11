@@ -916,6 +916,8 @@ public class VerificationResult extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link VerificationResult}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid VerificationResult per the base specification
          */
         @Override
         public VerificationResult build() {
@@ -1448,6 +1450,8 @@ public class VerificationResult extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link PrimarySource}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid PrimarySource per the base specification
              */
             @Override
             public PrimarySource build() {
@@ -1931,6 +1935,8 @@ public class VerificationResult extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Attestation}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Attestation per the base specification
              */
             @Override
             public Attestation build() {
@@ -2242,6 +2248,8 @@ public class VerificationResult extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Validator}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Validator per the base specification
              */
             @Override
             public Validator build() {

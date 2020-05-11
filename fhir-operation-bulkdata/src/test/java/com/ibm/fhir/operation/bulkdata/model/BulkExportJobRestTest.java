@@ -25,7 +25,7 @@ public class BulkExportJobRestTest {
 
     @Test
     public void testBulkExportJobInstanceResponseBuilderAndGenerator() throws IOException, JSONException {
-        BulkExportJobInstanceResponse.Builder builder = BulkExportJobInstanceResponse.builder();
+        JobInstanceResponse.Builder builder = JobInstanceResponse.builder();
         builder.appName("appName");
         builder.batchStatus("complete");
         builder.instanceId(1);
@@ -36,7 +36,7 @@ public class BulkExportJobRestTest {
         builder.link("rel1", "href1");
         builder.link("rel2", "href2");
 
-        String str = BulkExportJobInstanceResponse.Writer.generate(builder.build());
+        String str = JobInstanceResponse.Writer.generate(builder.build());
         JSONAssert.assertEquals(str, "{\n" +
                 "    \"jobName\": \"my-job\",\n" +
                 "    \"instanceId\": 1,\n" +
@@ -60,9 +60,9 @@ public class BulkExportJobRestTest {
 
     @Test
     public void testBulkExportJobInstanceResponseBuilderAndGeneratorEmpty() throws IOException, JSONException {
-        BulkExportJobInstanceResponse.Builder builder = BulkExportJobInstanceResponse.builder();
+        JobInstanceResponse.Builder builder = JobInstanceResponse.builder();
 
-        String str = BulkExportJobInstanceResponse.Writer.generate(builder.build());
+        String str = JobInstanceResponse.Writer.generate(builder.build());
         JSONAssert.assertEquals(str, "{\n" +
                 "    \"_links\": [\n" +
                 "    ]\n" +
@@ -93,8 +93,8 @@ public class BulkExportJobRestTest {
                         "}";
 
         try (InputStream in = new ByteArrayInputStream(testStr.getBytes())) {
-            BulkExportJobInstanceResponse parsedObj = BulkExportJobInstanceResponse.Parser.parse(in);
-            String str = BulkExportJobInstanceResponse.Writer.generate(parsedObj);
+            JobInstanceResponse parsedObj = JobInstanceResponse.Parser.parse(in);
+            String str = JobInstanceResponse.Writer.generate(parsedObj);
             JSONAssert.assertEquals(testStr, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -139,8 +139,8 @@ public class BulkExportJobRestTest {
                         "}";
 
         try (InputStream in = new ByteArrayInputStream(testStr.getBytes())) {
-            BulkExportJobInstanceResponse parsedObj = BulkExportJobInstanceResponse.Parser.parse(in);
-            String str = BulkExportJobInstanceResponse.Writer.generate(parsedObj);
+            JobInstanceResponse parsedObj = JobInstanceResponse.Parser.parse(in);
+            String str = JobInstanceResponse.Writer.generate(parsedObj);
             JSONAssert.assertEquals(expectedStr, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -186,8 +186,8 @@ public class BulkExportJobRestTest {
                         "}";
 
         try (InputStream in = new ByteArrayInputStream(testStr.getBytes())) {
-            BulkExportJobInstanceResponse parsedObj = BulkExportJobInstanceResponse.Parser.parse(in);
-            String str = BulkExportJobInstanceResponse.Writer.generate(parsedObj);
+            JobInstanceResponse parsedObj = JobInstanceResponse.Parser.parse(in);
+            String str = JobInstanceResponse.Writer.generate(parsedObj);
             JSONAssert.assertEquals(expectedStr, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -233,8 +233,8 @@ public class BulkExportJobRestTest {
                         "}";
 
         try (InputStream in = new ByteArrayInputStream(testStr.getBytes())) {
-            BulkExportJobInstanceResponse parsedObj = BulkExportJobInstanceResponse.Parser.parse(in);
-            String str = BulkExportJobInstanceResponse.Writer.generate(parsedObj);
+            JobInstanceResponse parsedObj = JobInstanceResponse.Parser.parse(in);
+            String str = JobInstanceResponse.Writer.generate(parsedObj);
             JSONAssert.assertEquals(expectedStr, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -280,8 +280,8 @@ public class BulkExportJobRestTest {
                         "}";
 
         try {
-            BulkExportJobInstanceResponse parsedObj = BulkExportJobInstanceResponse.Parser.parse(testStr);
-            String str = BulkExportJobInstanceResponse.Writer.generate(parsedObj);
+            JobInstanceResponse parsedObj = JobInstanceResponse.Parser.parse(testStr);
+            String str = JobInstanceResponse.Writer.generate(parsedObj);
             JSONAssert.assertEquals(expectedStr, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -292,8 +292,8 @@ public class BulkExportJobRestTest {
     public void testBulkExportJobInstanceResponseParserAndGeneratorRoundTripEmpty() throws IOException {
         String testStr = "{}";
         try (InputStream in = new ByteArrayInputStream(testStr.getBytes())) {
-            BulkExportJobInstanceResponse parsedObj = BulkExportJobInstanceResponse.Parser.parse(in);
-            String str = BulkExportJobInstanceResponse.Writer.generate(parsedObj);
+            JobInstanceResponse parsedObj = JobInstanceResponse.Parser.parse(in);
+            String str = JobInstanceResponse.Writer.generate(parsedObj);
             JSONAssert.assertEquals(testStr, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -324,8 +324,8 @@ public class BulkExportJobRestTest {
                         "}";
 
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobInstanceRequest parsedObj = BulkExportJobInstanceRequest.Parser.parse(in);
-            String str = BulkExportJobInstanceRequest.Writer.generate(parsedObj, true);
+            JobInstanceRequest parsedObj = JobInstanceRequest.Parser.parse(in);
+            String str = JobInstanceRequest.Writer.generate(parsedObj, true);
             JSONAssert.assertEquals(jsonString, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -344,8 +344,8 @@ public class BulkExportJobRestTest {
                         "}";
 
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobInstanceRequest parsedObj = BulkExportJobInstanceRequest.Parser.parse(in);
-            String str = BulkExportJobInstanceRequest.Writer.generate(parsedObj, true);
+            JobInstanceRequest parsedObj = JobInstanceRequest.Parser.parse(in);
+            String str = JobInstanceRequest.Writer.generate(parsedObj, true);
             JSONAssert.assertEquals(jsonString, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -390,9 +390,9 @@ public class BulkExportJobRestTest {
                         "}";
 
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobInstanceRequest parsedObj = BulkExportJobInstanceRequest.Parser.parse(in);
+            JobInstanceRequest parsedObj = JobInstanceRequest.Parser.parse(in);
 
-            String str = BulkExportJobInstanceRequest.Writer.generate(parsedObj, false);
+            String str = JobInstanceRequest.Writer.generate(parsedObj, false);
             JSONAssert.assertEquals(expected, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -405,9 +405,9 @@ public class BulkExportJobRestTest {
         String expected = "{}";
 
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobInstanceRequest parsedObj = BulkExportJobInstanceRequest.Parser.parse(in);
+            JobInstanceRequest parsedObj = JobInstanceRequest.Parser.parse(in);
 
-            String str = BulkExportJobInstanceRequest.Writer.generate(parsedObj, false);
+            String str = JobInstanceRequest.Writer.generate(parsedObj, false);
 
             JSONAssert.assertEquals(expected, str, false);
         } catch (Exception e) {
@@ -422,9 +422,9 @@ public class BulkExportJobRestTest {
         String expected = "{\"jobParameters\":{}}";
 
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobInstanceRequest parsedObj = BulkExportJobInstanceRequest.Parser.parse(in);
+            JobInstanceRequest parsedObj = JobInstanceRequest.Parser.parse(in);
             assertNotNull(parsedObj.getJobParameters());
-            String str = BulkExportJobInstanceRequest.Writer.generate(parsedObj, false);
+            String str = JobInstanceRequest.Writer.generate(parsedObj, false);
 
             JSONAssert.assertEquals(expected, str, false);
         } catch (Exception e) {
@@ -437,7 +437,7 @@ public class BulkExportJobRestTest {
         String jsonString = "{";
 
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobInstanceRequest.Parser.parse(in);
+            JobInstanceRequest.Parser.parse(in);
         }
         fail();
     }
@@ -447,7 +447,7 @@ public class BulkExportJobRestTest {
         String jsonString = "{";
 
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobExecutionResponse.Parser.parse(in);
+            JobExecutionResponse.Parser.parse(in);
         }
         fail();
     }
@@ -478,9 +478,9 @@ public class BulkExportJobRestTest {
                         "}";
 
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobInstanceResponse parsedObj = BulkExportJobInstanceResponse.Parser.parse(in);
+            JobInstanceResponse parsedObj = JobInstanceResponse.Parser.parse(in);
 
-            String str = BulkExportJobInstanceResponse.Writer.generate(parsedObj);
+            String str = JobInstanceResponse.Writer.generate(parsedObj);
             JSONAssert.assertEquals(jsonString, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -512,8 +512,8 @@ public class BulkExportJobRestTest {
                         "}";
 
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobExecutionResponse parsedObj = BulkExportJobExecutionResponse.Parser.parse(in);
-            String str = BulkExportJobExecutionResponse.Writer.generate(parsedObj, false);
+            JobExecutionResponse parsedObj = JobExecutionResponse.Parser.parse(in);
+            String str = JobExecutionResponse.Writer.generate(parsedObj, false);
             JSONAssert.assertEquals(jsonString, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -562,8 +562,8 @@ public class BulkExportJobRestTest {
                         "}";
 
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobExecutionResponse parsedObj = BulkExportJobExecutionResponse.Parser.parse(in);
-            String str = BulkExportJobExecutionResponse.Writer.generate(parsedObj, false);
+            JobExecutionResponse parsedObj = JobExecutionResponse.Parser.parse(in);
+            String str = JobExecutionResponse.Writer.generate(parsedObj, false);
             JSONAssert.assertEquals(expectedJsonString, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -611,8 +611,8 @@ public class BulkExportJobRestTest {
                         "    ]\n" +
                         "}";
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobExecutionResponse parsedObj = BulkExportJobExecutionResponse.Parser.parse(in);
-            String str = BulkExportJobExecutionResponse.Writer.generate(parsedObj, false);
+            JobExecutionResponse parsedObj = JobExecutionResponse.Parser.parse(in);
+            String str = JobExecutionResponse.Writer.generate(parsedObj, false);
             JSONAssert.assertEquals(expectedJsonString, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -624,8 +624,8 @@ public class BulkExportJobRestTest {
         String jsonString = "{}";
 
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobExecutionResponse parsedObj = BulkExportJobExecutionResponse.Parser.parse(in);
-            String str = BulkExportJobExecutionResponse.Writer.generate(parsedObj, false);
+            JobExecutionResponse parsedObj = JobExecutionResponse.Parser.parse(in);
+            String str = JobExecutionResponse.Writer.generate(parsedObj, false);
             JSONAssert.assertEquals(jsonString, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -635,15 +635,15 @@ public class BulkExportJobRestTest {
     @Test
     public void testBulkExportJobExecutionResponseEmptyAsString()
             throws IOException, FHIROperationException, JSONException {
-        BulkExportJobExecutionResponse parsedObj = BulkExportJobExecutionResponse.Parser.parse("{}");
-        String str = BulkExportJobExecutionResponse.Writer.generate(parsedObj, false);
+        JobExecutionResponse parsedObj = JobExecutionResponse.Parser.parse("{}");
+        String str = JobExecutionResponse.Writer.generate(parsedObj, false);
         JSONAssert.assertEquals("{}", str, false);
     }
 
     @Test(expectedExceptions = { FHIROperationException.class })
     public void testBulkExportJobExecutionResponseEmptyAsBadString()
             throws IOException, FHIROperationException, JSONException {
-        BulkExportJobExecutionResponse.Parser.parse("{");
+        JobExecutionResponse.Parser.parse("{");
         fail();
     }
 
@@ -663,9 +663,9 @@ public class BulkExportJobRestTest {
                         "}";
 
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobInstanceResponse parsedObj = BulkExportJobInstanceResponse.Parser.parse(in);
+            JobInstanceResponse parsedObj = JobInstanceResponse.Parser.parse(in);
 
-            String str = BulkExportJobInstanceResponse.Writer.generate(parsedObj);
+            String str = JobInstanceResponse.Writer.generate(parsedObj);
             JSONAssert.assertEquals(jsonString, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -677,9 +677,9 @@ public class BulkExportJobRestTest {
         String jsonString = "{}";
 
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobInstanceResponse parsedObj = BulkExportJobInstanceResponse.Parser.parse(in);
+            JobInstanceResponse parsedObj = JobInstanceResponse.Parser.parse(in);
 
-            String str = BulkExportJobInstanceResponse.Writer.generate(parsedObj);
+            String str = JobInstanceResponse.Writer.generate(parsedObj);
             JSONAssert.assertEquals(jsonString, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);
@@ -690,7 +690,7 @@ public class BulkExportJobRestTest {
     public void testBulkExportJobInstanceResponseFHIROperationExceptionStream() throws Exception {
         String jsonString = "{";
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobInstanceResponse.Parser.parse(in);
+            JobInstanceResponse.Parser.parse(in);
         }
         fail();
     }
@@ -698,7 +698,7 @@ public class BulkExportJobRestTest {
     @Test(expectedExceptions = { FHIROperationException.class })
     public void testBulkExportJobInstanceResponseFHIROperationExceptionString() throws Exception {
         String jsonString = "{";
-        BulkExportJobInstanceResponse.Parser.parse(jsonString);
+        JobInstanceResponse.Parser.parse(jsonString);
         fail();
     }
 
@@ -740,9 +740,9 @@ public class BulkExportJobRestTest {
                         "}";
 
         try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-            BulkExportJobExecutionResponse parsedObj = BulkExportJobExecutionResponse.Parser.parse(in);
+            JobExecutionResponse parsedObj = JobExecutionResponse.Parser.parse(in);
 
-            String str = BulkExportJobExecutionResponse.Writer.generate(parsedObj, false);
+            String str = JobExecutionResponse.Writer.generate(parsedObj, false);
             JSONAssert.assertEquals(expected, str, false);
         } catch (Exception e) {
             fail("failed to parse", e);

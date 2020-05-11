@@ -1212,6 +1212,8 @@ public class ImplementationGuide extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ImplementationGuide}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ImplementationGuide per the base specification
          */
         @Override
         public ImplementationGuide build() {
@@ -1531,6 +1533,8 @@ public class ImplementationGuide extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link DependsOn}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid DependsOn per the base specification
              */
             @Override
             public DependsOn build() {
@@ -1811,6 +1815,8 @@ public class ImplementationGuide extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Global}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Global per the base specification
              */
             @Override
             public Global build() {
@@ -2259,6 +2265,8 @@ public class ImplementationGuide extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Definition}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Definition per the base specification
              */
             @Override
             public Definition build() {
@@ -2528,6 +2536,8 @@ public class ImplementationGuide extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Grouping}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Grouping per the base specification
                  */
                 @Override
                 public Grouping build() {
@@ -2961,6 +2971,8 @@ public class ImplementationGuide extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Resource}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Resource per the base specification
                  */
                 @Override
                 public Resource build() {
@@ -3335,6 +3347,8 @@ public class ImplementationGuide extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Page}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Page per the base specification
                  */
                 @Override
                 public Page build() {
@@ -3617,6 +3631,8 @@ public class ImplementationGuide extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Parameter}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Parameter per the base specification
                  */
                 @Override
                 public Parameter build() {
@@ -3919,6 +3935,8 @@ public class ImplementationGuide extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Template}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Template per the base specification
                  */
                 @Override
                 public Template build() {
@@ -4374,6 +4392,8 @@ public class ImplementationGuide extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Manifest}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Manifest per the base specification
              */
             @Override
             public Manifest build() {
@@ -4686,6 +4706,8 @@ public class ImplementationGuide extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Resource}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Resource per the base specification
                  */
                 @Override
                 public Resource build() {
@@ -5005,6 +5027,8 @@ public class ImplementationGuide extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Page}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Page per the base specification
                  */
                 @Override
                 public Page build() {

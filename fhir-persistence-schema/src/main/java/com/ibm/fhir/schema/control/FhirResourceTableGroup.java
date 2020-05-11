@@ -679,12 +679,12 @@ ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_r  FOREIGN KEY
                 }
 
                 statements.add(new DropForeignKeyConstraint(schemaName, tableName,
-                        "FK_OBSERVATION_COMPOSITES_DATE",
-                        "FK_OBSERVATION_COMPOSITES_LATLNG",
-                        "FK_OBSERVATION_COMPOSITES_NUMBER",
-                        "FK_OBSERVATION_COMPOSITES_QUANTITY",
-                        "FK_OBSERVATION_COMPOSITES_STR",
-                        "FK_OBSERVATION_COMPOSITES_TOKEN"));
+                        FK + tableName + _STR,
+                        FK + tableName + _NUMBER,
+                        FK + tableName + _DATE,
+                        FK + tableName + _TOKEN,
+                        FK + tableName + _QUANTITY,
+                        FK + tableName + _LATLNG));
             }
             return statements;
         });

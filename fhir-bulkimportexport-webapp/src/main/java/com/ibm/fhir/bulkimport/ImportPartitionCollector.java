@@ -46,7 +46,7 @@ public class ImportPartitionCollector implements PartitionCollector {
      */
     @Inject
     @BatchProperty(name = Constants.COS_ENDPOINT_URL)
-    String cosEndpintUrl;
+    String cosEndpointUrl;
 
     /**
      * The IBM COS or S3 location.
@@ -70,10 +70,23 @@ public class ImportPartitionCollector implements PartitionCollector {
     String cosCredentialIbm;
 
     public ImportPartitionCollector() {
+        // The injected properties are not available at class construction time
+        // These values are lazy injected BEFORE calling 'collectPartitionData'. 
     }
 
     @Override
-    public Serializable collectPartitionData() throws Exception{
+    public Serializable collectPartitionData() throws Exception {
+        if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
+            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl, cosLocation);
+
+            if (cosClient == null) {
+                logger.warning("collectPartitionData: Failed to get CosClient!");
+                throw new Exception("Failed to get CosClient!!");
+            } else {
+                logger.finer("ImportPartitionCollector: Succeed get CosClient!");
+            }
+        }
+
         ImportTransientUserData partitionSummaryData  = (ImportTransientUserData)stepCtx.getTransientUserData();
         BatchStatus batchStatus = stepCtx.getBatchStatus();
 
@@ -84,21 +97,12 @@ public class ImportPartitionCollector implements PartitionCollector {
         }
 
         // This function is called at partition chunk check points and also at the end of partition processing.
-        // So, check the NumOfToBeImported to make sure collect the statistic data for the partition only at the end,
-        // also upload the remaining OperationComes to COS/S3 if any and finish the multiple-parts uploads.
+        // So, check the NumOfToBeImported to make sure at the end of partition processing:
+        // (1) upload the remaining OperationComes to COS/S3.
+        // (2) finish the multiple-parts uploads.
+        // (3) release the resources hold by this partition.
         if (partitionSummaryData.getNumOfToBeImported() == 0) {
             if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
-                // Create a COS/S3 client if it's not created yet.
-                if (cosClient == null) {
-                    cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
-
-                    if (cosClient == null) {
-                        logger.warning("collectPartitionData: Failed to get CosClient!");
-                        throw new Exception("Failed to get CosClient!!");
-                    } else {
-                        logger.finer("collectPartitionData: Succeed get CosClient!");
-                    }
-                }
                 // Upload remaining OperationOutcomes.
                 if (partitionSummaryData.getBufferStreamForImport().size() > 0) {
                     if (partitionSummaryData.getUploadIdForOperationOutcomes()  == null) {
@@ -150,11 +154,11 @@ public class ImportPartitionCollector implements PartitionCollector {
 
             // Clean up.
             BulkDataUtils.cleanupTransientUserData(partitionSummaryData, false);
-
-            return ImportCheckPointData.fromImportTransientUserData(partitionSummaryData);
-        } else {
-            return null;
         }
+
+        ImportCheckPointData partitionSummaryForMetrics = ImportCheckPointData.fromImportTransientUserData(partitionSummaryData);
+        partitionSummaryForMetrics.setNumOfToBeImported(partitionSummaryData.getNumOfToBeImported());
+        return partitionSummaryForMetrics;
     }
 
 }

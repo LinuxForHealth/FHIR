@@ -1,48 +1,50 @@
 # ----------------------------------------------------------------------------
 # (C) Copyright IBM Corp. 2016, 2020
-# 
+#
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-FROM websphere-liberty:kernel as base
+FROM openliberty/open-liberty:20.0.0.3-full-java8-openj9-ubi as base
 
 ENV LICENSE accept
 
 USER root
-RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get upgrade -y \
-    && apt-get install -y --no-install-recommends unzip \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-RUN mkdir /fhir-installer && chown -R 1001:0 /fhir-installer
+RUN yum update -y --nobest && \
+    yum install -y unzip && \
+    yum clean all -y
+
 USER 1001
+COPY target/fhir-server-distribution.zip /tmp/
+RUN unzip -qq /tmp/fhir-server-distribution.zip -d /tmp && \
+    /tmp/fhir-server-dist/install-fhir.sh /opt/ol/wlp
 
-ADD --chown=1001:0 target/fhir-server-distribution.zip /fhir-installer/
-RUN unzip -qq /fhir-installer/fhir-server-distribution.zip -d /fhir-installer/ && \
-    /fhir-installer/fhir-server-dist/install-fhir.sh /opt/ibm/wlp && \
-    /opt/ibm/wlp/bin/installUtility install fhir-server --acceptLicense
+# ----------------------------------------------------------------------------
 
+FROM openliberty/open-liberty:20.0.0.3-full-java8-openj9-ubi
+COPY --chown=1001:0 --from=base /opt/ol/wlp /opt/ol/wlp
 
-FROM websphere-liberty:kernel
-COPY --chown=1001:0 --from=base /opt/ibm/wlp/ /opt/ibm/wlp
+MAINTAINER Lee Surprenant <lmsurpre@us.ibm.com>
 
-MAINTAINER John T.E. Timm <johntimm@us.ibm.com>
-
-ENV FHIR /opt/ibm/wlp/usr/servers/fhir-server
+ENV FHIR /opt/ol/wlp/usr/servers/fhir-server
 
 # Set the working directory to the fhir-server liberty server
 WORKDIR ${FHIR}
 
 # Set the output directory so that output will appear under the working directory
-ENV WLP_OUTPUT_DIR=/opt/ibm/wlp/usr/servers
-
-# Replace links to defaultServer with links to fhir-server
-RUN ln -sf ${FHIR} /output && \
-    ln -sf ${FHIR} /config && \
-    rm -rf /opt/ibm/wlp/output && \
-    rm -rf /opt/ibm/wlp/usr/servers/defaultServer
+ENV WLP_OUTPUT_DIR=/opt/ol/wlp/usr/servers
 
 # Tell liberty not to worry about a keystore since we provide our own at a different path
-ENV KEYSTORE_REQUIRED false
+ENV KEYSTORE_REQUIRED "false"
 
-CMD ["/opt/ibm/wlp/bin/server", "run", "fhir-server"]
+# Replace links to defaultServer with links to fhir-server
+USER root
+RUN ln -sfn ${FHIR} /output && \
+    ln -sfn ${FHIR} /config && \
+    rm -rf /opt/ol/wlp/output && \
+    rm -rf /opt/ol/wlp/usr/servers/defaultServer
+
+USER 1001
+
+# Create the configDropins directories for the fhir-server
+RUN mkdir -p /config/configDropins/defaults /config/configDropins/overrides
+CMD ["/opt/ol/wlp/bin/server", "run", "fhir-server"]

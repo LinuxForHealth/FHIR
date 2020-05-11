@@ -8,6 +8,7 @@ package com.ibm.fhir.registry.spi;
 
 import java.util.Collection;
 
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 
 /**
@@ -15,13 +16,58 @@ import com.ibm.fhir.registry.resource.FHIRRegistryResource;
  */
 public interface FHIRRegistryResourceProvider {
     /**
-     * Get the FHIR registry resources for this provider. A FHIR registry resource contains all of the information necessary
-     * to load an actual FHIR resource into memory. FHIR registry resources must have a unique url+version pair. If this method
-     * returns a collection containing FHIR registry resources with duplicate url+version pairs, then the first one will be
-     * added to the registry and any subsequent duplicates will be ignored.
-     * 
+     * Get the registry resource from this provider for the given resource type, url and version
+     *
+     * <p>If the version is null, then the latest version of the registry resource is returned (if available)
+     *
+     * @param resourceType
+     *     the resource type of the registry resource
+     * @param url
+     *     the url of the registry resource
+     * @param version
+     *     the version of the registry resource (optional)
      * @return
-     *     the FHIR registry resources for this provider.
+     *     the registry resource from this provider for the given resource type, url and version if exists, null otherwise
      */
-    Collection<FHIRRegistryResource> getResources();
+    FHIRRegistryResource getRegistryResource(Class<? extends Resource> resourceType, String url, String version);
+
+    /**
+     * Get the registry resources from this provider for the given resource type
+     *
+     * @param resourceType
+     *     the resource type of the registry resource
+     * @return
+     *     the registry resources from this provider for the given resource type
+     */
+    Collection<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType);
+
+    /**
+     * Get all the registry resources from this provider
+     *
+     * @return
+     *     all of the registry resources from this provider
+     */
+    Collection<FHIRRegistryResource> getRegistryResources();
+
+    /**
+     * Get the profile resources from this provider that constrain the given resource type
+     *
+     * @param type
+     *     the constrained resource type
+     * @return
+     *     the profile resources from this provider that constrain the given resource type
+     */
+    Collection<FHIRRegistryResource> getProfileResources(String type);
+
+
+    /**
+     * Get the search parameter resources from this provider with the given search parameter type
+     * (e.g. string, token, etc.)
+     *
+     * @param type
+     *     the search parameter type
+     * @return
+     *     the search parameter resources from this provider with the given search parameter type
+     */
+    Collection<FHIRRegistryResource> getSearchParameterResources(String type);
 }

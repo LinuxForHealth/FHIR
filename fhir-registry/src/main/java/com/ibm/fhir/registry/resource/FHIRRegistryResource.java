@@ -6,44 +6,37 @@
 
 package com.ibm.fhir.registry.resource;
 
-import static com.ibm.fhir.registry.util.FHIRRegistryUtil.loadResource;
-
 import java.util.Objects;
 
 import com.ibm.fhir.model.resource.Resource;
 
 /**
- * A registry entry that can load a definitional resource (e.g. StructureDefinition) given a url, version and name
+ * An abstract base class that contains the metadata for a definitional resource (e.g. StructureDefinition)
  */
-public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {    
-    private final Class<?> resourceType;
-    private final String id;
-    private final String url;
-    private final Version version;
-    private final String kind;
-    private final String type;
-    private final String path;
-    
-    private volatile Resource resource;
-    
+public abstract class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
+    protected final Class<? extends Resource> resourceType;
+    protected final String id;
+    protected final String url;
+    protected final Version version;
+    protected final String kind;
+    protected final String type;
+
     public FHIRRegistryResource(
-            Class<?> resourceType, 
-            String id, 
-            String url, 
-            Version version, 
-            String kind, 
-            String type, 
-            String path) {
+            Class<? extends Resource> resourceType,
+            String id,
+            String url,
+            Version version,
+            String kind,
+            String type) {
         this.resourceType = Objects.requireNonNull(resourceType);
         this.id = id;
         this.url = Objects.requireNonNull(url);
         this.version = Objects.requireNonNull(version);
         this.kind = kind;
         this.type = type;
-        this.path = Objects.requireNonNull(path);
     }
-    
-    public Class<?> getResourceType() {
+
+    public Class<? extends Resource> getResourceType() {
         return resourceType;
     }
 
@@ -67,46 +60,16 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
         return type;
     }
 
-    public String getPath() {
-        return path;
+    public abstract Resource getResource();
+
+    public <T extends FHIRRegistryResource> boolean is(Class<T> registryResourceType) {
+        return registryResourceType.isInstance(this);
     }
 
-    /**
-     * Get the resource associated with this url, version and name.
-     * 
-     * @return
-     *     the resource
-     */
-    public Resource getResource() {
-        Resource resource = this.resource;
-        if (resource == null) {
-            synchronized (this) {
-                resource = this.resource;
-                if (resource == null) {
-                    resource = loadResource(path);
-                    this.resource = resource;
-                }
-            }
-        }
-        return resource;
+    public <T extends FHIRRegistryResource> T as(Class<T> registryResourceType) {
+        return registryResourceType.cast(this);
     }
-    
-    /**
-     * Unload the resource by setting it to null, thus making it available for 
-     * garbage collection.
-     */
-    public void unload() {
-        Resource resource = this.resource;
-        if (resource != null) {
-            synchronized (this) {
-                resource = this.resource;
-                if (resource != null) {
-                    this.resource = null;
-                }
-            }
-        }
-    }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -121,15 +84,19 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
         FHIRRegistryResource other = (FHIRRegistryResource) obj;
         return Objects.equals(url, other.url) && Objects.equals(version, other.version);
     }
-    
+
     @Override
     public int hashCode() {
         return Objects.hash(url, version);
     }
-    
+
     @Override
     public int compareTo(FHIRRegistryResource other) {
-        return this.version.compareTo(other.version);
+        int result = url.compareTo(other.url);
+        if (result == 0) {
+            return version.compareTo(other.version);
+        }
+        return result;
     }
 
     /**
@@ -137,19 +104,19 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
      */
     public static class Version implements Comparable<Version> {
         public enum CompareMode { SEMVER, LEXICAL };
-        
+
         private final String version;
         private final Integer major;
         private final Integer minor;
         private final Integer patch;
         private final CompareMode mode;
-        
+
         private Version(String version) {
             this.version = version;
             major = minor = patch = null;
             mode = CompareMode.LEXICAL;
         }
-        
+
         private Version(String version, Integer major, Integer minor, Integer patch) {
             this.version = version;
             this.major = major;
@@ -157,19 +124,19 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
             this.patch = patch;
             this.mode = CompareMode.SEMVER;
         }
-        
+
         public int major() {
             return major;
         }
-        
+
         public int minor() {
             return minor;
         }
-        
+
         public int patch() {
             return patch;
         }
-        
+
         public static Version from(String version) {
             String[] tokens = version.split("\\.");
             if (tokens.length < 1 || tokens.length > 3) {
@@ -184,7 +151,7 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
                 return new Version(version);
             }
         }
-        
+
         @Override
         public boolean equals(Object obj) {
             if (this == obj) {
@@ -203,7 +170,7 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
                 return Objects.equals(major, other.major) && Objects.equals(minor, other.minor) && Objects.equals(patch, other.patch);
             }
         }
-        
+
         @Override
         public int hashCode() {
             if (CompareMode.LEXICAL.equals(mode)) {
@@ -212,10 +179,10 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
                 return Objects.hash(major, minor, patch);
             }
         }
-        
+
         @Override
         public String toString() {
-            return version;   
+            return version;
         }
 
         @Override

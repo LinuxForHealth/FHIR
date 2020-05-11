@@ -935,6 +935,8 @@ public class DeviceUseStatement extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link DeviceUseStatement}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid DeviceUseStatement per the base specification
          */
         @Override
         public DeviceUseStatement build() {

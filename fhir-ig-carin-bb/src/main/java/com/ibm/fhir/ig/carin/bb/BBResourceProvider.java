@@ -6,15 +6,11 @@
 
 package com.ibm.fhir.ig.carin.bb;
 
-import java.util.Collection;
+import com.ibm.fhir.registry.util.PackageRegistryResourceProvider;
 
-import com.ibm.fhir.registry.resource.FHIRRegistryResource;
-import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
-import com.ibm.fhir.registry.util.FHIRRegistryUtil;
-
-public class BBResourceProvider implements FHIRRegistryResourceProvider {
+public class BBResourceProvider extends PackageRegistryResourceProvider {
     @Override
-    public Collection<FHIRRegistryResource> getResources() {
-        return FHIRRegistryUtil.getResources("hl7.fhir.us.carin-bb");
+    public String getPackageId() {
+        return "hl7.fhir.us.carin-bb";
     }
 }

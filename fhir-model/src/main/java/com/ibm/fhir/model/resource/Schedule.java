@@ -712,6 +712,8 @@ public class Schedule extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Schedule}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Schedule per the base specification
          */
         @Override
         public Schedule build() {

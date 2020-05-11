@@ -28,13 +28,18 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CapabilityStatement;
+import com.ibm.fhir.model.resource.Immunization;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.ContactPoint;
+import com.ibm.fhir.model.type.Narrative;
+import com.ibm.fhir.model.type.Xhtml;
 import com.ibm.fhir.model.type.code.ContactPointSystem;
 import com.ibm.fhir.model.type.code.ContactPointUse;
+import com.ibm.fhir.model.type.code.NarrativeStatus;
 
 /**
  * Basic sniff test of the FHIR Server.
@@ -127,7 +132,7 @@ public class BasicServerTest extends FHIRServerTestBase {
 
         TestUtil.assertResourceEquals(patient, responsePatient);
     }
-    
+
     /**
      * Create a minimal Patient, then make sure we can retrieve it with varying format
      */
@@ -202,18 +207,18 @@ public class BasicServerTest extends FHIRServerTestBase {
 
         TestUtil.assertResourceEquals(observation, responseObs);
     }
-    
+
     @Test( groups = { "server-basic" })
-    public void testCreateObservationWithUnrecognizedElements1() throws Exception {
+    public void testCreateObservationWithUnrecognizedElements_strict() throws Exception {
         WebTarget target = getWebTarget();
         JsonObject jsonObject = TestUtil.readJsonObject("testdata/observation-unrecognized-elements.json");
         Entity<JsonObject> entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
     }
-    
+
     @Test( groups = { "server-basic" })
-    public void testCreateObservationWithUnrecognizedElements2() throws Exception {
+    public void testCreateObservationWithUnrecognizedElements_lenient_minimal() throws Exception {
         WebTarget target = getWebTarget();
         JsonObject jsonObject = TestUtil.readJsonObject("testdata/observation-unrecognized-elements.json");
         Entity<JsonObject> entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -221,6 +226,58 @@ public class BasicServerTest extends FHIRServerTestBase {
                     .header("Prefer", "handling=lenient")
                     .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
+    }
+
+    @Test( groups = { "server-basic" })
+    public void testCreateObservationWithUnrecognizedElements_lenient_representation() throws Exception {
+        WebTarget target = getWebTarget();
+        JsonObject jsonObject = TestUtil.readJsonObject("testdata/observation-unrecognized-elements.json");
+        Entity<JsonObject> entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Observation").request()
+                    .header("Prefer", "handling=lenient;return=representation")
+                    .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        assertNotNull(response.readEntity(Observation.class));
+    }
+
+    @Test( groups = { "server-basic" })
+    public void testCreateObservationWithUnrecognizedElements_lenient_OperationOutcome() throws Exception {
+        WebTarget target = getWebTarget();
+        JsonObject jsonObject = TestUtil.readJsonObject("testdata/observation-unrecognized-elements.json");
+        Entity<JsonObject> entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Observation").request()
+                    .header("Prefer", "handling=lenient; return=OperationOutcome")
+                    .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        OperationOutcome outcome = response.readEntity(OperationOutcome.class);
+        assertNotNull(outcome);
+        assertTrue(outcome.getIssue().size() > 0);
+    }
+
+    @Test( groups = { "server-basic" })
+    public void testCreateImmunizationWithInvalidSearchParameter() throws Exception {
+        // This test takes advantage of a issue with the 4.0.1 spec (https://jira.hl7.org/browse/FHIR-25173)
+        // to verify that supplemental warnings that are added by the persistence layer will make it to the response
+        WebTarget target = getWebTarget();
+        Immunization resource = TestUtil.readExampleResource("json/ibm/minimal/Immunization-1.json");
+        // 1. Add narrative text to avoid dom-6 (A resource should have narrative for robust management)
+        // 2. Set occurrence to a String to get the searchparameter warning added by the persistence layer
+        resource = resource.toBuilder()
+                .text(Narrative.builder()
+                    .status(NarrativeStatus.EMPTY)
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">test</div>"))
+                    .build())
+                .occurrence(string("now"))
+                .build();
+        Entity<Resource> entity = Entity.entity(resource, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Immunization").request()
+                    .header("Prefer", "return=OperationOutcome")
+                    .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        OperationOutcome outcome = response.readEntity(OperationOutcome.class);
+        assertNotNull(outcome);
+        assertTrue(outcome.getIssue().size() > 0);
+        assertTrue(outcome.getIssue().get(0).getDetails().getText().getValue().startsWith("Skipping search parameter 'date'"));
     }
 
     /**
@@ -308,8 +365,8 @@ public class BasicServerTest extends FHIRServerTestBase {
         // Make sure patient ids are equal, and versionIds are NOT equal.
         assertEquals(originalPatient.getId(), updatedPatient.getId());
         assertTrue(!updatedPatient.getMeta().getVersionId().getValue()
-                .contentEquals(originalPatient.getMeta().getVersionId().getValue()));
-        // Patient create time should be earlier than Patient update time.       
+                .equals(originalPatient.getMeta().getVersionId().getValue()));
+        // Patient create time should be earlier than Patient update time.
         assertTrue(originalPatient.getMeta().getLastUpdated().getValue()
                 .compareTo(updatedPatient.getMeta().getLastUpdated().getValue()) < 0);
 
@@ -337,7 +394,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         // Make sure observation ids are equal, and versionIds are NOT equal.
         assertEquals(originalObservation.getId(), updatedObservation.getId());
         assertTrue(!updatedObservation.getMeta().getVersionId().getValue()
-                .contentEquals(originalObservation.getMeta().getVersionId().getValue()));
+                .equals(originalObservation.getMeta().getVersionId().getValue()));
         // Observation create time should be earlier than Observation update time.
         assertTrue(originalObservation.getMeta().getLastUpdated().getValue()
                 .compareTo(updatedObservation.getMeta().getLastUpdated().getValue()) < 0);

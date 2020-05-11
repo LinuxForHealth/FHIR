@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.FHIRAllTypes;
 import com.ibm.fhir.model.type.code.OperationKind;
 import com.ibm.fhir.model.type.code.OperationParameterUse;
@@ -33,6 +34,8 @@ public class MyOperation extends AbstractOperation {
     @Override
     protected OperationDefinition buildOperationDefinition() {
         OperationDefinition.Builder operationDefinitionBuilder =  OperationDefinition.builder()
+                .url(Uri.of("http://ibm.com/fhir/example/my-operation"))
+                .version(string("4.1.0"))
                 .name(String.of("My Operation"))
                 .status(PublicationStatus.of(PublicationStatus.ValueSet.DRAFT))
                 .kind(OperationKind.of(OperationKind.ValueSet.OPERATION))
@@ -45,11 +48,11 @@ public class MyOperation extends AbstractOperation {
 
         // All primitives except "xhtml" and "base64Binary"
         List<FHIRAllTypes> primitives = Arrays.asList(
-            FHIRAllTypes.BOOLEAN, FHIRAllTypes.CANONICAL, FHIRAllTypes.CODE, FHIRAllTypes.DATE, 
+            FHIRAllTypes.BOOLEAN, FHIRAllTypes.CANONICAL, FHIRAllTypes.CODE, FHIRAllTypes.DATE,
             FHIRAllTypes.DATE_TIME, FHIRAllTypes.ID, FHIRAllTypes.INSTANT, FHIRAllTypes.INTEGER,
             FHIRAllTypes.OID, FHIRAllTypes.POSITIVE_INT, FHIRAllTypes.STRING, FHIRAllTypes.TIME,
             FHIRAllTypes.UNSIGNED_INT, FHIRAllTypes.URI, FHIRAllTypes.URL, FHIRAllTypes.UUID);
-        
+
         for (FHIRAllTypes primitive : primitives) {
             OperationDefinition.Parameter inputParameter = OperationDefinition.Parameter.builder()
                     .name(Code.of("input-" + primitive.getValue()))
@@ -82,9 +85,9 @@ public class MyOperation extends AbstractOperation {
             if (parameters.getParameter().isEmpty()) {
                 return null;
             }
-            
+
             Parameters.Builder returnParametersBuilder = Parameters.builder();
-            
+
             for (Parameter inputParameter : parameters.getParameter()) {
                 returnParametersBuilder.parameter(Parameter.builder()
                     .name(string(inputParameter.getName().getValue().replace("input", "output")))

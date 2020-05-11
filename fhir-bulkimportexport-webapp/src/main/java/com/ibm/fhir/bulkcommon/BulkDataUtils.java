@@ -7,6 +7,7 @@
 package com.ibm.fhir.bulkcommon;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -17,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonReader;
+import javax.net.ssl.HttpsURLConnection;
 
 import com.ibm.cloud.objectstorage.ClientConfiguration;
 import com.ibm.cloud.objectstorage.SDKGlobalConfiguration;
@@ -92,10 +99,10 @@ public class BulkDataUtils {
     }
 
     public static AmazonS3 getCosClient(String cosCredentialIbm, String cosApiKeyProperty, String cosSrvinstId,
-            String cosEndpintUrl, String cosLocation) {
+            String cosEndpointUrl, String cosLocation) {
         SDKGlobalConfiguration.IAM_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token";
         AWSCredentials credentials;
-        if (cosCredentialIbm.equalsIgnoreCase("Y")) {
+        if (cosCredentialIbm != null && cosCredentialIbm.equalsIgnoreCase("Y")) {
             credentials = new BasicIBMOAuthCredentials(cosApiKeyProperty, cosSrvinstId);
         } else {
             credentials = new BasicAWSCredentials(cosApiKeyProperty, cosSrvinstId);
@@ -107,7 +114,7 @@ public class BulkDataUtils {
                 .withSocketTimeout(Constants.COS_SOCKET_TIMEOUT);
 
         return AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withEndpointConfiguration(new EndpointConfiguration(cosEndpintUrl, cosLocation))
+                .withEndpointConfiguration(new EndpointConfiguration(cosEndpointUrl, cosLocation))
                 .withPathStyleAccessEnabled(true).withClientConfiguration(clientConfig).build();
     }
 
@@ -254,6 +261,12 @@ public class BulkDataUtils {
         return parseFailures;
     }
 
+
+    public static long getCosFileSize(AmazonS3 cosClient, String bucketName, String itemName) throws Exception {
+            S3Object item = cosClient.getObject(new GetObjectRequest(bucketName, itemName));
+            return item.getObjectMetadata().getContentLength();
+      }
+
     /**
      * @param filePath - file path to the ndjson file.
      * @param numOfLinesToSkip - number of lines to skip before read.
@@ -286,6 +299,11 @@ public class BulkDataUtils {
 
         return parseFailures;
     }
+
+
+    public static long getLocalFileSize(String filePath) throws Exception {
+        return (new File(filePath).length());
+      }
 
 
     /**
@@ -329,6 +347,20 @@ public class BulkDataUtils {
 
         return parseFailures;
     }
+
+
+    public static long getHttpsFileSize(String dataUrl) throws Exception {
+        HttpsURLConnection httpsConnection = null;
+        try {
+            httpsConnection = (HttpsURLConnection) new URL(dataUrl).openConnection();
+            httpsConnection.setRequestMethod("HEAD");
+            return httpsConnection.getContentLengthLong();
+        } finally {
+          if (httpsConnection != null) {
+              httpsConnection.disconnect();
+          }
+        }
+      }
 
     /**
      * Validate the input resource and throw if there are validation errors
@@ -387,5 +419,14 @@ public class BulkDataUtils {
             }
         }
         return searchParametersForResoureTypes;
+    }
+    
+    public static JsonArray getDataSourcesFromJobInput(String dataSourcesInfo) {
+        try (JsonReader reader =
+                Json.createReader(new StringReader(
+                        new String(Base64.getDecoder().decode(dataSourcesInfo), StandardCharsets.UTF_8)))) {
+            JsonArray dataSourceArray = reader.readArray();
+            return dataSourceArray;
+        }
     }
 }

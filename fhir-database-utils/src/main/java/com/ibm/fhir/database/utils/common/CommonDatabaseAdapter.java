@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -74,6 +75,15 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         this.target = null;
         this.translator = dt;
         this.connectionProvider = cp;
+    }
+
+    /**
+     * Constructor used by AddColumn only for getting DB type specific column name.
+     */
+    protected CommonDatabaseAdapter() {
+        this.target = null;
+        this.translator = null;
+        this.connectionProvider = null;
     }
 
     @Override
@@ -154,7 +164,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
         List<String> indexColumns, List<String> includeColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
-        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns);
+        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns, true);
         runStatement(ddl);
     }
 
@@ -162,7 +172,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
         List<String> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
-        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns);
+        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, true);
         runStatement(ddl);
     }
 
@@ -170,7 +180,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
         List<String> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
-        String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns);
+        String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, true);
         runStatement(ddl);
     }
 
@@ -414,14 +424,14 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     public void createSequence(String schemaName, String sequenceName, int cache) {
         /*
          * <CODE>CREATE SEQUENCE fhir_sequence
-             AS BIGINT
-     START WITH 1000
-          CACHE 1000
-       NO CYCLE;</CODE>
-    */
+         * AS BIGINT
+         * START WITH 20000
+         * CACHE 1000
+         * NO CYCLE;</CODE>
+         */
         // The move to start with 1000 gives room for manual creation and update of sequences.
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 1000 CACHE " + cache + " NO CYCLE";
+        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 20000 CACHE " + cache + " NO CYCLE";
         runStatement(ddl);
 
     }
@@ -498,5 +508,15 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
         logger.info("Applying: " + grant); // Grants are very useful to see logged
         runStatement(grant);
+    }
+
+    @Override
+    public void createSchema(String schemaName) {
+        try {
+            String ddl = "CREATE SCHEMA " + schemaName;
+            runStatement(ddl);
+        } catch (DuplicateNameException e) {
+            logger.log(Level.WARNING, "The schema '" + schemaName + "' already exists; proceed with caution.");
+        }
     }
 }

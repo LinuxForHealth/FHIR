@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,8 @@ import java.util.regex.Matcher;
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathResourceNode;
 import com.ibm.fhir.path.FHIRPathTree;
@@ -64,6 +66,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
      * @return
      *     the result of the function applied to the context and arguments
      */
+    @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         Collection<FHIRPathNode> result = new ArrayList<>();
         for (FHIRPathNode node : context) {
@@ -97,6 +100,10 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                 FHIRPathType type = isResourceType(resourceType) ? FHIRPathType.from(resourceType) : FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE;
 
                 result.add(FHIRPathResourceNode.resourceNode(type));
+
+                if (FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE.equals(type)) {
+                    generateIssue(evaluationContext, IssueSeverity.INFORMATION, IssueType.INFORMATIONAL, "Resource type could not be inferred from reference: " + referenceReference, node);
+                }
             }
         }
         return result;

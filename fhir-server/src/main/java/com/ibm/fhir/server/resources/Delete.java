@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.security.RolesAllowed;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
@@ -22,11 +25,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.rest.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 import com.ibm.fhir.server.util.RestAuditLogger;
@@ -36,8 +40,16 @@ import com.ibm.fhir.server.util.RestAuditLogger;
         FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
         FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@RolesAllowed("FHIRUsers")
+@RequestScoped
 public class Delete extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Delete.class.getName());
+
+    // The JWT of the current caller. Since this is a request scoped resource, the
+    // JWT will be injected for each JAX-RS request. The injection is performed by
+    // the mpJwt feature.
+    @Inject
+    private JsonWebToken jwt;
 
     public Delete() throws Exception {
         super();
@@ -56,18 +68,8 @@ public class Delete extends FHIRResource {
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             ior = helper.doDelete(type, id, null, null);
-
-            status = Status.NO_CONTENT;
-            ResponseBuilder response = Response.noContent();
-
-            if (ior.getResource() != null) {
-                response = addHeaders(response, ior.getResource());
-            }
-            return response.build();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
-            // Overwrite the exception response status because we want NOT_FOUND to be success for delete
-            status = Status.OK;
-            return exceptionResponse(e, status);
+            status = ior.getStatus();
+            return buildResponse(ior);
         } catch (FHIRPersistenceNotSupportedException e) {
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
@@ -111,18 +113,7 @@ public class Delete extends FHIRResource {
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             ior = helper.doDelete(type, null, searchQueryString, null);
             status = ior.getStatus();
-            ResponseBuilder response = Response.status(status);
-            if (ior.getOperationOutcome() != null) {
-                response.entity(ior.getOperationOutcome());
-            }
-            if (ior.getResource() != null) {
-                response = addHeaders(response, ior.getResource());
-            }
-            return response.build();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
-            // Return 200 instead of 404 to pass TouchStone test
-            status = Status.OK;
-            return exceptionResponse(e, status);
+            return buildResponse(ior);
         } catch (FHIRPersistenceNotSupportedException e) {
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
@@ -143,5 +134,18 @@ public class Delete extends FHIRResource {
 
             log.exiting(this.getClass().getName(), "conditionalDelete(String)");
         }
+    }
+
+    private Response buildResponse(FHIRRestOperationResponse ior) {
+        ResponseBuilder response = Response.status(ior.getStatus());
+
+        if (ior.getOperationOutcome() != null) {
+            response.entity(ior.getOperationOutcome());
+        }
+
+        if (ior.getResource() != null) {
+            addHeaders(response, ior.getResource());
+        }
+        return response.build();
     }
 }

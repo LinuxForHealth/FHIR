@@ -18,7 +18,9 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,6 +39,9 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
+import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Operation;
+import com.ibm.fhir.model.resource.DomainResource;
+import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -57,6 +62,9 @@ import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
 import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
+import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.operation.FHIROperation;
+import com.ibm.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.FHIRBuildIdentifier;
@@ -121,7 +129,6 @@ public class Capabilities extends FHIRResource {
      */
     private CapabilityStatement buildCapabilityStatement() throws Exception {
         // Build the list of interactions that are supported for each resource type.
-
         List<Rest.Resource.Interaction> interactions = new ArrayList<>();
         interactions.add(buildInteractionStatement(TypeRestfulInteraction.CREATE));
         interactions.add(buildInteractionStatement(TypeRestfulInteraction.UPDATE));
@@ -133,6 +140,31 @@ public class Capabilities extends FHIRResource {
         interactions.add(buildInteractionStatement(TypeRestfulInteraction.HISTORY_INSTANCE));
         interactions.add(buildInteractionStatement(TypeRestfulInteraction.SEARCH_TYPE));
         interactions.add(buildInteractionStatement(TypeRestfulInteraction.PATCH));
+
+
+        // Build the lists of operations that are supported
+        List<OperationDefinition> systemOps = new ArrayList<>();
+        Map<ResourceType.ValueSet, List<OperationDefinition>> typeOps = new HashMap<>();
+
+        FHIROperationRegistry opRegistry = FHIROperationRegistry.getInstance();
+        List<String> operationNames = opRegistry.getOperationNames();
+        for (String opName : operationNames) {
+            FHIROperation operation = opRegistry.getOperation(opName);
+            OperationDefinition opDef = operation.getDefinition();
+            if (opDef.getSystem().getValue()) {
+                systemOps.add(opDef);
+            }
+            for (ResourceType resourceType : opDef.getResource()) {
+                ResourceType.ValueSet typeValue = resourceType.getValueAsEnumConstant();
+                if (typeOps.containsKey(typeValue)) {
+                    typeOps.get(typeValue).add(opDef);
+                } else {
+                    List<OperationDefinition> typeOpList = new ArrayList<>();
+                    typeOpList.add(opDef);
+                    typeOps.put(typeValue, typeOpList);
+                }
+            }
+        }
 
         // Build the list of supported resources.
         List<Rest.Resource> resources = new ArrayList<>();
@@ -159,16 +191,25 @@ public class Capabilities extends FHIRResource {
                 }
             }
 
+            List<Operation> ops = mapOperationDefinitionsToRestOperations(typeOps.get(resourceType));
+            // If the type is an abstract resource ("Resource" or "DomainResource")
+            // then the operation can be invoked on any concrete specialization.
+            ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceType.ValueSet.RESOURCE)));
+            if (DomainResource.class.isAssignableFrom(ModelSupport.getResourceType(resourceType.value()))) {
+                ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceType.ValueSet.DOMAIN_RESOURCE)));
+            }
+
             // Build the ConformanceResource for this resource type.
             Rest.Resource cr = Rest.Resource.builder()
                     .type(ResourceType.of(resourceType))
                     .profile(Canonical.of("http://hl7.org/fhir/profiles/" + resourceTypeName))
                     .supportedProfile(FHIRRegistry.getInstance().getProfiles(resourceTypeName))
                     .interaction(interactions)
+                    .operation(ops)
                     .conditionalCreate(com.ibm.fhir.model.type.Boolean.of(true))
                     .conditionalUpdate(com.ibm.fhir.model.type.Boolean.of(true))
                     .updateCreate(com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled()))
-                    .conditionalDelete(ConditionalDeleteStatus.SINGLE)
+                    .conditionalDelete(ConditionalDeleteStatus.MULTIPLE)
                     .conditionalRead(ConditionalReadStatus.FULL_SUPPORT)
                     .searchParam(conformanceSearchParams)
                     .build();
@@ -183,7 +224,7 @@ public class Capabilities extends FHIRResource {
             transactionMode = (txnSupported ? SystemRestfulInteraction.TRANSACTION
                     : SystemRestfulInteraction.BATCH);
         } catch (Throwable t) {
-            log.log(Level.WARNING, "Unexcepted error while reading server transaction mode setting", t);
+            log.log(Level.WARNING, "Unexpected error while reading server transaction mode setting", t);
         }
 
         String actualHost = new URI(getRequestUri()).getHost();
@@ -228,6 +269,7 @@ public class Capabilities extends FHIRResource {
                 .interaction(CapabilityStatement.Rest.Interaction.builder()
                     .code(transactionMode)
                     .build())
+                .operation(mapOperationDefinitionsToRestOperations(systemOps))
                 .build();
 
         FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
@@ -275,6 +317,29 @@ public class Capabilities extends FHIRResource {
         return conformance;
     }
 
+    private List<Rest.Resource.Operation> mapOperationDefinitionsToRestOperations(List<OperationDefinition> opDefs) {
+        if (opDefs == null) {
+            return new ArrayList<>();
+        }
+
+        List<Rest.Resource.Operation> ops = new ArrayList<>();
+
+        for (OperationDefinition opDef : opDefs) {
+            if (opDef.getUrl() == null || !opDef.getUrl().hasValue()) {
+                // The FHIROperationRegistry requires OperationDefinitions to have a url, so we shouldn't ever get here
+                throw new IllegalStateException("Operation " + opDef.getCode().getValue() + " has no url");
+            }
+
+            ops.add(Rest.Resource.Operation.builder()
+                    .name(opDef.getCode())
+                    .definition(Canonical.of(opDef.getUrl().getValue(), opDef.getVersion() == null ? null : opDef.getVersion().getValue()))
+                    .documentation(opDef.getDescription())
+                    .build());
+        }
+
+        return ops;
+    }
+
     private CapabilityStatement addExtensionElements(CapabilityStatement capabilityStatement)
         throws Exception {
         List<Extension> extentions = new ArrayList<Extension>();
@@ -293,6 +358,12 @@ public class Capabilities extends FHIRResource {
         extension = Extension.builder()
                 .url(EXTENSION_URL + "/kafkaNotificationsEnabled")
                 .value(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_KAFKA_ENABLED, Boolean.FALSE)))
+                .build();
+        extentions.add(extension);
+
+        extension = Extension.builder()
+                .url(EXTENSION_URL + "/natsNotificationsEnabled")
+                .value(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_NATS_ENABLED, Boolean.FALSE)))
                 .build();
         extentions.add(extension);
 

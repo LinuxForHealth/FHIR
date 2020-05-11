@@ -1215,6 +1215,8 @@ public class AdverseEvent extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link AdverseEvent}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid AdverseEvent per the base specification
          */
         @Override
         public AdverseEvent build() {
@@ -1536,6 +1538,8 @@ public class AdverseEvent extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link SuspectEntity}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid SuspectEntity per the base specification
              */
             @Override
             public SuspectEntity build() {
@@ -1880,6 +1884,8 @@ public class AdverseEvent extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link Causality}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid Causality per the base specification
                  */
                 @Override
                 public Causality build() {

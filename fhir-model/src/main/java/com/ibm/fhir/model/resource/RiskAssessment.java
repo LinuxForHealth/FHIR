@@ -1068,6 +1068,8 @@ public class RiskAssessment extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link RiskAssessment}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid RiskAssessment per the base specification
          */
         @Override
         public RiskAssessment build() {
@@ -1494,6 +1496,8 @@ public class RiskAssessment extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Prediction}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Prediction per the base specification
              */
             @Override
             public Prediction build() {

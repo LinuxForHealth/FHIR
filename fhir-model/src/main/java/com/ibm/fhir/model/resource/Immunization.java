@@ -1546,6 +1546,8 @@ public class Immunization extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Immunization}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Immunization per the base specification
          */
         @Override
         public Immunization build() {
@@ -1855,6 +1857,8 @@ public class Immunization extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Performer}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Performer per the base specification
              */
             @Override
             public Performer build() {
@@ -2176,6 +2180,8 @@ public class Immunization extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Education}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Education per the base specification
              */
             @Override
             public Education build() {
@@ -2475,6 +2481,8 @@ public class Immunization extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Reaction}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Reaction per the base specification
              */
             @Override
             public Reaction build() {
@@ -2883,6 +2891,8 @@ public class Immunization extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link ProtocolApplied}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid ProtocolApplied per the base specification
              */
             @Override
             public ProtocolApplied build() {

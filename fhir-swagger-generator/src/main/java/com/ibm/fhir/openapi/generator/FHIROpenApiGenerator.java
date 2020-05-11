@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -840,7 +841,6 @@ public class FHIROpenApiGenerator {
         path.add("get", get);
     }
 
-    @SuppressWarnings("unchecked")
     private static void generateSearchParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
         List<SearchParameter> searchParameters = new ArrayList<SearchParameter>(
                 SearchUtil.getSearchParameters(modelClass));
@@ -1259,7 +1259,7 @@ public class FHIROpenApiGenerator {
         }
 
         if (description != null) {
-            property.add("description", description);
+            property.add("description", cleanse(description));
         }
 
         // Include select examples to help tools avoid bumping into infinite recursion (if they try generate examples)
@@ -1290,6 +1290,28 @@ public class FHIROpenApiGenerator {
         } else {
             properties.add(elementName, property);
         }
+    }
+
+    /*
+     * clean up description to make valid unicode encoded output.
+     */
+    private static String cleanse(String description) {
+        String cleansed = description.replaceAll("“", "&ldquo;")
+                .replaceAll("”", "&rdquo;")
+                .replaceAll("…", "&hellip;")
+                .replaceAll("’", "&rsquo;")
+                .replaceAll("‘", "&lsquo;")
+                .replaceAll("-", "&ndash;")
+                .replaceAll("—", "&mdash;")
+                .replaceAll("‑", "&#8209;"); // Non-Breaking Hyphen
+
+        if (!Charset.forName("US-ASCII").newEncoder().canEncode(cleansed)) {
+            // If a new character sneaks in - it'll output here. 
+            // Best place to look up entity is https://unicodelookup.com
+            System.out.println("[Failure to cleanse the description] - " + cleansed);
+        }
+
+        return cleansed;
     }
 
     /**

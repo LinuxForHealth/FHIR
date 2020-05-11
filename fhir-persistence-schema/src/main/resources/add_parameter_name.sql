@@ -1,15 +1,11 @@
 -------------------------------------------------------------------------------
--- (C) Copyright IBM Corp. 2016
+-- (C) Copyright IBM Corp. 2016, 2020
 --
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
 
 -- ----------------------------------------------------------------------------
--- Procedure to add a resource version and its associated parameters. These
--- parameters only ever point to the latest version of a resource, never to
--- previous versions, which are kept to support history queries.
--- Parameters must be loaded into the parameters_gtt global temporary table
--- prior to this procedure being called
+-- The stored procedure adds search parameters name (code) to logical id mappings
 -- ----------------------------------------------------------------------------
     ( IN p_parameter_name    VARCHAR(255 OCTETS),
      OUT p_parameter_name_id     INT)
@@ -22,7 +18,6 @@ BEGIN
   DECLARE c_duplicate CONDITION FOR SQLSTATE '23505';
   DECLARE CONTINUE HANDLER FOR NOT FOUND          SET v_not_found = 1;
   DECLARE CONTINUE HANDLER FOR c_duplicate        SET v_duplicate = 1;
-
 
   -- See if we already have it
   SELECT parameter_name_id INTO p_parameter_name_id

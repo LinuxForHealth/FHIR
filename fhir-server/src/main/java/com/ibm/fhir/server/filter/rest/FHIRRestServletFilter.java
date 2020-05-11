@@ -57,7 +57,7 @@ public class FHIRRestServletFilter extends HttpFilter {
     private static final String preferHeaderName = "Prefer";
     private static final String preferHandlingHeaderSectionName = "handling";
     private static final String preferReturnHeaderSectionName = "return";
-    
+
     private static String defaultTenantId = null;
     private static final HTTPReturnPreference defaultHttpReturnPref = HTTPReturnPreference.MINIMAL;
 
@@ -118,6 +118,7 @@ public class FHIRRestServletFilter extends HttpFilter {
         try {
             // Create a new FHIRRequestContext and set it on the current thread.
             FHIRRequestContext context = new FHIRRequestContext(tenantId, dsId);
+            // Don't try using FHIRConfigHelper before setting the context!
             FHIRRequestContext.set(context);
 
             context.setOriginalRequestUri(originalRequestUri);
@@ -138,15 +139,15 @@ public class FHIRRestServletFilter extends HttpFilter {
             chain.doFilter(request, response);
         } catch (Exception e) {
             log.log(Level.INFO, "Error while setting request context or processing request", e);
-            
+
             OperationOutcome outcome = FHIRUtil.buildOperationOutcome(e, IssueType.INVALID, IssueSeverity.FATAL, false);
-            
+
             if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
-                HttpServletRequest httpRequest = (HttpServletRequest) request;
-                HttpServletResponse httpResponse = (HttpServletResponse) response;
-                
+                HttpServletRequest httpRequest = request;
+                HttpServletResponse httpResponse = response;
+
                 httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                
+
                 Format format = chooseResponseFormat(httpRequest.getHeader("Accept"));
                 switch (format) {
                 case XML:
@@ -157,10 +158,10 @@ public class FHIRRestServletFilter extends HttpFilter {
                     httpResponse.setContentType(com.ibm.fhir.core.FHIRMediaType.APPLICATION_FHIR_JSON);
                     break;
                 }
-                
+
                 try {
                     FHIRGenerator.generator( format, false).generate(outcome, httpResponse.getWriter());
-                    
+
                 } catch (FHIRException e1) {
                     throw new ServletException(e1);
                 }
@@ -175,7 +176,7 @@ public class FHIRRestServletFilter extends HttpFilter {
             // If possible, include the status code in the "completed" message.
             StringBuffer statusMsg = new StringBuffer();
             if (response instanceof HttpServletResponse) {
-                int status = ((HttpServletResponse) response).getStatus();
+                int status = response.getStatus();
                 statusMsg.append(" status:[" + status + "]");
             } else {
                 statusMsg.append(" status:[unknown (non-HTTP request)]");
@@ -183,10 +184,10 @@ public class FHIRRestServletFilter extends HttpFilter {
 
             double elapsedSecs = (System.currentTimeMillis() - initialTime) / 1000.0;
             log.info("Completed request[" + elapsedSecs + " secs]: " + encodedRequestDescription + statusMsg.toString());
-            
+
             // Remove the FHIRRequestContext from the current thread.
             FHIRRequestContext.remove();
-            
+
             if (log.isLoggable(Level.FINE)) {
                 log.exiting(this.getClass().getName(), "doFilter");
             }
@@ -307,7 +308,7 @@ public class FHIRRestServletFilter extends HttpFilter {
      */
     private String getOriginalRequestURI(HttpServletRequest request) {
         String requestUri = null;
-        
+
         // First, check the configured header for the original request URI (in case any proxies have overwritten the user-facing URL)
         if (originalRequestUriHeaderName != null) {
             requestUri = request.getHeader(originalRequestUriHeaderName);
@@ -348,7 +349,10 @@ public class FHIRRestServletFilter extends HttpFilter {
     public void init(FilterConfig filterConfig) throws ServletException {
         try {
             PropertyGroup config = FHIRConfiguration.getInstance().loadConfiguration();
-            
+            if (config == null) {
+                throw new IllegalStateException("No FHIRConfiguration was found");
+            }
+
             tenantIdHeaderName = config.getStringProperty(FHIRConfiguration.PROPERTY_TENANT_ID_HEADER_NAME,
                     FHIRConfiguration.DEFAULT_TENANT_ID_HEADER_NAME);
             log.info("Configured tenant-id header name is: " +  tenantIdHeaderName);
@@ -361,7 +365,7 @@ public class FHIRRestServletFilter extends HttpFilter {
                     null);
             log.info("Configured original-request-uri header name is: " +  datastoreIdHeaderName);
 
-            defaultTenantId = 
+            defaultTenantId =
                     config.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID);
             log.info("Configured default tenant-id value is: " +  defaultTenantId);
         } catch (Exception e) {

@@ -663,6 +663,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MedicinalProductPharmaceutical}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MedicinalProductPharmaceutical per the base specification
          */
         @Override
         public MedicinalProductPharmaceutical build() {
@@ -936,6 +938,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Characteristics}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Characteristics per the base specification
              */
             @Override
             public Characteristics build() {
@@ -1400,6 +1404,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link RouteOfAdministration}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid RouteOfAdministration per the base specification
              */
             @Override
             public RouteOfAdministration build() {
@@ -1693,6 +1699,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link TargetSpecies}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid TargetSpecies per the base specification
                  */
                 @Override
                 public TargetSpecies build() {
@@ -1997,6 +2005,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                      * 
                      * @return
                      *     An immutable object of type {@link WithdrawalPeriod}
+                     * @throws IllegalStateException
+                     *     if the current state cannot be built into a valid WithdrawalPeriod per the base specification
                      */
                     @Override
                     public WithdrawalPeriod build() {

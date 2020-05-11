@@ -642,6 +642,8 @@ public class ResearchSubject extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link ResearchSubject}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid ResearchSubject per the base specification
          */
         @Override
         public ResearchSubject build() {

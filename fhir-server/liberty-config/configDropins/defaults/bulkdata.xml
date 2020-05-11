@@ -1,0 +1,65 @@
+<server description="fhir-server">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>batchManagement-1.0</feature>
+        <feature>jdbc-4.1</feature>
+        <feature>servlet-4.0</feature>
+        <feature>transportSecurity-1.0</feature>
+    </featureManager>
+
+    <authorization-roles id="com.ibm.ws.batch">
+        <security-role name="batchAdmin">
+            <user name="fhiradmin"/>
+        </security-role>
+        <security-role name="batchSubmitter">
+            <user name="fhiruser"/>
+        </security-role>
+        <security-role name="batchMonitor">
+            <user name="fhiradmin"/>
+            <user name="fhiruser"/>
+        </security-role>
+    </authorization-roles>
+
+    <webApplication id="fhir-bulkimportexport-webapp" location="fhir-bulkimportexport.war" name="fhir-bulkimportexport-webapp">
+        <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
+        <application-bnd>
+            <security-role id="users" name="FHIRUsers">
+                <group name="FHIRUsers"/>
+            </security-role>
+        </application-bnd>
+    </webApplication>
+
+    <!-- By default, in-memory derby is used for job repository, no configuration is needed. -->
+    
+    <!-- Use IBM Cloud DB2 for job repository 
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
+        <jdbcDriver libraryRef="fhirSharedLib"/>
+        <properties.db2.jcc
+            apiKey="${env.BATCH_DB_APIKEY}"
+            currentSchema="JBATCH"
+            databaseName="BLUDB"
+            driverType="4"
+            pluginName="IBMIAMauth"
+            portNumber="50001"
+            securityMechanism="15"
+            serverName="${env.BATCH_DB_HOSTNAME}"
+            sslConnection="true" />
+    </dataSource>
+     -->
+   
+   <!-- Use postgresql for job repository  
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
+        <jdbcDriver libraryRef="fhirSharedLib"/>
+        <properties.postgresql
+            databaseName="jobdb"
+            portNumber="5432"
+            serverName="localhost"
+            user="javabatch"
+            password="change-password" />
+    </dataSource>
+    -->
+
+    <batchPersistence jobStoreRef="BatchDatabaseStore"/>
+    <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="JBATCH" tablePrefix=""/>
+</server>

@@ -885,6 +885,8 @@ public class RelatedPerson extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link RelatedPerson}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid RelatedPerson per the base specification
          */
         @Override
         public RelatedPerson build() {
@@ -1172,6 +1174,8 @@ public class RelatedPerson extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Communication}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Communication per the base specification
              */
             @Override
             public Communication build() {

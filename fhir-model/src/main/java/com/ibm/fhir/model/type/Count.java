@@ -233,6 +233,8 @@ public class Count extends Quantity {
          * 
          * @return
          *     An immutable object of type {@link Count}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Count per the base specification
          */
         @Override
         public Count build() {

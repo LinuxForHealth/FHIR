@@ -118,7 +118,7 @@ public interface IDatabaseAdapter {
      * @param procedureName
      * @param supplier
      */
-    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier);
+    public void createOrReplaceProcedureAndFunctions(String schemaName, String procedureName, Supplier<String> supplier);
 
     /**
      * Drop the given procedure
@@ -176,7 +176,7 @@ public interface IDatabaseAdapter {
     /**
      *
      * <pre>
-     * CREATE PERMISSION ROW_ACCESS ON ptng.patients FOR ROWS WHERE patients.mt_id =
+     * CREATE OR REPLACE PERMISSION ROW_ACCESS ON ptng.patients FOR ROWS WHERE patients.mt_id =
      * ptng.session_tenant ENFORCED FOR ALL ACCESS ENABLE;
      * </pre>
      *
@@ -185,7 +185,7 @@ public interface IDatabaseAdapter {
      * @param tableName
      * @param predicate
      */
-    public void createPermission(String schemaName, String permissionName, String tableName, String predicate);
+    public void createOrReplacePermission(String schemaName, String permissionName, String tableName, String predicate);
 
     /**
      *
@@ -396,12 +396,9 @@ public interface IDatabaseAdapter {
 
 
     /**
-     * Create FHIR data and admin schemas
+     * Create a database schema
      *
      * @param schemaName
-     * @param adminSchemaName
      */
-    public void createFhirSchemas(String schemaName, String adminSchemaName);
-
-
+    public void createSchema(String schemaName);
 }

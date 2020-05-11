@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.processor.impl;
 
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
 import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
+import com.ibm.fhir.operation.bulkdata.model.type.Input;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.processor.ExportImportBulkData;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.operation.util.FHIROperationUtil;
@@ -32,7 +35,7 @@ public class DummyImportExportImpl implements ExportImportBulkData {
     private static AtomicInteger jobCounter = new AtomicInteger(0);
 
     public DummyImportExportImpl() {
-        
+        // NO Operation
     }
 
     @Override
@@ -48,7 +51,7 @@ public class DummyImportExportImpl implements ExportImportBulkData {
                     }
                 }
 
-                String url = generateBaseUri(operationContext) + "$export-status?job=" + count;
+                String url = generateBaseUri(operationContext) + "$bulkdata-status?job=" + count;
 
                 Response response = Response.status(Status.ACCEPTED).header("Content-Location", url).build();
                 operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, Response.Status.ACCEPTED);
@@ -91,7 +94,7 @@ public class DummyImportExportImpl implements ExportImportBulkData {
             }
             result.setOutput(outputList);
 
-            String jsonString = result.toJsonString();
+            String jsonString = PollingLocationResponse.Writer.generate(result);
             Response response = null;
             if (curJob % 3 == 0) {
                 response = Response.status(Status.OK).entity(jsonString).type(MediaType.APPLICATION_JSON).build();
@@ -129,8 +132,23 @@ public class DummyImportExportImpl implements ExportImportBulkData {
     }
 
     @Override
-    public Parameters importBulkData(String logicalId, Parameters parameters, FHIROperationContext operationContext,
-            FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        throw new FHIROperationException("BulkData $import operation is not implemented");
+    public Parameters importBulkData(String inputFormat, String inputSource, List<Input> inputs,
+            StorageDetail storageDetails, FHIROperationContext operationContext) throws FHIROperationException {
+        try {
+            int count = jobCounter.incrementAndGet();
+            if (count % 3 == 0) {
+                String url = generateBaseUri(operationContext) + "$bulkdata-status?job=" + count;
+
+                Response response = Response.status(Status.ACCEPTED).header("Content-Location", url).build();
+                operationContext.setProperty(FHIROperationContext.PROPNAME_STATUS_TYPE, Response.Status.ACCEPTED);
+                operationContext.setProperty(FHIROperationContext.PROPNAME_RESPONSE, response);
+
+                return FHIROperationUtil.getOutputParameters(null);
+            } else {
+                throw new FHIROperationException("$import operation injected failure");
+            }
+        } catch (Exception e) {
+            throw new FHIROperationException("$import operation", e);
+        }
     }
 }

@@ -30,25 +30,25 @@ import com.ibm.fhir.model.type.code.ObservationStatus;
 import com.ibm.fhir.validation.FHIRValidator;
 
 public class BodyWeightProfileTest {
-    private static final boolean DEBUG = false;
-    
+    private static final boolean DEBUG = true;
+
     private static final String BODY_WEIGHT_PROFILE_URL = "http://hl7.org/fhir/StructureDefinition/bodyweight";
 
     @Test
     public static void testBodyWeightProfile() throws Exception {
         List<Constraint> constraints = getConstraints(BODY_WEIGHT_PROFILE_URL, Observation.class);
-        
+
         if (DEBUG) {
             constraints.forEach(System.out::println);
         }
 
-        Assert.assertEquals(constraints.size(), 10);
+        Assert.assertEquals(constraints.size(), 11);
         Assert.assertTrue(constraints.stream().filter(constraint -> constraint.id().equals("vs-1")).count() == 1);
         Assert.assertTrue(constraints.stream().filter(constraint -> constraint.id().equals("vs-2")).count() == 1);
         Assert.assertTrue(constraints.stream().filter(constraint -> constraint.id().equals("vs-3")).count() == 1);
 
         Observation bodyWeight = buildBodyWeightObservation();
-        
+
         bodyWeight = bodyWeight.toBuilder()
                 .value(bodyWeight.getValue().as(Quantity.class).toBuilder()
                     .value(Decimal.of(210))
@@ -56,11 +56,11 @@ public class BodyWeightProfileTest {
                 .build();
 
         List<Issue> issues = FHIRValidator.validator().validate(bodyWeight);
-        
+
         if (DEBUG) {
             issues.forEach(System.out::println);
         }
-        
+
         Assert.assertEquals(issues.size(), 3);
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("dom-6")).count() == 1);
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("vs-1")).count() == 1);
@@ -69,11 +69,11 @@ public class BodyWeightProfileTest {
         bodyWeight = bodyWeight.toBuilder()
                 .meta(null)
                 .build();
-        
+
         issues = FHIRValidator.validator().validate(bodyWeight);
         Assert.assertEquals(issues.size(), 1);
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("dom-6")).count() == 1);
-        
+
         issues = FHIRValidator.validator().validate(bodyWeight, BODY_WEIGHT_PROFILE_URL);
         Assert.assertEquals(issues.size(), 3);
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("dom-6")).count() == 1);
@@ -83,7 +83,7 @@ public class BodyWeightProfileTest {
     @Test
     public void testBodyWeightProfileInvalidUnits() throws Exception {
         Observation bodyWeight = buildBodyWeightObservation();
-        
+
         bodyWeight = bodyWeight.toBuilder()
                 .value(bodyWeight.getValue().as(Quantity.class).toBuilder()
                     .value(Decimal.of(200))
@@ -92,13 +92,13 @@ public class BodyWeightProfileTest {
                     .unit(string("lbs"))
                     .build())
                 .build();
-        
+
         List<Issue> issues = FHIRValidator.validator().validate(bodyWeight);
-        
+
         if (DEBUG) {
             issues.forEach(System.out::println);
         }
-        
+
         Assert.assertEquals(issues.size(), 4);
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("dom-6")).count() == 1);
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("vs-1")).count() == 1);

@@ -30,6 +30,7 @@ public class Constants {
     public static final int IMPORT_NUMOFFHIRRESOURCES_PERREAD = 20;
     public static final String IMPORT_INPUT_RESOURCE_TYPE = "type";
     public static final String IMPORT_INPUT_RESOURCE_URL = "url";
+    public static final int IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES = 2000;
 
 
     // Job parameters
@@ -39,16 +40,20 @@ public class Constants {
     public static final String COS_LOCATION = "cos.location";
     public static final String COS_BUCKET_NAME = "cos.bucket.name";
     public static final String COS_IS_IBM_CREDENTIAL = "cos.credential.ibm";
+    // COS bucket for import OperationOutcomes
     public static final String COS_OPERATIONOUTCOMES_BUCKET_NAME = "cos.operationoutcomes.bucket.name";
     public static final String FHIR_TENANT = "fhir.tenant";
     public static final String FHIR_DATASTORE_ID = "fhir.datastoreid";
-    public static final String IMPORT_PARTITTION_WORKITEM = "import.partiton.workitem";
-    public static final String IMPORT_PARTITTION_RESOURCE_TYPE = "import.partiton.resourcetype";
     public static final String IMPORT_FHIR_STORAGE_TYPE = "import.fhir.storagetype";
     public static final String IMPORT_FHIR_IS_VALIDATION_ON = "import.fhir.validation";
+    public static final String IMPORT_FHIR_DATASOURCES = "fhir.dataSourcesInfo";
+    
+    // Partition work item info generated in ImportPartitionMapper.
+    public static final String IMPORT_PARTITTION_WORKITEM = "import.partiton.workitem";
+    public static final String IMPORT_PARTITTION_RESOURCE_TYPE = "import.partiton.resourcetype";   
 
     // Control if push OperationOutcomes to COS/S3.
-    public static final boolean IMPORT_IS_COLLECT_OPERATIONOUTCOMES = false;
+    public static final boolean IMPORT_IS_COLLECT_OPERATIONOUTCOMES = true;
     // Retry times when https or amazon s3 client timeout or other error happens, e.g, timeout can happen if the batch write to DB takes
     // longer than the socket timeout, set to retry once for now.
     public static final int IMPORT_RETRY_TIMES = 1;

@@ -286,6 +286,8 @@ public class Binary extends Resource {
          * 
          * @return
          *     An immutable object of type {@link Binary}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Binary per the base specification
          */
         @Override
         public Binary build() {

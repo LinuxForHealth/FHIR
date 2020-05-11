@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2019-12-16 09:59:05 -0400
+date:   2020-04-06 09:59:05 -0400
 permalink: /conformance/
 ---
 
@@ -12,7 +12,7 @@ The IBM FHIR Server aims to be a conformant implementation of the HL7 FHIR speci
 ## Capability statement
 The HL7 FHIR specification defines [an interaction](https://www.hl7.org/fhir/R4/http.html#capabilities) for retrieving a machine-readable description of the server's capabilities via the `[base]/metadata` endpoint. The IBM FHIR Server implements this interaction and generates a `CapabilityStatement` resource based on the current server configuration. While the `CapabilityStatement` resource is ideal for certain uses, this markdown document provides a human-readable summary of important details, with a special focus on limitations of the current implementation and deviations from the specification.
 
-The IBM FHIR Server supports only version 4.0.1 of the specification and presently has no support for the MIME-type parameter `fhirVersion`.
+The IBM FHIR Server supports only version 4.0.1 of the specification and ignores the optional MIME-type parameter `fhirVersion`.
 
 ## FHIR HTTP API
 The HL7 FHIR specification is more than just a data format. It defines an [HTTP API](https://www.hl7.org/fhir/R4/http.html) for creating, reading, updating, deleting, and searching over FHIR resources. The IBM FHIR Server implements almost the full API for every resource defined in the specification, with the following exceptions:
@@ -20,6 +20,47 @@ The HL7 FHIR specification is more than just a data format. It defines an [HTTP 
 * there are parts of the FHIR search specification which are not fully implemented as documented in the following section
 
 The IBM FHIR Server implements a linear versioning scheme for resources and fully implements the `vread` and `history` interactions, as well as version-aware updates.
+
+### Extended operations
+The HL7 FHIR specification also defines a mechanism for extending the base API with [extended operations](https://www.hl7.org/fhir/R4/operations.html).
+The IBM FHIR Server implements a handful of extended operations and provides extension points for users to extend the server with their own.
+
+Operations are invoked via HTTP POST.
+* All operations can be invoked by passing a Parameters resource instance in the body of the request.
+* For operations with no input parameters, no body is required.
+* For operations with a single input parameter named "resource", the Parameters wrapper can be omitted.
+
+Alternatively, for operations with only simple input parameters (i.e. no complex datatypes like 'Identifier' or 'Reference'), operations can be invoked via HTTP GET by passing the parameters in the URL.
+
+#### System operations
+System operations are invoked at `[base]/$[operation]`
+
+|Operation|Short Description|Notes|
+|---------|-----------------|-----|
+| [$convert](https://hl7.org/fhir/R4/resource-operation-convert.html) | Takes a resource in one form and returns it in another | Converts between JSON and XML but *not* between FHIR versions |
+| [$export](https://hl7.org/fhir/uv/bulkdata/STU1/OperationDefinition-export.html) | Export data from the server | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info |
+| [$import](https://github.com/smart-on-fhir/bulk-import/blob/master/import.md) | Import FHIR Resources from a source| see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info. This implementation is based on the proposed operation.|
+| [$healthcheck](https://github.com/IBM/FHIR/blob/master/fhir-operation-healthcheck/src/main/resources/healthcheck.json) | Check the health of the server | Checks for a valid connection to the database |
+
+#### Type operations
+Type operations are invoked at `[base]/[resourceType]/$[operation]`
+
+|Operation|Type|Short Description|Notes|
+|---------|----|-----------------|-----|
+| [$validate](https://hl7.org/fhir/R4/operation-resource-validate.html) | * | Validate a passed resource instance | Uses fhir-validate |
+| [$export](https://hl7.org/fhir/uv/bulkdata/OperationDefinition-patient-export.html) | Patient | Obtain a set of resources pertaining to all patients | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#4101-bulk-data-export) for config info |
+| [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
+| [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
+
+#### Instance operations
+Instance operations are invoked at `[base]/[resourceType]/[id]/$[operation]`
+
+|Operation|Type|Short Description|Notes|
+|---------|----|-----------------|-----|
+| [$validate](https://hl7.org/fhir/R4/operation-resource-validate.html) | * | Validate a resource instance | Uses fhir-validate |
+| [$export](https://hl7.org/fhir/uv/bulkdata/OperationDefinition-group-export.html) | Group | Obtain a set resources pertaining to patients in a specific Group | Only supports static membership; does not resolve inclusion/exclusion criteria |
+| [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
+| [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
 
 ### HTTP Headers
 In addition to the content negotiation headers required in the FHIR specification, the IBM FHIR Server supports two client preferences via the `Prefer` header:

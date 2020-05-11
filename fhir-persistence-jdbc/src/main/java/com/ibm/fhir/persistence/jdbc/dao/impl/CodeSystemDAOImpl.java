@@ -25,27 +25,27 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
  * elsewhere...we're just doing JDBC stuff here.
  */
 public class CodeSystemDAOImpl implements CodeSystemDAO {
-    private static final Logger log = Logger.getLogger(ParameterDAOImpl.class.getName());
-    private static final String CLASSNAME = ParameterDAOImpl.class.getName(); 
-    
+    private static final Logger log = Logger.getLogger(CodeSystemDAOImpl.class.getName());
+    private static final String CLASSNAME = CodeSystemDAOImpl.class.getName();
+
     public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
-        
+
     private static final String SQL_CALL_ADD_CODE_SYSTEM_ID = "CALL %s.add_code_system(?, ?)";
 
     private static final String SQL_SELECT_ALL_CODE_SYSTEMS = "SELECT CODE_SYSTEM_ID, CODE_SYSTEM_NAME FROM CODE_SYSTEMS";
-    
+
     private static final String SQL_SELECT_CODE_SYSTEM_ID = "SELECT CODE_SYSTEM_ID FROM CODE_SYSTEMS WHERE CODE_SYSTEM_NAME = ?";
 
     // The JDBC connection used by this DAO instance
     private final Connection connection;
-    
+
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
      */
     public CodeSystemDAOImpl(Connection c) {
         this.connection = c;
     }
-    
+
     /**
      * Provide subclasses with access to the {@link Connection}
      * @return
@@ -53,12 +53,12 @@ public class CodeSystemDAOImpl implements CodeSystemDAO {
     protected Connection getConnection() {
         return this.connection;
     }
-    
+
     @Override
     public Map<String, Integer> readAllCodeSystems() throws FHIRPersistenceDataAccessException {
         final String METHODNAME = "readAllCodeSystems";
         log.entering(CLASSNAME, METHODNAME);
-                
+
         ResultSet resultSet = null;
         String systemName;
         int systemId;
@@ -66,7 +66,7 @@ public class CodeSystemDAOImpl implements CodeSystemDAO {
         String errMsg = "Failure retrieving all code systems.";
         long dbCallStartTime;
         double dbCallDuration;
-                
+
         dbCallStartTime = System.nanoTime();
         try (PreparedStatement stmt = connection.prepareStatement(SQL_SELECT_ALL_CODE_SYSTEMS)) {
             resultSet = stmt.executeQuery();
@@ -86,15 +86,15 @@ public class CodeSystemDAOImpl implements CodeSystemDAO {
         finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
-                
+
         return systemMap;
     }
-    
+
     /**
      * Calls a stored procedure to read the system contained in the passed Parameter in the Code_Systems table.
      * If it's not in the DB, it will be stored and a unique id will be returned.
      * @param systemName
-     * 
+     *
      * @return The generated id of the stored system.
      * @throws FHIRPersistenceDataAccessException
      */
@@ -102,14 +102,14 @@ public class CodeSystemDAOImpl implements CodeSystemDAO {
     public int readOrAddCodeSystem(String systemName) throws FHIRPersistenceDataAccessException   {
         final String METHODNAME = "readOrAddCodeSystem";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         int systemId;
         String currentSchema;
         String stmtString;
         String errMsg = "Failure storing code system id: name=" + systemName;
         long dbCallStartTime;
         double dbCallDuration;
-                
+
         try {
             currentSchema = connection.getSchema().trim();
             stmtString = String.format(SQL_CALL_ADD_CODE_SYSTEM_ID, currentSchema);
@@ -127,7 +127,7 @@ public class CodeSystemDAOImpl implements CodeSystemDAO {
         }
         catch (Throwable e) {
             throw new FHIRPersistenceDataAccessException(errMsg,e);
-        } 
+        }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
@@ -141,13 +141,13 @@ public class CodeSystemDAOImpl implements CodeSystemDAO {
     public Integer readCodeSystemId(String codeSystem) throws FHIRPersistenceDataAccessException {
         final String METHODNAME = "readCodeSystemId";
         log.entering(CLASSNAME, METHODNAME);
-                
+
         Integer result;
         ResultSet resultSet = null;
         String errMsg = "Failure retrieving code system. name=" + codeSystem;
         long dbCallStartTime;
         double dbCallDuration;
-                
+
         try (PreparedStatement stmt = connection.prepareStatement(SQL_SELECT_CODE_SYSTEM_ID)) {
             stmt.setString(1, codeSystem);
             dbCallStartTime = System.nanoTime();
@@ -156,7 +156,7 @@ public class CodeSystemDAOImpl implements CodeSystemDAO {
             if (log.isLoggable(Level.FINE)) {
                 log.fine("DB read code system complete. executionTime=" + dbCallDuration + "ms");
             }
-            
+
             if (resultSet.next()) {
                 result = resultSet.getInt(1);
             }
@@ -170,7 +170,7 @@ public class CodeSystemDAOImpl implements CodeSystemDAO {
         finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
-                
+
         return result;
     }
 }

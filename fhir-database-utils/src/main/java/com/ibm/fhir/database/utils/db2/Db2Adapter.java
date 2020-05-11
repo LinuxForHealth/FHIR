@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,7 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
-import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
@@ -54,6 +53,10 @@ public class Db2Adapter extends CommonDatabaseAdapter {
 
     public Db2Adapter(IConnectionProvider cp) {
         super(cp, new Db2Translator());
+    }
+
+    public Db2Adapter() {
+        super();
     }
 
     @Override
@@ -105,15 +108,15 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createPermission(String schemaName, String permissionName, String tableName, String predicate) {
+    public void createOrReplacePermission(String schemaName, String permissionName, String tableName, String predicate) {
         final String qualifiedPermissionName = DataDefinitionUtil.getQualifiedName(schemaName, permissionName);
         final String qualifiedTableName = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         DataDefinitionUtil.assertSecure(predicate);
 
         final String ddl = ""
-                + "       CREATE PERMISSION " + qualifiedPermissionName
-                + "                      ON " + qualifiedTableName
-                + "          FOR ROWS WHERE " + predicate
+                + "CREATE OR REPLACE PERMISSION " + qualifiedPermissionName
+                + " ON " + qualifiedTableName
+                + " FOR ROWS WHERE " + predicate
                 + " ENFORCED FOR ALL ACCESS ENABLE ";
         runStatement(ddl);
     }
@@ -304,7 +307,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
+    public void createOrReplaceProcedureAndFunctions(String schemaName, String procedureName, Supplier<String> supplier) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
         logger.info("Create or replace procedure " + objectName);
 
@@ -432,22 +435,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createFhirSchemas(String schemaName, String adminSchemaName) {
-        try {
-            String ddl = "CREATE SCHEMA " + schemaName;
-            runStatement(ddl);
-        } catch (DuplicateNameException e) {
-            logger.log(Level.WARNING, "The schema '" + schemaName + "' already exists; proceed with caution.");
-        }
-        try {
-            String ddl = "CREATE SCHEMA " + adminSchemaName;
-            runStatement(ddl);
-        } catch (DuplicateNameException e) {
-            logger.log(Level.WARNING, "The schema '" + adminSchemaName + "' already exists; proceed with caution.");
-        }
-    }
-
-    @Override
     public void runStatement(IDatabaseStatement stmt) {
         super.runStatement(stmt);
         if (stmt instanceof DropColumn) {
@@ -456,12 +443,10 @@ public class Db2Adapter extends CommonDatabaseAdapter {
 
             String qname = ((DropColumn) stmt).getSchemaName() + "." + ((DropColumn) stmt).getTableName();
 
-            Db2AdminCommand runstats = new Db2AdminCommand("RUNSTATS ON TABLE " + qname + " WITH DISTRIBUTION AND DETAILED INDEXES ALL");
-            super.runStatement(runstats);
-
             String reorgCommand = "REORG TABLE " + qname;
             super.runStatement(new Db2AdminCommand(reorgCommand));
 
+            Db2AdminCommand runstats = new Db2AdminCommand("RUNSTATS ON TABLE " + qname + " WITH DISTRIBUTION AND DETAILED INDEXES ALL");
             super.runStatement(runstats);
         }
     }

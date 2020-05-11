@@ -23,6 +23,14 @@ public class BulkDataConstants {
 
     // Import
     public static final String INPUT_FORMAT = MEDIA_TYPE_ND_JSON;
+    public static final List<String> INPUT_FORMATS = Collections.unmodifiableList(Arrays.asList(INPUT_FORMAT));
+    public static final List<String> STORAGE_TYPES =
+            Collections
+                    .unmodifiableList(Arrays.asList(DataSourceStorageType.HTTPS.value, DataSourceStorageType.FILE.value,
+                            DataSourceStorageType.AWSS3.value, DataSourceStorageType.IBMCOS.value));
+    public static final List<String> STORAGE_CONTENT_ENCODING =
+            Collections.unmodifiableList(Arrays.asList("text", "text/plain"));
+    public static final int IMPORT_MAX_DEFAULT_INPUTS = 5;
 
     // Export
     public static final String EXPORT_FORMAT = MEDIA_TYPE_ND_JSON;
@@ -39,20 +47,48 @@ public class BulkDataConstants {
 
     // Encryption key used for JavaBatch Job ID
     public static final SecretKeySpec BATCHJOBID_ENCRYPTION_KEY =
-            BulkDataConfigUtil.getBatchJobIdEncryptionKey(FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOBID_ENCRYPTION_KEY, null));
+            BulkDataConfigUtil.getBatchJobIdEncryptionKey(FHIRConfigHelper
+                    .getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOBID_ENCRYPTION_KEY, null));
 
     // Status
     public static final List<String> SUCCESS_STATUS = Collections.unmodifiableList(Arrays.asList("COMPLETED"));
     public static final List<String> FAILED_STATUS = Collections.unmodifiableList(Arrays.asList("FAILED", "ABANDONED"));
 
+    // Import
+    public static final String PARAM_INPUT_FORMAT = "inputFormat";
+    public static final String PARAM_INPUT_SOURCE = "inputSource";
+    public static final String PARAM_INPUTS = "input";
+    public static final String PARAM_STORAGE_DETAIL = "storageDetail";
+
     /**
      * Search Modifiers
      */
     public enum ExportType {
-        SYSTEM,
-        PATIENT,
-        GROUP,
-        INVALID;
+        SYSTEM, PATIENT, GROUP, INVALID;
+    }
+
+    public enum DataSourceStorageType {
+        HTTPS("https"), FILE("file"), AWSS3("aws-s3"), IBMCOS("ibm-cos");
+        // We don't yet support gcp-bucket, azure-blob.
+
+        private final String value;
+
+        DataSourceStorageType(String value) {
+            this.value = value;
+        }
+
+        public String value() {
+            return value;
+        }
+
+        public static DataSourceStorageType from(String value) {
+            for (DataSourceStorageType c : DataSourceStorageType.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
     }
 
     private BulkDataConstants() {

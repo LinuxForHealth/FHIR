@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,14 +24,14 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 public class Db2GetPartitionInfo implements IDatabaseStatement {
     private final String catalogSchema;
     private final String tableSchema;
-    
+
     // The consumer target for handling results
     private final Consumer<PartitionInfo> consumer;
-    
+
     /**
      * Get partition information for all tables in the tableSchema, using
      * the catalogSchema as the schema containing the DATAPARTITIONS system table
-     * 
+     *
      * @param catalogSchema
      * @param tableSchema
      * @param consumer
@@ -43,18 +43,18 @@ public class Db2GetPartitionInfo implements IDatabaseStatement {
         this.tableSchema = tableSchema;
         this.consumer = consumer;
     }
-    
+
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         /**
          * Execute the encapsulated query against the database and stream the result data to the
          * configured target
          */
-        
+
         final String SQL = ""
-                + "   SELECT tabname, datapartitionname, seqno, lowinclusive, lowvalue, highinclusive, highvalue "
-                + "     FROM " + catalogSchema + ".DATAPARTITIONS "
-                + "    WHERE tabschema = UCASE(?) "
+                + "SELECT tabname, datapartitionname, seqno, lowinclusive, lowvalue, highinclusive, highvalue "
+                + " FROM " + catalogSchema + ".DATAPARTITIONS "
+                + " WHERE tabschema = UCASE(?) "
                 + " ORDER BY tabname, seqno";
 
         try (PreparedStatement ps = c.prepareStatement(SQL)) {
@@ -81,7 +81,7 @@ public class Db2GetPartitionInfo implements IDatabaseStatement {
             throw translator.translate(x);
         }
     }
-    
+
     /**
      * The high/low values look like this: '2017-01-01-00.00.00.000000'.
      * We want this: 2017-01-01

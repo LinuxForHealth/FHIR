@@ -184,6 +184,8 @@ public class PositiveInt extends Integer {
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid PositiveInt per the base specification
          */
         @Override
         public PositiveInt build() {

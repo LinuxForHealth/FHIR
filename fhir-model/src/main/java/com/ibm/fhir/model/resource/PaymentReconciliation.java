@@ -924,6 +924,8 @@ public class PaymentReconciliation extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link PaymentReconciliation}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid PaymentReconciliation per the base specification
          */
         @Override
         public PaymentReconciliation build() {
@@ -1482,6 +1484,8 @@ public class PaymentReconciliation extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Detail}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Detail per the base specification
              */
             @Override
             public Detail build() {
@@ -1755,6 +1759,8 @@ public class PaymentReconciliation extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link ProcessNote}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid ProcessNote per the base specification
              */
             @Override
             public ProcessNote build() {

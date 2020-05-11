@@ -54,6 +54,10 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         super(cp, new DerbyTranslator());
     }
 
+    public DerbyAdapter() {
+        super();
+    }
+
     /**
      * Once write each warning message once
      * @param msg
@@ -95,7 +99,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createPermission(String schemaName, String permissionName, String tableName, String predicate) {
+    public void createOrReplacePermission(String schemaName, String permissionName, String tableName, String predicate) {
         warnOnce(MessageKey.CREATE_PERM, "Derby does not support CREATE PERMISSION for: " + permissionName);
     }
 
@@ -138,7 +142,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
+    public void createOrReplaceProcedureAndFunctions(String schemaName, String procedureName, Supplier<String> supplier) {
         warnOnce(MessageKey.CREATE_PROC, "Create procedure not supported in Derby");
     }
 
@@ -234,14 +238,6 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         // No tenant support, so simply return the columns list unchanged, without prefixing
         // the tenanteColumnName
         return columns;
-    }
-
-    @Override
-    public void createFhirSchemas(String schemaName, String adminSchemaName) {
-        String ddl = "CREATE SCHEMA " + schemaName;
-        runStatement(ddl);
-        ddl = "CREATE SCHEMA " + adminSchemaName;
-        runStatement(ddl);
     }
 
     @Override

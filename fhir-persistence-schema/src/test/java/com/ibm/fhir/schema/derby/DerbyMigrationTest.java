@@ -84,7 +84,6 @@ public class DerbyMigrationTest {
         FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, resourceTypes);
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
-        gen.buildProcedures(pdm);
 
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,6 +28,14 @@ public interface IDatabaseTypeAdapter {
     public String blobClause(long size, int inlineSize);
 
     /**
+     * Generate a clause for double data type
+     * @return
+     */
+    public default String doubleClause() {
+        return "DOUBLE";
+    }
+
+    /**
      * Generate a clause for VARCHAR
      * @param size
      * @return
@@ -41,12 +49,16 @@ public interface IDatabaseTypeAdapter {
      * @implSpec the default implementation returns TIMESTAMP[(precision)]
      *           and excludes the precision if it is null
      */
-    default public String timestampClause(Integer precision) {
+    public default String timestampClause(Integer precision) {
         StringBuilder typeDef = new StringBuilder("TIMESTAMP");
         if (precision != null) {
             typeDef.append("(" + precision + ")");
         }
         return typeDef.toString();
-    };
+    }
+
+    public default String clobClause() {
+        return "CLOB";
+    }
 
 }

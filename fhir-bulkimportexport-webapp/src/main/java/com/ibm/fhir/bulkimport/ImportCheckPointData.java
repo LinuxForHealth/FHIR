@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
-import com.ibm.fhir.model.util.FHIRUtil;
 
 // Class for tracking the partition import progress and for Batch job check points.
 // Also used as data carrier for collecting and aggregation of import metrics.
@@ -24,6 +23,12 @@ public class ImportCheckPointData implements Serializable {
     private int numOfProcessedResources = 0;
     private int numOfImportedResources = 0;
     private int numOfImportFailures = 0;
+    private long totalReadMilliSeconds = 0;
+    private long totalWriteMilliSeconds = 0;
+    private long totalValidationMilliSeconds = 0;
+    private long importFileSize = 0;
+
+    private long inFlyRateBeginMilliSeconds = 0;
 
     // Value used to sign the successful ending of the import.
     private int numOfToBeImported = 0;
@@ -56,15 +61,29 @@ public class ImportCheckPointData implements Serializable {
         this.importPartitionWorkitem = importPartitionWorkitem;
         this.numOfProcessedResources = numOfProcessedResources;
         this.importPartitionResourceType = importPartitionResourceType;
-        String ramdomID = FHIRUtil.getRandomKey("AES");
-        this.setUniqueIDForImportOperationOutcomes(ramdomID + "_ok_file.ndjson");
-        this.setUniqueIDForImportFailureOperationOutcomes(ramdomID + "_error_file.ndjson");
+
+        // This naming pattern is used in bulkdata operation to generate file links for import OperationOutcomes.
+        // e.g, for input file test1.ndjson, if there is any error during the importing, then the errors are in 
+        // test1.ndjson_oo_errors.ndjson
+        // Note: for those good imports, we don't really generate any meaningful OperationOutcome, so only error import 
+        //       OperationOutcomes are supported for now.
+        this.setUniqueIDForImportOperationOutcomes(importPartitionWorkitem + "_oo_success.ndjson");
+        this.setUniqueIDForImportFailureOperationOutcomes(importPartitionWorkitem + "_oo_errors.ndjson");
+    }
+
+
+    public ImportCheckPointData(String importPartitionResourceType, int numOfProcessedResources, long inFlyRateBeginMilliSeconds) {
+        super();
+        this.numOfProcessedResources = numOfProcessedResources;
+        this.importPartitionResourceType = importPartitionResourceType;
+        this.inFlyRateBeginMilliSeconds = inFlyRateBeginMilliSeconds;
     }
 
     public ImportCheckPointData(String importPartitionWorkitem, int numOfProcessedResources, String importPartitionResourceType,
             int numOfImportedResources, int numOfImportFailures, String uniqueIDForImportFailureOperationOutcomes, String uniqueIDForImportOperationOutcomes,
             String uploadIdForOperationOutcomes, List<PartETag> dataPacksForOperationOutcomes, int partNumForOperationOutcomes,
-            String uploadIdForFailureOperationOutcomes, List<PartETag> dataPacksForFailureOperationOutcomes, int partNumForFailureOperationOutcomes) {
+            String uploadIdForFailureOperationOutcomes, List<PartETag> dataPacksForFailureOperationOutcomes, int partNumForFailureOperationOutcomes,
+            long totalReadMilliSeconds, long totalValidationMilliSeconds, long totalWriteMilliSeconds, long importFileSize, long inFlyRateBeginMilliSeconds) {
         super();
         this.importPartitionWorkitem = importPartitionWorkitem;
         this.numOfProcessedResources = numOfProcessedResources;
@@ -79,6 +98,11 @@ public class ImportCheckPointData implements Serializable {
         this.uploadIdForFailureOperationOutcomes = uploadIdForFailureOperationOutcomes;
         this.dataPacksForFailureOperationOutcomes = dataPacksForFailureOperationOutcomes;
         this.partNumForFailureOperationOutcomes = partNumForFailureOperationOutcomes;
+        this.totalReadMilliSeconds = totalReadMilliSeconds;
+        this.totalValidationMilliSeconds = totalValidationMilliSeconds;
+        this.totalWriteMilliSeconds = totalWriteMilliSeconds;
+        this.importFileSize = importFileSize;
+        this.inFlyRateBeginMilliSeconds = inFlyRateBeginMilliSeconds;
     }
 
     public ImportCheckPointData(int numOfProcessedResources, int numOfImportedResources, int numOfImportFailures, String importPartitionResourceType) {
@@ -142,7 +166,9 @@ public class ImportCheckPointData implements Serializable {
                 userData.getImportPartitionResourceType(), userData.getNumOfImportedResources(), userData.getNumOfImportFailures(),
                 userData.getUniqueIDForImportFailureOperationOutcomes(), userData.getUniqueIDForImportOperationOutcomes(),
                 userData.getUploadIdForOperationOutcomes(), userData.getDataPacksForOperationOutcomes(), userData.getPartNumForOperationOutcomes(),
-                userData.getUploadIdForFailureOperationOutcomes(), userData.getDataPacksForFailureOperationOutcomes(), userData.getPartNumForFailureOperationOutcomes());
+                userData.getUploadIdForFailureOperationOutcomes(), userData.getDataPacksForFailureOperationOutcomes(), userData.getPartNumForFailureOperationOutcomes(),
+                userData.getTotalReadMilliSeconds(), userData.getTotalValidationMilliSeconds(), userData.getTotalWriteMilliSeconds(),
+                userData.getImportFileSize(), userData.getInFlyRateBeginMilliSeconds());
     }
 
     public String getUniqueIDForImportOperationOutcomes() {
@@ -215,5 +241,45 @@ public class ImportCheckPointData implements Serializable {
 
     public void setNumOfParseFailures(int numOfParseFailures) {
         this.numOfParseFailures = numOfParseFailures;
+    }
+
+    public long getTotalReadMilliSeconds() {
+        return totalReadMilliSeconds;
+    }
+
+    public void setTotalReadMilliSeconds(long totalReadMilliSeconds) {
+        this.totalReadMilliSeconds = totalReadMilliSeconds;
+    }
+
+    public long getTotalWriteMilliSeconds() {
+        return totalWriteMilliSeconds;
+    }
+
+    public void setTotalWriteMilliSeconds(long totalWriteMilliSeconds) {
+        this.totalWriteMilliSeconds = totalWriteMilliSeconds;
+    }
+
+    public long getTotalValidationMilliSeconds() {
+        return totalValidationMilliSeconds;
+    }
+
+    public void setTotalValidationMilliSeconds(long totalValidationMilliSeconds) {
+        this.totalValidationMilliSeconds = totalValidationMilliSeconds;
+    }
+
+    public long getImportFileSize() {
+        return importFileSize;
+    }
+
+    public void setImportFileSize(long importFileSize) {
+        this.importFileSize = importFileSize;
+    }
+
+    public long getInFlyRateBeginMilliSeconds() {
+        return inFlyRateBeginMilliSeconds;
+    }
+
+    public void setInFlyRateBeginMilliSeconds(long inFlyRateBeginMilliSeconds) {
+        this.inFlyRateBeginMilliSeconds = inFlyRateBeginMilliSeconds;
     }
 }

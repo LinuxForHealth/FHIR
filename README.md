@@ -8,9 +8,9 @@ For a detailed description of FHIR conformance, see https://ibm.github.io/FHIR/C
 The server can be packaged as a set of jar files, a web application archive (war), an application installer, or a Docker image.
 
 ### Running the IBM FHIR Server
-The IBM FHIR Server is available from the [Releases tab](https://github.com/IBM/FHIR/releases) as a zip file with installation scripts for Mac/Linux and Windows.
+The IBM FHIR Server is available from the [Releases tab](https://github.com/IBM/FHIR/releases) as a zip file with installation scripts for Mac/Linux and Windows or as a docker image at https://hub.docker.com/r/ibmcom/ibm-fhir-server.
 
-Information on installing and running the server is available in the User Guide at https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide.
+More information on installing and running the server is available in the User Guide at https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide.
 
 ### Building on top of the IBM FHIR Server Modules
 Each of the IBM FHIR Server modules are published to a public Maven repository on [JFrog Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases).
@@ -58,6 +58,9 @@ To use the artifacts from a Maven project:
 |fhir-path|An implementation of version 2.0.0 of the FHIRPath specification assumed by FHIR R4|false|
 |fhir-validation|Validation utility for validating resource instances against the base specification and/or configured profiles|false|
 |fhir-ig-us-core|A packaging of the US Core Implementation Guide for extending the IBM FHIR Server with US Core Profile validation|false|
+|fhir-ig-mcode|A packaging of the minimal Common Oncology Data Elements for extending the IBM FHIR Server with minimal Common Oncology Data Elements Profile validation|false|
+|fhir-ig-carin-bb|A packaging of the Consumer-Directed Payer Data Exchange Guide for extending the IBM FHIR Server with  Consumer-Directed Payer Data Exchange Profile validation|false|
+|fhir-ig-davinci-pdex-plan-net|A packaging of the DaVinci Payer Data Exchange (PDEX) Plan Net Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDEX) Plan Net Profile validation|false|
 
 #### Server
 |Module|Description|API-stable|
@@ -71,8 +74,9 @@ To use the artifacts from a Maven project:
 |fhir-persistence-proxy|A custom XADataSource implementation for managing distributed transactions across multiple backends|false|
 |fhir-provider|JAX-RS Providers for FHIR XML and JSON and related patch formats|false|
 |fhir-notification|[Subscription](https://www.hl7.org/fhir/R4/subscription.html) and notification interfaces and helpers|false|
-|fhir-notification-kafka|A fhir-notification implementation that uses Apache Kafka instead of WebSockets|false|
 |fhir-notification-websocket|A fhir-notification implementation that uses WebSockets as described at https://www.hl7.org/fhir/R4/subscription.html#2.46.7.2 |false|
+|fhir-notification-kafka|An experimental fhir-notification implementation that uses Apache Kafka instead of WebSockets|false|
+|fhir-notification-nats|An experimental fhir-notification implementation that uses [NATS](https://nats.io/) instead of WebSockets|false|
 |fhir-operation|An operations framework for implementing Extended Operations as describe at https://www.hl7.org/fhir/R4/operations.html |false|
 |fhir-server|JAX-RS resources and related classes for implementing the FHIR REST API and extended operations|false|
 |fhir-server-webapp|A web application that packages the fhir-server with a set of built-in extended operations|false|

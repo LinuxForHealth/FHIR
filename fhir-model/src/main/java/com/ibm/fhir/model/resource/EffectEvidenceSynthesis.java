@@ -1787,6 +1787,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link EffectEvidenceSynthesis}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid EffectEvidenceSynthesis per the base specification
          */
         @Override
         public EffectEvidenceSynthesis build() {
@@ -2107,6 +2109,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link SampleSize}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid SampleSize per the base specification
              */
             @Override
             public SampleSize build() {
@@ -2456,6 +2460,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link ResultsByExposure}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid ResultsByExposure per the base specification
              */
             @Override
             public ResultsByExposure build() {
@@ -2879,6 +2885,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link EffectEstimate}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid EffectEstimate per the base specification
              */
             @Override
             public EffectEstimate build() {
@@ -3209,6 +3217,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link PrecisionEstimate}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid PrecisionEstimate per the base specification
                  */
                 @Override
                 public PrecisionEstimate build() {
@@ -3568,6 +3578,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Certainty}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Certainty per the base specification
              */
             @Override
             public Certainty build() {
@@ -3910,6 +3922,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
                  * 
                  * @return
                  *     An immutable object of type {@link CertaintySubcomponent}
+                 * @throws IllegalStateException
+                 *     if the current state cannot be built into a valid CertaintySubcomponent per the base specification
                  */
                 @Override
                 public CertaintySubcomponent build() {

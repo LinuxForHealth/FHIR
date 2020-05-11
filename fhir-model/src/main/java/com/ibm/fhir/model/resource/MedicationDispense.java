@@ -1401,6 +1401,8 @@ public class MedicationDispense extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link MedicationDispense}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid MedicationDispense per the base specification
          */
         @Override
         public MedicationDispense build() {
@@ -1709,6 +1711,8 @@ public class MedicationDispense extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Performer}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Performer per the base specification
              */
             @Override
             public Performer build() {
@@ -2092,6 +2096,8 @@ public class MedicationDispense extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Substitution}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Substitution per the base specification
              */
             @Override
             public Substitution build() {

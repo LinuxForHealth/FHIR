@@ -198,6 +198,8 @@ public class Decimal extends Element {
          * 
          * @return
          *     An immutable object of type {@link Decimal}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Decimal per the base specification
          */
         @Override
         public Decimal build() {

@@ -821,6 +821,8 @@ public class Slot extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link Slot}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Slot per the base specification
          */
         @Override
         public Slot build() {

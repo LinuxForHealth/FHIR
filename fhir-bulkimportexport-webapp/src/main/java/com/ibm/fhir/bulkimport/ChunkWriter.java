@@ -7,7 +7,9 @@
 package com.ibm.fhir.bulkimport;
 
 import java.io.ByteArrayInputStream;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,7 +65,7 @@ public class ChunkWriter extends AbstractItemWriter {
      */
     @Inject
     @BatchProperty(name = Constants.COS_ENDPOINT_URL)
-    String cosEndpintUrl;
+    String cosEndpointUrl;
 
     /**
      * The IBM COS or S3 location.
@@ -124,6 +126,8 @@ public class ChunkWriter extends AbstractItemWriter {
     @Override
     public void writeItems(List<java.lang.Object> arg0) throws Exception {
         boolean isValidationOn = false;
+        Set<String> failValidationIds = new HashSet<>();
+
         if (fhirValidation != null) {
             isValidationOn = fhirValidation.equalsIgnoreCase("Y");
         }
@@ -146,6 +150,34 @@ public class ChunkWriter extends AbstractItemWriter {
         int processedNum = 0, succeededNum =0, failedNum = 0;
         ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
 
+        // Validate the resources first if required.
+        if (isValidationOn) {
+            long validationStartTimeInMilliSeconds = System.currentTimeMillis();
+            for (Object objResJsonList : arg0) {
+                @SuppressWarnings("unchecked")
+                List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
+
+                for (Resource fhirResource : fhirResourceList) {
+                    try {
+                        BulkDataUtils.validateInput(fhirResource);
+                    } catch (FHIRValidationException|FHIROperationException e) {
+                        logger.warning("Failed to validate '" + fhirResource.getId() + "' due to error: " + e.getMessage());
+                        failedNum++;
+                        failValidationIds.add(fhirResource.getId());
+                        if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
+                            OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
+                            FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
+                            chunkData.getBufferStreamForImportError().write(Constants.NDJSON_LINESEPERATOR);
+                        }
+                    }
+                }
+            }
+            chunkData.setTotalValidationMilliSeconds(chunkData.getTotalValidationMilliSeconds()
+                    + (System.currentTimeMillis() - validationStartTimeInMilliSeconds));
+        }
+
+        // Begin writing the resources into DB.
+        long writeStartTimeInMilliSeconds = System.currentTimeMillis();
         // Acquire a DB connection which will be used in the batch.
         // This doesn't really start the transaction, because the transaction has already been started by the JavaBatch
         // framework at this time point.
@@ -156,26 +188,24 @@ public class ChunkWriter extends AbstractItemWriter {
 
             for (Resource fhirResource : fhirResourceList) {
                 try {
+                    String id = fhirResource.getId();
                     processedNum++;
-                    if (isValidationOn) {
-                        BulkDataUtils.validateInput(fhirResource);
+                    // Skip the resources which failed the validation
+                    if (failValidationIds.contains(id)) {
+                        continue;
                     }
-                    OperationOutcome operationOutcome = fhirPersistence.update(persistenceContext, fhirResource.getId(), fhirResource).getOutcome();
+                    OperationOutcome operationOutcome =
+                            fhirPersistence.update(persistenceContext, id, fhirResource).getOutcome();
                     succeededNum++;
                     if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES && operationOutcome != null) {
                         FHIRGenerator.generator(Format.JSON).generate(operationOutcome, chunkData.getBufferStreamForImport());
                         chunkData.getBufferStreamForImport().write(Constants.NDJSON_LINESEPERATOR);
                     }
-                } catch (FHIRValidationException | FHIROperationException e) {
+                } catch (FHIROperationException e) {
                     logger.warning("Failed to import '" + fhirResource.getId() + "' due to error: " + e.getMessage());
                     failedNum++;
                     if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
-                        OperationOutcome operationOutCome;
-                        if (e instanceof FHIROperationException && !((FHIROperationException) e).getIssues().isEmpty()) {
-                            operationOutCome = FHIRUtil.buildOperationOutcome(((FHIROperationException) e).getIssues());
-                        } else {
-                            operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
-                        }
+                        OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
                         FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
                         chunkData.getBufferStreamForImportError().write(Constants.NDJSON_LINESEPERATOR);
                     }
@@ -187,6 +217,7 @@ public class ChunkWriter extends AbstractItemWriter {
         // by the JavaBatch framework.
         txn.unenroll();
 
+        chunkData.setTotalWriteMilliSeconds(chunkData.getTotalWriteMilliSeconds() + (System.currentTimeMillis() - writeStartTimeInMilliSeconds));
         chunkData.setNumOfProcessedResources(chunkData.getNumOfProcessedResources() + processedNum + chunkData.getNumOfParseFailures());
         chunkData.setNumOfImportedResources(chunkData.getNumOfImportedResources() + succeededNum);
         chunkData.setNumOfImportFailures(chunkData.getNumOfImportFailures() + failedNum + chunkData.getNumOfParseFailures());
@@ -205,7 +236,7 @@ public class ChunkWriter extends AbstractItemWriter {
     private void pushImportOperationOutcomes2COS(ImportTransientUserData chunkData) throws Exception{
         // Create the COS/S3 client if it's not created yet.
         if (cosClient == null) {
-            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpintUrl, cosLocation);
+            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl, cosLocation);
 
             if (cosClient == null) {
                 logger.warning("pushImportOperationOutcomes2COS: Failed to get CosClient!");

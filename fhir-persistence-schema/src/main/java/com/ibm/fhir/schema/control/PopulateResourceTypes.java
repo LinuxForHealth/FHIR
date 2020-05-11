@@ -27,31 +27,40 @@ import com.ibm.fhir.model.type.code.FHIRResourceType;
 /**
  * Populates the Resource Types Table
  *
- * @implNote This class only supports the multi-tenant schema. Consider updating the class
- *           in order to support single-tenant schemas for DBs that don't support setting tenant id
+ * @implNote This class supports the multi-tenant schema and the single tenant.
  */
 public class PopulateResourceTypes implements IDatabaseStatement {
     private static final Logger LOGGER = Logger.getLogger(PopulateResourceTypes.class.getName());
     private final String adminSchemaName;
     private final String schemaName;
-    private final int tenantId;
+    private final Integer tenantId;
 
-    public PopulateResourceTypes(String adminSchemaName, String schemaName, int tenantId) {
+    public PopulateResourceTypes(String adminSchemaName, String schemaName, Integer tenantId) {
         this.adminSchemaName = adminSchemaName;
-        this.schemaName      = schemaName;
-        this.tenantId        = tenantId;
+        this.schemaName = schemaName;
+        this.tenantId = tenantId;
     }
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         final String stmtVariable = String.format("SET %s.SV_TENANT_ID = %d", adminSchemaName, tenantId);
-        final String stmtResourceTypeInsert =
-                String.format(
-                        "INSERT INTO %s.resource_types (mt_id, resource_type_id, resource_type) " +
-                                "VALUES %s.sv_tenant_id, ?, ?);",
-                        schemaName, adminSchemaName);
-        try (Statement s = c.createStatement(); PreparedStatement batch = c.prepareStatement(stmtResourceTypeInsert)) {
-            s.execute(stmtVariable);
+        final String stmtResourceTypeInsert; 
+        if(tenantId != null) {
+            stmtResourceTypeInsert = String.format("INSERT INTO %s.resource_types (mt_id, resource_type_id, resource_type) "
+                            + "VALUES (%s.sv_tenant_id, ?, ?)", schemaName, adminSchemaName);
+        } else { 
+            stmtResourceTypeInsert = String.format("INSERT INTO %s.resource_types (resource_type_id, resource_type) "
+                            + "VALUES (?, ?)", schemaName);
+        }
+                
+        try (PreparedStatement batch = c.prepareStatement(stmtResourceTypeInsert)) {
+            // Only if it's multitenant is tenantId not null.
+            if (tenantId != null) {
+                try (Statement s = c.createStatement();) {
+                    s.execute(stmtVariable);
+                }
+            }
+
             try (InputStream fis =
                     PopulateResourceTypes.class.getClassLoader().getResourceAsStream("resource_types.properties")) {
                 Properties props = new Properties();
@@ -60,21 +69,23 @@ public class PopulateResourceTypes implements IDatabaseStatement {
                 for (Entry<Object, Object> valueEntry : props.entrySet()) {
                     Integer curVal = Integer.parseInt((String) valueEntry.getValue());
                     String resource = (String) valueEntry.getKey();
-                    batch.setString(1, resource);
-                    batch.setLong(2, curVal);
+                    batch.setInt(1, curVal);
+                    batch.setString(2, resource);
+                    batch.addBatch();
                 }
 
                 // Check Error Codes.
                 int[] codes = batch.executeBatch();
                 int errorCodes = 0;
                 for (int code : codes) {
-                    if (code != 0) {
+                    if (code < 0) {
                         errorCodes++;
                     }
                 }
                 if (errorCodes > 0) {
-                    LOGGER.severe("at least one of the Resource Types are not populated [" + errorCodes + "]");
-                    c.rollback();
+                    String msg = "at least one of the Resource Types are not populated [" + errorCodes + "]";
+                    LOGGER.severe(msg);
+                    throw new IllegalArgumentException(msg);
                 }
             } catch (IOException e) {
                 // Wrap and Send downstream
@@ -126,6 +137,5 @@ public class PopulateResourceTypes implements IDatabaseStatement {
         if (found) {
             throw new IllegalArgumentException("Resources are missing from resource_types");
         }
-
     }
 }

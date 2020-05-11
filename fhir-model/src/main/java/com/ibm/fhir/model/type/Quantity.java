@@ -327,6 +327,8 @@ public class Quantity extends Element {
          * 
          * @return
          *     An immutable object of type {@link Quantity}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Quantity per the base specification
          */
         @Override
         public Quantity build() {

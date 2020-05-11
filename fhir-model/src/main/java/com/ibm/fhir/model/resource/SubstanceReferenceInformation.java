@@ -565,6 +565,8 @@ public class SubstanceReferenceInformation extends DomainResource {
          * 
          * @return
          *     An immutable object of type {@link SubstanceReferenceInformation}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid SubstanceReferenceInformation per the base specification
          */
         @Override
         public SubstanceReferenceInformation build() {
@@ -880,6 +882,8 @@ public class SubstanceReferenceInformation extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Gene}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Gene per the base specification
              */
             @Override
             public Gene build() {
@@ -1194,6 +1198,8 @@ public class SubstanceReferenceInformation extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link GeneElement}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid GeneElement per the base specification
              */
             @Override
             public GeneElement build() {
@@ -1560,6 +1566,8 @@ public class SubstanceReferenceInformation extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Classification}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Classification per the base specification
              */
             @Override
             public Classification build() {
@@ -2043,6 +2051,8 @@ public class SubstanceReferenceInformation extends DomainResource {
              * 
              * @return
              *     An immutable object of type {@link Target}
+             * @throws IllegalStateException
+             *     if the current state cannot be built into a valid Target per the base specification
              */
             @Override
             public Target build() {

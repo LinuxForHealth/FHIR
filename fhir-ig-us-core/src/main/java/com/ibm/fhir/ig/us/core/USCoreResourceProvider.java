@@ -6,15 +6,11 @@
 
 package com.ibm.fhir.ig.us.core;
 
-import java.util.Collection;
+import com.ibm.fhir.registry.util.PackageRegistryResourceProvider;
 
-import com.ibm.fhir.registry.resource.FHIRRegistryResource;
-import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
-import com.ibm.fhir.registry.util.FHIRRegistryUtil;
-
-public class USCoreResourceProvider implements FHIRRegistryResourceProvider {
+public class USCoreResourceProvider extends PackageRegistryResourceProvider {
     @Override
-    public Collection<FHIRRegistryResource> getResources() {
-        return FHIRRegistryUtil.getResources("hl7.fhir.us.core");
+    public String getPackageId() {
+        return "hl7.fhir.us.core";
     }
 }

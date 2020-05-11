@@ -33,6 +33,28 @@ public class Canonical extends Uri {
         return Canonical.builder().value(value).build();
     }
 
+    public static Canonical of(java.lang.String uri, java.lang.String version) {
+        StringBuilder value = new StringBuilder(uri);
+        if (version != null && !version.isEmpty()) {
+            value.append('|');
+            value.append(version);
+        }
+        return Canonical.builder().value(value.toString()).build();
+    }
+
+    public static Canonical of(java.lang.String uri, java.lang.String version, java.lang.String fragment) {
+        StringBuilder value = new StringBuilder(uri);
+        if (version != null && !version.isEmpty()) {
+            value.append('|');
+            value.append(version);
+        }
+        if (fragment != null && !fragment.isEmpty()) {
+            value.append('#');
+            value.append(fragment);
+        }
+        return Canonical.builder().value(value.toString()).build();
+    }
+
     public static Uri uri(java.lang.String value) {
         return Canonical.builder().value(value).build();
     }
@@ -166,6 +188,8 @@ public class Canonical extends Uri {
          * 
          * @return
          *     An immutable object of type {@link Canonical}
+         * @throws IllegalStateException
+         *     if the current state cannot be built into a valid Canonical per the base specification
          */
         @Override
         public Canonical build() {

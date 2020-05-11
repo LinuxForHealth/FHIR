@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -56,7 +56,7 @@ public abstract class AbstractPersistenceTest {
 
     // A hook for subclasses to override and provide specific test database setup functionality if required.
     protected void bootstrapDatabase() throws Exception {}
-    
+
     // A hook for subclasses to override and provide specific test database shutdown functionality if required.
     protected void shutdownDatabase() throws Exception {}
 
@@ -101,7 +101,7 @@ public abstract class AbstractPersistenceTest {
             persistence.getTransaction().commit();
         }
     }
-    
+
     @AfterSuite(alwaysRun = true)
     public void tearDown() throws Exception {
         shutdownDatabase();
@@ -137,10 +137,10 @@ public abstract class AbstractPersistenceTest {
         for (String key : queryParms.keySet()) {
 
             expectedCount++;
-            if (!SearchUtil.isSearchResultParameter(key)) {
+            if (!SearchUtil.isSearchResultParameter(key) && !SearchUtil.isGeneralParameter(key)) {
                 String paramName = key;
                 if (SearchUtil.isChainedParameter(key)) {
-                    // ignore the chained part and just very the reference param is there
+                    // ignore the chained part and just verify the reference param is there
                     paramName = key.split("\\.")[0];
                 }
                 // strip any modifiers

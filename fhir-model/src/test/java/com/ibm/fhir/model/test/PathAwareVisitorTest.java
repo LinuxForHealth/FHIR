@@ -27,25 +27,25 @@ import com.ibm.fhir.model.visitor.PathAwareVisitor;
 public class PathAwareVisitorTest {
     public static void main(java.lang.String[] args) throws Exception {
         java.lang.String id = UUID.randomUUID().toString();
-        
+
         Meta meta = Meta.builder().versionId(Id.of("1"))
                 .lastUpdated(Instant.now(ZoneOffset.UTC))
                 .build();
-        
+
         String given = String.builder().value("John")
                 .extension(Extension.builder()
                     .url("http://www.ibm.com/someExtension")
                     .value(String.of("value and extension"))
                     .build())
                 .build();
-        
+
         String otherGiven = String.builder()
                 .extension(Extension.builder()
                     .url("http://www.ibm.com/someExtension")
                     .value(String.of("extension only"))
                     .build())
                 .build();
-        
+
         HumanName name = HumanName.builder()
                 .id("someId")
                 .given(given)
@@ -53,7 +53,7 @@ public class PathAwareVisitorTest {
                 .given(String.of("value no extension"))
                 .family(String.of("Doe"))
                 .build();
-                
+
         Patient patient = Patient.builder()
                 .id(id)
                 .active(Boolean.TRUE)
@@ -62,10 +62,9 @@ public class PathAwareVisitorTest {
                 .name(name)
                 .birthDate(Date.of(LocalDate.now()))
                 .build();
-        
-        PathAwareVisitor.DEBUG = true;
+
         patient.accept(new PathAwareVisitor());
-        
+
         FHIRGenerator.generator(Format.JSON, true).generate(patient, System.out);
     }
 }

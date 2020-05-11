@@ -7,15 +7,29 @@
 package com.ibm.fhir.schema.derby;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
+import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
+import com.ibm.fhir.database.utils.common.JdbcTarget;
+import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
+import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
+import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
+import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
+import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
+import com.ibm.fhir.schema.control.PopulateParameterNames;
+import com.ibm.fhir.schema.control.PopulateResourceTypes;
 
 /**
  * An Apache Derby implementation of the IBM FHIR Server database (useful for supporting unit tests).
@@ -25,6 +39,9 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     private static final String DATABASE_NAME = "derby/fhirDB";
     private static final String SCHEMA_NAME = "FHIRDATA";
     private static final String ADMIN_SCHEMA_NAME = "FHIR_ADMIN";
+
+    // The translator to help us out with Derby syntax
+    private static final IDatabaseTranslator DERBY_TRANSLATOR = new DerbyTranslator();
 
     // The wrapper for managing a derby in-memory instance
     final DerbyMaster derby;
@@ -50,10 +67,80 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
-        gen.buildProcedures(pdm);
 
         // apply the model we've defined to the new Derby database
-        derby.createSchema(pdm);
+        VersionHistoryService vhs = createVersionHistoryService();
+        derby.createSchema(vhs, pdm);
+
+        // Populates Lookup tables
+        populateResourceTypeAndParameterNameTableEntries();
+    }
+
+    /**
+     * prepopulates the bootstrapped derby database with static lookup data.
+     * 
+     * @throws SQLException
+     */
+    public void populateResourceTypeAndParameterNameTableEntries() throws SQLException {
+        // Fill any static data tables (which are also partitioned by tenant)
+        // Prepopulate the Resource Type Tables and Parameters Name/Code Table
+        logger.info("started prepopulating lookup table data.");
+        DerbyTranslator translator = new DerbyTranslator();
+        Connection connection = getConnection();
+
+        // Ensures we don't double up the generated derby db prepopulation.
+        // Docs for the table are at https://db.apache.org/derby/docs/10.5/ref/rrefsistabs24269.html
+        boolean process = true;
+        final String sql = "SELECT COUNT(TABLENAME) AS CNT FROM SYS.SYSTABLES WHERE TABLENAME = 'PARAMETER_NAMES'";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.execute();
+            ResultSet set = stmt.getResultSet();
+            if (set.next()) {
+                int val = set.getInt("CNT");
+                if (val > 0) {
+                    process = false;
+                }
+            }
+        }
+
+        if (process) {
+            PopulateResourceTypes populateResourceTypes =
+                    new PopulateResourceTypes(ADMIN_SCHEMA_NAME, SCHEMA_NAME, null);
+            populateResourceTypes.run(translator, connection);
+
+            PopulateParameterNames populateParameterNames =
+                    new PopulateParameterNames(ADMIN_SCHEMA_NAME, SCHEMA_NAME, null);
+            populateParameterNames.run(translator, connection);
+            connection.commit();
+            logger.info("Finished prepopulating the resource type and search parameter code/name tables tables");
+        } else {
+            logger.info("Skipped prepopulating the resource type and search parameter code/name tables tables");
+        }
+    }
+
+    /**
+     * Configure the TransactionProvider
+     * 
+     * @throws SQLException
+     */
+    public VersionHistoryService createVersionHistoryService() throws SQLException {
+        Connection c = derby.getConnection();
+        JdbcTarget target = new JdbcTarget(c);
+
+        JdbcPropertyAdapter jdbcAdapter = new JdbcPropertyAdapter(new Properties());
+        JdbcConnectionProvider cp = new JdbcConnectionProvider(DERBY_TRANSLATOR, jdbcAdapter);
+        PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, 200);
+        ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
+
+        DerbyAdapter derbyAdapter = new DerbyAdapter(target);
+        CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, derbyAdapter);
+
+        // Current version history for the data schema
+        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        vhs.setTransactionProvider(transactionProvider);
+        vhs.setTarget(derbyAdapter);
+        vhs.init();
+        return vhs;
     }
 
     @Override

@@ -132,7 +132,7 @@ public class Table extends BaseObject {
             final String variableName = accessControlVar.getQualifiedName();
             final String tenantPermission = getObjectName() + "_TENANT";
             final String predicate = getQualifiedName() + ".MT_ID = " + variableName;
-            target.createPermission(getSchemaName(), tenantPermission, getObjectName(), predicate);
+            target.createOrReplacePermission(getSchemaName(), tenantPermission, getObjectName(), predicate);
             target.activateRowAccessControl(getSchemaName(), getObjectName());
         }
     }
@@ -144,6 +144,17 @@ public class Table extends BaseObject {
         } else if (this.getVersion() > priorVersion) {
             for (Migration step : migrations) {
                 step.migrateFrom(priorVersion).stream().forEachOrdered(target::runStatement);
+            }
+            // Re-apply tenant access control if required
+            if (this.accessControlVar != null) {
+                // The accessControlVar represents a DB2 session variable. Programs must set this value
+                // for the current tenant when executing any SQL (both reads and writes) on
+                // tables with this access control enabled
+                final String variableName = accessControlVar.getQualifiedName();
+                final String tenantPermission = getObjectName() + "_TENANT";
+                final String predicate = getQualifiedName() + ".MT_ID = " + variableName;
+                target.createOrReplacePermission(getSchemaName(), tenantPermission, getObjectName(), predicate);
+                target.activateRowAccessControl(getSchemaName(), getObjectName());
             }
         }
     }
@@ -365,6 +376,19 @@ public class Table extends BaseObject {
             return this;
         }
 
+        public Builder addClobColumn(String columnName, boolean nullable, String defaultVal) {
+            ColumnDef cd = new ColumnDef(columnName);
+            if (columns.contains(cd)) {
+                throw new IllegalArgumentException("Duplicate column: " + columnName);
+            }
+
+            cd.setNullable(nullable);
+            cd.setColumnType(ColumnType.CLOB);
+            cd.setDefaultVal(defaultVal);
+            columns.add(cd);
+            return this;
+        }
+
         /**
          * Set one of the columns to be the identity column for the table
          * @param constraintName
@@ -577,6 +601,9 @@ public class Table extends BaseObject {
                     break;
                 case BLOB:
                     column = new BlobColumn(cd.getName(), cd.getSize(), cd.getInlineSize(), cd.isNullable());
+                    break;
+                case CLOB:
+                    column = new ClobColumn(cd.getName(), cd.isNullable(), cd.getDefaultVal());
                     break;
                 default:
                     throw new IllegalStateException("Unsupported column type: " + cd.getColumnType().name());

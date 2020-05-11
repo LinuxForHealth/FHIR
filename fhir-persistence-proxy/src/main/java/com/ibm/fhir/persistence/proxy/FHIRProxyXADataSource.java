@@ -33,8 +33,7 @@ import com.ibm.fhir.persistence.proxy.rm.RMXAConnectionResource;
 
 /**
  * This class serves as a proxy for creating XA connections to databases according to a properties-based configuration.
- * 
- * @author padams
+ *
  */
 public class FHIRProxyXADataSource implements XADataSource {
     private static final Logger log = Logger.getLogger(FHIRProxyXADataSource.class.getName());
@@ -52,6 +51,7 @@ public class FHIRProxyXADataSource implements XADataSource {
         datasourceTypeMapping.put("derby_network_server", "org.apache.derby.jdbc.ClientXADataSource");
         datasourceTypeMapping.put("db2test", "com.ibm.fhir.persistence.proxy.rm.test.TestDB2XADataSource");
         datasourceTypeMapping.put("derbytest", "com.ibm.fhir.persistence.proxy.rm.test.TestEmbeddedXADataSource");
+        datasourceTypeMapping.put("postgresql", "org.postgresql.xa.PGXADataSource");
     }
 
     /**
@@ -59,19 +59,9 @@ public class FHIRProxyXADataSource implements XADataSource {
      */
     public static class DataSourceCacheEntry {
         private final XADataSource datasource;
-        private final String tenantKey;
-        
-        public DataSourceCacheEntry(XADataSource ds, String tenantKey) {
-            this.datasource = ds;
-            this.tenantKey = tenantKey;
-        }
 
-        /**
-         * Getter for the tenantKey property. Can be null if datasource is not multi-tenant
-         * @return
-         */
-        public String getTenantKey() {
-            return this.tenantKey;
+        public DataSourceCacheEntry(XADataSource ds) {
+            this.datasource = ds;
         }
 
         /**
@@ -84,8 +74,9 @@ public class FHIRProxyXADataSource implements XADataSource {
     }
 
     public FHIRProxyXADataSource() {
+        // No Operation
     }
-    
+
     /**
      * This method returns a list of all the cached XADataSource instances held by this proxy datasource.
      */
@@ -97,13 +88,13 @@ public class FHIRProxyXADataSource implements XADataSource {
             for (Map.Entry<String, Map<String, DataSourceCacheEntry>> tenantEntry : datasourceCache.entrySet()) {
                 log.fine("Tenant id: " + tenantEntry.getKey());
                 for (Map.Entry<String, DataSourceCacheEntry> dsEntry : tenantEntry.getValue().entrySet()) {
-                    
+
                     log.fine("   XADataSource for dsId: " + dsEntry.getKey());
                     result.add(dsEntry.getValue().getDataSource());
                 }
             }
-            
-            log.fine("Returning XADataSource list of size: " + result.size());
+
+            log.fine("Returning XADataSource list of size: '" + result.size() + "'");
 
             return result;
         } finally {
@@ -111,46 +102,26 @@ public class FHIRProxyXADataSource implements XADataSource {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.sql.CommonDataSource#getLogWriter()
-     */
     @Override
     public PrintWriter getLogWriter() throws SQLException {
         return getDelegate().getLogWriter();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.sql.CommonDataSource#setLogWriter(java.io.PrintWriter)
-     */
     @Override
     public void setLogWriter(PrintWriter out) throws SQLException {
         getDelegate().setLogWriter(out);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.sql.CommonDataSource#setLoginTimeout(int)
-     */
     @Override
     public void setLoginTimeout(int seconds) throws SQLException {
         getDelegate().setLoginTimeout(seconds);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.sql.CommonDataSource#getLoginTimeout()
-     */
     @Override
     public int getLoginTimeout() throws SQLException {
         return getDelegate().getLoginTimeout();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.sql.CommonDataSource#getParentLogger()
-     */
     @Override
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
         try {
@@ -160,16 +131,12 @@ public class FHIRProxyXADataSource implements XADataSource {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.sql.XADataSource#getXAConnection()
-     */
     @Override
     public XAConnection getXAConnection() throws SQLException {
         log.entering(this.getClass().getName(), "getXAConnection()");
         try {
             XAConnection connection = null;
-            
+
             // XA recovery will be triggered by a call to this method, while
             // threadlocal contains "default/default" for the tenant-id and datastore-id.
             // If we find something else on thread-local then we'll treat it as an error.
@@ -187,37 +154,31 @@ public class FHIRProxyXADataSource implements XADataSource {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see javax.sql.XADataSource#getXAConnection(java.lang.String, java.lang.String)
-     */
     @Override
     public XAConnection getXAConnection(String tenantId, String dsId) throws SQLException {
         log.entering(this.getClass().getName(), "getXAConnection(String,String)", new Object[]{tenantId, dsId});
         try {
             // Make sure that the values stored on thread-local match the parameters passed in.
             if (!FHIRRequestContext.get().getTenantId().equals(tenantId)) {
-                throw new SQLException("tenantId parameter value (" + tenantId + ") does not match thread-local value (" 
+                throw new SQLException("tenantId parameter value (" + tenantId + ") does not match thread-local value ("
                         + FHIRRequestContext.get().getTenantId() + ").");
             }
             if (!FHIRRequestContext.get().getDataStoreId().equals(dsId)) {
-                throw new SQLException("dsId parameter value (" + dsId + ") does not match thread-local value (" 
+                throw new SQLException("dsId parameter value (" + dsId + ") does not match thread-local value ("
                         + FHIRRequestContext.get().getDataStoreId() + ").");
             }
-            
-            XAConnection connection = getDelegate().getXAConnection();
-            
-            return connection;
+
+            return getDelegate().getXAConnection();
         } finally {
             log.exiting(this.getClass().getName(), "getXAConnection(String,String)");
         }
     }
-    
+
     /**
      * This function will return an XADataSource instance that is configured according to the connection properties
-     * associated with the FHIRRequestContext info found on thread-local. 
+     * associated with the FHIRRequestContext info found on thread-local.
      * Note: this function is declared as public for testing purposes. Normally, this function is only called internally.
-     * 
+     *
      * @throws SQLException
      */
     public XADataSource getDelegate() throws SQLException {
@@ -225,7 +186,7 @@ public class FHIRProxyXADataSource implements XADataSource {
         try {
             String tenantId = FHIRRequestContext.get().getTenantId();
             String dsId = FHIRRequestContext.get().getDataStoreId();
-            
+
             // Retrieve from cache or create the tenant's datasource map.
             Map<String, DataSourceCacheEntry> tenantMap = datasourceCache.get(tenantId);
             if (tenantMap == null) {
@@ -233,9 +194,10 @@ public class FHIRProxyXADataSource implements XADataSource {
                     tenantMap = datasourceCache.get(tenantId);
                     if (tenantMap == null) {
                         if (log.isLoggable(Level.FINER)) {
-                            log.finer("Tenant datasource cache was not found, creating new cache for tenant-id " + tenantId + ".");
+                            log.finer("Tenant datasource cache was not found, creating new cache for tenant-id ["
+                                    + tenantId + "].");
                         }
-                        tenantMap = new ConcurrentHashMap<String, DataSourceCacheEntry>();
+                        tenantMap = new ConcurrentHashMap<>();
                         datasourceCache.put(tenantId, tenantMap);
                     }
                 }
@@ -249,7 +211,8 @@ public class FHIRProxyXADataSource implements XADataSource {
                     dsCacheEntry = tenantMap.get(dsId);
                     if (dsCacheEntry == null) {
                         if (log.isLoggable(Level.FINER)) {
-                            log.finer("Datasource " + dsId + " was not found in cache, creating a new datasource and adding to the cache.");
+                            log.finer("Datasource [" + dsId
+                                    + "] was not found in cache, creating a new datasource and adding to the cache.");
                         }
                         dsCacheEntry = createDataSourceCacheEntry(dsId);
                         tenantMap.put(dsId, dsCacheEntry);
@@ -257,12 +220,6 @@ public class FHIRProxyXADataSource implements XADataSource {
                 }
             }
 
-            String tenantKey = dsCacheEntry.getTenantKey();
-            if (tenantKey != null) {
-                // write the tenantKey for the chosen datasource into the request context
-                FHIRRequestContext.get().setTenantKey(tenantKey);
-            }
-            
             return dsCacheEntry.getDataSource();
         } catch (Throwable t) {
             throw new SQLException("Unexpected error while retrieving XADataSource delegate.", t);
@@ -270,11 +227,11 @@ public class FHIRProxyXADataSource implements XADataSource {
             log.exiting(this.getClass().getName(), "getDelegate");
         }
     }
-    
+
     /**
      * Returns the XADataSource implementation classname associated with the specified type,
      * or null if the type is not recognized.
-     * 
+     *
      * @param type the datasource type (e.g. "db2", "derby", etc.)
      */
     public static String getDataSourceImplClassnameForType(String type) {
@@ -283,7 +240,7 @@ public class FHIRProxyXADataSource implements XADataSource {
     }
 
     /**
-     * Creates an appropriate datasource and its cache entry according to the 
+     * Creates an appropriate datasource and its cache entry according to the
      * properties associated with the specified datastore-id
      */
     public static DataSourceCacheEntry createDataSourceCacheEntry(String dsId) throws Exception {
@@ -301,9 +258,6 @@ public class FHIRProxyXADataSource implements XADataSource {
             if (type == null) {
                 throw new IllegalStateException("Could not locate 'type' property within datasource property group: " + dsPropertyName);
             }
-
-            // The tenant key required when using a multi-tenant schema. Null for single-tenant schemas
-            String tenantKey = dsPG.getStringProperty("tenantKey", null);
 
             // Get the connection properties
             PropertyGroup connectionProps = dsPG.getPropertyGroup("connectionProperties");
@@ -343,13 +297,12 @@ public class FHIRProxyXADataSource implements XADataSource {
                 log.info(msg);
             }
 
-            // Finally, set the properties found in the "connectionProperties" property group
-            // on the XADataSource instance.
+            // Finally, set the properties found in the "connectionProperties" property group on the XADataSource instance.
             // Note: this requires the "connectionProperties" property group to contain ONLY
             // properties that map to valid field names within the vendor-specific XADataSource impl class.
             setConnectionProperties(datasource, connectionProps);
 
-            return new DataSourceCacheEntry(datasource, tenantKey);
+            return new DataSourceCacheEntry(datasource);
         } finally {
             log.exiting(CLASSNAME, "createDataSource");
         }
@@ -358,7 +311,7 @@ public class FHIRProxyXADataSource implements XADataSource {
     /**
      * This function will use reflection to set each of the properties found in "connectionProps" on the specified
      * datasource instance using the appropriate setter methods.
-     * 
+     *
      * @param datasource
      *            the datasource instance to set the properties on
      * @param connectionProps
@@ -379,7 +332,7 @@ public class FHIRProxyXADataSource implements XADataSource {
                 log.finer("Found property '" + propertyName + "' = '" + value + "'.");
             }
             try {
-                
+
                 if ("securityMechanism".equals(propertyName)) {
                     PropertyDescriptor pd = PropertyUtils.getPropertyDescriptor(datasource, propertyName);
                     if (pd != null) {

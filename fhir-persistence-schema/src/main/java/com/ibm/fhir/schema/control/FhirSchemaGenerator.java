@@ -49,12 +49,12 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropIndex;
+import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
 import com.ibm.fhir.database.utils.model.NopObject;
@@ -211,7 +211,6 @@ public class FhirSchemaGenerator {
      * @param model
      */
     public void buildAdminSchema(PhysicalDataModel model) {
-
         // All tables are added to this new tablespace (which has a small extent size.
         // Each tenant partition gets its own tablespace
         fhirTablespace = new Tablespace(FhirSchemaConstants.FHIR_TS, FhirSchemaConstants.INITIAL_VERSION, FhirSchemaConstants.FHIR_TS_EXTENT_KB);
@@ -230,12 +229,12 @@ public class FhirSchemaGenerator {
         model.addObject(allAdminTablesComplete);
 
         // The set_tenant procedure can be created after all the admin tables are done
-        ProcedureDef setTenant = model.addProcedure(this.adminSchemaName,
-                SET_TENANT,
-                FhirSchemaConstants.INITIAL_VERSION,
+        ProcedureDef setTenant = model.addProcedureAndFunctions(this.adminSchemaName,
+                        SET_TENANT, 2,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName, SET_TENANT.toLowerCase() + ".sql", null),
                 Arrays.asList(allAdminTablesComplete),
-                procedurePrivileges);
+                procedurePrivileges,
+                DbType.DB2);
         setTenant.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
 
         // A final marker which is used to block any FHIR data schema activity until the admin schema is completed
@@ -364,36 +363,79 @@ public class FhirSchemaGenerator {
         // to avoid deadlocks, we only apply them after all the tables are done, so we make all
         // procedures depend on the allTablesComplete marker.
         ProcedureDef pd;
-        pd = model.addProcedure(this.schemaName,
+        pd = model.addProcedureAndFunctions(this.schemaName,
                 ADD_CODE_SYSTEM,
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_CODE_SYSTEM.toLowerCase() + ".sql", null),
                 Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete),
-                procedurePrivileges);
+                procedurePrivileges,
+                DbType.DB2);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
-        pd = model.addProcedure(this.schemaName,
+        pd = model.addProcedureAndFunctions(this.schemaName,
                 ADD_PARAMETER_NAME,
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_PARAMETER_NAME.toLowerCase() + ".sql", null),
                 Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete),
-                procedurePrivileges);
+                procedurePrivileges,
+                DbType.DB2);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
-        pd = model.addProcedure(this.schemaName,
+        pd = model.addProcedureAndFunctions(this.schemaName,
                 ADD_RESOURCE_TYPE,
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_RESOURCE_TYPE.toLowerCase() + ".sql", null),
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
-                procedurePrivileges);
+                procedurePrivileges,
+                DbType.DB2);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
-        pd = model.addProcedure(this.schemaName,
+        pd = model.addProcedureAndFunctions(this.schemaName,
                 ADD_ANY_RESOURCE,
                 FhirSchemaConstants.INITIAL_VERSION,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_ANY_RESOURCE.toLowerCase() + ".sql", null),
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
-                procedurePrivileges);
+                procedurePrivileges,
+                DbType.DB2);
+        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        // Add stored procedures/functions for postgresql.
+        // Have to use different object names from DB2, because the group processing doesn't support 2 objects with the same name.
+        // and the appended "_pg" will be removed when creating the stored procedure for postgresql.
+        pd = model.addProcedureAndFunctions(this.schemaName,
+                ADD_CODE_SYSTEM + "_pg",
+                FhirSchemaConstants.INITIAL_VERSION,
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_CODE_SYSTEM.toLowerCase()
+                        + "_" + DbType.POSTGRESQL.value() + ".sql", null),
+                Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete),
+                procedurePrivileges, DbType.POSTGRESQL);
+        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        pd = model.addProcedureAndFunctions(this.schemaName,
+                ADD_PARAMETER_NAME + "_pg",
+                FhirSchemaConstants.INITIAL_VERSION,
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_PARAMETER_NAME.toLowerCase()
+                        + "_" + DbType.POSTGRESQL.value() + ".sql", null),
+                Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete),
+                procedurePrivileges, DbType.POSTGRESQL);
+        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        pd = model.addProcedureAndFunctions(this.schemaName,
+                ADD_RESOURCE_TYPE + "_pg",
+                FhirSchemaConstants.INITIAL_VERSION,
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_RESOURCE_TYPE.toLowerCase()
+                        + "_" + DbType.POSTGRESQL.value() + ".sql", null),
+                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+                procedurePrivileges, DbType.POSTGRESQL);
+        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        pd = model.addProcedureAndFunctions(this.schemaName,
+                ADD_ANY_RESOURCE + "_pg",
+                FhirSchemaConstants.INITIAL_VERSION,
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ADD_ANY_RESOURCE.toLowerCase()
+                        + "_" + DbType.POSTGRESQL.value() + ".sql", null),
+                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+                procedurePrivileges, DbType.POSTGRESQL);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
     }
 
@@ -606,20 +648,6 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     * Add the sequence objects to the given model object
-     * -------------------------------------------------------------------------------
-        CREATE SEQUENCE test_sequence
-             AS BIGINT
-         START WITH 1
-          CACHE 1000
-           NO CYCLE;
-     * @param model
-     */
-    protected void addSequences(PhysicalDataModel model) {
-
-    }
-
-    /**
      *
      *
     CREATE TABLE parameter_names (
@@ -689,37 +717,11 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     * @param pdm
-     */
-    public void buildProcedures(PhysicalDataModel pdm) {
-
-        // Add a stored procedure for every resource type we have. We don't apply these procedures
-        // until all the tables are done...just for simplicity.
-        //for (String resourceType: this.resourceTypes) {
-        //final String lcResourceName = resourceType.toLowerCase();
-        //pdm.addProcedure(this.schemaName, lcResourceName + "_add_resource3", () -> this.readResourceTemplate(resourceType), Arrays.asList(allTablesComplete));
-        //}
-    }
-
-    /**
-     * Read the create procedure template which is made resource-type specific
-     * @param resourceType
-     * @return
-     */
-    protected String readResourceTemplate(String resourceType) {
-        List<Replacer> replacers = new ArrayList<>();
-        replacers.add(new Replacer("LC_RESOURCE_TYPE", resourceType.toLowerCase()));
-        replacers.add(new Replacer("RESOURCE_TYPE", resourceType));
-
-        return SchemaGeneratorUtil.readTemplate(this.adminSchemaName, this.schemaName, ADD_RESOURCE_TEMPLATE, replacers);
-    }
-
-    /**
      * <pre>
     CREATE SEQUENCE fhir_sequence
              AS BIGINT
      START WITH 1
-          CACHE 1000
+          CACHE 20000
        NO CYCLE;
      * </pre>
      *
@@ -741,15 +743,5 @@ public class FhirSchemaGenerator {
         sequencePrivileges.forEach(p -> p.addToObject(fhirRefSequence));
 
         pdm.addObject(fhirRefSequence);
-    }
-
-    /**
-     * Visitor for the resource types
-     * @param consumer
-     */
-    public void applyResourceTypes(Consumer<String> consumer) {
-        for (String resourceType: this.resourceTypes) {
-            consumer.accept(resourceType);
-        }
     }
 }

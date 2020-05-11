@@ -16,7 +16,10 @@ import java.net.URLClassLoader;
 import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Base64.Encoder;
 import java.util.Collection;
@@ -48,28 +51,34 @@ import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
+import com.ibm.fhir.database.utils.model.DatabaseObjectType;
+import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
+import com.ibm.fhir.database.utils.postgresql.PostgreSqlAdapter;
+import com.ibm.fhir.database.utils.postgresql.PostgreSqlPropertyAdapter;
+import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.transaction.TransactionFactory;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
-import com.ibm.fhir.schema.control.AddResourceType;
+import com.ibm.fhir.schema.app.util.TenantKeyFileUtil;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
+import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
+import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
-import com.ibm.fhir.schema.model.DbType;
 import com.ibm.fhir.schema.model.ResourceType;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 import com.ibm.fhir.task.core.service.TaskService;
 
 /**
- * Utility app to connect to a Db2 database and create/update the FHIR schema.
+ * Utility app to connect to a database and create/update the IBM FHIR Server schema.
  * The DDL processing is idempotent, with only the necessary changes applied.
  * <br>
  * This utility also includes an option to exercise the tenant partitioning code.
@@ -83,6 +92,10 @@ public class Main {
     private static final int EXIT_VALIDATION_FAILED = 3; // validation test failed
     private static final double NANOS = 1e9;
 
+    // Indicates if the feature is enabled for the DbType
+    public List<DbType> MULTITENANT_FEATURE_ENABLED = Arrays.asList(DbType.DB2);
+    public List<DbType> STORED_PROCEDURE_ENABLED = Arrays.asList(DbType.DB2, DbType.POSTGRESQL);
+
     // Properties accumulated as we parse args and read configuration files
     private final Properties properties = new Properties();
 
@@ -92,14 +105,19 @@ public class Main {
     // The schema used for administration of tenants
     private String adminSchemaName = "FHIR_ADMIN";
 
+    // The schema used for administration of OAuth 2.0 clients
+    private String oauthSchemaName = "FHIR_OAUTH";
+
     // Arguments requesting we drop the objects from the schema
     private boolean dropSchema = false;
     private boolean dropAdmin = false;
     private boolean confirmDrop = false;
-    private boolean updateSchema = false;
     private boolean updateProc = false;
     private boolean checkCompatibility = false;
-    private boolean createFhirSchemas = false;
+    private boolean createFhirSchema = false;
+    private boolean updateFhirSchema = false;
+    private boolean createOauthSchema = false;
+    private boolean updateOauthSchema = false;
 
     // By default, the dryRun option is OFF, and FALSE
     // When overridden, it simulates the actions.
@@ -118,6 +136,10 @@ public class Main {
     private String tenantName;
     private boolean testTenant;
     private String tenantKey;
+
+    // Tenant Key Output or Input File
+    private String tenantKeyFileName;
+    private TenantKeyFileUtil tenantKeyFileUtil = new TenantKeyFileUtil();
 
     // The tenant name for when we want to add a new tenant key
     private String addKeyForTenant;
@@ -159,7 +181,8 @@ public class Main {
                     DataDefinitionUtil.assertValidName(args[i]);
 
                     // Force upper-case to avoid tricky-to-catch errors related to quoting names
-                    this.schemaName = args[i].toUpperCase();
+                    //this.schemaName = args[i].toUpperCase();
+                    this.schemaName = args[i];
 
                     if (!schemaName.equals(args[i])) {
                         logger.info("Schema name forced to upper case: " + schemaName);
@@ -209,15 +232,24 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
+            case "--tenant-key-file":
+                if (++i < args.length) {
+                    tenantKeyFileName = args[i];
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
             case "--update-schema":
-                this.updateSchema = true;
+                this.updateFhirSchema = true;
                 this.dropSchema = false;
+                this.updateOauthSchema = true;
                 break;
             case "--create-schemas":
-                this.createFhirSchemas = true;
+                this.createFhirSchema = true;
+                this.createOauthSchema = true;
                 break;
             case "--drop-schema":
-                this.updateSchema = false;
+                this.updateFhirSchema = false;
                 this.dropSchema = true;
                 break;
             case "--pool-size":
@@ -240,17 +272,17 @@ public class Main {
                 break;
             case "--allocate-tenant":
                 if (++i < args.length) {
-                    this.tenantName     = args[i];
+                    this.tenantName = args[i];
                     this.allocateTenant = true;
-                    this.dropTenant     = false;
+                    this.dropTenant = false;
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
             case "--drop-tenant":
                 if (++i < args.length) {
-                    this.tenantName     = args[i];
-                    this.dropTenant     = true;
+                    this.tenantName = args[i];
+                    this.dropTenant = true;
                     this.allocateTenant = false;
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
@@ -270,6 +302,9 @@ public class Main {
                     translator = new DerbyTranslator();
                     // For some reason, embedded derby deadlocks if we use multiple threads
                     maxConnectionPoolSize = 1;
+                    break;
+                case POSTGRESQL:
+                    translator = new PostgreSqlTranslator();
                     break;
                 case DB2:
                 default:
@@ -347,11 +382,15 @@ public class Main {
 
         // Test Tenant
         ps.println("--test-tenant tenantName");
-        ps.println(" * used to test with tenantName ");
+        ps.println(" * used to test with tenantName");
 
         // Tenant Key
         ps.println("--tenant-key tenantKey");
-        ps.println(" * uses the tenant-key in the queries ");
+        ps.println(" * uses the tenant-key in the queries");
+
+        // Tenant Key File
+        ps.println("--tenant-key-file tenant-key-file-location");
+        ps.println(" * sets the tenant key file location");
 
         // Update Schema action
         ps.println("--update-schema");
@@ -482,34 +521,40 @@ public class Main {
         }
     }
 
-    private JdbcPropertyAdapter getPropertyAdapter(Properties props){
+    private JdbcPropertyAdapter getPropertyAdapter(Properties props) {
         switch (dbType) {
         case DB2:
             return new Db2PropertyAdapter(props);
         case DERBY:
             return new DerbyPropertyAdapter(props);
+        case POSTGRESQL:
+            return new PostgreSqlPropertyAdapter(props);
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
         }
     }
 
-    private IDatabaseAdapter getDbAdapter(JdbcTarget target){
+    private IDatabaseAdapter getDbAdapter(JdbcTarget target) {
         switch (dbType) {
         case DB2:
             return new Db2Adapter(target);
         case DERBY:
             return new DerbyAdapter(target);
+        case POSTGRESQL:
+            return new PostgreSqlAdapter(target);
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
         }
     }
 
-    private IDatabaseAdapter getDbAdapter(IConnectionProvider connectionProvider){
+    private IDatabaseAdapter getDbAdapter(IConnectionProvider connectionProvider) {
         switch (dbType) {
         case DB2:
             return new Db2Adapter(connectionProvider);
         case DERBY:
             return new DerbyAdapter(connectionProvider);
+        case POSTGRESQL:
+            return new PostgreSqlAdapter(connectionProvider);
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
         }
@@ -519,12 +564,16 @@ public class Main {
      * Update the schema
      */
     protected void updateSchema() {
-
-        // Build/update the tables as well as the stored procedures
+        // Build/update the FHIR-related tables as well as the stored procedures
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
-        gen.buildProcedures(pdm);
+
+        // Build/update the Liberty OAuth-related tables
+        if (updateOauthSchema) {
+            OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(oauthSchemaName);
+            oauthSchemaGenerator.buildOAuthSchema(pdm);
+        }
 
         // The objects are applied in parallel, which relies on each object
         // expressing its dependencies correctly. Changes are only applied
@@ -533,7 +582,30 @@ public class Main {
         ExecutorService pool = Executors.newFixedThreadPool(this.maxConnectionPoolSize);
         ITaskCollector collector = taskService.makeTaskCollector(pool);
         IDatabaseAdapter adapter = getDbAdapter(connectionPool);
-        applyDataModel(pdm, adapter, collector);
+
+        // Before we start anything, we need to make sure our schema history
+        // tables are in place. There's only a single history table, which
+        // resides in the admin schema and handles the history of all objects
+        // in any schema being managed.
+        CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);
+
+        // Current version history for the data schema
+        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, schemaName);
+        vhs.setTransactionProvider(transactionProvider);
+        vhs.setTarget(adapter);
+        vhs.init();
+
+        // Use the version history service to determine if this table existed before we run `applyWithHistory`
+        boolean newDb = vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null;
+
+        applyModel(pdm, adapter, collector, vhs);
+        // There is a working data model at this point.
+
+        // If the db is multi-tenant, we populate the resource types and parameter names in allocate-tenant.
+        // Otherwise, if its a new schema, populate the resource types and parameters names (codes) now
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && newDb) {
+            populateResourceTypeAndParameterNameTableEntries(null);
+        }
     }
 
     /**
@@ -545,7 +617,11 @@ public class Main {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
                     IDatabaseAdapter adapter = getDbAdapter(target);
-                    adapter.createFhirSchemas(schemaName, adminSchemaName);
+                    adapter.createSchema(schemaName);
+                    adapter.createSchema(adminSchemaName);
+                    if (createOauthSchema) {
+                        adapter.createSchema(oauthSchemaName);
+                    }
                 } catch (Exception x) {
                     c.rollback();
                     throw x;
@@ -562,7 +638,7 @@ public class Main {
      * into the FHIR resource tables
      */
     protected void updateProcedures() {
-        if (dbType == DbType.DERBY) {
+        if (!STORED_PROCEDURE_ENABLED.contains(dbType)) {
             return;
         }
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
@@ -575,7 +651,7 @@ public class Main {
             try (Connection c = createConnection()) {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
-                    Db2Adapter adapter = new Db2Adapter(target);
+                    IDatabaseAdapter adapter = getDbAdapter(target);
                     pdm.applyProcedures(adapter);
                 } catch (Exception x) {
                     c.rollback();
@@ -614,50 +690,6 @@ public class Main {
                     failedTaskGroups.stream().map((tg) -> tg.getTaskId()).collect(Collectors.joining(","));
             logger.severe("List of failed task groups: " + failedStr);
         }
-    }
-
-    /**
-     * Apply the given physical data model to the database
-     *
-     * @param pdm
-     * @param adapter
-     * @param collector
-     */
-    protected void applyDataModel(PhysicalDataModel pdm, IDatabaseAdapter adapter, ITaskCollector collector) {
-
-        // Before we start anything, we need to make sure our schema history
-        // tables are in place. There's only a single history table, which
-        // resides in the admin schema and handles the history of all objects
-        // in any schema being managed.
-        CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);
-
-        // Current version history for the data schema
-        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, schemaName);
-        vhs.setTransactionProvider(transactionProvider);
-        vhs.setTarget(adapter);
-        vhs.init();
-
-        applyModel(pdm, adapter, collector, vhs);
-
-        //         The old way
-        //         try {
-        //             try (Connection c = createConnection()) {
-        //                 try {
-        //                     JdbcTarget target = new JdbcTarget(c);
-        //                     Db2Adapter adapter = new Db2Adapter(target);
-        //                     pdm.apply(adapter);
-        //                 }
-        //                 catch (Exception x) {
-        //                     c.rollback();
-        //                     throw x;
-        //                 }
-        //                 c.commit();
-        //             }
-        //         }
-        //         catch (SQLException x) {
-        //             throw translator.translate(x);
-        //         }
-
     }
 
     /**
@@ -704,7 +736,7 @@ public class Main {
         JdbcPropertyAdapter adapter = getPropertyAdapter(properties);
 
         JdbcConnectionProvider cp = new JdbcConnectionProvider(this.translator, adapter);
-        this.connectionPool      = new PoolConnectionProvider(cp, this.maxConnectionPoolSize);
+        this.connectionPool = new PoolConnectionProvider(cp, this.maxConnectionPoolSize);
         this.transactionProvider = new SimpleTransactionProvider(this.connectionPool);
     }
 
@@ -735,9 +767,9 @@ public class Main {
             } else {
                 throw new IllegalArgumentException("[ERROR] Drop not confirmed with --confirm-drop");
             }
-        } else if (updateSchema) {
+        } else if (updateFhirSchema) {
             updateSchema();
-        } else if (createFhirSchemas) {
+        } else if (createFhirSchema) {
             createFhirSchemas();
         } else if (updateProc) {
             updateProcedures();
@@ -765,7 +797,7 @@ public class Main {
      * @param groupName
      */
     protected void grantPrivileges(String groupName) {
-        if (dbType == DbType.DERBY) {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
             return;
         }
 
@@ -793,11 +825,17 @@ public class Main {
      * avoids any service interruption.
      */
     protected void addTenantKey() {
-        if (dbType == DbType.DERBY) {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
             return;
         }
 
-        final String tenantKey = getRandomKey();
+        // Only if the Tenant Key file is provided as a parameter is it not null.
+        // in  this case we want special behavior.
+        if (tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
+            tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
+        } else {
+            tenantKey = getRandomKey();
+        }
 
         // The salt is used when we hash the tenantKey. We're just using SHA-256 for
         // the hash here, not multiple rounds of a password hashing algorithm. It's
@@ -806,6 +844,7 @@ public class Main {
         final String tenantSalt = getRandomKey();
 
         Db2Adapter adapter = new Db2Adapter(connectionPool);
+        checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 GetTenantDAO tid = new GetTenantDAO(adminSchemaName, addKeyForTenant);
@@ -827,20 +866,75 @@ public class Main {
             }
         }
 
-        logger.info("New tenant key: " + addKeyForTenant + " [key=" + tenantKey + "]");
+        if (tenantKeyFileName == null) {
+            // Generated
+            logger.info("New tenant key: " + addKeyForTenant + " [key=" + tenantKey + "]");
+        } else {
+            // Loaded from File
+            logger.info(
+                    "New tenant key from file: " + addKeyForTenant + " [tenantKeyFileName=" + tenantKeyFileName + "]");
+            if (!tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
+                tenantKeyFileUtil.writeTenantFile(tenantKeyFileName, tenantKey);
+            }
+        }
 
+    }
+
+    /**
+     * checks if tenant name and tenant key exists.
+     *
+     * @param adapter    the db2 adapter as this is a db2 feature only now
+     * @param tenantName the tenant's name
+     * @param tenantKey  tenant key
+     */
+    protected void checkIfTenantNameAndTenantKeyExists(Db2Adapter adapter, String tenantName, String tenantKey) {
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                final String sql =
+                        "SELECT t.tenant_status FROM fhir_admin.tenants t WHERE t.tenant_name = ? "
+                                + "AND EXISTS (SELECT 1 FROM fhir_admin.tenant_keys tk WHERE tk.mt_id = t.mt_id "
+                                + "AND tk.tenant_hash = sysibm.hash(tk.tenant_salt || ?, 2));";
+                try (PreparedStatement stmt = connectionPool.getConnection().prepareStatement(sql)) {
+                    stmt.setString(1, tenantName);
+                    stmt.setString(2, tenantKey);
+                    if (stmt.execute()) {
+                        try (ResultSet resultSet = stmt.getResultSet();) {
+                            if (resultSet.next()) {
+                                throw new IllegalArgumentException("tenantName and tenantKey already exists");
+                            }
+                        }
+                    } else {
+                        throw new IllegalArgumentException("Problem checking the results");
+                    }
+                } catch (SQLException e) {
+                    throw new IllegalArgumentException(
+                            "Exception when querying backend to verify tenant key and tenant name", e);
+                }
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
     }
 
     /**
      * Allocate this tenant, creating new partitions if required.
      */
     protected void allocateTenant() {
-        if (dbType == DbType.DERBY) {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
             return;
         }
+
         // The key we'll use for this tenant. This key should be used in subsequent
         // activities related to this tenant, such as setting the tenant context.
-        final String tenantKey = getRandomKey();
+        if (tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
+            // Only if the Tenant Key file is provided as a parameter is it not null.
+            // in  this case we want special behavior.
+            tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
+        } else {
+            tenantKey = getRandomKey();
+        }
 
         // The salt is used when we hash the tenantKey. We're just using SHA-256 for
         // the hash here, not multiple rounds of a password hashing algorithm. It's
@@ -848,21 +942,27 @@ public class Main {
         // key, giving 256 bits of entropy.
         final String tenantSalt = getRandomKey();
 
+        Db2Adapter adapter = new Db2Adapter(connectionPool);
+        checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey);
+
+        if (tenantKeyFileName == null) {
+            logger.info("Allocating new tenant: " + tenantName + " [key=" + tenantKey + "]");
+        } else {
+            logger.info("Allocating new tenant: " + tenantName + " [tenantKeyFileName=" + tenantKeyFileName + "]");
+        }
+
         // Open a new transaction and associate it with our connection pool. Remember
         // that we don't support distributed transactions, so all connections within
         // this transaction must come from the same pool
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-        logger.info("Allocating new tenant: " + tenantName + " [key=" + tenantKey + "]");
         int tenantId;
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-
             try {
                 tenantId =
                         adapter.allocateTenant(adminSchemaName, schemaName, tenantName, tenantKey, tenantSalt,
                                 FhirSchemaConstants.TENANT_SEQUENCE);
 
                 // The tenant-id is important because this is also used to identify the partition number
-                logger.info("Tenant Id[" + tenantName + "] = " + tenantId);
+                logger.info("Tenant Id[" + tenantName + "] = [" + tenantId + "]");
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
@@ -883,24 +983,8 @@ public class Main {
         pdm.addTenantPartitions(adapter, schemaName, tenantId, FhirSchemaConstants.FHIR_TS_EXTENT_KB);
 
         // Fill any static data tables (which are also partitioned by tenant)
-        populateStaticTables(gen, tenantKey);
-
-        // Prepopulate the Resource Type Tables
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try (Connection c = connectionPool.getConnection();) {
-
-                PopulateResourceTypes populateResourceTypes
-                    = new PopulateResourceTypes(adminSchemaName, schemaName, tenantId);
-                populateResourceTypes.run(translator, c);
-            } catch(SQLException ex) {
-                tx.setRollbackOnly();
-                throw new DataAccessException(ex);
-            } catch(DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
+        // Prepopulate the Resource Type Tables and Parameters Name/Code Table
+        populateResourceTypeAndParameterNameTableEntries(tenantId);
 
         // Now all the table partitions have been allocated, we can mark the tenant as ready
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -913,46 +997,48 @@ public class Main {
             }
         }
 
-        logger.info("Allocated tenant: " + tenantName + " [key=" + tenantKey + "] with Id = " + tenantId);
+        if (tenantKeyFileName == null) {
+            logger.info("Allocated tenant: " + tenantName + " [key=" + tenantKey + "] with Id = " + tenantId);
+        } else {
+            logger.info("Allocated tenant: " + tenantName + " [tenantKeyFileName=" + tenantKeyFileName + "] with Id = "
+                    + tenantId);
+            if (!tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
+                tenantKeyFileUtil.writeTenantFile(tenantKeyFileName, tenantKey);
+            }
+        }
     }
 
     /**
-     * Populate all the static tables we need
+     * populates for the given tenantId the RESOURCE_TYPE table.
      *
-     * @param gen
-     * @param tenantKey
+     * @implNote if you update this method, be sure to update
+     *           DerbyBootstrapper.populateResourceTypeAndParameterNameTableEntries
+     *           and DerbyFhirDatabase.populateResourceTypeAndParameterNameTableEntries
+     *           The reason is there are three different ways of managing the transaction.
+     * @param tenantId the mt_id that is used to setup the partition.
+     *                 passing in null signals not multi-tenant.
      */
-    protected void populateStaticTables(FhirSchemaGenerator gen, String tenantKey) {
-        IDatabaseAdapter adapter = getDbAdapter(connectionPool);
+    protected void populateResourceTypeAndParameterNameTableEntries(Integer tenantId) {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                // Very important. Establish the value of the session variable so that we
-                // pass the row permission predicate
-                Db2SetTenantVariable cmd = new Db2SetTenantVariable(adminSchemaName, tenantName, tenantKey);
-                adapter.runStatement(cmd);
+            try (Connection c = connectionPool.getConnection();) {
+                logger.info("tenantId [" + tenantId + "] is being pre-populated with lookup table data.");
+                PopulateResourceTypes populateResourceTypes =
+                        new PopulateResourceTypes(adminSchemaName, schemaName, tenantId);
+                populateResourceTypes.run(translator, c);
 
-                addResourceTypes(adapter, gen);
+                PopulateParameterNames populateParameterNames =
+                        new PopulateParameterNames(adminSchemaName, schemaName, tenantId);
+                populateParameterNames.run(translator, c);
+                logger.info("Finished prepopulating the resource type and search parameter code/name tables tables");
+            } catch (SQLException ex) {
+                tx.setRollbackOnly();
+                throw new DataAccessException(ex);
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
                 throw x;
             }
         }
-    }
-
-    /**
-     * Add all the resource types
-     *
-     * @param adapter
-     * @param gen
-     */
-    protected void addResourceTypes(IDatabaseAdapter adapter, FhirSchemaGenerator gen) {
-
-        // Now get all the resource types and insert them into the tenant-based table
-        gen.applyResourceTypes(c -> {
-            AddResourceType art = new AddResourceType(schemaName, c);
-            adapter.runStatement(art);
-        });
     }
 
     /**
@@ -965,17 +1051,20 @@ public class Main {
             throw new IllegalStateException("Missing tenant name");
         }
 
+        // Part of Bring your own Tenant Key
+        if (tenantKeyFileName != null) {
+            // Only if the Tenant Key file is provided as a parameter is it not null.
+            // in  this case we want special behavior.
+            tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
+        } else {
+            tenantKey = getRandomKey();
+        }
+
         if (this.tenantKey == null || this.tenantKey.isEmpty()) {
             throw new IllegalArgumentException("No tenant-key value provided");
         }
 
-        logger.info("Testing tenant: " + tenantName);
-
-        // We don't need to build the physical data model. We just need some info
-        // from the generator in order to populate the static tables
-        // The admin model needs to be added before any schema (fhir data) model
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
-        populateStaticTables(gen, this.tenantKey);
+        logger.info("Testing tenant: [" + tenantName + "]");
 
         Db2Adapter adapter = new Db2Adapter(connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
