@@ -227,9 +227,9 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         String targetSchema, String targetTable, String tenantColumnName,
         List<String> columns, boolean enforced) {
 
-        // If enforced=false, skip the constraint because derby doesn't support unenforced constraints
+        // If enforced=false, skip the constraint because Derby doesn't support unenforced constraints
         if (enforced) {
-            // Make the call, but without the tenantColumnName because PostgreSQL doesn't support our multi-tenant implementation
+            // Make the call, but without the tenantColumnName because Derby doesn't support our multi-tenant implementation
             super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, null, columns, true);
         }
     }
