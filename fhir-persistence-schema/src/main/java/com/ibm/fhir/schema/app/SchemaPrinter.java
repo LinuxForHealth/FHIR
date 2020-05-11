@@ -85,6 +85,7 @@ import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 public class SchemaPrinter {
     private static final String SCHEMA_NAME = "FHIRAPP";
     private static final String ADMIN_SCHEMA_NAME = "FHIR_ADMIN";
+    private static final String OAUTH_SCHEMANAME = "FHIR_OAUTH";
 
     private static final String DELIMITER = ";";
     private static final String STORED_PROCEDURE_DELIMITER = "@";
@@ -159,7 +160,7 @@ public class SchemaPrinter {
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
         // are applied
-        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME, OAUTH_SCHEMANAME);
         vhs.setTarget(adapter);
 
         // Create an instance of the service and use it to test creation
@@ -182,7 +183,7 @@ public class SchemaPrinter {
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
         // are applied
-        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME, OAUTH_SCHEMANAME);
         vhs.setTarget(adapter);
 
         // Create an instance of the service and use it to test creation

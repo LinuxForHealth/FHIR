@@ -590,20 +590,21 @@ public class Main {
         CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);
 
         // Current version history for the data schema
-        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, schemaName);
+        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, schemaName, oauthSchemaName);
         vhs.setTransactionProvider(transactionProvider);
         vhs.setTarget(adapter);
         vhs.init();
 
         // Use the version history service to determine if this table existed before we run `applyWithHistory`
-        boolean newDb = vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null;
+        boolean newDb = vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null || 
+                vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == 0;
 
         applyModel(pdm, adapter, collector, vhs);
         // There is a working data model at this point.
 
         // If the db is multi-tenant, we populate the resource types and parameter names in allocate-tenant.
         // Otherwise, if its a new schema, populate the resource types and parameters names (codes) now
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && newDb) {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && newDb ) {
             populateResourceTypeAndParameterNameTableEntries(null);
         }
     }
@@ -893,7 +894,7 @@ public class Main {
                 final String sql =
                         "SELECT t.tenant_status FROM fhir_admin.tenants t WHERE t.tenant_name = ? "
                                 + "AND EXISTS (SELECT 1 FROM fhir_admin.tenant_keys tk WHERE tk.mt_id = t.mt_id "
-                                + "AND tk.tenant_hash = sysibm.hash(tk.tenant_salt || ?, 2));";
+                                + "AND tk.tenant_hash = sysibm.hash(tk.tenant_salt || ?, 2))";
                 try (PreparedStatement stmt = connectionPool.getConnection().prepareStatement(sql)) {
                     stmt.setString(1, tenantName);
                     stmt.setString(2, tenantKey);
