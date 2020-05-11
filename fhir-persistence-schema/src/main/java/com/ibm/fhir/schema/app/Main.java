@@ -590,7 +590,7 @@ public class Main {
         CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);
 
         // Current version history for the data schema
-        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, schemaName);
+        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, schemaName, oauthSchemaName);
         vhs.setTransactionProvider(transactionProvider);
         vhs.setTarget(adapter);
         vhs.init();

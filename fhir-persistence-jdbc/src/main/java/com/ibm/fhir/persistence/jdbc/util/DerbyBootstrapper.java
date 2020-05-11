@@ -111,7 +111,7 @@ public class DerbyBootstrapper {
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
         // are applied
-        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, dataSchemaName);
+        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, dataSchemaName, OAUTH_SCHEMANAME);
         vhs.setTarget(adapter);
         vhs.init();
 
@@ -169,7 +169,8 @@ public class DerbyBootstrapper {
                 // Current version history for the database. This is used by applyWithHistory
                 // to determine which updates to apply and to record the new changes as they
                 // are applied
-                VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMANAME, OAUTH_SCHEMANAME);
+                VersionHistoryService vhs =
+                        new VersionHistoryService(ADMIN_SCHEMANAME, OAUTH_SCHEMANAME, OAUTH_SCHEMANAME);
                 vhs.setTarget(adapter);
                 vhs.init();
 
