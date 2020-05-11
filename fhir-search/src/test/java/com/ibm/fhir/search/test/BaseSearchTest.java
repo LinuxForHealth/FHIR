@@ -61,12 +61,12 @@ public abstract class BaseSearchTest {
 
     /**
      * This function returns a list containing the names of the SearchParameters contained in the input list.
-     * 
+     *
      * @param spList
      *            the list of SearchParameter from which to collect the names
      * @return the list of search parameter names
      */
-    protected List<String> getSearchParameterNames(List<SearchParameter> spList) {
+    protected List<String> getSearchParameterCodes(List<SearchParameter> spList) {
         List<String> result = new ArrayList<>();
         for (SearchParameter sp : spList) {
             result.add(sp.getCode().getValue());
@@ -80,7 +80,6 @@ public abstract class BaseSearchTest {
      * @param spList
      */
     protected void printSearchParameters(String label, List<SearchParameter> spList) {
-
         if (DEBUG) {
             System.out.println("\nTest: " + label + "\nSearch Parameters:");
             for (SearchParameter sp : spList) {
@@ -95,7 +94,7 @@ public abstract class BaseSearchTest {
 
     /**
      * Copies a file.
-     * 
+     *
      * @param fromFilename
      *            the file to copy from
      * @param toFilename
@@ -115,7 +114,7 @@ public abstract class BaseSearchTest {
 
     /**
      * prints the value types based on the incoming set.
-     * 
+     *
      * @param valueTypes
      */
     @SuppressWarnings("rawtypes")
