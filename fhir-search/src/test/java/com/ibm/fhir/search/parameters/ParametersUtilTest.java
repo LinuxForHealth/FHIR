@@ -18,7 +18,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.Reader;
 import java.util.Arrays;
@@ -42,9 +41,9 @@ import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.search.test.BaseSearchTest;
 
 /**
- * 
+ *
  * Tests ParametersUtil
- * 
+ *
  * @author pbastide
  *
  */
@@ -61,21 +60,6 @@ public class ParametersUtilTest extends BaseSearchTest {
             Assert.assertNotNull(outBA);
         }
         assertEquals(params.size(), 134);
-    }
-
-    @Test()
-    public void testPopulateSearchParameterMapFromStreamXML() throws IOException, FHIRParserException {
-        // Tests XML (once we support reading XML)
-        try (InputStream stream = ParametersUtil.class.getClassLoader().getResourceAsStream("search-parameters.xml")) {
-            Bundle bundle = FHIRParser.parser(Format.XML).parse(stream);
-            Map<String, ParametersMap> params = ParametersUtil.buildSearchParametersMapFromBundle(bundle);
-            assertNotNull(params);
-            if (DEBUG) {
-                ParametersUtil.print(System.out);
-            }
-            assertEquals(params.size(), 134);
-        }
-
     }
 
     @Test(expectedExceptions = {})

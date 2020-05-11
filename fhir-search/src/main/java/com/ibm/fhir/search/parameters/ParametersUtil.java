@@ -6,8 +6,8 @@
 
 package com.ibm.fhir.search.parameters;
 
-import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,17 +18,17 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.SearchParamType;
+import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
 
 /**
  * Refactored the PopulateSearchParameterMap code, and marked class as final so there are no 'children' and inheritance
  * which overwrites the behaviors of the buildInSearchParameters.
- * 
+ *
  * <br>
  * Call {@link #init()} before using the class in order to avoid a slight performance hit on first use.
  */
@@ -80,39 +80,23 @@ public final class ParametersUtil {
     }
 
     /**
-     * Loads the built-in search parameters and constructs . 
-     * 
+     * Loads the built-in search parameters and constructs .
+     *
      * @return a map of ParametersMaps, keyed by resourceType
      */
     private static Map<String, ParametersMap> loadBuiltIns() {
-        Map<String, ParametersMap> map;
-
         try {
-            InputStream builtInFile = ParametersUtil.class.getClassLoader().getResourceAsStream(FHIR_DEFAULT_SEARCH_PARAMETERS_FILE);
-            Bundle bundle = FHIRParser.parser(Format.JSON).parse(builtInFile);
-
-            map = buildSearchParametersMapFromBundle(bundle);
+            return buildSearchParametersMap();
         } catch (Exception e) {
             log.log(Level.SEVERE, "Unexpected error while loading built-in search parameters", e);
-            map = Collections.emptyMap();
         }
-
-        return map;
+        return Collections.emptyMap();
     }
 
-    /**
-     * Builds a Map of ParameterMaps from the passed Bundle.
-     * 
-     * @param bundle a Bundle of type Collection with entries of type SearchParameter
-     * @return a Map of ParameterMaps, keyed by resourceType
-     * @throws ClassCastException if the Bundle contains entries of any type other than SearchParameter
-     */
-    public static Map<String, ParametersMap> buildSearchParametersMapFromBundle(Bundle bundle) {
+    private static Map<String, ParametersMap> buildSearchParametersMap() {
         Map<String, ParametersMap> typeToParamMap = new HashMap<>();
-        
-        for (Bundle.Entry entry : bundle.getEntry()) {
-            SearchParameter parameter = entry.getResource().as(SearchParameter.class);
-            
+
+        for (SearchParameter parameter : getSearchParameters()) {
             // Conditional Logging intentionally avoids forming of the String.
             if (log.isLoggable(Level.FINE)) {
                 log.fine(String.format(LOG_PARAMETERS, parameter.getCode().getValue()));
@@ -130,31 +114,91 @@ public final class ParametersUtil {
                 List<ResourceType> types = parameter.getBase();
                 for (ResourceType type : types) {
                     String base = type.getValue();
-    
+
                     ParametersMap map = typeToParamMap.get(base);
                     if (map == null) {
                         map = new ParametersMap();
                         typeToParamMap.put(base, map);
                     }
-    
+
                     // check and warn if the parameter name and code do not agree.
                     String code = parameter.getCode().getValue();
                     String name = parameter.getName().getValue();
                     checkAndWarnForIssueWithCodeAndName(code, name);
-    
+
                     // add the map entry with keys for both the code and the url
                     map.insert(code, parameter.getUrl().getValue(), parameter);
                 }
             }
         }
-        
+
+        // Return an unmodifiable copy, lest there be side effects.
+        return Collections.unmodifiableMap(assignInheritedToAll(typeToParamMap));
+    }
+
+    private static List<SearchParameter> getSearchParameters() {
+        List<SearchParameter> searchParameters = new ArrayList<>(2048);
+        for (SearchParamType.ValueSet searchParamType : SearchParamType.ValueSet.values()) {
+            searchParameters.addAll(FHIRRegistry.getInstance().getSearchParameters(searchParamType.value()));
+        }
+        return searchParameters;
+    }
+
+    /**
+     * Builds a Map of ParameterMaps from the passed Bundle.
+     *
+     * @param bundle a Bundle of type Collection with entries of type SearchParameter
+     * @return a Map of ParameterMaps, keyed by resourceType
+     * @throws ClassCastException if the Bundle contains entries of any type other than SearchParameter
+     */
+    public static Map<String, ParametersMap> buildSearchParametersMapFromBundle(Bundle bundle) {
+        Map<String, ParametersMap> typeToParamMap = new HashMap<>();
+
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            SearchParameter parameter = entry.getResource().as(SearchParameter.class);
+
+            // Conditional Logging intentionally avoids forming of the String.
+            if (log.isLoggable(Level.FINE)) {
+                log.fine(String.format(LOG_PARAMETERS, parameter.getCode().getValue()));
+            }
+
+            if (parameter.getExpression() == null || !parameter.getExpression().hasValue()) {
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine(String.format(MISSING_EXPRESSION, parameter.getCode().getValue()));
+                }
+            } else {
+                /*
+                 * In R4, SearchParameter changes from a single Base resource to an array.
+                 * As Base is an array, there are going be potential collisions in the map.
+                 */
+                List<ResourceType> types = parameter.getBase();
+                for (ResourceType type : types) {
+                    String base = type.getValue();
+
+                    ParametersMap map = typeToParamMap.get(base);
+                    if (map == null) {
+                        map = new ParametersMap();
+                        typeToParamMap.put(base, map);
+                    }
+
+                    // check and warn if the parameter name and code do not agree.
+                    String code = parameter.getCode().getValue();
+                    String name = parameter.getName().getValue();
+                    checkAndWarnForIssueWithCodeAndName(code, name);
+
+                    // add the map entry with keys for both the code and the url
+                    map.insert(code, parameter.getUrl().getValue(), parameter);
+                }
+            }
+        }
+
         // Return an unmodifiable copy, lest there be side effects.
         return Collections.unmodifiableMap(assignInheritedToAll(typeToParamMap));
     }
 
     /**
      * checks and warns if name and code are not equivalent.
-     * 
+     *
      * @param code
      * @param name
      */
@@ -214,7 +258,7 @@ public final class ParametersUtil {
 
     /**
      * convenience method to print the output of the Search Parameters.
-     * 
+     *
      * @param out
      */
     public static void print(PrintStream out) {
@@ -247,7 +291,7 @@ public final class ParametersUtil {
 
     /**
      * outputs the search parameter.
-     * 
+     *
      * @param parameter
      * @param out
      */
