@@ -43,9 +43,6 @@ import com.ibm.fhir.search.test.BaseSearchTest;
 /**
  *
  * Tests ParametersUtil
- *
- * @author pbastide
- *
  */
 public class ParametersUtilTest extends BaseSearchTest {
 
