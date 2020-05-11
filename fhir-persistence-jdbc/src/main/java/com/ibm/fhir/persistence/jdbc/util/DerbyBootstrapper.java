@@ -17,6 +17,7 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
+import com.ibm.fhir.database.utils.derby.DerbyServerPropertiesMgr;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DatabaseObjectType;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
@@ -62,6 +63,9 @@ public class DerbyBootstrapper {
             log.finer("Obtaining connection for tenantId/dsId: " + tenantId + "/" + dsId);
             connection = fhirDb.getConnection(tenantId, dsId);
             log.finer("Connection: " + connection.toString());
+
+            // Sets the sequence properties on teh database.
+            DerbyServerPropertiesMgr.setServerProperties(false, connection);
 
             dbDriverName = connection.getMetaData().getDriverName();
 
