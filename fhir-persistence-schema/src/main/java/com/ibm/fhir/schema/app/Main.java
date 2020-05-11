@@ -893,7 +893,7 @@ public class Main {
                 final String sql =
                         "SELECT t.tenant_status FROM fhir_admin.tenants t WHERE t.tenant_name = ? "
                                 + "AND EXISTS (SELECT 1 FROM fhir_admin.tenant_keys tk WHERE tk.mt_id = t.mt_id "
-                                + "AND tk.tenant_hash = sysibm.hash(tk.tenant_salt || ?, 2));";
+                                + "AND tk.tenant_hash = sysibm.hash(tk.tenant_salt || ?, 2))";
                 try (PreparedStatement stmt = connectionPool.getConnection().prepareStatement(sql)) {
                     stmt.setString(1, tenantName);
                     stmt.setString(2, tenantKey);
