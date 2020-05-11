@@ -26,6 +26,6 @@ RUN chmod +x /run.sh
 
 COPY --chown=postgres:postgres ./resources/db.sql /
 
-EXPOSE 5432/tcp
+EXPOSE 5432
 
 ENTRYPOINT exec /entrypoint.sh

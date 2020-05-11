@@ -41,4 +41,5 @@ create_data_directory
 
 start_and_wait
 
+while sleep 120; do echo heartbeat; done
 # End of File
