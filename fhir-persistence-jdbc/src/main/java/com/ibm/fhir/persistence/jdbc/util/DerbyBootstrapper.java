@@ -116,7 +116,9 @@ public class DerbyBootstrapper {
         vhs.init();
 
         // Use the version history service to determine if this table existed before we run `applyWithHistory`
-        boolean newDb = vhs.getVersion(dataSchemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == 0;
+        boolean newDb =
+                vhs.getVersion(dataSchemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null
+                        || vhs.getVersion(dataSchemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == 0;
 
         // Define the schema and apply it (or required updates)
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, dataSchemaName);

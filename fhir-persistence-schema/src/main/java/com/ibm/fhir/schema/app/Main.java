@@ -596,7 +596,7 @@ public class Main {
         vhs.init();
 
         // Use the version history service to determine if this table existed before we run `applyWithHistory`
-        boolean newDb =
+        boolean newDb = vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null || 
                 vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == 0;
 
         applyModel(pdm, adapter, collector, vhs);
@@ -604,7 +604,7 @@ public class Main {
 
         // If the db is multi-tenant, we populate the resource types and parameter names in allocate-tenant.
         // Otherwise, if its a new schema, populate the resource types and parameters names (codes) now
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && newDb) {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && newDb ) {
             populateResourceTypeAndParameterNameTableEntries(null);
         }
     }
