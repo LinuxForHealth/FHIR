@@ -1,5 +1,5 @@
 <server>
-    <!-- webApp security is MUST be provided via a gateway -->
+    <!-- webApp security MUST be provided via a gateway -->
     <webAppSecurity singleSignonEnabled="false" useAuthenticationDataForUnprotectedResource="false"/>
     <webApplication id="fhir-server-webapp" location="fhir-server.war">
         <application-bnd id="binding">
