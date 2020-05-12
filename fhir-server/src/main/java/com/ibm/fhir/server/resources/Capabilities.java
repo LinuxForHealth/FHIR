@@ -108,24 +108,16 @@ public class Capabilities extends FHIRResource {
             Date startTime = new Date();
             checkInitComplete();
 
-            // since we are using compute, IllegalArgumentException carries the FHIROperationException.
-            CapabilityStatement capabilityStatement = null;
-            try{
-                capabilityStatement = getOrCreateCapabilityStatement();
-            } catch(IllegalArgumentException iae) {
-                Throwable throwable = iae.getCause();
-                if(throwable instanceof FHIROperationException) {
-                    throw (FHIROperationException) throwable;
-                }else {
-                    
-                }
-            }
+            FHIRRequestContext ctx = FHIRRequestContext.get();
+            String tenantId = ctx.getTenantId();
+            CapabilityStatement capabilityStatement = CAPABILITY_STATEMENT_CACHE_PER_TENANT.compute(tenantId, (k,v) -> getOrCreateCapabilityStatement(v));
             RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), Response.Status.OK);
 
             return Response.ok().entity(capabilityStatement).build();
-        } catch (FHIROperationException e) {
-            log.log(Level.SEVERE, ERROR_MSG, e);
-            return exceptionResponse(e, issueListToStatus(e.getIssues()));
+        } catch (IllegalArgumentException e) {
+            FHIROperationException foe = buildRestException(ERROR_CONSTRUCTING, IssueType.EXCEPTION);
+            log.log(Level.SEVERE, ERROR_MSG, foe);
+            return exceptionResponse(e, issueListToStatus(foe.getIssues()));
         } catch (Exception e) {
             log.log(Level.SEVERE, ERROR_MSG, e);
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
@@ -137,36 +129,26 @@ public class Capabilities extends FHIRResource {
     /*
      * get or create capability statement
      */
-    private CapabilityStatement getOrCreateCapabilityStatement() throws Exception {
-        // Get TenantId
-        FHIRRequestContext ctx = FHIRRequestContext.get();
-        String tenantId = ctx.getTenantId();
-        CapabilityStatement statement = CAPABILITY_STATEMENT_CACHE_PER_TENANT.get(tenantId);
-        if (statement == null) {
-            statement = CAPABILITY_STATEMENT_CACHE_PER_TENANT.compute(tenantId, (key, val) -> getCapabilityStatement());
-        } else {
-            // Previously the Conformance Statement was built
-            // using ZonedDateTime.now(ZoneOffset.UTC)
-            TemporalAccessor acc = statement.getDate().getValue();
-            ZonedDateTime cachedTime = ZonedDateTime.from(acc);
-
-            // Defaults to 60 minutes (or what's in the fhirConfig)
-            int cacheLength = fhirConfig.getIntProperty(PROPERTY_CAPABILITY_STATEMENT_CACHE, 60);
-            if (ZonedDateTime.now().isBefore(cachedTime.plusMinutes(cacheLength))) {
-                statement =
-                        CAPABILITY_STATEMENT_CACHE_PER_TENANT.compute(tenantId, (key, val) -> getCapabilityStatement());
-            }
-        }
-        return statement;
-    }
-
-    private CapabilityStatement getCapabilityStatement() {
+    private CapabilityStatement getOrCreateCapabilityStatement(CapabilityStatement statement) {
         try {
-            return buildCapabilityStatement();
+            if (statement == null) {
+                statement = buildCapabilityStatement();
+            } else {
+                // Previously the Conformance Statement was built
+                // using ZonedDateTime.now(ZoneOffset.UTC)
+                TemporalAccessor acc = statement.getDate().getValue();
+                ZonedDateTime cachedTime = ZonedDateTime.from(acc);
+
+                // Defaults to 60 minutes (or what's in the fhirConfig)
+                int cacheLength = fhirConfig.getIntProperty(PROPERTY_CAPABILITY_STATEMENT_CACHE, 60);
+                if (ZonedDateTime.now().isBefore(cachedTime.plusMinutes(cacheLength))) {
+                    statement = buildCapabilityStatement();
+                }
+            }
+            return statement;
         } catch (Throwable t) {
-            log.log(Level.SEVERE, ERROR_CONSTRUCTING, t.getMessage());
             // We pack it in an IllegalArgument so it's used cleanly in compute.
-            throw new IllegalArgumentException(buildRestException(ERROR_CONSTRUCTING, IssueType.EXCEPTION));
+            throw new IllegalArgumentException(t);
         }
     }
 
