@@ -77,7 +77,7 @@ fi
 # Copy our server assets
 echo -n "
 Deploying fhir-server assets to server runtime environment... "
-cp -pr ${basedir}/* ${LIBERTY_ROOT}/usr
+cp -pr ${basedir}/artifacts/* ${LIBERTY_ROOT}/usr/
 rc=$?
 if [ $rc != 0 ]; then
     echo "Error deploying fhir-server assets to server runtime environment: $rc"

@@ -114,8 +114,8 @@ public class BloodPressureObservationTest {
         List<Issue> issues = FHIRValidator.validator().validate(bloodPressureObservation);
         issues.forEach(System.out::println);
         Assert.assertEquals(issues.size(), 4);
-        Assert.assertTrue(issues.get(0).getDetails().getText().getValue().startsWith("dom-6"));
-        Assert.assertTrue(issues.get(1).getDetails().getText().getValue().startsWith("generated-bp-8"));
+        Assert.assertTrue(issues.get(0).getDetails().getText().getValue().startsWith("generated-bp-8"));
+        Assert.assertTrue(issues.get(1).getDetails().getText().getValue().startsWith("dom-6"));
 
         System.out.println("");
     }

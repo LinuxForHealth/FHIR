@@ -16,10 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.util.LRUCache;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
@@ -42,7 +44,7 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
     public static final Logger log = Logger.getLogger(ServerRegistryResourceProvider.class.getName());
 
     private final PersistenceHelper persistenceHelper;
-    private final Map<String, List<FHIRRegistryResource>> registryResourceMap = LRUCache.createLRUCache(1024);
+    private final Map<String, Map<String, List<FHIRRegistryResource>>> registryResourceMap = new ConcurrentHashMap<>();
 
     public ServerRegistryResourceProvider(PersistenceHelper persistenceHelper) {
         try {
@@ -54,7 +56,11 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
 
     @Override
     public FHIRRegistryResource getRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
-        List<FHIRRegistryResource> registryResources = registryResourceMap.computeIfAbsent(url, k -> computeRegistryResources(resourceType, url));
+        String tenantId = FHIRRequestContext.get().getTenantId();
+        String dataStoreId = FHIRRequestContext.get().getDataStoreId();
+        String key = tenantId + ":" + dataStoreId;
+        List<FHIRRegistryResource> registryResources = registryResourceMap.computeIfAbsent(key, k -> LRUCache.createLRUCache(1024))
+                .computeIfAbsent(url, k -> computeRegistryResources(resourceType, url));
         if (!registryResources.isEmpty()) {
             if (version != null) {
                 Version v = Version.from(version);
@@ -206,7 +212,10 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
         Resource resource = event.getFhirResource();
         String url = getUrl(resource);
         if (url != null) {
-            List<FHIRRegistryResource> previous = registryResourceMap.remove(url);
+            String tenantId = FHIRRequestContext.get().getTenantId();
+            String dataStoreId = FHIRRequestContext.get().getDataStoreId();
+            String key = tenantId + ":" + dataStoreId;
+            List<FHIRRegistryResource> previous = registryResourceMap.getOrDefault(key, Collections.emptyMap()).remove(url);
             if (previous != null && !previous.isEmpty()) {
                 log.fine("Removed registry resource(s) with url '" + url + "' from the ServerRegistryResourceProvider cache");
             }

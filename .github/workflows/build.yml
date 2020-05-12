@@ -321,7 +321,7 @@ jobs:
         cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
     - name: Upload logs
       if: always()
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@v2
       with:
         name: db2-migration-test-results-${{ matrix.java }}
         path: integration-test-results
