@@ -10,8 +10,11 @@ import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.path.util.FHIRPathUtil.evaluatesToBoolean;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
+import static com.ibm.fhir.profile.ProfileSupport.createConstraint;
 import static com.ibm.fhir.validation.util.FHIRValidationUtil.ISSUE_COMPARATOR;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,6 +30,7 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.ModelSupport;
@@ -38,6 +42,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.visitor.FHIRPathDefaultNodeVisitor;
 import com.ibm.fhir.profile.ProfileSupport;
+import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 public class FHIRValidator {
@@ -204,25 +209,22 @@ public class FHIRValidator {
         for (String url : profiles) {
             StructureDefinition profile = ProfileSupport.getProfile(url);
             if (profile == null) {
-                issues.add(Issue.builder()
-                    .severity(resourceAsserted ? IssueSeverity.WARNING : IssueSeverity.ERROR)
-                    .code(IssueType.NOT_SUPPORTED)
-                    .details(CodeableConcept.builder()
-                        .text(string("Profile '" + url + "' is not supported"))
-                        .build())
-                    .expression(string(resourceNode.path()))
-                    .build());
+                issues.add(issue(resourceAsserted ? IssueSeverity.WARNING : IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Profile '" + url + "' is not supported", resourceNode));
             } else if (!ProfileSupport.isApplicable(profile, resourceType)) {
-                issues.add(Issue.builder()
-                    .severity(IssueSeverity.ERROR)
-                    .code(IssueType.INVALID)
-                    .details(CodeableConcept.builder()
-                        .text(string("Profile '" + url + "' is not applicable to resource type: " + resourceType.getSimpleName()))
-                        .build())
-                    .expression(string(resourceNode.path()))
-                    .build());
+                issues.add(issue(IssueSeverity.ERROR, IssueType.INVALID, "Profile '" + url + "' is not applicable to resource type: " + resourceType.getSimpleName(), resourceNode));
             }
         }
+    }
+
+    private static Issue issue(IssueSeverity severity, IssueType code, String description, FHIRPathNode node) {
+        return Issue.builder()
+            .severity(severity)
+            .code(code)
+            .details(CodeableConcept.builder()
+                .text(string(description))
+                .build())
+            .expression(string(node.path()))
+            .build();
     }
 
     private static class ValidatingNodeVisitor extends FHIRPathDefaultNodeVisitor {
@@ -230,7 +232,6 @@ public class FHIRValidator {
         private EvaluationContext evaluationContext;
         private boolean includeResourceAssertedProfiles;
         private List<String> profiles;
-
         private List<Issue> issues = new ArrayList<>();
 
         private ValidatingNodeVisitor() { }
@@ -263,7 +264,28 @@ public class FHIRValidator {
          */
         private void validate(FHIRPathElementNode elementNode) {
             Class<?> elementType = elementNode.element().getClass();
-            validate(elementType, elementNode, ModelSupport.getConstraints(elementType));
+            Collection<Constraint> constraints = ModelSupport.getConstraints(elementType);
+            if (Extension.class.equals(elementType)) {
+                String url = elementNode.element().as(Extension.class).getUrl();
+                if (isAbsolute(url)) {
+                    if (FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
+                        constraints = new ArrayList<>(constraints);
+                        constraints.add(createConstraint("generated-ext-1", Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, "Extension must conform to definition '" + url + "'", "conformsTo('" + url + "')", false, true));
+                    } else {
+                        issues.add(issue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Extension definition '" + url + "' is not supported", elementNode));
+                    }
+                }
+            }
+            validate(elementType, elementNode, constraints);
+        }
+
+        private boolean isAbsolute(String url) {
+            try {
+                return new URI(url).isAbsolute();
+            } catch (URISyntaxException e) {
+                log.warning("Invalid URI: " + url);
+            }
+            return false;
         }
 
         /**
@@ -326,15 +348,7 @@ public class FHIRValidator {
                     evaluationContext.clearIssues();
 
                     if (evaluatesToBoolean(result) && isFalse(result)) {
-                        // constraint validation failed
-                        issues.add(Issue.builder()
-                            .severity(severity)
-                            .code(IssueType.INVARIANT)
-                            .details(CodeableConcept.builder()
-                                .text(string(constraint.id() + ": " + constraint.description()))
-                                .build())
-                            .expression(string(contextNode.path()))
-                            .build());
+                        issues.add(issue(severity, IssueType.INVARIANT, constraint.id() + ": " + constraint.description(), contextNode));
                     }
 
                     if (log.isLoggable(Level.FINER)) {

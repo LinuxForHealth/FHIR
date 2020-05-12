@@ -92,7 +92,7 @@ public class FHIRValidatorTest {
                 System.out.println("    severity: " + issue.getSeverity().getValue() + ", type: " + issue.getCode().getValue() + ", details: " + issue.getDetails().getText().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
             }
         }
-        assertEquals(issues.size(), 1);
+        assertEquals(issues.size(), 3);
         assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
         assertTrue(issues.get(0).getDetails().getText().getValue().contains("dom-6: A resource should have narrative for robust management"));
         assertTrue(issues.get(0).getExpression().size() == 1);
