@@ -1,0 +1,114 @@
+
+{
+    "index-version": 1,
+    "files": [
+        {
+            "filename": "StructureDefinition-accessibility.json",
+            "resourceType": "StructureDefinition",
+            "id": "accessibility",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/accessibility",
+            "version": "0.2.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-communication-proficiency.json",
+            "resourceType": "StructureDefinition",
+            "id": "communication-proficiency",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/communication-proficiency",
+            "version": "0.2.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-contactpoint-availabletime.json",
+            "resourceType": "StructureDefinition",
+            "id": "contactpoint-availabletime",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/contactpoint-availabletime",
+            "version": "0.2.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-endpoint-reference.json",
+            "resourceType": "StructureDefinition",
+            "id": "endpoint-reference",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/endpoint-reference",
+            "version": "0.2.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-endpoint-usecase.json",
+            "resourceType": "StructureDefinition",
+            "id": "endpoint-usecase",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/endpoint-usecase",
+            "version": "0.2.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-identifier-status.json",
+            "resourceType": "StructureDefinition",
+            "id": "identifier-status",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/identifier-status",
+            "version": "0.2.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-location-reference.json",
+            "resourceType": "StructureDefinition",
+            "id": "location-reference",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/location-reference",
+            "version": "0.2.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-newpatientprofile.json",
+            "resourceType": "StructureDefinition",
+            "id": "newpatientprofile",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/newpatientprofile",
+            "version": "0.2.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-newpatients.json",
+            "resourceType": "StructureDefinition",
+            "id": "newpatients",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/newpatients",
+            "version": "0.2.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-org-description.json",
+            "resourceType": "StructureDefinition",
+            "id": "org-description",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/org-description",
+            "version": "0.2.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-practitioner-qualification.json",
+            "resourceType": "StructureDefinition",
+            "id": "practitioner-qualification",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/practitioner-qualification",
+            "version": "0.2.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-qualification.json",
+            "resourceType": "StructureDefinition",
+            "id": "qualification",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/qualification",
+            "version": "0.2.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        }
+    ]
+}
