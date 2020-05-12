@@ -1057,8 +1057,6 @@ public class Main {
             // Only if the Tenant Key file is provided as a parameter is it not null.
             // in  this case we want special behavior.
             tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
-        } else {
-            tenantKey = getRandomKey();
         }
 
         if (this.tenantKey == null || this.tenantKey.isEmpty()) {
