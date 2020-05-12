@@ -224,13 +224,14 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name,
-            String targetSchema, String targetTable, String tenantColumnName,
-            List<String> columns, boolean enforced) {
+        String targetSchema, String targetTable, String tenantColumnName,
+        List<String> columns, boolean enforced) {
 
-        // Make the call, but
-        // 1. without the tenantColumnName because Derby doesn't support our multi-tenant implementation; and
-        // 2. with enforced=true because Derby doesn't support non-default constraint characteristics
-        super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, null, columns, true);
+        // If enforced=false, skip the constraint because Derby doesn't support unenforced constraints
+        if (enforced) {
+            // Make the call, but without the tenantColumnName because Derby doesn't support our multi-tenant implementation
+            super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, null, columns, true);
+        }
     }
 
     @Override
