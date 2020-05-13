@@ -2,18 +2,18 @@
 <suite name="FHIRServerIntegrationTests">
     <test name="ExampleTest">
         <!-- All of these tests are automatically executed and are from fhir-examples -->
-        <packages name="ExampleTest">
-            <packages name="com.ibm.fhir.server.test.examples" />
+        <packages>
+            <package name="com.ibm.fhir.server.test.examples" />
         </packages>
     </test>
     <test name="ServerTests">
-        <packages name="ServerTests">
+        <packages>
             <!-- All of these tests are automatically executed -->
             <package name="com.ibm.fhir.server.test" />
         </packages>
     </test>
     <test name="ClientTests">
-        <packages name="ClientTests">
+        <packages>
             <!-- All of these tests are automatically executed -->
             <package name="com.ibm.fhir.cli.test" />
             <package name="com.ibm.fhir.client.test" />
@@ -21,31 +21,31 @@
         </packages>
     </test>
     <test name="BulkDataTests">
-        <packages name="BulkDataTests">
+        <packages>
             <!-- All of these Bulk Data tests are automatically executed -->
             <package name="com.ibm.fhir.server.test.bulkdata" />
         </packages>
     </test>
     <test name="Db2Tests">
-        <packages name="Db2Tests">
+        <packages>
             <!-- All of these Db2 tests are automatically executed -->
             <package name="com.ibm.fhir.server.test.db2" />
         </packages>
     </test>
     <test name="KafkaTests">
-        <packages name="KafkaTests">
+        <packages>
             <!-- All of these Kafka tests are automatically executed -->
             <package name="com.ibm.fhir.server.test.kafka" />
         </packages>
     </test>
     <test name="WebsocketTests">
-        <packages name="WebsocketTests">
+        <packages>
             <!-- All of these websocket tests are automatically executed -->
             <package name="com.ibm.fhir.server.test.websocket" />
         </packages>
     </test>
     <test name="PerformanceTests">
-        <packages name="PerformanceTests">
+        <packages>
             <!-- All of these performance tests are automatically executed -->
             <package name="com.ibm.fhir.server.test.performance" />
         </packages>
