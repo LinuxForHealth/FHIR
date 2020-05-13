@@ -15,6 +15,6 @@ public class VHDirResourceProviderTest {
     @Test
     public void testGetResources() {
         FHIRRegistryResourceProvider provider = new VHDirResourceProvider();
-        Assert.assertEquals(provider.getRegistryResources().size(), 12);
+        Assert.assertEquals(provider.getRegistryResources().size(), 25);
     }
 }

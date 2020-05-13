@@ -3,6 +3,34 @@
     "index-version": 1,
     "files": [
         {
+            "filename": "CodeSystem-codesystem-accessibility.json",
+            "resourceType": "CodeSystem",
+            "id": "codesystem-accessibility",
+            "url": "http://hl7.org/fhir/uv/vhdir/CodeSystem/codesystem-accessibility",
+            "version": "0.2.0"
+        },
+        {
+            "filename": "CodeSystem-codesystem-credentialstatus.json",
+            "resourceType": "CodeSystem",
+            "id": "codesystem-credentialstatus",
+            "url": "http://hl7.org/fhir/uv/vhdir/CodeSystem/codesystem-credentialstatus",
+            "version": "0.2.0"
+        },
+        {
+            "filename": "CodeSystem-codesystem-languageproficiency.json",
+            "resourceType": "CodeSystem",
+            "id": "codesystem-languageproficiency",
+            "url": "http://hl7.org/fhir/uv/vhdir/CodeSystem/codesystem-languageproficiency",
+            "version": "0.2.0"
+        },
+        {
+            "filename": "CodeSystem-codesystem-usecase.json",
+            "resourceType": "CodeSystem",
+            "id": "codesystem-usecase",
+            "url": "http://hl7.org/fhir/uv/vhdir/CodeSystem/codesystem-usecase",
+            "version": "0.2.0"
+        },
+        {
             "filename": "StructureDefinition-accessibility.json",
             "resourceType": "StructureDefinition",
             "id": "accessibility",
@@ -109,6 +137,77 @@
             "version": "0.2.0",
             "kind": "complex-type",
             "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-vhdir-endpoint.json",
+            "resourceType": "StructureDefinition",
+            "id": "vhdir-endpoint",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/vhdir-endpoint",
+            "version": "0.2.0",
+            "kind": "resource",
+            "type": "Endpoint"
+        },
+        {
+            "filename": "StructureDefinition-vhdir-location.json",
+            "resourceType": "StructureDefinition",
+            "id": "vhdir-location",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/vhdir-location",
+            "version": "0.2.0",
+            "kind": "resource",
+            "type": "Location"
+        },
+        {
+            "filename": "StructureDefinition-vhdir-network.json",
+            "resourceType": "StructureDefinition",
+            "id": "vhdir-network",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/vhdir-network",
+            "version": "0.2.0",
+            "kind": "resource",
+            "type": "Organization"
+        },
+        {
+            "filename": "StructureDefinition-vhdir-organization.json",
+            "resourceType": "StructureDefinition",
+            "id": "vhdir-organization",
+            "url": "http://hl7.org/fhir/uv/vhdir/StructureDefinition/vhdir-organization",
+            "version": "0.2.0",
+            "kind": "resource",
+            "type": "Organization"
+        },
+        {
+            "filename": "ValueSet-valueset-accessibility.json",
+            "resourceType": "ValueSet",
+            "id": "valueset-accessibility",
+            "url": "http://hl7.org/fhir/uv/vhdir/ValueSet/valueset-accessibility",
+            "version": "0.2.0"
+        },
+        {
+            "filename": "ValueSet-valueset-identifierstatus.json",
+            "resourceType": "ValueSet",
+            "id": "valueset-identifierstatus",
+            "url": "http://hl7.org/fhir/uv/vhdir/ValueSet/valueset-identifierstatus",
+            "version": "0.2.0"
+        },
+        {
+            "filename": "ValueSet-valueset-languageproficiency.json",
+            "resourceType": "ValueSet",
+            "id": "valueset-languageproficiency",
+            "url": "http://hl7.org/fhir/uv/vhdir/ValueSet/valueset-languageproficiency",
+            "version": "0.2.0"
+        },
+        {
+            "filename": "ValueSet-valueset-qualificationstatus.json",
+            "resourceType": "ValueSet",
+            "id": "valueset-qualificationstatus",
+            "url": "http://hl7.org/fhir/uv/vhdir/ValueSet/valueset-qualificationstatus",
+            "version": "0.2.0"
+        },
+        {
+            "filename": "ValueSet-valueset-usecasetype.json",
+            "resourceType": "ValueSet",
+            "id": "valueset-usecasetype",
+            "url": "http://hl7.org/fhir/uv/vhdir/ValueSet/valueset-usecasetype",
+            "version": "0.2.0"
         }
     ]
 }
