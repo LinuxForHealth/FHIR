@@ -12,7 +12,6 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -30,13 +29,12 @@ import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * This class tests various multi-tenant enabled search parameter-related methods of the SearchUtil class.
- * 
- * @author padams
- * @author pbastide
+ *
  *
  */
 public class MultiTenantSearchParameterTest extends BaseSearchTest {
 
+    @Override
     @BeforeClass
     public void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
@@ -96,12 +94,9 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters4/Observation", result);
         assertEquals(8, result.size());
-        SearchParameter sp = result.get(0);
-        assertNotNull(sp);
-        assertEquals("code", sp.getCode().getValue());
-        sp = result.get(1);
-        assertNotNull(sp);
-        assertEquals("_id", sp.getCode().getValue());
+        List<String> codes = getSearchParameterCodes(result);
+        assertTrue(codes.contains("code"));
+        assertTrue(codes.contains("_id"));
     }
 
     @Test
@@ -113,9 +108,9 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters5/Device", result);
         assertEquals(8, result.size());
-        List<String> names = getSearchParameterNames(result);
-        assertTrue(names.contains("patient"));
-        assertTrue(names.contains("organization"));
+        List<String> codes = getSearchParameterCodes(result);
+        assertTrue(codes.contains("patient"));
+        assertTrue(codes.contains("organization"));
     }
 
     @Test
@@ -127,11 +122,11 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters6/Patient", result);
         assertEquals(10, result.size());
-        List<String> names = getSearchParameterNames(result);
-        assertTrue(names.contains("active"));
-        assertTrue(names.contains("address"));
-        assertTrue(names.contains("birthdate"));
-        assertTrue(names.contains("name"));
+        List<String> codes = getSearchParameterCodes(result);
+        assertTrue(codes.contains("active"));
+        assertTrue(codes.contains("address"));
+        assertTrue(codes.contains("birthdate"));
+        assertTrue(codes.contains("name"));
 
         // Make sure we get all of the MedicationAdministration search parameters.
         // (No filtering configured for these)
@@ -390,20 +385,4 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         printSearchParameters("testDynamicSearchParameters2/Patient", result);
         assertEquals(35, result.size());
     }
-
-    /**
-     * This function returns a list containing the names of the SearchParameters contained in the input list.
-     * 
-     * @param spList
-     *            the list of SearchParameter from which to collect the names
-     * @return the list of search parameter names
-     */
-    protected List<String> getSearchParameterNames(List<SearchParameter> spList) {
-        List<String> result = new ArrayList<>();
-        for (SearchParameter sp : spList) {
-            result.add(sp.getCode().getValue());
-        }
-        return result;
-    }
-
 }

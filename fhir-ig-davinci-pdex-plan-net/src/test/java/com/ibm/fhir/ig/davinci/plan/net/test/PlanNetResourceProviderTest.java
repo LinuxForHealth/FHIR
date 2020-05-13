@@ -12,9 +12,9 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.ig.davinci.pdex.plan.net.PlanNetResourceProvider;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
-public class NetResourceProviderTest {
+public class PlanNetResourceProviderTest {
     @Test
-    public void testBBResourceProvider() {
+    public void testGetResources() {
         FHIRRegistryResourceProvider provider = new PlanNetResourceProvider();
         Assert.assertEquals(provider.getRegistryResources().size(), 145);
     }

@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.format.Format;
@@ -160,12 +161,13 @@ public final class FHIRRegistryUtil {
     }
 
     public static List<Entry> readIndex(String indexPath) {
+        log.info("Loading index: " + indexPath);
         try (InputStream in = FHIRRegistryUtil.class.getClassLoader().getResourceAsStream(indexPath)) {
             Index index = new Index();
             index.load(in);
             return index.getEntries();
         } catch (Exception e) {
-            log.warning("Unable to read index: " + indexPath + " due to the following exception: " + e.getMessage());
+            log.log(Level.WARNING, "Unexpected error while loading index '" + indexPath + "'", e);
         }
         return Collections.emptyList();
     }
