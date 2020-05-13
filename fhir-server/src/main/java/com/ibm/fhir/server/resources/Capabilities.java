@@ -31,6 +31,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -110,10 +111,17 @@ public class Capabilities extends FHIRResource {
 
             FHIRRequestContext ctx = FHIRRequestContext.get();
             String tenantId = ctx.getTenantId();
-            CapabilityStatement capabilityStatement = CAPABILITY_STATEMENT_CACHE_PER_TENANT.compute(tenantId, (k,v) -> getOrCreateCapabilityStatement(v));
+
+            // Defaults to 60 minutes (or what's in the fhirConfig)
+            int cacheLength = fhirConfig.getIntProperty(PROPERTY_CAPABILITY_STATEMENT_CACHE, 60);
+
+            CapabilityStatement capabilityStatement = CAPABILITY_STATEMENT_CACHE_PER_TENANT.compute(tenantId, (k,v) -> getOrCreateCapabilityStatement(v, cacheLength));
             RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), Response.Status.OK);
 
-            return Response.ok().entity(capabilityStatement).build();
+            CacheControl cacheControl = new CacheControl();
+            cacheControl.setPrivate(true);
+            cacheControl.setMaxAge(60 * cacheLength);
+            return Response.ok().entity(capabilityStatement).cacheControl(cacheControl).build();
         } catch (IllegalArgumentException e) {
             FHIROperationException foe = buildRestException(ERROR_CONSTRUCTING, IssueType.EXCEPTION);
             log.log(Level.SEVERE, ERROR_MSG, foe);
@@ -129,7 +137,7 @@ public class Capabilities extends FHIRResource {
     /*
      * get or create capability statement
      */
-    private CapabilityStatement getOrCreateCapabilityStatement(CapabilityStatement statement) {
+    private CapabilityStatement getOrCreateCapabilityStatement(CapabilityStatement statement, int cacheLength) {
         try {
             if (statement == null) {
                 statement = buildCapabilityStatement();
@@ -139,8 +147,6 @@ public class Capabilities extends FHIRResource {
                 TemporalAccessor acc = statement.getDate().getValue();
                 ZonedDateTime cachedTime = ZonedDateTime.from(acc);
 
-                // Defaults to 60 minutes (or what's in the fhirConfig)
-                int cacheLength = fhirConfig.getIntProperty(PROPERTY_CAPABILITY_STATEMENT_CACHE, 60);
                 if (ZonedDateTime.now().isBefore(cachedTime.plusMinutes(cacheLength))) {
                     statement = buildCapabilityStatement();
                 }
