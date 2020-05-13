@@ -3,12 +3,11 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2020
-lastupdated: "2020-11-13"
+lastupdated: "2020-05-13"
 permalink: /FHIRServerUsersGuide/
 ---
 
 - [1 Overview](#1-overview)
-  * [1.1 Recent updates](#11-recent-updates)
 - [2 Installation](#2-installation)
   * [2.1 Installing a new server](#21-installing-a-new-server)
   * [2.2 Upgrading an existing server](#22-upgrading-an-existing-server)
@@ -39,12 +38,6 @@ permalink: /FHIRServerUsersGuide/
 # 1 Overview
 The IBM FHIR Server implements the HL7 FHIR HTTP API and supports the full set of FHIR-defined resource types.
 This FHIR server is intended to be a common component for providing FHIR capabilities within health services and solutions.
-
-## 1.1 Recent updates
-View information about recent changes that were made to this document. For more information about changes that were made to the FHIR server codebase, see the corresponding release notes from the GitHub Releases tab.
-
-### Release 4.0
-* Initial release of the IBM FHIR Server for HL7 FHIR R4
 
 # 2 Installation
 
@@ -712,13 +705,13 @@ To use the FHIR Client from your application, specify the `fhir-client` artifact
 For examples on how to use the IBM FHIR Client, look for tests like `com.ibm.fhir.client.test.mains.FHIRClientSample` from the `fhir-client` project in git. Additionally, the FHIR Client is heavilly used from our integration tests in `fhir-server-test`.
 
 ## 4.7 FHIR command-line interface (fhir-cli)
-The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool zip is part of the FHIR server installation in `${WLP_HOME}/fhir/client/fhir-cli.zip`, and the `fhir-cli.zip` file is also available from [our Artifactory server](
-https://na.artifactory.swg-devops.com/artifactory/webapp/#/artifacts/browse/simple/General/wh-fhir-server-releases-maven-local/com/ibm/fhir/fhir-cli/).
+The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool zip is part of the FHIR server installation in `${WLP_HOME}/fhir/client/fhir-cli.zip`, and the `fhir-cli.zip` file is also available from [Bintray server](
+https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-releases/com/ibm/fhir/fhir-cli/).
 
 ### 4.7.1 Installing fhir-cli
 Because the fhir-cli tool is intended to be used by clients that need to access the FHIR server, it has its own installation process separate from the server. To install the fhir-cli tool, complete the following steps:
 
-1.  Obtain the `fhir-cli.zip` file from the FHIR server installation zip or Artifactory.
+1.  Obtain the `fhir-cli.zip` file from the FHIR server installation zip or Bintray.
 2.  Decompress the `fhir-cli.zip` file into a directory of your choosing, for example:
 
     ```
