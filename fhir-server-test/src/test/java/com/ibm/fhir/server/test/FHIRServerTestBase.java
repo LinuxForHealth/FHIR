@@ -60,6 +60,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
 import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
+import com.ibm.fhir.server.test.websocket.FHIRNotificationServiceClientEndpoint;
 import com.ibm.fhir.validation.FHIRValidator;
 
 /**

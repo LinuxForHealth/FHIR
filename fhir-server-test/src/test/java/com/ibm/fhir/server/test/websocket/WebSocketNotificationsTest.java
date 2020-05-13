@@ -25,7 +25,6 @@ import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.notification.FHIRNotificationEvent;
-import com.ibm.fhir.server.test.FHIRNotificationServiceClientEndpoint;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**
@@ -50,7 +49,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
     @BeforeClass
     public void startup() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
-        skip = !Boolean.parseBoolean(testProperties.getProperty("test.websocket.enabled", "false"));
+        skip = !Boolean.parseBoolean(testProperties.getProperty("test.websocket.enabled", "true"));
 
         // A specific CI pipeline issue triggered adding this value
         // as such this a conditional ignore. 
