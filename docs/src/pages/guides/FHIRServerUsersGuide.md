@@ -3,12 +3,11 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2020
-lastupdated: "2020-11-13"
+lastupdated: "2020-05-13"
 permalink: /FHIRServerUsersGuide/
 ---
 
 - [1 Overview](#1-overview)
-  * [1.1 Recent updates](#11-recent-updates)
 - [2 Installation](#2-installation)
   * [2.1 Installing a new server](#21-installing-a-new-server)
   * [2.2 Upgrading an existing server](#22-upgrading-an-existing-server)
@@ -39,9 +38,6 @@ permalink: /FHIRServerUsersGuide/
 # 1 Overview
 The IBM FHIR Server implements the HL7 FHIR HTTP API and supports the full set of FHIR-defined resource types.
 This FHIR server is intended to be a common component for providing FHIR capabilities within health services and solutions.
-
-## 1.1 Recent updates
-View information about recent changes that were made to this document. For more information about changes that were made to the FHIR server codebase, see the corresponding release notes from the [GitHub Releases tab](https://github.com/IBM/FHIR/releases).
 
 # 2 Installation
 
