@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.test;
+package com.ibm.fhir.server.test.websocket;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.client.Entity;
@@ -24,6 +25,8 @@ import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.notification.FHIRNotificationEvent;
+import com.ibm.fhir.server.test.FHIRNotificationServiceClientEndpoint;
+import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**
  * 
@@ -45,8 +48,10 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
     private WebTarget target = null;
 
     @BeforeClass
-    public void startup() throws InterruptedException {
-        
+    public void startup() throws Exception {
+        Properties testProperties = TestUtil.readTestProperties("test.properties");
+        skip = !Boolean.parseBoolean(testProperties.getProperty("test.websocket.enabled", "false"));
+
         // A specific CI pipeline issue triggered adding this value
         // as such this a conditional ignore. 
         // -DskipWebSocketTest=true

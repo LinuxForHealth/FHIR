@@ -156,7 +156,9 @@ public class BundleTest extends FHIRServerTestBase {
     public void commonWork(Bundle responseBundle, String method) throws Exception{
         assertNotNull(responseBundle);
         printBundle(method, "response", responseBundle);
-        checkForIssuesWithValidation(responseBundle, true, false);
+        if(DEBUG) {
+            checkForIssuesWithValidation(responseBundle, true, false);
+        }
     }
 
     @Test(groups = { "batch" })

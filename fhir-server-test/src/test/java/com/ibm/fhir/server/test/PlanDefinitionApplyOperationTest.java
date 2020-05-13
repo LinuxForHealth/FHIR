@@ -1,8 +1,9 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.string;
@@ -41,16 +42,13 @@ import com.ibm.fhir.model.type.Coding;
  * 
  * @link http://hl7.org/fhir/plandefinition-operation-apply.html
  * 
- *       The scenarios below model the FHIR Connectathon track:
+ * The scenarios below model the FHIR Connectathon track:
  * @link https://confluence.hl7.org/display/FHIR/2019-09+Care+Planning+and+Management+Track
  * @link http://hl7.org/fhir/plandefinition-examples.html
  * @link http://hl7.org/fhir/activitydefinition-order-serum-zika-dengue-virus-igm.json
- * 
- * @author pbastide@us.ibm.com
- *
  */
 public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
-
+    public static Boolean DEBUG_APPLY = Boolean.FALSE;
     public static final String TEST_GROUP_NAME = "plan-defintion-apply-operation";
 
     // URL Pattern:
@@ -64,7 +62,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
     private String planDefinitionId = null;
     private String adId = null;
     private String adId2 = null;
-    
+
     private PlanDefinition planDefinitionResource = null;
 
     @BeforeGroups(groups = { TEST_GROUP_NAME })
@@ -81,7 +79,9 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
         // Get the patient's logical id value.
         patientId = getLocationLogicalId(response);
-        System.out.println("Patient ID => [" + patientId + "]");
+        if (DEBUG_APPLY) {
+            System.out.println("Patient ID => [" + patientId + "]");
+        }
 
         // Subject - Practitioner
         Practitioner doctor = TestUtil.readLocalResource("DrStrangelove.json");
@@ -91,7 +91,9 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
         // Get the practitioner's logical id value.
         practitionerId = getLocationLogicalId(response);
-        System.out.println("Practitioner ID => [" + practitionerId + "]");
+        if (DEBUG_APPLY) {
+            System.out.println("Practitioner ID => [" + practitionerId + "]");
+        }
 
         // ActivityDefinition 1
         ActivityDefinition ad = TestUtil.readLocalResource("ActivityDefinition-1.json");
@@ -101,18 +103,21 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
         // Get the practitioner's logical id value.
         adId = getLocationLogicalId(response);
-        System.out.println("ActivityDefinition ID => [" + adId + "]");
+        if (DEBUG_APPLY) {
+            System.out.println("ActivityDefinition ID => [" + adId + "]");
+        }
 
         // ActivityDefinition 2
         ActivityDefinition ad2 = TestUtil.readLocalResource("ActivityDefinition-2.json");
-        Entity<ActivityDefinition> entity3 =
-                Entity.entity(ad2, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Entity<ActivityDefinition> entity3 = Entity.entity(ad2, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("ActivityDefinition").request().post(entity3, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         // Get the practitioner's logical id value.
         adId2 = getLocationLogicalId(response);
-        System.out.println("ActivityDefinition ID => [" + adId2 + "]");
+        if (DEBUG_APPLY) {
+            System.out.println("ActivityDefinition ID => [" + adId2 + "]");
+        }
 
         // Many need to create
         // Subject - Organization
@@ -125,18 +130,19 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
          * Create PlanDefinitions
          */
         PlanDefinition planDefinition = TestUtil.readLocalResource("PlanDefinition-1.json");
-        Entity<PlanDefinition> entityPd =
-                Entity.entity(planDefinition, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Entity<PlanDefinition> entityPd = Entity.entity(planDefinition, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("PlanDefinition").request().post(entityPd, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         // Get the practitioner's logical id value.
         planDefinitionId = getLocationLogicalId(response);
-        System.out.println("PlanDefinition ID => [" + planDefinitionId + "]");
-        
+        if (DEBUG_APPLY) {
+            System.out.println("PlanDefinition ID => [" + planDefinitionId + "]");
+        }
+
         // Store the Plan Definition
         response = target.path("PlanDefinition/" + planDefinitionId).request().get(Response.class);
-        
+
         assertResponse(response, Response.Status.OK.getStatusCode());
         planDefinitionResource = response.readEntity(PlanDefinition.class);
 
@@ -147,27 +153,28 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         List<String> subjects = Arrays.asList(patientId);
 
         // Valid - Instance Level.
-        //ApplyOperationResult result =
-        //        runIndividualPlanDefinition(FHIRMediaType.APPLICATION_FHIR_JSON, false, false, planDefinitionId, subjects, null, practitionerId, null, null, null, null, null, null);
-        
-        Response response = doPost(FHIRMediaType.APPLICATION_FHIR_JSON, false, false, planDefinitionId, subjects, null, practitionerId, "my-org", "user-type", "user-language", "user-task-context", "my-setting", "my-setting-context");
+        // ApplyOperationResult result =
+        // runIndividualPlanDefinition(FHIRMediaType.APPLICATION_FHIR_JSON, false, false, planDefinitionId, subjects,
+        // null, practitionerId, null, null, null, null, null, null);
+
+        Response response =
+                doPost(FHIRMediaType.APPLICATION_FHIR_JSON, false, false, planDefinitionId, subjects, null, practitionerId, "my-org", "user-type", "user-language", "user-task-context", "my-setting", "my-setting-context");
         assertEquals(response.getStatus(), 200);
 
         CarePlan carePlan = response.readEntity(CarePlan.class);
-        System.out.println(carePlan);
-
+        if (DEBUG_APPLY) {
+            System.out.println(carePlan);
+        }
+        assertNotNull(carePlan);
     }
-    
-    public Response doPost(String mimeType, boolean root,
-        boolean invalid, String planDefinition, List<String> subject, String encounter,
-        String practitioner, String organization, String userType, String userLanguage,
-        String userTaskContext, String setting, String settingContext) {
-        
+
+    public Response doPost(String mimeType, boolean root, boolean invalid, String planDefinition, List<String> subject, String encounter, String practitioner,
+        String organization, String userType, String userLanguage, String userTaskContext, String setting, String settingContext) {
+
         Parameters parameters = generateParameters(planDefinitionId, subject, null, practitionerId, null, null, null, null, null, null);
-        
         WebTarget target = getWebTarget();
-        
-     // valid && root by default
+
+        // valid && root by default
         // URL: [base]/PlanDefinition/$apply
         String path = BASE_VALID_URL;
         if (invalid && root) {
@@ -183,8 +190,6 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
             path = String.format(RESOURCE_VALID_URL, planDefinition);
         }
 
-        System.out.println(path);
-        
         target = target.path(path);
 
         // Only if at the root.
@@ -201,11 +206,12 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         target = addQueryParameter(target, "setting", setting);
         target = addQueryParameter(target, "settingContext", settingContext);
 
-        System.out.println("URL -> " + target.getUri());
+        if (DEBUG_APPLY) {
+            System.out.println("URL -> " + target.getUri());
+        }
 
         Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
         return target.request(mimeType).post(entity, Response.class);
-        
     }
 
     @Test(groups = { TEST_GROUP_NAME })
@@ -257,10 +263,8 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         assertEquals(result.getResponse().getStatus(), 400);
     }
 
-    public Parameters generateParameters(String planDefinition, List<String> subject,
-        String encounter,
-        String practitioner, String organization, String userType, String userLanguage,
-        String userTaskContext, String setting, String settingContext) {
+    public Parameters generateParameters(String planDefinition, List<String> subject, String encounter, String practitioner, String organization,
+        String userType, String userLanguage, String userTaskContext, String setting, String settingContext) {
         List<Parameter> parameters = new ArrayList<>();
 
         if (planDefinition != null) {
@@ -268,8 +272,8 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         }
 
         if (subject != null) {
-            for(String s : subject) {
-            parameters.add(Parameter.builder().name(string("subject")).value(string(s)).build());
+            for (String s : subject) {
+                parameters.add(Parameter.builder().name(string("subject")).value(string(s)).build());
             }
         }
 
@@ -295,7 +299,8 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
             parameters.add(Parameter.builder().name(string("userLanguage")).value(cc).build());
         }
         if (userTaskContext != null) {
-            CodeableConcept cc = CodeableConcept.builder().text(string("userTaskContext")).coding(Coding.builder().code(Code.of(userTaskContext)).build()).build();
+            CodeableConcept cc =
+                    CodeableConcept.builder().text(string("userTaskContext")).coding(Coding.builder().code(Code.of(userTaskContext)).build()).build();
             parameters.add(Parameter.builder().name(string("userTaskContext")).value(cc).build());
         }
 
@@ -305,7 +310,8 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         }
 
         if (settingContext != null) {
-            CodeableConcept cc = CodeableConcept.builder().text(string("settingContext")).coding(Coding.builder().code(Code.of(settingContext)).build()).build();
+            CodeableConcept cc =
+                    CodeableConcept.builder().text(string("settingContext")).coding(Coding.builder().code(Code.of(settingContext)).build()).build();
             parameters.add(Parameter.builder().name(string("settingContext")).value(cc).build());
         }
 
@@ -330,10 +336,8 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
      * @param settingContext
      * @return
      */
-    public List<ApplyOperationResult> runValidTest(String planDefinition, List<String> subject,
-        String encounter, String practitioner,
-        String organization, String userType, String userLanguage, String userTaskContext,
-        String setting, String settingContext) {
+    public List<ApplyOperationResult> runValidTest(String planDefinition, List<String> subject, String encounter, String practitioner, String organization,
+        String userType, String userLanguage, String userTaskContext, String setting, String settingContext) {
         List<ApplyOperationResult> results = new ArrayList<>();
 
         // Instance Level
@@ -368,9 +372,8 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
      * @param settingContext
      * @return
      */
-    public List<ApplyOperationResult> runInvalidTest(String planDefinition, List<String> subject,
-        String encounter, String practitioner, String organization, String userType,
-        String userLanguage, String userTaskContext, String setting, String settingContext) {
+    public List<ApplyOperationResult> runInvalidTest(String planDefinition, List<String> subject, String encounter, String practitioner, String organization,
+        String userType, String userLanguage, String userTaskContext, String setting, String settingContext) {
         List<ApplyOperationResult> results = new ArrayList<>();
         results.add(runIndividualPlanDefinition(FHIRMediaType.APPLICATION_FHIR_JSON, false, true, planDefinition, subject, encounter, practitioner, organization, userType, userLanguage, userTaskContext, setting, settingContext));
         results.add(runIndividualPlanDefinition(FHIRMediaType.APPLICATION_FHIR_XML, false, true, planDefinition, subject, encounter, practitioner, organization, userType, userLanguage, userTaskContext, setting, settingContext));
@@ -404,10 +407,9 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
      * @param settingContext
      * @return
      */
-    public ApplyOperationResult runIndividualPlanDefinition(String mimeType, boolean root,
-        boolean invalid, String planDefinition, List<String> subject, String encounter,
-        String practitioner, String organization, String userType, String userLanguage,
-        String userTaskContext, String setting, String settingContext) {
+    public ApplyOperationResult runIndividualPlanDefinition(String mimeType, boolean root, boolean invalid, String planDefinition, List<String> subject,
+        String encounter, String practitioner, String organization, String userType, String userLanguage, String userTaskContext, String setting,
+        String settingContext) {
 
         ApplyOperationResult result = new ApplyOperationResult();
 
@@ -427,8 +429,6 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
             path = String.format(RESOURCE_VALID_URL, planDefinition);
         }
 
-        System.out.println(path);
-
         WebTarget target = getWebTarget();
         target = target.path(path);
 
@@ -446,11 +446,8 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         target = addQueryParameter(target, "setting", setting);
         target = addQueryParameter(target, "settingContext", settingContext);
 
-        System.out.println("URL -> " + target.getUri());
-
         Response r = target.request(mimeType).get();
         result.setResponse(r);
-
         return result;
     }
 
@@ -494,9 +491,6 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
     /**
      * Result from the Query
-     * 
-     * @author pbastide
-     *
      */
     public static class ApplyOperationResult {
         private int responseCode = 0;

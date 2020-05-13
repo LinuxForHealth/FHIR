@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.test;
+package com.ibm.fhir.server.test.bulkdata;
 
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
@@ -16,6 +16,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
@@ -36,6 +38,7 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
+import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**
  * These tests exercise the $import operation a bulkdata proposal
@@ -83,7 +86,7 @@ curl -X DELETE 'https://localhost:9443/fhir-server/api/v4/$bulkdata-status?job=k
 public class ImportOperationTest extends FHIRServerTestBase {
     // Test Specific
     public static final String TEST_GROUP_NAME = "import-operation";
-    public static final boolean ON = true;
+    private static boolean ON = false;
     public static final boolean DEBUG = false;
 
     // URLs to call against the instance
@@ -91,14 +94,19 @@ public class ImportOperationTest extends FHIRServerTestBase {
     public static final String BASE_VALID_STATUS_URL = "/$bulkdata-status";
     public static final String FORMAT = "application/fhir+ndjson";
 
-    private Parameters generateParameters(String inputFormat, String inputSource, String resourceType, String url)
-            throws FHIRGeneratorException, IOException {
+    @BeforeClass
+    public void setup() throws Exception {
+        Properties testProperties = TestUtil.readTestProperties("test.properties");
+        ON = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.import.enabled", "false"));
+    }
+
+    private Parameters generateParameters(String inputFormat, String inputSource, String resourceType, String url) throws FHIRGeneratorException, IOException {
         List<Parameter> parameters = new ArrayList<>();
 
         // Required: inputFormat
         parameters.add(Parameter.builder().name(string("inputFormat")).value(string(inputFormat)).build());
 
-        // Required: inputSource - where it came from. 
+        // Required: inputSource - where it came from.
         parameters.add(Parameter.builder().name(string("inputSource")).value(Uri.uri(inputSource)).build());
 
         // Required: Input Values
@@ -110,8 +118,7 @@ public class ImportOperationTest extends FHIRServerTestBase {
         parameters.add(inputParameter);
 
         // Optional: Storage Detail
-        Parameter storageDetailParameter =
-                Parameter.builder().name(string("storageDetail")).value(string("ibm-cos")).build();
+        Parameter storageDetailParameter = Parameter.builder().name(string("storageDetail")).value(string("ibm-cos")).build();
         parameters.add(storageDetailParameter);
 
         Parameters.Builder builder = Parameters.builder();
@@ -154,8 +161,7 @@ public class ImportOperationTest extends FHIRServerTestBase {
         return target.request(mimeType).get(Response.class);
     }
 
-    public Response doPost(String path, String inputFormat, String inputSource, String resourceType, String url)
-            throws FHIRGeneratorException, IOException {
+    public Response doPost(String path, String inputFormat, String inputSource, String resourceType, String url) throws FHIRGeneratorException, IOException {
         WebTarget target = getWebTarget();
         target = target.path(path);
         if (DEBUG) {
@@ -174,10 +180,9 @@ public class ImportOperationTest extends FHIRServerTestBase {
             response = doGet(statusUrl, FHIRMediaType.APPLICATION_FHIR_JSON);
             // 202 accept means the request is still under processing
             // 200 mean export is finished
-            status   = response.getStatus();
+            status = response.getStatus();
 
-            assertTrue(
-                    status == Response.Status.OK.getStatusCode() || status == Response.Status.ACCEPTED.getStatusCode());
+            assertTrue(status == Response.Status.OK.getStatusCode() || status == Response.Status.ACCEPTED.getStatusCode());
 
             Thread.sleep(5000);
             totalTime += 5000;
@@ -189,29 +194,33 @@ public class ImportOperationTest extends FHIRServerTestBase {
         return response;
     }
 
-    @Test(groups = { TEST_GROUP_NAME }, enabled = ON)
+    @Test(groups = { TEST_GROUP_NAME })
     public void testImport() throws Exception {
-        String path = BASE_VALID_URL;
-        String inputFormat = FORMAT;
-        String inputSource = "https://localhost:9443/source-fhir-server";
-        String resourceType = "Patient";
-        // https://s3.us-east.cloud-object-storage.appdomain.cloud/fhir-integration-test/test-import.ndjson
-        String url = "test-import.ndjson";
+        if (ON) {
+            String path = BASE_VALID_URL;
+            String inputFormat = FORMAT;
+            String inputSource = "https://localhost:9443/source-fhir-server";
+            String resourceType = "Patient";
+            // https://s3.us-east.cloud-object-storage.appdomain.cloud/fhir-integration-test/test-import.ndjson
+            String url = "test-import.ndjson";
 
-        Response response = doPost(path, inputFormat, inputSource, resourceType, url);
-        assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+            Response response = doPost(path, inputFormat, inputSource, resourceType, url);
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
 
-        // check the content-location that's returned.
-        String contentLocation = response.getHeaderString("Content-Location");
-        if (DEBUG) {
-            System.out.println("Content Location: " + contentLocation);
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+
+            // Check eventual value
+            response = polling(contentLocation);
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+        } else {
+            System.out.println("Import Test Disabled, Skipping");
         }
-
-        assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
-
-        // Check eventual value
-        response = polling(contentLocation);
-        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
     }
 
     /*

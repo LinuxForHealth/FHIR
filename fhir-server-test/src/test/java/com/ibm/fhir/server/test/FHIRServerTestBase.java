@@ -221,7 +221,7 @@ public abstract class FHIRServerTestBase {
     /**
      * Returns a WebTarget to be used for a REST API invocation.
      */
-    protected WebTarget getWebTarget() {
+    public WebTarget getWebTarget() {
         try {
             return client.getWebTarget();
         } catch (Throwable t) {
@@ -469,7 +469,7 @@ public abstract class FHIRServerTestBase {
      * @param response           the Response to verify
      * @param expectedStatusCode the expected status code value
      */
-    protected void assertResponse(Response response, int expectedStatusCode) {
+    public void assertResponse(Response response, int expectedStatusCode) {
         assertNotNull(response);
         assertEquals(expectedStatusCode, response.getStatus());
     }
@@ -552,7 +552,7 @@ public abstract class FHIRServerTestBase {
      * @param response the response object for a REST API invocation
      * @return the logical id value
      */
-    protected String getLocationLogicalId(Response response) {
+    public String getLocationLogicalId(Response response) {
         String location = response.getLocation().toString();
         assertNotNull(location);
         assertFalse(location.isEmpty());
