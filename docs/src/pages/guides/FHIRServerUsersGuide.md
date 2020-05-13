@@ -1443,7 +1443,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/checkReferenceTypes`|boolean|Indicates whether reference type checking is performed by the server during parsing / deserialization.|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|boolean|Indicates whether the server registry resource provider should be used by the FHIR registry component to access definitional resources through the persistence layer.|
 |`fhirServer/core/conditionalDeleteMaxNumber`|integer|The max number of matches supported in conditional delete. |
-|`fhirServer/core/capabilityStatementCacheTimeout`|integer|The max time a CapabilityStatement is cached for the metadata endpoint. |
+|`fhirServer/core/capabilityStatementCacheTimeout`|integer|The number of minutes that a tenant's CapabilityStatement is cached for the metadata endpoint. |
 |`fhirServer/searchParameterFilter`|property list|A set of inclusion rules for search parameters. See [FHIR Search Configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-Configuration--Filtering-of-search-parameters) for more information.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
