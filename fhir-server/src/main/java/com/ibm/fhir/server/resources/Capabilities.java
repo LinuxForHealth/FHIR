@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.resources;
 
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CAPABILITY_STATEMENT_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_AUTHURL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_REGURL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_TOKENURL;
@@ -15,12 +16,14 @@ import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToSt
 import java.net.URI;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,10 +31,12 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -71,54 +76,85 @@ import com.ibm.fhir.server.FHIRBuildIdentifier;
 import com.ibm.fhir.server.util.RestAuditLogger;
 
 @Path("/")
-@Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
-        FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
-@Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
-        FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML,
+        MediaType.APPLICATION_XML })
+@Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML,
+        MediaType.APPLICATION_XML })
 public class Capabilities extends FHIRResource {
-    private static final Logger log =
-            java.util.logging.Logger.getLogger(Capabilities.class.getName());
+    private static final Logger log = java.util.logging.Logger.getLogger(Capabilities.class.getName());
 
-    public Capabilities() throws Exception {
-        super();
-    }
-
+    // Constants
     private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
     private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2020";
     private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
 
+    // Error Messages
+    private static final String ERROR_MSG = "Caught exception while processing 'metadata' request.";
+    private static final String ERROR_CONSTRUCTING = "An error occurred while constructing the Conformance statement.";
+
+    // Capability Statement Cache per Tenant
+    private static ConcurrentHashMap<String, CapabilityStatement> CAPABILITY_STATEMENT_CACHE_PER_TENANT =
+            new ConcurrentHashMap<>();
+
+    // Constructor
+    public Capabilities() throws Exception {
+        super();
+    }
+
     @GET
     @Path("metadata")
-    public Response capabilities() throws ClassNotFoundException {
-        log.entering(this.getClass().getName(), "metadata()");
-        Date startTime = new Date();
-        String errMsg = "Caught exception while processing 'metadata' request.";
-
+    public Response capabilities() {
+        log.entering(this.getClass().getName(), "capabilities()");
         try {
+            Date startTime = new Date();
             checkInitComplete();
 
-            CapabilityStatement capabilityStatement = getCapabilityStatement();
+            FHIRRequestContext ctx = FHIRRequestContext.get();
+            String tenantId = ctx.getTenantId();
+
+            // Defaults to 60 minutes (or what's in the fhirConfig)
+            int cacheLength = fhirConfig.getIntProperty(PROPERTY_CAPABILITY_STATEMENT_CACHE, 60);
+
+            CapabilityStatement capabilityStatement = CAPABILITY_STATEMENT_CACHE_PER_TENANT.compute(tenantId, (k,v) -> getOrCreateCapabilityStatement(v, cacheLength));
             RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), Response.Status.OK);
 
-            return Response.ok().entity(capabilityStatement).build();
-        } catch (FHIROperationException e) {
-            log.log(Level.SEVERE, errMsg, e);
-            return exceptionResponse(e, issueListToStatus(e.getIssues()));
+            CacheControl cacheControl = new CacheControl();
+            cacheControl.setPrivate(true);
+            cacheControl.setMaxAge(60 * cacheLength);
+            return Response.ok().entity(capabilityStatement).cacheControl(cacheControl).build();
+        } catch (IllegalArgumentException e) {
+            FHIROperationException foe = buildRestException(ERROR_CONSTRUCTING, IssueType.EXCEPTION);
+            log.log(Level.SEVERE, ERROR_MSG, foe);
+            return exceptionResponse(e, issueListToStatus(foe.getIssues()));
         } catch (Exception e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.SEVERE, ERROR_MSG, e);
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-            log.exiting(this.getClass().getName(), "metadata()");
+            log.exiting(this.getClass().getName(), "capabilities()");
         }
     }
 
-    private synchronized CapabilityStatement getCapabilityStatement() throws FHIROperationException {
+    /*
+     * get or create capability statement
+     */
+    private CapabilityStatement getOrCreateCapabilityStatement(CapabilityStatement statement, int cacheLength) {
         try {
-            return buildCapabilityStatement();
+            if (statement == null) {
+                statement = buildCapabilityStatement();
+            } else {
+                // Previously the Conformance Statement was built
+                // using ZonedDateTime.now(ZoneOffset.UTC)
+                TemporalAccessor acc = statement.getDate().getValue();
+                ZonedDateTime cachedTime = ZonedDateTime.from(acc);
+
+                if (ZonedDateTime.now().isBefore(cachedTime.plusMinutes(cacheLength))) {
+                    statement = buildCapabilityStatement();
+                }
+            }
+            return statement;
         } catch (Throwable t) {
-            String msg = "An error occurred while constructing the Conformance statement.";
-            log.log(Level.SEVERE, msg, t);
-            throw buildRestException(msg, IssueType.EXCEPTION);
+            // We pack it in an IllegalArgument so it's used cleanly in compute.
+            throw new IllegalArgumentException(t);
         }
     }
 
