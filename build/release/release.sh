@@ -87,8 +87,8 @@ function deploy_via_curl {
                 echo "${STATUS} - Done uploading jar file to ${FILE_TARGET_PATH}"
             done
 
-            # The general zip FILE logic is changed to do fhir-validation-distribution.zip only
-            for ZIP_FILE in `find ${PROJ}/target -name 'fhir-validation-distribution.zip' -and -not -name '*-index.zip' -maxdepth 1 -exec basename {} \;`
+            # The general zip FILE logic is changed to do fhir-validation-distribution.zip and fhir-cli.zip only
+            for ZIP_FILE in `find ${PROJ}/target -name 'fhir-validation-distribution.zip' -or -name 'fhir-cli.zip' -maxdepth 1 -exec basename {} \;`
             do 
                echo " - Uploading zip: ${ZIP_FILE}"
                FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${ZIP_FILE}"
