@@ -122,8 +122,17 @@ public final class FHIRRegistry {
             url = url.substring(0, index);
         }
 
-        FHIRRegistryResource resource = findRegistryResource(resourceType, url, null);
-        return (resource != null) ? resource.getVersion().toString() : null;
+        List<FHIRRegistryResource> registryResources = getLatestVersionRegistryResources(resourceType, url);
+        return !registryResources.isEmpty() ? registryResources.get(registryResources.size() - 1).getVersion().toString() : null;
+    }
+
+    private List<FHIRRegistryResource> getLatestVersionRegistryResources(Class<? extends Resource> resourceType, String url) {
+        return providers.stream()
+                .map(provider -> provider.getRegistryResource(resourceType, url, null))
+                .filter(Objects::nonNull)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     /**
