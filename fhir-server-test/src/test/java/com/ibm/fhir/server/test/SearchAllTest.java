@@ -15,6 +15,9 @@ import static org.testng.Assert.fail;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -145,6 +148,56 @@ public class SearchAllTest extends FHIRServerTestBase {
     public void testSearchAllUsingLastUpdated() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_lastUpdated", lastUpdated.getValue().toString());
+
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllUsingLastUpdatedGeLe() throws Exception {
+        // ge2018-09-01T00:00:00Z&
+        // le2018-09-01T00:00:00Z&
+        FHIRParameters parameters = new FHIRParameters();
+        ZoneId zoneId = ZoneId.from(lastUpdated.getValue());
+        ZonedDateTime beforeOneHourZdt = ZonedDateTime.ofInstant(lastUpdated.getValue().toInstant().minus(1, ChronoUnit.HOURS),zoneId);
+        ZonedDateTime afterOneHourZdt = ZonedDateTime.ofInstant(lastUpdated.getValue().toInstant().plus(1, ChronoUnit.HOURS),zoneId);
+        parameters.searchParam("_lastUpdated", "ge" + beforeOneHourZdt.toString());
+        parameters.searchParam("_lastUpdated", "le" + afterOneHourZdt.toString());
+
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+    
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllUsingLastUpdatedMultipleGeLe() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        ZoneId zoneId = ZoneId.from(lastUpdated.getValue());
+        ZonedDateTime beforeOneHourZdt = ZonedDateTime.ofInstant(lastUpdated.getValue().toInstant().minus(1, ChronoUnit.HOURS),zoneId);
+        ZonedDateTime afterOneHourZdt = ZonedDateTime.ofInstant(lastUpdated.getValue().toInstant().plus(1, ChronoUnit.HOURS),zoneId);
+        parameters.searchParam("_lastUpdated", "ge" + beforeOneHourZdt.toString() + ",ge2018");
+        parameters.searchParam("_lastUpdated", "le" + afterOneHourZdt.toString() + ",le2029");
+
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllUsingLastUpdatedMultipleGeLeOneInvalidEach() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        ZoneId zoneId = ZoneId.from(lastUpdated.getValue());
+        ZonedDateTime beforeOneHourZdt = ZonedDateTime.ofInstant(lastUpdated.getValue().toInstant().minus(1, ChronoUnit.HOURS),zoneId);
+        ZonedDateTime afterOneHourZdt = ZonedDateTime.ofInstant(lastUpdated.getValue().toInstant().plus(1, ChronoUnit.HOURS),zoneId);
+        parameters.searchParam("_lastUpdated", "ge" + beforeOneHourZdt.toString() + ",ge2029");
+        parameters.searchParam("_lastUpdated", "le" + afterOneHourZdt.toString() + ",le2018");
 
         FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
