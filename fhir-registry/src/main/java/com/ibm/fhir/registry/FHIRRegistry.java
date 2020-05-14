@@ -122,17 +122,8 @@ public final class FHIRRegistry {
             url = url.substring(0, index);
         }
 
-        List<FHIRRegistryResource> registryResources = getLatestVersionRegistryResources(resourceType, url);
-        return !registryResources.isEmpty() ? registryResources.get(registryResources.size() - 1).getVersion().toString() : null;
-    }
-
-    private List<FHIRRegistryResource> getLatestVersionRegistryResources(Class<? extends Resource> resourceType, String url) {
-        return providers.stream()
-                .map(provider -> provider.getRegistryResource(resourceType, url, null))
-                .filter(Objects::nonNull)
-                .distinct()
-                .sorted()
-                .collect(Collectors.toList());
+        FHIRRegistryResource resource = findRegistryResource(resourceType, url, null);
+        return (resource != null) ? resource.getVersion().toString() : null;
     }
 
     /**
@@ -232,11 +223,13 @@ public final class FHIRRegistry {
     }
 
     private FHIRRegistryResource findRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
-        return providers.stream()
+        List<FHIRRegistryResource> registryResources = providers.stream()
                 .map(provider -> provider.getRegistryResource(resourceType, url, version))
                 .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+        return !registryResources.isEmpty() ? registryResources.get(registryResources.size() - 1) : null;
     }
 
     private Resource getResource(FHIRRegistryResource registryResource, String url, String id) {
