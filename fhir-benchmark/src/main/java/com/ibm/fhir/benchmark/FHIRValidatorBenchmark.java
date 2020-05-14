@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,14 +32,14 @@ public class FHIRValidatorBenchmark {
     public static class FHIRValidatorState {
         public static final String SPEC_EXAMPLE_NAME = System.getProperty(PROPERTY_EXAMPLE_NAME);
         public static final String JSON_SPEC_EXAMPLE = BenchmarkUtil.getSpecExample(Format.JSON, SPEC_EXAMPLE_NAME);
-        
+
         public FhirContext context;
         public FhirValidator fhirValidator;
         public IBaseResource baseResource;
         public FHIRValidator validator;
         public Resource resource;
         public EvaluationContext evaluationContext;
-        
+
         @Setup
         public void setUp() throws Exception {
             context = FhirContext.forR4();
@@ -50,19 +50,20 @@ public class FHIRValidatorBenchmark {
             evaluationContext = new EvaluationContext(resource);
         }
     }
-    
+
     @Benchmark
     public void benchmarkValidator(FHIRValidatorState state) throws Exception {
         state.validator.validate(state.evaluationContext);
     }
-    
+
     @Benchmark
     public void benchmarkHAPIValidator(FHIRValidatorState state) throws Exception {
         state.fhirValidator.validateWithResult(state.baseResource);
     }
-    
+
     public static void main(String[] args) throws Exception {
         new FHIRBenchmarkRunner(FHIRValidatorBenchmark.class)
-                .run(BenchmarkUtil.getRandomSpecExampleName());
+            .property(PROPERTY_EXAMPLE_NAME, BenchmarkUtil.getRandomSpecExampleName())
+            .run();
     }
 }
