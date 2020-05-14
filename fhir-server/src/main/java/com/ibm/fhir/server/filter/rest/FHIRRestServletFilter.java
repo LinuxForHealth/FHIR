@@ -142,35 +142,23 @@ public class FHIRRestServletFilter extends HttpFilter {
 
             OperationOutcome outcome = FHIRUtil.buildOperationOutcome(e, IssueType.INVALID, IssueSeverity.FATAL, false);
 
-            if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
-                HttpServletRequest httpRequest = request;
-                HttpServletResponse httpResponse = response;
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
-                httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            Format format = chooseResponseFormat(request.getHeader("Accept"));
+            switch (format) {
+            case XML:
+                response.setContentType(com.ibm.fhir.core.FHIRMediaType.APPLICATION_FHIR_XML);
+                break;
+            case JSON:
+            default:
+                response.setContentType(com.ibm.fhir.core.FHIRMediaType.APPLICATION_FHIR_JSON);
+                break;
+            }
 
-                Format format = chooseResponseFormat(httpRequest.getHeader("Accept"));
-                switch (format) {
-                case XML:
-                    httpResponse.setContentType(com.ibm.fhir.core.FHIRMediaType.APPLICATION_FHIR_XML);
-                    break;
-                case JSON:
-                default:
-                    httpResponse.setContentType(com.ibm.fhir.core.FHIRMediaType.APPLICATION_FHIR_JSON);
-                    break;
-                }
-
-                try {
-                    FHIRGenerator.generator( format, false).generate(outcome, httpResponse.getWriter());
-
-                } catch (FHIRException e1) {
-                    throw new ServletException(e1);
-                }
-            } else {
-                try {
-                    FHIRGenerator.generator( Format.JSON, false).generate(outcome, response.getWriter());
-                } catch (FHIRException e1) {
-                    throw new ServletException(e1);
-                }
+            try {
+                FHIRGenerator.generator( format, false).generate(outcome, response.getWriter());
+            } catch (FHIRException e1) {
+                throw new ServletException(e1);
             }
         } finally {
             // If possible, include the status code in the "completed" message.
