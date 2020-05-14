@@ -223,13 +223,23 @@ public final class FHIRRegistry {
     }
 
     private FHIRRegistryResource findRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
-        List<FHIRRegistryResource> registryResources = providers.stream()
+        if (version == null) {
+            // find the latest version of the registry resource with the specified resourceType and url (across all providers)
+            List<FHIRRegistryResource> registryResources = providers.stream()
+                    .map(provider -> provider.getRegistryResource(resourceType, url, version))
+                    .filter(Objects::nonNull)
+                    .distinct()
+                    .sorted()
+                    .collect(Collectors.toList());
+            return !registryResources.isEmpty() ? registryResources.get(registryResources.size() - 1) : null;
+        }
+
+        // find the first registry resource with the specified resourceType, url, and version
+        return providers.stream()
                 .map(provider -> provider.getRegistryResource(resourceType, url, version))
                 .filter(Objects::nonNull)
-                .distinct()
-                .sorted()
-                .collect(Collectors.toList());
-        return !registryResources.isEmpty() ? registryResources.get(registryResources.size() - 1) : null;
+                .findFirst()
+                .orElse(null);
     }
 
     private Resource getResource(FHIRRegistryResource registryResource, String url, String id) {
