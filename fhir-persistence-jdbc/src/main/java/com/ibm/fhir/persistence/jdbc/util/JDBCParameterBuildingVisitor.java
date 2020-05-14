@@ -33,6 +33,7 @@ import com.ibm.fhir.model.type.ContactPoint;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Money;
@@ -643,6 +644,16 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean visit(java.lang.String elementName, int elementIndex, Extension extension) {
+        if (extension.getValue() != null) {
+            extension.getValue().accept(this);
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /*

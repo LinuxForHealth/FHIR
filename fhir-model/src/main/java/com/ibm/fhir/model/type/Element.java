@@ -76,6 +76,11 @@ public abstract class Element extends AbstractVisitable {
         return elementType.cast(this);
     }
 
+    /**
+     * @return
+     *     true if the element is a FHIR primitive type and has a primitive value (as opposed to not having a value and just 
+     *     having extensions), otherwise false
+     */
     public boolean hasValue() {
         return false;
     }

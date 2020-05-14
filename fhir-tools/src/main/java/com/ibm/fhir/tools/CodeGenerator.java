@@ -1873,7 +1873,12 @@ public class CodeGenerator {
             return;
         }
 
-        if (!"Element".equals(name)) {
+        if ("Element".equals(name)) {
+            cb.javadocStart()
+                .javadocReturn("true if the element is a FHIR primitive type and has a primitive value "
+                        + "(as opposed to not having a value and just having extensions), otherwise false")
+                .javadocEnd();
+        } else {
             cb.override();
         }
 

@@ -57,7 +57,8 @@ public abstract class PackageRegistryResourceProvider implements FHIRRegistryRes
     public FHIRRegistryResource getRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
         Objects.requireNonNull(resourceType);
         Objects.requireNonNull(url);
-        List<FHIRRegistryResource> registryResources = registryResourceMap.getOrDefault(resourceType, Collections.emptyMap()).getOrDefault(url, Collections.emptyList());
+        List<FHIRRegistryResource> registryResources = registryResourceMap.getOrDefault(resourceType, Collections.emptyMap())
+                .getOrDefault(url, Collections.emptyList());
         if (!registryResources.isEmpty()) {
             if (version != null) {
                 Version v = Version.from(version);
