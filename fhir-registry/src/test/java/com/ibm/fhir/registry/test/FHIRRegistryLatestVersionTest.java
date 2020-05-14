@@ -48,7 +48,6 @@ public class FHIRRegistryLatestVersionTest {
                 createRegistryResource(createStructureDefinition("9.0.0"))));
     }
 
-
     @Test
     public void testLatestVersion() throws Exception {
         assertEquals(FHIRRegistry.getInstance().getLatestVersion("http://ibm.com/fhir/StructureDefinition-test", StructureDefinition.class), "9.0.0");
