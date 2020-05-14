@@ -156,9 +156,7 @@ public class BundleTest extends FHIRServerTestBase {
     public void commonWork(Bundle responseBundle, String method) throws Exception{
         assertNotNull(responseBundle);
         printBundle(method, "response", responseBundle);
-        if(DEBUG) {
-            checkForIssuesWithValidation(responseBundle, true, false);
-        }
+        checkForIssuesWithValidation(responseBundle, true, false, DEBUG);
     }
 
     @Test(groups = { "batch" })
@@ -1192,7 +1190,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(res1, Response.Status.OK.getStatusCode());
         Patient patientVA2 = res1.readEntity(Patient.class);
         assertNotNull(patientVA2);
-        checkForIssuesWithValidation(patientVA2, true, false);
+        checkForIssuesWithValidation(patientVA2, true, false, DEBUG);
 
         assertNotNull(patientTVA1);
         Response res2 = target.path("Patient/" + patientTVA1.getId())
@@ -1200,7 +1198,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(res2, Response.Status.OK.getStatusCode());
         Patient patientVA1 = res2.readEntity(Patient.class);
         assertNotNull(patientVA1);
-        checkForIssuesWithValidation(patientVA1, true, false);
+        checkForIssuesWithValidation(patientVA1, true, false, DEBUG);
 
         // Retrieve the family names of the resources to be updated.
         String family1 = patientVA1.getName().get(0).getFamily().getValue();
@@ -1341,7 +1339,7 @@ public class BundleTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
         assertNotNull(responseBundle);
-        checkForIssuesWithValidation(responseBundle, true, false);
+        checkForIssuesWithValidation(responseBundle, true, false, DEBUG);
 
         printBundle(method, "response", responseBundle);
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
@@ -1726,7 +1724,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle responseBundle = response.readEntity(Bundle.class);
         printBundle(method, "response", responseBundle);
-        checkForIssuesWithValidation(responseBundle, true, false);
+        checkForIssuesWithValidation(responseBundle, true, false, DEBUG);
 
         // Verify that the first patient was created, and the second was not.
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
@@ -2034,7 +2032,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
-        checkForIssuesWithValidation(responseBundle, true, false);
+        checkForIssuesWithValidation(responseBundle, true, false, DEBUG);
 
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 4);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
@@ -2065,7 +2063,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
-        checkForIssuesWithValidation(responseBundle, true, false);
+        checkForIssuesWithValidation(responseBundle, true, false, DEBUG);
 
         assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 2);
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());

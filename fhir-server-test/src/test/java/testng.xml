@@ -14,39 +14,41 @@
     </test>
     <test name="ClientTests">
         <packages>
-            <!-- All of these tests are automatically executed -->
+            <!-- The first two packages of these tests are automatically executed -->
             <package name="com.ibm.fhir.cli.test" />
             <package name="com.ibm.fhir.client.test" />
+            <!-- The following packages of these tests are skipped by default, and enabled in test.properties -->
             <package name="com.ibm.fhir.client.test.oauth" />
         </packages>
     </test>
     <test name="BulkDataTests">
         <packages>
-            <!-- All of these Bulk Data tests are automatically executed -->
+            <!-- All of these Bulk Data tests are skipped by default, and enabled in test.properties -->
             <package name="com.ibm.fhir.server.test.bulkdata" />
         </packages>
     </test>
     <test name="Db2Tests">
         <packages>
-            <!-- All of these Db2 tests are automatically executed -->
+            <!-- All of these Db2 tests are skipped by default, and enabled in test.properties -->
             <package name="com.ibm.fhir.server.test.db2" />
         </packages>
     </test>
     <test name="KafkaTests">
         <packages>
-            <!-- All of these Kafka tests are automatically executed -->
+            <!-- All of these Kafka tests are skipped by default, and enabled in test.properties -->
             <package name="com.ibm.fhir.server.test.kafka" />
         </packages>
     </test>
     <test name="WebsocketTests">
         <packages>
-            <!-- All of these websocket tests are automatically executed -->
+            <!-- All of these websocket tests are enabled by default, and disabled in test.properties -->
             <package name="com.ibm.fhir.server.test.websocket" />
         </packages>
     </test>
     <test name="PerformanceTests">
         <packages>
-            <!-- All of these performance tests are automatically executed -->
+            <!-- All of these performance tests are automatically executed and 
+                 the number of iterations is controlled in test.properties -->
             <package name="com.ibm.fhir.server.test.performance" />
         </packages>
     </test>

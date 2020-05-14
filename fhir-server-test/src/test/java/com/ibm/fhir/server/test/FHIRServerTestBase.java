@@ -612,7 +612,7 @@ public abstract class FHIRServerTestBase {
         return patient;
     }
 
-    public void checkForIssuesWithValidation(Resource resource, boolean failOnValidationException, boolean failOnWarning) {
+    public void checkForIssuesWithValidation(Resource resource, boolean failOnValidationException, boolean failOnWarning, boolean debug) {
 
         List<Issue> issues = Collections.emptyList();
         try {
@@ -631,11 +631,13 @@ public abstract class FHIRServerTestBase {
                 if(IssueSeverity.ERROR.getValue().compareTo(issue.getSeverity().getValue()) == 0
                         || IssueSeverity.FATAL.getValue().compareTo(issue.getSeverity().getValue()) == 0 ) {
                     nonWarning++;
+                    System.out.println("severity: " + issue.getSeverity().getValue() + ", details: " + issue.getDetails().getText().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
                 } else {
                     allOtherIssues++;
+                    if (debug) {
+                        System.out.println("severity: " + issue.getSeverity().getValue() + ", details: " + issue.getDetails().getText().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
+                    }
                 }
-                System.out.println("severity: " + issue.getSeverity().getValue() + ", details: " + issue.getDetails().getText().getValue() + ", expression: " + issue.getExpression().get(0).getValue());
-
             }
 
             System.out.println("count = [" + issues.size() + "]");
@@ -648,7 +650,6 @@ public abstract class FHIRServerTestBase {
         else {
             assertTrue("Passed with no issues in validation", true);
         }
-
     }
 
     /**
