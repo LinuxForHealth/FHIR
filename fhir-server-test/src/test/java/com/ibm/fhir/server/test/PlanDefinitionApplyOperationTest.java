@@ -299,8 +299,10 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
             parameters.add(Parameter.builder().name(string("userLanguage")).value(cc).build());
         }
         if (userTaskContext != null) {
-            CodeableConcept cc =
-                    CodeableConcept.builder().text(string("userTaskContext")).coding(Coding.builder().code(Code.of(userTaskContext)).build()).build();
+            CodeableConcept cc = CodeableConcept.builder()
+                    .text(string("userTaskContext"))
+                    .coding(Coding.builder().code(Code.of(userTaskContext)).build())
+                    .build();
             parameters.add(Parameter.builder().name(string("userTaskContext")).value(cc).build());
         }
 
@@ -310,8 +312,10 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         }
 
         if (settingContext != null) {
-            CodeableConcept cc =
-                    CodeableConcept.builder().text(string("settingContext")).coding(Coding.builder().code(Code.of(settingContext)).build()).build();
+            CodeableConcept cc = CodeableConcept.builder()
+                    .text(string("settingContext"))
+                    .coding(Coding.builder().code(Code.of(settingContext)).build())
+                    .build();
             parameters.add(Parameter.builder().name(string("settingContext")).value(cc).build());
         }
 
@@ -337,7 +341,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
      * @return
      */
     public List<ApplyOperationResult> runValidTest(String planDefinition, List<String> subject, String encounter, String practitioner, String organization,
-        String userType, String userLanguage, String userTaskContext, String setting, String settingContext) {
+            String userType, String userLanguage, String userTaskContext, String setting, String settingContext) {
         List<ApplyOperationResult> results = new ArrayList<>();
 
         // Instance Level
@@ -373,7 +377,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
      * @return
      */
     public List<ApplyOperationResult> runInvalidTest(String planDefinition, List<String> subject, String encounter, String practitioner, String organization,
-        String userType, String userLanguage, String userTaskContext, String setting, String settingContext) {
+            String userType, String userLanguage, String userTaskContext, String setting, String settingContext) {
         List<ApplyOperationResult> results = new ArrayList<>();
         results.add(runIndividualPlanDefinition(FHIRMediaType.APPLICATION_FHIR_JSON, false, true, planDefinition, subject, encounter, practitioner, organization, userType, userLanguage, userTaskContext, setting, settingContext));
         results.add(runIndividualPlanDefinition(FHIRMediaType.APPLICATION_FHIR_XML, false, true, planDefinition, subject, encounter, practitioner, organization, userType, userLanguage, userTaskContext, setting, settingContext));
@@ -408,8 +412,8 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
      * @return
      */
     public ApplyOperationResult runIndividualPlanDefinition(String mimeType, boolean root, boolean invalid, String planDefinition, List<String> subject,
-        String encounter, String practitioner, String organization, String userType, String userLanguage, String userTaskContext, String setting,
-        String settingContext) {
+            String encounter, String practitioner, String organization, String userType, String userLanguage, String userTaskContext, String setting,
+            String settingContext) {
 
         ApplyOperationResult result = new ApplyOperationResult();
 

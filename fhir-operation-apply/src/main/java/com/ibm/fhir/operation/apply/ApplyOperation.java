@@ -136,7 +136,8 @@ public class ApplyOperation extends AbstractOperation {
 
     // Process the Parameters bodies for the contents
     private CodeableConcept checkAndProcessSettingContext(FHIROperationContext operationContext,
-        MultivaluedMap<String, String> queryParameters, Parameters parameters) throws FHIROperationException {
+            MultivaluedMap<String, String> queryParameters, Parameters parameters)
+            throws FHIROperationException {
         return internalCheckAndProcess(operationContext, queryParameters, parameters, PARAM_SETTING_CONTEXT);
     }
 
