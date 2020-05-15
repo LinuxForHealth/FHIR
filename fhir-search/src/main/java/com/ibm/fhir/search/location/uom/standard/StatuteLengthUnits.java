@@ -17,6 +17,7 @@ public enum StatuteLengthUnits {
     FOOT("ft_us", 1.0),
     FOOT_CI("FT_US", 1.0),
     // Support for common variants that are not in UCUM
+    FOOT_VARIANT_FT("ft", 1.0),
     FOOT_VARIANT_FTS("fts", 1.0),
     FOOT_VARIANT_FOOT("foot", 1.0),
     FOOT_VARIANT_FEET("feet", 1.0),
@@ -51,6 +52,7 @@ public enum StatuteLengthUnits {
     MILE("mi_us", 8 * 40 * 16.5),
     MILE_CI("MI_US", 8 * 40 * 16.5),
     // Support for common variants that are not in UCUM
+    MILE_VARIANT_MI("mi", 8 * 40 * 16.5),
     MILE_VARIANT_MIS("mis", 8 * 40 * 16.5),
     MILE_VARIANT_MILE("mile", 8 * 40 * 16.5),
     MILE_VARIANT_MILES("miles", 8 * 40 * 16.5),

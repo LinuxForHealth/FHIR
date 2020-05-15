@@ -125,10 +125,12 @@ public final class UOMManager {
                     put(MetricUnits.METRE_VARIANT_METER.value(), calculateMetric(0.0));
                     put(MetricUnits.METRE_VARIANT_METERS.value(), calculateMetric(0.0));
 
+                    put(StatuteLengthUnits.MILE_VARIANT_MI.value(), calculateStatute(5280.0));
                     put(StatuteLengthUnits.MILE_VARIANT_MIS.value(), calculateStatute(5280.0));
                     put(StatuteLengthUnits.MILE_VARIANT_MILE.value(), calculateStatute(5280.0));
                     put(StatuteLengthUnits.MILE_VARIANT_MILES.value(), calculateStatute(5280.0));
 
+                    put(StatuteLengthUnits.FOOT_VARIANT_FT.value(), calculateStatute(1.0));
                     put(StatuteLengthUnits.FOOT_VARIANT_FTS.value(), calculateStatute(1.0));
                     put(StatuteLengthUnits.FOOT_VARIANT_FOOT.value(), calculateStatute(1.0));
                     put(StatuteLengthUnits.FOOT_VARIANT_FEET.value(), calculateStatute(1.0));
