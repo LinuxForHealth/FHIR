@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.profile;
+package com.ibm.fhir.term.util;
 
 import static com.ibm.fhir.model.type.String.string;
-import static com.ibm.fhir.profile.CodeSystemSupport.findConcept;
-import static com.ibm.fhir.profile.CodeSystemSupport.getCodeSystem;
-import static com.ibm.fhir.profile.CodeSystemSupport.getConceptPropertyValue;
-import static com.ibm.fhir.profile.CodeSystemSupport.getConcepts;
-import static com.ibm.fhir.profile.CodeSystemSupport.hasCodeSystemProperty;
-import static com.ibm.fhir.profile.CodeSystemSupport.hasConceptProperty;
+import static com.ibm.fhir.term.util.CodeSystemSupport.findConcept;
+import static com.ibm.fhir.term.util.CodeSystemSupport.getCodeSystem;
+import static com.ibm.fhir.term.util.CodeSystemSupport.getConceptPropertyValue;
+import static com.ibm.fhir.term.util.CodeSystemSupport.getConcepts;
+import static com.ibm.fhir.term.util.CodeSystemSupport.hasCodeSystemProperty;
+import static com.ibm.fhir.term.util.CodeSystemSupport.hasConceptProperty;
 
 import java.time.ZoneOffset;
 import java.util.ArrayList;

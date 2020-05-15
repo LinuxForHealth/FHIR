@@ -8,9 +8,7 @@
         <version>4.2.2-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
-
-    <artifactId>fhir-profile</artifactId>
-    
+    <artifactId>fhir-term</artifactId>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -23,15 +21,9 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-term</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>
