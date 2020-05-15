@@ -366,7 +366,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
                 }
             } else { 
-                log.fine("Location Parameter Found, shortcircuiting");
                 NearLocationHandler handler = new NearLocationHandler();
                 List<Bounding> boundingAreas;
                 try {
