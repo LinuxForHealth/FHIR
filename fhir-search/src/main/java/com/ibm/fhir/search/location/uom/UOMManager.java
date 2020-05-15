@@ -148,10 +148,10 @@ public final class UOMManager {
                     put(StatuteLengthUnits.MILE_VARIANT_MILE_CI.value(), calculateStatute(5280.0));
                     put(StatuteLengthUnits.MILE_VARIANT_MILES_CI.value(), calculateStatute(5280.0));
 
-                    put(StatuteLengthUnits.FOOT_VARIANT_FT_CI.value(), calculateStatute(1.0));
-                    put(StatuteLengthUnits.FOOT_VARIANT_FTS_CI.value(), calculateStatute(1.0));
-                    put(StatuteLengthUnits.FOOT_VARIANT_FOOT_CI.value(), calculateStatute(1.0));
-                    put(StatuteLengthUnits.FOOT_VARIANT_FEET_CI.value(), calculateStatute(1.0));
+                    put(StatuteLengthUnits.FOOT_VARIANT_FT.value(), calculateStatute(1.0));
+                    put(StatuteLengthUnits.FOOT_VARIANT_FTS.value(), calculateStatute(1.0));
+                    put(StatuteLengthUnits.FOOT_VARIANT_FOOT.value(), calculateStatute(1.0));
+                    put(StatuteLengthUnits.FOOT_VARIANT_FEET.value(), calculateStatute(1.0));
                     put(StatuteLengthUnits.FOOT_VARIANT_FT_CI.value(), calculateStatute(1.0));
                     put(StatuteLengthUnits.FOOT_VARIANT_FTS_CI.value(), calculateStatute(1.0));
                     put(StatuteLengthUnits.FOOT_VARIANT_FOOT_CI.value(), calculateStatute(1.0));
@@ -186,6 +186,7 @@ public final class UOMManager {
         // Supports UCUM with [mi_us] or mi_us
         if(factor == null && unit != null && 
                 unit.startsWith("[") && unit.endsWith("]")) {
+            System.out.println(unit.substring(1,unit.length() -1));
             factor = UNIT_TO_METER.get(unit.substring(1,unit.length() -1));
         }
         return factor;
