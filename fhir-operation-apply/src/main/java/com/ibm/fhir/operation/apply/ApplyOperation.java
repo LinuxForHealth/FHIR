@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -54,8 +54,6 @@ import com.ibm.fhir.rest.FHIRResourceHelpers;
 
 /**
  * <code>$apply</code> is an operation specific to PlanDefinition.
- * 
- * @author pbastide
  *
  * @link OperationDefinition http://hl7.org/fhir/operation-plandefinition-apply.json
  * @link $apply http://hl7.org/fhir/plandefinition-operation-apply.html
@@ -138,8 +136,8 @@ public class ApplyOperation extends AbstractOperation {
 
     // Process the Parameters bodies for the contents
     private CodeableConcept checkAndProcessSettingContext(FHIROperationContext operationContext,
-        MultivaluedMap<String, String> queryParameters, Parameters parameters)
-        throws FHIROperationException {
+            MultivaluedMap<String, String> queryParameters, Parameters parameters)
+            throws FHIROperationException {
         return internalCheckAndProcess(operationContext, queryParameters, parameters, PARAM_SETTING_CONTEXT);
     }
 
@@ -331,7 +329,6 @@ public class ApplyOperation extends AbstractOperation {
         }
 
         convertFromPlanDefinitionToCarePlan(planDefinition, builder);
-
         builder.status(CarePlanStatus.DRAFT);
         return builder.build();
     }
@@ -340,9 +337,7 @@ public class ApplyOperation extends AbstractOperation {
      * @param planDefinition
      * @param builder
      */
-    private void convertFromPlanDefinitionToCarePlan(PlanDefinition planDefinition,
-        CarePlan.Builder builder) {
-        
+    private void convertFromPlanDefinitionToCarePlan(PlanDefinition planDefinition, CarePlan.Builder builder) {
         List<CarePlan.Activity> activities = new ArrayList<>();
         for (Action action : getActions(planDefinition.getAction())) {
             CarePlan.Activity.Builder cab = CarePlan.Activity.builder();
@@ -397,7 +392,7 @@ public class ApplyOperation extends AbstractOperation {
             Detail.Builder detailBuilder = Detail.builder();
             detailBuilder.description(action.getDescription());
             detailBuilder.status(CarePlanActivityStatus.NOT_STARTED);
-
+            cab.detail(detailBuilder.build());
             activities.add(cab.build());
 
         }

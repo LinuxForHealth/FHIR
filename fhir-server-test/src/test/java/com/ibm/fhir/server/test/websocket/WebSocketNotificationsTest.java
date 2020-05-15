@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.test;
+package com.ibm.fhir.server.test.websocket;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.client.Entity;
@@ -24,15 +25,13 @@ import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.notification.FHIRNotificationEvent;
+import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**
- * 
  * The following tests are intentionally marked as singleThreaded. The singleThreaded property addresses an issue where
  * the session does not start-connect-receive a message.
- *
  */
 public class WebSocketNotificationsTest extends FHIRServerTestBase {
-
     // Add -DskipWebSocketTest
     public static final String SKIP_TESTS = "skipWebSocketTest";
 
@@ -45,8 +44,10 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
     private WebTarget target = null;
 
     @BeforeClass
-    public void startup() throws InterruptedException {
-        
+    public void startup() throws Exception {
+        Properties testProperties = TestUtil.readTestProperties("test.properties");
+        skip = Boolean.parseBoolean(testProperties.getProperty("test.websocket.disabled", "false"));
+
         // A specific CI pipeline issue triggered adding this value
         // as such this a conditional ignore. 
         // -DskipWebSocketTest=true

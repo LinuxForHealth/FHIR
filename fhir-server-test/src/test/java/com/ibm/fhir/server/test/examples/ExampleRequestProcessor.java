@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.test;
+package com.ibm.fhir.server.test.examples;
 
 import static org.testng.Assert.assertEquals;
 
@@ -17,10 +17,10 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
 import com.ibm.fhir.model.spec.test.IExampleProcessor;
-import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.test.ResourceComparatorVisitor;
 import com.ibm.fhir.persistence.util.ResourceFingerprintVisitor;
 import com.ibm.fhir.persistence.util.SaltHash;
+import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**
  * Exercises the FHIR REST API. Create is called for each resource, then the
@@ -30,7 +30,6 @@ import com.ibm.fhir.persistence.util.SaltHash;
  * Fingerprinting is used for the comparison because the FHIR server adds
  * additional (meta) content, which is ignored when the fingerprint is
  * computed.
- *
  */
 public class ExampleRequestProcessor implements IExampleProcessor {
     private final FHIRServerTestBase base;
@@ -73,7 +72,7 @@ public class ExampleRequestProcessor implements IExampleProcessor {
         ResourceFingerprintVisitor v = new ResourceFingerprintVisitor();
         resource.accept(resource.getClass().getSimpleName(), v);
 
-        String resourceTypeName = FHIRUtil.getResourceTypeName(resource);
+        String resourceTypeName = resource.getClass().getSimpleName();
 
         // Build a new resource and then call the 'create' API.
         long postStart = System.nanoTime();

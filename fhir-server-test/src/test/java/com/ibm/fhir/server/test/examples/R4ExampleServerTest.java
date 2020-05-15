@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.test;
+package com.ibm.fhir.server.test.examples;
 
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
+import com.ibm.fhir.server.test.FHIRServerTestBase;
 import com.ibm.fhir.validation.test.ValidationProcessor;
 
 /**
