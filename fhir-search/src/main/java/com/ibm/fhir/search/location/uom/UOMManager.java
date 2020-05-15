@@ -120,20 +120,42 @@ public final class UOMManager {
                     put(MetricUnits.KILOMETRE_VARIANT_KMS.value(), calculateMetric(3.0));
                     put(MetricUnits.KILOMETRE_VARIANT_KILOMETER.value(), calculateMetric(3.0));
                     put(MetricUnits.KILOMETRE_VARIANT_KILOMETERS.value(), calculateMetric(3.0));
+                    put(MetricUnits.KILOMETRE_VARIANT_KILOMETRE.value(), calculateMetric(3.0));
+                    put(MetricUnits.KILOMETRE_VARIANT_KILOMETRES.value(), calculateMetric(3.0));
+                    put(MetricUnits.KILOMETRE_VARIANT_KMS_CI.value(), calculateMetric(3.0));
+                    put(MetricUnits.KILOMETRE_VARIANT_KILOMETER_CI.value(), calculateMetric(3.0));
+                    put(MetricUnits.KILOMETRE_VARIANT_KILOMETERS_CI.value(), calculateMetric(3.0));
+                    put(MetricUnits.KILOMETRE_VARIANT_KILOMETRE_CI.value(), calculateMetric(3.0));
+                    put(MetricUnits.KILOMETRE_VARIANT_KILOMETRES_CI.value(), calculateMetric(3.0));
 
                     put(MetricUnits.METRE_VARIANT_MS.value(), calculateMetric(0.0));
                     put(MetricUnits.METRE_VARIANT_METER.value(), calculateMetric(0.0));
                     put(MetricUnits.METRE_VARIANT_METERS.value(), calculateMetric(0.0));
+                    put(MetricUnits.METRE_VARIANT_METRE.value(), calculateMetric(0.0));
+                    put(MetricUnits.METRE_VARIANT_METRES.value(), calculateMetric(0.0));
+                    put(MetricUnits.METRE_VARIANT_MS_CI.value(), calculateMetric(0.0));
+                    put(MetricUnits.METRE_VARIANT_METER_CI.value(), calculateMetric(0.0));
+                    put(MetricUnits.METRE_VARIANT_METERS_CI.value(), calculateMetric(0.0));
+                    put(MetricUnits.METRE_VARIANT_METRE_CI.value(), calculateMetric(0.0));
+                    put(MetricUnits.METRE_VARIANT_METRES_CI.value(), calculateMetric(0.0));
 
                     put(StatuteLengthUnits.MILE_VARIANT_MI.value(), calculateStatute(5280.0));
                     put(StatuteLengthUnits.MILE_VARIANT_MIS.value(), calculateStatute(5280.0));
                     put(StatuteLengthUnits.MILE_VARIANT_MILE.value(), calculateStatute(5280.0));
                     put(StatuteLengthUnits.MILE_VARIANT_MILES.value(), calculateStatute(5280.0));
+                    put(StatuteLengthUnits.MILE_VARIANT_MI_CI.value(), calculateStatute(5280.0));
+                    put(StatuteLengthUnits.MILE_VARIANT_MIS_CI.value(), calculateStatute(5280.0));
+                    put(StatuteLengthUnits.MILE_VARIANT_MILE_CI.value(), calculateStatute(5280.0));
+                    put(StatuteLengthUnits.MILE_VARIANT_MILES_CI.value(), calculateStatute(5280.0));
 
-                    put(StatuteLengthUnits.FOOT_VARIANT_FT.value(), calculateStatute(1.0));
-                    put(StatuteLengthUnits.FOOT_VARIANT_FTS.value(), calculateStatute(1.0));
-                    put(StatuteLengthUnits.FOOT_VARIANT_FOOT.value(), calculateStatute(1.0));
-                    put(StatuteLengthUnits.FOOT_VARIANT_FEET.value(), calculateStatute(1.0));
+                    put(StatuteLengthUnits.FOOT_VARIANT_FT_CI.value(), calculateStatute(1.0));
+                    put(StatuteLengthUnits.FOOT_VARIANT_FTS_CI.value(), calculateStatute(1.0));
+                    put(StatuteLengthUnits.FOOT_VARIANT_FOOT_CI.value(), calculateStatute(1.0));
+                    put(StatuteLengthUnits.FOOT_VARIANT_FEET_CI.value(), calculateStatute(1.0));
+                    put(StatuteLengthUnits.FOOT_VARIANT_FT_CI.value(), calculateStatute(1.0));
+                    put(StatuteLengthUnits.FOOT_VARIANT_FTS_CI.value(), calculateStatute(1.0));
+                    put(StatuteLengthUnits.FOOT_VARIANT_FOOT_CI.value(), calculateStatute(1.0));
+                    put(StatuteLengthUnits.FOOT_VARIANT_FEET_CI.value(), calculateStatute(1.0));
                 }
             });
 
