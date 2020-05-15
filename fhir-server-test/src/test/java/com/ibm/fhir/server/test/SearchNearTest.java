@@ -175,5 +175,4 @@ public class SearchNearTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
     }
-    
 }
