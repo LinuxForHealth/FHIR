@@ -30,6 +30,10 @@ public enum MetricUnits {
     MEGAMETRE("Mm", 6.0),
     MEGAMETRE_CI("MAM", 6.0),
     KILOMETRE("km", 3.0),
+    // The following 'variants' are not standard UCUM, but helpful for various common usage
+    KILOMETRE_VARIANT_KMS("kms", 3.0),
+    KILOMETRE_VARIANT_KILOMETER("kilometer", 3.0),
+    KILOMETRE_VARIANT_KILOMETERS("kilometers", 3.0),
     KILOMETRE_CI("KM", 3.0),
     HECTOMETRE("hm", 2.0),
     HECTOMETRE_CI("HM", 2.0),
@@ -37,6 +41,10 @@ public enum MetricUnits {
     DECAMETRE_CM("DAM", 1.0),
     METRE("m", 0.0),
     METRE_CI("M", 0.0),
+    // The following 'variants' are not standard UCUM, but helpful for various common usage
+    METRE_VARIANT_MS("ms", 0.0),
+    METRE_VARIANT_METER("meter", 0.0),
+    METRE_VARIANT_METERS("meters", 0.0),
     // Submultiples 
     YOCTOMETRE("ym", -24.0),
     YOCTOMETRE_CI("YOM", -24.0),

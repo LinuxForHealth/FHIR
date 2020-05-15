@@ -115,6 +115,23 @@ public final class UOMManager {
                     put(MetricUnits.CENTIMETRE_CI.value(), calculateMetric(-2.0));
                     put(MetricUnits.DECIMETRE.value(), calculateMetric(-1.0));
                     put(MetricUnits.DECIMETRE_CI.value(), calculateMetric(-1.0));
+
+                    // Support for Variants not in UCUM
+                    put(MetricUnits.KILOMETRE_VARIANT_KMS.value(), calculateMetric(3.0));
+                    put(MetricUnits.KILOMETRE_VARIANT_KILOMETER.value(), calculateMetric(3.0));
+                    put(MetricUnits.KILOMETRE_VARIANT_KILOMETERS.value(), calculateMetric(3.0));
+
+                    put(MetricUnits.METRE_VARIANT_MS.value(), calculateMetric(0.0));
+                    put(MetricUnits.METRE_VARIANT_METER.value(), calculateMetric(0.0));
+                    put(MetricUnits.METRE_VARIANT_METERS.value(), calculateMetric(0.0));
+
+                    put(StatuteLengthUnits.MILE_VARIANT_MIS.value(), calculateStatute(5280.0));
+                    put(StatuteLengthUnits.MILE_VARIANT_MILE.value(), calculateStatute(5280.0));
+                    put(StatuteLengthUnits.MILE_VARIANT_MILES.value(), calculateStatute(5280.0));
+
+                    put(StatuteLengthUnits.FOOT_VARIANT_FTS.value(), calculateStatute(1.0));
+                    put(StatuteLengthUnits.FOOT_VARIANT_FOOT.value(), calculateStatute(1.0));
+                    put(StatuteLengthUnits.FOOT_VARIANT_FEET.value(), calculateStatute(1.0));
                 }
             });
 
@@ -141,7 +158,13 @@ public final class UOMManager {
      * @return the factor if the factor exists, else null. 
      */
     public static final Double getUnitToMetersFactor(final String unit) {
-        return UNIT_TO_METER.get(unit);
+        Double factor = UNIT_TO_METER.get(unit);
+        // Supports UCUM with [mi_us] or mi_us
+        if(factor == null && unit != null && 
+                unit.startsWith("[") && unit.endsWith("]")) {
+            factor = UNIT_TO_METER.get(unit.substring(1,unit.length() -1));
+        }
+        return factor;
     }
     
     /**
