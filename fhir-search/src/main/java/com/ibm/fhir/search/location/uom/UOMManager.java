@@ -186,7 +186,6 @@ public final class UOMManager {
         // Supports UCUM with [mi_us] or mi_us
         if(factor == null && unit != null && 
                 unit.startsWith("[") && unit.endsWith("]")) {
-            System.out.println(unit.substring(1,unit.length() -1));
             factor = UNIT_TO_METER.get(unit.substring(1,unit.length() -1));
         }
         return factor;
