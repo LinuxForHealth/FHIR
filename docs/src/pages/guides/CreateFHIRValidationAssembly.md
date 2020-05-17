@@ -84,6 +84,7 @@ Archive:  ./tmp-fhir4/FHIR/fhir-validation/target/fhir-validation-distribution.z
 - fhir-ig-davinci-pdex-plan-net
 - fhir-ig-mcode
 - fhir-ig-us-core
+- fhir-term - include the terminology module
 - `fhir-ig-user-defined` - A user defined profile 
 
 If you chose to add the user defined profile, you must pass in the name of the dependency using a commandline parameter `-Dfhir-ig-user-defined=fhir-ig-example`.
