@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2020-04-06 09:59:05 -0400
+date:   2020-05-15 09:59:05 -0400
 permalink: /conformance/
 ---
 
@@ -229,6 +229,18 @@ The IBM FHIR Server does not consider the `Quantity.comparator` field as part of
 
 ### Searching on URI
 URI searches on the IBM FHIR Server are case-sensitive with "exact-match" semantics. The `above` and `below` prefixes can be used to perform path-based matching that is based on the `/` delimiter.
+
+### Searching on Special Positional Search
+Positional Search uses [UCUM units](https://unitsofmeasure.org/ucum.html) of distance measure along with common variants: 
+
+| Unit of Measure | Variant |
+|-----------------|---------|
+|KILOMETERS|km, kms, kilometer, kilometers|
+|MILES|mi, mis, mile, miles|
+|METERS|m, ms, meter, meters|
+|FEET|ft, fts, foot|
+
+Note, the use of the surrounding bracket, such as `[mi_us]` is optional; `mi_us` is also valid.
 
 ## HL7 FHIR R4 (v4.0.1) errata
 We add information here as we find issues with the artifacts provided with this version of the specification.

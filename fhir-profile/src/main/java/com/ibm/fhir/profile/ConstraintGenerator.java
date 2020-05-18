@@ -37,7 +37,6 @@ import com.ibm.fhir.model.type.ElementDefinition.Type;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.registry.FHIRRegistry;
 
 /**
  * A class used to generate FHIRPath expressions from a profile
@@ -273,24 +272,6 @@ public class ConstraintGenerator {
             sb.append(" >= ").append(min).append(" and ").append("extension('").append(profile).append("').count() <= ").append(max);
         }
 
-        sb.append(" and (");
-
-        if (isOptional(elementDefinition)) {
-            sb.append("extension('").append(profile).append("')").append(".exists()").append(" implies (");
-        }
-
-        if (isRepeating(elementDefinition)) {
-            sb.append("extension('").append(profile).append("').all(conformsTo('").append(profile).append("'))");
-        } else {
-            sb.append("extension('").append(profile).append("').conformsTo('").append(profile).append("')");
-        }
-
-        if (isOptional(elementDefinition)) {
-            sb.append(")");
-        }
-
-        sb.append(")");
-
         return sb.toString();
     }
 
@@ -505,9 +486,7 @@ public class ConstraintGenerator {
             return false;
         }
 
-        String url = profile.get(0).getValue();
-
-        return FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class);
+        return hasCardinalityConstraint(elementDefinition);
     }
 
     private boolean hasFixedValueConstraint(ElementDefinition elementDefinition) {
@@ -670,7 +649,9 @@ public class ConstraintGenerator {
     private void prune(Tree tree) {
         List<Node> nodes = prune(tree.root);
         for (Node node : nodes) {
-            node.parent.children.remove(node);
+            if (node.parent != null) {
+                node.parent.children.remove(node);
+            }
             tree.nodeMap.remove(node.elementDefinition.getId(), node);
         }
     }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -39,19 +39,19 @@ public class FHIRValueSetBenchmarks {
         Reader reader = ExamplesUtil.resourceReader("json/ibm/valueset/ValueSet-large.json");
         return FHIRParser.parser(Format.JSON).parse(reader);
     }
-    
+
     @Benchmark
     public ValueSet readXmlResource() throws Exception {
         Reader reader = ExamplesUtil.resourceReader("xml/ibm/valueset/ValueSet-large.xml");
         return FHIRParser.parser(Format.XML).parse(reader);
     }
-    
+
     @Benchmark
     public ValueSet readTxtFile() throws Exception {
         final ValueSet.Builder vsBuilder = ValueSet.builder().status(PublicationStatus.DRAFT);
         final ValueSet.Expansion.Builder expansionBuilder = ValueSet.Expansion.builder().timestamp(DateTime.now());
         final ValueSet.Expansion.Contains.Builder template = ValueSet.Expansion.Contains.builder();
-        
+
         InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("ValueSet-large.txt");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
             reader.lines()
@@ -66,7 +66,7 @@ public class FHIRValueSetBenchmarks {
         }
         return vsBuilder.expansion(expansionBuilder.build()).build();
     }
-    
+
     @SuppressWarnings("unchecked")
     @Benchmark
     public Set<String> readSerializedSet() throws Exception {
@@ -75,23 +75,23 @@ public class FHIRValueSetBenchmarks {
             return (Set<String>) is.readObject();
         }
     }
-    
+
     @State(Scope.Benchmark)
     public static class FHIRValueSetState {
         ValueSet valueSet;
         Contains concept;
-        
+
         @Setup
         public void setUp() throws Exception {
             Reader reader = ExamplesUtil.resourceReader("json/ibm/valueset/ValueSet-large.json");
             valueSet = FHIRParser.parser(Format.JSON).parse(reader);
-            
+
             List<Contains> concepts = valueSet.getExpansion().getContains();
             // naive attempt to force the worst case
             concept = concepts.get(concepts.size() - 1);
         }
     }
-    
+
     @Benchmark
     public Set<String> buildSet(FHIRValueSetState state) throws Exception {
         final Set<String> set = new HashSet<>();
@@ -109,11 +109,11 @@ public class FHIRValueSetBenchmarks {
         }
         return false;
     }
-    
+
     @State(Scope.Benchmark)
     public static class FHIRHashSetState {
         Set<String> set;
-        
+
         @SuppressWarnings("unchecked")
         @Setup
         public void setUp() throws Exception {
@@ -123,21 +123,20 @@ public class FHIRValueSetBenchmarks {
             }
         }
     }
-    
+
     @Benchmark
     public boolean lookupInSet(FHIRValueSetState vsState, FHIRHashSetState state) throws Exception {
         return state.set.contains(vsState.concept.getSystem().getValue() + "|" + vsState.concept.getCode().getValue());
     }
-    
+
     public static void main(String[] args) throws Exception {
-//        new FHIRBenchmarkRunner(FHIRValueSetBenchmark.class).run(BenchmarkUtil.getRandomSpecExampleName());
+//      new FHIRBenchmarkRunner(FHIRValueSetBenchmark.class).run(BenchmarkUtil.getRandomSpecExampleName());
         Options opt = new OptionsBuilder()
                 .include(FHIRValueSetBenchmarks.class.getSimpleName())
                 .warmupIterations(3)
                 .measurementIterations(2)
                 .forks(1)
                 .build();
-
         new Runner(opt).run();
     }
 }

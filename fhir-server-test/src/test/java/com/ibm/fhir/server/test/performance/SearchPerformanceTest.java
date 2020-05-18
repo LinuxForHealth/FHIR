@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.test;
+package com.ibm.fhir.server.test.performance;
 
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.type.Uri.uri;
@@ -17,11 +17,13 @@ import static org.testng.Assert.assertTrue;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Properties;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
@@ -38,9 +40,10 @@ import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.server.test.FHIRServerTestBase;
+import com.ibm.fhir.server.test.SearchAllTest;
 
 public class SearchPerformanceTest extends FHIRServerTestBase {
-
     private static final boolean DEBUG_SEARCH = false;
     private String patientId;
     private String observationId;
@@ -50,7 +53,13 @@ public class SearchPerformanceTest extends FHIRServerTestBase {
     // Controls how many observations and patients to create for the test.
     // Using invocationCount of testng can cause the testng report grows too big, so
     // this config is used to make sure all test users are created in one testng step.
-    private final int numOfPatientObservationsToCreate = 1000;
+    private int numOfPatientObservationsToCreate = 1000;
+
+    @BeforeClass
+    public void setup() throws Exception {
+        Properties testProperties = TestUtil.readTestProperties("test.properties");
+        numOfPatientObservationsToCreate = Integer.parseInt(testProperties.getProperty("test.performance.default", "1000"));
+    }
 
     /**
      * Retrieve the server's conformance statement to determine the status of certain runtime options.
@@ -518,6 +527,4 @@ public class SearchPerformanceTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
     }
-
-    
 }

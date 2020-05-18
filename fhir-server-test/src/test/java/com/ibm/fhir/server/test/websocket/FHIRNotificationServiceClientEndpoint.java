@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.test;
+package com.ibm.fhir.server.test.websocket;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,6 +36,7 @@ import com.ibm.fhir.notification.FHIRNotificationEvent;
 import com.ibm.fhir.notification.util.FHIRNotificationUtil;
 
 public class FHIRNotificationServiceClientEndpoint extends Endpoint {
+    private boolean DEBUG = false;
 
     private Session initSession = null;
 
@@ -65,7 +66,9 @@ public class FHIRNotificationServiceClientEndpoint extends Endpoint {
                     // The following lines code, can further be broken down using for each.
                     String text = br.lines().collect(Collectors.joining("\n"));
 
-                    System.out.println(">>> Received message: " + text);
+                    if(DEBUG) {
+                        System.out.println(">>> Received message: " + text);
+                    }
                     // Receive raw message string for better performance, we found that using
                     // FHIRNotificationUtil.toNotificationEvent here could cost up to 10 seconds
                     // for each message during integration test of the CI pipeline.

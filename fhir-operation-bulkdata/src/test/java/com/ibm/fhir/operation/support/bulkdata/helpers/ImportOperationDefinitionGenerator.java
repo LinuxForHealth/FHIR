@@ -55,7 +55,7 @@ public class ImportOperationDefinitionGenerator {
                         .div(Xhtml.of(
                                 "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>BulkDataImport</h2><p>OPERATION: BulkDataImport</p></div>"))
                         .status(NarrativeStatus.GENERATED).build())
-                .url(Uri.of("http://hl7.org/fhir/OperationDefinition/BulkData-inport"))
+                .url(Uri.of("http://hl7.org/fhir/OperationDefinition/BulkData-import"))
                 .version(string("1.0.0"))
                 .kind(OperationKind.OPERATION)
                 .name(string("BulkDataImport"))

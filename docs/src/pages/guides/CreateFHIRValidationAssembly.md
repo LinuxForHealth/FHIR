@@ -2,7 +2,7 @@
 layout: post
 title:  Creating the fhir-validation assembly
 description: Creating the fhir-validation assembly
-date:   2020-04-14 09:59:05 -0400
+date:   2020-05-13 09:00:00 -0400
 permalink: /CreateFHIRValidationAssembly/
 ---
 
@@ -81,6 +81,7 @@ Archive:  ./tmp-fhir4/FHIR/fhir-validation/target/fhir-validation-distribution.z
  To create the distribution with a set of profiles and/or a single user profile, you add the following profiles to the build step. 
  
 - fhir-ig-carin-bb
+- fhir-ig-davinci-pdex-plan-net
 - fhir-ig-mcode
 - fhir-ig-us-core
 - `fhir-ig-user-defined` - A user defined profile 
@@ -88,7 +89,7 @@ Archive:  ./tmp-fhir4/FHIR/fhir-validation/target/fhir-validation-distribution.z
 If you chose to add the user defined profile, you must pass in the name of the dependency using a commandline parameter `-Dfhir-ig-user-defined=fhir-ig-example`.
   
  ``` 
- mvn clean package -f fhir-validation/ -Pfhir-validation-distribution,fhir-ig-carin-bb,fhir-ig-mcode,fhir-ig-us-core,fhir-ig-user-defined
+ mvn clean package -f fhir-validation/ -Pfhir-validation-distribution,fhir-ig-carin-bb,fhir-ig-davinci-pdex-plan-net,fhir-ig-mcode,fhir-ig-us-core,fhir-ig-user-defined
  ```
  It'll create the following zip file - `fhir-validation/target/fhir-validation-distribution.zip` 
 

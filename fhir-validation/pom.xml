@@ -66,7 +66,6 @@
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
-
             <build>
                 <plugins>
                     <plugin>
@@ -122,6 +121,19 @@
                 <dependency>
                     <groupId>${project.groupId}</groupId>
                     <artifactId>fhir-ig-carin-bb</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>fhir-ig-davinci-pdex-plan-net</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-ig-davinci-pdex-plan-net</artifactId>
                     <version>${project.version}</version>
                 </dependency>
             </dependencies>

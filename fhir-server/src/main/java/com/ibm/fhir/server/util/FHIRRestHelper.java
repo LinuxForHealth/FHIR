@@ -574,7 +574,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 } catch (FHIRPersistenceResourceDeletedException e) {
                     // Absorb this exception.
                     ior.setResource(doRead(type, id, false, true, requestProperties, null));
-                    warnings.add(buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.DELETED, "Resource of type'"
+                    warnings.add(buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.DELETED, "Resource of type '"
                         + type + "' with id '" + id + "' is already deleted."));
                 }
             }
@@ -615,7 +615,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         .code(IssueType.INFORMATIONAL)
                         .details(CodeableConcept.builder()
                             .text(string("Deleted " + responseBundle.getEntry().size() + " " + type + " resource(s) " +
-                                " with the following id(s): " + 
+                                "with the following id(s): " +
                                 responseBundle.getEntry().stream().map(Bundle.Entry::getId).collect(Collectors.joining(","))))
                             .build())
                         .build());

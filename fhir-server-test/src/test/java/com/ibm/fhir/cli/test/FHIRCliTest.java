@@ -31,7 +31,6 @@ import com.ibm.fhir.server.test.FHIRServerTestBase;
  *
  */
 public class FHIRCliTest extends FHIRServerTestBase {
-
     // To see testcase output for debugging, set this to true.
     private boolean debug = false;
 
@@ -47,7 +46,6 @@ public class FHIRCliTest extends FHIRServerTestBase {
     private static final Pattern locationURIPattern = Pattern.compile("URI:\\s*(\\S*)");
 
     private boolean deleteSupported = false;
-
 
     /**
      * Retrieve the server's conformance statement to determine the status of certain runtime options.
