@@ -16,10 +16,11 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.batch.api.BatchProperty;
-import javax.batch.runtime.context.JobContext;
+import javax.batch.runtime.context.StepContext;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
+import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.bulkexport.common.TransientUserData;
 import com.ibm.fhir.model.resource.Group;
 import com.ibm.fhir.model.resource.Group.Member;
@@ -42,11 +43,11 @@ public class ChunkReader extends com.ibm.fhir.bulkexport.patient.ChunkReader {
      * Fhir search patient group id.
      */
     @Inject
-    @BatchProperty(name = "fhir.search.patientgroupid")
+    @BatchProperty(name = Constants.EXPORT_FHIR_SEARCH_PATIENTGROUPID)
     String fhirSearchPatientGroupId;
 
     @Inject
-    JobContext jobContext;
+    StepContext stepCtx;
 
     public ChunkReader() {
         super();
@@ -98,17 +99,9 @@ public class ChunkReader extends com.ibm.fhir.bulkexport.patient.ChunkReader {
             throw new Exception("readItem: missing group id for this group export job!");
         }
 
-        TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
+        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
         if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
-            if (resourceTypes.size() == indexOfCurrentResourceType + 1) {
-                // No more resource type and page to read, so return null to end the reading.
-                return null;
-            } else {
-                // More resource types to read, so reset pageNum, partNum and move resource type index to the next.
-                pageNum = 1;
-                chunkData.setPartNum(1);
-                indexOfCurrentResourceType++;
-            }
+            return null;
         }
 
         if (patientMembers == null) {
@@ -123,10 +116,9 @@ public class ChunkReader extends com.ibm.fhir.bulkexport.patient.ChunkReader {
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, 0);
-            jobContext.setTransientUserData(chunkData);
+            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0);
+            stepCtx.setTransientUserData(chunkData);
         } else {
-            chunkData.setIndexOfCurrentResourceType(indexOfCurrentResourceType);
             chunkData.setPageNum(pageNum);
         }
         chunkData.setLastPageNum((patientMembers.size() + pageSize -1)/pageSize );

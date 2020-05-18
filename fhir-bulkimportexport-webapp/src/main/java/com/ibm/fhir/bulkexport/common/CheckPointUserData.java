@@ -22,24 +22,23 @@ public class CheckPointUserData implements java.io.Serializable {
     private String uploadId;
     private boolean isSingleCosObject = false;
     private List<PartETag> cosDataPacks;
-    private int indexOfCurrentResourceType;
     private int currentPartResourceNum = 0;
     // One resource type can have 0 to multiple typeFilters, indexOfCurrentTypeFilter is used to tell the currently processed typeFilter.
     private int indexOfCurrentTypeFilter;
+    private String resourceTypeSummary = null;
 
-    public CheckPointUserData(int pageNum, String uploadId, List<PartETag> cosDataPacks, int partNum, int indexOfCurrentResourceType, int indexOfCurrentTypeFilter) {
+    public CheckPointUserData(int pageNum, String uploadId, List<PartETag> cosDataPacks, int partNum, int indexOfCurrentTypeFilter) {
         super();
         this.pageNum = pageNum;
         this.uploadId = uploadId;
         this.cosDataPacks = cosDataPacks;
         this.partNum = partNum;
-        this.indexOfCurrentResourceType = indexOfCurrentResourceType;
         this.indexOfCurrentTypeFilter = indexOfCurrentTypeFilter;
     }
 
     public static CheckPointUserData fromTransientUserData(TransientUserData userData) {
         return new CheckPointUserData(userData.getPageNum(), userData.getUploadId(), userData.getCosDataPacks(),
-                userData.getPartNum(), userData.getIndexOfCurrentResourceType(), userData.getIndexOfCurrentTypeFilter());
+                userData.getPartNum(), userData.getIndexOfCurrentTypeFilter());
     }
 
     public int getPageNum() {
@@ -90,14 +89,6 @@ public class CheckPointUserData implements java.io.Serializable {
         this.lastPageNum = lastPageNum;
     }
 
-    public int getIndexOfCurrentResourceType() {
-        return indexOfCurrentResourceType;
-    }
-
-    public void setIndexOfCurrentResourceType(int indexOfCurrentResourceType) {
-        this.indexOfCurrentResourceType = indexOfCurrentResourceType;
-    }
-
     public int getCurrentPartResourceNum() {
         return currentPartResourceNum;
     }
@@ -112,6 +103,14 @@ public class CheckPointUserData implements java.io.Serializable {
 
     public void setIndexOfCurrentTypeFilter(int indexOfCurrentTypeFilter) {
         this.indexOfCurrentTypeFilter = indexOfCurrentTypeFilter;
+    }
+
+    public String getResourceTypeSummary() {
+        return resourceTypeSummary;
+    }
+
+    public void setResourceTypeSummary(String resourceTypeSummary) {
+        this.resourceTypeSummary = resourceTypeSummary;
     }
 
 }

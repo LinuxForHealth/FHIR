@@ -95,7 +95,7 @@ public class ChunkReader extends AbstractItemReader {
      * Fhir resource type to process.
      */
     @Inject
-    @BatchProperty(name = Constants.IMPORT_PARTITTION_RESOURCE_TYPE)
+    @BatchProperty(name = Constants.PARTITION_RESOURCE_TYPE)
     String importPartitionResourceType;
 
     public ChunkReader() {

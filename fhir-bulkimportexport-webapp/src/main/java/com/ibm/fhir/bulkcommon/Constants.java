@@ -25,6 +25,7 @@ public class Constants {
     public static final byte[] NDJSON_LINESEPERATOR = "\r\n".getBytes();
 
     public static final int IMPORT_MAX_PARTITIONPROCESSING_THREADNUMBER = 10;
+    public static final int EXPORT_MAX_PARTITIONPROCESSING_THREADNUMBER = 10;
     // The number of resources to commit to DB in each batch, the slower the DB connection, the smaller
     // this value should be set.
     public static final int IMPORT_NUMOFFHIRRESOURCES_PERREAD = 20;
@@ -44,13 +45,21 @@ public class Constants {
     public static final String COS_OPERATIONOUTCOMES_BUCKET_NAME = "cos.operationoutcomes.bucket.name";
     public static final String FHIR_TENANT = "fhir.tenant";
     public static final String FHIR_DATASTORE_ID = "fhir.datastoreid";
+    public static final String FHIR_RESOURCETYPES = "fhir.resourcetype";
     public static final String IMPORT_FHIR_STORAGE_TYPE = "import.fhir.storagetype";
     public static final String IMPORT_FHIR_IS_VALIDATION_ON = "import.fhir.validation";
     public static final String IMPORT_FHIR_DATASOURCES = "fhir.dataSourcesInfo";
-    
+    public static final String EXPORT_FHIR_SEARCH_FROMDATE = "fhir.search.fromdate";
+    public static final String EXPORT_FHIR_SEARCH_TODATE = "fhir.search.todate";
+    public static final String EXPORT_FHIR_SEARCH_PAGESIZE = "fhir.search.pagesize";
+    public static final String EXPORT_FHIR_SEARCH_TYPEFILTERS = "fhir.typeFilters";
+    public static final String EXPORT_FHIR_SEARCH_PATIENTGROUPID = "fhir.search.patientgroupid";
+    public static final String EXPORT_COS_OBJECTNAME = "cos.bucket.objectname";
+    public static final String EXPORT_COS_OBJECT_PATHPREFIX = "cos.bucket.pathprefix";
+
     // Partition work item info generated in ImportPartitionMapper.
-    public static final String IMPORT_PARTITTION_WORKITEM = "import.partiton.workitem";
-    public static final String IMPORT_PARTITTION_RESOURCE_TYPE = "import.partiton.resourcetype";   
+    public static final String IMPORT_PARTITTION_WORKITEM = "import.partition.workitem";
+    public static final String PARTITION_RESOURCE_TYPE = "partition.resourcetype";
 
     // Control if push OperationOutcomes to COS/S3.
     public static final boolean IMPORT_IS_COLLECT_OPERATIONOUTCOMES = true;

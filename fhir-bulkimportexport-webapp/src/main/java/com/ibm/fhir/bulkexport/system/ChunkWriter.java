@@ -9,7 +9,6 @@ package com.ibm.fhir.bulkexport.system;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -17,6 +16,7 @@ import java.util.logging.Logger;
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemWriter;
 import javax.batch.runtime.context.JobContext;
+import javax.batch.runtime.context.StepContext;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
@@ -43,64 +43,67 @@ public class ChunkWriter extends AbstractItemWriter {
      * The IBM COS API key or S3 access key.
      */
     @Inject
-    @BatchProperty(name = "cos.api.key")
+    @BatchProperty(name = Constants.COS_API_KEY)
     String cosApiKeyProperty;
 
     /**
      * The IBM COS service instance id or s3 secret key.
      */
     @Inject
-    @BatchProperty(name = "cos.srvinst.id")
+    @BatchProperty(name = Constants.COS_SRVINST_ID)
     String cosSrvinstId;
 
     /**
      * The Cos End point URL.
      */
     @Inject
-    @BatchProperty(name = "cos.endpointurl")
+    @BatchProperty(name = Constants.COS_ENDPOINT_URL)
     String cosEndpointUrl;
 
     /**
      * The Cos End point location.
      */
     @Inject
-    @BatchProperty(name = "cos.location")
+    @BatchProperty(name = Constants.COS_LOCATION)
     String cosLocation;
 
     /**
      * The Cos bucket name.
      */
     @Inject
-    @BatchProperty(name = "cos.bucket.name")
+    @BatchProperty(name = Constants.COS_BUCKET_NAME)
     String cosBucketName;
 
     /**
      * The Cos bucket path prefix.
      */
     @Inject
-    @BatchProperty(name = "cos.bucket.pathprefix")
+    @BatchProperty(name = Constants.EXPORT_COS_OBJECT_PATHPREFIX)
     String cosBucketPathPrefix;
 
     /**
      * If use IBM credential or Amazon secret keys.
      */
     @Inject
-    @BatchProperty(name = "cos.credential.ibm")
+    @BatchProperty(name = Constants.COS_IS_IBM_CREDENTIAL)
     String cosCredentialIbm;
+
+    /**
+     * Fhir resource type to process.
+     */
+    @Inject
+    @BatchProperty(name = Constants.PARTITION_RESOURCE_TYPE)
+    String fhirResourceType;
 
     /**
      * The Cos object name(only used by system export for exporting single resource type)
      */
     @Inject
-    @BatchProperty(name = "cos.bucket.objectname")
+    @BatchProperty(name = Constants.EXPORT_COS_OBJECTNAME)
     String cosBucketObjectName;
 
-    /**
-     * Fhir ResourceType.
-     */
     @Inject
-    @BatchProperty(name = "fhir.resourcetype")
-    String fhirResourceType;
+    StepContext stepCtx;
 
     @Inject
     JobContext jobContext;
@@ -112,20 +115,13 @@ public class ChunkWriter extends AbstractItemWriter {
         super();
     }
 
-
-    protected List<String> getResourceTypes() throws Exception {
-        return Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
-    }
-
     private void pushFhirJsonsToCos(InputStream in, int dataLength) throws Exception {
         if (cosClient == null) {
             logger.warning("pushFhirJsons2Cos: no cosClient!");
             throw new Exception("pushFhirJsons2Cos: no cosClient!");
         }
 
-        List<String> ResourceTypes = getResourceTypes();
-
-        TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
+        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
         if (chunkData == null) {
             logger.warning("pushFhirJsons2Cos: chunkData is null, this should never happen!");
             throw new Exception("pushFhirJsons2Cos: chunkData is null, this should never happen!");
@@ -145,7 +141,7 @@ public class ChunkWriter extends AbstractItemWriter {
             if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
                 BulkDataUtils.finishMultiPartUpload(cosClient, cosBucketName, cosBucketObjectName, chunkData.getUploadId(),
                         chunkData.getCosDataPacks());
-                jobContext.setExitStatus(cosBucketObjectName + "; " + ResourceTypes.get(chunkData.getIndexOfCurrentResourceType())
+                stepCtx.setExitStatus(cosBucketObjectName + "; " + fhirResourceType
                     + "[" + chunkData.getCurrentPartResourceNum() + "]");
             }
 
@@ -156,8 +152,7 @@ public class ChunkWriter extends AbstractItemWriter {
             String itemName;
             PutObjectRequest req;
             if (cosBucketPathPrefix != null && cosBucketPathPrefix.trim().length() > 0) {
-                itemName = cosBucketPathPrefix + "/" + ResourceTypes.get(chunkData.getIndexOfCurrentResourceType())
-                            + "_" + chunkData.getPartNum() + ".ndjson";
+                itemName = cosBucketPathPrefix + "/" + fhirResourceType + "_" + chunkData.getPartNum() + ".ndjson";
                 if (isExportPublic) {
                     // Set expiration time to 2 hours(7200 seconds).
                     // Note: IBM COS doesn't honor this but also doesn't fail on this.
@@ -172,8 +167,7 @@ public class ChunkWriter extends AbstractItemWriter {
                 }
 
             } else {
-                itemName = "job" + jobContext.getExecutionId() + "/" + ResourceTypes.get(chunkData.getIndexOfCurrentResourceType())
-                            + "_" + chunkData.getPartNum() + ".ndjson";
+                itemName = "job" + jobContext.getExecutionId() + "/" + fhirResourceType + "_" + chunkData.getPartNum() + ".ndjson";
                 req = new PutObjectRequest(cosBucketName, itemName, in, metadata);
             }
 
@@ -181,22 +175,19 @@ public class ChunkWriter extends AbstractItemWriter {
             logger.info(
                     "pushFhirJsons2Cos: " + itemName + "(" + dataLength + " bytes) was successfully written to COS");
             // Job exit status, e.g, Patient[1000,1000,200]:Observation[1000,1000,200]
-            if (jobContext.getExitStatus() == null) {
-                jobContext.setExitStatus(ResourceTypes.get(chunkData.getIndexOfCurrentResourceType())
-                        + "[" + chunkData.getCurrentPartResourceNum());
+            if (chunkData.getResourceTypeSummary() == null) {
+                chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + fhirResourceType + "[" + chunkData.getCurrentPartResourceNum());
                 if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
-                    jobContext.setExitStatus(jobContext.getExitStatus() + "]");
+                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
                 }
             } else {
                 if (chunkData.getPartNum() == 1) {
-                    jobContext.setExitStatus(jobContext.getExitStatus() + ":"
-                            + ResourceTypes.get(chunkData.getIndexOfCurrentResourceType()) + "["
-                            + chunkData.getCurrentPartResourceNum());
+                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + ":" + fhirResourceType + "[" + chunkData.getCurrentPartResourceNum());
                 } else {
-                    jobContext.setExitStatus(jobContext.getExitStatus() + "," + chunkData.getCurrentPartResourceNum());
+                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentPartResourceNum());
                 }
                 if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
-                    jobContext.setExitStatus(jobContext.getExitStatus() + "]");
+                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
                 }
             }
             chunkData.setPartNum(chunkData.getPartNum() + 1);
@@ -229,7 +220,7 @@ public class ChunkWriter extends AbstractItemWriter {
             cosClient.createBucket(req);
         }
 
-        TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
+        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
         if (chunkData == null) {
             logger.warning("writeItems: chunkData is null, this should never happen!");
             throw new Exception("writeItems: chunkData is null, this should never happen!");
