@@ -10,8 +10,37 @@ set -ex
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd ${DIR}
 
-java -jar schema/fhir-persistence-schema-*-cli.jar \
-  --prop-file db2.properties --schema-name FHIRDATA --create-schemas
+# Loop up to 4
+not_ready=true
+retry_count=0
+while [ $not_ready = true ]
+do 
+  LOG_OUT=$(java -jar schema/fhir-persistence-schema-*-cli.jar \
+    --prop-file db2.properties --schema-name FHIRDATA --create-schemas)
+  EXIT_CODE=$NF
+  if [ $EXIT_CODE -eq 0 ]
+  then 
+    # We now just send out the output and stop the loop
+    echo $LOG_OUT
+    not_ready=false
+  elif [ $EXIT_CODE -eq 4 ] || [ echo $LOG_OUT | grep -q "SQLCODE=-1035, SQLSTATE=57019" ]
+  then
+    # EXIT_NOT_READY = 4 - we know in certain versions that this is to be automatically re-tried
+    retry_count=$((retry_count + 1))
+    if [ $retry_count -lt 4 ]
+    then
+      echo "Waiting for the Database to be ready - Sleeping"
+      sleep 60
+    else
+      echo "Reached Limit while waiting"
+      echo $LOG_OUT
+      exit $NF
+    fi
+  else
+    # We need to check and/or fail. 
+    echo $LOG_OUT
+  fi
+done
 
 java -jar schema/fhir-persistence-schema-*-cli.jar \
   --prop-file db2.properties --schema-name FHIRDATA --update-schema --pool-size 2

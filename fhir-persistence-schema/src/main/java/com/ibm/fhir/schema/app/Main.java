@@ -32,6 +32,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
+import com.ibm.fhir.database.utils.api.DatabaseNotReadyException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
@@ -90,6 +91,7 @@ public class Main {
     private static final int EXIT_BAD_ARGS = 1; // invalid CLI arguments
     private static final int EXIT_RUNTIME_ERROR = 2; // programming error
     private static final int EXIT_VALIDATION_FAILED = 3; // validation test failed
+    private static final int EXIT_NOT_READY = 4; // DATABASE NOT READY
     private static final double NANOS = 1e9;
 
     // Indicates if the feature is enabled for the DbType
@@ -1197,6 +1199,9 @@ public class Main {
             m.loadDriver();
             m.process();
             exitStatus = m.getExitStatus();
+        } catch(DatabaseNotReadyException x) {
+            logger.log(Level.SEVERE, "The database is not yet available. Please re-try.", x);
+            exitStatus = EXIT_NOT_READY;
         } catch (IllegalArgumentException x) {
             logger.log(Level.SEVERE, "bad argument", x);
             printUsage();
@@ -1214,5 +1219,4 @@ public class Main {
         // really ought to be able to see that this is a main function in a J2SE environment
         System.exit(exitStatus);
     }
-
 }
