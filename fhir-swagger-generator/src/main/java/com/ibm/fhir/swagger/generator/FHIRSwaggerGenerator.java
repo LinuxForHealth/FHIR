@@ -29,6 +29,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonStructure;
 import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
@@ -994,18 +995,20 @@ public class FHIRSwaggerGenerator {
             property.add("description", description);
         }
 
+
         // Include select examples to help tools avoid bumping into infinite recursion (if they try generate examples)
+        JsonStructure example = null;
         if (Element.class.equals(modelClass) && Extension.class.equals(fieldClass)) {
             // "example": [{"url":"http://example.com","valueString":"textValue"}]
             JsonObject obj = factory.createObjectBuilder()
                 .add("url", "http://example.com")
                 .add("valueString", "text value")
                 .build();
-            JsonArray example = factory.createArrayBuilder().add(obj).build();
+            example = factory.createArrayBuilder().add(obj).build();
             property.add("example", example);
         } else if (Identifier.class.equals(modelClass) && Reference.class.equals(fieldClass)) {
             // "example": {"reference":"Organization/123","type":"Organization","display":"The Assigning Organization"}
-            JsonObject example = factory.createObjectBuilder()
+            example = factory.createObjectBuilder()
                     .add("reference", "Organization/123")
                     .add("type", "Organization")
                     .add("display", "The Assigning Organization")
@@ -1018,8 +1021,14 @@ public class FHIRSwaggerGenerator {
             JsonObjectBuilder wrapper = factory.createObjectBuilder();
             wrapper.add("type", "array");
             wrapper.add("items", property);
+            if (example != null) {
+                wrapper.add("example", example);
+            }
             properties.add(elementName, wrapper);
         } else {
+            if (example != null) {
+                property.add("example", example);
+            }
             properties.add(elementName, property);
         }
     }
