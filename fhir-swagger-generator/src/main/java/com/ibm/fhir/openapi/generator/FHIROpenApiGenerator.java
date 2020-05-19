@@ -1059,6 +1059,8 @@ public class FHIROpenApiGenerator {
                 }
             }
 
+            JsonArray requiredArray = required.build();
+
             Class<?> superClass = modelClass.getSuperclass();
             if (superClass != null && superClass.getPackage().getName().startsWith("com.ibm.fhir.model")
                     && !superClass.equals(AbstractVisitable.class)) {
@@ -1071,6 +1073,9 @@ public class FHIROpenApiGenerator {
                 JsonObjectBuilder wrapper = factory.createObjectBuilder();
                 wrapper.add("type", "object");
                 wrapper.add("properties", properties);
+                if (!requiredArray.isEmpty()) {
+                    wrapper.add("required", requiredArray);
+                }
                 allOf.add(wrapper);
 
                 definition.add("allOf", allOf);
@@ -1080,11 +1085,9 @@ public class FHIROpenApiGenerator {
                     definition.add("discriminator", "resourceType");
                 }
                 definition.add("properties", properties);
-            }
-
-            JsonArray requiredArray = required.build();
-            if (!requiredArray.isEmpty()) {
-                definition.add("required", requiredArray);
+                if (!requiredArray.isEmpty()) {
+                    definition.add("required", requiredArray);
+                }
             }
 
             if (Resource.class.isAssignableFrom(modelClass)) {
