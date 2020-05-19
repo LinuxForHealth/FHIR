@@ -159,7 +159,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void dropTablespace(String tablespaceName) {
-        logger.fine("Create tablespace not supported in Derby");
+        logger.fine("Drop tablespace not supported in Derby");
     }
 
     @Override

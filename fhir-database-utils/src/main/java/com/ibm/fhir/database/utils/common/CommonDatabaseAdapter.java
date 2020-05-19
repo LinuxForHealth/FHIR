@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -318,7 +319,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         ddl.append(DataDefinitionUtil.join(cols));
         ddl.append(") REFERENCES ");
         ddl.append(targetName);
-        if(targetColumnName != null && !targetColumnName.isEmpty()) {
+        if (!Objects.isNull(targetColumnName) && !targetColumnName.isEmpty()) {
             ddl.append(' ')
                 .append('(')
                 .append(targetColumnName)

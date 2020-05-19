@@ -831,7 +831,7 @@ public class Main {
         JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(javaBatchSchemaName);
         javaBatchSchemaGenerator.buildJavaBatchSchema(pdm);
 
-        final Db2Adapter adapter = new Db2Adapter(this.connectionPool);
+        final IDatabaseAdapter adapter = getDbAdapter(connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 pdm.applyGrants(adapter, groupName, grantTo);
@@ -1072,6 +1072,10 @@ public class Main {
      * tenant record exists in the tenants table)
      */
     protected void testTenant() {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            return;
+        }
+
         if (this.tenantName == null || this.tenantName.isEmpty()) {
             throw new IllegalStateException("Missing tenant name");
         }
@@ -1125,6 +1129,10 @@ public class Main {
      * Deallocate this tenant, dropping all the related partitions
      */
     protected void dropTenant() {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            return;
+        }
+
         // Mark the tenant as being dropped. This should prevent it from
         // being used in any way
         Db2Adapter adapter = new Db2Adapter(connectionPool);
@@ -1170,7 +1178,15 @@ public class Main {
 
     }
 
+    /**
+     * Db2 specific feature to check if it is compatible. 
+     * @return
+     */
     protected boolean checkCompatibility() {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            return false;
+        }
+
         Db2Adapter adapter = new Db2Adapter(connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             return adapter.checkCompatibility(this.adminSchemaName);
