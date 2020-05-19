@@ -1275,7 +1275,6 @@ public class FHIROpenApiGenerator {
                 .add("valueString", "text value")
                 .build();
             example = factory.createArrayBuilder().add(obj).build();
-            property.add("example", example);
         } else if (Identifier.class.equals(modelClass) && Reference.class.equals(fieldClass)) {
             // "example": {"reference":"Organization/123","type":"Organization","display":"The Assigning Organization"}
             example = factory.createObjectBuilder()
@@ -1284,7 +1283,6 @@ public class FHIROpenApiGenerator {
                     .add("display", "The Assigning Organization")
                     // skip assigner to break the recursion
                     .build();
-            property.add("example", example);
         }
 
         if (many) {
