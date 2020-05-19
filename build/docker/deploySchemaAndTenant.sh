@@ -40,7 +40,7 @@ do
     else
       echo "Reached Limit while waiting"
       echo "$LOG_OUT"
-      exit "$NF"
+      exit "$EXIT_CODE"
     fi
   else
     # We need to check and/or fail. 
