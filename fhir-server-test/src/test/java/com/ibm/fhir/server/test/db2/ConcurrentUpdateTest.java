@@ -33,8 +33,7 @@ import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**
  * Tests specifically the concurrent creation and updating of a single patient, with the updateCreate feature enabled.
- * The idea is to ensure that no patients with duplicate logical ids are created. This test class was created in
- * response to Defect 259645.
+ * The idea is to ensure that no patients with duplicate logical ids are created.
  * 
  * NOTE: This test is NOT included in the fhir-server testng suite because of an internal problem with Derby that
  * surfaces after the first execution of this test against a clean Derby DB. Subsequent test runs of this class will

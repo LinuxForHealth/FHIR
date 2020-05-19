@@ -823,6 +823,14 @@ public class Main {
         PhysicalDataModel pdm = new PhysicalDataModel();
         gen.buildSchema(pdm);
 
+        // Build/update the Liberty OAuth-related tables
+        OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(oauthSchemaName);
+        oauthSchemaGenerator.buildOAuthSchema(pdm);
+
+        // Build/update the Liberty JBatch related tables
+        JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(javaBatchSchemaName);
+        javaBatchSchemaGenerator.buildJavaBatchSchema(pdm);
+
         final Db2Adapter adapter = new Db2Adapter(this.connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
