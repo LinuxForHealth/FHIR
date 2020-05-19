@@ -74,15 +74,9 @@ public class ColumnDef implements Comparable<ColumnDef> {
         if (other instanceof ColumnDef) {
             ColumnDef that = (ColumnDef)other;
             return this.name.equals(that.name);
-        }
-        else {
+        } else {
             return false;
         }
-    }
-
-    @Override
-    public int hashCode() {
-        return this.name.hashCode();
     }
 
     public int getInlineSize() {
@@ -91,5 +85,10 @@ public class ColumnDef implements Comparable<ColumnDef> {
 
     public void setInlineSize(int inlineSize) {
         this.inlineSize = inlineSize;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode();
     }
 }

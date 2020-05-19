@@ -243,14 +243,12 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createForeignKeyConstraint(String constraintName, String schemaName, String name,
-            String targetSchema, String targetTable, String tenantColumnName,
-            List<String> columns, boolean enforced) {
-
+    public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema,
+        String targetTable, String targetColumnName, String tenantColumnName, List<String> columns, boolean enforced) {
         // If enforced=false, skip the constraint because PostgreSQL doesn't support unenforced constraints
         if (enforced) {
             // Make the call, but without the tenantColumnName because PostgreSQL doesn't support our multi-tenant implementation
-            super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, null, columns, true);
+            super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, targetColumnName, null, columns, true);
         }
     }
 
@@ -267,7 +265,7 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
             AddForeignKeyConstraint afk = (AddForeignKeyConstraint) stmt;
             for (ForeignKeyConstraint constraint : afk.getConstraints()) {
                 createForeignKeyConstraint(constraint.getConstraintName(), afk.getSchemaName(), afk.getTableName(),
-                    constraint.getTargetSchema(), constraint.getTargetTable(),
+                    constraint.getTargetSchema(), constraint.getTargetTable(), constraint.getTargetColumnName(),
                     afk.getTenantColumnName(), constraint.getColumns(), constraint.isEnforced());
             }
         } else {

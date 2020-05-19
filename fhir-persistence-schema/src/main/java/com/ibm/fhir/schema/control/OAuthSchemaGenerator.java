@@ -51,9 +51,7 @@ public class OAuthSchemaGenerator {
     private static final String PROVIDERID = "PROVIDERID";
 
     /**
-     * Generate the IBM FHIR Server Schema for all resourceTypes
-     *
-     * @param adminSchemaName
+     * sets up the OAuth Schema with the given schema.
      * @param schemaName
      */
     public OAuthSchemaGenerator(String schemaName) {
@@ -89,7 +87,10 @@ public class OAuthSchemaGenerator {
                 .addClobColumn(EXTENDEDFIELDS, false, "{}")
                 .addPrimaryKey(PK + LOOKUPKEY, LOOKUPKEY)
                 .addUniqueIndex(OAUTH20CACHE + "_" + EXPIRES, EXPIRES) // ASC is the default
-                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.ALL)
+                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.SELECT)
+                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.INSERT)
+                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.DELETE)
+                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.UPDATE)
                 .build(model);
 
         model.addTable(cache);
@@ -106,7 +107,10 @@ public class OAuthSchemaGenerator {
                 .addIntColumn(         ENABLED,       true)
                 .addClobColumn( CLIENTMETADATA,       false, "{}")
                 .addPrimaryKey(PK + "COMPIDCLIENTID", COMPONENTID, CLIENTID)
-                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.ALL)
+                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.SELECT)
+                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.INSERT)
+                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.DELETE)
+                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.UPDATE)
                 .build(model);
 
         model.addTable(clientConfig);
@@ -121,7 +125,10 @@ public class OAuthSchemaGenerator {
                 .addVarcharColumn(       SCOPE, 1024, false)
                 .addBigIntColumn(      EXPIRES,       true)
                 .addClobColumn( EXTENDEDFIELDS,       false, "{}")
-                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.ALL)
+                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.SELECT)
+                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.INSERT)
+                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.DELETE)
+                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.UPDATE)
                 .build(model);
 
         model.addTable(consentCache);

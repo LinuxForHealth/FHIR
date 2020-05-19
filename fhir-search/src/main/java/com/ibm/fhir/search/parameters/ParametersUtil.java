@@ -210,9 +210,9 @@ public final class ParametersUtil {
         // Code is the code used in the URL or the parameter name in a parameters resource for this search parameter.
         // @see https://www.hl7.org/fhir/searchparameter-definitions.html#SearchParameter.code
 
-        if (code != null && name != null && !code.equals(name) && log.isLoggable(Level.WARNING)) {
+        if (code != null && name != null && !code.equals(name) && log.isLoggable(Level.FINE)) {
             // Note, this is conditionally output, while the code assist complains it is not.
-            log.warning(String.format(NO_MATCH_ON_NAME_CODE, code, name));
+            log.fine(String.format(NO_MATCH_ON_NAME_CODE, code, name));
         }
     }
 

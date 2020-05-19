@@ -54,7 +54,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     // The translator used to to tweak the syntax for the database
     private final IDatabaseTranslator translator;
 
-
     /**
      * Protected constructor
      * @param tgt database targeted
@@ -104,15 +103,19 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
             result.append(column.getName());
             result.append(" ");
             result.append(column.getTypeInfo(this));
+
             if (identity != null && column.getName().equals(identity.getColumnName())) {
                 result.append(" GENERATED " + identity.getGenerated() + " AS IDENTITY");
             } // AS IDENTITY implies NOT NULL so this can be and else if
             else if (!column.isNullable()) {
                 result.append(" NOT NULL");
             }
+
+            // Outputs the default value
+            if (column.getDefaultVal() != null) {
+                result.append(" WITH DEFAULT ").append(column.getDefaultVal());
+            }
         }
-
-
         return result.toString();
     }
 
@@ -213,8 +216,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         if (this.connectionProvider != null) {
             try (Connection c = connectionProvider.getConnection()) {
                 runStatement(c, ddl);
-            }
-            catch (SQLException x) {
+            } catch (SQLException x) {
                 throw translator.translate(x);
             }
 
@@ -231,7 +233,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
      * @throws SQLException
      */
     private void runStatement(Connection c, final String ddl) throws SQLException {
-
         if (logger.isLoggable(Level.FINE)) {
             System.out.println(ddl);
         }
@@ -295,9 +296,8 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     }
 
     @Override
-    public void createForeignKeyConstraint(String constraintName, String schemaName, String name,
-            String targetSchema, String targetTable, String tenantColumnName,
-            List<String> columns, boolean enforced) {
+    public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema,
+        String targetTable, String targetColumnName, String tenantColumnName, List<String> columns, boolean enforced) {
 
         String tableName = DataDefinitionUtil.getQualifiedName(schemaName, name);
         String targetName = DataDefinitionUtil.getQualifiedName(targetSchema, targetTable);
@@ -318,6 +318,12 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         ddl.append(DataDefinitionUtil.join(cols));
         ddl.append(") REFERENCES ");
         ddl.append(targetName);
+        if(targetColumnName != null && !targetColumnName.isEmpty()) {
+            ddl.append(' ')
+                .append('(')
+                .append(targetColumnName)
+                .append(')');
+        }
         if (!enforced) {
             ddl.append(" NOT ENFORCED");
         }
@@ -325,9 +331,29 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         try {
             // it seems that these statements are vulnerable to deadlocks in the DB2 dictionary
             runStatement(ddl.toString());
-        }
-        catch (Exception x) {
+        } catch (Exception x) {
             logger.warning("Statement failed (" + x.getMessage() + ") " + ddl.toString());
+            throw x;
+        }
+    }
+
+    @Override
+    public void createUniqueConstraint(String constraintName, List<String> columns, String schemaName, String name) {
+        String tableName = DataDefinitionUtil.getQualifiedName(schemaName, name);
+
+        StringBuilder ddl = new StringBuilder();
+        ddl.append("ALTER TABLE ");
+        ddl.append(tableName);
+        ddl.append(" ADD CONSTRAINT ");
+        ddl.append(constraintName);
+        ddl.append(" UNIQUE (");
+        ddl.append(DataDefinitionUtil.join(columns));
+        ddl.append(")");
+
+        try {
+            runStatement(ddl.toString());
+        } catch (Exception x) {
+            logger.warning("Statement failed [" + x.getMessage() + "] [" + ddl.toString() + "]");
             throw x;
         }
     }

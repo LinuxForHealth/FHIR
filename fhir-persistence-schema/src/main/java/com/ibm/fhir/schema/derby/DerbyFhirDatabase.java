@@ -40,6 +40,7 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     private static final String SCHEMA_NAME = "FHIRDATA";
     private static final String ADMIN_SCHEMA_NAME = "FHIR_ADMIN";
     private static final String OAUTH_SCHEMANAME = "FHIR_OAUTH";
+    private static final String BATCH_SCHEMANAME = "FHIR_BATCH";
 
     // The translator to help us out with Derby syntax
     private static final IDatabaseTranslator DERBY_TRANSLATOR = new DerbyTranslator();
@@ -137,7 +138,7 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, derbyAdapter);
 
         // Current version history for the data schema
-        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME, OAUTH_SCHEMANAME);
+        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME, OAUTH_SCHEMANAME, BATCH_SCHEMANAME);
         vhs.setTransactionProvider(transactionProvider);
         vhs.setTarget(derbyAdapter);
         vhs.init();

@@ -161,7 +161,12 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         }
 
         // Thread pool for parallelizing requests
-        final ExecutorService pool = Executors.newFixedThreadPool(40);
+        int poolSize = connectionProvider.getPoolSize();
+        if (poolSize == -1) {
+            // Default Value - 40
+            poolSize = 40;
+        }
+        final ExecutorService pool = Executors.newFixedThreadPool(poolSize);
 
         final AtomicInteger taskCount = new AtomicInteger();
         for (Table t: tables) {
@@ -171,21 +176,17 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                 // We should only be dealing with partitioned tables at this stage, so this
                 // is a fatal error
                 throw new DataAccessException("No partition information found for table: " + qualifiedName);
-            }
-            else {
+            } else {
                 // Submit to the pool for processing
                 taskCount.incrementAndGet();
                 pool.submit(new Runnable() {
-
                     @Override
                     public void run() {
                         try {
                             createTenantPartitionsThr(t, pi, newTenantId, tablespaceName);
-                        }
-                        catch (Throwable x) {
+                        } catch (Throwable x) {
                             logger.log(Level.SEVERE, "tenant creation failed: " + t.getName(), x);
-                        }
-                        finally {
+                        } finally {
                             taskCount.decrementAndGet();
                         }
                     }
@@ -200,8 +201,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                 logger.info("Waiting for partitioning tasks to complete: " + taskCount.get());
                 pool.awaitTermination(5000, TimeUnit.MILLISECONDS);
             }
-        }
-        catch (InterruptedException x) {
+        } catch (InterruptedException x) {
             // Not cool. This means that only some of the tables will have the partition assigned
             throw new DataAccessException("Tenant partition creation did not complete");
         }
@@ -218,7 +218,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
      * @param tablespaceName
      */
     public void createTenantPartitionsThr(Table t, PartitionInfo pi, int newTenantId, String tablespaceName) {
-
         // Each thread needs to manage its own transaction
         try (ITransaction tx = TransactionFactory.openTransaction(connectionProvider)) {
             try {
@@ -230,8 +229,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                 Db2AddTablePartition cmd = new Db2AddTablePartition(t.getSchemaName(), t.getObjectName(), newTenantId, tablespaceName);
                 runStatement(cmd);
                 logger.info("Added tenant partition: TENANT" + newTenantId + " to " + t.getName());
-            }
-            catch (RuntimeException x) {
+            } catch (RuntimeException x) {
                 logger.severe("Rolling back transaction after tenant creation failed for table " + t.getName());
                 tx.setRollbackOnly();
                 throw x;

@@ -79,7 +79,6 @@ public class FhirSchemaGenerator {
     // The schema used for administration objects like the tenants table, variable etc
     private final String adminSchemaName;
 
-    private static final String ADD_RESOURCE_TEMPLATE = "add_resource_template.sql";
     private static final String ADD_CODE_SYSTEM = "ADD_CODE_SYSTEM";
     private static final String ADD_PARAMETER_NAME = "ADD_PARAMETER_NAME";
     private static final String ADD_RESOURCE_TYPE = "ADD_RESOURCE_TYPE";

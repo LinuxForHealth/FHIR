@@ -74,7 +74,6 @@ public class PhysicalDataModel implements IDataModel {
 
         // Update our tag index for this object
         collectTags(t);
-
         tables.put(t.getName(), t);
     }
 
@@ -102,7 +101,6 @@ public class PhysicalDataModel implements IDataModel {
         for (IDatabaseObject obj: allObjects) {
             obj.collect(tc, target, tp, vhs);
         }
-
     }
 
     /**

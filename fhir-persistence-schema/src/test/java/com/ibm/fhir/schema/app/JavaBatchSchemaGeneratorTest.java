@@ -1,16 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.schema.app;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.io.Reader;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -37,89 +33,55 @@ import java.sql.Statement;
 import java.sql.Struct;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.temporal.ChronoField;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.concurrent.Executor;
+
+import org.testng.annotations.Test;
 
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
-import com.ibm.fhir.schema.control.FhirSchemaConstants;
-import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
-import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 
 /**
- * The SchemaPrinter outputs the DDL into three files - schema.sql, grants.sql, stored-procedures.sql.<br>
- * These files are generated using Mock java.sql objects. These mock objects follow through the code to<br>
- * capture the SQL as it flows to the prospective database:<br>
- * <ul>
- *  <li>Build a JDBCTarget with PrintConnection</li>
- *  <li>The Database Tools builds the schema retrieving a PreparedStatement, CallableStatement or Statement
- *      from the PrintConnection</li>
- *  <li>The PrintConnection passes a PrintPreparedStatement, PrintCallableStatement, PrintStatement</li>
- *  <li>As the prepareStatement, execute or executeQuery are executed, the SQL passed is put into the commands or
- *      stored procedures map.</li>
- *  <li>the results, after the full schema generation, is printed out to console or files</li>
- * <ul>
- * <br>
- * For real work, use {@link Main}.<br>
- * <br>
- * To run this code, build the jar (fhir-database-utils and fhir-persistence-schema) <br>
- * java -cp ./fhir-database-utils.jar:fhir-persistence-schema.jar com.ibm.fhir.schema.app.SchemaPrinter [--to-file]<br>
- * <br>
- * Without to-file, the output is the current System.out else it's schema.sql, grants.sql and stored-procedures.sql of <br>
- * the current directory.<br>
- * <br>
- * For db2 import to<br>
- * - schema.sql {@code db2 -tvf schema.sql} <br>
- * - grants.sql {@code db2 -tvf grants.sql} <br>
- * - stored-procedures.sql {@code db2 -td@ -vf stored-procedures.sql}<br>
- * <br>
+ * 
  */
-public class SchemaPrinter {
-    private static final String SCHEMA_NAME = "FHIRAPP";
-    private static final String ADMIN_SCHEMA_NAME = "FHIR_ADMIN";
-    private static final String OAUTH_SCHEMANAME = "FHIR_OAUTH";
-    private static final String BATCH_SCHEMANAME = "FHIR_BATCH";
+public class JavaBatchSchemaGeneratorTest {
+    @Test
+    public void testJavaBatchSchemaGenerator() {
+        PrintConnection connection = new PrintConnection();
+        JdbcTarget target = new JdbcTarget(connection);
+        Db2Adapter adapter = new Db2Adapter(target);
 
-    private static final String DELIMITER = ";";
-    private static final String STORED_PROCEDURE_DELIMITER = "@";
+        // Set up the version history service first if it doesn't yet exist
+        CreateVersionHistory.createTableIfNeeded("FHIR_ADMIN", adapter);
 
-    private boolean toFile = false;
-    private File schemaFile = new File("schema.sql");
-    private File spFile = new File("stored-procedures.sql");
-    private File grantFile = new File("grants.sql");
+        // Current version history for the database. This is used by applyWithHistory
+        // to determine which updates to apply and to record the new changes as they
+        // are applied
+        VersionHistoryService vhs = new VersionHistoryService("FHIR_ADMIN", "FHIRDATA", "FHIR_OAUTH", "FHIR_BATCH");
+        vhs.setTarget(adapter);
 
-    public PrintStream out = System.out;
-    public PrintStream outStoredProcedure = System.out;
-    public PrintStream outGrants = System.out;
+        PhysicalDataModel pdm = new PhysicalDataModel();
+        JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator("FHIR_BATCH");
+        generator.buildJavaBatchSchema(pdm);
+        pdm.apply(adapter);
 
+        for(Entry<String, String> command : commands.entrySet()) {
+            System.out.println(command.getKey() + ";");
+        }
+    }
+    
     // Map is used so we can split by type if we wanted. LinkedHashSet is also OK. 
     private Map<String, String> commands = new LinkedHashMap<>();
     private Map<String, String> storedProceduresCommands = new LinkedHashMap<>();
-
-    /**
-     *  constructor that switches behavior toFile our output stream. 
-     */
-    public SchemaPrinter(boolean toFile) throws FileNotFoundException {
-
-        this.toFile = toFile;
-
-        if (this.toFile) {
-            out = new PrintStream(new FileOutputStream(schemaFile));
-            outStoredProcedure = new PrintStream(new FileOutputStream(spFile));
-            outGrants = new PrintStream(new FileOutputStream(grantFile));
-        }
-    }
-
+    
     /**
      * process each sql so it can be 'cleaned' before putting into the linked map.
      */
@@ -147,150 +109,12 @@ public class SchemaPrinter {
             }
         }
     }
-
-    /**
-     * processes through using a fake connection.
-     */
-    public void process() {
-        // Pretend that our target is a DB2 database
-        PrintConnection connection = new PrintConnection();
-        JdbcTarget target = new JdbcTarget(connection);
-        Db2Adapter adapter = new Db2Adapter(target);
-
-        // Set up the version history service first if it doesn't yet exist
-        CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter);
-
-        // Current version history for the database. This is used by applyWithHistory
-        // to determine which updates to apply and to record the new changes as they
-        // are applied
-        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME, OAUTH_SCHEMANAME, BATCH_SCHEMANAME);
-        vhs.setTarget(adapter);
-
-        // Create an instance of the service and use it to test creation
-        // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
-        PhysicalDataModel model = new PhysicalDataModel();
-        gen.buildSchema(model);
-
-        OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(OAUTH_SCHEMANAME);
-        oauthSchemaGenerator.buildOAuthSchema(model);
-
-        JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(BATCH_SCHEMANAME);
-        javaBatchSchemaGenerator.buildJavaBatchSchema(model);
-        model.apply(adapter);
-    }
     
-    public void processApplyGrants() {
-     // Pretend that our target is a DB2 database
-        PrintConnection connection = new PrintConnection();
-        JdbcTarget target = new JdbcTarget(connection);
-        Db2Adapter adapter = new Db2Adapter(target);
-
-        // Set up the version history service first if it doesn't yet exist
-        CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter);
-
-        // Current version history for the database. This is used by applyWithHistory
-        // to determine which updates to apply and to record the new changes as they
-        // are applied
-        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME, OAUTH_SCHEMANAME, BATCH_SCHEMANAME);
-        vhs.setTarget(adapter);
-
-        // Create an instance of the service and use it to test creation
-        // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
-        PhysicalDataModel model = new PhysicalDataModel();
-        gen.buildSchema(model);
-
-        OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(OAUTH_SCHEMANAME);
-        oauthSchemaGenerator.buildOAuthSchema(model);
-
-        JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(BATCH_SCHEMANAME);
-        javaBatchSchemaGenerator.buildJavaBatchSchema(model);
-
-        // clear it out. 
-        commands.clear();
-        model.applyGrants(adapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, "FHIRUSER");
-    }
-    
-    /**
-     * prints the grants
-     */
-    public void printGrants() {
-        printHeader(outGrants);
-        commands.keySet().stream().map(sql -> sql + DELIMITER + "\n").forEach(out::println);
-    }
-    
-    /*
-     * print solid line
-     */
-    private void printLine(PrintStream output) {
-        output.println("-------------------------------------------------------------------------------");
-    }
-    
-    /*
-     * print header
-     */
-    private void printHeader(PrintStream output) {
-        int year = java.time.ZonedDateTime.now(ZoneId.of("UTC")).get(ChronoField.YEAR);
-        printLine(output);
-        output.println("-- (C) Copyright IBM Corp. 2016, " + year);
-        output.println("--");
-        output.println("-- SPDX-License-Identifier: Apache-2.0");
-        printLine(output);
-        output.println("-- IBM FHIR Server - Schema Output");
-        output.println("-- Generated at " + Instant.now() + "");
-        printLine(output);
-        output.println("");
-    }
-    /**
-     * prints the schema out to two locations (sometimes the same printstream
-     */
-    public void print() {
-        printHeader(out);
-        out.println("CREATE SCHEMA " + SCHEMA_NAME + DELIMITER + "\n");
-        out.println("CREATE SCHEMA " + ADMIN_SCHEMA_NAME + DELIMITER + "\n");
-        commands.keySet().stream().map(sql -> sql + DELIMITER + "\n").forEach(out::println);
-        
-        printHeader(outStoredProcedure);
-        storedProceduresCommands.keySet().stream().map(sql -> sql + STORED_PROCEDURE_DELIMITER + "\n").forEach(outStoredProcedure::println);
-
-        // Intentionally DO NOT close the streams. 
-    }
-
-
-    public static void main(String[] args) {
-
-        boolean outputToFile = false;
-        String outputFile = "";
-
-        // If there are files
-        for (int i = 0; i < args.length; i++) {
-            String arg = args[i];
-            switch (arg) {
-            case "--to-file":
-                outputToFile = true;
-                break;
-            default:
-                throw new IllegalArgumentException("Please use the --output");
-            }
-        }
-
-        try {
-            SchemaPrinter printer = new SchemaPrinter(outputToFile);
-            printer.process();
-            printer.print();
-            printer.processApplyGrants();
-            printer.printGrants();
-        } catch (FileNotFoundException e) {
-            System.out.println("The File is not able to be created or found - [" + outputFile + "]");
-        }
-    }
-
     /*
      * The following classes are 'dummy implementations' that enable printing of the
      * SQL.
      */
-    class PrintConnection implements java.sql.Connection {
+    public class PrintConnection implements java.sql.Connection {
 
         @Override
         public <T> T unwrap(Class<T> iface) throws SQLException {

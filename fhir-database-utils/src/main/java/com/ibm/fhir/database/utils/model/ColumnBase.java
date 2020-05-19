@@ -12,7 +12,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
  * An immutable definition of a column in a table
  */
 public abstract class ColumnBase {
-
     // Name of the column
     private final String name;
 
@@ -85,5 +84,4 @@ public abstract class ColumnBase {
     public String getTypeDef(IDatabaseTypeAdapter adapter) {
         return this.name + " " + getTypeInfo(adapter);
     }
-
 }

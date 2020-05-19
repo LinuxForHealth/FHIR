@@ -24,7 +24,6 @@ import com.ibm.fhir.database.utils.model.Table;
  * procedures.
  */
 public interface IDatabaseAdapter {
-
     /**
      * Get the {@link IDatabaseTranslator} associated with this adapter
      *
@@ -245,12 +244,13 @@ public interface IDatabaseAdapter {
      * @param name
      * @param targetSchema
      * @param targetTable
+     * @param targetColumnName
      * @param tenantColumnName
      * @param columns
      * @param enforced
      */
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema,
-            String targetTable, String tenantColumnName, List<String> columns, boolean enforced);
+            String targetTable, String targetColumnName, String tenantColumnName, List<String> columns, boolean enforced);
 
     /**
      * Allocate a new tenant
@@ -401,4 +401,14 @@ public interface IDatabaseAdapter {
      * @param schemaName
      */
     public void createSchema(String schemaName);
+
+    /**
+     * create a unique constraint on a table.
+     * 
+     * @param constraintName
+     * @param columns
+     * @param schemaName
+     * @param name
+     */
+    public void createUniqueConstraint(String constraintName, List<String> columns, String schemaName, String name);
 }

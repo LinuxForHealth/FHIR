@@ -69,6 +69,7 @@ import com.ibm.fhir.schema.app.util.TenantKeyFileUtil;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
+import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
@@ -84,7 +85,6 @@ import com.ibm.fhir.task.core.service.TaskService;
  * This utility also includes an option to exercise the tenant partitioning code.
  */
 public class Main {
-
     private static final Logger logger = Logger.getLogger(Main.class.getName());
     private static final int EXIT_OK = 0; // validation was successful
     private static final int EXIT_BAD_ARGS = 1; // invalid CLI arguments
@@ -95,6 +95,7 @@ public class Main {
     // Indicates if the feature is enabled for the DbType
     public List<DbType> MULTITENANT_FEATURE_ENABLED = Arrays.asList(DbType.DB2);
     public List<DbType> STORED_PROCEDURE_ENABLED = Arrays.asList(DbType.DB2, DbType.POSTGRESQL);
+    public List<DbType> PRIVILEGES_FEATURE_ENABLED = Arrays.asList(DbType.DB2, DbType.POSTGRESQL);
 
     // Properties accumulated as we parse args and read configuration files
     private final Properties properties = new Properties();
@@ -108,6 +109,9 @@ public class Main {
     // The schema used for administration of OAuth 2.0 clients
     private String oauthSchemaName = "FHIR_OAUTH";
 
+    // The schema used for Java Batch
+    private String javaBatchSchemaName = "FHIR_BATCH";
+
     // Arguments requesting we drop the objects from the schema
     private boolean dropSchema = false;
     private boolean dropAdmin = false;
@@ -118,6 +122,8 @@ public class Main {
     private boolean updateFhirSchema = false;
     private boolean createOauthSchema = false;
     private boolean updateOauthSchema = false;
+    private boolean createJavaBatchSchema = false;
+    private boolean updateJavaBatchSchema = false;
 
     // By default, the dryRun option is OFF, and FALSE
     // When overridden, it simulates the actions.
@@ -163,7 +169,6 @@ public class Main {
      * @param args
      */
     protected void parseArgs(String[] args) {
-
         // Arguments are pretty simple, so we go with a basic switch instead of having
         // yet another dependency (e.g. commons-cli).
         for (int i = 0; i < args.length; i++) {
@@ -243,10 +248,12 @@ public class Main {
                 this.updateFhirSchema = true;
                 this.dropSchema = false;
                 this.updateOauthSchema = true;
+                this.updateJavaBatchSchema = true;
                 break;
             case "--create-schemas":
                 this.createFhirSchema = true;
                 this.createOauthSchema = true;
+                this.createJavaBatchSchema = true;
                 break;
             case "--drop-schema":
                 this.updateFhirSchema = false;
@@ -489,7 +496,6 @@ public class Main {
      * during development.
      */
     protected void dropSchema() {
-
         // Build/update the tables as well as the stored procedures
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
         PhysicalDataModel pdm = new PhysicalDataModel();
@@ -575,6 +581,12 @@ public class Main {
             oauthSchemaGenerator.buildOAuthSchema(pdm);
         }
 
+        // Build/update the Liberty JBatch related tables
+        if (updateJavaBatchSchema) {
+            JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(javaBatchSchemaName);
+            javaBatchSchemaGenerator.buildJavaBatchSchema(pdm);
+        }
+
         // The objects are applied in parallel, which relies on each object
         // expressing its dependencies correctly. Changes are only applied
         // if their version is greater than the current version.
@@ -590,7 +602,7 @@ public class Main {
         CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);
 
         // Current version history for the data schema
-        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, schemaName, oauthSchemaName);
+        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, schemaName, oauthSchemaName, javaBatchSchemaName);
         vhs.setTransactionProvider(transactionProvider);
         vhs.setTarget(adapter);
         vhs.init();
@@ -620,8 +632,13 @@ public class Main {
                     IDatabaseAdapter adapter = getDbAdapter(target);
                     adapter.createSchema(schemaName);
                     adapter.createSchema(adminSchemaName);
+
                     if (createOauthSchema) {
                         adapter.createSchema(oauthSchemaName);
+                    }
+
+                    if (createJavaBatchSchema) {
+                        adapter.createSchema(javaBatchSchemaName);
                     }
                 } catch (Exception x) {
                     c.rollback();
@@ -735,7 +752,6 @@ public class Main {
      */
     protected void configureConnectionPool() {
         JdbcPropertyAdapter adapter = getPropertyAdapter(properties);
-
         JdbcConnectionProvider cp = new JdbcConnectionProvider(this.translator, adapter);
         this.connectionPool = new PoolConnectionProvider(cp, this.maxConnectionPoolSize);
         this.transactionProvider = new SimpleTransactionProvider(this.connectionPool);
@@ -798,7 +814,7 @@ public class Main {
      * @param groupName
      */
     protected void grantPrivileges(String groupName) {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+        if (!PRIVILEGES_FEATURE_ENABLED.contains(dbType)) {
             return;
         }
 

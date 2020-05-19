@@ -224,6 +224,17 @@ public class FHIRServletContextListener implements ServletContextListener {
                 log.info("No '" + datasourceJndiName + "' dataSource found; skipping OAuth client table bootstrapping");
             }
 
+            try {
+                // Check the batch database, if the batch database configuration is there, and available.
+                ds = (DataSource) ctxt.lookup("jdbc/fhirbatchDB");
+                if (ds != null) {
+                    log.info("Found '" + datasourceJndiName + "'; bootstrapping the Java Batch tables");
+                    DerbyBootstrapper.bootstrapBatchDb(ds);
+                }
+            } catch (NameNotFoundException e) {
+                log.info("No '" + datasourceJndiName + "' dataSource found; skipping Java Batch table bootstrapping");
+            }
+
             log.info("Finished Derby database bootstrapping...");
         } else {
             log.info("Derby database bootstrapping is disabled.");

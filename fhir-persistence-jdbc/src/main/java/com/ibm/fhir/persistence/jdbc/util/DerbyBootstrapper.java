@@ -24,6 +24,7 @@ import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
+import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
@@ -37,6 +38,7 @@ public class DerbyBootstrapper {
 
     private static final String ADMIN_SCHEMANAME = "FHIR_ADMIN";
     private static final String OAUTH_SCHEMANAME = "FHIR_OAUTH";
+    private static final String BATCH_SCHEMANAME = "FHIR_BATCH";
 
     /**
      * Bootstraps the FHIR database (only for Derby databases)
@@ -111,7 +113,7 @@ public class DerbyBootstrapper {
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
         // are applied
-        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, dataSchemaName, OAUTH_SCHEMANAME);
+        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, dataSchemaName, OAUTH_SCHEMANAME, BATCH_SCHEMANAME);
         vhs.setTarget(adapter);
         vhs.init();
 
@@ -172,7 +174,7 @@ public class DerbyBootstrapper {
                 // to determine which updates to apply and to record the new changes as they
                 // are applied
                 VersionHistoryService vhs =
-                        new VersionHistoryService(ADMIN_SCHEMANAME, OAUTH_SCHEMANAME, OAUTH_SCHEMANAME);
+                        new VersionHistoryService(ADMIN_SCHEMANAME, OAUTH_SCHEMANAME);
                 vhs.setTarget(adapter);
                 vhs.init();
 
@@ -180,6 +182,41 @@ public class DerbyBootstrapper {
                 PhysicalDataModel pdm = new PhysicalDataModel();
                 OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(OAUTH_SCHEMANAME);
                 oauthSchemaGenerator.buildOAuthSchema(pdm);
+                pdm.applyWithHistory(adapter, vhs);
+                c.commit();
+            } catch (Exception x) {
+                c.rollback();
+                throw x;
+            }
+        }
+    }
+
+    /**
+     * bootstraps the batch database for derby.
+     * @param ds
+     * @throws SQLException
+     */
+    public static void bootstrapBatchDb(DataSource ds) throws SQLException {
+        try (Connection c = ds.getConnection()) {
+            try {
+                JdbcTarget target = new JdbcTarget(c);
+                IDatabaseAdapter adapter = new DerbyAdapter(target);
+
+                // Set up the version history service first if it doesn't yet exist
+                CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMANAME, adapter);
+
+                // Current version history for the database. This is used by applyWithHistory
+                // to determine which updates to apply and to record the new changes as they
+                // are applied
+                VersionHistoryService vhs =
+                        new VersionHistoryService(ADMIN_SCHEMANAME, BATCH_SCHEMANAME);
+                vhs.setTarget(adapter);
+                vhs.init();
+
+                // Build/update the Liberty OAuth-related tables
+                PhysicalDataModel pdm = new PhysicalDataModel();
+                JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(BATCH_SCHEMANAME);
+                javaBatchSchemaGenerator.buildJavaBatchSchema(pdm);
                 pdm.applyWithHistory(adapter, vhs);
                 c.commit();
             } catch (Exception x) {
