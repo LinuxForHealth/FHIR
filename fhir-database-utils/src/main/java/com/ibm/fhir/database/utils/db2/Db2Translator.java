@@ -15,6 +15,7 @@ import com.ibm.fhir.database.utils.api.BadTenantNameException;
 import com.ibm.fhir.database.utils.api.ConnectionDetails;
 import com.ibm.fhir.database.utils.api.ConnectionException;
 import com.ibm.fhir.database.utils.api.DataAccessException;
+import com.ibm.fhir.database.utils.api.DatabaseNotReadyException;
 import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.LockException;
@@ -106,10 +107,26 @@ public class Db2Translator implements IDatabaseTranslator {
             return new DuplicateNameException(x);
         } else if (isUndefinedName(x)) {
             return new UndefinedNameException(x);
+        } else if(isDatabaseNotReady(x)) {
+            return new DatabaseNotReadyException(x);
         } else {
             return new DataAccessException(x);
         }
     }
+
+    /*
+     * This is specific to Db2 when the database is not yet up and ready.
+     * For instance, when it's offline, but the connection/port is active.
+     * Or in the automation world, it's still being created.
+     */
+    public boolean isDatabaseNotReady(SQLException x) {
+        //<code>SQLCODE=-1035, SQLSTATE=57019</code>
+        String sqlState = x.getSQLState();
+        Integer sqlCode = x.getErrorCode();
+        return sqlState != null && sqlState.equals("57019") 
+                && sqlCode != null && sqlCode == -1035;
+    }
+
     /*
      * This is specific to Db2 schema's multi-tenant feature.
      */
