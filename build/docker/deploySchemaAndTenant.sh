@@ -5,19 +5,25 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 set -ex
+set +o pipefail
 
 # The full path to the directory of this script, no matter where its called from
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd ${DIR}
 
+# Makes a temp file to store the output
+TMP_FILE=`mktemp`
+
 # Loop up to 4
 not_ready=true
 retry_count=0
 while [ "$not_ready" == "true" ]
-do 
-  LOG_OUT=$(java -jar schema/fhir-persistence-schema-*-cli.jar \
-    --prop-file db2.properties --schema-name FHIRDATA --create-schemas)
-  EXIT_CODE="${NF}"
+do
+  EXIT_CODE="-1"
+  java -jar schema/fhir-persistence-schema-*-cli.jar \
+    --prop-file db2.properties --schema-name FHIRDATA --create-schemas | tee -a ${TMP_FILE}
+  EXIT_CODE="${PIPESTATUS[0]}"
+  LOG_OUT=`cat ${TMP_FILE}`
   if [ "$EXIT_CODE" == "0" ]
   then 
     # We now just send out the output and stop the loop
@@ -41,6 +47,11 @@ do
     echo "$LOG_OUT"
   fi
 done
+
+if -f ${TMP_FILE}
+then 
+  rm ${TMP_FILE}
+fi
 
 java -jar schema/fhir-persistence-schema-*-cli.jar \
   --prop-file db2.properties --schema-name FHIRDATA --update-schema --pool-size 2
