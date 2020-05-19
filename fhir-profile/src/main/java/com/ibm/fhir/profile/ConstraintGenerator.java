@@ -45,6 +45,9 @@ import com.ibm.fhir.model.util.ModelSupport;
 public class ConstraintGenerator {
     private static final Logger log = Logger.getLogger(ConstraintGenerator.class.getName());
 
+    private static final String MONEY_QUANTITY_PROFILE = "http://hl7.org/fhir/StructureDefinition/MoneyQuantity";
+    private static final String SIMPLE_QUANTITY_PROFILE = "http://hl7.org/fhir/StructureDefinition/SimpleQuantity";
+
     private final StructureDefinition profile;
     private final Map<String, ElementDefinition> elementDefinitionMap;
     private final Tree tree;
@@ -231,6 +234,16 @@ public class ConstraintGenerator {
             sb.append(".exists()");
             if (isProhibited(elementDefinition)) {
                 sb.append(".not()");
+            }
+        }
+
+        if (hasProfileConstraint(elementDefinition)) {
+            String profile = getProfiles(getTypes(elementDefinition).get(0)).get(0);
+            sb.append(" and ");
+            if (isRepeating(elementDefinition)) {
+                sb.append(identifier).append(".all(conformsTo('").append(profile).append("'))");
+            } else {
+                sb.append(identifier).append(".conformsTo('").append(profile).append("')");
             }
         }
 
@@ -487,7 +500,8 @@ public class ConstraintGenerator {
                 hasReferenceTypeConstraint(elementDefinition) ||
                 hasChoiceTypeConstraint(elementDefinition) ||
                 hasVocabularyConstraint(elementDefinition) ||
-                hasExtensionConstraint(elementDefinition);
+                hasExtensionConstraint(elementDefinition) ||
+                hasProfileConstraint(elementDefinition);
     }
 
     private boolean hasConstraint(Node node) {
@@ -520,7 +534,20 @@ public class ConstraintGenerator {
             return false;
         }
 
-        return hasCardinalityConstraint(elementDefinition);
+        return true;
+    }
+
+    private boolean hasProfileConstraint(ElementDefinition elementDefinition) {
+        List<Type> types = getTypes(elementDefinition);
+        if (types.size() == 1) {
+            List<String> profiles = getProfiles(types.get(0));
+            return (profiles.size() == 1) && !isQuantityProfile(profiles.get(0));
+        }
+        return false;
+    }
+
+    private boolean isQuantityProfile(String profile) {
+        return SIMPLE_QUANTITY_PROFILE.equals(profile) || MONEY_QUANTITY_PROFILE.equals(profile);
     }
 
     private boolean hasFixedValueConstraint(ElementDefinition elementDefinition) {
