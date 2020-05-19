@@ -61,5 +61,5 @@
     -->
 
     <batchPersistence jobStoreRef="BatchDatabaseStore"/>
-    <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="FHIR_BATCH" tablePrefix="" createTables="false"/>
+    <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="FHIR_JBATCH" tablePrefix="" createTables="false"/>
 </server>

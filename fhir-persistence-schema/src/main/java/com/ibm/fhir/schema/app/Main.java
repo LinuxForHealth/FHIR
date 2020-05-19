@@ -127,7 +127,10 @@ public class Main {
 
     // By default, the dryRun option is OFF, and FALSE
     // When overridden, it simulates the actions.
-    private Boolean dryRun = false;
+    private boolean dryRun = false;
+
+    // Enables 
+    private boolean batchOnly = false;
 
     // The database user we will grant tenant data access privileges to
     private String grantTo;
@@ -297,6 +300,9 @@ public class Main {
                 break;
             case "--dry-run":
                 this.dryRun = Boolean.TRUE;
+                break;
+            case "--batch-db-only":
+                this.batchOnly = Boolean.TRUE;
                 break;
             case "--db-type":
                 if (++i < args.length) {
@@ -573,10 +579,12 @@ public class Main {
         // Build/update the FHIR-related tables as well as the stored procedures
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
         PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
+        if (!batchOnly) {
+            gen.buildSchema(pdm);
+        }
 
         // Build/update the Liberty OAuth-related tables
-        if (updateOauthSchema) {
+        if (updateOauthSchema && !batchOnly) {
             OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(oauthSchemaName);
             oauthSchemaGenerator.buildOAuthSchema(pdm);
         }
@@ -631,9 +639,11 @@ public class Main {
                     JdbcTarget target = new JdbcTarget(c);
                     IDatabaseAdapter adapter = getDbAdapter(target);
                     adapter.createSchema(schemaName);
-                    adapter.createSchema(adminSchemaName);
+                    if (!batchOnly) {
+                        adapter.createSchema(adminSchemaName);
+                    }
 
-                    if (createOauthSchema) {
+                    if (createOauthSchema && !batchOnly) {
                         adapter.createSchema(oauthSchemaName);
                     }
 
@@ -821,11 +831,15 @@ public class Main {
         // Build/update the tables as well as the stored procedures
         FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
         PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
+        if (!batchOnly) {
+            gen.buildSchema(pdm);
+        }
 
         // Build/update the Liberty OAuth-related tables
-        OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(oauthSchemaName);
-        oauthSchemaGenerator.buildOAuthSchema(pdm);
+        if (!batchOnly) {
+            OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(oauthSchemaName);
+            oauthSchemaGenerator.buildOAuthSchema(pdm);
+        }
 
         // Build/update the Liberty JBatch related tables
         JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(javaBatchSchemaName);

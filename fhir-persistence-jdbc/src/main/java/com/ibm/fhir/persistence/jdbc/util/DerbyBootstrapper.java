@@ -13,6 +13,9 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import static com.ibm.fhir.schema.control.JavaBatchSchemaGenerator.BATCH_SCHEMANAME;
+import static com.ibm.fhir.schema.control.OAuthSchemaGenerator.OAUTH_SCHEMANAME;
+
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
@@ -37,8 +40,6 @@ public class DerbyBootstrapper {
     private static final String className = DerbyBootstrapper.class.getName();
 
     private static final String ADMIN_SCHEMANAME = "FHIR_ADMIN";
-    private static final String OAUTH_SCHEMANAME = "FHIR_OAUTH";
-    private static final String BATCH_SCHEMANAME = "FHIR_BATCH";
 
     /**
      * Bootstraps the FHIR database (only for Derby databases)

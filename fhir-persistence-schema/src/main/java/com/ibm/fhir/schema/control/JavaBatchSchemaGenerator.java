@@ -8,7 +8,11 @@ package com.ibm.fhir.schema.control;
 
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PK;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.ibm.fhir.database.utils.model.Generated;
+import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
@@ -19,6 +23,7 @@ import com.ibm.fhir.database.utils.model.Table;
  * <code>wlp/bin/ddlGen generate fhir-server</code>
  */
 public class JavaBatchSchemaGenerator {
+    public static final String BATCH_SCHEMANAME = "FHIR_JBATCH";
     public static final Boolean NOT_NULL = Boolean.FALSE;
     public static final Boolean NULL = Boolean.TRUE;
 
@@ -114,6 +119,14 @@ public class JavaBatchSchemaGenerator {
         addJobParameterTable(model);
     }
 
+    protected List<GroupPrivilege> generateGroupPrivilege(){
+        return Arrays.asList(
+            new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.SELECT),
+            new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.INSERT),
+            new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.DELETE),
+            new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.UPDATE));
+    }
+
     /**
      * Adds the job table with the following values:
      <code>
@@ -135,10 +148,7 @@ public class JavaBatchSchemaGenerator {
                 .addBigIntColumn(FK_JOBEXECID, NOT_NULL) // FK_JOBEXECID BIGINT
                 .addForeignKeyConstraintAltTarget("JBPRMETERFKJBXECID", schemaName, JOBEXECUTION_TABLE, JOBEXECID, FK_JOBEXECID)
                 .addIndex("JP_FKJOBEXECID_IX", FK_JOBEXECID)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.SELECT)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.INSERT)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.DELETE)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.UPDATE)
+                .addPrivileges(generateGroupPrivilege())
                 .build(model);
         model.addTable(parameter);
         model.addObject(parameter);
@@ -162,10 +172,7 @@ public class JavaBatchSchemaGenerator {
                 .addVarcharColumn( GROUPNAMES, 255, NULL) // GROUPNAMES VARCHAR(255)
                 .addIndex("GA_FKINSTANCEID_IX", FK_JOBINSTANCEID)
                 .addForeignKeyConstraintAltTarget("GRPSSCTNFKJBNSTNCD", schemaName, JOBINSTANCE_TABLE, JOBINSTANCEID, FK_JOBINSTANCEID)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.SELECT)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.INSERT)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.DELETE)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.UPDATE)
+                .addPrivileges(generateGroupPrivilege())
                 .build(model);
         model.addTable(parameter);
         model.addObject(parameter);
@@ -240,10 +247,7 @@ public class JavaBatchSchemaGenerator {
                     // STPTHFKTPLVLSTPXCD FOREIGN KEY (FK_TOPLVL_STEPEXECID) -> REFERENCES FHIR_BATCH.STEPTHREADEXECUTION (STEPEXECID)
                 .addForeignKeyConstraintAltTarget("STPTHRDXCTNFKJBXCD", schemaName, JOBEXECUTION_TABLE, JOBEXECID, FK_JOBEXECID)
                     // STPTHRDXCTNFKJBXCD FOREIGN KEY (FK_JOBEXECID) (FK_JOBEXECID)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.SELECT)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.INSERT)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.DELETE)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.UPDATE)
+                .addPrivileges(generateGroupPrivilege())
                 .build(model);
         model.addTable(stepThreadExecutionTable);
         model.addObject(stepThreadExecutionTable);
@@ -287,10 +291,7 @@ public class JavaBatchSchemaGenerator {
                 .addForeignKeyConstraintAltTarget("RMTBLPRTFKSTPXCTND", schemaName, STEPTHREADEXECUTION_TABLE, STEPEXECID, FK_STEPEXECUTIONID)
                 .addForeignKeyConstraintAltTarget("RMTBLPRTTFKJBXCTND", schemaName, JOBEXECUTION_TABLE, JOBEXECID, FK_STEPEXECUTIONID)
                 .addUniqueConstraint("RMOTABLEPARTITION0", FK_JOBEXECUTIONID, STEPNAME, PARTNUM)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.SELECT)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.INSERT)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.DELETE)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.UPDATE)
+                .addPrivileges(generateGroupPrivilege())
                 .build(model);
         model.addTable(remotablePartition);
         model.addObject(remotablePartition);
@@ -340,10 +341,7 @@ public class JavaBatchSchemaGenerator {
                 .addIndex("JE_FKINSTANCEID_IX", FK_JOBINSTANCEID) // JE_FKINSTANCEID_IX (FK_JOBINSTANCEID)
                 .addForeignKeyConstraintAltTarget("JBXCTNFKJBNSTNCEID", schemaName, JOBINSTANCE_TABLE, JOBINSTANCEID, FK_JOBINSTANCEID)
                     // JBXCTNFKJBNSTNCEID (FK_JOBINSTANCEID)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.SELECT)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.INSERT)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.DELETE)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.UPDATE)
+                .addPrivileges(generateGroupPrivilege())
                 .build(model);
         model.addTable(jobInstance);
         model.addObject(jobInstance);
@@ -391,10 +389,7 @@ public class JavaBatchSchemaGenerator {
                 .addForeignKeyConstraintAltTarget("STPTHRDNFKJBNSTNCD", schemaName, JOBINSTANCE_TABLE, JOBINSTANCEID, FK_JOBINSTANCEID)
                 .addPrimaryKey(PK + STEPTHREADINSTANCE_TABLE, PARTNUM, STEPNAME, FK_JOBINSTANCEID)
                     // PRIMARY KEY (PARTNUM, STEPNAME, FK_JOBINSTANCEID))
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.SELECT)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.INSERT)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.DELETE)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.UPDATE)
+                .addPrivileges(generateGroupPrivilege())
                 .build(model);
         model.addTable(jobInstance);
         model.addObject(jobInstance);
@@ -439,10 +434,7 @@ public class JavaBatchSchemaGenerator {
                 .addVarcharColumn(SUBMITTER, 256, NULL) // SUBMITTER VARCHAR(256)
                 .addTimestampColumn(UPDATETIME, NULL) // UPDATETIME TIMESTAMP
                 .addPrimaryKey(PK + JOBINSTANCEID, JOBINSTANCEID) // PRIMARY KEY (JOBINSTANCEID)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.SELECT)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.INSERT)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.DELETE)
-                .addPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.UPDATE)
+                .addPrivileges(generateGroupPrivilege())
                 .build(model);
         model.addTable(jobInstance);
         model.addObject(jobInstance);
