@@ -624,7 +624,7 @@ To implement a persistence interceptor, complete the following steps:
 
     `com.ibm.mysolution.MyInterceptor`
 
-3.  Copy your jar to the `<WLP_HOME>/usr/servers/fhir-server/config` directory so that it is accessible to the FHIR server via the classpath (the `server.xml` file contains a library element that defines this directory as a shared library).
+3.  Copy your jar to the `<WLP_HOME>/usr/servers/fhir-server/userlib` directory so that it is accessible to the FHIR server via the classpath (the `server.xml` file contains a library element that defines this directory as a shared library).
 
 4.  Re-start the FHIR server.
 
