@@ -65,11 +65,8 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
                 Concept conceptA = CodeSystemSupport.findConcept(codeSystem, Code.of(codeA));
                 if (conceptA != null) {
                     Concept conceptB = CodeSystemSupport.findConcept(conceptA, Code.of(codeB));
-                    if (conceptA.equals(conceptB)) {
-                        return ConceptSubsumptionOutcome.EQUIVALENT;
-                    }
                     if (conceptB != null) {
-                        return ConceptSubsumptionOutcome.SUBSUMES;
+                        return conceptA.equals(conceptB) ? ConceptSubsumptionOutcome.EQUIVALENT : ConceptSubsumptionOutcome.SUBSUMES;
                     }
                     conceptB = CodeSystemSupport.findConcept(codeSystem, Code.of(codeB));
                     if (conceptB != null) {
