@@ -6,6 +6,9 @@
 
 package com.ibm.fhir.database.utils.postgresql;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +17,8 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.api.DuplicateNameException;
+import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
@@ -95,7 +100,6 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<String> indexColumns,
             List<String> includeColumns) {
-
         // PostgreSql doesn't support include columns, so we just have to create a normal index
         createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
     }
@@ -299,5 +303,34 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         // Postgresql doesn't support index name prefixed with the schema name.
         String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, false);
         runStatement(ddl);
+    }
+
+    @Override
+    public boolean checkCompatibility(String adminSchema) {
+        final String statement = "SELECT 1";
+        boolean result = false;
+        try (Connection c = connectionProvider.getConnection(); PreparedStatement stmt = c.prepareStatement(statement)) {
+            result = stmt.execute();
+        } catch (SQLException x) {
+            throw this.getTranslator().translate(x);
+        }
+        return result;
+    }
+
+    @Override
+    public void createSchema(String schemaName){
+        try {
+            String ddl = "CREATE SCHEMA IF NOT EXISTS " + schemaName;
+            runStatement(ddl);
+            logger.log(Level.INFO, "The schema '" + schemaName + "' is created or already exists");
+        } catch (DuplicateNameException | DuplicateSchemaException e) {
+            logger.log(Level.WARNING, "The schema '" + schemaName + "' already exists; proceed with caution.");
+        }
+    }
+
+    @Override
+    public String getProcedureOrFunction() {
+        // We use FUNCTIONS as STORED PROCEDURES are not supported on postgres.
+        return "FUNCTION";
     }
 }

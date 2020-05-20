@@ -72,7 +72,6 @@ import com.ibm.fhir.model.type.code.FHIRResourceType;
  * Encapsulates the generation of the FHIR schema artifacts
  */
 public class FhirSchemaGenerator {
-
     // The schema holding all the data-bearing tables
     private final String schemaName;
 

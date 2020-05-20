@@ -37,7 +37,7 @@
         <jdbcDriver libraryRef="fhirSharedLib"/>
         <properties.db2.jcc
             apiKey="${env.BATCH_DB_APIKEY}"
-            currentSchema="JBATCH"
+            currentSchema="FHIR_JBATCH"
             databaseName="BLUDB"
             driverType="4"
             pluginName="IBMIAMauth"

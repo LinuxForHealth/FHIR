@@ -17,7 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -114,7 +113,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
             // Outputs the default value
             if (column.getDefaultVal() != null) {
-                result.append(" WITH DEFAULT ").append(column.getDefaultVal());
+                result.append(" DEFAULT '").append(column.getDefaultVal()).append("'");
             }
         }
         return result.toString();
@@ -220,9 +219,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
             } catch (SQLException x) {
                 throw translator.translate(x);
             }
-
-        }
-        else {
+        } else {
             target.runStatement(this.translator, ddl);
         }
     }
@@ -504,14 +501,13 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     }
 
     @Override
-    public void grantProcedurePrivileges(String schemaName, String procedureName, Collection<Privilege> privileges, String toUser) {
+    public void grantProcedureAndFunctionPrivileges(String schemaName, String procedureName, Collection<Privilege> privileges, String toUser) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
         DataDefinitionUtil.assertValidName(toUser);
+
         final String privs = privilegeString(privileges);
-        final String grant = "GRANT " + privs + " ON PROCEDURE " + objectName + " TO " + toUser;
-
+        final String grant = "GRANT " + privs + " ON " + getProcedureOrFunction() + " " + objectName + " TO " + toUser;
         logger.info("Applying: " + grant); // Grants are very useful to see logged
-
         runStatement(grant);
     }
 
@@ -535,15 +531,5 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
         logger.info("Applying: " + grant); // Grants are very useful to see logged
         runStatement(grant);
-    }
-
-    @Override
-    public void createSchema(String schemaName) {
-        try {
-            String ddl = "CREATE SCHEMA " + schemaName;
-            runStatement(ddl);
-        } catch (DuplicateNameException e) {
-            logger.log(Level.WARNING, "The schema '" + schemaName + "' already exists; proceed with caution.");
-        }
     }
 }

@@ -85,11 +85,6 @@ import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
  * <br>
  */
 public class SchemaPrinter {
-    private static final String SCHEMA_NAME = "FHIRAPP";
-    private static final String ADMIN_SCHEMA_NAME = "FHIR_ADMIN";
-    private static final String OAUTH_SCHEMANAME = "FHIR_OAUTH";
-    private static final String BATCH_SCHEMANAME = "FHIR_BATCH";
-
     private static final String DELIMITER = ";";
     private static final String STORED_PROCEDURE_DELIMITER = "@";
 
@@ -158,24 +153,24 @@ public class SchemaPrinter {
         Db2Adapter adapter = new Db2Adapter(target);
 
         // Set up the version history service first if it doesn't yet exist
-        CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter);
+        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, adapter);
 
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
         // are applied
-        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME, OAUTH_SCHEMANAME, BATCH_SCHEMANAME);
+        VersionHistoryService vhs = new VersionHistoryService(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME, Main.OAUTH_SCHEMANAME, Main.BATCH_SCHEMANAME);
         vhs.setTarget(adapter);
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
-        OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(OAUTH_SCHEMANAME);
+        OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(Main.OAUTH_SCHEMANAME);
         oauthSchemaGenerator.buildOAuthSchema(model);
 
-        JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(BATCH_SCHEMANAME);
+        JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
         javaBatchSchemaGenerator.buildJavaBatchSchema(model);
         model.apply(adapter);
     }
@@ -187,24 +182,24 @@ public class SchemaPrinter {
         Db2Adapter adapter = new Db2Adapter(target);
 
         // Set up the version history service first if it doesn't yet exist
-        CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter);
+        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, adapter);
 
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
         // are applied
-        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME, OAUTH_SCHEMANAME, BATCH_SCHEMANAME);
+        VersionHistoryService vhs = new VersionHistoryService(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME, Main.OAUTH_SCHEMANAME, Main.BATCH_SCHEMANAME);
         vhs.setTarget(adapter);
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
-        OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(OAUTH_SCHEMANAME);
+        OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(Main.OAUTH_SCHEMANAME);
         oauthSchemaGenerator.buildOAuthSchema(model);
 
-        JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(BATCH_SCHEMANAME);
+        JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
         javaBatchSchemaGenerator.buildJavaBatchSchema(model);
 
         // clear it out. 
@@ -247,8 +242,10 @@ public class SchemaPrinter {
      */
     public void print() {
         printHeader(out);
-        out.println("CREATE SCHEMA " + SCHEMA_NAME + DELIMITER + "\n");
-        out.println("CREATE SCHEMA " + ADMIN_SCHEMA_NAME + DELIMITER + "\n");
+        out.println("CREATE SCHEMA " + Main.DATA_SCHEMANAME + DELIMITER + "\n");
+        out.println("CREATE SCHEMA " + Main.ADMIN_SCHEMANAME + DELIMITER + "\n");
+        out.println("CREATE SCHEMA " + Main.OAUTH_SCHEMANAME + DELIMITER + "\n");
+        out.println("CREATE SCHEMA " + Main.BATCH_SCHEMANAME + DELIMITER + "\n");
         commands.keySet().stream().map(sql -> sql + DELIMITER + "\n").forEach(out::println);
         
         printHeader(outStoredProcedure);
@@ -259,7 +256,6 @@ public class SchemaPrinter {
 
 
     public static void main(String[] args) {
-
         boolean outputToFile = false;
         String outputFile = "";
 

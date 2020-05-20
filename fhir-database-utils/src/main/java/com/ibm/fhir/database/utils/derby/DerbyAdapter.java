@@ -14,6 +14,8 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.api.DuplicateNameException;
+import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
@@ -246,6 +248,24 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
             }
         } else {
             super.runStatement(stmt);
+        }
+    }
+
+    @Override
+    public boolean checkCompatibility(String adminSchema) {
+        String stmt = "VALUES 1";
+        super.runStatement(stmt);
+        return true;
+    }
+
+    @Override
+    public void createSchema(String schemaName){
+        try {
+            String ddl = "CREATE SCHEMA " + schemaName;
+            runStatement(ddl);
+            logger.log(Level.INFO, "The schema '" + schemaName + "' is created");
+        } catch (DuplicateNameException | DuplicateSchemaException e) {
+            logger.log(Level.WARNING, "The schema '" + schemaName + "' already exists; proceed with caution.");
         }
     }
 }

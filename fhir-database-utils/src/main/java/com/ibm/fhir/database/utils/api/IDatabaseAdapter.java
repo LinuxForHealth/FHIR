@@ -332,8 +332,7 @@ public interface IDatabaseAdapter {
      * @param privileges
      * @param toUser
      */
-    public void grantObjectPrivileges(String schemaName, String tableName, Collection<Privilege> privileges,
-            String toUser);
+    public void grantObjectPrivileges(String schemaName, String tableName, Collection<Privilege> privileges, String toUser);
 
     /**
      * Grant the collection of privileges on the named procedure to the user
@@ -343,7 +342,7 @@ public interface IDatabaseAdapter {
      * @param privileges
      * @param toUser
      */
-    public void grantProcedurePrivileges(String schemaName, String procedureName, Collection<Privilege> privileges,
+    public void grantProcedureAndFunctionPrivileges(String schemaName, String procedureName, Collection<Privilege> privileges,
             String toUser);
 
     /**
@@ -411,4 +410,27 @@ public interface IDatabaseAdapter {
      * @param name
      */
     public void createUniqueConstraint(String constraintName, List<String> columns, String schemaName, String name);
+
+    /**
+     * checks connectivity to the database and that it is compatible
+     * @param adminSchema
+     * @return
+     */
+    public boolean checkCompatibility(String adminSchema);
+
+    /**
+     * The business logic is stored in stored procedure or functions.
+     * @return
+     */
+    public default String getProcedureOrFunction() {
+        return "PROCEDURE";
+    }
+
+    /**
+     * 
+     * @return a false, if not used, or true if used with the persistence layer.
+     */
+    public default boolean useSessionVariable() {
+        return false;
+    }
 }

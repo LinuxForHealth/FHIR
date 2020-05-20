@@ -81,7 +81,7 @@ public class AddColumn implements IDatabaseStatement {
         }
 
         if (!Objects.isNull(column.getDefaultVal()) && !column.getDefaultVal().isEmpty()) {
-            result.append(" WITH DEFAULT ").append(column.getDefaultVal());
+            result.append(" DEFAULT ").append(column.getDefaultVal());
         }
 
         if (!column.isNullable()) {

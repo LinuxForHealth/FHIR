@@ -20,6 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
+import com.ibm.fhir.database.utils.api.DuplicateNameException;
+import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
@@ -425,6 +427,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         return "VARCHAR(" + size + " OCTETS)";
     }
 
+    @Override
     public boolean checkCompatibility(String adminSchema) {
         // As long as we don't get an exception, we should be considered compatible
         Db2CheckCompatibility checker = new Db2CheckCompatibility(adminSchema);
@@ -447,5 +450,21 @@ public class Db2Adapter extends CommonDatabaseAdapter {
             Db2AdminCommand runstats = new Db2AdminCommand("RUNSTATS ON TABLE " + qname + " WITH DISTRIBUTION AND DETAILED INDEXES ALL");
             super.runStatement(runstats);
         }
+    }
+
+    @Override
+    public void createSchema(String schemaName){
+        try {
+            String ddl = "CREATE SCHEMA " + schemaName;
+            runStatement(ddl);
+            logger.log(Level.INFO, "The schema '" + schemaName + "' is created");
+        } catch (DuplicateNameException | DuplicateSchemaException e) {
+            logger.log(Level.WARNING, "The schema '" + schemaName + "' already exists; proceed with caution.");
+        }
+    }
+
+    @Override
+    public boolean useSessionVariable() {
+        return true;
     }
 }
