@@ -68,7 +68,14 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
                     if (conceptA.equals(conceptB)) {
                         return ConceptSubsumptionOutcome.EQUIVALENT;
                     }
-                    return (conceptB != null) ? ConceptSubsumptionOutcome.SUBSUMES : ConceptSubsumptionOutcome.NOT_SUBSUMED;
+                    if (conceptB != null) {
+                        return ConceptSubsumptionOutcome.SUBSUMES;
+                    }
+                    conceptB = CodeSystemSupport.findConcept(codeSystem, Code.of(codeB));
+                    if (conceptB != null) {
+                        conceptA = CodeSystemSupport.findConcept(conceptB, Code.of(codeA));
+                        return (conceptA != null) ? ConceptSubsumptionOutcome.SUBSUMED_BY : ConceptSubsumptionOutcome.NOT_SUBSUMED;
+                    }
                 }
             }
         }

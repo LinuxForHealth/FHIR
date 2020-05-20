@@ -94,6 +94,25 @@ public class DefaultTermServiceProviderTest {
 
         ConceptSubsumptionOutcome outcome = provider.subsumes(codingA, codingB);
 
+        assertEquals(outcome, ConceptSubsumptionOutcome.SUBSUMED_BY);
+    }
+
+    @Test
+    public void testSubsumes4() throws Exception {
+        Coding codingA = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .version(string("1.0.0"))
+                .code(Code.of("o"))
+                .build();
+
+        Coding codingB = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .version(string("1.0.0"))
+                .code(Code.of("t"))
+                .build();
+
+        ConceptSubsumptionOutcome outcome = provider.subsumes(codingA, codingB);
+
         assertEquals(outcome, ConceptSubsumptionOutcome.NOT_SUBSUMED);
     }
 }
