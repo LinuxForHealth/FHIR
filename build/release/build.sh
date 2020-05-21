@@ -45,10 +45,22 @@ function _mvn {
     check_and_fail $? "${FUNCNAME[0]} - stopped - ${PROJECT_PATH}"
 }
 
+# _mvn2 - executes mvn to prep the install
+function _mvn2 { 
+    announce "${FUNCNAME[0]}"
+    PROJECT_PATH="$1"
+    PROFILES="$2"
+
+    # Batch mode without the transfer updates.
+    mvn ${THREAD_COUNT} -ntp -B "${PROFILES}" install -DskipTests -f ${PROJECT_PATH}
+    check_and_fail $? "${FUNCNAME[0]} - stopped - ${PROJECT_PATH}"
+}
+
 # build_all - build all versions 
 function build_all { 
     _mvn 'fhir-tools' '-Pdeploy-bintray,fhir-javadocs'
     _mvn 'fhir-examples' '-Pdeploy-bintray,fhir-javadocs'
+    _mvn2 'fhir-parent' '-Pdeploy-bintray'
 
     PROFILES_ARR=(integration)
     PROFILES_ARR+=(model-all-tests)
