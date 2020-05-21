@@ -136,14 +136,14 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
         String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
         String code = (coding.getCode() != null) ? coding.getCode().getValue() : null;
 
-        if (system != null && version != null) {
+        if (containsCode != null && containsSystem != null && system != null && version != null) {
             return containsCode.equals(code) && containsSystem.equals(system) && (containsVersion == null || containsVersion.equals(version));
         }
 
-        if (system != null) {
+        if (containsCode != null && containsSystem != null && system != null) {
             return containsCode.equals(code) && containsSystem.equals(system);
         }
 
-        return containsCode.equals(code);
+        return (containsCode != null) && containsCode.equals(code);
     }
 }
