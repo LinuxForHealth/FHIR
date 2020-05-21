@@ -18,9 +18,9 @@ public class Constants {
     // The minimal size (5M bytes) for COS multiple-parts upload.
     public static final int COS_PART_MINIMALSIZE = 5242880;
     public static final int DEFAULT_SEARCH_PAGE_SIZE = 1000;
-    public static final int DEFAULT_NUMOFPAGES_EACH_COS_OBJECT = 10;
     public static final int DEFAULT_NUMOFOBJECTS_PERREAD = 1;
-    public static final int DEFAULT_MAXCOSFILE_SIZE = 104857600;
+    public static final int DEFAULT_COSFILE_MAX_SIZE = 104857600;
+    public static final int DEFAULT_COSFILE_MAX_RESOURCESNUMBER = 50000;
     public static final String FHIR_SEARCH_LASTUPDATED = "_lastUpdated";
     public static final byte[] NDJSON_LINESEPERATOR = "\r\n".getBytes();
 
@@ -41,6 +41,8 @@ public class Constants {
     public static final String COS_LOCATION = "cos.location";
     public static final String COS_BUCKET_NAME = "cos.bucket.name";
     public static final String COS_IS_IBM_CREDENTIAL = "cos.credential.ibm";
+    public static final String COS_BUCKET_FILE_MAX_SZIE = "cos.bucket.filemaxsize";
+    public static final String COS_BUCKET_FILE_MAX_RESOURCES = "cos.bucket.filemaxresources";
     // COS bucket for import OperationOutcomes
     public static final String COS_OPERATIONOUTCOMES_BUCKET_NAME = "cos.operationoutcomes.bucket.name";
     public static final String FHIR_TENANT = "fhir.tenant";

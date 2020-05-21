@@ -6,11 +6,12 @@
 
 package com.ibm.fhir.bulkexport.common;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.CheckpointAlgorithm;
-import javax.batch.runtime.context.JobContext;
+import javax.batch.runtime.context.StepContext;
 import javax.inject.Inject;
 
 import com.ibm.fhir.bulkcommon.Constants;
@@ -23,21 +24,21 @@ import com.ibm.fhir.bulkcommon.Constants;
 public class CheckPointAlgorithm implements CheckpointAlgorithm {
     private final static Logger logger = Logger.getLogger(CheckPointAlgorithm.class.getName());
     @Inject
-    JobContext jobContext;
+    StepContext stepCtx;
 
     /**
-     * The cos.pagesperobject.
+     * The file resources number limit when exporting to multiple COS files.
      */
     @Inject
-    @BatchProperty(name = "cos.pagesperobject")
-    String pagesPerCosObject;
+    @BatchProperty(name = Constants.COS_BUCKET_FILE_MAX_RESOURCES)
+    String cosBucketFileMaxResources;
 
     /**
      * The file size limit when exporting to multiple COS files.
      */
     @Inject
-    @BatchProperty(name = "cos.bucket.maxfilesize")
-    String cosBucketMaxFileSize;
+    @BatchProperty(name = Constants.COS_BUCKET_FILE_MAX_SZIE)
+    String cosBucketFileMaxSize;
 
     /**
      * Default constructor.
@@ -75,39 +76,42 @@ public class CheckPointAlgorithm implements CheckpointAlgorithm {
      */
     @Override
     public boolean isReadyToCheckpoint() {
-        TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
+        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
 
         if (chunkData != null) {
             if (chunkData.isSingleCosObject()) {
                 return chunkData.getBufferStream().size() > Constants.COS_PART_MINIMALSIZE
                         || chunkData.getPageNum() > chunkData.getLastPageNum();
             } else {
-                int numofPagePerCosObject, cosMaxFileSize;
-                if (cosBucketMaxFileSize != null) {
+                int cosFileMaxResources = Constants.DEFAULT_COSFILE_MAX_RESOURCESNUMBER, cosFileMaxSize = Constants.DEFAULT_COSFILE_MAX_SIZE;
+                if (cosBucketFileMaxSize != null) {
                     try {
-                        cosMaxFileSize = Integer.parseInt(cosBucketMaxFileSize);
-                        logger.fine("isReadyToCheckpoint: Set max COS file size to " + cosMaxFileSize + ".");
-                    } catch (Exception e) {
-                        cosMaxFileSize = Constants.DEFAULT_MAXCOSFILE_SIZE;
-                        logger.warning("isReadyToCheckpoint: Set max COS file size to default("
-                                + Constants.DEFAULT_MAXCOSFILE_SIZE + ").");
-                    }
-                    return (chunkData.getBufferStream().size() >= cosMaxFileSize
-                            || chunkData.getPageNum() > chunkData.getLastPageNum());
-                } else {
-                    if (pagesPerCosObject != null) {
-                        try {
-                            numofPagePerCosObject = Integer.parseInt(pagesPerCosObject);
-                            logger.fine("isReadyToCheckpoint: " + numofPagePerCosObject + " pages per COS object!");
-                        } catch (Exception e) {
-                            numofPagePerCosObject = Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT;
-                            logger.warning("isReadyToCheckpoint: Set number of pages per COS object to default("
-                                    + Constants.DEFAULT_NUMOFPAGES_EACH_COS_OBJECT + ").");
+                        cosFileMaxSize = Integer.parseInt(cosBucketFileMaxSize);
+                        if (logger.isLoggable(Level.FINE)) {
+                            logger.fine("isReadyToCheckpoint: Set max COS file size to " + cosFileMaxSize + ".");
                         }
-                        return ((chunkData.getPageNum() - 1) % numofPagePerCosObject == 0
-                                || chunkData.getPageNum() > chunkData.getLastPageNum());
+                    } catch (Exception e) {
+                        logger.warning("isReadyToCheckpoint: Set max COS file size to default("
+                                + Constants.DEFAULT_COSFILE_MAX_SIZE + ").");
+                    }
+
+                } else {
+                    if (cosBucketFileMaxResources != null) {
+                        try {
+                            cosFileMaxResources = Integer.parseInt(cosBucketFileMaxResources);
+                            if (logger.isLoggable(Level.FINE)) {
+                                logger.fine("isReadyToCheckpoint: " + cosFileMaxResources + " resources per COS file!");
+                            }
+                        } catch (Exception e) {
+                            logger.warning("isReadyToCheckpoint: Set number of resources per COS file to default("
+                                    + Constants.DEFAULT_COSFILE_MAX_RESOURCESNUMBER + ").");
+                        }
                     }
                 }
+
+                return (chunkData.getPageNum() > chunkData.getLastPageNum()
+                        || chunkData.getBufferStream().size() >= cosFileMaxSize
+                        || chunkData.getCurrentPartResourceNum() >= cosFileMaxResources);
             }
         }
         return true;
