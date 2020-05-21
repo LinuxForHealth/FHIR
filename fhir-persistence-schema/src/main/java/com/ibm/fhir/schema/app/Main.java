@@ -215,6 +215,19 @@ public class Main {
         if (fhirSchema) {
             FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
             gen.buildSchema(pdm);
+            switch (dbType) {
+            case DB2:
+                gen.buildDatabaseSpecificArtifactsPostgres(pdm);
+                break;
+            case DERBY:
+                logger.info("No database specific artifacts");
+                break;
+            case POSTGRESQL:
+                gen.buildDatabaseSpecificArtifactsPostgres(pdm);
+                break;
+            default:
+                throw new IllegalStateException("Unsupported db type: " + dbType);
+            }
         }
 
         // Build/update the Liberty OAuth-related tables
@@ -440,6 +453,7 @@ public class Main {
                     JdbcTarget target = new JdbcTarget(c);
                     IDatabaseAdapter adapter = getDbAdapter(dbType, target);
                     pdm.applyProcedures(adapter);
+                    pdm.applyFunctions(adapter);
                 } catch (Exception x) {
                     c.rollback();
                     throw x;

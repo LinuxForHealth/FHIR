@@ -117,7 +117,7 @@ public interface IDatabaseAdapter {
      * @param procedureName
      * @param supplier
      */
-    public void createOrReplaceProcedureAndFunctions(String schemaName, String procedureName, Supplier<String> supplier);
+    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier);
 
     /**
      * Drop the given procedure
@@ -342,7 +342,7 @@ public interface IDatabaseAdapter {
      * @param privileges
      * @param toUser
      */
-    public void grantProcedureAndFunctionPrivileges(String schemaName, String procedureName, Collection<Privilege> privileges,
+    public void grantProcedurePrivileges(String schemaName, String procedureName, Collection<Privilege> privileges,
             String toUser);
 
     /**
@@ -419,18 +419,34 @@ public interface IDatabaseAdapter {
     public boolean checkCompatibility(String adminSchema);
 
     /**
-     * The business logic is stored in stored procedure or functions.
-     * @return
-     */
-    public default String getProcedureOrFunction() {
-        return "PROCEDURE";
-    }
-
-    /**
      * 
      * @return a false, if not used, or true if used with the persistence layer.
      */
     public default boolean useSessionVariable() {
         return false;
     }
+
+    /**
+     * creates or replaces the SQL function
+     * @param schemaName
+     * @param objectName
+     * @param supplier
+     */
+    public void createOrReplaceFunction(String schemaName, String objectName, Supplier<String> supplier);
+
+    /**
+     * drops a given function 
+     * @param schemaName
+     * @param functionName
+     */
+    public void dropFunction(String schemaName, String functionName);
+
+    /** 
+     * grants permissions on a given function
+     * @param schemaName
+     * @param functionName
+     * @param privileges
+     * @param toUser
+     */
+    public void grantFunctionPrivileges(String schemaName, String functionName, Collection<Privilege> privileges, String toUser);
 }

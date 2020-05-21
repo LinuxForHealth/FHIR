@@ -29,6 +29,7 @@ import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
+import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
 
 /**
@@ -153,33 +154,6 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createOrReplaceProcedureAndFunctions(String schemaName, String procedureName, Supplier<String> supplier) {
-        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
-        logger.info("Create or replace procedure " + objectName);
-
-        // Build the create procedure DDL and apply it
-        // Because postgresql version 12 doesn't support OUT parameter yet, so we use Function with exactly the similar
-        // parameters as DB2 stored procedures for now.
-        final StringBuilder ddl = new StringBuilder()
-                .append("CREATE OR REPLACE FUNCTION ")
-                .append(objectName)
-                .append(System.lineSeparator())
-                .append(supplier.get());
-
-        final String ddlString = ddl.toString();
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine(ddlString);
-        }
-
-        runStatement(ddlString);
-    }
-
-    @Override
-    public void dropProcedure(String schemaName, String procedureName) {
-        warnOnce(MessageKey.DROP_PROC, "Drop procedure not supported in PostgreSql");
-    }
-
-    @Override
     public void createTablespace(String tablespaceName) {
         warnOnce(MessageKey.TABLESPACE, "Create tablespace not supported in PostgreSql");
     }
@@ -245,6 +219,17 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         // PostgreSql doesn't support the timestamp precision argument
         return "TIMESTAMP";
     }
+    
+
+    @Override
+    public String doubleClause() {
+        return "DOUBLE PRECISION";
+    }
+
+    @Override
+    public String clobClause() {
+        return "TEXT";
+    }
 
     @Override
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema,
@@ -275,16 +260,6 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         } else {
             super.runStatement(stmt);
         }
-    }
-
-    @Override
-    public String doubleClause() {
-        return "DOUBLE PRECISION";
-    }
-
-    @Override
-    public String clobClause() {
-        return "TEXT";
     }
 
     @Override
@@ -328,9 +303,24 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         }
     }
 
+    /*
+     * @implNote the following are NOT supported on postgres, and thus, we're logging out FINE only. 
+     */
     @Override
-    public String getProcedureOrFunction() {
-        // We use FUNCTIONS as STORED PROCEDURES are not supported on postgres.
-        return "FUNCTION";
+    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
+        logger.fine("Create or replace procedure not run on [" + objectName + "].  This is as expected");
+    }
+
+    @Override
+    public void grantProcedurePrivileges(String schemaName, String procedureName, Collection<Privilege> privileges, String toUser) {
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
+        logger.fine("Grant procedure not run on [" + objectName + "]. This is as expected");
+    }
+    
+    @Override
+    public void dropProcedure(String schemaName, String procedureName) {
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
+        logger.fine("Drop procedure not run on [" + objectName + "]. This is as expected");
     }
 }

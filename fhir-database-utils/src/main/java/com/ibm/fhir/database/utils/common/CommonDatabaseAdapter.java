@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -260,11 +261,33 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
         try {
             runStatement(ddl);
-        }
-        catch (UndefinedNameException x) {
+        } catch (UndefinedNameException x) {
             logger.warning(ddl + "; TABLE not found");
         }
+    }
 
+    @Override
+    public void dropProcedure(String schemaName, String procedureName) {
+        final String nm = getQualifiedName(schemaName, procedureName);
+        final String ddl = "DROP PROCEDURE " + nm;
+
+        try {
+            runStatement(ddl);
+        } catch (UndefinedNameException x) {
+            logger.warning(ddl + "; PROCEDURE not found");
+        }
+    }
+
+    @Override
+    public void dropFunction(String schemaName, String functionName) {
+        final String nm = getQualifiedName(schemaName, functionName);
+        final String ddl = "DROP FUNCTION " + nm;
+
+        try {
+            runStatement(ddl);
+        } catch (UndefinedNameException x) {
+            logger.warning(ddl + "; PROCEDURE not found");
+        }
     }
 
     @Override
@@ -433,15 +456,50 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         if (this.connectionProvider != null) {
             try (Connection c = connectionProvider.getConnection()) {
                 return supplier.run(getTranslator(), c);
-            }
-            catch (SQLException x) {
+            } catch (SQLException x) {
                 throw translator.translate(x);
             }
-        }
-        else {
+        } else {
             return this.target.runStatement(getTranslator(), supplier);
         }
+    }
 
+    @Override
+    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
+        logger.info("Create or replace procedure " + objectName);
+
+        final StringBuilder ddl = new StringBuilder()
+                .append("CREATE OR REPLACE PROCEDURE ")
+                .append(objectName)
+                .append(System.lineSeparator())
+                .append(supplier.get());
+
+        final String ddlString = ddl.toString();
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(ddlString);
+        }
+
+        runStatement(ddlString);
+    }
+
+    @Override
+    public void createOrReplaceFunction(String schemaName, String functionName, Supplier<String> supplier) {
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, functionName);
+        logger.info("Create or replace procedure " + objectName);
+
+        final StringBuilder ddl = new StringBuilder()
+                .append("CREATE OR REPLACE PROCEDURE ")
+                .append(objectName)
+                .append(System.lineSeparator())
+                .append(supplier.get());
+
+        final String ddlString = ddl.toString();
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(ddlString);
+        }
+
+        runStatement(ddlString);
     }
 
     @Override
@@ -457,7 +515,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 20000 CACHE " + cache + " NO CYCLE";
         runStatement(ddl);
-
     }
 
     @Override
@@ -501,12 +558,23 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     }
 
     @Override
-    public void grantProcedureAndFunctionPrivileges(String schemaName, String procedureName, Collection<Privilege> privileges, String toUser) {
+    public void grantProcedurePrivileges(String schemaName, String procedureName, Collection<Privilege> privileges, String toUser) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
         DataDefinitionUtil.assertValidName(toUser);
 
         final String privs = privilegeString(privileges);
-        final String grant = "GRANT " + privs + " ON " + getProcedureOrFunction() + " " + objectName + " TO " + toUser;
+        final String grant = "GRANT " + privs + " ON PROCEDURE " + objectName + " TO " + toUser;
+        logger.info("Applying: " + grant); // Grants are very useful to see logged
+        runStatement(grant);
+    }
+
+    @Override
+    public void grantFunctionPrivileges(String schemaName, String functionName, Collection<Privilege> privileges, String toUser) {
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, functionName);
+        DataDefinitionUtil.assertValidName(toUser);
+
+        final String privs = privilegeString(privileges);
+        final String grant = "GRANT " + privs + " ON FUNCTION " + objectName + " TO " + toUser;
         logger.info("Applying: " + grant); // Grants are very useful to see logged
         runStatement(grant);
     }

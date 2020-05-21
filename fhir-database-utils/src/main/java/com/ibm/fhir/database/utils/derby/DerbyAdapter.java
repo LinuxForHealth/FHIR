@@ -140,7 +140,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createOrReplaceProcedureAndFunctions(String schemaName, String procedureName, Supplier<String> supplier) {
+    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
         warnOnce(MessageKey.CREATE_PROC, "Create procedure not supported in Derby");
     }
 
