@@ -121,10 +121,10 @@ public class JavaBatchSchemaGenerator {
 
     protected List<GroupPrivilege> generateGroupPrivilege(){
         return Arrays.asList(
-            new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.SELECT),
-            new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.INSERT),
-            new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.DELETE),
-            new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.UPDATE));
+            new GroupPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.SELECT),
+            new GroupPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.INSERT),
+            new GroupPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.DELETE),
+            new GroupPrivilege(FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, Privilege.UPDATE));
     }
 
     /**

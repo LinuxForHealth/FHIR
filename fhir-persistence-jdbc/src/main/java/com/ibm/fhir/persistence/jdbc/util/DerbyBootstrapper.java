@@ -7,7 +7,9 @@
 package com.ibm.fhir.persistence.jdbc.util;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -197,31 +199,48 @@ public class DerbyBootstrapper {
      * @throws SQLException
      */
     public static void bootstrapBatchDb(DataSource ds) throws SQLException {
+        // This is specific to boostrapping where we are not suppose to use the derby db, rather a remote db.
+        boolean isDerby = false;
         try (Connection c = ds.getConnection()) {
-            try {
-                JdbcTarget target = new JdbcTarget(c);
-                IDatabaseAdapter adapter = new DerbyAdapter(target);
+            try (Statement stmt = c.createStatement();
+                    ResultSet rs = stmt.executeQuery("VALUES SYSCS_UTIL.SYSCS_GET_DATABASE_PROPERTY('derby.database.defaultConnectionMode')");) {
+                isDerby = rs.next();
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine(" The results are " + rs.getString(1));
+                }
+            }
+        } catch (java.sql.SQLNonTransientException e) {
+            log.fine("Error while checking db that isn't connected, this is expected when not derby" + e.getMessage());
+        } catch (Exception e) {
+            log.fine("Error while checking db, this is expected" + e.getMessage());
+        }
 
-                // Set up the version history service first if it doesn't yet exist
-                CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMANAME, adapter);
+        if (isDerby) {
+            try (Connection c = ds.getConnection()) {
+                try {
+                    JdbcTarget target = new JdbcTarget(c);
+                    IDatabaseAdapter adapter = new DerbyAdapter(target);
 
-                // Current version history for the database. This is used by applyWithHistory
-                // to determine which updates to apply and to record the new changes as they
-                // are applied
-                VersionHistoryService vhs =
-                        new VersionHistoryService(ADMIN_SCHEMANAME, BATCH_SCHEMANAME);
-                vhs.setTarget(adapter);
-                vhs.init();
+                    // Set up the version history service first if it doesn't yet exist
+                    CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMANAME, adapter);
 
-                // Build/update the Liberty OAuth-related tables
-                PhysicalDataModel pdm = new PhysicalDataModel();
-                JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(BATCH_SCHEMANAME);
-                javaBatchSchemaGenerator.buildJavaBatchSchema(pdm);
-                pdm.applyWithHistory(adapter, vhs);
-                c.commit();
-            } catch (Exception x) {
-                c.rollback();
-                throw x;
+                    // Current version history for the database. This is used by applyWithHistory
+                    // to determine which updates to apply and to record the new changes as they
+                    // are applied
+                    VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMANAME, BATCH_SCHEMANAME);
+                    vhs.setTarget(adapter);
+                    vhs.init();
+
+                    // Build/update the Liberty OAuth-related tables
+                    PhysicalDataModel pdm = new PhysicalDataModel();
+                    JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(BATCH_SCHEMANAME);
+                    javaBatchSchemaGenerator.buildJavaBatchSchema(pdm);
+                    pdm.applyWithHistory(adapter, vhs);
+                    c.commit();
+                } catch (Exception x) {
+                    c.rollback();
+                    throw x;
+                }
             }
         }
     }

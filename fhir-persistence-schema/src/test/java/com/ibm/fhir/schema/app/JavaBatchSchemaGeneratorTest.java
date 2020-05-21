@@ -72,6 +72,8 @@ public class JavaBatchSchemaGeneratorTest {
         JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator("FHIR_BATCH");
         generator.buildJavaBatchSchema(pdm);
         pdm.apply(adapter);
+        pdm.applyFunctions(adapter);
+        pdm.applyProcedures(adapter);
 
         for(Entry<String, String> command : commands.entrySet()) {
             System.out.println(command.getKey() + ";");

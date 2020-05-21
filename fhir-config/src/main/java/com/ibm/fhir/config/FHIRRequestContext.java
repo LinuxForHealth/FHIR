@@ -75,6 +75,10 @@ public class FHIRRequestContext {
         return tenantId;
     }
 
+    /** 
+     * @deprecated tenantKey should be looked up on-the-fly from the fhir server configuration (e.g. from 
+     *            FHIRDbDAOImpl.getConnection() in fhir-persistence-jdbc)
+     */
     @Deprecated
     public String getTenantKey() {
         return this.tenantKey;

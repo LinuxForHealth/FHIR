@@ -54,7 +54,6 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
 import com.ibm.fhir.database.utils.model.NopObject;
