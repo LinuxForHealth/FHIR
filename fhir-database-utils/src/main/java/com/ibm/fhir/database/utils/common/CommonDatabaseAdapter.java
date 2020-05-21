@@ -497,7 +497,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         logger.info("Create or replace procedure " + objectName);
 
         final StringBuilder ddl = new StringBuilder()
-                .append("CREATE OR REPLACE PROCEDURE ")
+                .append("CREATE OR REPLACE FUNCTION ")
                 .append(objectName)
                 .append(System.lineSeparator())
                 .append(supplier.get());
@@ -506,7 +506,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         if (logger.isLoggable(Level.FINE)) {
             logger.fine(ddlString);
         }
-
         runStatement(ddlString);
     }
 

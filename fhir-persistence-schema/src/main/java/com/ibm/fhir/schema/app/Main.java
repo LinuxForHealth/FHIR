@@ -219,7 +219,7 @@ public class Main {
             gen.buildSchema(pdm);
             switch (dbType) {
             case DB2:
-                gen.buildDatabaseSpecificArtifactsPostgres(pdm);
+                gen.buildDatabaseSpecificArtifactsDb2(pdm);
                 break;
             case DERBY:
                 logger.info("No database specific artifacts");
