@@ -30,13 +30,13 @@ public interface FHIRTermServiceProvider {
      * @param coding
      *     the coding to lookup
      * @return
-     *     the code system concept that matches the specified coding, or null if no such concept exists
+     *     the code system concept that matches the given coding, or null if no such concept exists
      */
     Concept lookup(Coding coding);
 
     /**
-     * Perform a subsumption test to determine if the code system concept represented by coding "A" subsumes
-     * the code system concept represented by coding "B"
+     * Perform a subsumption test to determine if the code system concept represented by the given coding "A" subsumes
+     * the code system concept represented by the given coding "B"
      *
      * @param codingA
      *     the coding "A"
@@ -48,12 +48,12 @@ public interface FHIRTermServiceProvider {
     ConceptSubsumptionOutcome subsumes(Coding codingA, Coding codingB);
 
     /**
-     * Generate the transitive closure for the provided coding
+     * Generate the transitive closure for the code system concept represented by the given coding
      *
      * @param coding
      *     the coding
      * @return
-     *     a set containing the transitive closure for the provided coding
+     *     a set containing the transitive closure for the code system concept represented by the given coding
      */
     Set<Concept> closure(Coding coding);
 }
