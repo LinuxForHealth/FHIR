@@ -31,7 +31,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.resource.ValueSet.Expansion;
 import com.ibm.fhir.model.resource.ValueSet.Expansion.Contains;
@@ -103,9 +102,8 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
             if (!codeSetMap.isEmpty()) {
                 if (element.is(Code.class)) {
                     String system = getSystem(evaluationContext.getTree().getParent(elementNode));
-                    String version = FHIRRegistry.getInstance().getLatestVersion(system, CodeSystem.class);
                     String code = element.as(Code.class).getValue();
-                    if (contains(codeSetMap, system, version, code)) {
+                    if (contains(codeSetMap, system, null, code)) {
                         return SINGLETON_TRUE;
                     }
                 } else if (element.is(Coding.class)) {
@@ -150,7 +148,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
 
     private boolean contains(Map<String, Set<String>> codeSetMap, Coding coding) {
         String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
-        String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : FHIRRegistry.getInstance().getLatestVersion(system, CodeSystem.class);
+        String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
         String code = (coding.getCode() != null) ? coding.getCode().getValue() : null;
         return contains(codeSetMap, system, version, code);
     }
