@@ -19,7 +19,7 @@ public abstract class ColumnBase {
     private final boolean nullable;
 
     // The default value for the column (usually null)
-    private final String defaultVal;
+    private String defaultVal;
 
     /**
      * Protected constructor - for use by subclasses
@@ -42,6 +42,13 @@ public abstract class ColumnBase {
         this.name = name;
         this.nullable = nullable;
         this.defaultVal = defaultVal;
+    }
+
+    /**
+     * resets the default value.
+     */
+    public void resetDefaultValue() {
+        this.defaultVal = null;
     }
 
     /**

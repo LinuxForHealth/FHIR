@@ -7,6 +7,7 @@
 package com.ibm.fhir.database.utils.model;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
+import com.ibm.fhir.database.utils.postgresql.PostgreSqlAdapter;
 
 /**
  * Small Int Column
@@ -23,6 +24,11 @@ public class SmallIntColumn extends ColumnBase {
 
     @Override
     public String getTypeInfo(IDatabaseTypeAdapter adapter) {
-        return "SMALLINT";
+        if (adapter instanceof PostgreSqlAdapter) {
+            this.resetDefaultValue();
+            return "BOOLEAN";
+        } else {
+            return "SMALLINT";
+        }
     }
 }
