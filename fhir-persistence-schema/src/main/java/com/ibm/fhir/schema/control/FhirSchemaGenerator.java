@@ -227,7 +227,7 @@ public class FhirSchemaGenerator {
         model.addObject(allAdminTablesComplete);
 
         // The set_tenant procedure can be created after all the admin tables are done
-        final String ROOT_DIR = SET_TENANT;
+        final String ROOT_DIR = "db2/";
         ProcedureDef setTenant = model.addProcedure(this.adminSchemaName,
                         ROOT_DIR + SET_TENANT, 2,
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName, SET_TENANT.toLowerCase() + ".sql", null),

@@ -1,4 +1,11 @@
 For db2
+# Prerequisites
+Drop the db, and recreate.
+
+db2 terminate
+db2 drop db fhirdb
+db2 CREATE DB FHIRDB using codeset UTF-8 territory us PAGESIZE 32768
+
 # Test 1 - Existing --create-schemas
 --create-schemas
 --prop-file fhir-persistence-schema/db2.properties
