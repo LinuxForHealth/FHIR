@@ -10,6 +10,7 @@ import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.term.util.ValueSetSupport.getContains;
 import static com.ibm.fhir.term.util.ValueSetSupport.getValueSet;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -18,11 +19,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
+import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Uri;
@@ -39,7 +39,7 @@ public class FHIRTermServiceTest {
             .map(contains -> contains.getCode().getValue())
             .collect(Collectors.toList());
 
-        Assert.assertEquals(actual, Arrays.asList("a", "b", "c"));
+        assertEquals(actual, Arrays.asList("a", "b", "c"));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class FHIRTermServiceTest {
             .map(contains -> contains.getCode().getValue())
             .collect(Collectors.toList());
 
-        Assert.assertEquals(actual, Arrays.asList("a", "b", "c", "d", "e"));
+        assertEquals(actual, Arrays.asList("a", "b", "c", "d", "e"));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class FHIRTermServiceTest {
             .map(contains -> contains.getCode().getValue())
             .collect(Collectors.toList());
 
-        Assert.assertEquals(actual, Arrays.asList("g", "x", "h", "i"));
+        assertEquals(actual, Arrays.asList("g", "x", "h", "i"));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class FHIRTermServiceTest {
             .map(contains -> contains.getCode().getValue())
             .collect(Collectors.toList());
 
-        Assert.assertEquals(actual, Arrays.asList("j", "l", "a", "b", "d", "m", "p", "q", "s", "o", "t", "u"));
+        assertEquals(actual, Arrays.asList("j", "l", "a", "b", "d", "m", "p", "q", "s", "o", "t", "u"));
     }
 
     @Test
@@ -83,9 +83,9 @@ public class FHIRTermServiceTest {
             .map(contains -> contains.getCode().getValue())
             .collect(Collectors.toList());
 
-        Assert.assertEquals(actual, Arrays.asList("m", "p", "q", "s", "o", "t", "u"));
+        assertEquals(actual, Arrays.asList("m", "p", "q", "s", "o", "t", "u"));
     }
-    
+
     @Test
     public void testLookup() throws Exception {
         Coding coding = Coding.builder()
@@ -191,6 +191,54 @@ public class FHIRTermServiceTest {
                 .map(contains -> contains.getCode().getValue())
                 .collect(Collectors.toList());
 
-        Assert.assertEquals(actual, Arrays.asList("m", "p", "q", "r"));
+        assertEquals(actual, Arrays.asList("m", "p", "q", "r"));
+    }
+
+    @Test
+    public void testValidateCode1() throws Exception {
+        Coding coding = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .version(string("1.0.0"))
+                .code(Code.of("m"))
+                .build();
+
+        assertTrue(FHIRTermService.getInstance().validateCode(coding));
+    }
+
+    @Test
+    public void testValidateCode2() throws Exception {
+        Coding coding = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .version(string("1.0.0"))
+                .code(Code.of("x"))
+                .build();
+
+        assertFalse(FHIRTermService.getInstance().validateCode(coding));
+    }
+
+    @Test
+    public void testValidateCode3() throws Exception {
+        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs5|1.0.0");
+
+        Coding coding = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .version(string("1.0.0"))
+                .code(Code.of("m"))
+                .build();
+
+        assertTrue(FHIRTermService.getInstance().validateCode(valueSet, coding));
+    }
+
+    @Test
+    public void testValidateCode4() throws Exception {
+        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs5|1.0.0");
+
+        Coding coding = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .version(string("1.0.0"))
+                .code(Code.of("x"))
+                .build();
+
+        assertFalse(FHIRTermService.getInstance().validateCode(valueSet, coding));
     }
 }

@@ -77,6 +77,32 @@ public class FHIRTermService {
         return provider.closure(coding);
     }
 
+    /**
+     * Indicates whether a code system concept matches the given coding
+     *
+     * @param coding
+     *     the coding
+     * @return
+     *     true if a code system concept matches the given coding, false otherwise
+     */
+    public boolean validateCode(Coding coding) {
+        return provider.validateCode(coding);
+    }
+
+    /**
+     * Indicates whether the given coding is a member of the specified value set
+     *
+     * @param valueSet
+     *     the value set
+     * @param coding
+     *     the coding
+     * @return
+     *     true if the given coding is a member of the specified value set, false otherwise
+     */
+    public boolean validateCode(ValueSet valueSet, Coding coding) {
+        return provider.validateCode(valueSet, coding);
+    }
+
     public static FHIRTermService getInstance() {
         return INSTANCE;
     }

@@ -12,6 +12,7 @@ import java.util.Set;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ValueSet;
+import com.ibm.fhir.model.resource.ValueSet.Expansion.Contains;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
@@ -101,5 +102,48 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
         }
 
         return Collections.emptySet();
+    }
+
+    @Override
+    public boolean validateCode(Coding coding) {
+        return lookup(coding) != null;
+    }
+
+    @Override
+    public boolean validateCode(ValueSet valueSet, Coding coding) {
+        String code = (coding.getCode() != null) ? coding.getCode().getValue() : null;
+
+        if (code != null) {
+            ValueSet expanded = expand(valueSet);
+            if (ValueSetSupport.isExpanded(expanded)) {
+                for (Contains contains : ValueSetSupport.getContains(expanded.getExpansion())) {
+                    if (matches(contains, coding)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private boolean matches(Contains contains, Coding coding) {
+        String containsSystem = (contains.getSystem() != null) ? contains.getSystem().getValue() : null;
+        String containsVersion = (contains.getVersion() != null) ? contains.getVersion().getValue() : null;
+        String containsCode = (contains.getCode() != null) ? contains.getCode().getValue() : null;
+
+        String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
+        String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
+        String code = (coding.getCode() != null) ? coding.getCode().getValue() : null;
+
+        if (system != null && version != null) {
+            return containsCode.equals(code) && containsSystem.equals(system) && (containsVersion == null || containsVersion.equals(version));
+        }
+
+        if (system != null) {
+            return containsCode.equals(code) && containsSystem.equals(system);
+        }
+
+        return containsCode.equals(code);
     }
 }

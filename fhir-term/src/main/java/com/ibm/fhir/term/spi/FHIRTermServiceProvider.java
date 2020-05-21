@@ -56,4 +56,26 @@ public interface FHIRTermServiceProvider {
      *     a set containing the transitive closure for the code system concept represented by the given coding
      */
     Set<Concept> closure(Coding coding);
+
+    /**
+     * Indicates whether a code system concept matches the given coding
+     *
+     * @param coding
+     *     the coding
+     * @return
+     *     true if a code system concept matches the given coding, false otherwise
+     */
+    boolean validateCode(Coding coding);
+
+    /**
+     * Indicates whether the given coding is a member of the specified value set
+     *
+     * @param valueSet
+     *     the value set
+     * @param coding
+     *     the coding
+     * @return
+     *     true if the given coding is a member of the specified value set, false otherwise
+     */
+    boolean validateCode(ValueSet valueSet, Coding coding);
 }
