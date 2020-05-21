@@ -23,22 +23,31 @@ public class CheckPointUserData implements java.io.Serializable {
     private boolean isSingleCosObject = false;
     private List<PartETag> cosDataPacks;
     private int currentPartResourceNum = 0;
+    private int totalResourcesNum = 0;
     // One resource type can have 0 to multiple typeFilters, indexOfCurrentTypeFilter is used to tell the currently processed typeFilter.
     private int indexOfCurrentTypeFilter;
+    // Partition status for the exported resources, e.g, Patient[1000,1000,200]
     private String resourceTypeSummary = null;
+    // Used to mark the complete of the partition.
+    private boolean isMoreToExport = true;
 
-    public CheckPointUserData(int pageNum, String uploadId, List<PartETag> cosDataPacks, int partNum, int indexOfCurrentTypeFilter) {
+    public CheckPointUserData(int pageNum, String uploadId, List<PartETag> cosDataPacks, int partNum, int indexOfCurrentTypeFilter,
+            String resourceTypeSummary, int totalResourcesNum, int currentPartResourceNum) {
         super();
         this.pageNum = pageNum;
         this.uploadId = uploadId;
         this.cosDataPacks = cosDataPacks;
         this.partNum = partNum;
         this.indexOfCurrentTypeFilter = indexOfCurrentTypeFilter;
+        this.resourceTypeSummary = resourceTypeSummary;
+        this.totalResourcesNum = totalResourcesNum;
+        this.currentPartResourceNum = currentPartResourceNum;
     }
 
     public static CheckPointUserData fromTransientUserData(TransientUserData userData) {
         return new CheckPointUserData(userData.getPageNum(), userData.getUploadId(), userData.getCosDataPacks(),
-                userData.getPartNum(), userData.getIndexOfCurrentTypeFilter());
+                userData.getPartNum(), userData.getIndexOfCurrentTypeFilter(), userData.getResourceTypeSummary(),
+                userData.getTotalResourcesNum(), userData.getCurrentPartResourceNum());
     }
 
     public int getPageNum() {
@@ -111,6 +120,22 @@ public class CheckPointUserData implements java.io.Serializable {
 
     public void setResourceTypeSummary(String resourceTypeSummary) {
         this.resourceTypeSummary = resourceTypeSummary;
+    }
+
+    public boolean isMoreToExport() {
+        return isMoreToExport;
+    }
+
+    public void setMoreToExport(boolean isMoreToExport) {
+        this.isMoreToExport = isMoreToExport;
+    }
+
+    public int getTotalResourcesNum() {
+        return totalResourcesNum;
+    }
+
+    public void setTotalResourcesNum(int totalResourcesNum) {
+        this.totalResourcesNum = totalResourcesNum;
     }
 
 }

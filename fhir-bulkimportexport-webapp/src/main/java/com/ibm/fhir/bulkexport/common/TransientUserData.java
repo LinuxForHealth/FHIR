@@ -19,13 +19,15 @@ public class TransientUserData extends CheckPointUserData {
     private static final long serialVersionUID = -5892726731783560418L;
     private ByteArrayOutputStream bufferStream = new ByteArrayOutputStream();
 
-    public TransientUserData(int pageNum, String uploadId, List<PartETag> cosDataPacks, int partNum, int indexOfCurrentTypeFilter) {
-        super(pageNum, uploadId, cosDataPacks, partNum, indexOfCurrentTypeFilter);
+    public TransientUserData(int pageNum, String uploadId, List<PartETag> cosDataPacks, int partNum, int indexOfCurrentTypeFilter,
+            String resourceTypeSummary, int totalResourcesNum, int currentPartResourceNum) {
+        super(pageNum, uploadId, cosDataPacks, partNum, indexOfCurrentTypeFilter, resourceTypeSummary, totalResourcesNum, currentPartResourceNum);
     }
 
     public static TransientUserData fromCheckPointUserData(CheckPointUserData checkPointData) {
         return new TransientUserData(checkPointData.getPageNum(), checkPointData.getUploadId(),
-                checkPointData.getCosDataPacks(), checkPointData.getPartNum(), checkPointData.getIndexOfCurrentTypeFilter());
+                checkPointData.getCosDataPacks(), checkPointData.getPartNum(), checkPointData.getIndexOfCurrentTypeFilter(),
+                checkPointData.getResourceTypeSummary(), checkPointData.getTotalResourcesNum(), checkPointData.getCurrentPartResourceNum());
     }
 
     public ByteArrayOutputStream getBufferStream() {

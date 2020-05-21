@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -101,6 +102,7 @@ public class ChunkReader extends com.ibm.fhir.bulkexport.patient.ChunkReader {
 
         TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
         if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
+            chunkData.setMoreToExport(false);
             return null;
         }
 
@@ -116,7 +118,7 @@ public class ChunkReader extends com.ibm.fhir.bulkexport.patient.ChunkReader {
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0);
+            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0);
             stepCtx.setTransientUserData(chunkData);
         } else {
             chunkData.setPageNum(pageNum);
@@ -124,7 +126,9 @@ public class ChunkReader extends com.ibm.fhir.bulkexport.patient.ChunkReader {
         chunkData.setLastPageNum((patientMembers.size() + pageSize -1)/pageSize );
 
         if (!patientPageMembers.isEmpty()) {
-            logger.fine("readItem: loaded patients number - " + patientMembers.size());
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("readItem: loaded patients number - " + patientMembers.size());
+            }
 
             List<String> patientIds = patientPageMembers.stream().filter(patientRef -> patientRef != null).map(patientRef
                     -> patientRef.getEntity().getReference().getValue().substring(8)).collect(Collectors.toList());

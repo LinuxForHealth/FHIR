@@ -3,6 +3,9 @@
     <properties>
         <property name="cos.pagesperobject" value="#{jobParameters['cos.pagesperobject']}?:10;" />
     </properties>
+    <listeners>
+        <listener ref="com.ibm.fhir.bulkexport.system.ExportJobListener"/>
+    </listeners>
     <step id="step1">
         <chunk checkpoint-policy="custom" item-count="#{jobProperties['cos.pagesperobject']}">
             <reader ref="com.ibm.fhir.bulkexport.system.ChunkReader">

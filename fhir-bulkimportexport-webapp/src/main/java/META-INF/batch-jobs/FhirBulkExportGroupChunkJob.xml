@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd" id="bulkgroupexportchunkjob" restartable="true" version="1.0">
+    <properties>
+        <property name="cos.pagesperobject" value="#{jobParameters['cos.pagesperobject']}?:10;" />
+    </properties>
+    <listeners>
+        <listener ref="com.ibm.fhir.bulkexport.system.ExportJobListener"/>
+    </listeners>
     <step id="step1">
         <chunk checkpoint-policy="item" item-count="1">
             <reader ref="com.ibm.fhir.bulkexport.group.ChunkReader">
@@ -33,6 +39,8 @@
                     <property name="fhir.resourcetype" value="#{jobParameters['fhir.resourcetype']}"/>
                 </properties>
             </mapper>
+            <collector ref="com.ibm.fhir.bulkexport.system.ExportPartitionCollector"/>
+            <analyzer ref="com.ibm.fhir.bulkexport.system.ExportPartitionAnalyzer"/>
         </partition>
     </step>
 </job>

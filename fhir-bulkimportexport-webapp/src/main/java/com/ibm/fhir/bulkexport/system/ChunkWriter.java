@@ -141,8 +141,7 @@ public class ChunkWriter extends AbstractItemWriter {
             if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
                 BulkDataUtils.finishMultiPartUpload(cosClient, cosBucketName, cosBucketObjectName, chunkData.getUploadId(),
                         chunkData.getCosDataPacks());
-                stepCtx.setExitStatus(cosBucketObjectName + "; " + fhirResourceType
-                    + "[" + chunkData.getCurrentPartResourceNum() + "]");
+                chunkData.setResourceTypeSummary(fhirResourceType + "[" + chunkData.getCurrentPartResourceNum() + "]");
             }
 
         } else {
@@ -174,20 +173,17 @@ public class ChunkWriter extends AbstractItemWriter {
             cosClient.putObject(req);
             logger.info(
                     "pushFhirJsons2Cos: " + itemName + "(" + dataLength + " bytes) was successfully written to COS");
-            // Job exit status, e.g, Patient[1000,1000,200]:Observation[1000,1000,200]
+            // Partition status for the exported resources, e.g, Patient[1000,1000,200]
             if (chunkData.getResourceTypeSummary() == null) {
-                chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + fhirResourceType + "[" + chunkData.getCurrentPartResourceNum());
+                chunkData.setResourceTypeSummary(fhirResourceType + "[" + chunkData.getCurrentPartResourceNum());
                 if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
                     chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
                 }
             } else {
-                if (chunkData.getPartNum() == 1) {
-                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + ":" + fhirResourceType + "[" + chunkData.getCurrentPartResourceNum());
-                } else {
-                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentPartResourceNum());
-                }
+                chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentPartResourceNum());
                 if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
                     chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
+                    stepCtx.setTransientUserData(chunkData);
                 }
             }
             chunkData.setPartNum(chunkData.getPartNum() + 1);

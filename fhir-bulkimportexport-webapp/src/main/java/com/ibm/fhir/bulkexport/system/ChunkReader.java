@@ -158,6 +158,7 @@ public class ChunkReader extends AbstractItemReader {
                 }
             }
             chunkData.setCurrentPartResourceNum(chunkData.getCurrentPartResourceNum() + resSubTotal);
+            chunkData.setTotalResourcesNum(chunkData.getTotalResourcesNum() + resSubTotal);
             logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
                     + chunkData.getBufferStream().size());
         } else {
@@ -173,6 +174,7 @@ public class ChunkReader extends AbstractItemReader {
         // If the search already reaches the last page, then check if need to move to the next typeFilter.
         if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
             if (searchParametersForResoureTypes.get(resourceType) == null || searchParametersForResoureTypes.get(resourceType).size() <= indexOfCurrentTypeFilter + 1) {
+                chunkData.setMoreToExport(false);
                 return null;
             } else {
              // If there is more typeFilter to process for current resource type, then reset pageNum only and move to the next typeFilter.
@@ -219,7 +221,7 @@ public class ChunkReader extends AbstractItemReader {
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0);
+            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
             if (isSingleCosObject) {
                 chunkData.setSingleCosObject(true);
@@ -232,7 +234,9 @@ public class ChunkReader extends AbstractItemReader {
         }
 
         if (resources != null) {
-            logger.fine("readItem: loaded resources number - " + resources.size());
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("readItem: loaded resources number - " + resources.size());
+            }
             fillChunkDataBuffer(resources);
         } else {
             logger.fine("readItem: End of reading!");
@@ -261,7 +265,9 @@ public class ChunkReader extends AbstractItemReader {
         if (fhirSearchPageSize != null) {
             try {
                 pageSize = Integer.parseInt(fhirSearchPageSize);
-                logger.fine("open: Set page size to " + pageSize + ".");
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("open: Set page size to " + pageSize + ".");
+                }
             } catch (Exception e) {
                 logger.warning("open: Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
             }
@@ -283,7 +289,7 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public void close() throws Exception {
-
+        // do nothing.
     }
 
     @Override

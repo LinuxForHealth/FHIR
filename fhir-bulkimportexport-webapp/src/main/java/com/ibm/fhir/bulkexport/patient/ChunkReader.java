@@ -200,6 +200,7 @@ public class ChunkReader extends AbstractItemReader {
             } while (searchParametersForResoureTypes.get(resourceType) != null && indexOfCurrentTypeFilter < searchParametersForResoureTypes.get(resourceType).size());
 
             chunkData.setCurrentPartResourceNum(chunkData.getCurrentPartResourceNum() + resSubTotal);
+            chunkData.setTotalResourcesNum(chunkData.getTotalResourcesNum() + resSubTotal);
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
                         + chunkData.getBufferStream().size());
@@ -217,6 +218,7 @@ public class ChunkReader extends AbstractItemReader {
         TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
         if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
                 // No more page to read, so return null to end the reading.
+                chunkData.setMoreToExport(false);
                 return null;
         }
 
@@ -250,7 +252,7 @@ public class ChunkReader extends AbstractItemReader {
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0);
+            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
             stepCtx.setTransientUserData(chunkData);
         } else {
@@ -259,7 +261,9 @@ public class ChunkReader extends AbstractItemReader {
         }
 
         if (resources != null) {
-            logger.fine("readItem(" + fhirResourceType + "): loaded patients number - " + resources.size());
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("readItem(" + fhirResourceType + "): loaded patients number - " + resources.size());
+            }
 
             List<String> patientIds = resources.stream().filter(item -> item.getId() != null).map(item -> item.getId()).collect(Collectors.toList());
             if (patientIds != null && patientIds.size() > 0) {
@@ -291,7 +295,9 @@ public class ChunkReader extends AbstractItemReader {
         if (fhirSearchPageSize != null) {
             try {
                 pageSize = Integer.parseInt(fhirSearchPageSize);
-                logger.fine("open: Set page size to " + pageSize + ".");
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("open: Set page size to " + pageSize + ".");
+                }
             } catch (Exception e) {
                 logger.warning("open: Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
             }
@@ -306,7 +312,7 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public void close() throws Exception {
-
+        // do nothing
     }
 
     @Override

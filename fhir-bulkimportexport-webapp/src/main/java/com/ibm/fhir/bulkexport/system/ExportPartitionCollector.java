@@ -7,7 +7,6 @@
 package com.ibm.fhir.bulkexport.system;
 
 import java.io.Serializable;
-import java.util.logging.Logger;
 
 import javax.batch.api.partition.PartitionCollector;
 import javax.batch.runtime.BatchStatus;
@@ -18,7 +17,6 @@ import com.ibm.fhir.bulkexport.common.CheckPointUserData;
 import com.ibm.fhir.bulkexport.common.TransientUserData;
 
 public class ExportPartitionCollector implements PartitionCollector {
-    private static final Logger logger = Logger.getLogger(ExportPartitionCollector.class.getName());
     @Inject
     StepContext stepCtx;
 
@@ -29,16 +27,19 @@ public class ExportPartitionCollector implements PartitionCollector {
 
     @Override
     public Serializable collectPartitionData() throws Exception {
-        TransientUserData partitionSummaryData  = (TransientUserData)stepCtx.getTransientUserData();
+        TransientUserData transientUserData  = (TransientUserData)stepCtx.getTransientUserData();
         BatchStatus batchStatus = stepCtx.getBatchStatus();
 
-        // If the job is being stopped or in other status except for "started", then collect nothing.
-        if (!batchStatus.equals(BatchStatus.STARTED)) {
+        // If the job is being stopped or in other status except for "started", or if there is more page to process, then collect nothing.
+        if (!batchStatus.equals(BatchStatus.STARTED)
+            || transientUserData.isMoreToExport()
+            || transientUserData.getResourceTypeSummary() == null)
+        {
             return null;
         }
 
-        CheckPointUserData partitionSummaryForMetrics = CheckPointUserData.fromTransientUserData(partitionSummaryData);
-        return partitionSummaryForMetrics;
+        CheckPointUserData partitionSummary = CheckPointUserData.fromTransientUserData(transientUserData);
+        return partitionSummary;
     }
 
 }
