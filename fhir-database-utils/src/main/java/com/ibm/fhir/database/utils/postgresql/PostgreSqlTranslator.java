@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.ConnectionDetails;
 import com.ibm.fhir.database.utils.api.ConnectionException;
 import com.ibm.fhir.database.utils.api.DataAccessException;
+import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
@@ -77,22 +78,32 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
     public DataAccessException translate(SQLException x) {
         if (isDeadlock(x)) {
             return new LockException(x, true);
-        }
-        else if (isLockTimeout(x)) {
+        } else if (isLockTimeout(x)) {
             return new LockException(x, false);
-        }
-        else if (isConnectionError(x)) {
+        } else if (isConnectionError(x)) {
             return new ConnectionException(x);
-        }
-        else if (isDuplicate(x)) {
+        } else if (isDuplicate(x)) {
             return new UniqueConstraintViolationException(x);
-        }
-        else if (isUndefinedName(x)) {
+        } else if (isUndefinedName(x)) {
             return new UndefinedNameException(x);
-        }
-        else {
+        } else if(isDuplicateSchema(x)) {
+            return new DuplicateSchemaException(x);
+        } else {
             return new DataAccessException(x);
         }
+    }
+
+    /**
+     * @implNote sometimes this is wrapped in a cause by.
+     * @see https://www.postgresql.org/docs/9.4/errcodes-appendix.html
+     */
+    public boolean isDuplicateSchema(SQLException x) {
+        Throwable inter = x.getCause();
+        SQLException temp = null;
+        if (inter instanceof SQLException) {
+            temp = ((SQLException) inter);
+        }
+        return "42P06".equals(x.getSQLState()) || (temp != null && "42P06".equals(temp.getSQLState()));
     }
 
     @Override

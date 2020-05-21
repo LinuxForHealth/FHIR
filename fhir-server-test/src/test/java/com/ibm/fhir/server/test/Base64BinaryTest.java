@@ -44,8 +44,7 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.DocumentReferenceStatus;
 
 /**
- * This class contains tests for deserializing Base64 encoded binary data. This
- * class was created for testing fixes to Defect 211585.
+ * This class contains tests for deserializing Base64 encoded binary data.
  */
 public class Base64BinaryTest extends FHIRServerTestBase {
     private static final boolean DEBUG = false;

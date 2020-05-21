@@ -20,6 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
+import com.ibm.fhir.database.utils.api.DuplicateNameException;
+import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
@@ -161,7 +163,12 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         }
 
         // Thread pool for parallelizing requests
-        final ExecutorService pool = Executors.newFixedThreadPool(40);
+        int poolSize = connectionProvider.getPoolSize();
+        if (poolSize == -1) {
+            // Default Value - 40
+            poolSize = 40;
+        }
+        final ExecutorService pool = Executors.newFixedThreadPool(poolSize);
 
         final AtomicInteger taskCount = new AtomicInteger();
         for (Table t: tables) {
@@ -171,21 +178,17 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                 // We should only be dealing with partitioned tables at this stage, so this
                 // is a fatal error
                 throw new DataAccessException("No partition information found for table: " + qualifiedName);
-            }
-            else {
+            } else {
                 // Submit to the pool for processing
                 taskCount.incrementAndGet();
                 pool.submit(new Runnable() {
-
                     @Override
                     public void run() {
                         try {
                             createTenantPartitionsThr(t, pi, newTenantId, tablespaceName);
-                        }
-                        catch (Throwable x) {
+                        } catch (Throwable x) {
                             logger.log(Level.SEVERE, "tenant creation failed: " + t.getName(), x);
-                        }
-                        finally {
+                        } finally {
                             taskCount.decrementAndGet();
                         }
                     }
@@ -200,8 +203,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                 logger.info("Waiting for partitioning tasks to complete: " + taskCount.get());
                 pool.awaitTermination(5000, TimeUnit.MILLISECONDS);
             }
-        }
-        catch (InterruptedException x) {
+        } catch (InterruptedException x) {
             // Not cool. This means that only some of the tables will have the partition assigned
             throw new DataAccessException("Tenant partition creation did not complete");
         }
@@ -218,7 +220,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
      * @param tablespaceName
      */
     public void createTenantPartitionsThr(Table t, PartitionInfo pi, int newTenantId, String tablespaceName) {
-
         // Each thread needs to manage its own transaction
         try (ITransaction tx = TransactionFactory.openTransaction(connectionProvider)) {
             try {
@@ -230,8 +231,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                 Db2AddTablePartition cmd = new Db2AddTablePartition(t.getSchemaName(), t.getObjectName(), newTenantId, tablespaceName);
                 runStatement(cmd);
                 logger.info("Added tenant partition: TENANT" + newTenantId + " to " + t.getName());
-            }
-            catch (RuntimeException x) {
+            } catch (RuntimeException x) {
                 logger.severe("Rolling back transaction after tenant creation failed for table " + t.getName());
                 tx.setRollbackOnly();
                 throw x;
@@ -307,7 +307,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createOrReplaceProcedureAndFunctions(String schemaName, String procedureName, Supplier<String> supplier) {
+    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
         logger.info("Create or replace procedure " + objectName);
 
@@ -427,6 +427,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         return "VARCHAR(" + size + " OCTETS)";
     }
 
+    @Override
     public boolean checkCompatibility(String adminSchema) {
         // As long as we don't get an exception, we should be considered compatible
         Db2CheckCompatibility checker = new Db2CheckCompatibility(adminSchema);
@@ -449,5 +450,21 @@ public class Db2Adapter extends CommonDatabaseAdapter {
             Db2AdminCommand runstats = new Db2AdminCommand("RUNSTATS ON TABLE " + qname + " WITH DISTRIBUTION AND DETAILED INDEXES ALL");
             super.runStatement(runstats);
         }
+    }
+
+    @Override
+    public void createSchema(String schemaName){
+        try {
+            String ddl = "CREATE SCHEMA " + schemaName;
+            runStatement(ddl);
+            logger.log(Level.INFO, "The schema '" + schemaName + "' is created");
+        } catch (DuplicateNameException | DuplicateSchemaException e) {
+            logger.log(Level.WARNING, "The schema '" + schemaName + "' already exists; proceed with caution.");
+        }
+    }
+
+    @Override
+    public boolean useSessionVariable() {
+        return true;
     }
 }

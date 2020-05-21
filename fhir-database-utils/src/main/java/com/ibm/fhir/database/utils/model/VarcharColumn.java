@@ -30,5 +30,4 @@ public class VarcharColumn extends ColumnBase {
     public String getTypeInfo(IDatabaseTypeAdapter adapter) {
         return adapter.varcharClause(size);
     }
-
 }

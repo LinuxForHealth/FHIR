@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ package com.ibm.fhir.database.utils.db2;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.Instant;
 
@@ -21,9 +22,8 @@ import com.ibm.fhir.database.utils.version.SchemaConstants;
  * Checks Compatibility with the DB2 Implementation that is used. 
  */
 public class Db2CheckCompatibility implements IDatabaseStatement {
-    
     private final String adminSchema;
-    
+
     /**
      * Public constructor
      * @param adminSchema
@@ -44,10 +44,9 @@ public class Db2CheckCompatibility implements IDatabaseStatement {
             // JDBC-4.2 supports direct use of java.time (THANK YOU!)
             // Unfortunately as of Data Server Driver Package v11.1.3.3,
             // this still doesn't work for DB2
-            ps.setObject(1, Instant.now(), Types.TIMESTAMP);
+            ps.setObject(1, Timestamp.from(Instant.now()), Types.TIMESTAMP);
             ps.executeQuery();
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
     }

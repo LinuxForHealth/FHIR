@@ -27,6 +27,7 @@ import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
+import com.ibm.fhir.schema.app.Main;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
@@ -37,9 +38,10 @@ import com.ibm.fhir.schema.control.PopulateResourceTypes;
 public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     private static final Logger logger = Logger.getLogger(DerbyFhirDatabase.class.getName());
     private static final String DATABASE_NAME = "derby/fhirDB";
-    private static final String SCHEMA_NAME = "FHIRDATA";
-    private static final String ADMIN_SCHEMA_NAME = "FHIR_ADMIN";
-    private static final String OAUTH_SCHEMANAME = "FHIR_OAUTH";
+    private static final String SCHEMA_NAME = Main.DATA_SCHEMANAME;
+    private static final String ADMIN_SCHEMA_NAME = Main.ADMIN_SCHEMANAME;
+    private static final String OAUTH_SCHEMANAME = Main.OAUTH_SCHEMANAME;
+    private static final String BATCH_SCHEMANAME = Main.BATCH_SCHEMANAME;
 
     // The translator to help us out with Derby syntax
     private static final IDatabaseTranslator DERBY_TRANSLATOR = new DerbyTranslator();
@@ -137,7 +139,7 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, derbyAdapter);
 
         // Current version history for the data schema
-        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME, OAUTH_SCHEMANAME);
+        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME, OAUTH_SCHEMANAME, BATCH_SCHEMANAME);
         vhs.setTransactionProvider(transactionProvider);
         vhs.setTarget(derbyAdapter);
         vhs.init();

@@ -24,7 +24,6 @@ import com.ibm.fhir.database.utils.model.Table;
  * procedures.
  */
 public interface IDatabaseAdapter {
-
     /**
      * Get the {@link IDatabaseTranslator} associated with this adapter
      *
@@ -118,7 +117,7 @@ public interface IDatabaseAdapter {
      * @param procedureName
      * @param supplier
      */
-    public void createOrReplaceProcedureAndFunctions(String schemaName, String procedureName, Supplier<String> supplier);
+    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier);
 
     /**
      * Drop the given procedure
@@ -245,12 +244,13 @@ public interface IDatabaseAdapter {
      * @param name
      * @param targetSchema
      * @param targetTable
+     * @param targetColumnName
      * @param tenantColumnName
      * @param columns
      * @param enforced
      */
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema,
-            String targetTable, String tenantColumnName, List<String> columns, boolean enforced);
+            String targetTable, String targetColumnName, String tenantColumnName, List<String> columns, boolean enforced);
 
     /**
      * Allocate a new tenant
@@ -332,8 +332,7 @@ public interface IDatabaseAdapter {
      * @param privileges
      * @param toUser
      */
-    public void grantObjectPrivileges(String schemaName, String tableName, Collection<Privilege> privileges,
-            String toUser);
+    public void grantObjectPrivileges(String schemaName, String tableName, Collection<Privilege> privileges, String toUser);
 
     /**
      * Grant the collection of privileges on the named procedure to the user
@@ -401,4 +400,53 @@ public interface IDatabaseAdapter {
      * @param schemaName
      */
     public void createSchema(String schemaName);
+
+    /**
+     * create a unique constraint on a table.
+     * 
+     * @param constraintName
+     * @param columns
+     * @param schemaName
+     * @param name
+     */
+    public void createUniqueConstraint(String constraintName, List<String> columns, String schemaName, String name);
+
+    /**
+     * checks connectivity to the database and that it is compatible
+     * @param adminSchema
+     * @return
+     */
+    public boolean checkCompatibility(String adminSchema);
+
+    /**
+     * 
+     * @return a false, if not used, or true if used with the persistence layer.
+     */
+    public default boolean useSessionVariable() {
+        return false;
+    }
+
+    /**
+     * creates or replaces the SQL function
+     * @param schemaName
+     * @param objectName
+     * @param supplier
+     */
+    public void createOrReplaceFunction(String schemaName, String objectName, Supplier<String> supplier);
+
+    /**
+     * drops a given function 
+     * @param schemaName
+     * @param functionName
+     */
+    public void dropFunction(String schemaName, String functionName);
+
+    /** 
+     * grants permissions on a given function
+     * @param schemaName
+     * @param functionName
+     * @param privileges
+     * @param toUser
+     */
+    public void grantFunctionPrivileges(String schemaName, String functionName, Collection<Privilege> privileges, String toUser);
 }

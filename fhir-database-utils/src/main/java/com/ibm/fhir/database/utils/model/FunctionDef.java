@@ -13,10 +13,10 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 
 /**
- * The definition of a stored procedure, whose content is provided by a Supplier<String> function
+ * The definition of a function, whose content is provided by a Supplier<String> function
  */
-public class ProcedureDef extends BaseObject {
-    private static final Logger logger = Logger.getLogger(ProcedureDef.class.getName());
+public class FunctionDef extends BaseObject {
+    private static final Logger logger = Logger.getLogger(FunctionDef.class.getName());
 
     // supplier provides the procedure body when requested
     private Supplier<String> supplier;
@@ -28,18 +28,14 @@ public class ProcedureDef extends BaseObject {
      * @param version
      * @param supplier
      */
-    public ProcedureDef(String schemaName, String procedureName, int version, Supplier<String> supplier) {
+    public FunctionDef(String schemaName, String procedureName, int version, Supplier<String> supplier) {
         super(schemaName, procedureName, DatabaseObjectType.PROCEDURE, version);
         this.supplier = supplier;
     }
 
     @Override
     public void apply(IDatabaseAdapter target) {
-        // Serialize the execution of the procedure, to try and avoid the
-        // horrible deadlocks we keep getting
-        synchronized (this) {
-            target.createOrReplaceProcedure(getSchemaName(), getObjectName(), supplier);
-        }
+        target.createOrReplaceFunction(getSchemaName(), getObjectName(), supplier);
     }
 
     @Override
@@ -54,11 +50,11 @@ public class ProcedureDef extends BaseObject {
 
     @Override
     public void drop(IDatabaseAdapter target) {
-        target.dropProcedure(getSchemaName(), getObjectName());
+        target.dropFunction(getSchemaName(), getObjectName());
     }
 
     @Override
     protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
-        target.grantProcedurePrivileges(getSchemaName(), getObjectName(), group, toUser);
+        target.grantFunctionPrivileges(getSchemaName(), getObjectName(), group, toUser);
     }
 }

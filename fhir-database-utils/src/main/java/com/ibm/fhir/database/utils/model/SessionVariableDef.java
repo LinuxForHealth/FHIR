@@ -36,7 +36,8 @@ public class SessionVariableDef extends BaseObject {
 
     @Override
     protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
-        target.grantVariablePrivileges(getSchemaName(), getObjectName(), group, toUser);
+        if (target.useSessionVariable()) {
+            target.grantVariablePrivileges(getSchemaName(), getObjectName(), group, toUser);
+        }
     }
-
 }
