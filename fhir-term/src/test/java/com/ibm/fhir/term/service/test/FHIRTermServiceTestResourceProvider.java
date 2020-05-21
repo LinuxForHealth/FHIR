@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.term.test;
+package com.ibm.fhir.term.service.test;
 
 import com.ibm.fhir.registry.util.PackageRegistryResourceProvider;
 
-public class FHIRTermTestResourceProvider extends PackageRegistryResourceProvider {
+public class FHIRTermServiceTestResourceProvider extends PackageRegistryResourceProvider {
     @Override
     public String getPackageId() {
-        return "fhir.term.test";
+        return "fhir.term.service.test";
     }
 }

@@ -6,6 +6,9 @@
 
 package com.ibm.fhir.term.service.provider;
 
+import java.util.Collections;
+import java.util.Set;
+
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ValueSet;
@@ -78,5 +81,25 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
         }
 
         return null;
+    }
+
+    @Override
+    public Set<Concept> closure(Coding coding) {
+        String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
+        String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
+        String code = (coding.getCode() != null) ? coding.getCode().getValue() : null;
+
+        if (system != null && code != null) {
+            String url = (version != null) ? system + "|" + version : system;
+            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
+            if (codeSystem != null && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+                Concept concept = CodeSystemSupport.findConcept(codeSystem, Code.of(code));
+                if (concept != null) {
+                    return CodeSystemSupport.getConcepts(concept);
+                }
+            }
+        }
+
+        return Collections.emptySet();
     }
 }

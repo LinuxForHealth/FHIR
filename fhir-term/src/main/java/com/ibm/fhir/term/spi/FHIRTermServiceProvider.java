@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.term.spi;
 
+import java.util.Set;
+
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Coding;
@@ -37,11 +39,21 @@ public interface FHIRTermServiceProvider {
      * the code system concept represented by coding "B"
      *
      * @param codingA
-     *     coding "A"
+     *     the coding "A"
      * @param codingB
-     *     coding "B"
+     *     the coding "B"
      * @return
      *     the outcome of the subsumption test
      */
     ConceptSubsumptionOutcome subsumes(Coding codingA, Coding codingB);
+
+    /**
+     * Generate the transitive closure for the provided coding
+     *
+     * @param coding
+     *     the coding
+     * @return
+     *     a set containing the transitive closure for the provided coding
+     */
+    Set<Concept> closure(Coding coding);
 }
