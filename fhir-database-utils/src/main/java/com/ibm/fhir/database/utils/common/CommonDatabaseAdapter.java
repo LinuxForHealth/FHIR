@@ -114,7 +114,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
             // Outputs the default value
             if (column.getDefaultVal() != null) {
-                boolean isText = column.getTypeDef(this).equals("TEXT");
+                boolean isText = column.getTypeDef(this).endsWith(" TEXT");
                 result.append(" DEFAULT ");
                 if (isText) {
                     result.append("'");

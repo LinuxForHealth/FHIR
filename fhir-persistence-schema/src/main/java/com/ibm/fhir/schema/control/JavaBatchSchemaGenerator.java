@@ -75,7 +75,7 @@ public class JavaBatchSchemaGenerator {
     public static final String STEPTHREADEXECUTION_TABLE = "STEPTHREADEXECUTION";
     public static final String STEPEXECID = "STEPEXECID";
 
-    public static final String REMOTABLEPARTITION_TABLE = "REMOTABLEPARTITION_TABLE";
+    public static final String REMOTABLEPARTITION_TABLE = "REMOTABLEPARTITION";
     public static final String INTERNALSTATE = "INTERNALSTATE";
     public static final String LASTUPDATED = "LASTUPDATED";
     public static final String FK_JOBEXECUTIONID = "FK_JOBEXECUTIONID";

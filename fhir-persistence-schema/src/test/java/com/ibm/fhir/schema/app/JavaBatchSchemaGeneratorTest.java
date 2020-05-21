@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.schema.app;
 
+import static org.testng.Assert.assertEquals;
+
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
@@ -45,76 +47,105 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
+import com.ibm.fhir.database.utils.postgresql.PostgreSqlAdapter;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
 
-/**
- * 
- */
 public class JavaBatchSchemaGeneratorTest {
+    private Boolean DEBUG = Boolean.FALSE;
+
     @Test
-    public void testJavaBatchSchemaGenerator() {
+    public void testJavaBatchSchemaGeneratorDb2() {
         PrintConnection connection = new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
         Db2Adapter adapter = new Db2Adapter(target);
 
         // Set up the version history service first if it doesn't yet exist
-        CreateVersionHistory.createTableIfNeeded("FHIR_ADMIN", adapter);
+        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, adapter);
 
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
         // are applied
-        VersionHistoryService vhs = new VersionHistoryService("FHIR_ADMIN", "FHIRDATA", "FHIR_OAUTH", "FHIR_BATCH");
+        VersionHistoryService vhs = new VersionHistoryService(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME, Main.OAUTH_SCHEMANAME, Main.BATCH_SCHEMANAME);
         vhs.setTarget(adapter);
 
         PhysicalDataModel pdm = new PhysicalDataModel();
-        JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator("FHIR_BATCH");
+        JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
         generator.buildJavaBatchSchema(pdm);
         pdm.apply(adapter);
         pdm.applyFunctions(adapter);
         pdm.applyProcedures(adapter);
 
-        for(Entry<String, String> command : commands.entrySet()) {
-            System.out.println(command.getKey() + ";");
+        if (DEBUG) {
+            for (Entry<String, String> command : commands.entrySet()) {
+                System.out.println(command.getKey() + ";");
+            }
         }
+        assertEquals(commands.size(), 23);
+        commands.clear();
     }
-    
-    // Map is used so we can split by type if we wanted. LinkedHashSet is also OK. 
+
+    @Test(dependsOnMethods = { "testJavaBatchSchemaGeneratorDb2" })
+    public void testJavaBatchSchemaGeneratorPostgres() {
+        PrintConnection connection = new PrintConnection();
+        JdbcTarget target = new JdbcTarget(connection);
+        PostgreSqlAdapter adapter = new PostgreSqlAdapter(target);
+
+        // Set up the version history service first if it doesn't yet exist
+        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, adapter);
+
+        // Current version history for the database. This is used by applyWithHistory
+        // to determine which updates to apply and to record the new changes as they
+        // are applied
+        VersionHistoryService vhs = new VersionHistoryService(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME, Main.OAUTH_SCHEMANAME, Main.BATCH_SCHEMANAME);
+        vhs.setTarget(adapter);
+
+        PhysicalDataModel pdm = new PhysicalDataModel();
+        JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
+        generator.buildJavaBatchSchema(pdm);
+        pdm.apply(adapter);
+        pdm.applyFunctions(adapter);
+
+        if (DEBUG) {
+            for (Entry<String, String> command : commands.entrySet()) {
+                System.out.println(command.getKey() + ";");
+            }
+        }
+
+        assertEquals(commands.size(), 24);
+        commands.clear();
+    }
+
+    // Map is used so we can split by type if we wanted. LinkedHashSet is also OK.
     private Map<String, String> commands = new LinkedHashMap<>();
     private Map<String, String> storedProceduresCommands = new LinkedHashMap<>();
-    
+
     /**
      * process each sql so it can be 'cleaned' before putting into the linked map.
      */
     public void addCommand(String sql) {
-
         // Ignore SELECT statements
         if (!sql.startsWith("SELECT")) {
-
             if (sql.startsWith(" ")) {
-
                 int idx = 0;
                 while (idx < sql.length() && sql.charAt(idx) == ' ') {
-
                     idx++;
                 }
-
                 sql = sql.substring(idx);
             }
-            
+
             // Create or Replace the stored procedure
-            if(sql.startsWith("CREATE OR REPLACE PROCEDURE ")) {
-                storedProceduresCommands.put(sql,sql);
-            }else {
+            if (sql.startsWith("CREATE OR REPLACE PROCEDURE ")) {
+                storedProceduresCommands.put(sql, sql);
+            } else {
                 commands.put(sql, sql);
             }
         }
     }
-    
+
     /*
-     * The following classes are 'dummy implementations' that enable printing of the
-     * SQL.
+     * The following classes are 'dummy implementations' that enable printing of the SQL.
      */
     public class PrintConnection implements java.sql.Connection {
 
@@ -235,14 +266,12 @@ public class JavaBatchSchemaGeneratorTest {
         }
 
         @Override
-        public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency)
-                throws SQLException {
+        public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
             return new PrintPreparedStatement();
         }
 
         @Override
-        public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency)
-                throws SQLException {
+        public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
 
             return null;
         }
@@ -292,22 +321,19 @@ public class JavaBatchSchemaGeneratorTest {
         }
 
         @Override
-        public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability)
-                throws SQLException {
+        public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
 
             return null;
         }
 
         @Override
-        public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency,
-                int resultSetHoldability) throws SQLException {
+        public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
 
             return null;
         }
 
         @Override
-        public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency,
-                int resultSetHoldability) throws SQLException {
+        public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
 
             return null;
         }
