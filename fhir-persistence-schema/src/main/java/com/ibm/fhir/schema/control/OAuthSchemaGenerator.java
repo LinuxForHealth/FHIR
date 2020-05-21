@@ -102,7 +102,7 @@ public class OAuthSchemaGenerator {
                 .addUniqueIndex(OAUTH20CACHE + "_" + EXPIRES, EXPIRES) // ASC is the default
                 .addPrivileges(generateGroupPrivilege())
                 .build(model);
-        
+
         model.addTable(cache);
         model.addObject(cache);
     }

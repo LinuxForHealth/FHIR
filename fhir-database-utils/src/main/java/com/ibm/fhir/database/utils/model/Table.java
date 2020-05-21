@@ -398,6 +398,12 @@ public class Table extends BaseObject {
             return this;
         }
 
+        /**
+         * @param columnName
+         * @param nullable
+         * @param defaultVal this value is auto-quoted; do not pass the single-quote (') within the string value
+         * @return
+         */
         public Builder addClobColumn(String columnName, boolean nullable, String defaultVal) {
             ColumnDef cd = new ColumnDef(columnName);
             if (columns.contains(cd)) {
@@ -406,7 +412,7 @@ public class Table extends BaseObject {
 
             cd.setNullable(nullable);
             cd.setColumnType(ColumnType.CLOB);
-            cd.setDefaultVal(defaultVal);
+            cd.setDefaultVal("'" + defaultVal + "'");
             columns.add(cd);
             return this;
         }
