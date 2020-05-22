@@ -6,22 +6,39 @@
 
 package com.ibm.fhir.term.service.provider;
 
+import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
+import static com.ibm.fhir.term.util.CodeSystemSupport.findConcept;
+import static com.ibm.fhir.term.util.CodeSystemSupport.getCodeSystem;
+import static com.ibm.fhir.term.util.CodeSystemSupport.getConcepts;
+import static com.ibm.fhir.term.util.ValueSetSupport.getContains;
+
 import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ValueSet;
+import com.ibm.fhir.model.resource.ValueSet.Expansion;
 import com.ibm.fhir.model.resource.ValueSet.Expansion.Contains;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
-import com.ibm.fhir.term.util.CodeSystemSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
 public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
+    private static final Logger log = Logger.getLogger(DefaultTermServiceProvider.class.getName());
+
+    private static final String VERSION_UNKNOWN = "<version unknown>";
+    private static final Map<String, Map<String, Set<String>>> CODE_SET_MAP_CACHE = createLRUCache(1024);
+
     @Override
     public ValueSet expand(ValueSet valueSet) {
         return ValueSetSupport.expand(valueSet);
@@ -35,9 +52,9 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
 
         if (system != null && code != null) {
             String url = (version != null) ? system + "|" + version : system;
-            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
+            CodeSystem codeSystem = getCodeSystem(url);
             if (codeSystem != null) {
-                return CodeSystemSupport.findConcept(codeSystem, Code.of(code));
+                return findConcept(codeSystem, Code.of(code));
             }
         }
 
@@ -64,17 +81,17 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
                 url = (versionA != null) ? (url + "|" + versionA) : (url + "|" + versionB);
             }
 
-            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
+            CodeSystem codeSystem = getCodeSystem(url);
             if (codeSystem != null && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                Concept conceptA = CodeSystemSupport.findConcept(codeSystem, Code.of(codeA));
+                Concept conceptA = findConcept(codeSystem, Code.of(codeA));
                 if (conceptA != null) {
-                    Concept conceptB = CodeSystemSupport.findConcept(conceptA, Code.of(codeB));
+                    Concept conceptB = findConcept(conceptA, Code.of(codeB));
                     if (conceptB != null) {
                         return conceptA.equals(conceptB) ? ConceptSubsumptionOutcome.EQUIVALENT : ConceptSubsumptionOutcome.SUBSUMES;
                     }
-                    conceptB = CodeSystemSupport.findConcept(codeSystem, Code.of(codeB));
+                    conceptB = findConcept(codeSystem, Code.of(codeB));
                     if (conceptB != null) {
-                        conceptA = CodeSystemSupport.findConcept(conceptB, Code.of(codeA));
+                        conceptA = findConcept(conceptB, Code.of(codeA));
                         return (conceptA != null) ? ConceptSubsumptionOutcome.SUBSUMED_BY : ConceptSubsumptionOutcome.NOT_SUBSUMED;
                     }
                 }
@@ -92,11 +109,11 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
 
         if (system != null && code != null) {
             String url = (version != null) ? system + "|" + version : system;
-            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
+            CodeSystem codeSystem = getCodeSystem(url);
             if (codeSystem != null && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                Concept concept = CodeSystemSupport.findConcept(codeSystem, Code.of(code));
+                Concept concept = findConcept(codeSystem, Code.of(code));
                 if (concept != null) {
-                    return CodeSystemSupport.getConcepts(concept);
+                    return getConcepts(concept);
                 }
             }
         }
@@ -110,40 +127,113 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     @Override
-    public boolean validateCode(ValueSet valueSet, Coding coding) {
-        String code = (coding.getCode() != null) ? coding.getCode().getValue() : null;
+    public boolean validateCode(ValueSet valueSet, String system, String version, String code) {
+        return contains(getCodeSetMap(valueSet), system, version, code);
+    }
 
-        if (code != null) {
-            ValueSet expanded = expand(valueSet);
-            if (ValueSetSupport.isExpanded(expanded)) {
-                for (Contains contains : ValueSetSupport.getContains(expanded.getExpansion())) {
-                    if (matches(contains, coding)) {
-                        return true;
-                    }
-                }
+    @Override
+    public boolean validateCode(ValueSet valueSet, Coding coding) {
+        return contains(getCodeSetMap(valueSet), coding);
+    }
+
+    @Override
+    public boolean validateCode(ValueSet valueSet, CodeableConcept codeableConcept) {
+        Map<String, Set<String>> codeSetMap = getCodeSetMap(valueSet);
+        for (Coding coding : codeableConcept.getCoding()) {
+            if (contains(codeSetMap, coding)) {
+                return true;
             }
         }
-
         return false;
     }
 
-    private boolean matches(Contains contains, Coding coding) {
-        String containsSystem = (contains.getSystem() != null) ? contains.getSystem().getValue() : null;
-        String containsVersion = (contains.getVersion() != null) ? contains.getVersion().getValue() : null;
-        String containsCode = (contains.getCode() != null) ? contains.getCode().getValue() : null;
-
+    private boolean contains(Map<String, Set<String>> codeSetMap, Coding coding) {
         String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
         String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
         String code = (coding.getCode() != null) ? coding.getCode().getValue() : null;
+        return contains(codeSetMap, system, version, code);
+    }
 
-        if (containsCode != null && containsSystem != null && system != null && version != null) {
-            return containsCode.equals(code) && containsSystem.equals(system) && (containsVersion == null || containsVersion.equals(version));
+    /**
+     * Determine whether the provided code is in the codeSet associated with the provided system and version.
+     *
+     * <p>If the system and version are non-null, then they are concatenated to form a key into the codeSetMap. If
+     * not found, then the system is concatenated with the "VERSION_UNKNOWN" constant (in cases where the expanded
+     * value set did not have a version available during the expansion). If only the system is non-null, then the
+     * codeSetMap keys are checked for startsWith(system). Finally, if both system and version are null, map keys
+     * are ignored and the values of the map are checked directly.
+     *
+     * @param codeSetMap
+     *     the code set map
+     * @param system
+     *     the system of the focal coded element (can be null)
+     * @param version
+     *     the version of the focal coded element (can be null)
+     * @param code
+     *     the code used in the membership check
+     * @return
+     *     true if a codeSet is found and the provided code is a member of that codeSet, false otherwise
+     */
+    private boolean contains(Map<String, Set<String>> codeSetMap, String system, String version, String code) {
+        if (system != null && version != null) {
+            Set<String> codeSet = codeSetMap.get(system + "|" + version);
+            if (codeSet != null) {
+                if (codeSet.contains(code)) {
+                    return true;
+                } else {
+                    codeSet = codeSetMap.get(system + "|" + VERSION_UNKNOWN);
+                    if (codeSet != null) {
+                        return codeSet.contains(code);
+                    }
+                }
+            }
+        } else if (system != null) {
+            String prefix = system + "|";
+            for (String key : codeSetMap.keySet()) {
+                if (key.startsWith(prefix)) {
+                    return codeSetMap.get(key).contains(code);
+                }
+            }
+        } else {
+            for (Set<String> codeSet : codeSetMap.values()) {
+                if (codeSet.contains(code)) {
+                    return true;
+                }
+            }
         }
+        return false;
+    }
 
-        if (containsCode != null && containsSystem != null && system != null) {
-            return containsCode.equals(code) && containsSystem.equals(system);
+    private Map<String, Set<String>> getCodeSetMap(ValueSet valueSet) {
+        if (valueSet.getUrl() == null || valueSet.getVersion() == null) {
+            return computeCodeSetMap(valueSet);
         }
+        String url = valueSet.getUrl().getValue() + "|" + valueSet.getVersion().getValue();
+        return CODE_SET_MAP_CACHE.computeIfAbsent(url, k -> computeCodeSetMap(valueSet));
+    }
 
-        return (containsCode != null) && containsCode.equals(code);
+    private Map<String, Set<String>> computeCodeSetMap(ValueSet valueSet) {
+        try {
+            ValueSet expanded = expand(valueSet);
+            if (expanded == null || expanded.getExpansion() == null) {
+                return Collections.emptyMap();
+            }
+            Map<String, Set<String>> codeSetMap = new LinkedHashMap<>();
+            Expansion expansion = expanded.getExpansion();
+            for (Contains contains : getContains(expansion)) {
+                String system = (contains.getSystem() != null) ? contains.getSystem().getValue() : null;
+                String version = (contains.getVersion() != null && contains.getVersion().getValue() != null) ? contains.getVersion().getValue() : VERSION_UNKNOWN;
+                String code = (contains.getCode() != null) ? contains.getCode().getValue() : null;
+                if (system != null && code != null) {
+                    codeSetMap.computeIfAbsent(system + "|" + version, k -> new LinkedHashSet<>()).add(code);
+                }
+            }
+            return codeSetMap;
+        } catch (Exception e) {
+            String url = (valueSet.getUrl() != null) ? valueSet.getUrl().getValue() : "<no url>";
+            String version = (valueSet.getVersion() != null) ? valueSet.getVersion().getValue() : "<no version>";
+            log.log(Level.WARNING, String.format("Unable to expand value set with url: %s and version: %s", url, version), e);
+        }
+        return Collections.emptyMap();
     }
 }
