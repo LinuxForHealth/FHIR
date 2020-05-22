@@ -72,7 +72,7 @@ public interface FHIRTermServiceProvider {
      * Indicates whether the given code is a member of the provided value set
      *
      * @apiNote
-     *     the implementation should expand the provided value set (if needed)
+     *     the implementation should expand the provided value set if needed
      * @param valueSet
      *     the value set
      * @param system
@@ -82,7 +82,7 @@ public interface FHIRTermServiceProvider {
      * @param code
      *     the code
      * @return
-     *     true if the given code is a member of the specified alue set, false otherwise
+     *     true if the given code is a member of the provided value set, false otherwise
      */
     boolean validateCode(ValueSet valueSet, String system, String version, String code);
 
@@ -90,13 +90,13 @@ public interface FHIRTermServiceProvider {
      * Indicates whether the given coding is a member of the provided value set
      *
      * @apiNote
-     *     the implementation should expand the provided value set (if needed)
+     *     the implementation should expand the provided value set if needed
      * @param valueSet
      *     the value set
      * @param coding
      *     the coding
      * @return
-     *     true if the given coding is a member of the specified value set, false otherwise
+     *     true if the given coding is a member of the provided value set, false otherwise
      */
     boolean validateCode(ValueSet valueSet, Coding coding);
 
@@ -104,13 +104,13 @@ public interface FHIRTermServiceProvider {
      * Indicates whether the given codeable concept contains a coding that is a member of the provided value set
      *
      * @apiNote
-     *     the implementation should expand the provided value set (if needed)
+     *     the implementation should expand the provided value set if needed
      * @param valueSet
      *     the value set
      * @param codeableConcept
      *     the codeable concept
      * @return
-     *     true if the given codeable concept contains a coding that is a member of the specified value set
+     *     true if the given codeable concept contains a coding that is a member of the provided value set, false otherwise
      */
     boolean validateCode(ValueSet valueSet, CodeableConcept codeableConcept);
 }
