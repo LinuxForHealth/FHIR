@@ -11,10 +11,10 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -24,16 +24,23 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRConstants;
-import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Bundle.Entry.Request;
 import com.ibm.fhir.model.resource.MedicationAdministration;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
+import com.ibm.fhir.model.util.ModelSupport;
 
 /**
  * This class tests delete interactions.
@@ -80,9 +87,7 @@ public class DeleteTest extends FHIRServerTestBase {
         assertNotNull(deletedResource);
     }
 
-    @Test(dependsOnMethods = {
-            "testCreateNewResource"
-    })
+    @Test(dependsOnMethods = {"testCreateNewResource"})
     public void testDeleteNewResource() throws Exception {
         assertNotNull(deletedType);
         assertNotNull(deletedId);
@@ -98,9 +103,7 @@ public class DeleteTest extends FHIRServerTestBase {
         }
     }
 
-    @Test(dependsOnMethods = {
-            "testDeleteNewResource"
-    })
+    @Test(dependsOnMethods = {"testDeleteNewResource"})
     public void testReadDeletedResource() throws Exception {
         if (!deleteSupported) {
             return;
@@ -114,9 +117,7 @@ public class DeleteTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.GONE.getStatusCode());
     }
 
-    @Test(dependsOnMethods = {
-            "testDeleteNewResource"
-    })
+    @Test(dependsOnMethods = {"testDeleteNewResource"})
     public void testVreadDeletedResource() throws Exception {
         if (!deleteSupported) {
             return;
@@ -130,9 +131,7 @@ public class DeleteTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.GONE.getStatusCode());
     }
 
-    @Test(dependsOnMethods = {
-            "testDeleteNewResource"
-    })
+    @Test(dependsOnMethods = {"testDeleteNewResource"})
     public void testDeleteDeletedResource() throws Exception {
         if (!deleteSupported) {
             return;
@@ -165,9 +164,7 @@ public class DeleteTest extends FHIRServerTestBase {
     }
 
 
-    @Test(dependsOnMethods = {
-            "testDeleteDeletedResource"
-    })
+    @Test(dependsOnMethods = {"testDeleteDeletedResource"})
     public void testHistory1() throws Exception {
         if (!deleteSupported) {
             return;
@@ -203,9 +200,7 @@ public class DeleteTest extends FHIRServerTestBase {
         assertEquals(expectedVersionId, actualVersionId);
     }
 
-    @Test(dependsOnMethods = {
-            "testHistory1"
-    })
+    @Test(dependsOnMethods = {"testHistory1"})
     public void testUndeleteDeletedResource() throws Exception {
         if (!deleteSupported) {
             return;
@@ -219,9 +214,7 @@ public class DeleteTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
     }
 
-    @Test(dependsOnMethods = {
-            "testUndeleteDeletedResource"
-    })
+    @Test(dependsOnMethods = {"testUndeleteDeletedResource"})
     public void testReadUndeletedResource() throws Exception {
         if (!deleteSupported) {
             return;
@@ -235,9 +228,7 @@ public class DeleteTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
     }
 
-    @Test(dependsOnMethods = {
-            "testReadUndeletedResource"
-    })
+    @Test(dependsOnMethods = {"testReadUndeletedResource"})
     public void testVreadUndeletedResource() throws Exception {
         if (!deleteSupported) {
             return;
@@ -251,9 +242,7 @@ public class DeleteTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
     }
 
-    @Test(dependsOnMethods = {
-            "testVreadUndeletedResource"
-    })
+    @Test(dependsOnMethods = {"testVreadUndeletedResource"})
     public void testHistory2() throws Exception {
         if (!deleteSupported) {
             return;
@@ -273,9 +262,7 @@ public class DeleteTest extends FHIRServerTestBase {
         assertBundleEntry(bundle.getEntry().get(2), deletedType, "1", HTTPVerb.ValueSet.POST);
     }
 
-    @Test(dependsOnMethods = {
-            "testHistory2"
-    })
+    @Test(dependsOnMethods = {"testHistory2"})
     public void testDeleteUndeletedResource() throws Exception {
         if (!deleteSupported) {
             return;
@@ -289,9 +276,7 @@ public class DeleteTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
     }
 
-    @Test(dependsOnMethods = {
-            "testDeleteUndeletedResource"
-    })
+    @Test(dependsOnMethods = {"testDeleteUndeletedResource"})
     public void testHistory3() throws Exception {
         if (!deleteSupported) {
             return;
@@ -343,9 +328,7 @@ public class DeleteTest extends FHIRServerTestBase {
         assertEquals(10, searchResults.getEntry().size());
     }
 
-    @Test(dependsOnMethods = {
-            "testSearch1"
-    })
+    @Test(dependsOnMethods = {"testSearch1"})
     public void testSearch2() throws Exception {
         if (!deleteSupported) {
             return;
@@ -369,9 +352,7 @@ public class DeleteTest extends FHIRServerTestBase {
         assertEquals(8, searchResults.getEntry().size());
     }
 
-    @Test(dependsOnMethods = {
-            "testSearch2"
-    })
+    @Test(dependsOnMethods = {"testSearch2"})
     public void testSearch3() throws Exception {
         if (!deleteSupported) {
             return;
@@ -399,19 +380,14 @@ public class DeleteTest extends FHIRServerTestBase {
     }
 
     @Test
-    public void testConditionalDeleteResource() throws Exception {
-        if (!deleteSupported) {
-            return;
-        }
-
+    public void testConditionalDeleteNoResource() throws Exception {
         String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
         String obsId = UUID.randomUUID().toString();
         Observation obs = TestUtil.readLocalResource("Observation1.json");
 
         obs = obs.toBuilder().id(obsId).subject(Reference.builder().reference(string(fakePatientRef)).build()).build();
 
-
-        // First conditional delete should find no matches, so we should get back a 200 OK.
+        // This conditional delete should find no matches, so we should get back a 200 OK.
         FHIRParameters query = new FHIRParameters().searchParam("_id", obsId);
         FHIRResponse response = client.conditionalDelete("Observation", query);
         assertNotNull(response);
@@ -420,13 +396,23 @@ public class DeleteTest extends FHIRServerTestBase {
         } else {
             assertResponse(response.getResponse(), Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
         }
+    }
 
-        // Next, create an Observation (using update for create) so that we can test conditional delete.
-        response = client.update(obs);
+    @Test
+    public void testConditionalDeleteOneResource() throws Exception {
+        String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
+        String obsId = UUID.randomUUID().toString();
+        Observation obs = TestUtil.readLocalResource("Observation1.json");
+
+        obs = obs.toBuilder().id(obsId).subject(Reference.builder().reference(string(fakePatientRef)).build()).build();
+
+        // Create an Observation (using update for create) so that we can test conditional delete.
+        FHIRResponse response = client.update(obs);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
 
-        // Second conditional delete should find 1 match, so we should get back a 200.
+
+        FHIRParameters query = new FHIRParameters().searchParam("_id", obsId);
         response = client.conditionalDelete("Observation", query);
         assertNotNull(response);
         if (deleteSupported) {
@@ -436,39 +422,86 @@ public class DeleteTest extends FHIRServerTestBase {
         } else {
             assertResponse(response.getResponse(), Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
         }
+    }
 
-        // A search that results in multiple matches:
-        // (1) if matches > FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT, then result in a 412 status code.
-        // (2) if matches <= FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT, then result in a 204 status code.
-        WebTarget target = getWebTarget();
-        Response response2 =
-                target.path("Observation").queryParam("status", "final").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response2, Response.Status.OK.getStatusCode());
-        Bundle searchResultBundle = response2.readEntity(Bundle.class);
+    @Test
+    public void testConditionalDeleteTenResource() throws Exception {
+        final String TESTNAME = "testConditionalDeleteTwoResource";
 
-        FHIRParameters multipleMatches = new FHIRParameters().searchParam("status", "final");
-        response = client.conditionalDelete("Observation", multipleMatches);
+        // Create 2 observations with the same tag (in a single request)
+        Observation obs = TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json");
+        obs = obs.toBuilder()
+                .meta(Meta.builder()
+                    .tag(Coding.builder().code(Code.of(TESTNAME)).build())
+                    .build())
+                .build();
+        Bundle observations = buildRequestBundle(FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT, obs);
+        client.batch(observations);
+
+        // If matches <= FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT, then result in a 204 status code.
+        FHIRParameters multipleMatches = new FHIRParameters().searchParam("_tag", TESTNAME);
+        FHIRResponse response = client.conditionalDelete("Observation", multipleMatches);
         assertNotNull(response);
         if (deleteSupported) {
-            if (searchResultBundle.getTotal().getValue() <= FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT ) {
-                if (searchResultBundle.getTotal().getValue() > 0) {
-                    assertResponse(response.getResponse(), Status.OK.getStatusCode());
-                } else {
-                    assertResponse(response.getResponse(), Status.OK.getStatusCode());
-                    assertNotNull(response.getResource(OperationOutcome.class));
-                }
-            } else {
-                assertResponse(response, Status.PRECONDITION_FAILED.getStatusCode());
-                assertExceptionOperationOutcome(response.getResponse().readEntity(OperationOutcome.class),
-                        "The search criteria specified for a conditional delete operation returned too many matches");
-            }
+            assertResponse(response.getResponse(), Status.OK.getStatusCode());
+            assertNotNull(response.getResource(OperationOutcome.class));
         } else {
             assertResponse(response.getResponse(), Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
         }
+    }
 
-        // Finally, an invalid search should result in a 400 status code.
+    @Test
+    public void testConditionalDeleteElevenResource() throws Exception {
+        final String TESTNAME = "testConditionalDeleteElevenResource";
+
+        // Create 11 observations with the same tag (in a single request)
+        Observation obs = TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json");
+        obs = obs.toBuilder()
+                .meta(Meta.builder()
+                    .tag(Coding.builder().code(Code.of(TESTNAME)).build())
+                    .build())
+                .build();
+        Bundle observations = buildRequestBundle(FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT + 1, obs);
+        client.batch(observations);
+
+        // If matches > FHIRConstants.FHIR_CONDITIONAL_DELETE_MAX_NUMBER_DEFAULT, then result in a 412 status code.
+        FHIRParameters multipleMatches = new FHIRParameters().searchParam("_tag", TESTNAME);
+        FHIRResponse response = client.conditionalDelete("Observation", multipleMatches);
+        assertNotNull(response);
+        if (deleteSupported) {
+            assertResponse(response, Status.PRECONDITION_FAILED.getStatusCode());
+            assertExceptionOperationOutcome(response.getResponse().readEntity(OperationOutcome.class),
+                    "The search criteria specified for a conditional delete operation returned too many matches");
+        } else {
+            assertResponse(response.getResponse(), Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
+        }
+    }
+
+    private Bundle buildRequestBundle(int numberOfEntries, Resource rsc) {
+        Entry entry = Entry.builder()
+                .request(Request.builder()
+                    .method(HTTPVerb.POST)
+                    .url(Uri.of(ModelSupport.getTypeName(rsc.getClass())))
+                    .build())
+                .resource(rsc)
+                .build();
+        Bundle observations = Bundle.builder()
+                .type(BundleType.BATCH)
+                .entry(Collections.nCopies(numberOfEntries, entry))
+                .build();
+        return observations;
+    }
+
+    public void testConditionalDeleteInvalidSearch() throws Exception {
+        String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
+        String obsId = UUID.randomUUID().toString();
+        Observation obs = TestUtil.readLocalResource("Observation1.json");
+
+        obs = obs.toBuilder().id(obsId).subject(Reference.builder().reference(string(fakePatientRef)).build()).build();
+
+        // An invalid search should result in a 400 status code.
         FHIRParameters badSearch = new FHIRParameters().searchParam("invalid:search", "foo");
-        response = client.conditionalUpdate(obs, badSearch);
+        FHIRResponse response = client.conditionalUpdate(obs, badSearch);
         assertNotNull(response);
         if (deleteSupported) {
             assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
