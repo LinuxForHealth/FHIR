@@ -12,6 +12,7 @@ import java.util.Set;
 
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ValueSet;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
 import com.ibm.fhir.term.service.provider.DefaultTermServiceProvider;
@@ -90,6 +91,24 @@ public class FHIRTermService {
     }
 
     /**
+     * Indicates whether the given code is a member of the specified value set
+     *
+     * @param valueSet
+     *     the value set
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @return
+     *     true if the given code is a member of the specified alue set, false otherwise
+     */
+    public boolean validateCode(ValueSet valueSet, String system, String version, String code) {
+        return provider.validateCode(valueSet, system, version, code);
+    }
+
+    /**
      * Indicates whether the given coding is a member of the specified value set
      *
      * @param valueSet
@@ -101,6 +120,20 @@ public class FHIRTermService {
      */
     public boolean validateCode(ValueSet valueSet, Coding coding) {
         return provider.validateCode(valueSet, coding);
+    }
+
+    /**
+     * Indicates whether the given codeable concept contains a coding that is a member of the specified value set
+     *
+     * @param valueSet
+     *     the value set
+     * @param codeableConcept
+     *     the codeable concept
+     * @return
+     *     true if the given codeable concept contains a coding that is a member of the specified value set
+     */
+    public boolean validateCode(ValueSet valueSet, CodeableConcept codeableConcept) {
+        return provider.validateCode(valueSet, codeableConcept);
     }
 
     public static FHIRTermService getInstance() {
