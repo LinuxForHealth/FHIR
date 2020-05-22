@@ -28,6 +28,19 @@ public class FHIRTermService implements FHIRTermServiceProvider {
     }
 
     /**
+     * Indicates whether the given value set is expandable
+     *
+     * @param valueSet
+     *     the value set
+     * @return
+     *     true if the given value set is expandable, false otherwise
+     */
+    @Override
+    public boolean isExpandable(ValueSet valueSet) {
+        return provider.isExpandable(valueSet);
+    }
+
+    /**
      * Expand the given value set per the algorithm here: http://hl7.org/fhir/valueset.html#expansion
      *
      * @param valueSet
