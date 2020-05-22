@@ -38,7 +38,7 @@ import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.term.service.FHIRTermService;
 
 /**
- * Implementation of the 'memberOf' FHIRPath function per: http://hl7.org/fhir/fhirpath.html#functions
+ * Implementation of the 'memberOf' FHIRPath function per: <a href="http://hl7.org/fhir/fhirpath.html#functions">http://hl7.org/fhir/fhirpath.html#functions</a>
  *
  * <p>This implementation supports an optional second argument (binding strength). The binding strength
  * is used to determine whether or not to add a warning to the evaluation context if the membership check fails.
