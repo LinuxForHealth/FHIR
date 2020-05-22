@@ -54,6 +54,7 @@ To use the artifacts from a Maven project:
 |------|-----------|----------|
 |fhir-model|An object model generated from the FHIR R4 specification and corresponding parsers and generators for XML and JSON|true|
 |fhir-registry|A resource registry, registry provider interfaces, and pre-registered resources shipped with the FHIR specification|false|
+|fhir-term|A terminology service provider interface with a default implementation that implements the ValueSet expand operation|false|
 |fhir-profile|Helper methods for validating ValueSet membership and Profile conformance|false|
 |fhir-path|An implementation of version 2.0.0 of the FHIRPath specification assumed by FHIR R4|false|
 |fhir-validation|Validation utility for validating resource instances against the base specification and/or configured profiles|false|

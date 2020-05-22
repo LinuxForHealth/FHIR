@@ -17,9 +17,8 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.isCodedElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isStringElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isUriElementNode;
-import static com.ibm.fhir.profile.ValueSetSupport.expand;
-import static com.ibm.fhir.profile.ValueSetSupport.getContains;
-import static com.ibm.fhir.profile.ValueSetSupport.getValueSet;
+import static com.ibm.fhir.term.util.ValueSetSupport.getContains;
+import static com.ibm.fhir.term.util.ValueSetSupport.getValueSet;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -46,6 +45,7 @@ import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.term.service.FHIRTermService;
 
 /**
  * Implementation of the 'memberOf' FHIRPath function per: http://hl7.org/fhir/fhirpath.html#functions
@@ -229,7 +229,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
 
     private Map<String, Set<String>> computeCodeSetMap(ValueSet valueSet) {
         try {
-            ValueSet expanded = expand(valueSet);
+            ValueSet expanded = FHIRTermService.getInstance().expand(valueSet);
             if (expanded == null || expanded.getExpansion() == null) {
                 return Collections.emptyMap();
             }
