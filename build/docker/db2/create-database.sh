@@ -26,14 +26,4 @@ fi
 
 # To be properly idempotent, we always want to execute this, just in case it failed the first time
 su - db2inst1 -c "db2 \"connect to fhirdb\" && db2 \"grant connect on database TO USER fhirserver\""
-
-su - db2inst1 -c "db2 \"connect to fhirdb\" && db2 \"
-    BEGIN IF (SELECT ROLENAME FROM SYSCAT.ROLES WHERE ROLENAME = 'FHIRSERVER') IS NULL
-    THEN EXECUTE IMMEDIATE 'CREATE ROLE FHIRSERVER';
-    END IF;
-    END;\""
-su - db2inst1 -c "db2 \"connect to fhirdb\" && db2 \"
-    BEGIN IF (SELECT ROLENAME FROM SYSCAT.ROLES WHERE ROLENAME = 'FHIRBATCH') IS NULL
-    THEN EXECUTE IMMEDIATE 'CREATE ROLE FHIRBATCH';
-    END IF;
-    END;\""
+su - db2inst1 -c "db2 \"connect to fhirdb\" && db2 \"grant connect on database TO USER fhirbatch\""
