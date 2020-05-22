@@ -10,8 +10,9 @@ FROM ibmcom/db2
 RUN groupadd -g 1002 fhir && \
     useradd -u 1002 -g fhir -M -d /database/config/fhirserver fhirserver && \
     useradd -u 1002 -g fhir -M -d /database/config/fhirbatch fhirbatch && \
-    echo "change-password" | passwd --stdin fhirserver && \
-    echo "change-password" | passwd --stdin fhirbatch
+    echo "change-password" | passwd --stdin fhirserver
+
+RUN echo "change-password" | passwd --stdin fhirbatch
 
 # Indicate that we expect to connect to the Db2 service on port 50000
 EXPOSE 50000
