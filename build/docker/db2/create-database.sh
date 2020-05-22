@@ -23,7 +23,3 @@ if [[ $(su - db2inst1 -c "db2 list db directory" | grep alias | grep FHIRDB | aw
 else
   su - db2inst1 -c "db2 CREATE DB FHIRDB using codeset UTF-8 territory us PAGESIZE 32768"
 fi
-
-# To be properly idempotent, we always want to execute this, just in case it failed the first time
-# su - db2inst1 -c "db2 \"connect to fhirdb\" && db2 \"grant connect on database TO USER fhirserver\""
-# su - db2inst1 -c "db2 \"connect to fhirdb\" && db2 \"grant connect on database TO USER fhirbatch\""
