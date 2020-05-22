@@ -88,25 +88,20 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
             if (isExpanded(valueSet) || isExpandable(valueSet)) {
                 FHIRTermService service = FHIRTermService.getInstance();
                 if (element.is(Code.class)) {
-                    String system = getSystem(evaluationContext.getTree().getParent(elementNode));
-                    String code = element.as(Code.class).getValue();
-                    if (service.validateCode(valueSet, system, null, code)) {
+                    if (service.validateCode(valueSet, getSystem(evaluationContext.getTree().getParent(elementNode)), null, element.as(Code.class).getValue())) {
                         return SINGLETON_TRUE;
                     }
                 } else if (element.is(Coding.class)) {
-                    Coding coding = element.as(Coding.class);
-                    if (service.validateCode(coding)) {
+                    if (service.validateCode(valueSet, element.as(Coding.class))) {
                         return SINGLETON_TRUE;
                     }
                 } else if (element.is(CodeableConcept.class)) {
-                    CodeableConcept codeableConcept = element.as(CodeableConcept.class);
-                    if (service.validateCode(valueSet, codeableConcept)) {
+                    if (service.validateCode(valueSet, element.as(CodeableConcept.class))) {
                         return SINGLETON_TRUE;
                     }
                 } else {
                     // element.is(FHIR_STRING) || element.is(Uri.class)
-                    String value = element.is(FHIR_STRING) ? element.as(FHIR_STRING).getValue() : element.as(Uri.class).getValue();
-                    if (service.validateCode(valueSet, null, null, value)) {
+                    if (service.validateCode(valueSet, null, null, element.is(FHIR_STRING) ? element.as(FHIR_STRING).getValue() : element.as(Uri.class).getValue())) {
                         return SINGLETON_TRUE;
                     }
                 }

@@ -7,6 +7,9 @@
 package com.ibm.fhir.term.service.provider;
 
 import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
+import static com.ibm.fhir.term.util.CodeSystemSupport.findConcept;
+import static com.ibm.fhir.term.util.CodeSystemSupport.getCodeSystem;
+import static com.ibm.fhir.term.util.CodeSystemSupport.getConcepts;
 import static com.ibm.fhir.term.util.ValueSetSupport.getContains;
 
 import java.util.Collections;
@@ -28,7 +31,6 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
-import com.ibm.fhir.term.util.CodeSystemSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
 public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
@@ -50,9 +52,9 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
 
         if (system != null && code != null) {
             String url = (version != null) ? system + "|" + version : system;
-            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
+            CodeSystem codeSystem = getCodeSystem(url);
             if (codeSystem != null) {
-                return CodeSystemSupport.findConcept(codeSystem, Code.of(code));
+                return findConcept(codeSystem, Code.of(code));
             }
         }
 
@@ -79,17 +81,17 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
                 url = (versionA != null) ? (url + "|" + versionA) : (url + "|" + versionB);
             }
 
-            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
+            CodeSystem codeSystem = getCodeSystem(url);
             if (codeSystem != null && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                Concept conceptA = CodeSystemSupport.findConcept(codeSystem, Code.of(codeA));
+                Concept conceptA = findConcept(codeSystem, Code.of(codeA));
                 if (conceptA != null) {
-                    Concept conceptB = CodeSystemSupport.findConcept(conceptA, Code.of(codeB));
+                    Concept conceptB = findConcept(conceptA, Code.of(codeB));
                     if (conceptB != null) {
                         return conceptA.equals(conceptB) ? ConceptSubsumptionOutcome.EQUIVALENT : ConceptSubsumptionOutcome.SUBSUMES;
                     }
-                    conceptB = CodeSystemSupport.findConcept(codeSystem, Code.of(codeB));
+                    conceptB = findConcept(codeSystem, Code.of(codeB));
                     if (conceptB != null) {
-                        conceptA = CodeSystemSupport.findConcept(conceptB, Code.of(codeA));
+                        conceptA = findConcept(conceptB, Code.of(codeA));
                         return (conceptA != null) ? ConceptSubsumptionOutcome.SUBSUMED_BY : ConceptSubsumptionOutcome.NOT_SUBSUMED;
                     }
                 }
@@ -107,11 +109,11 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
 
         if (system != null && code != null) {
             String url = (version != null) ? system + "|" + version : system;
-            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
+            CodeSystem codeSystem = getCodeSystem(url);
             if (codeSystem != null && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                Concept concept = CodeSystemSupport.findConcept(codeSystem, Code.of(code));
+                Concept concept = findConcept(codeSystem, Code.of(code));
                 if (concept != null) {
-                    return CodeSystemSupport.getConcepts(concept);
+                    return getConcepts(concept);
                 }
             }
         }
@@ -203,6 +205,9 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     private Map<String, Set<String>> getCodeSetMap(ValueSet valueSet) {
+        if (valueSet.getUrl() == null || valueSet.getVersion() == null) {
+            return computeCodeSetMap(valueSet);
+        }
         String url = valueSet.getUrl().getValue() + "|" + valueSet.getVersion().getValue();
         return CODE_SET_MAP_CACHE.computeIfAbsent(url, k -> computeCodeSetMap(valueSet));
     }
