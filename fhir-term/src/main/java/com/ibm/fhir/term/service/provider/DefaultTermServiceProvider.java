@@ -40,6 +40,11 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     private static final Map<String, Map<String, Set<String>>> CODE_SET_MAP_CACHE = createLRUCache(1024);
 
     @Override
+    public boolean isExpandable(ValueSet valueSet) {
+        return ValueSetSupport.isExpandable(valueSet);
+    }
+
+    @Override
     public ValueSet expand(ValueSet valueSet) {
         return ValueSetSupport.expand(valueSet);
     }

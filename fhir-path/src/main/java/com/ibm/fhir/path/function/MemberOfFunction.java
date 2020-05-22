@@ -17,7 +17,6 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.isStringElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isUriElementNode;
 import static com.ibm.fhir.term.util.ValueSetSupport.getValueSet;
-import static com.ibm.fhir.term.util.ValueSetSupport.isExpandable;
 import static com.ibm.fhir.term.util.ValueSetSupport.isExpanded;
 
 import java.util.Collection;
@@ -39,7 +38,7 @@ import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.term.service.FHIRTermService;
 
 /**
- * Implementation of the 'memberOf' FHIRPath function per: http://hl7.org/fhir/fhirpath.html#functions
+ * Implementation of the 'memberOf' FHIRPath function per: <a href="http://hl7.org/fhir/fhirpath.html#functions">http://hl7.org/fhir/fhirpath.html#functions</a>
  *
  * <p>This implementation supports an optional second argument (binding strength). The binding strength
  * is used to determine whether or not to add a warning to the evaluation context if the membership check fails.
@@ -85,8 +84,8 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
 
         if (FHIRRegistry.getInstance().hasResource(url, ValueSet.class)) {
             ValueSet valueSet = getValueSet(url);
-            if (isExpanded(valueSet) || isExpandable(valueSet)) {
-                FHIRTermService service = FHIRTermService.getInstance();
+            FHIRTermService service = FHIRTermService.getInstance();
+            if (isExpanded(valueSet) || service.isExpandable(valueSet)) {
                 if (element.is(Code.class)) {
                     if (service.validateCode(valueSet, getSystem(evaluationContext.getTree().getParent(elementNode)), null, element.as(Code.class).getValue())) {
                         return SINGLETON_TRUE;
