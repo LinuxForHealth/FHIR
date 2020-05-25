@@ -7,10 +7,13 @@
 package com.ibm.fhir.term.service;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.ServiceLoader;
 import java.util.Set;
 
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
+import com.ibm.fhir.model.resource.ConceptMap;
+import com.ibm.fhir.model.resource.ConceptMap.Group.Element.Target;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -161,6 +164,11 @@ public class FHIRTermService implements FHIRTermServiceProvider {
     @Override
     public boolean validateCode(ValueSet valueSet, CodeableConcept codeableConcept) {
         return provider.validateCode(valueSet, codeableConcept);
+    }
+
+    @Override
+    public List<Target> translate(ConceptMap conceptMap, Coding coding) {
+        return provider.translate(conceptMap, coding);
     }
 
     public static FHIRTermService getInstance() {
