@@ -249,7 +249,7 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testTranslate1() throws Exception {
-        ConceptMap conceptMap = getConceptMap("http://example.org/fhir/ConceptMap/snomed-ucum");
+        ConceptMap conceptMap = getConceptMap("http://ibm.com/fhir/ConceptMap/snomed-ucum");
 
         Coding coding = Coding.builder()
                 .system(Uri.of("http://snomed.info/sct"))
@@ -269,7 +269,7 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testTranslate2() throws Exception {
-        ConceptMap conceptMap = getConceptMap("http://example.org/fhir/ConceptMap/snomed-ucum");
+        ConceptMap conceptMap = getConceptMap("http://ibm.com/fhir/ConceptMap/snomed-ucum");
 
         Coding coding = Coding.builder()
                 .system(Uri.of("http://snomed.info/sct"))
