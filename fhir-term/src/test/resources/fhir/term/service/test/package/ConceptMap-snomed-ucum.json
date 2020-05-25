@@ -1,27 +1,9 @@
 {
     "resourceType": "ConceptMap",
-    "id": "conceptmap-ibm-snomed-ucum",
-    "url": "http://example.org/fhir/ConceptMap/ibm-snomed-ucum",
+    "id": "snomed-ucum",
+    "url": "http://example.org/fhir/ConceptMap/snomed-ucum",
     "version": "4.0.1",
-    "name": "SNOMED CT to UCUM mappings for DICOM SR",
     "status": "draft",
-    "experimental": true,
-    "date": "2020-05-06",
-    "publisher": "IBM Watson Health",
-    "contact": [
-        {
-            "name": "Peter Tate",
-            "telecom": [
-                {
-                    "system": "email",
-                    "value": "ptate@ca.ibm.org"
-                }
-            ]
-        }
-    ],
-    "description": "Example rule-based mappings between SNOMED CT to UCUM mappings for DICOM SR",
-    "purpose": "Show example rule based mappings",
-    "copyright": "Creative Commons 0",
     "sourceCanonical": "http://snomed.info/sct?fhir_vs",
     "targetCanonical": "http://hl7.org/fhir/ValueSet/ucum-common",
     "group": [

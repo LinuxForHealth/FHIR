@@ -130,5 +130,15 @@ public interface FHIRTermServiceProvider {
 
 
 
+    /**
+     * Translate the given coding to a list of targets using the provided concept map
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param coding
+     *     the coding
+     * @return
+     *     a list of targets from the provided concept map for the given coding
+     */
     List<Target> translate(ConceptMap conceptMap, Coding coding);
 }
