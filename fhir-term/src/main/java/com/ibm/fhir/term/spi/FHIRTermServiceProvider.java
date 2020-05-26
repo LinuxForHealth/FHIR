@@ -126,10 +126,8 @@ public interface FHIRTermServiceProvider {
      */
     boolean validateCode(ValueSet valueSet, CodeableConcept codeableConcept);
 
-
-
     /**
-     * Translate the given coding to a list of matches using the provided concept map
+     * Translate the given coding using the provided concept map
      *
      * @param conceptMap
      *     the concept map

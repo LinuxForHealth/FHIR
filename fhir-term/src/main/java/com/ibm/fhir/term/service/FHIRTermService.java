@@ -166,7 +166,7 @@ public class FHIRTermService implements FHIRTermServiceProvider {
     }
 
     /**
-     * Translate the given coding to a list of matches using the provided concept map
+     * Translate the given coding using the provided concept map
      *
      * @param conceptMap
      *     the concept map
