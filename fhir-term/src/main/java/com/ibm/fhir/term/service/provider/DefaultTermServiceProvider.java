@@ -15,6 +15,7 @@ import static com.ibm.fhir.term.util.ValueSetSupport.getContains;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -22,6 +23,8 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
+import com.ibm.fhir.model.resource.ConceptMap;
+import com.ibm.fhir.model.resource.ConceptMap.Group.Element.Target;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.resource.ValueSet.Expansion;
 import com.ibm.fhir.model.resource.ValueSet.Expansion.Contains;
@@ -31,6 +34,7 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
+import com.ibm.fhir.term.util.ConceptMapSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
 public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
@@ -150,6 +154,11 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
             }
         }
         return false;
+    }
+
+    @Override
+    public List<Target> translate(ConceptMap conceptMap, Coding coding) {
+        return ConceptMapSupport.translate(conceptMap, coding);
     }
 
     private boolean contains(Map<String, Set<String>> codeSetMap, Coding coding) {

@@ -7,6 +7,7 @@
 package com.ibm.fhir.term.service.test;
 
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.term.util.ConceptMapSupport.getConceptMap;
 import static com.ibm.fhir.term.util.ValueSetSupport.getContains;
 import static com.ibm.fhir.term.util.ValueSetSupport.getValueSet;
 import static org.testng.Assert.assertEquals;
@@ -15,6 +16,7 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,10 +24,13 @@ import java.util.stream.Collectors;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
+import com.ibm.fhir.model.resource.ConceptMap;
+import com.ibm.fhir.model.resource.ConceptMap.Group.Element.Target;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.ConceptMapEquivalence;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
 import com.ibm.fhir.term.service.FHIRTermService;
 import com.ibm.fhir.term.util.CodeSystemSupport;
@@ -240,5 +245,45 @@ public class FHIRTermServiceTest {
                 .build();
 
         assertFalse(FHIRTermService.getInstance().validateCode(valueSet, coding));
+    }
+
+    @Test
+    public void testTranslate1() throws Exception {
+        ConceptMap conceptMap = getConceptMap("http://ibm.com/fhir/ConceptMap/snomed-ucum");
+
+        Coding coding = Coding.builder()
+                .system(Uri.of("http://snomed.info/sct"))
+                .code(Code.of("258672001"))
+                .build();
+
+        Target expected = Target.builder()
+                .code(Code.of("cm"))
+                .equivalence(ConceptMapEquivalence.EQUIVALENT)
+                .comment(string("exact match"))
+                .build();
+
+        List<Target> targets = FHIRTermService.getInstance().translate(conceptMap, coding);
+        assertEquals(targets.size(), 1);
+        assertEquals(targets, Collections.singletonList(expected));
+    }
+
+    @Test
+    public void testTranslate2() throws Exception {
+        ConceptMap conceptMap = getConceptMap("http://ibm.com/fhir/ConceptMap/snomed-ucum");
+
+        Coding coding = Coding.builder()
+                .system(Uri.of("http://snomed.info/sct"))
+                .code(Code.of("258773002"))
+                .build();
+
+        Target expected = Target.builder()
+                .code(Code.of("mL"))
+                .equivalence(ConceptMapEquivalence.EQUIVALENT)
+                .comment(string("exact match"))
+                .build();
+
+        List<Target> targets = FHIRTermService.getInstance().translate(conceptMap, coding);
+        assertEquals(targets.size(), 1);
+        assertEquals(targets, Collections.singletonList(expected));
     }
 }

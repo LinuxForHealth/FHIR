@@ -70,6 +70,13 @@
             "id": "vs5",
             "url": "http://ibm.com/fhir/ValueSet/vs5",
             "version": "1.0.0"
+        },
+        {
+            "filename": "ConceptMap-snomed-ucum.json",
+            "resourceType": "ConceptMap",
+            "id": "snomed-ucum",
+            "url": "http://ibm.com/fhir/ConceptMap/snomed-ucum",
+            "version": "0.1.0"
         }
     ]
 }

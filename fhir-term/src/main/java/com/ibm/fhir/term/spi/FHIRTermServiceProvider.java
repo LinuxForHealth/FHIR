@@ -6,9 +6,12 @@
 
 package com.ibm.fhir.term.spi;
 
+import java.util.List;
 import java.util.Set;
 
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
+import com.ibm.fhir.model.resource.ConceptMap;
+import com.ibm.fhir.model.resource.ConceptMap.Group.Element.Target;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -124,4 +127,18 @@ public interface FHIRTermServiceProvider {
      *     true if the given codeable concept contains a coding that is a member of the provided value set, false otherwise
      */
     boolean validateCode(ValueSet valueSet, CodeableConcept codeableConcept);
+
+
+
+    /**
+     * Translate the given coding to a list of targets using the provided concept map
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param coding
+     *     the coding
+     * @return
+     *     a list of targets from the provided concept map for the given coding
+     */
+    List<Target> translate(ConceptMap conceptMap, Coding coding);
 }
