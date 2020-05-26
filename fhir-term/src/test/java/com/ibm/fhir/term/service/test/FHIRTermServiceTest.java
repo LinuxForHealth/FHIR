@@ -26,13 +26,15 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ConceptMap;
 import com.ibm.fhir.model.resource.ValueSet;
+import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ConceptMapEquivalence;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
 import com.ibm.fhir.term.service.FHIRTermService;
-import com.ibm.fhir.term.spi.Match;
+import com.ibm.fhir.term.spi.TranslationOutcome;
+import com.ibm.fhir.term.spi.TranslationOutcome.Match;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 
 public class FHIRTermServiceTest {
@@ -256,18 +258,20 @@ public class FHIRTermServiceTest {
                 .code(Code.of("258672001"))
                 .build();
 
-        Match expected = Match.builder()
-                .equivalence(ConceptMapEquivalence.EQUIVALENT)
-                .concept(Coding.builder()
-                    .system(Uri.of("http://unitsofmeasure.org"))
-                    .version(string("2015"))
-                    .code(Code.of("cm"))
-                    .build())
+        TranslationOutcome expected = TranslationOutcome.builder()
+                .result(Boolean.TRUE)
+                .match(Collections.singletonList(Match.builder()
+                    .equivalence(ConceptMapEquivalence.EQUIVALENT)
+                    .concept(Coding.builder()
+                        .system(Uri.of("http://unitsofmeasure.org"))
+                        .version(string("2015"))
+                        .code(Code.of("cm"))
+                        .build())
+                    .build()))
                 .build();
 
-        List<Match> matches = FHIRTermService.getInstance().translate(conceptMap, coding);
-        assertEquals(matches.size(), 1);
-        assertEquals(matches, Collections.singletonList(expected));
+        TranslationOutcome outcome = FHIRTermService.getInstance().translate(conceptMap, coding);
+        assertEquals(outcome, expected);
     }
 
     @Test
@@ -279,17 +283,19 @@ public class FHIRTermServiceTest {
                 .code(Code.of("258773002"))
                 .build();
 
-        Match expected = Match.builder()
-                .equivalence(ConceptMapEquivalence.EQUIVALENT)
-                .concept(Coding.builder()
-                    .system(Uri.of("http://unitsofmeasure.org"))
-                    .version(string("2015"))
-                    .code(Code.of("mL"))
-                    .build())
+        TranslationOutcome expected = TranslationOutcome.builder()
+                .result(Boolean.TRUE)
+                .match(Collections.singletonList(Match.builder()
+                    .equivalence(ConceptMapEquivalence.EQUIVALENT)
+                    .concept(Coding.builder()
+                        .system(Uri.of("http://unitsofmeasure.org"))
+                        .version(string("2015"))
+                        .code(Code.of("mL"))
+                        .build())
+                    .build()))
                 .build();
 
-        List<Match> matches = FHIRTermService.getInstance().translate(conceptMap, coding);
-        assertEquals(matches.size(), 1);
-        assertEquals(matches, Collections.singletonList(expected));
+        TranslationOutcome outcome = FHIRTermService.getInstance().translate(conceptMap, coding);
+        assertEquals(outcome, expected);
     }
 }

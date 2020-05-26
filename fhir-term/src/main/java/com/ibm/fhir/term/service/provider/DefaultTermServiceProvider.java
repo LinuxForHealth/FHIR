@@ -15,7 +15,6 @@ import static com.ibm.fhir.term.util.ValueSetSupport.getContains;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -33,7 +32,7 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
-import com.ibm.fhir.term.spi.Match;
+import com.ibm.fhir.term.spi.TranslationOutcome;
 import com.ibm.fhir.term.util.ConceptMapSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
@@ -157,7 +156,7 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     @Override
-    public List<Match> translate(ConceptMap conceptMap, Coding coding) {
+    public TranslationOutcome translate(ConceptMap conceptMap, Coding coding) {
         return ConceptMapSupport.translate(conceptMap, coding);
     }
 

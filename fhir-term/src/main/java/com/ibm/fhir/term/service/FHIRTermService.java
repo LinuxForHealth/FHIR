@@ -7,7 +7,6 @@
 package com.ibm.fhir.term.service;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.ServiceLoader;
 import java.util.Set;
 
@@ -19,7 +18,7 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
 import com.ibm.fhir.term.service.provider.DefaultTermServiceProvider;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
-import com.ibm.fhir.term.spi.Match;
+import com.ibm.fhir.term.spi.TranslationOutcome;
 
 public class FHIRTermService implements FHIRTermServiceProvider {
     private static final FHIRTermService INSTANCE = new FHIRTermService();
@@ -167,17 +166,17 @@ public class FHIRTermService implements FHIRTermServiceProvider {
     }
 
     /**
-     * Translate the given coding to a list of matches using the provided concept map
+     * Translate the given coding using the provided concept map
      *
      * @param conceptMap
      *     the concept map
      * @param coding
      *     the coding
      * @return
-     *     a list of matches from the provided concept map for the given coding
+     *     the outcome of translation
      */
     @Override
-    public List<Match> translate(ConceptMap conceptMap, Coding coding) {
+    public TranslationOutcome translate(ConceptMap conceptMap, Coding coding) {
         return provider.translate(conceptMap, coding);
     }
 
