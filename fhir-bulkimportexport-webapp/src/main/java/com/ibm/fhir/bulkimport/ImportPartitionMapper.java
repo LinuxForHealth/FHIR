@@ -16,6 +16,7 @@ import javax.batch.api.partition.PartitionMapper;
 import javax.batch.api.partition.PartitionPlan;
 import javax.batch.api.partition.PartitionPlanImpl;
 import javax.batch.runtime.context.StepContext;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -28,6 +29,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectSummary;
 import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 
+@Dependent
 public class ImportPartitionMapper implements PartitionMapper {
     private static final Logger logger = Logger.getLogger(ImportPartitionMapper.class.getName());
     private AmazonS3 cosClient = null;
@@ -48,7 +50,7 @@ public class ImportPartitionMapper implements PartitionMapper {
      * <p>
      * https
      * </p>
-     * 
+     *
      * <pre>
        [{
          "type": "Patient",
@@ -61,7 +63,7 @@ public class ImportPartitionMapper implements PartitionMapper {
      * <p>
      * ibm-cos or aws-s3
      * </p>
-     * 
+     *
      * <pre>
        [{
           "type": "Patient",
@@ -74,7 +76,7 @@ public class ImportPartitionMapper implements PartitionMapper {
      * <p>
      * file
      * </p>
-     * 
+     *
      * <pre>
        [{
           "type": "Patient",
@@ -268,7 +270,7 @@ public class ImportPartitionMapper implements PartitionMapper {
         for (FhirDataSource fhirDataSource : fhirDataSources) {
             Properties p = new Properties();
             p.setProperty(Constants.IMPORT_PARTITTION_WORKITEM, fhirDataSource.getUrl());
-            p.setProperty(Constants.IMPORT_PARTITTION_RESOURCE_TYPE, fhirDataSource.getType());
+            p.setProperty(Constants.PARTITION_RESOURCE_TYPE, fhirDataSource.getType());
 
             partitionProps[propCount++] = p;
         }

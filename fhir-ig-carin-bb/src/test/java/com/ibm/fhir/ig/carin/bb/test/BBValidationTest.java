@@ -29,7 +29,7 @@ public class BBValidationTest {
             List<Issue> issues = FHIRValidator.validator().validate(explanationOfBenefit);
             issues.forEach(System.out::println);
             Assert.assertEquals(countErrors(issues), 1);
-            Assert.assertEquals(countWarnings(issues), 8);
+            Assert.assertEquals(countWarnings(issues), 7);
         }
     }
 
@@ -51,7 +51,7 @@ public class BBValidationTest {
             List<Issue> issues = FHIRValidator.validator().validate(explanationOfBenefit);
             issues.forEach(System.out::println);
             Assert.assertEquals(countErrors(issues), 1);
-            Assert.assertEquals(countWarnings(issues), 8);
+            Assert.assertEquals(countWarnings(issues), 7);
         }
     }
 

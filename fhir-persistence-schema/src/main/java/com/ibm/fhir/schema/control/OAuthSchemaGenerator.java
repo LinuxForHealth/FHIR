@@ -8,6 +8,10 @@ package com.ibm.fhir.schema.control;
 
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PK;
 
+import java.util.Arrays;
+import java.util.List;
+
+import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
@@ -18,6 +22,7 @@ import com.ibm.fhir.database.utils.model.Table;
  *      https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_oauth_dbs.html</a>
  */
 public class OAuthSchemaGenerator {
+    public static final String OAUTH_SCHEMANAME = "FHIR_OAUTH";
 
     // The schema holding all the oauth client data
     private final String schemaName;
@@ -51,9 +56,7 @@ public class OAuthSchemaGenerator {
     private static final String PROVIDERID = "PROVIDERID";
 
     /**
-     * Generate the IBM FHIR Server Schema for all resourceTypes
-     *
-     * @param adminSchemaName
+     * sets up the OAuth Schema with the given schema.
      * @param schemaName
      */
     public OAuthSchemaGenerator(String schemaName) {
@@ -68,6 +71,14 @@ public class OAuthSchemaGenerator {
         addCacheTable(model);
         addClientConfigTable(model);
         addConsentCacheTable(model);
+    }
+
+    protected List<GroupPrivilege> generateGroupPrivilege(){
+        return Arrays.asList(
+            new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.SELECT),
+            new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.INSERT),
+            new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.DELETE),
+            new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.UPDATE));
     }
 
     protected void addCacheTable(PhysicalDataModel model) {
@@ -89,7 +100,7 @@ public class OAuthSchemaGenerator {
                 .addClobColumn(EXTENDEDFIELDS, false, "{}")
                 .addPrimaryKey(PK + LOOKUPKEY, LOOKUPKEY)
                 .addUniqueIndex(OAUTH20CACHE + "_" + EXPIRES, EXPIRES) // ASC is the default
-                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.ALL)
+                .addPrivileges(generateGroupPrivilege())
                 .build(model);
 
         model.addTable(cache);
@@ -106,9 +117,8 @@ public class OAuthSchemaGenerator {
                 .addIntColumn(         ENABLED,       true)
                 .addClobColumn( CLIENTMETADATA,       false, "{}")
                 .addPrimaryKey(PK + "COMPIDCLIENTID", COMPONENTID, CLIENTID)
-                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.ALL)
+                .addPrivileges(generateGroupPrivilege())
                 .build(model);
-
         model.addTable(clientConfig);
         model.addObject(clientConfig);
     }
@@ -121,9 +131,8 @@ public class OAuthSchemaGenerator {
                 .addVarcharColumn(       SCOPE, 1024, false)
                 .addBigIntColumn(      EXPIRES,       true)
                 .addClobColumn( EXTENDEDFIELDS,       false, "{}")
-                .addPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.ALL)
+                .addPrivileges(generateGroupPrivilege())
                 .build(model);
-
         model.addTable(consentCache);
         model.addObject(consentCache);
     }

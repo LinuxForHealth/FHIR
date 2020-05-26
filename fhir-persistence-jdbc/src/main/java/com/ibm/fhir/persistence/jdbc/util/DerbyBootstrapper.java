@@ -7,11 +7,17 @@
 package com.ibm.fhir.persistence.jdbc.util;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.sql.DataSource;
+
+import static com.ibm.fhir.schema.control.JavaBatchSchemaGenerator.BATCH_SCHEMANAME;
+import static com.ibm.fhir.schema.control.OAuthSchemaGenerator.OAUTH_SCHEMANAME;
+import static com.ibm.fhir.schema.app.Main.ADMIN_SCHEMANAME;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
@@ -24,6 +30,7 @@ import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
+import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
@@ -34,9 +41,6 @@ import com.ibm.fhir.schema.control.PopulateResourceTypes;
 public class DerbyBootstrapper {
     private static final Logger log = Logger.getLogger(DerbyBootstrapper.class.getName());
     private static final String className = DerbyBootstrapper.class.getName();
-
-    private static final String ADMIN_SCHEMANAME = "FHIR_ADMIN";
-    private static final String OAUTH_SCHEMANAME = "FHIR_OAUTH";
 
     /**
      * Bootstraps the FHIR database (only for Derby databases)
@@ -111,7 +115,7 @@ public class DerbyBootstrapper {
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
         // are applied
-        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, dataSchemaName, OAUTH_SCHEMANAME);
+        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, dataSchemaName, OAUTH_SCHEMANAME, BATCH_SCHEMANAME);
         vhs.setTarget(adapter);
         vhs.init();
 
@@ -172,7 +176,7 @@ public class DerbyBootstrapper {
                 // to determine which updates to apply and to record the new changes as they
                 // are applied
                 VersionHistoryService vhs =
-                        new VersionHistoryService(ADMIN_SCHEMANAME, OAUTH_SCHEMANAME, OAUTH_SCHEMANAME);
+                        new VersionHistoryService(ADMIN_SCHEMANAME, OAUTH_SCHEMANAME);
                 vhs.setTarget(adapter);
                 vhs.init();
 
@@ -185,6 +189,58 @@ public class DerbyBootstrapper {
             } catch (Exception x) {
                 c.rollback();
                 throw x;
+            }
+        }
+    }
+
+    /**
+     * bootstraps the batch database for derby.
+     * @param ds
+     * @throws SQLException
+     */
+    public static void bootstrapBatchDb(DataSource ds) throws SQLException {
+        // This is specific to boostrapping where we are not suppose to use the derby db, rather a remote db.
+        boolean isDerby = false;
+        try (Connection c = ds.getConnection()) {
+            try (Statement stmt = c.createStatement();
+                    ResultSet rs = stmt.executeQuery("VALUES SYSCS_UTIL.SYSCS_GET_DATABASE_PROPERTY('derby.database.defaultConnectionMode')");) {
+                isDerby = rs.next();
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine(" The results are " + rs.getString(1));
+                }
+            }
+        } catch (java.sql.SQLNonTransientException e) {
+            log.fine("Error while checking db that isn't connected, this is expected when not derby" + e.getMessage());
+        } catch (Exception e) {
+            log.fine("Error while checking db, this is expected" + e.getMessage());
+        }
+
+        if (isDerby) {
+            try (Connection c = ds.getConnection()) {
+                try {
+                    JdbcTarget target = new JdbcTarget(c);
+                    IDatabaseAdapter adapter = new DerbyAdapter(target);
+
+                    // Set up the version history service first if it doesn't yet exist
+                    CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMANAME, adapter);
+
+                    // Current version history for the database. This is used by applyWithHistory
+                    // to determine which updates to apply and to record the new changes as they
+                    // are applied
+                    VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMANAME, BATCH_SCHEMANAME);
+                    vhs.setTarget(adapter);
+                    vhs.init();
+
+                    // Build/update the Liberty OAuth-related tables
+                    PhysicalDataModel pdm = new PhysicalDataModel();
+                    JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(BATCH_SCHEMANAME);
+                    javaBatchSchemaGenerator.buildJavaBatchSchema(pdm);
+                    pdm.applyWithHistory(adapter, vhs);
+                    c.commit();
+                } catch (Exception x) {
+                    c.rollback();
+                    throw x;
+                }
             }
         }
     }

@@ -187,7 +187,7 @@ public abstract class BaseObject implements IDatabaseObject {
     public ITaskGroup collect(final ITaskCollector tc, final IDatabaseAdapter target, final ITransactionProvider tp, final IVersionHistoryService vhs) {
         // Make sure that anything we depend on gets processed first
         List<ITaskGroup> children = null;
-        if (this.dependencies.size() > 0) {
+        if (!this.dependencies.isEmpty()) {
             children = new ArrayList<>(this.dependencies.size());
             for (IDatabaseObject obj: dependencies) {
                 children.add(obj.collect(tc, target, tp, vhs));

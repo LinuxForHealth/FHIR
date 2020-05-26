@@ -55,7 +55,7 @@ public class ValidationProcessor implements IExampleProcessor {
                 throw new Exception("Input resource failed validation: \n\t" + String.join("\n\t", issueStrings));
             }
             else {
-                logger.info("Validation issues on '" + jsonFile + "' [INFO]: \n\t" + String.join("\n\t", issueStrings));
+                logger.fine("Validation issues on '" + jsonFile + "' [INFO]: \n\t" + String.join("\n\t", issueStrings));
             }
         }
     }

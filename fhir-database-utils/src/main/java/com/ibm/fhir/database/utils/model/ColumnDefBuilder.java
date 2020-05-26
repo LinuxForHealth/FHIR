@@ -16,27 +16,41 @@ import java.util.List;
  * Builder pattern to make it easy to add column definitions to an object (e.g. table, type etc)
  */
 public class ColumnDefBuilder {
-
     // LinkedHashSet so we can remember order
     protected LinkedHashSet<ColumnDef> columns = new LinkedHashSet<>();
 
-    public ColumnDefBuilder addIntColumn(String columnName, boolean nullable) {
-        ColumnDef cd = new ColumnDef(columnName);
+    public void checkColumnAlreadyExists(ColumnDef cd, String columnName) {
         if (columns.contains(cd)) {
             throw new IllegalArgumentException("Duplicate column: " + columnName);
         }
+    }
 
+    public ColumnDefBuilder addIntColumn(String columnName, boolean nullable) {
+        ColumnDef cd = new ColumnDef(columnName);
+        checkColumnAlreadyExists(cd, columnName);
         cd.setNullable(nullable);
         cd.setColumnType(ColumnType.INT);
         columns.add(cd);
         return this;
     }
 
+    public ColumnDefBuilder addSmallIntColumn(String columnName, Integer defaultValue, boolean nullable) {
+        ColumnDef cd = new ColumnDef(columnName);
+        checkColumnAlreadyExists(cd, columnName);
+        cd.setNullable(nullable);
+
+        if (defaultValue != null) {
+            cd.setDefaultVal(Integer.toString(defaultValue));
+        }
+
+        cd.setColumnType(ColumnType.SMALLINT);
+        columns.add(cd);
+        return this;
+    }
+
     public ColumnDefBuilder addBigIntColumn(String columnName, boolean nullable) {
         ColumnDef cd = new ColumnDef(columnName);
-        if (columns.contains(cd)) {
-            throw new IllegalArgumentException("Duplicate column: " + columnName);
-        }
+        checkColumnAlreadyExists(cd, columnName);
 
         cd.setNullable(nullable);
         cd.setColumnType(ColumnType.BIGINT);
@@ -46,9 +60,7 @@ public class ColumnDefBuilder {
 
     public ColumnDefBuilder addDoubleColumn(String columnName, boolean nullable) {
         ColumnDef cd = new ColumnDef(columnName);
-        if (columns.contains(cd)) {
-            throw new IllegalArgumentException("Duplicate column: " + columnName);
-        }
+        checkColumnAlreadyExists(cd, columnName);
 
         cd.setNullable(nullable);
         cd.setColumnType(ColumnType.DOUBLE);
@@ -58,9 +70,7 @@ public class ColumnDefBuilder {
 
     public ColumnDefBuilder addTimestampColumn(String columnName, boolean nullable) {
         ColumnDef cd = new ColumnDef(columnName);
-        if (columns.contains(cd)) {
-            throw new IllegalArgumentException("Duplicate column: " + columnName);
-        }
+        checkColumnAlreadyExists(cd, columnName);
 
         cd.setNullable(nullable);
         cd.setColumnType(ColumnType.TIMESTAMP);
@@ -70,9 +80,7 @@ public class ColumnDefBuilder {
 
     public ColumnDefBuilder addVarcharColumn(String columnName, int size, boolean nullable) {
         ColumnDef cd = new ColumnDef(columnName);
-        if (columns.contains(cd)) {
-            throw new IllegalArgumentException("Duplicate column: " + columnName);
-        }
+        checkColumnAlreadyExists(cd, columnName);
 
         cd.setNullable(nullable);
         cd.setColumnType(ColumnType.VARCHAR);
@@ -90,9 +98,7 @@ public class ColumnDefBuilder {
      */
     public ColumnDefBuilder addCharColumn(String columnName, int size, boolean nullable) {
         ColumnDef cd = new ColumnDef(columnName);
-        if (columns.contains(cd)) {
-            throw new IllegalArgumentException("Duplicate column: " + columnName);
-        }
+        checkColumnAlreadyExists(cd, columnName);
 
         cd.setNullable(nullable);
         cd.setColumnType(ColumnType.CHAR);
@@ -103,9 +109,7 @@ public class ColumnDefBuilder {
 
     public ColumnDefBuilder addBlobColumn(String columnName, long size, int inlineSize, boolean nullable) {
         ColumnDef cd = new ColumnDef(columnName);
-        if (columns.contains(cd)) {
-            throw new IllegalArgumentException("Duplicate column: " + columnName);
-        }
+        checkColumnAlreadyExists(cd, columnName);
 
         cd.setNullable(nullable);
         cd.setColumnType(ColumnType.BLOB);
@@ -152,6 +156,9 @@ public class ColumnDefBuilder {
             case INT:
                 column = new IntColumn(cd.getName(), cd.isNullable());
                 break;
+            case SMALLINT:
+                column = new SmallIntColumn(cd.getName(), cd.isNullable(), cd.getDefaultVal());
+                break;
             case DOUBLE:
                 column = new DoubleColumn(cd.getName(), cd.isNullable());
                 break;
@@ -181,7 +188,6 @@ public class ColumnDefBuilder {
             }
             result.add(column);
         }
-
         return result;
     }
 }

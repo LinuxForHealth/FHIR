@@ -14,8 +14,8 @@
         <chunk checkpoint-policy="item" item-count="#{jobProperties['fhir.cosreadsperdbbatch']}">
             <reader ref="com.ibm.fhir.bulkimport.ChunkReader">
                 <properties>
-                    <property name="import.partiton.workitem" value="#{partitionPlan['import.partiton.workitem']}"/>
-                    <property name="import.partiton.resourcetype" value="#{partitionPlan['import.partiton.resourcetype']}"/>
+                    <property name="import.partition.workitem" value="#{partitionPlan['import.partition.workitem']}"/>
+                    <property name="partition.resourcetype" value="#{partitionPlan['partition.resourcetype']}"/>
                     <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
                     <property name="cos.srvinst.id" value="#{jobParameters['cos.srvinst.id']}"/>
                     <property name="cos.endpointurl" value="#{jobParameters['cos.endpointurl']}"/>
@@ -29,7 +29,7 @@
                 <properties >
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                     <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
-                    <property name="import.partiton.resourcetype" value="#{partitionPlan['import.partiton.resourcetype']}"/>
+                    <property name="partition.resourcetype" value="#{partitionPlan['partition.resourcetype']}"/>
                     <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
                     <property name="cos.srvinst.id" value="#{jobParameters['cos.srvinst.id']}"/>
                     <property name="cos.endpointurl" value="#{jobParameters['cos.endpointurl']}"/>

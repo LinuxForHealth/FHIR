@@ -15,6 +15,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
@@ -23,7 +24,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * An immutable definition of a table
  */
 public class Table extends BaseObject {
-
     // The list of columns in this table
     private final List<ColumnBase> columns = new ArrayList<>();
 
@@ -79,7 +79,9 @@ public class Table extends BaseObject {
         this.accessControlVar = accessControlVar;
         this.tablespace = tablespace;
 
-        addDependencies(dependencies);
+        // Adds all dependencies which aren't null.
+        // The only circumstances where it is null is when it is self referencial (an FK on itself).
+        addDependencies(dependencies.stream().filter(x -> x != null).collect(Collectors.toList()));
 
         addTags(tags);
         privileges.forEach(p -> p.addToObject(this));
@@ -201,6 +203,9 @@ public class Table extends BaseObject {
         // All the foreign key constraints defined for this table
         private Map<String, ForeignKeyConstraint> fkConstraints = new HashMap<>();
 
+        // All the unique constraints defined for this table
+        private Map<String, UniqueConstraint> uniqueConstraints = new HashMap<>();
+
         // other dependencies of this table
         private Set<IDatabaseObject> dependencies = new HashSet<>();
 
@@ -256,6 +261,23 @@ public class Table extends BaseObject {
 
             cd.setNullable(nullable);
             cd.setColumnType(ColumnType.INT);
+            columns.add(cd);
+            return this;
+        }
+
+        public Builder addSmallIntColumn(String columnName, Integer defaultValue, boolean nullable) {
+            ColumnDef cd = new ColumnDef(columnName);
+            if (columns.contains(cd)) {
+                throw new IllegalArgumentException("Duplicate column: " + columnName);
+            }
+
+            cd.setNullable(nullable);
+
+            if (defaultValue != null) {
+                cd.setDefaultVal(Integer.toString(defaultValue));
+            }
+
+            cd.setColumnType(ColumnType.SMALLINT);
             columns.add(cd);
             return this;
         }
@@ -376,6 +398,12 @@ public class Table extends BaseObject {
             return this;
         }
 
+        /**
+         * @param columnName
+         * @param nullable
+         * @param defaultVal this value is auto-quoted; do not pass the single-quote (') within the string value
+         * @return
+         */
         public Builder addClobColumn(String columnName, boolean nullable, String defaultVal) {
             ColumnDef cd = new ColumnDef(columnName);
             if (columns.contains(cd)) {
@@ -384,7 +412,7 @@ public class Table extends BaseObject {
 
             cd.setNullable(nullable);
             cd.setColumnType(ColumnType.CLOB);
-            cd.setDefaultVal(defaultVal);
+            cd.setDefaultVal("'" + defaultVal + "'");
             columns.add(cd);
             return this;
         }
@@ -467,11 +495,12 @@ public class Table extends BaseObject {
         /**
          * Add a unique constraint to the table/column
          * @param constraintName
-         * @param columnName
+         * @param columnName - at least one column
          * @return
          */
-        public Builder addUniqueConstraint(String constraintName, String columnName) {
-            throw new IllegalArgumentException("not yet supported");
+        public Builder addUniqueConstraint(String constraintName, String... columnName) {
+            this.uniqueConstraints.put(constraintName, new UniqueConstraint(constraintName, columnName));
+            return this;
         }
 
         /**
@@ -500,7 +529,37 @@ public class Table extends BaseObject {
          * @return
          */
         public Builder addForeignKeyConstraint(String constraintName, boolean enforced, String targetSchema, String targetTable, String... columns) {
-            this.fkConstraints.put(constraintName, new ForeignKeyConstraint(constraintName, enforced, targetSchema, targetTable, columns));
+            this.fkConstraints.put(constraintName, new ForeignKeyConstraint(constraintName, enforced, false, targetSchema, targetTable, null, columns));
+            return this;
+        }
+
+        /**
+         * Adds a foreign key constraint relationship on itself. This is intentionally created as a separate method, so there are no mistakes.
+         *
+         * @param constraintName
+         * @param targetSchema
+         * @param targetTable
+         * @param targetColumnName
+         * @param columns
+         * @return
+         */
+        public Builder addForeignKeyConstraintSelf(String constraintName, String targetSchema, String targetTable, String targetColumnName, String... columns) {
+            this.fkConstraints.put(constraintName, new ForeignKeyConstraint(constraintName, true, true, targetSchema, targetTable, targetColumnName, columns));
+            return this;
+        }
+
+        /**
+         * Adds a foreign key constraint relationship on itself. This is intentionally created as a separate method, so there are no mistakes.
+         *
+         * @param constraintName
+         * @param targetSchema
+         * @param targetTable
+         * @param targetColumnName
+         * @param columns
+         * @return
+         */
+        public Builder addForeignKeyConstraintAltTarget(String constraintName, String targetSchema, String targetTable, String targetColumnName, String... columns) {
+            this.fkConstraints.put(constraintName, new ForeignKeyConstraint(constraintName, true, false, targetSchema, targetTable, targetColumnName, columns));
             return this;
         }
 
@@ -538,7 +597,7 @@ public class Table extends BaseObject {
             for (ForeignKeyConstraint c: this.fkConstraints.values()) {
 
                 Table target = dataModel.findTable(c.getTargetSchema(), c.getTargetTable());
-                if (target == null) {
+                if (target == null && !c.isSelf()) {
                     String targetName = DataDefinitionUtil.getQualifiedName(c.getTargetSchema(), c.getTargetTable());
                     throw new IllegalArgumentException("Invalid foreign key constraint " + c.getConstraintName() + ": target table does not exist: " + targetName);
                 }
@@ -574,6 +633,9 @@ public class Table extends BaseObject {
                     break;
                 case INT:
                     column = new IntColumn(cd.getName(), cd.isNullable());
+                    break;
+                case SMALLINT:
+                    column = new SmallIntColumn(cd.getName(), cd.isNullable(), cd.getDefaultVal());
                     break;
                 case DOUBLE:
                     column = new DoubleColumn(cd.getName(), cd.isNullable());

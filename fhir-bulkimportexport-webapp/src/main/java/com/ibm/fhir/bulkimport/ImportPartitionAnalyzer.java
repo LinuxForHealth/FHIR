@@ -16,10 +16,12 @@ import java.util.logging.Logger;
 import javax.batch.api.partition.PartitionAnalyzer;
 import javax.batch.runtime.BatchStatus;
 import javax.batch.runtime.context.JobContext;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.fhir.bulkcommon.Constants;
 
+@Dependent
 public class ImportPartitionAnalyzer implements PartitionAnalyzer {
     private static final Logger logger = Logger.getLogger(ImportPartitionAnalyzer.class.getName());
     @Inject

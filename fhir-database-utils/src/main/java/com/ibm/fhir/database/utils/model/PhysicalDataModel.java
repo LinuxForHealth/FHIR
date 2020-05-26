@@ -23,6 +23,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.task.api.ITaskCollector;
 
 /**
@@ -42,6 +43,9 @@ public class PhysicalDataModel implements IDataModel {
     // A list of just procedures, which we may want to update separately
     private final List<ProcedureDef> procedures = new ArrayList<>();
 
+    // A list of just functions, which we may want to update separately
+    private final List<FunctionDef> functions = new ArrayList<>();
+
     // A map of tags which can be used to look up objects in the model
     private final Map<String, Map<String, Set<IDatabaseObject>>> tagMap = new HashMap<>();
 
@@ -52,7 +56,7 @@ public class PhysicalDataModel implements IDataModel {
      * Default constructor. No federated models
      */
     public PhysicalDataModel() {
-
+        // No Op
     }
 
     /**
@@ -74,7 +78,6 @@ public class PhysicalDataModel implements IDataModel {
 
         // Update our tag index for this object
         collectTags(t);
-
         tables.put(t.getName(), t);
     }
 
@@ -102,7 +105,6 @@ public class PhysicalDataModel implements IDataModel {
         for (IDatabaseObject obj: allObjects) {
             obj.collect(tc, target, tp, vhs);
         }
-
     }
 
     /**
@@ -135,14 +137,27 @@ public class PhysicalDataModel implements IDataModel {
 
     /**
      * Apply all the procedures in the order in which they were added to the model
-     * @param target
+     * @param adapter
      */
-    public void applyProcedures(IDatabaseAdapter target) {
+    public void applyProcedures(IDatabaseAdapter adapter) {
         int total = procedures.size();
         int count = 1;
         for (ProcedureDef obj: procedures) {
             logger.fine(String.format("Applying [%d/%d] %s", count++, total, obj.toString()));
-            obj.apply(target);
+            obj.apply(adapter);
+        }
+    }
+
+    /**
+     * Apply all the functions in the order in which they were added to the model
+     * @param adapter
+     */
+    public void applyFunctions(IDatabaseAdapter adapter) {
+        int total = functions.size();
+        int count = 1;
+        for (FunctionDef obj: functions) {
+            logger.fine(String.format("Applying [%d/%d] %s", count++, total, obj.toString()));
+            obj.apply(adapter);
         }
     }
 
@@ -246,9 +261,9 @@ public class PhysicalDataModel implements IDataModel {
      * @param privileges
      * @return
      */
-    public ProcedureDef addProcedureAndFunctions(String schemaName, String objectName, int version, Supplier<String> templateProvider,
-            Collection<IDatabaseObject> dependencies, Collection<GroupPrivilege> privileges, DbType dbType) {
-        ProcedureDef proc = new ProcedureDef(schemaName, objectName, version, templateProvider, dbType);
+    public ProcedureDef addProcedure(String schemaName, String objectName, int version, Supplier<String> templateProvider,
+            Collection<IDatabaseObject> dependencies, Collection<GroupPrivilege> privileges) {
+        ProcedureDef proc = new ProcedureDef(schemaName, objectName, version, templateProvider);
         privileges.forEach(p -> p.addToObject(proc));
 
         if (dependencies != null) {
@@ -260,16 +275,28 @@ public class PhysicalDataModel implements IDataModel {
         return proc;
     }
 
-    public void removeTenantPartitions(IDatabaseAdapter adapter, String schemaName, int tenantId) {
-
-    }
-
-    public void dropOldTenantTables() {
-
-    }
-
-    public void dropTenantTablespace() {
-
+    /**
+     * adds the function to the model. 
+     * 
+     * @param schemaName
+     * @param objectName
+     * @param version
+     * @param templateProvider
+     * @param dependencies
+     * @param privileges
+     * @return
+     */
+    public FunctionDef addFunction(String schemaName, String objectName, int version, Supplier<String> templateProvider,
+        Collection<IDatabaseObject> dependencies, Collection<GroupPrivilege> privileges) {
+        FunctionDef func = new FunctionDef(schemaName, objectName, version, templateProvider);
+        privileges.forEach(p -> p.addToObject(func));
+    
+        if (dependencies != null) {
+            func.addDependencies(dependencies);
+        }
+        allObjects.add(func);
+        functions.add(func);
+        return func;
     }
 
     @Override
@@ -382,4 +409,15 @@ public class PhysicalDataModel implements IDataModel {
         }
     }
 
+    public void removeTenantPartitions(Db2Adapter adapter, String schemaName, int tenantId) {
+        // TODO: Need Implementation
+    }
+
+    public void dropOldTenantTables() {
+        // TODO: Needs Implementation
+    }
+
+    public void dropTenantTablespace() {
+        // TODO: Needs implementation
+    }
 }

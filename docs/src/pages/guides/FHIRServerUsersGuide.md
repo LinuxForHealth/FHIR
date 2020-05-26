@@ -624,7 +624,7 @@ To implement a persistence interceptor, complete the following steps:
 
     `com.ibm.mysolution.MyInterceptor`
 
-3.  Copy your jar to the `<WLP_HOME>/usr/servers/fhir-server/config` directory so that it is accessible to the FHIR server via the classpath (the `server.xml` file contains a library element that defines this directory as a shared library).
+3.  Copy your jar to the `<WLP_HOME>/usr/servers/fhir-server/userlib` directory so that it is accessible to the FHIR server via the classpath (the `server.xml` file contains a library element that defines this directory as a shared library).
 
 4.  Re-start the FHIR server.
 
@@ -1486,6 +1486,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/validBaseUrls`|string|The list of supported urls which are approved for the fhir server to access|
 |`fhirServer/bulkdata/validBaseUrlsDisabled`|boolean|Disables the URL checking feature|
 |`fhirServer/bulkdata/maxInputPerRequest`|integer|The maximum inputs per bulk import|
+|`fhirServer/bulkdata/cosFileMaxResources`|int|The maximum number of FHIR resources per COS file, "-1" means no limit, the default value is 500000 |
+|`fhirServer/bulkdata/cosFileMaxSize`|int|The maximum COS file size in bytes, "-1" means no limit, the default value is 209715200 (200M) |
 
 
 ### 5.1.2 Default property values
@@ -1532,6 +1534,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/geoCounty`|US|
 |`fhirServer/bulkdata/isExportPublic`|true|
 |`fhirServer/bulkdata/validBaseUrlsDisabled`|false|
+|`fhirServer/bulkdata/cosFileMaxResources`|500000|
+|`fhirServer/bulkdata/cosFileMaxSize`|209715200|
 
 
 ### 5.1.3 Property attributes
@@ -1596,6 +1600,8 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/validBaseUrls`|Y|Y|
 |`fhirServer/bulkdata/maxInputPerRequest`|Y|Y|
 |`fhirServer/bulkdata/validBaseUrlsDisabled`|Y|Y|
+|`fhirServer/bulkdata/cosFileMaxResources`|N|Y|
+|`fhirServer/bulkdata/cosFileMaxSize`|N|Y|
 
 ## 5.2 Keystores, truststores, and the FHIR server
 

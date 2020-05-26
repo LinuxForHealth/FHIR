@@ -20,7 +20,6 @@ public class ProcedureDef extends BaseObject {
 
     // supplier provides the procedure body when requested
     private Supplier<String> supplier;
-    private DbType dbType;
 
     /**
      * Public constructor
@@ -29,32 +28,24 @@ public class ProcedureDef extends BaseObject {
      * @param version
      * @param supplier
      */
-    public ProcedureDef(String schemaName, String procedureName, int version, Supplier<String> supplier, DbType dbType) {
+    public ProcedureDef(String schemaName, String procedureName, int version, Supplier<String> supplier) {
         super(schemaName, procedureName, DatabaseObjectType.PROCEDURE, version);
         this.supplier = supplier;
-        this.dbType = dbType;
     }
 
     @Override
     public void apply(IDatabaseAdapter target) {
         // Serialize the execution of the procedure, to try and avoid the
         // horrible deadlocks we keep getting
-        synchronized(target) {
-            String driveClassName = target.getTranslator().getDriverClassName();
-            // Only apply DB Type specific store procedures.
-            if (driveClassName.contains(this.getDbType().value())) {
-                // Remove the postgresql tag "_pg" from the end of the object name and create the stored procedure.
-                target.createOrReplaceProcedureAndFunctions(getSchemaName(), getObjectName().replace("_pg",""), supplier);
-            }
+        synchronized (this) {
+            target.createOrReplaceProcedure(getSchemaName(), getObjectName(), supplier);
         }
     }
 
     @Override
     public void apply(Integer priorVersion, IDatabaseAdapter target) {
-        if (priorVersion != null && priorVersion > 0 && this.getVersion() > priorVersion) {
-            if (!migrations.isEmpty()) {
-                logger.warning("Found " + migrations.size() + " migration steps, but performing 'create or replace' instead");
-            }
+        if (priorVersion != null && priorVersion > 0 && this.getVersion() > priorVersion && !migrations.isEmpty()) {
+            logger.warning("Found '" + migrations.size() + "' migration steps, but performing 'create or replace' instead");
         }
 
         // Procedures are applied with "Create or replace", so just do a regular apply
@@ -68,15 +59,6 @@ public class ProcedureDef extends BaseObject {
 
     @Override
     protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
-        String driveClassName = target.getTranslator().getDriverClassName();
-        // Only apply DB Type specific store procedures.
-        if (driveClassName.contains(this.getDbType().value())) {
-            // Remove the postgresql tag "_pg" from the end of the object name and create the stored procedure.
-            target.grantProcedurePrivileges(getSchemaName(), getObjectName(), group, toUser);
-        }
-    }
-
-    public DbType getDbType() {
-        return dbType;
+        target.grantProcedurePrivileges(getSchemaName(), getObjectName(), group, toUser);
     }
 }

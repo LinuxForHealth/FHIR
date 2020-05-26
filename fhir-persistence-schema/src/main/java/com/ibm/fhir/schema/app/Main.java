@@ -6,22 +6,23 @@
 
 package com.ibm.fhir.schema.app;
 
-import java.io.File;
+import static com.ibm.fhir.schema.app.util.CommonUtil.configureLogger;
+import static com.ibm.fhir.schema.app.util.CommonUtil.getDbAdapter;
+import static com.ibm.fhir.schema.app.util.CommonUtil.getPropertyAdapter;
+import static com.ibm.fhir.schema.app.util.CommonUtil.getRandomKey;
+import static com.ibm.fhir.schema.app.util.CommonUtil.loadDriver;
+import static com.ibm.fhir.schema.app.util.CommonUtil.logClasspath;
+import static com.ibm.fhir.schema.app.util.CommonUtil.printUsage;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.Base64;
-import java.util.Base64.Encoder;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
@@ -32,7 +33,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
-import com.ibm.fhir.database.utils.api.IConnectionProvider;
+import com.ibm.fhir.database.utils.api.DatabaseNotReadyException;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ITransaction;
@@ -42,22 +43,16 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
-import com.ibm.fhir.database.utils.common.LogFormatter;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.db2.Db2GetTenantVariable;
-import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
 import com.ibm.fhir.database.utils.db2.Db2SetTenantVariable;
 import com.ibm.fhir.database.utils.db2.Db2Translator;
-import com.ibm.fhir.database.utils.derby.DerbyAdapter;
-import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DatabaseObjectType;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlAdapter;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlPropertyAdapter;
 import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
@@ -69,6 +64,7 @@ import com.ibm.fhir.schema.app.util.TenantKeyFileUtil;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
+import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
@@ -84,29 +80,39 @@ import com.ibm.fhir.task.core.service.TaskService;
  * This utility also includes an option to exercise the tenant partitioning code.
  */
 public class Main {
-
     private static final Logger logger = Logger.getLogger(Main.class.getName());
     private static final int EXIT_OK = 0; // validation was successful
     private static final int EXIT_BAD_ARGS = 1; // invalid CLI arguments
     private static final int EXIT_RUNTIME_ERROR = 2; // programming error
     private static final int EXIT_VALIDATION_FAILED = 3; // validation test failed
+    private static final int EXIT_NOT_READY = 4; // DATABASE NOT READY
     private static final double NANOS = 1e9;
 
     // Indicates if the feature is enabled for the DbType
     public List<DbType> MULTITENANT_FEATURE_ENABLED = Arrays.asList(DbType.DB2);
     public List<DbType> STORED_PROCEDURE_ENABLED = Arrays.asList(DbType.DB2, DbType.POSTGRESQL);
+    public List<DbType> PRIVILEGES_FEATURE_ENABLED = Arrays.asList(DbType.DB2, DbType.POSTGRESQL);
 
     // Properties accumulated as we parse args and read configuration files
     private final Properties properties = new Properties();
 
-    // The schema we will use for all the FHIR data tables
-    private String schemaName;
+    // Default Values for schema names
+    public static final String ADMIN_SCHEMANAME = "FHIR_ADMIN";
+    public static final String OAUTH_SCHEMANAME = "FHIR_OAUTH";
+    public static final String BATCH_SCHEMANAME = "FHIR_JBATCH";
+    public static final String DATA_SCHEMANAME = "FHIRDATA";
 
     // The schema used for administration of tenants
-    private String adminSchemaName = "FHIR_ADMIN";
+    private String adminSchemaName = ADMIN_SCHEMANAME;
 
     // The schema used for administration of OAuth 2.0 clients
-    private String oauthSchemaName = "FHIR_OAUTH";
+    private String oauthSchemaName = OAUTH_SCHEMANAME;
+
+    // The schema used for Java Batch
+    private String javaBatchSchemaName = BATCH_SCHEMANAME;
+
+    // The schema we will use for all the FHIR data tables
+    private String schemaName = DATA_SCHEMANAME;
 
     // Arguments requesting we drop the objects from the schema
     private boolean dropSchema = false;
@@ -114,14 +120,29 @@ public class Main {
     private boolean confirmDrop = false;
     private boolean updateProc = false;
     private boolean checkCompatibility = false;
+
+    // Action flags related to FHIR Schema
     private boolean createFhirSchema = false;
     private boolean updateFhirSchema = false;
+    private boolean dropFhirSchema = false;
+    private boolean grantFhirSchema = false;
+
+    // Action flags related to OAuth Schema
     private boolean createOauthSchema = false;
     private boolean updateOauthSchema = false;
+    private boolean dropOauthSchema = false;
+    private boolean grantOauthSchema = false;
+
+    // Action flags related to Java Batch Schema
+    private boolean createJavaBatchSchema = false;
+    private boolean updateJavaBatchSchema = false;
+    private boolean dropJavaBatchSchema = false;
+    private boolean grantJavaBatchSchema = false;
 
     // By default, the dryRun option is OFF, and FALSE
     // When overridden, it simulates the actions.
-    private Boolean dryRun = false;
+    @SuppressWarnings("unused")
+    private boolean dryRun = false;
 
     // The database user we will grant tenant data access privileges to
     private String grantTo;
@@ -152,518 +173,76 @@ public class Main {
     private PoolConnectionProvider connectionPool;
     private ITransactionProvider transactionProvider;
 
-    // Random generator for new tenant keys and salts
-    private static final SecureRandom random = new SecureRandom();
-
+    //-----------------------------------------------------------------------------------------------------------------
+    // The following method is related to the common methods and functions
     /**
-     * Parse the command-line arguments, building up the environment and
-     * establishing
-     * the run-list
-     *
-     * @param args
+     * @return a created connection to the selected database
      */
-    protected void parseArgs(String[] args) {
+    protected Connection createConnection() {
+        Properties connectionProperties = new Properties();
+        JdbcPropertyAdapter adapter = getPropertyAdapter(dbType, properties);
+        adapter.getExtraProperties(connectionProperties);
 
-        // Arguments are pretty simple, so we go with a basic switch instead of having
-        // yet another dependency (e.g. commons-cli).
-        for (int i = 0; i < args.length; i++) {
-            String arg = args[i];
-            switch (arg) {
-            case "--prop-file":
-                if (++i < args.length) {
-                    loadPropertyFile(args[i]);
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case "--schema-name":
-                if (++i < args.length) {
-                    DataDefinitionUtil.assertValidName(args[i]);
-
-                    // Force upper-case to avoid tricky-to-catch errors related to quoting names
-                    //this.schemaName = args[i].toUpperCase();
-                    this.schemaName = args[i];
-
-                    if (!schemaName.equals(args[i])) {
-                        logger.info("Schema name forced to upper case: " + schemaName);
-                    }
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case "--grant-to":
-                if (++i < args.length) {
-                    DataDefinitionUtil.assertValidName(args[i]);
-
-                    // Force upper-case because user names are case-insensitive
-                    this.grantTo = args[i].toUpperCase();
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case "--add-tenant-key":
-                if (++i < args.length) {
-                    this.addKeyForTenant = args[i];
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case "--update-proc":
-                this.updateProc = true;
-                break;
-            case "--check-compatibility":
-                this.checkCompatibility = true;
-                break;
-            case "--drop-admin":
-                this.dropAdmin = true;
-                break;
-            case "--test-tenant":
-                if (++i < args.length) {
-                    this.tenantName = args[i];
-                    this.testTenant = true;
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case "--tenant-key":
-                if (++i < args.length) {
-                    this.tenantKey = args[i];
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case "--tenant-key-file":
-                if (++i < args.length) {
-                    tenantKeyFileName = args[i];
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case "--update-schema":
-                this.updateFhirSchema = true;
-                this.dropSchema = false;
-                this.updateOauthSchema = true;
-                break;
-            case "--create-schemas":
-                this.createFhirSchema = true;
-                this.createOauthSchema = true;
-                break;
-            case "--drop-schema":
-                this.updateFhirSchema = false;
-                this.dropSchema = true;
-                break;
-            case "--pool-size":
-                if (++i < args.length) {
-                    this.maxConnectionPoolSize = Integer.parseInt(args[i]);
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case "--prop":
-                if (++i < args.length) {
-                    // properties are given as name=value
-                    addProperty(args[i]);
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case "--confirm-drop":
-                this.confirmDrop = true;
-                break;
-            case "--allocate-tenant":
-                if (++i < args.length) {
-                    this.tenantName = args[i];
-                    this.allocateTenant = true;
-                    this.dropTenant = false;
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case "--drop-tenant":
-                if (++i < args.length) {
-                    this.tenantName = args[i];
-                    this.dropTenant = true;
-                    this.allocateTenant = false;
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case "--dry-run":
-                this.dryRun = Boolean.TRUE;
-                break;
-            case "--db-type":
-                if (++i < args.length) {
-                    this.dbType = DbType.from(args[i]);
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                switch (dbType) {
-                case DERBY:
-                    translator = new DerbyTranslator();
-                    // For some reason, embedded derby deadlocks if we use multiple threads
-                    maxConnectionPoolSize = 1;
-                    break;
-                case POSTGRESQL:
-                    translator = new PostgreSqlTranslator();
-                    break;
-                case DB2:
-                default:
-                    break;
-                }
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid argument: " + arg);
-            }
-        }
-    }
-
-    /**
-     * Read the properties from the given file
-     *
-     * @param filename
-     */
-    public void loadPropertyFile(String filename) {
-        try (InputStream is = new FileInputStream(filename)) {
-            properties.load(is);
-        } catch (IOException x) {
-            throw new IllegalArgumentException(x);
-        }
-    }
-
-    /**
-     * Parse the given key=value string and add to the properties being collected
-     *
-     * @param pair
-     */
-    public void addProperty(String pair) {
-        String[] kv = pair.split("=");
-        if (kv.length == 2) {
-            properties.put(kv[0], kv[1]);
-        } else {
-            throw new IllegalArgumentException("Property must be defined as key=value, not: " + pair);
-        }
-    }
-
-    /***
-     * prints a brief menu to the standard out showing the usage.
-     */
-    public static void printUsage() {
-        PrintStream ps = System.err;
-        ps.println("Usage: ");
-
-        // Properties File
-        ps.println("--prop-file path-to-property-file");
-        ps.println(" * loads the properties from a file");
-
-        // Schema Name
-        ps.println("--schema-name schema-name");
-        ps.println(" * uses the schema as specified, must be valid.");
-
-        // Grant Permissions to a valid username
-        ps.println("--grant-to username");
-        ps.println(" * uses the user as specified, must be valid.");
-        ps.println(" * and grants permission to the username");
-
-        // Add Tenant Key
-        ps.println("--add-tenant-key tenant-key");
-        ps.println(" * adds a tenant-key");
-
-        // Updates the Sotred Procedure for a Tenant
-        ps.println("--update-proc");
-        ps.println(" * updates the stored procedure for a specific tenant");
-
-        // Checks feature compatiblility
-        ps.println("--check-compatibility");
-        ps.println(" * checks feature compatibility ");
-
-        // Drop the Admin Schema
-        ps.println("--drop-admin");
-        ps.println(" * drops the admin schema ");
-
-        // Test Tenant
-        ps.println("--test-tenant tenantName");
-        ps.println(" * used to test with tenantName");
-
-        // Tenant Key
-        ps.println("--tenant-key tenantKey");
-        ps.println(" * uses the tenant-key in the queries");
-
-        // Tenant Key File
-        ps.println("--tenant-key-file tenant-key-file-location");
-        ps.println(" * sets the tenant key file location");
-
-        // Update Schema action
-        ps.println("--update-schema");
-        ps.println(" * action to update the schema ");
-
-        // Create Schema action
-        ps.println("--create-schemas");
-        ps.println(" * action to create the schema ");
-
-        // Drop Schema action
-        ps.println("--drop-schema");
-        ps.println(" * action to drop the schema ");
-
-        // Uses a specified poolsize
-        ps.println("--pool-size poolSize");
-        ps.println(" * poolsize used with the database actions ");
-
-        // Property used to connect
-        ps.println("--prop name=value");
-        ps.println(" * name=value that is passed in on the commandline  ");
-
-        // Confirms dropping of the schema
-        ps.println("--confirm-drop");
-        ps.println(" * confirms the dropping of a schema");
-
-        // Allocates Tenant
-        ps.println("--allocate-tenant");
-        ps.println(" * allocates a tenant");
-
-        // Drops a Tenant
-        ps.println("--drop-tenant tenantName");
-        ps.println(" * drops the tenant given the tenantName");
-
-        // Dry Run functionality
-        ps.println("--dry-run ");
-        ps.println(" * simulates the actions of the actions that change the datastore");
-    }
-
-    /**
-     * Set up the logger using the log.dir system property
-     */
-    protected void configureLogger() {
-        final String logDirectory = System.getProperty("log.dir");
-        if (logDirectory == null || logDirectory.isEmpty()) {
-            configureLogger(".");
-        } else {
-            configureLogger(logDirectory);
-        }
-    }
-
-    /**
-     * Configure the logger to use the given directory.
-     *
-     * @param logDir
-     */
-    protected void configureLogger(final String logDir) {
-        File f = new File(logDir, "fhirschema.log");
-        LogFormatter.init(f.getPath());
-    }
-
-    /**
-     * Get the program exit status from the environment
-     *
-     * @return
-     */
-    protected int getExitStatus() {
-        return this.exitStatus;
-    }
-
-    /**
-     * Write a final status message - useful for QA to review when checking the
-     * output
-     */
-    protected void logStatusMessage(int status) {
-        switch (status) {
-        case EXIT_OK:
-            logger.info("SCHEMA CHANGE: OK");
-            break;
-        case EXIT_BAD_ARGS:
-            logger.severe("SCHEMA CHANGE: BAD ARGS");
-            break;
-        case EXIT_RUNTIME_ERROR:
-            logger.severe("SCHEMA CHANGE: RUNTIME ERROR");
-            break;
-        case EXIT_VALIDATION_FAILED:
-            logger.warning("SCHEMA CHANGE: FAILED");
-            break;
-        default:
-            logger.severe("SCHEMA CHANGE: RUNTIME ERROR");
-            break;
-        }
-    }
-
-    /**
-     * Drop all the objects in the admin and data schemas. Typically used
-     * during development.
-     */
-    protected void dropSchema() {
-
-        // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
-
+        String url = translator.getUrl(properties);
+        logger.info("Opening connection to: " + url);
+        Connection connection;
         try {
-            try (Connection c = createConnection()) {
-                try {
-                    JdbcTarget target = new JdbcTarget(c);
-                    IDatabaseAdapter adapter = getDbAdapter(target);
-
-                    if (this.dropSchema) {
-                        // Just drop the objects associated with the FHIRDATA schema group
-                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
-                    }
-
-                    if (dropAdmin) {
-                        // Just drop the objects associated with the ADMIN schema group
-                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
-                    }
-                } catch (Exception x) {
-                    c.rollback();
-                    throw x;
-                }
-                c.commit();
-            }
+            connection = DriverManager.getConnection(url, connectionProperties);
+            connection.setAutoCommit(false);
         } catch (SQLException x) {
             throw translator.translate(x);
         }
-    }
-
-    private JdbcPropertyAdapter getPropertyAdapter(Properties props) {
-        switch (dbType) {
-        case DB2:
-            return new Db2PropertyAdapter(props);
-        case DERBY:
-            return new DerbyPropertyAdapter(props);
-        case POSTGRESQL:
-            return new PostgreSqlPropertyAdapter(props);
-        default:
-            throw new IllegalStateException("Unsupported db type: " + dbType);
-        }
-    }
-
-    private IDatabaseAdapter getDbAdapter(JdbcTarget target) {
-        switch (dbType) {
-        case DB2:
-            return new Db2Adapter(target);
-        case DERBY:
-            return new DerbyAdapter(target);
-        case POSTGRESQL:
-            return new PostgreSqlAdapter(target);
-        default:
-            throw new IllegalStateException("Unsupported db type: " + dbType);
-        }
-    }
-
-    private IDatabaseAdapter getDbAdapter(IConnectionProvider connectionProvider) {
-        switch (dbType) {
-        case DB2:
-            return new Db2Adapter(connectionProvider);
-        case DERBY:
-            return new DerbyAdapter(connectionProvider);
-        case POSTGRESQL:
-            return new PostgreSqlAdapter(connectionProvider);
-        default:
-            throw new IllegalStateException("Unsupported db type: " + dbType);
-        }
+        return connection;
     }
 
     /**
-     * Update the schema
+     * Create a simple connection pool associated with our data source so that we
+     * can perform the DDL deployment in parallel
      */
-    protected void updateSchema() {
-        // Build/update the FHIR-related tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
+    protected void configureConnectionPool() {
+        JdbcPropertyAdapter adapter = getPropertyAdapter(dbType, properties);
+        JdbcConnectionProvider cp = new JdbcConnectionProvider(this.translator, adapter);
+        this.connectionPool = new PoolConnectionProvider(cp, this.maxConnectionPoolSize);
+        this.transactionProvider = new SimpleTransactionProvider(this.connectionPool);
+    }
+
+    /**
+     * builds the common model based on the flags passed in
+     * @param pdm
+     * @param fhirSchema - true indicates if the fhir model is added to the Physical Data Model
+     * @param oauthSchema - true indicates if the oauth model is added to the Physical Data Model
+     * @param javaBatchSchema - true indicates if the model is added to the Physical Data Model
+     */
+    protected void buildCommonModel(PhysicalDataModel pdm, boolean fhirSchema, boolean oauthSchema, boolean javaBatchSchema) {
+        if (fhirSchema) {
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
+            gen.buildSchema(pdm);
+            switch (dbType) {
+            case DB2:
+                gen.buildDatabaseSpecificArtifactsDb2(pdm);
+                break;
+            case DERBY:
+                logger.info("No database specific artifacts");
+                break;
+            case POSTGRESQL:
+                gen.buildDatabaseSpecificArtifactsPostgres(pdm);
+                break;
+            default:
+                throw new IllegalStateException("Unsupported db type: " + dbType);
+            }
+        }
 
         // Build/update the Liberty OAuth-related tables
-        if (updateOauthSchema) {
+        if (oauthSchema) {
             OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(oauthSchemaName);
             oauthSchemaGenerator.buildOAuthSchema(pdm);
         }
 
-        // The objects are applied in parallel, which relies on each object
-        // expressing its dependencies correctly. Changes are only applied
-        // if their version is greater than the current version.
-        TaskService taskService = new TaskService();
-        ExecutorService pool = Executors.newFixedThreadPool(this.maxConnectionPoolSize);
-        ITaskCollector collector = taskService.makeTaskCollector(pool);
-        IDatabaseAdapter adapter = getDbAdapter(connectionPool);
-
-        // Before we start anything, we need to make sure our schema history
-        // tables are in place. There's only a single history table, which
-        // resides in the admin schema and handles the history of all objects
-        // in any schema being managed.
-        CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);
-
-        // Current version history for the data schema
-        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, schemaName, oauthSchemaName);
-        vhs.setTransactionProvider(transactionProvider);
-        vhs.setTarget(adapter);
-        vhs.init();
-
-        // Use the version history service to determine if this table existed before we run `applyWithHistory`
-        boolean newDb = vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null || 
-                vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == 0;
-
-        applyModel(pdm, adapter, collector, vhs);
-        // There is a working data model at this point.
-
-        // If the db is multi-tenant, we populate the resource types and parameter names in allocate-tenant.
-        // Otherwise, if its a new schema, populate the resource types and parameters names (codes) now
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && newDb ) {
-            populateResourceTypeAndParameterNameTableEntries(null);
+        // Build/update the Liberty JBatch related tables
+        if (javaBatchSchema) {
+            JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(javaBatchSchemaName);
+            javaBatchSchemaGenerator.buildJavaBatchSchema(pdm);
         }
-    }
-
-    /**
-     * Create fhir data and admin schema
-     */
-    protected void createFhirSchemas() {
-        try {
-            try (Connection c = createConnection()) {
-                try {
-                    JdbcTarget target = new JdbcTarget(c);
-                    IDatabaseAdapter adapter = getDbAdapter(target);
-                    adapter.createSchema(schemaName);
-                    adapter.createSchema(adminSchemaName);
-                    if (createOauthSchema) {
-                        adapter.createSchema(oauthSchemaName);
-                    }
-                } catch (Exception x) {
-                    c.rollback();
-                    throw x;
-                }
-                c.commit();
-            }
-        } catch (SQLException x) {
-            throw translator.translate(x);
-        }
-    }
-
-    /**
-     * Update the stored procedures used by FHIR to insert records
-     * into the FHIR resource tables
-     */
-    protected void updateProcedures() {
-        if (!STORED_PROCEDURE_ENABLED.contains(dbType)) {
-            return;
-        }
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
-
-        // Now only apply the procedures in the model. Much faster than
-        // going through the whole schema
-        try {
-            try (Connection c = createConnection()) {
-                try {
-                    JdbcTarget target = new JdbcTarget(c);
-                    IDatabaseAdapter adapter = getDbAdapter(target);
-                    pdm.applyProcedures(adapter);
-                } catch (Exception x) {
-                    c.rollback();
-                    throw x;
-                }
-                c.commit();
-            }
-        } catch (SQLException x) {
-            throw translator.translate(x);
-        }
-
     }
 
     /**
@@ -694,102 +273,202 @@ public class Main {
     }
 
     /**
-     * Load the DB2 driver class
+     * specific feature to check if it is compatible.
+     * @return
      */
-    protected void loadDriver() {
-        try {
-            Class.forName(translator.getDriverClassName());
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException(e);
+    protected boolean checkCompatibility() {
+        IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            return adapter.checkCompatibility(this.adminSchemaName);
         }
-
     }
 
     /**
-     * Connect to the target database
-     *
-     * @return
+     * Create the schemas
      */
-    protected Connection createConnection() {
-        Properties connectionProperties = new Properties();
-        JdbcPropertyAdapter adapter = getPropertyAdapter(properties);
-        adapter.getExtraProperties(connectionProperties);
-
-        String url = translator.getUrl(properties);
-        logger.info("Opening connection to: " + url);
-        Connection connection;
+    protected void createSchemas() {
         try {
-            connection = DriverManager.getConnection(url, connectionProperties);
-            connection.setAutoCommit(false);
+            try (Connection c = createConnection()) {
+                try {
+                    JdbcTarget target = new JdbcTarget(c);
+                    IDatabaseAdapter adapter = getDbAdapter(dbType, target);
+
+                    // We always create the 'admin' schema to track to the changes to any of the other schemas.
+                    adapter.createSchema(adminSchemaName);
+
+                    // FHIR Data Schema
+                    if (createFhirSchema) {
+                        adapter.createSchema(schemaName);
+                        c.commit();
+                    }
+
+                    // OAuth Schema
+                    if (createOauthSchema) {
+                        adapter.createSchema(oauthSchemaName);
+                    }
+
+                    // Java Batch Schema
+                    if (createJavaBatchSchema) {
+                        adapter.createSchema(javaBatchSchemaName);
+                    }
+                } catch (Exception x) {
+                    c.rollback();
+                    throw x;
+                }
+                c.commit();
+            }
         } catch (SQLException x) {
             throw translator.translate(x);
         }
-
-        return connection;
-
     }
 
     /**
-     * Create a simple connection pool associated with our data source so that we
-     * can perform the DDL deployment in parallel
+     * Update the schema
      */
-    protected void configureConnectionPool() {
-        JdbcPropertyAdapter adapter = getPropertyAdapter(properties);
+    protected void updateSchema() {
+        // Build/update the FHIR-related tables as well as the stored procedures
+        PhysicalDataModel pdm = new PhysicalDataModel();
+        buildCommonModel(pdm, updateFhirSchema, updateOauthSchema,updateJavaBatchSchema);
 
-        JdbcConnectionProvider cp = new JdbcConnectionProvider(this.translator, adapter);
-        this.connectionPool = new PoolConnectionProvider(cp, this.maxConnectionPoolSize);
-        this.transactionProvider = new SimpleTransactionProvider(this.connectionPool);
+        // The objects are applied in parallel, which relies on each object
+        // expressing its dependencies correctly. Changes are only applied
+        // if their version is greater than the current version.
+        TaskService taskService = new TaskService();
+        ExecutorService pool = Executors.newFixedThreadPool(this.maxConnectionPoolSize);
+        ITaskCollector collector = taskService.makeTaskCollector(pool);
+        IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+
+        // Before we start anything, we need to make sure our schema history
+        // tables are in place. There's only a single history table, which
+        // resides in the admin schema and handles the history of all objects
+        // in any schema being managed.
+        CreateVersionHistory.createTableIfNeeded(adminSchemaName, adapter);
+
+        // Current version history for the data schema
+        VersionHistoryService vhs = new VersionHistoryService(adminSchemaName, schemaName, oauthSchemaName, javaBatchSchemaName);
+        vhs.setTransactionProvider(transactionProvider);
+        vhs.setTarget(adapter);
+        vhs.init();
+
+        // Use the version history service to determine if this table existed before we run `applyWithHistory`
+        boolean newDb = vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null || 
+                vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == 0;
+
+        applyModel(pdm, adapter, collector, vhs);
+        // There is a working data model at this point.
+
+        // If the db is multi-tenant, we populate the resource types and parameter names in allocate-tenant.
+        // Otherwise, if its a new schema, populate the resource types and parameters names (codes) now
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && newDb ) {
+            populateResourceTypeAndParameterNameTableEntries(null);
+        }
     }
 
     /**
-     * Process the requested operation
+     * populates for the given tenantId the RESOURCE_TYPE table.
+     *
+     * @implNote if you update this method, be sure to update
+     *           DerbyBootstrapper.populateResourceTypeAndParameterNameTableEntries
+     *           and DerbyFhirDatabase.populateResourceTypeAndParameterNameTableEntries
+     *           The reason is there are three different ways of managing the transaction.
+     * @param tenantId the mt_id that is used to setup the partition.
+     *                 passing in null signals not multi-tenant.
      */
-    protected void process() {
-        long start = System.nanoTime();
-        configureConnectionPool();
+    protected void populateResourceTypeAndParameterNameTableEntries(Integer tenantId) {
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try (Connection c = connectionPool.getConnection();) {
+                String logTenantId = tenantId != null ? Integer.toString(tenantId) : "default";
+                logger.info("tenantId [" + logTenantId + "] is being pre-populated with lookup table data.");
+                PopulateResourceTypes populateResourceTypes =
+                        new PopulateResourceTypes(adminSchemaName, schemaName, tenantId);
+                populateResourceTypes.run(translator, c);
 
-        if (this.checkCompatibility) {
-            checkCompatibility();
-        }
-
-        if (addKeyForTenant != null) {
-            addTenantKey();
-        } else if (this.dropSchema) {
-            // only proceed with the drop if the user has provided additional confirmation
-            if (this.confirmDrop) {
-                dropSchema();
-            } else {
-                throw new IllegalArgumentException("[ERROR] Drop not confirmed with --confirm-drop");
+                PopulateParameterNames populateParameterNames =
+                        new PopulateParameterNames(adminSchemaName, schemaName, tenantId);
+                populateParameterNames.run(translator, c);
+                logger.info("Finished prepopulating the resource type and search parameter code/name tables tables");
+            } catch (SQLException ex) {
+                tx.setRollbackOnly();
+                throw new DataAccessException(ex);
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
             }
-        } else if (this.dropAdmin) {
-            // only try to drop the admin schema
-            if (this.confirmDrop) {
-                dropSchema();
-            } else {
-                throw new IllegalArgumentException("[ERROR] Drop not confirmed with --confirm-drop");
-            }
-        } else if (updateFhirSchema) {
-            updateSchema();
-        } else if (createFhirSchema) {
-            createFhirSchemas();
-        } else if (updateProc) {
-            updateProcedures();
-        } else if (this.allocateTenant) {
-            allocateTenant();
-        } else if (this.testTenant) {
-            testTenant();
-        } else if (this.dropTenant) {
-            dropTenant();
         }
-
-        if (this.grantTo != null) {
-            grantPrivileges(FhirSchemaConstants.FHIR_USER_GRANT_GROUP);
-        }
-
-        long elapsed = System.nanoTime() - start;
-        logger.info(String.format("Processing took: %7.3f s", elapsed / NANOS));
     }
 
+    /**
+     * Drop all the objects in the admin and data schemas.
+     * Typically used during development.
+     */
+    protected void dropSchema() {
+        PhysicalDataModel pdm = new PhysicalDataModel();
+        buildCommonModel(pdm, dropFhirSchema, dropOauthSchema, dropJavaBatchSchema);
+
+        try {
+            try (Connection c = createConnection()) {
+                try {
+                    JdbcTarget target = new JdbcTarget(c);
+                    IDatabaseAdapter adapter = getDbAdapter(dbType, target);
+
+                    if (this.dropSchema) {
+                        // Just drop the objects associated with the FHIRDATA schema group
+                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+                    }
+
+                    if (dropAdmin) {
+                        // Just drop the objects associated with the ADMIN schema group
+                        pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
+                    }
+                } catch (Exception x) {
+                    c.rollback();
+                    throw x;
+                }
+                c.commit();
+            }
+        } catch (SQLException x) {
+            throw translator.translate(x);
+        }
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // The following method is related to the Stored Procedures and Functions feature
+    /**
+     * Update the stored procedures used by FHIR to insert records
+     * into the FHIR resource tables
+     */
+    protected void updateProcedures() {
+        if (!STORED_PROCEDURE_ENABLED.contains(dbType)) {
+            return;
+        }
+
+        // Build/update the tables as well as the stored procedures
+        PhysicalDataModel pdm = new PhysicalDataModel();
+        buildCommonModel(pdm, updateFhirSchema, updateOauthSchema,updateJavaBatchSchema);
+
+        // Now only apply the procedures in the model. Much faster than
+        // going through the whole schema
+        try {
+            try (Connection c = createConnection()) {
+                try {
+                    JdbcTarget target = new JdbcTarget(c);
+                    IDatabaseAdapter adapter = getDbAdapter(dbType, target);
+                    pdm.applyProcedures(adapter);
+                    pdm.applyFunctions(adapter);
+                } catch (Exception x) {
+                    c.rollback();
+                    throw x;
+                }
+                c.commit();
+            }
+        } catch (SQLException x) {
+            throw translator.translate(x);
+        }
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+    // The following method is related to the Privilege feature
     /**
      * Grant the minimum required set of privileges on the FHIR schema objects
      * to the grantTo user. All tenant data access is via this user, and is the
@@ -798,16 +477,24 @@ public class Main {
      * @param groupName
      */
     protected void grantPrivileges(String groupName) {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+        if (!PRIVILEGES_FEATURE_ENABLED.contains(dbType)) {
             return;
         }
 
-        // Build/update the tables as well as the stored procedures
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(adminSchemaName, schemaName);
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        gen.buildSchema(pdm);
+        // The case where all are to be granted on the default schemas.
+        if (!(updateFhirSchema || grantFhirSchema || updateOauthSchema 
+                || grantOauthSchema || updateJavaBatchSchema || grantJavaBatchSchema)) {
+            grantOauthSchema = true;
+            grantFhirSchema = true;
+            grantJavaBatchSchema = true;
+        }
 
-        final Db2Adapter adapter = new Db2Adapter(this.connectionPool);
+        // Build/update the tables as well as the stored procedures
+        PhysicalDataModel pdm = new PhysicalDataModel();
+        buildCommonModel(pdm, updateFhirSchema || grantFhirSchema, updateOauthSchema || grantOauthSchema,
+            updateJavaBatchSchema || grantJavaBatchSchema);
+
+        final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 pdm.applyGrants(adapter, groupName, grantTo);
@@ -817,9 +504,10 @@ public class Main {
                 throw x;
             }
         }
-
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+    // The following methods are related to Multi-Tenant only.
     /**
      * Add a new tenant key so that we can rotate the values (add a
      * new key, update config files, then remove the old key). This
@@ -1010,44 +698,15 @@ public class Main {
     }
 
     /**
-     * populates for the given tenantId the RESOURCE_TYPE table.
-     *
-     * @implNote if you update this method, be sure to update
-     *           DerbyBootstrapper.populateResourceTypeAndParameterNameTableEntries
-     *           and DerbyFhirDatabase.populateResourceTypeAndParameterNameTableEntries
-     *           The reason is there are three different ways of managing the transaction.
-     * @param tenantId the mt_id that is used to setup the partition.
-     *                 passing in null signals not multi-tenant.
-     */
-    protected void populateResourceTypeAndParameterNameTableEntries(Integer tenantId) {
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try (Connection c = connectionPool.getConnection();) {
-                logger.info("tenantId [" + tenantId + "] is being pre-populated with lookup table data.");
-                PopulateResourceTypes populateResourceTypes =
-                        new PopulateResourceTypes(adminSchemaName, schemaName, tenantId);
-                populateResourceTypes.run(translator, c);
-
-                PopulateParameterNames populateParameterNames =
-                        new PopulateParameterNames(adminSchemaName, schemaName, tenantId);
-                populateParameterNames.run(translator, c);
-                logger.info("Finished prepopulating the resource type and search parameter code/name tables tables");
-            } catch (SQLException ex) {
-                tx.setRollbackOnly();
-                throw new DataAccessException(ex);
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-    }
-
-    /**
      * Check that we can call the set_tenant procedure successfully (which means
      * that the
      * tenant record exists in the tenants table)
      */
     protected void testTenant() {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            return;
+        }
+
         if (this.tenantName == null || this.tenantName.isEmpty()) {
             throw new IllegalStateException("Missing tenant name");
         }
@@ -1101,6 +760,10 @@ public class Main {
      * Deallocate this tenant, dropping all the related partitions
      */
     protected void dropTenant() {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            return;
+        }
+
         // Mark the tenant as being dropped. This should prevent it from
         // being used in any way
         Db2Adapter adapter = new Db2Adapter(connectionPool);
@@ -1143,41 +806,368 @@ public class Main {
                 throw x;
             }
         }
-
     }
 
-    protected boolean checkCompatibility() {
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            return adapter.checkCompatibility(this.adminSchemaName);
+    //-----------------------------------------------------------------------------------------------------------------
+    // The following methods are related to parsing arguments and action selection
+    /**
+     * Parse the command-line arguments, building up the environment and
+     * establishing
+     * the run-list
+     *
+     * @param args
+     */
+    protected void parseArgs(String[] args) {
+        // Arguments are pretty simple, so we go with a basic switch instead of having
+        // yet another dependency (e.g. commons-cli).
+        for (int i = 0; i < args.length; i++) {
+            int nextIdx = (i + 1);
+            String arg = args[i];
+            switch (arg) {
+            case "--prop-file":
+                if (++i < args.length) {
+                    loadPropertyFile(args[i]);
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--schema-name":
+                if (++i < args.length) {
+                    DataDefinitionUtil.assertValidName(args[i]);
+
+                    // Force upper-case to avoid tricky-to-catch errors related to quoting names
+                    this.schemaName = args[i];
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--grant-to":
+                if (++i < args.length) {
+                    DataDefinitionUtil.assertValidName(args[i]);
+
+                    // Force upper-case because user names are case-insensitive
+                    this.grantTo = args[i].toUpperCase();
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--target":
+                if (++i < args.length) {
+                    DataDefinitionUtil.assertValidName(args[i]);
+                    List<String> targets = Arrays.asList(args[i].split(","));
+                    for (String target : targets) {
+                        String tmp = target.toUpperCase();
+                        nextIdx++;
+                        if (tmp.startsWith("BATCH")) {
+                            this.grantJavaBatchSchema = true;
+                            if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
+                                this.javaBatchSchemaName = args[nextIdx];
+                                i++;
+                            } else { 
+                                throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                            }
+                        } else if (tmp.startsWith("OAUTH")){
+                            this.grantOauthSchema = true;
+                            if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
+                                this.oauthSchemaName = args[nextIdx];
+                                i++;
+                            } else { 
+                                throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                            }
+                        } else if (tmp.startsWith("DATA")){
+                            this.grantFhirSchema = true;
+                            if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
+                                this.schemaName = args[nextIdx];
+                                i++;
+                            } else { 
+                                throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                            }
+                        } else {
+                            throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                        }
+                    }
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--add-tenant-key":
+                if (++i < args.length) {
+                    this.addKeyForTenant = args[i];
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--update-proc":
+                this.updateProc = true;
+                break;
+            case "--check-compatibility":
+                this.checkCompatibility = true;
+                break;
+            case "--drop-admin":
+                this.dropAdmin = true;
+                break;
+            case "--test-tenant":
+                if (++i < args.length) {
+                    this.tenantName = args[i];
+                    this.testTenant = true;
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--tenant-key":
+                if (++i < args.length) {
+                    this.tenantKey = args[i];
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--tenant-key-file":
+                if (++i < args.length) {
+                    tenantKeyFileName = args[i];
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--update-schema":
+                this.updateFhirSchema = true;
+                this.updateOauthSchema = true;
+                this.updateJavaBatchSchema = true;
+                this.dropSchema = false;
+                break;
+            case "--update-schema-fhir":
+                this.updateFhirSchema = true;
+                if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
+                    this.schemaName = args[nextIdx];
+                    i++;
+                } else { 
+                    this.schemaName = DATA_SCHEMANAME;
+                }
+                break;
+            case "--update-schema-batch":
+                this.updateJavaBatchSchema = true;
+                if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
+                    this.javaBatchSchemaName = args[nextIdx];
+                    i++;
+                }
+                break;
+            case "--update-schema-oauth":
+                this.updateOauthSchema = true;
+                if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
+                    this.oauthSchemaName = args[nextIdx];
+                    i++;
+                }
+                break;
+            case "--create-schemas":
+                this.createFhirSchema = true;
+                this.createOauthSchema = true;
+                this.createJavaBatchSchema = true;
+                break;
+            case "--create-schema-fhir":
+                this.createFhirSchema =  true;
+                if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
+                    this.schemaName = args[nextIdx];
+                    i++;
+                }
+                break;
+            case "--create-schema-batch":
+                this.createJavaBatchSchema = true;
+                if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
+                    this.javaBatchSchemaName = args[nextIdx];
+                    i++;
+                }
+                break;
+            case "--create-schema-oauth":
+                this.createOauthSchema = true;
+                if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
+                    this.oauthSchemaName = args[nextIdx];
+                    i++;
+                }
+                break;
+            case "--drop-schema":
+                this.updateFhirSchema = false;
+                this.dropSchema = true;
+                break;
+            case "--drop-schema-fhir":
+                this.dropFhirSchema = Boolean.TRUE;
+                break;
+            case "--drop-schema-batch":
+                this.dropJavaBatchSchema = Boolean.TRUE;
+                break;
+            case "--drop-schema-oauth":
+                this.dropOauthSchema = Boolean.TRUE;
+                break;
+            case "--pool-size":
+                if (++i < args.length) {
+                    this.maxConnectionPoolSize = Integer.parseInt(args[i]);
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--prop":
+                if (++i < args.length) {
+                    // properties are given as name=value
+                    addProperty(args[i]);
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--confirm-drop":
+                this.confirmDrop = true;
+                break;
+            case "--allocate-tenant":
+                if (++i < args.length) {
+                    this.tenantName = args[i];
+                    this.allocateTenant = true;
+                    this.dropTenant = false;
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--drop-tenant":
+                if (++i < args.length) {
+                    this.tenantName = args[i];
+                    this.dropTenant = true;
+                    this.allocateTenant = false;
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--dry-run":
+                this.dryRun = Boolean.TRUE;
+                break;
+            case "--db-type":
+                if (++i < args.length) {
+                    this.dbType = DbType.from(args[i]);
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                switch (dbType) {
+                case DERBY:
+                    translator = new DerbyTranslator();
+                    // For some reason, embedded derby deadlocks if we use multiple threads
+                    maxConnectionPoolSize = 1;
+                    break;
+                case POSTGRESQL:
+                    translator = new PostgreSqlTranslator();
+                    break;
+                case DB2:
+                default:
+                    break;
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid argument: " + arg);
+            }
         }
     }
 
     /**
-     * Generate a random 32 byte value encoded as a Base64 string (44 characters).
+     * Read the properties from the given file
      *
-     * @return
+     * @param filename
      */
-    private String getRandomKey() {
-        byte[] buffer = new byte[32];
-        random.nextBytes(buffer);
-
-        Encoder enc = Base64.getEncoder();
-        return enc.encodeToString(buffer);
+    public void loadPropertyFile(String filename) {
+        try (InputStream is = new FileInputStream(filename)) {
+            properties.load(is);
+        } catch (IOException x) {
+            throw new IllegalArgumentException(x);
+        }
     }
 
     /**
-     * Print the classpath so we can see what on earth is going on with connecting
-     * to DB2 using an api key.
+     * Parse the given key=value string and add to the properties being collected
+     *
+     * @param pair
      */
-    private static void logClasspath() {
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine("CLASSPATH: ");
-            ClassLoader cl = ClassLoader.getSystemClassLoader();
-            URL[] classpath = ((URLClassLoader) cl).getURLs();
-            for (URL u : classpath) {
-                logger.fine("  " + u.getFile());
+    public void addProperty(String pair) {
+        String[] kv = pair.split("=");
+        if (kv.length == 2) {
+            properties.put(kv[0], kv[1]);
+        } else {
+            throw new IllegalArgumentException("Property must be defined as key=value, not: " + pair);
+        }
+    }
+
+    /**
+     * Process the requested operation
+     */
+    protected void process() {
+        long start = System.nanoTime();
+        loadDriver(translator);
+        configureConnectionPool();
+
+        if (this.checkCompatibility) {
+            checkCompatibility();
+        }
+
+        if (addKeyForTenant != null) {
+            addTenantKey();
+        } else if (this.dropSchema) {
+            // only proceed with the drop if the user has provided additional confirmation
+            if (this.confirmDrop) {
+                dropSchema();
+            } else {
+                throw new IllegalArgumentException("[ERROR] Drop not confirmed with --confirm-drop");
             }
+        } else if (this.dropAdmin) {
+            // only try to drop the admin schema
+            if (this.confirmDrop) {
+                dropSchema();
+            } else {
+                throw new IllegalArgumentException("[ERROR] Drop not confirmed with --confirm-drop");
+            }
+        } else if (updateFhirSchema || updateOauthSchema || updateJavaBatchSchema) {
+            updateSchema();
+        } else if (createFhirSchema || createOauthSchema || createJavaBatchSchema) {
+            createSchemas();
+        } else if (updateProc) {
+            updateProcedures();
+        } else if (this.allocateTenant) {
+            allocateTenant();
+        } else if (this.testTenant) {
+            testTenant();
+        } else if (this.dropTenant) {
+            dropTenant();
+        }
+
+        if (this.grantTo != null) {
+            grantPrivileges(FhirSchemaConstants.FHIR_USER_GRANT_GROUP);
+        }
+
+        long elapsed = System.nanoTime() - start;
+        logger.info(String.format("Processing took: %7.3f s", elapsed / NANOS));
+    }
+
+    /**
+     * Get the program exit status from the environment
+     *
+     * @return
+     */
+    protected int getExitStatus() {
+        return this.exitStatus;
+    }
+
+    /**
+     * Write a final status message - useful for QA to review when checking the
+     * output
+     */
+    protected void logStatusMessage(int status) {
+        switch (status) {
+        case EXIT_OK:
+            logger.info("SCHEMA CHANGE: OK");
+            break;
+        case EXIT_BAD_ARGS:
+            logger.severe("SCHEMA CHANGE: BAD ARGS");
+            break;
+        case EXIT_RUNTIME_ERROR:
+            logger.severe("SCHEMA CHANGE: RUNTIME ERROR");
+            break;
+        case EXIT_VALIDATION_FAILED:
+            logger.warning("SCHEMA CHANGE: FAILED");
+            break;
+        default:
+            logger.severe("SCHEMA CHANGE: RUNTIME ERROR");
+            break;
         }
     }
 
@@ -1187,16 +1177,18 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
-        logClasspath();
+        logClasspath(logger);
 
         int exitStatus;
         Main m = new Main();
         try {
-            m.configureLogger();
+            configureLogger();
             m.parseArgs(args);
-            m.loadDriver();
             m.process();
             exitStatus = m.getExitStatus();
+        } catch(DatabaseNotReadyException x) {
+            logger.log(Level.SEVERE, "The database is not yet available. Please re-try.", x);
+            exitStatus = EXIT_NOT_READY;
         } catch (IllegalArgumentException x) {
             logger.log(Level.SEVERE, "bad argument", x);
             printUsage();
@@ -1214,5 +1206,4 @@ public class Main {
         // really ought to be able to see that this is a main function in a J2SE environment
         System.exit(exitStatus);
     }
-
 }

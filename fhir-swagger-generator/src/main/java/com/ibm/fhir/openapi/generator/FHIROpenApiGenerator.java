@@ -35,6 +35,7 @@ import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
+import javax.json.JsonStructure;
 import javax.json.JsonWriter;
 import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
@@ -1058,6 +1059,8 @@ public class FHIROpenApiGenerator {
                 }
             }
 
+            JsonArray requiredArray = required.build();
+
             Class<?> superClass = modelClass.getSuperclass();
             if (superClass != null && superClass.getPackage().getName().startsWith("com.ibm.fhir.model")
                     && !superClass.equals(AbstractVisitable.class)) {
@@ -1070,6 +1073,9 @@ public class FHIROpenApiGenerator {
                 JsonObjectBuilder wrapper = factory.createObjectBuilder();
                 wrapper.add("type", "object");
                 wrapper.add("properties", properties);
+                if (!requiredArray.isEmpty()) {
+                    wrapper.add("required", requiredArray);
+                }
                 allOf.add(wrapper);
 
                 definition.add("allOf", allOf);
@@ -1079,11 +1085,9 @@ public class FHIROpenApiGenerator {
                     definition.add("discriminator", "resourceType");
                 }
                 definition.add("properties", properties);
-            }
-
-            JsonArray requiredArray = required.build();
-            if (!requiredArray.isEmpty()) {
-                definition.add("required", requiredArray);
+                if (!requiredArray.isEmpty()) {
+                    definition.add("required", requiredArray);
+                }
             }
 
             if (Resource.class.isAssignableFrom(modelClass)) {
@@ -1263,31 +1267,36 @@ public class FHIROpenApiGenerator {
         }
 
         // Include select examples to help tools avoid bumping into infinite recursion (if they try generate examples)
+        JsonStructure example = null;
         if (Element.class.equals(modelClass) && Extension.class.equals(fieldClass)) {
             // "example": [{"url":"http://example.com","valueString":"textValue"}]
             JsonObject obj = factory.createObjectBuilder()
                 .add("url", "http://example.com")
                 .add("valueString", "text value")
                 .build();
-            JsonArray example = factory.createArrayBuilder().add(obj).build();
-            property.add("example", example);
+            example = factory.createArrayBuilder().add(obj).build();
         } else if (Identifier.class.equals(modelClass) && Reference.class.equals(fieldClass)) {
             // "example": {"reference":"Organization/123","type":"Organization","display":"The Assigning Organization"}
-            JsonObject example = factory.createObjectBuilder()
+            example = factory.createObjectBuilder()
                     .add("reference", "Organization/123")
                     .add("type", "Organization")
                     .add("display", "The Assigning Organization")
                     // skip assigner to break the recursion
                     .build();
-            property.add("example", example);
         }
 
         if (many) {
             JsonObjectBuilder wrapper = factory.createObjectBuilder();
             wrapper.add("type", "array");
             wrapper.add("items", property);
+            if (example != null) {
+                wrapper.add("example", example);
+            }
             properties.add(elementName, wrapper);
         } else {
+            if (example != null) {
+                property.add("example", example);
+            }
             properties.add(elementName, property);
         }
     }
@@ -1306,7 +1315,7 @@ public class FHIROpenApiGenerator {
                 .replaceAll("‑", "&#8209;"); // Non-Breaking Hyphen
 
         if (!Charset.forName("US-ASCII").newEncoder().canEncode(cleansed)) {
-            // If a new character sneaks in - it'll output here. 
+            // If a new character sneaks in - it'll output here.
             // Best place to look up entity is https://unicodelookup.com
             System.out.println("[Failure to cleanse the description] - " + cleansed);
         }
