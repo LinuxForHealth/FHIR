@@ -31,7 +31,7 @@ public class TranslationOutcome {
     private final String message;
     private final List<Match> match;
 
-    public TranslationOutcome(Builder builder) {
+    private TranslationOutcome(Builder builder) {
         result = Objects.requireNonNull(builder.result);
         message = builder.message;
         match = Collections.unmodifiableList(builder.match);
@@ -188,7 +188,7 @@ public class TranslationOutcome {
         private final List<Product> product;
         private final Uri source;
 
-        public Match(Builder builder) {
+        private Match(Builder builder) {
             equivalence = builder.equivalence;
             concept = builder.concept;
             product = Collections.unmodifiableList(builder.product);
@@ -294,7 +294,7 @@ public class TranslationOutcome {
             private final Uri element;
             private final Coding concept;
 
-            public Product(Builder builder) {
+            private Product(Builder builder) {
                 element = builder.element;
                 concept = builder.concept;
             }
