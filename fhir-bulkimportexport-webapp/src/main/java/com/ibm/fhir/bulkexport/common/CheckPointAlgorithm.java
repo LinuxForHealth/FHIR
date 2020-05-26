@@ -26,8 +26,6 @@ import com.ibm.fhir.config.FHIRConfiguration;
 @Dependent
 public class CheckPointAlgorithm implements CheckpointAlgorithm {
     private final static Logger logger = Logger.getLogger(CheckPointAlgorithm.class.getName());
-    private int cosFileMaxResources = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_COSFILEMAXRESOURCES, Constants.DEFAULT_COSFILE_MAX_RESOURCESNUMBER);
-    private int cosFileMaxSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_COSFILEMAXSIZE  , Constants.DEFAULT_COSFILE_MAX_SIZE);
 
     @Inject
     StepContext stepCtx;
@@ -53,38 +51,28 @@ public class CheckPointAlgorithm implements CheckpointAlgorithm {
      // Nothing to do here at present
     }
 
-    /**
-     * @see CheckpointAlgorithm#checkpointTimeout()
-     */
     @Override
     public int checkpointTimeout() {
         return 0;
     }
 
-    /**
-     * @see CheckpointAlgorithm#endCheckpoint()
-     */
     @Override
     public void endCheckpoint() {
         // Nothing to do here at present
     }
 
-    /**
-     * @see CheckpointAlgorithm#beginCheckpoint()
-     */
     @Override
     public void beginCheckpoint() {
         // Nothing to do here at present
     }
 
-    /**
-     * @see CheckpointAlgorithm#isReadyToCheckpoint()
-     */
     @Override
     public boolean isReadyToCheckpoint() {
         TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
 
         if (chunkData != null) {
+            int cosFileMaxResources = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_COSFILEMAXRESOURCES, Constants.DEFAULT_COSFILE_MAX_RESOURCESNUMBER);
+            int cosFileMaxSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_COSFILEMAXSIZE  , Constants.DEFAULT_COSFILE_MAX_SIZE);
             if (cosBucketFileMaxSize != null) {
                 try {
                     cosFileMaxSize = Integer.parseInt(cosBucketFileMaxSize);
