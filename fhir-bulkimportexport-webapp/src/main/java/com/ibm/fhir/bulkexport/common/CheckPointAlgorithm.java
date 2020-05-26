@@ -72,7 +72,7 @@ public class CheckPointAlgorithm implements CheckpointAlgorithm {
 
         if (chunkData != null) {
             int cosFileMaxResources = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_COSFILEMAXRESOURCES, Constants.DEFAULT_COSFILE_MAX_RESOURCESNUMBER);
-            int cosFileMaxSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_COSFILEMAXSIZE  , Constants.DEFAULT_COSFILE_MAX_SIZE);
+            int cosFileMaxSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_COSFILEMAXSIZE , Constants.DEFAULT_COSFILE_MAX_SIZE);
             if (cosBucketFileMaxSize != null) {
                 try {
                     cosFileMaxSize = Integer.parseInt(cosBucketFileMaxSize);
