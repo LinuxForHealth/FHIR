@@ -11,7 +11,6 @@ import java.util.Set;
 
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ConceptMap;
-import com.ibm.fhir.model.resource.ConceptMap.Group.Element.Target;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -131,14 +130,14 @@ public interface FHIRTermServiceProvider {
 
 
     /**
-     * Translate the given coding to a list of targets using the provided concept map
+     * Translate the given coding to a list of matches using the provided concept map
      *
      * @param conceptMap
      *     the concept map
      * @param coding
      *     the coding
      * @return
-     *     a list of targets from the provided concept map for the given coding
+     *     a list of matches from the provided concept map for the given coding
      */
-    List<Target> translate(ConceptMap conceptMap, Coding coding);
+    List<Match> translate(ConceptMap conceptMap, Coding coding);
 }
