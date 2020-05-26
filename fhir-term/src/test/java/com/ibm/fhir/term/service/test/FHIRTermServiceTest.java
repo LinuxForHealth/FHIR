@@ -25,7 +25,6 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ConceptMap;
-import com.ibm.fhir.model.resource.ConceptMap.Group.Element.Target;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
@@ -33,6 +32,7 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ConceptMapEquivalence;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
 import com.ibm.fhir.term.service.FHIRTermService;
+import com.ibm.fhir.term.spi.Match;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 
 public class FHIRTermServiceTest {
@@ -256,15 +256,18 @@ public class FHIRTermServiceTest {
                 .code(Code.of("258672001"))
                 .build();
 
-        Target expected = Target.builder()
-                .code(Code.of("cm"))
+        Match expected = Match.builder()
                 .equivalence(ConceptMapEquivalence.EQUIVALENT)
-                .comment(string("exact match"))
+                .concept(Coding.builder()
+                    .system(Uri.of("http://unitsofmeasure.org"))
+                    .version(string("2015"))
+                    .code(Code.of("cm"))
+                    .build())
                 .build();
 
-        List<Target> targets = FHIRTermService.getInstance().translate(conceptMap, coding);
-        assertEquals(targets.size(), 1);
-        assertEquals(targets, Collections.singletonList(expected));
+        List<Match> matches = FHIRTermService.getInstance().translate(conceptMap, coding);
+        assertEquals(matches.size(), 1);
+        assertEquals(matches, Collections.singletonList(expected));
     }
 
     @Test
@@ -276,14 +279,17 @@ public class FHIRTermServiceTest {
                 .code(Code.of("258773002"))
                 .build();
 
-        Target expected = Target.builder()
-                .code(Code.of("mL"))
+        Match expected = Match.builder()
                 .equivalence(ConceptMapEquivalence.EQUIVALENT)
-                .comment(string("exact match"))
+                .concept(Coding.builder()
+                    .system(Uri.of("http://unitsofmeasure.org"))
+                    .version(string("2015"))
+                    .code(Code.of("mL"))
+                    .build())
                 .build();
 
-        List<Target> targets = FHIRTermService.getInstance().translate(conceptMap, coding);
-        assertEquals(targets.size(), 1);
-        assertEquals(targets, Collections.singletonList(expected));
+        List<Match> matches = FHIRTermService.getInstance().translate(conceptMap, coding);
+        assertEquals(matches.size(), 1);
+        assertEquals(matches, Collections.singletonList(expected));
     }
 }
