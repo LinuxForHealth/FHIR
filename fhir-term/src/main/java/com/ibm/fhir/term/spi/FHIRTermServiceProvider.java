@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.term.spi;
 
-import java.util.List;
 import java.util.Set;
 
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
@@ -137,7 +136,7 @@ public interface FHIRTermServiceProvider {
      * @param coding
      *     the coding
      * @return
-     *     a list of matches from the provided concept map for the given coding
+     *     the outcome of translation
      */
-    List<Match> translate(ConceptMap conceptMap, Coding coding);
+    TranslationOutcome translate(ConceptMap conceptMap, Coding coding);
 }
