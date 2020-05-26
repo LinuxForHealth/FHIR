@@ -43,7 +43,7 @@ public class CheckPointAlgorithm implements CheckpointAlgorithm {
      * The file size limit when exporting to multiple COS files.
      */
     @Inject
-    @BatchProperty(name = Constants.COS_BUCKET_FILE_MAX_SZIE)
+    @BatchProperty(name = Constants.COS_BUCKET_FILE_MAX_SIZE)
     String cosBucketFileMaxSize;
 
     /**

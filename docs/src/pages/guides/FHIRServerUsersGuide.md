@@ -1486,8 +1486,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/validBaseUrls`|string|The list of supported urls which are approved for the fhir server to access|
 |`fhirServer/bulkdata/validBaseUrlsDisabled`|boolean|Disables the URL checking feature|
 |`fhirServer/bulkdata/maxInputPerRequest`|integer|The maximum inputs per bulk import|
-|`fhirServer/bulkdata/cosFileMaxResources`|int|Max FHIR resources per COS file, "-1" means no limit |
-|`fhirServer/bulkdata/cosFileMaxSize`|int|Max COS file size in bytes, "-1" means no limit |
+|`fhirServer/bulkdata/cosFileMaxResources`|int|The maximum number of FHIR resources per COS file, "-1" means no limit, the default value is 500000 |
+|`fhirServer/bulkdata/cosFileMaxSize`|int|The maximum COS file size in bytes, "-1" means no limit, the default value is 209715200 (200M) |
 
 
 ### 5.1.2 Default property values

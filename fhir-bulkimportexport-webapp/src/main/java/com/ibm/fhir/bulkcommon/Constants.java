@@ -40,7 +40,7 @@ public class Constants {
     public static final String COS_LOCATION = "cos.location";
     public static final String COS_BUCKET_NAME = "cos.bucket.name";
     public static final String COS_IS_IBM_CREDENTIAL = "cos.credential.ibm";
-    public static final String COS_BUCKET_FILE_MAX_SZIE = "cos.bucket.filemaxsize";
+    public static final String COS_BUCKET_FILE_MAX_SIZE = "cos.bucket.filemaxsize";
     public static final String COS_BUCKET_FILE_MAX_RESOURCES = "cos.bucket.filemaxresources";
     // COS bucket for import OperationOutcomes
     public static final String COS_OPERATIONOUTCOMES_BUCKET_NAME = "cos.operationoutcomes.bucket.name";
