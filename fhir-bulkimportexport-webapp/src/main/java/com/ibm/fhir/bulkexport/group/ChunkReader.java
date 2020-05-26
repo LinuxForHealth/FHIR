@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.runtime.context.StepContext;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
@@ -35,6 +36,7 @@ import com.ibm.fhir.search.util.SearchUtil;
 /**
  * Bulk patient group export Chunk implementation - the Reader.
  */
+@Dependent
 public class ChunkReader extends com.ibm.fhir.bulkexport.patient.ChunkReader {
     private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
     // List for the patients
@@ -118,7 +120,7 @@ public class ChunkReader extends com.ibm.fhir.bulkexport.patient.ChunkReader {
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0);
+            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0, 0, 1);
             stepCtx.setTransientUserData(chunkData);
         } else {
             chunkData.setPageNum(pageNum);

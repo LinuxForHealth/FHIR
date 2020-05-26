@@ -18,11 +18,13 @@ import javax.batch.operations.JobOperator;
 import javax.batch.runtime.BatchRuntime;
 import javax.batch.runtime.JobExecution;
 import javax.batch.runtime.context.JobContext;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.bulkexport.common.CheckPointUserData;
 
+@Dependent
 public class ExportJobListener implements JobListener {
     private static final Logger logger = Logger.getLogger(ExportJobListener.class.getName());
 

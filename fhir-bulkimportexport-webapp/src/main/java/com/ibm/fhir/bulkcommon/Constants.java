@@ -18,9 +18,8 @@ public class Constants {
     // The minimal size (5M bytes) for COS multiple-parts upload.
     public static final int COS_PART_MINIMALSIZE = 5242880;
     public static final int DEFAULT_SEARCH_PAGE_SIZE = 1000;
-    public static final int DEFAULT_NUMOFOBJECTS_PERREAD = 1;
-    public static final int DEFAULT_COSFILE_MAX_SIZE = 104857600;
-    public static final int DEFAULT_COSFILE_MAX_RESOURCESNUMBER = 50000;
+    public static final int DEFAULT_COSFILE_MAX_SIZE = 209715200;
+    public static final int DEFAULT_COSFILE_MAX_RESOURCESNUMBER = 500000;
     public static final String FHIR_SEARCH_LASTUPDATED = "_lastUpdated";
     public static final byte[] NDJSON_LINESEPERATOR = "\r\n".getBytes();
 
@@ -56,7 +55,6 @@ public class Constants {
     public static final String EXPORT_FHIR_SEARCH_PAGESIZE = "fhir.search.pagesize";
     public static final String EXPORT_FHIR_SEARCH_TYPEFILTERS = "fhir.typeFilters";
     public static final String EXPORT_FHIR_SEARCH_PATIENTGROUPID = "fhir.search.patientgroupid";
-    public static final String EXPORT_COS_OBJECTNAME = "cos.bucket.objectname";
     public static final String EXPORT_COS_OBJECT_PATHPREFIX = "cos.bucket.pathprefix";
 
     // Partition work item info generated in ImportPartitionMapper.

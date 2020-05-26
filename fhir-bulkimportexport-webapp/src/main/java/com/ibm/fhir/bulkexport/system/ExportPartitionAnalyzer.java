@@ -13,10 +13,12 @@ import java.util.List;
 import javax.batch.api.partition.PartitionAnalyzer;
 import javax.batch.runtime.BatchStatus;
 import javax.batch.runtime.context.JobContext;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.fhir.bulkexport.common.CheckPointUserData;
 
+@Dependent
 public class ExportPartitionAnalyzer implements PartitionAnalyzer {
     @Inject
     JobContext jobContext;

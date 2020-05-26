@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemReader;
 import javax.batch.runtime.context.StepContext;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
@@ -46,6 +47,7 @@ import com.ibm.fhir.search.util.SearchUtil;
  * Bulk system export Chunk implementation - the Reader.
  *
  */
+@Dependent
 public class ChunkReader extends AbstractItemReader {
     private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
     boolean isSingleCosObject = false;
@@ -114,13 +116,6 @@ public class ChunkReader extends AbstractItemReader {
     @BatchProperty(name = Constants.EXPORT_FHIR_SEARCH_PAGESIZE)
     String fhirSearchPageSize;
 
-    /**
-     * The Cos object name.
-     */
-    @Inject
-    @BatchProperty(name = Constants.EXPORT_COS_OBJECTNAME)
-    String cosBucketObjectName;
-
     @Inject
     StepContext stepCtx;
 
@@ -157,7 +152,8 @@ public class ChunkReader extends AbstractItemReader {
                     throw e;
                 }
             }
-            chunkData.setCurrentPartResourceNum(chunkData.getCurrentPartResourceNum() + resSubTotal);
+            chunkData.setCurrentUploadResourceNum(chunkData.getCurrentUploadResourceNum() + resSubTotal);
+            chunkData.setCurrentUploadSize(chunkData.getCurrentUploadSize() + chunkData.getBufferStream().size());
             chunkData.setTotalResourcesNum(chunkData.getTotalResourcesNum() + resSubTotal);
             logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
                     + chunkData.getBufferStream().size());
@@ -221,11 +217,8 @@ public class ChunkReader extends AbstractItemReader {
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0);
+            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0, 0, 1);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
-            if (isSingleCosObject) {
-                chunkData.setSingleCosObject(true);
-            }
             stepCtx.setTransientUserData(chunkData);
         } else {
             chunkData.setPageNum(pageNum);
@@ -271,12 +264,6 @@ public class ChunkReader extends AbstractItemReader {
             } catch (Exception e) {
                 logger.warning("open: Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
             }
-        }
-
-        if (cosBucketObjectName != null
-                && cosBucketObjectName.trim().length() > 0) {
-            isSingleCosObject = true;
-            logger.info("open: Use single COS object for uploading!");
         }
 
         FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));

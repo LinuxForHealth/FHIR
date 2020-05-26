@@ -15,11 +15,13 @@ import javax.batch.api.BatchProperty;
 import javax.batch.api.partition.PartitionMapper;
 import javax.batch.api.partition.PartitionPlan;
 import javax.batch.api.partition.PartitionPlanImpl;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.model.util.ModelSupport;
 
+@Dependent
 public class SystemExportPartitionMapper implements PartitionMapper {
 
     /**

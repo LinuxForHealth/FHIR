@@ -20,9 +20,11 @@ public class CheckPointUserData implements java.io.Serializable {
     private int lastPageNum;
     private int partNum;
     private String uploadId;
-    private boolean isSingleCosObject = false;
+    private int uploadCount = 1;
     private List<PartETag> cosDataPacks;
-    private int currentPartResourceNum = 0;
+    private int currentUploadResourceNum = 0;
+    private int currentUploadSize = 0;
+    private boolean isFinishCurrentUpload = false;
     private int totalResourcesNum = 0;
     // One resource type can have 0 to multiple typeFilters, indexOfCurrentTypeFilter is used to tell the currently processed typeFilter.
     private int indexOfCurrentTypeFilter;
@@ -32,7 +34,7 @@ public class CheckPointUserData implements java.io.Serializable {
     private boolean isMoreToExport = true;
 
     public CheckPointUserData(int pageNum, String uploadId, List<PartETag> cosDataPacks, int partNum, int indexOfCurrentTypeFilter,
-            String resourceTypeSummary, int totalResourcesNum, int currentPartResourceNum) {
+            String resourceTypeSummary, int totalResourcesNum, int currentUploadResourceNum, int currentUploadSize, int uploadCount) {
         super();
         this.pageNum = pageNum;
         this.uploadId = uploadId;
@@ -41,13 +43,16 @@ public class CheckPointUserData implements java.io.Serializable {
         this.indexOfCurrentTypeFilter = indexOfCurrentTypeFilter;
         this.resourceTypeSummary = resourceTypeSummary;
         this.totalResourcesNum = totalResourcesNum;
-        this.currentPartResourceNum = currentPartResourceNum;
+        this.currentUploadResourceNum = currentUploadResourceNum;
+        this.currentUploadSize = currentUploadSize;
+        this.uploadCount = uploadCount;
     }
 
     public static CheckPointUserData fromTransientUserData(TransientUserData userData) {
         return new CheckPointUserData(userData.getPageNum(), userData.getUploadId(), userData.getCosDataPacks(),
                 userData.getPartNum(), userData.getIndexOfCurrentTypeFilter(), userData.getResourceTypeSummary(),
-                userData.getTotalResourcesNum(), userData.getCurrentPartResourceNum());
+                userData.getTotalResourcesNum(), userData.getCurrentUploadResourceNum(), userData.getCurrentUploadSize(),
+                userData.getUploadCount());
     }
 
     public int getPageNum() {
@@ -74,14 +79,6 @@ public class CheckPointUserData implements java.io.Serializable {
         this.cosDataPacks = cosDataPacks;
     }
 
-    public boolean isSingleCosObject() {
-        return isSingleCosObject;
-    }
-
-    public void setSingleCosObject(boolean isSingleCosObject) {
-        this.isSingleCosObject = isSingleCosObject;
-    }
-
     public int getPartNum() {
         return partNum;
     }
@@ -98,12 +95,12 @@ public class CheckPointUserData implements java.io.Serializable {
         this.lastPageNum = lastPageNum;
     }
 
-    public int getCurrentPartResourceNum() {
-        return currentPartResourceNum;
+    public int getCurrentUploadResourceNum() {
+        return currentUploadResourceNum;
     }
 
-    public void setCurrentPartResourceNum(int currentPartResourceNum) {
-        this.currentPartResourceNum = currentPartResourceNum;
+    public void setCurrentUploadResourceNum(int currentUploadResourceNum) {
+        this.currentUploadResourceNum = currentUploadResourceNum;
     }
 
     public int getIndexOfCurrentTypeFilter() {
@@ -136,6 +133,30 @@ public class CheckPointUserData implements java.io.Serializable {
 
     public void setTotalResourcesNum(int totalResourcesNum) {
         this.totalResourcesNum = totalResourcesNum;
+    }
+
+    public int getCurrentUploadSize() {
+        return currentUploadSize;
+    }
+
+    public void setCurrentUploadSize(int currentUploadSize) {
+        this.currentUploadSize = currentUploadSize;
+    }
+
+    public boolean isFinishCurrentUpload() {
+        return isFinishCurrentUpload;
+    }
+
+    public void setFinishCurrentUpload(boolean isFinishCurrentUpload) {
+        this.isFinishCurrentUpload = isFinishCurrentUpload;
+    }
+
+    public int getUploadCount() {
+        return uploadCount;
+    }
+
+    public void setUploadCount(int uploadCount) {
+        this.uploadCount = uploadCount;
     }
 
 }

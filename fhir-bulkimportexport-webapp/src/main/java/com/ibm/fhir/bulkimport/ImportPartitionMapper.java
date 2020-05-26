@@ -16,6 +16,7 @@ import javax.batch.api.partition.PartitionMapper;
 import javax.batch.api.partition.PartitionPlan;
 import javax.batch.api.partition.PartitionPlanImpl;
 import javax.batch.runtime.context.StepContext;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -28,6 +29,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectSummary;
 import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 
+@Dependent
 public class ImportPartitionMapper implements PartitionMapper {
     private static final Logger logger = Logger.getLogger(ImportPartitionMapper.class.getName());
     private AmazonS3 cosClient = null;
