@@ -6,6 +6,11 @@
 
 package com.ibm.fhir.server.test.profiles;
 
+import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.model.type.Uri.uri;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,7 +22,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.client.FHIRParameters;
+import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CareTeam;
 import com.ibm.fhir.model.resource.Coverage;
 import com.ibm.fhir.model.resource.ExplanationOfBenefit;
@@ -27,12 +35,29 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.PractitionerRole;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Canonical;
+import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Identifier;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 
 /**
- * Copy over http://hl7.org/fhir/us/carin-bb/2020Feb/Examples.html
+ * Tests using http://hl7.org/fhir/us/carin-bb/2020Feb/Examples.html And the given profile.
  */
 public class CarinBlueButtonTest extends ProfilesTestBase {
+    private String coverageId = null;
+    private String careTeamId = null;
+    private String organizationId = null;
+    private String organizationOrg1Id = null;
+    private String organizationOrg45Id = null;
+    private String locationId = null;
+    private String patientId = null;
+    private String practitionerRoleId = null;
+    private String practitionerId = null;
+    private String explanationOfBenefitId = null;
+
     @Override
     public List<String> getRequiredProfiles() {
         //@formatter:off
@@ -49,24 +74,59 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
         //@formatter:on
     }
 
-    private String coverageId = null;
-    private String careTeamId = null;
-    private String organizationId = null;
-    private String organizationOrg1Id = null;
-    private String organizationOrg45Id = null;
-    private String locationId = null;
-    private String patientId = null;
-    private String practitionerRoleId = null;
-    private String practitionerId = null;
-    private String explanationOfBenefitId = null;
-
     // Load Organization Resources
     public void loadOrganization() throws Exception {
         String resource = "json/spec/organization-example.json";
         WebTarget target = getWebTarget();
         Organization organization = TestUtil.readExampleResource(resource);
+
+        // Add profile + extra fields required by profile.
+        Canonical profile = Canonical.of("http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-organization");
+        Meta meta = organization.getMeta().toBuilder().profile(profile).build();
+
+        // @formatter:off
+        CodeableConcept type =
+                CodeableConcept.builder()
+                    .coding(Coding.builder()
+                        .code(Code.of("NPI"))
+                        .display(string("National provider identifier"))
+                        .system(uri("http://terminology.hl7.org/CodeSystem/v2-0203"))
+                        .build())
+                    .build();
+
+        Identifier identifierNPI =
+                Identifier.builder()
+                    .system(uri("http://hl7.org/fhir/sid/us-npi"))
+                    .value(string("1234556"))
+                    .type(type)
+                    .build();
+
+        type = CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .code(Code.of("TAX"))
+                    .display(string("Tax ID number"))
+                    .system(uri("http://terminology.hl7.org/CodeSystem/v2-0203"))
+                    .build())
+                .build();
+
+        Identifier identifierTaxId =
+                Identifier.builder()
+                    .system(uri("urn:oid:2.16.840.1.113883.4.4"))
+                    .value(string("1234567"))
+                    .type(type)
+                    .build();
+
+        organization = organization.toBuilder()
+                            .meta(meta)
+                            .identifier(identifierNPI, identifierTaxId)
+                            .active(com.ibm.fhir.model.type.Boolean.TRUE)
+                            .build();
+        // @formatter:on
+
         Entity<Organization> entity = Entity.entity(organization, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Organization").request().post(entity, Response.class);
+
+        System.out.println(response.readEntity(String.class));
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         organizationId = getLocationLogicalId(response);
         response = target.path("Organization/" + organizationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
@@ -91,11 +151,9 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
         Organization organization = TestUtil.readExampleResource(resource);
         Entity<Organization> entity = Entity.entity(organization, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Organization").request().post(entity, Response.class);
-        String out = response.readEntity(String.class);
-        System.out.println(out);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         organizationOrg45Id = getLocationLogicalId(response);
-        
+
         response = target.path("Organization/" + organizationOrg45Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
@@ -104,6 +162,9 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     public void loadCoverage() throws Exception {
         WebTarget target = getWebTarget();
         Coverage coverage = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/Coverage-Coverage1.json");
+
+        Reference org45ref = Reference.builder().reference(com.ibm.fhir.model.type.String.of("Organization/" + organizationOrg45Id)).build();
+        coverage = coverage.toBuilder().payor(org45ref).build();
 
         Entity<Coverage> entity = Entity.entity(coverage, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Coverage").request().post(entity, Response.class);
@@ -121,7 +182,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
         Patient patient = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/Patient-Patient1.json");
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Coverage").request().post(entity, Response.class);
+        Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         patientId = getLocationLogicalId(response);
 
@@ -171,6 +232,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
          * "code" : "insurer", "base" : ["Claim"], "type" : "reference", "expression" : "Claim.insurer", "xpath" :
          * "f:Claim/f:insurer", "xpathUsage" : "normal", "target" : ["Organization"]
          */
+        // insurerClaimId
     }
 
     // Load Location Resources
@@ -184,7 +246,6 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
 
         locationId = getLocationLogicalId(response);
 
-        // Next, call the 'read' API to retrieve the new Location and verify it.
         response = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
@@ -193,14 +254,13 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     public void loadExplanationOfBenefits() throws Exception {
         WebTarget target = getWebTarget();
 
-        ExplanationOfBenefit eob = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/");
+        ExplanationOfBenefit eob = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/ExplanationOfBenefit-EOB1.json");
         Entity<ExplanationOfBenefit> entity = Entity.entity(eob, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("ExplanationOfBenefit").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         explanationOfBenefitId = getLocationLogicalId(response);
 
-        // Next, call the 'read' API to retrieve the new Location and verify it.
         response = target.path("ExplanationOfBenefit/" + explanationOfBenefitId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
@@ -208,14 +268,17 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     // Load PractitionerRole Resources
     public void loadPractitionerRole() throws Exception {
         Reference location = Reference.builder().reference(com.ibm.fhir.model.type.String.of("Location/" + locationId)).build();
+
+        Reference practitioner = Reference.builder().reference(com.ibm.fhir.model.type.String.of("Practitioner/" + practitionerId)).build();
+
+        Reference organization = Reference.builder().reference(com.ibm.fhir.model.type.String.of("Organization/" + organizationOrg45Id)).build();
+
         PractitionerRole practitionerRole = TestUtil.readExampleResource("json/profiles/fhir-ig-carin-bb/PractitionerRole-PractitionerRole1.json");
-        practitionerRole = practitionerRole.toBuilder().location(location).build();
+        practitionerRole = practitionerRole.toBuilder().location(location).organization(organization).practitioner(practitioner).build();
 
         WebTarget target = getWebTarget();
         Entity<PractitionerRole> entityPractitionerRole = Entity.entity(practitionerRole, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("PractitionerRole").request().post(entityPractitionerRole, Response.class);
-        String res = response.readEntity(String.class);
-        System.out.println(res);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         practitionerRoleId = getLocationLogicalId(response);
@@ -226,110 +289,421 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     // Load Resources
     @BeforeClass
     public void loadResources() throws Exception {
-        loadLocation(); // Dependent -> loadOrganization, loadPractitionerRole
-        loadPractitionerRole(); // Dependent ->
-        loadInsurerClaim();
-        loadOrganization(); // Dependent -> testCoverage
-        loadOrganizationOrg1();
-        loadOrganizationOrg45();
-        loadCoverage();
-
-        // METHOD_LOAD_COVERAGE, METHOD_LOAD_PATIENT, METHOD_LOAD_PROVIDER, METHOD_LOAD_CARETEAM, METHOD_LOAD_INSURER,
-        // METHOD_LOAD_LOCATION
-        loadExplanationOfBenefits();
+        if (!skip) {
+            loadLocation(); // Dependent -> loadOrganization, loadPractitionerRole
+            loadOrganization(); // Dependent -> testCoverage
+            loadOrganizationOrg1();
+            loadOrganizationOrg45();
+            loadProvider();
+            loadPractitionerRole(); // Depends on -> Location
+            loadCoverage(); // Depends on -> loadOrganizationOrg45
+            loadPatient();
+            loadCareteam();
+            loadInsurerClaim();
+            loadExplanationOfBenefits();
+        }
     }
 
-    @AfterClass
-    public void deleteResources() {
+    // Delete Resources
+    public void deleteOrganization() throws Exception {
         WebTarget target = getWebTarget();
-        // Response response = target.path("Location/" +
-        // locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        // assertResponse(response, Response.Status.OK.getStatusCode());
-        // response = target.path("Location/" + locationAbsId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        // assertResponse(response, Response.Status.OK.getStatusCode());
-
-        // Remove Chained Reference
-        // response = target.path("PractitionerRole/" +
-        // practitionerRoleId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-    }
-
-    @Test
-    public void testCoverage() throws Exception {
-        /*
-         * The Coverage resources can represent a Payor with a reference to an Organization resource. The server MAY
-         * support the "_include" parameter for search parameters defined on these elements. The client application
-         * SHALL support "_include" parameter for search parameters defined on these elements. For example, a server MAY
-         * be capable of returning and Organization (payor) for a Coverage using: GET
-         * [base]/Coverage?_id=[id]&_include=Coverage:payor
-         */
-
-    }
-
-    // ---------------------------------------------------------------------------------------------------------
-    // Loads the resources related to CarinBB
-    public void loadResourcesDefault() throws Exception {
-        WebTarget target = getWebTarget();
-        Location location = TestUtil.readExampleResource("json/spec/location-example.json");
-
-        Entity<Location> entity = Entity.entity(location, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Location").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-        locationId = getLocationLogicalId(response);
-
-        // Entity<Location> entityAbs = Entity.entity(locationAbs, FHIRMediaType.APPLICATION_FHIR_JSON);
-        // Response responseAbs = target.path("Location").request().post(entityAbs, Response.class);
-        // assertResponse(responseAbs, Response.Status.CREATED.getStatusCode());
-
-        // locationAbsId = getLocationLogicalId(responseAbs);
-
-        // Next, call the 'read' API to retrieve the new Location and verify it.
-        response = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        Response response = target.path("Organization/" + organizationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
-    @Test
-    public void testBlueButton() {
+    public void deleteOrganizationOrg1() throws Exception {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Organization/" + organizationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    public void deleteOrganizationOrg45() throws Exception {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Organization/" + organizationOrg45Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    // Delete Coverage Resources
+    public void deleteCoverage() throws Exception {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Coverage/" + coverageId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    // Delete Patient Resources
+    public void deletePatient() throws Exception {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    // Delete Provider Resources
+    public void deleteProvider() throws Exception {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Practitioner/" + practitionerId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    // Delete CareTeam Resources
+    public void deleteCareteam() throws Exception {
+        WebTarget target = getWebTarget();
+        Response response = target.path("CareTeam/" + careTeamId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    // Delete Insurer Resources
+    public void deleteInsurerClaim() throws Exception {
+        /*
+         * "code" : "insurer", "base" : ["Claim"], "type" : "reference", "expression" : "Claim.insurer", "xpath" :
+         * "f:Claim/f:insurer", "xpathUsage" : "normal", "target" : ["Organization"]
+         */
+        // insurerClaimId
+    }
+
+    // Delete Location Resources
+    public void deleteLocation() throws Exception {
+        WebTarget target = getWebTarget();
+        Response response = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    // Delete Explanation of Benefits Resources
+    public void deleteExplanationOfBenefits() throws Exception {
+        WebTarget target = getWebTarget();
+        Response response = target.path("ExplanationOfBenefit/" + explanationOfBenefitId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    // Delete PractitionerRole Resources
+    public void deletePractitionerRole() throws Exception {
+        WebTarget target = getWebTarget();
+        Response response = target.path("PractitionerRole/" + practitionerRoleId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    @AfterClass
+    public void deleteResources() throws Exception {
         if (!skip) {
-            System.out.println("VALID");
+            deleteLocation();
+            deleteOrganization();
+            deleteOrganizationOrg1();
+            deleteOrganizationOrg45();
+            deletePractitionerRole();
+            deleteCoverage();
+            deletePatient();
+            deleteProvider();
+            deleteCareteam();
+            deleteInsurerClaim();
+            deleteExplanationOfBenefits();
         }
     }
 
     @Test
-    public void testCarePlanCareTeamSearch() {
-        /*
-         * "description" : "Who's involved in plan?", "code" : "care-team", "base" : ["CarePlan"], "type" : "reference",
-         * "expression" : "CarePlan.careTeam", "xpath" : "f:CarePlan/f:careTeam", "xpathUsage" : "normal", "target" :
-         * ["CareTeam"]
-         */
-
+    public void testLocationId() throws Exception {
+        if (!skip) {
+            // A common call -> GET [base]/Location?_id=[id]
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("_id", locationId);
+            FHIRResponse response = client.search(Location.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, locationId);
+        }
     }
 
     @Test
-    public void testCARINBlueButton_Coverage_Patient_SearchParameter() {
+    public void testPractitionerId() throws Exception {
+        if (!skip) {
+            // A common call -> GET [base]/Practitioner?_id=[id]
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("_id", practitionerId);
+            FHIRResponse response = client.search(Practitioner.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, practitionerId);
+        }
+    }
+
+    @Test
+    public void testPractitionerRoleIdIncludeOrg() throws Exception {
+        if (!skip) {
+            // A common call -> GET [base]/PractitionerRole?_id=[id]
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("_id", practitionerRoleId);
+            parameters.searchParam("_include", "PractitionerRole:organization");
+            FHIRResponse response = client.search(PractitionerRole.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, practitionerRoleId, organizationOrg45Id);
+        }
+    }
+
+    @Test
+    public void testPractitionerRoleIdIncludePractitioner() throws Exception {
+        if (!skip) {
+            // A common call -> GET [base]/PractitionerRole?_id=[id]
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("_id", practitionerRoleId);
+            parameters.searchParam("_include", "PractitionerRole:practitioner");
+            FHIRResponse response = client.search(PractitionerRole.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, practitionerRoleId, practitionerId);
+        }
+    }
+
+    @Test
+    public void testPractitionerRoleIdIncludeOrgAndPractitioner() throws Exception {
+        if (!skip) {
+            // A common call -> GET [base]/PractitionerRole?_id=[id]
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("_id", practitionerRoleId);
+            parameters.searchParam("_include", "PractitionerRole:organization");
+            // From US Core (2nd indirect profile being tested)
+            parameters.searchParam("_include", "PractitionerRole:practitioner");
+            FHIRResponse response = client.search(PractitionerRole.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, practitionerRoleId, organizationOrg45Id, practitionerId);
+        }
+    }
+
+    @Test
+    public void testPatientId() throws Exception {
+        if (!skip) {
+            // A common call -> GET [base]/Patient?_id=[id]
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("_id", patientId);
+            FHIRResponse response = client.search(Patient.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, patientId);
+        }
+    }
+
+    @Test
+    public void testOrganizationId() throws Exception {
+        if (!skip) {
+            // A common call -> GET [base]/Organization?_id=[id],[id],[id]
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("_id", String.join(",", organizationId, organizationOrg1Id, organizationOrg45Id));
+            FHIRResponse response = client.search(Organization.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, organizationId);
+        }
+    }
+
+    @Test
+    public void testCoverageIdWithInclude() throws Exception {
+        if (!skip) {
+            // A common call -> GET [base]/Coverage?_id=[id]&_include=Coverage:payor
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("_id", coverageId);
+            parameters.searchParam("_include", "Coverage:payor");
+            FHIRResponse response = client.search(Coverage.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, coverageId, organizationOrg45Id);
+        }
+    }
+
+    @Test
+    public void testExplanationOfBenefitId() throws Exception {
+        if (!skip) {
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("_id", explanationOfBenefitId);
+            FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, explanationOfBenefitId);
+        }
+    }
+
+    @Test
+    public void testExplanationOfBenefitIdentifierNoSystem() throws Exception {
+        if (!skip) {
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("identifier", "|4E93-BE91-EAC1977941A8");
+            FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, explanationOfBenefitId);
+        }
+    }
+
+    @Test
+    public void testExplanationOfBenefitIdentifierWithSystem() throws Exception {
+        if (!skip) {
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("identifier", "http://www.bcbs.com/fhir/ns/NamingSystem/explanationOfBenefit-identifier|4E93-BE91-EAC1977941A8");
+            FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, explanationOfBenefitId);
+        }
+    }
+
+    @Test
+    public void testCARINBlueButton_ExplanationOfBenefit_Patient_SearchParameter() throws Exception {
+        if (!skip) {
+            // This is now enabled due to HL7 FHIR Jira - https://jira.hl7.org/browse/FHIR-27739
+            // https://github.com/IBM/FHIR/issues/1157
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("patient", "Patient/Patient1");
+            FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, explanationOfBenefitId);
+        }
+    }
+
+    @Test
+    public void testExplanationOfBenefitLastUpdated() throws Exception {
+        if (!skip) {
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("_lastUpdated", "le1990");
+            FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() == 0);
+
+            parameters = new FHIRParameters();
+            parameters.searchParam("_lastUpdated", "ge1990");
+            response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, explanationOfBenefitId);
+        }
+    }
+
+    @Test
+    public void testCARINBlueButton_Coverage_Patient_SearchParameter() throws Exception {
         // Name: CARINBlueButton_Coverage_Patient_SearchParameter
-        /*
-         * "code": "patient", "base": ["Coverage"], "type": "reference", "expression": "Coverage.beneficiary", "xpath":
-         * "f:Coverage/f:beneficiary", CARINBlueButton_Coverage_Patient_SearchParameter
-         */
+        if (!skip) {
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("patient", "Patient/Patient1");
+            FHIRResponse response = client.search(Coverage.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, coverageId);
+        }
     }
 
     @Test
-    public void testCARINBlueButton_ExplanationOfBenefit_Created_SearchParameter() {
-        // Name: CARINBlueButton_ExplanationOfBenefit_Created_SearchParameter
-
-        /*
-         * "code": "status", "base": ["ExplanationOfBenefit"], "type": "date", "expression":
-         * "explanationofbenefit.created", "xpath": "f:explanationofbenefit/f:created",
-         */
+    public void testCARINBlueButton_ExplanationOfBenefit_Created_SearchParameter() throws Exception {
+        // Enabled per https://jira.hl7.org/browse/FHIR-27738 and https://github.com/IBM/FHIR/issues/1156
+        // Name: CARINBlueButton_ExplanationOfBenefit_Created_SearchParameter (note it uses the created code in the
+        // spec)
+        // The Search Parameter embedded in the spec had a bad code, should be 'created'.
+        if (!skip) {
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("created", "ge2017-04-15");
+            FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, explanationOfBenefitId);
+        }
     }
 
     @Test
-    public void testCARINBlueButton_ExplanationOfBenefit_Patient_SearchParameter() {
-        // Name: CARINBlueButton_ExplanationOfBenefit_Created_SearchParameter
+    public void testComplicatedInclude() throws Exception {
+        if (!skip) {
+            /* This example is per:
+             * https://confluence.hl7.org/pages/viewpage.action?pageId=82911348&preview=/82911348/82911352/CARIN%20BB%
+             * 20RESTful%20API%20Combined%20-%20FHIR-26702%20-%20FHIR-26693%200513%202020.docx RESTFUL API SHALL
+             */
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("patient", "Patient/Patient1");
+            parameters.searchParam("_lastUpdated", "ge2020");
+            parameters.searchParam("_include", "ExplanationOfBenefit:patient");
+            parameters.searchParam("_include", "ExplanationOfBenefit:provider");
+            parameters.searchParam("_include", "ExplanationOfBenefit:care-team");
+            parameters.searchParam("_include", "ExplanationOfBenefit:coverage");
+            // https://github.com/IBM/FHIR/issues/1158
+            // parameters.searchParam("_include:iterate", "PractitionerRole:practitioner");
+            // parameters.searchParam("_include:iterate", "PractitionerRole:organization");
+            // parameters.searchParam("_include:iterate", "Coverage:payor");
 
-        /*
-         * "code": "patient", "base": ["ExplanationOfBenefit"], "type": "reference", "expression":
-         * "explanationofbenefit.patient", "xpath": "f:explanationofbenefit/f:patient",
-         */
+            FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, explanationOfBenefitId);
+        }
+    }
+
+    @Test(enabled = false)
+    public void testExplanationOfBenefitServiceDate() throws Exception {
+        if (!skip) {
+            /*
+             * This should be coming in a new CARIN BB Rev.
+             * https://confluence.hl7.org/pages/viewpage.action?pageId=82911348&preview=/82911348/82911352/CARIN%20BB%
+             * 20RESTful%20API%20Combined%20-%20FHIR-26702%20-%20FHIR-26693%200513%202020.docx RESTFUL API SHALL
+             * service-date date GET [base]/ExplanationOfBenefit?service-date=[prefix][date] Shall only be supported in
+             * a combination with patient
+             */
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("service-date", "ge2014");
+            FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, explanationOfBenefitId);
+        }
+    }
+
+    @Test(enabled = false)
+    public void testExplanationOfBenefitType() throws Exception {
+        if (!skip) {
+            /*
+             * This should be coming in a new CARIN BB Rev.
+             * https://confluence.hl7.org/pages/viewpage.action?pageId=82911348&preview=/82911348/82911352/CARIN%20BB%
+             * 20RESTful%20API%20Combined%20-%20FHIR-26702%20-%20FHIR-26693%200513%202020.docx RESTFUL API SHALL type
+             * token GET [base]/ExplanationOfBenefit?type=[system]|[code] Shall only be supported in a combination with
+             * patient
+             */
+            FHIRParameters parameters = new FHIRParameters();
+            parameters.searchParam("type", "http://hl7.org/fhir/us/carin/CodeSystem/carin-bb-claim-type|inpatient-facility");
+            FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
+            assertSearchResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.getResource(Bundle.class);
+            assertNotNull(bundle);
+            assertTrue(bundle.getEntry().size() >= 1);
+            assertContainsIds(bundle, explanationOfBenefitId);
+        }
     }
 }
