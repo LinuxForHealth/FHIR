@@ -16,6 +16,6 @@ public class BBResourceProviderTest {
     @Test
     public void testBBResourceProvider() {
         FHIRRegistryResourceProvider provider = new BBResourceProvider();
-        Assert.assertEquals(provider.getRegistryResources().size(), 44);
+        Assert.assertEquals(provider.getRegistryResources().size(), 41);
     }
 }
