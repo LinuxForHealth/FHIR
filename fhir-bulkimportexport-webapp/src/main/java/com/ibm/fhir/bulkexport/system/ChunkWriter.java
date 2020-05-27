@@ -8,6 +8,7 @@ package com.ibm.fhir.bulkexport.system;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -34,7 +35,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 public class ChunkWriter extends AbstractItemWriter {
     private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
     private AmazonS3 cosClient = null;
-    private final boolean isExportPublic = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC, true);
+    private boolean isExportPublic = true;
 
     /**
      * The IBM COS API key or S3 access key.
@@ -199,5 +200,11 @@ public class ChunkWriter extends AbstractItemWriter {
                         chunkData.getBufferStream().size());
             }
         }
+    }
+
+    @Override
+    public void open(Serializable checkpoint) throws Exception  {
+        isExportPublic = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC, true);
+
     }
 }
