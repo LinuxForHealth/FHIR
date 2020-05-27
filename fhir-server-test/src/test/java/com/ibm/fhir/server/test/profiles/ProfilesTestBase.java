@@ -65,9 +65,7 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
         EvaluationContext evaluationContext = new EvaluationContext(bundle);
         Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, EXPRESSION_BUNDLE_IDS);
         Collection<String> listOfIds = tmpResults.stream().map(x -> x.toString()).collect(Collectors.toList());
-        System.out.println(listOfIds);
         for(String id : ids) {
-            System.out.println(id);
             assertTrue(listOfIds.contains(id));
         }
     }
@@ -91,7 +89,7 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
         Collection<String> listOfProfiles = tmpResults.stream().map(x -> x.getValue().asStringValue().string()).collect(Collectors.toList());
         for(String requiredProfile : getRequiredProfiles()) {
             boolean v = listOfProfiles.contains(requiredProfile);
-            if(!v && check) {
+            if(!v) {
                 logger.warning("Profile not found marking as skip [" + requiredProfile + "]");
                 check = Boolean.FALSE;
             } else {

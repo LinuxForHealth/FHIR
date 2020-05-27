@@ -217,22 +217,6 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
 
         response = target.path("CareTeam/" + careTeamId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
-
-        /*
-         * "description" : "Who's involved in plan?", "code" : "care-team", "base" : ["CarePlan"], "type" : "reference",
-         * "expression" : "CarePlan.careTeam", "xpath" : "f:CarePlan/f:careTeam", "xpathUsage" : "normal", "target" :
-         * ["CareTeam"]
-         */
-    }
-
-    // Load Insurer Resources
-    @BeforeClass
-    public void loadInsurerClaim() throws Exception {
-        /*
-         * "code" : "insurer", "base" : ["Claim"], "type" : "reference", "expression" : "Claim.insurer", "xpath" :
-         * "f:Claim/f:insurer", "xpathUsage" : "normal", "target" : ["Organization"]
-         */
-        // insurerClaimId
     }
 
     // Load Location Resources
@@ -290,16 +274,15 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     @BeforeClass
     public void loadResources() throws Exception {
         if (!skip) {
-            loadLocation(); // Dependent -> loadOrganization, loadPractitionerRole
-            loadOrganization(); // Dependent -> testCoverage
+            loadLocation();
+            loadOrganization();
             loadOrganizationOrg1();
             loadOrganizationOrg45();
             loadProvider();
-            loadPractitionerRole(); // Depends on -> Location
-            loadCoverage(); // Depends on -> loadOrganizationOrg45
+            loadPractitionerRole();
+            loadCoverage();
             loadPatient();
             loadCareteam();
-            loadInsurerClaim();
             loadExplanationOfBenefits();
         }
     }
@@ -351,15 +334,6 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
-    // Delete Insurer Resources
-    public void deleteInsurerClaim() throws Exception {
-        /*
-         * "code" : "insurer", "base" : ["Claim"], "type" : "reference", "expression" : "Claim.insurer", "xpath" :
-         * "f:Claim/f:insurer", "xpathUsage" : "normal", "target" : ["Organization"]
-         */
-        // insurerClaimId
-    }
-
     // Delete Location Resources
     public void deleteLocation() throws Exception {
         WebTarget target = getWebTarget();
@@ -393,7 +367,6 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
             deletePatient();
             deleteProvider();
             deleteCareteam();
-            deleteInsurerClaim();
             deleteExplanationOfBenefits();
         }
     }
