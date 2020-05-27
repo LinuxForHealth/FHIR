@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemWriter;
 import javax.batch.runtime.context.StepContext;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
@@ -39,6 +40,7 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
  * Bulk import Chunk implementation - the Writer.
  *
  */
+@Dependent
 public class ChunkWriter extends AbstractItemWriter {
     private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
     AmazonS3 cosClient = null;
@@ -106,7 +108,7 @@ public class ChunkWriter extends AbstractItemWriter {
      * Fhir resource type to process.
      */
     @Inject
-    @BatchProperty(name = Constants.IMPORT_PARTITTION_RESOURCE_TYPE)
+    @BatchProperty(name = Constants.PARTITION_RESOURCE_TYPE)
     String importPartitionResourceType;
 
 

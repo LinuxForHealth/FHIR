@@ -285,6 +285,19 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>fhir-term</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-term</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
         <!-- THIS MUST BE THE LAST PROFILE -->
         <profile>
             <id>fhir-validation-distribution</id>

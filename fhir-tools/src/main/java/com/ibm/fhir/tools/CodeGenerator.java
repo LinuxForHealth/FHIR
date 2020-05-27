@@ -259,6 +259,7 @@ public class CodeGenerator {
         generateJsonParser(basePath);
         generateXMLParser(basePath);
         generateModelClassesFile(basePath);
+        generateCodeSubtypeClass("ConceptSubsumptionOutcome", "http://hl7.org/fhir/ValueSet/concept-subsumption-outcome", basePath);
     }
 
     private void generateModelClassesFile(String basePath) {
@@ -2844,201 +2845,205 @@ public class CodeGenerator {
                 String[] tokens = valueSet.split("\\|");
                 valueSet = tokens[0];
 
-                CodeBuilder cb = new CodeBuilder();
-                String packageName = "com.ibm.fhir.model.type.code";
-                cb.lines(HEADER).newLine();
-                cb._package(packageName).newLine();
-
-                cb._import("com.ibm.fhir.model.annotation.System");
-                cb._import("com.ibm.fhir.model.type.Code");
-                cb._import("com.ibm.fhir.model.type.Extension");
-                cb._import("com.ibm.fhir.model.type.String").newLine();
-
-                cb._import("java.util.Collection");
-                cb._import("java.util.Objects").newLine();
-
-                cb._import("javax.annotation.Generated").newLine();
-
-                String system = getSystem(valueSet);
-                cb.annotation("System", quote(system));
-                cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
-                cb._class(mods("public"), bindingName, "Code");
-
-                List<JsonObject> concepts = getConcepts(valueSet);
-                for (JsonObject concept : concepts) {
-                    String value = concept.getString("code");
-                    String enumConstantName = getEnumConstantName(bindingName, value);
-                    generateConceptJavadoc(concept, cb);
-                    cb.field(mods("public", "static", "final"), bindingName, enumConstantName, bindingName + ".builder().value(ValueSet." + enumConstantName + ").build()")
-                        .newLine();
-                }
-
-                cb.field(mods("private", "volatile"), "int", "hashCode").newLine();
-
-                cb.constructor(mods("private"), bindingName, params("Builder builder"))
-                    ._super(args("builder"))
-                .end().newLine();
-
-                cb.method(mods("public"), "ValueSet", "getValueAsEnumConstant")
-                    ._return("(value != null) ? ValueSet.from(value) : null")
-                .end().newLine();
-
-                cb.method(mods("public", "static"), bindingName, "of", args("ValueSet value"))
-                    ._switch("value");
-                    for (JsonObject concept : concepts) {
-                        String value = concept.getString("code");
-                        String enumConstantName = getEnumConstantName(bindingName, value);
-                        cb._case(enumConstantName)
-                            ._return(enumConstantName);
-                    }
-                    cb._default()
-                        ._throw(_new("IllegalStateException", args("value.name()")));
-                    cb.end();
-                cb.end().newLine();
-
-                cb.method(mods("public", "static"), bindingName, "of", args("java.lang.String value"))
-                    ._return("of(ValueSet.from(value))")
-                .end().newLine();
-
-                cb.method(mods("public", "static"), "String", "string", args("java.lang.String value"))
-                    ._return("of(ValueSet.from(value))")
-                .end().newLine();
-
-                cb.method(mods("public", "static"), "Code", "code", args("java.lang.String value"))
-                    ._return("of(ValueSet.from(value))")
-                .end().newLine();
-
-                cb.override();
-                cb.method(mods("public"), "boolean", "equals", params("Object obj"));
-                cb._if("this == obj")
-                    ._return("true")
-                ._end();
-                cb._if("obj == null")
-                    ._return("false")
-                ._end();
-                cb._if("getClass() != obj.getClass()")
-                    ._return("false")
-                ._end();
-                cb.assign(bindingName + " other", "(" + bindingName + ") obj");
-                cb._return("Objects.equals(id, other.id) && Objects.equals(extension, other.extension) && Objects.equals(value, other.value)");
-                cb.end().newLine();
-
-                cb.override();
-                cb.method(mods("public"), "int", "hashCode");
-                cb.assign("int result", "hashCode");
-                cb._if("result == 0");
-                cb.assign("result", "Objects.hash(id, extension, value)");
-                cb.assign("hashCode", "result");
-                cb._end();
-                cb._return("result");
-                cb.end().newLine();
-
-                cb.method(mods("public"), "Builder", "toBuilder")
-                    .assign("Builder builder", "new Builder()")
-                    .invoke("builder", "id", args("id"))
-                    .invoke("builder", "extension", args("extension"))
-                    .invoke("builder", "value", args("value"))
-                    ._return("builder")
-                .end().newLine();
-
-                cb.method(mods("public", "static"), "Builder", "builder")
-                    ._return(_new("Builder"))
-                .end().newLine();
-
-                cb._class(mods("public", "static"), "Builder", "Code.Builder");
-
-                cb.constructor(mods("private"), "Builder")
-                    ._super()
-                .end().newLine();
-
-                cb.override();
-                cb.method(mods("public"), "Builder", "id", args("java.lang.String id"))
-                    ._return("(Builder) super.id(id)")
-                .end().newLine();
-
-                cb.override();
-                cb.method(mods("public"), "Builder", "extension", args("Extension... extension"))
-                    ._return("(Builder) super.extension(extension)")
-                .end().newLine();
-
-                cb.override();
-                cb.method(mods("public"), "Builder", "extension", args("Collection<Extension> extension"))
-                    ._return("(Builder) super.extension(extension)")
-                .end().newLine();
-
-                cb.override();
-                cb.method(mods("public"), "Builder", "value", args("java.lang.String value"))
-                    ._return("(value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this")
-                .end().newLine();
-
-                cb.method(mods("public"), "Builder", "value", args("ValueSet value"))
-                    ._return("(value != null) ? (Builder) super.value(value.value()) : this")
-                .end().newLine();
-
-                cb.override();
-                cb.method(mods("public"), bindingName, "build")
-                    ._return(_new(bindingName, args("this")))
-                .end();
-
-                cb._end().newLine();
-
-                String definition = getValueSetDefinition(valueSet);
-                if (definition != null) {
-                    cb.javadoc(definition);
-                }
-                cb._enum(mods("public"), "ValueSet");
-
-
-                for (JsonObject concept : concepts) {
-                    String value = concept.getString("code");
-                    String enumConstantName = getEnumConstantName(bindingName, value);
-                    generateConceptJavadoc(concept, cb);
-                    cb.enumConstant(enumConstantName, args(quote(value)), isLast(concepts, concept)).newLine();
-                }
-
-                cb.field(mods("private", "final"), "java.lang.String", "value").newLine();
-
-                cb.constructor(mods(), "ValueSet", args("java.lang.String value"))
-                    .assign(_this("value"), "value")
-                .end().newLine();
-
-                cb.method(mods("public"), "java.lang.String", "value")
-                    ._return("value")
-                .end().newLine();
-
-                cb.method(mods("public", "static"), "ValueSet", "from", params("java.lang.String value"))
-                    ._foreach("ValueSet c", "ValueSet.values()")
-                        ._if("c.value.equals(value)")
-                            ._return("c")
-                        ._end()
-                    ._end()
-                    ._throw(_new("IllegalArgumentException", args("value")))
-                .end();
-
-                cb._end();
-
-                cb._end();
-
-
-                File file = new File(basePath + "/" + packageName.replace(".", "/") + "/" + bindingName + ".java");
-                try {
-                    if (!file.exists()) {
-                        file.getParentFile().mkdirs();
-                        Files.createFile(file.toPath());
-                    }
-                } catch (Exception e) {
-                    throw new Error(e);
-                }
-
-                try (FileWriter writer = new FileWriter(file)) {
-                    writer.write(cb.toString());
-                } catch (Exception e) {
-                    throw new Error(e);
-                }
-
-                codeSubtypeClassNames.add(bindingName);
+                generateCodeSubtypeClass(bindingName, valueSet, basePath);
             }
         }
+    }
+
+    public void generateCodeSubtypeClass(String bindingName, String valueSet, String basePath) {
+        CodeBuilder cb = new CodeBuilder();
+        String packageName = "com.ibm.fhir.model.type.code";
+        cb.lines(HEADER).newLine();
+        cb._package(packageName).newLine();
+
+        cb._import("com.ibm.fhir.model.annotation.System");
+        cb._import("com.ibm.fhir.model.type.Code");
+        cb._import("com.ibm.fhir.model.type.Extension");
+        cb._import("com.ibm.fhir.model.type.String").newLine();
+
+        cb._import("java.util.Collection");
+        cb._import("java.util.Objects").newLine();
+
+        cb._import("javax.annotation.Generated").newLine();
+
+        String system = getSystem(valueSet);
+        cb.annotation("System", quote(system));
+        cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
+        cb._class(mods("public"), bindingName, "Code");
+
+        List<JsonObject> concepts = getConcepts(valueSet);
+        for (JsonObject concept : concepts) {
+            String value = concept.getString("code");
+            String enumConstantName = getEnumConstantName(bindingName, value);
+            generateConceptJavadoc(concept, cb);
+            cb.field(mods("public", "static", "final"), bindingName, enumConstantName, bindingName + ".builder().value(ValueSet." + enumConstantName + ").build()")
+                .newLine();
+        }
+
+        cb.field(mods("private", "volatile"), "int", "hashCode").newLine();
+
+        cb.constructor(mods("private"), bindingName, params("Builder builder"))
+            ._super(args("builder"))
+        .end().newLine();
+
+        cb.method(mods("public"), "ValueSet", "getValueAsEnumConstant")
+            ._return("(value != null) ? ValueSet.from(value) : null")
+        .end().newLine();
+
+        cb.method(mods("public", "static"), bindingName, "of", args("ValueSet value"))
+            ._switch("value");
+            for (JsonObject concept : concepts) {
+                String value = concept.getString("code");
+                String enumConstantName = getEnumConstantName(bindingName, value);
+                cb._case(enumConstantName)
+                    ._return(enumConstantName);
+            }
+            cb._default()
+                ._throw(_new("IllegalStateException", args("value.name()")));
+            cb.end();
+        cb.end().newLine();
+
+        cb.method(mods("public", "static"), bindingName, "of", args("java.lang.String value"))
+            ._return("of(ValueSet.from(value))")
+        .end().newLine();
+
+        cb.method(mods("public", "static"), "String", "string", args("java.lang.String value"))
+            ._return("of(ValueSet.from(value))")
+        .end().newLine();
+
+        cb.method(mods("public", "static"), "Code", "code", args("java.lang.String value"))
+            ._return("of(ValueSet.from(value))")
+        .end().newLine();
+
+        cb.override();
+        cb.method(mods("public"), "boolean", "equals", params("Object obj"));
+        cb._if("this == obj")
+            ._return("true")
+        ._end();
+        cb._if("obj == null")
+            ._return("false")
+        ._end();
+        cb._if("getClass() != obj.getClass()")
+            ._return("false")
+        ._end();
+        cb.assign(bindingName + " other", "(" + bindingName + ") obj");
+        cb._return("Objects.equals(id, other.id) && Objects.equals(extension, other.extension) && Objects.equals(value, other.value)");
+        cb.end().newLine();
+
+        cb.override();
+        cb.method(mods("public"), "int", "hashCode");
+        cb.assign("int result", "hashCode");
+        cb._if("result == 0");
+        cb.assign("result", "Objects.hash(id, extension, value)");
+        cb.assign("hashCode", "result");
+        cb._end();
+        cb._return("result");
+        cb.end().newLine();
+
+        cb.method(mods("public"), "Builder", "toBuilder")
+            .assign("Builder builder", "new Builder()")
+            .invoke("builder", "id", args("id"))
+            .invoke("builder", "extension", args("extension"))
+            .invoke("builder", "value", args("value"))
+            ._return("builder")
+        .end().newLine();
+
+        cb.method(mods("public", "static"), "Builder", "builder")
+            ._return(_new("Builder"))
+        .end().newLine();
+
+        cb._class(mods("public", "static"), "Builder", "Code.Builder");
+
+        cb.constructor(mods("private"), "Builder")
+            ._super()
+        .end().newLine();
+
+        cb.override();
+        cb.method(mods("public"), "Builder", "id", args("java.lang.String id"))
+            ._return("(Builder) super.id(id)")
+        .end().newLine();
+
+        cb.override();
+        cb.method(mods("public"), "Builder", "extension", args("Extension... extension"))
+            ._return("(Builder) super.extension(extension)")
+        .end().newLine();
+
+        cb.override();
+        cb.method(mods("public"), "Builder", "extension", args("Collection<Extension> extension"))
+            ._return("(Builder) super.extension(extension)")
+        .end().newLine();
+
+        cb.override();
+        cb.method(mods("public"), "Builder", "value", args("java.lang.String value"))
+            ._return("(value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this")
+        .end().newLine();
+
+        cb.method(mods("public"), "Builder", "value", args("ValueSet value"))
+            ._return("(value != null) ? (Builder) super.value(value.value()) : this")
+        .end().newLine();
+
+        cb.override();
+        cb.method(mods("public"), bindingName, "build")
+            ._return(_new(bindingName, args("this")))
+        .end();
+
+        cb._end().newLine();
+
+        String definition = getValueSetDefinition(valueSet);
+        if (definition != null) {
+            cb.javadoc(definition);
+        }
+        cb._enum(mods("public"), "ValueSet");
+
+
+        for (JsonObject concept : concepts) {
+            String value = concept.getString("code");
+            String enumConstantName = getEnumConstantName(bindingName, value);
+            generateConceptJavadoc(concept, cb);
+            cb.enumConstant(enumConstantName, args(quote(value)), isLast(concepts, concept)).newLine();
+        }
+
+        cb.field(mods("private", "final"), "java.lang.String", "value").newLine();
+
+        cb.constructor(mods(), "ValueSet", args("java.lang.String value"))
+            .assign(_this("value"), "value")
+        .end().newLine();
+
+        cb.method(mods("public"), "java.lang.String", "value")
+            ._return("value")
+        .end().newLine();
+
+        cb.method(mods("public", "static"), "ValueSet", "from", params("java.lang.String value"))
+            ._foreach("ValueSet c", "ValueSet.values()")
+                ._if("c.value.equals(value)")
+                    ._return("c")
+                ._end()
+            ._end()
+            ._throw(_new("IllegalArgumentException", args("value")))
+        .end();
+
+        cb._end();
+
+        cb._end();
+
+
+        File file = new File(basePath + "/" + packageName.replace(".", "/") + "/" + bindingName + ".java");
+        try {
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                Files.createFile(file.toPath());
+            }
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write(cb.toString());
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+
+        codeSubtypeClassNames.add(bindingName);
     }
 
     private void generateConceptJavadoc(JsonObject concept, CodeBuilder cb) {

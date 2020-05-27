@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.profile;
+package com.ibm.fhir.term.util;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
