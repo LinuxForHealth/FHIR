@@ -26,6 +26,7 @@ import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.bulkexport.common.TransientUserData;
 import com.ibm.fhir.model.resource.Group;
 import com.ibm.fhir.model.resource.Group.Member;
+import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
@@ -96,6 +97,31 @@ public class ChunkReader extends com.ibm.fhir.bulkexport.patient.ChunkReader {
         }
     }
 
+    private List<Resource> patientIdsToPatients(List<String> patientIds) throws Exception {
+        FHIRSearchContext searchContext;
+        FHIRPersistenceContext persistenceContext;
+        List<Resource> Patients = new ArrayList<>();
+
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        for (String patientId: patientIds) {
+            queryParameters.put("_id", Arrays.asList(new String[] {patientId}));
+            searchContext = SearchUtil.parseQueryParameters(Patient.class, queryParameters);
+            searchContext.setPageSize(pageSize);
+            List<Resource> resources = null;
+            FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
+
+            txn.enroll();
+            persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
+            resources = fhirPersistence.search(persistenceContext, Patient.class).getResource();
+            txn.unenroll();
+
+            if (resources != null) {
+                Patients.addAll(resources);
+            }
+        }
+        return Patients;
+    }
+
     @Override
     public Object readItem() throws Exception {
         if (fhirSearchPatientGroupId == null) {
@@ -135,7 +161,14 @@ public class ChunkReader extends com.ibm.fhir.bulkexport.patient.ChunkReader {
             List<String> patientIds = patientPageMembers.stream().filter(patientRef -> patientRef != null).map(patientRef
                     -> patientRef.getEntity().getReference().getValue().substring(8)).collect(Collectors.toList());
             if (patientIds != null && patientIds.size() > 0) {
-                fillChunkDataBuffer(patientIds);
+                if (fhirResourceType.equalsIgnoreCase("patient")) {
+                    List <Resource> resources = patientIdsToPatients(patientIds);
+                    if (resources != null) {
+                        fillChunkPatientDataBuffer(resources);
+                    }
+                } else {
+                    fillChunkDataBuffer(patientIds);
+                }
             }
         } else {
             logger.fine("readItem: End of reading!");

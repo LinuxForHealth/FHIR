@@ -88,6 +88,7 @@ public class ChunkReader extends AbstractItemReader {
      */
     @Inject
     @BatchProperty(name = Constants.PARTITION_RESOURCE_TYPE)
+    protected
     String fhirResourceType;
 
     /**
@@ -215,6 +216,39 @@ public class ChunkReader extends AbstractItemReader {
 
     }
 
+
+    protected void fillChunkPatientDataBuffer(List<Resource> Patients) throws Exception {
+        int resSubTotal = 0;
+        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
+        for (Resource res : Patients) {
+            try {
+                FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
+                chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
+                resSubTotal++;
+                if (isDoDuplicationCheck) {
+                    loadedResourceIds.add(res.getId());
+                }
+            } catch (FHIRGeneratorException e) {
+                if (res.getId() != null) {
+                    logger.log(Level.WARNING, "fillChunkPatientDataBuffer: Error while writing resources with id '"
+                            + res.getId() + "'", e);
+                } else {
+                    logger.log(Level.WARNING,
+                            "fillChunkPatientDataBuffer: Error while writing resources with unknown id", e);
+                }
+            } catch (IOException e) {
+                logger.warning("fillChunkPatientDataBuffer: chunkDataBuffer written error!");
+                throw e;
+            }
+        }
+        chunkData.setCurrentUploadResourceNum(chunkData.getCurrentUploadResourceNum() + resSubTotal);
+        chunkData.setTotalResourcesNum(chunkData.getTotalResourcesNum() + resSubTotal);
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("fillChunkPatientDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
+                    + chunkData.getBufferStream().size());
+        }
+    }
+
     @Override
     public Object readItem() throws Exception {
         TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
@@ -269,7 +303,11 @@ public class ChunkReader extends AbstractItemReader {
 
             List<String> patientIds = resources.stream().filter(item -> item.getId() != null).map(item -> item.getId()).collect(Collectors.toList());
             if (patientIds != null && patientIds.size() > 0) {
-                fillChunkDataBuffer(patientIds);
+                if (fhirResourceType.equalsIgnoreCase("patient")) {
+                    fillChunkPatientDataBuffer(resources);
+                } else {
+                    fillChunkDataBuffer(patientIds);
+                }
             }
         } else {
             logger.fine("readItem: End of reading!");
