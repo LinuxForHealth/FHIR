@@ -59,7 +59,27 @@ public enum Index {
     /**
      * All IBM generated examples
      */
-    IBM_XML("/ibm-xml.txt");
+    IBM_XML("/ibm-xml.txt"),
+
+    /**
+     * Implementation Guides examples in JSON
+     */
+    PROFILES_CARRIN_BB_JSON("/profiles-fhir-ig-carin-bb-json.txt"),
+
+    /**
+     * Implementation Guides examples in XML
+     */
+    PROFILES_CARRIN_BB_XML("/profiles-fhir-ig-carin-bb-xml.txt"),
+
+    /**
+     * Implementation Guides examples in JSON
+     */
+    PROFILES_JSON("/profiles-fhir-ig-carin-bb-json.txt"),
+
+    /**
+     * Implementation Guides examples in XML
+     */
+    PROFILES_XML("/profiles-fhir-ig-carin-bb-xml.txt");
 
 
     private List<String> paths = new ArrayList<>();

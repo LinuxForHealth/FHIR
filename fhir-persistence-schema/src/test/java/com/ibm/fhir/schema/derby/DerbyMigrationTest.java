@@ -41,6 +41,7 @@ public class DerbyMigrationTest {
     private static final String TARGET_DIR = "target/derby/";
     private static final String SCHEMA_NAME = "FHIRDATA";
     private static final String ADMIN_SCHEMA_NAME = "FHIR_ADMIN";
+    private static final String OAUTH_SCHEMANAME = "FHIR_OAUTH";
 
     @BeforeClass(alwaysRun = true)
     protected void setUp() throws SecurityException, IOException
@@ -91,7 +92,7 @@ public class DerbyMigrationTest {
 
         JdbcTarget target = new JdbcTarget(conn);
         DerbyAdapter adapter = new DerbyAdapter(target);
-        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME, OAUTH_SCHEMANAME);
         vhs.setTarget(adapter);
         vhs.init();
 
@@ -121,7 +122,7 @@ public class DerbyMigrationTest {
         Connection conn = derby.getConnection();
         JdbcTarget target = new JdbcTarget(conn);
         DerbyAdapter adapter = new DerbyAdapter(target);
-        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME);
+        VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME, OAUTH_SCHEMANAME);
         vhs.setTarget(adapter);
         vhs.init();
 

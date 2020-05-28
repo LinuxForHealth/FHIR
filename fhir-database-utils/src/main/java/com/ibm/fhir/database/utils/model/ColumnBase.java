@@ -12,7 +12,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
  * An immutable definition of a column in a table
  */
 public abstract class ColumnBase {
-
     // Name of the column
     private final String name;
 
@@ -20,7 +19,7 @@ public abstract class ColumnBase {
     private final boolean nullable;
 
     // The default value for the column (usually null)
-    private final String defaultVal;
+    private String defaultVal;
 
     /**
      * Protected constructor - for use by subclasses
@@ -43,6 +42,13 @@ public abstract class ColumnBase {
         this.name = name;
         this.nullable = nullable;
         this.defaultVal = defaultVal;
+    }
+
+    /**
+     * resets the default value.
+     */
+    public void resetDefaultValue() {
+        this.defaultVal = null;
     }
 
     /**
@@ -85,5 +91,4 @@ public abstract class ColumnBase {
     public String getTypeDef(IDatabaseTypeAdapter adapter) {
         return this.name + " " + getTypeInfo(adapter);
     }
-
 }

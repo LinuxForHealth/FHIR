@@ -12,11 +12,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -53,7 +54,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     // The translator used to to tweak the syntax for the database
     private final IDatabaseTranslator translator;
-
 
     /**
      * Protected constructor
@@ -104,15 +104,20 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
             result.append(column.getName());
             result.append(" ");
             result.append(column.getTypeInfo(this));
+
             if (identity != null && column.getName().equals(identity.getColumnName())) {
                 result.append(" GENERATED " + identity.getGenerated() + " AS IDENTITY");
             } // AS IDENTITY implies NOT NULL so this can be and else if
             else if (!column.isNullable()) {
                 result.append(" NOT NULL");
             }
+
+            // Outputs the default value
+            if (column.getDefaultVal() != null) {
+                result.append(" DEFAULT ");
+                result.append(column.getDefaultVal());
+            }
         }
-
-
         return result.toString();
     }
 
@@ -213,13 +218,10 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         if (this.connectionProvider != null) {
             try (Connection c = connectionProvider.getConnection()) {
                 runStatement(c, ddl);
-            }
-            catch (SQLException x) {
+            } catch (SQLException x) {
                 throw translator.translate(x);
             }
-
-        }
-        else {
+        } else {
             target.runStatement(this.translator, ddl);
         }
     }
@@ -231,7 +233,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
      * @throws SQLException
      */
     private void runStatement(Connection c, final String ddl) throws SQLException {
-
         if (logger.isLoggable(Level.FINE)) {
             System.out.println(ddl);
         }
@@ -261,11 +262,33 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
         try {
             runStatement(ddl);
-        }
-        catch (UndefinedNameException x) {
+        } catch (UndefinedNameException x) {
             logger.warning(ddl + "; TABLE not found");
         }
+    }
 
+    @Override
+    public void dropProcedure(String schemaName, String procedureName) {
+        final String nm = getQualifiedName(schemaName, procedureName);
+        final String ddl = "DROP PROCEDURE " + nm;
+
+        try {
+            runStatement(ddl);
+        } catch (UndefinedNameException x) {
+            logger.warning(ddl + "; PROCEDURE not found");
+        }
+    }
+
+    @Override
+    public void dropFunction(String schemaName, String functionName) {
+        final String nm = getQualifiedName(schemaName, functionName);
+        final String ddl = "DROP FUNCTION " + nm;
+
+        try {
+            runStatement(ddl);
+        } catch (UndefinedNameException x) {
+            logger.warning(ddl + "; PROCEDURE not found");
+        }
     }
 
     @Override
@@ -295,9 +318,8 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     }
 
     @Override
-    public void createForeignKeyConstraint(String constraintName, String schemaName, String name,
-            String targetSchema, String targetTable, String tenantColumnName,
-            List<String> columns, boolean enforced) {
+    public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema,
+        String targetTable, String targetColumnName, String tenantColumnName, List<String> columns, boolean enforced) {
 
         String tableName = DataDefinitionUtil.getQualifiedName(schemaName, name);
         String targetName = DataDefinitionUtil.getQualifiedName(targetSchema, targetTable);
@@ -318,6 +340,12 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         ddl.append(DataDefinitionUtil.join(cols));
         ddl.append(") REFERENCES ");
         ddl.append(targetName);
+        if (!Objects.isNull(targetColumnName) && !targetColumnName.isEmpty()) {
+            ddl.append(' ')
+                .append('(')
+                .append(targetColumnName)
+                .append(')');
+        }
         if (!enforced) {
             ddl.append(" NOT ENFORCED");
         }
@@ -325,9 +353,29 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         try {
             // it seems that these statements are vulnerable to deadlocks in the DB2 dictionary
             runStatement(ddl.toString());
-        }
-        catch (Exception x) {
+        } catch (Exception x) {
             logger.warning("Statement failed (" + x.getMessage() + ") " + ddl.toString());
+            throw x;
+        }
+    }
+
+    @Override
+    public void createUniqueConstraint(String constraintName, List<String> columns, String schemaName, String name) {
+        String tableName = DataDefinitionUtil.getQualifiedName(schemaName, name);
+
+        StringBuilder ddl = new StringBuilder();
+        ddl.append("ALTER TABLE ");
+        ddl.append(tableName);
+        ddl.append(" ADD CONSTRAINT ");
+        ddl.append(constraintName);
+        ddl.append(" UNIQUE (");
+        ddl.append(DataDefinitionUtil.join(columns));
+        ddl.append(")");
+
+        try {
+            runStatement(ddl.toString());
+        } catch (Exception x) {
+            logger.warning("Statement failed [" + x.getMessage() + "] [" + ddl.toString() + "]");
             throw x;
         }
     }
@@ -409,15 +457,49 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         if (this.connectionProvider != null) {
             try (Connection c = connectionProvider.getConnection()) {
                 return supplier.run(getTranslator(), c);
-            }
-            catch (SQLException x) {
+            } catch (SQLException x) {
                 throw translator.translate(x);
             }
-        }
-        else {
+        } else {
             return this.target.runStatement(getTranslator(), supplier);
         }
+    }
 
+    @Override
+    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
+        logger.info("Create or replace procedure " + objectName);
+
+        final StringBuilder ddl = new StringBuilder()
+                .append("CREATE OR REPLACE PROCEDURE ")
+                .append(objectName)
+                .append(System.lineSeparator())
+                .append(supplier.get());
+
+        final String ddlString = ddl.toString();
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(ddlString);
+        }
+
+        runStatement(ddlString);
+    }
+
+    @Override
+    public void createOrReplaceFunction(String schemaName, String functionName, Supplier<String> supplier) {
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, functionName);
+        logger.info("Create or replace procedure " + objectName);
+
+        final StringBuilder ddl = new StringBuilder()
+                .append("CREATE OR REPLACE FUNCTION ")
+                .append(objectName)
+                .append(System.lineSeparator())
+                .append(supplier.get());
+
+        final String ddlString = ddl.toString();
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(ddlString);
+        }
+        runStatement(ddlString);
     }
 
     @Override
@@ -433,7 +515,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 20000 CACHE " + cache + " NO CYCLE";
         runStatement(ddl);
-
     }
 
     @Override
@@ -480,11 +561,21 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     public void grantProcedurePrivileges(String schemaName, String procedureName, Collection<Privilege> privileges, String toUser) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
         DataDefinitionUtil.assertValidName(toUser);
+
         final String privs = privilegeString(privileges);
         final String grant = "GRANT " + privs + " ON PROCEDURE " + objectName + " TO " + toUser;
-
         logger.info("Applying: " + grant); // Grants are very useful to see logged
+        runStatement(grant);
+    }
 
+    @Override
+    public void grantFunctionPrivileges(String schemaName, String functionName, Collection<Privilege> privileges, String toUser) {
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, functionName);
+        DataDefinitionUtil.assertValidName(toUser);
+
+        final String privs = privilegeString(privileges);
+        final String grant = "GRANT " + privs + " ON FUNCTION " + objectName + " TO " + toUser;
+        logger.info("Applying: " + grant); // Grants are very useful to see logged
         runStatement(grant);
     }
 
@@ -508,15 +599,5 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
         logger.info("Applying: " + grant); // Grants are very useful to see logged
         runStatement(grant);
-    }
-
-    @Override
-    public void createSchema(String schemaName) {
-        try {
-            String ddl = "CREATE SCHEMA " + schemaName;
-            runStatement(ddl);
-        } catch (DuplicateNameException e) {
-            logger.log(Level.WARNING, "The schema '" + schemaName + "' already exists; proceed with caution.");
-        }
     }
 }

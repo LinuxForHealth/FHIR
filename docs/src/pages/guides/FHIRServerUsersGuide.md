@@ -3,12 +3,11 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2020
-lastupdated: "2020-11-13"
+lastupdated: "2020-05-13"
 permalink: /FHIRServerUsersGuide/
 ---
 
 - [1 Overview](#1-overview)
-  * [1.1 Recent updates](#11-recent-updates)
 - [2 Installation](#2-installation)
   * [2.1 Installing a new server](#21-installing-a-new-server)
   * [2.2 Upgrading an existing server](#22-upgrading-an-existing-server)
@@ -39,12 +38,6 @@ permalink: /FHIRServerUsersGuide/
 # 1 Overview
 The IBM FHIR Server implements the HL7 FHIR HTTP API and supports the full set of FHIR-defined resource types.
 This FHIR server is intended to be a common component for providing FHIR capabilities within health services and solutions.
-
-## 1.1 Recent updates
-View information about recent changes that were made to this document. For more information about changes that were made to the FHIR server codebase, see the corresponding release notes from the GitHub Releases tab.
-
-### Release 4.0
-* Initial release of the IBM FHIR Server for HL7 FHIR R4
 
 # 2 Installation
 
@@ -631,7 +624,7 @@ To implement a persistence interceptor, complete the following steps:
 
     `com.ibm.mysolution.MyInterceptor`
 
-3.  Copy your jar to the `<WLP_HOME>/usr/servers/fhir-server/config` directory so that it is accessible to the FHIR server via the classpath (the `server.xml` file contains a library element that defines this directory as a shared library).
+3.  Copy your jar to the `<WLP_HOME>/usr/servers/fhir-server/userlib` directory so that it is accessible to the FHIR server via the classpath (the `server.xml` file contains a library element that defines this directory as a shared library).
 
 4.  Re-start the FHIR server.
 
@@ -712,13 +705,13 @@ To use the FHIR Client from your application, specify the `fhir-client` artifact
 For examples on how to use the IBM FHIR Client, look for tests like `com.ibm.fhir.client.test.mains.FHIRClientSample` from the `fhir-client` project in git. Additionally, the FHIR Client is heavilly used from our integration tests in `fhir-server-test`.
 
 ## 4.7 FHIR command-line interface (fhir-cli)
-The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool zip is part of the FHIR server installation in `${WLP_HOME}/fhir/client/fhir-cli.zip`, and the `fhir-cli.zip` file is also available from [our Artifactory server](
-https://na.artifactory.swg-devops.com/artifactory/webapp/#/artifacts/browse/simple/General/wh-fhir-server-releases-maven-local/com/ibm/fhir/fhir-cli/).
+The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool zip is part of the FHIR server installation in `${WLP_HOME}/fhir/client/fhir-cli.zip`, and the `fhir-cli.zip` file is also available from [Bintray server](
+https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-releases/com/ibm/fhir/fhir-cli/).
 
 ### 4.7.1 Installing fhir-cli
 Because the fhir-cli tool is intended to be used by clients that need to access the FHIR server, it has its own installation process separate from the server. To install the fhir-cli tool, complete the following steps:
 
-1.  Obtain the `fhir-cli.zip` file from the FHIR server installation zip or Artifactory.
+1.  Obtain the `fhir-cli.zip` file from the FHIR server installation zip or Bintray.
 2.  Decompress the `fhir-cli.zip` file into a directory of your choosing, for example:
 
     ```
@@ -1443,6 +1436,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/checkReferenceTypes`|boolean|Indicates whether reference type checking is performed by the server during parsing / deserialization.|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|boolean|Indicates whether the server registry resource provider should be used by the FHIR registry component to access definitional resources through the persistence layer.|
 |`fhirServer/core/conditionalDeleteMaxNumber`|integer|The max number of matches supported in conditional delete. |
+|`fhirServer/core/capabilityStatementCacheTimeout`|integer|The number of minutes that a tenant's CapabilityStatement is cached for the metadata endpoint. |
 |`fhirServer/searchParameterFilter`|property list|A set of inclusion rules for search parameters. See [FHIR Search Configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-Configuration--Filtering-of-search-parameters) for more information.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
@@ -1492,6 +1486,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/validBaseUrls`|string|The list of supported urls which are approved for the fhir server to access|
 |`fhirServer/bulkdata/validBaseUrlsDisabled`|boolean|Disables the URL checking feature|
 |`fhirServer/bulkdata/maxInputPerRequest`|integer|The maximum inputs per bulk import|
+|`fhirServer/bulkdata/cosFileMaxResources`|int|The maximum number of FHIR resources per COS file, "-1" means no limit, the default value is 500000 |
+|`fhirServer/bulkdata/cosFileMaxSize`|int|The maximum COS file size in bytes, "-1" means no limit, the default value is 209715200 (200M) |
 
 
 ### 5.1.2 Default property values
@@ -1506,6 +1502,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/checkReferenceTypes`|true|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|false|
 |`fhirServer/core/conditionalDeleteMaxNumber`|10|
+|`fhirServer/core/capabilityStatementCacheTimeout`|60|
 |`fhirServer/searchParameterFilter`|`"*": [*]`|
 |`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
 |`fhirServer/notifications/websocket/enabled`|false|
@@ -1537,6 +1534,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/geoCounty`|US|
 |`fhirServer/bulkdata/isExportPublic`|true|
 |`fhirServer/bulkdata/validBaseUrlsDisabled`|false|
+|`fhirServer/bulkdata/cosFileMaxResources`|500000|
+|`fhirServer/bulkdata/cosFileMaxSize`|209715200|
 
 
 ### 5.1.3 Property attributes
@@ -1560,6 +1559,7 @@ must restart the server for that change to take effect.
 |`fhirServer/core/checkReferenceTypes`|N|N|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|N|N|
 |`fhirServer/core/conditionalDeleteMaxNumber`|Y|Y|
+|`fhirServer/core/capabilityStatementCacheTimeout`|Y|Y|
 |`fhirServer/searchParameterFilter`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
 |`fhirServer/notifications/websocket/enabled`|N|N|
@@ -1596,10 +1596,12 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/jobParameters/cos.api.key`|Y|Y|
 |`fhirServer/bulkdata/jobParameters/cos.srvinst.id`|Y|Y|
 |`fhirServer/bulkdata/bulkDataBatchJobIdEncryptionKey`|Y|Y|
-|`fhirServer/bulkdata/isExportPublic`|N|Y|
+|`fhirServer/bulkdata/isExportPublic`|Y|Y|
 |`fhirServer/bulkdata/validBaseUrls`|Y|Y|
 |`fhirServer/bulkdata/maxInputPerRequest`|Y|Y|
 |`fhirServer/bulkdata/validBaseUrlsDisabled`|Y|Y|
+|`fhirServer/bulkdata/cosFileMaxResources`|Y|Y|
+|`fhirServer/bulkdata/cosFileMaxSize`|Y|Y|
 
 ## 5.2 Keystores, truststores, and the FHIR server
 

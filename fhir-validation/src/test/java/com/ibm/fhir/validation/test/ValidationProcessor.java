@@ -21,15 +21,10 @@ import com.ibm.fhir.validation.FHIRValidator;
 
 /**
  * Strategy to process resources using the {@link FHIRValidator}
-
- *
  */
 public class ValidationProcessor implements IExampleProcessor {
     private static final Logger logger = Logger.getLogger(ValidationProcessor.class.getName());
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.model.spec.test.IExampleProcessor#process(java.lang.String, com.ibm.fhir.model.resource.Resource)
-     */
+
     @Override
     public void process(String jsonFile, Resource resource) throws Exception {
         List<OperationOutcome.Issue> issues = FHIRValidator.validator().validate(resource);
@@ -45,7 +40,7 @@ public class ValidationProcessor implements IExampleProcessor {
                     .collect(Collectors.joining(","));
                 issueStrings.add(details + " (" + locations + ")");
             }
-            
+
             // Only errors or worse should result in a failure.
             boolean includesFailure = false;
             for (OperationOutcome.Issue issue: issues) {

@@ -75,6 +75,7 @@
             <fileMode>0755</fileMode>
             <includes>
                 <include>${project.groupId}:fhir-ig-*</include>
+                <include>${project.groupId}:fhir-term</include>
             </includes>
         </dependencySet>
         <dependencySet>

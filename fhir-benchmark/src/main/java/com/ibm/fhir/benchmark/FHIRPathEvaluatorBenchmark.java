@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -41,7 +41,7 @@ public class FHIRPathEvaluatorBenchmark {
         public static final String SPEC_EXAMPLE_NAME = System.getProperty(PROPERTY_EXAMPLE_NAME);
         public static final String JSON_SPEC_EXAMPLE = BenchmarkUtil.getSpecExample(Format.JSON, SPEC_EXAMPLE_NAME);
         public static final String EXPRESSION = System.getProperty(PROPERTY_EXPRESSION);
-        
+
         public FhirContext context;
         public IFluentPath fluentPath;
         public FHIRPathEvaluator evaluator;
@@ -49,7 +49,7 @@ public class FHIRPathEvaluatorBenchmark {
         public Collection<FHIRPathNode> initialContext;
         public Resource resource;
         public IBaseResource baseResource;
-                
+
         @Setup
         public void setUp() throws Exception {
             context = FhirContext.forR4();
@@ -61,25 +61,25 @@ public class FHIRPathEvaluatorBenchmark {
             baseResource = context.newJsonParser().parseResource(new StringReader(JSON_SPEC_EXAMPLE));
         }
     }
-    
+
     @Benchmark
     public void benchmarkEvaluator(FHIRPathEvaluatorState state) throws Exception {
         state.evaluator.evaluate(state.evaluationContext, FHIRPathEvaluatorState.EXPRESSION, state.initialContext);
     }
-    
+
     @Benchmark
     public void benchmarkHAPIEvaluator(FHIRPathEvaluatorState state) throws Exception {
         state.fluentPath.evaluate(state.baseResource, FHIRPathEvaluatorState.EXPRESSION, IBase.class);
     }
-    
+
     public static void testRun(String exampleName, String expression) throws Exception {
         String specExample = BenchmarkUtil.getSpecExample(Format.JSON, exampleName);
-        
+
         FhirContext context = FhirContext.forR4();
         IBaseResource baseResource = context.newJsonParser().parseResource(new StringReader(specExample));
         IFluentPath fluentPath = context.newFluentPath();
         System.out.println(fluentPath.evaluate(baseResource, expression, IBase.class));
-    
+
         Resource resource = FHIRParser.parser(Format.JSON).parse(new StringReader(specExample));
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         EvaluationContext evaluationContext = new EvaluationContext(resource);
@@ -91,6 +91,6 @@ public class FHIRPathEvaluatorBenchmark {
         new FHIRBenchmarkRunner(FHIRPathEvaluatorBenchmark.class)
                 .property(PROPERTY_EXAMPLE_NAME, EXAMPLE_NAME)
                 .property(PROPERTY_EXPRESSION, EXPRESSION)
-                .run(BenchmarkUtil.getRandomSpecExampleName());
+                .run();
     }
 }

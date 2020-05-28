@@ -8,22 +8,19 @@ package com.ibm.fhir.bulkexport.system;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.Date;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemWriter;
 import javax.batch.runtime.context.JobContext;
+import javax.batch.runtime.context.StepContext;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
-import com.ibm.cloud.objectstorage.services.s3.model.CannedAccessControlList;
 import com.ibm.cloud.objectstorage.services.s3.model.CreateBucketRequest;
-import com.ibm.cloud.objectstorage.services.s3.model.ObjectMetadata;
-import com.ibm.cloud.objectstorage.services.s3.model.PutObjectRequest;
 import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.bulkexport.common.TransientUserData;
@@ -34,73 +31,70 @@ import com.ibm.fhir.config.FHIRConfiguration;
  * Bulk export Chunk implementation - the Writer.
  *
  */
+@Dependent
 public class ChunkWriter extends AbstractItemWriter {
     private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
     private AmazonS3 cosClient = null;
-    private final boolean isExportPublic = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC, true);
+    private boolean isExportPublic = true;
 
     /**
      * The IBM COS API key or S3 access key.
      */
     @Inject
-    @BatchProperty(name = "cos.api.key")
+    @BatchProperty(name = Constants.COS_API_KEY)
     String cosApiKeyProperty;
 
     /**
      * The IBM COS service instance id or s3 secret key.
      */
     @Inject
-    @BatchProperty(name = "cos.srvinst.id")
+    @BatchProperty(name = Constants.COS_SRVINST_ID)
     String cosSrvinstId;
 
     /**
      * The Cos End point URL.
      */
     @Inject
-    @BatchProperty(name = "cos.endpointurl")
+    @BatchProperty(name = Constants.COS_ENDPOINT_URL)
     String cosEndpointUrl;
 
     /**
      * The Cos End point location.
      */
     @Inject
-    @BatchProperty(name = "cos.location")
+    @BatchProperty(name = Constants.COS_LOCATION)
     String cosLocation;
 
     /**
      * The Cos bucket name.
      */
     @Inject
-    @BatchProperty(name = "cos.bucket.name")
+    @BatchProperty(name = Constants.COS_BUCKET_NAME)
     String cosBucketName;
 
     /**
      * The Cos bucket path prefix.
      */
     @Inject
-    @BatchProperty(name = "cos.bucket.pathprefix")
+    @BatchProperty(name = Constants.EXPORT_COS_OBJECT_PATHPREFIX)
     String cosBucketPathPrefix;
 
     /**
      * If use IBM credential or Amazon secret keys.
      */
     @Inject
-    @BatchProperty(name = "cos.credential.ibm")
+    @BatchProperty(name = Constants.COS_IS_IBM_CREDENTIAL)
     String cosCredentialIbm;
 
     /**
-     * The Cos object name(only used by system export for exporting single resource type)
+     * Fhir resource type to process.
      */
     @Inject
-    @BatchProperty(name = "cos.bucket.objectname")
-    String cosBucketObjectName;
-
-    /**
-     * Fhir ResourceType.
-     */
-    @Inject
-    @BatchProperty(name = "fhir.resourcetype")
+    @BatchProperty(name = Constants.PARTITION_RESOURCE_TYPE)
     String fhirResourceType;
+
+    @Inject
+    StepContext stepCtx;
 
     @Inject
     JobContext jobContext;
@@ -112,96 +106,63 @@ public class ChunkWriter extends AbstractItemWriter {
         super();
     }
 
-
-    protected List<String> getResourceTypes() throws Exception {
-        return Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
-    }
-
     private void pushFhirJsonsToCos(InputStream in, int dataLength) throws Exception {
         if (cosClient == null) {
             logger.warning("pushFhirJsons2Cos: no cosClient!");
             throw new Exception("pushFhirJsons2Cos: no cosClient!");
         }
 
-        List<String> ResourceTypes = getResourceTypes();
-
-        TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
+        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
         if (chunkData == null) {
             logger.warning("pushFhirJsons2Cos: chunkData is null, this should never happen!");
             throw new Exception("pushFhirJsons2Cos: chunkData is null, this should never happen!");
         }
-        if (chunkData.isSingleCosObject()) {
-            if (chunkData.getUploadId() == null) {
-                chunkData.setUploadId(BulkDataUtils.startPartUpload(cosClient, cosBucketName, cosBucketObjectName, false));
-            }
 
-            chunkData.getCosDataPacks().add(BulkDataUtils.multiPartUpload(cosClient, cosBucketName, cosBucketObjectName,
-                    chunkData.getUploadId(), in, dataLength, chunkData.getPartNum()));
-            logger.info("pushFhirJsons2Cos: " + dataLength + " bytes were successfully appended to COS object - "
-                    + cosBucketObjectName);
-            chunkData.setPartNum(chunkData.getPartNum() + 1);
-            chunkData.getBufferStream().reset();
-
-            if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
-                BulkDataUtils.finishMultiPartUpload(cosClient, cosBucketName, cosBucketObjectName, chunkData.getUploadId(),
-                        chunkData.getCosDataPacks());
-                jobContext.setExitStatus(cosBucketObjectName + "; " + ResourceTypes.get(chunkData.getIndexOfCurrentResourceType())
-                    + "[" + chunkData.getCurrentPartResourceNum() + "]");
-            }
+        String itemName;
+        if (cosBucketPathPrefix != null && cosBucketPathPrefix.trim().length() > 0) {
+          itemName = cosBucketPathPrefix + "/" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
 
         } else {
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentLength(dataLength);
+          itemName = "job" + jobContext.getExecutionId() + "/" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
+        }
 
-            String itemName;
-            PutObjectRequest req;
-            if (cosBucketPathPrefix != null && cosBucketPathPrefix.trim().length() > 0) {
-                itemName = cosBucketPathPrefix + "/" + ResourceTypes.get(chunkData.getIndexOfCurrentResourceType())
-                            + "_" + chunkData.getPartNum() + ".ndjson";
-                if (isExportPublic) {
-                    // Set expiration time to 2 hours(7200 seconds).
-                    // Note: IBM COS doesn't honor this but also doesn't fail on this.
-                    metadata.setExpirationTime(Date.from(Instant.now().plusSeconds(7200)));
-                }
+        if (chunkData.getUploadId() == null) {
+            chunkData.setUploadId(BulkDataUtils.startPartUpload(cosClient, cosBucketName, itemName, isExportPublic));
+        }
 
-                req = new PutObjectRequest(cosBucketName, itemName, in, metadata);
+        chunkData.getCosDataPacks().add(BulkDataUtils.multiPartUpload(cosClient, cosBucketName, itemName,
+                chunkData.getUploadId(), in, dataLength, chunkData.getPartNum()));
+        logger.info("pushFhirJsons2Cos: " + dataLength + " bytes were successfully appended to COS object - "
+                + itemName);
+        chunkData.setPartNum(chunkData.getPartNum() + 1);
+        chunkData.getBufferStream().reset();
 
-                if (isExportPublic) {
-                    // Give public read only access.
-                    req.setCannedAcl(CannedAccessControlList.PublicRead);
-                }
-
-            } else {
-                itemName = "job" + jobContext.getExecutionId() + "/" + ResourceTypes.get(chunkData.getIndexOfCurrentResourceType())
-                            + "_" + chunkData.getPartNum() + ".ndjson";
-                req = new PutObjectRequest(cosBucketName, itemName, in, metadata);
-            }
-
-            cosClient.putObject(req);
-            logger.info(
-                    "pushFhirJsons2Cos: " + itemName + "(" + dataLength + " bytes) was successfully written to COS");
-            // Job exit status, e.g, Patient[1000,1000,200]:Observation[1000,1000,200]
-            if (jobContext.getExitStatus() == null) {
-                jobContext.setExitStatus(ResourceTypes.get(chunkData.getIndexOfCurrentResourceType())
-                        + "[" + chunkData.getCurrentPartResourceNum());
+        if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.isFinishCurrentUpload()) {
+            BulkDataUtils.finishMultiPartUpload(cosClient, cosBucketName, itemName, chunkData.getUploadId(),
+                    chunkData.getCosDataPacks());
+            // Partition status for the exported resources, e.g, Patient[1000,1000,200]
+            if (chunkData.getResourceTypeSummary() == null) {
+                chunkData.setResourceTypeSummary(fhirResourceType + "[" + chunkData.getCurrentUploadResourceNum());
                 if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
-                    jobContext.setExitStatus(jobContext.getExitStatus() + "]");
+                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
                 }
             } else {
-                if (chunkData.getPartNum() == 1) {
-                    jobContext.setExitStatus(jobContext.getExitStatus() + ":"
-                            + ResourceTypes.get(chunkData.getIndexOfCurrentResourceType()) + "["
-                            + chunkData.getCurrentPartResourceNum());
-                } else {
-                    jobContext.setExitStatus(jobContext.getExitStatus() + "," + chunkData.getCurrentPartResourceNum());
-                }
+                chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentUploadResourceNum());
                 if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
-                    jobContext.setExitStatus(jobContext.getExitStatus() + "]");
+                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
+                    stepCtx.setTransientUserData(chunkData);
                 }
             }
-            chunkData.setPartNum(chunkData.getPartNum() + 1);
-            chunkData.getBufferStream().reset();
-            chunkData.setCurrentPartResourceNum(0);
+
+            if (chunkData.getPageNum() <= chunkData.getLastPageNum()) {
+                chunkData.setPartNum(1);
+                chunkData.setUploadId(null);
+                chunkData.setCurrentUploadResourceNum(0);
+                chunkData.setCurrentUploadSize(0);
+                chunkData.setFinishCurrentUpload(false);
+                chunkData.getCosDataPacks().clear();
+                chunkData.setUploadCount(chunkData.getUploadCount() + 1);
+            }
         }
     }
 
@@ -229,7 +190,7 @@ public class ChunkWriter extends AbstractItemWriter {
             cosClient.createBucket(req);
         }
 
-        TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
+        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
         if (chunkData == null) {
             logger.warning("writeItems: chunkData is null, this should never happen!");
             throw new Exception("writeItems: chunkData is null, this should never happen!");
@@ -239,5 +200,11 @@ public class ChunkWriter extends AbstractItemWriter {
                         chunkData.getBufferStream().size());
             }
         }
+    }
+
+    @Override
+    public void open(Serializable checkpoint) throws Exception  {
+        isExportPublic = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC, true);
+
     }
 }

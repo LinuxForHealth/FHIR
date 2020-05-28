@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd" id="bulkpatientexportchunkjob" restartable="true" version="1.0">
-    <properties>
-        <property name="cos.pagesperobject" value="#{jobParameters['cos.pagesperobject']}?:10;" />
-    </properties>
+    <listeners>
+        <listener ref="com.ibm.fhir.bulkexport.system.ExportJobListener"/>
+    </listeners>
     <step id="step1">
-        <chunk checkpoint-policy="custom" item-count="#{jobProperties['cos.pagesperobject']}">
+        <chunk checkpoint-policy="custom">
             <reader ref="com.ibm.fhir.bulkexport.patient.ChunkReader">
                 <properties >
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                     <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>                   
-                    <property name="fhir.resourcetype" value="#{jobParameters['fhir.resourcetype']}"/>
+                    <property name="partition.resourcetype" value="#{partitionPlan['partition.resourcetype']}"/>
                     <property name="fhir.search.fromdate" value="#{jobParameters['fhir.search.fromdate']}"/>
                     <property name="fhir.search.todate" value="#{jobParameters['fhir.search.todate']}"/>
                     <property name="fhir.search.pagesize" value="#{jobParameters['fhir.search.pagesize']}"/>
                     <property name="fhir.typeFilters" value="#{jobParameters['fhir.typeFilters']}"/>
                 </properties>
             </reader>
-            <writer ref="com.ibm.fhir.bulkexport.patient.ChunkWriter">
+            <writer ref="com.ibm.fhir.bulkexport.system.ChunkWriter">
                 <properties>
                     <property name="cos.api.key" value="#{jobParameters['cos.api.key']}"/>
                     <property name="cos.srvinst.id" value="#{jobParameters['cos.srvinst.id']}"/>
@@ -25,15 +25,24 @@
                     <property name="cos.credential.ibm" value="#{jobParameters['cos.credential.ibm']}"/>
                     <property name="cos.bucket.name" value="#{jobParameters['cos.bucket.name']}"/>
                     <property name="cos.bucket.pathprefix" value="#{jobParameters['cos.bucket.pathprefix']}"/>
-                    <property name="fhir.resourcetype" value="#{jobParameters['fhir.resourcetype']}"/>
+                    <property name="partition.resourcetype" value="#{partitionPlan['partition.resourcetype']}"/>
                 </properties>
             </writer>
             <checkpoint-algorithm ref="com.ibm.fhir.bulkexport.common.CheckPointAlgorithm">
                 <properties>
-                    <property name="cos.pagesperobject" value="#{jobParameters['cos.pagesperobject']}"/>
-                    <property name="cos.bucket.maxfilesize" value="#{jobParameters['cos.bucket.maxfilesize']}"/>
+                    <property name="cos.bucket.filemaxsize" value="#{jobParameters['cos.bucket.filemaxsize']}"/>
+                    <property name="cos.bucket.filemaxresources" value="#{jobParameters['cos.bucket.filemaxresources']}"/>
                 </properties>
             </checkpoint-algorithm>
         </chunk>
+        <partition>
+            <mapper ref="com.ibm.fhir.bulkexport.patient.PatientExportPartitionMapper">
+                <properties>
+                    <property name="fhir.resourcetype" value="#{jobParameters['fhir.resourcetype']}"/>
+                </properties>
+            </mapper>
+            <collector ref="com.ibm.fhir.bulkexport.system.ExportPartitionCollector"/>
+            <analyzer ref="com.ibm.fhir.bulkexport.system.ExportPartitionAnalyzer"/>
+        </partition>
     </step>
 </job>

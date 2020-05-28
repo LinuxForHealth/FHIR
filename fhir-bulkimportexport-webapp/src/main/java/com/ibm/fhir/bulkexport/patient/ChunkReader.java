@@ -21,7 +21,8 @@ import java.util.stream.Collectors;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemReader;
-import javax.batch.runtime.context.JobContext;
+import javax.batch.runtime.context.StepContext;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
@@ -41,7 +42,6 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -49,15 +49,15 @@ import com.ibm.fhir.search.util.SearchUtil;
  * Bulk patient export Chunk implementation - the Reader.
  *
  */
+@Dependent
 public class ChunkReader extends AbstractItemReader {
     private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
     protected int pageNum = 1;
-    protected int indexOfCurrentResourceType = 0;
     // Control the number of records to read in each "item".
     protected int pageSize = Constants.DEFAULT_SEARCH_PAGE_SIZE;
 
     protected FHIRPersistence fhirPersistence;
-    protected List<String> resourceTypes;
+    Class<? extends Resource> resourceType;
 
     // Search parameters for resource types gotten from fhir.typeFilters job parameter.
     Map<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes = null;
@@ -71,7 +71,7 @@ public class ChunkReader extends AbstractItemReader {
      * Fhir tenant id.
      */
     @Inject
-    @BatchProperty(name = "fhir.tenant")
+    @BatchProperty(name = Constants.FHIR_TENANT)
     protected
     String fhirTenant;
 
@@ -79,62 +79,58 @@ public class ChunkReader extends AbstractItemReader {
      * Fhir data store id.
      */
     @Inject
-    @BatchProperty(name = "fhir.datastoreid")
+    @BatchProperty(name = Constants.FHIR_DATASTORE_ID)
     protected
     String fhirDatastoreId;
 
     /**
-     * Fhir ResourceType.
+     * Fhir resource type to process.
      */
     @Inject
-    @BatchProperty(name = "fhir.resourcetype")
-    protected String fhirResourceType;
+    @BatchProperty(name = Constants.PARTITION_RESOURCE_TYPE)
+    String fhirResourceType;
 
     /**
      * Fhir Search from date.
      */
     @Inject
-    @BatchProperty(name = "fhir.search.fromdate")
+    @BatchProperty(name = Constants.EXPORT_FHIR_SEARCH_FROMDATE)
     String fhirSearchFromDate;
 
     /**
      * Fhir search to date.
      */
     @Inject
-    @BatchProperty(name = "fhir.search.todate")
+    @BatchProperty(name = Constants.EXPORT_FHIR_SEARCH_TODATE)
     String fhirSearchToDate;
 
     /**
      * Fhir search page size.
      */
     @Inject
-    @BatchProperty(name = "fhir.search.pagesize")
+    @BatchProperty(name = Constants.EXPORT_FHIR_SEARCH_PAGESIZE)
     String fhirSearchPageSize;
 
     /**
      * Fhir export type filters.
      */
     @Inject
-    @BatchProperty(name = "fhir.typeFilters")
+    @BatchProperty(name = Constants.EXPORT_FHIR_SEARCH_TYPEFILTERS)
     String fhirTypeFilters;
 
     @Inject
-    JobContext jobContext;
+    StepContext stepCtx;
 
-    /**
-     * @see AbstractItemReader#AbstractItemReader()
-     */
     public ChunkReader() {
         super();
     }
 
     protected void fillChunkDataBuffer(List<String> patientIds) throws Exception {
-        TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
+        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
         int indexOfCurrentTypeFilter = 0;
         int compartmentPageNum = 1;
         int resSubTotal = 0;
         FHIRSearchContext searchContext;
-        Class<? extends Resource> resourceType = ModelSupport.getResourceType(resourceTypes.get(indexOfCurrentResourceType));
 
         if (chunkData != null) {
             do {
@@ -163,8 +159,7 @@ public class ChunkReader extends AbstractItemReader {
 
                 for (String patientId : patientIds) {
 
-                    searchContext = SearchUtil.parseQueryParameters("Patient", patientId,
-                            ModelSupport.getResourceType(resourceTypes.get(indexOfCurrentResourceType)), queryParameters, true);
+                    searchContext = SearchUtil.parseQueryParameters("Patient", patientId, resourceType, queryParameters, true);
                     do {
                         searchContext.setPageSize(pageSize);
                         searchContext.setPageNumber(compartmentPageNum);
@@ -206,7 +201,8 @@ public class ChunkReader extends AbstractItemReader {
                 indexOfCurrentTypeFilter++;
             } while (searchParametersForResoureTypes.get(resourceType) != null && indexOfCurrentTypeFilter < searchParametersForResoureTypes.get(resourceType).size());
 
-            chunkData.setCurrentPartResourceNum(chunkData.getCurrentPartResourceNum() + resSubTotal);
+            chunkData.setCurrentUploadResourceNum(chunkData.getCurrentUploadResourceNum() + resSubTotal);
+            chunkData.setTotalResourcesNum(chunkData.getTotalResourcesNum() + resSubTotal);
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
                         + chunkData.getBufferStream().size());
@@ -221,19 +217,11 @@ public class ChunkReader extends AbstractItemReader {
 
     @Override
     public Object readItem() throws Exception {
-        TransientUserData chunkData = (TransientUserData) jobContext.getTransientUserData();
+        TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
         if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
-            if (resourceTypes.size() == indexOfCurrentResourceType + 1) {
-                // No more resource type and page to read, so return null to end the reading.
+                // No more page to read, so return null to end the reading.
+                chunkData.setMoreToExport(false);
                 return null;
-            } else {
-                // More resource types to read, so reset pageNum, partNum and move resource type index to the next.
-                pageNum = 1;
-                chunkData.setPartNum(1);
-                indexOfCurrentResourceType++;
-                isDoDuplicationCheck = false;
-                loadedResourceIds.clear();
-            }
         }
 
         FHIRSearchContext searchContext;
@@ -266,17 +254,18 @@ public class ChunkReader extends AbstractItemReader {
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, 0);
+            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0, 0, 1);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
-            jobContext.setTransientUserData(chunkData);
+            stepCtx.setTransientUserData(chunkData);
         } else {
             chunkData.setPageNum(pageNum);
-            chunkData.setIndexOfCurrentResourceType(indexOfCurrentResourceType);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
         }
 
         if (resources != null) {
-            logger.fine("readItem(" + resourceTypes.get(indexOfCurrentResourceType) + "): loaded patients number - " + resources.size());
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("readItem(" + fhirResourceType + "): loaded patients number - " + resources.size());
+            }
 
             List<String> patientIds = resources.stream().filter(item -> item.getId() != null).map(item -> item.getId()).collect(Collectors.toList());
             if (patientIds != null && patientIds.size() > 0) {
@@ -294,8 +283,7 @@ public class ChunkReader extends AbstractItemReader {
         if (checkpoint != null) {
             CheckPointUserData checkPointData = (CheckPointUserData) checkpoint;
             pageNum = checkPointData.getPageNum();
-            indexOfCurrentResourceType = checkPointData.getIndexOfCurrentResourceType();
-            jobContext.setTransientUserData(TransientUserData.fromCheckPointUserData(checkPointData));
+            stepCtx.setTransientUserData(TransientUserData.fromCheckPointUserData(checkPointData));
         }
 
         if (fhirTenant == null) {
@@ -309,7 +297,9 @@ public class ChunkReader extends AbstractItemReader {
         if (fhirSearchPageSize != null) {
             try {
                 pageSize = Integer.parseInt(fhirSearchPageSize);
-                logger.fine("open: Set page size to " + pageSize + ".");
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("open: Set page size to " + pageSize + ".");
+                }
             } catch (Exception e) {
                 logger.warning("open: Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
             }
@@ -319,26 +309,17 @@ public class ChunkReader extends AbstractItemReader {
         fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
         searchParametersForResoureTypes = BulkDataUtils.getSearchParemetersFromTypeFilters(fhirTypeFilters);
 
-        List <String> allCompartmentResourceTypes = CompartmentUtil.getCompartmentResourceTypes("Patient");
-        if (fhirResourceType == null ) {
-            resourceTypes = allCompartmentResourceTypes;
-        } else {
-            List<String> tmpResourceTypes = Arrays.asList(fhirResourceType.split("\\s*,\\s*"));
-            resourceTypes = tmpResourceTypes.stream().filter(item-> allCompartmentResourceTypes.contains(item)).collect(Collectors.toList());
-            if (resourceTypes == null || resourceTypes.isEmpty()) {
-                throw new Exception("open: None of the input resource types is valid!");
-            }
-        }
+        resourceType = ModelSupport.getResourceType(fhirResourceType);
     }
 
     @Override
     public void close() throws Exception {
-
+        // do nothing
     }
 
     @Override
     public Serializable checkpointInfo() throws Exception {
-        return CheckPointUserData.fromTransientUserData((TransientUserData) jobContext.getTransientUserData());
+        return CheckPointUserData.fromTransientUserData((TransientUserData) stepCtx.getTransientUserData());
     }
 
 }

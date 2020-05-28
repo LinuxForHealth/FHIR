@@ -87,7 +87,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                         if (matcher.matches()) {
                             resourceType = matcher.group(RESOURCE_TYPE);
                             if (referenceType != null && !resourceType.equals(referenceType)) {
-                                throw new IllegalArgumentException("resource type found in reference URL does not match reference type");
+                                throw new IllegalArgumentException("Resource type found in reference URL does not match reference type");
                             }
                         }
                     }
@@ -99,11 +99,11 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
 
                 FHIRPathType type = isResourceType(resourceType) ? FHIRPathType.from(resourceType) : FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE;
 
-                result.add(FHIRPathResourceNode.resourceNode(type));
-
-                if (FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE.equals(type)) {
+                if (referenceReference != null && FHIRPathType.FHIR_UNKNOWN_RESOURCE_TYPE.equals(type)) {
                     generateIssue(evaluationContext, IssueSeverity.INFORMATION, IssueType.INFORMATIONAL, "Resource type could not be inferred from reference: " + referenceReference, node);
                 }
+
+                result.add(FHIRPathResourceNode.resourceNode(type));
             }
         }
         return result;

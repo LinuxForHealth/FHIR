@@ -59,12 +59,16 @@ public class DerbyMaster implements AutoCloseable {
         // However, any driver prior to JDBC 4.0 has to be loaded with the method Class.forName.
         try {
             Class.forName(DERBY_TRANSLATOR.getDriverClassName());
-        }
-        catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             throw new IllegalStateException(e);
         }
 
-        DerbyServerPropertiesMgr.setServerProperties(DEBUG);
+        // Derby Server Properties are now set using the System Stored procedures.
+        try {
+            DerbyServerPropertiesMgr.setServerProperties(DEBUG, getConnection());
+        } catch (SQLException e) {
+            logger.warning("Derby Server Properties not set");
+        }
     }
 
     /**
@@ -136,7 +140,6 @@ public class DerbyMaster implements AutoCloseable {
         if (connection == null) {
             try {
                 // Make sure the Derby driver is loaded
-
                 Properties properties = new Properties();
                 DerbyPropertyAdapter adapter = new DerbyPropertyAdapter(properties);
                 adapter.setDatabase(database);

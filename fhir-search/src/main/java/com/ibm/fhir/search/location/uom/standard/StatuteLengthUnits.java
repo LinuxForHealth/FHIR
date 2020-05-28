@@ -16,6 +16,15 @@ import com.ibm.fhir.search.exception.SearchExceptionUtil;
 public enum StatuteLengthUnits {
     FOOT("ft_us", 1.0),
     FOOT_CI("FT_US", 1.0),
+    // Support for common variants that are not in UCUM
+    FOOT_VARIANT_FT("ft", 1.0),
+    FOOT_VARIANT_FTS("fts", 1.0),
+    FOOT_VARIANT_FOOT("foot", 1.0),
+    FOOT_VARIANT_FEET("feet", 1.0),
+    FOOT_VARIANT_FT_CI("FT", 1.0),
+    FOOT_VARIANT_FTS_CI("FTS", 1.0),
+    FOOT_VARIANT_FOOT_CI("FOOT", 1.0),
+    FOOT_VARIANT_FEET_CI("FEET", 1.0),
 
     YARD("yd_us", 3.0),
     YARD_CI("YD_US", 3.0),
@@ -46,7 +55,16 @@ public enum StatuteLengthUnits {
 
     MILE("mi_us", 8 * 40 * 16.5),
     MILE_CI("MI_US", 8 * 40 * 16.5),
-    
+    // Support for common variants that are not in UCUM
+    MILE_VARIANT_MI("mi", 8 * 40 * 16.5),
+    MILE_VARIANT_MIS("mis", 8 * 40 * 16.5),
+    MILE_VARIANT_MILE("mile", 8 * 40 * 16.5),
+    MILE_VARIANT_MILES("miles", 8 * 40 * 16.5),
+    MILE_VARIANT_MI_CI("MI", 8 * 40 * 16.5),
+    MILE_VARIANT_MIS_CI("MIS", 8 * 40 * 16.5),
+    MILE_VARIANT_MILE_CI("MILE", 8 * 40 * 16.5),
+    MILE_VARIANT_MILES_CI("MILES", 8 * 40 * 16.5),
+
     MIL("mil_us", 1E-3 * 1.0 / 12.0), 
     MIL_CI("MIL_US", 1E-3 * 1.0 / 12.0);
 
