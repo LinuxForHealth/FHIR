@@ -72,24 +72,21 @@ public class ChunkReader extends AbstractItemReader {
      */
     @Inject
     @BatchProperty(name = Constants.FHIR_TENANT)
-    protected
-    String fhirTenant;
+    protected String fhirTenant;
 
     /**
      * Fhir data store id.
      */
     @Inject
     @BatchProperty(name = Constants.FHIR_DATASTORE_ID)
-    protected
-    String fhirDatastoreId;
+    protected String fhirDatastoreId;
 
     /**
      * Fhir resource type to process.
      */
     @Inject
     @BatchProperty(name = Constants.PARTITION_RESOURCE_TYPE)
-    protected
-    String fhirResourceType;
+    protected String fhirResourceType;
 
     /**
      * Fhir Search from date.
@@ -246,6 +243,14 @@ public class ChunkReader extends AbstractItemReader {
         }
     }
 
+    protected void fillChunkData(List<Resource> resources, List<String> patientIds) throws Exception {
+        if (fhirResourceType.equalsIgnoreCase("patient") &&  resources != null) {
+            fillChunkPatientDataBuffer(resources);
+        } else if (!fhirResourceType.equalsIgnoreCase("patient") && patientIds != null) {
+            fillChunkDataBuffer(patientIds);
+        }
+    }
+
     @Override
     public Object readItem() throws Exception {
         TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
@@ -300,11 +305,7 @@ public class ChunkReader extends AbstractItemReader {
 
             List<String> patientIds = resources.stream().filter(item -> item.getId() != null).map(item -> item.getId()).collect(Collectors.toList());
             if (patientIds != null && patientIds.size() > 0) {
-                if (fhirResourceType.equalsIgnoreCase("patient")) {
-                    fillChunkPatientDataBuffer(resources);
-                } else {
-                    fillChunkDataBuffer(patientIds);
-                }
+                fillChunkData(resources, patientIds);
             }
         } else {
             logger.fine("readItem: End of reading!");
