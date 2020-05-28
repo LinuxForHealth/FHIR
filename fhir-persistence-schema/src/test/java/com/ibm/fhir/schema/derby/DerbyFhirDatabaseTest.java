@@ -20,5 +20,4 @@ public class DerbyFhirDatabaseTest {
             System.out.println("FHIR database create successfully.");
         }
     }
-
 }

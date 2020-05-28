@@ -9,6 +9,7 @@ package com.ibm.fhir.database.utils.common;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Objects;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
@@ -78,10 +79,14 @@ public class AddColumn implements IDatabaseStatement {
             throw new UnsupportedOperationException("Adding columns of type " + column.getClass().getSimpleName() +
                     " is not supported at this time.");
         }
+
+        if (!Objects.isNull(column.getDefaultVal()) && !column.getDefaultVal().isEmpty()) {
+            result.append(" DEFAULT ").append(column.getDefaultVal());
+        }
+
         if (!column.isNullable()) {
             result.append(" NOT NULL");
         }
-
         return result.toString();
     }
 

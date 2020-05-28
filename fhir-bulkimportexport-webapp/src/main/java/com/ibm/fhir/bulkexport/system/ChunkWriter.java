@@ -203,8 +203,7 @@ public class ChunkWriter extends AbstractItemWriter {
     }
 
     @Override
-    public void open(Serializable checkpoint) throws Exception
-    {
+    public void open(Serializable checkpoint) throws Exception  {
         isExportPublic = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC, true);
 
     }

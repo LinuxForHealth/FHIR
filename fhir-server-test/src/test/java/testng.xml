@@ -12,6 +12,12 @@
             <package name="com.ibm.fhir.server.test" />
         </packages>
     </test>
+    <test name="ProfileTests">
+        <packages>
+            <!-- All of these tests are automatically executed -->
+            <package name="com.ibm.fhir.server.test.profiles" />
+        </packages>
+    </test>
     <test name="ClientTests">
         <packages>
             <!-- The first two packages of these tests are automatically executed -->

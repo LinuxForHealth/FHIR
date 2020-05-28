@@ -10,7 +10,6 @@ package com.ibm.fhir.schema.control;
  * Constants related to Schema creation and updating. 
  */
 public class FhirSchemaConstants {
-
     // A lower pool size is selected as default to limit the likelihood of contention on the DBMS.
     // Standard connection/thread pool size
     public static final int DEFAULT_POOL_SIZE = 1;
@@ -29,6 +28,7 @@ public class FhirSchemaConstants {
 
     // Group of privilege grants used for FHIRUSER access
     public static final String FHIR_USER_GRANT_GROUP = "fhiruser";
+    public static final String FHIR_BATCH_GRANT_GROUP = "fhirbatch";
 
     public static final String FHIR_SEQUENCE = "FHIR_SEQUENCE";
     public static final String FHIR_REF_SEQUENCE = "FHIR_REF_SEQUENCE";
