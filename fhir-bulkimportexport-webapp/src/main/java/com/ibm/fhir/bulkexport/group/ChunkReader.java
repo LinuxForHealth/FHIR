@@ -100,23 +100,19 @@ public class ChunkReader extends com.ibm.fhir.bulkexport.patient.ChunkReader {
     private List<Resource> patientIdsToPatients(List<String> patientIds) throws Exception {
         FHIRSearchContext searchContext;
         FHIRPersistenceContext persistenceContext;
-        List<Resource> Patients = new ArrayList<>();
+        List<Resource> Patients;
         Map<String, List<String>> queryParameters = new HashMap<>();
 
         queryParameters.put("_id", patientIds);
         searchContext = SearchUtil.parseQueryParameters(Patient.class, queryParameters);
         searchContext.setPageSize(pageSize);
-        List<Resource> resources = null;
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
 
         txn.enroll();
         persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-        resources = fhirPersistence.search(persistenceContext, Patient.class).getResource();
+        Patients = fhirPersistence.search(persistenceContext, Patient.class).getResource();
         txn.unenroll();
 
-        if (resources != null) {
-            Patients.addAll(resources);
-        }
         return Patients;
     }
 

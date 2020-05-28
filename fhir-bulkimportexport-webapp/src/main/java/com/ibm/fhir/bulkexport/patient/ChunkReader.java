@@ -225,9 +225,6 @@ public class ChunkReader extends AbstractItemReader {
                 FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
                 chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
                 resSubTotal++;
-                if (isDoDuplicationCheck) {
-                    loadedResourceIds.add(res.getId());
-                }
             } catch (FHIRGeneratorException e) {
                 if (res.getId() != null) {
                     logger.log(Level.WARNING, "fillChunkPatientDataBuffer: Error while writing resources with id '"
