@@ -214,10 +214,10 @@ public class ChunkReader extends AbstractItemReader {
     }
 
 
-    protected void fillChunkPatientDataBuffer(List<Resource> Patients) throws Exception {
+    protected void fillChunkPatientDataBuffer(List<Resource> patients) throws Exception {
         int resSubTotal = 0;
         TransientUserData chunkData = (TransientUserData) stepCtx.getTransientUserData();
-        for (Resource res : Patients) {
+        for (Resource res : patients) {
             try {
                 FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
                 chunkData.getBufferStream().write(Constants.NDJSON_LINESEPERATOR);
