@@ -15,7 +15,7 @@ import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
 
-public class ValidateCodeOperation extends AbstractOperation {
+public class ValueSetValidateCodeOperation extends AbstractOperation {
     @Override
     protected OperationDefinition buildOperationDefinition() {
         return FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/OperationDefinition/ValueSet-validate-code", OperationDefinition.class);
@@ -29,6 +29,6 @@ public class ValidateCodeOperation extends AbstractOperation {
             String versionId,
             Parameters parameters,
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        throw new UnsupportedOperationException(ValidateCodeOperation.class.getName());
+        throw new UnsupportedOperationException(ValueSetValidateCodeOperation.class.getName());
     }
 }
