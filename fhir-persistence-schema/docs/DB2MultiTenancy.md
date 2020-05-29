@@ -36,7 +36,7 @@ Each new tenant is allocated a unique tenant id value which is of database type 
 As an example, consider a table of patients created using the following DDL (illustrative only, this is not the actual IBM FHIR Server schema):
 
 ```
-CREATE TABLE ptng.patients (
+CREATE TABLE fhirdata.patients (
     mt_id               INT     NOT NULL,
     patient_name    VARCHAR(18) NOT NULL,
     age                 INT     NOT NULL,
