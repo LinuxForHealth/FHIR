@@ -24,7 +24,8 @@ import com.ibm.fhir.model.type.code.ConceptMapEquivalence;
 import com.ibm.fhir.term.spi.TranslationOutcome.Match.Product;
 
 /**
- * This class represents the outcome of translation per: <a href="http://hl7.org/fhir/conceptmap-operation-translate.html">http://hl7.org/fhir/conceptmap-operation-translate.html</a>
+ * This class is used to represent the outcome of the translate operation:
+ * <a href="http://hl7.org/fhir/conceptmap-operation-translate.html">http://hl7.org/fhir/conceptmap-operation-translate.html</a>
  */
 public class TranslationOutcome {
     private final Boolean result;

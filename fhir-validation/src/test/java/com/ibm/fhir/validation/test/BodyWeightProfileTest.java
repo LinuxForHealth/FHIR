@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -99,7 +99,7 @@ public class BodyWeightProfileTest {
             issues.forEach(System.out::println);
         }
 
-        Assert.assertEquals(issues.size(), 4);
+        Assert.assertEquals(issues.size(), 5);
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("dom-6")).count() == 1);
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("vs-1")).count() == 1);
         Assert.assertTrue(issues.stream().filter(issue -> issue.getDetails().getText().getValue().startsWith("generated-bodyweight-3")).count() == 1);

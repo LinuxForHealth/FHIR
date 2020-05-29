@@ -61,6 +61,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.DataAbsentReason;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
@@ -70,9 +71,16 @@ import com.ibm.fhir.model.visitor.Visitable;
  * Utility methods for working with the FHIR object model.
  */
 public class FHIRUtil {
+    public static final Pattern REFERENCE_PATTERN = buildReferencePattern();
+    public static final Extension DATA_ABSENT_REASON_UNKNOWN = Extension.builder()
+            .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
+            .value(DataAbsentReason.UNKNOWN)
+            .build();
+    public static final com.ibm.fhir.model.type.String STRING_DATA_ABSENT_REASON_UNKNOWN = com.ibm.fhir.model.type.String.builder()
+            .extension(DATA_ABSENT_REASON_UNKNOWN)
+            .build();
     private static final SecureRandom RANDOM = new SecureRandom();
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
-    public static final Pattern REFERENCE_PATTERN = buildReferencePattern();
     private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
     private static final OperationOutcome ALL_OK = OperationOutcome.builder()
         .issue(Issue.builder()
