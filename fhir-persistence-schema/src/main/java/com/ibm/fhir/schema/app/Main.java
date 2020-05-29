@@ -351,7 +351,7 @@ public class Main {
         vhs.init();
 
         // Use the version history service to determine if this table existed before we run `applyWithHistory`
-        boolean newDb = vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null || 
+        boolean newDb = vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == null ||
                 vhs.getVersion(schemaName, DatabaseObjectType.TABLE.name(), "PARAMETER_NAMES") == 0;
 
         applyModel(pdm, adapter, collector, vhs);
@@ -473,16 +473,14 @@ public class Main {
      * Grant the minimum required set of privileges on the FHIR schema objects
      * to the grantTo user. All tenant data access is via this user, and is the
      * only user the FHIR server itself is configured with.
-     *
-     * @param groupName
      */
-    protected void grantPrivileges(String groupName) {
+    protected void grantPrivileges() {
         if (!PRIVILEGES_FEATURE_ENABLED.contains(dbType)) {
             return;
         }
 
         // The case where all are to be granted on the default schemas.
-        if (!(updateFhirSchema || grantFhirSchema || updateOauthSchema 
+        if (!(updateFhirSchema || grantFhirSchema || updateOauthSchema
                 || grantOauthSchema || updateJavaBatchSchema || grantJavaBatchSchema)) {
             grantOauthSchema = true;
             grantFhirSchema = true;
@@ -497,7 +495,9 @@ public class Main {
         final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
-                pdm.applyGrants(adapter, groupName, grantTo);
+                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
+                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_OAUTH_GRANT_GROUP, grantTo);
+                pdm.applyGrants(adapter, FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, grantTo);
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
@@ -863,7 +863,7 @@ public class Main {
                             if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
                                 this.javaBatchSchemaName = args[nextIdx];
                                 i++;
-                            } else { 
+                            } else {
                                 throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                             }
                         } else if (tmp.startsWith("OAUTH")){
@@ -871,7 +871,7 @@ public class Main {
                             if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
                                 this.oauthSchemaName = args[nextIdx];
                                 i++;
-                            } else { 
+                            } else {
                                 throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                             }
                         } else if (tmp.startsWith("DATA")){
@@ -879,7 +879,7 @@ public class Main {
                             if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
                                 this.schemaName = args[nextIdx];
                                 i++;
-                            } else { 
+                            } else {
                                 throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                             }
                         } else {
@@ -939,7 +939,7 @@ public class Main {
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
                     this.schemaName = args[nextIdx];
                     i++;
-                } else { 
+                } else {
                     this.schemaName = DATA_SCHEMANAME;
                 }
                 break;
@@ -1131,7 +1131,7 @@ public class Main {
         }
 
         if (this.grantTo != null) {
-            grantPrivileges(FhirSchemaConstants.FHIR_USER_GRANT_GROUP);
+            grantPrivileges();
         }
 
         long elapsed = System.nanoTime() - start;
