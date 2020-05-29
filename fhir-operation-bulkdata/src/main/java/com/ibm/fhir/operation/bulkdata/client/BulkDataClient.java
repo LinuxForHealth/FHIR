@@ -30,6 +30,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.http.HttpStatus;
 
@@ -297,6 +298,14 @@ public class BulkDataClient {
                  * What if we couldn't connect with S3 / Cloud object store in the first place?
                  */
                 throw BulkDataExportUtil.buildOperationException("The job has failed", IssueType.EXCEPTION);
+            } else if (BulkDataConstants.STOPPED_STATUS.contains(batchStatus)) {
+                // If the job is stopped, then restart the job.
+                target = getWebTarget(properties.get(BulkDataConfigUtil.BATCH_URL) + "/" + job + "?action=restart&reusePreviousParams=true");
+                r = target.request().put(null);
+
+                if (r.getStatus()  != Status.OK.getStatusCode()) {
+                    throw BulkDataExportUtil.buildOperationException("The job has failed", IssueType.EXCEPTION);
+                }
             }
         } catch (FHIROperationException fe) {
             throw fe;
@@ -319,8 +328,8 @@ public class BulkDataClient {
         // 2 - Check if the Tenant is expected
         // 3 - Try to immediately DELETE (Optimistic)
         //      A - SC_NO_CONTENT = SUCCESS GO_TO End
-        //      B - !SC_INTERNAL_ERROR GO_TO STOP 
-        //      C - ERROR GO_TO Error 
+        //      B - !SC_INTERNAL_ERROR GO_TO STOP
+        //      C - ERROR GO_TO Error
         // 4 - Try to stop the PUT /ibm/api/batch/jobinstances/<job>?action=stop
         //     A - SC_CONTENT_REDIRECT (302) GO_TO Location to PUT
         //       - Stop requests sent to the batch REST API must be sent directly to the executor where the job is running.
@@ -342,7 +351,7 @@ public class BulkDataClient {
         // Check for a server-side error
         if (HttpStatus.SC_INTERNAL_SERVER_ERROR == status.getStatusCode()) {
             // 3.C - ERROR Condition
-            // The Server hit an error 
+            // The Server hit an error
             throw BulkDataExportUtil.buildOperationException(
                     "Deleting the job has failed; the content is not abandonded", IssueType.EXCEPTION);
         } else if (HttpStatus.SC_NO_CONTENT != status.getStatusCode()) {
@@ -367,7 +376,7 @@ public class BulkDataClient {
         //     B - SC_ACCEPTED (202) GO_TO ACCEPTED
         Response.Status status = Response.Status.NO_CONTENT;
         try {
-            // NOT_LOCAL - follow location 
+            // NOT_LOCAL - follow location
             String baseUrl =
                     properties.get(BulkDataConfigUtil.BATCH_URL).replace("jobinstances", "jobexecutions") + "/" + job
                             + "?action=stop";
@@ -395,7 +404,7 @@ public class BulkDataClient {
                     // no assignment intentionally, and no body sent.
                     target.request().put(null);
                 }
-                // Here, we could easily respond with an Exception/OperationOutcome, however An unexpected error has 
+                // Here, we could easily respond with an Exception/OperationOutcome, however An unexpected error has
                 // occurred while stopping/deleting the job on a batch cluster member
                 status = Response.Status.ACCEPTED;
             } else if (HttpStatus.SC_OK == r.getStatus()) {
@@ -407,7 +416,7 @@ public class BulkDataClient {
                 }
                 // Don't Delete, let the client flow through again and DELETE.
             } else if (HttpStatus.SC_CONFLICT == r.getStatus()) {
-                // SC_CONFLICT is used by the Open Liberty JBatch container to signal that the job is NOT RUNNING. 
+                // SC_CONFLICT is used by the Open Liberty JBatch container to signal that the job is NOT RUNNING.
                 // This is generally due to a conflicting identical call, we're responding immediately
                 status = Response.Status.ACCEPTED;
             } else {
