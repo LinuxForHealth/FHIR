@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.ibm.fhir.model.resource.ValueSet;
+import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -34,8 +35,8 @@ import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
-import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.term.service.FHIRTermService;
+import com.ibm.fhir.term.spi.ValidationOutcome;
 
 /**
  * Implementation of the 'memberOf' FHIRPath function per: <a href="http://hl7.org/fhir/fhirpath.html#functions">http://hl7.org/fhir/fhirpath.html#functions</a>
@@ -82,25 +83,30 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         String url = getString(arguments.get(0));
         String strength = (arguments.size() == 2) ? getString(arguments.get(1)) : null;
 
-        if (FHIRRegistry.getInstance().hasResource(url, ValueSet.class)) {
-            ValueSet valueSet = getValueSet(url);
+        ValueSet valueSet = getValueSet(url);
+        if (valueSet != null) {
             FHIRTermService service = FHIRTermService.getInstance();
             if (isExpanded(valueSet) || service.isExpandable(valueSet)) {
                 if (element.is(Code.class)) {
-                    if (service.validateCode(valueSet, getSystem(evaluationContext.getTree().getParent(elementNode)), null, element.as(Code.class).getValue())) {
+                    Uri system = getSystem(evaluationContext.getTree().getParent(elementNode));
+                    Code code = element.as(Code.class);
+                    if (validateCode(service, valueSet, system, null, code, null, evaluationContext, elementNode, strength)) {
                         return SINGLETON_TRUE;
                     }
                 } else if (element.is(Coding.class)) {
-                    if (service.validateCode(valueSet, element.as(Coding.class))) {
+                    Coding coding = element.as(Coding.class);
+                    if (validateCode(service, valueSet, coding, evaluationContext, elementNode, strength)) {
                         return SINGLETON_TRUE;
                     }
                 } else if (element.is(CodeableConcept.class)) {
-                    if (service.validateCode(valueSet, element.as(CodeableConcept.class))) {
+                    CodeableConcept codeableConcept = element.as(CodeableConcept.class);
+                    if (validateCode(service, valueSet, codeableConcept, evaluationContext, elementNode, strength)) {
                         return SINGLETON_TRUE;
                     }
                 } else {
                     // element.is(FHIR_STRING) || element.is(Uri.class)
-                    if (service.validateCode(valueSet, null, null, element.is(FHIR_STRING) ? element.as(FHIR_STRING).getValue() : element.as(Uri.class).getValue())) {
+                    Code code = element.is(FHIR_STRING) ? Code.of(element.as(FHIR_STRING).getValue()) : Code.of(element.as(Uri.class).getValue());
+                    if (validateCode(service, valueSet, null, null, code, null, evaluationContext, elementNode, strength)) {
                         return SINGLETON_TRUE;
                     }
                 }
@@ -113,6 +119,40 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         }
 
         return SINGLETON_TRUE;
+    }
+
+    private boolean validateCode(FHIRTermService service, ValueSet valueSet, Uri system, com.ibm.fhir.model.type.String version, Code code, com.ibm.fhir.model.type.String display, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
+        ValidationOutcome outcome = service.validateCode(valueSet, system, version, code, display);
+        if (Boolean.FALSE.equals(outcome.getResult())) {
+            generateIssue(outcome, evaluationContext, elementNode, strength);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateCode(FHIRTermService service, ValueSet valueSet, Coding coding, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
+        ValidationOutcome outcome = service.validateCode(valueSet, coding);
+        if (Boolean.FALSE.equals(outcome.getResult())) {
+            generateIssue(outcome, evaluationContext, elementNode, strength);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateCode(FHIRTermService service, ValueSet valueSet, CodeableConcept codeableConcept, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
+        ValidationOutcome outcome = service.validateCode(valueSet, codeableConcept);
+        if (Boolean.FALSE.equals(outcome.getResult())) {
+            generateIssue(outcome, evaluationContext, elementNode, strength);
+            return false;
+        }
+        return true;
+    }
+
+    private void generateIssue(ValidationOutcome outcome, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
+        if (outcome.getMessage() != null) {
+            IssueSeverity severity = ("extensible".equals(strength) || "preferred".equals(strength)) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
+            generateIssue(evaluationContext, severity, IssueType.CODE_INVALID, outcome.getMessage().getValue(), elementNode);
+        }
     }
 
     private Collection<FHIRPathNode> membershipCheckFailed(EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String url, String strength) {
@@ -133,13 +173,13 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
      * @return
      *     the URI-typed child node with name "system", or null if no such child node exists
      */
-    private String getSystem(FHIRPathNode node) {
+    private Uri getSystem(FHIRPathNode node) {
         if (node == null || !node.isElementNode()) {
             return null;
         }
         for (FHIRPathNode child : node.children()) {
             if ("system".equals(child.name()) && FHIRPathType.FHIR_URI.equals(node.type())) {
-                return child.asElementNode().element().as(Uri.class).getValue();
+                return child.asElementNode().element().as(Uri.class);
             }
         }
         return null;

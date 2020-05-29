@@ -260,6 +260,7 @@ public class CodeGenerator {
         generateXMLParser(basePath);
         generateModelClassesFile(basePath);
         generateCodeSubtypeClass("ConceptSubsumptionOutcome", "http://hl7.org/fhir/ValueSet/concept-subsumption-outcome", basePath);
+        generateCodeSubtypeClass("DataAbsentReason", "http://hl7.org/fhir/ValueSet/data-absent-reason", basePath);
     }
 
     private void generateModelClassesFile(String basePath) {
