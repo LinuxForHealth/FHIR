@@ -40,18 +40,14 @@ public class ExpandOperation extends AbstractOperation {
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
             ValueSet valueSet = getValueSet(operationContext, logicalId, parameters, resourceHelper);
-
-            String url = (valueSet.getUrl() != null) ? valueSet.getUrl().getValue() : null;
-
             FHIRTermService service = FHIRTermService.getInstance();
 
             if (!isExpanded(valueSet) && !service.isExpandable(valueSet)) {
+                String url = (valueSet.getUrl() != null) ? valueSet.getUrl().getValue() : null;
                 throw new FHIROperationException("ValueSet with url '" + url + "' is not expandable");
             }
 
-            ExpansionParameters expansionParameters = (parameters != null) ? ExpansionParameters.from(parameters) : ExpansionParameters.EMPTY;
-
-            ValueSet expanded = service.expand(valueSet, expansionParameters);
+            ValueSet expanded = service.expand(valueSet, ExpansionParameters.from(parameters));
 
             return getOutputParameters(expanded);
         } catch (FHIROperationException e) {
@@ -68,27 +64,24 @@ public class ExpandOperation extends AbstractOperation {
                 throw new FHIROperationException("ValueSet with id '" + logicalId + "' was not found");
             }
             return (ValueSet) resource;
-        } else {
-            Parameter urlParameter = getParameter(parameters, "url");
-            if (urlParameter != null) {
-                String url = urlParameter.getValue().as(Uri.class).getValue();
-                ValueSet valueSet = ValueSetSupport.getValueSet(url);
-                if (valueSet == null) {
-                    throw new FHIROperationException("ValueSet with url '" + url + "' is not available");
-                }
-                return valueSet;
-            } else {
-                Parameter valueSetParameter = getParameter(parameters, "valueSet");
-                if (valueSetParameter != null) {
-                    Resource resource = valueSetParameter.getResource();
-                    if (resource == null || !(resource instanceof ValueSet)) {
-                        throw new FHIROperationException("Parameter with name 'valueSet' does not contain a ValueSet resource");
-                    }
-                    return (ValueSet) resource;
-                } else {
-                    throw new FHIROperationException("Parameter with name 'valueSet' was not found");
-                }
-            }
         }
+        Parameter urlParameter = getParameter(parameters, "url");
+        if (urlParameter != null) {
+            String url = urlParameter.getValue().as(Uri.class).getValue();
+            ValueSet valueSet = ValueSetSupport.getValueSet(url);
+            if (valueSet == null) {
+                throw new FHIROperationException("ValueSet with url '" + url + "' is not available");
+            }
+            return valueSet;
+        }
+        Parameter valueSetParameter = getParameter(parameters, "valueSet");
+        if (valueSetParameter != null) {
+            Resource resource = valueSetParameter.getResource();
+            if (resource == null || !(resource instanceof ValueSet)) {
+                throw new FHIROperationException("Parameter with name 'valueSet' does not contain a ValueSet resource");
+            }
+            return (ValueSet) resource;
+        }
+        throw new FHIROperationException("Parameter with name 'valueSet' was not found");
     }
 }
