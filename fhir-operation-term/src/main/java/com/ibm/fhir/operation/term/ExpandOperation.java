@@ -77,7 +77,7 @@ public class ExpandOperation extends AbstractOperation {
         Parameter valueSetParameter = getParameter(parameters, "valueSet");
         if (valueSetParameter != null) {
             Resource resource = valueSetParameter.getResource();
-            if (resource == null || !(resource instanceof ValueSet)) {
+            if (!(resource instanceof ValueSet)) {
                 throw new FHIROperationException("Parameter with name 'valueSet' does not contain a ValueSet resource");
             }
             return (ValueSet) resource;
