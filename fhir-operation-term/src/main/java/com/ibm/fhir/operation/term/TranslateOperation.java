@@ -96,7 +96,7 @@ public class TranslateOperation extends AbstractOperation {
         }
         Parameter codeParameter = getParameter(parameters, "code");
         if (codeParameter == null) {
-            throw new FHIROperationException("Parameter with name 'system' was not found");
+            throw new FHIROperationException("Parameter with name 'code' was not found");
         }
         Parameter versionParameter = getParameter(parameters, "version");
         return Coding.builder()
