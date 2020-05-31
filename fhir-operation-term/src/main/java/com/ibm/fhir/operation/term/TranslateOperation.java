@@ -36,8 +36,8 @@ public class TranslateOperation extends AbstractTermOperation {
             Parameters parameters,
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
-            ConceptMap conceptMap = getResource(operationContext, logicalId, parameters, resourceHelper, ConceptMap.class);
             FHIRTermService service = FHIRTermService.getInstance();
+            ConceptMap conceptMap = getResource(operationContext, logicalId, parameters, resourceHelper, ConceptMap.class);
             Coding coding = getCodedElement(parameters);
             TranslationOutcome outcome = service.translate(conceptMap, coding, TranslationParameters.from(parameters));
             return outcome.toParameters();
