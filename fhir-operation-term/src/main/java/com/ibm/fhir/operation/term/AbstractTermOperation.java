@@ -55,7 +55,7 @@ public abstract class AbstractTermOperation extends AbstractOperation {
             String url = urlParameter.getValue().as(Uri.class).getValue();
             T resource = FHIRRegistry.getInstance().getResource(url, resourceType);
             if (resource == null) {
-                throw new FHIROperationException(resourceType + " with url '" + url + "' is not available");
+                throw new FHIROperationException(resourceTypeName + " with url '" + url + "' is not available");
             }
             return resource;
         }
