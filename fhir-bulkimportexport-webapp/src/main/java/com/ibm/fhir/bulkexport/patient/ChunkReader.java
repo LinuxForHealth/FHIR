@@ -290,7 +290,7 @@ public class ChunkReader extends AbstractItemReader {
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0, 0, 1);
+            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0, 0, 1, 0);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
             stepCtx.setTransientUserData(chunkData);
         } else {
