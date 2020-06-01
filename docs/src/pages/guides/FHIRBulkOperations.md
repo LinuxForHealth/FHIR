@@ -120,6 +120,7 @@ There are two custom features - *Poll Job* and *Delete Job*.
 
 ### **$bulkdata-status: Poll Job**
 The response returned is 202 if the job is queued or not yet complete.
+(Note: if the job is stopped, e.g, due to shutdown of the fhir server instance which runs the bulkdata JavaBatch job, then upon receiving the status polling request, the bulkdata JavaBatch job will be restarted and continue the import/export with 202 response to the client.)
 The response returned is 200 if the job is completed.
 
 #### Example
