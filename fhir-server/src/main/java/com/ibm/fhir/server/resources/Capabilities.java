@@ -215,7 +215,7 @@ public class Capabilities extends FHIRResource {
                     // The name here is a natural language name, and intentionally not replaced with code.
                     Rest.Resource.SearchParam.Builder conformanceSearchParamBuilder =
                             Rest.Resource.SearchParam.builder()
-                                .name(searchParameter.getName())
+                                .name(searchParameter.getCode())
                                 .type(searchParameter.getType());
                     if (searchParameter.getDescription() != null) {
                         conformanceSearchParamBuilder.documentation(searchParameter.getDescription());
