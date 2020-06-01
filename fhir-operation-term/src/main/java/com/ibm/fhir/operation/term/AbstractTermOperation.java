@@ -83,23 +83,40 @@ public abstract class AbstractTermOperation extends AbstractOperation {
             String codeableConceptParameterName,
             String codingParameterName,
             String codeParameterName) throws FHIROperationException {
+        return getCodedElement(parameters, codeableConceptParameterName, codingParameterName, codeParameterName, true);
+    }
+
+    protected Element getCodedElement(
+            Parameters parameters,
+            String codeableConceptParameterName,
+            String codingParameterName,
+            String codeParameterName,
+            boolean systemRequired) throws FHIROperationException {
         Parameter codeableConceptParameter = getParameter(parameters, codeableConceptParameterName);
         if (codeableConceptParameter != null) {
             return codeableConceptParameter.getValue().as(CodeableConcept.class);
         }
-        return getCoding(parameters, codingParameterName, codeParameterName);
+        return getCoding(parameters, codingParameterName, codeParameterName, systemRequired);
+    }
+
+    protected Coding getCoding(
+        Parameters parameters,
+        String codingParameterName,
+        String codeParameterName) throws FHIROperationException {
+        return getCoding(parameters, codingParameterName, codeParameterName, true);
     }
 
     protected Coding getCoding(
             Parameters parameters,
             String codingParameterName,
-            String codeParameterName) throws FHIROperationException {
+            String codeParameterName,
+            boolean systemRequired) throws FHIROperationException {
         Parameter codingParameter = getParameter(parameters, codingParameterName);
         if (codingParameter != null) {
             return codingParameter.getValue().as(Coding.class);
         }
         Parameter systemParameter = getParameter(parameters, "system");
-        if (systemParameter == null) {
+        if (systemRequired && systemParameter == null) {
             throw new FHIROperationException("Parameter with name 'system' was not found");
         }
         Parameter codeParameter = getParameter(parameters, codeParameterName);
@@ -109,7 +126,7 @@ public abstract class AbstractTermOperation extends AbstractOperation {
         Parameter versionParameter = getParameter(parameters, "version");
         Parameter displayParameter = getParameter(parameters, "display");
         return Coding.builder()
-                .system(systemParameter.getValue().as(Uri.class))
+                .system((systemParameter != null) ? systemParameter.getValue().as(Uri.class) : null)
                 .version((versionParameter != null) ? versionParameter.getValue().as(FHIR_STRING) : null)
                 .code(codeParameter.getValue().as(Code.class))
                 .display((displayParameter != null) ? displayParameter.getValue().as(FHIR_STRING) : null)

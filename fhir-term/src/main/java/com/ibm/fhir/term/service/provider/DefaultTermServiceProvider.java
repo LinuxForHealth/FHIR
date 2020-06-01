@@ -77,28 +77,33 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
             String url = (version != null) ? system.getValue() + "|" + version : system.getValue();
             CodeSystem codeSystem = getCodeSystem(url);
             if (codeSystem != null) {
-                Concept concept = findConcept(codeSystem, code);
-                if (concept != null) {
-                    return LookupOutcome.builder()
-                            .name((codeSystem.getName() != null) ? codeSystem.getName() : STRING_DATA_ABSENT_REASON_UNKNOWN)
-                            .version(codeSystem.getVersion())
-                            .display((concept.getDisplay() != null) ? concept.getDisplay() : STRING_DATA_ABSENT_REASON_UNKNOWN)
-                            .property(concept.getProperty().stream()
-                                .map(property -> Property.builder()
-                                    .code(property.getCode())
-                                    .value(property.getValue())
-                                    .build())
-                                .collect(Collectors.toList()))
-                            .designation(concept.getDesignation().stream()
-                                .map(designation -> Designation.builder()
-                                    .language(designation.getLanguage())
-                                    .use(designation.getUse())
-                                    .value(designation.getValue())
-                                    .build())
-                                .collect(Collectors.toList()))
-                            .build();
-                }
+                return lookup(codeSystem, code);
             }
+        }
+        return null;
+    }
+
+    private LookupOutcome lookup(CodeSystem codeSystem, Code code) {
+        Concept concept = findConcept(codeSystem, code);
+        if (concept != null) {
+            return LookupOutcome.builder()
+                    .name((codeSystem.getName() != null) ? codeSystem.getName() : STRING_DATA_ABSENT_REASON_UNKNOWN)
+                    .version(codeSystem.getVersion())
+                    .display((concept.getDisplay() != null) ? concept.getDisplay() : STRING_DATA_ABSENT_REASON_UNKNOWN)
+                    .property(concept.getProperty().stream()
+                        .map(property -> Property.builder()
+                            .code(property.getCode())
+                            .value(property.getValue())
+                            .build())
+                        .collect(Collectors.toList()))
+                    .designation(concept.getDesignation().stream()
+                        .map(designation -> Designation.builder()
+                            .language(designation.getLanguage())
+                            .use(designation.getUse())
+                            .value(designation.getValue())
+                            .build())
+                        .collect(Collectors.toList()))
+                    .build();
         }
         return null;
     }
@@ -164,20 +169,20 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     @Override
-    public ValidationOutcome validateCode(Coding coding, ValidationParameters parameters) {
-        LookupOutcome outcome = lookup(coding);
+    public ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding, ValidationParameters parameters) {
+        LookupOutcome outcome = lookup(codeSystem, coding.getCode());
         return buildValidationOutcome(coding, (outcome != null), outcome);
     }
 
     @Override
-    public ValidationOutcome validateCode(CodeableConcept codeableConcept, ValidationParameters parameters) {
+    public ValidationOutcome validateCode(CodeSystem codeSystem, CodeableConcept codeableConcept, ValidationParameters parameters) {
         for (Coding coding : codeableConcept.getCoding()) {
-            ValidationOutcome outcome = validateCode(coding);
-            if (Boolean.FALSE.equals(outcome.getResult())) {
+            ValidationOutcome outcome = validateCode(codeSystem, coding);
+            if (Boolean.TRUE.equals(outcome.getResult())) {
                 return outcome;
             }
         }
-        return buildValidationOutcome(null, true, null);
+        return buildValidationOutcome(null, false, null);
     }
 
     @Override

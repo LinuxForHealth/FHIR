@@ -8,6 +8,7 @@ package com.ibm.fhir.term.spi;
 
 import java.util.Set;
 
+import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ConceptMap;
 import com.ibm.fhir.model.resource.ValueSet;
@@ -101,10 +102,10 @@ public interface FHIRTermServiceProvider {
     Set<Concept> closure(Coding coding);
 
     /**
-     * Validate a code and display against its system and version using the provided validation parameters
+     * Validate a code and display using the provided code system, version and validation parameters
      *
-     * @param system
-     *     the system
+     * @param codeSystem
+     *     the code system
      * @param version
      *     the version
      * @param code
@@ -116,21 +117,20 @@ public interface FHIRTermServiceProvider {
      * @return
      *     the outcome of validation
      */
-    default ValidationOutcome validateCode(Uri system, String version, Code code, String display, ValidationParameters parameters) {
+    default ValidationOutcome validateCode(CodeSystem codeSystem, String version, Code code, String display, ValidationParameters parameters) {
         Coding coding = Coding.builder()
-                .system(system)
                 .version(version)
                 .code(code)
                 .display(display)
                 .build();
-        return validateCode(coding, parameters);
+        return validateCode(codeSystem, coding, parameters);
     }
 
     /**
-     * Validate a code and display against its system and version
+     * Validate a code and display using the provided code system and version
      *
-     * @param system
-     *     the system
+     * @param code system
+     *     the code system
      * @param version
      *     the version
      * @param code
@@ -140,13 +140,15 @@ public interface FHIRTermServiceProvider {
      * @return
      *     the outcome of validation
      */
-    default ValidationOutcome validateCode(Uri system, String version, Code code, String display) {
-        return validateCode(system, version, code, display, ValidationParameters.EMPTY);
+    default ValidationOutcome validateCode(CodeSystem codeSystem, String version, Code code, String display) {
+        return validateCode(codeSystem, version, code, display, ValidationParameters.EMPTY);
     }
 
     /**
-     * Validate a coding against its system and version using the provided validation parameters
+     * Validate a coding using the provided code system and validation parameters
      *
+     * @param codeSystem
+     *     the code system
      * @param coding
      *     the coding
      * @param parameters
@@ -154,23 +156,27 @@ public interface FHIRTermServiceProvider {
      * @return
      *     the outcome of validation
      */
-    ValidationOutcome validateCode(Coding coding, ValidationParameters parameters);
+    ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding, ValidationParameters parameters);
 
     /**
-     * Validate a coding against its system and version
+     * Validate a coding using the provided code system
      *
+     * @param codeSystem
+     *     the codeSystem
      * @param coding
      *     the coding
      * @return
      *     the outcome of validation
      */
-    default ValidationOutcome validateCode(Coding coding) {
-        return validateCode(coding, ValidationParameters.EMPTY);
+    default ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding) {
+        return validateCode(codeSystem, coding, ValidationParameters.EMPTY);
     }
 
     /**
-     * Validate a codeable concept against its system and version using the provided validation parameters
+     * Validate a codeable concept using the provided code system and validation parameters
      *
+     * @param codeSystem
+     *     the code system
      * @param codeableConcept
      *     the codeable concept
      * @param parameters
@@ -178,18 +184,18 @@ public interface FHIRTermServiceProvider {
      * @return
      *     the outcome of validation
      */
-    ValidationOutcome validateCode(CodeableConcept codeableConcept, ValidationParameters parameters);
+    ValidationOutcome validateCode(CodeSystem codeSystem, CodeableConcept codeableConcept, ValidationParameters parameters);
 
     /**
-     * Validate a codeable concept against its system and version
+     * Validate a codeable concept using the provided code system
      *
      * @param codeableConcept
      *     the codeable concept
      * @return
      *     the outcome of validation
      */
-    default ValidationOutcome validateCode(CodeableConcept codeableConcept) {
-        return validateCode(codeableConcept, ValidationParameters.EMPTY);
+    default ValidationOutcome validateCode(CodeSystem codeSystem, CodeableConcept codeableConcept) {
+        return validateCode(codeSystem, codeableConcept, ValidationParameters.EMPTY);
     }
 
     /**
