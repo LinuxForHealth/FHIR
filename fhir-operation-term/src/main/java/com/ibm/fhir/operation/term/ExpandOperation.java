@@ -17,7 +17,6 @@ import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
-import com.ibm.fhir.term.service.FHIRTermService;
 import com.ibm.fhir.term.spi.ExpansionParameters;
 
 public class ExpandOperation extends AbstractTermOperation {
@@ -35,7 +34,6 @@ public class ExpandOperation extends AbstractTermOperation {
             Parameters parameters,
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
-            FHIRTermService service = FHIRTermService.getInstance();
             ValueSet valueSet = getResource(operationContext, logicalId, parameters, resourceHelper, ValueSet.class);
             if (!isExpanded(valueSet) && !service.isExpandable(valueSet)) {
                 String url = (valueSet.getUrl() != null) ? valueSet.getUrl().getValue() : null;

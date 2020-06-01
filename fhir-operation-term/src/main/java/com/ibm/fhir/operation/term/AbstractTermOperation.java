@@ -22,8 +22,15 @@ import com.ibm.fhir.operation.AbstractOperation;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
+import com.ibm.fhir.term.service.FHIRTermService;
 
 public abstract class AbstractTermOperation extends AbstractOperation {
+    protected final FHIRTermService service;
+
+    public AbstractTermOperation() {
+        service = FHIRTermService.getInstance();
+    }
+
     @Override
     protected abstract OperationDefinition buildOperationDefinition();
 
@@ -71,12 +78,23 @@ public abstract class AbstractTermOperation extends AbstractOperation {
         throw new FHIROperationException("Parameter with name '" + resourceParameterName + "' was not found");
     }
 
-    protected Element getCodedElement(Parameters parameters) throws FHIROperationException {
-        Parameter codeableConceptParameter = getParameter(parameters, "codeableConcept");
+    protected Element getCodedElement(
+            Parameters parameters,
+            String codeableConceptParameterName,
+            String codingParameterName,
+            String codeParameterName) throws FHIROperationException {
+        Parameter codeableConceptParameter = getParameter(parameters, codeableConceptParameterName);
         if (codeableConceptParameter != null) {
             return codeableConceptParameter.getValue().as(CodeableConcept.class);
         }
-        Parameter codingParameter = getParameter(parameters, "coding");
+        return getCoding(parameters, codingParameterName, codeParameterName);
+    }
+
+    protected Coding getCoding(
+            Parameters parameters,
+            String codingParameterName,
+            String codeParameterName) throws FHIROperationException {
+        Parameter codingParameter = getParameter(parameters, codingParameterName);
         if (codingParameter != null) {
             return codingParameter.getValue().as(Coding.class);
         }
@@ -84,9 +102,9 @@ public abstract class AbstractTermOperation extends AbstractOperation {
         if (systemParameter == null) {
             throw new FHIROperationException("Parameter with name 'system' was not found");
         }
-        Parameter codeParameter = getParameter(parameters, "code");
+        Parameter codeParameter = getParameter(parameters, codeParameterName);
         if (codeParameter == null) {
-            throw new FHIROperationException("Parameter with name 'code' was not found");
+            throw new FHIROperationException("Parameter with name '" + codeParameterName + "' was not found");
         }
         Parameter versionParameter = getParameter(parameters, "version");
         Parameter displayParameter = getParameter(parameters, "display");

@@ -10,12 +10,17 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.operation.AbstractOperation;
+import com.ibm.fhir.model.resource.ValueSet;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
+import com.ibm.fhir.term.spi.ValidationOutcome;
+import com.ibm.fhir.term.spi.ValidationParameters;
 
-public class ValueSetValidateCodeOperation extends AbstractOperation {
+public class ValueSetValidateCodeOperation extends AbstractTermOperation {
     @Override
     protected OperationDefinition buildOperationDefinition() {
         return FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/OperationDefinition/ValueSet-validate-code", OperationDefinition.class);
@@ -29,6 +34,17 @@ public class ValueSetValidateCodeOperation extends AbstractOperation {
             String versionId,
             Parameters parameters,
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        throw new UnsupportedOperationException(ValueSetValidateCodeOperation.class.getName());
+        try {
+            ValueSet valueSet = getResource(operationContext, logicalId, parameters, resourceHelper, ValueSet.class);
+            Element codedElement = getCodedElement(parameters, "codeableConcept", "coding", "code");
+            ValidationOutcome outcome = codedElement.is(CodeableConcept.class) ?
+                    service.validateCode(valueSet, codedElement.as(CodeableConcept.class), ValidationParameters.from(parameters)) :
+                    service.validateCode(valueSet, codedElement.as(Coding.class), ValidationParameters.from(parameters));
+            return outcome.toParameters();
+        } catch (FHIROperationException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new FHIROperationException("An error occurred during the ValueSet validate code operation", e);
+        }
     }
 }
