@@ -35,7 +35,7 @@ public class CodeSystemValidateCodeOperation extends AbstractTermOperation {
             Parameters parameters,
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
-            CodeSystem codeSystem = getResource(operationContext, logicalId, parameters, resourceHelper, CodeSystem.class);
+            CodeSystem codeSystem = getResource(operationContext, logicalId, parameters, null, resourceHelper, CodeSystem.class);
             Element codedElement = getCodedElement(parameters, "codeableConcept", "coding", "code", false);
             validate(codeSystem, codedElement);
             ValidationOutcome outcome = codedElement.is(CodeableConcept.class) ?

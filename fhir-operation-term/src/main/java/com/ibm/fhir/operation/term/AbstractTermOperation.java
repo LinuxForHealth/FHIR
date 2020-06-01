@@ -47,6 +47,7 @@ public abstract class AbstractTermOperation extends AbstractOperation {
             FHIROperationContext operationContext,
             String logicalId,
             Parameters parameters,
+            String versionParameterName,
             FHIRResourceHelpers resourceHelper,
             Class<T> resourceType) throws Exception {
         String resourceTypeName = resourceType.getSimpleName();
@@ -60,6 +61,12 @@ public abstract class AbstractTermOperation extends AbstractOperation {
         Parameter urlParameter = getParameter(parameters, "url");
         if (urlParameter != null) {
             String url = urlParameter.getValue().as(Uri.class).getValue();
+            if (versionParameterName != null) {
+                Parameter versionParameter = getParameter(parameters, versionParameterName);
+                if (versionParameter != null) {
+                    url = url + "|" + versionParameter.getValue().as(FHIR_STRING).getValue();
+                }
+            }
             T resource = FHIRRegistry.getInstance().getResource(url, resourceType);
             if (resource == null) {
                 throw new FHIROperationException(resourceTypeName + " with url '" + url + "' is not available");

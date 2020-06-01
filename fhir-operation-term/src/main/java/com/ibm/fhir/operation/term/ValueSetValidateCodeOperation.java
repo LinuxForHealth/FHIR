@@ -35,7 +35,7 @@ public class ValueSetValidateCodeOperation extends AbstractTermOperation {
             Parameters parameters,
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
-            ValueSet valueSet = getResource(operationContext, logicalId, parameters, resourceHelper, ValueSet.class);
+            ValueSet valueSet = getResource(operationContext, logicalId, parameters, null, resourceHelper, ValueSet.class);
             Element codedElement = getCodedElement(parameters, "codeableConcept", "coding", "code");
             ValidationOutcome outcome = codedElement.is(CodeableConcept.class) ?
                     service.validateCode(valueSet, codedElement.as(CodeableConcept.class), ValidationParameters.from(parameters)) :
