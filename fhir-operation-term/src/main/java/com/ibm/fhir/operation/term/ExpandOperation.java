@@ -34,7 +34,7 @@ public class ExpandOperation extends AbstractTermOperation {
             Parameters parameters,
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
-            ValueSet valueSet = getResource(operationContext, logicalId, parameters, "valueSetVersion", resourceHelper, ValueSet.class);
+            ValueSet valueSet = getResource(operationContext, logicalId, parameters, resourceHelper, ValueSet.class);
             if (!isExpanded(valueSet) && !service.isExpandable(valueSet)) {
                 String url = (valueSet.getUrl() != null) ? valueSet.getUrl().getValue() : null;
                 throw new FHIROperationException("ValueSet with url '" + url + "' is not expandable");

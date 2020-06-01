@@ -47,10 +47,11 @@ public abstract class AbstractTermOperation extends AbstractOperation {
             FHIROperationContext operationContext,
             String logicalId,
             Parameters parameters,
-            String versionParameterName,
             FHIRResourceHelpers resourceHelper,
             Class<T> resourceType) throws Exception {
         String resourceTypeName = resourceType.getSimpleName();
+        String resourceParameterName = resourceTypeName.substring(0, 1).toLowerCase() + resourceTypeName.substring(1);
+        String resourceVersionParameterName = resourceParameterName + "Version";
         if (FHIROperationContext.Type.INSTANCE.equals(operationContext.getType())) {
             Resource resource = resourceHelper.doRead(resourceTypeName, logicalId, false, false, null, null);
             if (resource == null) {
@@ -61,11 +62,9 @@ public abstract class AbstractTermOperation extends AbstractOperation {
         Parameter urlParameter = getParameter(parameters, "url");
         if (urlParameter != null) {
             String url = urlParameter.getValue().as(Uri.class).getValue();
-            if (versionParameterName != null) {
-                Parameter versionParameter = getParameter(parameters, versionParameterName);
-                if (versionParameter != null) {
-                    url = url + "|" + versionParameter.getValue().as(FHIR_STRING).getValue();
-                }
+            Parameter resourceVersionParameter = getParameter(parameters, resourceVersionParameterName);
+            if (resourceVersionParameter != null) {
+                url = url + "|" + resourceVersionParameter.getValue().as(FHIR_STRING).getValue();
             }
             T resource = FHIRRegistry.getInstance().getResource(url, resourceType);
             if (resource == null) {
@@ -73,7 +72,6 @@ public abstract class AbstractTermOperation extends AbstractOperation {
             }
             return resource;
         }
-        String resourceParameterName = resourceTypeName.substring(0, 1).toLowerCase() + resourceTypeName.substring(1);
         Parameter resourceParameter = getParameter(parameters, resourceParameterName);
         if (resourceParameter != null) {
             Resource resource = resourceParameter.getResource();
