@@ -11,7 +11,9 @@ import com.ibm.fhir.model.resource.ConceptMap;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.operation.context.FHIROperationContext;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.rest.FHIRResourceHelpers;
@@ -34,8 +36,10 @@ public class TranslateOperation extends AbstractTermOperation {
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
             ConceptMap conceptMap = getResource(operationContext, logicalId, parameters, "conceptMapVersion", resourceHelper, ConceptMap.class);
-            Coding coding = getCoding(parameters, "coding", "code");
-            TranslationOutcome outcome = service.translate(conceptMap, coding, TranslationParameters.from(parameters));
+            Element codedElement = getCodedElement(parameters, "codeablConcept", "coding", "code");
+            TranslationOutcome outcome = codedElement.is(CodeableConcept.class) ?
+                    service.translate(conceptMap, codedElement.as(CodeableConcept.class), TranslationParameters.from(parameters)) :
+                    service.translate(conceptMap, codedElement.as(Coding.class), TranslationParameters.from(parameters));
             return outcome.toParameters();
         } catch (FHIROperationException e) {
             throw e;
