@@ -81,6 +81,42 @@ public class FHIRTermService implements FHIRTermServiceProvider {
     }
 
     /**
+     * Lookup the code system concept for the given system, version, code and lookup parameters
+     *
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @param parameters
+     *     the lookup parameters
+     * @return
+     *     the outcome of the lookup
+     */
+    @Override
+    public LookupOutcome lookup(Uri system, String version, Code code, LookupParameters parameters) {
+        return provider.lookup(system, version, code, parameters);
+    }
+
+    /**
+     * Lookup the code system concept for the given system, version, and code
+     *
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @return
+     *     the outcome of the lookup
+     */
+    @Override
+    public LookupOutcome lookup(Uri system, String version, Code code) {
+        return provider.lookup(system, version, code);
+    }
+
+    /**
      * Lookup the code system concept for the given coding and lookup parameters
      *
      * @param coding
@@ -362,6 +398,46 @@ public class FHIRTermService implements FHIRTermServiceProvider {
     }
 
     /**
+     * Translate the given system, version and code using the provided concept map and translation parameters
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @param parameters
+     *     the translation parameters
+     * @return
+     *     the outcome of translation
+     */
+    @Override
+    public TranslationOutcome translate(ConceptMap conceptMap, Uri system, String version, Code code, TranslationParameters parameters) {
+        return provider.translate(conceptMap, system, version, code, parameters);
+    }
+
+    /**
+     * Translate the given system, version and code using the provided concept map
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @return
+     *     the outcome of translation
+     */
+    @Override
+    public TranslationOutcome translate(ConceptMap conceptMap, Uri system, String version, Code code) {
+        return provider.translate(conceptMap, system, version, code);
+    }
+
+    /**
      * Translate the given coding using the provided concept map and translation parameters
      *
      * @param conceptMap
@@ -391,6 +467,38 @@ public class FHIRTermService implements FHIRTermServiceProvider {
     @Override
     public TranslationOutcome translate(ConceptMap conceptMap, Coding coding) {
         return provider.translate(conceptMap, coding);
+    }
+
+    /**
+     * Translate the given codeable concept using the provided concept map and translation parameters
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param codeableConcept
+     *     the codeable concept
+     * @param parameters
+     *     the translation parameters
+     * @return
+     *     the outcome of translation
+     */
+    @Override
+    public TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept, TranslationParameters parameters) {
+        return provider.translate(conceptMap, codeableConcept, parameters);
+    }
+
+    /**
+     * Translate the given coding using the provided concept map
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param codeable concept
+     *     the codeable concept
+     * @return
+     *     the outcome of translation
+     */
+    @Override
+    public TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept) {
+        return provider.translate(conceptMap, codeableConcept);
     }
 
     public static FHIRTermService getInstance() {

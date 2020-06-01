@@ -210,6 +210,20 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
         return ConceptMapSupport.translate(conceptMap, coding);
     }
 
+    @Override
+    public TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept, TranslationParameters parameters) {
+        for (Coding coding : codeableConcept.getCoding()) {
+            TranslationOutcome outcome = translate(conceptMap, coding);
+            if (Boolean.TRUE.equals(outcome.getResult())) {
+                return outcome;
+            }
+        }
+        return TranslationOutcome.builder()
+                .result(Boolean.FALSE)
+                .message(string("no matches"))
+                .build();
+    }
+
     private ValidationOutcome buildValidationOutcome(Coding coding, boolean result, LookupOutcome outcome) {
         String message = null;
         if (!result && coding != null && coding.getCode() != null) {

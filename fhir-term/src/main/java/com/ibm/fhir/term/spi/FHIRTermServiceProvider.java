@@ -55,6 +55,45 @@ public interface FHIRTermServiceProvider {
     }
 
     /**
+     * Lookup the code system concept for the given system, version, code and lookup parameters
+     *
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @param parameters
+     *     the lookup parameters
+     * @return
+     *     the outcome of the lookup
+     */
+    default LookupOutcome lookup(Uri system, String version, Code code, LookupParameters parameters) {
+        Coding coding = Coding.builder()
+                .system(system)
+                .version(version)
+                .code(code)
+                .build();
+        return lookup(coding, parameters);
+    }
+
+    /**
+     * Lookup the code system concept for the given system, version, and code
+     *
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @return
+     *     the outcome of the lookup
+     */
+    default LookupOutcome lookup(Uri system, String version, Code code) {
+        return lookup(system, version, code, LookupParameters.EMPTY);
+    }
+
+    /**
      * Lookup the code system concept for the given coding and lookup parameters
      *
      * @param coding
@@ -317,6 +356,49 @@ public interface FHIRTermServiceProvider {
     }
 
     /**
+     * Translate the given system, version and code using the provided concept map and translation parameters
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @param parameters
+     *     the translation parameters
+     * @return
+     *     the outcome of translation
+     */
+    default TranslationOutcome translate(ConceptMap conceptMap, Uri system, String version, Code code, TranslationParameters parameters) {
+        Coding coding = Coding.builder()
+                .system(system)
+                .version(version)
+                .code(code)
+                .build();
+        return translate(conceptMap, coding, parameters);
+    }
+
+    /**
+     * Translate the given system, version and code using the provided concept map
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @return
+     *     the outcome of translation
+     */
+    default TranslationOutcome translate(ConceptMap conceptMap, Uri system, String version, Code code) {
+        return translate(conceptMap, system, version, code, TranslationParameters.EMPTY);
+    }
+
+    /**
      * Translate the given coding using the provided concept map and translation parameters
      *
      * @param conceptMap
@@ -342,5 +424,33 @@ public interface FHIRTermServiceProvider {
      */
     default TranslationOutcome translate(ConceptMap conceptMap, Coding coding) {
         return translate(conceptMap, coding, TranslationParameters.EMPTY);
+    }
+
+    /**
+     * Translate the given codeable concept using the provided concept map and translation parameters
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param codeableConcept
+     *     the codeable concept
+     * @param parameters
+     *     the translation parameters
+     * @return
+     *     the outcome of translation
+     */
+    TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept, TranslationParameters parameters);
+
+    /**
+     * Translate the given coding using the provided concept map
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param codeable concept
+     *     the codeable concept
+     * @return
+     *     the outcome of translation
+     */
+    default TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept) {
+        return translate(conceptMap, codeableConcept, TranslationParameters.EMPTY);
     }
 }
