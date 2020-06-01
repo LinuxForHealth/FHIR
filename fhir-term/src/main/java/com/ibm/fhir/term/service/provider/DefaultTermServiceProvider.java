@@ -17,6 +17,7 @@ import static com.ibm.fhir.term.util.ValueSetSupport.getContains;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -26,6 +27,8 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ConceptMap;
+import com.ibm.fhir.model.resource.ConceptMap.Group;
+import com.ibm.fhir.model.resource.ConceptMap.Group.Element;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.resource.ValueSet.Expansion;
 import com.ibm.fhir.model.resource.ValueSet.Expansion.Contains;
@@ -43,6 +46,7 @@ import com.ibm.fhir.term.spi.LookupOutcome.Designation;
 import com.ibm.fhir.term.spi.LookupOutcome.Property;
 import com.ibm.fhir.term.spi.LookupParameters;
 import com.ibm.fhir.term.spi.TranslationOutcome;
+import com.ibm.fhir.term.spi.TranslationOutcome.Match;
 import com.ibm.fhir.term.spi.TranslationParameters;
 import com.ibm.fhir.term.spi.ValidationOutcome;
 import com.ibm.fhir.term.spi.ValidationParameters;
@@ -207,7 +211,15 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
 
     @Override
     public TranslationOutcome translate(ConceptMap conceptMap, Coding coding, TranslationParameters parameters) {
-        return ConceptMapSupport.translate(conceptMap, coding);
+        List<Match> match = ConceptMapSupport.translate(conceptMap, coding).stream()
+                .map(group -> match(getSource(conceptMap), group))
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+        return TranslationOutcome.builder()
+                .result(!match.isEmpty() ? Boolean.TRUE : Boolean.FALSE)
+                .message(match.isEmpty() ? string("no matches") : null)
+                .match(match)
+                .build();
     }
 
     @Override
@@ -328,5 +340,36 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
             log.log(Level.WARNING, String.format("Unable to expand value set with url: %s and version: %s", url, version), e);
         }
         return Collections.emptyMap();
+    }
+
+    private List<Match> match(Uri source, Group group) {
+        return group.getElement().stream()
+                .map(element -> match(source, group.getTarget(), group.getTargetVersion(), element))
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+    }
+
+    private List<Match> match(Uri source, Uri system, com.ibm.fhir.model.type.String version, Element element) {
+        return element.getTarget().stream()
+                .map(target -> Match.builder()
+                    .equivalence(target.getEquivalence())
+                    .concept(Coding.builder()
+                        .system(system)
+                        .version(version)
+                        .code(target.getCode())
+                        .display(target.getDisplay())
+                        .build())
+                    .source(source)
+                    .build())
+                .collect(Collectors.toList());
+    }
+
+    private Uri getSource(ConceptMap conceptMap) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(conceptMap.getUrl().getValue());
+        if (conceptMap.getVersion() != null) {
+            sb.append("|").append(conceptMap.getVersion().getValue());
+        }
+        return Uri.of(sb.toString());
     }
 }
