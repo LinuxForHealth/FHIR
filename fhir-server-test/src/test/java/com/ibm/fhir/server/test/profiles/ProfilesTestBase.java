@@ -31,6 +31,7 @@ import com.ibm.fhir.server.test.SearchAllTest;
 /*
  * This class is not designed to run its own.  The class does the basic lift to check:
  * <li> is the profile valid to run on the server?
+ * <li> is the resource.id in the response bundle?
  */
 public abstract class ProfilesTestBase extends FHIRServerTestBase {
     private static final String CLASSNAME = ProfilesTestBase.class.getName();
