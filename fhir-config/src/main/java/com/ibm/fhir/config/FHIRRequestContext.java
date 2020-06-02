@@ -75,6 +75,11 @@ public class FHIRRequestContext {
         return tenantId;
     }
 
+    /** 
+     * @deprecated tenantKey should be looked up on-the-fly from the fhir server configuration (e.g. from 
+     *            FHIRDbDAOImpl.getConnection() in fhir-persistence-jdbc)
+     */
+    @Deprecated
     public String getTenantKey() {
         return this.tenantKey;
     }
@@ -90,15 +95,18 @@ public class FHIRRequestContext {
 
     /**
      * Setter for the tenant key
-     * @param b64
+     * 
+     * @param base64
      * @throws FHIRException if the given value is not a valid Base64 string
+     * @deprecated tenantKey should be looked up on-the-fly from the fhir server configuration (e.g. from 
+     *             FHIRDbDAOImpl.getConnection() in fhir-persistence-jdbc)
      */
-    public void setTenantKey(String b64) throws FHIRException {
+    @Deprecated
+    public void setTenantKey(String base64) throws FHIRException {
         try {
-            Base64.getDecoder().decode(b64);
-            this.tenantKey = b64;
-        }
-        catch (IllegalArgumentException x) {
+            Base64.getDecoder().decode(base64);
+            this.tenantKey = base64;
+        } catch (IllegalArgumentException x) {
             // Tenant key is a secret, so don't include it in any error message
             throw new FHIRException("Invalid tenantKey.");
         }

@@ -1,0 +1,125 @@
+{
+  "resourceType": "Patient",
+  "id": "Patient1",
+  "meta": {
+    "versionId": "4",
+    "lastUpdated": "2019-12-18T23:57:06.000-05:00",
+    "profile": [
+      "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-patient"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n\t\t\t<p>\n\t\t\t\t<b>Generated Narrative with Details</b>\n\t\t\t</p>\n\t\t\t</div>"
+  },
+  "extension": [
+    {
+      "extension": [
+        {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2106-3",
+            "display": "White"
+          }
+        },
+        {
+          "url": "text",
+          "valueString": "White"
+        }
+      ],
+      "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race"
+    },
+    {
+      "extension": [
+        {
+          "url": "ombCategory",
+          "valueCoding": {
+            "system": "urn:oid:2.16.840.1.113883.6.238",
+            "code": "2186-5",
+            "display": "Not Hispanic or Latino"
+          }
+        },
+        {
+          "url": "text",
+          "valueString": "Not Hispanic or Latino"
+        }
+      ],
+      "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity"
+    },
+    {
+      "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
+      "valueCode": "M"
+    }
+  ],
+  "identifier": [
+    {
+      "type": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MB",
+            "display": "Member Number"
+          }
+        ]
+      },
+      "system": "http://www.bcbs.com/fhir/ns/NamingSystem/patient-mb",
+      "value": "4D2F-88E5-60A4FDE99662"
+    },
+    {
+      "type": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR",
+            "display": "Medical Record Number"
+          }
+        ]
+      },
+      "system": "http://www.bcbs.com/fhir/ns/NamingSystem/patient-mrn",
+      "value": "123456"
+    },
+    {
+      "type": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "PT",
+            "display": "Patient External Identifier"
+          }
+        ]
+      },
+      "system": "http://www.external-org.com/fhir/NamingSystem/patient-identifier",
+      "value": "987654"
+    }
+  ],
+  "name": [
+    {
+      "text": "John Doe",
+      "family": "Doe",
+      "given": [
+        "John"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "555-555-5555",
+      "use": "home"
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1970-01-01",
+  "address": [
+    {
+      "line": [
+        "49 Meadow St"
+      ],
+      "city": "Mounds",
+      "state": "OK",
+      "postalCode": "74047",
+      "country": "US"
+    }
+  ]
+}

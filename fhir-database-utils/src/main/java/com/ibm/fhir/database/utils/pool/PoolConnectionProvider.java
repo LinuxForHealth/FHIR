@@ -49,7 +49,7 @@ public class PoolConnectionProvider implements IConnectionProvider {
 
     // The maximum number of connections allowed to be active
     private final int maxPoolSize;
-            
+
     /**
      * Public constructor
      * @param cp
@@ -269,4 +269,10 @@ public class PoolConnectionProvider implements IConnectionProvider {
         // Not Implemented
     }
 
+    /**
+     * gets the pool size for the pooled connection
+     */
+    public int getPoolSize() {
+        return this.maxPoolSize;
+    }
 }

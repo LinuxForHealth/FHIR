@@ -1,42 +1,61 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="FHIRServerIntegrationTests">
     <test name="ExampleTest">
-        <classes>
-            <class name="com.ibm.fhir.server.test.R4ExampleServerTest" />
-        </classes>
+        <!-- All of these tests are automatically executed and are from fhir-examples -->
+        <packages>
+            <package name="com.ibm.fhir.server.test.examples" />
+        </packages>
     </test>
- 
     <test name="ServerTests">
-        <classes>
-            <class name="com.ibm.fhir.server.test.Base64BinaryTest" />
-            <class name="com.ibm.fhir.server.test.BasicServerTest" />
-            <class name="com.ibm.fhir.server.test.ServerSpecTest" />
-            <class name="com.ibm.fhir.server.test.BundleTest" />
-            <class name="com.ibm.fhir.server.test.ConditionalReadTest" />
-            <class name="com.ibm.fhir.server.test.DeleteTest" />
-            <class name="com.ibm.fhir.server.test.UpdateTest" />
-            <class name="com.ibm.fhir.server.test.DuplicateResourceIdTest"/>
-            <class name="com.ibm.fhir.server.test.FHIRDocumentOperationTest" />
-            <class name="com.ibm.fhir.server.test.FHIRValidateOperationTest" />
-            <class name="com.ibm.fhir.server.test.FHIRHealthcheckOperationTest" />
-            <class name="com.ibm.fhir.server.test.MultiDataStoreTest" />
-            <class name="com.ibm.fhir.server.test.SearchTest" />
-            <class name="com.ibm.fhir.server.test.SearchAllTest" />
-            <class name="com.ibm.fhir.server.test.SearchExtensionsTest" />
-            <class name="com.ibm.fhir.server.test.SortingTest" />
-            <class name="com.ibm.fhir.server.test.SearchNearTest" />
-            
-            <class name="com.ibm.fhir.client.test.FHIRClientTest" />
-
-            <class name="com.ibm.fhir.cli.test.FHIRCliTest" />
-            <!-- requires $hello operation to be deployed. 
-            Include the fhir-operation-[version]-tests jar in the fhir-server userlib dir before running the test:
-            -->
-            <class name="com.ibm.fhir.server.test.FHIROperationTest" />
-            
-            <!-- The following class is intentionally moved to last.  
-                During debug, the other tests interfere with the asynch nature of the test -->
-            <class name="com.ibm.fhir.server.test.WebSocketNotificationsTest" />
-        </classes>
+        <packages>
+            <!-- All of these tests are automatically executed -->
+            <package name="com.ibm.fhir.server.test" />
+        </packages>
+    </test>
+    <test name="ProfileTests">
+        <packages>
+            <!-- All of these tests are automatically executed -->
+            <package name="com.ibm.fhir.server.test.profiles" />
+        </packages>
+    </test>
+    <test name="ClientTests">
+        <packages>
+            <!-- The first two packages of these tests are automatically executed -->
+            <package name="com.ibm.fhir.cli.test" />
+            <package name="com.ibm.fhir.client.test" />
+            <!-- The following packages of these tests are skipped by default, and enabled in test.properties -->
+            <package name="com.ibm.fhir.client.test.oauth" />
+        </packages>
+    </test>
+    <test name="BulkDataTests">
+        <packages>
+            <!-- All of these Bulk Data tests are skipped by default, and enabled in test.properties -->
+            <package name="com.ibm.fhir.server.test.bulkdata" />
+        </packages>
+    </test>
+    <test name="Db2Tests">
+        <packages>
+            <!-- All of these Db2 tests are skipped by default, and enabled in test.properties -->
+            <package name="com.ibm.fhir.server.test.db2" />
+        </packages>
+    </test>
+    <test name="KafkaTests">
+        <packages>
+            <!-- All of these Kafka tests are skipped by default, and enabled in test.properties -->
+            <package name="com.ibm.fhir.server.test.kafka" />
+        </packages>
+    </test>
+    <test name="WebsocketTests">
+        <packages>
+            <!-- All of these websocket tests are enabled by default, and disabled in test.properties -->
+            <package name="com.ibm.fhir.server.test.websocket" />
+        </packages>
+    </test>
+    <test name="PerformanceTests">
+        <packages>
+            <!-- All of these performance tests are automatically executed and 
+                 the number of iterations is controlled in test.properties -->
+            <package name="com.ibm.fhir.server.test.performance" />
+        </packages>
     </test>
 </suite>

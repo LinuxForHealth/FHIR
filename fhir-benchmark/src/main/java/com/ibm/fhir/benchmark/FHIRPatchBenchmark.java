@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,9 @@ import java.io.StringReader;
 import java.time.Instant;
 
 import javax.json.Json;
+import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
+import javax.json.spi.JsonProvider;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Param;
@@ -38,6 +40,8 @@ public class FHIRPatchBenchmark {
             .add("url", "myTime")
             .add("valueDateTime", Instant.now().toString())
             .build();
+    private static final JsonProvider JSON_PROVIDER = JsonProvider.provider();
+    private static final JsonBuilderFactory JSON_BUILDER_FACTORY = JSON_PROVIDER.createBuilderFactory(null);
 
     @State(Scope.Benchmark)
     public static class FHIRPathEvaluatorState {
@@ -47,7 +51,7 @@ public class FHIRPatchBenchmark {
         // JMH will inject the value into the annotated field before any Setup method is called.
         @Param({"valuesets"})
         public String exampleName;
-        
+
         @Setup
         public void setUp() throws Exception {
             if (exampleName == null) {
@@ -71,8 +75,8 @@ public class FHIRPatchBenchmark {
 
     @Benchmark
     public Resource benchmarkJSONPatch(FHIRPathEvaluatorState state) throws Exception {
-        FHIRPatch patch = FHIRPatch.patch(Json.createPatchBuilder()
-            .add("/extension", Json.createArrayBuilder().build())
+        FHIRPatch patch = FHIRPatch.patch(JSON_PROVIDER.createPatchBuilder()
+            .add("/extension", JSON_BUILDER_FACTORY.createArrayBuilder().build())
             .add("/extension/-", JSON_EXTENSION)
             .build());
         return patch.apply(state.resource);

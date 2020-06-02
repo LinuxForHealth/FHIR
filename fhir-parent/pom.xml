@@ -5,7 +5,7 @@
 
     <groupId>com.ibm.fhir</groupId>
     <artifactId>fhir-parent</artifactId>
-    <version>4.1.1-SNAPSHOT</version>
+    <version>4.2.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>IBM FHIR Server</name>
 
@@ -29,8 +29,8 @@
         <fhir-persistence-jdbc.index>MINIMAL_JSON</fhir-persistence-jdbc.index>
         <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
         <java.version>1.8</java.version>
-        <fhir-examples.version>4.1.1-SNAPSHOT</fhir-examples.version>
-        <fhir-tools.version>4.1.1-SNAPSHOT</fhir-tools.version>
+        <fhir-examples.version>4.2.2-SNAPSHOT</fhir-examples.version>
+        <fhir-tools.version>4.2.2-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
     </properties>
 
@@ -41,12 +41,14 @@
         <module>../fhir-audit</module>
         <module>../fhir-model</module>
         <module>../fhir-registry</module>
+        <module>../fhir-term</module>
         <module>../fhir-path</module>
         <module>../fhir-profile</module>
         <module>../fhir-validation</module>
         <module>../fhir-ig-us-core</module>
         <module>../fhir-ig-carin-bb</module>
         <module>../fhir-ig-mcode</module>
+        <module>../fhir-ig-davinci-pdex-plan-net</module>
         <module>../fhir-persistence</module>
         <module>../fhir-persistence-proxy</module>
         <module>../fhir-persistence-schema</module>
@@ -59,12 +61,14 @@
         <module>../fhir-operation-apply</module>
         <module>../fhir-operation-bulkdata</module>
         <module>../fhir-operation-convert</module>
+        <module>../fhir-operation-term</module>
         <module>../fhir-bulkimportexport-webapp</module>
         <module>../fhir-search</module>
         <module>../fhir-client</module>
         <module>../fhir-cli</module>
         <module>../fhir-notification</module>
         <module>../fhir-notification-kafka</module>
+        <module>../fhir-notification-nats</module>
         <module>../fhir-notification-websocket</module>
         <module>../fhir-server</module>
         <module>../fhir-server-webapp</module>
@@ -200,6 +204,16 @@
                 <version>1.1.1</version>
             </dependency>
             <dependency>
+                <groupId>io.nats</groupId>
+                <artifactId>java-nats-streaming</artifactId>
+                <version>2.2.3</version>
+            </dependency>
+            <dependency>
+                <groupId>io.nats</groupId>
+                <artifactId>jnats</artifactId>
+                <version>2.6.7</version>
+            </dependency>
+            <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>1.9.3</version>
@@ -284,6 +298,12 @@
                 <groupId>jakarta.inject</groupId>
                 <artifactId>jakarta.inject-api</artifactId>
                 <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.enterprise</groupId>
+                <artifactId>jakarta.enterprise.cdi-api</artifactId>
+                <version>2.0.2</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>com.ibm.cos</groupId>

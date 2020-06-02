@@ -87,17 +87,19 @@ function deploy_via_curl {
                 echo "${STATUS} - Done uploading jar file to ${FILE_TARGET_PATH}"
             done
 
-            for ZIP_FILE in `find ${PROJ}/target -name '*.zip' -and -not -name '*-index.zip' -maxdepth 1 -exec basename {} \;`
+            # The general zip FILE logic is changed to do fhir-validation-distribution.zip and fhir-cli.zip only
+            for ZIP_FILE in `find ${PROJ}/target -name fhir-validation-distribution.zip -or -name fhir-cli.zip -maxdepth 1`
             do 
-                echo " - Uploading zip: ${ZIP_FILE}"
-                FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${ZIP_FILE}"
-                STATUS=$(curl -T "${PROJ}/target/${ZIP_FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
-                echo "${STATUS} - Done uploading zip file to ${FILE_TARGET_PATH}"
-                if [ "${STATUS}" == "413" ]
-                then 
-                    # File is too big (over 300M)
-                    exit -413
-                fi
+               ZIP_FILE=`basename ${ZIP_FILE}`
+               echo " - Uploading zip: ${ZIP_FILE}"
+               FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${ZIP_FILE}"
+               STATUS=$(curl -T "${PROJ}/target/${ZIP_FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
+               echo "${STATUS} - Done uploading zip file to ${FILE_TARGET_PATH}"
+               if [ "${STATUS}" == "413" ]
+               then 
+                   # File is too big (over 300M)
+                   exit -413
+               fi
             done
 
             # Upload the POM file

@@ -50,12 +50,12 @@ public class USCoreEthnicityExtensionTest {
                     .value(Coding.builder()
                         .system(Uri.of("urn:oid:2.16.840.1.113883.6.238"))
                         .code(Code.of("2169-1"))
-                        .display(string("Columbian"))
+                        .display(string("Colombian"))
                         .build())
                     .build())
                 .extension(Extension.builder()
                     .url("text")
-                    .value(string("Hispanic or Latino - Columbian"))
+                    .value(string("Hispanic or Latino - Colombian"))
                     .build())
                 .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity")
                 .build();
@@ -66,11 +66,10 @@ public class USCoreEthnicityExtensionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(extension, "conformsTo('http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity')");
         System.out.println("result: " + result);
 
-        Assert.assertEquals(result, SINGLETON_TRUE);
-
         List<Issue> issues = evaluator.getEvaluationContext().getIssues();
         issues.forEach(System.out::println);
 
+        Assert.assertEquals(result, SINGLETON_TRUE);
         Assert.assertEquals(issues.size(), 0);
     }
 
@@ -93,12 +92,12 @@ public class USCoreEthnicityExtensionTest {
                     .value(Coding.builder()
                         .system(Uri.of("urn:oid:2.16.840.1.113883.6.238"))
                         .code(Code.of("xxx"))
-                        .display(string("Columbian"))
+                        .display(string("Colombian"))
                         .build())
                     .build())
                 .extension(Extension.builder()
                     .url("text")
-                    .value(string("Hispanic or Latino - Columbian"))
+                    .value(string("Hispanic or Latino - Colombian"))
                     .build())
                 .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity")
                 .build();
@@ -109,12 +108,11 @@ public class USCoreEthnicityExtensionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(extension, "conformsTo('http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity')");
         System.out.println("result: " + result);
 
-        Assert.assertEquals(result, SINGLETON_FALSE);
-
         List<Issue> issues = evaluator.getEvaluationContext().getIssues();
         issues.forEach(System.out::println);
 
-        Assert.assertEquals(issues.size(), 1);
+        Assert.assertEquals(result, SINGLETON_FALSE);
+        Assert.assertEquals(issues.size(), 2);
     }
 
     /**
@@ -137,12 +135,12 @@ public class USCoreEthnicityExtensionTest {
                         .value(Coding.builder()
                             .system(Uri.of("urn:oid:2.16.840.1.113883.6.238"))
                             .code(Code.of("2169-1"))
-                            .display(string("Columbian"))
+                            .display(string("Colombian"))
                             .build())
                         .build())
                     .extension(Extension.builder()
                         .url("text")
-                        .value(string("Hispanic or Latino - Columbian"))
+                        .value(string("Hispanic or Latino - Colombian"))
                         .build())
                     .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity")
                     .build())
@@ -182,12 +180,12 @@ public class USCoreEthnicityExtensionTest {
                         .value(Coding.builder()
                             .system(Uri.of("urn:oid:2.16.840.1.113883.6.238"))
                             .code(Code.of("xxx"))
-                            .display(string("Columbian"))
+                            .display(string("Colombian"))
                             .build())
                         .build())
                     .extension(Extension.builder()
                         .url("text")
-                        .value(string("Hispanic or Latino - Columbian"))
+                        .value(string("Hispanic or Latino - Colombian"))
                         .build())
                     .url("http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity")
                     .build())
@@ -204,6 +202,6 @@ public class USCoreEthnicityExtensionTest {
         issues.forEach(System.out::println);
 
         Assert.assertEquals(countWarnings(issues), 1);
-        Assert.assertEquals(countErrors(issues), 2);
+        Assert.assertEquals(countErrors(issues), 3);
     }
 }

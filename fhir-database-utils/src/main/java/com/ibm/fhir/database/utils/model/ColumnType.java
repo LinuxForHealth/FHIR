@@ -19,5 +19,6 @@ public enum ColumnType {
     DOUBLE,
     TIMESTAMP,
     BLOB,
-    CLOB
+    CLOB,
+    SMALLINT
 }

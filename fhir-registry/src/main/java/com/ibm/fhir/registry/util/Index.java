@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.json.spi.JsonProvider;
 import javax.json.stream.JsonGenerator;
@@ -33,6 +35,8 @@ import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
 
 public class Index {
+    private static final Logger log = Logger.getLogger(Index.class.getName());
+
     private static final JsonProvider PROVIDER = JsonProvider.provider();
     private static final JsonParserFactory PARSER_FACTORY = PROVIDER.createParserFactory(null);
     private static final JsonGeneratorFactory GENERATOR_FACTORY = PROVIDER.createGeneratorFactory(Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true));
@@ -93,11 +97,18 @@ public class Index {
     }
 
     private void parseFiles(JsonParser parser) {
+        int i = 0;
         while (parser.hasNext()) {
             Event event = parser.next();
             switch (event) {
             case START_OBJECT:
-                parseFile(parser);
+                try {
+                    parseFile(parser);
+                } catch (NullPointerException e) {
+                    log.log(Level.WARNING, "Skipping index entry " + i + " due to " +
+                        "one or more missing required fields, beginning with: " + e.getMessage());
+                }
+                i++;
                 break;
             case END_ARRAY:
                 return;
@@ -222,11 +233,11 @@ public class Index {
                 String version,
                 String kind,
                 String type) {
-            this.fileName = Objects.requireNonNull(fileName);
-            this.resourceType = Objects.requireNonNull(resourceType);
-            this.id = Objects.requireNonNull(id);
-            this.url = Objects.requireNonNull(url);
-            this.version = Objects.requireNonNull(version);
+            this.fileName = Objects.requireNonNull(fileName, "fileName");
+            this.resourceType = Objects.requireNonNull(resourceType, "resourceType");
+            this.id = Objects.requireNonNull(id, "id");
+            this.url = Objects.requireNonNull(url, "url");
+            this.version = Objects.requireNonNull(version, "version");
             this.kind = kind;
             this.type = type;
         }

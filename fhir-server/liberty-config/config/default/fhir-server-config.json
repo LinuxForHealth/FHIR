@@ -2,8 +2,6 @@
     "__comment": "FHIR Server configuration",
     "fhirServer": {
         "core": {
-            "truststoreLocation": "resources/security/fhirTruststore.p12",
-            "truststorePassword": "change-password",
             "tenantIdHeaderName": "X-FHIR-TENANT-ID",
             "datastoreIdHeaderName": "X-FHIR-DSID",
             "checkReferenceTypes": true,
@@ -56,6 +54,18 @@
                     "max.block.ms": "60000",
                     "max.in.flight.requests.per.connection": "5"
                 }
+            },
+            "nats": {
+                "enabled": false,
+                "cluster": "nats-streaming",
+                "channel": "fhirNotifications",
+                "clientId": "fhir-server",
+                "servers": "nats://nats-node1:4222,nats://nats-node2:4222,nats://nats-node3:4222",
+                "useTLS": false,
+                "truststoreLocation": "resources/security/nats.client.truststore.jks",
+                "truststorePassword": "change-password",
+                "keystoreLocation": "resources/security/nats.client.keystore.jks",
+                "keystorePassword": "change-password"
             }
         },
         "audit": {
@@ -96,7 +106,7 @@
                         "currentSchema": "FHIRDATA",
                         "driverType": 4,
                         "sslConnection": true,
-                        "sslTrustStoreLocation": "resources/security/fhirTruststore.p12",
+                        "sslTrustStoreLocation": "resources/security/fhirTrustStore.p12",
                         "sslTrustStorePassword": "change-password"
                     }
                 },
@@ -129,9 +139,11 @@
             "batch-uri": "https://localhost:9443/ibm/api/batch/jobinstances",
             "batch-user": "fhiradmin",
             "batch-user-password": "change-password",
-            "batch-truststore": "resources/security/fhirTruststore.p12",
+            "batch-truststore": "resources/security/fhirTrustStore.p12",
             "batch-truststore-password": "change-password",
             "isExportPublic": true,
+            "cosFileMaxResources": 500000,
+            "cosFileMaxSize": 209715200,
             "validBaseUrls": []
         }
     }

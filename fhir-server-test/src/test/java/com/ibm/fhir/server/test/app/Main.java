@@ -19,7 +19,7 @@ import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
 import com.ibm.fhir.model.spec.test.DriverStats;
 import com.ibm.fhir.model.spec.test.R4ExamplesDriver;
-import com.ibm.fhir.server.test.ExampleRequestProcessor;
+import com.ibm.fhir.server.test.examples.ExampleRequestProcessor;
 import com.ibm.fhir.validation.test.ValidationProcessor;
 
 /**

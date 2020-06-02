@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.security.RolesAllowed;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -22,6 +25,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
+
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRMediaType;
@@ -37,11 +42,19 @@ import com.ibm.fhir.server.util.RestAuditLogger;
         FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
         FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@RolesAllowed("FHIRUsers")
+@RequestScoped
 public class Create extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Create.class.getName());
 
+    // The JWT of the current caller. Since this is a request scoped resource, the
+    // JWT will be injected for each JAX-RS request. The injection is performed by
+    // the mpJwt feature.
+    @Inject
+    private JsonWebToken jwt;
+
     /**
-     * This HL7-defined extension header supports "conditional create", allowing a client to create a new resource only if some equivalent 
+     * This HL7-defined extension header supports "conditional create", allowing a client to create a new resource only if some equivalent
      * resource does not already exist on the server.
      * The client defines what equivalence means in this case by supplying a FHIR search query using an HL7 defined extension header "If-None-Exist" as shown:
      * <pre>

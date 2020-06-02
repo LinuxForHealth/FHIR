@@ -33,12 +33,11 @@ public class FHIRConfiguration {
     public static final String PROPERTY_CHECK_REFERENCE_TYPES = "fhirServer/core/checkReferenceTypes";
     public static final String PROPERTY_CONDITIONAL_DELETE_MAX_NUMBER = "fhirServer/core/conditionalDeleteMaxNumber";
     public static final String PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED = "fhirServer/core/serverRegistryResourceProviderEnabled";
+    public static final String PROPERTY_CAPABILITY_STATEMENT_CACHE = "fhirServer/core/capabilityStatementCacheTimeout";
 
     public static final String PROPERTY_SEARCH_PARAMETER_FILTER = "fhirServer/searchParameterFilter";
 
     // Auth and security properties
-    public static final String PROPERTY_TRUSTSTORE_LOCATION = "fhirServer/core/truststoreLocation";
-    public static final String PROPERTY_TRUSTSTORE_PASSWORD = "fhirServer/core/truststorePassword";
     public static final String PROPERTY_OAUTH_REGURL = "fhirServer/oauth/regUrl";
     public static final String PROPERTY_OAUTH_AUTHURL = "fhirServer/oauth/authUrl";
     public static final String PROPERTY_OAUTH_TOKENURL = "fhirServer/oauth/tokenUrl";
@@ -58,6 +57,16 @@ public class FHIRConfiguration {
     public static final String PROPERTY_KAFKA_ENABLED = "fhirServer/notifications/kafka/enabled";
     public static final String PROPERTY_KAFKA_TOPICNAME = "fhirServer/notifications/kafka/topicName";
     public static final String PROPERTY_KAFKA_CONNECTIONPROPS = "fhirServer/notifications/kafka/connectionProperties";
+    public static final String PROPERTY_NATS_ENABLED = "fhirServer/notifications/nats/enabled";
+    public static final String PROPERTY_NATS_CLUSTER = "fhirServer/notifications/nats/cluster";
+    public static final String PROPERTY_NATS_CHANNEL = "fhirServer/notifications/nats/channel";
+    public static final String PROPERTY_NATS_CLIENT = "fhirServer/notifications/nats/client";
+    public static final String PROPERTY_NATS_SERVERS = "fhirServer/notifications/nats/servers";
+    public static final String PROPERTY_NATS_TLS_ENABLED = "fhirServer/notifications/nats/useTLS";
+    public static final String PROPERTY_NATS_TRUSTSTORE = "fhirServer/notifications/nats/truststoreLocation";
+    public static final String PROPERTY_NATS_TRUSTSTORE_PW = "fhirServer/notifications/nats/truststorePassword";
+    public static final String PROPERTY_NATS_KEYSTORE = "fhirServer/notifications/nats/keystoreLocation";
+    public static final String PROPERTY_NATS_KEYSTORE_PW = "fhirServer/notifications/nats/keystorePassword";
 
     // Persistence layer properties
     public static final String PROPERTY_UPDATE_CREATE_ENABLED = "fhirServer/persistence/common/updateCreateEnabled";
@@ -91,6 +100,8 @@ public class FHIRConfiguration {
     public static final String PROPERTY_BULKDATA_BATCHJOB_VALID_URLS_DISABLED = "fhirServer/bulkdata/validBaseUrlsDisabled";
     public static final String PROPERTY_BULKDATA_BATCHJOB_MAX_INPUT_PER_TENANT =
             "fhirServer/bulkdata/maxInputPerRequest";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_COSFILEMAXSIZE = "fhirServer/bulkdata/cosFileMaxSize";
+    public static final String PROPERTY_BULKDATA_BATCHJOB_COSFILEMAXRESOURCES = "fhirServer/bulkdata/cosFileMaxResources";
 
     // Custom header names
     public static final String DEFAULT_TENANT_ID_HEADER_NAME = "X-FHIR-TENANT-ID";

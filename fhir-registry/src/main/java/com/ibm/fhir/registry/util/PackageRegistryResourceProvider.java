@@ -25,7 +25,8 @@ import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
 /**
- * A static registry resource provider that is loaded from an NPM package as specified here: <a href="https://wiki.hl7.org/FHIR_NPM_Package_Spec">https://wiki.hl7.org/FHIR_NPM_Package_Spec</a>
+ * A static registry resource provider that is loaded from an NPM package as specified at
+ * <a href="https://confluence.hl7.org/pages/viewpage.action?pageId=35718629">https://confluence.hl7.org/pages/viewpage.action?pageId=35718629</a>
  *
  * <p>This implementation caches registry resources by resource type and url
  */
@@ -56,7 +57,8 @@ public abstract class PackageRegistryResourceProvider implements FHIRRegistryRes
     public FHIRRegistryResource getRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
         Objects.requireNonNull(resourceType);
         Objects.requireNonNull(url);
-        List<FHIRRegistryResource> registryResources = registryResourceMap.getOrDefault(resourceType, Collections.emptyMap()).getOrDefault(url, Collections.emptyList());
+        List<FHIRRegistryResource> registryResources = registryResourceMap.getOrDefault(resourceType, Collections.emptyMap())
+                .getOrDefault(url, Collections.emptyList());
         if (!registryResources.isEmpty()) {
             if (version != null) {
                 Version v = Version.from(version);

@@ -52,6 +52,10 @@ echo "Copying test artifacts to install location..."
 rm -rf ${SIT}/wlp/usr/servers/fhir-server/userlib/*
 cp -pr ${WORKSPACE}/fhir-operation/target/fhir-operation-*-tests.jar ${SIT}/wlp/usr/servers/fhir-server/userlib/
 
+echo "Copying profiles artifacts to install location..."
+cp -pr ${WORKSPACE}/fhir-ig-us-core/target/fhir-ig-us-core-*.jar ${SIT}/wlp/usr/servers/fhir-server/userlib/
+cp -pr ${WORKSPACE}/fhir-ig-carin-bb/target/fhir-ig-carin-bb-*.jar ${SIT}/wlp/usr/servers/fhir-server/userlib/
+
 # Start up the fhir server
 echo "
 >>> Current time: " $(date)

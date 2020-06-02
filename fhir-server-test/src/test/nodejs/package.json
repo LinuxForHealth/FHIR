@@ -1,0 +1,9 @@
+{
+    "name": "nats-subscriber",
+    "version": "1.0.0",
+    "description": "A nats.js subscriber for IBM FHIR Server notifications",
+    "main": "./nats-subscriber.js",
+    "dependencies": {
+        "node-nats-streaming": "^0.2.6"
+    }
+}

@@ -7,14 +7,13 @@
 package com.ibm.fhir.schema.control;
 
 /**
- * Constants related to Schema creation and updating. 
+ * Constants related to Schema creation and updating.
  */
 public class FhirSchemaConstants {
-
     // A lower pool size is selected as default to limit the likelihood of contention on the DBMS.
     // Standard connection/thread pool size
     public static final int DEFAULT_POOL_SIZE = 1;
-    
+
     // Size of string columns in the search tables. DSTU2 was 511
     public static final int MAX_SEARCH_STRING_BYTES = 1024;
     public static final int MAX_TOKEN_VALUE_BYTES = 1024;
@@ -29,6 +28,8 @@ public class FhirSchemaConstants {
 
     // Group of privilege grants used for FHIRUSER access
     public static final String FHIR_USER_GRANT_GROUP = "fhiruser";
+    public static final String FHIR_BATCH_GRANT_GROUP = "fhirbatch";
+    public static final String FHIR_OAUTH_GRANT_GROUP = "fhiroauth";
 
     public static final String FHIR_SEQUENCE = "FHIR_SEQUENCE";
     public static final String FHIR_REF_SEQUENCE = "FHIR_REF_SEQUENCE";
@@ -40,13 +41,13 @@ public class FhirSchemaConstants {
     public static final String TENANT_SALT = "TENANT_SALT";
     public static final String TENANT_NAME = "TENANT_NAME";
     public static final String TENANT_STATUS = "TENANT_STATUS";
-    
+
     // R4 Logical Resources
     public static final String LOGICAL_RESOURCES = "LOGICAL_RESOURCES";
-    
+
     // R4 Logical Resource Tags and Security are modeled as token values
     public static final String TOKEN_VALUES = "TOKEN_VALUES";
-    
+
     // R4 Logical Resource Profile property is a REFERENCE (str_values)
     public static final String STR_VALUES = "STR_VALUES";
 
@@ -57,7 +58,7 @@ public class FhirSchemaConstants {
     public static final String LIST_LOGICAL_RESOURCES = "LIST_LOGICAL_RESOURCES";
     public static final String LIST_LOGICAL_RESOURCE_ITEMS = "LIST_LOGICAL_RESOURCE_ITEMS";
     public static final String ITEM_LOGICAL_ID = "ITEM_LOGICAL_ID";
-    
+
     public static final String PATIENT_CURRENT_REFS        = "PATIENT_CURRENT_REFS";
     public static final String PATIENT_LOGICAL_RESOURCES   = "PATIENT_LOGICAL_RESOURCES";
     public static final String CURRENT_PROBLEMS_LIST       = "CURRENT_PROBLEMS_LIST";

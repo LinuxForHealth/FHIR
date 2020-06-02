@@ -37,17 +37,15 @@ public class ProcedureDef extends BaseObject {
     public void apply(IDatabaseAdapter target) {
         // Serialize the execution of the procedure, to try and avoid the
         // horrible deadlocks we keep getting
-        synchronized(target) {
+        synchronized (this) {
             target.createOrReplaceProcedure(getSchemaName(), getObjectName(), supplier);
         }
     }
 
     @Override
     public void apply(Integer priorVersion, IDatabaseAdapter target) {
-        if (priorVersion != null && priorVersion > 0 && this.getVersion() > priorVersion) {
-            if (!migrations.isEmpty()) {
-                logger.warning("Found " + migrations.size() + " migration steps, but performing 'create or replace' instead");
-            }
+        if (priorVersion != null && priorVersion > 0 && this.getVersion() > priorVersion && !migrations.isEmpty()) {
+            logger.warning("Found '" + migrations.size() + "' migration steps, but performing 'create or replace' instead");
         }
 
         // Procedures are applied with "Create or replace", so just do a regular apply

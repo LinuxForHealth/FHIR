@@ -22,7 +22,6 @@ import java.sql.SQLException;
  * 
  */
 public interface IConnectionProvider {
-
     /**
      * Obtain a new connection to a data-source which this provider has
      * been configured for.
@@ -57,4 +56,11 @@ public interface IConnectionProvider {
      * @param key
      */
     public void describe(String prefix, StringBuilder cfg, String key);
+
+    /**
+     * used to control threading size.
+     */
+    public default int getPoolSize() {
+        return -1;
+    }
 }

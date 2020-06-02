@@ -8,7 +8,7 @@
     <parent>
         <groupId>com.ibm.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
-        <version>4.1.1-SNAPSHOT</version>
+        <version>4.2.2-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
       
@@ -32,6 +32,10 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.json</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

@@ -685,8 +685,7 @@ public class RMXAConnectionResource implements XAConnection, XAResource {
                             
                             // Retrieve the "type" property.
                             String type = dsPG.getStringProperty("type");
-                            String tenantKey = dsPG.getStringProperty("tenantKey", null);
-                            
+
                             // Skip this entry if the type is not recognized.
                             String datasourceClassname = FHIRProxyXADataSource.getDataSourceImplClassnameForType(type);
                             if (datasourceClassname == null) {

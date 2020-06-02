@@ -9,6 +9,7 @@ package com.ibm.fhir.database.utils.common;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Objects;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
@@ -16,6 +17,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.model.ColumnBase;
+import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.postgresql.PostgreSqlAdapter;
 
 /**
@@ -46,11 +48,11 @@ public class AddColumn implements IDatabaseStatement {
         // DatabaseTypeAdapter is needed to find the correct data type for the column.
         IDatabaseTypeAdapter dbAdapter = null;
         String driveClassName = translator.getDriverClassName();
-        if (driveClassName.contains("db2")) {
+        if (driveClassName.contains(DbType.DB2.value())) {
             dbAdapter = new Db2Adapter();
-        } else if (driveClassName.contains("derby")) {
+        } else if (driveClassName.contains(DbType.DERBY.value())) {
             dbAdapter = new DerbyAdapter();
-        } else if (driveClassName.contains("postgresql")) {
+        } else if (driveClassName.contains(DbType.POSTGRESQL.value())) {
             dbAdapter = new PostgreSqlAdapter();
         }
 
@@ -77,10 +79,14 @@ public class AddColumn implements IDatabaseStatement {
             throw new UnsupportedOperationException("Adding columns of type " + column.getClass().getSimpleName() +
                     " is not supported at this time.");
         }
+
+        if (!Objects.isNull(column.getDefaultVal()) && !column.getDefaultVal().isEmpty()) {
+            result.append(" DEFAULT ").append(column.getDefaultVal());
+        }
+
         if (!column.isNullable()) {
             result.append(" NOT NULL");
         }
-
         return result.toString();
     }
 

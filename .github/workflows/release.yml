@@ -63,7 +63,13 @@ jobs:
         bash build/release/diagnostics.sh
     - name: Upload logs
       if: always()
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@v2
       with:
         name: release-tag-${{ matrix.java }}
         path: release-test-coverage-and-logs.tgz
+    - name: Upload Artifacts - Distribution
+      if: success()
+      uses: actions/upload-artifact@v2
+      with:
+        name: fhir-server-distribution
+        path: fhir-install/target/fhir-server-distribution.zip

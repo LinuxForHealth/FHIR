@@ -6,6 +6,9 @@
 
 package com.ibm.fhir.database.utils.postgresql;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +17,8 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.api.DuplicateNameException;
+import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
@@ -24,6 +29,7 @@ import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
+import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
 
 /**
@@ -95,7 +101,6 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<String> indexColumns,
             List<String> includeColumns) {
-
         // PostgreSql doesn't support include columns, so we just have to create a normal index
         createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
     }
@@ -146,16 +151,6 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     @Override
     public void dropType(String schemaName, String typeName) {
         warnOnce(MessageKey.DROP_TYPE, "Drop type not supported in PostgreSql");
-    }
-
-    @Override
-    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
-        warnOnce(MessageKey.CREATE_PROC, "Create procedure not supported in PostgreSql");
-    }
-
-    @Override
-    public void dropProcedure(String schemaName, String procedureName) {
-        warnOnce(MessageKey.DROP_PROC, "Drop procedure not supported in PostgreSql");
     }
 
     @Override
@@ -224,16 +219,26 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         // PostgreSql doesn't support the timestamp precision argument
         return "TIMESTAMP";
     }
+    
 
     @Override
-    public void createForeignKeyConstraint(String constraintName, String schemaName, String name,
-            String targetSchema, String targetTable, String tenantColumnName,
-            List<String> columns, boolean enforced) {
+    public String doubleClause() {
+        return "DOUBLE PRECISION";
+    }
 
-        // Make the call, but
-        // 1. without the tenantColumnName because PostgreSql doesn't support our multi-tenant implementation; and
-        // 2. with enforced=true because PostgreSql doesn't support non-default constraint characteristics
-        super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, null, columns, true);
+    @Override
+    public String clobClause() {
+        return "TEXT";
+    }
+
+    @Override
+    public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema,
+        String targetTable, String targetColumnName, String tenantColumnName, List<String> columns, boolean enforced) {
+        // If enforced=false, skip the constraint because PostgreSQL doesn't support unenforced constraints
+        if (enforced) {
+            // Make the call, but without the tenantColumnName because PostgreSQL doesn't support our multi-tenant implementation
+            super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, targetColumnName, null, columns, true);
+        }
     }
 
     @Override
@@ -249,22 +254,12 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
             AddForeignKeyConstraint afk = (AddForeignKeyConstraint) stmt;
             for (ForeignKeyConstraint constraint : afk.getConstraints()) {
                 createForeignKeyConstraint(constraint.getConstraintName(), afk.getSchemaName(), afk.getTableName(),
-                    constraint.getTargetSchema(), constraint.getTargetTable(),
+                    constraint.getTargetSchema(), constraint.getTargetTable(), constraint.getTargetColumnName(),
                     afk.getTenantColumnName(), constraint.getColumns(), constraint.isEnforced());
             }
         } else {
             super.runStatement(stmt);
         }
-    }
-
-    @Override
-    public String doubleClause() {
-        return "DOUBLE PRECISION";
-    }
-
-    @Override
-    public String clobClause() {
-        return "TEXT";
     }
 
     @Override
@@ -283,5 +278,49 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         // Postgresql doesn't support index name prefixed with the schema name.
         String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, false);
         runStatement(ddl);
+    }
+
+    @Override
+    public boolean checkCompatibility(String adminSchema) {
+        final String statement = "SELECT 1";
+        boolean result = false;
+        try (Connection c = connectionProvider.getConnection(); PreparedStatement stmt = c.prepareStatement(statement)) {
+            result = stmt.execute();
+        } catch (SQLException x) {
+            throw this.getTranslator().translate(x);
+        }
+        return result;
+    }
+
+    @Override
+    public void createSchema(String schemaName){
+        try {
+            String ddl = "CREATE SCHEMA IF NOT EXISTS " + schemaName;
+            runStatement(ddl);
+            logger.log(Level.INFO, "The schema '" + schemaName + "' is created or already exists");
+        } catch (DuplicateNameException | DuplicateSchemaException e) {
+            logger.log(Level.WARNING, "The schema '" + schemaName + "' already exists; proceed with caution.");
+        }
+    }
+
+    /*
+     * @implNote the following are NOT supported on postgres, and thus, we're logging out FINE only. 
+     */
+    @Override
+    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
+        logger.fine("Create or replace procedure not run on [" + objectName + "].  This is as expected");
+    }
+
+    @Override
+    public void grantProcedurePrivileges(String schemaName, String procedureName, Collection<Privilege> privileges, String toUser) {
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
+        logger.fine("Grant procedure not run on [" + objectName + "]. This is as expected");
+    }
+    
+    @Override
+    public void dropProcedure(String schemaName, String procedureName) {
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
+        logger.fine("Drop procedure not run on [" + objectName + "]. This is as expected");
     }
 }

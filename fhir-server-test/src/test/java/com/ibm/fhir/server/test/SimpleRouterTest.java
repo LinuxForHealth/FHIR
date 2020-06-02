@@ -92,7 +92,7 @@ public class SimpleRouterTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
         printBundle(method, "response", responseBundle);
-        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 3);
+
         assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.CREATED.getStatusCode());
         assertGoodPostPutResponse(responseBundle.getEntry().get(2), Status.CREATED.getStatusCode());
@@ -105,9 +105,7 @@ public class SimpleRouterTest extends FHIRServerTestBase {
 
         assertNotNull(response.getStatus());
         assertEquals(Integer.toString(expectedStatusCode), response.getStatus().getValue());
-
-        Resource rc = entry.getResource();
-        assertNotNull(rc);
+        // Previously we got the created resource, as this is not the default the resource is not always included.
     }
 
     private void assertGoodPostPutResponse(Bundle.Entry entry, int expectedStatusCode) throws Exception {
@@ -128,17 +126,6 @@ public class SimpleRouterTest extends FHIRServerTestBase {
         if (debug) {
             System.out.println(method + " " + bundleType + 
                 " bundle contents:\n" + TestUtil.writeResource(bundle, Format.JSON, true));
-        }
-    }
-
-    private void assertResponseBundle(Bundle bundle, BundleType expectedType, int expectedEntryCount) {
-        assertNotNull(bundle);
-        assertNotNull(bundle.getType());
-        assertNotNull(bundle.getType().getValue());
-        assertEquals(expectedType, bundle.getType().getValue());
-        if (expectedEntryCount > 0) {
-            assertNotNull(bundle.getEntry());
-            assertEquals(expectedEntryCount, bundle.getEntry().size());
         }
     }
 

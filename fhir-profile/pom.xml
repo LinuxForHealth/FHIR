@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.ibm.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
-        <version>4.1.1-SNAPSHOT</version>
+        <version>4.2.2-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
 
@@ -20,6 +20,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-registry</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-term</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

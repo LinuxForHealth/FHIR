@@ -76,12 +76,11 @@ public class LastUpdatedParmBehaviorUtil {
 
         boolean parmProcessed = false;
         for (QueryParameter queryParm : parameters) {
-            // If multiple values are present, we need to OR them together.
+            // If multiple values are present, we need to AND them together.
             if (parmProcessed) {
-                // OR
-                fromClause.append(RIGHT_PAREN).append(AND).append(LEFT_PAREN);
+                fromClause.append(AND);
             } else {
-                // Signal to the downstream to treat any subsequent value as an OR condition 
+                // Signal to the downstream to treat any subsequent value as an AND condition 
                 parmProcessed = true;
             }
             executeBehavior(fromClause, queryParm);

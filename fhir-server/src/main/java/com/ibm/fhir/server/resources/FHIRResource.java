@@ -142,7 +142,12 @@ public class FHIRResource {
             // e.g "Sun, 06 Nov 1994 08:49:37 GMT", "Sunday, 06-Nov-94 08:49:37 GMT", "Sunday, 06-Nov-1994 08:49:37 GMT"
             // If 2 digits year is used, then means 1940 to 2039.
             modifiedSince = httpServletRequest.getDateHeader(HttpHeaders.IF_MODIFIED_SINCE);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
+            if (log.isLoggable(Level.FINE)) {
+                String headerVal = httpServletRequest.getHeader(HttpHeaders.IF_MODIFIED_SINCE);
+                log.log(Level.FINE, HttpHeaders.IF_MODIFIED_SINCE + " header value '" + headerVal + "' is not valid per rfc1123 or rfc850; "
+                        + "continuing with alternate formats.", e);
+            }
             try {
                 // Then handle ANSIC format, e.g, "Sun Nov  6 08:49:37 1994"
                 // and touchStone specific format, e.g, "Sat, 28-Sep-19 16:11:14"
@@ -150,6 +155,11 @@ public class FHIRResource {
                 modifiedSince = HTTP_DATETIME_FORMATTER.parse(httpServletRequest.getHeader(HttpHeaders.IF_MODIFIED_SINCE), LocalDateTime::from)
                         .atZone(ZoneId.of("GMT")).toInstant().toEpochMilli();
             } catch (DateTimeParseException e1) {
+                if (log.isLoggable(Level.FINE)) {
+                    String headerVal = httpServletRequest.getHeader(HttpHeaders.IF_MODIFIED_SINCE);
+                    log.log(Level.FINE, HttpHeaders.IF_MODIFIED_SINCE + " header value '" + headerVal + "' is not valid per rfc1123 or rfc850; "
+                            + "continuing without.", e);
+                }
                 modifiedSince = -1;
             }
         }
