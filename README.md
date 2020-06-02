@@ -54,7 +54,7 @@ To use the artifacts from a Maven project:
 |------|-----------|----------|
 |fhir-model|An object model generated from the FHIR R4 specification and corresponding parsers and generators for XML and JSON|true|
 |fhir-registry|A resource registry, registry provider interfaces, and pre-registered resources shipped with the FHIR specification|false|
-|fhir-term|A terminology service provider interface with a default implementation that implements the ValueSet expand operation|false|
+|fhir-term|A terminology service provider interface with a default implementation that implements terminology services from fully-defined CodeSystems in the registry|false|
 |fhir-profile|Helper methods for validating ValueSet membership and Profile conformance|false|
 |fhir-path|An implementation of version 2.0.0 of the FHIRPath specification assumed by FHIR R4|false|
 |fhir-validation|Validation utility for validating resource instances against the base specification and/or configured profiles|false|
@@ -92,6 +92,7 @@ To use the artifacts from a Maven project:
 |fhir-operation-convert|A limited implementation of the FHIR [$convert operation](https://www.hl7.org/fhir/R4/resource-operation-convert.html), able to convert between JSON and XML but *not* between FHIR versions|false|
 |fhir-operation-document|Basic support for the Composition `$document` operation defined at https://www.hl7.org/fhir/operation-composition-document.html |false|
 |fhir-operation-healthcheck|The `$healthcheck` operation checks for a valid connection to the database and returns the server status|false|
+|fhir-operation-term|[Terminology service](https://www.hl7.org/fhir/terminology-service.html) operations which use the default fhir-term TerminologyServiceProvider to implement $expand, $lookup, $subsumes, $closure, $validate and $translate|false|
 |fhir-operation-validate|An implementation of the FHIR resource [$validate operation](https://www.hl7.org/fhir/R4/operation-resource-validate.html)|false|
 
 #### Client
