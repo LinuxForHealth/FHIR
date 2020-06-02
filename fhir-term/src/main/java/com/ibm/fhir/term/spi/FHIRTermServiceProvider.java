@@ -8,6 +8,7 @@ package com.ibm.fhir.term.spi;
 
 import java.util.Set;
 
+import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ConceptMap;
 import com.ibm.fhir.model.resource.ValueSet;
@@ -51,6 +52,45 @@ public interface FHIRTermServiceProvider {
      */
     default ValueSet expand(ValueSet valueSet) {
         return expand(valueSet, ExpansionParameters.EMPTY);
+    }
+
+    /**
+     * Lookup the code system concept for the given system, version, code and lookup parameters
+     *
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @param parameters
+     *     the lookup parameters
+     * @return
+     *     the outcome of the lookup
+     */
+    default LookupOutcome lookup(Uri system, String version, Code code, LookupParameters parameters) {
+        Coding coding = Coding.builder()
+                .system(system)
+                .version(version)
+                .code(code)
+                .build();
+        return lookup(coding, parameters);
+    }
+
+    /**
+     * Lookup the code system concept for the given system, version, and code
+     *
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @return
+     *     the outcome of the lookup
+     */
+    default LookupOutcome lookup(Uri system, String version, Code code) {
+        return lookup(system, version, code, LookupParameters.EMPTY);
     }
 
     /**
@@ -101,10 +141,10 @@ public interface FHIRTermServiceProvider {
     Set<Concept> closure(Coding coding);
 
     /**
-     * Validate a code and display against its system and version using the provided validation parameters
+     * Validate a code and display using the provided code system, version and validation parameters
      *
-     * @param system
-     *     the system
+     * @param codeSystem
+     *     the code system
      * @param version
      *     the version
      * @param code
@@ -116,21 +156,20 @@ public interface FHIRTermServiceProvider {
      * @return
      *     the outcome of validation
      */
-    default ValidationOutcome validateCode(Uri system, String version, Code code, String display, ValidationParameters parameters) {
+    default ValidationOutcome validateCode(CodeSystem codeSystem, String version, Code code, String display, ValidationParameters parameters) {
         Coding coding = Coding.builder()
-                .system(system)
                 .version(version)
                 .code(code)
                 .display(display)
                 .build();
-        return validateCode(coding, parameters);
+        return validateCode(codeSystem, coding, parameters);
     }
 
     /**
-     * Validate a code and display against its system and version
+     * Validate a code and display using the provided code system and version
      *
-     * @param system
-     *     the system
+     * @param code system
+     *     the code system
      * @param version
      *     the version
      * @param code
@@ -140,13 +179,15 @@ public interface FHIRTermServiceProvider {
      * @return
      *     the outcome of validation
      */
-    default ValidationOutcome validateCode(Uri system, String version, Code code, String display) {
-        return validateCode(system, version, code, display, ValidationParameters.EMPTY);
+    default ValidationOutcome validateCode(CodeSystem codeSystem, String version, Code code, String display) {
+        return validateCode(codeSystem, version, code, display, ValidationParameters.EMPTY);
     }
 
     /**
-     * Validate a coding against its system and version using the provided validation parameters
+     * Validate a coding using the provided code system and validation parameters
      *
+     * @param codeSystem
+     *     the code system
      * @param coding
      *     the coding
      * @param parameters
@@ -154,23 +195,27 @@ public interface FHIRTermServiceProvider {
      * @return
      *     the outcome of validation
      */
-    ValidationOutcome validateCode(Coding coding, ValidationParameters parameters);
+    ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding, ValidationParameters parameters);
 
     /**
-     * Validate a coding against its system and version
+     * Validate a coding using the provided code system
      *
+     * @param codeSystem
+     *     the codeSystem
      * @param coding
      *     the coding
      * @return
      *     the outcome of validation
      */
-    default ValidationOutcome validateCode(Coding coding) {
-        return validateCode(coding, ValidationParameters.EMPTY);
+    default ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding) {
+        return validateCode(codeSystem, coding, ValidationParameters.EMPTY);
     }
 
     /**
-     * Validate a codeable concept against its system and version using the provided validation parameters
+     * Validate a codeable concept using the provided code system and validation parameters
      *
+     * @param codeSystem
+     *     the code system
      * @param codeableConcept
      *     the codeable concept
      * @param parameters
@@ -178,18 +223,18 @@ public interface FHIRTermServiceProvider {
      * @return
      *     the outcome of validation
      */
-    ValidationOutcome validateCode(CodeableConcept codeableConcept, ValidationParameters parameters);
+    ValidationOutcome validateCode(CodeSystem codeSystem, CodeableConcept codeableConcept, ValidationParameters parameters);
 
     /**
-     * Validate a codeable concept against its system and version
+     * Validate a codeable concept using the provided code system
      *
      * @param codeableConcept
      *     the codeable concept
      * @return
      *     the outcome of validation
      */
-    default ValidationOutcome validateCode(CodeableConcept codeableConcept) {
-        return validateCode(codeableConcept, ValidationParameters.EMPTY);
+    default ValidationOutcome validateCode(CodeSystem codeSystem, CodeableConcept codeableConcept) {
+        return validateCode(codeSystem, codeableConcept, ValidationParameters.EMPTY);
     }
 
     /**
@@ -311,6 +356,49 @@ public interface FHIRTermServiceProvider {
     }
 
     /**
+     * Translate the given system, version and code using the provided concept map and translation parameters
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @param parameters
+     *     the translation parameters
+     * @return
+     *     the outcome of translation
+     */
+    default TranslationOutcome translate(ConceptMap conceptMap, Uri system, String version, Code code, TranslationParameters parameters) {
+        Coding coding = Coding.builder()
+                .system(system)
+                .version(version)
+                .code(code)
+                .build();
+        return translate(conceptMap, coding, parameters);
+    }
+
+    /**
+     * Translate the given system, version and code using the provided concept map
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @return
+     *     the outcome of translation
+     */
+    default TranslationOutcome translate(ConceptMap conceptMap, Uri system, String version, Code code) {
+        return translate(conceptMap, system, version, code, TranslationParameters.EMPTY);
+    }
+
+    /**
      * Translate the given coding using the provided concept map and translation parameters
      *
      * @param conceptMap
@@ -336,5 +424,33 @@ public interface FHIRTermServiceProvider {
      */
     default TranslationOutcome translate(ConceptMap conceptMap, Coding coding) {
         return translate(conceptMap, coding, TranslationParameters.EMPTY);
+    }
+
+    /**
+     * Translate the given codeable concept using the provided concept map and translation parameters
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param codeableConcept
+     *     the codeable concept
+     * @param parameters
+     *     the translation parameters
+     * @return
+     *     the outcome of translation
+     */
+    TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept, TranslationParameters parameters);
+
+    /**
+     * Translate the given coding using the provided concept map
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param codeable concept
+     *     the codeable concept
+     * @return
+     *     the outcome of translation
+     */
+    default TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept) {
+        return translate(conceptMap, codeableConcept, TranslationParameters.EMPTY);
     }
 }

@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.ServiceLoader;
 import java.util.Set;
 
+import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ConceptMap;
 import com.ibm.fhir.model.resource.ValueSet;
@@ -80,6 +81,42 @@ public class FHIRTermService implements FHIRTermServiceProvider {
     }
 
     /**
+     * Lookup the code system concept for the given system, version, code and lookup parameters
+     *
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @param parameters
+     *     the lookup parameters
+     * @return
+     *     the outcome of the lookup
+     */
+    @Override
+    public LookupOutcome lookup(Uri system, String version, Code code, LookupParameters parameters) {
+        return provider.lookup(system, version, code, parameters);
+    }
+
+    /**
+     * Lookup the code system concept for the given system, version, and code
+     *
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @return
+     *     the outcome of the lookup
+     */
+    @Override
+    public LookupOutcome lookup(Uri system, String version, Code code) {
+        return provider.lookup(system, version, code);
+    }
+
+    /**
      * Lookup the code system concept for the given coding and lookup parameters
      *
      * @param coding
@@ -137,10 +174,10 @@ public class FHIRTermService implements FHIRTermServiceProvider {
     }
 
     /**
-     * Validate a code and display against its system and version using the provided validation parameters
+     * Validate a code and display using the provided code system, version and validation parameters
      *
-     * @param system
-     *     the system
+     * @param codeSystem
+     *     the code system
      * @param version
      *     the version
      * @param code
@@ -153,15 +190,15 @@ public class FHIRTermService implements FHIRTermServiceProvider {
      *     the outcome of validation
      */
     @Override
-    public ValidationOutcome validateCode(Uri system, String version, Code code, String display, ValidationParameters parameters) {
-        return provider.validateCode(system, version, code, display, parameters);
+    public ValidationOutcome validateCode(CodeSystem codeSystem, String version, Code code, String display, ValidationParameters parameters) {
+        return provider.validateCode(codeSystem, version, code, display, parameters);
     }
 
     /**
-     * Validate a code and display against its system and version
+     * Validate a code and display using the provided code system and version
      *
-     * @param system
-     *     the system
+     * @param code system
+     *     the code system
      * @param version
      *     the version
      * @param code
@@ -172,13 +209,15 @@ public class FHIRTermService implements FHIRTermServiceProvider {
      *     the outcome of validation
      */
     @Override
-    public ValidationOutcome validateCode(Uri system, String version, Code code, String display) {
-        return provider.validateCode(system, version, code, display);
+    public ValidationOutcome validateCode(CodeSystem codeSystem, String version, Code code, String display) {
+        return provider.validateCode(codeSystem, version, code, display);
     }
 
     /**
-     * Validate a coding against its system and version using the provided validation parameters
+     * Validate a coding using the provided code system and validation parameters
      *
+     * @param codeSystem
+     *     the code system
      * @param coding
      *     the coding
      * @param parameters
@@ -187,26 +226,30 @@ public class FHIRTermService implements FHIRTermServiceProvider {
      *     the outcome of validation
      */
     @Override
-    public ValidationOutcome validateCode(Coding coding, ValidationParameters parameters) {
-        return provider.validateCode(coding, parameters);
+    public ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding, ValidationParameters parameters) {
+        return provider.validateCode(codeSystem, coding, parameters);
     }
 
     /**
-     * Validate a coding against its system and version
+     * Validate a coding using the provided code system
      *
+     * @param codeSystem
+     *     the codeSystem
      * @param coding
      *     the coding
      * @return
      *     the outcome of validation
      */
     @Override
-    public ValidationOutcome validateCode(Coding coding) {
-        return provider.validateCode(coding);
+    public ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding) {
+        return provider.validateCode(codeSystem, coding);
     }
 
     /**
-     * Validate a codeable concept against its system and version using the provided validation parameters
+     * Validate a codeable concept using the provided code system and validation parameters
      *
+     * @param codeSystem
+     *     the code system
      * @param codeableConcept
      *     the codeable concept
      * @param parameters
@@ -215,12 +258,12 @@ public class FHIRTermService implements FHIRTermServiceProvider {
      *     the outcome of validation
      */
     @Override
-    public ValidationOutcome validateCode(CodeableConcept codeableConcept, ValidationParameters parameters) {
-        return provider.validateCode(codeableConcept, parameters);
+    public ValidationOutcome validateCode(CodeSystem codeSystem, CodeableConcept codeableConcept, ValidationParameters parameters) {
+        return provider.validateCode(codeSystem, codeableConcept, parameters);
     }
 
     /**
-     * Validate a codeable concept against its system and version
+     * Validate a codeable concept using the provided code system
      *
      * @param codeableConcept
      *     the codeable concept
@@ -228,8 +271,8 @@ public class FHIRTermService implements FHIRTermServiceProvider {
      *     the outcome of validation
      */
     @Override
-    public ValidationOutcome validateCode(CodeableConcept codeableConcept) {
-        return provider.validateCode(codeableConcept);
+    public ValidationOutcome validateCode(CodeSystem codeSystem, CodeableConcept codeableConcept) {
+        return provider.validateCode(codeSystem, codeableConcept);
     }
 
     /**
@@ -355,6 +398,46 @@ public class FHIRTermService implements FHIRTermServiceProvider {
     }
 
     /**
+     * Translate the given system, version and code using the provided concept map and translation parameters
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @param parameters
+     *     the translation parameters
+     * @return
+     *     the outcome of translation
+     */
+    @Override
+    public TranslationOutcome translate(ConceptMap conceptMap, Uri system, String version, Code code, TranslationParameters parameters) {
+        return provider.translate(conceptMap, system, version, code, parameters);
+    }
+
+    /**
+     * Translate the given system, version and code using the provided concept map
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param system
+     *     the system
+     * @param version
+     *     the version
+     * @param code
+     *     the code
+     * @return
+     *     the outcome of translation
+     */
+    @Override
+    public TranslationOutcome translate(ConceptMap conceptMap, Uri system, String version, Code code) {
+        return provider.translate(conceptMap, system, version, code);
+    }
+
+    /**
      * Translate the given coding using the provided concept map and translation parameters
      *
      * @param conceptMap
@@ -384,6 +467,38 @@ public class FHIRTermService implements FHIRTermServiceProvider {
     @Override
     public TranslationOutcome translate(ConceptMap conceptMap, Coding coding) {
         return provider.translate(conceptMap, coding);
+    }
+
+    /**
+     * Translate the given codeable concept using the provided concept map and translation parameters
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param codeableConcept
+     *     the codeable concept
+     * @param parameters
+     *     the translation parameters
+     * @return
+     *     the outcome of translation
+     */
+    @Override
+    public TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept, TranslationParameters parameters) {
+        return provider.translate(conceptMap, codeableConcept, parameters);
+    }
+
+    /**
+     * Translate the given coding using the provided concept map
+     *
+     * @param conceptMap
+     *     the concept map
+     * @param codeable concept
+     *     the codeable concept
+     * @return
+     *     the outcome of translation
+     */
+    @Override
+    public TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept) {
+        return provider.translate(conceptMap, codeableConcept);
     }
 
     public static FHIRTermService getInstance() {

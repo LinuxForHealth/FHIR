@@ -8,6 +8,7 @@ package com.ibm.fhir.term.service.test;
 
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.FHIRUtil.STRING_DATA_ABSENT_REASON_UNKNOWN;
+import static com.ibm.fhir.term.util.CodeSystemSupport.getCodeSystem;
 import static com.ibm.fhir.term.util.ConceptMapSupport.getConceptMap;
 import static com.ibm.fhir.term.util.ValueSetSupport.getContains;
 import static com.ibm.fhir.term.util.ValueSetSupport.getValueSet;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ConceptMap;
 import com.ibm.fhir.model.resource.ValueSet;
@@ -214,7 +216,9 @@ public class FHIRTermServiceTest {
                 .display(STRING_DATA_ABSENT_REASON_UNKNOWN)
                 .build();
 
-        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(coding);
+        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs5");
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(codeSystem, coding);
 
         assertEquals(actual, expected);
     }
@@ -232,7 +236,9 @@ public class FHIRTermServiceTest {
                 .message(string("Code 'x' is invalid"))
                 .build();
 
-        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(coding);
+        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs5");
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(codeSystem, coding);
 
         assertEquals(actual, expected);
     }
