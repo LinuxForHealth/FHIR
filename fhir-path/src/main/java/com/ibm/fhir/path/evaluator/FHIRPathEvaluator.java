@@ -80,6 +80,7 @@ import com.ibm.fhir.path.FHIRPathQuantityValue;
 import com.ibm.fhir.path.FHIRPathStringValue;
 import com.ibm.fhir.path.FHIRPathSystemValue;
 import com.ibm.fhir.path.FHIRPathTemporalValue;
+import com.ibm.fhir.path.FHIRPathTermServiceNode;
 import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.exception.FHIRPathException;
@@ -1324,6 +1325,8 @@ public class FHIRPathEvaluator {
         private static final String SCT_SYSTEM = "http://snomed.info/sct";
         private static final Collection<FHIRPathNode> SCT_SYSTEM_SINGLETON = singleton(stringValue(SCT_SYSTEM));
 
+        private static final Collection<FHIRPathNode> TERM_SERVICE_SINGLETON = singleton(FHIRPathTermServiceNode.INSTANCE);
+
         private final FHIRPathTree tree;
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
 
@@ -1424,6 +1427,8 @@ public class FHIRPathEvaluator {
                 return LOINC_SYSTEM_SINGLETON;
             case "sct":
                 return SCT_SYSTEM_SINGLETON;
+            case "terminologies":
+                return TERM_SERVICE_SINGLETON;
             default:
                 if (name.startsWith("ext-")) {
                     return singleton(stringValue(name.replace("ext-", "http://hl7.org/fhir/StructureDefinition/")));

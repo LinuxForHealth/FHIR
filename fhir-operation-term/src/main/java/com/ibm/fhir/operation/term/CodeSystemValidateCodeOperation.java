@@ -50,15 +50,7 @@ public class CodeSystemValidateCodeOperation extends AbstractTermOperation {
     }
 
     private void validate(CodeSystem codeSystem, Element codedElement) throws FHIROperationException {
-        if (codedElement.is(Coding.class)) {
-            Coding coding = codedElement.as(Coding.class);
-            if (coding.getSystem() != null && codeSystem.getUrl() != null && !coding.getSystem().equals(codeSystem.getUrl())) {
-                throw new FHIROperationException("Coding system does not match the specified CodeSystem url");
-            }
-            if (coding.getVersion() != null && codeSystem.getVersion() != null && !coding.getVersion().equals(codeSystem.getVersion())) {
-                throw new FHIROperationException("Coding version does not match the specified CodeSystem version");
-            }
-        } else {
+        if (codedElement.is(CodeableConcept.class)) {
             CodeableConcept codeableConcept = codedElement.as(CodeableConcept.class);
             for (Coding coding : codeableConcept.getCoding()) {
                 if (coding.getSystem() != null && codeSystem.getUrl().equals(coding.getSystem()) && (coding.getVersion() == null ||
@@ -68,6 +60,14 @@ public class CodeSystemValidateCodeOperation extends AbstractTermOperation {
                 }
             }
             throw new FHIROperationException("CodeableConcept does not contain a coding element that matches the specified CodeSystem url and/or version");
+        }
+        // codedElement.is(Coding.class)
+        Coding coding = codedElement.as(Coding.class);
+        if (coding.getSystem() != null && codeSystem.getUrl() != null && !coding.getSystem().equals(codeSystem.getUrl())) {
+            throw new FHIROperationException("Coding system does not match the specified CodeSystem url");
+        }
+        if (coding.getVersion() != null && codeSystem.getVersion() != null && !coding.getVersion().equals(codeSystem.getVersion())) {
+            throw new FHIROperationException("Coding version does not match the specified CodeSystem version");
         }
     }
 }

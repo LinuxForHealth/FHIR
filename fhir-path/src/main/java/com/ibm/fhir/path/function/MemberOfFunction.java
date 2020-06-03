@@ -112,10 +112,10 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                 }
                 return membershipCheckFailed(evaluationContext, elementNode, url, strength);
             } else {
-                generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.INCOMPLETE, "Membership check was not performed: value set '" + url + "' is empty or could not be expanded", elementNode);
+                generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.INCOMPLETE, "Membership check was not performed: value set '" + url + "' is empty or could not be expanded", elementNode.path());
             }
         } else {
-            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Membership check was not performed: value set '" + url + "' is not supported", elementNode);
+            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Membership check was not performed: value set '" + url + "' is not supported", elementNode.path());
         }
 
         return SINGLETON_TRUE;
@@ -151,7 +151,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
     private void generateIssue(ValidationOutcome outcome, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
         if (outcome.getMessage() != null) {
             IssueSeverity severity = ("extensible".equals(strength) || "preferred".equals(strength)) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
-            generateIssue(evaluationContext, severity, IssueType.CODE_INVALID, outcome.getMessage().getValue(), elementNode);
+            generateIssue(evaluationContext, severity, IssueType.CODE_INVALID, outcome.getMessage().getValue(), elementNode.path());
         }
     }
 
@@ -159,7 +159,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         if ("extensible".equals(strength) || "preferred".equals(strength)) {
             String prefix = evaluationContext.hasConstraint() ? evaluationContext.getConstraint().id() + ": " : "";
             String description = prefix + "The concept in this element " + ("extensible".equals(strength) ? "must" : "should") + " be from the specified value set '" + url + "' if possible";
-            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.CODE_INVALID, description, elementNode);
+            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.CODE_INVALID, description, elementNode.path());
             return SINGLETON_TRUE;
         }
         return SINGLETON_FALSE;
