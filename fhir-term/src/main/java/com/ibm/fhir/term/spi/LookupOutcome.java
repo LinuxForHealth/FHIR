@@ -102,12 +102,12 @@ public class LookupOutcome {
 
         if (version != null) {
             parametersBuilder.parameter(Parameter.builder()
-                .name(string("name"))
+                .name(string("version"))
                 .value(version)
                 .build());
 
             parametersBuilder.parameter(Parameter.builder()
-                .name(string("name"))
+                .name(string("display"))
                 .value(display)
                 .build());
         }

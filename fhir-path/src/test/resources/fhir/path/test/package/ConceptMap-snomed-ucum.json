@@ -1,0 +1,38 @@
+{
+    "resourceType": "ConceptMap",
+    "id": "snomed-ucum",
+    "url": "http://ibm.com/fhir/ConceptMap/snomed-ucum",
+    "version": "0.1.0",
+    "status": "draft",
+    "sourceCanonical": "http://snomed.info/sct?fhir_vs",
+    "targetCanonical": "http://hl7.org/fhir/ValueSet/ucum-common",
+    "group": [
+        {
+            "source": "http://snomed.info/sct",
+            "target": "http://unitsofmeasure.org",
+            "targetVersion": "2015",
+            "element": [
+                {
+                    "code": "258672001",
+                    "target": [
+                        {
+                            "code": "cm",
+                            "equivalence": "equivalent",
+                            "comment": "exact match"
+                        }
+                    ]
+                },
+                {
+                    "code": "258773002",
+                    "target": [
+                        {
+                            "code": "mL",
+                            "equivalence": "equivalent",
+                            "comment": "exact match"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

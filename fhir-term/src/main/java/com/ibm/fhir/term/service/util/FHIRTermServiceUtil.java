@@ -26,7 +26,8 @@ public final class FHIRTermServiceUtil {
     }
 
     public static <T extends Element> T getParameterValue(Parameters parameters, String name, Class<T> elementType) {
-        return elementType.cast(getParameter(parameters, name));
+        Parameter parameter = getParameter(parameters, name);
+        return (parameter != null) ? elementType.cast(getParameter(parameters, name).getValue()) : null;
     }
 
     public static List<Parameter> getParameters(Parameters parameters, String name) {
@@ -51,7 +52,8 @@ public final class FHIRTermServiceUtil {
     }
 
     public static <T extends Element> T getPartValue(Parameter parameter, String name, Class<T> elementType) {
-        return elementType.cast(getPart(parameter, name));
+        Parameter part = getPart(parameter, name);
+        return (part != null) ? elementType.cast(getPart(parameter, name).getValue()) : null;
     }
 
     public static List<Parameter> getParts(Parameter parameter, String name) {
