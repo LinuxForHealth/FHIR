@@ -222,14 +222,14 @@ public abstract class FHIRPathAbstractTermFunction extends FHIRPathAbstractFunct
                         // key mapping function
                         pair -> decode(pair.get(0)),
                         // value mapping function
-                        pair -> Arrays.stream(pair.get(1).split(","))
+                        pair -> Collections.unmodifiableList(Arrays.stream(pair.get(1).split(","))
                             .map(s -> decode(s))
-                            .collect(Collectors.toList()),
+                            .collect(Collectors.toList())),
                         // merge function
                         (u, v) -> {
                             List<String> merged = new ArrayList<>(u);
                             merged.addAll(v);
-                            return merged;
+                            return Collections.unmodifiableList(merged);
                         },
                         // map supplier
                         LinkedHashMap::new),
