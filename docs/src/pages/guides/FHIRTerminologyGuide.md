@@ -67,11 +67,11 @@ Coding coding = Coding.builder()
 ValidationOutcome outcome = FHIRTermService.getInstance().validateCode(valueSet, coding);
 ```
 
-##FHIR Server Terminology Extended Operations
+## FHIR Server Terminology Extended Operations
 
 The FHIR terminology operations module ([fhir-operation-term](https://github.com/IBM/FHIR/tree/master/fhir-operation-term)) connects the FHIR Server REST layer to the FHIR terminology module via the operations framework. This module implements the terminology operations as defined in the FHIR terminology service specification [http://hl7.org/fhir/terminology-service.html](http://hl7.org/fhir/terminology-service.html). One exception is the `$closure` operation. The `$closure` operation is experimental and does not support versioning or replay. This means that the `$closure` operation will always return the set of closure table entries for the given input concepts and does not store client state.
 
-##FHIRPath Terminology Functions
+## FHIRPath Terminology Functions
 
 The FHIRPath module ([fhir-path](https://github.com/IBM/FHIR/tree/master/fhir-path)) has been updated to support implementations of the draft FHIRPath terminology function specification: [http://hl7.org/fhir/fhirpath.html#txapi](http://hl7.org/fhir/fhirpath.html#txapi). Support for the following functions (accessed through the `%terminologies` constant) has been implemented:
 
