@@ -140,7 +140,7 @@ public class ChunkReader extends com.ibm.fhir.bulkexport.patient.ChunkReader {
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0, 0, 1, 0);
+            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0, 0, 1, 0, 1);
             stepCtx.setTransientUserData(chunkData);
         } else {
             chunkData.setPageNum(pageNum);

@@ -4,7 +4,7 @@
         <listener ref="com.ibm.fhir.bulkexport.system.ExportJobListener"/>
     </listeners>
     <step id="step1">
-        <chunk checkpoint-policy="custom">
+        <chunk checkpoint-policy="item" item-count="1">
             <reader ref="com.ibm.fhir.bulkexport.patient.ChunkReader">
                 <properties >
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>

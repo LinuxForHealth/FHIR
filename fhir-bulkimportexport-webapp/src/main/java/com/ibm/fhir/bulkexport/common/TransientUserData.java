@@ -21,9 +21,9 @@ public class TransientUserData extends CheckPointUserData {
 
     public TransientUserData(int pageNum, String uploadId, List<PartETag> cosDataPacks, int partNum,
             int indexOfCurrentTypeFilter, String resourceTypeSummary, int totalResourcesNum, int currentPartResourceNum,
-            int currentPartSize, int uploadCount, int lastPageNum) {
+            int currentPartSize, int uploadCount, int lastPageNum, int lastWritePageNum) {
         super(pageNum, uploadId, cosDataPacks, partNum, indexOfCurrentTypeFilter, resourceTypeSummary,
-                totalResourcesNum, currentPartResourceNum, currentPartSize, uploadCount, lastPageNum);
+                totalResourcesNum, currentPartResourceNum, currentPartSize, uploadCount, lastPageNum, lastWritePageNum);
     }
 
     public static TransientUserData fromCheckPointUserData(CheckPointUserData checkPointData) {
@@ -31,7 +31,7 @@ public class TransientUserData extends CheckPointUserData {
                 checkPointData.getCosDataPacks(), checkPointData.getPartNum(), checkPointData.getIndexOfCurrentTypeFilter(),
                 checkPointData.getResourceTypeSummary(), checkPointData.getTotalResourcesNum(),
                 checkPointData.getCurrentUploadResourceNum(), checkPointData.getCurrentUploadSize(),
-                checkPointData.getUploadCount(), checkPointData.getLastPageNum());
+                checkPointData.getUploadCount(), checkPointData.getLastPageNum(), checkPointData.getLastWritePageNum());
     }
 
     public ByteArrayOutputStream getBufferStream() {

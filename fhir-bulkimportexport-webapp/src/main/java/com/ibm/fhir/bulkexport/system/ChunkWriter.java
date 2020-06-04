@@ -195,9 +195,13 @@ public class ChunkWriter extends AbstractItemWriter {
             logger.warning("writeItems: chunkData is null, this should never happen!");
             throw new Exception("writeItems: chunkData is null, this should never happen!");
         } else {
-            if (chunkData.getBufferStream().size() > 0) {
+            boolean isTimeToWrite = chunkData.getPageNum() > chunkData.getLastPageNum()
+            || chunkData.getBufferStream().size() > Constants.COS_PART_MINIMALSIZE
+            || chunkData.isFinishCurrentUpload();
+            if (chunkData.getBufferStream().size() > 0 && isTimeToWrite) {
                 pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()),
                         chunkData.getBufferStream().size());
+                chunkData.setLastWritePageNum(chunkData.getPageNum());
             }
         }
     }
