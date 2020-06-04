@@ -70,6 +70,7 @@ public class SubsumesFunction extends FHIRPathAbstractTermFunction {
                 return SINGLETON_TRUE;
             case SUBSUMED_BY:
             case NOT_SUBSUMED:
+            default:
                 return SINGLETON_FALSE;
             }
         }
