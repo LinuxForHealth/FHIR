@@ -71,9 +71,9 @@ public class LookupFunction extends FHIRPathAbstractTermFunction {
         Coding coding = getCoding(evaluationContext.getTree(), codedElementNode);
         LookupOutcome outcome = service.lookup(coding, LookupParameters.from(parameters));
         if (outcome == null) {
-            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Lookup cannot be performed", "%terminologies");
+            generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Lookup cannot be performed", "%terminologies");
             return empty();
         }
-        return singleton(FHIRPathResourceNode.resourceNode(outcome.toParameters() ));
+        return singleton(FHIRPathResourceNode.resourceNode(outcome.toParameters()));
     }
 }

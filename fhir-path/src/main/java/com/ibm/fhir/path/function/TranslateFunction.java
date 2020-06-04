@@ -25,6 +25,8 @@ import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathResourceNode;
@@ -72,6 +74,9 @@ public class TranslateFunction extends FHIRPathAbstractTermFunction {
         TranslationOutcome outcome = codedElement.is(CodeableConcept.class) ?
                 service.translate(conceptMap, codedElement.as(CodeableConcept.class), TranslationParameters.from(parameters)) :
                 service.translate(conceptMap, codedElement.as(Coding.class), TranslationParameters.from(parameters));
+        if (outcome.getMessage() != null) {
+            generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.NOT_FOUND, outcome.getMessage().getValue(), "%terminologies");
+        }
         return singleton(FHIRPathResourceNode.resourceNode(outcome.toParameters()));
     }
 }

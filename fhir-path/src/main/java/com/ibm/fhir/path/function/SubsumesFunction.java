@@ -59,7 +59,7 @@ public class SubsumesFunction extends FHIRPathAbstractTermFunction {
         ConceptSubsumptionOutcome outcome = service.subsumes(codingA, codingB);
 
         if (outcome == null) {
-            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Subsumption cannot be tested", isCodedElementNode(context) ? getElementNode(context).path() : "%terminologies");
+            generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Subsumption cannot be tested", isCodedElementNode(context) ? getElementNode(context).path() : "%terminologies");
             return empty();
         }
 
@@ -68,8 +68,7 @@ public class SubsumesFunction extends FHIRPathAbstractTermFunction {
             case EQUIVALENT:
             case SUBSUMES:
                 return SINGLETON_TRUE;
-            case SUBSUMED_BY:
-            case NOT_SUBSUMED:
+            default:
                 return SINGLETON_FALSE;
             }
         }
