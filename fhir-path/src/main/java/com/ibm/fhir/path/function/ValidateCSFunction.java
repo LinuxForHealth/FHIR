@@ -75,7 +75,7 @@ public class ValidateCSFunction extends FHIRPathAbstractTermFunction {
         CodeSystem codeSystem = getResource(arguments, CodeSystem.class);
         FHIRPathElementNode codedElementNode = getElementNode(arguments.get(1));
         Element codedElement = getCodedElement(evaluationContext.getTree(), codedElementNode);
-        if (!isValid(evaluationContext, codeSystem, codedElement)) {
+        if (!validate(evaluationContext, codeSystem, codedElement)) {
             return empty();
         }
         ValidationOutcome outcome = codedElement.is(CodeableConcept.class) ?
@@ -84,11 +84,11 @@ public class ValidateCSFunction extends FHIRPathAbstractTermFunction {
         return singleton(FHIRPathResourceNode.resourceNode(outcome.toParameters()));
     }
 
-    private boolean isValid(EvaluationContext evaluationContext, CodeSystem codeSystem, Element codedElement) {
+    private boolean validate(EvaluationContext evaluationContext, CodeSystem codeSystem, Element codedElement) {
         if (codedElement.is(CodeableConcept.class)) {
             CodeableConcept codeableConcept = codedElement.as(CodeableConcept.class);
             for (Coding coding : codeableConcept.getCoding()) {
-                if (coding.getSystem() != null && codeSystem.getUrl().equals(coding.getSystem()) && (coding.getVersion() == null ||
+                if (coding.getSystem() != null && codeSystem.getUrl() != null && coding.getSystem().equals(codeSystem.getUrl()) && (coding.getVersion() == null ||
                         codeSystem.getVersion() == null ||
                         coding.getVersion().equals(codeSystem.getVersion()))) {
                     return true;
