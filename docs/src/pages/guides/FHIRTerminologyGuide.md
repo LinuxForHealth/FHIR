@@ -46,7 +46,7 @@ LookupOutcome outcome = ...;
 Parameters parameters = outcome.toParameters();
 ```
 
-This bridge to/from the `Parameters` resource enables implementers build both native implementations of the SPI and implementations that access an existing external terminology service.
+This bridge to/from the `Parameters` resource enables implementers to build both native implementations of the SPI and implementations that access an existing external terminology service.
 
 ## Default Terminology Service Provider Implementation
 
@@ -73,7 +73,7 @@ The FHIR terminology operations module ([fhir-operation-term](https://github.com
 
 ##FHIRPath Terminology Functions
 
-The FHIRPath module ([fhir-path](https://github.com/IBM/FHIR/tree/master/fhir-path)) has been updated to support implementations of the draft FHIRPath terminology function specification: [http://hl7.org/fhir/fhirpath.html#txapi](http://hl7.org/fhir/fhirpath.html#txapi). Support for the following functions (accessed through the `%terminologies` constant has been implemented:
+The FHIRPath module ([fhir-path](https://github.com/IBM/FHIR/tree/master/fhir-path)) has been updated to support implementations of the draft FHIRPath terminology function specification: [http://hl7.org/fhir/fhirpath.html#txapi](http://hl7.org/fhir/fhirpath.html#txapi). Support for the following functions (accessed through the `%terminologies` constant) has been implemented:
 
 ```
 %terminologies.expand(valueSet, params) : ValueSet
