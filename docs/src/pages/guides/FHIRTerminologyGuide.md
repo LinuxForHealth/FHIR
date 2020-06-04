@@ -50,11 +50,11 @@ This bridge to/from the `Parameters` resource enables implementers to build both
 
 ## Default Terminology Service Provider Implementation
 
-The default implementation of `FHIRTermServiceProvider` ([DefaultTermServiceProvider](https://github.com/IBM/FHIR/master/fhir-term/src/main/java/com/ibm/fhir/term/service/provider/DefaultTermServiceProvider.java)) leverages terminology resources (`CodeSystem`, `ValueSet`, and `ConceptMap`) that are available from the FHIR registry. The only `CodeSystem` resources that are supported are those with complete content (`CodeSystem.content = 'complete'`). `ValueSet` resources are supported if they reference `CodeSystem` resources that have complete content. The default implementation does not support any optional parameters (e.g. `ExpansionParameters`, `TranslationParameters`, `ValidationParameters`, etc.).
+The default implementation of `FHIRTermServiceProvider` ([DefaultTermServiceProvider](https://github.com/IBM/FHIR/blob/master/fhir-term/src/main/java/com/ibm/fhir/term/service/provider/DefaultTermServiceProvider.java)) leverages terminology resources (`CodeSystem`, `ValueSet`, and `ConceptMap`) that are available from the FHIR registry. The only `CodeSystem` resources that are supported are those with complete content (`CodeSystem.content = 'complete'`). `ValueSet` resources are supported if they reference `CodeSystem` resources that have complete content. The default implementation does not support any optional parameters (e.g. `ExpansionParameters`, `TranslationParameters`, `ValidationParameters`, etc.).
 
 ## FHIR Terminology Service Singleton facade
 
-The FHIR Terminology Service Singleton facade ([FHIRTermService](https://github.com/IBM/FHIR/master/fhir-term/src/main/java/com/ibm/fhir/term/service/FHIRTermService.java)) loads a `FHIRTermServiceProvider` from the ServiceLoader, if one exists. Otherwise, it will instantiate a `DefaultTermServiceProvider`. Other FHIR server components and user code (Java) that requires terminology capabilities should access them via the `FHIRTermService` singleton facade. Here is an example:
+The FHIR Terminology Service Singleton facade ([FHIRTermService](https://github.com/IBM/FHIR/blob/master/fhir-term/src/main/java/com/ibm/fhir/term/service/FHIRTermService.java)) loads a `FHIRTermServiceProvider` from the ServiceLoader, if one exists. Otherwise, it will instantiate a `DefaultTermServiceProvider`. Other FHIR server components and user code (Java) that requires terminology capabilities should access them via the `FHIRTermService` singleton facade. Here is an example:
 
 ```java
 ValueSet valueSet = ValueSetSupport.getValueSet("http://ibm.com/fhir/ValueSet/vs1");
