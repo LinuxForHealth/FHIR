@@ -53,7 +53,7 @@ public class CodeSystemValidateCodeOperation extends AbstractTermOperation {
         if (codedElement.is(CodeableConcept.class)) {
             CodeableConcept codeableConcept = codedElement.as(CodeableConcept.class);
             for (Coding coding : codeableConcept.getCoding()) {
-                if (coding.getSystem() != null && codeSystem.getUrl().equals(coding.getSystem()) && (coding.getVersion() == null ||
+                if (coding.getSystem() != null && codeSystem.getUrl() != null && coding.getSystem().equals(codeSystem.getUrl()) && (coding.getVersion() == null ||
                         codeSystem.getVersion() == null ||
                         coding.getVersion().equals(codeSystem.getVersion()))) {
                     return;
