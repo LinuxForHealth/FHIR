@@ -217,7 +217,7 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
                 .collect(Collectors.toList());
         return TranslationOutcome.builder()
                 .result(!match.isEmpty() ? Boolean.TRUE : Boolean.FALSE)
-                .message(match.isEmpty() ? string("no matches") : null)
+                .message(match.isEmpty() ? string("No matches found") : null)
                 .match(match)
                 .build();
     }
@@ -232,7 +232,7 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
         }
         return TranslationOutcome.builder()
                 .result(Boolean.FALSE)
-                .message(string("no matches"))
+                .message(string("No matches found"))
                 .build();
     }
 

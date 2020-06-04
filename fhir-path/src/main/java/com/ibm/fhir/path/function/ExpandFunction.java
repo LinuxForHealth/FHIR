@@ -82,7 +82,7 @@ public class ExpandFunction extends FHIRPathAbstractTermFunction {
         ValueSet valueSet = getResource(arguments, ValueSet.class);
         if (!isExpanded(valueSet) && !service.isExpandable(valueSet)) {
             String url = (valueSet.getUrl() != null) ? valueSet.getUrl().getValue() : null;
-            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "ValueSet with url '" + url + "' is not expandable", "%terminologies");
+            generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "ValueSet with url '" + url + "' is not expandable", "%terminologies");
             return empty();
         }
         ValueSet expanded = service.expand(valueSet, ExpansionParameters.from(parameters));
