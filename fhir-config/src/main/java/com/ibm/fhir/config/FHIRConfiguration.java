@@ -102,6 +102,7 @@ public class FHIRConfiguration {
             "fhirServer/bulkdata/maxInputPerRequest";
     public static final String PROPERTY_BULKDATA_BATCHJOB_COSFILEMAXSIZE = "fhirServer/bulkdata/cosFileMaxSize";
     public static final String PROPERTY_BULKDATA_BATCHJOB_COSFILEMAXRESOURCES = "fhirServer/bulkdata/cosFileMaxResources";
+    public static final String PROPERTY_BULKDATA_PATIENTEXPORT_PAGESIZE = "fhirServer/bulkdata/patientExportPageSize";
 
     // Custom header names
     public static final String DEFAULT_TENANT_ID_HEADER_NAME = "X-FHIR-TENANT-ID";

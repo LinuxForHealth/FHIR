@@ -30,6 +30,8 @@ import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 import com.ibm.fhir.bulkexport.common.CheckPointUserData;
 import com.ibm.fhir.bulkexport.common.TransientUserData;
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -54,7 +56,7 @@ public class ChunkReader extends AbstractItemReader {
     private final static Logger logger = Logger.getLogger(ChunkReader.class.getName());
     protected int pageNum = 1;
     // Control the number of records to read in each "item".
-    protected int pageSize = Constants.DEFAULT_SEARCH_PAGE_SIZE;
+    protected int pageSize;
 
     protected FHIRPersistence fhirPersistence;
     Class<? extends Resource> resourceType;
@@ -290,7 +292,7 @@ public class ChunkReader extends AbstractItemReader {
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0, 0, 1, 0);
+            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0, 0, 1, 0, 1);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
             stepCtx.setTransientUserData(chunkData);
         } else {
@@ -318,7 +320,7 @@ public class ChunkReader extends AbstractItemReader {
     public void open(Serializable checkpoint) throws Exception {
         if (checkpoint != null) {
             CheckPointUserData checkPointData = (CheckPointUserData) checkpoint;
-            pageNum = checkPointData.getPageNum();
+            pageNum = checkPointData.getLastWritePageNum();
             stepCtx.setTransientUserData(TransientUserData.fromCheckPointUserData(checkPointData));
         }
 
@@ -330,6 +332,14 @@ public class ChunkReader extends AbstractItemReader {
             fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
             logger.fine("open: Set DatastoreId to default!");
         }
+
+        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
+        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
+        fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
+        searchParametersForResoureTypes = BulkDataUtils.getSearchParemetersFromTypeFilters(fhirTypeFilters);
+
+        resourceType = ModelSupport.getResourceType(fhirResourceType);
+        pageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_BULKDATA_PATIENTEXPORT_PAGESIZE, Constants.DEFAULT_PATIENT_EXPORT_SEARCH_PAGE_SIZE);
         if (fhirSearchPageSize != null) {
             try {
                 pageSize = Integer.parseInt(fhirSearchPageSize);
@@ -337,15 +347,9 @@ public class ChunkReader extends AbstractItemReader {
                     logger.fine("open: Set page size to " + pageSize + ".");
                 }
             } catch (Exception e) {
-                logger.warning("open: Set page size to default(" + Constants.DEFAULT_SEARCH_PAGE_SIZE + ").");
+                logger.warning("open: Set page size to " + pageSize + ".");
             }
         }
-        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
-        FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
-        fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
-        searchParametersForResoureTypes = BulkDataUtils.getSearchParemetersFromTypeFilters(fhirTypeFilters);
-
-        resourceType = ModelSupport.getResourceType(fhirResourceType);
     }
 
     @Override
