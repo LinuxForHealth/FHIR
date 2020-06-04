@@ -65,8 +65,6 @@ public class SubsumedByFunction extends FHIRPathAbstractTermFunction {
         case EQUIVALENT:
         case SUBSUMED_BY:
             return SINGLETON_TRUE;
-        case SUBSUMES:
-        case NOT_SUBSUMED:
         default:
             return SINGLETON_FALSE;
         }
