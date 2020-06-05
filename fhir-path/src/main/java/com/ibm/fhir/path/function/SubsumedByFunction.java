@@ -14,7 +14,6 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.getElementNode;
 import java.util.Collection;
 import java.util.List;
 
-import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
@@ -22,7 +21,6 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
-import com.ibm.fhir.term.service.FHIRTermService;
 
 public class SubsumedByFunction extends FHIRPathAbstractTermFunction {
     @Override
@@ -41,12 +39,7 @@ public class SubsumedByFunction extends FHIRPathAbstractTermFunction {
     }
 
     @Override
-    protected Collection<FHIRPathNode> apply(
-            EvaluationContext evaluationContext,
-            Collection<FHIRPathNode> context,
-            List<Collection<FHIRPathNode>> arguments,
-            FHIRTermService service,
-            Parameters parameters) {
+    public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         if (!isCodedElementNode(context, Coding.class, Code.class) || !isCodedElementNode(arguments.get(0), Coding.class, Code.class)) {
             return empty();
         }

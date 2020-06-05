@@ -8,6 +8,7 @@ package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getElementNode;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
 
 import java.util.Collection;
@@ -28,7 +29,6 @@ import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathResourceNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
-import com.ibm.fhir.term.service.FHIRTermService;
 import com.ibm.fhir.term.spi.LookupOutcome;
 import com.ibm.fhir.term.spi.LookupParameters;
 
@@ -58,17 +58,15 @@ public class LookupFunction extends FHIRPathAbstractTermFunction {
     }
 
     @Override
-    protected Collection<FHIRPathNode> apply(
-            EvaluationContext evaluationContext,
-            Collection<FHIRPathNode> context,
-            List<Collection<FHIRPathNode>> arguments,
-            FHIRTermService service,
-            Parameters parameters) {
-        if (!isCodedElementNode(arguments.get(0), Coding.class, Code.class)) {
+    public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        if (!isTermServiceNode(context) ||
+                !isCodedElementNode(arguments.get(0), Coding.class, Code.class) ||
+                (arguments.size() == 2 && !isStringValue(arguments.get(1)))) {
             return empty();
         }
         FHIRPathElementNode codedElementNode = getElementNode(arguments.get(0));
         Coding coding = getCoding(evaluationContext.getTree(), codedElementNode);
+        Parameters parameters = getParameters(arguments);
         LookupOutcome outcome = service.lookup(coding, LookupParameters.from(parameters));
         if (outcome == null) {
             generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Lookup cannot be performed", "%terminologies");

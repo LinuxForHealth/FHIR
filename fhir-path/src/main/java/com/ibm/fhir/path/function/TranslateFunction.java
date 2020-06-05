@@ -31,7 +31,6 @@ import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathResourceNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
-import com.ibm.fhir.term.service.FHIRTermService;
 import com.ibm.fhir.term.spi.TranslationOutcome;
 import com.ibm.fhir.term.spi.TranslationParameters;
 
@@ -59,18 +58,17 @@ public class TranslateFunction extends FHIRPathAbstractTermFunction {
     }
 
     @Override
-    protected Collection<FHIRPathNode> apply(
-            EvaluationContext evaluationContext,
-            Collection<FHIRPathNode> context,
-            List<Collection<FHIRPathNode>> arguments,
-            FHIRTermService service,
-            Parameters parameters) {
-        if ((!isResourceNode(arguments.get(0)) && !isStringValue(arguments.get(0))) || !isCodedElementNode(arguments.get(1))) {
+    public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        if (!isTermServiceNode(context) ||
+                (!isResourceNode(arguments.get(0)) && !isStringValue(arguments.get(0))) ||
+                !isCodedElementNode(arguments.get(1)) ||
+                (arguments.size() == 3 && !isStringValue(arguments.get(2)))) {
             return empty();
         }
         ConceptMap conceptMap = getResource(arguments, ConceptMap.class);
         FHIRPathElementNode codedElementNode = getElementNode(arguments.get(1));
         Element codedElement = getCodedElement(evaluationContext.getTree(), codedElementNode);
+        Parameters parameters = getParameters(arguments);
         TranslationOutcome outcome = codedElement.is(CodeableConcept.class) ?
                 service.translate(conceptMap, codedElement.as(CodeableConcept.class), TranslationParameters.from(parameters)) :
                 service.translate(conceptMap, codedElement.as(Coding.class), TranslationParameters.from(parameters));

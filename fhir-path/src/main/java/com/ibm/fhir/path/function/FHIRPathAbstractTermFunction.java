@@ -8,7 +8,6 @@ package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
-import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getResourceNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getSingleton;
@@ -48,13 +47,15 @@ import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.term.service.FHIRTermService;
 
 public abstract class FHIRPathAbstractTermFunction extends FHIRPathAbstractFunction {
-    private static final Parameters EMPTY_INPUT_PARAMETERS = Parameters.builder()
+    private static final Parameters EMPTY_PARAMETERS = Parameters.builder()
             .id("InputParameters")
             .build();
 
+    protected final FHIRTermService service;
     private final Map<String, Function<String, Element>> elementFactoryMap;
 
     public FHIRPathAbstractTermFunction() {
+        service = FHIRTermService.getInstance();
         elementFactoryMap = buildElementFactoryMap();
     }
 
@@ -68,43 +69,11 @@ public abstract class FHIRPathAbstractTermFunction extends FHIRPathAbstractFunct
     public abstract int getMaxArity();
 
     @Override
-    public final Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        if (!isTermServiceNode(context) && !isCodedElementNode(context)) {
-            return empty();
-        }
-
-        FHIRTermService service = isTermServiceNode(context) ? getSingleton(context).asTermServiceNode().service() : FHIRTermService.getInstance();
-
-        if (isCodedElementNode(context) && getMaxArity() > 1) {
-            // merge context into arguments
-            arguments = new ArrayList<>(arguments);
-            arguments.add(0, context);
-            arguments = Collections.unmodifiableList(arguments);
-        }
-
-        Parameters parameters = EMPTY_INPUT_PARAMETERS;
-        if (arguments.size() == getMaxArity() && getMaxArity() > 1) {
-            if (!isStringValue(arguments.get(arguments.size() - 1))) {
-                return empty();
-            }
-            String params = getString(arguments.get(arguments.size() - 1));
-            Map<String, List<String>> queryParameters = parse(params);
-            parameters = buildInputParameters(queryParameters);
-        }
-
-        return apply(evaluationContext, context, arguments, service, parameters);
-    }
+    public abstract Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments);
 
     protected Map<String, Function<String, Element>> buildElementFactoryMap() {
         return Collections.emptyMap();
     }
-
-    protected abstract Collection<FHIRPathNode> apply(
-            EvaluationContext evaluationContext,
-            Collection<FHIRPathNode> context,
-            List<Collection<FHIRPathNode>> arguments,
-            FHIRTermService service,
-            Parameters parameters);
 
     protected boolean isCodedElementNode(Collection<FHIRPathNode> nodes) {
         return isCodedElementNode(nodes, CodeableConcept.class, Coding.class, Code.class);
@@ -141,6 +110,36 @@ public abstract class FHIRPathAbstractTermFunction extends FHIRPathAbstractFunct
                 .build();
     }
 
+    protected com.ibm.fhir.model.type.String getDisplay(FHIRPathTree tree, FHIRPathElementNode codedElementNode) {
+        if (tree != null) {
+            FHIRPathNode displayNode = tree.getSibling(codedElementNode, "display");
+            if (displayNode != null && FHIRPathType.FHIR_STRING.equals(displayNode.type())) {
+                return displayNode.asElementNode().element().as(FHIR_STRING);
+            }
+        }
+        return null;
+    }
+
+    protected Parameters getParameters(List<Collection<FHIRPathNode>> arguments) {
+        if (arguments.size() == getMaxArity()) {
+            String params = getString(arguments.get(arguments.size() - 1));
+            Map<String, List<String>> queryParameters = parse(params);
+            return buildParameters(queryParameters);
+        }
+        return EMPTY_PARAMETERS;
+    }
+
+    protected <T extends Resource> T getResource(List<Collection<FHIRPathNode>> arguments, Class<T> resourceType) {
+        if (isStringValue(arguments.get(0))) {
+            String url = FHIRPathUtil.getString(arguments.get(0));
+            return FHIRRegistry.getInstance().getResource(url, resourceType);
+        }
+        if (isResourceNode(arguments.get(0))) {
+            return resourceType.cast(getResourceNode(arguments.get(0)).resource());
+        }
+        return null;
+    }
+
     protected Uri getSystem(FHIRPathTree tree, FHIRPathElementNode codedElementNode) {
         if (tree != null) {
             FHIRPathNode systemNode = tree.getSibling(codedElementNode, "system");
@@ -161,28 +160,7 @@ public abstract class FHIRPathAbstractTermFunction extends FHIRPathAbstractFunct
         return null;
     }
 
-    protected com.ibm.fhir.model.type.String getDisplay(FHIRPathTree tree, FHIRPathElementNode codedElementNode) {
-        if (tree != null) {
-            FHIRPathNode displayNode = tree.getSibling(codedElementNode, "display");
-            if (displayNode != null && FHIRPathType.FHIR_STRING.equals(displayNode.type())) {
-                return displayNode.asElementNode().element().as(FHIR_STRING);
-            }
-        }
-        return null;
-    }
-
-    protected <T extends Resource> T getResource(List<Collection<FHIRPathNode>> arguments, Class<T> resourceType) {
-        if (isStringValue(arguments.get(0))) {
-            String url = FHIRPathUtil.getString(arguments.get(0));
-            return FHIRRegistry.getInstance().getResource(url, resourceType);
-        }
-        if (isResourceNode(arguments.get(0))) {
-            return resourceType.cast(getResourceNode(arguments.get(0)).resource());
-        }
-        return null;
-    }
-
-    private Parameters buildInputParameters(Map<String, List<String>> queryParameters) {
+    private Parameters buildParameters(Map<String, List<String>> queryParameters) {
         return Parameters.builder()
                 .id("InputParameters")
                 .parameter(queryParameters.keySet().stream()
@@ -206,14 +184,6 @@ public abstract class FHIRPathAbstractTermFunction extends FHIRPathAbstractFunct
                 .collect(Collectors.toList());
     }
 
-    private String decode(String s) {
-        try {
-            return URLDecoder.decode(s, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private Map<String, List<String>> parse(String params) {
         return Arrays.stream(params.split("&"))
                 .map(pair -> Arrays.asList(pair.split("=", 2)))
@@ -234,5 +204,13 @@ public abstract class FHIRPathAbstractTermFunction extends FHIRPathAbstractFunct
                         // map supplier
                         LinkedHashMap::new),
                     Collections::unmodifiableMap));
+    }
+
+    private String decode(String s) {
+        try {
+            return URLDecoder.decode(s, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
