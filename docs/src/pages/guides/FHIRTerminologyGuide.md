@@ -3,7 +3,7 @@ layout: post
 title: FHIR Terminology Guide
 description: FHIR Terminology Guide
 date:   2020-06-04 12:00:00 -0400
-permalink: /FHIRTerminologyGuide/
+permalink: /FHIR/guides/FHIRTerminologyGuide/
 ---
 
 ## Overview
