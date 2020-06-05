@@ -7,6 +7,8 @@
 package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isResourceNode;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
 import static com.ibm.fhir.term.util.ValueSetSupport.isExpanded;
 
@@ -31,7 +33,6 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathResourceNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
-import com.ibm.fhir.term.service.FHIRTermService;
 import com.ibm.fhir.term.spi.ExpansionParameters;
 
 public class ExpandFunction extends FHIRPathAbstractTermFunction {
@@ -73,18 +74,19 @@ public class ExpandFunction extends FHIRPathAbstractTermFunction {
     }
 
     @Override
-    protected Collection<FHIRPathNode> apply(
-            EvaluationContext evaluationContext,
-            Collection<FHIRPathNode> context,
-            List<Collection<FHIRPathNode>> arguments,
-            FHIRTermService service,
-            Parameters parameters) {
+    public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        if (!isTermServiceNode(context) ||
+                (!isResourceNode(arguments.get(0)) && !isStringValue(arguments.get(0))) ||
+                (arguments.size() == 2 && !isStringValue(arguments.get(1)))) {
+            return empty();
+        }
         ValueSet valueSet = getResource(arguments, ValueSet.class);
         if (!isExpanded(valueSet) && !service.isExpandable(valueSet)) {
             String url = (valueSet.getUrl() != null) ? valueSet.getUrl().getValue() : null;
             generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "ValueSet with url '" + url + "' is not expandable", "%terminologies");
             return empty();
         }
+        Parameters parameters = getParameters(arguments);
         ValueSet expanded = service.expand(valueSet, ExpansionParameters.from(parameters));
         return singleton(FHIRPathResourceNode.resourceNode(expanded));
     }

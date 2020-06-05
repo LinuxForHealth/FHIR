@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.path;
 
-import java.util.Objects;
-
 import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
 import com.ibm.fhir.term.service.FHIRTermService;
 
@@ -15,13 +13,8 @@ import com.ibm.fhir.term.service.FHIRTermService;
  * A singleton {@link FHIRPathNode} that wraps a {@link FHIRTermService} instance
  */
 public class FHIRPathTermServiceNode extends FHIRPathAbstractNode {
-    public static final FHIRPathTermServiceNode INSTANCE = FHIRPathTermServiceNode.builder(FHIRTermService.getInstance()).build();
-
-    private final FHIRTermService service;
-
     private FHIRPathTermServiceNode(Builder builder) {
         super(builder);
-        this.service = Objects.requireNonNull(builder.service);
     }
 
     @Override
@@ -29,8 +22,8 @@ public class FHIRPathTermServiceNode extends FHIRPathAbstractNode {
         return true;
     }
 
-    public FHIRTermService service() {
-        return service;
+    public static FHIRPathTermServiceNode termServiceNode() {
+        return FHIRPathTermServiceNode.builder().build();
     }
 
     @Override
@@ -38,16 +31,13 @@ public class FHIRPathTermServiceNode extends FHIRPathAbstractNode {
         throw new UnsupportedOperationException();
     }
 
-    private static Builder builder(FHIRTermService service) {
-        return new Builder(FHIRPathType.FHIR_TERM_SERVICE, service);
+    private static Builder builder() {
+        return new Builder(FHIRPathType.FHIR_TERM_SERVICE);
     }
 
     private static class Builder extends FHIRPathAbstractNode.Builder {
-        private final FHIRTermService service;
-
-        private Builder(FHIRPathType type, FHIRTermService service) {
+        private Builder(FHIRPathType type) {
             super(type);
-            this.service = service;
         }
 
         @Override

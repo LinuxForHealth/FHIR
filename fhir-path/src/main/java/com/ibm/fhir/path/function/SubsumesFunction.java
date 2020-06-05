@@ -15,7 +15,6 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
 import java.util.Collection;
 import java.util.List;
 
-import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
@@ -24,7 +23,6 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
-import com.ibm.fhir.term.service.FHIRTermService;
 
 public class SubsumesFunction extends FHIRPathAbstractTermFunction {
     @Override
@@ -39,31 +37,37 @@ public class SubsumesFunction extends FHIRPathAbstractTermFunction {
 
     @Override
     public int getMaxArity() {
-        return 3;
+        return 2;
     }
 
     @Override
-    protected Collection<FHIRPathNode> apply(
-            EvaluationContext evaluationContext,
-            Collection<FHIRPathNode> context,
-            List<Collection<FHIRPathNode>> arguments,
-            FHIRTermService service,
-            Parameters parameters) {
-        if (!isCodedElementNode(arguments.get(0), Coding.class, Code.class) || !isCodedElementNode(arguments.get(1), Coding.class, Code.class)) {
+    public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        if ((arguments.size() == 1) && (!isCodedElementNode(context, Coding.class, Code.class) ||
+                !isCodedElementNode(arguments.get(0), Coding.class, Code.class))) {
             return empty();
         }
 
-        Coding codingA = getCoding(evaluationContext.getTree(), getElementNode(arguments.get(0)));
-        Coding codingB = getCoding(evaluationContext.getTree(), getElementNode(arguments.get(1)));
+        if ((arguments.size() == 2) && (!isTermServiceNode(context) ||
+                !isCodedElementNode(arguments.get(0), Coding.class, Code.class) ||
+                !isCodedElementNode(arguments.get(1), Coding.class, Code.class))) {
+            return empty();
+        }
+
+        Coding codingA = (arguments.size() == 1) ?
+                getCoding(evaluationContext.getTree(), getElementNode(context)) :
+                getCoding(evaluationContext.getTree(), getElementNode(arguments.get(0)));
+        Coding codingB = (arguments.size() == 1) ?
+                getCoding(evaluationContext.getTree(), getElementNode(arguments.get(0))) :
+                getCoding(evaluationContext.getTree(), getElementNode(arguments.get(1)));
 
         ConceptSubsumptionOutcome outcome = service.subsumes(codingA, codingB);
 
         if (outcome == null) {
-            generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Subsumption cannot be tested", isCodedElementNode(context) ? getElementNode(context).path() : "%terminologies");
+            generateIssue(evaluationContext, IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Subsumption cannot be tested", (arguments.size() == 1) ? getElementNode(context).path() : "%terminologies");
             return empty();
         }
 
-        if (isCodedElementNode(context)) {
+        if (arguments.size() == 1) {
             switch (outcome.getValueAsEnumConstant()) {
             case EQUIVALENT:
             case SUBSUMES:

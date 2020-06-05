@@ -1325,7 +1325,7 @@ public class FHIRPathEvaluator {
         private static final String SCT_SYSTEM = "http://snomed.info/sct";
         private static final Collection<FHIRPathNode> SCT_SYSTEM_SINGLETON = singleton(stringValue(SCT_SYSTEM));
 
-        private static final Collection<FHIRPathNode> TERM_SERVICE_SINGLETON = singleton(FHIRPathTermServiceNode.INSTANCE);
+        private static final Collection<FHIRPathNode> TERM_SERVICE_SINGLETON = singleton(FHIRPathTermServiceNode.termServiceNode());
 
         private final FHIRPathTree tree;
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
