@@ -7,10 +7,9 @@
 package com.ibm.fhir.path;
 
 import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
-import com.ibm.fhir.term.service.FHIRTermService;
 
 /**
- * A singleton {@link FHIRPathNode} that wraps a {@link FHIRTermService} instance
+ * A special {@link FHIRPathNode} implementation used for the %terminologies external constant
  */
 public class FHIRPathTermServiceNode extends FHIRPathAbstractNode {
     private FHIRPathTermServiceNode(Builder builder) {
