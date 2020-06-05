@@ -566,8 +566,12 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
             assertNotNull(bundle);
             assertTrue(bundle.getEntry().size() == 0);
 
+            // Sometimes we have too many resources accumulated over time, and then we need to
+            // do some sorting to ensure a deterministic outcome.
             parameters = new FHIRParameters();
             parameters.searchParam("_lastUpdated", "ge1990");
+            parameters.searchParam("_count", "10");
+            parameters.searchParam("_sort:desc", "_lastUpdated");
             response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             bundle = response.getResource(Bundle.class);
@@ -600,7 +604,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
         // The Search Parameter embedded in the spec had a bad code, should be 'created'.
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("created", "ge2017-04-15");
+            parameters.searchParam("created", "2017-04-15");
             FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
