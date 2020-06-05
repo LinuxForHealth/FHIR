@@ -569,9 +569,9 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
             // Sometimes we have too many resources accumulated over time, and then we need to
             // do some sorting to ensure a deterministic outcome.
             parameters = new FHIRParameters();
-            parameters.searchParam("_lastUpdated", "ge1990");
+            parameters.searchParam("_lastUpdated", "gt1990");
             parameters.searchParam("_count", "10");
-            parameters.searchParam("_sort:desc", "_lastUpdated");
+            parameters.searchParam("_sort", "-_lastUpdated");
             response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             bundle = response.getResource(Bundle.class);
