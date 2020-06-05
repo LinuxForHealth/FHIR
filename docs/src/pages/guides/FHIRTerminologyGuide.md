@@ -25,6 +25,7 @@ public interface FHIRTermServiceProvider {
     ValidationOutcome validateCode(CodeSystem codeSystem, CodeableConcept codeableConcept, ValidationParameters parameters);
     ValidationOutcome validateCode(ValueSet valueSet, Coding coding, ValidationParameters parameters);
     ValidationOutcome validateCode(ValueSet valueSet, CodeableConcept codeableConcept, ValidationParameters parameters);
+    TranslationOutcome translate(ConceptMap conceptMap, Coding coding, TranslationParameters parameters);
     TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept, TranslationParameters parameters);
 }
 
@@ -50,7 +51,7 @@ This bridge to/from the `Parameters` resource enables implementers to build both
 
 ## Default Terminology Service Provider Implementation
 
-The default implementation of `FHIRTermServiceProvider` ([DefaultTermServiceProvider](https://github.com/IBM/FHIR/blob/master/fhir-term/src/main/java/com/ibm/fhir/term/service/provider/DefaultTermServiceProvider.java)) leverages terminology resources (`CodeSystem`, `ValueSet`, and `ConceptMap`) that are available from the FHIR registry. The only `CodeSystem` resources that are supported are those with complete content (`CodeSystem.content = 'complete'`). `ValueSet` resources are supported if they reference `CodeSystem` resources that have complete content. The default implementation does not support any optional parameters (e.g. `ExpansionParameters`, `TranslationParameters`, `ValidationParameters`, etc.).
+The default implementation of `FHIRTermServiceProvider` ([DefaultTermServiceProvider](https://github.com/IBM/FHIR/blob/master/fhir-term/src/main/java/com/ibm/fhir/term/service/provider/DefaultTermServiceProvider.java)) leverages terminology resources (`CodeSystem`, `ValueSet`, and `ConceptMap`) that have been made available through the FHIR registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/master/fhir-registry)). It supports `CodeSystem` resources with *complete* content (`CodeSystem.content = 'complete'`) and `ValueSet` resources that reference `CodeSystem` resources that have complete content. The default implementation does not support for optional parameters (e.g. `ExpansionParameters`, `TranslationParameters`, `ValidationParameters`, etc.).
 
 ## FHIR Terminology Service Singleton facade
 
