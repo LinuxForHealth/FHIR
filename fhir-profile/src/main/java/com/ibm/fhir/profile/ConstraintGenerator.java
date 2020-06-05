@@ -369,15 +369,14 @@ public class ConstraintGenerator {
         String identifier = getIdentifier(elementDefinition);
 
         if (isOptional(elementDefinition)) {
-            sb.append(identifier).append(".exists()").append(" implies (");
+            sb.append(identifier).append(".exists() implies (");
         } else {
-            sb.append(identifier).append(".exists()").append(" and ");
+            sb.append(identifier).append(".exists() and ");
         }
 
         String prefix = "";
         if (isRepeating(elementDefinition)) {
-            sb.append(identifier);
-            sb.append(".all(");
+            sb.append(identifier).append(".all(");
         } else {
             prefix = identifier + ".";
         }
@@ -413,9 +412,13 @@ public class ConstraintGenerator {
         StringBuilder sb = new StringBuilder();
 
         String identifier = getIdentifier(elementDefinition);
+
         if (isOptional(elementDefinition)) {
             sb.append(identifier).append(".exists() implies (");
+        } else {
+            sb.append(identifier).append(".exists() and ");
         }
+
         sb.append(identifier);
 
         Binding binding = elementDefinition.getBinding();
@@ -430,7 +433,17 @@ public class ConstraintGenerator {
             }
         }
 
-        sb.append(".memberOf('").append(valueSet).append("', '").append(strength).append("')");
+        if (isRepeating(elementDefinition)) {
+            sb.append(".all(");
+        } else {
+            sb.append(".");
+        }
+
+        sb.append("memberOf('").append(valueSet).append("', '").append(strength).append("')");
+
+        if (isRepeating(elementDefinition)) {
+            sb.append(")");
+        }
 
         if (isOptional(elementDefinition)) {
             sb.append(")");
