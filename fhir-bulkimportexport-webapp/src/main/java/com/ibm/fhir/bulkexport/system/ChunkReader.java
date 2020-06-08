@@ -217,7 +217,7 @@ public class ChunkReader extends AbstractItemReader {
         pageNum++;
 
         if (chunkData == null) {
-            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0, 0, 1);
+            chunkData = new TransientUserData(pageNum, null, new ArrayList<PartETag>(), 1, 0, null, 0, 0, 0, 1, 0, 1);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
             stepCtx.setTransientUserData(chunkData);
         } else {
@@ -242,7 +242,7 @@ public class ChunkReader extends AbstractItemReader {
     public void open(Serializable checkpoint) throws Exception {
         if (checkpoint != null) {
             CheckPointUserData checkPointData = (CheckPointUserData) checkpoint;
-            pageNum = checkPointData.getPageNum();
+            pageNum = checkPointData.getLastWritePageNum();
             indexOfCurrentTypeFilter = checkPointData.getIndexOfCurrentTypeFilter();
             stepCtx.setTransientUserData(TransientUserData.fromCheckPointUserData(checkPointData));
         }

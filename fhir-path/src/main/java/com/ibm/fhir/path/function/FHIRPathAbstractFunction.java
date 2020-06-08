@@ -39,14 +39,14 @@ public abstract class FHIRPathAbstractFunction implements FHIRPathFunction {
             IssueSeverity severity,
             IssueType code,
             String description,
-            FHIRPathNode node) {
+            String expression) {
         evaluationContext.getIssues().add(Issue.builder()
             .severity(severity)
             .code(code)
             .details(CodeableConcept.builder()
                 .text(string(description))
                 .build())
-            .expression(string(node.path()))
+            .expression(string(expression))
             .build());
     }
 

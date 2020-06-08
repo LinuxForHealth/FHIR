@@ -53,6 +53,7 @@ public class BulkDataConstants {
     // Status
     public static final List<String> SUCCESS_STATUS = Collections.unmodifiableList(Arrays.asList("COMPLETED"));
     public static final List<String> FAILED_STATUS = Collections.unmodifiableList(Arrays.asList("FAILED", "ABANDONED"));
+    public static final List<String> STOPPED_STATUS = Collections.unmodifiableList(Arrays.asList("STOPPED"));
 
     // Import
     public static final String PARAM_INPUT_FORMAT = "inputFormat";

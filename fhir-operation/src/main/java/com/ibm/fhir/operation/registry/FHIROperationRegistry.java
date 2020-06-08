@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.operation.FHIROperation;
@@ -50,7 +51,7 @@ public class FHIROperationRegistry {
                     continue;
                 }
                 List<ResourceType> operationResourceTypes = operation.getDefinition().getResource();
-                if (operationResourceTypes == null || operationResourceTypes.isEmpty()) {
+                if (operationResourceTypes == null || operationResourceTypes.isEmpty() || Boolean.TRUE.equals(operation.getDefinition().getSystem())) {
                     if (operationMap.putIfAbsent(operation.getName(), operation) != null) {
                         throw new IllegalStateException("Found duplicated operation name: " + operation.getName());
                     }

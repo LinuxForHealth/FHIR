@@ -1488,6 +1488,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/maxInputPerRequest`|integer|The maximum inputs per bulk import|
 |`fhirServer/bulkdata/cosFileMaxResources`|int|The maximum number of FHIR resources per COS file, "-1" means no limit, the default value is 500000 |
 |`fhirServer/bulkdata/cosFileMaxSize`|int|The maximum COS file size in bytes, "-1" means no limit, the default value is 209715200 (200M) |
+|`fhirServer/bulkdata/patientExportPageSize`|int| The search page size for patient/group export, the default value is 200 |
 
 
 ### 5.1.2 Default property values
@@ -1536,6 +1537,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/validBaseUrlsDisabled`|false|
 |`fhirServer/bulkdata/cosFileMaxResources`|500000|
 |`fhirServer/bulkdata/cosFileMaxSize`|209715200|
+|`fhirServer/bulkdata/patientExportPageSize`|200|
 
 
 ### 5.1.3 Property attributes
@@ -1602,6 +1604,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/validBaseUrlsDisabled`|Y|Y|
 |`fhirServer/bulkdata/cosFileMaxResources`|Y|Y|
 |`fhirServer/bulkdata/cosFileMaxSize`|Y|Y|
+|`fhirServer/bulkdata/patientExportPageSize`|Y|Y|
 
 ## 5.2 Keystores, truststores, and the FHIR server
 

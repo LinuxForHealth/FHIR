@@ -83,13 +83,6 @@ public class FhirSchemaGenerator {
     private static final String ADD_RESOURCE_TYPE = "ADD_RESOURCE_TYPE";
     private static final String ADD_ANY_RESOURCE = "ADD_ANY_RESOURCE";
 
-    // Tags used to control how we manage privilege grants
-    public static final String TAG_GRANT = "GRANT";
-    public static final String TAG_RESOURCE_PROCEDURE = "RESOURCE_PROCEDURE";
-    public static final String TAG_RESOURCE_TABLE = "RESOURCE_TABLE";
-    public static final String TAG_SEQUENCE = "SEQUENCE";
-    public static final String TAG_VARIABLE = "VARIABLE";
-
     // The tags we use to separate the schemas
     public static final String SCHEMA_GROUP_TAG = "SCHEMA_GROUP";
     public static final String FHIRDATA_GROUP = "FHIRDATA";
@@ -356,7 +349,7 @@ public class FhirSchemaGenerator {
         this.allTablesComplete.addDependencies(procedureDependencies);
         model.addObject(allTablesComplete);
     }
-    
+
     public void buildDatabaseSpecificArtifactsDb2(PhysicalDataModel model) {
         // These procedures just depend on the table they are manipulating and the fhir sequence. But
         // to avoid deadlocks, we only apply them after all the tables are done, so we make all

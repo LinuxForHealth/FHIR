@@ -125,7 +125,7 @@ public class MemberOfFunctionTest {
         EvaluationContext evaluationContext = new EvaluationContext(Code.of("x"));
         Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'extensible')");
 
-        Assert.assertEquals(evaluationContext.getIssues().size(), 1);
+        Assert.assertEquals(evaluationContext.getIssues().size(), 2);
         Issue issue = evaluationContext.getIssues().get(0);
         Assert.assertEquals(issue.getSeverity(), IssueSeverity.WARNING);
         Assert.assertEquals(issue.getCode(), IssueType.CODE_INVALID);
@@ -139,7 +139,7 @@ public class MemberOfFunctionTest {
         EvaluationContext evaluationContext = new EvaluationContext(Code.of("x"));
         Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'preferred')");
 
-        Assert.assertEquals(evaluationContext.getIssues().size(), 1);
+        Assert.assertEquals(evaluationContext.getIssues().size(), 2);
         Issue issue = evaluationContext.getIssues().get(0);
         Assert.assertEquals(issue.getSeverity(), IssueSeverity.WARNING);
         Assert.assertEquals(issue.getCode(), IssueType.CODE_INVALID);

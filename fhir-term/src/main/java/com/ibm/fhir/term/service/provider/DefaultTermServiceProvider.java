@@ -7,6 +7,8 @@
 package com.ibm.fhir.term.service.provider;
 
 import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
+import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.model.util.FHIRUtil.STRING_DATA_ABSENT_REASON_UNKNOWN;
 import static com.ibm.fhir.term.util.CodeSystemSupport.findConcept;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getCodeSystem;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getConcepts;
@@ -15,27 +17,45 @@ import static com.ibm.fhir.term.util.ValueSetSupport.getContains;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ConceptMap;
+import com.ibm.fhir.model.resource.ConceptMap.Group;
+import com.ibm.fhir.model.resource.ConceptMap.Group.Element;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.resource.ValueSet.Expansion;
 import com.ibm.fhir.model.resource.ValueSet.Expansion.Contains;
+import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
+import com.ibm.fhir.term.spi.ExpansionParameters;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
+import com.ibm.fhir.term.spi.LookupOutcome;
+import com.ibm.fhir.term.spi.LookupOutcome.Designation;
+import com.ibm.fhir.term.spi.LookupOutcome.Property;
+import com.ibm.fhir.term.spi.LookupParameters;
 import com.ibm.fhir.term.spi.TranslationOutcome;
+import com.ibm.fhir.term.spi.TranslationOutcome.Match;
+import com.ibm.fhir.term.spi.TranslationParameters;
+import com.ibm.fhir.term.spi.ValidationOutcome;
+import com.ibm.fhir.term.spi.ValidationParameters;
 import com.ibm.fhir.term.util.ConceptMapSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
+/**
+ * Default implementation of the FHIRTermServiceProvider interface using CodeSystemSupport, ConceptMapSupport, and ValueSetSupport
+ */
 public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     private static final Logger log = Logger.getLogger(DefaultTermServiceProvider.class.getName());
 
@@ -48,39 +68,62 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     @Override
-    public ValueSet expand(ValueSet valueSet) {
+    public ValueSet expand(ValueSet valueSet, ExpansionParameters parameters) {
         return ValueSetSupport.expand(valueSet);
     }
 
     @Override
-    public Concept lookup(Coding coding) {
-        String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
-        String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
-        String code = (coding.getCode() != null) ? coding.getCode().getValue() : null;
-
+    public LookupOutcome lookup(Coding coding, LookupParameters parameters) {
+        Uri system = coding.getSystem();
+        Code code = coding.getCode();
         if (system != null && code != null) {
-            String url = (version != null) ? system + "|" + version : system;
+            String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
+            String url = (version != null) ? system.getValue() + "|" + version : system.getValue();
             CodeSystem codeSystem = getCodeSystem(url);
             if (codeSystem != null) {
-                return findConcept(codeSystem, Code.of(code));
+                return lookup(codeSystem, code);
             }
         }
+        return null;
+    }
 
+    private LookupOutcome lookup(CodeSystem codeSystem, Code code) {
+        Concept concept = findConcept(codeSystem, code);
+        if (concept != null) {
+            return LookupOutcome.builder()
+                    .name((codeSystem.getName() != null) ? codeSystem.getName() : STRING_DATA_ABSENT_REASON_UNKNOWN)
+                    .version(codeSystem.getVersion())
+                    .display((concept.getDisplay() != null) ? concept.getDisplay() : STRING_DATA_ABSENT_REASON_UNKNOWN)
+                    .property(concept.getProperty().stream()
+                        .map(property -> Property.builder()
+                            .code(property.getCode())
+                            .value(property.getValue())
+                            .build())
+                        .collect(Collectors.toList()))
+                    .designation(concept.getDesignation().stream()
+                        .map(designation -> Designation.builder()
+                            .language(designation.getLanguage())
+                            .use(designation.getUse())
+                            .value(designation.getValue())
+                            .build())
+                        .collect(Collectors.toList()))
+                    .build();
+        }
         return null;
     }
 
     @Override
     public ConceptSubsumptionOutcome subsumes(Coding codingA, Coding codingB) {
-        String systemA = (codingA.getSystem() != null) ? codingA.getSystem().getValue() : null;
+        Uri systemA = codingA.getSystem();
         String versionA = (codingA.getVersion() != null) ? codingA.getVersion().getValue() : null;
-        String codeA = (codingA.getCode() != null) ? codingA.getCode().getValue() : null;
+        Code codeA = codingA.getCode();
 
-        String systemB = (codingB.getSystem() != null) ? codingB.getSystem().getValue() : null;
+        Uri systemB = codingB.getSystem();
         String versionB = (codingB.getVersion() != null) ? codingB.getVersion().getValue() : null;
-        String codeB = (codingB.getCode() != null) ? codingB.getCode().getValue() : null;
+        Code codeB = codingB.getCode();
 
         if (systemA != null && systemB != null && codeA != null && codeB != null && systemA.equals(systemB)) {
-            String url = systemA;
+            String url = systemA.getValue();
 
             if (versionA != null || versionB != null) {
                 if (versionA != null && versionB != null && !versionA.equals(versionB)) {
@@ -91,15 +134,15 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
 
             CodeSystem codeSystem = getCodeSystem(url);
             if (codeSystem != null && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                Concept conceptA = findConcept(codeSystem, Code.of(codeA));
+                Concept conceptA = findConcept(codeSystem, codeA);
                 if (conceptA != null) {
-                    Concept conceptB = findConcept(conceptA, Code.of(codeB));
+                    Concept conceptB = findConcept(conceptA, codeB);
                     if (conceptB != null) {
                         return conceptA.equals(conceptB) ? ConceptSubsumptionOutcome.EQUIVALENT : ConceptSubsumptionOutcome.SUBSUMES;
                     }
-                    conceptB = findConcept(codeSystem, Code.of(codeB));
+                    conceptB = findConcept(codeSystem, codeB);
                     if (conceptB != null) {
-                        conceptA = findConcept(conceptB, Code.of(codeA));
+                        conceptA = findConcept(conceptB, codeA);
                         return (conceptA != null) ? ConceptSubsumptionOutcome.SUBSUMED_BY : ConceptSubsumptionOutcome.NOT_SUBSUMED;
                     }
                 }
@@ -111,15 +154,15 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
 
     @Override
     public Set<Concept> closure(Coding coding) {
-        String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
+        Uri system = coding.getSystem();
         String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
-        String code = (coding.getCode() != null) ? coding.getCode().getValue() : null;
+        Code code = coding.getCode();
 
         if (system != null && code != null) {
-            String url = (version != null) ? system + "|" + version : system;
+            String url = (version != null) ? system.getValue() + "|" + version : system.getValue();
             CodeSystem codeSystem = getCodeSystem(url);
             if (codeSystem != null && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                Concept concept = findConcept(codeSystem, Code.of(code));
+                Concept concept = findConcept(codeSystem, code);
                 if (concept != null) {
                     return getConcepts(concept);
                 }
@@ -130,41 +173,90 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     @Override
-    public boolean validateCode(Coding coding) {
-        return lookup(coding) != null;
+    public ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding, ValidationParameters parameters) {
+        LookupOutcome outcome = lookup(codeSystem, coding.getCode());
+        return buildValidationOutcome(coding, (outcome != null), outcome);
     }
 
     @Override
-    public boolean validateCode(ValueSet valueSet, String system, String version, String code) {
-        return contains(getCodeSetMap(valueSet), system, version, code);
-    }
-
-    @Override
-    public boolean validateCode(ValueSet valueSet, Coding coding) {
-        return contains(getCodeSetMap(valueSet), coding);
-    }
-
-    @Override
-    public boolean validateCode(ValueSet valueSet, CodeableConcept codeableConcept) {
-        Map<String, Set<String>> codeSetMap = getCodeSetMap(valueSet);
+    public ValidationOutcome validateCode(CodeSystem codeSystem, CodeableConcept codeableConcept, ValidationParameters parameters) {
         for (Coding coding : codeableConcept.getCoding()) {
-            if (contains(codeSetMap, coding)) {
-                return true;
+            ValidationOutcome outcome = validateCode(codeSystem, coding);
+            if (Boolean.TRUE.equals(outcome.getResult())) {
+                return outcome;
             }
         }
-        return false;
+        return buildValidationOutcome(null, false, null);
     }
 
     @Override
-    public TranslationOutcome translate(ConceptMap conceptMap, Coding coding) {
-        return ConceptMapSupport.translate(conceptMap, coding);
+    public ValidationOutcome validateCode(ValueSet valueSet, Coding coding, ValidationParameters parameters) {
+        boolean result = validateCode(getCodeSetMap(valueSet), coding);
+        LookupOutcome outcome = result ? lookup(coding) : null;
+        return buildValidationOutcome(coding, result, outcome);
     }
 
-    private boolean contains(Map<String, Set<String>> codeSetMap, Coding coding) {
+    @Override
+    public ValidationOutcome validateCode(ValueSet valueSet, CodeableConcept codeableConcept, ValidationParameters parameters) {
+        Map<String, Set<String>> codeSetMap = getCodeSetMap(valueSet);
+        for (Coding coding : codeableConcept.getCoding()) {
+            boolean result = validateCode(codeSetMap, coding);
+            if (result) {
+                LookupOutcome outcome = lookup(coding);
+                return buildValidationOutcome(coding, result, outcome);
+            }
+        }
+        return buildValidationOutcome(null, false, null);
+    }
+
+    @Override
+    public TranslationOutcome translate(ConceptMap conceptMap, Coding coding, TranslationParameters parameters) {
+        List<Match> match = ConceptMapSupport.translate(conceptMap, coding).stream()
+                .map(group -> match(getSource(conceptMap), group))
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+        return TranslationOutcome.builder()
+                .result(!match.isEmpty() ? Boolean.TRUE : Boolean.FALSE)
+                .message(match.isEmpty() ? string("No matches found") : null)
+                .match(match)
+                .build();
+    }
+
+    @Override
+    public TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept, TranslationParameters parameters) {
+        for (Coding coding : codeableConcept.getCoding()) {
+            TranslationOutcome outcome = translate(conceptMap, coding);
+            if (Boolean.TRUE.equals(outcome.getResult())) {
+                return outcome;
+            }
+        }
+        return TranslationOutcome.builder()
+                .result(Boolean.FALSE)
+                .message(string("No matches found"))
+                .build();
+    }
+
+    private ValidationOutcome buildValidationOutcome(Coding coding, boolean result, LookupOutcome outcome) {
+        String message = null;
+        if (!result && coding != null && coding.getCode() != null) {
+            message = String.format("Code '%s' is invalid", coding.getCode().getValue());
+        }
+        if (result && outcome != null && coding != null && outcome.getDisplay() != null && coding.getDisplay() != null && !outcome.getDisplay().equals(coding.getDisplay())) {
+            message = String.format("The display '%s' is incorrect for code '%s' from code system '%s'", coding.getDisplay().getValue(), coding.getCode().getValue(), coding.getSystem().getValue());
+            result = false;
+        }
+        return ValidationOutcome.builder()
+                .result(result ? Boolean.TRUE : Boolean.FALSE)
+                .message((message != null) ? string(message) : null)
+                .display((outcome != null) ? outcome.getDisplay() : null)
+                .build();
+    }
+
+    private boolean validateCode(Map<String, Set<String>> codeSetMap, Coding coding) {
         String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
         String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
         String code = (coding.getCode() != null) ? coding.getCode().getValue() : null;
-        return contains(codeSetMap, system, version, code);
+        return validateCode(codeSetMap, system, version, code);
     }
 
     /**
@@ -187,7 +279,7 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
      * @return
      *     true if a codeSet is found and the provided code is a member of that codeSet, false otherwise
      */
-    private boolean contains(Map<String, Set<String>> codeSetMap, String system, String version, String code) {
+    private boolean validateCode(Map<String, Set<String>> codeSetMap, String system, String version, String code) {
         if (system != null && version != null) {
             Set<String> codeSet = codeSetMap.get(system + "|" + version);
             if (codeSet != null) {
@@ -248,5 +340,36 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
             log.log(Level.WARNING, String.format("Unable to expand value set with url: %s and version: %s", url, version), e);
         }
         return Collections.emptyMap();
+    }
+
+    private List<Match> match(Uri source, Group group) {
+        return group.getElement().stream()
+                .map(element -> match(source, group.getTarget(), group.getTargetVersion(), element))
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+    }
+
+    private List<Match> match(Uri source, Uri system, com.ibm.fhir.model.type.String version, Element element) {
+        return element.getTarget().stream()
+                .map(target -> Match.builder()
+                    .equivalence(target.getEquivalence())
+                    .concept(Coding.builder()
+                        .system(system)
+                        .version(version)
+                        .code(target.getCode())
+                        .display(target.getDisplay())
+                        .build())
+                    .source(source)
+                    .build())
+                .collect(Collectors.toList());
+    }
+
+    private Uri getSource(ConceptMap conceptMap) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(conceptMap.getUrl().getValue());
+        if (conceptMap.getVersion() != null) {
+            sb.append("|").append(conceptMap.getVersion().getValue());
+        }
+        return Uri.of(sb.toString());
     }
 }

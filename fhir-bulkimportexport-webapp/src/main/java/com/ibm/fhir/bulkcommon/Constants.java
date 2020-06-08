@@ -15,9 +15,10 @@ public class Constants {
     public static final String DEFAULT_FHIR_TENANT = "default";
     public static final String DEFAULT_COS_BUCKETNAME = "fhir-bulkImExport-Connectathon";
 
-    // The minimal size (5M bytes) for COS multiple-parts upload.
-    public static final int COS_PART_MINIMALSIZE = 5242880;
+    // The minimal size (10M bytes) for COS multiple-parts upload.
+    public static final int COS_PART_MINIMALSIZE = 10485760;
     public static final int DEFAULT_SEARCH_PAGE_SIZE = 1000;
+    public static final int DEFAULT_PATIENT_EXPORT_SEARCH_PAGE_SIZE = 200;
     public static final int DEFAULT_COSFILE_MAX_SIZE = 209715200;
     public static final int DEFAULT_COSFILE_MAX_RESOURCESNUMBER = 500000;
     public static final String FHIR_SEARCH_LASTUPDATED = "_lastUpdated";

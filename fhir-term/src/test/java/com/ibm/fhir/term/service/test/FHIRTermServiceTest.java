@@ -7,11 +7,12 @@
 package com.ibm.fhir.term.service.test;
 
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.model.util.FHIRUtil.STRING_DATA_ABSENT_REASON_UNKNOWN;
+import static com.ibm.fhir.term.util.CodeSystemSupport.getCodeSystem;
 import static com.ibm.fhir.term.util.ConceptMapSupport.getConceptMap;
 import static com.ibm.fhir.term.util.ValueSetSupport.getContains;
 import static com.ibm.fhir.term.util.ValueSetSupport.getValueSet;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ConceptMap;
 import com.ibm.fhir.model.resource.ValueSet;
@@ -33,9 +35,10 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ConceptMapEquivalence;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
 import com.ibm.fhir.term.service.FHIRTermService;
+import com.ibm.fhir.term.spi.LookupOutcome;
 import com.ibm.fhir.term.spi.TranslationOutcome;
 import com.ibm.fhir.term.spi.TranslationOutcome.Match;
-import com.ibm.fhir.term.util.CodeSystemSupport;
+import com.ibm.fhir.term.spi.ValidationOutcome;
 
 public class FHIRTermServiceTest {
     @Test
@@ -101,11 +104,10 @@ public class FHIRTermServiceTest {
                 .code(Code.of("t"))
                 .build();
 
-        Concept concept = FHIRTermService.getInstance().lookup(coding);
+        LookupOutcome outcome = FHIRTermService.getInstance().lookup(coding);
 
-        assertNotNull(concept);
-        assertEquals(concept.getCode().getValue(), "t");
-        assertTrue(CodeSystemSupport.hasConceptProperty(concept, Code.of("property1")));
+        assertNotNull(outcome);
+        assertTrue(outcome.getProperty().stream().anyMatch(property -> "property1".equals(property.getCode().getValue())));
     }
 
     @Test
@@ -209,7 +211,16 @@ public class FHIRTermServiceTest {
                 .code(Code.of("m"))
                 .build();
 
-        assertTrue(FHIRTermService.getInstance().validateCode(coding));
+        ValidationOutcome expected = ValidationOutcome.builder()
+                .result(Boolean.TRUE)
+                .display(STRING_DATA_ABSENT_REASON_UNKNOWN)
+                .build();
+
+        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs5");
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(codeSystem, coding);
+
+        assertEquals(actual, expected);
     }
 
     @Test
@@ -220,7 +231,16 @@ public class FHIRTermServiceTest {
                 .code(Code.of("x"))
                 .build();
 
-        assertFalse(FHIRTermService.getInstance().validateCode(coding));
+        ValidationOutcome expected = ValidationOutcome.builder()
+                .result(Boolean.FALSE)
+                .message(string("Code 'x' is invalid"))
+                .build();
+
+        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs5");
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(codeSystem, coding);
+
+        assertEquals(actual, expected);
     }
 
     @Test
@@ -233,7 +253,14 @@ public class FHIRTermServiceTest {
                 .code(Code.of("m"))
                 .build();
 
-        assertTrue(FHIRTermService.getInstance().validateCode(valueSet, coding));
+        ValidationOutcome expected = ValidationOutcome.builder()
+                .result(Boolean.TRUE)
+                .display(STRING_DATA_ABSENT_REASON_UNKNOWN)
+                .build();
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, coding);
+
+        assertEquals(actual, expected);
     }
 
     @Test
@@ -246,7 +273,14 @@ public class FHIRTermServiceTest {
                 .code(Code.of("x"))
                 .build();
 
-        assertFalse(FHIRTermService.getInstance().validateCode(valueSet, coding));
+        ValidationOutcome expected = ValidationOutcome.builder()
+                .result(Boolean.FALSE)
+                .message(string("Code 'x' is invalid"))
+                .build();
+
+        ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, coding);
+
+        assertEquals(actual, expected);
     }
 
     @Test
@@ -271,6 +305,7 @@ public class FHIRTermServiceTest {
                 .build();
 
         TranslationOutcome outcome = FHIRTermService.getInstance().translate(conceptMap, coding);
+
         assertEquals(outcome, expected);
     }
 
@@ -296,6 +331,7 @@ public class FHIRTermServiceTest {
                 .build();
 
         TranslationOutcome outcome = FHIRTermService.getInstance().translate(conceptMap, coding);
+
         assertEquals(outcome, expected);
     }
 }

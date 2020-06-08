@@ -32,9 +32,11 @@ public class CheckPointUserData implements java.io.Serializable {
     private String resourceTypeSummary = null;
     // Used to mark the complete of the partition.
     private boolean isMoreToExport = true;
+    private int lastWritePageNum;
 
-    public CheckPointUserData(int pageNum, String uploadId, List<PartETag> cosDataPacks, int partNum, int indexOfCurrentTypeFilter,
-            String resourceTypeSummary, int totalResourcesNum, int currentUploadResourceNum, int currentUploadSize, int uploadCount) {
+    public CheckPointUserData(int pageNum, String uploadId, List<PartETag> cosDataPacks, int partNum,
+            int indexOfCurrentTypeFilter, String resourceTypeSummary, int totalResourcesNum, int currentUploadResourceNum,
+            int currentUploadSize, int uploadCount, int lastPageNum, int lastWritePageNum) {
         super();
         this.pageNum = pageNum;
         this.uploadId = uploadId;
@@ -46,13 +48,15 @@ public class CheckPointUserData implements java.io.Serializable {
         this.currentUploadResourceNum = currentUploadResourceNum;
         this.currentUploadSize = currentUploadSize;
         this.uploadCount = uploadCount;
+        this.lastPageNum = lastPageNum;
+        this.lastWritePageNum = lastWritePageNum;
     }
 
     public static CheckPointUserData fromTransientUserData(TransientUserData userData) {
         return new CheckPointUserData(userData.getPageNum(), userData.getUploadId(), userData.getCosDataPacks(),
                 userData.getPartNum(), userData.getIndexOfCurrentTypeFilter(), userData.getResourceTypeSummary(),
                 userData.getTotalResourcesNum(), userData.getCurrentUploadResourceNum(), userData.getCurrentUploadSize(),
-                userData.getUploadCount());
+                userData.getUploadCount(), userData.getLastPageNum(), userData.getLastWritePageNum());
     }
 
     public int getPageNum() {
@@ -157,6 +161,14 @@ public class CheckPointUserData implements java.io.Serializable {
 
     public void setUploadCount(int uploadCount) {
         this.uploadCount = uploadCount;
+    }
+
+    public int getLastWritePageNum() {
+        return lastWritePageNum;
+    }
+
+    public void setLastWritePageNum(int lastWritePageNum) {
+        this.lastWritePageNum = lastWritePageNum;
     }
 
 }

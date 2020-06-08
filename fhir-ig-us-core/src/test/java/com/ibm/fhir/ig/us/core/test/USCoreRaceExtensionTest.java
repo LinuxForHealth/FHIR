@@ -66,11 +66,10 @@ public class USCoreRaceExtensionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(extension, "conformsTo('http://hl7.org/fhir/us/core/StructureDefinition/us-core-race')");
         System.out.println("result: " + result);
 
-        Assert.assertEquals(result, SINGLETON_TRUE);
-
         List<Issue> issues = evaluator.getEvaluationContext().getIssues();
         issues.forEach(System.out::println);
 
+        Assert.assertEquals(result, SINGLETON_TRUE);
         Assert.assertEquals(issues.size(), 0);
     }
 
@@ -109,12 +108,11 @@ public class USCoreRaceExtensionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(extension, "conformsTo('http://hl7.org/fhir/us/core/StructureDefinition/us-core-race')");
         System.out.println("result: " + result);
 
-        Assert.assertEquals(result, SINGLETON_FALSE);
-
         List<Issue> issues = evaluator.getEvaluationContext().getIssues();
         issues.forEach(System.out::println);
 
-        Assert.assertEquals(issues.size(), 1);
+        Assert.assertEquals(result, SINGLETON_FALSE);
+        Assert.assertEquals(issues.size(), 2);
     }
 
     /**
@@ -204,6 +202,6 @@ public class USCoreRaceExtensionTest {
         issues.forEach(System.out::println);
 
         Assert.assertEquals(countWarnings(issues), 1);
-        Assert.assertEquals(countErrors(issues), 2);
+        Assert.assertEquals(countErrors(issues), 3);
     }
 }
