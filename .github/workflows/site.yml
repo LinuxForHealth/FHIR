@@ -66,6 +66,7 @@ jobs:
             # Install the packages
             # fsevents is not used on linux images, so use --no-optional (these plugins are suspect)
             npm install --no-optional --save react react-copy-to-clipboard react-dom react-ga classnames carbon @carbon/addons-website carbon-components carbon-components-react carbon-addons-cloud carbon-icons gatsby gatsby-theme-carbon-starter markdown-it gatsby-plugin-manifest gatsby-plugin-slug gatsby-plugin-sitemap gatsby-plugin-sharp
+            npm install --save gatsby-transformer-remark gatsby-source-filesystem
 
             # don't use gatsby build directly per https://github.com/gatsbyjs/gatsby/issues/17557
             # use the suggestion as a workaround due to path/issues in the gatsby component dependency of fsevents
