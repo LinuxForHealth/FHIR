@@ -19,6 +19,7 @@ module.exports = {
           subDirectory: '/docs',
           branch: 'master',
         },
+        display: 'browser',
       }
     }, 
     {
