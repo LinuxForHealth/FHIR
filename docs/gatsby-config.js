@@ -11,7 +11,7 @@ module.exports = {
     {
       resolve : 'gatsby-theme-carbon', 
       options : { 
-        mdxExtensions: ['.mdx', 'md'],
+        mdxExtensions: ['.mdx', '.md'],
         titleType: 'append',
         isSearchEnabled: false,
         repository: {
