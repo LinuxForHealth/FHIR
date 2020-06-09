@@ -10,7 +10,12 @@
 }
 
 // Remove the Slide Out 
-[class*='bx--header__action'] {
+[class*='Header-module--switcher-button'] {
+  visibility: hidden;
+}
+
+// Remove the Slide Out 
+[class*='Switcher-module--nav--3_jdA'] {
   visibility: hidden;
 }
 
