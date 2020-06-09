@@ -55,11 +55,6 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-operation</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>fhir-notification</artifactId>
             <version>${project.version}</version>
         </dependency>
