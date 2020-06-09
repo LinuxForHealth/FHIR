@@ -142,12 +142,12 @@ public class Capabilities extends FHIRResource {
             if (statement == null) {
                 statement = buildCapabilityStatement();
             } else {
-                // Previously the Conformance Statement was built
-                // using ZonedDateTime.now(ZoneOffset.UTC)
                 TemporalAccessor acc = statement.getDate().getValue();
                 ZonedDateTime cachedTime = ZonedDateTime.from(acc);
 
-                if (ZonedDateTime.now().isBefore(cachedTime.plusMinutes(cacheLength))) {
+                // If UTC now is after the time the statement was generated
+                // plus a cacheLength then, rebuild the statement.
+                if (ZonedDateTime.now(ZoneOffset.UTC).isAfter(cachedTime.plusMinutes(cacheLength))) {
                     statement = buildCapabilityStatement();
                 }
             }
@@ -323,7 +323,7 @@ public class Capabilities extends FHIRResource {
         // Finally, create the CapabilityStatement resource itself.
         CapabilityStatement conformance = CapabilityStatement.builder()
                 .status(PublicationStatus.ACTIVE)
-                .date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC)))
+                .date(DateTime.now(ZoneOffset.UTC))
                 .kind(CapabilityStatementKind.CAPABILITY)
                 .fhirVersion(FHIRVersion.VERSION_4_0_1)
                 .format(format)
