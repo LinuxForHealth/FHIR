@@ -10,11 +10,11 @@
     <name>IBM FHIR Server</name>
 
     <properties>
-        <liberty.version>20.0.0.3</liberty.version>
+        <liberty.version>20.0.0.6</liberty.version>
         <derby.version>10.14.2.0</derby.version>
         <db2.version>11.5.0.0</db2.version>
         <postgresql.version>42.2.12</postgresql.version>
-        <cxf.version>3.3.3</cxf.version>
+        <cxf.version>3.3.6</cxf.version>
         <surefire.plugin.version>3.0.0-M3</surefire.plugin.version>
         <!-- needed for generating jacoco aggregate report in fhir-coverage-reports -->
         <maven.surefire.report.plugin>${surefire.plugin.version}</maven.surefire.report.plugin>
@@ -30,7 +30,6 @@
         <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
         <java.version>1.8</java.version>
         <fhir-examples.version>4.2.2-SNAPSHOT</fhir-examples.version>
-        <fhir-tools.version>4.2.2-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
     </properties>
 
@@ -151,7 +150,7 @@
             <dependency>
                 <groupId>org.json</groupId>
                 <artifactId>json</artifactId>
-                <version>20090211</version>
+                <version>20200518</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -216,7 +215,7 @@
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
-                <version>1.9.3</version>
+                <version>1.9.4</version>
             </dependency>
             <dependency>
                 <groupId>commons-cli</groupId>
@@ -226,7 +225,7 @@
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
-                <version>1.10</version>
+                <version>1.14</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish</groupId>
@@ -268,16 +267,6 @@
                 <groupId>javax.mail</groupId>
                 <artifactId>mail</artifactId>
                 <version>1.4.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>4.5.9</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpcore</artifactId>
-                <version>4.4.10</version>
             </dependency>
             <dependency>
                 <groupId>org.owasp.encoder</groupId>
