@@ -5,12 +5,10 @@
         <groupId>com.ibm.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
         <version>4.2.2-SNAPSHOT</version>
-        <relativePath>../fhir-parent</relativePath>
+        <relativePath>../../fhir-parent</relativePath>
     </parent>
 
-    <artifactId>fhir-notification-nats</artifactId>
-    <description>IBM FHIR Server Notifications for NATS</description>
-    <packaging>jar</packaging>
+    <artifactId>fhir-notification-websocket</artifactId>
 
     <dependencies>
         <dependency>
@@ -19,12 +17,8 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.nats</groupId>
-            <artifactId>java-nats-streaming</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.nats</groupId>
-            <artifactId>jnats</artifactId>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
         </dependency>
     </dependencies>
 </project>

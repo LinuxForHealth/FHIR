@@ -5,10 +5,12 @@
         <groupId>com.ibm.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
         <version>4.2.2-SNAPSHOT</version>
-        <relativePath>../fhir-parent</relativePath>
+        <relativePath>../../fhir-parent</relativePath>
     </parent>
 
-    <artifactId>fhir-notification-websocket</artifactId>
+    <artifactId>fhir-notification-kafka</artifactId>
+    <description>FHIR server notifications implementation for kafka</description>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -17,8 +19,8 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.websocket</groupId>
-            <artifactId>javax.websocket-api</artifactId>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
         </dependency>
     </dependencies>
 </project>
