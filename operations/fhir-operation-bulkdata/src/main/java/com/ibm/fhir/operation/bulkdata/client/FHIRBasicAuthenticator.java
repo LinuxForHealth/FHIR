@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,12 +19,12 @@ import javax.ws.rs.core.MultivaluedMap;
 public class FHIRBasicAuthenticator implements ClientRequestFilter {
     private String username;
     private String password;
-    
+
     // Prevent use of the default ctor.
     protected FHIRBasicAuthenticator() {
     }
-    
-    
+
+
     public FHIRBasicAuthenticator(String user, String password) {
         setUsername(user);
         setPassword(password);
@@ -58,7 +58,7 @@ public class FHIRBasicAuthenticator implements ClientRequestFilter {
             MultivaluedMap<String, Object> headers = ctxt.getHeaders();
             String basicAuthToken = getUsername() + ":" + getPassword();
             String basicAuthString = "Basic " + Base64.getEncoder().encodeToString(basicAuthToken.getBytes());
-            headers.add("Authorization", basicAuthString);  
+            headers.add("Authorization", basicAuthString);
         }
     }
 }

@@ -22,7 +22,9 @@ import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.server.operation.spi.FHIROperation;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
@@ -123,7 +125,9 @@ public class FHIROperationRegistry {
             // Check if there is an operation defined for all resource types.
             operation = operationMap.get(name.split(":")[0] + ":" + "Resource");
             if (operation == null) {
-                throw new FHIROperationException("Operation with name: '" + name + "' was not found");
+                String msg = "Operation with name: '" + name + "' was not found";
+                throw new FHIROperationException(msg)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.NOT_SUPPORTED, msg));
             }
         }
         return operation;
