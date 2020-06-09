@@ -44,6 +44,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
+import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -133,6 +134,7 @@ public class ChunkReader extends AbstractItemReader {
         FHIRSearchContext searchContext;
 
         if (chunkData != null) {
+            patientIds.replaceAll(x -> "Patient/" + x);
             do {
                 Map<String, List<String>> queryParameters = new HashMap<>();
                 // Add the search parameters from the current typeFilter for current resource type.
@@ -154,12 +156,20 @@ public class ChunkReader extends AbstractItemReader {
                 if (!searchCriteria.isEmpty()) {
                     queryParameters.put(Constants.FHIR_SEARCH_LASTUPDATED, searchCriteria);
                 }
-
                 queryParameters.put("_sort", Arrays.asList(new String[] { Constants.FHIR_SEARCH_LASTUPDATED }));
 
-                for (String patientId : patientIds) {
+                List<String> compartmentSearchCriterias = CompartmentUtil.getCompartmentResourceTypeInclusionCriteria("Patient", resourceType.getSimpleName());
+                if (compartmentSearchCriterias.size() > 1) {
+                    isDoDuplicationCheck = true;
+                }
 
-                    searchContext = SearchUtil.parseQueryParameters("Patient", patientId, resourceType, queryParameters, true);
+                for (String compartmentSearchCriteria: compartmentSearchCriterias) {
+                    HashMap<String, List<String>> queryTmpParameters = new HashMap<>();
+                    queryTmpParameters.putAll(queryParameters);
+
+                    queryTmpParameters.put(compartmentSearchCriteria, Arrays.asList(new String[] {String.join(",", patientIds)}));
+                    searchContext = SearchUtil.parseQueryParameters(resourceType, queryTmpParameters);
+
                     do {
                         searchContext.setPageSize(pageSize);
                         searchContext.setPageNumber(compartmentPageNum);
@@ -196,6 +206,7 @@ public class ChunkReader extends AbstractItemReader {
                         }
 
                     } while (searchContext.getLastPageNumber() >= compartmentPageNum);
+                    compartmentPageNum = 1;
                 }
 
                 indexOfCurrentTypeFilter++;
