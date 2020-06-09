@@ -69,7 +69,7 @@ $DR_ITEM1=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config-tenants\config\*
 Copy-Item $DR_ITEM1 -Destination $DR_ITEM_DST -Recurse
 
 Write-Host 'Copying test artifacts to install location'
-$CP_ITEM=[string]$DIR_WORKSPACE + '\fhir-operation\target\fhir-operation-*-tests.jar'
+$CP_ITEM=[string]$DIR_WORKSPACE + '\operations\fhir-operation\target\fhir-operation-*-tests.jar'
 $USERLIB_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\userlib'
 $USERLIB_DIR=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server'
 

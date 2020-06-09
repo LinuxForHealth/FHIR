@@ -37,7 +37,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.FHIRUtil;
-import com.ibm.fhir.operation.context.FHIROperationContext;
+import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 import com.ibm.fhir.server.util.RestAuditLogger;
 
