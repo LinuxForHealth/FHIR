@@ -27,7 +27,7 @@ module.exports = {
       options: {
         name: 'IBM FHIR Server',
         short_name: 'IBM FHIR Server',
-        start_url: '/',
+        start_url: '/FHIR',
         background_color: '#ffffff',
         theme_color: '#0062ff',
         display: 'browser',
