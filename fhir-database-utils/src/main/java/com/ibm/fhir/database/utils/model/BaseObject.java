@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -319,5 +320,13 @@ public abstract class BaseObject implements IDatabaseObject {
             this.userPrivilegeMap.put(groupName, group);
         }
         group.add(p);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visit(java.util.function.Consumer)
+     */
+    @Override
+    public void visit(Consumer<IDatabaseObject> c) {
+        c.accept(this);
     }
 }

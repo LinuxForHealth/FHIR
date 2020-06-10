@@ -35,6 +35,7 @@ import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.tenant.AddTenantDAO;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
+import com.ibm.fhir.database.utils.tenant.DeleteTenantDAO;
 import com.ibm.fhir.database.utils.tenant.FindTenantIdDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
 import com.ibm.fhir.database.utils.tenant.MaxTenantIdDAO;
@@ -600,4 +601,11 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         logger.info("Applying: " + grant); // Grants are very useful to see logged
         runStatement(grant);
     }
+    
+    @Override
+    public void deleteTenantMeta(String adminSchemaName, int tenantId) {
+        DeleteTenantDAO dao = new DeleteTenantDAO(adminSchemaName, tenantId);
+        runStatement(dao);
+    }
+
 }

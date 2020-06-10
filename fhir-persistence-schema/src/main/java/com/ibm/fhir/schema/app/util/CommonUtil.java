@@ -116,7 +116,18 @@ public final class CommonUtil {
 
         // Drops a Tenant
         ps.println("--drop-tenant tenantName");
-        ps.println(" * drops the tenant given the tenantName");
+        ps.println(" * (phase 1) drops the tenant given the tenantName");
+
+        // Drops detached partition tables
+        ps.println("--drop-detached tenantName");
+        ps.println(" * (phase 2) drops the detached tenant partition tables given the tenantName");
+
+        // Deletes tenant meta data
+        ps.println("--delete-tenant-meta tenantName");
+        ps.println(" * deletes tenant metadata given the tenantName");
+
+        ps.println("--list-tenants");
+        ps.println(" * fetches list of tenants and current status");
 
         // Dry Run functionality
         ps.println("--dry-run ");
