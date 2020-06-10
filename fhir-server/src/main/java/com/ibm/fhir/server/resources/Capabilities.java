@@ -68,11 +68,11 @@ import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
 import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.operation.FHIROperation;
-import com.ibm.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.FHIRBuildIdentifier;
+import com.ibm.fhir.server.operation.FHIROperationRegistry;
+import com.ibm.fhir.server.operation.spi.FHIROperation;
 import com.ibm.fhir.server.util.RestAuditLogger;
 
 @Path("/")
