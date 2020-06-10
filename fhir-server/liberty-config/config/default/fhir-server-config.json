@@ -32,7 +32,8 @@
                 ]
             },
             "websocket": {
-                "enabled": true
+                "__comment": "only enable this for single-tenant, single-server deployments",
+                "enabled": false
             },
             "kafka": {
                 "enabled": false,

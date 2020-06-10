@@ -137,7 +137,7 @@ jobs:
         export WORKSPACE=${GITHUB_WORKSPACE}
         build/pre-integration-test.sh
         env
-        mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240
+        mvn -B test -DskipTests=false -f fhir-server-test --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240
         build/post-integration-test.sh
     - name: Gather error logs
       if: failure()
@@ -239,7 +239,7 @@ jobs:
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}
         build/pre-integration-test-docker.sh
-        mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress
+        mvn -B test -DskipTests=false -f fhir-server-test --no-transfer-progress
         build/post-integration-test-docker.sh
     - name: Gather error logs
       if: failure()
@@ -296,7 +296,7 @@ jobs:
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}
         build/db2-migration-test-docker.sh
-        mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress
+        mvn -B test -DskipTests=false -f fhir-server-test --no-transfer-progress
         build/post-integration-test-docker.sh
     - name: Gather error logs
       if: failure()
