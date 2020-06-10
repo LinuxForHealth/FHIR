@@ -134,6 +134,7 @@ public class ChunkReader extends AbstractItemReader {
         FHIRSearchContext searchContext;
 
         if (chunkData != null) {
+            // TODO the following replaceAll can be dropped after issue(https://github.com/IBM/FHIR/issues/300) is fixed.
             patientIds.replaceAll(x -> "Patient/" + x);
             do {
                 Map<String, List<String>> queryParameters = new HashMap<>();
