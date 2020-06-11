@@ -36,6 +36,15 @@
             "version": "0.1.0",
             "kind": "resource",
             "type": "Condition"
+        },
+        {
+            "filename": "my-observation.json",
+            "resourceType": "StructureDefinition",
+            "id": "my-observation",
+            "url": "http://ibm.com/fhir/StructureDefinition/my-observation",
+            "version": "0.1.0",
+            "kind": "resource",
+            "type": "Observation"
         }
     ]
 }

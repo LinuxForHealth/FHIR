@@ -163,6 +163,12 @@ public class ConstraintGenerator {
         StringBuffer sb = new StringBuffer();
 
         ElementDefinition elementDefinition = node.elementDefinition;
+        String identifier = getIdentifier(elementDefinition);
+
+        if (isProhibited(elementDefinition)) {
+            sb.append(identifier).append(".exists().not()");
+            return sb.toString();
+        }
 
         if (hasValueConstraint(elementDefinition)) {
             return generateValueConstraint(node);
@@ -185,8 +191,6 @@ public class ConstraintGenerator {
         if (hasExtensionConstraint(elementDefinition)) {
             return generateExtensionConstraint(elementDefinition);
         }
-
-        String identifier = getIdentifier(elementDefinition);
 
         if (isOptional(elementDefinition)) {
             sb.append(identifier);
@@ -232,9 +236,6 @@ public class ConstraintGenerator {
             }
         } else {
             sb.append(".exists()");
-            if (isProhibited(elementDefinition)) {
-                sb.append(".not()");
-            }
         }
 
         if (hasProfileConstraint(elementDefinition)) {
