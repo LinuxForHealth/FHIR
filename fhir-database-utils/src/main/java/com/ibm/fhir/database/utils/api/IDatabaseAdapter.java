@@ -265,6 +265,13 @@ public interface IDatabaseAdapter {
      */
     public int allocateTenant(String adminSchemaName, String schemaName, String tenantName, String tenantKey,
             String tenantSalt, String idSequenceName);
+    
+    /**
+     * Delete all the metadata associated with the given tenant identifier, as long as the
+     * tenant status is DROPPED.
+     * @param tenantId
+     */
+    public void deleteTenantMeta(String adminSchemaName, int tenantId);
 
     /**
      * Get the tenant id for the given schema and tenant name
@@ -286,17 +293,23 @@ public interface IDatabaseAdapter {
     public void createTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId, int extentSizeKB);
 
     /**
-     * Detach the partitions from each of the given tables. The tenantStaingTable is
-     * the name of the table used to record the "into" table name that the detached
-     * partition becomes.
+     * Detach the partition associated with the tenantId from each of the given tables
      *
      * @param tables
      * @param schemaName
      * @param tenantId
      * @param tenantStagingTable
      */
-    public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId,
-            String tenantStagingTable);
+    public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId);
+
+    /**
+     * Drop the tables which were created by the detach partition operation (as
+     * part of tenant deprovisioning).
+     * @param tables
+     * @param schemaName
+     * @param tenantId
+     */
+    public void dropDetachedPartitions(Collection<Table> tables, String schemaName, int tenantId);
 
     /**
      * Update the tenant status
@@ -449,4 +462,39 @@ public interface IDatabaseAdapter {
      * @param toUser
      */
     public void grantFunctionPrivileges(String schemaName, String functionName, Collection<Privilege> privileges, String toUser);
+
+    /**
+     * Drop the tablespace associated with the given tenantId
+     * @param tenantId
+     */
+    public void dropTenantTablespace(int tenantId);
+
+    /**
+     * Disable the FK with the given constraint name
+     * @param tableName
+     * @param constraintName
+     */
+    public void disableForeignKey(String schemaName, String tableName, String constraintName);
+    
+    /**
+     * Enable the FK with the given constraint name
+     * @param schemaName
+     * @param tableName
+     * @param constraintName
+     */
+    public void enableForeignKey(String schemaName, String tableName, String constraintName);
+    
+    /**
+     * 
+     * @param schemaName
+     * @param tableName
+     */
+    public void setIntegrityOff(String schemaName, String tableName);
+
+    /**
+     * 
+     * @param schemaName
+     * @param tableName
+     */
+    public void setIntegrityUnchecked(String schemaName, String tableName);
 }

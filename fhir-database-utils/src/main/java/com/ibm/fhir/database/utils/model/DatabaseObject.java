@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -222,5 +223,12 @@ public abstract class DatabaseObject implements IDatabaseObject {
     public Map<String, String> getTags() {
         return Collections.unmodifiableMap(this.tags);
     }
-
+    
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visit(java.util.function.Consumer)
+     */
+    @Override
+    public void visit(Consumer<IDatabaseObject> c) {
+        c.accept(this);
+    }
 }
