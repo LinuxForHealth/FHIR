@@ -1283,7 +1283,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
-        } else if (_jsonValue != null) {
+        } else if (_jsonValue != null && (_jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
             throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
@@ -1505,7 +1505,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
-        } else if (_jsonValue != null) {
+        } else if (_jsonValue != null && (_jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
             throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (JsonValue.TRUE.equals(jsonValue) || JsonValue.FALSE.equals(jsonValue)) {
@@ -6076,7 +6076,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
-        } else if (_jsonValue != null) {
+        } else if (_jsonValue != null && (_jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
             throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
@@ -6101,7 +6101,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
-        } else if (_jsonValue != null) {
+        } else if (_jsonValue != null && (_jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
             throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
@@ -6126,7 +6126,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
-        } else if (_jsonValue != null) {
+        } else if (_jsonValue != null && (_jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
             throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.NUMBER) {
@@ -11081,7 +11081,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
-        } else if (_jsonValue != null) {
+        } else if (_jsonValue != null && (_jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
             throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
@@ -11395,7 +11395,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
-        } else if (_jsonValue != null) {
+        } else if (_jsonValue != null && (_jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
             throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.NUMBER) {
@@ -18989,7 +18989,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
-        } else if (_jsonValue != null) {
+        } else if (_jsonValue != null && (_jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
             throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
@@ -21695,7 +21695,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
-        } else if (_jsonValue != null) {
+        } else if (_jsonValue != null && (_jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
             throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
@@ -21813,7 +21813,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
-        } else if (_jsonValue != null) {
+        } else if (_jsonValue != null && (_jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
             throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
@@ -22322,7 +22322,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
-        } else if (_jsonValue != null) {
+        } else if (_jsonValue != null && (_jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
             throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
