@@ -1283,10 +1283,14 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
+        } else if (_jsonValue != null) {
+            throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
             JsonString jsonString = (JsonString) jsonValue;
             builder.value(jsonString.getString());
+        } else if (jsonValue != null && (jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
+            throw new IllegalArgumentException("Expected: STRING but found: " + jsonValue.getValueType() + " for element: " + elementName);
         }
         stackPop();
         return builder.build();
@@ -1501,9 +1505,13 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
+        } else if (_jsonValue != null) {
+            throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (JsonValue.TRUE.equals(jsonValue) || JsonValue.FALSE.equals(jsonValue)) {
             builder.value(JsonValue.TRUE.equals(jsonValue) ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE);
+        } else if (jsonValue != null && (jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
+            throw new IllegalArgumentException("Expected: TRUE or FALSE but found: " + jsonValue.getValueType() + " for element: " + elementName);
         }
         stackPop();
         return builder.build();
@@ -6068,10 +6076,14 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
+        } else if (_jsonValue != null) {
+            throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
             JsonString jsonString = (JsonString) jsonValue;
             builder.value(jsonString.getString());
+        } else if (jsonValue != null && (jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
+            throw new IllegalArgumentException("Expected: STRING but found: " + jsonValue.getValueType() + " for element: " + elementName);
         }
         stackPop();
         return builder.build();
@@ -6089,10 +6101,14 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
+        } else if (_jsonValue != null) {
+            throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
             JsonString jsonString = (JsonString) jsonValue;
             builder.value(jsonString.getString());
+        } else if (jsonValue != null && (jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
+            throw new IllegalArgumentException("Expected: STRING but found: " + jsonValue.getValueType() + " for element: " + elementName);
         }
         stackPop();
         return builder.build();
@@ -6110,10 +6126,14 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
+        } else if (_jsonValue != null) {
+            throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.NUMBER) {
             JsonNumber jsonNumber = (JsonNumber) jsonValue;
             builder.value(jsonNumber.bigDecimalValue());
+        } else if (jsonValue != null && (jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
+            throw new IllegalArgumentException("Expected: NUMBER but found: " + jsonValue.getValueType() + " for element: " + elementName);
         }
         stackPop();
         return builder.build();
@@ -11061,10 +11081,14 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
+        } else if (_jsonValue != null) {
+            throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
             JsonString jsonString = (JsonString) jsonValue;
             builder.value(jsonString.getString());
+        } else if (jsonValue != null && (jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
+            throw new IllegalArgumentException("Expected: STRING but found: " + jsonValue.getValueType() + " for element: " + elementName);
         }
         stackPop();
         return builder.build();
@@ -11371,10 +11395,14 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
+        } else if (_jsonValue != null) {
+            throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.NUMBER) {
             JsonNumber jsonNumber = (JsonNumber) jsonValue;
             builder.value(jsonNumber.intValueExact());
+        } else if (jsonValue != null && (jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
+            throw new IllegalArgumentException("Expected: NUMBER but found: " + jsonValue.getValueType() + " for element: " + elementName);
         }
         stackPop();
         return builder.build();
@@ -18961,10 +18989,14 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
+        } else if (_jsonValue != null) {
+            throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
             JsonString jsonString = (JsonString) jsonValue;
             builder.value(jsonString.getString());
+        } else if (jsonValue != null && (jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
+            throw new IllegalArgumentException("Expected: STRING but found: " + jsonValue.getValueType() + " for element: " + elementName);
         }
         stackPop();
         return builder.build();
@@ -21663,10 +21695,14 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
+        } else if (_jsonValue != null) {
+            throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
             JsonString jsonString = (JsonString) jsonValue;
             builder.value(jsonString.getString());
+        } else if (jsonValue != null && (jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
+            throw new IllegalArgumentException("Expected: STRING but found: " + jsonValue.getValueType() + " for element: " + elementName);
         }
         stackPop();
         return builder.build();
@@ -21777,10 +21813,14 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
+        } else if (_jsonValue != null) {
+            throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
             JsonString jsonString = (JsonString) jsonValue;
             builder.value(jsonString.getString());
+        } else if (jsonValue != null && (jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
+            throw new IllegalArgumentException("Expected: STRING but found: " + jsonValue.getValueType() + " for element: " + elementName);
         }
         stackPop();
         return builder.build();
@@ -22282,10 +22322,14 @@ public class FHIRJsonParser extends FHIRAbstractParser {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
+        } else if (_jsonValue != null) {
+            throw new IllegalArgumentException("Expected: OBJECT but found: " + _jsonValue.getValueType() + " for element: _" + elementName);
         }
         if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
             JsonString jsonString = (JsonString) jsonValue;
             builder.value(jsonString.getString());
+        } else if (jsonValue != null && (jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)) {
+            throw new IllegalArgumentException("Expected: STRING but found: " + jsonValue.getValueType() + " for element: " + elementName);
         }
         stackPop();
         return builder.build();
@@ -22319,7 +22363,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             java.lang.String key = getChoiceElementName(name, choiceType);
             if (jsonObject.containsKey(key)) {
                 if (elementName != null) {
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Only one choice element key of the form: " + name + "[x] is allowed");
                 }
                 elementName = key;
                 elementType = choiceType;
@@ -22328,7 +22372,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             java.lang.String _key = "_" + key;
             if (jsonObject.containsKey(_key)) {
                 if (_elementName != null) {
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Only one choice element key of the form: _" + name + "[x] is allowed");
                 }
                 _elementName = _key;
                 if (elementType == null) {
@@ -22338,7 +22382,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         }
 
         if (elementName != null && _elementName != null && !_elementName.endsWith(elementName)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Choice element keys: " + elementName + " and " + _elementName + " are not consistent");
         }
 
         JsonValue jsonValue = null;

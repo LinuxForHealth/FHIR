@@ -2591,7 +2591,7 @@ public class CodeGenerator {
             .assign("java.lang.String key", "getChoiceElementName(name, choiceType)")
             ._if("jsonObject.containsKey(key)")
                 ._if("elementName != null")
-                    ._throw("new IllegalArgumentException()")
+                    ._throw("new IllegalArgumentException(\"Only one choice element key of the form: \" + name + \"[x] is allowed\")")
                 ._end()
                 .assign("elementName", "key")
                 .assign("elementType", "choiceType")
@@ -2602,7 +2602,7 @@ public class CodeGenerator {
             .assign("java.lang.String _key", "\"_\" + key")
             ._if("jsonObject.containsKey(_key)")
                 ._if("_elementName != null")
-                    ._throw("new IllegalArgumentException()")
+                    ._throw("new IllegalArgumentException(\"Only one choice element key of the form: _\" + name + \"[x] is allowed\")")
                 ._end()
                 .assign("_elementName", "_key")
                 ._if("elementType == null")
@@ -2614,7 +2614,7 @@ public class CodeGenerator {
         cb.newLine();
 
         cb._if("elementName != null && _elementName != null && !_elementName.endsWith(elementName)")
-            ._throw("new IllegalArgumentException()")
+            ._throw("new IllegalArgumentException(\"Choice element keys: \" + elementName + \" and \" + _elementName + \" are not consistent\")")
         ._end();
 
         cb.newLine();
@@ -2773,12 +2773,16 @@ public class CodeGenerator {
                 .invoke("checkForUnrecognizedElements", args("Element.class", "jsonObject"))
             ._end()
             .invoke("parseElement", args("builder", "jsonObject"))
+        ._elseif("_jsonValue != null")
+            ._throw("new IllegalArgumentException(\"Expected: OBJECT but found: \" + _jsonValue.getValueType() + \" for element: _\" + elementName)")
         ._end();
 
         if ("Integer".equals(generatedClassName)) {
             cb._if("jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.NUMBER")
                 .assign("JsonNumber jsonNumber", "(JsonNumber) jsonValue")
                 .invoke("builder", "value", args("jsonNumber.intValueExact()"))
+            ._elseif("jsonValue != null && (jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)")
+                ._throw("new IllegalArgumentException(\"Expected: NUMBER but found: \" + jsonValue.getValueType() + \" for element: \" + elementName)")
             ._end();
         }
 
@@ -2793,12 +2797,16 @@ public class CodeGenerator {
             cb._if("jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING")
                 .assign("JsonString jsonString", "(JsonString) jsonValue")
                 .invoke("builder", "value", args("jsonString.getString()"))
+            ._elseif("jsonValue != null && (jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)")
+                ._throw("new IllegalArgumentException(\"Expected: STRING but found: \" + jsonValue.getValueType() + \" for element: \" + elementName)")
             ._end();
         }
 
         if ("Boolean".equals(generatedClassName)) {
             cb._if("JsonValue.TRUE.equals(jsonValue) || JsonValue.FALSE.equals(jsonValue)")
                 .invoke("builder", "value", args("JsonValue.TRUE.equals(jsonValue) ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE"))
+            ._elseif("jsonValue != null && (jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)")
+                ._throw("new IllegalArgumentException(\"Expected: TRUE or FALSE but found: \" + jsonValue.getValueType() + \" for element: \" + elementName)")
             ._end();
         }
 
@@ -2806,6 +2814,8 @@ public class CodeGenerator {
             cb._if("jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.NUMBER")
                 .assign("JsonNumber jsonNumber", "(JsonNumber) jsonValue")
                 .invoke("builder", "value", args("jsonNumber.bigDecimalValue()"))
+            ._elseif("jsonValue != null && (jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)")
+                ._throw("new IllegalArgumentException(\"Expected: NUMBER but found: \" + jsonValue.getValueType() + \" for element: \" + elementName)")
             ._end();
         }
 
