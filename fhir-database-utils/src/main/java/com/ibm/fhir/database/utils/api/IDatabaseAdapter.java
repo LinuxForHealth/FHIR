@@ -467,7 +467,7 @@ public interface IDatabaseAdapter {
      * Drop the tablespace associated with the given tenantId
      * @param tenantId
      */
-	public void dropTenantTablespace(int tenantId);
+    public void dropTenantTablespace(int tenantId);
 
     /**
      * Disable the FK with the given constraint name

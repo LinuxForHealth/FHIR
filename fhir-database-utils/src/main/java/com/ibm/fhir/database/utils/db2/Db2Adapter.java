@@ -378,7 +378,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     @Override
     public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId) {
 
-	// Identify all the partitioned tables contained within schemaName
+        // Identify all the partitioned tables contained within schemaName
         Map<String, PartitionInfo> partitionInfoMap = new HashMap<>();
         loadPartitionInfoMap(partitionInfoMap, schemaName);
 

@@ -208,7 +208,6 @@ public class PhysicalDataModel implements IDataModel {
         copy.addAll(allObjects);
 
         int total = allObjects.size();
-        int count = 1;
         for (int i=total-1; i>=0; i--) {
             IDatabaseObject obj = copy.get(i);
             obj.visitReverse(v);
@@ -293,7 +292,7 @@ public class PhysicalDataModel implements IDataModel {
      * @param tenantId
      */
     public void dropDetachedPartitions(IDatabaseAdapter adapter, String schemaName, int tenantId) {
-    	final String tenantIdColumn = "MT_ID";
+        final String tenantIdColumn = "MT_ID";
         adapter.dropDetachedPartitions(getTenantPartitionedTables(tenantIdColumn), schemaName, tenantId);
     }
     
@@ -460,12 +459,11 @@ public class PhysicalDataModel implements IDataModel {
         }
     }
 
-    
     /**
      * Drop the tablespace associated with the given tenant.
      * @param tenantId
      */
     public void dropTenantTablespace(IDatabaseAdapter adapter, int tenantId) {
-    	adapter.dropTenantTablespace(tenantId);
+        adapter.dropTenantTablespace(tenantId);
     }
 }
