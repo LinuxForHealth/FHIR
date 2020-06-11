@@ -2773,7 +2773,7 @@ public class CodeGenerator {
                 .invoke("checkForUnrecognizedElements", args("Element.class", "jsonObject"))
             ._end()
             .invoke("parseElement", args("builder", "jsonObject"))
-        ._elseif("_jsonValue != null")
+        ._elseif("_jsonValue != null && (_jsonValue.getValueType() != JsonValue.ValueType.NULL || elementIndex == -1)")
             ._throw("new IllegalArgumentException(\"Expected: OBJECT but found: \" + _jsonValue.getValueType() + \" for element: _\" + elementName)")
         ._end();
 
