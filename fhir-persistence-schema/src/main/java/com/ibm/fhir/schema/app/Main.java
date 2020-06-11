@@ -724,8 +724,7 @@ public class Main {
                 
                 System.out.println(TenantInfo.getHeader());
                 tenants.forEach(t -> System.out.println(t.toString()));
-            } 
-            catch (DataAccessException x) {
+            } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
                 throw x;
@@ -827,8 +826,7 @@ public class Main {
                 throw new IllegalArgumentException("Must provide the tenant schema with --schema-name");
             }
             result.setTenantSchema(schemaName);
-        }
-        else {
+        } else {
             // if a schema name was provided on the command line, let's double-check it matches
             // the schema used for this tenant in the database
             if (!tenantSchema.equalsIgnoreCase(schemaName)) {
@@ -1049,8 +1047,7 @@ public class Main {
             try {
                 if (tenantInfo.getTenantStatus() == TenantStatus.DROPPED) {
                     adapter.deleteTenantMeta(adminSchemaName, tenantInfo.getTenantId());
-                }
-                else {
+                } else {
                     throw new IllegalStateException("Cannot delete tenant meta data until status is " + TenantStatus.DROPPED.name());
                 }
             } catch (DataAccessException x) {

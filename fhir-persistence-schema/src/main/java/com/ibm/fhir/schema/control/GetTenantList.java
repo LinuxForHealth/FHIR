@@ -23,6 +23,10 @@ import com.ibm.fhir.database.utils.api.TenantStatus;
 public class GetTenantList implements IDatabaseSupplier<List<TenantInfo>> {
     private final String adminSchema;
 
+    /**
+     * Public constructor
+     * @param adminSchema
+     */
     public GetTenantList(String adminSchema) {
         this.adminSchema = adminSchema;
     }
@@ -41,7 +45,7 @@ public class GetTenantList implements IDatabaseSupplier<List<TenantInfo>> {
                 + "       dp.tabschema "
                 + "  FROM " + adminSchema + ".TENANTS AS t "
                 + "LEFT OUTER JOIN syscat.datapartitions dp "
-                + "             ON (dp.tabname = 'PARAMETER_NAMES' "
+                + "             ON (dp.tabname = 'LOGICAL_RESOURCES' "
                 + "            AND dp.datapartitionname = CONCAT('TENANT', t.mt_id))"
                 + " ORDER BY t.mt_id";
         
@@ -56,8 +60,7 @@ public class GetTenantList implements IDatabaseSupplier<List<TenantInfo>> {
                 dto.setTenantSchema(rs.getString(4));
                 result.add(dto);
             }
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
 

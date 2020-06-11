@@ -20,9 +20,17 @@ import com.ibm.fhir.database.utils.api.TenantStatus;
  * TenantInfo if the tenant does not exist
  */
 public class GetTenantInfo implements IDatabaseSupplier<TenantInfo> {
+    // The FHIR admin schema name
     private final String adminSchema;
+    
+    // The name of the tenant for which we want the info
     private final String tenantName;
 
+    /**
+     * Public constructor
+     * @param adminSchema
+     * @param tenantName
+     */
     public GetTenantInfo(String adminSchema, String tenantName) {
         this.adminSchema = adminSchema;
         this.tenantName = tenantName;
@@ -56,12 +64,10 @@ public class GetTenantInfo implements IDatabaseSupplier<TenantInfo> {
                 result.setTenantName(rs.getString(2));
                 result.setTenantStatus(TenantStatus.valueOf(rs.getString(3)));
                 result.setTenantSchema(rs.getString(4));
-            }
-            else {
+            } else {
                 result = null;
             }
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
         

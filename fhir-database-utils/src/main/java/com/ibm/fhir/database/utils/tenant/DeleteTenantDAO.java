@@ -21,7 +21,10 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * data in TENANT_KEYS and TENANTS.
  */
 public class DeleteTenantDAO implements IDatabaseStatement {
+    // the FHIR admin schema name where the TENANTS and TENANT_KEYS tables live
     private final String schemaName;
+    
+    // The id of the tenant to delete
     private final int tenantId;
     
     /**
@@ -53,8 +56,7 @@ public class DeleteTenantDAO implements IDatabaseStatement {
         try (PreparedStatement ps = c.prepareStatement(DML)) {
             ps.setInt(1, tenantId);
             ps.executeUpdate();
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             // Translate the exception into something a little more meaningful
             // for this database type and application
             throw translator.translate(x);
@@ -78,8 +80,7 @@ public class DeleteTenantDAO implements IDatabaseStatement {
             if (rows < 1) {
                 throw new DataAccessException("Invalid tenant_id or tenant not DROPPED");
             }
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             // Translate the exception into something a little more meaningful
             // for this database type and application
             throw translator.translate(x);

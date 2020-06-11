@@ -368,8 +368,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         
         try {
             runStatement(ddl);
-        }
-        catch (DataAccessException x) {
+        } catch (DataAccessException x) {
             // Suppress the error, in case this is an older version and we have a new table
             logger.warning("Detach partition skipped for '" + qname + "/" + partitionName + "'. Reason: " + x.getMessage());
         }
@@ -389,8 +388,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                 // is a fatal error
                 String qualifiedName = DataDefinitionUtil.getQualifiedName(schemaName, t.getObjectName());
                 throw new DataAccessException("No partition information found for table: " + qualifiedName);
-            }
-            else {
+            } else {
                 final String partitionName = "TENANT" + tenantId;
                 final String targetTableName = getDetachedPartitionTableName(t, tenantId);
                 detachPartition(schemaName, t.getObjectName(), partitionName, targetTableName);
@@ -412,15 +410,13 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                 // is a fatal error
                 String qualifiedName = DataDefinitionUtil.getQualifiedName(schemaName, t.getObjectName());
                 throw new DataAccessException("No partition information found for table: " + qualifiedName);
-            } 
-            else {
+            } else {
                 // drop the table which now represents the detached partition
                 final String detachedPartitionTableName = getDetachedPartitionTableName(t, tenantId);
                 try {
                     logger.info("Dropping detached partition (table): '" + detachedPartitionTableName + "'");
                     dropTable(schemaName, detachedPartitionTableName);
-                } 
-                catch (Exception x) {
+                } catch (Exception x) {
                     // we want this to be idempotent, so we suppress propagation of any error
                     logger.warning("Drop failed for `" + detachedPartitionTableName + "` - " + x.getMessage());
 
