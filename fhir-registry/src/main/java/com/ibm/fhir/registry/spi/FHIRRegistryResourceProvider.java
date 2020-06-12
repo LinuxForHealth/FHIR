@@ -59,7 +59,6 @@ public interface FHIRRegistryResourceProvider {
      */
     Collection<FHIRRegistryResource> getProfileResources(String type);
 
-
     /**
      * Get the search parameter resources from this provider with the given search parameter type
      * (e.g. string, token, etc.)

@@ -356,7 +356,7 @@ public class Capabilities extends FHIRResource {
     }
 
     private List<Rest.Resource> addSupportedProfilesToResources(List<Rest.Resource> resources){
-        Map<String,Set<Canonical>> resourceProfiles = FHIRRegistry.getInstance().getProfileResources();
+        Map<String,Set<Canonical>> resourceProfiles = FHIRRegistry.getInstance().getProfiles();
         return resources.stream().map(r -> processResource(r,resourceProfiles)).collect(Collectors.toList());
     }
 

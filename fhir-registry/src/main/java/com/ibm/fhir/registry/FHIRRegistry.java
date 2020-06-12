@@ -280,7 +280,7 @@ public final class FHIRRegistry {
      * in order to develop a list of resource specific canonical URLs.
      * @return
      */
-    public Map<String,Set<Canonical>> getProfileResources() {
+    public Map<String,Set<Canonical>> getProfiles() {
         Map<String,Set<Canonical>> resourceTypeWithCanonicalUrls = new HashMap<>();
         providers.stream().map(provider -> provider.getProfileResources())
                 .flatMap(Collection::stream)
@@ -293,7 +293,7 @@ public final class FHIRRegistry {
         resourceTypeWithCanonicalUrls.compute(type, (k,v) -> checkOrCreateSet(k,v,registryResource));
     }
 
-    private Set<Canonical> checkOrCreateSet(String k, Set<Canonical> v,FHIRRegistryResource registryResource){
+    private Set<Canonical> checkOrCreateSet(String k, Set<Canonical> v, FHIRRegistryResource registryResource) {
         Canonical canonicalUrl = Canonical.of(registryResource.getUrl(), registryResource.getVersion().toString());
         if (v == null) {
             v = new HashSet<>();
