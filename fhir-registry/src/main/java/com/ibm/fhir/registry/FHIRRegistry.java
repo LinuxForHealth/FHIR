@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ServiceLoader;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -278,19 +280,25 @@ public final class FHIRRegistry {
      * in order to develop a list of resource specific canonical URLs.
      * @return
      */
-    public Map<String,List<Canonical>> getProfilesForAllResources() {
-        Map<String,List<Canonical>> resourceTypeWithCanonicalUrls = new HashMap<>();
-
-        providers.stream().map(provider -> provider.getProfileForAllResources())
+    public Map<String,Set<Canonical>> getProfileResources() {
+        Map<String,Set<Canonical>> resourceTypeWithCanonicalUrls = new HashMap<>();
+        providers.stream().map(provider -> provider.getProfileResources())
                 .flatMap(Collection::stream)
                 .forEach(r -> processResource(r, resourceTypeWithCanonicalUrls));
         return resourceTypeWithCanonicalUrls;
     }
 
-    private void processResource(FHIRRegistryResource registryResource, Map<String,List<Canonical>> resourceTypeWithCanonicalUrls) {
+    private void processResource(FHIRRegistryResource registryResource, Map<String,Set<Canonical>> resourceTypeWithCanonicalUrls) {
         String type = registryResource.getType();
+        resourceTypeWithCanonicalUrls.compute(type, (k,v) -> checkOrCreateSet(k,v,registryResource));
+    }
+
+    private Set<Canonical> checkOrCreateSet(String k, Set<Canonical> v,FHIRRegistryResource registryResource){
         Canonical canonicalUrl = Canonical.of(registryResource.getUrl(), registryResource.getVersion().toString());
-        resourceTypeWithCanonicalUrls.computeIfAbsent(type, k -> new ArrayList<Canonical>()).add(canonicalUrl);
-        resourceTypeWithCanonicalUrls.computeIfPresent(type, (k,v) -> {v.add(canonicalUrl); return v;});
+        if (v == null) {
+            v = new HashSet<>();
+        }
+        v.add(canonicalUrl);
+        return v;
     }
 }

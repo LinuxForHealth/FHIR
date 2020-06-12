@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -302,7 +303,7 @@ public class Capabilities extends FHIRResource {
         CapabilityStatement.Rest rest = CapabilityStatement.Rest.builder()
                 .mode(RestfulCapabilityMode.SERVER)
                 .security(restSecurity)
-                .resource(processResourcesAndProfiles(resources))
+                .resource(addSupportedProfilesToResources(resources))
                 .interaction(CapabilityStatement.Rest.Interaction.builder()
                     .code(transactionMode)
                     .build())
@@ -354,15 +355,15 @@ public class Capabilities extends FHIRResource {
         return conformance;
     }
 
-    private List<Rest.Resource> processResourcesAndProfiles(List<Rest.Resource> resources){
-        Map<String,List<Canonical>> resourceProfiles = FHIRRegistry.getInstance().getProfilesForAllResources();
+    private List<Rest.Resource> addSupportedProfilesToResources(List<Rest.Resource> resources){
+        Map<String,Set<Canonical>> resourceProfiles = FHIRRegistry.getInstance().getProfileResources();
         return resources.stream().map(r -> processResource(r,resourceProfiles)).collect(Collectors.toList());
     }
 
-    private Rest.Resource processResource(Rest.Resource resource, Map<String,List<Canonical>> resourceProfiles){
-        List<Canonical> supportedProfiles = resourceProfiles.get(resource.getType().getValue());
+    private Rest.Resource processResource(Rest.Resource resource, Map<String,Set<Canonical>> resourceProfiles){
+        Set<Canonical> supportedProfiles = resourceProfiles.get(resource.getType().getValue());
         if(supportedProfiles != null) {
-            return resource.toBuilder().supportedProfile(supportedProfiles).build();
+            return resource.toBuilder().supportedProfile(new ArrayList<>(supportedProfiles)).build();
         } else {
             return resource;
         }

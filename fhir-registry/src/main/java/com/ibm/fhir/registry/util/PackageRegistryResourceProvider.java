@@ -91,10 +91,10 @@ public abstract class PackageRegistryResourceProvider implements FHIRRegistryRes
     }
 
     @Override
-    public Collection<FHIRRegistryResource> getProfileForAllResources() {
+    public Collection<FHIRRegistryResource> getProfileResources() {
         List<FHIRRegistryResource> profilesForAll = new ArrayList<>();
         for (ValueSet type : ResourceType.ValueSet.values()) {
-            profilesForAll.addAll(profileResourceMap.getOrDefault(type, Collections.emptyList()));
+            profilesForAll.addAll(getProfileResources(type.value()));
         }
         return Collections.unmodifiableList(profilesForAll);
     }

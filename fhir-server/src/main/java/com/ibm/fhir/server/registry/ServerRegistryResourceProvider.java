@@ -95,10 +95,10 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
     }
 
     @Override
-    public Collection<FHIRRegistryResource> getProfileForAllResources() {
+    public Collection<FHIRRegistryResource> getProfileResources() {
         Map<String, List<String>> queryParameters = new HashMap<>();
-        String type = Arrays.asList(ResourceType.ValueSet.values()).stream().map(r -> r.value()).collect(Collectors.joining(","));
-        queryParameters.put("type", Collections.singletonList(type));
+        String types = Arrays.asList(ResourceType.ValueSet.values()).stream().map(r -> r.value()).collect(Collectors.joining(","));
+        queryParameters.put("type", Collections.singletonList(types));
         queryParameters.put("kind", Collections.singletonList("resource"));
         queryParameters.put("derivation", Collections.singletonList("constraint"));
         return getRegistryResources(StructureDefinition.class, queryParameters);
