@@ -10,11 +10,11 @@ set -ex
 run_tests(){
     # The integration tests may be overriden completely, or fall through to the default. 
     PERSISTENCE="${1}"
-    if [ -z "${PERSISTENCE}" && -f ../${PERSISTENCE}/integration-test-docker.sh ]
+    if [ -z "${PERSISTENCE}" && -f build/persistence/${PERSISTENCE}/integration-test.sh ]
     then 
         # 
         echo "Running [${PERSISTENCE}] specific integration tests"
-        bash ../${PERSISTENCE}/integration-test-docker.sh
+        bash build/persistence/${PERSISTENCE}/integration-test.sh
     else 
         # Go to the Default
         echo "Executing the default integration tests"
@@ -23,13 +23,20 @@ run_tests(){
 }
 
 ###############################################################################
+# Check if the workspace is set.
+if [ -z "${WORKSPACE}" ]
+then 
+    echo "The WORKSPACE value is unset"
+    exit -1
+fi 
+
 # Store the current directory to reset to
 pushd $(pwd) > /dev/null
 
 # Change to the persistence/bin directory
-cd "$(dirname ${BASH_SOURCE[0]})"
+cd "${WORKSPACE}"
 
-run_tests ${1}
+run_tests "${1}"
 
 # Reset to Original Directory
 popd > /dev/null

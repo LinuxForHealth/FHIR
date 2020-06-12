@@ -43,4 +43,9 @@ Consult the reference implementation (`postgres`) to start a new persistence lay
 
 Also, be sure to add an example `fhir-server-config-<persistence-name>.json` configuration file to the `fhir-server` project as well. 
 
+## Test the Automation
+
+To test the build, be sure to pre-set `WORKSPACE` with `export WORKSPACE=\`pwd\``/
+You must also start Docker, so the image is built that supports the IBM FHIR Server.
+
 If you have any questions, please reach out on Zulip.

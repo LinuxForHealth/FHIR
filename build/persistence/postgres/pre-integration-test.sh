@@ -10,25 +10,32 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+DIST="${WORKSPACE}/build/persistence/postgres/workarea/volumes/dist"
+SCHEMA="${WORKSPACE}/build/persistence/postgres/workarea/schema"
+
 # pre_integration - 
 pre_integration(){
     cleanup_prior
-    copy_server_config
     cleanup_existing_docker
-    bringup_database
+    bring_up_database
     copy_schema_jar
     deploy_schema
-    copy_test_operations
+    copy_server_config
     bringup_fhir
 }
 
 # cleanup_prior - Cleans up the prior files
 cleanup_prior(){
     echo "Removing old dependencies..."
-    DIST="volumes/dist"
-    SCHEMA="volumes/schema"
-    rm -rf $DIST/* 2> /dev/null
-    rm -rf $SCHEMA/* 2> /dev/null
+    if [ -d $DIST ]
+    then
+        rm -rf $DIST/* 2> /dev/null
+    fi
+
+    if [ -d $SCHEMA ]
+    then
+        rm -rf $SCHEMA/* 2> /dev/null
+    fi
     mkdir -p $DIST
     mkdir -p $SCHEMA
 }
@@ -36,20 +43,19 @@ cleanup_prior(){
 # copy_server_config - Copy assembled files
 copy_server_config(){
     echo "Copying installation zip files..."
-    cp -p ../target/fhir-server-distribution.zip $DIST
+    cp -p ${WORKSPACE}/fhir-install/target/fhir-server-distribution.zip $DIST
 
     echo "Copying fhir configuration files..."
-    cp -pr ../../fhir-server/liberty-config/config $DIST
-    cp -pr ../../fhir-server/liberty-config-tenants/config/* $DIST/config
-    cp -pr ../../fhir-server/liberty-config/config/default/fhir-server-config-postgres.json $DIST/config/default/fhir-server-config.json
+    cp -pr ${WORKSPACE}/fhir-server/liberty-config/config $DIST
+    cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
+    cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/default/fhir-server-config-postgresql.json $DIST/config/default/fhir-server-config.json
 
-    echo "Copying fhir-persistence-schema tool..."
-    cp -pr ../../fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar $SCHEMA
+    USERLIB="${DIST}/userlib"
+    mkdir -p $USERLIB
 
+    echo "Copying test artifacts to install location..."
+    cp -pr ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*-tests.jar ${USERLIB}
     echo "Finished copying fhir-server dependencies..."
-
-
-    bash ./setup-copy-test-operations.sh
 }
 
 # cleanup_existing_docker - cleanup existing docker
@@ -60,40 +66,61 @@ cleanup_existing_docker(){
     docker-compose rm -f
 }
 
-# bringup_database - brings up database
-bringup_database(){
-    echo "Bringing up db2... be patient, this will take a minute"
-    docker-compose build --pull db2
-    docker-compose up -d db2
+# bring_up_database - brings up database
+# - remove the existing db directory
+# - build postgres and wait
+bring_up_database(){
+    if [ -d db ]
+    then 
+        rm -rf db/
+    fi
+    mkdir -p db
+    echo "Bringing up postgres... be patient, this will take a minute"
+    docker-compose build --pull postgres
+    docker-compose up --remove-orphans -d postgres
     echo ">>> Current time: " $(date)
 
-    # TODO wait for it to be healthy instead of just Sleeping
-    (docker-compose logs --timestamps --follow db2 & P=$! && sleep 100 && kill $P)
+    # Waiting to startup
+    count=0
+    echo "Waiting while starting up..."
+    while [ `docker-compose logs --timestamps postgres | grep -c 'database system is ready to accept connections'` -ne 1 ] && [ "${count}" -ne 120 ]
+    do
+        echo "... Waiting ... - ${count}"
+        sleep 5
+        count=$((count+1)) 
+    done
 }
 
 # copy_schema_jar
 copy_schema_jar(){
-
+    echo "Copying fhir-persistence-schema tool..."
+    cp -pr ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar $SCHEMA
 }
 
 # setup_schema - sets up the schema (in concert with the db)
 deploy_schema(){
-    # The full path to the directory of this script, no matter where its called from
-    DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-    cd ${DIR}
+    cat << EOF > ${WORKSPACE}/build/persistence/postgres/workarea/postgres.properties
+db.host=localhost
+db.port=5432
+db.database=fhirdb
+user=fhiradmin
+password=change-password
+EOF
 
-    # Schemas are created in the image
-    java -jar schema/fhir-persistence-schema-*-cli.jar \
-        --prop-file postgres.properties --schema-name FHIRDATA --update-schema --pool-size 2
+    java -jar ${SCHEMA}/fhir-persistence-schema-*-cli.jar --db-type postgresql \
+        --prop-file workarea/postgres.properties --schema-name FHIRDATA --create-schemas --pool-size 2
 
-    #java -jar schema/fhir-persistence-schema-*-cli.jar \
-    #   --prop-file postgres.properties --schema-name FHIRDATA --grant-to FHIRSERVER --pool-size 2
+    java -jar ${SCHEMA}/fhir-persistence-schema-*-cli.jar --db-type postgresql \
+        --prop-file workarea/postgres.properties --schema-name FHIRDATA --update-schema --pool-size 2
+
+    java -jar ${SCHEMA}/fhir-persistence-schema-*-cli.jar --db-type postgresql \
+       --prop-file workarea/postgres.properties --schema-name FHIRDATA --grant-to FHIRSERVER --pool-size 2
 }
 
 # bringup_fhir 
 bringup_fhir(){
     echo "Bringing up the FHIR server... be patient, this will take a minute"
-    docker-compose up -d fhir-server
+    docker-compose up --remove-orphans -d fhir-server
     echo ">>> Current time: " $(date)
 
     # TODO wait for it to be healthy instead of just Sleeping
@@ -158,14 +185,17 @@ bringup_fhir(){
 # is_ready_to_run - is this ready to run? 
 is_ready_to_run(){
     echo "Preparing environment for fhir-server integration tests..."
-    if [[ -z "${WORKSPACE}" ]]; then
+    if [ -z "${WORKSPACE}" ]
+    then
         echo "ERROR: WORKSPACE environment variable not set!"
-        exit 2
+        exit 1
     fi
 }
 
 ###############################################################################
 is_ready_to_run
+
+cd build/persistence/postgres
 pre_integration
 
 # EOF 

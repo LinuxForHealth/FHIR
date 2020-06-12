@@ -4,22 +4,16 @@
 -- SPDX-License-Identifier: Apache-2.0
 -- ###############################################################################
 
--- Create the roles used
-CREATE ROLE fhirbatch;
-CREATE ROLE fhirserver;
-CREATE ROLE fhiradmin;
-
 -- Create the users
-CREATE USER fhirbatch with login encrypted password 'change-password' IN ROLE fhirbatch;
-CREATE USER fhirserver with login encrypted password 'change-password' IN ROLE fhirserver;
-CREATE USER fhiradmin with login encrypted password 'change-password' IN ROLE fhiradmin;
+CREATE USER FHIRBATCH WITH LOGIN encrypted password 'change-password';
+CREATE USER FHIRSERVER WITH LOGIN encrypted password 'change-password';
+CREATE USER fhiradmin WITH LOGIN encrypted password 'change-password';
 
 CREATE DATABASE FHIRDB;
+GRANT ALL PRIVILEGES ON DATABASE FHIRDB TO fhiradmin;
 
-CONNECT TO FHIRDB;
-CREATE SCHEMA FHIRDATA;
-CREATE SCHEMA FHIR_ADMIN;
-CREATE SCHEMA FHIR_OAUTH;
-TERMINATE;
-
+CREATE SCHEMA IF NOT EXISTS FHIRDATA;
+CREATE SCHEMA IF NOT EXISTS FHIR_ADMIN;
+CREATE SCHEMA IF NOT EXISTS FHIR_OAUTH;
+CREATE SCHEMA IF NOT EXISTS FHIR_JBATCH;
 -- EOF

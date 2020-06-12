@@ -11,11 +11,18 @@ set -ex
 package_logs(){
     echo "Gathering logs for [${1}]"
 
-    it_results=${WORKSPACE}/integration-test-results
-    rm -fr ${it_results} 2>/dev/null
+    it_results=${WORKSPACE}/build/persistence/integration-test-results
+    if [ ! -d ${it_results} ]
+    then
+        rm -fr ${it_results} 2>/dev/null
+    fi
+
+    mkdir -p ${it_results}
     mkdir -p ${it_results}/server-logs
     mkdir -p ${it_results}/fhir-server-test
-    containerId=$(docker ps -a | grep fhir | cut -d ' ' -f 1)
+
+    # Look for the FHIR Server Container
+    containerId=$(docker ps -a | grep ibm-fhir-server | cut -d ' ' -f 1)
     if [[ -z "${containerId}" ]]; then
         echo "Warning: Could not find fhir container!!!"
     else
@@ -41,9 +48,6 @@ fi
 
 # Store the current directory to reset to
 pushd $(pwd) > /dev/null
-
-# Change to the persistence/bin directory
-cd "$(dirname ${BASH_SOURCE[0]})"
 
 package_logs "${1}"
 

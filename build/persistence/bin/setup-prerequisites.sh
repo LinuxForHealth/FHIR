@@ -9,10 +9,13 @@ set -ex
 
 # required_build - executes for every build
 required_build(){
-    # Clean up the packages and docker files
-    sudo apt clean
-    docker rmi $(docker image ls -aq)
-    df -h
+    # Clean up the packages and docker files not on the Mac
+    if [[ "$OSTYPE" != "darwin"* ]]
+    then
+        sudo apt clean
+        docker rmi $(docker image ls -aq)
+        df -h
+    fi
 
     # build binaries
     mvn -B install --file fhir-examples --no-transfer-progress
@@ -25,11 +28,10 @@ required_build(){
 # persistence_build - executes for each persistence build triggering the persistence layer's required steps.
 persistence_build(){
     PERSISTENCE="${1}"
-    if [ -z "${PERSISTENCE}" && -f ../${PERSISTENCE}/setup-prerequisites.sh ]
+    if [ ! -z "${PERSISTENCE}" ] && [ -f "build/persistence/${PERSISTENCE}/setup-prerequisites.sh" ]
     then 
-        # 
         echo "Running [${PERSISTENCE}] setting setup prerequisites"
-        bash ../${PERSISTENCE}/setup-prerequisites.sh
+        bash build/persistence/${PERSISTENCE}/setup-prerequisites.sh
     fi
 }
 
@@ -37,11 +39,17 @@ persistence_build(){
 # Store the current directory to reset to
 pushd $(pwd) > /dev/null
 
-# Change to the release directory
-cd "$(dirname ${BASH_SOURCE[0]})"
+if [ -z "${WORKSPACE}" ]
+then 
+    echo "The WORKSPACE value is unset"
+    exit -1
+fi 
 
-required_build
-persistence_build ${1}
+# Change to the release directory
+cd "${WORKSPACE}"
+
+#required_build
+persistence_build "${1}"
 
 # Reset to Original Directory
 popd > /dev/null

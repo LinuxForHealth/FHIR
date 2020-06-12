@@ -21,7 +21,11 @@ services:
       kernel.shmmax: 1055092736
       kernel.shmall: 257591
     privileged: true
+    command: tail -f /dev/null
     environment:
+      POSTGRES_PASSWORD: 'change-password'
+      POSTGRESQL_MAX_CONNECTIONS: 100
+      POSTGRESQL_MAX_PREPARED_TRANSACTIONS: 100
       PG_SYSTEM_SHARED_BUFFERS: 256MB
       PG_SYSTEM_MAX_CONNECTIONS: 100
       PG_TRUST_LOCALNET: 'true'
@@ -29,32 +33,32 @@ services:
     networks:
       - backend
     ports:
-      - 5432:5432
+      - "5432:5432"
   fhir-server:
-    image: ibmcom/ibm-fhir-server
-    hostname: fhir
-    volumes:
-      - type: bind
-        source: ./workarea/fhir-server/liberty-config/config
-        target: /opt/ol/wlp/usr/servers/fhir-server/config
-        read_only: true
-      - type: bind
-        source: ./workarea/fhir-server/liberty-config/userlib/
-        target: /opt/ol/wlp/usr/servers/fhir-server/userlib
-        read_only: true
-    healthcheck:
-      start_period: 60s
-      interval: 10s
-      timeout: 10s
-      retries: 2
-      # https://docs.docker.com/compose/compose-file/#variable-substitution
-      test: curl -v -f -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
-    ports:
-      - 9443:9443
-    depends_on:
-      - postgres
-    networks:
-      - frontend
+     image: ibmcom/ibm-fhir-server
+     hostname: fhir
+     volumes:
+       - type: bind
+         source: ./workarea/fhir-server/liberty-config/config
+         target: /opt/ol/wlp/usr/servers/fhir-server/config
+         read_only: true
+       - type: bind
+         source: ./workarea/fhir-server/liberty-config/userlib/
+         target: /opt/ol/wlp/usr/servers/fhir-server/userlib
+         read_only: true
+     healthcheck:
+       start_period: 60s
+       interval: 10s
+       timeout: 10s
+       retries: 2
+       # https://docs.docker.com/compose/compose-file/#variable-substitution
+       test: curl -v -f -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
+     ports:
+       - 9443:9443
+     depends_on:
+       - postgres
+     networks:
+       - frontend
 networks:
   frontend:
     driver: bridge

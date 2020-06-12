@@ -10,6 +10,7 @@ FROM postgres:12.2-alpine
 ENV POSTGRES_DB fhirdb
 ENV POSTGRES_USER FHIRSERVER
 ENV PGDATA /db/data
+ENV LANG en_US.utf8
 
 # Create a working data directory
 RUN mkdir -p /db/data && chown -R postgres:postgres /db
@@ -19,14 +20,12 @@ WORKDIR /db
 # Open up the port
 EXPOSE 5432
 
-# Load Configuration Steps
-COPY --chown=postgres:postgres resources/init-user-db.sh /docker-entrypoint-initdb.d/init-user-db.sh
+# Load Build Information
 COPY --chown=postgres:postgres resources/db.sql /docker-entrypoint-initdb.d/db.sql
-
-# Startup using the Entrypoint
-COPY ./resources/entrypoint.sh /
-RUN chmod +x /entrypoint.sh
-RUN /entrypoint.sh
+COPY --chown=postgres:postgres resources/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod 755 /docker-entrypoint.sh
 
 USER postgres
 CMD ["postgres"]
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
