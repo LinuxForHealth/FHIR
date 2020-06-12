@@ -12,7 +12,9 @@ import static com.ibm.fhir.registry.util.FHIRRegistryUtil.requireDefinitionalRes
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -269,5 +271,26 @@ public final class FHIRRegistry {
             providers.add(provider);
         }
         return providers;
+    }
+
+    /**
+     * Given the list of providers, the method scans through the list to find all profile resource, and merge them together
+     * in order to develop a list of resource specific canonical URLs.
+     * @return
+     */
+    public Map<String,List<Canonical>> getProfilesForAllResources() {
+        Map<String,List<Canonical>> resourceTypeWithCanonicalUrls = new HashMap<>();
+
+        providers.stream().map(provider -> provider.getProfileForAllResources())
+                .flatMap(Collection::stream)
+                .forEach(r -> processResource(r, resourceTypeWithCanonicalUrls));
+        return resourceTypeWithCanonicalUrls;
+    }
+
+    private void processResource(FHIRRegistryResource registryResource, Map<String,List<Canonical>> resourceTypeWithCanonicalUrls) {
+        String type = registryResource.getType();
+        Canonical canonicalUrl = Canonical.of(registryResource.getUrl(), registryResource.getVersion().toString());
+        resourceTypeWithCanonicalUrls.computeIfAbsent(type, k -> new ArrayList<Canonical>()).add(canonicalUrl);
+        resourceTypeWithCanonicalUrls.computeIfPresent(type, (k,v) -> {v.add(canonicalUrl); return v;});
     }
 }
