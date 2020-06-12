@@ -154,7 +154,6 @@ public class Capabilities extends FHIRResource {
             }
             return statement;
         } catch (Throwable t) {
-            t.printStackTrace();
             // We pack it in an IllegalArgument so it's used cleanly in compute.
             throw new IllegalArgumentException(t);
         }
