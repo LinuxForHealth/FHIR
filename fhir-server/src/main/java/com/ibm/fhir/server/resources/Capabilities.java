@@ -23,9 +23,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -202,6 +204,7 @@ public class Capabilities extends FHIRResource {
             }
         }
 
+        com.ibm.fhir.model.type.Boolean isUpdateCreate = com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled());
         // Build the list of supported resources.
         List<Rest.Resource> resources = new ArrayList<>();
         ResourceType.ValueSet[] resourceTypes = ResourceType.ValueSet.values();
@@ -239,12 +242,11 @@ public class Capabilities extends FHIRResource {
             Rest.Resource cr = Rest.Resource.builder()
                     .type(ResourceType.of(resourceType))
                     .profile(Canonical.of("http://hl7.org/fhir/profiles/" + resourceTypeName))
-                    .supportedProfile(FHIRRegistry.getInstance().getProfiles(resourceTypeName))
                     .interaction(interactions)
                     .operation(ops)
-                    .conditionalCreate(com.ibm.fhir.model.type.Boolean.of(true))
-                    .conditionalUpdate(com.ibm.fhir.model.type.Boolean.of(true))
-                    .updateCreate(com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled()))
+                    .conditionalCreate(com.ibm.fhir.model.type.Boolean.TRUE)
+                    .conditionalUpdate(com.ibm.fhir.model.type.Boolean.TRUE)
+                    .updateCreate(isUpdateCreate)
                     .conditionalDelete(ConditionalDeleteStatus.MULTIPLE)
                     .conditionalRead(ConditionalReadStatus.FULL_SUPPORT)
                     .searchParam(conformanceSearchParams)
@@ -301,7 +303,7 @@ public class Capabilities extends FHIRResource {
         CapabilityStatement.Rest rest = CapabilityStatement.Rest.builder()
                 .mode(RestfulCapabilityMode.SERVER)
                 .security(restSecurity)
-                .resource(resources)
+                .resource(addSupportedProfilesToResources(resources))
                 .interaction(CapabilityStatement.Rest.Interaction.builder()
                     .code(transactionMode)
                     .build())
@@ -351,6 +353,20 @@ public class Capabilities extends FHIRResource {
         }
 
         return conformance;
+    }
+
+    private List<Rest.Resource> addSupportedProfilesToResources(List<Rest.Resource> resources){
+        Map<String,Set<Canonical>> resourceProfiles = FHIRRegistry.getInstance().getProfiles();
+        return resources.stream().map(r -> processResource(r,resourceProfiles)).collect(Collectors.toList());
+    }
+
+    private Rest.Resource processResource(Rest.Resource resource, Map<String,Set<Canonical>> resourceProfiles){
+        Set<Canonical> supportedProfiles = resourceProfiles.get(resource.getType().getValue());
+        if(supportedProfiles != null) {
+            return resource.toBuilder().supportedProfile(new ArrayList<>(supportedProfiles)).build();
+        } else {
+            return resource;
+        }
     }
 
     private List<Rest.Resource.Operation> mapOperationDefinitionsToRestOperations(List<OperationDefinition> opDefs) {

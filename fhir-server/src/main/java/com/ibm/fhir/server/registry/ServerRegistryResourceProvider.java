@@ -10,6 +10,7 @@ import static com.ibm.fhir.registry.util.FHIRRegistryUtil.getUrl;
 import static com.ibm.fhir.registry.util.FHIRRegistryUtil.isDefinitionalResource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import com.ibm.fhir.core.util.LRUCache;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
+import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -90,6 +92,16 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
     @Override
     public Collection<FHIRRegistryResource> getRegistryResources() {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Collection<FHIRRegistryResource> getProfileResources() {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        String types = Arrays.asList(ResourceType.ValueSet.values()).stream().map(r -> r.value()).collect(Collectors.joining(","));
+        queryParameters.put("type", Collections.singletonList(types));
+        queryParameters.put("kind", Collections.singletonList("resource"));
+        queryParameters.put("derivation", Collections.singletonList("constraint"));
+        return getRegistryResources(StructureDefinition.class, queryParameters);
     }
 
     @Override
