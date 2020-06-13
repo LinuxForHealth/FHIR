@@ -23,6 +23,8 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Setup prerequisites
+      env: 
+        WORKSPACE: ${{ github.workspace }}
       run: bash build/persistence/bin/setup-prerequisites.sh ${{matrix.persistence}}
     - name: Server Integration Tests - Additional Persistence Layers
       env: 
