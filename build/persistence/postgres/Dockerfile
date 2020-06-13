@@ -25,7 +25,4 @@ COPY --chown=postgres:postgres resources/db.sql /docker-entrypoint-initdb.d/db.s
 COPY --chown=postgres:postgres resources/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod 755 /docker-entrypoint.sh
 
-#USER postgres
-#CMD ["postgres"]
-
 ENTRYPOINT ["/docker-entrypoint.sh"]

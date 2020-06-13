@@ -12,7 +12,7 @@ set -o pipefail
 
 if [ ! -f /db/data/pg_hba.conf ]
 then 
-    /usr/local/bin/initdb --username=postgres -D /db/data
+    su - postgres -c "/usr/local/bin/initdb --username=postgres -D /db/data"
 
     # Let it listen on all ports
     sed -ri "s!^#?(listen_addresses)\s*=\s*\S+.*!\1 = '*'!" /db/data/postgresql.conf
@@ -34,7 +34,7 @@ then
 host    all             all     0.0.0.0/0               md5
 EOF
 
-    su - postgres  -c 'pg_ctl -D "/db/data" --wait --timeout=120 start'
+    su - postgres -c 'pg_ctl -D "/db/data" --wait --timeout=120 start'
     su - postgres -c 'psql -v ON_ERROR_STOP=1 < /docker-entrypoint-initdb.d/db.sql'
 fi
 
