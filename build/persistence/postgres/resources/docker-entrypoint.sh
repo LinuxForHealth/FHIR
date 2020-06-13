@@ -12,7 +12,7 @@ set -o pipefail
 
 if [ ! -f /db/data/pg_hba.conf ]
 then 
-    su - postgres -c "/usr/local/bin/initdb --username=postgres -D /db/data"
+    su - postgres -c "/usr/local/bin/initdb -D /db/data"
 
     # Let it listen on all ports
     sed -ri "s!^#?(listen_addresses)\s*=\s*\S+.*!\1 = '*'!" /db/data/postgresql.conf
