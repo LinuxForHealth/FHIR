@@ -16,7 +16,6 @@ ENV LANG en_US.utf8
 RUN mkdir -p /db/data && chown -R postgres:postgres /db
 VOLUME /db/data
 WORKDIR /db
-RUN chown -R postgres:postgres /db/data
 
 # Open up the port
 EXPOSE 5432
@@ -26,7 +25,7 @@ COPY --chown=postgres:postgres resources/db.sql /docker-entrypoint-initdb.d/db.s
 COPY --chown=postgres:postgres resources/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod 755 /docker-entrypoint.sh
 
-USER postgres
-CMD ["postgres"]
+#USER postgres
+#CMD ["postgres"]
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
