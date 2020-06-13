@@ -10,7 +10,7 @@ services:
     hostname: postgres-db
     volumes:
        - type: bind
-         source: ./build/persistence/postgres/db
+         source: ./db
          target: /db/data
     # Stop Grace Period - 2 minutes (very intentional)
     stop_grace_period: 2m
@@ -39,11 +39,11 @@ services:
      hostname: fhir
      volumes:
        - type: bind
-         source: ./build/persistence/postgres/workarea/fhir-server/liberty-config/config
+         source: ./workarea/fhir-server/liberty-config/config
          target: /opt/ol/wlp/usr/servers/fhir-server/config
          read_only: true
        - type: bind
-         source: ./build/persistence/postgres//workarea/fhir-server/liberty-config/userlib/
+         source: ./workarea/fhir-server/liberty-config/userlib/
          target: /opt/ol/wlp/usr/servers/fhir-server/userlib
          read_only: true
      healthcheck:
