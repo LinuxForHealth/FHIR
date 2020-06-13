@@ -10,9 +10,9 @@ set -ex
 run_tests(){
     # The integration tests may be overriden completely, or fall through to the default. 
     PERSISTENCE="${1}"
-    if [ -z "${PERSISTENCE}" && -f build/persistence/${PERSISTENCE}/integration-test.sh ]
+
+    if [ ! -z "${PERSISTENCE}" ] && [ -f "build/persistence/${PERSISTENCE}/integration-test.sh" ]
     then 
-        # 
         echo "Running [${PERSISTENCE}] specific integration tests"
         bash build/persistence/${PERSISTENCE}/integration-test.sh
     else 

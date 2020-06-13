@@ -86,8 +86,8 @@ bring_up_database(){
     echo "Waiting while starting up..."
     while [ `docker-compose logs --timestamps postgres | grep -c 'database system is ready to accept connections'` -ne 1 ] && [ "${count}" -ne 120 ]
     do
-        docker-compose logs --timestamps postgres
         echo "... Waiting ... - ${count}"
+        docker-compose logs --timestamps postgres
         sleep 5
         count=$((count+1)) 
     done
@@ -97,6 +97,7 @@ bring_up_database(){
 copy_schema_jar(){
     echo "Copying fhir-persistence-schema tool..."
     cp -pr ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar $SCHEMA
+    find ${WORKSPACE} -iname '*cli*.jar'
 }
 
 # setup_schema - sets up the schema (in concert with the db)
