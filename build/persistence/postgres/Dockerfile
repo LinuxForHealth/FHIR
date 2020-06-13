@@ -16,6 +16,7 @@ ENV LANG en_US.utf8
 RUN mkdir -p /db/data && chown -R postgres:postgres /db
 VOLUME /db/data
 WORKDIR /db
+RUN chown -R postgres:postgres /db/data
 
 # Open up the port
 EXPOSE 5432
