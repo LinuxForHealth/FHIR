@@ -10,7 +10,7 @@ services:
     hostname: postgres-db
     volumes:
        - type: bind
-         source: ./db
+         source: ./build/persistence/postgres/db
          target: /db/data
     # Stop Grace Period - 2 minutes (very intentional)
     stop_grace_period: 2m
