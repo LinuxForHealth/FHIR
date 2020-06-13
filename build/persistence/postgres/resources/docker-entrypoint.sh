@@ -12,6 +12,7 @@ set -o pipefail
 
 if [ ! -f /db/data/pg_hba.conf ]
 then 
+    chown -R postgres:postgres /db/data
     su - postgres -c "/usr/local/bin/initdb -D /db/data"
 
     # Let it listen on all ports
