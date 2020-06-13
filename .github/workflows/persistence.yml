@@ -43,4 +43,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: integration-test-results-${{ matrix.persistence }}-${{ matrix.java }}
-        path: integration-test-results
+        path: build/persistence/integration-test-results

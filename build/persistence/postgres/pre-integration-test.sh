@@ -85,6 +85,7 @@ bring_up_database(){
     echo "Waiting while starting up..."
     while [ `docker-compose logs --timestamps postgres | grep -c 'database system is ready to accept connections'` -ne 1 ] && [ "${count}" -ne 120 ]
     do
+        docker-compose logs --timestamps postgres
         echo "... Waiting ... - ${count}"
         sleep 5
         count=$((count+1)) 
