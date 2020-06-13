@@ -74,6 +74,7 @@ bring_up_database(){
     then 
         rm -rf db/
     fi
+
     mkdir -p db
     echo "Bringing up postgres... be patient, this will take a minute"
     docker-compose build --pull postgres
