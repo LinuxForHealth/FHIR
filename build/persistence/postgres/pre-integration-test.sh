@@ -96,9 +96,7 @@ bring_up_database(){
 # copy_schema_jar
 copy_schema_jar(){
     echo "Copying fhir-persistence-schema tool..."
-    find ${WORKSPACE} -iname '*cli*.jar'
     cp -pr ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar $SCHEMA
-    
 }
 
 # setup_schema - sets up the schema (in concert with the db)
