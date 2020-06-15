@@ -31,7 +31,7 @@ services:
       PG_TRUST_LOCALNET: 'true'
       max_prepared_transactions: 64
     networks:
-      - backend
+      - fhir
     ports:
       - "5432:5432"
   fhir-server:
@@ -58,9 +58,7 @@ services:
      depends_on:
        - postgres
      networks:
-       - frontend
+       - fhir
 networks:
-  frontend:
-    driver: bridge
-  backend:
+  fhir:
     driver: bridge
