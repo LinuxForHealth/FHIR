@@ -740,4 +740,24 @@ public class Table extends BaseObject {
         return target.doesTableExist(getSchemaName(), getObjectName());
     }
 
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visit(com.ibm.fhir.database.utils.model.DataModelVisitor)
+     */
+    @Override
+    public void visit(DataModelVisitor v) {
+        v.visited(this);
+        
+        this.fkConstraints.forEach(fk -> v.visited(this, fk));
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visitReverse(com.ibm.fhir.database.utils.model.DataModelVisitor)
+     */
+    @Override
+    public void visitReverse(DataModelVisitor v) {
+        // visit the child objects first when going in reverse
+        this.fkConstraints.forEach(fk -> v.visited(this, fk));
+        
+        v.visited(this);
+    }
 }

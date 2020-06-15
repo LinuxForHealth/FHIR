@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
@@ -77,11 +78,8 @@ public class ObjectGroup extends BaseObject {
 
     @Override
     public void grant(IDatabaseAdapter target, String groupName, String toUser) {
-        /**
-         * Override the BaseObject behavior because we need to propagate the grant request
-         * to the indivual objects we have aggregated
-         */
-
+        // Override the BaseObject behavior because we need to propagate the grant request
+        // to the indivual objects we have aggregated
         for (IDatabaseObject obj: this.group) {
             obj.grant(target, groupName, toUser);
         }
@@ -100,6 +98,40 @@ public class ObjectGroup extends BaseObject {
         // Plain old apply, used to apply all changes, regardless of version - e.g. for testing
         for (IDatabaseObject obj: this.group) {
             obj.apply(priorVersion, target);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visit(java.util.function.Consumer)
+     */
+    @Override
+    public void visit(Consumer<IDatabaseObject> c) {
+        for (IDatabaseObject obj: this.group) {
+            c.accept(obj);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visit(com.ibm.fhir.database.utils.model.DataModelVisitor)
+     */
+    @Override
+    public void visit(DataModelVisitor v) {
+        
+        // Visit each sub-object in order of creation
+        for (IDatabaseObject obj: this.group) {
+            obj.visit(v);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visitReverse(com.ibm.fhir.database.utils.model.DataModelVisitor)
+     */
+    @Override
+    public void visitReverse(DataModelVisitor v) {
+        
+        // Visit each sub-object in reverse order of creation
+        for (int i=group.size()-1; i>=0; i--) {
+            group.get(i).visit(v);
         }
     }
 }

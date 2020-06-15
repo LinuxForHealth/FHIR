@@ -57,4 +57,20 @@ public class FunctionDef extends BaseObject {
     protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
         target.grantFunctionPrivileges(getSchemaName(), getObjectName(), group, toUser);
     }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visit(com.ibm.fhir.database.utils.model.DataModelVisitor)
+     */
+    @Override
+    public void visit(DataModelVisitor v) {
+        v.visited(this);
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visitReverse(com.ibm.fhir.database.utils.model.DataModelVisitor)
+     */
+    @Override
+    public void visitReverse(DataModelVisitor v) {
+        v.visited(this);
+    }
 }

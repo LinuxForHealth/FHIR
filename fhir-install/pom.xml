@@ -191,11 +191,6 @@
                 </dependency>
                 <dependency>
                     <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-operation-bulkdata</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
                     <artifactId>fhir-profile</artifactId>
                     <version>${project.version}</version>
                 </dependency>
@@ -211,17 +206,7 @@
                 </dependency>
                 <dependency>
                     <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-operation-validate</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
                     <artifactId>fhir-config</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-operation-apply</artifactId>
                     <version>${project.version}</version>
                 </dependency>
                 <dependency>
@@ -232,11 +217,6 @@
                 <dependency>
                     <groupId>${project.groupId}</groupId>
                     <artifactId>fhir-model</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-operation-document</artifactId>
                     <version>${project.version}</version>
                 </dependency>
                 <dependency>
@@ -301,19 +281,40 @@
                 </dependency>
                 <dependency>
                     <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-operation-apply</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-operation-bulkdata</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-operation-convert</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-operation-document</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
                     <artifactId>fhir-operation-healthcheck</artifactId>
                     <version>${project.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-operation</artifactId>
+                    <artifactId>fhir-operation-term</artifactId>
                     <version>${project.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-client</artifactId>
+                    <artifactId>fhir-operation-validate</artifactId>
                     <version>${project.version}</version>
                 </dependency>
+                
             </dependencies>
             <build>
                 <plugins>

@@ -169,8 +169,7 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId,
-            String tenantStagingTable) {
+    public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId) {
         warnOnce(MessageKey.PARTITIONING, "Remove tenant partitions not supported in PostgreSql");
     }
 
@@ -323,4 +322,51 @@ public class PostgreSqlAdapter extends CommonDatabaseAdapter {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
         logger.fine("Drop procedure not run on [" + objectName + "]. This is as expected");
     }
+    
+    @Override
+    public void dropDetachedPartitions(Collection<Table> tables, String schemaName, int tenantId) {
+        warnOnce(MessageKey.PARTITIONING, "Partitioning not supported. This is as expected");
+    }
+
+    @Override
+    public void dropTenantTablespace(int tenantId) {
+        logger.fine("Drop tablespace not supported. This is as expected");
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#disableForeignKey(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public void disableForeignKey(String schemaName, String tableName, String constraintName) {
+        // not expecting this to be called for this adapter
+        throw new UnsupportedOperationException("Disable FK currently not supported for this adapter.");
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#enableForeignKey(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public void enableForeignKey(String schemaName, String tableName, String constraintName) {
+        // not expecting this to be called for this adapter
+        throw new UnsupportedOperationException("Disable FK currently not supported for this adapter.");
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#setIntegrityOff(java.lang.String, java.lang.String)
+     */
+    @Override
+    public void setIntegrityOff(String schemaName, String tableName) {
+        // not expecting this to be called for this adapter
+        throw new UnsupportedOperationException("Set integrity off not supported for this adapter.");
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#setIntegrityUnchecked(java.lang.String, java.lang.String)
+     */
+    @Override
+    public void setIntegrityUnchecked(String schemaName, String tableName) {
+        // not expecting this to be called for this adapter
+        throw new UnsupportedOperationException("Set integrity unchecked not supported for this adapter.");
+    }
+    
 }
