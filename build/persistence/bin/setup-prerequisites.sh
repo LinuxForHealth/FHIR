@@ -28,7 +28,7 @@ required_build(){
 # persistence_build - executes for each persistence build triggering the persistence layer's required steps.
 persistence_build(){
     PERSISTENCE="${1}"
-    if [ ! -z "${PERSISTENCE}" ] && [ -f "build/persistence/${PERSISTENCE}/setup-prerequisites.sh" ]
+    if [ -f "build/persistence/${PERSISTENCE}/setup-prerequisites.sh" ]
     then 
         echo "Running [${PERSISTENCE}] setting setup prerequisites"
         bash build/persistence/${PERSISTENCE}/setup-prerequisites.sh
