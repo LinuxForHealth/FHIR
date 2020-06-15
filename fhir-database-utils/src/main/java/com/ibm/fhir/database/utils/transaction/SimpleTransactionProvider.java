@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,6 @@ import com.ibm.fhir.database.utils.api.ITransactionProvider;
  * Simple Transaction Wrapper and provider
  */
 public class SimpleTransactionProvider implements ITransactionProvider {
-    
     private final IConnectionProvider connectionProvider;
 
     /**
@@ -31,5 +30,4 @@ public class SimpleTransactionProvider implements ITransactionProvider {
         // been configured with
         return TransactionFactory.openTransaction(this.connectionProvider);
     }
-
 }

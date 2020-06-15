@@ -20,6 +20,7 @@ import javax.batch.operations.JobOperator;
 import javax.batch.runtime.BatchRuntime;
 import javax.batch.runtime.JobExecution;
 import javax.batch.runtime.context.JobContext;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -28,6 +29,7 @@ import javax.json.JsonValue;
 import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 
+@Dependent
 public class ImportJobListener implements JobListener {
     private static final Logger logger = Logger.getLogger(ImportJobListener.class.getName());
 
@@ -35,7 +37,7 @@ public class ImportJobListener implements JobListener {
 
     @Inject
     JobContext jobContext;
-    
+
     @Inject
     @BatchProperty(name = Constants.IMPORT_FHIR_DATASOURCES)
     String dataSourcesInfo;
@@ -93,7 +95,7 @@ public class ImportJobListener implements JobListener {
         }
 
         jobContext.setExitStatus(Arrays.toString(resultInExitStatus));
-        
+
         for (ImportCheckPointData partitionSummary : partitionSummaries) {
             ImportCheckPointData partitionSummaryInMap = importedResourceTypeSummaries.get(partitionSummary.getImportPartitionResourceType());
             if (partitionSummaryInMap == null) {

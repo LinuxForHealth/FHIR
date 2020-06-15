@@ -1,0 +1,50 @@
+{
+    "index-version": 1,
+    "files": [
+        {
+            "filename": "my-coverage.json",
+            "resourceType": "StructureDefinition",
+            "id": "my-coverage",
+            "url": "http://myurl.org/my-coverage",
+            "version": "0.1.0",
+            "kind": "resource",
+            "type": "Coverage"
+        },
+        {
+            "filename": "my-extension.json",
+            "resourceType": "StructureDefinition",
+            "id": "my-extension",
+            "url": "http://myurl.org/my-extension",
+            "version": "0.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "period-with-my-extension.json",
+            "resourceType": "StructureDefinition",
+            "id": "period-with-my-extension",
+            "url": "http://myurl.org/period-with-my-extension",
+            "version": "0.1.0",
+            "kind": "complex-type",
+            "type": "Period"
+        },
+        {
+            "filename": "my-condition.json",
+            "resourceType": "StructureDefinition",
+            "id": "my-condition",
+            "url": "http://ibm.com/fhir/StructureDefinition/my-condition",
+            "version": "0.1.0",
+            "kind": "resource",
+            "type": "Condition"
+        },
+        {
+            "filename": "my-observation.json",
+            "resourceType": "StructureDefinition",
+            "id": "my-observation",
+            "url": "http://ibm.com/fhir/StructureDefinition/my-observation",
+            "version": "0.1.0",
+            "kind": "resource",
+            "type": "Observation"
+        }
+    ]
+}

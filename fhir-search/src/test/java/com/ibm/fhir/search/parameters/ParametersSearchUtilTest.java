@@ -114,7 +114,7 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters4/Device", result);
         assertEquals(2, result.size());
-        List<String> codes = getSearchParameterNames(result);
+        List<String> codes = getSearchParameterCodes(result);
         assertTrue(codes.contains("patient"));
         assertTrue(codes.contains("organization"));
     }
@@ -128,7 +128,7 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters5/Patient", result);
         assertEquals(4, result.size());
-        List<String> codes = getSearchParameterNames(result);
+        List<String> codes = getSearchParameterCodes(result);
         assertTrue(codes.contains("active"));
         assertTrue(codes.contains("address"));
         assertTrue(codes.contains("birthdate"));

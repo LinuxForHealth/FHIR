@@ -75,6 +75,8 @@
             <fileMode>0755</fileMode>
             <includes>
                 <include>${project.groupId}:fhir-ig-*</include>
+                <!-- TODO: move operations to userlib -->
+                <!-- <include>${project.groupId}:fhir-operation-*</include> -->
             </includes>
         </dependencySet>
         <dependencySet>

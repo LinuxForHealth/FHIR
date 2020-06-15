@@ -1,0 +1,53 @@
+{
+  "resourceType": "Coverage",
+  "id": "Coverage1",
+  "meta": {
+    "versionId": "2",
+    "lastUpdated": "2019-12-15T20:57:15.000-05:00",
+    "profile": [
+      "http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-coverage"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n\t\t\t<p>\n\t\t\t\t<b>Generated Narrative with Details</b>\n\t\t\t</p>\n\t\t\t</div>"
+  },
+  "identifier": [
+    {
+      "system": "http://www.bcbs.com/fhir/ns/NamingSystem/insurance-xyz-coverage-identifier",
+      "value": "4B55-8EC3-43A4703CAD34"
+    }
+  ],
+  "status": "active",
+  "type": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "EHCPOL",
+        "display": "extended healthcare"
+      }
+    ]
+  },
+  "subscriberId": "235656886",
+  "beneficiary": {
+    "reference": "Patient/Patient1"
+  },
+  "relationship": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/subscriber-relationship",
+        "code": "self",
+        "display": "Self"
+      }
+    ]
+  },
+  "period": {
+    "start": "2010-02-15",
+    "end": "2019-03-01"
+  },
+  "payor": [
+    {
+      "reference": "Organization/Org45"
+    }
+  ]
+}

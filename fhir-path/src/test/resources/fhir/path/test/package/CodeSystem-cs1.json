@@ -1,6 +1,7 @@
 {
     "resourceType": "CodeSystem",
     "id": "cs1",
+    "name": "Code System 5",
     "url": "http://ibm.com/fhir/CodeSystem/cs1",
     "version": "1.0.0",
     "status": "active",
@@ -8,7 +9,8 @@
     "content": "complete",
     "concept": [
         {
-            "code": "a"
+            "code": "a",
+            "display": "concept a"
         },
         {
             "code": "b"

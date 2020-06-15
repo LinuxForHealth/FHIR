@@ -35,6 +35,7 @@ import com.ibm.fhir.path.function.DistinctFunction;
 import com.ibm.fhir.path.function.EmptyFunction;
 import com.ibm.fhir.path.function.EndsWithFunction;
 import com.ibm.fhir.path.function.ExcludeFunction;
+import com.ibm.fhir.path.function.ExpandFunction;
 import com.ibm.fhir.path.function.ExtensionFunction;
 import com.ibm.fhir.path.function.FHIRPathFunction;
 import com.ibm.fhir.path.function.FirstFunction;
@@ -47,6 +48,7 @@ import com.ibm.fhir.path.function.IsDistinctFunction;
 import com.ibm.fhir.path.function.ItemFunction;
 import com.ibm.fhir.path.function.LastFunction;
 import com.ibm.fhir.path.function.LengthFunction;
+import com.ibm.fhir.path.function.LookupFunction;
 import com.ibm.fhir.path.function.LowerFunction;
 import com.ibm.fhir.path.function.MatchesFunction;
 import com.ibm.fhir.path.function.MemberOfFunction;
@@ -77,9 +79,12 @@ import com.ibm.fhir.path.function.ToQuantityFunction;
 import com.ibm.fhir.path.function.ToStringFunction;
 import com.ibm.fhir.path.function.ToTimeFunction;
 import com.ibm.fhir.path.function.TodayFunction;
+import com.ibm.fhir.path.function.TranslateFunction;
 import com.ibm.fhir.path.function.TypeFunction;
 import com.ibm.fhir.path.function.UnionFunction;
 import com.ibm.fhir.path.function.UpperFunction;
+import com.ibm.fhir.path.function.ValidateCSFunction;
+import com.ibm.fhir.path.function.ValidateVSFunction;
 
 public final class FHIRPathFunctionRegistry {
     private static final FHIRPathFunctionRegistry INSTANCE = new FHIRPathFunctionRegistry();
@@ -155,8 +160,6 @@ public final class FHIRPathFunctionRegistry {
         register(new StartsWithFunction());
         register(new SubsetOfFunction());
         register(new SubstringFunction());
-        register(new SubsumedByFunction());
-        register(new SubsumesFunction());
         register(new SupersetOfFunction());
         register(new TailFunction());
         register(new TakeFunction());
@@ -174,5 +177,14 @@ public final class FHIRPathFunctionRegistry {
         register(new TypeFunction());
         register(new UnionFunction());
         register(new UpperFunction());
+
+        // register terminology functions
+        register(new ExpandFunction());
+        register(new LookupFunction());
+        register(new SubsumedByFunction());
+        register(new SubsumesFunction());
+        register(new TranslateFunction());
+        register(new ValidateCSFunction());
+        register(new ValidateVSFunction());
     }
 }

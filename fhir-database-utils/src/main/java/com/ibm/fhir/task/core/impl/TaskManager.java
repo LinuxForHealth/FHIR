@@ -72,8 +72,7 @@ public class TaskManager implements ITaskCollector {
         lock.lock();
         try {
             return Collections.unmodifiableList(this.failedTaskGroups);
-        }
-        finally {
+        } finally {
             lock.unlock();
         }
     }
@@ -120,8 +119,7 @@ public class TaskManager implements ITaskCollector {
             while (this.currentlyRunningCount > 0) {
                 try {
                     runningCondition.await(1000, TimeUnit.MILLISECONDS);
-                }
-                catch (InterruptedException x) {
+                } catch (InterruptedException x) {
                     throw new IllegalStateException(x);
                 }
             }

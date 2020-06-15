@@ -22,10 +22,20 @@ public class UOMManagerTest {
     public void testLocationUnitFoundUS() {
         assertEquals(UOMManager.getUnitToMetersFactor("mi_us"), 1609.344);
     }
-    
+
     @Test
     public void testLocationUnitFoundBR() {
         assertEquals(UOMManager.getUnitToMetersFactor("mi_br"), 1609.3427328000002);
+    }
+
+    @Test
+    public void testLocationUnitFoundBRWithBrackets() {
+        assertEquals(UOMManager.getUnitToMetersFactor("[mi_br]"), 1609.3427328000002);
+    }
+
+    @Test
+    public void testLocationUnitFoundVariants() {
+        assertEquals(UOMManager.getUnitToMetersFactor("fts"), UOMManager.getUnitToMetersFactor("[FT_US]"));
     }
 
     @Test

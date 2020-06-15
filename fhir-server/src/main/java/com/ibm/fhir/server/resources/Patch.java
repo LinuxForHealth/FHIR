@@ -43,8 +43,8 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.path.patch.FHIRPathPatch;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.fhir.rest.FHIRRestOperationResponse;
 import com.ibm.fhir.server.annotation.PATCH;
+import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 import com.ibm.fhir.server.util.RestAuditLogger;
 

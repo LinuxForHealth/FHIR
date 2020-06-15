@@ -54,6 +54,7 @@ To use the artifacts from a Maven project:
 |------|-----------|----------|
 |fhir-model|An object model generated from the FHIR R4 specification and corresponding parsers and generators for XML and JSON|true|
 |fhir-registry|A resource registry, registry provider interfaces, and pre-registered resources shipped with the FHIR specification|false|
+|fhir-term|A terminology service provider interface with a default implementation that implements terminology services from fully-defined CodeSystems in the registry|false|
 |fhir-profile|Helper methods for validating ValueSet membership and Profile conformance|false|
 |fhir-path|An implementation of version 2.0.0 of the FHIRPath specification assumed by FHIR R4|false|
 |fhir-validation|Validation utility for validating resource instances against the base specification and/or configured profiles|false|
@@ -77,7 +78,6 @@ To use the artifacts from a Maven project:
 |fhir-notification-websocket|A fhir-notification implementation that uses WebSockets as described at https://www.hl7.org/fhir/R4/subscription.html#2.46.7.2 |false|
 |fhir-notification-kafka|An experimental fhir-notification implementation that uses Apache Kafka instead of WebSockets|false|
 |fhir-notification-nats|An experimental fhir-notification implementation that uses [NATS](https://nats.io/) instead of WebSockets|false|
-|fhir-operation|An operations framework for implementing Extended Operations as describe at https://www.hl7.org/fhir/R4/operations.html |false|
 |fhir-server|JAX-RS resources and related classes for implementing the FHIR REST API and extended operations|false|
 |fhir-server-webapp|A web application that packages the fhir-server with a set of built-in extended operations|false|
 |fhir-server-test|End-to-end integration tests for testing a running server|false|
@@ -85,12 +85,14 @@ To use the artifacts from a Maven project:
 #### Extended Operations
 |Module|Description|API-stable|
 |------|-----------|----------|
+|fhir-operation-test|Sample operations for testing Extended Operations as describe at https://www.hl7.org/fhir/R4/operations.html |false|
 |fhir-operation-apply|A naive implementation of the `$apply` operation defined at https://www.hl7.org/fhir/operation-activitydefinition-apply.html |false|
 |fhir-operation-bulkdata|`$import` and `$export` implementations which translate bulk data requests into JSR352 Java Batch jobs|false|
 |fhir-bulkimportexport-webapp|Standalone web application for serving bulk import and export requests via JSR352 Java Batch jobs|false|
 |fhir-operation-convert|A limited implementation of the FHIR [$convert operation](https://www.hl7.org/fhir/R4/resource-operation-convert.html), able to convert between JSON and XML but *not* between FHIR versions|false|
 |fhir-operation-document|Basic support for the Composition `$document` operation defined at https://www.hl7.org/fhir/operation-composition-document.html |false|
 |fhir-operation-healthcheck|The `$healthcheck` operation checks for a valid connection to the database and returns the server status|false|
+|fhir-operation-term|[Terminology service](https://www.hl7.org/fhir/terminology-service.html) operations which use the default fhir-term TerminologyServiceProvider to implement $expand, $lookup, $subsumes, $closure, $validate and $translate|false|
 |fhir-operation-validate|An implementation of the FHIR resource [$validate operation](https://www.hl7.org/fhir/R4/operation-resource-validate.html)|false|
 
 #### Client

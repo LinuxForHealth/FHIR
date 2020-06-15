@@ -24,7 +24,6 @@ import com.ibm.fhir.database.utils.model.Table;
  * procedures.
  */
 public interface IDatabaseAdapter {
-
     /**
      * Get the {@link IDatabaseTranslator} associated with this adapter
      *
@@ -118,7 +117,7 @@ public interface IDatabaseAdapter {
      * @param procedureName
      * @param supplier
      */
-    public void createOrReplaceProcedureAndFunctions(String schemaName, String procedureName, Supplier<String> supplier);
+    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier);
 
     /**
      * Drop the given procedure
@@ -245,12 +244,13 @@ public interface IDatabaseAdapter {
      * @param name
      * @param targetSchema
      * @param targetTable
+     * @param targetColumnName
      * @param tenantColumnName
      * @param columns
      * @param enforced
      */
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema,
-            String targetTable, String tenantColumnName, List<String> columns, boolean enforced);
+            String targetTable, String targetColumnName, String tenantColumnName, List<String> columns, boolean enforced);
 
     /**
      * Allocate a new tenant
@@ -265,6 +265,13 @@ public interface IDatabaseAdapter {
      */
     public int allocateTenant(String adminSchemaName, String schemaName, String tenantName, String tenantKey,
             String tenantSalt, String idSequenceName);
+    
+    /**
+     * Delete all the metadata associated with the given tenant identifier, as long as the
+     * tenant status is DROPPED.
+     * @param tenantId
+     */
+    public void deleteTenantMeta(String adminSchemaName, int tenantId);
 
     /**
      * Get the tenant id for the given schema and tenant name
@@ -286,17 +293,23 @@ public interface IDatabaseAdapter {
     public void createTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId, int extentSizeKB);
 
     /**
-     * Detach the partitions from each of the given tables. The tenantStaingTable is
-     * the name of the table used to record the "into" table name that the detached
-     * partition becomes.
+     * Detach the partition associated with the tenantId from each of the given tables
      *
      * @param tables
      * @param schemaName
      * @param tenantId
      * @param tenantStagingTable
      */
-    public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId,
-            String tenantStagingTable);
+    public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId);
+
+    /**
+     * Drop the tables which were created by the detach partition operation (as
+     * part of tenant deprovisioning).
+     * @param tables
+     * @param schemaName
+     * @param tenantId
+     */
+    public void dropDetachedPartitions(Collection<Table> tables, String schemaName, int tenantId);
 
     /**
      * Update the tenant status
@@ -332,8 +345,7 @@ public interface IDatabaseAdapter {
      * @param privileges
      * @param toUser
      */
-    public void grantObjectPrivileges(String schemaName, String tableName, Collection<Privilege> privileges,
-            String toUser);
+    public void grantObjectPrivileges(String schemaName, String tableName, Collection<Privilege> privileges, String toUser);
 
     /**
      * Grant the collection of privileges on the named procedure to the user
@@ -401,4 +413,88 @@ public interface IDatabaseAdapter {
      * @param schemaName
      */
     public void createSchema(String schemaName);
+
+    /**
+     * create a unique constraint on a table.
+     * 
+     * @param constraintName
+     * @param columns
+     * @param schemaName
+     * @param name
+     */
+    public void createUniqueConstraint(String constraintName, List<String> columns, String schemaName, String name);
+
+    /**
+     * checks connectivity to the database and that it is compatible
+     * @param adminSchema
+     * @return
+     */
+    public boolean checkCompatibility(String adminSchema);
+
+    /**
+     * 
+     * @return a false, if not used, or true if used with the persistence layer.
+     */
+    public default boolean useSessionVariable() {
+        return false;
+    }
+
+    /**
+     * creates or replaces the SQL function
+     * @param schemaName
+     * @param objectName
+     * @param supplier
+     */
+    public void createOrReplaceFunction(String schemaName, String objectName, Supplier<String> supplier);
+
+    /**
+     * drops a given function 
+     * @param schemaName
+     * @param functionName
+     */
+    public void dropFunction(String schemaName, String functionName);
+
+    /** 
+     * grants permissions on a given function
+     * @param schemaName
+     * @param functionName
+     * @param privileges
+     * @param toUser
+     */
+    public void grantFunctionPrivileges(String schemaName, String functionName, Collection<Privilege> privileges, String toUser);
+
+    /**
+     * Drop the tablespace associated with the given tenantId
+     * @param tenantId
+     */
+    public void dropTenantTablespace(int tenantId);
+
+    /**
+     * Disable the FK with the given constraint name
+     * @param tableName
+     * @param constraintName
+     */
+    public void disableForeignKey(String schemaName, String tableName, String constraintName);
+    
+    /**
+     * Enable the FK with the given constraint name
+     * @param schemaName
+     * @param tableName
+     * @param constraintName
+     */
+    public void enableForeignKey(String schemaName, String tableName, String constraintName);
+    
+    /**
+     * 
+     * @param schemaName
+     * @param tableName
+     */
+    public void setIntegrityOff(String schemaName, String tableName);
+
+    /**
+     * 
+     * @param schemaName
+     * @param tableName
+     */
+    public void setIntegrityUnchecked(String schemaName, String tableName);
 }

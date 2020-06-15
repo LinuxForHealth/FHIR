@@ -32,7 +32,7 @@ Given a FHIR profile (structure definition) as input, the IBM FHIR Server Profil
 
 - Cardinality constraints (required and prohibited elements)
 - Fixed value constraints (Code and Uri data types)
-- Pattern value constraints (CodeableConcept daa type)
+- Pattern value constraints (CodeableConcept and Identifier data types)
 - Reference type constraints (FHIRPath resolve/is/conformsTo functions)
 - Extension constraints (FHIRPath `conformsTo` function)
 - Vocabulary constraints (FHIRPath `memberOf` function)

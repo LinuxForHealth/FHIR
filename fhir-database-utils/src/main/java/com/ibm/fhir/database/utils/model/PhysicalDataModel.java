@@ -23,6 +23,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.task.api.ITaskCollector;
 
 /**
@@ -42,6 +43,9 @@ public class PhysicalDataModel implements IDataModel {
     // A list of just procedures, which we may want to update separately
     private final List<ProcedureDef> procedures = new ArrayList<>();
 
+    // A list of just functions, which we may want to update separately
+    private final List<FunctionDef> functions = new ArrayList<>();
+
     // A map of tags which can be used to look up objects in the model
     private final Map<String, Map<String, Set<IDatabaseObject>>> tagMap = new HashMap<>();
 
@@ -52,7 +56,7 @@ public class PhysicalDataModel implements IDataModel {
      * Default constructor. No federated models
      */
     public PhysicalDataModel() {
-
+        // No Op
     }
 
     /**
@@ -74,7 +78,6 @@ public class PhysicalDataModel implements IDataModel {
 
         // Update our tag index for this object
         collectTags(t);
-
         tables.put(t.getName(), t);
     }
 
@@ -102,7 +105,6 @@ public class PhysicalDataModel implements IDataModel {
         for (IDatabaseObject obj: allObjects) {
             obj.collect(tc, target, tp, vhs);
         }
-
     }
 
     /**
@@ -135,14 +137,27 @@ public class PhysicalDataModel implements IDataModel {
 
     /**
      * Apply all the procedures in the order in which they were added to the model
-     * @param target
+     * @param adapter
      */
-    public void applyProcedures(IDatabaseAdapter target) {
+    public void applyProcedures(IDatabaseAdapter adapter) {
         int total = procedures.size();
         int count = 1;
         for (ProcedureDef obj: procedures) {
             logger.fine(String.format("Applying [%d/%d] %s", count++, total, obj.toString()));
-            obj.apply(target);
+            obj.apply(adapter);
+        }
+    }
+
+    /**
+     * Apply all the functions in the order in which they were added to the model
+     * @param adapter
+     */
+    public void applyFunctions(IDatabaseAdapter adapter) {
+        int total = functions.size();
+        int count = 1;
+        for (FunctionDef obj: functions) {
+            logger.fine(String.format("Applying [%d/%d] %s", count++, total, obj.toString()));
+            obj.apply(adapter);
         }
     }
 
@@ -177,6 +192,29 @@ public class PhysicalDataModel implements IDataModel {
     }
 
     /**
+     * Visit all objects in creation order
+     * @param v
+     */
+    public void visit(DataModelVisitor v) {
+        this.allObjects.forEach(obj -> obj.visit(v));
+    }
+
+    /**
+     * Visit all objects in reverse order
+     * @param v
+     */
+    public void visitReverse(DataModelVisitor v) {
+        ArrayList<IDatabaseObject> copy = new ArrayList<>();
+        copy.addAll(allObjects);
+
+        int total = allObjects.size();
+        for (int i=total-1; i>=0; i--) {
+            IDatabaseObject obj = copy.get(i);
+            obj.visitReverse(v);
+        }
+    }
+
+    /**
      * Drop the lot
      * @param target
      */
@@ -189,13 +227,21 @@ public class PhysicalDataModel implements IDataModel {
      * @return
      */
     public Collection<Table> getTenantPartitionedTables(String partitionColumn) {
-        List<Table> result = new ArrayList<>();
+        final List<Table> result = new ArrayList<>();
 
-        for (Table t: this.tables.values()) {
-            String cn = t.getTenantColumnName();
-            if (cn != null && cn.equals(partitionColumn)) {
-                result.add(t);
-            }
+        // Need to make sure we follow creation order here (important when
+        // detaching partitions to avoid FK violation issues).
+        for (IDatabaseObject obj: this.allObjects) {
+            obj.visit(v -> {
+                // a little clunky, but gets the job done
+                if (v instanceof Table) {
+                    Table t = (Table)v;
+                    String cn = t.getTenantColumnName();
+                    if (cn != null && cn.equals(partitionColumn)) {
+                        result.add(t);
+                    }
+                }
+            });
         }
         return result;
     }
@@ -225,13 +271,32 @@ public class PhysicalDataModel implements IDataModel {
      * @param tenantId
      * @param partitionStagingTable
      */
-    public void removeTenantPartitions(IDatabaseAdapter adapter, String schemaName, int tenantId, String partitionStagingTable) {
+    public void detachTenantPartitions(IDatabaseAdapter adapter, String schemaName, int tenantId) {
         final String tenantIdColumn = "MT_ID";
 
-        // We have to delegate all the fun to the adapter, which knows how
-        // to manage this most efficiently
-        adapter.removeTenantPartitions(getTenantPartitionedTables(tenantIdColumn), schemaName, tenantId, partitionStagingTable);
+        // Get a list of all the partitioned tables, in creation order
+        Collection<Table> partitionedTables = getTenantPartitionedTables(tenantIdColumn);
+        
+        // Need to process drops in reverse, to avoid FK issues
+        ArrayList<Table> tabList = new ArrayList<>(partitionedTables);
+        Collections.reverse(tabList);
+
+        // Remove the tenant partition from each of the tables in tabList
+        adapter.removeTenantPartitions(tabList, schemaName, tenantId);
     }
+    
+    /**
+     * Drop the tables generated by the removeTenantPartitions call
+     * @param adapter
+     * @param schemaName
+     * @param tenantId
+     */
+    public void dropDetachedPartitions(IDatabaseAdapter adapter, String schemaName, int tenantId) {
+        final String tenantIdColumn = "MT_ID";
+        adapter.dropDetachedPartitions(getTenantPartitionedTables(tenantIdColumn), schemaName, tenantId);
+    }
+    
+
 
     /**
      * Add a stored procedure definition. The given {@link Supplier} will be called upon
@@ -246,9 +311,9 @@ public class PhysicalDataModel implements IDataModel {
      * @param privileges
      * @return
      */
-    public ProcedureDef addProcedureAndFunctions(String schemaName, String objectName, int version, Supplier<String> templateProvider,
-            Collection<IDatabaseObject> dependencies, Collection<GroupPrivilege> privileges, DbType dbType) {
-        ProcedureDef proc = new ProcedureDef(schemaName, objectName, version, templateProvider, dbType);
+    public ProcedureDef addProcedure(String schemaName, String objectName, int version, Supplier<String> templateProvider,
+            Collection<IDatabaseObject> dependencies, Collection<GroupPrivilege> privileges) {
+        ProcedureDef proc = new ProcedureDef(schemaName, objectName, version, templateProvider);
         privileges.forEach(p -> p.addToObject(proc));
 
         if (dependencies != null) {
@@ -260,16 +325,28 @@ public class PhysicalDataModel implements IDataModel {
         return proc;
     }
 
-    public void removeTenantPartitions(IDatabaseAdapter adapter, String schemaName, int tenantId) {
-
-    }
-
-    public void dropOldTenantTables() {
-
-    }
-
-    public void dropTenantTablespace() {
-
+    /**
+     * adds the function to the model. 
+     * 
+     * @param schemaName
+     * @param objectName
+     * @param version
+     * @param templateProvider
+     * @param dependencies
+     * @param privileges
+     * @return
+     */
+    public FunctionDef addFunction(String schemaName, String objectName, int version, Supplier<String> templateProvider,
+        Collection<IDatabaseObject> dependencies, Collection<GroupPrivilege> privileges) {
+        FunctionDef func = new FunctionDef(schemaName, objectName, version, templateProvider);
+        privileges.forEach(p -> p.addToObject(func));
+    
+        if (dependencies != null) {
+            func.addDependencies(dependencies);
+        }
+        allObjects.add(func);
+        functions.add(func);
+        return func;
     }
 
     @Override
@@ -382,4 +459,11 @@ public class PhysicalDataModel implements IDataModel {
         }
     }
 
+    /**
+     * Drop the tablespace associated with the given tenant.
+     * @param tenantId
+     */
+    public void dropTenantTablespace(IDatabaseAdapter adapter, int tenantId) {
+        adapter.dropTenantTablespace(tenantId);
+    }
 }

@@ -8,6 +8,7 @@ package com.ibm.fhir.database.utils.model;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
@@ -78,4 +79,21 @@ public class Tablespace extends DatabaseObject {
     public void grant(IDatabaseAdapter target, String groupName, String toUser) {
         // NOP
     }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visit(com.ibm.fhir.database.utils.model.DataModelVisitor)
+     */
+    @Override
+    public void visit(DataModelVisitor v) {
+        v.visited(this);
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visitReverse(com.ibm.fhir.database.utils.model.DataModelVisitor)
+     */
+    @Override
+    public void visitReverse(DataModelVisitor v) {
+        v.visited(this);
+    }
+
 }

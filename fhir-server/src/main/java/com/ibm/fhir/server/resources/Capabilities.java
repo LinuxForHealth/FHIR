@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.resources;
 
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CAPABILITY_STATEMENT_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_AUTHURL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_REGURL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_OAUTH_TOKENURL;
@@ -15,23 +16,29 @@ import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToSt
 import java.net.URI;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -63,62 +70,93 @@ import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
 import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.operation.FHIROperation;
-import com.ibm.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.FHIRBuildIdentifier;
+import com.ibm.fhir.server.operation.FHIROperationRegistry;
+import com.ibm.fhir.server.operation.spi.FHIROperation;
 import com.ibm.fhir.server.util.RestAuditLogger;
 
 @Path("/")
-@Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
-        FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
-@Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
-        FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
+@Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML,
+        MediaType.APPLICATION_XML })
+@Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML,
+        MediaType.APPLICATION_XML })
 public class Capabilities extends FHIRResource {
-    private static final Logger log =
-            java.util.logging.Logger.getLogger(Capabilities.class.getName());
+    private static final Logger log = java.util.logging.Logger.getLogger(Capabilities.class.getName());
 
-    public Capabilities() throws Exception {
-        super();
-    }
-
+    // Constants
     private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
     private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2020";
     private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
 
+    // Error Messages
+    private static final String ERROR_MSG = "Caught exception while processing 'metadata' request.";
+    private static final String ERROR_CONSTRUCTING = "An error occurred while constructing the Conformance statement.";
+
+    // Capability Statement Cache per Tenant
+    private static ConcurrentHashMap<String, CapabilityStatement> CAPABILITY_STATEMENT_CACHE_PER_TENANT =
+            new ConcurrentHashMap<>();
+
+    // Constructor
+    public Capabilities() throws Exception {
+        super();
+    }
+
     @GET
     @Path("metadata")
-    public Response capabilities() throws ClassNotFoundException {
-        log.entering(this.getClass().getName(), "metadata()");
-        Date startTime = new Date();
-        String errMsg = "Caught exception while processing 'metadata' request.";
-
+    public Response capabilities() {
+        log.entering(this.getClass().getName(), "capabilities()");
         try {
+            Date startTime = new Date();
             checkInitComplete();
 
-            CapabilityStatement capabilityStatement = getCapabilityStatement();
+            FHIRRequestContext ctx = FHIRRequestContext.get();
+            String tenantId = ctx.getTenantId();
+
+            // Defaults to 60 minutes (or what's in the fhirConfig)
+            int cacheLength = fhirConfig.getIntProperty(PROPERTY_CAPABILITY_STATEMENT_CACHE, 60);
+
+            CapabilityStatement capabilityStatement = CAPABILITY_STATEMENT_CACHE_PER_TENANT.compute(tenantId, (k,v) -> getOrCreateCapabilityStatement(v, cacheLength));
             RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), Response.Status.OK);
 
-            return Response.ok().entity(capabilityStatement).build();
-        } catch (FHIROperationException e) {
-            log.log(Level.SEVERE, errMsg, e);
-            return exceptionResponse(e, issueListToStatus(e.getIssues()));
+            CacheControl cacheControl = new CacheControl();
+            cacheControl.setPrivate(true);
+            cacheControl.setMaxAge(60 * cacheLength);
+            return Response.ok().entity(capabilityStatement).cacheControl(cacheControl).build();
+        } catch (IllegalArgumentException e) {
+            FHIROperationException foe = buildRestException(ERROR_CONSTRUCTING, IssueType.EXCEPTION);
+            log.log(Level.SEVERE, ERROR_MSG, foe);
+            return exceptionResponse(e, issueListToStatus(foe.getIssues()));
         } catch (Exception e) {
-            log.log(Level.SEVERE, errMsg, e);
+            log.log(Level.SEVERE, ERROR_MSG, e);
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-            log.exiting(this.getClass().getName(), "metadata()");
+            log.exiting(this.getClass().getName(), "capabilities()");
         }
     }
 
-    private synchronized CapabilityStatement getCapabilityStatement() throws FHIROperationException {
+    /*
+     * get or create capability statement
+     */
+    private CapabilityStatement getOrCreateCapabilityStatement(CapabilityStatement statement, int cacheLength) {
         try {
-            return buildCapabilityStatement();
+            if (statement == null) {
+                statement = buildCapabilityStatement();
+            } else {
+                TemporalAccessor acc = statement.getDate().getValue();
+                ZonedDateTime cachedTime = ZonedDateTime.from(acc);
+
+                // If UTC now is after the time the statement was generated
+                // plus a cacheLength then, rebuild the statement.
+                if (ZonedDateTime.now(ZoneOffset.UTC).isAfter(cachedTime.plusMinutes(cacheLength))) {
+                    statement = buildCapabilityStatement();
+                }
+            }
+            return statement;
         } catch (Throwable t) {
-            String msg = "An error occurred while constructing the Conformance statement.";
-            log.log(Level.SEVERE, msg, t);
-            throw buildRestException(msg, IssueType.EXCEPTION);
+            // We pack it in an IllegalArgument so it's used cleanly in compute.
+            throw new IllegalArgumentException(t);
         }
     }
 
@@ -166,6 +204,7 @@ public class Capabilities extends FHIRResource {
             }
         }
 
+        com.ibm.fhir.model.type.Boolean isUpdateCreate = com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled());
         // Build the list of supported resources.
         List<Rest.Resource> resources = new ArrayList<>();
         ResourceType.ValueSet[] resourceTypes = ResourceType.ValueSet.values();
@@ -179,7 +218,7 @@ public class Capabilities extends FHIRResource {
                     // The name here is a natural language name, and intentionally not replaced with code.
                     Rest.Resource.SearchParam.Builder conformanceSearchParamBuilder =
                             Rest.Resource.SearchParam.builder()
-                                .name(searchParameter.getName())
+                                .name(searchParameter.getCode())
                                 .type(searchParameter.getType());
                     if (searchParameter.getDescription() != null) {
                         conformanceSearchParamBuilder.documentation(searchParameter.getDescription());
@@ -203,12 +242,11 @@ public class Capabilities extends FHIRResource {
             Rest.Resource cr = Rest.Resource.builder()
                     .type(ResourceType.of(resourceType))
                     .profile(Canonical.of("http://hl7.org/fhir/profiles/" + resourceTypeName))
-                    .supportedProfile(FHIRRegistry.getInstance().getProfiles(resourceTypeName))
                     .interaction(interactions)
                     .operation(ops)
-                    .conditionalCreate(com.ibm.fhir.model.type.Boolean.of(true))
-                    .conditionalUpdate(com.ibm.fhir.model.type.Boolean.of(true))
-                    .updateCreate(com.ibm.fhir.model.type.Boolean.of(isUpdateCreateEnabled()))
+                    .conditionalCreate(com.ibm.fhir.model.type.Boolean.TRUE)
+                    .conditionalUpdate(com.ibm.fhir.model.type.Boolean.TRUE)
+                    .updateCreate(isUpdateCreate)
                     .conditionalDelete(ConditionalDeleteStatus.MULTIPLE)
                     .conditionalRead(ConditionalReadStatus.FULL_SUPPORT)
                     .searchParam(conformanceSearchParams)
@@ -265,7 +303,7 @@ public class Capabilities extends FHIRResource {
         CapabilityStatement.Rest rest = CapabilityStatement.Rest.builder()
                 .mode(RestfulCapabilityMode.SERVER)
                 .security(restSecurity)
-                .resource(resources)
+                .resource(addSupportedProfilesToResources(resources))
                 .interaction(CapabilityStatement.Rest.Interaction.builder()
                     .code(transactionMode)
                     .build())
@@ -287,7 +325,7 @@ public class Capabilities extends FHIRResource {
         // Finally, create the CapabilityStatement resource itself.
         CapabilityStatement conformance = CapabilityStatement.builder()
                 .status(PublicationStatus.ACTIVE)
-                .date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC)))
+                .date(DateTime.now(ZoneOffset.UTC))
                 .kind(CapabilityStatementKind.CAPABILITY)
                 .fhirVersion(FHIRVersion.VERSION_4_0_1)
                 .format(format)
@@ -315,6 +353,20 @@ public class Capabilities extends FHIRResource {
         }
 
         return conformance;
+    }
+
+    private List<Rest.Resource> addSupportedProfilesToResources(List<Rest.Resource> resources){
+        Map<String,Set<Canonical>> resourceProfiles = FHIRRegistry.getInstance().getProfiles();
+        return resources.stream().map(r -> processResource(r,resourceProfiles)).collect(Collectors.toList());
+    }
+
+    private Rest.Resource processResource(Rest.Resource resource, Map<String,Set<Canonical>> resourceProfiles){
+        Set<Canonical> supportedProfiles = resourceProfiles.get(resource.getType().getValue());
+        if(supportedProfiles != null) {
+            return resource.toBuilder().supportedProfile(new ArrayList<>(supportedProfiles)).build();
+        } else {
+            return resource;
+        }
     }
 
     private List<Rest.Resource.Operation> mapOperationDefinitionsToRestOperations(List<OperationDefinition> opDefs) {

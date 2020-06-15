@@ -11,7 +11,7 @@ module.exports = {
     {
       resolve : 'gatsby-theme-carbon', 
       options : { 
-        mdxExtensions: ['.mdx', 'md'],
+        mdxExtensions: ['.mdx', '.md'],
         titleType: 'append',
         isSearchEnabled: false,
         repository: {
@@ -19,6 +19,7 @@ module.exports = {
           subDirectory: '/docs',
           branch: 'master',
         },
+        display: 'browser',
       }
     }, 
     {
@@ -26,11 +27,33 @@ module.exports = {
       options: {
         name: 'IBM FHIR Server',
         short_name: 'IBM FHIR Server',
-        start_url: '/',
+        start_url: '/FHIR',
         background_color: '#ffffff',
         theme_color: '#0062ff',
         display: 'browser',
         icon: "src/images/fhir-transparent.png",
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/src/pages`,
+        name: `pages`,
+      },
+    },
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        // CommonMark mode (default: true)
+        commonmark: true,
+        // Footnotes mode (default: true)
+        footnotes: true,
+        // Pedantic mode (default: true)
+        pedantic: true,
+        // GitHub Flavored Markdown mode (default: true)
+        gfm: true,
+        // Plugins configs
+        plugins: [],
       },
     },
     {

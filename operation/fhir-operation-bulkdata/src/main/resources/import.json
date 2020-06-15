@@ -1,0 +1,103 @@
+{
+    "resourceType": "OperationDefinition",
+    "id": "import",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>BulkDataImport</h2><p>OPERATION: BulkDataImport</p></div>"
+    },
+    "url": "http://hl7.org/fhir/OperationDefinition/BulkData-import",
+    "version": "1.0.0",
+    "name": "BulkDataImport",
+    "title": "FHIR Bulk Data Import (Flat FHIR) - System Level Import",
+    "status": "draft",
+    "kind": "operation",
+    "publisher": "IBM FHIR Server Team",
+    "contact": [
+        {
+            "id": "link-to-definition",
+            "name": "link-to-definition",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://github.com/smart-on-fhir/bulk-import/blob/master/import.md"
+                }
+            ]
+        }
+    ],
+    "description": "Pre ballot version of Bulk Data Import using the Parameters Object",
+    "code": "import",
+    "system": true,
+    "type": false,
+    "instance": false,
+    "parameter": [
+        {
+            "name": "inputFormat",
+            "use": "in",
+            "min": 1,
+            "max": "1",
+            "documentation": "The format of the imported content. Servers SHALL support Newline Delimited JSON with a format type of application/fhir+ndjson but MAY choose to support additional input formats.",
+            "type": "string"
+        },
+        {
+            "name": "inputSource",
+            "use": "in",
+            "min": 1,
+            "max": "1",
+            "documentation": "URI for tracking this set of imported data throughout its lifecycle. MAY be used to specify a FHIR endpoint that can by the importing system when matching references to previously imported data.",
+            "type": "uri"
+        },
+        {
+            "name": "input",
+            "use": "in",
+            "min": 1,
+            "max": "*",
+            "documentation": "a set of parameters with input types, urls as extensions",
+            "part": [
+                {
+                    "name": "type",
+                    "use": "in",
+                    "min": 1,
+                    "max": "1",
+                    "documentation": "FHIR resource type",
+                    "type": "string"
+                },
+                {
+                    "name": "url",
+                    "use": "in",
+                    "min": 1,
+                    "max": "1",
+                    "documentation": "Path to bulk data file of the type reflected in inputFormat containing FHIR resources",
+                    "type": "url"
+                }
+            ]
+        },
+        {
+            "name": "storageDetail",
+            "use": "in",
+            "min": 1,
+            "max": "1",
+            "type": "string",
+            "documentation": "The type of storage input",
+            "part": [
+                {
+                    "name": "type",
+                    "use": "in",
+                    "min": 1,
+                    "max": "1",
+                    "documentation": "Parameters depending on type:",
+                    "type": "string",
+                    "part": [
+                        {
+                            "name": "contentEncoding",
+                            "use": "in",
+                            "min": 0,
+                            "max": "*",
+                            "documentation": "Content Encoding for the specific type of storage",
+                            "type": "string"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

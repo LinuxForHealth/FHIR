@@ -20,6 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
+import com.ibm.fhir.database.utils.api.DuplicateNameException;
+import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
@@ -161,7 +163,12 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         }
 
         // Thread pool for parallelizing requests
-        final ExecutorService pool = Executors.newFixedThreadPool(40);
+        int poolSize = connectionProvider.getPoolSize();
+        if (poolSize == -1) {
+            // Default Value - 40
+            poolSize = 40;
+        }
+        final ExecutorService pool = Executors.newFixedThreadPool(poolSize);
 
         final AtomicInteger taskCount = new AtomicInteger();
         for (Table t: tables) {
@@ -171,21 +178,17 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                 // We should only be dealing with partitioned tables at this stage, so this
                 // is a fatal error
                 throw new DataAccessException("No partition information found for table: " + qualifiedName);
-            }
-            else {
+            } else {
                 // Submit to the pool for processing
                 taskCount.incrementAndGet();
                 pool.submit(new Runnable() {
-
                     @Override
                     public void run() {
                         try {
                             createTenantPartitionsThr(t, pi, newTenantId, tablespaceName);
-                        }
-                        catch (Throwable x) {
+                        } catch (Throwable x) {
                             logger.log(Level.SEVERE, "tenant creation failed: " + t.getName(), x);
-                        }
-                        finally {
+                        } finally {
                             taskCount.decrementAndGet();
                         }
                     }
@@ -200,8 +203,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                 logger.info("Waiting for partitioning tasks to complete: " + taskCount.get());
                 pool.awaitTermination(5000, TimeUnit.MILLISECONDS);
             }
-        }
-        catch (InterruptedException x) {
+        } catch (InterruptedException x) {
             // Not cool. This means that only some of the tables will have the partition assigned
             throw new DataAccessException("Tenant partition creation did not complete");
         }
@@ -218,7 +220,6 @@ public class Db2Adapter extends CommonDatabaseAdapter {
      * @param tablespaceName
      */
     public void createTenantPartitionsThr(Table t, PartitionInfo pi, int newTenantId, String tablespaceName) {
-
         // Each thread needs to manage its own transaction
         try (ITransaction tx = TransactionFactory.openTransaction(connectionProvider)) {
             try {
@@ -230,8 +231,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
                 Db2AddTablePartition cmd = new Db2AddTablePartition(t.getSchemaName(), t.getObjectName(), newTenantId, tablespaceName);
                 runStatement(cmd);
                 logger.info("Added tenant partition: TENANT" + newTenantId + " to " + t.getName());
-            }
-            catch (RuntimeException x) {
+            } catch (RuntimeException x) {
                 logger.severe("Rolling back transaction after tenant creation failed for table " + t.getName());
                 tx.setRollbackOnly();
                 throw x;
@@ -307,7 +307,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createOrReplaceProcedureAndFunctions(String schemaName, String procedureName, Supplier<String> supplier) {
+    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
         logger.info("Create or replace procedure " + objectName);
 
@@ -365,43 +365,79 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         final String detachedName = DataDefinitionUtil.getQualifiedName(schemaName, intoTableName);
         final String ddl = "ALTER TABLE " + qname + " DETACH PARTITION " + partitionName + " INTO " + detachedName;
-        runStatement(ddl);
+        
+        try {
+            runStatement(ddl);
+        } catch (DataAccessException x) {
+            // Suppress the error, in case this is an older version and we have a new table
+            logger.warning("Detach partition skipped for '" + qname + "/" + partitionName + "'. Reason: " + x.getMessage());
+        }
     }
 
     @Override
-    public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId,
-            String tenantStagingTable) {
+    public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId) {
 
+        // Identify all the partitioned tables contained within schemaName
         Map<String, PartitionInfo> partitionInfoMap = new HashMap<>();
         loadPartitionInfoMap(partitionInfoMap, schemaName);
 
         for (Table t: tables) {
-            PartitionInfo pi = partitionInfoMap.get(t.getName());
+            PartitionInfo pi = partitionInfoMap.get(t.getObjectName());
             if (pi == null) {
                 // We should only be dealing with partitioned tables at this stage, so this
                 // is a fatal error
-                String qualifiedName = DataDefinitionUtil.getQualifiedName(schemaName, t.getName());
+                String qualifiedName = DataDefinitionUtil.getQualifiedName(schemaName, t.getObjectName());
                 throw new DataAccessException("No partition information found for table: " + qualifiedName);
-            }
-            else {
+            } else {
                 final String partitionName = "TENANT" + tenantId;
-                final String targetTableName = DataDefinitionUtil.getQualifiedName(schemaName, t.getName() + "_" + partitionName);
-                removeTenantPartition(schemaName, t.getName(), partitionName, targetTableName, tenantStagingTable);
+                final String targetTableName = getDetachedPartitionTableName(t, tenantId);
+                detachPartition(schemaName, t.getObjectName(), partitionName, targetTableName);
             }
         }
     }
 
-    protected void removeTenantPartition(String schemaName, String tableName, String partitionName, String targetTableName,
-            String tenantStagingTable) {
+    @Override
+    public void dropDetachedPartitions(Collection<Table> tables, String schemaName, int tenantId) {
 
-        // Detach the given partition of the table into the targetTableName (within the same schema).
-        detachPartition(schemaName, tableName, partitionName, targetTableName);
+        // Only process tables which are partitioned
+        Map<String, PartitionInfo> partitionInfoMap = new HashMap<>();
+        loadPartitionInfoMap(partitionInfoMap, schemaName);
+        
+        for (Table t : tables) {
+            PartitionInfo pi = partitionInfoMap.get(t.getObjectName());
+            if (pi == null) {
+                // We should only be dealing with partitioned tables at this stage, so this
+                // is a fatal error
+                String qualifiedName = DataDefinitionUtil.getQualifiedName(schemaName, t.getObjectName());
+                throw new DataAccessException("No partition information found for table: " + qualifiedName);
+            } else {
+                // drop the table which now represents the detached partition
+                final String detachedPartitionTableName = getDetachedPartitionTableName(t, tenantId);
+                try {
+                    logger.info("Dropping detached partition (table): '" + detachedPartitionTableName + "'");
+                    dropTable(schemaName, detachedPartitionTableName);
+                } catch (Exception x) {
+                    // we want this to be idempotent, so we suppress propagation of any error
+                    logger.warning("Drop failed for `" + detachedPartitionTableName + "` - " + x.getMessage());
 
-        // We need to add this target table name to the tenantStagingTable so that we
-        // can remember to delete it later...an operation which can only be done in
-        // a new transaction
-        Db2AddTableToStaging cmd = new Db2AddTableToStaging(schemaName, tenantStagingTable, targetTableName);
-        runStatement(cmd);
+                    if (logger.isLoggable(Level.FINE)) {
+                        logger.log(Level.FINE, detachedPartitionTableName, x);
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Get the name of the table created when the given tenant's partition is
+     * dropped (to deprovision a tenant). This is just the table name prefixed with
+     * DRP_n_ where n is the tenantId.
+     * 
+     * @param tenantId
+     * @return
+     */
+    private String getDetachedPartitionTableName(Table t, int tenantId) {
+        return "DRP_" + tenantId + "_" + t.getObjectName();
     }
 
     @Override
@@ -427,6 +463,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         return "VARCHAR(" + size + " OCTETS)";
     }
 
+    @Override
     public boolean checkCompatibility(String adminSchema) {
         // As long as we don't get an exception, we should be considered compatible
         Db2CheckCompatibility checker = new Db2CheckCompatibility(adminSchema);
@@ -450,4 +487,79 @@ public class Db2Adapter extends CommonDatabaseAdapter {
             super.runStatement(runstats);
         }
     }
+
+    @Override
+    public void createSchema(String schemaName){
+        try {
+            String ddl = "CREATE SCHEMA " + schemaName;
+            runStatement(ddl);
+            logger.log(Level.INFO, "The schema '" + schemaName + "' is created");
+        } catch (DuplicateNameException | DuplicateSchemaException e) {
+            logger.log(Level.WARNING, "The schema '" + schemaName + "' already exists; proceed with caution.");
+        }
+    }
+
+    @Override
+    public boolean useSessionVariable() {
+        return true;
+    }
+
+    @Override
+    public void dropTenantTablespace(int tenantId) {
+        final String tablespaceName = "TS_TENANT" + tenantId;
+        dropTablespace(tablespaceName);
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#disableForeignKey(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public void disableForeignKey(String schemaName, String tableName, String constraintName) {
+        // ALTER TABLE foo ALTER FOREIGN KEY fk NOT ENFORCED
+        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
+        final String ddl = "ALTER TABLE " + qname + " ALTER FOREIGN KEY " + constraintName + " NOT ENFORCED";
+        runStatement(ddl);
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#enableForeignKey(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public void enableForeignKey(String schemaName, String tableName, String constraintName) {
+        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
+        final String ddl = "ALTER TABLE " + qname + " ALTER FOREIGN KEY " + constraintName + " ENFORCED";
+        runStatement(ddl);
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#setIntegrityOff(java.lang.String, java.lang.String)
+     */
+    @Override
+    public void setIntegrityOff(String schemaName, String tableName) {
+        // SET INTEGRITY FOR child OFF;
+        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
+        final String ddl = "SET INTEGRITY FOR " + qname + " OFF";
+        
+        // so important, we log it
+        logger.info(ddl);
+        
+        runStatement(ddl);
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#setIntegrityUnchecked(java.lang.String, java.lang.String)
+     */
+    @Override
+    public void setIntegrityUnchecked(String schemaName, String tableName) {
+        // SET INTEGRITY FOR child ALL IMMEDIATE UNCHECKED;
+        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
+        final String ddl = "SET INTEGRITY FOR " + qname + " ALL IMMEDIATE UNCHECKED";
+        
+        // so important, we log it
+        logger.info(ddl);
+
+        runStatement(ddl);
+    }
+
 }

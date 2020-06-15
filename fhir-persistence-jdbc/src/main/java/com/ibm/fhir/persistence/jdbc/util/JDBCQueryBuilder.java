@@ -36,6 +36,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierOperatorMap;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -62,6 +63,8 @@ import com.ibm.fhir.persistence.util.AbstractQueryBuilder;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
+import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.search.location.NearLocationHandler;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.util.LocationUtil;
 import com.ibm.fhir.search.parameters.QueryParameter;
@@ -362,6 +365,15 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 default:
                     throw new FHIRPersistenceNotSupportedException("Parm type not yet supported: " + type.value());
                 }
+            } else { 
+                NearLocationHandler handler = new NearLocationHandler();
+                List<Bounding> boundingAreas;
+                try {
+                    boundingAreas = handler.generateLocationPositionsFromParameters(Arrays.asList(queryParm));
+                } catch (FHIRSearchException e) {
+                    throw new FHIRPersistenceException("input parameter is invalid bounding area, bad prefix, or bad units", e);
+                }
+                databaseQueryParm = this.buildLocationQuerySegment(NearLocationHandler.NEAR, boundingAreas);
             }
         } finally {
             log.exiting(CLASSNAME, METHODNAME, new Object[] { databaseQueryParm });

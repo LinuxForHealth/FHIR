@@ -7,6 +7,7 @@
 package com.ibm.fhir.database.utils.version;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
@@ -21,12 +22,11 @@ import com.ibm.fhir.database.utils.api.IVersionHistoryService;
  * Encapsulation of the transaction needed to read the version history table
  */
 public class VersionHistoryService implements IVersionHistoryService {
-
     // The name of the admin schema we are working with
     private final String adminSchemaName;
 
     // The name of the data schema we are working with
-    private final String schemaName;
+    private final String[] schemaNames;
 
     // Allows us to start a transaction
     private ITransactionProvider transactionProvider;
@@ -35,15 +35,16 @@ public class VersionHistoryService implements IVersionHistoryService {
     private IDatabaseAdapter target;
 
     // The map of version history information loaded from the database
-    private Map<String,Integer> versionHistoryMap;
+    private Map<String, Integer> versionHistoryMap = new LinkedHashMap<>();
 
-    public VersionHistoryService(String adminSchemaName, String schemaName) {
+    public VersionHistoryService(String adminSchemaName, String... schemaNames) {
         this.adminSchemaName = adminSchemaName;
-        this.schemaName = schemaName;
+        this.schemaNames = schemaNames;
     }
 
     /**
      * For injection of the {@link IConnectionProvider}
+     * 
      * @param tp
      */
     public void setTransactionProvider(ITransactionProvider tp) {
@@ -52,6 +53,7 @@ public class VersionHistoryService implements IVersionHistoryService {
 
     /**
      * For injection of the {@link IDatabaseTarget}
+     * 
      * @param tgt
      */
     public void setTarget(IDatabaseAdapter tgt) {
@@ -69,7 +71,7 @@ public class VersionHistoryService implements IVersionHistoryService {
      * already been applied, so won't try again.
      */
     public void init() {
-        // defend
+        // defend against a null target.
         if (this.target == null) {
             throw new IllegalStateException("Programming error - must setTarget before calling init");
         }
@@ -77,33 +79,39 @@ public class VersionHistoryService implements IVersionHistoryService {
         if (transactionProvider != null) {
             try (ITransaction tx = transactionProvider.getTransaction()) {
                 try {
-                    // Note how we don't care about connections here...that is all
-                    // hidden inside the target adapter implementation
-                    GetLatestVersionDAO dao = new GetLatestVersionDAO(adminSchemaName, schemaName);
-                    this.versionHistoryMap = target.runStatement(dao);
-                }
-                catch (DataAccessException x) {
+                    getLatestVersionHistoryForSchema();
+                } catch (DataAccessException x) {
                     // Something went wrong, so mark the transaction as failed
                     tx.setRollbackOnly();
                     throw x;
                 }
             }
-        }
-        else {
-            // Assume the parent is responsible for handling the transaction
-            GetLatestVersionDAO dao = new GetLatestVersionDAO(adminSchemaName, schemaName);
-            this.versionHistoryMap = target.runStatement(dao);
+        } else {
+            getLatestVersionHistoryForSchema();
         }
     }
 
+    /*
+     * helper method to limit the duplication of code in the various rollback scenarios, as a transaction or part of a
+     * transaction.
+     */
+    private void getLatestVersionHistoryForSchema() {
+        // Note how we don't care about connections here...that is all
+        // hidden inside the target adapter implementation
+        for (String schemaName : schemaNames) {
+            GetLatestVersionDAO dao = new GetLatestVersionDAO(adminSchemaName, schemaName);
+            this.versionHistoryMap.putAll(target.runStatement(dao));
+        }
+    }
 
     /**
      * Insert all the entries in the versionHistoryMap. This must be called in the
      * context of an existing transaction
+     * 
      * @param versionHistories
      */
     public void insertVersionHistoriesInTx(Collection<TypeNameVersion> versionHistories) {
-        for (TypeNameVersion tuple: versionHistories) {
+        for (TypeNameVersion tuple : versionHistories) {
             insertVersionHistoryInTx(tuple.getSchema(), tuple.getType(), tuple.getName(), tuple.getVersion());
         }
     }
@@ -124,14 +132,14 @@ public class VersionHistoryService implements IVersionHistoryService {
     /**
      * Insert all the entries in the versionHistoryMap in a new transaction (useful
      * for testing).
+     * 
      * @param versionHistories
      */
     public void insertVersionHistory(Collection<TypeNameVersion> versionHistories) {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
                 insertVersionHistoriesInTx(versionHistories);
-            }
-            catch (DataAccessException x) {
+            } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
                 throw x;

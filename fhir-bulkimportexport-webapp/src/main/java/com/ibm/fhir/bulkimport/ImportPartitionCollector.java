@@ -15,12 +15,14 @@ import javax.batch.api.BatchProperty;
 import javax.batch.api.partition.PartitionCollector;
 import javax.batch.runtime.BatchStatus;
 import javax.batch.runtime.context.StepContext;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.fhir.bulkcommon.BulkDataUtils;
 import com.ibm.fhir.bulkcommon.Constants;
 
+@Dependent
 public class ImportPartitionCollector implements PartitionCollector {
     private static final Logger logger = Logger.getLogger(ImportPartitionCollector.class.getName());
     AmazonS3 cosClient = null;
@@ -71,7 +73,7 @@ public class ImportPartitionCollector implements PartitionCollector {
 
     public ImportPartitionCollector() {
         // The injected properties are not available at class construction time
-        // These values are lazy injected BEFORE calling 'collectPartitionData'. 
+        // These values are lazy injected BEFORE calling 'collectPartitionData'.
     }
 
     @Override

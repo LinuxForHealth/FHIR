@@ -5,13 +5,53 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 set -ex
+set +o pipefail
 
 # The full path to the directory of this script, no matter where its called from
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd ${DIR}
 
-java -jar schema/fhir-persistence-schema-*-cli.jar \
-  --prop-file db2.properties --schema-name FHIRDATA --create-schemas
+# Makes a temp file to store the output
+TMP_FILE=`mktemp`
+
+# Loop up to 4
+not_ready=true
+retry_count=0
+while [ "$not_ready" == "true" ]
+do
+  EXIT_CODE="-1"
+  java -jar schema/fhir-persistence-schema-*-cli.jar \
+    --prop-file db2.properties --schema-name FHIRDATA --create-schemas | tee -a ${TMP_FILE}
+  EXIT_CODE="${PIPESTATUS[0]}"
+  LOG_OUT=`cat ${TMP_FILE}`
+  if [ "$EXIT_CODE" == "0" ]
+  then 
+    # We now just send out the output and stop the loop
+    echo "${LOG_OUT}"
+    not_ready="false"
+  elif [ "$EXIT_CODE" == "4" ] || [ echo "$LOG_OUT" | grep -q "SQLCODE=-1035, SQLSTATE=57019" ]
+  then
+    # EXIT_NOT_READY = 4 - we know in certain versions that this is to be automatically re-tried
+    retry_count=$((retry_count++))
+    if [ $retry_count -lt 4 ]
+    then
+      echo "Waiting for the Database to be ready - Sleeping"
+      sleep 60
+    else
+      echo "Reached Limit while waiting"
+      echo "$LOG_OUT"
+      exit "$EXIT_CODE"
+    fi
+  else
+    # We need to check and/or fail. 
+    echo "$LOG_OUT"
+  fi
+done
+
+if -f ${TMP_FILE}
+then 
+  rm ${TMP_FILE}
+fi
 
 java -jar schema/fhir-persistence-schema-*-cli.jar \
   --prop-file db2.properties --schema-name FHIRDATA --update-schema --pool-size 2

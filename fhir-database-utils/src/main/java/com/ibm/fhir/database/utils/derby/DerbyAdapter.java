@@ -14,6 +14,8 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.api.DuplicateNameException;
+import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
@@ -40,7 +42,6 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     // Just warn once for each unique message key. This cleans up build logs a lot
     private static final Set<MessageKey> warned = ConcurrentHashMap.newKeySet();
-
 
     /**
      * Public constructor
@@ -72,16 +73,13 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
             IdentityDef identity, String tablespaceName) {
-
         // Derby doesn't support partitioning, so we ignore tenantColumnName
         if (tenantColumnName != null) {
-            warnOnce(MessageKey.MULTITENANCY, "Derby does support not multi-tenancy: " + name);
+            warnOnce(MessageKey.MULTITENANCY, "Derby does not support multi-tenancy on: [" + name + "]");
         }
 
         // We also ignore tablespace for Derby
         String ddl = buildCreateTableStatement(schemaName, name, columns, primaryKey, identity, null);
-
-
         runStatement(ddl);
     }
 
@@ -142,7 +140,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createOrReplaceProcedureAndFunctions(String schemaName, String procedureName, Supplier<String> supplier) {
+    public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
         warnOnce(MessageKey.CREATE_PROC, "Create procedure not supported in Derby");
     }
 
@@ -153,12 +151,17 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createTablespace(String tablespaceName) {
-        warnOnce(MessageKey.TABLESPACE, "Create tablespace not supported in Derby");
+        logger.fine("Create tablespace not supported in Derby");
+    }
+
+    @Override
+    public void createTablespace(String tablespaceName, int extentSizeKB) {
+        logger.fine("Create tablespace not supported in Derby");
     }
 
     @Override
     public void dropTablespace(String tablespaceName) {
-        warnOnce(MessageKey.TABLESPACE, "Drop tablespace not supported in Derby");
+        logger.fine("Drop tablespace not supported in Derby");
     }
 
     @Override
@@ -167,14 +170,8 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId,
-            String tenantStagingTable) {
+    public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId) {
         warnOnce(MessageKey.PARTITIONING, "Remove tenant partitions not supported in Derby");
-    }
-
-    @Override
-    public void createTablespace(String tablespaceName, int extentSizeKB) {
-        warnOnce(MessageKey.TABLESPACE, "Create tablespace not supported in Derby");
     }
 
     @Override
@@ -223,14 +220,13 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createForeignKeyConstraint(String constraintName, String schemaName, String name,
-            String targetSchema, String targetTable, String tenantColumnName,
-            List<String> columns, boolean enforced) {
-
-        // Make the call, but
-        // 1. without the tenantColumnName because Derby doesn't support our multi-tenant implementation; and
-        // 2. with enforced=true because Derby doesn't support non-default constraint characteristics
-        super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, null, columns, true);
+    public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema,
+        String targetTable, String targetColumnName, String tenantColumnName, List<String> columns, boolean enforced) {
+        // If enforced=false, skip the constraint because Derby doesn't support unenforced constraints
+        if (enforced) {
+            // Make the call, but without the tenantColumnName because Derby doesn't support our multi-tenant implementation
+            super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, targetColumnName, null, columns, true);
+        }
     }
 
     @Override
@@ -246,11 +242,75 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
             AddForeignKeyConstraint afk = (AddForeignKeyConstraint) stmt;
             for (ForeignKeyConstraint constraint : afk.getConstraints()) {
                 createForeignKeyConstraint(constraint.getConstraintName(), afk.getSchemaName(), afk.getTableName(),
-                    constraint.getTargetSchema(), constraint.getTargetTable(),
+                    constraint.getTargetSchema(), constraint.getTargetTable(), constraint.getTargetColumnName(),
                     afk.getTenantColumnName(), constraint.getColumns(), constraint.isEnforced());
             }
         } else {
             super.runStatement(stmt);
         }
     }
-}
+
+    @Override
+    public boolean checkCompatibility(String adminSchema) {
+        String stmt = "VALUES 1";
+        super.runStatement(stmt);
+        return true;
+    }
+
+    @Override
+    public void createSchema(String schemaName){
+        try {
+            String ddl = "CREATE SCHEMA " + schemaName;
+            runStatement(ddl);
+            logger.log(Level.INFO, "The schema '" + schemaName + "' is created");
+        } catch (DuplicateNameException | DuplicateSchemaException e) {
+            logger.log(Level.WARNING, "The schema '" + schemaName + "' already exists; proceed with caution.");
+        }
+    }
+
+    @Override
+    public void dropDetachedPartitions(Collection<Table> tables, String schemaName, int tenantId) {
+        warnOnce(MessageKey.PARTITIONING, "Partitioning not supported in Derby");
+    }
+
+    @Override
+    public void dropTenantTablespace(int tenantId) {
+        logger.fine("Drop tablespace not supported in Derby");
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#disableForeignKey(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public void disableForeignKey(String schemaName, String tableName, String constraintName) {
+        // not expecting this to be called for this adapter
+        throw new UnsupportedOperationException("Disable FK currently not supported for this adapter.");
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#enableForeignKey(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public void enableForeignKey(String schemaName, String tableName, String constraintName) {
+        // not expecting this to be called for this adapter
+        throw new UnsupportedOperationException("Disable FK currently not supported for this adapter.");
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#setIntegrityOff(java.lang.String, java.lang.String)
+     */
+    @Override
+    public void setIntegrityOff(String schemaName, String tableName) {
+        // not expecting this to be called for this adapter
+        throw new UnsupportedOperationException("Set integrity off not supported for this adapter.");
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#setIntegrityUnchecked(java.lang.String, java.lang.String)
+     */
+    @Override
+    public void setIntegrityUnchecked(String schemaName, String tableName) {
+        // not expecting this to be called for this adapter
+        throw new UnsupportedOperationException("Set integrity unchecked not supported for this adapter.");
+    }
+ }

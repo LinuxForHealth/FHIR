@@ -30,7 +30,7 @@ popd > /dev/null
 # Function Declarations:
 
 # deploy_bintray - executes mvn with a set of goals
-function deploy_bintray { 
+function deploy_bintray {
     announce "${FUNCNAME[0]}"
     PROJECT_PATH="$1"
     PROFILES="-Pdeploy-bintray,fhir-javadocs"
@@ -41,28 +41,28 @@ function deploy_bintray {
 }
 
 # deploy_via_curl - uploads each artifact via curl
-function deploy_via_curl { 
+function deploy_via_curl {
     TYPE="${1}"
     # Upload to BinTray
-    for PROJ in `find . -type d -maxdepth 1 | grep -v '.git' | grep -v 'build' | grep -v '/docs' | sed 's|.\/||g' | grep -v '\.' `
-    do 
+    for PROJ in `find . -type d -maxdepth 2 | grep -v '.git' | grep -v 'build' | grep -v '/docs' | sed 's|\.\/||g' | grep -v '\.' `
+    do
         echo "PROJECT: ${PROJ}"
         if [ -d "${PROJ}/target" ]
         then
             # Upload SOURCES Jar
             SOURCES_JAR=`find ${PROJ}/target -iname "*${BUILD_VERSION}-sources.jar" -maxdepth 1 -exec basename {} \;`
             if [ ! -z "${SOURCES_JAR}" ]
-            then 
+            then
                 echo " - Uploading jar: ${SOURCES_JAR}"
                 FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}-sources.jar"
                 STATUS=$(curl -T "${PROJ}/target/${SOURCES_JAR}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
                 echo "${STATUS} - Done uploading jar file to ${FILE_TARGET_PATH}"
             fi
-            
+
             # Upload JAVADOC Jar
             JAVADOC_JAR=`find ${PROJ}/target -iname "*${BUILD_VERSION}-javadoc.jar" -maxdepth 1 -exec basename {} \;`
             if [ ! -z "${JAVADOC_JAR}" ]
-            then 
+            then
                 echo " - Uploading jar: ${JAVADOC_JAR}"
                 FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}-javadoc.jar"
                 STATUS=$(curl -T "${PROJ}/target/${JAVADOC_JAR}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
@@ -72,7 +72,7 @@ function deploy_via_curl {
             # Upload tests Jar
             TESTS_JAR=`find ${PROJ}/target -iname "*${BUILD_VERSION}-tests.jar" -maxdepth 1 -exec basename {} \;`
             if [ ! -z "${TESTS_JAR}" ]
-            then 
+            then
                 echo " - Uploading jar: ${TESTS_JAR}"
                 FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}-tests.jar"
                 STATUS=$(curl -T "${PROJ}/target/${TESTS_JAR}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
@@ -80,30 +80,31 @@ function deploy_via_curl {
             fi
 
             for JAR_FILE in `find ${PROJ}/target -maxdepth 1 -not -name '*-tests.jar' -and -not -name '*-javadoc.jar' -and -not -name '*-sources.jar' -and -not -name '*orginal*.jar' -and -name '*.jar' -exec basename {} \;`
-            do 
+            do
                 echo " - Uploading jar: ${JAR_FILE}"
                 FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${JAR_FILE}"
                 STATUS=$(curl -T "${PROJ}/target/${JAR_FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
                 echo "${STATUS} - Done uploading jar file to ${FILE_TARGET_PATH}"
             done
 
-            # The zip FILE logic is commented out here, and added to the artifact archiving in the release.yaml.
-            # for ZIP_FILE in `find ${PROJ}/target -name '*.zip' -and -not -name '*-index.zip' -maxdepth 1 -exec basename {} \;`
-            # do 
-            #    echo " - Uploading zip: ${ZIP_FILE}"
-            #    FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${ZIP_FILE}"
-            #    STATUS=$(curl -T "${PROJ}/target/${ZIP_FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
-            #    echo "${STATUS} - Done uploading zip file to ${FILE_TARGET_PATH}"
-            #    if [ "${STATUS}" == "413" ]
-            #    then 
-            #        # File is too big (over 300M)
-            #        exit -413
-            #    fi
-            # done
+            # The general zip FILE logic is changed to do fhir-validation-distribution.zip and fhir-cli.zip only
+            for ZIP_FILE in `find ${PROJ}/target -name fhir-validation-distribution.zip -or -name fhir-cli.zip -maxdepth 1`
+            do
+               ZIP_FILE=`basename ${ZIP_FILE}`
+               echo " - Uploading zip: ${ZIP_FILE}"
+               FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${ZIP_FILE}"
+               STATUS=$(curl -T "${PROJ}/target/${ZIP_FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
+               echo "${STATUS} - Done uploading zip file to ${FILE_TARGET_PATH}"
+               if [ "${STATUS}" == "413" ]
+               then
+                   # File is too big (over 300M)
+                   exit -413
+               fi
+            done
 
             # Upload the POM file
             for POM_FILE in `find ${PROJ}/ -name 'pom.xml' -maxdepth 1 -exec basename {} \;`
-            do 
+            do
                 echo " - Uploading pom: ${POM_FILE}"
                 FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}.pom"
                 STATUS=$(curl -T "${PROJ}/${POM_FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
@@ -116,25 +117,25 @@ function deploy_via_curl {
 ###############################################################################
 # check to see if mvn exists
 if which mvn | grep -i mvn
-then 
+then
     debugging 'mvn is found!'
-else 
+else
     warn 'mvn is not found!'
 fi
 
 #RELEASE_CANDIDATE or RELEASE or SNAPSHOT or EXISTING
 case $BUILD_TYPE in
-    RELEASE_CANDIDATE) 
+    RELEASE_CANDIDATE)
         TYPE="snapshots"
         deploy_via_curl "${TYPE}"
         header_line
     ;;
-    RELEASE) 
+    RELEASE)
         TYPE="releases"
         deploy_via_curl "${TYPE}"
         header_line
     ;;
-    SNAPSHOT) 
+    SNAPSHOT)
         info "SNAPSHOT build is not set"
         header_line
     ;;
@@ -147,6 +148,6 @@ case $BUILD_TYPE in
     ;;
 esac
 
-# Synch to Maven Central 
+# Synch to Maven Central
 
 # EOF

@@ -22,11 +22,14 @@ import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Location;
+import com.ibm.fhir.model.resource.PractitionerRole;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Reference;
 
 public class SearchNearTest extends FHIRServerTestBase {
     private String locationId;
     private String locationAbsId;
+    private String practitionerRoleId;
 
     @Test(groups = { "server-search-near" })
     public void testCreateLocation() throws Exception {
@@ -52,6 +55,23 @@ public class SearchNearTest extends FHIRServerTestBase {
 
         response   = target.path("Location/" + locationAbsId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+
+        // Chained Reference
+        Entity<PractitionerRole> entityPractitionerRole = Entity.entity(buildChainedResources(), FHIRMediaType.APPLICATION_FHIR_JSON);
+        response = target.path("PractitionerRole").request().post(entityPractitionerRole, Response.class);
+        String res = response.readEntity(String.class);
+                System.out.println(res);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        practitionerRoleId = getLocationLogicalId(response);
+        response   = target.path("PractitionerRole/" + practitionerRoleId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    public PractitionerRole buildChainedResources() throws Exception {
+        Reference location = Reference.builder().reference(com.ibm.fhir.model.type.String.of("Location/" + locationId)).build();
+        PractitionerRole practitionerRole =TestUtil.readExampleResource("/json/spec/practitionerrole-example.json");
+        return practitionerRole.toBuilder().location(location).build();
     }
 
     @AfterClass
@@ -60,6 +80,10 @@ public class SearchNearTest extends FHIRServerTestBase {
         Response response   = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
         assertResponse(response, Response.Status.OK.getStatusCode());
         response   = target.path("Location/" + locationAbsId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+
+        // Remove Chained Reference
+        response   = target.path("PractitionerRole/" + practitionerRoleId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
@@ -90,6 +114,17 @@ public class SearchNearTest extends FHIRServerTestBase {
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("near", "40.256500|-80.694810|500.0|km");
         FHIRResponse response = client.search(Location.class.getSimpleName(), parameters);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-near" }, dependsOnMethods = { "testCreateLocation" })
+    public void testSearchUsingLocationNearWithinChainedRange() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("location.near", "40.256500|-80.694810|500.0|km");
+        FHIRResponse response = client.search(PractitionerRole.class.getSimpleName(), parameters);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);

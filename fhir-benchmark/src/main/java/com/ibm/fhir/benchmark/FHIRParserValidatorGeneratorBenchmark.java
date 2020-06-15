@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,7 +37,7 @@ public class FHIRParserValidatorGeneratorBenchmark {
         public static final String SPEC_EXAMPLE_NAME = System.getProperty(PROPERTY_EXAMPLE_NAME);
         public static final String JSON_SPEC_EXAMPLE = BenchmarkUtil.getSpecExample(Format.JSON, SPEC_EXAMPLE_NAME);
         public static final String XML_SPEC_EXAMPLE = BenchmarkUtil.getSpecExample(Format.XML, SPEC_EXAMPLE_NAME);
-        
+
         public FhirContext context;
         public FhirValidator fhirValidator;
         public FHIRValidator validator;
@@ -45,7 +45,7 @@ public class FHIRParserValidatorGeneratorBenchmark {
         public FHIRGenerator jsonGenerator;
         public FHIRParser xmlParser;
         public FHIRGenerator xmlGenerator;
-        
+
         @Setup
         public void setUp() {
             context = FhirContext.forR4();
@@ -65,14 +65,14 @@ public class FHIRParserValidatorGeneratorBenchmark {
         state.validator.validate(resource);
         state.jsonGenerator.generate(resource, FHIRParserValidatorGeneratorBenchmarkState.NOP_WRITER);
     }
-    
+
     @Benchmark
     public void benchmarkXMLParserValidatorGenerator(FHIRParserValidatorGeneratorBenchmarkState state) throws Exception {
         Resource resource = state.xmlParser.parse(new StringReader(FHIRParserValidatorGeneratorBenchmarkState.XML_SPEC_EXAMPLE));
         state.validator.validate(resource);
         state.xmlGenerator.generate(resource, FHIRParserValidatorGeneratorBenchmarkState.NOP_WRITER);
     }
-    
+
     @Benchmark
     public void benchmarkHAPIJsonParserValidatorGenerator(FHIRParserValidatorGeneratorBenchmarkState state) throws Exception {
         IParser parser = state.context.newJsonParser();
@@ -80,7 +80,7 @@ public class FHIRParserValidatorGeneratorBenchmark {
         state.fhirValidator.validateWithResult(resource);
         parser.encodeResourceToWriter(resource, FHIRParserValidatorGeneratorBenchmarkState.NOP_WRITER);
     }
-    
+
     @Benchmark
     public void benchmarkHAPIXMLParserValidatorGenerator(FHIRParserValidatorGeneratorBenchmarkState state) throws Exception {
         IParser parser = state.context.newXmlParser();
@@ -91,6 +91,7 @@ public class FHIRParserValidatorGeneratorBenchmark {
 
     public static void main(String[] args) throws Exception {
         new FHIRBenchmarkRunner(FHIRParserValidatorGeneratorBenchmark.class)
-                .run();
+            .property(PROPERTY_EXAMPLE_NAME, BenchmarkUtil.getRandomSpecExampleName())
+            .run();
     }
 }

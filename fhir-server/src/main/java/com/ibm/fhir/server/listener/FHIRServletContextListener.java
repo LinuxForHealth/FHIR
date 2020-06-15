@@ -44,18 +44,17 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
-import com.ibm.fhir.database.utils.derby.DerbyServerPropertiesMgr;
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
 import com.ibm.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.fhir.notifications.nats.impl.FHIRNotificationNATSPublisher;
-import com.ibm.fhir.operation.registry.FHIROperationRegistry;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.persistence.jdbc.util.DerbyBootstrapper;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
 
 @WebListener("IBM FHIR Server Servlet Context Listener")
@@ -205,9 +204,6 @@ public class FHIRServletContextListener implements ServletContextListener {
         if (performDbBootstrap) {
             log.info("Performing Derby database bootstrapping...");
 
-            // Start derby with debug off by default.
-            DerbyServerPropertiesMgr.setServerProperties(false);
-
             String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, "jdbc/fhirDB");
             InitialContext ctxt = new InitialContext();
             DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
@@ -226,6 +222,19 @@ public class FHIRServletContextListener implements ServletContextListener {
                 }
             } catch (NameNotFoundException e) {
                 log.info("No '" + datasourceJndiName + "' dataSource found; skipping OAuth client table bootstrapping");
+            }
+
+            datasourceJndiName = "jdbc/fhirbatchDB";
+            try {
+                // Check the batch database, if the batch database configuration is there, and available.
+                // Note, in the boostrap code we conditionally bootstrap if and only if it's targeting derby.
+                ds = (DataSource) ctxt.lookup(datasourceJndiName);
+                if (ds != null) {
+                    log.info("Found '" + datasourceJndiName + "'; bootstrapping the Java Batch tables");
+                    DerbyBootstrapper.bootstrapBatchDb(ds);
+                }
+            } catch (NameNotFoundException e) {
+                log.info("No '" + datasourceJndiName + "' dataSource found; skipping Java Batch table bootstrapping");
             }
 
             log.info("Finished Derby database bootstrapping...");

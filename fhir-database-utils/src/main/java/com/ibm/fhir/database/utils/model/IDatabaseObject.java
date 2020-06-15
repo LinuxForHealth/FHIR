@@ -8,6 +8,7 @@ package com.ibm.fhir.database.utils.model;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
@@ -69,6 +70,26 @@ public interface IDatabaseObject {
      * @param toUser
      */
     public void grant(IDatabaseAdapter target, String groupName, String toUser);
+
+    /**
+     * Visit this object, calling the consumer for itself, or its children if any
+     * @param c
+     */
+    public void visit(Consumer<IDatabaseObject> c);
+    
+    /**
+     * Visit this {@link IDatabaseObject} with the given {@link DataModelVisitor}.
+     * Any sub-objects should be visited in creation order.
+     * @param v
+     */
+    public void visit(DataModelVisitor v);
+
+    /**
+     * Visit this {@link IDatabaseObject} with the given {@link DataModelVisitor}.
+     * Any sub-objects should be visited in reverse order.
+     * @param v
+     */
+    public void visitReverse(DataModelVisitor v);
 
     /**
      * Collect the tasks into a dependency tree so that they can be

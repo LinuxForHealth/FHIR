@@ -20,9 +20,9 @@ public class FHIRResourceDAOFactory {
 
     // The various DAO Types that are used in the JDBC Persistence layer.
     public enum FHIRResourceDAOType {
-        DB2("db2"),
+        DB2("jdbc:db2:"),
         DERBY("derby"),
-        POSTGRESQL("postgresql");
+        POSTGRESQL("jdbc:postgresql:");
 
         private final String value;
 

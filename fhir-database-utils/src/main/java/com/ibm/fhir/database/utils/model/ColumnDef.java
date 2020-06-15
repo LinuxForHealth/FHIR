@@ -58,7 +58,9 @@ public class ColumnDef implements Comparable<ColumnDef> {
         return defaultVal;
     }
     /**
-     * @implNote Currently only works for CLOB columns
+     * @param defaultVal this value is NOT auto-quoted, you must pass the single-quote (') within the string value for literal strings
+     * @implNote the reason the defaultVal SQL string literal value must be explicitly quoted is because PostgreSQL
+     *           doesn't allow numeric literals to be quoted
      */
     public void setDefaultVal(String defaultVal) {
         this.defaultVal = defaultVal;
@@ -74,15 +76,9 @@ public class ColumnDef implements Comparable<ColumnDef> {
         if (other instanceof ColumnDef) {
             ColumnDef that = (ColumnDef)other;
             return this.name.equals(that.name);
-        }
-        else {
+        } else {
             return false;
         }
-    }
-
-    @Override
-    public int hashCode() {
-        return this.name.hashCode();
     }
 
     public int getInlineSize() {
@@ -91,5 +87,10 @@ public class ColumnDef implements Comparable<ColumnDef> {
 
     public void setInlineSize(int inlineSize) {
         this.inlineSize = inlineSize;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode();
     }
 }

@@ -48,4 +48,22 @@ public class NopObject extends BaseObject {
         // We're NOP so we do nothing on purpose
     }
 
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visit(com.ibm.fhir.database.utils.model.DataModelVisitor)
+     */
+    @Override
+    public void visit(DataModelVisitor v) {
+        // let the visitor decide what a NOP really means
+        v.nop();
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visitReverse(com.ibm.fhir.database.utils.model.DataModelVisitor)
+     */
+    @Override
+    public void visitReverse(DataModelVisitor v) {
+        // let the visitor decide what a NOP really means
+        v.nop();
+    }
+
 }

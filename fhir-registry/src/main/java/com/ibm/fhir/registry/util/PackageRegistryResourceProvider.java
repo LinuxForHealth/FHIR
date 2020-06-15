@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
+import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceType.ValueSet;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
@@ -57,7 +59,8 @@ public abstract class PackageRegistryResourceProvider implements FHIRRegistryRes
     public FHIRRegistryResource getRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
         Objects.requireNonNull(resourceType);
         Objects.requireNonNull(url);
-        List<FHIRRegistryResource> registryResources = registryResourceMap.getOrDefault(resourceType, Collections.emptyMap()).getOrDefault(url, Collections.emptyList());
+        List<FHIRRegistryResource> registryResources = registryResourceMap.getOrDefault(resourceType, Collections.emptyMap())
+                .getOrDefault(url, Collections.emptyList());
         if (!registryResources.isEmpty()) {
             if (version != null) {
                 Version v = Version.from(version);
@@ -85,6 +88,15 @@ public abstract class PackageRegistryResourceProvider implements FHIRRegistryRes
     @Override
     public Collection<FHIRRegistryResource> getRegistryResources() {
         return Collections.unmodifiableCollection(registryResources);
+    }
+
+    @Override
+    public Collection<FHIRRegistryResource> getProfileResources() {
+        List<FHIRRegistryResource> profilesForAll = new ArrayList<>();
+        for (ValueSet type : ResourceType.ValueSet.values()) {
+            profilesForAll.addAll(getProfileResources(type.value()));
+        }
+        return Collections.unmodifiableList(profilesForAll);
     }
 
     @Override

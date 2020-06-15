@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -187,7 +188,7 @@ public abstract class BaseObject implements IDatabaseObject {
     public ITaskGroup collect(final ITaskCollector tc, final IDatabaseAdapter target, final ITransactionProvider tp, final IVersionHistoryService vhs) {
         // Make sure that anything we depend on gets processed first
         List<ITaskGroup> children = null;
-        if (this.dependencies.size() > 0) {
+        if (!this.dependencies.isEmpty()) {
             children = new ArrayList<>(this.dependencies.size());
             for (IDatabaseObject obj: dependencies) {
                 children.add(obj.collect(tc, target, tp, vhs));
@@ -319,5 +320,13 @@ public abstract class BaseObject implements IDatabaseObject {
             this.userPrivilegeMap.put(groupName, group);
         }
         group.add(p);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visit(java.util.function.Consumer)
+     */
+    @Override
+    public void visit(Consumer<IDatabaseObject> c) {
+        c.accept(this);
     }
 }

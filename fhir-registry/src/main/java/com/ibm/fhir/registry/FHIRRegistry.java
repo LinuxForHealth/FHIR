@@ -12,9 +12,13 @@ import static com.ibm.fhir.registry.util.FHIRRegistryUtil.requireDefinitionalRes
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.ServiceLoader;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -223,6 +227,18 @@ public final class FHIRRegistry {
     }
 
     private FHIRRegistryResource findRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
+        if (version == null) {
+            // find the latest version of the registry resource with the specified resourceType and url (across all providers)
+            List<FHIRRegistryResource> registryResources = providers.stream()
+                    .map(provider -> provider.getRegistryResource(resourceType, url, version))
+                    .filter(Objects::nonNull)
+                    .distinct()
+                    .sorted()
+                    .collect(Collectors.toList());
+            return !registryResources.isEmpty() ? registryResources.get(registryResources.size() - 1) : null;
+        }
+
+        // find the first registry resource with the specified resourceType, url, and version
         return providers.stream()
                 .map(provider -> provider.getRegistryResource(resourceType, url, version))
                 .filter(Objects::nonNull)
@@ -257,5 +273,32 @@ public final class FHIRRegistry {
             providers.add(provider);
         }
         return providers;
+    }
+
+    /**
+     * Given the list of providers, the method scans through the list to find all profile resource, and merge them together
+     * in order to develop a list of resource specific canonical URLs.
+     * @return
+     */
+    public Map<String,Set<Canonical>> getProfiles() {
+        Map<String,Set<Canonical>> resourceTypeWithCanonicalUrls = new HashMap<>();
+        providers.stream().map(provider -> provider.getProfileResources())
+                .flatMap(Collection::stream)
+                .forEach(r -> processResource(r, resourceTypeWithCanonicalUrls));
+        return resourceTypeWithCanonicalUrls;
+    }
+
+    private void processResource(FHIRRegistryResource registryResource, Map<String,Set<Canonical>> resourceTypeWithCanonicalUrls) {
+        String type = registryResource.getType();
+        resourceTypeWithCanonicalUrls.compute(type, (k,v) -> checkOrCreateSet(k,v,registryResource));
+    }
+
+    private Set<Canonical> checkOrCreateSet(String k, Set<Canonical> v, FHIRRegistryResource registryResource) {
+        Canonical canonicalUrl = Canonical.of(registryResource.getUrl(), registryResource.getVersion().toString());
+        if (v == null) {
+            v = new HashSet<>();
+        }
+        v.add(canonicalUrl);
+        return v;
     }
 }

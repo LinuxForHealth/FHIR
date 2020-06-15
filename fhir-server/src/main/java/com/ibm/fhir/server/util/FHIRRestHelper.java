@@ -61,10 +61,6 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ReferenceMappingVisitor;
-import com.ibm.fhir.operation.FHIROperation;
-import com.ibm.fhir.operation.context.FHIROperationContext;
-import com.ibm.fhir.operation.registry.FHIROperationRegistry;
-import com.ibm.fhir.operation.util.FHIROperationUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.SingleResourceResult;
@@ -79,14 +75,17 @@ import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.provider.util.FHIRUrlParser;
-import com.ibm.fhir.rest.FHIRResourceHelpers;
-import com.ibm.fhir.rest.FHIRRestOperationResponse;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
+import com.ibm.fhir.server.operation.FHIROperationRegistry;
+import com.ibm.fhir.server.operation.spi.FHIROperation;
+import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
@@ -574,7 +573,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 } catch (FHIRPersistenceResourceDeletedException e) {
                     // Absorb this exception.
                     ior.setResource(doRead(type, id, false, true, requestProperties, null));
-                    warnings.add(buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.DELETED, "Resource of type'"
+                    warnings.add(buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.DELETED, "Resource of type '"
                         + type + "' with id '" + id + "' is already deleted."));
                 }
             }
@@ -615,7 +614,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         .code(IssueType.INFORMATIONAL)
                         .details(CodeableConcept.builder()
                             .text(string("Deleted " + responseBundle.getEntry().size() + " " + type + " resource(s) " +
-                                " with the following id(s): " + 
+                                "with the following id(s): " +
                                 responseBundle.getEntry().stream().map(Bundle.Entry::getId).collect(Collectors.joining(","))))
                             .build())
                         .build());
@@ -996,8 +995,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
             String operationKey = (resourceTypeName == null ? operationName : operationName + ":" + resourceTypeName);
 
-            FHIROperation operation =
-                    FHIROperationRegistry.getInstance().getOperation(operationKey);
+            FHIROperation operation = FHIROperationRegistry.getInstance().getOperation(operationKey);
             Parameters parameters = null;
             if (resource instanceof Parameters) {
                 parameters = (Parameters) resource;

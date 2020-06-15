@@ -16,9 +16,11 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +50,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.CompleteMultipartUploadRequ
 import com.ibm.cloud.objectstorage.services.s3.model.GetObjectRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.InitiateMultipartUploadRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.InitiateMultipartUploadResult;
+import com.ibm.cloud.objectstorage.services.s3.model.ObjectMetadata;
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
@@ -88,6 +91,11 @@ public class BulkDataUtils {
             InitiateMultipartUploadRequest initMultipartUploadReq = new InitiateMultipartUploadRequest(bucketName, itemName);
             if (isPublicAccess) {
                 initMultipartUploadReq.setCannedACL(CannedAccessControlList.PublicRead);
+                ObjectMetadata metadata = new ObjectMetadata();
+                // Set expiration time to 2 hours(7200 seconds).
+                // Note: IBM COS doesn't honor this but also doesn't fail on this.
+                metadata.setExpirationTime(Date.from(Instant.now().plusSeconds(7200)));
+                initMultipartUploadReq.setObjectMetadata(metadata);
             }
 
             InitiateMultipartUploadResult mpResult = cosClient.initiateMultipartUpload(initMultipartUploadReq);
@@ -420,7 +428,7 @@ public class BulkDataUtils {
         }
         return searchParametersForResoureTypes;
     }
-    
+
     public static JsonArray getDataSourcesFromJobInput(String dataSourcesInfo) {
         try (JsonReader reader =
                 Json.createReader(new StringReader(
