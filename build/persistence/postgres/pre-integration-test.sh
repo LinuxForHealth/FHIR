@@ -70,12 +70,12 @@ cleanup_existing_docker(){
 # - remove the existing db directory
 # - build postgres and wait
 bring_up_database(){
-    if [ -d db ]
+    if [ -d ${WORKSPACE}/build/persistence/postgres/db ]
     then 
-        rm -rf db/
+        rm -rf ${WORKSPACE}/build/persistence/postgres/db
     fi
 
-    mkdir -p db
+    mkdir -p ${WORKSPACE}/build/persistence/postgres/db
     echo "Bringing up postgres... be patient, this will take a minute"
     docker-compose build --pull postgres
     docker-compose up --remove-orphans -d postgres
@@ -109,12 +109,15 @@ user=fhiradmin
 password=change-password
 EOF
 
+    echo "- Create Schemas"
     java -jar ${SCHEMA}/fhir-persistence-schema-*-cli.jar --db-type postgresql \
         --prop-file workarea/postgres.properties --schema-name FHIRDATA --create-schemas --pool-size 2
 
+    echo "- Update Schema"
     java -jar ${SCHEMA}/fhir-persistence-schema-*-cli.jar --db-type postgresql \
         --prop-file workarea/postgres.properties --schema-name FHIRDATA --update-schema --pool-size 2
 
+    echo "- Grants to FHIRSERVER"
     java -jar ${SCHEMA}/fhir-persistence-schema-*-cli.jar --db-type postgresql \
        --prop-file workarea/postgres.properties --schema-name FHIRDATA --grant-to FHIRSERVER --pool-size 2
 }
