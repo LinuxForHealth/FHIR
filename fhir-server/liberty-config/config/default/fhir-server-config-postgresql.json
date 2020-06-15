@@ -30,7 +30,7 @@
                 "default": {
                     "type": "postgresql",
                     "connectionProperties": {
-                        "serverName": "localhost",
+                        "serverName": "postgres-db",
                         "portNumber": 5432,
                         "databaseName": "fhirdata",
                         "user": "fhirserver",
