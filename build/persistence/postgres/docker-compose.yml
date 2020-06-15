@@ -39,11 +39,11 @@ services:
      hostname: fhir
      volumes:
        - type: bind
-         source: ./workarea/volumnes/dist/config
+         source: ./workarea/volumes/dist/config
          target: /opt/ol/wlp/usr/servers/fhir-server/config
          read_only: true
        - type: bind
-         source: ./workarea/volumnes/dist/userlib/
+         source: ./workarea/volumes/dist/userlib/
          target: /opt/ol/wlp/usr/servers/fhir-server/userlib
          read_only: true
      healthcheck:
