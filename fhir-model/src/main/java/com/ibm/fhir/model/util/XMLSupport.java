@@ -12,28 +12,31 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerFactory;
 
 public final class XMLSupport {
-    static {
-        System.setProperty("javax.xml.stream.XMLInputFactory", "com.sun.xml.internal.stream.XMLInputFactoryImpl");
-        System.setProperty("javax.xml.stream.XMLOutputFactory",  "com.sun.xml.internal.stream.XMLOutputFactoryImpl");
-    }
-    
     public static final String FHIR_NS_URI = "http://hl7.org/fhir";
     public static final String XHTML_NS_URI = "http://www.w3.org/1999/xhtml";
-    
-    private static final String P_MAX_ATTRIBUTE_SIZE = "com.ctc.wstx.maxAttributeSize";
+
+    private static final String XML_INPUT_FACTORY_IMPL = "com.sun.xml.internal.stream.XMLInputFactoryImpl";
+    private static final String XML_OUTPUT_FACTORY_IMPL = "com.sun.xml.internal.stream.XMLOutputFactoryImpl";
+    private static final String TRANSFORMER_FACTORY_IMPL = "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl";
+
     private static final XMLInputFactory XML_INPUT_FACTORY = createXMLInputFactory();
-    private static final XMLOutputFactory XML_OUTPUT_FACTORY = XMLOutputFactory.newInstance();
-    
+    private static final XMLOutputFactory XML_OUTPUT_FACTORY = createXMLOutputFactory();
+    private static final TransformerFactory TRANSFORMER_FACTORY = createTransformerFactory();
+
     private XMLSupport() { }
-    
+
     /**
      * Calling this method allows us to load/initialize this class during startup.
      */
@@ -42,7 +45,7 @@ public final class XMLSupport {
     /**
      * Checks the order of the current element using its position relative to the position
      * of the previous element
-     * 
+     *
      * @param elementName
      *     the name of the current element
      * @param current
@@ -54,7 +57,7 @@ public final class XMLSupport {
      * @return
      *     the position of the current element
      * @throws
-     *     IllegalArgumentException if the element is out of order or if the parser has already 
+     *     IllegalArgumentException if the element is out of order or if the parser has already
      *     seen the element and it is not allowed to repeat
      */
     public static int checkElementOrder(String elementName, int current, int previous, boolean repeating) {
@@ -69,15 +72,15 @@ public final class XMLSupport {
             throw new IllegalArgumentException("Element: '" + elementName + "' is out of order");
         }
     }
-    
+
     public static StreamReaderDelegate createStreamReaderDelegate(InputStream in) throws XMLStreamException {
         return new StreamReaderDelegate(createXMLStreamReader(in));
     }
-    
+
     public static StreamReaderDelegate createStreamReaderDelegate(Reader reader) throws XMLStreamException {
         return new StreamReaderDelegate(createXMLStreamReader(reader));
     }
-    
+
     public static StreamWriterDelegate createStreamWriterDelegate(OutputStream out) throws XMLStreamException {
         return createStreamWriterDelegate(createXMLStreamWriter(out));
     }
@@ -97,26 +100,26 @@ public final class XMLSupport {
     public static XMLStreamWriter createXMLStreamWriter(OutputStream out) throws XMLStreamException {
         return XML_OUTPUT_FACTORY.createXMLStreamWriter(out, "UTF-8");
     }
-    
+
     public static XMLStreamWriter createXMLStreamWriter(Writer writer) throws XMLStreamException {
         return XML_OUTPUT_FACTORY.createXMLStreamWriter(writer);
     }
-    
+
     public static boolean isResourceContainer(String elementName) {
-        return "contained".equals(elementName) || 
-                "resource".equals(elementName) || 
+        return "contained".equals(elementName) ||
+                "resource".equals(elementName) ||
                 "outcome".equals(elementName);
     }
 
     public static String parseDiv(XMLStreamReader reader) throws XMLStreamException {
         int depth = 0;
-        
+
         StringWriter sw = new StringWriter();
         XMLStreamWriter writer = createStreamWriterDelegate(sw);
-        
+
         depth++;
         writeStartElement(reader, writer);
-        
+
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -140,7 +143,7 @@ public final class XMLSupport {
                 break;
             }
         }
-        
+
         throw new XMLStreamException("Unexpected end of stream");
     }
 
@@ -154,24 +157,24 @@ public final class XMLSupport {
             public void writeEndDocument() {
                 // do nothing
             }
-    
+
             @Override
             public void writeStartDocument() throws XMLStreamException {
                 // do nothing
             }
-    
+
             @Override
             public void writeStartDocument(String version) throws XMLStreamException {
                 // do nothing
             }
-            
+
             @Override
             public void writeStartDocument(String encoding, String version) throws XMLStreamException {
                 // do nothing
             }
         };
     }
-    
+
     public static StreamWriterDelegate createNonClosingStreamWriterDelegate(XMLStreamWriter writer) {
         return new StreamWriterDelegate(writer) {
             @Override
@@ -180,15 +183,42 @@ public final class XMLSupport {
             }
         };
     }
-    
+
     private static XMLInputFactory createXMLInputFactory() {
-        XMLInputFactory factory = XMLInputFactory.newInstance();
-        factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
-        factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
-        if (factory.isPropertySupported(P_MAX_ATTRIBUTE_SIZE)) {
-            factory.setProperty(P_MAX_ATTRIBUTE_SIZE, "10000000");
+        try {
+            XMLInputFactory factory = (XMLInputFactory) Class.forName(XML_INPUT_FACTORY_IMPL).getConstructor().newInstance();
+            factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+            factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
+            return factory;
+        } catch (Exception e) {
+            throw new Error(e);
         }
-        return factory;
+    }
+
+    private static XMLOutputFactory createXMLOutputFactory() {
+        try {
+            return (XMLOutputFactory) Class.forName(XML_OUTPUT_FACTORY_IMPL).getConstructor().newInstance();
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+    }
+
+    private static TransformerFactory createTransformerFactory() {
+        try {
+            TransformerFactory factory = (TransformerFactory) Class.forName(TRANSFORMER_FACTORY_IMPL).getConstructor().newInstance();
+            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            return factory;
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+    }
+
+    public static Transformer createTransformer() {
+        try {
+            return TRANSFORMER_FACTORY.newTransformer();
+        } catch (TransformerConfigurationException e) {
+            throw new Error(e);
+        }
     }
 
     private static void writeAttributes(XMLStreamReader reader, XMLStreamWriter writer) throws XMLStreamException {
@@ -208,7 +238,7 @@ public final class XMLSupport {
             }
         }
     }
-    
+
     private static void writeNamespaces(XMLStreamReader reader, XMLStreamWriter writer) throws XMLStreamException {
         for (int i = 0; i < reader.getNamespaceCount(); i++) {
             writer.writeNamespace(reader.getNamespacePrefix(i), reader.getNamespaceURI(i));
@@ -232,7 +262,7 @@ public final class XMLSupport {
         writeNamespaces(reader, writer);
         writeAttributes(reader, writer);
     }
-    
+
     /**
      * Simple subclass of {@link javax.xml.stream.util.StreamReaderDelegate} to make it AutoCloseable
      */
@@ -241,184 +271,184 @@ public final class XMLSupport {
             super(reader);
         }
     }
-    
+
     /**
      * The corollary to {@link javax.xml.stream.util.StreamReaderDelegate}.
-     * 
+     *
      * This class is designed to sit between an XMLStreamWriter and an
      * application's XMLStreamWriter.
-     * By default each method does nothing but call the corresponding method 
+     * By default each method does nothing but call the corresponding method
      * on the parent interface.
      */
     public static class StreamWriterDelegate implements XMLStreamWriter, AutoCloseable {
         protected final XMLStreamWriter writer;
-                
+
         public StreamWriterDelegate(XMLStreamWriter writer) {
             this.writer = writer;
         }
-        
+
         /**
          * @return the underlying writer being delegated to
          */
         public XMLStreamWriter getWriter() {
             return writer;
         }
-        
+
         @Override
         public void close() throws XMLStreamException {
             writer.close();
         }
-    
+
         @Override
         public void flush() throws XMLStreamException {
             writer.flush();
         }
-    
+
         @Override
         public NamespaceContext getNamespaceContext() {
             return writer.getNamespaceContext();
         }
-    
+
         @Override
         public java.lang.String getPrefix(java.lang.String uri) throws XMLStreamException {
             return writer.getPrefix(uri);
         }
-    
+
         @Override
         public Object getProperty(java.lang.String name) throws IllegalArgumentException {
             return writer.getProperty(name);
         }
-    
+
         @Override
         public void setDefaultNamespace(java.lang.String uri) throws XMLStreamException {
             writer.setDefaultNamespace(uri);
         }
-    
+
         @Override
         public void setNamespaceContext(NamespaceContext context) throws XMLStreamException {
             writer.setNamespaceContext(context);
         }
-    
+
         @Override
         public void setPrefix(java.lang.String prefix, java.lang.String uri) throws XMLStreamException {
             writer.setPrefix(prefix, uri);
         }
-    
+
         @Override
         public void writeAttribute(java.lang.String localName, java.lang.String value) throws XMLStreamException {
             writer.writeAttribute(localName, value);
         }
-    
+
         @Override
         public void writeAttribute(java.lang.String namespaceURI, java.lang.String localName, java.lang.String value) throws XMLStreamException {
             writer.writeAttribute(namespaceURI, localName, value);
         }
-    
+
         @Override
         public void writeAttribute(java.lang.String prefix, java.lang.String namespaceURI, java.lang.String localName, java.lang.String value) throws XMLStreamException {
             writer.writeAttribute(prefix, namespaceURI, localName, value);
         }
-    
+
         @Override
         public void writeCData(java.lang.String data) throws XMLStreamException {
             writer.writeCData(data);
         }
-    
+
         @Override
         public void writeCharacters(char[] text, int start, int len) throws XMLStreamException {
             writer.writeCharacters(text, start, len);
         }
-    
+
         @Override
         public void writeCharacters(java.lang.String text) throws XMLStreamException {
             writer.writeCharacters(text);
         }
-    
+
         @Override
         public void writeComment(java.lang.String data) throws XMLStreamException {
             writer.writeComment(data);
         }
-    
+
         @Override
         public void writeDefaultNamespace(java.lang.String namespaceURI) throws XMLStreamException {
             writer.writeDefaultNamespace(namespaceURI);
         }
-    
+
         @Override
         public void writeDTD(java.lang.String dtd) throws XMLStreamException {
             writer.writeDTD(dtd);
         }
-    
+
         @Override
         public void writeEmptyElement(java.lang.String localName) throws XMLStreamException {
             writer.writeEmptyElement(localName);
         }
-    
+
         @Override
         public void writeEmptyElement(java.lang.String namespaceURI, java.lang.String localName) throws XMLStreamException {
             writer.writeEmptyElement(namespaceURI, localName);
         }
-    
+
         @Override
         public void writeEmptyElement(java.lang.String prefix, java.lang.String localName, java.lang.String namespaceURI) throws XMLStreamException {
             writer.writeEmptyElement(prefix, localName, namespaceURI);
         }
-    
+
         @Override
         public void writeEndDocument() throws XMLStreamException {
             writer.writeEndDocument();
         }
-    
+
         @Override
         public void writeEndElement() throws XMLStreamException {
             writer.writeEndElement();
         }
-    
+
         @Override
         public void writeEntityRef(java.lang.String name) throws XMLStreamException {
             writer.writeEntityRef(name);
         }
-    
+
         @Override
         public void writeNamespace(java.lang.String prefix, java.lang.String namespaceURI) throws XMLStreamException {
             writer.writeNamespace(prefix, namespaceURI);
         }
-    
+
         @Override
         public void writeProcessingInstruction(java.lang.String target) throws XMLStreamException {
             writer.writeProcessingInstruction(target);
         }
-    
+
         @Override
         public void writeProcessingInstruction(java.lang.String target, java.lang.String data) throws XMLStreamException {
             writer.writeProcessingInstruction(target, data);
         }
-    
+
         @Override
         public void writeStartDocument() throws XMLStreamException {
             writer.writeStartDocument();
         }
-    
+
         @Override
         public void writeStartDocument(java.lang.String version) throws XMLStreamException {
             writer.writeStartDocument(version);
         }
-    
+
         @Override
         public void writeStartDocument(java.lang.String encoding, java.lang.String version) throws XMLStreamException {
             writer.writeStartDocument(encoding, version);
         }
-    
+
         @Override
         public void writeStartElement(java.lang.String localName) throws XMLStreamException {
             writer.writeStartElement(localName);
         }
-    
+
         @Override
         public void writeStartElement(java.lang.String namespaceURI, java.lang.String localName) throws XMLStreamException {
             writer.writeStartElement(namespaceURI, localName);
         }
-    
+
         @Override
         public void writeStartElement(java.lang.String prefix, java.lang.String localName, java.lang.String namespaceURI) throws XMLStreamException {
             writer.writeStartElement(prefix, localName, namespaceURI);

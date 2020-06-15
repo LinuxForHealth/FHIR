@@ -11,6 +11,7 @@ import static com.ibm.fhir.model.util.ModelSupport.isPrimitiveType;
 import static com.ibm.fhir.model.util.XMLSupport.FHIR_NS_URI;
 import static com.ibm.fhir.model.util.XMLSupport.createNonClosingStreamWriterDelegate;
 import static com.ibm.fhir.model.util.XMLSupport.createStreamWriterDelegate;
+import static com.ibm.fhir.model.util.XMLSupport.createTransformer;
 
 import java.io.OutputStream;
 import java.io.StringReader;
@@ -20,13 +21,10 @@ import java.time.ZoneOffset;
 import java.util.Base64;
 import java.util.UUID;
 
-import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stax.StAXResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -57,13 +55,13 @@ import com.ibm.fhir.model.visitor.Visitable;
 
 public class FHIRXMLGenerator extends FHIRAbstractGenerator {
     private static final int DEFAULT_INDENT_AMOUNT = 2;
-    
+
     private final boolean prettyPrinting;
-    
+
     protected FHIRXMLGenerator() {
         this(false);
     }
-    
+
     protected FHIRXMLGenerator(boolean prettyPrinting) {
         this.prettyPrinting = prettyPrinting;
     }
@@ -96,7 +94,7 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
             throw new FHIRGeneratorException(e.getMessage(), (visitor != null) ? visitor.getPath() : null, e);
         }
     }
-    
+
     @Override
     public boolean isPrettyPrinting() {
         return prettyPrinting;
@@ -114,16 +112,16 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
         private final XMLStreamWriter writer;
         private final boolean prettyPrinting;
         private final int indentAmount;
-        
-        private static final TransformerFactory TRANSFORMER_FACTORY = createTransformerFactory();
+
         private static final ThreadLocal<Transformer> THREAD_LOCAL_TRANSFORMER = new ThreadLocal<Transformer>() {
+            @Override
             public Transformer initialValue() {
                 return createTransformer();
             }
         };
-        
+
         private int indentLevel = 0;
-                
+
         private XMLGeneratingVisitor(XMLStreamWriter writer, boolean prettyPrinting, int indentAmount) {
             this.writer = writer;
             this.prettyPrinting = prettyPrinting;
@@ -132,25 +130,7 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
                 throw new IllegalStateException("Indent amount must be a non-negative number");
             }
         }
-        
-        private static Transformer createTransformer() {
-            try {
-                return TRANSFORMER_FACTORY.newTransformer();
-            } catch (TransformerConfigurationException e) {
-                throw new Error(e);
-            }
-        }
 
-        private static TransformerFactory createTransformerFactory() {
-            try {
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-                return transformerFactory;
-            } catch (Exception e) {
-                throw new Error(e);
-            }
-        }
-        
         private void indent() {
             if (prettyPrinting) {
                 for (int i = 0; i < indentLevel; i++) {
@@ -164,7 +144,7 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
                 }
             }
         }
-        
+
         private void newLine() {
             if (prettyPrinting) {
                 try {
@@ -251,7 +231,7 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
                 writer.writeAttribute("value", value);
             }
         }
-        
+
         private void writeXhtml(java.lang.String elementName, Xhtml xhtml) {
             try {
                 Transformer transformer = THREAD_LOCAL_TRANSFORMER.get();
@@ -261,7 +241,7 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
                 throw new RuntimeException(e);
             }
         }
-        
+
         @Override
         public void doVisitEnd(java.lang.String elementName, int elementIndex, Element element) {
             try {
@@ -276,7 +256,7 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
                 throw new RuntimeException(e);
             }
         }
-        
+
         @Override
         public void doVisitEnd(java.lang.String elementName, int elementIndex, Resource resource) {
             try {
@@ -296,7 +276,7 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
                 throw new RuntimeException(e);
             }
         }
-        
+
         @Override
         public void doVisitStart(java.lang.String elementName, int elementIndex, Element element) {
             try {
@@ -319,7 +299,7 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
                 throw new RuntimeException(e);
             }
         }
-    
+
         @Override
         public void doVisitStart(java.lang.String elementName, int elementIndex, Resource resource) {
             try {
@@ -350,30 +330,30 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
             }
         }
     }
-    
+
     public static void main(java.lang.String[] args) throws Exception {
         java.lang.String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
-                
+
         java.lang.String id = UUID.randomUUID().toString();
-        
+
         Meta meta = Meta.builder().versionId(Id.of("1"))
                 .lastUpdated(Instant.now(ZoneOffset.UTC))
                 .build();
-        
+
         String given = String.builder().value("John")
                 .extension(Extension.builder()
                     .url("http://www.ibm.com/someExtension")
                     .value(String.of("value and extension"))
                     .build())
                 .build();
-        
+
         String otherGiven = String.builder()
                 .extension(Extension.builder()
                     .url("http://www.ibm.com/someExtension")
                     .value(String.of("extension only"))
                     .build())
                 .build();
-        
+
         HumanName name = HumanName.builder()
                 .id("someId")
                 .given(given)
@@ -381,9 +361,9 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
                 .given(String.of("value no extension"))
                 .family(String.of("Doe"))
                 .build();
-        
+
         Narrative text = Narrative.builder().status(NarrativeStatus.GENERATED).div(xhtml(div)).build();
-        
+
         Patient patient = Patient.builder()
                 .id(id)
                 .text(text)
@@ -393,17 +373,17 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
                 .name(name)
                 .birthDate(Date.of(LocalDate.now()))
                 .build();
-    
+
         FHIRGenerator generator = FHIRGenerator.generator(Format.XML, true);
         generator.generate(patient, System.out);
 
         System.out.println("");
-        
+
         generator.setProperty(PROPERTY_INDENT_AMOUNT, 4);
         generator.generate(patient, System.out);
-        
+
         System.out.println("");
-        
+
         System.out.println(patient.getMultipleBirth());
     }
 }
