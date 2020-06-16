@@ -49,7 +49,7 @@ public final class ProfileSupport {
         StructureDefinition structureDefinition = getStructureDefinition(url);
         if (structureDefinition != null) {
             Map<String, Binding> bindingMap = new LinkedHashMap<>();
-            for (ElementDefinition elementDefinition : structureDefinition.getSnapshot().getElement()) {
+            for (ElementDefinition elementDefinition : getSnapshotElements(structureDefinition)) {
                 String path = elementDefinition.getPath().getValue();
                 Binding binding = elementDefinition.getBinding();
                 if (binding != null) {
@@ -61,11 +61,29 @@ public final class ProfileSupport {
         return Collections.emptyMap();
     }
 
+    /*
+     * checks that the provided profile has a snapshot
+     * @return a list of Element Definitions
+     * @throws IllegalArgumentException to indicate that the snapshot and element exist
+     */
+    private static List<ElementDefinition> getSnapshotElements(StructureDefinition profile) throws IllegalArgumentException {
+        if (profile == null) {
+            throw new IllegalArgumentException("The profile is null");
+        }
+        if (profile.getSnapshot() == null) {
+            throw new IllegalArgumentException("The profile is missing the snapshot");
+        }
+        if (profile.getSnapshot().getElement() == null) {
+            throw new IllegalArgumentException("The profile is missing the snapshot.elements");
+        }
+        return profile.getSnapshot().getElement();
+    }
+
     private static List<Constraint> computeConstraints(StructureDefinition profile, Class<?> type) {
         List<Constraint> constraints = new ArrayList<>();
         Set<String> difference = new HashSet<>(getKeys(profile));
         difference.removeAll(getKeys(getStructureDefinition(type)));
-        for (ElementDefinition elementDefinition : profile.getSnapshot().getElement()) {
+        for (ElementDefinition elementDefinition : getSnapshotElements(profile)) {
             if (elementDefinition.getConstraint().isEmpty()) {
                 continue;
             }
@@ -86,7 +104,7 @@ public final class ProfileSupport {
         StructureDefinition structureDefinition = getStructureDefinition(url);
         if (structureDefinition != null) {
             Map<String, ElementDefinition> elementDefinitionMap = new LinkedHashMap<>();
-            for (ElementDefinition elementDefinition : structureDefinition.getSnapshot().getElement()) {
+            for (ElementDefinition elementDefinition : getSnapshotElements(structureDefinition)) {
                 String path = elementDefinition.getPath().getValue();
                 elementDefinitionMap.put(path, elementDefinition);
             }
@@ -238,7 +256,7 @@ public final class ProfileSupport {
 
     private static Set<String> getKeys(StructureDefinition structureDefinition) {
         Set<String> keys = new HashSet<>();
-        for (ElementDefinition elementDefinition : structureDefinition.getSnapshot().getElement()) {
+        for (ElementDefinition elementDefinition : getSnapshotElements(structureDefinition)) {
             for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
                 keys.add(constraint.getKey().getValue());
             }
