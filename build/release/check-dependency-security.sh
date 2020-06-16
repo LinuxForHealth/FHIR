@@ -15,7 +15,7 @@ function build_security_check {
     LOGS="${LOG_DIR}/${PROJECT_NAME}-build_security_check.log"
     echo "[Starting the check of security-versions] [`date`]"
     echo "- logging to ${LOGS}"
-    mvn ${THREAD_COUNT} com.redhat.victims.maven:security-versions:check -f ${PROJECT_PATH} --log-file ${LOGS}
+    mvn ${THREAD_COUNT} com.redhat.victims.maven:security-versions:check -f ${PROJECT_PATH} --log-file ${LOGS} -Dmaven.wagon.http.retryHandler.count=3
     check_and_fail $? "build_security_check - ${PROJECT_PATH}" ${LOGS}
 
     echo "[Finished the check of security-versions] [`date`]"

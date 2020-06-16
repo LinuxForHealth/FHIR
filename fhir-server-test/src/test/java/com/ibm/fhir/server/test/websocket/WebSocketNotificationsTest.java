@@ -32,10 +32,8 @@ import com.ibm.fhir.server.test.FHIRServerTestBase;
  * the session does not start-connect-receive a message.
  */
 public class WebSocketNotificationsTest extends FHIRServerTestBase {
-    // Add -DskipWebSocketTest
-    public static final String SKIP_TESTS = "skipWebSocketTest";
-
-    private boolean skip = false;
+    // Disabled by default
+    private static boolean ON = false;
 
     private Patient savedCreatedPatient;
     private Observation savedCreatedObservation;
@@ -46,15 +44,12 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
     @BeforeClass
     public void startup() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
-        skip = Boolean.parseBoolean(testProperties.getProperty("test.websocket.disabled", "false"));
 
-        // A specific CI pipeline issue triggered adding this value
-        // as such this a conditional ignore. 
-        // -DskipWebSocketTest=true
-        String shouldSkip = System.getProperty(SKIP_TESTS, "false");
-        if (shouldSkip.compareTo("true") == 0) {
-            skip = true;
-        } else { 
+        // We no longer enable websockets in the default config (due to security/privacy concerns)
+        // and so this test must be explicitly enabled via the test.websocket.enabled property.
+        ON = Boolean.parseBoolean(testProperties.getProperty("test.websocket.enabled", "false"));
+
+        if (ON) {
             target = getWebTarget();
             endpoint = getWebsocketClientEndpoint();
             assertNotNull(endpoint);
@@ -63,7 +58,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
 
     @AfterClass
     public void shutdown() {
-        if(!skip) {
+        if (ON) {
             endpoint.close();
         }
     }
@@ -87,7 +82,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
     @Test(groups = { "websocket-notifications" })
     public void testCreatePatient() throws Exception {
 
-        if (skip) {
+        if (!ON) {
             System.out.println("skipping this test ");
         } else {
 
@@ -121,7 +116,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
      */
     @Test(groups = { "websocket-notifications" }, dependsOnMethods = { "testCreatePatient" })
     public void testCreateObservation() throws Exception {
-        if (skip) {
+        if (!ON) {
             System.out.println("skipping this test ");
         } else {
             // Next, create an Observation belonging to the new patient.
@@ -155,7 +150,7 @@ public class WebSocketNotificationsTest extends FHIRServerTestBase {
     @Test(groups = { "websocket-notifications" }, dependsOnMethods = {
             "testCreateObservation" }, singleThreaded = true)
     public void testUpdateObservation() throws Exception {
-        if (skip) {
+        if (!ON) {
             System.out.println("skipping this test ");
         } else {
             // Create an updated Observation based on the original saved observation
