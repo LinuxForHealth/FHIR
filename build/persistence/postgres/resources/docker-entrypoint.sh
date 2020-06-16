@@ -35,8 +35,14 @@ then
 host    all             all     0.0.0.0/0               md5
 EOF
 
-    su - postgres -c 'pg_ctl -D "/db/data" --wait --timeout=120 start'
-    su - postgres -c 'psql -v ON_ERROR_STOP=1 < /docker-entrypoint-initdb.d/db.sql'
+    su - postgres -c '/usr/local/bin/pg_ctl -D "/db/data" --wait --timeout=120 start'
+    # Create the FHIRADMIN user
+    su - postgres -c "/usr/local/bin/psql -c \"CREATE USER fhiradmin WITH LOGIN encrypted password 'change-password';\"" 
+
+    # Create the Database
+    su - postgres -c "/usr/local/bin/psql -c \"CREATE DATABASE FHIRDB OWNER 'fhiradmin';\""
+
+    su - postgres -c '/usr/local/bin/psql -v ON_ERROR_STOP=1 < /docker-entrypoint-initdb.d/db.sql'
 fi
 
 exec "$@"

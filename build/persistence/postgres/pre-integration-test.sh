@@ -108,18 +108,19 @@ db.database=fhirdb
 user=fhiradmin
 password=change-password
 EOF
-
+    echo "Waiting..."
+    sleep 60
     echo "- Create Schemas"
     java -jar ${SCHEMA}/fhir-persistence-schema-*-cli.jar --db-type postgresql \
-        --prop-file workarea/postgres.properties --schema-name FHIRDATA --create-schemas --pool-size 2
+        --prop-file workarea/postgres.properties --schema-name FHIRDATA --create-schemas --pool-size 1
 
     echo "- Update Schema"
     java -jar ${SCHEMA}/fhir-persistence-schema-*-cli.jar --db-type postgresql \
-        --prop-file workarea/postgres.properties --schema-name FHIRDATA --update-schema --pool-size 2
+        --prop-file workarea/postgres.properties --schema-name FHIRDATA --update-schema --pool-size 1
 
     echo "- Grants to FHIRSERVER"
     java -jar ${SCHEMA}/fhir-persistence-schema-*-cli.jar --db-type postgresql \
-       --prop-file workarea/postgres.properties --schema-name FHIRDATA --grant-to FHIRSERVER --pool-size 2
+       --prop-file workarea/postgres.properties --schema-name FHIRDATA --grant-to FHIRSERVER --pool-size 1
 }
 
 # bringup_fhir 

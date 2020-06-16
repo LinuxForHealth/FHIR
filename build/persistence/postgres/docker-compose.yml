@@ -23,19 +23,13 @@ services:
     privileged: true
     command: tail -f /dev/null
     environment:
-      POSTGRES_PASSWORD: 'change-password'
-      POSTGRESQL_MAX_CONNECTIONS: 100
-      POSTGRESQL_MAX_PREPARED_TRANSACTIONS: 100
-      PG_SYSTEM_SHARED_BUFFERS: 256MB
-      PG_SYSTEM_MAX_CONNECTIONS: 100
       PG_TRUST_LOCALNET: 'true'
-      max_prepared_transactions: 64
     networks:
       - fhir
     ports:
       - "5432:5432"
   fhir-server:
-     image: ibmcom/ibm-fhir-server
+     image: ibmcom/ibm-fhir-server:latest
      hostname: fhir
      volumes:
        - type: bind
