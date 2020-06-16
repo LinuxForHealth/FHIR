@@ -25,7 +25,7 @@ Each persistence layer that is tested as part of the framework uses the default 
 
 |Filename|Purpose|
 |----------|----------------|
-|bin/gather-logs.sh|Gathers the logs for the build, no|
+|bin/gather-logs.sh|Gathers the logs from the build|
 |bin/integration-test.sh|Run after the tests complete to release resources and package tests results|
 |persistence/integration-test.sh|Overrides bin/integration-test.sh, replacing the prior test behavior.|
 |bin/pre-integration-test.sh|Call the pre-integration-test step for `persistence`|
