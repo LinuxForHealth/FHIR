@@ -17,6 +17,7 @@ import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
@@ -45,19 +46,19 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
     private Map<String, Integer> newParameterNameIds = new HashMap<>();
     private Map<String, Integer> newCodeSystemIds = new HashMap<>();
 
-    private boolean runningInTrx = false;
+    private final TransactionSynchronizationRegistry trxSynchRegistry;
+    private final boolean runningInTrx;
     private CodeSystemsCacheUpdater csCacheUpdater = null;
     private ParameterNamesCacheUpdater pnCacheUpdater = null;
-    private TransactionSynchronizationRegistry trxSynchRegistry;
 
 
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
      */
-    public ParameterDAOImpl(TransactionSynchronizationRegistry trxSynchRegistry) {
-        super();
-        this.runningInTrx = true;
+    public ParameterDAOImpl(FHIRDbConnectionStrategy strat, TransactionSynchronizationRegistry trxSynchRegistry) {
+        super(strat);
         this.trxSynchRegistry = trxSynchRegistry;
+        this.runningInTrx = true;
     }
 
     /**
@@ -65,8 +66,12 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
      * The connection used by this instance for all DB operations will be the passed connection.
      * @param Connection - A database connection that will be managed by the caller.
      */
-    public ParameterDAOImpl(Connection managedConnection) {
-        super(managedConnection);
+    public ParameterDAOImpl(FHIRDbConnectionStrategy strat) {
+        super(strat);
+        
+        // For unit-tests, we don't use managed transactions, so don't have any sync registry.
+        this.trxSynchRegistry = null;
+        this.runningInTrx = false;
     }
 
     @Override
@@ -121,6 +126,8 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
 
         try {
             connection = this.getConnection();
+            
+            // TODO use connection provider flavor to get the database type
             String dbProductName = connection.getMetaData().getDatabaseProductName().toLowerCase();
             ParameterNameDAO pnd;
             if (dbProductName.equals(DbType.POSTGRESQL.value())) {

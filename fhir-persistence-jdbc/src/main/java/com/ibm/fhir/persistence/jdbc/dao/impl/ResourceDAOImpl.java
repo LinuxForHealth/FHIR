@@ -31,10 +31,12 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.database.utils.api.DatabaseType;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -112,20 +114,30 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
      */
-    public ResourceDAOImpl(TransactionSynchronizationRegistry trxSynchRegistry) {
-        super();
+    public ResourceDAOImpl(FHIRDbConnectionStrategy connectionStrategy, TransactionSynchronizationRegistry trxSynchRegistry) {
+        super(connectionStrategy);
         this.runningInTrx = true;
         this.trxSynchRegistry = trxSynchRegistry;
     }
 
     /**
+     * Constructs a DAO instance for use outside a managed transaction (JEE) environment
+     * @param connectionStrategy
+     */
+    public ResourceDAOImpl(FHIRDbConnectionStrategy connectionStrategy) {
+        super(connectionStrategy);
+        this.runningInTrx = false;
+        this.trxSynchRegistry = null;
+    }
+    
+    /**
      * Constructs a DAO using the passed externally managed database connection.
      * The connection used by this instance for all DB operations will be the passed connection.
      * @param Connection - A database connection that will be managed by the caller.
-     */
     public ResourceDAOImpl(Connection managedConnection) {
         super(managedConnection);
     }
+     */
 
     @Override
     public Resource read(String logicalId, String resourceType)
@@ -214,7 +226,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         try {
             if (fromDateTime != null) {
                 stmtString = String.format(SQL_HISTORY_FROM_DATETIME, resourceType, resourceType);
-                if (this.isDb2Database()) {
+                if (getConnectionStrategy().getFlavor().getType() == DatabaseType.DB2) {
                     stmtString = stmtString + DB2_PAGINATION_PARMS;
                     resources = this.runQuery(stmtString, logicalId, fromDateTime, maxResults, offset);
                 } else {
@@ -223,7 +235,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 }
             } else {
                 stmtString = String.format(SQL_HISTORY, resourceType, resourceType);
-                if (this.isDb2Database()) {
+                if (getConnectionStrategy().getFlavor().getType() == DatabaseType.DB2) {
                     stmtString = stmtString + DB2_PAGINATION_PARMS;
                     resources = this.runQuery(stmtString, logicalId, maxResults, offset);
                 } else {
@@ -231,10 +243,11 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                     resources = this.runQuery(stmtString, logicalId, offset, maxResults);
                 }
             }
-        } catch (SQLException e) {
-            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure running history query");
-            String errMsg = "Failure running history query: " + stmtString;
-            throw severe(log, fx, errMsg, e);
+//        } 
+//        catch (SQLException e) {
+//            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure running history query");
+//            String errMsg = "Failure running history query: " + stmtString;
+//            throw severe(log, fx, errMsg, e);
         } finally {
             log.exiting(CLASSNAME, METHODNAME, Arrays.toString(new Object[] {resources}));
         }

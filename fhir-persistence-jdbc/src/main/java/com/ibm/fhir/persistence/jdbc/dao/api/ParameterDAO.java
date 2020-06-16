@@ -107,10 +107,4 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceException
      */
     void addParameterNamesCacheCandidate(String parameterName, Integer parameterId) throws FHIRPersistenceException;
-
-    /**
-     * Sets an externally managed DB connection, used by the DAO for all DB activity.
-     * @param connection
-     */
-    void setExternalConnection(Connection connection);
 }

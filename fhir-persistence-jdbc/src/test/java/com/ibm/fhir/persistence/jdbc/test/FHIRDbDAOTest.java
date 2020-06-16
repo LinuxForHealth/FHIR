@@ -13,8 +13,19 @@ import java.util.Properties;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
+import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
+import com.ibm.fhir.persistence.jdbc.connection.Action;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConstants;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbPropsConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTestConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.SetSchemaAction;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
+import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
+import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 
 /**
  * This class tests the functions of the FHIR DB Data Access Object class.
@@ -26,16 +37,24 @@ public class FHIRDbDAOTest {
      * @throws Exception
      */
     @Test(groups = {"jdbc"})
-    public void testGetDerbyConnection() throws Exception {
+    public void testDerbyConnectionStrategy() throws Exception {
         
-        Properties props = new Properties();
-        props.setProperty(FHIRDbDAO.PROPERTY_DB_DRIVER, "org.apache.derby.jdbc.EmbeddedDriver");
-        props.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:derby:target/derby/fhirDB;create=true");
-        // Set the schemaName to the derby default so that it won't try using a non-existent FHIRDATA schema
-        props.setProperty("schemaName", "APP");
-        FHIRDbDAO dao = new FHIRDbDAOImpl(props);
-        Connection connection = dao.getConnection();
-        assertNotNull(connection);
+        // DerbyFhirDatabase will initialize the full FHIR schema if necessary
+        try (DerbyFhirDatabase database = new DerbyFhirDatabase(DerbyInitializer.DB_NAME)) {
+            PoolConnectionProvider connectionPool = new PoolConnectionProvider(database, 1);
+            // ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
+
+            // Test creation of a DAO instance with a connection strategy.
+
+            Action action = new SetSchemaAction("FHIRDATA");
+            FHIRDbConnectionStrategy strat = new FHIRDbTestConnectionStrategy(connectionPool, action);
+            FHIRDbDAO dao = new FHIRDbDAOImpl(strat);
+
+            // We only ask the DAO for a connection
+            try (Connection c = dao.getConnection()) {
+                assertNotNull(c);
+            }
+        }
     }
     
     /**
@@ -52,9 +71,15 @@ public class FHIRDbDAOTest {
         props.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:db2://localhost:50000/fhirdb");
         props.setProperty(FHIRDbDAO.PROPERTY_DB2_USER, "user");
         props.setProperty(FHIRDbDAO.PROPERTY_DB2_PSWD, "password");
-        
-        FHIRDbDAO dao = new FHIRDbDAOImpl(props);
-        Connection connection = dao.getConnection();
-        assertNotNull(connection);
+        props.setProperty(FHIRDbConstants.PROPERTY_SCHEMA_NAME, "FHIRDATA");
+
+        // Need a connection provider for DB2
+        FHIRDbConnectionStrategy strat = new FHIRDbPropsConnectionStrategy(props);
+        FHIRDbDAO dao = new FHIRDbDAOImpl(strat);
+
+        // We only ask the DAO for a connection
+        try (Connection c = dao.getConnection()) {
+            assertNotNull(c);
+        }
     }
 }

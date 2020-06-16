@@ -45,8 +45,6 @@ public class DerbyMaster implements AutoCloseable {
     // Controls if we run derby in debugging mode which enables more logs.
     private static final boolean DEBUG = false;
 
-    private Connection connection;
-
     /**
      * Public constructor
      * @param database
@@ -131,27 +129,29 @@ public class DerbyMaster implements AutoCloseable {
 
     /**
      * Get a connection to the configured Derby database, creating the database if necessary.
+     * @implNote creates a new connection each time. Should be wrapped in an IConnectionProvider
+     *           implementation for use where a transaction might scope multiple open/close
+     *           connections. This class returns the driver's connection. For proper transaction
+     *           handling, the connection needs to be wrapped, which IConnectionProvider can
+     *           take care of.
      * @return
      * @throws SQLException
-     * @implNote currently this returns the same connection each time, so don't close it!
      */
-    public synchronized Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         logger.info("Opening connection to Derby database: " + database);
-        if (connection == null) {
-            try {
-                // Make sure the Derby driver is loaded
-                Properties properties = new Properties();
-                DerbyPropertyAdapter adapter = new DerbyPropertyAdapter(properties);
-                adapter.setDatabase(database);
-                adapter.setAutoCreate(true);
-                connection = DriverManager.getConnection(DERBY_TRANSLATOR.getUrl(properties));
-                connection.setAutoCommit(false);
-            }
-            catch (SQLException x) {
-                throw DERBY_TRANSLATOR.translate(x);
-            }
+        try {
+            // Make sure the Derby driver is loaded
+            Properties properties = new Properties();
+            DerbyPropertyAdapter adapter = new DerbyPropertyAdapter(properties);
+            adapter.setDatabase(database);
+            adapter.setAutoCreate(true);
+            Connection connection = DriverManager.getConnection(DERBY_TRANSLATOR.getUrl(properties));
+            connection.setAutoCommit(false);
+            return connection;
         }
-        return connection;
+        catch (SQLException x) {
+            throw DERBY_TRANSLATOR.translate(x);
+        }
     }
 
     /**
@@ -217,9 +217,6 @@ public class DerbyMaster implements AutoCloseable {
         // Drop the database we created
         boolean dropped = false;
         try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
             Properties properties = new Properties();
             DerbyPropertyAdapter adapter = new DerbyPropertyAdapter(properties);
             adapter.setDatabase(database);

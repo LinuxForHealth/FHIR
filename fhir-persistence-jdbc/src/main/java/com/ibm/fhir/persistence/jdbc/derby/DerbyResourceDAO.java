@@ -24,6 +24,7 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.CodeSystemCacheAdapter;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterNameCacheAdapter;
@@ -56,13 +57,18 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
     private static final DerbyTranslator translator = new DerbyTranslator();
 
-    public DerbyResourceDAO(Connection managedConnection) {
-        super(managedConnection);
+    public DerbyResourceDAO(FHIRDbConnectionStrategy strat) {
+        super(strat);
     }
 
-
-    public DerbyResourceDAO(TransactionSynchronizationRegistry trxSynchRegistry) {
-        super(trxSynchRegistry);
+    /**
+     * Derby is not only used for unit tests, but can also be used to provide persistence
+     * for a stand-alone full FHIR server.
+     * @param strat the connection strategy
+     * @param trxSynchRegistry
+     */
+    public DerbyResourceDAO(FHIRDbConnectionStrategy strat, TransactionSynchronizationRegistry trxSynchRegistry) {
+        super(strat, trxSynchRegistry);
     }
 
     /**

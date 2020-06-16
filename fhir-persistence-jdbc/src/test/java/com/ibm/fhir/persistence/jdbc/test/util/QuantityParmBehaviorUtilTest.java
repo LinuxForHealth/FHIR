@@ -177,11 +177,6 @@ public class QuantityParmBehaviorUtilTest {
             }
 
             @Override
-            public Connection getExternalConnection() {
-                return null;
-            }
-
-            @Override
             public boolean isDb2Database() throws Exception {
                 return false;
             }
@@ -244,11 +239,6 @@ public class QuantityParmBehaviorUtilTest {
             @Override
             public void addParameterNamesCacheCandidate(String parameterName, Integer parameterId)
                     throws FHIRPersistenceException {
-                // do nothing
-            }
-
-            @Override
-            public void setExternalConnection(Connection connection) {
                 // do nothing
             }
         };

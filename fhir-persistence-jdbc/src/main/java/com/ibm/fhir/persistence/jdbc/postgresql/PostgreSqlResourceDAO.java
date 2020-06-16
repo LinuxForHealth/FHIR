@@ -26,6 +26,7 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.CodeSystemCacheAdapter;
@@ -56,12 +57,12 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private FhirRefSequenceDAO fhirRefSequenceDAO;
 
-    public PostgreSqlResourceDAO(Connection managedConnection) {
-        super(managedConnection);
+    public PostgreSqlResourceDAO(FHIRDbConnectionStrategy strat) {
+        super(strat);
     }
 
-    public PostgreSqlResourceDAO(TransactionSynchronizationRegistry trxSynchRegistry) {
-        super(trxSynchRegistry);
+    public PostgreSqlResourceDAO(FHIRDbConnectionStrategy strat, TransactionSynchronizationRegistry trxSynchRegistry) {
+        super(strat, trxSynchRegistry);
     }
 
     /**

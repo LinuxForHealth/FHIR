@@ -84,6 +84,15 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedExceptio
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
+import com.ibm.fhir.persistence.jdbc.connection.Action;
+import com.ibm.fhir.persistence.jdbc.connection.DisableAutocommitAction;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategyBase;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbPropsConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbProxyDatasourceConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTestConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.SetSchemaAction;
+import com.ibm.fhir.persistence.jdbc.connection.SetTenantAction;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
@@ -127,18 +136,17 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     protected static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
     public static final String TRX_SYNCH_REG_JNDI_NAME = "java:comp/TransactionSynchronizationRegistry";
 
-    private FHIRDbDAO baseDao;
     private ResourceDAO resourceDao;
     private ParameterDAO parameterDao;
     private TransactionSynchronizationRegistry trxSynchRegistry;
     private List<OperationOutcome.Issue> supplementalIssues = new ArrayList<>();
 
-    protected Connection sharedConnection = null;
     protected UserTransaction userTransaction = null;
     protected Boolean updateCreateEnabled = null;
+    
+    // The strategy used to obtain database connections
+    private final FHIRDbConnectionStrategy connectionStrategy;
 
-    // only used outside a web container
-    private Connection managedConnection;
 
     /**
      * Constructor for use when running as web application in WLP.
@@ -161,10 +169,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                                     Boolean.TRUE));
         ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE,
                                       Boolean.TRUE));
+        
+        // Set up the connection strategy for use within a JEE container. The actions
+        // are processed the first time a connection is established to a particular tenant/datasource.
+        this.connectionStrategy = new FHIRDbProxyDatasourceConnectionStrategy(userTransaction, getTrxSynchRegistry(), buildActionChain());
 
-        sharedConnection = this.createConnection();
-        this.resourceDao = FHIRResourceDAOFactory.getResourceDAO(sharedConnection, this.getTrxSynchRegistry());
-        this.parameterDao = new ParameterDAOImpl(this.getTrxSynchRegistry());
+        this.resourceDao = FHIRResourceDAOFactory.getResourceDAO(connectionStrategy, this.getTrxSynchRegistry());
+        this.parameterDao = new ParameterDAOImpl(connectionStrategy, this.getTrxSynchRegistry());
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -173,20 +184,40 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * Constructor for use when running standalone, outside of any web container.
      * @throws Exception
      */
+    @Deprecated
     public FHIRPersistenceJDBCImpl(Properties configProps) throws Exception {
         final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties)";
         log.entering(CLASSNAME, METHODNAME);
 
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
 
-        FHIRDbDAO dao = new FHIRDbDAOImpl(configProps);
+        Action setSchema = new SetSchemaAction();
+        Action setTenant = new SetTenantAction(setSchema);
+        
+        // Obtain connections from DriverManager
+        this.connectionStrategy = new FHIRDbPropsConnectionStrategy(configProps);
 
-        this.setBaseDao(dao);
-        this.setManagedConnection(this.getBaseDao().getConnection());
-        this.resourceDao = FHIRResourceDAOFactory.getResourceDAO(this.getManagedConnection());
-        this.parameterDao = new ParameterDAOImpl(this.getManagedConnection());
+        this.resourceDao = FHIRResourceDAOFactory.getResourceDAO(connectionStrategy);
+        this.parameterDao = new ParameterDAOImpl(connectionStrategy);
 
         log.exiting(CLASSNAME, METHODNAME);
+    }
+
+    
+    /**
+     * Build a chain of actions we want to apply to new connections. The three actions in
+     * order are:
+     * 1. set the current schema
+     * 2. set autocommit off
+     * 3. set the tenant SV_TENANT_ID variable (for multi-tenant implementations).
+     * @return the chain of actions to be applied
+     */
+    protected Action buildActionChain() {
+        Action setSchema = new SetSchemaAction();
+        Action autocommit = new DisableAutocommitAction(setSchema);
+        Action setTenant = new SetTenantAction(autocommit);
+
+        return setTenant;
     }
 
     /**
@@ -199,12 +230,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
 
-        FHIRDbDAO dao = new FHIRDbDAOImpl(cp.getConnection());
+        
+        // Obtain connections from the IConnectionProvider (typically used in Derby-based test-cases)
+        this.connectionStrategy = new FHIRDbTestConnectionStrategy(cp, buildActionChain());
 
-        this.setBaseDao(dao);
-        this.setManagedConnection(this.getBaseDao().getConnection());
-        this.resourceDao = FHIRResourceDAOFactory.getResourceDAO(this.getManagedConnection());
-        this.parameterDao = new ParameterDAOImpl(this.getManagedConnection());
+
+        this.resourceDao = FHIRResourceDAOFactory.getResourceDAO(this.connectionStrategy);
+        this.parameterDao = new ParameterDAOImpl(this.connectionStrategy);
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -1290,16 +1322,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         log.entering(CLASSNAME, METHODNAME);
 
         try {
+            // TODO strictly speaking this should be delegated to our connection handler also
             if (userTransaction != null) {
-                if (sharedConnection == null) {
-                    sharedConnection = createConnection();
-                }
-                resourceDao.setExternalConnection(sharedConnection);
-                parameterDao.setExternalConnection(sharedConnection);
                 userTransaction.begin();
-            }
-            else if (this.getManagedConnection() != null) {
-                this.getManagedConnection().setAutoCommit(false);
             }
         }
         catch (Throwable e) {
@@ -1316,30 +1341,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     public void commit() throws FHIRPersistenceException {
         final String METHODNAME = "commit";
         log.entering(CLASSNAME, METHODNAME);
+        
+        // delegate transaction handling to the strategy we use for handling connections
+        connectionStrategy.commit();
 
-        try {
-            if (userTransaction != null) {
-                userTransaction.commit();
-            } else if (this.getManagedConnection() != null) {
-                this.getManagedConnection().commit();
-            }
-        }
-        catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while committing a transaction.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        finally {
-            if (sharedConnection != null) {
-                try {
-                    sharedConnection.close();
-                } catch (SQLException e) {
-                    throw new FHIRPersistenceException("Failure closing DB Conection", e);
-                }
-                sharedConnection = null;
-            }
-            log.exiting(CLASSNAME, METHODNAME);
-        }
 
     }
 
@@ -1348,70 +1353,22 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         final String METHODNAME = "rollback";
         log.entering(CLASSNAME, METHODNAME);
 
-        try {
-            if (userTransaction != null) {
-                userTransaction.rollback();
-            }
-            else if (this.getManagedConnection() != null) {
-                this.getManagedConnection().rollback();
-            }
-        }
-        catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while rolling back a transaction.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        finally {
-            if (sharedConnection != null) {
-                try {
-                    sharedConnection.close();
-                }
-                catch (SQLException e) {
-                    throw new FHIRPersistenceException("Failure closing DB Conection", e);
-                }
-                sharedConnection = null;
-            }
-        }
+        // delegate transaction handling to the strategy we use for handling connections
+        connectionStrategy.rollback();
     }
 
     @Override
     public void setRollbackOnly() throws FHIRPersistenceException {
         final String METHODNAME = "setRollbackOnly";
         log.entering(CLASSNAME, METHODNAME);
-        String errorMessage = "Unexpected error while rolling a transaction.";
 
-        try {
-            if (userTransaction != null) {
-                errorMessage = "Unexpected error while marking a transaction for rollback.";
-                userTransaction.setRollbackOnly();
-            }
-            else if (this.getManagedConnection() != null) {
-                this.getManagedConnection().rollback();
-            }
-        }
-        catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException(errorMessage);
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        finally {
-            if (sharedConnection != null) {
-                try {
-                    sharedConnection.close();
-                }
-                catch (SQLException e) {
-                    FHIRPersistenceException fx = new FHIRPersistenceException("Failure closing DB Conection");
-                    log.log(Level.SEVERE, fx.getMessage(), e);
-                    throw fx;
-                }
-                sharedConnection = null;
-            }
-        }
+        // delegate transaction handling to the strategy we use for handling connections
+        connectionStrategy.setRollbackOnly();
     }
 
     @Override
     public OperationOutcome getHealth() throws FHIRPersistenceException {
-        try (Connection connection = createConnection()){
+        try (Connection connection = connectionStrategy.getConnection()) {
             if (connection.isValid(2)) {
                 return buildOKOperationOutcome();
             } else {
@@ -1562,33 +1519,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         return true;
     }
 
-    private FHIRDbDAO getBaseDao() {
-        return baseDao;
-    }
-
-    private void setBaseDao(FHIRDbDAO baseDao) {
-        this.baseDao = baseDao;
-    }
-
-    private Connection getManagedConnection() {
-        return managedConnection;
-    }
-
-    private void setManagedConnection(Connection managedConnection) {
-        this.managedConnection = managedConnection;
-    }
-
     private OperationOutcome buildOKOperationOutcome() {
         return FHIRUtil.buildOperationOutcome("All OK", IssueType.INFORMATIONAL, IssueSeverity.INFORMATION);
     }
 
     private OperationOutcome buildErrorOperationOutcome() {
         return FHIRUtil.buildOperationOutcome("The database connection was not valid", IssueType.NO_STORE, IssueSeverity.ERROR);
-    }
-
-    private Connection createConnection() throws FHIRPersistenceDBConnectException {
-        FHIRDbDAOImpl dao = new FHIRDbDAOImpl();
-        return dao.getConnection();
     }
 
     /**
@@ -1602,27 +1538,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      */
     @Override
     public void unenroll() throws FHIRPersistenceException {
-        final String METHODNAME = "unenroll";
-        log.entering(CLASSNAME, METHODNAME);
-
-        try {
-            if (userTransaction != null) {
-                if (sharedConnection != null) {
-                        sharedConnection.close();
-                }
-            } else {
-                throw new FHIRPersistenceException("unenroll should be called only if userTransaction is not null!");
-            }
-        }
-        catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while unenroll.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        finally {
-            sharedConnection = null;
-            log.exiting(CLASSNAME, METHODNAME);
-        }
+        // TODO should no longer be required
     }
 
     /**
@@ -1636,28 +1552,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      */
     @Override
     public void enroll() throws FHIRPersistenceException {
-        final String METHODNAME = "enroll";
-        log.entering(CLASSNAME, METHODNAME);
-
-        try {
-            if (userTransaction != null) {
-                if (sharedConnection == null) {
-                    sharedConnection = createConnection();
-                }
-                resourceDao.setExternalConnection(sharedConnection);
-                parameterDao.setExternalConnection(sharedConnection);
-            } else {
-                throw new FHIRPersistenceException("enroll should be called only if userTransaction is not null!");
-            }
-        }
-        catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while enroll.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
+        // TODO should no longer be required
     }
 
     /**

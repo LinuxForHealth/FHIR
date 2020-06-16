@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.ConnectionDetails;
 import com.ibm.fhir.database.utils.api.ConnectionException;
 import com.ibm.fhir.database.utils.api.DataAccessException;
+import com.ibm.fhir.database.utils.api.DatabaseType;
 import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.LockException;
@@ -163,4 +164,13 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
     public boolean clobSupportsInline() {
         return false;
     }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#getType()
+     */
+    @Override
+    public DatabaseType getType() {
+        return DatabaseType.PostgreSQL;
+    }
+
 }

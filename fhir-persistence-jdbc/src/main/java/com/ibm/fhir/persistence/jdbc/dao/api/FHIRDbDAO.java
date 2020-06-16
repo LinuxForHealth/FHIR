@@ -21,9 +21,9 @@ public interface FHIRDbDAO {
     public static final String PROPERTY_DB2_PSWD = "password";
 
     /**
-     * Acquires and returns a JDBC database connection to the FHIR database.
-     * If no DB Properties are available, an attempt is made to acquire the connection via a Datasource obtained via
-     * JNDI. If DB Properties are present, those properties are used to build the Connection.
+     * Obtains a database connection. Connection is configured and ready to use. Its
+     * schema will be set to the configured FHIR data schema (usually 'FHIRDATA') and
+     * if multi-tenant, the tenant property will have been set.
      * 
      * @return Connection - A connection to the FHIR database.
      * @throws FHIRPersistenceDBConnectException
@@ -32,17 +32,17 @@ public interface FHIRDbDAO {
 
     /**
      * Returns a previously set externally managed DB connection, used by the DAO for all DB activity.
+    Connection getExternalConnection();
      * 
      * @return Connection
      */
-    Connection getExternalConnection();
 
     /**
      * Sets an externally managed DB connection, used by the DAO for all DB activity.
+    void setExternalConnection(Connection connection);
      * 
      * @param connection
      */
-    void setExternalConnection(Connection connection);
 
     /**
      * @return true if this DAO is connected to a DB2 database.

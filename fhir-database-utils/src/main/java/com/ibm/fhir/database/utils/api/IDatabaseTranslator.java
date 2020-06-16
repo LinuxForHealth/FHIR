@@ -145,4 +145,10 @@ public interface IDatabaseTranslator {
      * @return
      */
     boolean clobSupportsInline();
+    
+    /**
+     * The main type of the database
+     * @return
+     */
+    DatabaseType getType();
 }
