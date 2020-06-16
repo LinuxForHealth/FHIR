@@ -265,9 +265,6 @@ public class ImportCheckPointData implements Serializable {
                 .importFileSize(userData.getImportFileSize())
                 .inFlyRateBeginMilliSeconds(userData.getInFlyRateBeginMilliSeconds())
                 .build();
-
-
-
     }
 
     public String getUniqueIDForImportOperationOutcomes() {

@@ -65,7 +65,5 @@ public class TransientUserData extends CheckPointUserData {
             transientUserData.lastWritePageNum = this.lastWritePageNum;
             return transientUserData;
         }
-
     }
-
 }
