@@ -40,8 +40,6 @@ public class TransientUserData extends CheckPointUserData {
     public ByteArrayOutputStream getBufferStream() {
         return bufferStream;
     }
-
-
     public static class Builder extends CheckPointUserData.Builder {
 
         public static Builder builder() {
