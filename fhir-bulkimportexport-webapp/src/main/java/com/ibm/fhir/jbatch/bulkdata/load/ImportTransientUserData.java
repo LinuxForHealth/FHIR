@@ -9,9 +9,6 @@ package com.ibm.fhir.jbatch.bulkdata.load;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.List;
-
-import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 
 public class ImportTransientUserData extends ImportCheckPointData {
     private static final long serialVersionUID = -2642411992044844735L;
@@ -23,21 +20,8 @@ public class ImportTransientUserData extends ImportCheckPointData {
     private InputStream inputStream = null;
     private BufferedReader bufferReader = null;
 
-    public ImportTransientUserData(String importPartitionWorkitem, int numOfProcessedResources,
-            String importPartitionResourceType, int numOfImportedResource, int numOfImportFailures,
-            String uniqueIDForImportFailureOperationOutcomes, String uniqueIDForImportOperationOutcome,
-            String uploadIdForOperationOutcomes, List<PartETag> dataPacksForOperationOutcomes, int partNumForOperationOutcomes,
-            String uploadIdForFailureOperationOutcomes, List<PartETag> dataPacksForFailureOperationOutcomes, int partNumForFailureOperationOutcomes,
-            long totalReadMilliSeconds, long totalValidationMilliSeconds, long totalWriteMilliSeconds, long importFileSize, long inFlyRateBeginMilliSeconds) {
-        super(importPartitionWorkitem, numOfProcessedResources, importPartitionResourceType,
-                numOfImportedResource, numOfImportFailures, uniqueIDForImportFailureOperationOutcomes, uniqueIDForImportOperationOutcome,
-                uploadIdForOperationOutcomes, dataPacksForOperationOutcomes, partNumForOperationOutcomes,
-                uploadIdForFailureOperationOutcomes, dataPacksForFailureOperationOutcomes, partNumForFailureOperationOutcomes,
-                totalReadMilliSeconds, totalValidationMilliSeconds, totalWriteMilliSeconds, importFileSize, inFlyRateBeginMilliSeconds);
-    }
-
-    public ImportTransientUserData(String importPartitionWorkitem, int numOfProcessedResources, String importPartitionResourceType) {
-        super(importPartitionWorkitem, numOfProcessedResources, importPartitionResourceType);
+    protected ImportTransientUserData() {
+        super();
     }
 
     public ByteArrayOutputStream getBufferStreamForImportError() {
@@ -49,14 +33,58 @@ public class ImportTransientUserData extends ImportCheckPointData {
     }
 
     public static ImportTransientUserData fromImportCheckPointData(ImportCheckPointData importCheckPointData) {
-        return new ImportTransientUserData(importCheckPointData.getImportPartitionWorkitem(),
-                importCheckPointData.getNumOfProcessedResources(), importCheckPointData.getImportPartitionResourceType(),
-                importCheckPointData.getNumOfImportedResources(), importCheckPointData.getNumOfImportFailures(),
-                importCheckPointData.getUniqueIDForImportFailureOperationOutcomes(), importCheckPointData.getUniqueIDForImportOperationOutcomes(),
-                importCheckPointData.getUploadIdForOperationOutcomes(), importCheckPointData.getDataPacksForOperationOutcomes(), importCheckPointData.getPartNumForOperationOutcomes(),
-                importCheckPointData.getUploadIdForFailureOperationOutcomes(), importCheckPointData.getDataPacksForFailureOperationOutcomes(), importCheckPointData.getPartNumForFailureOperationOutcomes(),
-                importCheckPointData.getTotalReadMilliSeconds(), importCheckPointData.getTotalValidationMilliSeconds(), importCheckPointData.getTotalWriteMilliSeconds(),
-                importCheckPointData.getImportFileSize(), importCheckPointData.getInFlyRateBeginMilliSeconds());
+        return (ImportTransientUserData)ImportTransientUserData.Builder.builder()
+                .importPartitionWorkitem(importCheckPointData.importPartitionWorkitem)
+                .numOfProcessedResources(importCheckPointData.numOfProcessedResources)
+                .importPartitionResourceType(importCheckPointData.importPartitionResourceType)
+                .numOfImportedResources(importCheckPointData.numOfImportedResources)
+                .numOfImportFailures(importCheckPointData.numOfImportFailures)
+                .uniqueIDForImportFailureOperationOutcomes(importCheckPointData.uniqueIDForImportFailureOperationOutcomes)
+                .uniqueIDForImportOperationOutcomes(importCheckPointData.uniqueIDForImportOperationOutcomes)
+                .uploadIdForOperationOutcomes(importCheckPointData.uploadIdForOperationOutcomes)
+                .dataPacksForOperationOutcomes(importCheckPointData.dataPacksForOperationOutcomes)
+                .partNumForOperationOutcomes(importCheckPointData.partNumForOperationOutcomes)
+                .uploadIdForFailureOperationOutcomes(importCheckPointData.uploadIdForFailureOperationOutcomes)
+                .dataPacksForFailureOperationOutcomes(importCheckPointData.dataPacksForFailureOperationOutcomes)
+                .partNumForFailureOperationOutcomes(importCheckPointData.partNumForFailureOperationOutcomes)
+                .totalReadMilliSeconds(importCheckPointData.totalReadMilliSeconds)
+                .totalValidationMilliSeconds(importCheckPointData.totalValidationMilliSeconds)
+                .totalWriteMilliSeconds(importCheckPointData.totalWriteMilliSeconds)
+                .importFileSize(importCheckPointData.importFileSize)
+                .inFlyRateBeginMilliSeconds(importCheckPointData.inFlyRateBeginMilliSeconds)
+                .build();
+    }
+
+    public static class Builder extends ImportCheckPointData.Builder {
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        @Override
+        public ImportCheckPointData build(){
+            ImportTransientUserData importTransientUserData = new ImportTransientUserData();
+            importTransientUserData.importPartitionWorkitem = this.importPartitionWorkitem;
+            importTransientUserData.numOfProcessedResources = this.numOfProcessedResources;
+            importTransientUserData.importPartitionResourceType = this.importPartitionResourceType;
+            importTransientUserData.numOfImportedResources = this.numOfImportedResources;
+            importTransientUserData.numOfImportFailures = this.numOfImportFailures;
+            importTransientUserData.uniqueIDForImportFailureOperationOutcomes = this.uniqueIDForImportFailureOperationOutcomes;
+            importTransientUserData.uniqueIDForImportOperationOutcomes = this.uniqueIDForImportOperationOutcomes;
+            importTransientUserData.uploadIdForOperationOutcomes = this.uploadIdForOperationOutcomes;
+            importTransientUserData.dataPacksForOperationOutcomes = this.dataPacksForOperationOutcomes;
+            importTransientUserData.partNumForOperationOutcomes = this.partNumForOperationOutcomes;
+            importTransientUserData.uploadIdForFailureOperationOutcomes = this.uploadIdForFailureOperationOutcomes;
+            importTransientUserData.dataPacksForFailureOperationOutcomes = this.dataPacksForFailureOperationOutcomes;
+            importTransientUserData.partNumForFailureOperationOutcomes = this.partNumForFailureOperationOutcomes;
+            importTransientUserData.totalReadMilliSeconds = this.totalReadMilliSeconds;
+            importTransientUserData.totalValidationMilliSeconds = this.totalValidationMilliSeconds;
+            importTransientUserData.totalWriteMilliSeconds = this.totalWriteMilliSeconds;
+            importTransientUserData.importFileSize = this.importFileSize;
+            importTransientUserData.inFlyRateBeginMilliSeconds = this.inFlyRateBeginMilliSeconds;
+            return importTransientUserData;
+        }
+
     }
 
     public InputStream getInputStream() {

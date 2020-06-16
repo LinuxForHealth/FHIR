@@ -34,24 +34,24 @@ public class CheckPointUserData implements java.io.Serializable {
     private boolean isMoreToExport = true;
     protected int lastWritePageNum;
 
-    public CheckPointUserData() {
-        // Do nothing
+    protected CheckPointUserData() {
+        super();
     }
 
     public static CheckPointUserData fromTransientUserData(TransientUserData userData) {
         return CheckPointUserData.Builder.builder()
-            .pageNum(userData.getPageNum())
-            .uploadId(userData.getUploadId())
-            .cosDataPacks(userData.getCosDataPacks())
-            .partNum(userData.getPartNum())
-            .indexOfCurrentTypeFilter(userData.getIndexOfCurrentTypeFilter())
-            .resourceTypeSummary(userData.getResourceTypeSummary())
-            .totalResourcesNum(userData.getTotalResourcesNum())
-            .currentUploadResourceNum(userData.getCurrentUploadResourceNum())
-            .currentUploadSize(userData.getCurrentUploadSize())
-            .uploadCount(userData.getUploadCount())
-            .lastPageNum(userData.getLastPageNum())
-            .lastWritePageNum(userData.getLastWritePageNum())
+            .pageNum(userData.pageNum)
+            .uploadId(userData.uploadId)
+            .cosDataPacks(userData.cosDataPacks)
+            .partNum(userData.partNum)
+            .indexOfCurrentTypeFilter(userData.indexOfCurrentTypeFilter)
+            .resourceTypeSummary(userData.resourceTypeSummary)
+            .totalResourcesNum(userData.totalResourcesNum)
+            .currentUploadResourceNum(userData.currentUploadResourceNum)
+            .currentUploadSize(userData.currentUploadSize)
+            .uploadCount(userData.uploadCount)
+            .lastPageNum(userData.lastPageNum)
+            .lastWritePageNum(userData.lastWritePageNum)
             .build();
     }
 
@@ -175,10 +175,6 @@ public class CheckPointUserData implements java.io.Serializable {
 
     public List<PartETag> getCosDataPacks() {
         return cosDataPacks;
-    }
-
-    public void setCosDataPacks(List<PartETag> cosDataPacks) {
-        this.cosDataPacks = cosDataPacks;
     }
 
     public int getPartNum() {

@@ -17,108 +17,195 @@ import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 public class ImportCheckPointData implements Serializable {
     private static final long serialVersionUID = 2189917861035732241L;
     // URL or COS/S3 object name.
-    private String importPartitionWorkitem;
+    protected String importPartitionWorkitem;
 
     // Values for metrics calculation.
-    private int numOfProcessedResources = 0;
-    private int numOfImportedResources = 0;
-    private int numOfImportFailures = 0;
-    private long totalReadMilliSeconds = 0;
-    private long totalWriteMilliSeconds = 0;
-    private long totalValidationMilliSeconds = 0;
-    private long importFileSize = 0;
+    protected int numOfProcessedResources = 0;
+    protected int numOfImportedResources = 0;
+    protected int numOfImportFailures = 0;
+    protected long totalReadMilliSeconds = 0;
+    protected long totalWriteMilliSeconds = 0;
+    protected long totalValidationMilliSeconds = 0;
+    protected long importFileSize = 0;
 
-    private long inFlyRateBeginMilliSeconds = 0;
+    protected long inFlyRateBeginMilliSeconds = 0;
 
     // Value used to sign the successful ending of the import.
-    private int numOfToBeImported = 0;
+    protected int numOfToBeImported = 0;
 
     // Parsing failures in current batch.
-    private int numOfParseFailures = 0;
+    protected int numOfParseFailures = 0;
     // Fhir resource type processed in this partition.
-    private String importPartitionResourceType;
+    protected String importPartitionResourceType;
 
     // COS/S3 object name for import OperationOutcomes.
-    private String uniqueIDForImportOperationOutcomes = null;
+    protected String uniqueIDForImportOperationOutcomes = null;
     // Part number for COS/S3 multiple-parts upload.
-    private int partNumForOperationOutcomes = 1;
+    protected int partNumForOperationOutcomes = 1;
     // Upload id for COS/S3 multiple-parts upload.
-    private String uploadIdForOperationOutcomes = null;
+    protected String uploadIdForOperationOutcomes = null;
     // ETags for COS/S3 multiple-parts upload.
-    private List<PartETag> dataPacksForOperationOutcomes = new ArrayList<>();
+    protected List<PartETag> dataPacksForOperationOutcomes = new ArrayList<>();
 
     // COS/S3 object name for import failure OperationOutcomes;
-    private String uniqueIDForImportFailureOperationOutcomes = null;
+    protected String uniqueIDForImportFailureOperationOutcomes = null;
     // Part number for COS/S3 multiple-parts upload.
-    private int partNumForFailureOperationOutcomes = 1;
+    protected int partNumForFailureOperationOutcomes = 1;
     // Upload id for COS/S3 multiple-parts upload.
-    private String uploadIdForFailureOperationOutcomes = null;
+    protected String uploadIdForFailureOperationOutcomes = null;
     // ETags for COS/S3 multiple-parts upload.
-    private List<PartETag> dataPacksForFailureOperationOutcomes = new ArrayList<>();
+    protected List<PartETag> dataPacksForFailureOperationOutcomes = new ArrayList<>();
 
-    public ImportCheckPointData(String importPartitionWorkitem, int numOfProcessedResources, String importPartitionResourceType) {
+    protected ImportCheckPointData() {
         super();
-        this.importPartitionWorkitem = importPartitionWorkitem;
-        this.numOfProcessedResources = numOfProcessedResources;
-        this.importPartitionResourceType = importPartitionResourceType;
-
-        // This naming pattern is used in bulkdata operation to generate file links for import OperationOutcomes.
-        // e.g, for input file test1.ndjson, if there is any error during the importing, then the errors are in 
-        // test1.ndjson_oo_errors.ndjson
-        // Note: for those good imports, we don't really generate any meaningful OperationOutcome, so only error import 
-        //       OperationOutcomes are supported for now.
-        this.setUniqueIDForImportOperationOutcomes(importPartitionWorkitem + "_oo_success.ndjson");
-        this.setUniqueIDForImportFailureOperationOutcomes(importPartitionWorkitem + "_oo_errors.ndjson");
     }
 
+    public static class Builder {
+        protected String importPartitionWorkitem;
+        protected int numOfProcessedResources;
+        protected String importPartitionResourceType;
+        protected int numOfImportedResources;
+        protected int numOfImportFailures;
+        protected String uniqueIDForImportFailureOperationOutcomes;
+        protected String uniqueIDForImportOperationOutcomes;
+        protected String uploadIdForOperationOutcomes;
+        protected List<PartETag> dataPacksForOperationOutcomes;
+        protected int partNumForOperationOutcomes;
+        protected String uploadIdForFailureOperationOutcomes;
+        protected List<PartETag> dataPacksForFailureOperationOutcomes;
+        protected int partNumForFailureOperationOutcomes;
+        protected long totalReadMilliSeconds;
+        protected long totalValidationMilliSeconds;
+        protected long totalWriteMilliSeconds;
+        protected long importFileSize;
+        protected long inFlyRateBeginMilliSeconds;
 
-    public ImportCheckPointData(String importPartitionResourceType, int numOfProcessedResources, long inFlyRateBeginMilliSeconds) {
-        super();
-        this.numOfProcessedResources = numOfProcessedResources;
-        this.importPartitionResourceType = importPartitionResourceType;
-        this.inFlyRateBeginMilliSeconds = inFlyRateBeginMilliSeconds;
+        public Builder() {
+            super();
+        }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public Builder importPartitionWorkitem(String importPartitionWorkitem) {
+            this.importPartitionWorkitem = importPartitionWorkitem;
+            return this;
+        }
+
+        public Builder numOfProcessedResources(int numOfProcessedResources) {
+            this.numOfProcessedResources = numOfProcessedResources;
+            return this;
+        }
+
+        public Builder importPartitionResourceType(String importPartitionResourceType) {
+            this.importPartitionResourceType = importPartitionResourceType;
+            return this;
+        }
+
+        public Builder numOfImportedResources(int numOfImportedResources) {
+            this.numOfImportedResources = numOfImportedResources;
+            return this;
+        }
+
+        public Builder numOfImportFailures(int numOfImportFailures) {
+            this.numOfImportFailures = numOfImportFailures;
+            return this;
+        }
+
+        public Builder uniqueIDForImportFailureOperationOutcomes(String uniqueIDForImportFailureOperationOutcomes) {
+            this.uniqueIDForImportFailureOperationOutcomes = uniqueIDForImportFailureOperationOutcomes;
+            return this;
+        }
+
+        public Builder uniqueIDForImportOperationOutcomes(String uniqueIDForImportOperationOutcomes) {
+            this.uniqueIDForImportOperationOutcomes = uniqueIDForImportOperationOutcomes;
+            return this;
+        }
+
+        public Builder uploadIdForOperationOutcomes(String uploadIdForOperationOutcomes) {
+            this.uploadIdForOperationOutcomes = uploadIdForOperationOutcomes;
+            return this;
+        }
+
+        public Builder dataPacksForOperationOutcomes(List<PartETag> dataPacksForOperationOutcomes) {
+            this.dataPacksForOperationOutcomes = dataPacksForOperationOutcomes;
+            return this;
+        }
+
+        public Builder partNumForOperationOutcomes(int partNumForOperationOutcomes) {
+            this.partNumForOperationOutcomes = partNumForOperationOutcomes;
+            return this;
+        }
+
+        public Builder uploadIdForFailureOperationOutcomes(String uploadIdForFailureOperationOutcomes) {
+            this.uploadIdForFailureOperationOutcomes = uploadIdForFailureOperationOutcomes;
+            return this;
+        }
+
+        public Builder dataPacksForFailureOperationOutcomes(List<PartETag> dataPacksForFailureOperationOutcomes) {
+            this.dataPacksForFailureOperationOutcomes = dataPacksForFailureOperationOutcomes;
+            return this;
+        }
+
+        public Builder partNumForFailureOperationOutcomes(int partNumForFailureOperationOutcomes) {
+            this.partNumForFailureOperationOutcomes = partNumForFailureOperationOutcomes;
+            return this;
+        }
+
+        public Builder totalReadMilliSeconds(long totalReadMilliSeconds) {
+            this.totalReadMilliSeconds = totalReadMilliSeconds;
+            return this;
+        }
+
+        public Builder totalValidationMilliSeconds(long totalValidationMilliSeconds) {
+            this.totalValidationMilliSeconds = totalValidationMilliSeconds;
+            return this;
+        }
+
+        public Builder importFileSize(long importFileSize) {
+            this.importFileSize = importFileSize;
+            return this;
+        }
+
+        public Builder totalWriteMilliSeconds(long totalWriteMilliSeconds) {
+            this.totalWriteMilliSeconds = totalWriteMilliSeconds;
+            return this;
+        }
+
+        public Builder inFlyRateBeginMilliSeconds(long inFlyRateBeginMilliSeconds) {
+            this.inFlyRateBeginMilliSeconds = inFlyRateBeginMilliSeconds;
+            return this;
+        }
+
+        public ImportCheckPointData build(){
+            ImportCheckPointData importCheckPointData = new ImportCheckPointData();
+            importCheckPointData.importPartitionWorkitem = this.importPartitionWorkitem;
+            importCheckPointData.numOfProcessedResources = this.numOfProcessedResources;
+            importCheckPointData.importPartitionResourceType = this.importPartitionResourceType;
+            importCheckPointData.numOfImportedResources = this.numOfImportedResources;
+            importCheckPointData.numOfImportFailures = this.numOfImportFailures;
+            importCheckPointData.uniqueIDForImportFailureOperationOutcomes = this.uniqueIDForImportFailureOperationOutcomes;
+            importCheckPointData.uniqueIDForImportOperationOutcomes = this.uniqueIDForImportOperationOutcomes;
+            importCheckPointData.uploadIdForOperationOutcomes = this.uploadIdForOperationOutcomes;
+            importCheckPointData.dataPacksForOperationOutcomes = this.dataPacksForOperationOutcomes;
+            importCheckPointData.partNumForOperationOutcomes = this.partNumForOperationOutcomes;
+            importCheckPointData.uploadIdForFailureOperationOutcomes = this.uploadIdForFailureOperationOutcomes;
+            importCheckPointData.dataPacksForFailureOperationOutcomes = this.dataPacksForFailureOperationOutcomes;
+            importCheckPointData.partNumForFailureOperationOutcomes = this.partNumForFailureOperationOutcomes;
+            importCheckPointData.totalReadMilliSeconds = this.totalReadMilliSeconds;
+            importCheckPointData.totalValidationMilliSeconds = this.totalValidationMilliSeconds;
+            importCheckPointData.totalWriteMilliSeconds = this.totalWriteMilliSeconds;
+            importCheckPointData.importFileSize = this.importFileSize;
+            importCheckPointData.inFlyRateBeginMilliSeconds = this.inFlyRateBeginMilliSeconds;
+
+            return importCheckPointData;
+        }
     }
 
-    public ImportCheckPointData(String importPartitionWorkitem, int numOfProcessedResources, String importPartitionResourceType,
-            int numOfImportedResources, int numOfImportFailures, String uniqueIDForImportFailureOperationOutcomes, String uniqueIDForImportOperationOutcomes,
-            String uploadIdForOperationOutcomes, List<PartETag> dataPacksForOperationOutcomes, int partNumForOperationOutcomes,
-            String uploadIdForFailureOperationOutcomes, List<PartETag> dataPacksForFailureOperationOutcomes, int partNumForFailureOperationOutcomes,
-            long totalReadMilliSeconds, long totalValidationMilliSeconds, long totalWriteMilliSeconds, long importFileSize, long inFlyRateBeginMilliSeconds) {
-        super();
-        this.importPartitionWorkitem = importPartitionWorkitem;
-        this.numOfProcessedResources = numOfProcessedResources;
-        this.importPartitionResourceType = importPartitionResourceType;
-        this.numOfImportedResources = numOfImportedResources;
-        this.numOfImportFailures = numOfImportFailures;
-        this.uniqueIDForImportFailureOperationOutcomes = uniqueIDForImportFailureOperationOutcomes;
-        this.uniqueIDForImportOperationOutcomes = uniqueIDForImportOperationOutcomes;
-        this.uploadIdForOperationOutcomes = uploadIdForOperationOutcomes;
-        this.dataPacksForOperationOutcomes = dataPacksForOperationOutcomes;
-        this.partNumForOperationOutcomes = partNumForOperationOutcomes;
-        this.uploadIdForFailureOperationOutcomes = uploadIdForFailureOperationOutcomes;
-        this.dataPacksForFailureOperationOutcomes = dataPacksForFailureOperationOutcomes;
-        this.partNumForFailureOperationOutcomes = partNumForFailureOperationOutcomes;
-        this.totalReadMilliSeconds = totalReadMilliSeconds;
-        this.totalValidationMilliSeconds = totalValidationMilliSeconds;
-        this.totalWriteMilliSeconds = totalWriteMilliSeconds;
-        this.importFileSize = importFileSize;
-        this.inFlyRateBeginMilliSeconds = inFlyRateBeginMilliSeconds;
-    }
-
-    public ImportCheckPointData(int numOfProcessedResources, int numOfImportedResources, int numOfImportFailures, String importPartitionResourceType) {
-        super();
-        this.numOfProcessedResources = numOfProcessedResources;
-        this.numOfImportedResources = numOfImportedResources;
-        this.numOfImportFailures = numOfImportFailures;
-        this.importPartitionResourceType = importPartitionResourceType;
-    }
 
     public String getImportPartitionWorkitem() {
         return importPartitionWorkitem;
-    }
-
-    public void setImportPartitionWorkitem(String importPartitionWorkitem) {
-        this.importPartitionWorkitem = importPartitionWorkitem;
     }
 
     public int getNumOfProcessedResources() {
@@ -157,34 +244,38 @@ public class ImportCheckPointData implements Serializable {
         return importPartitionResourceType;
     }
 
-    public void setImportPartitionResourceType(String importPartitionResourceType) {
-        this.importPartitionResourceType = importPartitionResourceType;
-    }
-
     public static ImportCheckPointData fromImportTransientUserData(ImportTransientUserData userData) {
-        return new ImportCheckPointData(userData.getImportPartitionWorkitem(), userData.getNumOfProcessedResources(),
-                userData.getImportPartitionResourceType(), userData.getNumOfImportedResources(), userData.getNumOfImportFailures(),
-                userData.getUniqueIDForImportFailureOperationOutcomes(), userData.getUniqueIDForImportOperationOutcomes(),
-                userData.getUploadIdForOperationOutcomes(), userData.getDataPacksForOperationOutcomes(), userData.getPartNumForOperationOutcomes(),
-                userData.getUploadIdForFailureOperationOutcomes(), userData.getDataPacksForFailureOperationOutcomes(), userData.getPartNumForFailureOperationOutcomes(),
-                userData.getTotalReadMilliSeconds(), userData.getTotalValidationMilliSeconds(), userData.getTotalWriteMilliSeconds(),
-                userData.getImportFileSize(), userData.getInFlyRateBeginMilliSeconds());
+        return ImportCheckPointData.Builder.builder()
+                .importPartitionWorkitem(userData.getImportPartitionWorkitem())
+                .numOfProcessedResources(userData.getNumOfProcessedResources())
+                .importPartitionResourceType(userData.getImportPartitionResourceType())
+                .numOfImportedResources(userData.getNumOfImportedResources())
+                .numOfImportFailures(userData.getNumOfImportFailures())
+                .uniqueIDForImportFailureOperationOutcomes(userData.getUniqueIDForImportFailureOperationOutcomes())
+                .uniqueIDForImportOperationOutcomes(userData.getUniqueIDForImportOperationOutcomes())
+                .uploadIdForOperationOutcomes(userData.getUploadIdForOperationOutcomes())
+                .dataPacksForOperationOutcomes(userData.getDataPacksForOperationOutcomes())
+                .partNumForOperationOutcomes(userData.getPartNumForOperationOutcomes())
+                .uploadIdForFailureOperationOutcomes(userData.getUploadIdForFailureOperationOutcomes())
+                .dataPacksForFailureOperationOutcomes(userData.getDataPacksForFailureOperationOutcomes())
+                .partNumForFailureOperationOutcomes(userData.getPartNumForFailureOperationOutcomes())
+                .totalReadMilliSeconds(userData.getTotalReadMilliSeconds())
+                .totalValidationMilliSeconds(userData.getTotalValidationMilliSeconds())
+                .totalWriteMilliSeconds(userData.getTotalWriteMilliSeconds())
+                .importFileSize(userData.getImportFileSize())
+                .inFlyRateBeginMilliSeconds(userData.getInFlyRateBeginMilliSeconds())
+                .build();
+
+
+
     }
 
     public String getUniqueIDForImportOperationOutcomes() {
         return uniqueIDForImportOperationOutcomes;
     }
 
-    public void setUniqueIDForImportOperationOutcomes(String uniqueIDForImportOKOperationOutcomes) {
-        this.uniqueIDForImportOperationOutcomes = uniqueIDForImportOKOperationOutcomes;
-    }
-
     public String getUniqueIDForImportFailureOperationOutcomes() {
         return uniqueIDForImportFailureOperationOutcomes;
-    }
-
-    public void setUniqueIDForImportFailureOperationOutcomes(String uniqueIDForImportFailureOperationOutcomes) {
-        this.uniqueIDForImportFailureOperationOutcomes = uniqueIDForImportFailureOperationOutcomes;
     }
 
     public int getPartNumForOperationOutcomes() {
@@ -207,10 +298,6 @@ public class ImportCheckPointData implements Serializable {
         return dataPacksForOperationOutcomes;
     }
 
-    public void setDataPacksForOperationOutcomes(List<PartETag> dataPacksForOperationOutcomes) {
-        this.dataPacksForOperationOutcomes = dataPacksForOperationOutcomes;
-    }
-
     public int getPartNumForFailureOperationOutcomes() {
         return partNumForFailureOperationOutcomes;
     }
@@ -229,10 +316,6 @@ public class ImportCheckPointData implements Serializable {
 
     public List<PartETag> getDataPacksForFailureOperationOutcomes() {
         return dataPacksForFailureOperationOutcomes;
-    }
-
-    public void setDataPacksForFailureOperationOutcomes(List<PartETag> dataPacksForFailureOperationOutcomes) {
-        this.dataPacksForFailureOperationOutcomes = dataPacksForFailureOperationOutcomes;
     }
 
     public int getNumOfParseFailures() {

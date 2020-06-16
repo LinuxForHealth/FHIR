@@ -16,24 +16,24 @@ public class TransientUserData extends CheckPointUserData {
     private static final long serialVersionUID = -5892726731783560418L;
     private ByteArrayOutputStream bufferStream = new ByteArrayOutputStream();
 
-    public TransientUserData() {
+    protected TransientUserData() {
         super();
     }
 
     public static TransientUserData fromCheckPointUserData(CheckPointUserData checkPointData) {
         return (TransientUserData)TransientUserData.Builder.builder()
-            .pageNum(checkPointData.getPageNum())
-            .uploadId(checkPointData.getUploadId())
-            .cosDataPacks(checkPointData.getCosDataPacks())
-            .partNum(checkPointData.getPartNum())
-            .indexOfCurrentTypeFilter(checkPointData.getIndexOfCurrentTypeFilter())
-            .resourceTypeSummary(checkPointData.getResourceTypeSummary())
-            .totalResourcesNum(checkPointData.getTotalResourcesNum())
-            .currentUploadResourceNum(checkPointData.getCurrentUploadResourceNum())
-            .currentUploadSize(checkPointData.getCurrentUploadSize())
-            .uploadCount(checkPointData.getUploadCount())
-            .lastPageNum(checkPointData.getLastPageNum())
-            .lastWritePageNum(checkPointData.getLastWritePageNum())
+            .pageNum(checkPointData.pageNum)
+            .uploadId(checkPointData.uploadId)
+            .cosDataPacks(checkPointData.cosDataPacks)
+            .partNum(checkPointData.partNum)
+            .indexOfCurrentTypeFilter(checkPointData.indexOfCurrentTypeFilter)
+            .resourceTypeSummary(checkPointData.resourceTypeSummary)
+            .totalResourcesNum(checkPointData.totalResourcesNum)
+            .currentUploadResourceNum(checkPointData.currentUploadResourceNum)
+            .currentUploadSize(checkPointData.currentUploadSize)
+            .uploadCount(checkPointData.uploadCount)
+            .lastPageNum(checkPointData.lastPageNum)
+            .lastWritePageNum(checkPointData.lastWritePageNum)
             .build();
     }
 

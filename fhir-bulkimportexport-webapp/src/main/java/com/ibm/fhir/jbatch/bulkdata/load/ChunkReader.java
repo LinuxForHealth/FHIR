@@ -172,7 +172,18 @@ public class ChunkReader extends AbstractItemReader {
             checkPointData.setInFlyRateBeginMilliSeconds(System.currentTimeMillis());
             stepCtx.setTransientUserData(ImportTransientUserData.fromImportCheckPointData(checkPointData));
         } else {
-            ImportTransientUserData chunkData = new ImportTransientUserData(importPartitionWorkitem, numOfLinesToSkip, importPartitionResourceType);
+            ImportTransientUserData chunkData = (ImportTransientUserData)ImportTransientUserData.Builder.builder()
+                    .importPartitionWorkitem(importPartitionWorkitem)
+                    .numOfProcessedResources(numOfLinesToSkip)
+                    .importPartitionResourceType(importPartitionResourceType)
+                    // This naming pattern is used in bulkdata operation to generate file links for import OperationOutcomes.
+                    // e.g, for input file test1.ndjson, if there is any error during the importing, then the errors are in
+                    // test1.ndjson_oo_errors.ndjson
+                    // Note: for those good imports, we don't really generate any meaningful OperationOutcome, so only error import
+                    //       OperationOutcomes are supported for now.
+                    .uniqueIDForImportOperationOutcomes(importPartitionWorkitem + "_oo_success.ndjson")
+                    .uniqueIDForImportFailureOperationOutcomes(importPartitionWorkitem + "_oo_errors.ndjson")
+                    .build();
             long importFileSize = 0;
             switch (BulkImportDataSourceStorageType.from(dataSourceStorageType)) {
             case HTTPS:
