@@ -20,15 +20,15 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Build tools
-      run: mvn -B install --file fhir-tools -Dmaven.wagon.http.retryHandler.count=3
+      run: mvn -B install --file fhir-tools -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
     - name: Build samples
-      run: mvn -B install --file fhir-examples -Dmaven.wagon.http.retryHandler.count=3
+      run: mvn -B install --file fhir-examples -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
     - name: Build parent without tests
-      run: mvn -B install --file fhir-parent -DskipTests -P integration -Dmaven.wagon.http.retryHandler.count=3
+      run: mvn -B install --file fhir-parent -DskipTests -P integration -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
     - name: Build sample generator
-      run: mvn -B package --file fhir-examples-generator -Dmaven.wagon.http.retryHandler.count=3
+      run: mvn -B package --file fhir-examples-generator -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
     - name: Build benchmark
-      run: mvn -B package --file fhir-benchmark -Dmaven.wagon.http.retryHandler.count=3
+      run: mvn -B package --file fhir-benchmark -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -103,7 +103,7 @@ jobs:
         # Convert the PROFILES_ARR array to a comma-delimited string
         PROFILES=$(IFS=, ; echo "${PROFILES_ARR[*]}")
         echo "Using profiles ${PROFILES}"
-        mvn -B -T2C package --file fhir-parent -P "${PROFILES}" --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B -T2C package --file fhir-parent -P "${PROFILES}" --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
   e2e-tests:
     runs-on: ubuntu-latest
     strategy:
@@ -128,7 +128,7 @@ jobs:
           export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-releases-${{ matrix.java }}-hotspot-normal-latest/x64/
           JAVADOC_GOAL=" -Pvalidate-javadoc javadoc:javadoc "
         fi
-        mvn -B ${JAVADOC_GOAL} install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B ${JAVADOC_GOAL} install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
     - name: Server Integration Tests
       env:
         # debian-based linux uses C.UTF-8 by default and Derby doesn't like that
@@ -137,7 +137,7 @@ jobs:
         export WORKSPACE=${GITHUB_WORKSPACE}
         build/pre-integration-test.sh
         env
-        mvn -B test -DskipTests=false -f fhir-server-test --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B test -DskipTests=false -f fhir-server-test --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
         build/post-integration-test.sh
     - name: Gather error logs
       if: failure()
@@ -230,16 +230,16 @@ jobs:
         docker rmi $(docker image ls -aq)
         df -h
     - name: Build samples
-      run: mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+      run: mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
     - name: Build parent without tests
       run: |
-        mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
-        mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
+        mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
     - name: Server Integration Tests
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}
         build/pre-integration-test-docker.sh
-        mvn -B test -DskipTests=false -f fhir-server-test --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B test -DskipTests=false -f fhir-server-test --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
         build/post-integration-test-docker.sh
     - name: Gather error logs
       if: failure()
@@ -287,16 +287,16 @@ jobs:
         docker rmi $(docker image ls -aq)
         df -h
     - name: Build samples
-      run: mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+      run: mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
     - name: Build parent without tests
       run: |
-        mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
-        mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
+        mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
     - name: Server Integration Tests
       run: |
         export WORKSPACE=${GITHUB_WORKSPACE}
         build/db2-migration-test-docker.sh
-        mvn -B test -DskipTests=false -f fhir-server-test --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B test -DskipTests=false -f fhir-server-test --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
         build/post-integration-test-docker.sh
     - name: Gather error logs
       if: failure()

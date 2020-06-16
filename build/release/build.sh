@@ -40,7 +40,7 @@ function _mvn {
 
     # Batch mode without the transfer updates.
     mvn ${THREAD_COUNT} -ntp -B "${PROFILES}" source:jar source:test-jar javadoc:jar install \
-        -DadditionalJOption=-Xdoclint:none -f ${PROJECT_PATH} -Dmaven.wagon.http.retryHandler.count=3
+        -DadditionalJOption=-Xdoclint:none -f ${PROJECT_PATH} -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
 
     check_and_fail $? "${FUNCNAME[0]} - stopped - ${PROJECT_PATH}"
 }
@@ -52,7 +52,7 @@ function _mvn2 {
     PROFILES="$2"
 
     # Batch mode without the transfer updates.
-    mvn ${THREAD_COUNT} -ntp -B "${PROFILES}" install -DskipTests -f ${PROJECT_PATH} -Dmaven.wagon.http.retryHandler.count=3
+    mvn ${THREAD_COUNT} -ntp -B "${PROFILES}" install -DskipTests -f ${PROJECT_PATH} -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
     check_and_fail $? "${FUNCNAME[0]} - stopped - ${PROJECT_PATH}"
 }
 

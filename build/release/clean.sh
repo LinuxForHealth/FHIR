@@ -35,7 +35,7 @@ function build_clean {
 
     PROJECT_PATH="$1"
 
-    mvn ${THREAD_COUNT} clean -ntp -B -f ${PROJECT_PATH} -Dmaven.wagon.http.retryHandler.count=3
+    mvn ${THREAD_COUNT} clean -ntp -B -f ${PROJECT_PATH} -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
     check_and_fail $? "build_clean - finish"
 }
 

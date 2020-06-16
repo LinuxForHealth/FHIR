@@ -37,7 +37,7 @@ function code_coverage {
     PROFILES="$2"
 
     # Batch mode without the transfer updates.
-    mvn ${THREAD_COUNT} -ntp -B "${PROFILES}" test jacoco:report-aggregate -f ${PROJECT_PATH} -Dmaven.wagon.http.retryHandler.count=3
+    mvn ${THREAD_COUNT} -ntp -B "${PROFILES}" test jacoco:report-aggregate -f ${PROJECT_PATH} -Dmaven.wagon.http.retryHandler.count=3 -Dmaven.wagon.http.pool=false
     check_and_fail $? "${FUNCNAME[0]} - stopped - ${PROJECT_PATH}"
 }
 
