@@ -6,37 +6,46 @@
 
 package com.ibm.fhir.persistence.jdbc;
 
+import java.sql.Connection;
+
 import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
 import com.ibm.fhir.persistence.jdbc.postgresql.PostgreSqlResourceDAO;
 
+/**
+ * Factory for constructing ResourceDAO implementations specific to a
+ * particular {@link FHIRDbFlavor}.
+ */
 public class FHIRResourceDAOFactory {
 
     /**
      * Construct a new ResourceDAO implementation matching the database type
-     * @param strat
+     * @param connection valid connection to the database
+     * @param schemaName the name of the schema containing the FHIR resource tables
+     * @param flavor the type and capability of the database and schema
      * @param trxSynchRegistry
      * @return a concrete implementation of {@link ResourceDAO}
      * @throws IllegalArgumentException
      * @throws FHIRPersistenceException
      */
-    public static ResourceDAO getResourceDAO(FHIRDbConnectionStrategy strat, TransactionSynchronizationRegistry trxSynchRegistry)
+    public static ResourceDAO getResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry)
         throws IllegalArgumentException, FHIRPersistenceException {
         ResourceDAO resourceDAO = null;
-        switch (strat.getFlavor().getType()) {
+        
+        switch (flavor.getType()) {
         case DB2:
-            resourceDAO = new ResourceDAOImpl(strat, trxSynchRegistry);
+            resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor, trxSynchRegistry);
             break;
         case Derby:
-            resourceDAO = new DerbyResourceDAO(strat, trxSynchRegistry);
+            resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, trxSynchRegistry);
             break;
         case PostgreSQL:
-            resourceDAO = new PostgreSqlResourceDAO(strat, trxSynchRegistry);
+            resourceDAO = new PostgreSqlResourceDAO(connection, schemaName, flavor, trxSynchRegistry);
             break;
         }
         return resourceDAO;
@@ -44,22 +53,24 @@ public class FHIRResourceDAOFactory {
 
     /**
      * Construct a new ResourceDAO implementation matching the database type
-     * @param strat
+     * @param connection valid connection to the database
+     * @param schemaName the name of the schema containing the FHIR resource tables
+     * @param flavor the type and capability of the database and schema
      * @return a concrete implementation of {@link ResourceDAO}
      * @throws IllegalArgumentException
      * @throws FHIRPersistenceException
      */
-    public static ResourceDAO getResourceDAO(FHIRDbConnectionStrategy strat) throws IllegalArgumentException, FHIRPersistenceException {
+    public static ResourceDAO getResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor) throws IllegalArgumentException, FHIRPersistenceException {
         ResourceDAO resourceDAO = null;
-        switch (strat.getFlavor().getType()) {
+        switch (flavor.getType()) {
         case DB2:
-            resourceDAO = new ResourceDAOImpl(strat);
+            resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor);
             break;
         case Derby:
-            resourceDAO = new DerbyResourceDAO(strat);
+            resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor);
             break;
         case PostgreSQL:
-            resourceDAO = new PostgreSqlResourceDAO(strat);
+            resourceDAO = new PostgreSqlResourceDAO(connection, schemaName, flavor);
             break;
         }
         return resourceDAO;

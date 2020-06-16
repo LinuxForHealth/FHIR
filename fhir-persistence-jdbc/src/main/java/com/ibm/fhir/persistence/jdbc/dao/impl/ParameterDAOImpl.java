@@ -7,7 +7,6 @@
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -15,9 +14,8 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
-import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
@@ -55,8 +53,8 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
      */
-    public ParameterDAOImpl(FHIRDbConnectionStrategy strat, TransactionSynchronizationRegistry trxSynchRegistry) {
-        super(strat);
+    public ParameterDAOImpl(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry) {
+        super(connection, schemaName, flavor);
         this.trxSynchRegistry = trxSynchRegistry;
         this.runningInTrx = true;
     }
@@ -66,8 +64,8 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
      * The connection used by this instance for all DB operations will be the passed connection.
      * @param Connection - A database connection that will be managed by the caller.
      */
-    public ParameterDAOImpl(FHIRDbConnectionStrategy strat) {
-        super(strat);
+    public ParameterDAOImpl(Connection connection, String schemaName, FHIRDbFlavor flavor) {
+        super(connection, schemaName, flavor);
         
         // For unit-tests, we don't use managed transactions, so don't have any sync registry.
         this.trxSynchRegistry = null;
@@ -80,13 +78,11 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         final String METHODNAME = "readAllSearchParameterNames";
         log.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = null;
+        Connection connection = getConnection(); // do not close
         try {
-            connection = this.getConnection();
-            ParameterNameDAO pnd = new ParameterNameDAOImpl(connection);
+            ParameterNameDAO pnd = new ParameterNameDAOImpl(connection, getSchemaName());
             return pnd.readAllSearchParameterNames();
         } finally {
-            this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
@@ -97,13 +93,11 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         final String METHODNAME = "readAllCodeSystems";
         log.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = null;
+        Connection connection = getConnection(); // do not close
         try {
-            connection = this.getConnection();
-            CodeSystemDAO csd = new CodeSystemDAOImpl(connection);
+            CodeSystemDAO csd = new CodeSystemDAOImpl(connection, getSchemaName());
             return csd.readAllCodeSystems();
         } finally {
-            this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
@@ -122,27 +116,25 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         final String METHODNAME = "readOrAddParameterNameId";
         log.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = null;
+        Connection connection = getConnection(); // do not close
 
         try {
-            connection = this.getConnection();
-            
-            // TODO use connection provider flavor to get the database type
-            String dbProductName = connection.getMetaData().getDatabaseProductName().toLowerCase();
             ParameterNameDAO pnd;
-            if (dbProductName.equals(DbType.POSTGRESQL.value())) {
-                pnd = new PostgreSqlParameterNamesDAO(connection);
-            } else if (dbProductName.contains(DbType.DERBY.value())) {
-                pnd = new DerbyParameterNamesDAO(connection);
-            } else {
-                pnd = new ParameterNameDAOImpl(connection);
+            switch (getFlavor().getType()) {
+            case Derby:
+                pnd = new DerbyParameterNamesDAO(connection, getSchemaName());
+                break;
+            case PostgreSQL:
+                pnd = new PostgreSqlParameterNamesDAO(connection, getSchemaName());
+                break;
+            default:
+                pnd = new ParameterNameDAOImpl(connection, getSchemaName());
+                break;
+            
             }
 
             return pnd.readOrAddParameterNameId(parameterName);
-        } catch (SQLException e) {
-            throw new FHIRPersistenceDataAccessException("Failed to tell database type from connection!", e);
         } finally {
-            this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
@@ -161,24 +153,24 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         final String METHODNAME = "readOrAddCodeSystemId";
         log.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = null;
+        Connection connection = getConnection(); // do not close
         try {
-            connection = this.getConnection();
-            String dbProductName = connection.getMetaData().getDatabaseProductName().toLowerCase();
             CodeSystemDAO csd;
-            if (dbProductName.equals(DbType.POSTGRESQL.value())) {
-                csd = new PostgreSqlCodeSystemDAO(connection);
-            } else if (dbProductName.contains(DbType.DERBY.value())) {
-                csd = new DerbyCodeSystemDAO(connection);
-            } else {
-                csd = new CodeSystemDAOImpl(connection);
+            
+            switch (getFlavor().getType()) {
+            case Derby:
+                csd = new DerbyCodeSystemDAO(connection, getSchemaName());
+                break;
+            case PostgreSQL:
+                csd = new PostgreSqlCodeSystemDAO(connection, getSchemaName());
+                break;
+            default:
+                csd = new CodeSystemDAOImpl(connection, getSchemaName());
+                break;
             }
-
+            
             return csd.readOrAddCodeSystem(codeSystemName);
-        } catch (SQLException e) {
-            throw new FHIRPersistenceDataAccessException("Failed to tell database type from connection!", e);
         } finally {
-            this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
@@ -349,13 +341,11 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         final String METHODNAME = "readParameterNameId";
         log.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = null;
+        Connection connection = getConnection(); // do not close
         try {
-            connection = this.getConnection();
-            ParameterNameDAO pnd = new ParameterNameDAOImpl(connection);
+            ParameterNameDAO pnd = new ParameterNameDAOImpl(connection, getSchemaName());
             return pnd.readParameterNameId(parameterName);
         } finally {
-            this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
@@ -365,13 +355,11 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         final String METHODNAME = "readCodeSystemId";
         log.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = null;
+        Connection connection = getConnection(); // do not close
         try {
-            connection = this.getConnection();
-            CodeSystemDAO csd = new CodeSystemDAOImpl(connection);
+            CodeSystemDAO csd = new CodeSystemDAOImpl(connection, getSchemaName());
             return csd.readCodeSystemId(codeSystemName);
         } finally {
-            this.cleanup(null, connection);
             log.exiting(CLASSNAME, METHODNAME);
         }
     }

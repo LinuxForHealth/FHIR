@@ -48,10 +48,9 @@ public class FHIRDbDAOTest {
 
             Action action = new SetSchemaAction("FHIRDATA");
             FHIRDbConnectionStrategy strat = new FHIRDbTestConnectionStrategy(connectionPool, action);
-            FHIRDbDAO dao = new FHIRDbDAOImpl(strat);
 
             // We only ask the DAO for a connection
-            try (Connection c = dao.getConnection()) {
+            try (Connection c = strat.getConnection()) {
                 assertNotNull(c);
             }
         }
@@ -75,10 +74,9 @@ public class FHIRDbDAOTest {
 
         // Need a connection provider for DB2
         FHIRDbConnectionStrategy strat = new FHIRDbPropsConnectionStrategy(props);
-        FHIRDbDAO dao = new FHIRDbDAOImpl(strat);
 
         // We only ask the DAO for a connection
-        try (Connection c = dao.getConnection()) {
+        try (Connection c = strat.getConnection()) {
             assertNotNull(c);
         }
     }

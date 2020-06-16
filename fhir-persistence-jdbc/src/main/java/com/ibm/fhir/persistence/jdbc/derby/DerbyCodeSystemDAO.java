@@ -28,8 +28,8 @@ public class DerbyCodeSystemDAO extends CodeSystemDAOImpl {
      * @param c
      * @param fsd
      */
-    public DerbyCodeSystemDAO(Connection c) {
-        super(c);
+    public DerbyCodeSystemDAO(Connection c, String schemaName) {
+        super(c, schemaName);
         this.fhirRefSequenceDAO = new FhirRefSequenceDAOImpl(c);
     }
 

@@ -9,7 +9,6 @@ package com.ibm.fhir.persistence.jdbc.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +23,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
-import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBCleanupException;
@@ -32,32 +31,62 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
- * This class is a root Data Access Object for managing JDBC access to the FHIR database. It contains common functions
- * for managing connections, closing used
- * JDBC resources, and running database queries.
+ * This class is a root Data Access Object for managing JDBC access to the FHIR database.
+ * As of 2020-06-16, connection handling is factored out of the DAO and is instead the
+ * responsibility of the FHIRPersistenceJDBCImpl. Each DAO therefore requires a
+ * connection to be passed to it. This is good for separation of concerns, because the
+ * DAO code shouldn't care where the connection comes from. As each DAO is stateless,
+ * and lightweight, they can be created on-the-fly and handed a connection in the
+ * constructor. This pattern avoids polluting every method call with a connection
+ * parameter.
  */
 public class FHIRDbDAOImpl implements FHIRDbDAO {
     private static final Logger log = Logger.getLogger(FHIRDbDAOImpl.class.getName());
     private static final String CLASSNAME = FHIRDbDAOImpl.class.getName();
     private static final String NEWLINE = System.getProperty("line.separator");
+
+    // The connection the DAO operates against
+    private final Connection connection;
     
-    // The strategy we've been given to obtain (and configure) connections
-    private final FHIRDbConnectionStrategy connectionStrategy;
+    // The name of the FHIR data schema (containing the FHIR resource tables).
+    private final String schemaName;
+    
+    // The type of database we are connected to. Perhaps should use translator instead?
+    private final FHIRDbFlavor flavor;
 
     /**
      * Constructs a DAO instance suitable for acquiring DB connections via JNDI from the app server.
      */
-    public FHIRDbDAOImpl(FHIRDbConnectionStrategy connectionStrategy) {
+    public FHIRDbDAOImpl(Connection connection, String schemaName, FHIRDbFlavor flavor) {
         super();
-        this.connectionStrategy = connectionStrategy;
+        this.connection = connection;
+        this.schemaName = schemaName;
+        this.flavor = flavor;
     }
 
     /**
-     * Getter for the connection strategy configured for this DAO
+     * Getter for the connection being used by this DAO.
      * @return
      */
-    public FHIRDbConnectionStrategy getConnectionStrategy() {
-        return this.connectionStrategy;
+    @Override
+    public Connection getConnection() {
+        return this.connection;
+    }
+
+    /**
+     * Getter for the schema name we've been configured for
+     * @return
+     */
+    public String getSchemaName() {
+        return this.schemaName;
+    }
+
+    /**
+     * Get the flavor we need
+     * @return
+     */
+    public FHIRDbFlavor getFlavor() {
+        return this.flavor;
     }
 
     /**
@@ -95,28 +124,13 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         return fx;
     }
 
-    @Override
-    public Connection getConnection() throws FHIRPersistenceDBConnectException {
-        final String METHODNAME = "getConnection";
-        
-        if (log.isLoggable(Level.FINEST)) {
-            log.entering(CLASSNAME, METHODNAME);
-        }
-        
-        // delegate to our connection strategy
-        return this.connectionStrategy.getConnection();
-
-
-    }
-
-
     /**
-     * Closes the passed PreparedStatement and Connection objects.
+     * Closes the passed PreparedStatement.
      *
      * @param stmt
      * @param connection
      */
-    protected void cleanup(PreparedStatement stmt, Connection connection) {
+    protected void cleanup(PreparedStatement stmt) {
         final String METHODNAME = "cleanup(PreparedStatement, Connection)";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -131,34 +145,17 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             }
         }
         
-        // Always close the connection after we're done using it. The connection object
-        // here is just a wrapper. If we're in a transaction, then closing it doesn't do
-        // much, other than tell the transaction manager that the connection is no longer
-        // in use. The transaction manager still holds the underlying database connection
-        // open, and will use that connection the next time getConnection() is called
-        // for the same datasource within this thread. Only when the transaction commits
-        // will the connection be returned to the pool (or closed).
-        // If connections remain open when commit() is called, the transaction will fail.
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (Throwable e) {
-                // log the failure, but suppress the exception
-                ce = new FHIRPersistenceDBCleanupException("Failure closing Connection.", e);
-                log.log(Level.SEVERE, ce.getMessage(), ce);
-            }
-        }
         log.exiting(CLASSNAME, METHODNAME);
     }
 
     /**
-     * Closes the passed ResultSet, PreparedStatement, and Connection objects.
+     * Closes the passed ResultSet, PreparedStatement. We are no longer responsible
+     * for Connections so don't close them
      *
      * @param resultSet
      * @param stmt
-     * @param connection
      */
-    protected void cleanup(ResultSet resultSet, PreparedStatement stmt, Connection connection) {
+    protected void cleanup(ResultSet resultSet, PreparedStatement stmt) {
         final String METHODNAME = "cleanup(PreparedStatement, Connection)";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -172,7 +169,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                 log.log(Level.SEVERE, ce.getMessage(), ce);
             }
         }
-        this.cleanup(stmt, connection);
+        this.cleanup(stmt);
         log.exiting(CLASSNAME, METHODNAME);
     }
 
@@ -192,7 +189,6 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         log.entering(CLASSNAME, METHODNAME);
 
         List<Resource> fhirObjects = new ArrayList<>();
-        Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
         String errMsg;
@@ -200,7 +196,6 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         double dbCallDuration;
 
         try {
-            connection = this.getConnection();
             stmt = connection.prepareStatement(sql);
             // Inject arguments into the prepared stmt.
             for (int i = 0; i < searchArgs.length; i++) {
@@ -229,7 +224,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             errMsg = "Failure retrieving FHIR objects. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs);
             throw severe(log, fx, errMsg, e);
         } finally {
-            this.cleanup(resultSet, stmt, connection);
+            this.cleanup(resultSet, stmt);
             log.exiting(CLASSNAME, METHODNAME);
         }
 
@@ -252,7 +247,6 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         log.entering(CLASSNAME, METHODNAME);
 
         int rowCount = 0;
-        Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
         String errMsg =
@@ -261,7 +255,6 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         double dbCallDuration;
 
         try {
-            connection = this.getConnection();
             stmt = connection.prepareStatement(sql);
             // Inject arguments into the prepared stmt.
             for (int i = 0; i < searchArgs.length; i++) {
@@ -295,7 +288,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                     new FHIRPersistenceDataAccessException("Server error: failure retrieving count");
             throw severe(log, fx, errMsg, e);
         } finally {
-            this.cleanup(resultSet, stmt, connection);
+            this.cleanup(resultSet, stmt);
             log.exiting(CLASSNAME, METHODNAME);
         }
 
@@ -345,30 +338,9 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         return null;
     }
 
-    // TODO remove after refactor
-//    private Properties getDbProps() {
-//        return dbProps;
-//    }
-//
-//    private void setDbProps(Properties dbProps) {
-//        this.dbProps = dbProps;
-//    }
-
-//    @Override
-//    public Connection getExternalConnection() {
-//        return externalConnection;
-//    }
-//
-//    @Override
-//    public void setExternalConnection(Connection externalConnection) {
-//        this.externalConnection = externalConnection;
-//    }
-
     @Override
-    public boolean isDb2Database() throws FHIRPersistenceException, SQLException {
-        // Ask the connection strategy if the associated database is Db2.
-        // This should be the responsibility of the translator
-        return this.connectionStrategy.getFlavor().getType() == DatabaseType.DB2;
+    public boolean isDb2Database() {
+        return this.flavor.getType() == DatabaseType.DB2;
     }
 
     protected FHIRPersistenceDataAccessException buildExceptionWithIssue(String msg, IssueType issueType)
@@ -397,7 +369,6 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         final String METHODNAME = "runQuery_STR_VALUES";
         log.entering(CLASSNAME, METHODNAME);
         List<String> strValues = new ArrayList<String>();
-        Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
         String errMsg;
@@ -405,7 +376,6 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         double dbCallDuration;
 
         try {
-            connection = this.getConnection();
             stmt = connection.prepareStatement(sql);
             // Inject arguments into the prepared stmt.
             for (int i = 0; i < searchArgs.length; i++) {
@@ -427,8 +397,6 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                 log.fine("Successfully retrieved string values. SQL=" + sql + "  searchArgs="
                         + Arrays.toString(searchArgs) + " executionTime=" + dbCallDuration + "ms");
             }
-        } catch (FHIRPersistenceException e) {
-            throw e;
         } catch (Throwable e) {
             // avoid leaking SQL because the exception message might be returned to a client
             FHIRPersistenceDataAccessException fx =
@@ -436,7 +404,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             errMsg = "Failure retrieving string values. SQL=" + sql + "  searchArgs=" + Arrays.toString(searchArgs);
             throw severe(log, fx, errMsg, e);
         } finally {
-            this.cleanup(resultSet, stmt, connection);
+            this.cleanup(resultSet, stmt);
             log.exiting(CLASSNAME, METHODNAME);
         }
         return strValues;

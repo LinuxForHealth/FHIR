@@ -39,12 +39,16 @@ public class ParameterNameDAOImpl implements ParameterNameDAO {
 
     // The JDBC connection to be used by this instance of the DAO
     private final Connection connection;
+    
+    // The FHIR data schema
+    private final String schemaName;
 
     /**
      * Public constructor
      */
-    public ParameterNameDAOImpl(Connection connection) {
+    public ParameterNameDAOImpl(Connection connection, String schemaName) {
         this.connection = connection;
+        this.schemaName = schemaName;
     }
 
     /**
@@ -53,6 +57,14 @@ public class ParameterNameDAOImpl implements ParameterNameDAO {
      */
     protected Connection getConnection() {
         return this.connection;
+    }
+
+    /**
+     * Get the name of the FHIR data schema we are using
+     * @return
+     */
+    protected String getSchemaName() {
+        return this.schemaName;
     }
 
     @Override
@@ -105,16 +117,13 @@ public class ParameterNameDAOImpl implements ParameterNameDAO {
         log.entering(CLASSNAME, METHODNAME);
 
         int parameterNameId;
-        String currentSchema;
         String stmtString;
         String errMsg = "Failure storing search parameter name id: name=" + parameterName;
         long dbCallStartTime;
         double dbCallDuration;
 
         try {
-            // TODO: schema should be known by application. Fix to avoid an extra round-trip.
-            currentSchema = connection.getSchema().trim();
-            stmtString = String.format(SQL_CALL_ADD_PARAMETER_NAME, currentSchema);
+            stmtString = String.format(SQL_CALL_ADD_PARAMETER_NAME, schemaName);
             try (CallableStatement stmt = connection.prepareCall(stmtString)) {
                 stmt.setString(1, parameterName);
                 stmt.registerOutParameter(2, Types.INTEGER);

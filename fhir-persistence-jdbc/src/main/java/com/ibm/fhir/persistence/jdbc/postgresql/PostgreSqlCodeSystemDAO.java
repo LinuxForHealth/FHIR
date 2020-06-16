@@ -30,8 +30,8 @@ public class PostgreSqlCodeSystemDAO extends CodeSystemDAOImpl {
      * @param c
      * @param fsd
      */
-    public PostgreSqlCodeSystemDAO(Connection c) {
-        super(c);
+    public PostgreSqlCodeSystemDAO(Connection c, String schemaName) {
+        super(c, schemaName);
     }
 
     /**
@@ -48,14 +48,12 @@ public class PostgreSqlCodeSystemDAO extends CodeSystemDAOImpl {
         log.entering(CLASSNAME, METHODNAME);
 
         int systemId;
-        String currentSchema;
         String stmtString;
         long dbCallStartTime;
         double dbCallDuration;
 
         try {
-            currentSchema = getConnection().getSchema().trim();
-            stmtString = String.format(SQL_CALL_ADD_CODE_SYSTEM_ID, currentSchema);
+            stmtString = String.format(SQL_CALL_ADD_CODE_SYSTEM_ID, getSchemaName());
             try (CallableStatement stmt = getConnection().prepareCall(stmtString)) {
                 stmt.setString(1, systemName);
                 stmt.registerOutParameter(2, Types.INTEGER);

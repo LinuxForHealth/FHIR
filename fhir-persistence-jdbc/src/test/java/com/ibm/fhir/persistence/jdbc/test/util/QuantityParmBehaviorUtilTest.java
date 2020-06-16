@@ -177,7 +177,7 @@ public class QuantityParmBehaviorUtilTest {
             }
 
             @Override
-            public boolean isDb2Database() throws Exception {
+            public boolean isDb2Database() {
                 return false;
             }
 

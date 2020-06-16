@@ -63,7 +63,6 @@ public class PopulateStaticTablesDerbyTest {
         
         FHIRDbConnectionStrategy strat = new FHIRDbTestConnectionStrategy(testHelper.getConnectionProvider(), disableAC);
         
-        FHIRDbDAO dao = new FHIRDbDAOImpl(strat);
         boolean result1 = false;
         boolean result2 = false;
 
@@ -72,7 +71,7 @@ public class PopulateStaticTablesDerbyTest {
         // This ensures that an open connection will have its transaction committed before
         // it is closed.
         try (ITransaction tx = testHelper.transaction()) {
-            try (Connection connection = dao.getConnection()) {
+            try (Connection connection = strat.getConnection()) {
                 assertNotNull(connection);
                 try (PreparedStatement stmt =
                         connection.prepareStatement("SELECT COUNT(*) FROM FHIRDATA.PARAMETER_NAMES")) {

@@ -143,6 +143,11 @@ public class DerbyInitializer {
     public IConnectionProvider getConnectionProvider(boolean reset) throws FHIRPersistenceDBConnectException, SQLException {
         bootstrapDb(reset);
         JdbcPropertyAdapter propAdapter = new JdbcPropertyAdapter(this.dbProps);
+        
+        // make sure the schema name is correctly set in the properties
+        String fhirDataSchema = getDataSchemaName();
+        propAdapter.setDefaultSchema(fhirDataSchema);
+        
         return new JdbcConnectionProvider(new DerbyTranslator(), propAdapter);
     }
 }
