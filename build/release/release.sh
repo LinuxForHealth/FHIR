@@ -36,7 +36,7 @@ function deploy_bintray {
     PROFILES="-Pdeploy-bintray,fhir-javadocs"
     TYPE="${2}"
 
-    mvn ${THREAD_COUNT} -ntp -B ${PROFILES} deploy -f ${PROJECT_PATH} -Dbintray.repo=ibm-fhir-server-${TYPE} -DskipTests -s build/release/.m2/settings.xml
+    mvn ${THREAD_COUNT} -ntp -B ${PROFILES} deploy -f ${PROJECT_PATH} -Dbintray.repo=ibm-fhir-server-${TYPE} -DskipTests -s build/release/.m2/settings.xml -Dmaven.wagon.http.retryHandler.count=3
     check_and_fail $? "${FUNCNAME[0]} - stopped - ${PROJECT_PATH}"
 }
 
