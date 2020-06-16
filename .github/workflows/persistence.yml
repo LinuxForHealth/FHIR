@@ -1,0 +1,46 @@
+name: Integration - Persistence
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '.github/site.yml'
+      - '.github/release.yml'
+
+jobs:
+  e2e-persistence:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 'openjdk11' ]
+        persistence: [ 'postgres' ]
+      fail-fast: false
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2
+    - name: Set up java
+      uses: joschi/setup-jdk@v1
+      with:
+        java-version: ${{ matrix.java }}
+    - name: Setup prerequisites
+      env: 
+        WORKSPACE: ${{ github.workspace }}
+      run: bash build/persistence/bin/setup-prerequisites.sh ${{matrix.persistence}}
+    - name: Server Integration Tests - Additional Persistence Layers
+      env: 
+        WORKSPACE: ${{ github.workspace }}
+      run: |
+        bash build/persistence/bin/pre-integration-test.sh ${{matrix.persistence}}
+        bash build/persistence/bin/integration-test.sh ${{matrix.persistence}}
+        bash build/persistence/bin/post-integration-test.sh ${{matrix.persistence}}
+    - name: Gather error logs
+      if: failure()
+      env: 
+        WORKSPACE: ${{ github.workspace }}
+      run: bash build/persistence/bin/gather-logs.sh ${{matrix.persistence}}
+    - name: Upload logs
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: integration-test-results-${{ matrix.persistence }}-${{ matrix.java }}
+        path: build/persistence/integration-test-results

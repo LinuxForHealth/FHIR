@@ -30,10 +30,10 @@
                 "default": {
                     "type": "postgresql",
                     "connectionProperties": {
-                        "serverName": "localhost",
+                        "serverName": "postgres_postgres_1",
                         "portNumber": 5432,
-                        "databaseName": "fhirdata",
-                        "user": "fhirserver",
+                        "databaseName": "fhirdb",
+                        "user": "fhiradmin",
                         "password": "change-password",
                         "currentSchema": "fhirdata"
                     }
