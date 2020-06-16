@@ -20,7 +20,7 @@
             },
             "jdbc": {
                 "__comment": "Configuration properties for the JDBC persistence implementation",
-                "bootstrapDb": false,
+                "bootstrapDb": true,
                 "dataSourceJndiName": "jdbc/fhirProxyDataSource",
                 "enableCodeSystemsCache": true,
                 "enableParameterNamesCache": true,
