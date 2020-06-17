@@ -147,65 +147,6 @@ public class SearchUtil {
     }
 
     /**
-     * Returns the list of search parameters for the specified resource type and the
-     * current tenant.
-     *
-     * @param resourceType
-     *                     a Class representing the resource type associated with
-     *                     the search parameters to be returned.
-     * @throws Exception
-     */
-    public static List<SearchParameter> getSearchParameters(Class<?> resourceType) throws Exception {
-        return getSearchParameters(resourceType.getSimpleName());
-    }
-
-    /**
-     * This function will return a list of all SearchParameters associated with the
-     * specified resource type and the current tenant-id.
-     * The result will include both built-in and tenant-specific
-     * SearchParameters for the specified resource type.
-     *
-     * @param resourceType
-     *                     the resource type associated with the search parameters
-     *                     to be returned
-     * @return the list of built-in and tenant-specific search parameters associated
-     *         with the specified resource type
-     * @throws Exception
-     */
-    public static List<SearchParameter> getSearchParameters(String resourceType) throws Exception {
-
-        List<SearchParameter> result = new ArrayList<>();
-
-        try {
-            String tenantId = FHIRRequestContext.get().getTenantId();
-            if (log.isLoggable(Level.FINEST)) {
-                log.finest("Retrieving SearchParameters for tenant-id '" + tenantId + "' and resource type '"
-                        + resourceType + "'.");
-            }
-
-            // First retrieve built-in search parameters for this resource type and add them to the result.
-            // We'll filter these built-in search parameters to include only the ones
-            // specified by the tenant's filtering (inclusion) rules.
-            ParametersMap spMapResourceType = ParametersUtil.getBuiltInSearchParametersMap().get(resourceType);
-            if (spMapResourceType != null && !spMapResourceType.isEmpty()) {
-                // Retrieve the current tenant's search parameter filtering rules.
-                Map<String, List<String>> filterRules = getFilterRules();
-
-                // Add only the "included" search parameters for this resource type to our result list.
-                result.addAll(filterSearchParameters(filterRules, resourceType, spMapResourceType.values()));
-            }
-
-            // Next, retrieve the specified tenant's search parameters for this resource type and add those
-            // to the result as well.
-            result.addAll(getUserDefinedSearchParameters(resourceType));
-        } finally {
-            // No Operation
-        }
-
-        return result;
-    }
-
-    /**
      * Retrieves user-defined SearchParameters associated with the specified
      * resource type and current tenant id.
      *
@@ -976,8 +917,7 @@ public class SearchUtil {
 
     /**
      * Retrieves the applicable search parameters for the specified resource type,
-     * then builds a map from it, keyed by
-     * search parameter name for quick access.
+     * then builds a map from it, keyed by search parameter name for quick access.
      */
     public static Map<String, SearchParameter> getApplicableSearchParametersMap(String resourceType) throws Exception {
         Map<String, SearchParameter> result = new HashMap<>();

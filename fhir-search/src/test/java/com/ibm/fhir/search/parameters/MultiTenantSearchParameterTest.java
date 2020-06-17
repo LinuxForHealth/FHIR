@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -159,7 +159,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         // Use tenant3 since it doesn't have any tenant-specific search parameters.
         FHIRRequestContext.set(new FHIRRequestContext("tenant3"));
 
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Patient");
+        List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters2", result);
         assertEquals(29, result.size());
@@ -347,7 +347,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         searchParameter = SearchUtil.getSearchParameter(Patient.class, "favorite-color");
         assertNotNull(searchParameter);
 
-        List<SearchParameter> result = SearchUtil.getSearchParameters("Patient");
+        List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testDynamicSearchParameters2/Patient", result);
         assertEquals(35, result.size());
@@ -365,7 +365,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         searchParameter = SearchUtil.getSearchParameter(Patient.class, "favorite-color");
         assertNull(searchParameter);
 
-        result = SearchUtil.getSearchParameters("Patient");
+        result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testDynamicSearchParameters2/Patient", result);
         assertNotEquals(33, result.size());
@@ -380,7 +380,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         searchParameter = SearchUtil.getSearchParameter(Patient.class, "favorite-color");
         assertNotNull(searchParameter);
 
-        result = SearchUtil.getSearchParameters("Patient");
+        result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testDynamicSearchParameters2/Patient", result);
         assertEquals(35, result.size());
