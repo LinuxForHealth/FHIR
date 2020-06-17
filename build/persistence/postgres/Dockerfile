@@ -25,4 +25,12 @@ COPY --chown=postgres:postgres resources/db.sql /docker-entrypoint-initdb.d/db.s
 COPY --chown=postgres:postgres resources/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod 755 /docker-entrypoint.sh
 
+# Add the fhiradmin user
+RUN addgroup -S fhir && adduser -S fhiradmin -G fhir
+RUN echo "fhiradmin:change-password" | chpasswd
+
+# Add the fhirserver user
+RUN addgroup -S fhir && adduser -S fhirserver -G fhir
+RUN echo "fhirserver:change-password" | chpasswd
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
