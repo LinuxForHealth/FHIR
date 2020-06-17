@@ -22,7 +22,6 @@ import java.io.PrintStream;
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -51,7 +50,7 @@ public class ParametersUtilTest extends BaseSearchTest {
         // Tests JSON
         Map<String, ParametersMap> params = ParametersUtil.getBuiltInSearchParametersMap();
         assertNotNull(params);
-        // Intentionally the data is caputred in the bytearray output stream.
+        // Intentionally the data is captured in the bytearray output stream.
         try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true);) {
             ParametersUtil.print(out);
             Assert.assertNotNull(outBA);
@@ -102,29 +101,6 @@ public class ParametersUtilTest extends BaseSearchTest {
         assertNotNull(result);
         assertNull(result.get("Junk"));
         assertFalse(result.get("Observation").isEmpty());
-    }
-
-    @Test
-    public void testResourceDefaults() throws IOException {
-        Map<String, ParametersMap> result = ParametersUtil.getBuiltInSearchParametersMap();
-        ParametersMap params1 = result.get("Observation");
-        ParametersMap params2 = result.get("Resource");
-
-        // Check that each returned "Resource" is included in the first set returned.
-        assertNotNull(params1);
-        assertNotNull(params2);
-        assertEquals(params2.size(), 6);
-        params2.values().stream().forEach(new Consumer<SearchParameter>() {
-
-            @Override
-            public void accept(SearchParameter resourceParam) {
-                if (DEBUG) {
-                    System.out.println("Checking Resource Param -> " + resourceParam.getId());
-                }
-                assertTrue(params1.values().contains(resourceParam));
-            }
-
-        });
     }
 
     @Test

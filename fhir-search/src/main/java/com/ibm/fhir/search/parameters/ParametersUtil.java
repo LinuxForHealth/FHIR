@@ -8,12 +8,10 @@ package com.ibm.fhir.search.parameters;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,9 +36,6 @@ public final class ParametersUtil {
     private static final Logger log = Logger.getLogger(CLASSNAME);
 
     public static final String FHIR_PATH_BUNDLE_ENTRY = "entry.resource";
-
-    // RESOURCE ONLY to fast lookup.
-    private static final List<String> RESOURCE_ONLY = Arrays.asList("Binary", "Bundle", "Parameters", SearchConstants.DOMAIN_RESOURCE_RESOURCE);
 
     public static final String FHIR_DEFAULT_SEARCH_PARAMETERS_FILE = "search-parameters.json";
     public static final String FROM_STEAM = "from_stream";
@@ -127,13 +122,13 @@ public final class ParametersUtil {
                     checkAndWarnForIssueWithCodeAndName(code, name);
 
                     // add the map entry with keys for both the code and the url
-                    map.insert(code, parameter.getUrl().getValue(), parameter);
+                    map.insert(code, parameter);
                 }
             }
         }
 
         // Return an unmodifiable copy, lest there be side effects.
-        return Collections.unmodifiableMap(assignInheritedToAll(typeToParamMap));
+        return Collections.unmodifiableMap(typeToParamMap);
     }
 
     private static List<SearchParameter> getSearchParameters() {
@@ -187,13 +182,13 @@ public final class ParametersUtil {
                     checkAndWarnForIssueWithCodeAndName(code, name);
 
                     // add the map entry with keys for both the code and the url
-                    map.insert(code, parameter.getUrl().getValue(), parameter);
+                    map.insert(code, parameter);
                 }
             }
         }
 
         // Return an unmodifiable copy, lest there be side effects.
-        return Collections.unmodifiableMap(assignInheritedToAll(typeToParamMap));
+        return Collections.unmodifiableMap(typeToParamMap);
     }
 
     /**
@@ -223,37 +218,6 @@ public final class ParametersUtil {
      */
     public static Map<String, ParametersMap> getBuiltInSearchParametersMap() {
         return builtInSearchParameters;
-    }
-
-    /*
-     * One of the inherited resource is `Resource`, there may be others, so encapsulating the assignment to the cache.
-     * @param searchParameterMap
-     * @return
-     */
-    private static Map<String, ParametersMap> assignInheritedToAll(Map<String, ParametersMap> searchParameterMap) {
-
-        // Hierarchy of Resources drives the search parameters assigned in the map.
-        // Resource > DomainResource > Instance (e.g. Claim or CarePlan).
-        // As such all Resources receive, some receive DomainResource, and individual instances remain untouched.
-
-        ParametersMap resourceMap = searchParameterMap.get(SearchConstants.RESOURCE_RESOURCE);
-        ParametersMap domainResourceMap = searchParameterMap.get(SearchConstants.DOMAIN_RESOURCE_RESOURCE);
-
-        for (Entry<String, ParametersMap> entry : searchParameterMap.entrySet()) {
-            // Checks the edge case where there are no RESOURCE found
-            if (resourceMap != null && !SearchConstants.RESOURCE_RESOURCE.equals(entry.getKey())) {
-                // Take the resourceMap and add to this tree.
-                entry.getValue().insertAll(resourceMap);
-            }
-
-            // Checks the edge case where there are no DOMAIN RESOURCE found
-            // We're now dealing with DomainResource
-            if (domainResourceMap != null && !RESOURCE_ONLY.contains(entry.getKey())) {
-                entry.getValue().insertAll(domainResourceMap);
-            }
-        }
-
-        return searchParameterMap;
     }
 
     /**
