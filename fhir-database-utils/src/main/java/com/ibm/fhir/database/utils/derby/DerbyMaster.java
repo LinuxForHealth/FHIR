@@ -11,15 +11,19 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.AllVersionHistoryService;
 import com.ibm.fhir.database.utils.api.DataAccessException;
+import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
+import com.ibm.fhir.database.utils.common.ConnectionProviderTarget;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.common.PrintTarget;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
@@ -62,11 +66,46 @@ public class DerbyMaster implements AutoCloseable {
         }
 
         // Derby Server Properties are now set using the System Stored procedures.
-        try {
-            DerbyServerPropertiesMgr.setServerProperties(DEBUG, getConnection());
+        try (Connection c = getConnection()) {
+            DerbyServerPropertiesMgr.setServerProperties(DEBUG, c);
+            c.commit();
         } catch (SQLException e) {
-            logger.warning("Derby Server Properties not set");
+            logger.log(Level.WARNING, "Derby Server Properties not set", e);
         }
+    }
+    
+    /**
+     * Derby setSchema fails if the schema doesn't exist, so we need to create that
+     * now in order for our connections to succeed when we build out the FHIR database
+     * @param schemaName
+     */
+    public void createSchemaIfNeeded(String schemaName) {
+        DataDefinitionUtil.assertSecure(schemaName);
+        boolean createSchema = false;
+        try (Connection c = getConnection()) {
+            try {
+                c.setSchema(schemaName);
+            } catch (SQLException x) {
+                // schema doesn't exist, so we need to create it
+                createSchema = true;
+            }
+
+            if (createSchema) {
+                final String createSchemaDDL = "CREATE SCHEMA " + schemaName;
+                JdbcTarget target = new JdbcTarget(c);
+                target.runStatement(DERBY_TRANSLATOR, createSchemaDDL);
+                
+                try {
+                    c.commit();
+                }
+                catch (SQLException x) {
+                    throw DERBY_TRANSLATOR.translate(x);
+                }
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Cannot connect to database: " + database);
+        }
+
     }
 
     /**
@@ -166,8 +205,8 @@ public class DerbyMaster implements AutoCloseable {
      * Ask the schema to apply itself to our target (adapter pattern)
      * @param pdm
      */
-    public void createSchema(PhysicalDataModel pdm) {
-        createSchema(vhs, pdm);
+    public void createSchema(IConnectionProvider pool, PhysicalDataModel pdm) {
+        createSchema(pool, vhs, pdm);
     }
 
     /**
@@ -175,9 +214,27 @@ public class DerbyMaster implements AutoCloseable {
      * @param vhs
      * @param pdm
      */
-    public void createSchema(IVersionHistoryService vhs, PhysicalDataModel pdm) {
-        runWithAdapter(target -> pdm.applyWithHistory(target, vhs));
+    public void createSchema(IConnectionProvider pool, IVersionHistoryService vhs, PhysicalDataModel pdm) {
+        runWithAdapter(pool, target -> pdm.applyWithHistory(target, vhs));
     }
+    
+    public void runWithAdapter(IConnectionProvider pool, java.util.function.Consumer<IDatabaseAdapter> fn) {
+
+        // We need to obtain connections from the same pool as the version history service
+        // so we can avoid deadlocks for certain DDL like DROP INDEX
+        try {
+            // wrap the connection pool in an adapter for the Derby database
+            DerbyAdapter adapter = new DerbyAdapter(pool);
+            
+            // call the Function we've been given using the adapter we just wrapped
+            // around the connection.
+            fn.accept(adapter);
+        } catch (DataAccessException x) {
+            logger.log(Level.SEVERE, "Error while running", x);
+            throw x;
+        }
+    }
+
 
     /**
      * Run the function with an adapter configured for this database
@@ -185,53 +242,90 @@ public class DerbyMaster implements AutoCloseable {
      * @param fn
      */
     public void runWithAdapter(java.util.function.Consumer<IDatabaseAdapter> fn) {
-        try {
-            Connection c = getConnection();
-            try {
-                JdbcTarget target = new JdbcTarget(c);
-                DerbyAdapter adapter = new DerbyAdapter(target);
 
-                // Replace the target with a decorated output, so that we print all the DDL before executing
-                // The output is very FINE and logs out a lot. 
-                if (logger.isLoggable(Level.FINE)) {
-                    PrintTarget printer = new PrintTarget(target, logger.isLoggable(Level.FINE));
-                    adapter = new DerbyAdapter(printer);
-                }
-                fn.accept(adapter);
-            } catch (DataAccessException x) {
-                logger.log(Level.SEVERE, "Error while running", x);
-                c.rollback();
-                throw x;
-            }
-            c.commit();
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error while running", e);
-            throw DERBY_TRANSLATOR.translate(e);
-        } finally {
-            logger.info("connection was closed");
+        // The connection here is a single one, not managed by an ITransactionProvider
+//        try (Connection c = getConnection()) {
+//            try {
+//                JdbcTarget target = new JdbcTarget(c);
+//                DerbyAdapter adapter = new DerbyAdapter(target);
+//
+//                // Replace the target with a decorated output, so that we print all the DDL before executing
+//                // The output is very FINE and logs out a lot. 
+//                if (logger.isLoggable(Level.FINE)) {
+//                    PrintTarget printer = new PrintTarget(target, logger.isLoggable(Level.FINE));
+//                    adapter = new DerbyAdapter(printer);
+//                }
+//                
+//                // call the Function we've been given using the adapter we just wrapped
+//                // around the connection.
+//                fn.accept(adapter);
+//            } catch (DataAccessException x) {
+//                logger.log(Level.SEVERE, "Error while running", x);
+//                c.rollback();
+//                throw x;
+//            }
+//            c.commit();
+//        }
+//         catch (SQLException e) {
+//            logger.log(Level.SEVERE, "Error while running", e);
+//            throw DERBY_TRANSLATOR.translate(e);
+//        }
+        
+        IConnectionProvider cp = new DerbyConnectionProvider(this, null);
+        ConnectionProviderTarget target = new ConnectionProviderTarget(cp);
+        DerbyAdapter adapter = new DerbyAdapter(target);
+
+        // Replace the target with a decorated output, so that we print all the DDL before executing
+        // The output is very FINE and logs out a lot. 
+        if (logger.isLoggable(Level.FINE)) {
+            PrintTarget printer = new PrintTarget(target, logger.isLoggable(Level.FINE));
+            adapter = new DerbyAdapter(printer);
         }
+      
+        // call the Function we've been given using the adapter we just wrapped
+        // around the connection. Each statement executes in its own connection/transaction.
+        fn.accept(adapter);
     }
 
+    /**
+     * Diagnostic utility to display all the current lock in the Derby database
+     */
+    public void dumpLockInfo() {
+        DerbyLockDiag diag = new DerbyLockDiag();
+        IConnectionProvider cp = new DerbyConnectionProvider(this, null);
+        ConnectionProviderTarget target = new ConnectionProviderTarget(cp);
+        DerbyAdapter adapter = new DerbyAdapter(target);
+        List<LockInfo> locks = adapter.runStatement(diag);
+        locks.forEach(System.out::println);
+    }
+    
+    /**
+     * @implNote this drop is only relevant for in-memory Derby databases, which we no
+     *           longer use due to the size of the tests. This does not remove any
+     *           files on disk.
+     */
     @Override
     public void close() throws Exception {
-        // Drop the database we created
-        boolean dropped = false;
+        boolean shutdown = false;
         try {
             Properties properties = new Properties();
             DerbyPropertyAdapter adapter = new DerbyPropertyAdapter(properties);
             adapter.setDatabase(database);
 
-            final String dropper = DERBY_TRANSLATOR.getUrl(properties) + ";drop=true";
-            logger.info("Dropping derby DB with: " + dropper);
+            final String dropper = DERBY_TRANSLATOR.getUrl(properties) + ";shutdown=true";
+            logger.info("Shutting down Derby DB '" + database + "' with: " + dropper);
+            
+            // should throw an exception if successful
             DriverManager.getConnection(dropper);
         }
         catch (SQLException e) {
-            logger.info("Expected error while closing the database: " + e.getMessage());
-            dropped = true;
+            // should say "Database 'target/derby/...' shutdown."
+            logger.info(e.getMessage());
+            shutdown = true;
         }
 
-        if (!dropped) {
-            throw new IllegalStateException("Derby memory database not dropped: " + this.database);
+        if (!shutdown) {
+            throw new IllegalStateException("Derby database not shut down: '" + this.database + "'");
         }
     }
 }

@@ -9,6 +9,7 @@ package com.ibm.fhir.database.utils.common;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
@@ -17,6 +18,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
  * Drop an index from a given schema by name 
  */
 public class DropIndex implements IDatabaseStatement {
+    private static final Logger logger = Logger.getLogger(DropIndex.class.getName());
     private final String schemaName;
     private final String indexName;
 
@@ -40,6 +42,8 @@ public class DropIndex implements IDatabaseStatement {
             s.executeUpdate("DROP INDEX " + qname);
         }
         catch (SQLException x) {
+            // useful to know which index is causing the problem
+            logger.severe("FAILED: DROP INDEX " + qname);
             throw translator.translate(x);
         }
     }

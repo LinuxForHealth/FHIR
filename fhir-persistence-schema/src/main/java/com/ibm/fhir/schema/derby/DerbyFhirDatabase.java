@@ -11,10 +11,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
+import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
@@ -47,7 +50,14 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     private static final IDatabaseTranslator DERBY_TRANSLATOR = new DerbyTranslator();
 
     // The wrapper for managing a derby in-memory instance
-    final DerbyMaster derby;
+    private final DerbyMaster derby;
+
+    // Connection pool used to work alongside the transaction provider
+    private final PoolConnectionProvider connectionPool;
+    
+    // Simple transaction service for use outside of JEE
+    private final ITransactionProvider transactionProvider;
+
 
     /**
      * The default constructor will initialize the database at "derby/fhirDB".
@@ -62,6 +72,9 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     public DerbyFhirDatabase(String dbPath) throws SQLException {
         logger.info("Creating Derby database for FHIR: " + dbPath);
         derby = new DerbyMaster(dbPath);
+        this.connectionPool = new PoolConnectionProvider(this, 200);
+        this.transactionProvider = new SimpleTransactionProvider(connectionPool);
+        
 
         // Lambdas are quite tasty for this sort of thing
         derby.runWithAdapter(adapter -> CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter));
@@ -73,8 +86,19 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
 
         // apply the model we've defined to the new Derby database
         VersionHistoryService vhs = createVersionHistoryService();
-        derby.createSchema(vhs, pdm);
-
+        
+        // Create the schema in a managed transaction
+        try (ITransaction tx = transactionProvider.getTransaction()) {
+            try {
+                derby.createSchema(connectionPool, vhs, pdm);
+            }
+            catch (Throwable t) {
+                // mark the transaction for rollback
+                tx.setRollbackOnly();
+                throw t;
+            }
+        }
+        
         // Populates Lookup tables
         populateResourceTypeAndParameterNameTableEntries();
     }
@@ -89,59 +113,69 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         // Prepopulate the Resource Type Tables and Parameters Name/Code Table
         logger.info("started prepopulating lookup table data.");
         DerbyTranslator translator = new DerbyTranslator();
-        Connection connection = getConnection();
+        try (Connection connection = getConnection()) {
 
-        // Ensures we don't double up the generated derby db prepopulation.
-        // Docs for the table are at https://db.apache.org/derby/docs/10.5/ref/rrefsistabs24269.html
-        boolean process = true;
-        final String sql = "SELECT COUNT(TABLENAME) AS CNT FROM SYS.SYSTABLES WHERE TABLENAME = 'PARAMETER_NAMES'";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.execute();
-            ResultSet set = stmt.getResultSet();
-            if (set.next()) {
-                int val = set.getInt("CNT");
-                if (val > 0) {
-                    process = false;
+            // Ensures we don't double up the generated derby db prepopulation.
+            // Docs for the table are at https://db.apache.org/derby/docs/10.5/ref/rrefsistabs24269.html
+            boolean process = true;
+            final String sql = "SELECT COUNT(TABLENAME) AS CNT FROM SYS.SYSTABLES WHERE TABLENAME = 'PARAMETER_NAMES'";
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                stmt.execute();
+                ResultSet set = stmt.getResultSet();
+                if (set.next()) {
+                    int val = set.getInt("CNT");
+                    if (val > 0) {
+                        process = false;
+                    }
                 }
             }
-        }
-
-        if (process) {
-            PopulateResourceTypes populateResourceTypes =
-                    new PopulateResourceTypes(ADMIN_SCHEMA_NAME, SCHEMA_NAME, null);
-            populateResourceTypes.run(translator, connection);
-
-            PopulateParameterNames populateParameterNames =
-                    new PopulateParameterNames(ADMIN_SCHEMA_NAME, SCHEMA_NAME, null);
-            populateParameterNames.run(translator, connection);
+    
+            if (process) {
+                PopulateResourceTypes populateResourceTypes =
+                        new PopulateResourceTypes(ADMIN_SCHEMA_NAME, SCHEMA_NAME, null);
+                populateResourceTypes.run(translator, connection);
+    
+                PopulateParameterNames populateParameterNames =
+                        new PopulateParameterNames(ADMIN_SCHEMA_NAME, SCHEMA_NAME, null);
+                populateParameterNames.run(translator, connection);
+                logger.info("Finished prepopulating the resource type and search parameter code/name tables tables");
+            } else {
+                logger.info("Skipped prepopulating the resource type and search parameter code/name tables tables");
+            }
+            
+            // always commit here before we close the connection.
             connection.commit();
-            logger.info("Finished prepopulating the resource type and search parameter code/name tables tables");
-        } else {
-            logger.info("Skipped prepopulating the resource type and search parameter code/name tables tables");
         }
     }
 
     /**
-     * Configure the TransactionProvider
+     * Create the version history table and a simple service which is used to
+     * access information from it.
      * 
      * @throws SQLException
      */
     public VersionHistoryService createVersionHistoryService() throws SQLException {
-        Connection c = derby.getConnection();
-        JdbcTarget target = new JdbcTarget(c);
 
-        JdbcPropertyAdapter jdbcAdapter = new JdbcPropertyAdapter(new Properties());
-        JdbcConnectionProvider cp = new JdbcConnectionProvider(DERBY_TRANSLATOR, jdbcAdapter);
-        PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, 200);
-        ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
-
-        DerbyAdapter derbyAdapter = new DerbyAdapter(target);
-        CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, derbyAdapter);
-
-        // Current version history for the data schema
+        // No complex transaction handling required here. Simply check if the versions
+        // table exists, and if not, create it.
+        try (Connection c = derby.getConnection()) {
+            try {
+                JdbcTarget target = new JdbcTarget(c);
+                DerbyAdapter derbyAdapter = new DerbyAdapter(target);
+                CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, derbyAdapter);
+                c.commit();
+            }
+            catch (SQLException x) {
+                logger.log(Level.SEVERE, "failed to create version history table", x);
+                c.rollback(); // may generate its own exception if the database is messed up
+                throw x;
+            }
+        }
+        
+        // Current version history for the data schema.
         VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, SCHEMA_NAME, OAUTH_SCHEMANAME, BATCH_SCHEMANAME);
         vhs.setTransactionProvider(transactionProvider);
-        vhs.setTarget(derbyAdapter);
+        vhs.setTarget(new DerbyAdapter(this.connectionPool));
         vhs.init();
         return vhs;
     }
