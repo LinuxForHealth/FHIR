@@ -105,7 +105,7 @@ jobs:
         echo "Using profiles ${PROFILES}"
         mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true
         mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
-        mvn -o -B -T2C package --file fhir-parent -P "${PROFILES}" --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B -T2C package --file fhir-parent -P "${PROFILES}" --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
   e2e-tests:
     runs-on: ubuntu-latest
     strategy:
@@ -132,7 +132,7 @@ jobs:
         fi
         mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true
         mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
-        mvn -o -B ${JAVADOC_GOAL} install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B ${JAVADOC_GOAL} install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
     - name: Server Integration Tests
       env:
         # debian-based linux uses C.UTF-8 by default and Derby doesn't like that
@@ -239,7 +239,7 @@ jobs:
       run: |
         mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true
         mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
-        mvn -o -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
         mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
     - name: Server Integration Tests
       run: |
@@ -298,7 +298,7 @@ jobs:
       run: |
         mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true
         mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
-        mvn -o -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B install --file fhir-parent -DskipTests -P integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
         mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
     - name: Server Integration Tests
       run: |
