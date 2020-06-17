@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.SearchParameter;
@@ -35,6 +36,9 @@ public class ParametersMap {
      * @implSpec package-private to prevent insertion from outside the package
      */
     void insert(String code, SearchParameter parameter) {
+        Objects.requireNonNull(code, "cannot insert a null code");
+        Objects.requireNonNull(parameter, "cannot insert a null parameter");
+
         if (codeMap.containsKey(code)) {
             SearchParameter previous = codeMap.get(code);
             if (previous.getExpression() == null || previous.getExpression().equals(parameter.getExpression())) {
@@ -45,13 +49,12 @@ public class ParametersMap {
                         + "replacing search parameter of id '" + previous.getId()
                         + "' with search parameter of id '" + parameter.getId() + "'");
             }
-
         }
         codeMap.put(code, parameter);
 
         String url = parameter.getUrl().getValue();
         if (urlMap.containsKey(url)) {
-            SearchParameter previous = codeMap.get(url);
+            SearchParameter previous = urlMap.get(url);
             if (previous.getExpression() == null || previous.getExpression().equals(parameter.getExpression())) {
                 log.info("SearchParameter with url '" + url + "' already exists with the same expression; "
                         + "adding additional code '" + previous.getCode() + "'");
