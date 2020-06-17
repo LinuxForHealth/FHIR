@@ -212,7 +212,7 @@ public class Capabilities extends FHIRResource {
             String resourceTypeName = resourceType.value();
             // Build the set of ConformanceSearchParams for this resource type.
             List<Rest.Resource.SearchParam> conformanceSearchParams = new ArrayList<>();
-            List<SearchParameter> searchParameters = SearchUtil.getSearchParameters(resourceTypeName);
+            List<SearchParameter> searchParameters = SearchUtil.getApplicableSearchParameters(resourceTypeName);
             if (searchParameters != null) {
                 for (SearchParameter searchParameter : searchParameters) {
                     // The name here is a natural language name, and intentionally not replaced with code.

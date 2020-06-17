@@ -13,15 +13,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.DomainResource;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
 
@@ -38,9 +40,6 @@ public final class ParametersUtil {
     private static final Logger log = Logger.getLogger(CLASSNAME);
 
     public static final String FHIR_PATH_BUNDLE_ENTRY = "entry.resource";
-
-    // RESOURCE ONLY to fast lookup.
-    private static final List<String> RESOURCE_ONLY = Arrays.asList("Binary", "Bundle", "Parameters", SearchConstants.DOMAIN_RESOURCE_RESOURCE);
 
     public static final String FHIR_DEFAULT_SEARCH_PARAMETERS_FILE = "search-parameters.json";
     public static final String FROM_STEAM = "from_stream";
@@ -127,7 +126,7 @@ public final class ParametersUtil {
                     checkAndWarnForIssueWithCodeAndName(code, name);
 
                     // add the map entry with keys for both the code and the url
-                    map.insert(code, parameter.getUrl().getValue(), parameter);
+                    map.insert(code, parameter);
                 }
             }
         }
@@ -187,7 +186,7 @@ public final class ParametersUtil {
                     checkAndWarnForIssueWithCodeAndName(code, name);
 
                     // add the map entry with keys for both the code and the url
-                    map.insert(code, parameter.getUrl().getValue(), parameter);
+                    map.insert(code, parameter);
                 }
             }
         }
@@ -225,35 +224,36 @@ public final class ParametersUtil {
         return builtInSearchParameters;
     }
 
-    /*
-     * One of the inherited resource is `Resource`, there may be others, so encapsulating the assignment to the cache.
-     * @param searchParameterMap
-     * @return
+    /**
+     * Add the search parameters associated with "parent" types like Resource or DomainResource to the ParameterMaps
+     * for each child resource type that extend from these.
+     * 
+     * @param allTypesParametersMaps a mutable map from type names to ParametersMaps
+     * @return a modified allTypesParametersMaps with abstract search parameters applied to all children in the 
+     *         type hierarchy
      */
-    private static Map<String, ParametersMap> assignInheritedToAll(Map<String, ParametersMap> searchParameterMap) {
+    private static Map<String, ParametersMap> assignInheritedToAll(Map<String, ParametersMap> allTypesParametersMaps) {
 
-        // Hierarchy of Resources drives the search parameters assigned in the map.
+        // The hierarchy of resources drives the search parameters assigned in the map.
         // Resource > DomainResource > Instance (e.g. Claim or CarePlan).
-        // As such all Resources receive, some receive DomainResource, and individual instances remain untouched.
+        // As such all resources receive the Resource parameters and some receive DomainResource parameters.
 
-        ParametersMap resourceMap = searchParameterMap.get(SearchConstants.RESOURCE_RESOURCE);
-        ParametersMap domainResourceMap = searchParameterMap.get(SearchConstants.DOMAIN_RESOURCE_RESOURCE);
+        ParametersMap resourceMap = allTypesParametersMaps.get(SearchConstants.RESOURCE_RESOURCE);
+        ParametersMap domainResourceMap = allTypesParametersMaps.get(SearchConstants.DOMAIN_RESOURCE_RESOURCE);
 
-        for (Entry<String, ParametersMap> entry : searchParameterMap.entrySet()) {
-            // Checks the edge case where there are no RESOURCE found
-            if (resourceMap != null && !SearchConstants.RESOURCE_RESOURCE.equals(entry.getKey())) {
-                // Take the resourceMap and add to this tree.
-                entry.getValue().insertAll(resourceMap);
+        for (Class<? extends Resource> resourceType : ModelSupport.getResourceTypes()) {
+            String resourceName = resourceType.getSimpleName();
+            ParametersMap typeSpecificMap = allTypesParametersMaps.computeIfAbsent(resourceName, k -> new ParametersMap());
+            if (resourceMap != null && Resource.class != resourceType) {
+                typeSpecificMap.insertAll(resourceMap);
             }
 
-            // Checks the edge case where there are no DOMAIN RESOURCE found
-            // We're now dealing with DomainResource
-            if (domainResourceMap != null && !RESOURCE_ONLY.contains(entry.getKey())) {
-                entry.getValue().insertAll(domainResourceMap);
+            if (domainResourceMap != null && DomainResource.class != resourceType && DomainResource.class.isAssignableFrom(resourceType)) {
+                typeSpecificMap.insertAll(domainResourceMap);
             }
         }
 
-        return searchParameterMap;
+        return allTypesParametersMaps;
     }
 
     /**
