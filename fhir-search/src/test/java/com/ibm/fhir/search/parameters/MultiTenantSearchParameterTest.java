@@ -29,8 +29,6 @@ import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * This class tests various multi-tenant enabled search parameter-related methods of the SearchUtil class.
- *
- *
  */
 public class MultiTenantSearchParameterTest extends BaseSearchTest {
 
@@ -51,7 +49,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Medication");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters2", result);
-        assertEquals(21, result.size());
+        assertEquals(15, result.size());
     }
 
     @Test
@@ -61,7 +59,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Observation");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters1", result);
-        assertEquals(50, result.size());
+        assertEquals(44, result.size());
     }
 
     @Test
@@ -74,12 +72,12 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters3/Patient", result);
-        assertEquals(41, result.size());
+        assertEquals(35, result.size());
 
         result = SearchUtil.getApplicableSearchParameters("Observation");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters3/Observation", result);
-        assertEquals(50, result.size());
+        assertEquals(44, result.size());
     }
 
     @Test
@@ -93,10 +91,10 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Observation");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters4/Observation", result);
-        assertEquals(8, result.size());
+        assertEquals(2, result.size());
         List<String> codes = getSearchParameterCodes(result);
         assertTrue(codes.contains("code"));
-        assertTrue(codes.contains("_id"));
+        assertTrue(codes.contains("value-range"));
     }
 
     @Test
@@ -107,7 +105,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Device");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters5/Device", result);
-        assertEquals(8, result.size());
+        assertEquals(2, result.size());
         List<String> codes = getSearchParameterCodes(result);
         assertTrue(codes.contains("patient"));
         assertTrue(codes.contains("organization"));
@@ -121,7 +119,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters6/Patient", result);
-        assertEquals(10, result.size());
+        assertEquals(4, result.size());
         List<String> codes = getSearchParameterCodes(result);
         assertTrue(codes.contains("active"));
         assertTrue(codes.contains("address"));
@@ -133,7 +131,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         result = SearchUtil.getApplicableSearchParameters("MedicationAdministration");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters6/MedicationAdministration", result);
-        assertEquals(25, result.size());
+        assertEquals(19, result.size());
     }
 
     @Test
@@ -144,12 +142,12 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters7/Patient", result);
-        assertEquals(41, result.size());
+        assertEquals(35, result.size());
 
         result = SearchUtil.getApplicableSearchParameters("Device");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters7/Device", result);
-        assertEquals(24, result.size());
+        assertEquals(18, result.size());
     }
 
     @Test
@@ -244,14 +242,14 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     public void testGetSearchParameter7() throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
         SearchParameter result = SearchUtil.getSearchParameter("Observation", "_lastUpdated");
-        assertNotNull(result);
+        assertNull(result);
     }
 
     @Test
     public void testGetSearchParameter8() throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
         SearchParameter result = SearchUtil.getSearchParameter(Observation.class, "_lastUpdated");
-        assertNotNull(result);
+        assertNull(result);
     }
 
     @Test

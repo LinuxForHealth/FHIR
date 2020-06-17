@@ -8,7 +8,6 @@ package com.ibm.fhir.search.parameters;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -227,9 +226,9 @@ public final class ParametersUtil {
     /**
      * Add the search parameters associated with "parent" types like Resource or DomainResource to the ParameterMaps
      * for each child resource type that extend from these.
-     * 
+     *
      * @param allTypesParametersMaps a mutable map from type names to ParametersMaps
-     * @return a modified allTypesParametersMaps with abstract search parameters applied to all children in the 
+     * @return a modified allTypesParametersMaps with abstract search parameters applied to all children in the
      *         type hierarchy
      */
     private static Map<String, ParametersMap> assignInheritedToAll(Map<String, ParametersMap> allTypesParametersMaps) {
@@ -241,15 +240,21 @@ public final class ParametersUtil {
         ParametersMap resourceMap = allTypesParametersMaps.get(SearchConstants.RESOURCE_RESOURCE);
         ParametersMap domainResourceMap = allTypesParametersMaps.get(SearchConstants.DOMAIN_RESOURCE_RESOURCE);
 
+        if (resourceMap == null && domainResourceMap == null) {
+            // nothing to do, so exit early
+            return allTypesParametersMaps;
+        }
+
         for (Class<? extends Resource> resourceType : ModelSupport.getResourceTypes()) {
             String resourceName = resourceType.getSimpleName();
             ParametersMap typeSpecificMap = allTypesParametersMaps.computeIfAbsent(resourceName, k -> new ParametersMap());
-            if (resourceMap != null && Resource.class != resourceType) {
-                typeSpecificMap.insertAll(resourceMap);
-            }
 
             if (domainResourceMap != null && DomainResource.class != resourceType && DomainResource.class.isAssignableFrom(resourceType)) {
                 typeSpecificMap.insertAll(domainResourceMap);
+            }
+
+            if (resourceMap != null && Resource.class != resourceType) {
+                typeSpecificMap.insertAll(resourceMap);
             }
         }
 

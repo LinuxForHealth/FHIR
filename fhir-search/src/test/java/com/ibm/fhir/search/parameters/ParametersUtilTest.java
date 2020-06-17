@@ -51,12 +51,12 @@ public class ParametersUtilTest extends BaseSearchTest {
         // Tests JSON
         Map<String, ParametersMap> params = ParametersUtil.getBuiltInSearchParametersMap();
         assertNotNull(params);
-        // Intentionally the data is caputred in the bytearray output stream.
+        // Intentionally the data is captured in the bytearray output stream.
         try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true);) {
             ParametersUtil.print(out);
             Assert.assertNotNull(outBA);
         }
-        assertEquals(params.size(), 134);
+        assertEquals(params.size(), 148);
     }
 
     @Test(expectedExceptions = {})

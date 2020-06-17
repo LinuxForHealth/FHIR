@@ -195,12 +195,6 @@ public class SearchUtil {
             result.addAll(filterSearchParameters(filterRules, resourceType, spMap.values()));
         }
 
-        // Retrieve the SPs associated with the "Resource" resource type and filter per the filter rules.
-        spMap = spBuiltin.get(SearchConstants.RESOURCE_RESOURCE);
-        if (spMap != null && !spMap.isEmpty()) {
-            result.addAll(filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap.values()));
-        }
-
         return result;
     }
 
@@ -352,52 +346,19 @@ public class SearchUtil {
     /**
      * @param resourceType
      * @param code
-     * @return
+     * @return the SearchParameter for type {@code resourceType} with code {@code code} or null if it doesn't exist
      * @throws Exception
      */
     public static SearchParameter getSearchParameter(String resourceType, String code) throws Exception {
-        String tenantId = FHIRRequestContext.get().getTenantId();
-
-        // First try to find the search parameter within the specified tenant's map.
-        SearchParameter result = getSearchParameterByCodeIfPresent(getTenantOrDefaultSPMap(tenantId), resourceType, code);
-
-        // If we didn't find it within the tenant's map, then look within the built-in map.
-        if (result == null) {
-            result = getSearchParameterByCodeIfPresent(ParametersUtil.getBuiltInSearchParametersMap(), resourceType, code);
-
-            // If we found it within the built-in search parameters, apply our filtering rules.
-            if (result != null) {
-
-                ResourceType rt = result.getBase().get(0).as(ResourceType.class);
-                Collection<SearchParameter> filteredResult =
-                        filterSearchParameters(getFilterRules(), rt.getValue(), Collections.singleton(result));
-
-                // If our filtered result is non-empty, then just return the first (and only) item.
-                result = (filteredResult.isEmpty() ? null : filteredResult.iterator().next());
-            }
-        }
-        return result;
+        return getApplicableSearchParametersMap(resourceType).get(code);
     }
 
     /**
-     * @param spMaps
      * @param resourceType
      * @param uri
-     * @return the SearchParameter for type {@code resourceType} with code {@code code} or null if it doesn't exist
+     * @return the SearchParameter for type {@code resourceType} with url {@code uri} or null if it doesn't exist
+     * @throws Exception
      */
-    private static SearchParameter getSearchParameterByCodeIfPresent(Map<String, ParametersMap> spMaps, String resourceType, String code) {
-        SearchParameter result = null;
-
-        if (spMaps != null && !spMaps.isEmpty()) {
-            ParametersMap parametersMap = spMaps.get(resourceType);
-            if (parametersMap != null && !parametersMap.isEmpty()) {
-                result = parametersMap.lookupByCode(code);
-            }
-        }
-
-        return result;
-    }
-
     public static SearchParameter getSearchParameter(Class<?> resourceType, Canonical uri) throws Exception {
         return getSearchParameter(resourceType.getSimpleName(), uri);
     }
@@ -923,7 +884,12 @@ public class SearchUtil {
         Map<String, SearchParameter> result = new HashMap<>();
         List<SearchParameter> list = getApplicableSearchParameters(resourceType);
         for (SearchParameter sp : list) {
-            result.put(sp.getCode().getValue(), sp);
+            String code = sp.getCode().getValue();
+            if (result.containsKey(code)) {
+                log.info("SearchParametersMap for resource '" + resourceType + "' "
+                        + "contains conflicting entries for code '" + code + "'");
+            }
+            result.put(code, sp);
         }
         return result;
     }

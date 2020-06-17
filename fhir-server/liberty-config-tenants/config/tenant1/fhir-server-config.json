@@ -2,11 +2,13 @@
 	"__comment": "FHIR Server configuration for mythical tenant id 'tenant1'",
 	"fhirServer": {
 		"searchParameterFilter": {
-			"Observation": ["subject",
-			"patient",
-			"value-quantity",
-			"component-value-quantity"],
-			"Resource": ["_id"],
+			"Observation": [
+				"_id",
+				"subject",
+				"patient",
+				"value-quantity",
+				"component-value-quantity"
+			],
 			"*": ["*"]
 		},
 		"persistence": {
