@@ -8,7 +8,6 @@ package com.ibm.fhir.search.parameters;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -18,12 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.Bundle;
-import com.ibm.fhir.model.resource.DomainResource;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
-import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
 
@@ -132,7 +128,7 @@ public final class ParametersUtil {
         }
 
         // Return an unmodifiable copy, lest there be side effects.
-        return Collections.unmodifiableMap(assignInheritedToAll(typeToParamMap));
+        return Collections.unmodifiableMap(typeToParamMap);
     }
 
     private static List<SearchParameter> getSearchParameters() {
@@ -192,7 +188,7 @@ public final class ParametersUtil {
         }
 
         // Return an unmodifiable copy, lest there be side effects.
-        return Collections.unmodifiableMap(assignInheritedToAll(typeToParamMap));
+        return Collections.unmodifiableMap(typeToParamMap);
     }
 
     /**
@@ -222,38 +218,6 @@ public final class ParametersUtil {
      */
     public static Map<String, ParametersMap> getBuiltInSearchParametersMap() {
         return builtInSearchParameters;
-    }
-
-    /**
-     * Add the search parameters associated with "parent" types like Resource or DomainResource to the ParameterMaps
-     * for each child resource type that extend from these.
-     * 
-     * @param allTypesParametersMaps a mutable map from type names to ParametersMaps
-     * @return a modified allTypesParametersMaps with abstract search parameters applied to all children in the 
-     *         type hierarchy
-     */
-    private static Map<String, ParametersMap> assignInheritedToAll(Map<String, ParametersMap> allTypesParametersMaps) {
-
-        // The hierarchy of resources drives the search parameters assigned in the map.
-        // Resource > DomainResource > Instance (e.g. Claim or CarePlan).
-        // As such all resources receive the Resource parameters and some receive DomainResource parameters.
-
-        ParametersMap resourceMap = allTypesParametersMaps.get(SearchConstants.RESOURCE_RESOURCE);
-        ParametersMap domainResourceMap = allTypesParametersMaps.get(SearchConstants.DOMAIN_RESOURCE_RESOURCE);
-
-        for (Class<? extends Resource> resourceType : ModelSupport.getResourceTypes()) {
-            String resourceName = resourceType.getSimpleName();
-            ParametersMap typeSpecificMap = allTypesParametersMaps.computeIfAbsent(resourceName, k -> new ParametersMap());
-            if (resourceMap != null && Resource.class != resourceType) {
-                typeSpecificMap.insertAll(resourceMap);
-            }
-
-            if (domainResourceMap != null && DomainResource.class != resourceType && DomainResource.class.isAssignableFrom(resourceType)) {
-                typeSpecificMap.insertAll(domainResourceMap);
-            }
-        }
-
-        return allTypesParametersMaps;
     }
 
     /**
