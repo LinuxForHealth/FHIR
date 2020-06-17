@@ -48,6 +48,7 @@ public final class ProfileSupport {
     private static Map<String, Binding> computeBindingMap(String url) {
         StructureDefinition structureDefinition = getStructureDefinition(url);
         if (structureDefinition != null) {
+            Objects.requireNonNull(structureDefinition.getSnapshot(), "StructureDefinition.snapshot element is required");
             Map<String, Binding> bindingMap = new LinkedHashMap<>();
             for (ElementDefinition elementDefinition : structureDefinition.getSnapshot().getElement()) {
                 String path = elementDefinition.getPath().getValue();
@@ -62,6 +63,7 @@ public final class ProfileSupport {
     }
 
     private static List<Constraint> computeConstraints(StructureDefinition profile, Class<?> type) {
+        Objects.requireNonNull(profile.getSnapshot(), "StructureDefinition.snapshot element is required");
         List<Constraint> constraints = new ArrayList<>();
         Set<String> difference = new HashSet<>(getKeys(profile));
         difference.removeAll(getKeys(getStructureDefinition(type)));
@@ -85,6 +87,7 @@ public final class ProfileSupport {
     private static Map<String, ElementDefinition> computeElementDefinitionMap(String url) {
         StructureDefinition structureDefinition = getStructureDefinition(url);
         if (structureDefinition != null) {
+            Objects.requireNonNull(structureDefinition.getSnapshot(), "StructureDefinition.snapshot element is required");
             Map<String, ElementDefinition> elementDefinitionMap = new LinkedHashMap<>();
             for (ElementDefinition elementDefinition : structureDefinition.getSnapshot().getElement()) {
                 String path = elementDefinition.getPath().getValue();
@@ -238,6 +241,7 @@ public final class ProfileSupport {
 
     private static Set<String> getKeys(StructureDefinition structureDefinition) {
         Set<String> keys = new HashSet<>();
+        Objects.requireNonNull(structureDefinition.getSnapshot(), "StructureDefinition.snapshot element is required");
         for (ElementDefinition elementDefinition : structureDefinition.getSnapshot().getElement()) {
             for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
                 keys.add(constraint.getKey().getValue());
