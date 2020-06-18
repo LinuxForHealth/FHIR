@@ -89,16 +89,12 @@ import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.connection.Action;
 import com.ibm.fhir.persistence.jdbc.connection.DisableAutocommitAction;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
-import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategyBase;
-import com.ibm.fhir.persistence.jdbc.connection.FHIRDbHelper;
-import com.ibm.fhir.persistence.jdbc.connection.FHIRDbPropsConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbProxyDatasourceConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTestConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.SetSchemaAction;
 import com.ibm.fhir.persistence.jdbc.connection.SetTenantAction;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
@@ -187,31 +183,56 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
         log.exiting(CLASSNAME, METHODNAME);
     }
-
+    
     /**
-     * Constructor for use when running standalone, outside of any web container.
+     * Constructor for use when running standalone, outside of any web container. The
+     * IConnectionProvider should be a pooling implementation which supports an
+     * ITransactionProvider.
+     * 
+     * @implNote This constructor is defined to simplify unit-tests
      * @throws Exception
      */
-    @Deprecated
-    public FHIRPersistenceJDBCImpl(Properties configProps) throws Exception {
-        final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties)";
+    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp) throws Exception {
+        final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties, IConnectionProvider)";
         log.entering(CLASSNAME, METHODNAME);
 
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
 
         // not running inside a JEE container
         this.trxSynchRegistry = null;
-
-        // Obtain connections from DriverManager
-        this.schemaName = getSchema();
-
-//        Action setSchema = new SetSchemaAction(schemaName);
-//        Action setTenant = new SetTenantAction(setSchema);
-        this.connectionStrategy = new FHIRDbPropsConnectionStrategy(configProps);
         
+        // Obtain connections from the IConnectionProvider (typically used in Derby-based test-cases)
+        this.schemaName = configProps.getProperty("schemaName", "FHIRDATA");
+        this.connectionStrategy = new FHIRDbTestConnectionStrategy(cp, buildActionChain());
 
         log.exiting(CLASSNAME, METHODNAME);
     }
+    
+
+    /**
+     * Constructor for use when running standalone, outside of any web container.
+     * @throws Exception
+     */
+//    @Deprecated
+//    public FHIRPersistenceJDBCImpl(Properties configProps) throws Exception {
+//        final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties)";
+//        log.entering(CLASSNAME, METHODNAME);
+//
+//        this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
+//
+//        // not running inside a JEE container
+//        this.trxSynchRegistry = null;
+//
+//        // Obtain connections from DriverManager
+//        this.schemaName = getSchema();
+//
+////        Action setSchema = new SetSchemaAction(schemaName);
+////        Action setTenant = new SetTenantAction(setSchema);
+//        this.connectionStrategy = new FHIRDbPropsConnectionStrategy(configProps);
+//        
+//
+//        log.exiting(CLASSNAME, METHODNAME);
+//    }
 
     
     /**
@@ -235,25 +256,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         return setTenant;
     }
 
-    /**
-     * Constructor for use when running standalone, outside of any web container.
-     * @throws Exception
-     */
-    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp) throws Exception {
-        final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties, IConnectionProvider)";
-        log.entering(CLASSNAME, METHODNAME);
-
-        this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
-
-        // not running inside a JEE container
-        this.trxSynchRegistry = null;
-        
-        // Obtain connections from the IConnectionProvider (typically used in Derby-based test-cases)
-        this.schemaName = configProps.getProperty("schemaName", "FHIRDATA");
-        this.connectionStrategy = new FHIRDbTestConnectionStrategy(cp, buildActionChain());
-
-        log.exiting(CLASSNAME, METHODNAME);
-    }
 
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException  {
@@ -1383,15 +1385,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         log.entering(CLASSNAME, METHODNAME);
 
         try {
-            // TODO strictly speaking this should be delegated to our connection handler also
-            if (userTransaction != null) {
-                userTransaction.begin();
-            }
-        }
-        catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while starting a transaction.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
+            // delegate transaction handling to our connection strategy
+            this.connectionStrategy.txBegin();
         }
         finally {
             log.exiting(CLASSNAME, METHODNAME);
@@ -1403,15 +1398,19 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         final String METHODNAME = "commit";
         log.entering(CLASSNAME, METHODNAME);
         
-        // delegate transaction handling to the strategy we use for handling connections
-        connectionStrategy.commit();
-
+        try {
+            // delegate transaction handling to the strategy we use for handling connections
+            connectionStrategy.txEnd();
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
 
     }
 
     /**
      * Open a connection to the database and pass to the data access objects.
-     * Close after use.
+     * Caller must close the returned connection after use.
      * @return
      * @throws FHIRPersistenceDBConnectException 
      */
@@ -1419,21 +1418,19 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         return connectionStrategy.getConnection();
     }
 
-    /**
-     * Safely close the connection
-     * @param connection
-     */
-    private void close(Connection connection) {
-        FHIRDbHelper.close(connection);
-    }
-
     @Override
     public void rollback() throws FHIRPersistenceException {
         final String METHODNAME = "rollback";
         log.entering(CLASSNAME, METHODNAME);
 
-        // delegate transaction handling to the strategy we use for handling connections
-        connectionStrategy.rollback();
+        try {
+            // delegate transaction handling to the strategy we use for handling connections
+            connectionStrategy.txSetRollbackOnly();
+            connectionStrategy.txEnd();
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
     }
 
     @Override
@@ -1441,8 +1438,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         final String METHODNAME = "setRollbackOnly";
         log.entering(CLASSNAME, METHODNAME);
 
-        // delegate transaction handling to the strategy we use for handling connections
-        connectionStrategy.setRollbackOnly();
+        try {
+            // delegate transaction handling to the strategy we use for handling connections
+            connectionStrategy.txSetRollbackOnly();
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);            
+        }
     }
 
     @Override

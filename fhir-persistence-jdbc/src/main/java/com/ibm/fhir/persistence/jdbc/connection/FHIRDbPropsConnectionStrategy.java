@@ -85,38 +85,38 @@ public class FHIRDbPropsConnectionStrategy implements FHIRDbConnectionStrategy {
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#commit()
-     */
-    @Override
-    public void commit() throws FHIRPersistenceException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#rollback()
-     */
-    @Override
-    public void rollback() throws FHIRPersistenceException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#setRollbackOnly()
-     */
-    @Override
-    public void setRollbackOnly() throws FHIRPersistenceException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    /* (non-Javadoc)
      * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#getFlavor()
      */
     @Override
     public FHIRDbFlavor getFlavor() throws FHIRPersistenceDataAccessException {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#txBegin()
+     */
+    @Override
+    public void txBegin() throws FHIRPersistenceException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#txEnd()
+     */
+    @Override
+    public void txEnd() throws FHIRPersistenceException {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#txSetRollbackOnly()
+     */
+    @Override
+    public void txSetRollbackOnly() throws FHIRPersistenceException {
+        // TODO Auto-generated method stub
+        
     }
 }

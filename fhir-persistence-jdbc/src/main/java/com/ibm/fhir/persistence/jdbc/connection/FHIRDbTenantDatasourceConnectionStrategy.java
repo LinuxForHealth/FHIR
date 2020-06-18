@@ -58,7 +58,10 @@ public class FHIRDbTenantDatasourceConnectionStrategy implements FHIRDbConnectio
     // Cache of datasources we've found
     private final Map<String, DataSource> datasourceMap = new ConcurrentHashMap<>();
     
+    // the user transaction
     private final UserTransaction userTransaction;
+    
+    private boolean rollbackOnly;
 
     // the flavor of the database we are configured to represent
     private final FHIRDbFlavor flavor;
@@ -165,12 +168,28 @@ public class FHIRDbTenantDatasourceConnectionStrategy implements FHIRDbConnectio
     }
     
     /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#commit()
+     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#txBegin()
      */
     @Override
-    public void commit() throws FHIRPersistenceException {
+    public void txBegin() throws FHIRPersistenceException {
         try {
-            if (userTransaction != null) {
+            this.rollbackOnly = false;
+            userTransaction.begin();
+        }
+        catch (Throwable e) {
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while starting a transaction.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+        }
+    }
+
+
+    @Override
+    public void txEnd() throws FHIRPersistenceException {
+        try {
+            if (this.rollbackOnly) {
+                userTransaction.rollback();
+            } else {
                 userTransaction.commit();
             }
         }
@@ -182,31 +201,14 @@ public class FHIRDbTenantDatasourceConnectionStrategy implements FHIRDbConnectio
     }
 
     /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#rollback()
-     */
-    @Override
-    public void rollback() throws FHIRPersistenceException {
-        try {
-            if (userTransaction != null) {
-                userTransaction.rollback();
-            }
-        } catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while rolling back a transaction.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-    }
-
-    /* (non-Javadoc)
      * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#setRollbackOnly()
      */
     @Override
-    public void setRollbackOnly() throws FHIRPersistenceException {
+    public void txSetRollbackOnly() throws FHIRPersistenceException {
 
         try {
-            if (userTransaction != null) {
-                userTransaction.setRollbackOnly();
-            }
+            this.rollbackOnly = true;
+            userTransaction.setRollbackOnly();
         } catch (Throwable e) {
             String errorMessage = "Unexpected error while rolling a transaction.";
             FHIRPersistenceException fx = new FHIRPersistenceException(errorMessage);

@@ -106,6 +106,9 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
     public void removeSavedResourcesAndResetTenant() throws Exception {
         Resource[] resources = {resource1a, resource1b, resource2a, resource2b, resource3a, resource3b};
         if (persistence.isDeleteSupported()) {
+            if (persistence.isTransactional()) {
+                persistence.getTransaction().begin();
+            }
             for (Resource resource : resources) {
                 persistence.delete(getDefaultPersistenceContext(), Basic.class, resource.getId());
             }

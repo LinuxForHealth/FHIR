@@ -72,6 +72,9 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
     @AfterClass
     public void removeSavedResourcesAndResetTenant() throws Exception {
         if (savedResource != null && persistence.isDeleteSupported()) {
+            if (persistence.isTransactional()) {
+                persistence.getTransaction().begin();
+            }
             persistence.delete(getDefaultPersistenceContext(), Basic.class, savedResource.getId());
             if (persistence.isTransactional()) {
                 persistence.getTransaction().commit();

@@ -300,20 +300,41 @@ public class DerbyMaster implements AutoCloseable {
     }
     
     /**
+     * Dump locks using the given connection
+     * @param c
+     */
+    public static void dumpLockInfo(Connection c) {
+        // wrap the connection so that we can run our lock diag DAO
+        JdbcTarget target = new JdbcTarget(c);
+        DerbyAdapter adapter = new DerbyAdapter(target);
+        
+        DerbyLockDiag diag = new DerbyLockDiag();
+        List<LockInfo> locks = adapter.runStatement(diag);
+        
+        // render
+        System.out.println(LockInfo.header());
+        locks.forEach(System.out::println);
+    }
+    
+    /**
      * @implNote this drop is only relevant for in-memory Derby databases, which we no
      *           longer use due to the size of the tests. This does not remove any
      *           files on disk.
      */
     @Override
     public void close() throws Exception {
+        shutdown(database);
+    }
+    
+    public static void shutdown(String databaseName) {
         boolean shutdown = false;
         try {
             Properties properties = new Properties();
             DerbyPropertyAdapter adapter = new DerbyPropertyAdapter(properties);
-            adapter.setDatabase(database);
+            adapter.setDatabase(databaseName);
 
             final String dropper = DERBY_TRANSLATOR.getUrl(properties) + ";shutdown=true";
-            logger.info("Shutting down Derby DB '" + database + "' with: " + dropper);
+            logger.info("Shutting down Derby DB '" + databaseName + "' with: " + dropper);
             
             // should throw an exception if successful
             DriverManager.getConnection(dropper);
@@ -325,7 +346,8 @@ public class DerbyMaster implements AutoCloseable {
         }
 
         if (!shutdown) {
-            throw new IllegalStateException("Derby database not shut down: '" + this.database + "'");
+            throw new IllegalStateException("Derby database not shut down: '" + databaseName + "'");
         }
+        
     }
 }

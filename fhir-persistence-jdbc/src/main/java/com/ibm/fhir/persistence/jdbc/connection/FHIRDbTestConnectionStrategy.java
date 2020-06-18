@@ -12,6 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
+import com.ibm.fhir.database.utils.api.ITransaction;
+import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
@@ -44,6 +46,12 @@ public class FHIRDbTestConnectionStrategy implements FHIRDbConnectionStrategy {
     
     // The type and capability of the database we connect to
     private final FHIRDbFlavor flavor;
+    
+    // Support transactions for the persistence unit tests
+    private final SimpleTransactionProvider transactionProvider;
+    
+    // Represents the current transaction if not null
+    private ITransaction currentTransaction;
         
     /**
      * Public constructor
@@ -55,6 +63,9 @@ public class FHIRDbTestConnectionStrategy implements FHIRDbConnectionStrategy {
 
         // we don't support multi-tenancy in our unit-test database
         flavor = new FHIRDbFlavorImpl(cp.getTranslator().getType(), false);
+        
+        // provide transaction support for our tests
+        this.transactionProvider = new SimpleTransactionProvider(this.connectionProvider);
     }
 
     /* (non-Javadoc)
@@ -102,29 +113,21 @@ public class FHIRDbTestConnectionStrategy implements FHIRDbConnectionStrategy {
      * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#commit()
      */
     @Override
-    public void commit() throws FHIRPersistenceException {
-        try {
-            connectionProvider.commitTransaction();
+    public void txEnd() throws FHIRPersistenceException {
+        if (currentTransaction == null) {
+            throw new FHIRPersistenceDataAccessException("Transaction not started");
         }
-        catch (SQLException x) {
+        try {
+            this.currentTransaction.close();
+        }
+        catch (Throwable x) {
+            // translate to a FHIRPersistenceException
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while committing a transaction.");
             log.log(Level.SEVERE, fx.getMessage(), x);
             throw fx;
         }
-    }
-
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#rollback()
-     */
-    @Override
-    public void rollback() throws FHIRPersistenceException {
-        try {
-            connectionProvider.rollbackTransaction();
-        }
-        catch (SQLException x) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while rolling back a transaction.");
-            log.log(Level.SEVERE, fx.getMessage(), x);
-            throw fx;
+        finally {
+            this.currentTransaction = null;
         }
     }
 
@@ -132,17 +135,25 @@ public class FHIRDbTestConnectionStrategy implements FHIRDbConnectionStrategy {
      * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#setRollbackOnly()
      */
     @Override
-    public void setRollbackOnly() throws FHIRPersistenceException {
-        throw new FHIRPersistenceException("setRollbackOnly currently unsupported");
+    public void txSetRollbackOnly() throws FHIRPersistenceException {
+        if (currentTransaction == null) {
+            throw new FHIRPersistenceDataAccessException("Transaction not started");
+        }
         
-        // TODO implement setRollbackOnly support in IConnectionProvider
-//        try {
-//        }
-//        catch (SQLException x) {
-//            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while rolling back a transaction.");
-//            log.log(Level.SEVERE, fx.getMessage(), x);
-//            throw fx;
-//        }
+        this.currentTransaction.setRollbackOnly();
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#begin()
+     */
+    @Override
+    public void txBegin() throws FHIRPersistenceException {
+        if (currentTransaction != null) {
+            throw new FHIRPersistenceDataAccessException("Transaction already active on this thread");
+        }
+        
+        // allocate a new transaction
+        this.currentTransaction = this.transactionProvider.getTransaction();
     }
 
 }

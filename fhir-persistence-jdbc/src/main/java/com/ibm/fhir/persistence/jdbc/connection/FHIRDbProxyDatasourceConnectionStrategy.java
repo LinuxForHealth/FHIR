@@ -139,7 +139,4 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
         
         return connection;
     }
-
-
-
 }

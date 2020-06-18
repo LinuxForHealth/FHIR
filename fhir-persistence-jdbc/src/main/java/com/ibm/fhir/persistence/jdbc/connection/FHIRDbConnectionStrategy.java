@@ -38,18 +38,21 @@ public interface FHIRDbConnectionStrategy {
     public FHIRDbFlavor getFlavor() throws FHIRPersistenceDataAccessException;
     
     /**
-     * Commit the current transaction
+     * Start a new transaction. Only one transaction is supported on a thread.
+     * No support is provided for nested transactions
+     * @throws FHIRPersistenceException
      */
-    public void commit() throws FHIRPersistenceException;
-
+    public void txBegin() throws FHIRPersistenceException;
+    
     /**
-     * Roll back the current transaction
+     * End the current transaction by calling commit, or rollback
+     * if setRollbackOnly() has been called prior.
      */
-    public void rollback() throws FHIRPersistenceException;
+    public void txEnd() throws FHIRPersistenceException;
 
     /**
      * Mark the current transaction so that it can only be rolled back
      * when the application attempts to close the transaction.
      */
-    public void setRollbackOnly() throws FHIRPersistenceException;
+    public void txSetRollbackOnly() throws FHIRPersistenceException;
 }

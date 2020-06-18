@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
@@ -27,6 +28,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  *
  */
 public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer>> {
+    private static final Logger logger = Logger.getLogger(GetLatestVersionDAO.class.getName());
     private final String adminSchemaName;
     private final String schemaName;
 
@@ -67,6 +69,7 @@ public class GetLatestVersionDAO implements IDatabaseSupplier<Map<String,Integer
             }
         }
         catch (SQLException x) {
+            logger.severe("Query failed: " + sql);
             throw translator.translate(x);
         }
 

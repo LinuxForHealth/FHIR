@@ -39,20 +39,21 @@ public class FHIRDbDAOTest {
     @Test(groups = {"jdbc"})
     public void testDerbyConnectionStrategy() throws Exception {
         
-        // DerbyFhirDatabase will initialize the full FHIR schema if necessary
-        try (DerbyFhirDatabase database = new DerbyFhirDatabase(DerbyInitializer.DB_NAME)) {
-            PoolConnectionProvider connectionPool = new PoolConnectionProvider(database, 1);
-            // ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
+        // DerbyFhirDatabase will initialize the full FHIR schema if necessary.
+        // Don't close, because we want to avoid shutting the database down because
+        // it will be used by other tests in the suite
+        DerbyFhirDatabase database = new DerbyFhirDatabase(DerbyInitializer.DB_NAME);
+        PoolConnectionProvider connectionPool = new PoolConnectionProvider(database, 1);
+        // ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
 
-            // Test creation of a DAO instance with a connection strategy.
+        // Test creation of a DAO instance with a connection strategy.
 
-            Action action = new SetSchemaAction("FHIRDATA");
-            FHIRDbConnectionStrategy strat = new FHIRDbTestConnectionStrategy(connectionPool, action);
+        Action action = new SetSchemaAction("FHIRDATA");
+        FHIRDbConnectionStrategy strat = new FHIRDbTestConnectionStrategy(connectionPool, action);
 
-            // We only ask the DAO for a connection
-            try (Connection c = strat.getConnection()) {
-                assertNotNull(c);
-            }
+        // We only ask the DAO for a connection
+        try (Connection c = strat.getConnection()) {
+            assertNotNull(c);
         }
     }
     

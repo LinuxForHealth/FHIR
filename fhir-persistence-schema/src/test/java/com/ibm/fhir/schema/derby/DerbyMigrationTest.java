@@ -66,6 +66,9 @@ public class DerbyMigrationTest {
         // 1. Create the new schema
         String dbPath = TARGET_DIR + "2020-1";
         try (DerbyMaster db = new DerbyMaster(TARGET_DIR + "2020-1")) {
+            // Set up the version history service first if it doesn't yet exist
+            db.runWithAdapter(adapter -> CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter));
+
             IConnectionProvider cp = new DerbyConnectionProvider(db, null);
             PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, 200);
             ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
@@ -92,6 +95,8 @@ public class DerbyMigrationTest {
 
         dbPath = TARGET_DIR + "2019";
         try (DerbyMaster db = new DerbyMaster(dbPath)) {
+            // Set up the version history service first if it doesn't yet exist
+            db.runWithAdapter(adapter -> CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter));
             
             // Current version history for the database. This is used by applyWithHistory
             // to determine which updates to apply and to record the new changes as they
@@ -117,6 +122,9 @@ public class DerbyMigrationTest {
                 }
             }
 
+            // refresh the version history service to match what is in the database
+            vhs.init();
+
             // 3. Upgrade the old schema to the new one
             try (ITransaction tx = transactionProvider.getTransaction()) {
                 try {
@@ -140,8 +148,6 @@ public class DerbyMigrationTest {
 
     private void createOrUpgradeSchema(DerbyMaster db, IConnectionProvider pool, VersionHistoryService vhs, Set<String> resourceTypes) throws SQLException {
 
-        // Set up the version history service first if it doesn't yet exist
-        db.runWithAdapter(adapter -> CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter));
 
         FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, resourceTypes);
         PhysicalDataModel pdm = new PhysicalDataModel();
@@ -154,9 +160,6 @@ public class DerbyMigrationTest {
      * Construct a Derby database at the specified path and deploy the IBM FHIR Server schema for the passed resource types.
      */
     private void createOldDerbyDatabase(DerbyMaster derby, IConnectionProvider pool, VersionHistoryService vhs, Set<String> resourceTypes) throws SQLException {
-
-        // Set up the version history service first if it doesn't yet exist
-        derby.runWithAdapter(adapter -> CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter));
 
         // Database objects for the admin schema (shared across multiple tenants in the same DB)
         OldFhirSchemaGenerator gen = new OldFhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, resourceTypes);

@@ -55,4 +55,11 @@ public class LockInfo {
         return String.format("%15s %5s %4s %24s %10s %5s %9s %5s %s", xid, type, mode, tablename, lockname, state, tabletype, lockcount, indexname);
     }
     
+    /**
+     * Print a header to match the toString columns
+     * @return
+     */
+    public static String header() {
+        return String.format("%15s %5s %4s %24s %10s %5s %9s %5s %s", "xid", "type", "mode", "tablename", "lockname", "state", "tabletype", "lockcount", "indexname");
+    }
 }

@@ -10,19 +10,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
-import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
-import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
+import com.ibm.fhir.database.utils.derby.DerbyConnectionProvider;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
@@ -47,7 +44,7 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     private static final String BATCH_SCHEMANAME = Main.BATCH_SCHEMANAME;
 
     // The translator to help us out with Derby syntax
-    private static final IDatabaseTranslator DERBY_TRANSLATOR = new DerbyTranslator();
+    // private static final IDatabaseTranslator DERBY_TRANSLATOR = new DerbyTranslator();
 
     // The wrapper for managing a derby in-memory instance
     private final DerbyMaster derby;
@@ -72,9 +69,8 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     public DerbyFhirDatabase(String dbPath) throws SQLException {
         logger.info("Creating Derby database for FHIR: " + dbPath);
         derby = new DerbyMaster(dbPath);
-        this.connectionPool = new PoolConnectionProvider(this, 200);
+        this.connectionPool = new PoolConnectionProvider(new DerbyConnectionProvider(derby, null), 200);
         this.transactionProvider = new SimpleTransactionProvider(connectionPool);
-        
 
         // Lambdas are quite tasty for this sort of thing
         derby.runWithAdapter(adapter -> CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter));
