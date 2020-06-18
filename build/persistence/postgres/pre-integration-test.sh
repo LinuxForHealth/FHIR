@@ -110,6 +110,8 @@ password=change-password
 EOF
     echo "Waiting..."
     sleep 60
+
+    # Pool-size is set to 1, because of... org.postgresql.util.PSQLException: ERROR: deadlock detected
     echo "- Create Schemas"
     java -jar ${SCHEMA}/fhir-persistence-schema-*-cli.jar --db-type postgresql \
         --prop-file workarea/postgres.properties --schema-name FHIRDATA --create-schemas --pool-size 1
@@ -165,9 +167,9 @@ bringup_fhir(){
     healthcheck_url='https://localhost:9443/fhir-server/api/v4/$healthcheck'
     tries=0
     status=0
-    while [ $status -ne 200 -a $tries -lt 3 ]; do
+    while [ $status -ne 200 -a $tries -lt 10 ]; do
         tries=$((tries + 1))
-        cmd="curl -k -o ${WORKSPACE}/health.json -I -w "%{http_code}" -u fhiruser:change-password $healthcheck_url"
+        cmd="curl -k -o ${WORKSPACE}/health.json --max-time 5 -I -w "%{http_code}" -u fhiruser:change-password $healthcheck_url"
         echo "Executing[$tries]: $cmd"
         status=$($cmd)
         echo "Status code: $status"
