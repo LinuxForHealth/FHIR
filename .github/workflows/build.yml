@@ -58,6 +58,8 @@ jobs:
         )
         validation_paths=(
           fhir-validation
+          fhir-profile/src/main
+          fhir-term/src/main
           fhir-path/src/main
           fhir-model/src/main
           fhir-examples
