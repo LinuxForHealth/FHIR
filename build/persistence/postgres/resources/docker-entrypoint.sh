@@ -40,9 +40,9 @@ EOF
     su - postgres -c "/usr/local/bin/psql -c \"CREATE USER fhiradmin WITH LOGIN encrypted password 'change-password';\"" 
 
     # Create the Database
-    su - postgres -c "/usr/local/bin/psql -c \"CREATE DATABASE FHIRDB OWNER 'fhiradmin';\""
+    su - postgres -c "/usr/local/bin/psql -c \"CREATE DATABASE fhirdb OWNER 'fhiradmin';\""
 
-    su - postgres -c '/usr/local/bin/psql -v ON_ERROR_STOP=1 < /docker-entrypoint-initdb.d/db.sql'
+    su - postgres -c '/usr/local/bin/psql --dbname=fhirdb -v ON_ERROR_STOP=1 < /docker-entrypoint-initdb.d/db.sql'
 fi
 
 exec "$@"

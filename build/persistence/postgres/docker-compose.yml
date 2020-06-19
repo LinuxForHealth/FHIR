@@ -46,7 +46,7 @@ services:
        timeout: 10s
        retries: 2
        # https://docs.docker.com/compose/compose-file/#variable-substitution
-       test: curl -v -f -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
+       test: curl --max-time 5 -v -f -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
      ports:
        - 9443:9443
      depends_on:
