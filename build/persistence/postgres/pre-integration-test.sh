@@ -186,6 +186,14 @@ bringup_fhir(){
         exit 1
     fi
 
+    retry_count=1
+    while [ `docker-compose ps fhir-server | grep -v health | grep -c up` -ne 1 ] && [ $retry_count -lt 20 ]
+    do
+        echo "Waiting ${retry_count}"
+        sleep 30
+        retry_count=$((retry_count++))
+    done
+
     echo "The fhir-server appears to be running..."
     exit 0
 }
