@@ -59,7 +59,6 @@ public interface FHIRRegistryResourceProvider {
      */
     Collection<FHIRRegistryResource> getProfileResources(String type);
 
-
     /**
      * Get the search parameter resources from this provider with the given search parameter type
      * (e.g. string, token, etc.)
@@ -70,4 +69,14 @@ public interface FHIRRegistryResourceProvider {
      *     the search parameter resources from this provider with the given search parameter type
      */
     Collection<FHIRRegistryResource> getSearchParameterResources(String type);
+
+    /**
+     * Get the profiles for all of the resources.
+     *
+     * @return
+     *  the profile resources from this provider that constrain the resource types
+     */
+    default Collection<FHIRRegistryResource> getProfileResources(){
+        throw new UnsupportedOperationException("The specific implementation does not support this feature");
+    };
 }
