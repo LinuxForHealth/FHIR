@@ -84,6 +84,11 @@ public class ExampleRequestProcessor implements IExampleProcessor {
         
         try {
             base.assertResponse(response, Response.Status.CREATED.getStatusCode());
+            
+            // FHIR server now sends back OperationOutcome info in some places. We need to consume this
+            // to avoid the FHIR server complaining about broken pipe if we close the connection while
+            // it is trying to still write the JSON.
+            response.readEntity(String.class);
         } catch (AssertionError x) {
             // definitely not what we were expecting, so log what the FHIR server gave us
             String msg = response.readEntity(String.class);
