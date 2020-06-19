@@ -157,10 +157,10 @@ public class WhcAuditCadfLogService implements AuditLogService {
         final String METHODNAME = "logEntry";
         logger.entering(CLASSNAME, METHODNAME);
 
-        // skip healthcheck and other bad operations
+        // skip healthcheck operation
         if (logEntry == null || logEntry.getContext() == null
-                || logEntry.getContext().getOperationName() == null
-                || logEntry.getContext().getOperationName().compareToIgnoreCase(HEALTHCHECKOP) == 0) {
+                || (logEntry.getContext().getOperationName() != null
+                && logEntry.getContext().getOperationName().equalsIgnoreCase(HEALTHCHECKOP))) {
             return;
         }
 
