@@ -167,16 +167,18 @@ bringup_fhir(){
     healthcheck_url='https://localhost:9443/fhir-server/api/v4/$healthcheck'
     tries=0
     status=0
-    while [ $status -ne 200 -a $tries -lt 10 ]; do
+    while [ $status -ne 200 -a $tries -lt 30 ]; do
         tries=$((tries + 1))
+        set +o errexit
         cmd="curl -k -o ${WORKSPACE}/health.json --max-time 5 -I -w "%{http_code}" -u fhiruser:change-password $healthcheck_url"
         echo "Executing[$tries]: $cmd"
         status=$($cmd)
+        set -o errexit
         echo "Status code: $status"
         if [ $status -ne 200 ]
         then
         echo "Sleeping 10 secs..."
-        sleep 10
+        sleep 15
         fi
     done
 
@@ -185,14 +187,6 @@ bringup_fhir(){
         echo "Could not establish a connection to the fhir-server within $tries REST API invocations!"
         exit 1
     fi
-
-    retry_count=1
-    while [ `docker-compose ps fhir-server | grep -v health | grep -c up` -ne 1 ] && [ $retry_count -lt 20 ]
-    do
-        echo "Waiting ${retry_count}"
-        sleep 30
-        retry_count=$((retry_count++))
-    done
 
     echo "The fhir-server appears to be running..."
     exit 0
