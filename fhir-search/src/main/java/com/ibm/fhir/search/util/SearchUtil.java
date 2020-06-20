@@ -182,7 +182,7 @@ public class SearchUtil {
      * @throws Exception
      */
     protected static List<SearchParameter> getFilteredBuiltinSearchParameters(String resourceType) throws Exception {
-        List<SearchParameter> result = new ArrayList<>();
+        Set<SearchParameter> resultSet = new HashSet<>();
 
         Map<String, ParametersMap> spBuiltin = ParametersUtil.getBuiltInSearchParametersMap();
 
@@ -192,15 +192,19 @@ public class SearchUtil {
         // Retrieve the SPs associated with the specified resource type and filter per the filter rules.
         ParametersMap spMap = spBuiltin.get(resourceType);
         if (spMap != null && !spMap.isEmpty()) {
-            result.addAll(filterSearchParameters(filterRules, resourceType, spMap.values()));
+            resultSet.addAll(filterSearchParameters(filterRules, resourceType, spMap.values()));
         }
 
         // Retrieve the SPs associated with the "Resource" resource type and filter per the filter rules.
-        spMap = spBuiltin.get(SearchConstants.RESOURCE_RESOURCE);
-        if (spMap != null && !spMap.isEmpty()) {
-            result.addAll(filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap.values()));
+        if (resourceType.contentEquals(SearchConstants.RESOURCE_RESOURCE)) {
+	        spMap = spBuiltin.get(SearchConstants.RESOURCE_RESOURCE);
+	        if (spMap != null && !spMap.isEmpty()) {
+	            resultSet.addAll(filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap.values()));
+	        }
         }
 
+        List<SearchParameter> result = new ArrayList<>();
+        result.addAll(resultSet);
         return result;
     }
 
