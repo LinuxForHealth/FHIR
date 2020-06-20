@@ -54,7 +54,7 @@ function deploy_via_curl {
             if [ ! -z "${SOURCES_JAR}" ]
             then
                 echo " - Uploading jar: ${SOURCES_JAR}"
-                FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}-sources.jar"
+                FILE_TARGET_PATH="/com/ibm/fhir/`basename ${PROJ}`/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}-sources.jar"
                 STATUS=$(curl -T "${PROJ}/target/${SOURCES_JAR}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
                 echo "${STATUS} - Done uploading jar file to ${FILE_TARGET_PATH}"
             fi
@@ -64,7 +64,7 @@ function deploy_via_curl {
             if [ ! -z "${JAVADOC_JAR}" ]
             then
                 echo " - Uploading jar: ${JAVADOC_JAR}"
-                FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}-javadoc.jar"
+                FILE_TARGET_PATH="/com/ibm/fhir/`basename ${PROJ}`/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}-javadoc.jar"
                 STATUS=$(curl -T "${PROJ}/target/${JAVADOC_JAR}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
                 echo "${STATUS} - Done uploading jar file to ${FILE_TARGET_PATH}"
             fi
@@ -74,7 +74,7 @@ function deploy_via_curl {
             if [ ! -z "${TESTS_JAR}" ]
             then
                 echo " - Uploading jar: ${TESTS_JAR}"
-                FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}-tests.jar"
+                FILE_TARGET_PATH="/com/ibm/fhir/`basename ${PROJ}`/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}-tests.jar"
                 STATUS=$(curl -T "${PROJ}/target/${TESTS_JAR}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
                 echo "${STATUS} - Done uploading jar file to ${FILE_TARGET_PATH}"
             fi
@@ -82,7 +82,7 @@ function deploy_via_curl {
             for JAR_FILE in `find ${PROJ}/target -maxdepth 1 -not -name '*-tests.jar' -and -not -name '*-javadoc.jar' -and -not -name '*-sources.jar' -and -not -name '*orginal*.jar' -and -name '*.jar' -exec basename {} \;`
             do
                 echo " - Uploading jar: ${JAR_FILE}"
-                FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${JAR_FILE}"
+                FILE_TARGET_PATH="/com/ibm/fhir/`basename ${PROJ}`/${BUILD_VERSION}/${JAR_FILE}"
                 STATUS=$(curl -T "${PROJ}/target/${JAR_FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
                 echo "${STATUS} - Done uploading jar file to ${FILE_TARGET_PATH}"
             done
@@ -92,7 +92,7 @@ function deploy_via_curl {
             do
                ZIP_FILE=`basename ${ZIP_FILE}`
                echo " - Uploading zip: ${ZIP_FILE}"
-               FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${ZIP_FILE}"
+               FILE_TARGET_PATH="/com/ibm/fhir/`basename ${PROJ}`/${BUILD_VERSION}/${ZIP_FILE}"
                STATUS=$(curl -T "${PROJ}/target/${ZIP_FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
                echo "${STATUS} - Done uploading zip file to ${FILE_TARGET_PATH}"
                if [ "${STATUS}" == "413" ]
@@ -106,7 +106,7 @@ function deploy_via_curl {
             for POM_FILE in `find ${PROJ}/ -name 'pom.xml' -maxdepth 1 -exec basename {} \;`
             do
                 echo " - Uploading pom: ${POM_FILE}"
-                FILE_TARGET_PATH="/com/ibm/fhir/${PROJ}/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}.pom"
+                FILE_TARGET_PATH="/com/ibm/fhir/`basename ${PROJ}`/${BUILD_VERSION}/${PROJ}-${BUILD_VERSION}.pom"
                 STATUS=$(curl -T "${PROJ}/${POM_FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${PROJ}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
                 echo "${STATUS} - Done uploading pom file to ${FILE_TARGET_PATH}"
             done
