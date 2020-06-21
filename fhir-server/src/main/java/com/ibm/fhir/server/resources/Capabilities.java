@@ -215,7 +215,6 @@ public class Capabilities extends FHIRResource {
             List<SearchParameter> searchParameters = SearchUtil.getApplicableSearchParameters(resourceTypeName);
             if (searchParameters != null) {
                 for (SearchParameter searchParameter : searchParameters) {
-                    // The name here is a natural language name, and intentionally not replaced with code.
                     Rest.Resource.SearchParam.Builder conformanceSearchParamBuilder =
                             Rest.Resource.SearchParam.builder()
                                 .name(searchParameter.getCode())
