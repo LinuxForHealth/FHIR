@@ -12,6 +12,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeClass;
@@ -88,9 +89,11 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
             System.out.println(result.stream().map(in -> in.getCode().getValue()).collect(Collectors.toList()));
         }
         assertEquals(8, result.size());
-        SearchParameter sp = result.get(0);
-        assertNotNull(sp);
-        assertEquals("code", sp.getCode().getValue());
+        Set<String> codes = result.stream().map(sp -> sp.getCode().getValue()).collect(Collectors.toSet());
+        assertTrue(codes.contains("code"));
+        assertTrue(codes.contains("value-range"));
+        assertTrue(codes.contains("_lastUpdated"));
+        assertTrue(codes.contains("_id"));
 
         result = SearchUtil.getApplicableSearchParameters("Immunization");
         assertNotNull(result);
