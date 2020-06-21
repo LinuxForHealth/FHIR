@@ -196,11 +196,9 @@ public class SearchUtil {
         }
 
         // Retrieve the SPs associated with the "Resource" resource type and filter per the filter rules.
-        if (resourceType.contentEquals(SearchConstants.RESOURCE_RESOURCE)) {
-            spMap = spBuiltin.get(SearchConstants.RESOURCE_RESOURCE);
-            if (spMap != null && !spMap.isEmpty()) {
-                resultSet.addAll(filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap.values()));
-            }
+        spMap = spBuiltin.get(SearchConstants.RESOURCE_RESOURCE);
+        if (spMap != null && !spMap.isEmpty()) {
+            resultSet.addAll(filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap.values()));
         }
 
         List<SearchParameter> result = new ArrayList<>();
