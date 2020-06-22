@@ -31,13 +31,15 @@ Each persistence layer that is tested as part of the framework uses the default 
 |bin/pre-integration-test.sh|Call the pre-integration-test step for `persistence`|
 |persistence/pre-integration-test.sh|Run before integration-test.sh to startup image and services for the integration testing|
 |bin/post-integration-test.sh|Call the post-integration-test step for `persistence`|
-|persistence/post-integration-test.sh|Run after integration-test.sh to stop image and services from the integration testing|
-|persistence/Dockerfile|The Docker file used in development and end-to-end tests|
-|persistence/docker-compose.yml|The Docker Compose file used with the end-to-end tests|
-|persistence/resources| Stores files used to support the end-to-end tests. |
-|persistence/README.md|Describes the relevant details for this persistence layer.|
-|persistence/.gitignore|Ignores files related to the persistence layer's tests|
+|`<persistence>`/post-integration-test.sh|Run after integration-test.sh to stop image and services from the integration testing|
+|`<persistence>`/Dockerfile|The Docker file used in development and end-to-end tests|
+|`<persistence>`/docker-compose.yml|The Docker Compose file used with the end-to-end tests|
+|`<persistence>`/resources| Stores files used to support the end-to-end tests. |
+|`<persistence>`/README.md|Describes the relevant details for this persistence layer.|
+|`<persistence>`/.gitignore|Ignores files related to the persistence layer's tests|
 |`README.md`|This file describing the framework|
+
+Note, `<persistence>` is replaced with your persistence layer such as `postgres`. 
 
 Consult the reference implementation (`postgres`) to start a new persistence layer. The minimum that must be implemented are the `pre-integration-test.sh`, `post-integration-test.sh`, the `Dockerfile`, `.gitignore` and the `README.md`.
 
