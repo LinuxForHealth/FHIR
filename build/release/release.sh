@@ -79,7 +79,7 @@ function deploy_via_curl {
         # Upload Project File
         for POM_FILE in `find ${PROJ}/.. -name 'pom.xml' -maxdepth 1 -exec basename {} \;`
         do
-            FILE="${POM_FILE}"
+            FILE="${PROJ}/../${POM_FILE}"
             FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}.pom"
             upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
         done
