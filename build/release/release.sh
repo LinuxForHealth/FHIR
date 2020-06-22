@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 set -eu -o pipefail
 
@@ -22,6 +23,9 @@ source "$(dirname '$0')/release.properties"
 # Basic information
 SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
 debugging "Script Name is ${SCRIPT_NAME}"
+
+# Creates a temporary output file
+OUTPUT_FILE=`mktemp`
 
 # Reset to Original Directory
 popd > /dev/null
@@ -48,7 +52,14 @@ function upload_to_bintray {
     FILE_TARGET_PATH="${3}"
     echo ${MODULE} ${FILE} ${FILE_TARGET_PATH}
     echo " - Uploading: ${FILE}"
-    STATUS=$(curl -T "${FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${MODULE}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o /dev/null -w '%{http_code}')
+    
+    STATUS=$(curl -T "${FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${MODULE}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o ${OUTPUT_FILE} -w '%{http_code}')
+    if [ "${STATUS}" -ne "201" ]
+    then 
+        echo "Debug Information for Upload Failure" 
+        cat ${OUTPUT_FILE}
+    fi
+    
     if [ "${STATUS}" == "413" ]
     then
         # File is too big (over 300M)
