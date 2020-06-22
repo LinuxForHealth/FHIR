@@ -77,12 +77,13 @@ function deploy_via_curl {
         MODULE=`basename ${MODULE_DIRECTORY}`
         echo "Processing [${PROJ}] files"
         # Upload Project File
-        for POM_FILE in `find ${PROJ}/.. -name 'pom.xml' -maxdepth 1 -exec basename {} \;`
-        do
-            FILE="${PROJ}/../${POM_FILE}"
+        POM_FILE="${MODULE_DIRECTORY}/pom.xml"
+        if [ -f ${POM_FILE} ]
+        then
+            FILE="${POM_FILE}"
             FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}.pom"
             upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
-        done
+        fi
 
         # Sources
         for SOURCES_JAR in `find ${PROJ} -iname "*-sources.jar" -maxdepth 1 -exec basename {} \;`
