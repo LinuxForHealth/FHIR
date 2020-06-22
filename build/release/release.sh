@@ -46,7 +46,7 @@ function deploy_bintray {
 
 # upload_to_bintray - uploads to bintray
 function upload_to_bintray {
-    TYPE="release"
+    TYPE="releases"
     MODULE="${1}"
     FILE="${2}"
     FILE_TARGET_PATH="${3}"
