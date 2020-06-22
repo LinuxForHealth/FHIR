@@ -225,7 +225,10 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
             restartWith = maxValue;
         }
         
-        // Derby doesn't use the CACHE attribute, so cache will be ignored.        
+        // Derby doesn't use the CACHE attribute, so cache will be ignored. This change is important,
+        // so we log it as info.
+        final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
+        logger.info("Recreating sequence '" + sname + "' START WITH " + restartWith);
         dropSequence(schemaName, sequenceName);
         createSequence(schemaName, sequenceName, restartWith, cache);
     }
