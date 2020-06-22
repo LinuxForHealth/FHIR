@@ -46,7 +46,7 @@ import com.ibm.fhir.database.utils.tenant.UpdateTenantStatusDAO;
  */
 public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDatabaseTypeAdapter {
     private static final Logger logger = Logger.getLogger(CommonDatabaseAdapter.class.getName());
-
+    
     // The target to use for executing our DDL
     protected final IDatabaseTarget target;
 
@@ -55,7 +55,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     // The translator used to to tweak the syntax for the database
     private final IDatabaseTranslator translator;
-
+    
     /**
      * Protected constructor
      * @param tgt database targeted
@@ -456,6 +456,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     @Override
     public <T> T runStatement(IDatabaseSupplier<T> supplier) {
         if (this.connectionProvider != null) {
+            // Expects some sort of outside transaction management and connection wrapping
             try (Connection c = connectionProvider.getConnection()) {
                 return supplier.run(getTranslator(), c);
             } catch (SQLException x) {
@@ -504,7 +505,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     }
 
     @Override
-    public void createSequence(String schemaName, String sequenceName, int cache) {
+    public void createSequence(String schemaName, String sequenceName, long startWith, int cache) {
         /*
          * <CODE>CREATE SEQUENCE fhir_sequence
          * AS BIGINT
@@ -514,7 +515,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
          */
         // The move to start with 1000 gives room for manual creation and update of sequences.
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH 20000 CACHE " + cache + " NO CYCLE";
+        final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH " + startWith + " CACHE " + cache + " NO CYCLE";
         runStatement(ddl);
     }
 
@@ -530,6 +531,29 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
             logger.warning(ddl + "; Sequence not found");
         }
     }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#alterSequenceRestartWith(java.lang.String, java.lang.String, long)
+     */
+    @Override
+    public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache) {
+        // make sure we never reduce the sequence value
+        GetSequenceNextValueDAO dao = new GetSequenceNextValueDAO(schemaName, sequenceName);
+        Long maxValue = runStatement(dao);
+        if (maxValue != null && maxValue > restartWith) {
+            restartWith = maxValue;
+        }
+        
+        // Note the keyword RESTART instead of START.
+        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
+        final String ddl = "ALTER SEQUENCE " + qname + " RESTART WITH " + restartWith + " CACHE " + cache;
+        
+        // so important, we log it
+        logger.info(ddl);
+        
+        runStatement(ddl);
+    }
+
 
     @Override
     public int findTenantId(String adminSchemaName, String tenantName) {

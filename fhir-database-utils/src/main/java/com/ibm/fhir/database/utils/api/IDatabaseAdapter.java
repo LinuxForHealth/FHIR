@@ -324,9 +324,10 @@ public interface IDatabaseAdapter {
      *
      * @param schemaName
      * @param sequenceName
-     * @param cache
+     * @param startWith the START WITH value for the sequence
+     * @param cache the sequence CACHE value
      */
-    public void createSequence(String schemaName, String sequenceName, int cache);
+    public void createSequence(String schemaName, String sequenceName, long startWith, int cache);
 
     /**
      *
@@ -335,6 +336,15 @@ public interface IDatabaseAdapter {
      */
     public void dropSequence(String schemaName, String sequenceName);
 
+    /**
+     * Sets/resets the sequence to start with the given value.
+     * @param schemaName
+     * @param sequenceName
+     * @param restartWith
+     * @param cache
+     */
+    public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache);
+    
     /**
      * Grant the list of privileges on the named object to the user. This is a
      * general purpose method which can be used to specify privileges for any object

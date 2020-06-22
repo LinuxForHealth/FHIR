@@ -561,5 +561,4 @@ public class Db2Adapter extends CommonDatabaseAdapter {
 
         runStatement(ddl);
     }
-
 }

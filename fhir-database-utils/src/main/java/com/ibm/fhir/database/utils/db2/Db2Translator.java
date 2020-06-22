@@ -242,4 +242,12 @@ public class Db2Translator implements IDatabaseTranslator {
     public DatabaseType getType() {
         return DatabaseType.DB2;
     }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#dualTableName()
+     */
+    @Override
+    public String dualTableName() {
+        return "SYSIBM.SYSDUMMY1";
+    }
 }

@@ -173,4 +173,13 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
         return DatabaseType.PostgreSQL;
     }
 
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#dualTableName()
+     */
+    @Override
+    public String dualTableName() {
+        // PostgreSQL does not support a "DUAL" table because the FROM clause is optional.
+        return null;
+    }
+
 }

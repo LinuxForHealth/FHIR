@@ -19,9 +19,6 @@ public class FhirSchemaConstants {
     public static final int MAX_TOKEN_VALUE_BYTES = 1024;
     public static final int LOGICAL_ID_BYTES = 255;
 
-    // The first version of every object
-    public static final int INITIAL_VERSION = 1;
-
     // Default tablespace
     public static final String FHIR_TS = "FHIR_TS";
     public static final int FHIR_TS_EXTENT_KB = 128;
@@ -34,7 +31,9 @@ public class FhirSchemaConstants {
     public static final String FHIR_SEQUENCE = "FHIR_SEQUENCE";
     public static final String FHIR_REF_SEQUENCE = "FHIR_REF_SEQUENCE";
     public static final String TENANT_SEQUENCE = "TENANT_SEQUENCE";
-
+    public static final long FHIR_REF_SEQUENCE_START = 20000;
+    public static final int FHIR_REF_SEQUENCE_CACHE = 1000;
+    
     // Tenant constants
     public static final String MT_ID = "MT_ID";
     public static final String TENANT_HASH = "TENANT_HASH";

@@ -117,7 +117,15 @@ public class DerbyMaster implements AutoCloseable {
         if (!database.contains(DERBY_DIR)) {
             throw new IllegalArgumentException("Derby databases must start with: " + DERBY_DIR);
         }
-
+        
+        // Make sure the database is shut down before we try to drop it
+        try {
+            shutdown(database);
+        }
+        catch (IllegalStateException x) {
+            // NOP - database doesn't exist anyway
+        }
+        
         try {
             File dir = new File(database);
             if (dir.exists()) {
@@ -243,34 +251,6 @@ public class DerbyMaster implements AutoCloseable {
      */
     public void runWithAdapter(java.util.function.Consumer<IDatabaseAdapter> fn) {
 
-        // The connection here is a single one, not managed by an ITransactionProvider
-//        try (Connection c = getConnection()) {
-//            try {
-//                JdbcTarget target = new JdbcTarget(c);
-//                DerbyAdapter adapter = new DerbyAdapter(target);
-//
-//                // Replace the target with a decorated output, so that we print all the DDL before executing
-//                // The output is very FINE and logs out a lot. 
-//                if (logger.isLoggable(Level.FINE)) {
-//                    PrintTarget printer = new PrintTarget(target, logger.isLoggable(Level.FINE));
-//                    adapter = new DerbyAdapter(printer);
-//                }
-//                
-//                // call the Function we've been given using the adapter we just wrapped
-//                // around the connection.
-//                fn.accept(adapter);
-//            } catch (DataAccessException x) {
-//                logger.log(Level.SEVERE, "Error while running", x);
-//                c.rollback();
-//                throw x;
-//            }
-//            c.commit();
-//        }
-//         catch (SQLException e) {
-//            logger.log(Level.SEVERE, "Error while running", e);
-//            throw DERBY_TRANSLATOR.translate(e);
-//        }
-        
         IConnectionProvider cp = new DerbyConnectionProvider(this, null);
         ConnectionProviderTarget target = new ConnectionProviderTarget(cp);
         DerbyAdapter adapter = new DerbyAdapter(target);
@@ -288,7 +268,7 @@ public class DerbyMaster implements AutoCloseable {
     }
 
     /**
-     * Diagnostic utility to display all the current lock in the Derby database
+     * Diagnostic utility to display all the current locks in the Derby database
      */
     public void dumpLockInfo() {
         DerbyLockDiag diag = new DerbyLockDiag();
@@ -296,6 +276,7 @@ public class DerbyMaster implements AutoCloseable {
         ConnectionProviderTarget target = new ConnectionProviderTarget(cp);
         DerbyAdapter adapter = new DerbyAdapter(target);
         List<LockInfo> locks = adapter.runStatement(diag);
+        System.out.println(LockInfo.header());
         locks.forEach(System.out::println);
     }
     

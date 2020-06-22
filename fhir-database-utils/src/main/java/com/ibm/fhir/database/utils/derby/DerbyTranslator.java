@@ -173,4 +173,12 @@ public class DerbyTranslator implements IDatabaseTranslator {
         return DatabaseType.Derby;
     }
 
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#dualTableName()
+     */
+    @Override
+    public String dualTableName() {
+        return "SYSIBM.SYSDUMMY1";
+    }
+
 }

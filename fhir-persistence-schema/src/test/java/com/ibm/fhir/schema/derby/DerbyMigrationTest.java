@@ -38,6 +38,7 @@ import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
+import com.ibm.fhir.schema.control.FhirSchemaVersion;
 
 /**
  * Unit test for migration logic within the IBM FHIR Server schema
@@ -61,11 +62,14 @@ public class DerbyMigrationTest {
 
     @Test
     public void testMigrateFhirSchema() throws Exception {
+        // The schema for each resource is the same, so we only need to
+        // exercise migration for one type. Much quicker.
         Set<String> resourceTypes = Collections.singleton("Observation");
 
-        // 1. Create the new schema
-        String dbPath = TARGET_DIR + "2020-1";
-        try (DerbyMaster db = new DerbyMaster(TARGET_DIR + "2020-1")) {
+        // 1. Create the newest version of the schema
+        String dbPath = TARGET_DIR + "latest";
+        DerbyMaster.dropDatabase(dbPath);
+        try (DerbyMaster db = new DerbyMaster(dbPath)) {
             // Set up the version history service first if it doesn't yet exist
             db.runWithAdapter(adapter -> CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter));
 
@@ -91,9 +95,11 @@ public class DerbyMigrationTest {
         }
         
         // Generate a list of DDL statements describing the new database
-        List<String> db_2020_1_ddl = inferDDL(dbPath);
+        List<String> latest_ddl = inferDDL(dbPath);
 
-        dbPath = TARGET_DIR + "2019";
+        // Create the initial version of the schema, and roll it forward to the latest
+        dbPath = TARGET_DIR + "initial";
+        DerbyMaster.dropDatabase(dbPath);
         try (DerbyMaster db = new DerbyMaster(dbPath)) {
             // Set up the version history service first if it doesn't yet exist
             db.runWithAdapter(adapter -> CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, adapter));
@@ -140,10 +146,10 @@ public class DerbyMigrationTest {
         System.out.println("FHIR database migrated successfully.");
 
         // 4. Assert they match
-        List<String> db_2019_migrated_ddl = inferDDL(dbPath);
-        System.out.println("2019 migrated: " + db_2019_migrated_ddl);
-        System.out.println("2020-1: " + db_2020_1_ddl);
-        assertEquals(db_2020_1_ddl, db_2019_migrated_ddl);
+        List<String> migrated_ddl = inferDDL(dbPath);
+        System.out.println(FhirSchemaVersion.V0001.name() + " migrated: " + migrated_ddl);
+        System.out.println(FhirSchemaVersion.V0002.name() + "   latest: " + latest_ddl);
+        assertEquals(latest_ddl, migrated_ddl);
     }
 
     private void createOrUpgradeSchema(DerbyMaster db, IConnectionProvider pool, VersionHistoryService vhs, Set<String> resourceTypes) throws SQLException {

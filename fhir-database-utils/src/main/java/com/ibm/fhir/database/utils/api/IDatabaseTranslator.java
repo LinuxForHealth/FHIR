@@ -151,4 +151,10 @@ public interface IDatabaseTranslator {
      * @return
      */
     DatabaseType getType();
+    
+    /**
+     * The name of the "DUAL" table...that special table giving us one row/column.
+     * @return
+     */
+    String dualTableName();
 }

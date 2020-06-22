@@ -108,11 +108,11 @@ public interface IDatabaseObject {
     public String getName();
 
     /**
-     * Get the qualified name for this object prefixed with the object type
-     * which acts as a namespace
+     * Get the qualified name for this object:
+     *   objectType:objectName:objectVersion
      * @return
      */
-    public String getTypeAndName();
+    public String getTypeNameVersion();
 
     /**
      * Get the map of tags associated with this object. Used to find

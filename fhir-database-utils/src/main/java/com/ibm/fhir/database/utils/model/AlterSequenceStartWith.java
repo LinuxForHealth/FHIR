@@ -11,9 +11,9 @@ import java.util.Set;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 
 /**
- * Sequence related to the SQL sequence
+ * Modify an existing sequence to start with a higher value
  */
-public class Sequence extends BaseObject {
+public class AlterSequenceStartWith extends BaseObject {
     // the value we want the sequence to start with
     private final long startWith;
     
@@ -27,7 +27,7 @@ public class Sequence extends BaseObject {
      * @param sequenceName
      * @param cache
      */
-    public Sequence(String schemaName, String sequenceName, int version, long startWith, int cache) {
+    public AlterSequenceStartWith(String schemaName, String sequenceName, int version, long startWith, int cache) {
         super(schemaName, sequenceName, DatabaseObjectType.SEQUENCE, version);
         this.startWith = startWith;
         this.cache = cache;
@@ -35,20 +35,12 @@ public class Sequence extends BaseObject {
 
     @Override
     public void apply(IDatabaseAdapter target) {
-        target.createSequence(getSchemaName(), getObjectName(), this.startWith, this.cache);
+        target.alterSequenceRestartWith(getSchemaName(), getObjectName(), startWith, this.cache);
     }
 
     @Override
     public void apply(Integer priorVersion, IDatabaseAdapter target) {
-        if (priorVersion != null && priorVersion > 0 && this.version > priorVersion) {
-            throw new UnsupportedOperationException("Upgrading sequences is not supported");
-        }
-
-        // Only if VERSION1 then we want to apply, else fall through
-        // Re-creating a sequence can have unintended consequences.
-        if (this.version == 1 && (priorVersion == null || priorVersion == 0)) {
-            apply(target);
-        }
+        apply(target);
     }
 
     @Override
