@@ -24,6 +24,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
@@ -198,7 +199,19 @@ public class SearchUtil {
         // Retrieve the SPs associated with the "Resource" resource type and filter per the filter rules.
         spMap = spBuiltin.get(SearchConstants.RESOURCE_RESOURCE);
         if (spMap != null && !spMap.isEmpty()) {
-            result.addAll(filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap.values()));
+            Collection<SearchParameter> superParams = filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap.values());
+            Set<String> resultCodes = result.stream()
+                    .map(sp -> sp.getCode().getValue())
+                    .collect(Collectors.toSet());
+
+            for (SearchParameter sp : superParams) {
+                if (resultCodes.contains(sp.getCode().getValue())) {
+                    log.warning("Detected conflict for code '" + sp.getCode() + "'; code is defined for both " +
+                            SearchConstants.RESOURCE_RESOURCE + " and " + resourceType + "; using " + resourceType);
+                } else {
+                    result.add(sp);
+                }
+            }
         }
 
         return result;
@@ -223,8 +236,7 @@ public class SearchUtil {
      * @return a filtered Collection of SearchParameters
      */
     private static Collection<SearchParameter> filterSearchParameters(Map<String, List<String>> filterRules,
-            String resourceType,
-            Collection<SearchParameter> unfilteredSearchParameters) {
+            String resourceType, Collection<SearchParameter> unfilteredSearchParameters) {
         List<SearchParameter> results = new ArrayList<>();
 
         // First, retrieve the filter rule (list of SP names to be included) for the specified resource type.
