@@ -16,12 +16,12 @@ import com.ibm.fhir.database.utils.api.ConnectionDetails;
 import com.ibm.fhir.database.utils.api.ConnectionException;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.DatabaseNotReadyException;
-import com.ibm.fhir.database.utils.api.DatabaseType;
 import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
+import com.ibm.fhir.database.utils.model.DbType;
 
 
 /**
@@ -239,8 +239,8 @@ public class Db2Translator implements IDatabaseTranslator {
      * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#getType()
      */
     @Override
-    public DatabaseType getType() {
-        return DatabaseType.DB2;
+    public DbType getType() {
+        return DbType.DB2;
     }
 
     /* (non-Javadoc)

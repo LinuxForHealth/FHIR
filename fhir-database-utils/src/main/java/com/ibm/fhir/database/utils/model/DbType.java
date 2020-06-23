@@ -35,7 +35,13 @@ public enum DbType {
         return value;
     }
 
+    /**
+     * Translate the string value into the corresponding enum constant
+     * @param value
+     * @return
+     */
     public static DbType from(java.lang.String value) {
+        // linear search over such a small set isn't too painful
         for (DbType t : DbType.values()) {
             if (t.value.equals(value)) {
                 return t;

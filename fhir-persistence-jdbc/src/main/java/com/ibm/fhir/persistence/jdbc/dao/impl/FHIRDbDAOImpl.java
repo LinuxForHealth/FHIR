@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-import com.ibm.fhir.database.utils.api.DatabaseType;
+import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -340,7 +340,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
     @Override
     public boolean isDb2Database() {
-        return this.flavor.getType() == DatabaseType.DB2;
+        return this.flavor.getType() == DbType.DB2;
     }
 
     protected FHIRPersistenceDataAccessException buildExceptionWithIssue(String msg, IssueType issueType)

@@ -13,12 +13,12 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.ConnectionDetails;
 import com.ibm.fhir.database.utils.api.ConnectionException;
 import com.ibm.fhir.database.utils.api.DataAccessException;
-import com.ibm.fhir.database.utils.api.DatabaseType;
 import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
+import com.ibm.fhir.database.utils.model.DbType;
 
 /**
  * translates database access to Derby supported access.
@@ -169,8 +169,8 @@ public class DerbyTranslator implements IDatabaseTranslator {
      * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#getType()
      */
     @Override
-    public DatabaseType getType() {
-        return DatabaseType.Derby;
+    public DbType getType() {
+        return DbType.DERBY;
     }
 
     /* (non-Javadoc)

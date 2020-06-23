@@ -8,7 +8,6 @@ package com.ibm.fhir.database.utils.model;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Consumer;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;

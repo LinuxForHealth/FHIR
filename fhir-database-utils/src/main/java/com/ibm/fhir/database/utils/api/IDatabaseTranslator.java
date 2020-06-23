@@ -9,6 +9,8 @@ package com.ibm.fhir.database.utils.api;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import com.ibm.fhir.database.utils.model.DbType;
+
 /**
  * Lets us adjust DDL/DML/SQL statements to match the target database. This
  * is needed because DB2 and Derby have a few differences, and we need to
@@ -150,7 +152,7 @@ public interface IDatabaseTranslator {
      * The main type of the database
      * @return
      */
-    DatabaseType getType();
+    DbType getType();
     
     /**
      * The name of the "DUAL" table...that special table giving us one row/column.

@@ -41,10 +41,10 @@ public class FHIRResourceDAOFactory {
         case DB2:
             resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor, trxSynchRegistry);
             break;
-        case Derby:
+        case DERBY:
             resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, trxSynchRegistry);
             break;
-        case PostgreSQL:
+        case POSTGRESQL:
             resourceDAO = new PostgreSqlResourceDAO(connection, schemaName, flavor, trxSynchRegistry);
             break;
         }
@@ -66,10 +66,10 @@ public class FHIRResourceDAOFactory {
         case DB2:
             resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor);
             break;
-        case Derby:
+        case DERBY:
             resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor);
             break;
-        case PostgreSQL:
+        case POSTGRESQL:
             resourceDAO = new PostgreSqlResourceDAO(connection, schemaName, flavor);
             break;
         }

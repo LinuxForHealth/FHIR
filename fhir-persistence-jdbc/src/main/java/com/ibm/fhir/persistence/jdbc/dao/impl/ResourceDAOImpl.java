@@ -485,7 +485,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
         Connection connection = getConnection(); // do not close
         CallableStatement stmt = null;
-        String currentSchema;
         String stmtString = null;
         Integer resourceTypeId;
         Timestamp lastUpdated;

@@ -121,10 +121,10 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         try {
             ParameterNameDAO pnd;
             switch (getFlavor().getType()) {
-            case Derby:
+            case DERBY:
                 pnd = new DerbyParameterNamesDAO(connection, getSchemaName());
                 break;
-            case PostgreSQL:
+            case POSTGRESQL:
                 pnd = new PostgreSqlParameterNamesDAO(connection, getSchemaName());
                 break;
             default:
@@ -158,10 +158,10 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
             CodeSystemDAO csd;
             
             switch (getFlavor().getType()) {
-            case Derby:
+            case DERBY:
                 csd = new DerbyCodeSystemDAO(connection, getSchemaName());
                 break;
-            case PostgreSQL:
+            case POSTGRESQL:
                 csd = new PostgreSqlCodeSystemDAO(connection, getSchemaName());
                 break;
             default:

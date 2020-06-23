@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.connection;
 
-import com.ibm.fhir.database.utils.api.DatabaseType;
+import com.ibm.fhir.database.utils.model.DbType;
 
 /**
  * Capabilities supported by the different flavors of database we connect to.
@@ -25,6 +25,6 @@ public interface FHIRDbFlavor {
      * Is the underlying database DB2?
      * @return
      */
-    public DatabaseType getType();
+    public DbType getType();
     
 }

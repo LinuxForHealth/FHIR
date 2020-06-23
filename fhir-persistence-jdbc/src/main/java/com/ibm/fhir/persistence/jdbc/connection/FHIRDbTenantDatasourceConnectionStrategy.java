@@ -20,7 +20,7 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
-import com.ibm.fhir.database.utils.api.DatabaseType;
+import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
@@ -223,8 +223,7 @@ public class FHIRDbTenantDatasourceConnectionStrategy implements FHIRDbConnectio
      */
     @Override
     public FHIRDbFlavor getFlavor() throws FHIRPersistenceDataAccessException {
-        // currently this configuration is only for use with DB2
-        return new FHIRDbFlavorImpl(DatabaseType.DB2, true);
+        return this.flavor;
     }
 
     /**
@@ -250,8 +249,8 @@ public class FHIRDbTenantDatasourceConnectionStrategy implements FHIRDbConnectio
                 boolean multitenant = false;
                 String typeValue = dsPG.getStringProperty("type");
                 
-                DatabaseType type = DatabaseType.valueOf(typeValue);
-                if (type == DatabaseType.DB2) {
+                DbType type = DbType.from(typeValue);
+                if (type == DbType.DB2) {
                     // We make this absolute for now. May change in the future if we
                     // support a single-tenant schema in DB2.
                     multitenant = true;

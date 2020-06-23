@@ -29,10 +29,6 @@ public class FHIRDbPropsConnectionStrategy implements FHIRDbConnectionStrategy {
 
     // Contains the connection properties
     private final Properties dbProps;
-
-    // The connection we obtain from the driver which we can reuse because this object
-    // is only used within the context of a single thread
-    private Connection connection;
     
     /**
      * Public constructor

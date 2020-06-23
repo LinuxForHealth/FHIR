@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.connection;
 
-import com.ibm.fhir.database.utils.api.DatabaseType;
+import com.ibm.fhir.database.utils.model.DbType;
 
 /**
  * Describes the capability of the underlying database and the schema it has
@@ -18,9 +18,9 @@ public class FHIRDbFlavorImpl implements FHIRDbFlavor {
     private final boolean multitenant;
 
     // basic type of the database (DB2, Derby etc)
-    private final DatabaseType type;
+    private final DbType type;
     
-    public FHIRDbFlavorImpl(DatabaseType type, boolean multitenant) {
+    public FHIRDbFlavorImpl(DbType type, boolean multitenant) {
         this.type = type;
         this.multitenant = multitenant;
     }
@@ -37,7 +37,7 @@ public class FHIRDbFlavorImpl implements FHIRDbFlavor {
      * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor#getType()
      */
     @Override
-    public DatabaseType getType() {
+    public DbType getType() {
         return this.type;
     }
 
