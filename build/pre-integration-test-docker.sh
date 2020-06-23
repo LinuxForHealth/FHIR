@@ -42,9 +42,6 @@ docker-compose build --pull minio
 docker-compose up -d minio
 echo ">>> Current time: " $(date)
 
-# TODO wait for it to be healthy instead of just Sleeping
-(docker-compose logs --timestamps --follow minio & P=$! && sleep 100 && kill $P)
-
 echo "Bringing up the FHIR server... be patient, this will take a minute"
 ./copy-test-operations.sh
 docker-compose up -d fhir-server
