@@ -24,6 +24,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
@@ -182,7 +183,7 @@ public class SearchUtil {
      * @throws Exception
      */
     protected static List<SearchParameter> getFilteredBuiltinSearchParameters(String resourceType) throws Exception {
-        Set<SearchParameter> resultSet = new HashSet<>();
+        List<SearchParameter> result = new ArrayList<>();
 
         Map<String, ParametersMap> spBuiltin = ParametersUtil.getBuiltInSearchParametersMap();
 
@@ -192,7 +193,7 @@ public class SearchUtil {
         // Retrieve the SPs associated with the specified resource type and filter per the filter rules.
         ParametersMap spMap = spBuiltin.get(resourceType);
         if (spMap != null && !spMap.isEmpty()) {
-            resultSet.addAll(filterSearchParameters(filterRules, resourceType, spMap.values()));
+            result.addAll(filterSearchParameters(filterRules, resourceType, spMap.values()));
         }
 
         // Retrieve the SPs associated with the "Resource" resource type and filter per the filter rules.
@@ -211,13 +212,8 @@ public class SearchUtil {
                     result.add(sp);
                 }
             }
-        spMap = spBuiltin.get(SearchConstants.RESOURCE_RESOURCE);
-        if (spMap != null && !spMap.isEmpty()) {
-            resultSet.addAll(filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap.values()));
         }
 
-        List<SearchParameter> result = new ArrayList<>();
-        result.addAll(resultSet);
         return result;
     }
 
@@ -240,8 +236,7 @@ public class SearchUtil {
      * @return a filtered Collection of SearchParameters
      */
     private static Collection<SearchParameter> filterSearchParameters(Map<String, List<String>> filterRules,
-            String resourceType,
-            Collection<SearchParameter> unfilteredSearchParameters) {
+            String resourceType, Collection<SearchParameter> unfilteredSearchParameters) {
         List<SearchParameter> results = new ArrayList<>();
 
         // First, retrieve the filter rule (list of SP names to be included) for the specified resource type.
