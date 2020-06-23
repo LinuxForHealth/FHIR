@@ -63,3 +63,21 @@ services:
       command: --config /nats/config-3.conf
       ports:
           - 4224:4222
+  
+  minio:
+    build:
+      context: minio
+    hostname: minio
+    privileged: true
+    volumes:
+      - /tmp/miniodata:/data1
+    ports:
+      - 8443:8443
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: change-paassword
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3

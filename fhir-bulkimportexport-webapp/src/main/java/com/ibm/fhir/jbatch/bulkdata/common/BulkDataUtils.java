@@ -8,6 +8,9 @@ package com.ibm.fhir.jbatch.bulkdata.common;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -16,6 +19,10 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +41,11 @@ import javax.json.JsonArray;
 import javax.json.JsonReader;
 import javax.net.ssl.HttpsURLConnection;
 
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+
+import com.ibm.cloud.objectstorage.ApacheHttpClientConfig;
 import com.ibm.cloud.objectstorage.ClientConfiguration;
 import com.ibm.cloud.objectstorage.SDKGlobalConfiguration;
 import com.ibm.cloud.objectstorage.auth.AWSCredentials;
@@ -120,7 +132,15 @@ public class BulkDataUtils {
                 .withRequestTimeout(Constants.COS_REQUEST_TIMEOUT)
                 .withTcpKeepAlive(true)
                 .withSocketTimeout(Constants.COS_SOCKET_TIMEOUT);
-
+        
+        ApacheHttpClientConfig apacheClientConfig = clientConfig.getApacheHttpClientConfig();
+        // The following line configures COS/S3 SDK to use SSLConnectionSocketFactory of liberty server,
+        // it makes sure the certs added in fhirTrustStore.p12 can be used for SSL connection with any S3 
+        // compatible object store, e.g, minio object store with self signed cert. 
+        apacheClientConfig.setSslSocketFactory(SSLConnectionSocketFactory.getSystemSocketFactory());
+        
+ //       apacheClientConfig.setSslSocketFactory(SSLConnectionSocketFactory.getSocketFactory());
+        
         return AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .withEndpointConfiguration(new EndpointConfiguration(cosEndpointUrl, cosLocation))
                 .withPathStyleAccessEnabled(true).withClientConfiguration(clientConfig).build();
