@@ -9,6 +9,7 @@ on:
 jobs:
   build-tools:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
         java: [ 'openjdk8', 'openjdk11' ]
@@ -31,6 +32,7 @@ jobs:
       run: mvn -B package --file fhir-benchmark -Dmaven.wagon.http.retryHandler.count=3
   build:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
         java: [ 'openjdk8', 'openjdk11' ]
@@ -110,6 +112,7 @@ jobs:
         mvn -B -T2C package --file fhir-parent -P "${PROFILES}" --no-transfer-progress -Dmaven.wagon.httpconnectionManager.ttlSeconds=240 -Dmaven.wagon.http.retryHandler.count=3
   e2e-tests:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
         java: [ 'openjdk8', 'openjdk11' ]
@@ -164,6 +167,7 @@ jobs:
         path: SIT/integration-test-results
   e2e-windows:
     runs-on: windows-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
         java: [ 'openjdk11' ]
@@ -220,6 +224,7 @@ jobs:
         path: SIT/integration-test-results
   e2e-db2:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
         java: [ 'openjdk11' ]
@@ -279,6 +284,7 @@ jobs:
         path: integration-test-results
   db2-migration:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
         java: [ 'openjdk8' ]
