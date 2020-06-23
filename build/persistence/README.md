@@ -27,9 +27,9 @@ Each persistence layer that is tested as part of the framework uses the default 
 |----------|----------------|
 |bin/gather-logs.sh|Gathers the logs from the build|
 |bin/integration-test.sh|Run after the tests complete to release resources and package tests results|
-|persistence/integration-test.sh|Overrides bin/integration-test.sh, replacing the prior test behavior.|
+|`<persistence>`/integration-test.sh|Overrides bin/integration-test.sh, replacing the prior test behavior.|
 |bin/pre-integration-test.sh|Call the pre-integration-test step for `persistence`|
-|persistence/pre-integration-test.sh|Run before integration-test.sh to startup image and services for the integration testing|
+|`<persistence>`/pre-integration-test.sh|Run before integration-test.sh to startup image and services for the integration testing|
 |bin/post-integration-test.sh|Call the post-integration-test step for `persistence`|
 |`<persistence>`/post-integration-test.sh|Run after integration-test.sh to stop image and services from the integration testing|
 |`<persistence>`/Dockerfile|The Docker file used in development and end-to-end tests|
