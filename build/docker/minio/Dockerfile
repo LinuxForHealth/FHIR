@@ -6,11 +6,6 @@
 
 FROM minio/minio
 
-# Create a non-admin user for the FHIR server to use to access db2
-RUN groupadd -g 1002 fhir && \
-    useradd -u 1002 -g fhir -M -d /database/config/fhirserver fhirserver && \
-    echo "change-password" | passwd --stdin fhirserver
-
 # Indicate that we expect to connect to the minio service on port 8443
 EXPOSE 8443
 
