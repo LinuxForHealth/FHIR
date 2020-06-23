@@ -63,7 +63,7 @@ services:
       command: --config /nats/config-3.conf
       ports:
           - 4224:4222
-minio:
+  minio:
     build:
       context: minio
     hostname: minio
