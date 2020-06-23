@@ -46,14 +46,9 @@ public class GetSequenceNextValueDAO implements IDatabaseSupplier<Long> {
     @Override
     public Long run(IDatabaseTranslator translator, Connection c) {
         // you can't get the current value before calling next value in a given session,
-        // so we simply bump the sequence number. To keep things portable, here we use
-        // the "SELECT NEXT VALUE FOR" syntax. A little clunky to support different DB
-        // variants here.
-        final String seqName = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String dualTableName = translator.dualTableName();
-        final String SQL = dualTableName != null ?
-                  " SELECT NEXT VALUE FOR " + seqName + " FROM " + dualTableName
-                : " SELECT NEXT VALUE FOR " + seqName;
+        // so we simply bump the sequence number. The translator is used to support
+        // our different database flavors (e.g. Derby, DB2 and PostgreSQL)
+        final String SQL = translator.selectSequenceNextValue(schemaName, sequenceName);
 
         try (PreparedStatement ps = c.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();

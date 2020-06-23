@@ -44,6 +44,15 @@ public interface IDatabaseTranslator {
      * @return
      */
     String createGlobalTempTable(String ddl);
+    
+    /**
+     * Compose a select statement to obtain the next value from the
+     * named sequence
+     * @param schemaName
+     * @param sequenceName
+     * @return
+     */
+    String selectSequenceNextValue(String schemaName, String sequenceName);
 
     /**
      * Check the exception to see if it is reporting a duplicate value constraint violation

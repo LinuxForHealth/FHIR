@@ -18,6 +18,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.model.DbType;
 
 /**
@@ -179,6 +180,15 @@ public class DerbyTranslator implements IDatabaseTranslator {
     @Override
     public String dualTableName() {
         return "SYSIBM.SYSDUMMY1";
+    }
+
+    /* (non-Javadoc)
+     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#selectSequenceNextValue(java.lang.String, java.lang.String)
+     */
+    @Override
+    public String selectSequenceNextValue(String schemaName, String sequenceName) {
+        String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
+        return "SELECT NEXT VALUE FOR " + qname + " FROM SYSIBM.SYSDUMMY1";
     }
 
 }
