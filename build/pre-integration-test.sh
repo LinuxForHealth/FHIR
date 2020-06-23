@@ -73,9 +73,11 @@ tries=0
 status=0
 while [ $status -ne 200 -a $tries -lt ${MAX_TRIES} ]; do
     tries=$((tries + 1))
-    cmd="curl -sS -k -o ${WORKSPACE}/health.json -I -w %{http_code} -u fhiruser:change-password $healthcheck_url"
+    set +o errexit
+    cmd="curl --max-time 60 -sS -k -o ${WORKSPACE}/health.json -I -w %{http_code} -u fhiruser:change-password $healthcheck_url"
     echo "Executing[$tries]: $cmd"
     status=$($cmd)
+    set -o errexit
     echo "Status code: $status"
     if [ $status -ne 200 ]
     then
