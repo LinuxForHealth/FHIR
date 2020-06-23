@@ -10,6 +10,6 @@ FROM minio/minio
 EXPOSE 8443
 
 # Set up SSL for minio
-RUN mkdir /root/.minio/certs
+RUN mkdir -p /root/.minio/certs
 COPY public.crt /root/.minio/certs
 COPY private.key /root/.minio/certs
