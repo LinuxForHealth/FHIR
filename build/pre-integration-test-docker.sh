@@ -18,6 +18,9 @@ cd ${DIR}/docker
 # Set up the server config files
 ./copy-server-config.sh
 
+# Enable bulkdata export tests
+sed -i -e 's/test.bulkdata.export.enabled = false/test.bulkdata.export.enabled = true/g' ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
+
 # Stand up a docker container running the fhir server configured for integration tests
 echo "Bringing down any containers that might already be running as a precaution"
 docker-compose kill
