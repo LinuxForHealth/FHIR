@@ -245,13 +245,13 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
         if (!result && coding != null && coding.getCode() != null) {
             message = String.format("Code '%s' is invalid", coding.getCode().getValue());
         }
-        String system = null;
-        if (coding != null && coding.getSystem() != null) {
-            system = coding.getSystem().getValue();
-        } else if (codeSystem != null && codeSystem.getUrl() != null) {
-            system = codeSystem.getUrl().getValue();
-        }
         if (result && outcome != null && coding != null && outcome.getDisplay() != null && coding.getDisplay() != null && !outcome.getDisplay().equals(coding.getDisplay())) {
+            String system = null;
+            if (coding.getSystem() != null) {
+                system = coding.getSystem().getValue();
+            } else if (codeSystem != null && codeSystem.getUrl() != null) {
+                system = codeSystem.getUrl().getValue();
+            }
             message = String.format("The display '%s' is incorrect for code '%s' from code system '%s'", coding.getDisplay().getValue(), coding.getCode().getValue(), system);
             result = false;
         }
