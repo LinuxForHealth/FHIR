@@ -180,12 +180,12 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
         assertTrue(body.contains("output"));
         // Find and try the first download link
-        String downloadUrl = body.substring(body.lastIndexOf("\"output\":"));
-        int endIndex = downloadUrl.indexOf(".ndjson") + 7;
-        downloadUrl = downloadUrl.substring(downloadUrl.indexOf("https"), endIndex);
-        WebTarget client = ClientBuilder.newClient().target(downloadUrl);
-        response = client.request().get(Response.class);
-        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+//        String downloadUrl = body.substring(body.lastIndexOf("\"output\":"));
+//        int endIndex = downloadUrl.indexOf(".ndjson") + 7;
+//        downloadUrl = downloadUrl.substring(downloadUrl.indexOf("https"), endIndex);
+//        WebTarget client = ClientBuilder.newClient().target(downloadUrl);
+//        response = client.request().get(Response.class);
+//        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
     }
 
     @Test(groups = { TEST_GROUP_NAME })
