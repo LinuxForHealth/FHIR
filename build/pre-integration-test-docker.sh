@@ -40,8 +40,8 @@ echo "Deploying the Db2 schema..."
 # Note: this adds the tenant key to the server config file so make sure thats set up first
 ./deploySchemaAndTenant.sh
 
-mkdir /tmp/miniodata
-cp ./minio/test-import.ndjson /tmp/fhirbulkdata/miniodata
+mkdir -p /tmp/miniodata/fhirbulkdata
+cp ./minio/test-import.ndjson /tmp/miniodata/fhirbulkdata
 
 echo "Bringing up minio ..."
 docker-compose build --pull minio
