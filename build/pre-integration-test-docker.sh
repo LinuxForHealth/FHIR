@@ -45,7 +45,7 @@ cp ./minio/test-import.ndjson /tmp/miniodata/fhirbulkdata
 
 echo "Bringing up minio ..."
 docker-compose build --pull minio
-docker-compose up -d minio
+docker-compose up -d ibmfhirminio
 echo ">>> Current time: " $(date)
 
 echo "Bringing up the FHIR server... be patient, this will take a minute"
