@@ -1,0 +1,41 @@
+{
+    "resourceType": "Bundle",
+    "type": "transaction",
+    "entry": [
+        {
+            "resource": {
+                "resourceType": "Patient",
+                "id": "2c11da35-c2da-42d2-8833-ae903450a17d",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2020-06-26T19:41:21.221Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">loaded from the datastore</div>"
+                },
+                "active": true,
+                "name": [
+                    {
+                        "id": "someId",
+                        "family": "Doe",
+                        "given": [
+                            "John"
+                        ]
+                    }
+                ],
+                "birthDate": "2020-06-26",
+                "multipleBirthInteger": 2,
+                "generalPractitioner": [
+                    {
+                        "reference": "urn:uuid:1ee3d100-9c5c-4592-8c2c-3866608702c6"
+                    }
+                ]
+            },
+            "request": {
+                "method": "POST",
+                "url": "694639d9-615f-45d7-891e-815d249ac9c2"
+            }
+        }
+    ]
+}

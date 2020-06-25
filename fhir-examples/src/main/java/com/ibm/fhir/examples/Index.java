@@ -15,7 +15,7 @@ public enum Index {
      * All examples in all formats
      */
     ALL("/spec-json.txt", "/ibm-json.txt", "/spec-xml.txt", "/ibm-xml.txt"),
-    
+
     /**
      * Both R4 spec and IBM generated examples
      */
@@ -79,8 +79,17 @@ public enum Index {
     /**
      * Implementation Guides examples in XML
      */
-    PROFILES_XML("/profiles-fhir-ig-carin-bb-xml.txt");
+    PROFILES_XML("/profiles-fhir-ig-carin-bb-xml.txt"),
 
+    /**
+     * Bulk Data Location examples in JSON
+     */
+    BULKDATA_LOCATION_JSON("/ibm-json-bulk-data-location.txt"),
+
+    /**
+     * Bulk Data Dynamic Group examples in JSON
+     */
+    BULKDATA_GROUP_JSON("/ibm-json-bulk-data-group.txt");
 
     private List<String> paths = new ArrayList<>();
 

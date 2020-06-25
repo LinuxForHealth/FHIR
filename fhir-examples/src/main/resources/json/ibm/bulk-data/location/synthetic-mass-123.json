@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "18bd954f-3ee9-4de8-94de-fff47ad561d6",
+            "value": "Synthethic Mass - 123"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 123",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "CVDX",
+                    "display": "Cardiovascular diagnostics or therapeutics unit"
+                }
+            ],
+            "text": "Cardiovascular diagnostics or therapeutics unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "10 George Street Gateway Center"
+        ],
+        "city": "Lowell",
+        "state": "MA",
+        "postalCode": "01852",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -71.30567,
+        "latitude": 42.64208
+    }
+}

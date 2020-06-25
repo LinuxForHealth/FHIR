@@ -1,0 +1,80 @@
+{
+    "resourceType": "Bundle",
+    "type": "transaction",
+    "entry": [
+        {
+            "resource": {
+                "resourceType": "Patient",
+                "id": "50a45001-8e31-457a-97bf-497ecf324030",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2020-06-26T19:41:21.289Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">loaded from the datastore</div>"
+                },
+                "active": true,
+                "name": [
+                    {
+                        "id": "someId",
+                        "family": "Doe",
+                        "given": [
+                            "John"
+                        ]
+                    }
+                ],
+                "gender": "female",
+                "birthDate": "1990-06-26",
+                "multipleBirthInteger": 2,
+                "generalPractitioner": [
+                    {
+                        "reference": "urn:uuid:b5cd7fec-92dd-4fb5-93d8-1813266a5cd1"
+                    }
+                ]
+            },
+            "request": {
+                "method": "POST",
+                "url": "d7fd6942-6391-4e63-8ec8-fa74937fdfa9"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">loaded from the datastore</div>"
+                },
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "82810-3",
+                            "display": "Pregnancy status"
+                        }
+                    ],
+                    "text": "Pregnancy status"
+                },
+                "subject": {
+                    "reference": "Patient/1-2-3-4"
+                },
+                "effectiveDateTime": "2020-06-20",
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "LA15173-0",
+                            "display": "Pregnant"
+                        }
+                    ],
+                    "text": "Pregnant"
+                }
+            },
+            "request": {
+                "method": "POST",
+                "url": "35f8c809-3a54-4783-8042-e99e5d3ccecf"
+            }
+        }
+    ]
+}

@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "fd5ab890-7c52-4542-8d51-229dbe7952f1",
+            "value": "Synthethic Mass - 60"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 60",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "CVDX",
+                    "display": "Cardiovascular diagnostics or therapeutics unit"
+                }
+            ],
+            "text": "Cardiovascular diagnostics or therapeutics unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "1 TROWBRIDGE ROAD"
+        ],
+        "city": "BUZZARDS BAY",
+        "state": "MA",
+        "postalCode": "02532",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -70.59802,
+        "latitude": 41.74074
+    }
+}

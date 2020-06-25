@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "1bc951c4-18ae-4d70-98a6-e03523bc14cb",
+            "value": "Synthethic Mass - 48"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 48",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "CVDX",
+                    "display": "Cardiovascular diagnostics or therapeutics unit"
+                }
+            ],
+            "text": "Cardiovascular diagnostics or therapeutics unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "140 NAUSET STREET"
+        ],
+        "city": "NEW BEDFORD",
+        "state": "MA",
+        "postalCode": "02746",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -70.94253,
+        "latitude": 41.66145
+    }
+}

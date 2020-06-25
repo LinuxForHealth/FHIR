@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "a7a43e90-0d21-4b69-ab0e-ae64ac8babec",
+            "value": "Synthethic Mass - 54"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 54",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "CVDX",
+                    "display": "Cardiovascular diagnostics or therapeutics unit"
+                }
+            ],
+            "text": "Cardiovascular diagnostics or therapeutics unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "55 LAKE AVENUE NORTH"
+        ],
+        "city": "WORCESTER",
+        "state": "MA",
+        "postalCode": "01655",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -71.76261,
+        "latitude": 42.2753
+    }
+}

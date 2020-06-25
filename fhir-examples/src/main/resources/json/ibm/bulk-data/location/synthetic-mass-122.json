@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "195e6fd6-4076-4bc0-baef-4fc9bc82c395",
+            "value": "Synthethic Mass - 122"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 122",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "RNEU",
+                    "display": "Neuroradiology unit"
+                }
+            ],
+            "text": "Neuroradiology unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "55 FRUIT STREET"
+        ],
+        "city": "BOSTON",
+        "state": "MA",
+        "postalCode": "02114",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -71.06883,
+        "latitude": 42.36315
+    }
+}

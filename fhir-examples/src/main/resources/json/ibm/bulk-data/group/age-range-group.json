@@ -1,0 +1,56 @@
+{
+    "resourceType": "Group",
+    "id": "a07b5023-f6ea-4e5d-a7fa-9bcb0d7e13d9",
+    "meta": {
+        "versionId": "1",
+        "lastUpdated": "2020-06-26T19:41:21.216Z"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>"
+    },
+    "active": true,
+    "type": "person",
+    "actual": false,
+    "name": "age-range",
+    "characteristic": [
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://loinc.org",
+                        "code": "29553-5"
+                    }
+                ],
+                "text": "Age calculated"
+            },
+            "valueAge": {
+                "value": 13,
+                "comparator": ">=",
+                "unit": "years",
+                "system": "http://unitsofmeasure.org",
+                "code": "a"
+            },
+            "exclude": false
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://loinc.org",
+                        "code": "29553-5"
+                    }
+                ],
+                "text": "Age calculated"
+            },
+            "valueAge": {
+                "value": 56,
+                "comparator": "<=",
+                "unit": "years",
+                "system": "http://unitsofmeasure.org",
+                "code": "a"
+            },
+            "exclude": false
+        }
+    ]
+}

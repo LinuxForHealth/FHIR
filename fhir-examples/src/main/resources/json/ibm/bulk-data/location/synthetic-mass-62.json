@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "e7a18b7e-07d0-4d44-9a8b-30e73bfedaec",
+            "value": "Synthethic Mass - 62"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 62",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "RNEU",
+                    "display": "Neuroradiology unit"
+                }
+            ],
+            "text": "Neuroradiology unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "800 WASHINGTON STREET"
+        ],
+        "city": "NORWOOD",
+        "state": "MA",
+        "postalCode": "02062",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -71.20194,
+        "latitude": 42.18927
+    }
+}

@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "9b08e17d-ee9e-4d40-a1b9-153a78bc9722",
+            "value": "Synthethic Mass - 97"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 97",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "DX",
+                    "display": "Diagnostics or therapeutics unit"
+                }
+            ],
+            "text": "Diagnostics or therapeutics unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "88 LEWIS BAY ROAD"
+        ],
+        "city": "HYANNIS",
+        "state": "MA",
+        "postalCode": "02601",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -70.27461,
+        "latitude": 41.65299
+    }
+}

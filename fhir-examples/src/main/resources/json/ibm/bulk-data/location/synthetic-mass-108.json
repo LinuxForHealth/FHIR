@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "e8f9e13c-944c-470c-9d29-2065ad2c7b9a",
+            "value": "Synthethic Mass - 108"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 108",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "CVDX",
+                    "display": "Cardiovascular diagnostics or therapeutics unit"
+                }
+            ],
+            "text": "Cardiovascular diagnostics or therapeutics unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "107 LINCOLN STREET"
+        ],
+        "city": "WORCESTER",
+        "state": "MA",
+        "postalCode": "01605",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -71.79491,
+        "latitude": 42.27635
+    }
+}

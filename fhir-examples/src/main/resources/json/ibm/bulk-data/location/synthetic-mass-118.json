@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "9c3cdebe-5d22-4a81-b06a-4b476d7b11f6",
+            "value": "Synthethic Mass - 118"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 118",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "DX",
+                    "display": "Diagnostics or therapeutics unit"
+                }
+            ],
+            "text": "Diagnostics or therapeutics unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "250 PARADISE ROAD"
+        ],
+        "city": "SWAMPSCOTT",
+        "state": "MA",
+        "postalCode": "01907",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -70.91255,
+        "latitude": 42.47636
+    }
+}

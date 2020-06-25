@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "d1043010-874a-4239-a6f5-b181997d4145",
+            "value": "Synthethic Mass - 22"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 22",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "DX",
+                    "display": "Diagnostics or therapeutics unit"
+                }
+            ],
+            "text": "Diagnostics or therapeutics unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "199 Main Street"
+        ],
+        "city": "Gloucester",
+        "state": "MA",
+        "postalCode": "01930",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -70.66064,
+        "latitude": 42.61298
+    }
+}

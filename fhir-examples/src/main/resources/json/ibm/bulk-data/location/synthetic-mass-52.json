@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "006947d1-950a-41eb-9a6c-68d6aaf4f00a",
+            "value": "Synthethic Mass - 52"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 52",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "DX",
+                    "display": "Diagnostics or therapeutics unit"
+                }
+            ],
+            "text": "Diagnostics or therapeutics unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "605 Lincoln Street"
+        ],
+        "city": "Worcester",
+        "state": "MA",
+        "postalCode": "01605",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -71.76734,
+        "latitude": 42.29706
+    }
+}

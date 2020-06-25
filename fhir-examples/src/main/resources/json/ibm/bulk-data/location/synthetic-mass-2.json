@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "d8c0d2cc-5d85-4e5d-a8a6-9c7efc4d15c8",
+            "value": "Synthethic Mass - 2"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 2",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "RNEU",
+                    "display": "Neuroradiology unit"
+                }
+            ],
+            "text": "Neuroradiology unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "1399 WASHINGTON STREET"
+        ],
+        "city": "HANOVER",
+        "state": "MA",
+        "postalCode": "02339",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -70.84411,
+        "latitude": 42.14415
+    }
+}

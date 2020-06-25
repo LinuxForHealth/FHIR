@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "03706f0f-b396-4033-91c1-f124d8844483",
+            "value": "Synthethic Mass - 10"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 10",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "DX",
+                    "display": "Diagnostics or therapeutics unit"
+                }
+            ],
+            "text": "Diagnostics or therapeutics unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "421 North Main Street"
+        ],
+        "city": "Leeds",
+        "state": "MA",
+        "postalCode": "01053",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -72.68592,
+        "latitude": 42.34717
+    }
+}

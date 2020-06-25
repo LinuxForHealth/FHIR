@@ -1,0 +1,42 @@
+{
+    "resourceType": "Bundle",
+    "type": "transaction",
+    "entry": [
+        {
+            "resource": {
+                "resourceType": "Patient",
+                "id": "9fab083e-b4f7-4ddc-8aa5-62c88f72b6da",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2020-06-26T19:41:21.264Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">loaded from the datastore</div>"
+                },
+                "active": true,
+                "name": [
+                    {
+                        "id": "someId",
+                        "family": "Doe",
+                        "given": [
+                            "John"
+                        ]
+                    }
+                ],
+                "gender": "female",
+                "birthDate": "1990-06-26",
+                "multipleBirthInteger": 2,
+                "generalPractitioner": [
+                    {
+                        "reference": "urn:uuid:05522556-93a9-48a9-b144-92caf837efcc"
+                    }
+                ]
+            },
+            "request": {
+                "method": "POST",
+                "url": "6ee9e390-d0f3-42f2-8a66-928b578c16b2"
+            }
+        }
+    ]
+}

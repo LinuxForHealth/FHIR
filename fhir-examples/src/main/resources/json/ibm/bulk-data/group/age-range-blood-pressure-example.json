@@ -1,0 +1,119 @@
+{
+    "resourceType": "Bundle",
+    "type": "transaction",
+    "entry": [
+        {
+            "resource": {
+                "resourceType": "Patient",
+                "id": "cc4206ce-194c-410c-ba94-cf213e03c9ae",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2020-06-26T19:41:21.105Z"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">loaded from the datastore</div>"
+                },
+                "active": true,
+                "name": [
+                    {
+                        "id": "someId",
+                        "family": "Doe",
+                        "given": [
+                            "John"
+                        ]
+                    }
+                ],
+                "birthDate": "2020-06-26",
+                "multipleBirthInteger": 2,
+                "generalPractitioner": [
+                    {
+                        "reference": "urn:uuid:847c22b3-44ae-4825-aa33-59cf50e9e71d"
+                    }
+                ]
+            },
+            "request": {
+                "method": "POST",
+                "url": "48e8d576-da9f-46cf-933b-0447f13d4e1b"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">loaded from the datastore</div>"
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/observation-category",
+                                "code": "signs"
+                            }
+                        ],
+                        "text": "Vital Signs"
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "55284-4"
+                        }
+                    ],
+                    "text": "Blood pressure systolic & diastolic"
+                },
+                "subject": {
+                    "reference": "Patient/1-2-3-4"
+                },
+                "bodySite": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "55284-4"
+                        }
+                    ],
+                    "text": "Blood pressure systolic & diastolic"
+                },
+                "component": [
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http://loinc.org",
+                                    "code": "8480-6"
+                                }
+                            ],
+                            "text": "Systolic blood pressure"
+                        },
+                        "valueQuantity": {
+                            "value": 124.9,
+                            "unit": "mmHg"
+                        }
+                    },
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http://loinc.org",
+                                    "code": "8462-4"
+                                }
+                            ],
+                            "text": "Diastolic blood pressure"
+                        },
+                        "valueQuantity": {
+                            "value": 93.7,
+                            "unit": "mmHg"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "POST",
+                "url": "85d16ece-0552-4b5f-a127-e10b6ed3ddcf"
+            }
+        }
+    ]
+}

@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "db09e1aa-78d5-4818-8670-bed0610065bf",
+            "value": "Synthethic Mass - 110"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 110",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "RNEU",
+                    "display": "Neuroradiology unit"
+                }
+            ],
+            "text": "Neuroradiology unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "525 LONG POND DRIVE"
+        ],
+        "city": "HARWICH",
+        "state": "MA",
+        "postalCode": "02645",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -70.037,
+        "latitude": 41.72256
+    }
+}
