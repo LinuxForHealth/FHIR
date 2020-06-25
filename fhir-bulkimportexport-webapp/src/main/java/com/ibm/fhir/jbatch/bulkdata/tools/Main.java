@@ -313,9 +313,8 @@ public class Main {
 
             long start = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime());
             int totalNum = 0;
-
             AmazonS3 cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKey, cosSrvinstId, cosEndpointUrl,
-                    cosLocation);
+                    cosLocation, false);
             if (cosClient == null) {
                 throw new Exception("Failed to get CosClient!");
             }

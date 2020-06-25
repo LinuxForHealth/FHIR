@@ -19,6 +19,8 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.jbatch.bulkdata.common.Constants;
 
@@ -78,14 +80,18 @@ public class ImportPartitionCollector implements PartitionCollector {
 
     @Override
     public Serializable collectPartitionData() throws Exception {
-        if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
-            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl, cosLocation);
+        if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES && cosClient == null) {
+            boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
+                .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISCOSCLIENTUSEFHIRSERVERTRUSTSTORE, false);
+            cosClient =
+                BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
+                    cosLocation, isCosClientUseFhirServerTrustStore);
 
             if (cosClient == null) {
                 logger.warning("collectPartitionData: Failed to get CosClient!");
                 throw new Exception("Failed to get CosClient!!");
             } else {
-                logger.finer("ImportPartitionCollector: Succeed get CosClient!");
+                logger.finer("collectPartitionData: Succeed get CosClient!");
             }
         }
 

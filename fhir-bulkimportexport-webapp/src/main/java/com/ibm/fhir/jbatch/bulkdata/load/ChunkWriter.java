@@ -7,6 +7,7 @@
 package com.ibm.fhir.jbatch.bulkdata.load;
 
 import java.io.ByteArrayInputStream;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,8 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
@@ -44,6 +47,8 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
 public class ChunkWriter extends AbstractItemWriter {
     private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
     AmazonS3 cosClient = null;
+    boolean isCosClientUseFhirServerTrustStore = false;
+    boolean isValidationOn = false;
 
     @Inject
     StepContext stepCtx;
@@ -127,22 +132,7 @@ public class ChunkWriter extends AbstractItemWriter {
     // This is for the warning triggered by IMPORT_IS_COLLECT_OPERATIONOUTCOMES which controls if upload OperationOutcomes to COS/S3.
     @Override
     public void writeItems(List<java.lang.Object> arg0) throws Exception {
-        boolean isValidationOn = false;
         Set<String> failValidationIds = new HashSet<>();
-
-        if (fhirValidation != null) {
-            isValidationOn = fhirValidation.equalsIgnoreCase("Y");
-        }
-        if (fhirTenant == null) {
-            fhirTenant = "default";
-            logger.info("writeItems: Set tenant to default!");
-        }
-        if (fhirDatastoreId == null) {
-            fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
-            logger.info("writeItems: Set DatastoreId to default!");
-        }
-
-        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
 
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
@@ -236,18 +226,6 @@ public class ChunkWriter extends AbstractItemWriter {
 
 
     private void pushImportOperationOutcomes2COS(ImportTransientUserData chunkData) throws Exception{
-        // Create the COS/S3 client if it's not created yet.
-        if (cosClient == null) {
-            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl, cosLocation);
-
-            if (cosClient == null) {
-                logger.warning("pushImportOperationOutcomes2COS: Failed to get CosClient!");
-                throw new Exception("Failed to get CosClient!!");
-            } else {
-                logger.finer("pushImportOperationOutcomes2COS: Got CosClient successfully!");
-            }
-        }
-
         // Upload OperationOutcomes in buffer if it reaches the minimal size for multiple-parts upload.
         if (chunkData.getBufferStreamForImport().size() > Constants.COS_PART_MINIMALSIZE) {
             if (chunkData.getUploadIdForOperationOutcomes()  == null) {
@@ -284,6 +262,35 @@ public class ChunkWriter extends AbstractItemWriter {
             }
             chunkData.setPartNumForFailureOperationOutcomes(chunkData.getPartNumForFailureOperationOutcomes() + 1);
             chunkData.getBufferStreamForImportError().reset();
+        }
+    }
+    
+    @Override
+    public void open(Serializable checkpoint) throws Exception {
+        if (fhirValidation != null) {
+            isValidationOn = fhirValidation.equalsIgnoreCase("Y");
+        }
+        if (fhirTenant == null) {
+            fhirTenant = "default";
+            logger.info("open: Set tenant to default!");
+        }
+        if (fhirDatastoreId == null) {
+            fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
+            logger.info("open: Set DatastoreId to default!");
+        }
+
+        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
+        isCosClientUseFhirServerTrustStore = FHIRConfigHelper
+            .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISCOSCLIENTUSEFHIRSERVERTRUSTSTORE, false);
+        cosClient =
+            BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
+                cosLocation, isCosClientUseFhirServerTrustStore);
+
+        if (cosClient == null) {
+            logger.warning("open: Failed to get CosClient!");
+            throw new Exception("Failed to get CosClient!!");
+        } else {
+            logger.finer("open: Got CosClient successfully!");
         }
     }
 }

@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Response;
 
 import org.testng.annotations.BeforeClass;
@@ -55,6 +56,8 @@ public class ExportOperationTest extends FHIRServerTestBase {
     public static final String BASE_VALID_URL = "/$export";
     public static final String BASE_VALID_STATUS_URL = "/$bulkdata-status";
     public static final String FORMAT = "application/fhir+ndjson";
+    private final String tenantName = "default";
+    private final String dataStoreId = "default";
 
     // Disabled by default
     private static boolean ON = false;
@@ -63,7 +66,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
     private String exportStatusUrl;
     private String savedPatientId, savedPatientId2;
     private String savedGroupId, savedGroupId2;
-
+  
     @BeforeClass
     public void setup() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
@@ -83,7 +86,10 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
         Parameters parameters = generateParameters(outputFormat, since, types, null);
         Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
-        return target.request(mimeType).post(entity, Response.class);
+        return target.request(mimeType)
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.post(entity, Response.class);
 
     }
 
@@ -153,7 +159,10 @@ public class ExportOperationTest extends FHIRServerTestBase {
     public Response doGet(String path, String mimeType) {
         WebTarget target = getWebTarget();
         target = target.path(path);
-        return target.request(mimeType).get(Response.class);
+        return target.request(mimeType)
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.get(Response.class);
     }
 
     private void checkExportStatus(boolean isCheckPatient) throws InterruptedException {
@@ -179,12 +188,16 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
 
         assertTrue(body.contains("output"));
-        // Find and try the first download link
+//        // Find and try the first download link
 //        String downloadUrl = body.substring(body.lastIndexOf("\"output\":"));
 //        int endIndex = downloadUrl.indexOf(".ndjson") + 7;
 //        downloadUrl = downloadUrl.substring(downloadUrl.indexOf("https"), endIndex);
-//        WebTarget client = ClientBuilder.newClient().target(downloadUrl);
-//        response = client.request().get(Response.class);
+//        WebTarget client2 = ClientBuilder.newBuilder().trustStore(client.getTrustStore()).build().target(downloadUrl);
+//        
+//       // Cookie cookie = new Cookie("LtpaToken2","Fw2pVJvdLwGEr+9cx22ifnaxeg3nOvzAyajCCH22ThMI3XDUTYZzN2CUyrk0gOQWUi+GdBq7VwCueVSMRlgx0w2DrsLngzh6od/Htur97Z0OO3qBKFGOMCip2pQSTt/C2epTNLHjlVqGx/0euQYyIOd1ovLOrCij0thDIVZUpq2la98z1c3I+fHtoeWyb4xI9FHfXlJleYJTy3xmoReMZdS3TAfeu/ywN+4bDw1I1UQTdCw1SlEfDBJ5XoZLv/9ndmheQ+KYq2XFjZ83qevMnjciB9vBqQXl0syscj7n9WLxYkErgwoGO5owKB5rNOJN");
+//        
+//        response = client2.request(FHIRMediaType.).get(Response.class);
+//        
 //        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
     }
 
@@ -194,7 +207,11 @@ public class ExportOperationTest extends FHIRServerTestBase {
         // Build a new Patient and then call the 'create' API.
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Patient").request().post(entity, Response.class);
+        Response response = target.path("Patient")
+        		.request()
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         URI location = response.getLocation();
         assertNotNull(location);
@@ -205,12 +222,20 @@ public class ExportOperationTest extends FHIRServerTestBase {
         savedPatientId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response = target.path("Patient/" + savedPatientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Patient/" + savedPatientId)
+        		.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         // Create 2nd Patient.
         entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
-        response = target.path("Patient").request().post(entity, Response.class);
+        response = target.path("Patient")
+        		.request()
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         location = response.getLocation();
         assertNotNull(location);
@@ -221,7 +246,11 @@ public class ExportOperationTest extends FHIRServerTestBase {
         savedPatientId2 = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response = target.path("Patient/" + savedPatientId2).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Patient/" + savedPatientId2)
+        		.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.get();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
@@ -232,21 +261,37 @@ public class ExportOperationTest extends FHIRServerTestBase {
         // Next, create an Observation for patient1.
         Observation observation = TestUtil.buildPatientObservation(savedPatientId, "Observation1.json");
         Entity<Observation> obs = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Observation").request().post(obs, Response.class);
+        Response response = target.path("Observation")
+        		.request()
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.post(obs, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         String observationId = getLocationLogicalId(response);
-        response = target.path("Observation/" + observationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Observation/" + observationId)
+        		.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         // Create a Condition for patient2.
         Condition condition = buildCondition(savedPatientId2, "Condition.json");
         Entity<Condition> cdt = Entity.entity(condition, FHIRMediaType.APPLICATION_FHIR_JSON);
-        response = target.path("Condition").request().post(cdt, Response.class);
+        response = target.path("Condition")
+        		.request()
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.post(cdt, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
         String conditionId = getLocationLogicalId(response);
-        response = target.path("Condition/" + conditionId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Condition/" + conditionId)
+        		.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.get();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
@@ -257,7 +302,11 @@ public class ExportOperationTest extends FHIRServerTestBase {
         // (1) Build a new Group.
         Group group = TestUtil.readExampleResource("json/spec/group-example-member.json");
         Entity<Group> entity = Entity.entity(group, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Group").request().post(entity, Response.class);
+        Response response = target.path("Group")
+        		.request()
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         URI location = response.getLocation();
         assertNotNull(location);
@@ -267,7 +316,11 @@ public class ExportOperationTest extends FHIRServerTestBase {
         savedGroupId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new group and verify it.
-        response = target.path("Group/" + savedGroupId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Group/" + savedGroupId)
+        		.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Group responseGroup = response.readEntity(Group.class);
         assertNotNull(responseGroup);
@@ -282,7 +335,11 @@ public class ExportOperationTest extends FHIRServerTestBase {
         members.add(member);
         group = group.toBuilder().member(members).build();
         entity = Entity.entity(group, FHIRMediaType.APPLICATION_FHIR_JSON);
-        response = target.path("Group").request().post(entity, Response.class);
+        response = target.path("Group")
+        		.request()
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         location = response.getLocation();
         assertNotNull(location);
@@ -293,7 +350,11 @@ public class ExportOperationTest extends FHIRServerTestBase {
         savedGroupId2 = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new group and verify it.
-        response = target.path("Group/" + savedGroupId2).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Group/" + savedGroupId2)
+        		.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         responseGroup = response.readEntity(Group.class);
         assertNotNull(responseGroup);
@@ -310,11 +371,19 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
         // Update the patient and verify the response.
         entity = Entity.entity(group, FHIRMediaType.APPLICATION_FHIR_JSON);
-        response = target.path("Group/" + savedGroupId).request().put(entity, Response.class);
+        response = target.path("Group/" + savedGroupId)
+        		.request()
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.put(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         // Next, call the 'read' API to retrieve the new group and verify it.
-        response = target.path("Group/" + savedGroupId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("Group/" + savedGroupId)
+        		.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         responseGroup = response.readEntity(Group.class);
         assertNotNull(responseGroup);
@@ -406,9 +475,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         if (DEBUG) {
             System.out.println("downloadUrl = " + downloadUrl);
         }
-        WebTarget client = ClientBuilder.newClient().target(downloadUrl);
-        response = client.request().get(Response.class);
-        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+        
         // Verify to make sure there are Groups, Condition and Observation in the output
         // (1) Verify that there is one condition exported
         assertTrue(body.contains("Condition_1.ndjson"));
@@ -430,5 +497,9 @@ public class ExportOperationTest extends FHIRServerTestBase {
         String patientStr = body.substring(body.lastIndexOf("Patient_1.ndjson"));
         patientStr = patientStr.substring(0, patientStr.indexOf("}") + 1);
         assertTrue(patientStr.contains("\"count\": 2"));
+        
+//        WebTarget client = ClientBuilder.newClient().target(downloadUrl);
+//        response = client.request().get(Response.class);
+//        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
     }
 }

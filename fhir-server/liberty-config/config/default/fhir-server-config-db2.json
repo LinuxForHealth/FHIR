@@ -97,9 +97,9 @@
             "applicationName": "fhir-bulkimportexport-webapp",
             "moduleName": "fhir-bulkimportexport.war",
             "jobParameters": {
-                "cos.bucket.name": "fhir-r4-integration",
+                "cos.bucket.name": "fhirbulkdata",
                 "cos.location": "us",
-                "cos.endpointurl": "https://127.0.0.1:8443",
+                "cos.endpointurl": "https://localhost:8443",
                 "cos.credential.ibm": "N",
                 "cos.api.key": "minio",
                 "cos.srvinst.id": "change-password"
@@ -111,7 +111,8 @@
             "batch-truststore": "resources/security/fhirTrustStore.p12",
             "batch-truststore-password": "change-password",
             "isExportPublic": true,
-            "validBaseUrls": []
+            "validBaseUrls": [],
+            "isCosClientUseFhirServerTrustStore": true
         }
     }
 }

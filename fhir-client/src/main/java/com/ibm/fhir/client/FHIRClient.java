@@ -1,10 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016,2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.client;
+
+import java.security.KeyStore;
 
 import javax.json.JsonObject;
 import javax.ws.rs.client.WebTarget;
@@ -470,4 +472,9 @@ public interface FHIRClient {
      * @throws Exception
      */
     FHIRResponse invoke(String resourceType, String operationName, String resourceId, String versionId, Resource resource, FHIRRequestHeader... headers) throws Exception;
+    
+    /**
+     * Allow the client consumer to be able to get and reuse the same TrustStore if necessary.
+     */
+    public KeyStore getTrustStore();
 }

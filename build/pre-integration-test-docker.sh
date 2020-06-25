@@ -18,8 +18,9 @@ cd ${DIR}/docker
 # Set up the server config files
 ./copy-server-config.sh
 
-# Enable bulkdata export tests
+# Enable bulkdata export/import tests
 sed -i -e 's/test.bulkdata.export.enabled = false/test.bulkdata.export.enabled = true/g' ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
+sed -i -e 's/test.bulkdata.import.enabled = false/test.bulkdata.import.enabled = true/g' ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
 
 # Stand up a docker container running the fhir server configured for integration tests
 echo "Bringing down any containers that might already be running as a precaution"
@@ -40,6 +41,8 @@ echo "Deploying the Db2 schema..."
 ./deploySchemaAndTenant.sh
 
 mkdir /tmp/miniodata
+cp ./minio/test-import.ndjson /tmp/fhirbulkdata/miniodata
+
 echo "Bringing up minio ..."
 docker-compose build --pull minio
 docker-compose up -d minio

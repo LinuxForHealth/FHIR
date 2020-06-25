@@ -119,7 +119,7 @@ public class BulkDataUtils {
     }
 
     public static AmazonS3 getCosClient(String cosCredentialIbm, String cosApiKeyProperty, String cosSrvinstId,
-            String cosEndpointUrl, String cosLocation) {
+            String cosEndpointUrl, String cosLocation, boolean isUseFhirServerTrustStore) {
         SDKGlobalConfiguration.IAM_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token";
         AWSCredentials credentials;
         if (cosCredentialIbm != null && cosCredentialIbm.equalsIgnoreCase("Y")) {
@@ -132,15 +132,15 @@ public class BulkDataUtils {
                 .withRequestTimeout(Constants.COS_REQUEST_TIMEOUT)
                 .withTcpKeepAlive(true)
                 .withSocketTimeout(Constants.COS_SOCKET_TIMEOUT);
-        
-        ApacheHttpClientConfig apacheClientConfig = clientConfig.getApacheHttpClientConfig();
-        // The following line configures COS/S3 SDK to use SSLConnectionSocketFactory of liberty server,
-        // it makes sure the certs added in fhirTrustStore.p12 can be used for SSL connection with any S3 
-        // compatible object store, e.g, minio object store with self signed cert. 
-        apacheClientConfig.setSslSocketFactory(SSLConnectionSocketFactory.getSystemSocketFactory());
-        
- //       apacheClientConfig.setSslSocketFactory(SSLConnectionSocketFactory.getSocketFactory());
-        
+
+        if (isUseFhirServerTrustStore) {
+            ApacheHttpClientConfig apacheClientConfig = clientConfig.getApacheHttpClientConfig();
+            // The following line configures COS/S3 SDK to use SSLConnectionSocketFactory of liberty server,
+            // it makes sure the certs added in fhirTrustStore.p12 can be used for SSL connection with any S3 
+            // compatible object store, e.g, minio object store with self signed cert. 
+            apacheClientConfig.setSslSocketFactory(SSLConnectionSocketFactory.getSystemSocketFactory());
+        }
+
         return AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .withEndpointConfiguration(new EndpointConfiguration(cosEndpointUrl, cosLocation))
                 .withPathStyleAccessEnabled(true).withClientConfiguration(clientConfig).build();

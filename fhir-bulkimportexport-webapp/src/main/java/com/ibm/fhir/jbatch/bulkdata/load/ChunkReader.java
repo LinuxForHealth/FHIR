@@ -20,6 +20,9 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.jbatch.bulkdata.common.Constants;
 import com.ibm.fhir.model.resource.Resource;
@@ -99,6 +102,20 @@ public class ChunkReader extends AbstractItemReader {
     @Inject
     @BatchProperty(name = Constants.PARTITION_RESOURCE_TYPE)
     String importPartitionResourceType;
+    
+    /**
+     * Fhir tenant id.
+     */
+    @Inject
+    @BatchProperty(name = Constants.FHIR_TENANT)
+    String fhirTenant;
+
+    /**
+     * Fhir data store id.
+     */
+    @Inject
+    @BatchProperty(name = Constants.FHIR_DATASTORE_ID)
+    String fhirDatastoreId;
 
     public ChunkReader() {
         super();
@@ -156,7 +173,23 @@ public class ChunkReader extends AbstractItemReader {
     public void open(Serializable checkpoint) throws Exception {
         if (BulkImportDataSourceStorageType.from(dataSourceStorageType).equals(BulkImportDataSourceStorageType.AWSS3)
                 || BulkImportDataSourceStorageType.from(dataSourceStorageType).equals(BulkImportDataSourceStorageType.IBMCOS)) {
-            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl, cosLocation);
+
+            if (fhirTenant == null) {
+                fhirTenant = "default";
+                logger.info("open: Set tenant to default!");
+            }
+            if (fhirDatastoreId == null) {
+                fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
+                logger.info("open: Set DatastoreId to default!");
+            }
+
+            FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
+            boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
+                .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISCOSCLIENTUSEFHIRSERVERTRUSTSTORE, false);
+            cosClient =
+                BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
+                    cosLocation, isCosClientUseFhirServerTrustStore);
+
             if (cosClient == null) {
                 logger.warning("open: Failed to get CosClient!");
                 throw new Exception("Failed to get CosClient!!");
