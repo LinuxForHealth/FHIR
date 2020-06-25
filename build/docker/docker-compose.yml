@@ -27,7 +27,7 @@ services:
       - nats-node1
       - nats-node2
       - nats-node3
-      - ibmfhirminio
+      - minio
 
   db2:
     build:
