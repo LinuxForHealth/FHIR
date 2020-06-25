@@ -71,7 +71,7 @@ services:
     hostname: ibmfhirminio
     privileged: true
     volumes:
-      - /tmp/miniodata:/data1
+      - /var/miniodata:/data1
     ports:
       - 9000:9000
     environment:
