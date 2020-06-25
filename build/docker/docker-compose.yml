@@ -73,7 +73,7 @@ services:
     volumes:
       - /tmp/miniodata:/data1
     ports:
-      - 8443:9000
+      - 9000:9000
     environment:
       MINIO_ACCESS_KEY: minio
       MINIO_SECRET_KEY: change-password
