@@ -27,6 +27,7 @@ services:
       - nats-node1
       - nats-node2
       - nats-node3
+      - minio
 
   db2:
     build:
