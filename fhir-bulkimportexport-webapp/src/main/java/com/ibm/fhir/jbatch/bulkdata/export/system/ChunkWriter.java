@@ -36,7 +36,6 @@ public class ChunkWriter extends AbstractItemWriter {
     private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
     private AmazonS3 cosClient = null;
     private boolean isExportPublic = true;
-    private boolean isCosClientUseFhirServerTrustStore = false;
 
     /**
      * The IBM COS API key or S3 access key.

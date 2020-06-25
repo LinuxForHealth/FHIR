@@ -47,7 +47,6 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
 public class ChunkWriter extends AbstractItemWriter {
     private static final Logger logger = Logger.getLogger(ChunkWriter.class.getName());
     AmazonS3 cosClient = null;
-    boolean isCosClientUseFhirServerTrustStore = false;
     boolean isValidationOn = false;
 
     @Inject
@@ -280,7 +279,7 @@ public class ChunkWriter extends AbstractItemWriter {
         }
 
         FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
-        isCosClientUseFhirServerTrustStore = FHIRConfigHelper
+        boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
             .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISCOSCLIENTUSEFHIRSERVERTRUSTSTORE, false);
         cosClient =
             BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
