@@ -89,6 +89,9 @@ public abstract class Element extends AbstractVisitable {
         return !extension.isEmpty();
     }
 
+    /**
+     * Create a new Builder from the contents of this Element
+     */
     public abstract Builder toBuilder();
 
     public static abstract class Builder extends AbstractBuilder<Element> {
