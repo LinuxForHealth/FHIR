@@ -27,7 +27,7 @@ services:
       - nats-node1
       - nats-node2
       - nats-node3
-      - minio
+      - ibmfhirminio
 
   db2:
     build:
@@ -65,10 +65,10 @@ services:
       ports:
           - 4224:4222
   
-  minio:
+  ibmfhirminio:
     build:
       context: minio
-    hostname: minio1
+    hostname: ibmfhirminio
     privileged: true
     volumes:
       - /tmp/miniodata:/data1
