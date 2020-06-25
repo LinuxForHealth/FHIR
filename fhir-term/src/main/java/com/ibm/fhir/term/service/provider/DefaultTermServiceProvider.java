@@ -175,7 +175,7 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     @Override
     public ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding, ValidationParameters parameters) {
         LookupOutcome outcome = lookup(codeSystem, coding.getCode());
-        return buildValidationOutcome(coding, (outcome != null), outcome);
+        return buildValidationOutcome(codeSystem, coding, (outcome != null), outcome);
     }
 
     @Override
@@ -237,12 +237,22 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     private ValidationOutcome buildValidationOutcome(Coding coding, boolean result, LookupOutcome outcome) {
+        return buildValidationOutcome(null, coding, result, outcome);
+    }
+
+    private ValidationOutcome buildValidationOutcome(CodeSystem codeSystem, Coding coding, boolean result, LookupOutcome outcome) {
         String message = null;
         if (!result && coding != null && coding.getCode() != null) {
             message = String.format("Code '%s' is invalid", coding.getCode().getValue());
         }
         if (result && outcome != null && coding != null && outcome.getDisplay() != null && coding.getDisplay() != null && !outcome.getDisplay().equals(coding.getDisplay())) {
-            message = String.format("The display '%s' is incorrect for code '%s' from code system '%s'", coding.getDisplay().getValue(), coding.getCode().getValue(), coding.getSystem().getValue());
+            String system = null;
+            if (coding.getSystem() != null) {
+                system = coding.getSystem().getValue();
+            } else if (codeSystem != null && codeSystem.getUrl() != null) {
+                system = codeSystem.getUrl().getValue();
+            }
+            message = String.format("The display '%s' is incorrect for code '%s' from code system '%s'", coding.getDisplay().getValue(), coding.getCode().getValue(), system);
             result = false;
         }
         return ValidationOutcome.builder()

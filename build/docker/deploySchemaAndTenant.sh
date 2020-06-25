@@ -29,7 +29,7 @@ do
     # We now just send out the output and stop the loop
     echo "${LOG_OUT}"
     not_ready="false"
-  elif [ "$EXIT_CODE" == "4" ] || [ echo "$LOG_OUT" | grep -q "SQLCODE=-1035, SQLSTATE=57019" ]
+  elif [ "$EXIT_CODE" == "4" ] || [ `echo "$LOG_OUT" | grep -c "SQLCODE=-1035, SQLSTATE=57019"` -gt 0 ]
   then
     # EXIT_NOT_READY = 4 - we know in certain versions that this is to be automatically re-tried
     retry_count=$((retry_count++))
