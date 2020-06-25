@@ -65,10 +65,10 @@ services:
       ports:
           - 4224:4222
   
-  ibmfhirminio:
+  minio:
     build:
       context: minio
-    hostname: ibmfhirminio
+    hostname: minio
     privileged: true
     volumes:
       - ./minio/miniodata:/data1

@@ -13,6 +13,7 @@ import static org.testng.AssertJUnit.assertNotNull;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.testng.annotations.BeforeClass;
@@ -61,16 +62,22 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     // Disabled by default
     private static boolean ON = false;
+    private static boolean isUseMinio = false;
 
     public static final boolean DEBUG = false;
     private String exportStatusUrl;
     private String savedPatientId, savedPatientId2;
     private String savedGroupId, savedGroupId2;
+    private String minioUserName;
+    private String minioPassword;
   
     @BeforeClass
     public void setup() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         ON = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.export.enabled", "false"));
+        isUseMinio = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.useminio", "false"));
+        minioUserName = testProperties.getProperty("test.bulkdata.minio.username");
+        minioPassword = testProperties.getProperty("test.bulkdata.minio.password");
     }
 
     public Response doPost(String path, String mimeType, String outputFormat, Instant since, List<String> types, List<String> typeFilters)
@@ -164,6 +171,39 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 .header("X-FHIR-DSID", dataStoreId)
         		.get(Response.class);
     }
+    
+    private void verifyDownloadUrl(String downloadUrl) {
+        if (isUseMinio) {
+        	downloadUrl = downloadUrl.substring(8);
+	        String minioHost = downloadUrl.substring(0, downloadUrl.indexOf("/"));
+	        String minioFilePath = downloadUrl.substring(minioHost.length());
+	        
+	        String minioAuthUrl = "https://" + minioHost + "/minio/webrpc";
+	        String minioAuthRequestBody = "{\"id\":1,\"jsonrpc\":\"2.0\",\"params\":{\"username\":\"" 
+	            + minioUserName  + "\",\"password\":\"" + minioPassword + "\"},\"method\":\"Web.Login\"}";
+	        
+	        WebTarget client2 = ClientBuilder.newBuilder().trustStore(client.getTrustStore()).build().target(minioAuthUrl);
+	        Response response = client2.request()
+	        		.header("Content-Type", MediaType.APPLICATION_JSON)
+	        		.header("User-Agent", "Mozilla")
+	                .post(Entity.json(minioAuthRequestBody));
+	        
+	        String strToken = response.readEntity(String.class);
+	        strToken = strToken.substring(strToken.indexOf("token\":") + 8);
+	        strToken = strToken.substring(0, strToken.indexOf(",") - 1);
+	        
+	        downloadUrl = "https://" + minioHost + "/minio/download" + minioFilePath + "?token=" + strToken;
+	        client2 = ClientBuilder.newBuilder().trustStore(client.getTrustStore()).build().target(downloadUrl);
+	        response = client2.request()
+	        		.header("User-Agent", "Mozilla")
+	                .get(Response.class);
+	        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+        } else {
+        	WebTarget client2 = ClientBuilder.newClient().target(downloadUrl);
+            Response response = client2.request().get(Response.class);
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+        }
+    }
 
     private void checkExportStatus(boolean isCheckPatient) throws InterruptedException {
         Response response;
@@ -188,17 +228,12 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
 
         assertTrue(body.contains("output"));
-//        // Find and try the first download link
-//        String downloadUrl = body.substring(body.lastIndexOf("\"output\":"));
-//        int endIndex = downloadUrl.indexOf(".ndjson") + 7;
-//        downloadUrl = downloadUrl.substring(downloadUrl.indexOf("https"), endIndex);
-//        WebTarget client2 = ClientBuilder.newBuilder().trustStore(client.getTrustStore()).build().target(downloadUrl);
-//        
-//       // Cookie cookie = new Cookie("LtpaToken2","Fw2pVJvdLwGEr+9cx22ifnaxeg3nOvzAyajCCH22ThMI3XDUTYZzN2CUyrk0gOQWUi+GdBq7VwCueVSMRlgx0w2DrsLngzh6od/Htur97Z0OO3qBKFGOMCip2pQSTt/C2epTNLHjlVqGx/0euQYyIOd1ovLOrCij0thDIVZUpq2la98z1c3I+fHtoeWyb4xI9FHfXlJleYJTy3xmoReMZdS3TAfeu/ywN+4bDw1I1UQTdCw1SlEfDBJ5XoZLv/9ndmheQ+KYq2XFjZ83qevMnjciB9vBqQXl0syscj7n9WLxYkErgwoGO5owKB5rNOJN");
-//        
-//        response = client2.request(FHIRMediaType.).get(Response.class);
-//        
-//        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+        //Find and try the first download link
+        String downloadUrl = body.substring(body.lastIndexOf("\"output\":"));
+        int endIndex = downloadUrl.indexOf(".ndjson") + 7;
+        downloadUrl = downloadUrl.substring(downloadUrl.indexOf("https"), endIndex);
+
+        verifyDownloadUrl(downloadUrl);
     }
 
     @Test(groups = { TEST_GROUP_NAME })
@@ -498,8 +533,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
         patientStr = patientStr.substring(0, patientStr.indexOf("}") + 1);
         assertTrue(patientStr.contains("\"count\": 2"));
         
-//        WebTarget client = ClientBuilder.newClient().target(downloadUrl);
-//        response = client.request().get(Response.class);
-//        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+        verifyDownloadUrl(downloadUrl);
     }
 }
