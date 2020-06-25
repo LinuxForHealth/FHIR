@@ -99,7 +99,7 @@
             "jobParameters": {
                 "cos.bucket.name": "fhirbulkdata",
                 "cos.location": "us",
-                "cos.endpointurl": "https://minio:8443",
+                "cos.endpointurl": "https://minio:9000",
                 "cos.credential.ibm": "N",
                 "cos.api.key": "minio",
                 "cos.srvinst.id": "change-password"
