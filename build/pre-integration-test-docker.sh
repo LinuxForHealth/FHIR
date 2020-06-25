@@ -44,7 +44,7 @@ mkdir -p /tmp/miniodata/fhirbulkdata
 cp ./minio/test-import.ndjson /tmp/miniodata/fhirbulkdata
 
 echo "Bringing up minio ..."
-docker-compose build --pull minio
+docker-compose build --pull ibmfhirminio
 docker-compose up -d ibmfhirminio
 echo ">>> Current time: " $(date)
 
