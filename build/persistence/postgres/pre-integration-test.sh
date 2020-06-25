@@ -13,7 +13,7 @@ set -o pipefail
 DIST="${WORKSPACE}/build/persistence/postgres/workarea/volumes/dist"
 SCHEMA="${WORKSPACE}/build/persistence/postgres/workarea/schema"
 
-# pre_integration - 
+# pre_integration -
 pre_integration(){
     cleanup_prior
     cleanup_existing_docker
@@ -71,7 +71,7 @@ cleanup_existing_docker(){
 # - build postgres and wait
 bring_up_database(){
     if [ -d ${WORKSPACE}/build/persistence/postgres/db ]
-    then 
+    then
         rm -rf ${WORKSPACE}/build/persistence/postgres/db
     fi
 
@@ -89,7 +89,7 @@ bring_up_database(){
         echo "... Waiting ... - ${count}"
         docker-compose logs --timestamps postgres
         sleep 5
-        count=$((count+1)) 
+        count=$((count+1))
     done
 }
 
@@ -125,7 +125,7 @@ EOF
        --prop-file workarea/postgres.properties --schema-name FHIRDATA --grant-to FHIRSERVER --pool-size 1
 }
 
-# bringup_fhir 
+# bringup_fhir
 bringup_fhir(){
     echo "Bringing up the FHIR server... be patient, this will take a minute"
     docker-compose up --remove-orphans -d fhir-server
@@ -177,8 +177,8 @@ bringup_fhir(){
         echo "Status code: $status"
         if [ $status -ne 200 ]
         then
-        echo "Sleeping 10 secs..."
-        sleep 15
+        echo "Sleeping 30 secs..."
+        sleep 30
         fi
     done
 
@@ -192,7 +192,7 @@ bringup_fhir(){
     exit 0
 }
 
-# is_ready_to_run - is this ready to run? 
+# is_ready_to_run - is this ready to run?
 is_ready_to_run(){
     echo "Preparing environment for fhir-server integration tests..."
     if [ -z "${WORKSPACE}" ]
@@ -208,5 +208,5 @@ is_ready_to_run
 cd build/persistence/postgres
 pre_integration
 
-# EOF 
+# EOF
 ###############################################################################
