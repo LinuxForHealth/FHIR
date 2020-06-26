@@ -8,9 +8,6 @@ package com.ibm.fhir.jbatch.bulkdata.common;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -19,10 +16,6 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,9 +34,7 @@ import javax.json.JsonArray;
 import javax.json.JsonReader;
 import javax.net.ssl.HttpsURLConnection;
 
-import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLSocketFactory;
 
 import com.ibm.cloud.objectstorage.ApacheHttpClientConfig;
 import com.ibm.cloud.objectstorage.ClientConfiguration;

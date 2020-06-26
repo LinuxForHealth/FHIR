@@ -161,9 +161,9 @@ public class ImportOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         target = target.path(path);
         return target.request(mimeType)
-        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .header("X-FHIR-DSID", dataStoreId)
-        		.get(Response.class);
+                .get(Response.class);
     }
 
     public Response doPost(String path, String inputFormat, String inputSource, String resourceType, String url) throws FHIRGeneratorException, IOException {
@@ -175,9 +175,9 @@ public class ImportOperationTest extends FHIRServerTestBase {
         Parameters parameters = generateParameters(inputFormat, inputSource, resourceType, url);
         Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
         return target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
-        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-TENANT-ID", tenantName)
                 .header("X-FHIR-DSID", dataStoreId)
-        		.post(entity, Response.class);
+                .post(entity, Response.class);
     }
 
     public Response polling(String statusUrl) throws InterruptedException {
