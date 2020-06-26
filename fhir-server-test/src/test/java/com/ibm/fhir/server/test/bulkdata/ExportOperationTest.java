@@ -186,7 +186,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
             if (isUseMinioInBuildPipeline) {
                 String[] minioHostArray = minioHost.split(":");
                 minioHostArray[0] = "localhost";
-                String.join(":", minioHostArray);
+                minioHost = String.join(":", minioHostArray);
             }
             
             String minioAuthUrl = "https://" + minioHost + "/minio/webrpc";
