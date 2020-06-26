@@ -79,7 +79,7 @@ services:
       MINIO_SECRET_KEY: change-password
     command: server /data1
     healthcheck:
-      test: ["CMD", "curl", "-f", "https://localhost:9000/minio/health/live"]
+      test: curl -v -f -k 'https://localhost:9000/minio/health/live'
       interval: 30s
       timeout: 20s
       retries: 3
