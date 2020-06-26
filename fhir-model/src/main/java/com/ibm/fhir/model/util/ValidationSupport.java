@@ -467,14 +467,14 @@ public final class ValidationSupport {
     }
 
     private static String getReferenceReference(Reference reference) {
-        if (reference.getReference() != null && reference.getReference().getValue() != null) {
+        if (reference.getReference() != null) {
             return reference.getReference().getValue();
         }
         return null;
     }
 
     private static String getReferenceType(Reference reference) {
-        if (reference.getType() != null && reference.getType().getValue() != null) {
+        if (reference.getType() != null) {
             return reference.getType().getValue();
         }
         return null;

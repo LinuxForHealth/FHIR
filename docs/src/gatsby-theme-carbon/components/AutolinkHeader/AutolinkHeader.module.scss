@@ -1,0 +1,31 @@
+.header {
+  position: relative;
+}
+
+.anchor {
+  opacity: 0;
+  transition: opacity $duration--fast-01 $carbon--standard-easing;
+  position: absolute;
+  left: -$spacing-06;
+  top: 0;
+
+  &:hover,
+  &:active,
+  &:focus {
+    opacity: 1;
+  }
+
+  &:focus {
+    outline: 2px solid $focus;
+  }
+
+  svg {
+    fill: $interactive-01;
+  }
+}
+
+@include carbon--breakpoint("md") {
+  .header:hover .anchor {
+    opacity: 1;
+  }
+}

@@ -196,20 +196,23 @@ public class SearchUtil {
             result.addAll(filterSearchParameters(filterRules, resourceType, spMap.values()));
         }
 
-        // Retrieve the SPs associated with the "Resource" resource type and filter per the filter rules.
-        spMap = spBuiltin.get(SearchConstants.RESOURCE_RESOURCE);
-        if (spMap != null && !spMap.isEmpty()) {
-            Collection<SearchParameter> superParams = filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap.values());
-            Set<String> resultCodes = result.stream()
-                    .map(sp -> sp.getCode().getValue())
-                    .collect(Collectors.toSet());
+        if (!SearchConstants.RESOURCE_RESOURCE.equals(resourceType)) {
+            // Retrieve the SPs associated with the "Resource" resource type and filter per the filter rules.
+            spMap = spBuiltin.get(SearchConstants.RESOURCE_RESOURCE);
+            if (spMap != null && !spMap.isEmpty()) {
+                Collection<SearchParameter> superParams =
+                        filterSearchParameters(filterRules, SearchConstants.RESOURCE_RESOURCE, spMap.values());
+                Set<String> resultCodes = result.stream()
+                        .map(sp -> sp.getCode().getValue())
+                        .collect(Collectors.toSet());
 
-            for (SearchParameter sp : superParams) {
-                if (resultCodes.contains(sp.getCode().getValue())) {
-                    log.warning("Detected conflict for code '" + sp.getCode() + "'; code is defined for both " +
-                            SearchConstants.RESOURCE_RESOURCE + " and " + resourceType + "; using " + resourceType);
-                } else {
-                    result.add(sp);
+                for (SearchParameter sp : superParams) {
+                    if (resultCodes.contains(sp.getCode().getValue())) {
+                        log.warning("Detected conflict for code '" + sp.getCode().getValue() + "'; code is defined for both " +
+                                SearchConstants.RESOURCE_RESOURCE + " and " + resourceType + "; using " + resourceType);
+                    } else {
+                        result.add(sp);
+                    }
                 }
             }
         }

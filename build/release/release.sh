@@ -120,15 +120,24 @@ function deploy_via_curl {
             upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
         done
 
-        # Zip Files
-        for ZIP in `find ${PROJ} -name fhir-validation-distribution.zip -or -name fhir-cli.zip -maxdepth 3`
-        do 
-            FILE="${ZIP}"
-            FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${JAR}"
-            upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
-        done
         echo "Finished Upload for [${MODULE}]"
     done
+
+    deploy_zip_files 
+}
+
+# deploy_zip_files - uploads the release specific zip files. 
+# --- don't add files that could be greater than 300M
+deploy_zip_files { 
+    FILE=fhir-cli/target/fhir-cli.zip
+    MODULE=fhir-cli
+    FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/fhir-cli.zip"
+    upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
+    
+    FILE=fhir-validation/target/fhir-validation-distribution.zip
+    MODULE=fhir-validation
+    FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/fhir-validation-distribution.zip"
+    upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
 }
 
 ###############################################################################
