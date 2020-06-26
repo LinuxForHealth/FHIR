@@ -6,7 +6,7 @@
 
 FROM minio/minio
 
-# Indicate that we expect to connect to the minio service on port 8443
+# Indicate that we expect to connect to the minio service on port 9000
 EXPOSE 9000
 
 # Set up SSL for minio

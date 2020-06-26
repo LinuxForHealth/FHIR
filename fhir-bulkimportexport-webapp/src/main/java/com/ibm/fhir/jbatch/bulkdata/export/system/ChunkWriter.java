@@ -200,7 +200,7 @@ public class ChunkWriter extends AbstractItemWriter {
     public void open(Serializable checkpoint) throws Exception  {
         isExportPublic = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC, true);
         boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
-            .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISCOSCLIENTUSEFHIRSERVERTRUSTSTORE, false);
+            .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE, false);
         cosClient =
             BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
                 cosLocation, isCosClientUseFhirServerTrustStore);

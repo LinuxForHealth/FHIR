@@ -280,7 +280,7 @@ public class ChunkWriter extends AbstractItemWriter {
 
         FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
         boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
-            .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISCOSCLIENTUSEFHIRSERVERTRUSTSTORE, false);
+            .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE, false);
         cosClient =
             BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
                 cosLocation, isCosClientUseFhirServerTrustStore);

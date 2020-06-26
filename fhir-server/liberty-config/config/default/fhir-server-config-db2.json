@@ -112,7 +112,7 @@
             "batch-truststore-password": "change-password",
             "isExportPublic": true,
             "validBaseUrls": [],
-            "isCosClientUseFhirServerTrustStore": true
+            "useFhirServerTrustStore": true
         }
     }
 }

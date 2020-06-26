@@ -82,7 +82,7 @@ public class ImportPartitionCollector implements PartitionCollector {
     public Serializable collectPartitionData() throws Exception {
         if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES && cosClient == null) {
             boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
-                .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISCOSCLIENTUSEFHIRSERVERTRUSTSTORE, false);
+                .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE, false);
             cosClient =
                 BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
                     cosLocation, isCosClientUseFhirServerTrustStore);

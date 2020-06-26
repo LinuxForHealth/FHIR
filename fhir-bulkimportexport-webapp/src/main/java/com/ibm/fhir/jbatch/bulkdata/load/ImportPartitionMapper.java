@@ -205,7 +205,7 @@ public class ImportPartitionMapper implements PartitionMapper {
         // Create a COS/S3 client if it's not created yet.
         if (cosClient == null) {
             boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
-                .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISCOSCLIENTUSEFHIRSERVERTRUSTSTORE, false);
+                .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE, false);
             cosClient =
                     BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
                             cosLocation, isCosClientUseFhirServerTrustStore);

@@ -110,7 +110,7 @@ public class BulkDataUtils {
     }
 
     public static AmazonS3 getCosClient(String cosCredentialIbm, String cosApiKeyProperty, String cosSrvinstId,
-            String cosEndpointUrl, String cosLocation, boolean isUseFhirServerTrustStore) {
+            String cosEndpointUrl, String cosLocation, boolean useFhirServerTrustStore) {
         SDKGlobalConfiguration.IAM_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token";
         AWSCredentials credentials;
         if (cosCredentialIbm != null && cosCredentialIbm.equalsIgnoreCase("Y")) {
@@ -124,7 +124,7 @@ public class BulkDataUtils {
                 .withTcpKeepAlive(true)
                 .withSocketTimeout(Constants.COS_SOCKET_TIMEOUT);
 
-        if (isUseFhirServerTrustStore) {
+        if (useFhirServerTrustStore) {
             ApacheHttpClientConfig apacheClientConfig = clientConfig.getApacheHttpClientConfig();
             // The following line configures COS/S3 SDK to use SSLConnectionSocketFactory of liberty server,
             // it makes sure the certs added in fhirTrustStore.p12 can be used for SSL connection with any S3 

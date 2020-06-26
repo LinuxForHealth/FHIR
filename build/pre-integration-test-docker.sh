@@ -43,7 +43,7 @@ echo "Deploying the Db2 schema..."
 ./deploySchemaAndTenant.sh
 
 mkdir -p minio/miniodata/fhirbulkdata
-cp ./minio/test-import.ndjson ./minio/miniodata/fhirbulkdata
+cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import.ndjson ./minio/miniodata/fhirbulkdata
 
 echo "Bringing up minio ..."
 docker-compose build --pull minio

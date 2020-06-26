@@ -1489,7 +1489,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/cosFileMaxResources`|int|The maximum number of FHIR resources per COS file, "-1" means no limit, the default value is 500000 |
 |`fhirServer/bulkdata/cosFileMaxSize`|int|The maximum COS file size in bytes, "-1" means no limit, the default value is 209715200 (200M) |
 |`fhirServer/bulkdata/patientExportPageSize`|int| The search page size for patient/group export, the default value is 200 |
-|`fhirServer/bulkdata/isCosClientUseFhirServerTrustStore`|boolean| If use fhir server TrustStore to access S3/IBMCOS service |
+|`fhirServer/bulkdata/useFhirServerTrustStore`|boolean| If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
 
 
 ### 5.1.2 Default property values
@@ -1539,7 +1539,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/cosFileMaxResources`|500000|
 |`fhirServer/bulkdata/cosFileMaxSize`|209715200|
 |`fhirServer/bulkdata/patientExportPageSize`|200|
-|`fhirServer/bulkdata/isCosClientUseFhirServerTrustStore`|false|
+|`fhirServer/bulkdata/useFhirServerTrustStore`|false|
 
 
 ### 5.1.3 Property attributes
@@ -1607,7 +1607,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/cosFileMaxResources`|Y|Y|
 |`fhirServer/bulkdata/cosFileMaxSize`|Y|Y|
 |`fhirServer/bulkdata/patientExportPageSize`|Y|Y|
-|`fhirServer/bulkdata/isCosClientUseFhirServerTrustStore`|Y|Y|
+|`fhirServer/bulkdata/useFhirServerTrustStore`|Y|Y|
 
 ## 5.2 Keystores, truststores, and the FHIR server
 
