@@ -23,10 +23,10 @@ export WORKSPACE="$( dirname "${DIR}" )"
 SERVER_WAITTIME="60"
 
 # Sleep interval after each "$healthcheck" invocation
-SLEEP_INTERVAL="10"
+SLEEP_INTERVAL="30"
 
 # Max number of "metadata" tries to detect server is running
-MAX_TRIES=10
+MAX_TRIES=30
 
 # Remove the entire SIT file tree if it exists
 export SIT=${WORKSPACE}/SIT
