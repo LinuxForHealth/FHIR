@@ -12,28 +12,18 @@ import static org.testng.AssertJUnit.assertNotNull;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Properties;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.ITransaction;
-import com.ibm.fhir.database.utils.api.ITransactionProvider;
-import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
-import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.jdbc.connection.Action;
 import com.ibm.fhir.persistence.jdbc.connection.DisableAutocommitAction;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTestConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.SetSchemaAction;
-import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 
 /**
  * 
@@ -46,6 +36,7 @@ public class PopulateStaticTablesDerbyTest {
  
     public PopulateStaticTablesDerbyTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
+        assertNotNull(testProps);
     }
 
     @BeforeClass
@@ -57,11 +48,8 @@ public class PopulateStaticTablesDerbyTest {
     
     @Test(groups = { "derby" })
     public void testGetDerbyConnectionAndCheckStaticTables() throws Exception {
-        
-        Action setSchema = new SetSchemaAction("FHIRDATA");
-        Action disableAC = new DisableAutocommitAction(setSchema);
-        
-        FHIRDbConnectionStrategy strat = new FHIRDbTestConnectionStrategy(testHelper.getConnectionProvider(), disableAC);
+                
+        FHIRDbConnectionStrategy strat = new FHIRDbTestConnectionStrategy(testHelper.getConnectionProvider(), null);
         
         boolean result1 = false;
         boolean result2 = false;

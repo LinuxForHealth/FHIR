@@ -140,7 +140,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                 throw t;
             } finally {
                 if (persistence.isTransactional()) {
-                    persistence.getTransaction().commit();
+                    persistence.getTransaction().end();
                 }
             }
         }

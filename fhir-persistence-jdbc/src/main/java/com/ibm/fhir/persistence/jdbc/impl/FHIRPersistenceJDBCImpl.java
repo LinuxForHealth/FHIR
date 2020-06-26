@@ -40,7 +40,6 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import javax.naming.InitialContext;
-import javax.transaction.Status;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.UserTransaction;
 
@@ -87,11 +86,18 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundExcepti
 import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.connection.Action;
-import com.ibm.fhir.persistence.jdbc.connection.DisableAutocommitAction;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbProxyDatasourceConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTenantDatasourceConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTestConnectionStrategy;
-import com.ibm.fhir.persistence.jdbc.connection.SetSchemaAction;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRTestTransactionFactory;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRTestTransactionAdapter;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRTransactionFactory;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRUserTransactionAdapter;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRUserTransactionFactory;
+import com.ibm.fhir.persistence.jdbc.connection.SchemaNameFromProps;
+import com.ibm.fhir.persistence.jdbc.connection.SchemaNameImpl;
+import com.ibm.fhir.persistence.jdbc.connection.SchemaNameSupplier;
 import com.ibm.fhir.persistence.jdbc.connection.SetTenantAction;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
@@ -127,7 +133,7 @@ import com.ibm.fhir.search.util.SearchUtil;
  * @implNote This class is request-scoped;
  *           it must be initialized for each request to reset the supplementalIssues list
  */
-public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistenceTransaction {
+public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSupplier {
     private static final String CLASSNAME = FHIRPersistenceJDBCImpl.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
 
@@ -143,9 +149,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     // The strategy used to obtain database connections
     private final FHIRDbConnectionStrategy connectionStrategy;
     
-    // The schema name from the configuration for the datastore used in the request context
-    private final String schemaName;
+    // A strategy for finding the schema name
+    private final SchemaNameSupplier schemaNameSupplier;
 
+    // Handles transaction lifecycle for this persistence object
+    private final FHIRPersistenceTransaction transactionAdapter;
 
     /**
      * Constructor for use when running as web application in WLP.
@@ -159,7 +167,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         if (fhirConfig == null) {
             throw new IllegalStateException("Unable to load the default fhir-server-config.json");
         }
-        this.schemaName = this.getSchema();
         this.updateCreateEnabled = fhirConfig.getBooleanProperty(PROPERTY_UPDATE_CREATE_ENABLED, Boolean.TRUE);
         this.userTransaction = retrieveUserTransaction(TXN_JNDI_NAME);
         
@@ -176,10 +183,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE,
                                       Boolean.TRUE));
         
+        //this.connectionStrategy = new FHIRDbTenantDatasourceConnectionStrategy(getTrxSynchRegistry(), buildActionChain());
+        
         // Set up the connection strategy for use within a JEE container. The actions
         // are processed the first time a connection is established to a particular tenant/datasource.
-        this.connectionStrategy = new FHIRDbProxyDatasourceConnectionStrategy(userTransaction, getTrxSynchRegistry(), buildActionChain());
-
+        this.schemaNameSupplier = new SchemaNameImpl(this);
+        this.connectionStrategy = new FHIRDbProxyDatasourceConnectionStrategy(getTrxSynchRegistry(), buildActionChain());
+        this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction);
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -200,10 +210,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
         // not running inside a JEE container
         this.trxSynchRegistry = null;
+
+        // use the schema name from the configProps, or the connection.getSchema if we have to
+        this.schemaNameSupplier = new SchemaNameImpl(new SchemaNameFromProps(configProps));
         
         // Obtain connections from the IConnectionProvider (typically used in Derby-based test-cases)
-        this.schemaName = configProps.getProperty("schemaName", "FHIRDATA");
         this.connectionStrategy = new FHIRDbTestConnectionStrategy(cp, buildActionChain());
+        
+        // For unit tests (outside of JEE), we also need our own mechanism for handling transactions
+        this.transactionAdapter = new FHIRTestTransactionAdapter(cp);
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -236,24 +251,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
     
     /**
-     * Build a chain of actions we want to apply to new connections. The three actions in
-     * order are:
-     * 1. set the current schema
-     * 2. set autocommit off
-     * 3. set the tenant SV_TENANT_ID variable (for multi-tenant implementations).
+     * Build a chain of actions we want to apply to new connections. Current the
+     * only action we need is setting the tenant if we're in multi-tenant mode.
      * @return the chain of actions to be applied
      */
     protected Action buildActionChain() {
-        if (schemaName == null) {
-            // just in case someone decides to reorder some code in the constructor
-            throw new IllegalStateException("schemaName must be set before calling buildActionChain()");
-        }
-        
-        Action setSchema = new SetSchemaAction(this.schemaName);
-        Action autocommit = new DisableAutocommitAction(setSchema);
-        Action setTenant = new SetTenantAction(autocommit);
-
-        return setTenant;
+        // Note: do not call setSchema on a connection. It exposes a bug in Liberty.
+        return new SetTenantAction();
     }
 
 
@@ -362,9 +366,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      */
     private ResourceDAO makeResourceDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
         if (this.trxSynchRegistry != null) {
-            return FHIRResourceDAOFactory.getResourceDAO(connection, this.schemaName, connectionStrategy.getFlavor(), this.trxSynchRegistry);
+            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.trxSynchRegistry);
         } else {
-            return FHIRResourceDAOFactory.getResourceDAO(connection, this.schemaName, connectionStrategy.getFlavor());
+            return FHIRResourceDAOFactory.getResourceDAO(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor());
         }
     }
 
@@ -377,9 +381,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      */
     private ParameterDAO makeParameterDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException {
         if (this.trxSynchRegistry != null) {
-            return new ParameterDAOImpl(connection, schemaName, connectionStrategy.getFlavor(), trxSynchRegistry);
+            return new ParameterDAOImpl(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), trxSynchRegistry);
         } else {
-            return new ParameterDAOImpl(connection, schemaName, connectionStrategy.getFlavor());
+            return new ParameterDAOImpl(connection, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor());
         }
     }
     
@@ -1379,76 +1383,26 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         return parameter;
     }
 
-    @Override
-    public void begin() throws FHIRPersistenceException {
-        final String METHODNAME = "begin";
-        log.entering(CLASSNAME, METHODNAME);
-
-        try {
-            // delegate transaction handling to our connection strategy
-            this.connectionStrategy.txBegin();
-        }
-        finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-    }
-
-    @Override
-    public void commit() throws FHIRPersistenceException {
-        final String METHODNAME = "commit";
-        log.entering(CLASSNAME, METHODNAME);
-        
-        try {
-            // delegate transaction handling to the strategy we use for handling connections
-            connectionStrategy.txEnd();
-        }
-        finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-
-    }
-
     /**
      * Open a connection to the database and pass to the data access objects.
-     * Caller must close the returned connection after use.
+     * Caller must close the returned connection after use (before the
+     * transaction completes
      * @return
      * @throws FHIRPersistenceDBConnectException 
      */
     private Connection openConnection() throws FHIRPersistenceDBConnectException {
-        return connectionStrategy.getConnection();
-    }
-
-    @Override
-    public void rollback() throws FHIRPersistenceException {
-        final String METHODNAME = "rollback";
+        final String METHODNAME = "openConnection";
         log.entering(CLASSNAME, METHODNAME);
-
         try {
-            // delegate transaction handling to the strategy we use for handling connections
-            connectionStrategy.txSetRollbackOnly();
-            connectionStrategy.txEnd();
-        }
-        finally {
+            return connectionStrategy.getConnection();
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
-        }
-    }
-
-    @Override
-    public void setRollbackOnly() throws FHIRPersistenceException {
-        final String METHODNAME = "setRollbackOnly";
-        log.entering(CLASSNAME, METHODNAME);
-
-        try {
-            // delegate transaction handling to the strategy we use for handling connections
-            connectionStrategy.txSetRollbackOnly();
-        }
-        finally {
-            log.exiting(CLASSNAME, METHODNAME);            
         }
     }
 
     @Override
     public OperationOutcome getHealth() throws FHIRPersistenceException {
+        
         try (Connection connection = connectionStrategy.getConnection()) {
             if (connection.isValid(2)) {
                 return buildOKOperationOutcome();
@@ -1476,23 +1430,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         }
 
         return txn;
-    }
-
-    @Override
-    public boolean isActive() throws FHIRPersistenceException {
-        boolean isActive = false;
-        try {
-            if (userTransaction != null) {
-                isActive = (userTransaction.getStatus() == Status.STATUS_ACTIVE);
-            }
-        }
-        catch (Throwable e) {
-            String msg = "An unexpected error occurred while examining transactional status.";
-            FHIRPersistenceException fx = new FHIRPersistenceException(msg);
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        return isActive;
     }
 
     /**
@@ -1592,7 +1529,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
     @Override
     public FHIRPersistenceTransaction getTransaction() {
-        return this;
+        // after 4.3 we no longer return `this` and FHIRPersistenceJDBCImpl no longer implements
+        // FHIRPersistenceTransaction. Instead, transaction handling is managed inside
+        // the new FHIRTransactionImpl, which also now includes the logic to determine
+        // which instance started the transaction, and therefore which instance should
+        // issue the commit (to handle cases where FHIRPersistenceJDBCImpl might be nested.
+        return this.transactionAdapter;
     }
 
     @Override
@@ -1606,34 +1548,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
 
     private OperationOutcome buildErrorOperationOutcome() {
         return FHIRUtil.buildOperationOutcome("The database connection was not valid", IssueType.NO_STORE, IssueSeverity.ERROR);
-    }
-
-    /**
-     * Enroll in an existing transaction.
-     *
-     * <p>Enrolling in an existing transaction is an alternative to beginning a new transaction. Calling this method
-     * gives implementations a chance to create necessary resources associated with a given unit of work when that
-     * unit of work is performed under an existing user-managed transaction.
-     *
-     * @throws FHIRPersistenceException
-     */
-    @Override
-    public void unenroll() throws FHIRPersistenceException {
-        // TODO should no longer be required
-    }
-
-    /**
-     * Unenroll from the existing transaction.
-     *
-     * <p>Unenrolling from an existing transaction is an alternative to committing or rolling back the transaction. Calling
-     * this method gives implementations a chance to release resources associated with a given unit of work when that
-     * unit of work is performed under an existing user-managed transaction.
-     *
-     * @throws FHIRPersistenceException
-     */
-    @Override
-    public void enroll() throws FHIRPersistenceException {
-        // TODO should no longer be required
     }
 
     /**
@@ -1651,28 +1565,36 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
     }
     
     
-    /**
-     * Get the schema name from the configuration for the datastore associated with
-     * the current request context.
-     * @return
-     */
-    public String getSchema() throws FHIRPersistenceException {
+    @Override
+    public String getSchemaForRequestContext(Connection connection) throws FHIRPersistenceDBConnectException {
         String datastoreId = FHIRRequestContext.get().getDataStoreId();
 
         // Retrieve the property group pertaining to the specified datastore.
-        String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId;
+        String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId + "/connectionProperties";
         PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
         if (dsPG != null) {
             try {
-                return dsPG.getStringProperty("currentSchema", "FHIRDATA");
+                // If the currentSchema parameter isn't given, we have to
+                // get it from the database when we have a connection.
+                String currentSchema = dsPG.getStringProperty("currentSchema", null);
+                
+                if (currentSchema == null) {
+                    // Backup plan. Try getting it from the parent (datasource) property group
+                    dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId;
+                    dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
+                    currentSchema = dsPG.getStringProperty("currentSchema", null);
+                }
+
+                // can be null
+                return currentSchema;
             }
             catch (Exception x) {
                 log.log(Level.SEVERE, "Datastore configuration issue for '" + datastoreId + "'", x);
-                throw new FHIRPersistenceException("Datastore configuration issue. Details in server logs");
+                throw new FHIRPersistenceDBConnectException("Datastore configuration issue. Details in server logs");
             }
         } else {
             log.fine("there are no datasource properties found for : [" + dsPropertyName + "]");
-            throw new FHIRPersistenceException("Datastore configuration issue. Details in server logs");
+            throw new FHIRPersistenceDBConnectException("Datastore configuration issue. Details in server logs");
         }
     }
 }

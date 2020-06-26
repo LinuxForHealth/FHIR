@@ -321,7 +321,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         final String METHODNAME = "readAllResourceTypeNames";
         log.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
         Map<String, Integer> result = new HashMap<>();
@@ -329,7 +328,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         double dbCallDuration;
 
         try {
-            connection = this.getConnection();
+            final Connection connection = this.getConnection();
             stmt = connection.prepareStatement(SQL_READ_ALL_RESOURCE_TYPE_NAMES);
             dbCallStartTime = System.nanoTime();
             resultSet = stmt.executeQuery();
@@ -361,7 +360,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         final String METHODNAME = "readResourceTypeId";
         log.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = getConnection(); // do not close
+        final Connection connection = getConnection(); // do not close
         CallableStatement stmt = null;
         Integer parameterNameId = null;
         String stmtString;
@@ -483,7 +482,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         final String METHODNAME = "insert(Resource, List<ExtractedParameterValue>";
         log.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = getConnection(); // do not close
+        final Connection connection = getConnection(); // do not close
         CallableStatement stmt = null;
         String stmtString = null;
         Integer resourceTypeId;
@@ -589,7 +588,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             return Collections.emptyList();
         }
 
-        Connection connection = getConnection(); // do not close
+        final Connection connection = getConnection(); // do not close
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
         String errMsg;
@@ -616,7 +615,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             }
             idQuery.append(") " + SQL_ORDER_BY_IDS + caseStmts + END);
 
-            connection = this.getConnection();
             stmt = connection.prepareStatement(idQuery.toString());
             dbCallStartTime = System.nanoTime();
             resultSet = stmt.executeQuery();

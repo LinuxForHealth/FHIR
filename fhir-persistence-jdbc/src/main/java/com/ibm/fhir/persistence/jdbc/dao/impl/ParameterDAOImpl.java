@@ -78,7 +78,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         final String METHODNAME = "readAllSearchParameterNames";
         log.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = getConnection(); // do not close
+        final Connection connection = getConnection(); // do not close
         try {
             ParameterNameDAO pnd = new ParameterNameDAOImpl(connection, getSchemaName());
             return pnd.readAllSearchParameterNames();
@@ -93,7 +93,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         final String METHODNAME = "readAllCodeSystems";
         log.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = getConnection(); // do not close
+        final Connection connection = getConnection(); // do not close
         try {
             CodeSystemDAO csd = new CodeSystemDAOImpl(connection, getSchemaName());
             return csd.readAllCodeSystems();
@@ -116,7 +116,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         final String METHODNAME = "readOrAddParameterNameId";
         log.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = getConnection(); // do not close
+        final Connection connection = getConnection(); // do not close
 
         try {
             ParameterNameDAO pnd;
@@ -153,7 +153,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         final String METHODNAME = "readOrAddCodeSystemId";
         log.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = getConnection(); // do not close
+        final Connection connection = getConnection(); // do not close
         try {
             CodeSystemDAO csd;
             
@@ -341,7 +341,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         final String METHODNAME = "readParameterNameId";
         log.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = getConnection(); // do not close
+        final Connection connection = getConnection(); // do not close
         try {
             ParameterNameDAO pnd = new ParameterNameDAOImpl(connection, getSchemaName());
             return pnd.readParameterNameId(parameterName);
@@ -355,7 +355,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
         final String METHODNAME = "readCodeSystemId";
         log.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = getConnection(); // do not close
+        final Connection connection = getConnection(); // do not close
         try {
             CodeSystemDAO csd = new CodeSystemDAOImpl(connection, getSchemaName());
             return csd.readCodeSystemId(codeSystemName);

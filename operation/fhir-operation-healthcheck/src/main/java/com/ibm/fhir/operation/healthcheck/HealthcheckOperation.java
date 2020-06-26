@@ -8,6 +8,7 @@ package com.ibm.fhir.operation.healthcheck;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
@@ -19,12 +20,15 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.util.FHIROperationUtil;
 
 public class HealthcheckOperation extends AbstractOperation {
+    private static final Logger logger = Logger.getLogger(HealthcheckOperation.class.getName());
+    
     public HealthcheckOperation() {
         super();
     }
@@ -45,9 +49,22 @@ public class HealthcheckOperation extends AbstractOperation {
         try {
             FHIRPersistence pl =
                     (FHIRPersistence) operationContext.getProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL);
-            OperationOutcome operationOutcome = pl.getHealth();
-            checkOperationOutcome(operationOutcome);
-            return FHIROperationUtil.getOutputParameters(operationOutcome);
+
+            FHIRPersistenceTransaction tx = resourceHelper.getTransaction();
+            tx.begin();
+            
+            try {
+                logger.info("checking health");
+                OperationOutcome operationOutcome = pl.getHealth();
+                checkOperationOutcome(operationOutcome);
+                logger.info("checked health");
+                return FHIROperationUtil.getOutputParameters(operationOutcome);
+            } catch (Throwable t) {
+                tx.setRollbackOnly();
+                throw t;
+            } finally {
+                tx.end();
+            }
         } catch (FHIROperationException e) {
             throw e;
         } catch (Throwable t) {

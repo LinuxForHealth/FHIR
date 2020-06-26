@@ -13,17 +13,15 @@ import java.util.Properties;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
-import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.persistence.jdbc.connection.Action;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConstants;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbPropsConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTestConnectionStrategy;
+import com.ibm.fhir.persistence.jdbc.connection.SchemaNameFromProps;
 import com.ibm.fhir.persistence.jdbc.connection.SetSchemaAction;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 
@@ -48,7 +46,7 @@ public class FHIRDbDAOTest {
 
         // Test creation of a DAO instance with a connection strategy.
 
-        Action action = new SetSchemaAction("FHIRDATA");
+        Action action = new SetSchemaAction(new SchemaNameFromProps("FHIRDATA"), null);
         FHIRDbConnectionStrategy strat = new FHIRDbTestConnectionStrategy(connectionPool, action);
 
         // We only ask the DAO for a connection

@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.UserTransaction;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
@@ -45,7 +46,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
  *           such as using a JEE datasource directly instead of the FHIR
  *           proxy datasource used here.
  */
-public class FHIRDbTenantDatasourceConnectionStrategy implements FHIRDbConnectionStrategy {
+public class FHIRDbTenantDatasourceConnectionStrategy extends FHIRDbConnectionStrategyBase {
     private static final Logger log = Logger.getLogger(FHIRDbDAOImpl.class.getName());
     private static final String CLASSNAME = FHIRDbDAOImpl.class.getName();
 
@@ -53,16 +54,11 @@ public class FHIRDbTenantDatasourceConnectionStrategy implements FHIRDbConnectio
     private static final long NANOMS = 1000000;
     
     // JNDI address of the (proxy) datasource
-    private final String datasourceBaseName;
+    private final String datasourceBaseName = "jdbc/fhir_";
 
     // Cache of datasources we've found
     private final Map<String, DataSource> datasourceMap = new ConcurrentHashMap<>();
     
-    // the user transaction
-    private final UserTransaction userTransaction;
-    
-    private boolean rollbackOnly;
-
     // the flavor of the database we are configured to represent
     private final FHIRDbFlavor flavor;
 
@@ -71,14 +67,14 @@ public class FHIRDbTenantDatasourceConnectionStrategy implements FHIRDbConnectio
      * at server startup.
      * @throws FHIRPersistenceDBConnectException if the proxy datasource is not configured
      */
-    public FHIRDbTenantDatasourceConnectionStrategy(UserTransaction userTransaction) throws FHIRException {
-        this.userTransaction = userTransaction;
-        
+    public FHIRDbTenantDatasourceConnectionStrategy(TransactionSynchronizationRegistry trxSyncRegistry, Action newConnectionAction) throws FHIRException {
+        super(trxSyncRegistry, newConnectionAction);
+
         // Find the base JNDI name of the datasource we want to use
         try {
-            this.datasourceBaseName =
-                    FHIRConfiguration.getInstance().loadConfiguration().getStringProperty(
-                        FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, FHIRDbDAO.FHIRDB_JNDI_NAME_DEFAULT);
+//            this.datasourceBaseName =
+//                    FHIRConfiguration.getInstance().loadConfiguration().getStringProperty(
+//                        FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, FHIRDbDAO.FHIRDB_JNDI_NAME_DEFAULT);
             
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Using datasource JNDI name: " + datasourceBaseName);
@@ -113,7 +109,7 @@ public class FHIRDbTenantDatasourceConnectionStrategy implements FHIRDbConnectio
         String dsId = FHIRRequestContext.get().getDataStoreId();
         
         // this is the important bit...how we name our actual datasources
-        final String datasourceName = datasourceBaseName + "/" + tenantId + "/" + dsId;
+        final String datasourceName = datasourceBaseName + tenantId + "_" + dsId;
         
         // Note: we don't need any synchronization around ConcurrentHashMap, but that
         // doesn't change the fact that we may look up the datasource and put it into
@@ -132,7 +128,7 @@ public class FHIRDbTenantDatasourceConnectionStrategy implements FHIRDbConnectio
             } catch (Throwable e) {
                 // don't emit secrets in exceptions
                 FHIRPersistenceDBConnectException fx = new FHIRPersistenceDBConnectException("Failure acquiring datasource");
-                throw FHIRDbHelper.severe(log, fx, "Failure acquiring connection for datasource: " + datasourceBaseName, e);
+                throw FHIRDbHelper.severe(log, fx, "Failure acquiring connection for datasource: " + datasourceName, e);
             } finally {
                 if (log.isLoggable(Level.FINEST)) {
                     log.exiting(CLASSNAME, METHODNAME);
@@ -147,7 +143,7 @@ public class FHIRDbTenantDatasourceConnectionStrategy implements FHIRDbConnectio
 
         // Now use the dsId/tenantId specific JEE datasource to get a connection
         try {
-            connection = datasource.getConnection();
+            connection = getConnection(datasource, tenantId, dsId);
 
             if (log.isLoggable(Level.FINE)) {
                 long deltams = (System.nanoTime() - start) / NANOMS;
@@ -157,7 +153,7 @@ public class FHIRDbTenantDatasourceConnectionStrategy implements FHIRDbConnectio
             // Don't emit secrets in case they are returned to a client
             FHIRPersistenceDBConnectException fx =
                     new FHIRPersistenceDBConnectException("Failure acquiring connection for datasource");
-            throw FHIRDbHelper.severe(log, fx, "Failure acquiring connection for datasource: " + datasourceBaseName, e);
+            throw FHIRDbHelper.severe(log, fx, "Failure acquiring connection for datasource: " + datasourceName, e);
         } finally {
             if (log.isLoggable(Level.FINEST)) {
                 log.exiting(CLASSNAME, METHODNAME);
@@ -167,57 +163,6 @@ public class FHIRDbTenantDatasourceConnectionStrategy implements FHIRDbConnectio
         return connection;
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#txBegin()
-     */
-    @Override
-    public void txBegin() throws FHIRPersistenceException {
-        try {
-            this.rollbackOnly = false;
-            userTransaction.begin();
-        }
-        catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while starting a transaction.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-    }
-
-
-    @Override
-    public void txEnd() throws FHIRPersistenceException {
-        try {
-            if (this.rollbackOnly) {
-                userTransaction.rollback();
-            } else {
-                userTransaction.commit();
-            }
-        }
-        catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while committing a transaction.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#setRollbackOnly()
-     */
-    @Override
-    public void txSetRollbackOnly() throws FHIRPersistenceException {
-
-        try {
-            this.rollbackOnly = true;
-            userTransaction.setRollbackOnly();
-        } catch (Throwable e) {
-            String errorMessage = "Unexpected error while rolling a transaction.";
-            FHIRPersistenceException fx = new FHIRPersistenceException(errorMessage);
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        
-    }
-
     /* (non-Javadoc)
      * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#getFlavor()
      */

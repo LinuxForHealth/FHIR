@@ -12,7 +12,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
@@ -48,9 +47,6 @@ public class FHIRDbPropsConnectionStrategy implements FHIRDbConnectionStrategy {
 
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionProvider#getConnection()
-     */
     @Override
     public Connection getConnection() throws FHIRPersistenceDBConnectException {
         // TODO we need to wrap the connection to simplify transaction handling
@@ -80,39 +76,10 @@ public class FHIRDbPropsConnectionStrategy implements FHIRDbConnectionStrategy {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#getFlavor()
-     */
     @Override
     public FHIRDbFlavor getFlavor() throws FHIRPersistenceDataAccessException {
         // TODO Auto-generated method stub
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#txBegin()
-     */
-    @Override
-    public void txBegin() throws FHIRPersistenceException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#txEnd()
-     */
-    @Override
-    public void txEnd() throws FHIRPersistenceException {
-        // TODO Auto-generated method stub
-        
-    }
-
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#txSetRollbackOnly()
-     */
-    @Override
-    public void txSetRollbackOnly() throws FHIRPersistenceException {
-        // TODO Auto-generated method stub
-        
-    }
 }

@@ -22,7 +22,7 @@ public interface FHIRDbFlavor {
     public boolean isMultitenant();
 
     /**
-     * Is the underlying database DB2?
+     * What type of database is this?
      * @return
      */
     public DbType getType();

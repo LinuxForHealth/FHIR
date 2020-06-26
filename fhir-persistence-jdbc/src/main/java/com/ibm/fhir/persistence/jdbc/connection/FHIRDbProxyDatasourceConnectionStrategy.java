@@ -7,17 +7,18 @@
 package com.ibm.fhir.persistence.jdbc.connection;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import javax.transaction.TransactionSynchronizationRegistry;
-import javax.transaction.UserTransaction;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDbDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
@@ -42,7 +43,7 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
     private static final String CLASSNAME = FHIRDbDAOImpl.class.getName();
 
     // number of nanoseconds in a millisecond
-    private static final long NANOMS = 1000000;
+    private static final double NANOMS = 1e6;
     
     // The (proxy) datasource
     private final DataSource datasource;
@@ -56,8 +57,8 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
      * at server startup.
      * @throws FHIRPersistenceDBConnectException if the proxy datasource is not configured
      */
-    public FHIRDbProxyDatasourceConnectionStrategy(UserTransaction userTx, TransactionSynchronizationRegistry trxSyncRegistry, Action newConnectionAction) throws FHIRException {
-        super(userTx, trxSyncRegistry, newConnectionAction);
+    public FHIRDbProxyDatasourceConnectionStrategy(TransactionSynchronizationRegistry trxSyncRegistry, Action newConnectionAction) throws FHIRException {
+        super(trxSyncRegistry, newConnectionAction);
         final String METHODNAME = "FHIRDbProxyDatasourceConnectionProvider()";
         
         
@@ -96,10 +97,10 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
      */
     @Override
     public Connection getConnection() throws FHIRPersistenceDBConnectException {
-        Connection connection = null;
+        Connection connection;
         final String METHODNAME = "getConnection";
 
-        if (log.isLoggable(Level.FINEST)) {
+        if (log.isLoggable(Level.FINE)) {
             log.entering(CLASSNAME, METHODNAME);
         }
 
@@ -116,26 +117,52 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
 
             // Use the username/password interface to pass the tenantId and datasource id
             // paramters into the proxy datasource so that it can find the correct connection
-            connection = datasource.getConnection(tenantId, dsId);
+            connection = getConnection(datasource, tenantId, dsId);
 
             if (log.isLoggable(Level.FINE)) {
-                long deltams = (System.nanoTime() - start) / NANOMS;
+                double deltams = (System.nanoTime() - start) / NANOMS;
                 log.fine("Got the connection for [" + tenantId + "/" + dsId + "]. Took " + deltams + " ms");
             }
-
-            // make sure this connection is configured the first time we see it in a transaction
-            configure(connection, tenantId, dsId);
         } catch (Throwable e) {
             // Don't emit secrets in case they are returned to a client
             FHIRPersistenceDBConnectException fx =
                     new FHIRPersistenceDBConnectException("Failure acquiring connection for datasource");
             throw FHIRDbHelper.severe(log, fx, "Failure acquiring connection for datasource: " + datasourceJndiName, e);
         } finally {
-            if (log.isLoggable(Level.FINEST)) {
+            if (log.isLoggable(Level.FINE)) {
                 log.exiting(CLASSNAME, METHODNAME);
             }
         }
         
         return connection;
     }
+    
+    @Override
+    protected Connection getConnection(DataSource datasource, String tenantId, String dsId) throws SQLException, FHIRPersistenceException {
+        // Now use the dsId/tenantId specific JEE datasource to get a connection
+        Connection connection = datasource.getConnection(tenantId, dsId);
+        
+        try {
+            // always
+            connection.setAutoCommit(false);
+            
+            // configure the connection if it's the first time we've accessed it in this transaction
+            configure(connection, tenantId, dsId);
+        } catch (Throwable t) {
+            // clean up if something goes wrong during configuration
+            try {
+                connection.close();
+            } catch (Throwable x) {
+                // NOP...something bad is going on anyway, so don't confuse things
+                // by throwing a different exception and hiding the original
+            } finally {
+                // just to prevent future coding mistakes
+                connection = null;
+            }
+            throw t;
+        }
+        
+        return connection;
+    }
+
 }

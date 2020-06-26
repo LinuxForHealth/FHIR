@@ -6,25 +6,24 @@
 
 package com.ibm.fhir.persistence.helper;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * This helper class is used to manage the transaction on the current thread.
+ * 
+ * @implNote After 4.3, the logic to check for which instance of this helper
+ *           owns the transaction (txnStarted == true) is moved to the
+ *           FHIRPersistenceTransaction implementation, making use of this
+ *           helper class optional.
  */
 public class FHIRTransactionHelper {
-    private static final Logger log = Logger.getLogger(FHIRTransactionHelper.class.getName());
-
+    
+    // The transaction handle we are wrapping
     private FHIRPersistenceTransaction txn;
-    private boolean txnStarted;
-    private boolean beginCalled;
 
     public FHIRTransactionHelper(FHIRPersistenceTransaction txn) {
         this.txn = txn;
-        txnStarted = false;
     }
 
     /**
@@ -32,16 +31,7 @@ public class FHIRTransactionHelper {
      * @throws FHIRPersistenceException
      */
     public void begin() throws FHIRPersistenceException {
-        if (txn != null) {
-            if (!txn.isActive()) {
-                log.fine("Starting transaction on current thread...");
-                txn.begin();
-                txnStarted = true;
-            } else {
-                log.fine("Transaction is already active on current thread...");
-            }
-            beginCalled = true;
-        }
+        txn.begin();
     }
 
     /**
@@ -50,17 +40,17 @@ public class FHIRTransactionHelper {
      * @throws FHIRPersistenceException
      */
     public void commit() throws FHIRPersistenceException {
-        // If we previously started a transaction with this helper instance, then commit now.
-        if (txn != null) {
-            if (txnStarted) {
-                log.fine("Committing transaction on current thread...");
-                txn.commit();
-                txnStarted = false;
-            } else {
-                log.fine("Bypassing commit of already-active transaction on current thread...");
-            }
-            txn = null;
-        }
+        txn.end();
+    }
+
+    /**
+     * Same as commit, but is preferred for readability because
+     * {@link #commit()} will actually do a rollback if setRollbackOnly
+     * is called on the underlying transaction
+     * @throws FHIRPersistenceException
+     */
+    public void end() throws FHIRPersistenceException {
+        txn.end();
     }
 
     /**
@@ -68,55 +58,16 @@ public class FHIRTransactionHelper {
      * then perform a rollback now; otherwise, set the transaction as 'rollback only' to
      * prevent it from being committed later.
      */
-    public void rollback() {
-        // Perform a "rollback" or "setRollbackOnly" as appropriate.
-        if (txn != null && beginCalled) {
-            String operation = "???";
-            try {
-                if (txnStarted) {
-                    log.fine("Performing a rollback of transaction on current thread...");
-                    operation = "rollback";
-                    txn.rollback();
-                } else if (txn.isActive()) {
-                    log.fine("Performing a set-rollback-only on already-active transaction on current thread...");
-                    operation = "set-rollback-only";
-                    txn.setRollbackOnly();
-                }
-            } catch (Throwable t) {
-                String msg = "Unexpected exception while trying to perform a transaction '" + operation + "': " + t.getMessage();
-                log.log(Level.SEVERE, msg, t);
-            }
-        }
+    public void rollback() throws FHIRPersistenceException {
+        txn.setRollbackOnly();
+        txn.end();
     }
 
     /**
-     * Enroll in an existing transaction.
-     *
-     * <p>Enrolling in an existing transaction is an alternative to beginning a new transaction. Calling this method
-     * gives implementations a chance to create necessary resources associated with a given unit of work when that
-     * unit of work is performed under an existing user-managed transaction.
-     *
+     * Mark the current transaction for rollback.
      * @throws FHIRPersistenceException
      */
-    public void enroll() throws FHIRPersistenceException {
-        if (txn != null) {
-            txn.enroll();
-        }
+    public void setRollbackOnly() throws FHIRPersistenceException {
+        txn.setRollbackOnly();
     }
-
-    /**
-     * Unenroll from the existing transaction.
-     *
-     * <p>Unenrolling from an existing transaction is an alternative to committing or rolling back the transaction. Calling
-     * this method gives implementations a chance to release resources associated with a given unit of work when that
-     * unit of work is performed under an existing user-managed transaction.
-     *
-     * @throws FHIRPersistenceException
-     */
-    public void unenroll() throws FHIRPersistenceException {
-        if (txn != null) {
-            txn.unenroll();
-        }
-    }
-
 }

@@ -183,41 +183,44 @@ public class ChunkWriter extends AbstractItemWriter {
         // Acquire a DB connection which will be used in the batch.
         // This doesn't really start the transaction, because the transaction has already been started by the JavaBatch
         // framework at this time point.
-        txn.enroll();
-        for (Object objResJsonList : arg0) {
-            @SuppressWarnings("unchecked")
-            List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
-
-            for (Resource fhirResource : fhirResourceList) {
-                try {
-                    String id = fhirResource.getId();
-                    processedNum++;
-                    // Skip the resources which failed the validation
-                    if (failValidationIds.contains(id)) {
-                        continue;
-                    }
-                    OperationOutcome operationOutcome =
-                            fhirPersistence.update(persistenceContext, id, fhirResource).getOutcome();
-                    succeededNum++;
-                    if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES && operationOutcome != null) {
-                        FHIRGenerator.generator(Format.JSON).generate(operationOutcome, chunkData.getBufferStreamForImport());
-                        chunkData.getBufferStreamForImport().write(Constants.NDJSON_LINESEPERATOR);
-                    }
-                } catch (FHIROperationException e) {
-                    logger.warning("Failed to import '" + fhirResource.getId() + "' due to error: " + e.getMessage());
-                    failedNum++;
-                    if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
-                        OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
-                        FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
-                        chunkData.getBufferStreamForImportError().write(Constants.NDJSON_LINESEPERATOR);
+        txn.begin();
+        try {
+            for (Object objResJsonList : arg0) {
+                @SuppressWarnings("unchecked")
+                List<Resource> fhirResourceList = (List<Resource>) objResJsonList;
+    
+                for (Resource fhirResource : fhirResourceList) {
+                    try {
+                        String id = fhirResource.getId();
+                        processedNum++;
+                        // Skip the resources which failed the validation
+                        if (failValidationIds.contains(id)) {
+                            continue;
+                        }
+                        OperationOutcome operationOutcome =
+                                fhirPersistence.update(persistenceContext, id, fhirResource).getOutcome();
+                        succeededNum++;
+                        if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES && operationOutcome != null) {
+                            FHIRGenerator.generator(Format.JSON).generate(operationOutcome, chunkData.getBufferStreamForImport());
+                            chunkData.getBufferStreamForImport().write(Constants.NDJSON_LINESEPERATOR);
+                        }
+                    } catch (FHIROperationException e) {
+                        logger.warning("Failed to import '" + fhirResource.getId() + "' due to error: " + e.getMessage());
+                        failedNum++;
+                        if (Constants.IMPORT_IS_COLLECT_OPERATIONOUTCOMES) {
+                            OperationOutcome operationOutCome = FHIRUtil.buildOperationOutcome(e, false);
+                            FHIRGenerator.generator(Format.JSON).generate(operationOutCome, chunkData.getBufferStreamForImportError());
+                            chunkData.getBufferStreamForImportError().write(Constants.NDJSON_LINESEPERATOR);
+                        }
                     }
                 }
             }
+        } finally {
+            // Release the DB connection.
+            // This doesn't really commit the transaction, because the transaction was started and will be committed
+            // by the JavaBatch framework.
+            txn.end();
         }
-        // Release the DB connection.
-        // This doesn't really commit the transaction, because the transaction was started and will be committed
-        // by the JavaBatch framework.
-        txn.unenroll();
 
         chunkData.setTotalWriteMilliSeconds(chunkData.getTotalWriteMilliSeconds() + (System.currentTimeMillis() - writeStartTimeInMilliSeconds));
         chunkData.setNumOfProcessedResources(chunkData.getNumOfProcessedResources() + processedNum + chunkData.getNumOfParseFailures());

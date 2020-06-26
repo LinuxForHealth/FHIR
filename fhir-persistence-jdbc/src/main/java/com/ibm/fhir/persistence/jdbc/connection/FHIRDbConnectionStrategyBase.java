@@ -7,11 +7,12 @@
 package com.ibm.fhir.persistence.jdbc.connection;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.sql.DataSource;
 import javax.transaction.TransactionSynchronizationRegistry;
-import javax.transaction.UserTransaction;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
@@ -20,7 +21,6 @@ import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-
 
 /**
  * Common base for multi-tenant connection strategy implementations
@@ -33,22 +33,16 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
     // the action chain to be applied to new connections
     private final Action newConnectionAction;
     
-    // The transaction handler
-    private final UserTransaction userTransaction;
-    
-    private boolean rollbackOnly;
-    
     // Type and capability 
     private final FHIRDbFlavor flavor;
-
+    
     /**
      * Protected constructor
      * @param userTx the transaction handler
      * @param trxSyncRegistry
      * @param newConnectionAction
      */
-    protected FHIRDbConnectionStrategyBase(UserTransaction userTx, TransactionSynchronizationRegistry trxSyncRegistry, Action newConnectionAction) throws FHIRPersistenceDataAccessException {
-        this.userTransaction = userTx;
+    protected FHIRDbConnectionStrategyBase(TransactionSynchronizationRegistry trxSyncRegistry, Action newConnectionAction) throws FHIRPersistenceDataAccessException {
         this.trxSyncRegistry = trxSyncRegistry;
         this.newConnectionAction = newConnectionAction;
         
@@ -82,60 +76,6 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
                 log.fine("Connection already configured. Key='" + key + "'");
             }
         }
-    }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#txBegin()
-     */
-    @Override
-    public void txBegin() throws FHIRPersistenceException {
-        try {
-            this.rollbackOnly = false;
-            userTransaction.begin();
-        } catch (Throwable e) {
-            String errorMessage = "Unexpected error while rolling a transaction.";
-            FHIRPersistenceException fx = new FHIRPersistenceException(errorMessage);
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-
-    }
-
-
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#commit()
-     */
-    @Override
-    public void txEnd() throws FHIRPersistenceException {
-        try {
-            if (this.rollbackOnly) {
-                userTransaction.rollback();
-            } else {
-                userTransaction.commit();
-            }
-        } catch (Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while committing a transaction.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#setRollbackOnly()
-     */
-    @Override
-    public void txSetRollbackOnly() throws FHIRPersistenceException {
-
-        try {
-            this.rollbackOnly = true;
-            userTransaction.setRollbackOnly();
-        } catch (Throwable e) {
-            String errorMessage = "Unexpected error while rolling a transaction.";
-            FHIRPersistenceException fx = new FHIRPersistenceException(errorMessage);
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
-        }
-        
     }
     
     /**
@@ -179,6 +119,40 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
         }
         
         return result;
+    }
+    
+    /**
+     * Get a connection configured for the given tenant and datasourceId
+     * @param datasource
+     * @param tenantId
+     * @param dsId
+     * @return
+     */
+    protected Connection getConnection(DataSource datasource, String tenantId, String dsId) throws SQLException, FHIRPersistenceException {
+        // Now use the dsId/tenantId specific JEE datasource to get a connection
+        Connection connection = datasource.getConnection();
+        
+        try {
+            // always
+            connection.setAutoCommit(false);
+            
+            // configure the connection if it's the first time we've accessed it in this transaction
+            configure(connection, tenantId, dsId);
+        } catch (Throwable t) {
+            // clean up if something goes wrong during configuration
+            try {
+                connection.close();
+            } catch (Throwable x) {
+                // NOP...something bad is going on anyway, so don't confuse things
+                // by throwing a different exception and hiding the original
+            } finally {
+                // just to prevent future coding mistakes
+                connection = null;
+            }
+            throw t;
+        }
+        
+        return connection;
     }
 
     /* (non-Javadoc)

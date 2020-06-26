@@ -89,7 +89,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         final String METHODNAME = "insert";
         logger.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = getConnection(); // do not close
+        final Connection connection = getConnection(); // do not close
         Integer resourceTypeId;
         Timestamp lastUpdated;
         boolean acquiredFromCache;

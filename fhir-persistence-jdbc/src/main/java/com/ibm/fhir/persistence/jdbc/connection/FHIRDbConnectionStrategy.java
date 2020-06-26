@@ -8,14 +8,16 @@ package com.ibm.fhir.persistence.jdbc.connection;
 
 import java.sql.Connection;
 
-import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 
 /**
- * Abstraction used to obtain JDBC connections.
+ * Abstraction used to obtain JDBC connections. The database being connected
+ * is determined by the datasource currently referenced by the {@link FHIRRequestContext}
+ * (which is a ThreadLocal thing, and not obvious).
  * 
  * @implNote Refactor of the getConnection logic from {@link FHIRDbDAOImpl}. This
  * isolates connection logic from the DAO implementations, promoting separation of
@@ -25,7 +27,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 public interface FHIRDbConnectionStrategy {
 
     /**
-     * Get a connection to the desired data source.
+     * Get a connection to the desired data source identified by the current {@link FHIRRequestContext}
      * @return a {@link Connection}. Never null.
      */
     public Connection getConnection() throws FHIRPersistenceDBConnectException;
@@ -36,23 +38,5 @@ public interface FHIRDbConnectionStrategy {
      * @throws FHIRPersistenceDataAccessException if there is an issue with the configuration
      */
     public FHIRDbFlavor getFlavor() throws FHIRPersistenceDataAccessException;
-    
-    /**
-     * Start a new transaction. Only one transaction is supported on a thread.
-     * No support is provided for nested transactions
-     * @throws FHIRPersistenceException
-     */
-    public void txBegin() throws FHIRPersistenceException;
-    
-    /**
-     * End the current transaction by calling commit, or rollback
-     * if setRollbackOnly() has been called prior.
-     */
-    public void txEnd() throws FHIRPersistenceException;
-
-    /**
-     * Mark the current transaction so that it can only be rolled back
-     * when the application attempts to close the transaction.
-     */
-    public void txSetRollbackOnly() throws FHIRPersistenceException;
+        
 }

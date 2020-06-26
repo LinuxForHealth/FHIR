@@ -10,13 +10,29 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * This interface represents a transaction within the FHIR persistence layer.
+ * @implNote General pattern for usage:
+ *           FHIRPersistenceTransaction tx = persistence.getTransaction();
+ *           tx.begin();
+ *           try {
+ *               doStuff(persistence);
+ *           } catch (Throwable t) {
+ *               tx.setRollbackOnly();
+ *               throw t;
+ *           } finally {
+ *               // will do a commit, or rollback if tx.setRollbackOnly() has been set
+ *               tx.end();
+ *           }
  */
 public interface FHIRPersistenceTransaction {
-
+    
     /**
-     * Returns true iff an active transaction exists within the current thread's context.
+     * Does the underlying implementation actually support transactions? A persistence
+     * layer must always return a FHIRPersistenceTransaction even if it doesn't support
+     * transactions. This reduces boilerplate code by avoiding the need to check for null
+     * every time.
+     * @return
      */
-    boolean isActive() throws FHIRPersistenceException;
+    default boolean isTransactional() { return true; }
 
     /**
      * Begin a new transaction on the current thread if a transaction is not started yet.
@@ -25,17 +41,13 @@ public interface FHIRPersistenceTransaction {
     void begin() throws FHIRPersistenceException;
 
     /**
-     * Commit the current thread's transaction.
+     * End the current thread's transaction. If setRollbackOnly has been called,
+     * then roll back the transaction instead.
+     * This call only affects the current transaction if this object actually
+     * started the transaction (i.e. is the outermost instance of a transaction).
      * @throws Exception
      */
-    void commit() throws FHIRPersistenceException;
-
-
-    /**
-     * Roll back the current thread's transaction.
-     * @throws Exception
-     */
-    void rollback() throws FHIRPersistenceException;
+    void end() throws FHIRPersistenceException;
 
     /**
      * Modify the transaction associated with the current thread such that the only possible outcome of the transaction
@@ -43,26 +55,23 @@ public interface FHIRPersistenceTransaction {
      * @throws FHIRPersistenceException
      */
     void setRollbackOnly() throws FHIRPersistenceException;
+    
 
     /**
-     * Enroll in an existing transaction.
-     *
-     * <p>Enrolling in an existing transaction is an alternative to beginning a new transaction. Calling this method
-     * gives implementations a chance to create necessary resources associated with a given unit of work when that
-     * unit of work is performed under an existing user-managed transaction.
-     *
+     * Commit the transaction (if we started it).
+     * Use {@link #end()} instead.
      * @throws FHIRPersistenceException
      */
-    void enroll() throws FHIRPersistenceException;
+    @Deprecated
+    default void commit() throws FHIRPersistenceException { end(); }
 
     /**
-     * Unenroll from the existing transaction.
-     *
-     * <p>Unenrolling from an existing transaction is an alternative to committing or rolling back the transaction. Calling
-     * this method gives implementations a chance to release resources associated with a given unit of work when that
-     * unit of work is performed under an existing user-managed transaction.
-     *
+     * Request rollback. Will only perform the rollback if this
+     * instance actually started the transaction
+     * Use {@link #setRollbackOnly()} and {@link #end()} instead.
      * @throws FHIRPersistenceException
      */
-    void unenroll() throws FHIRPersistenceException;
+    @Deprecated
+    default void rollback() throws FHIRPersistenceException { setRollbackOnly(); end(); }
+
 }

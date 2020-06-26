@@ -108,7 +108,7 @@ public abstract class AbstractPersistenceTest {
     @AfterMethod(alwaysRun = true)
     public void commitTrx() throws Exception{
         if (persistence != null && persistence.isTransactional()) {
-            persistence.getTransaction().commit();
+            persistence.getTransaction().end();
         }
     }
     

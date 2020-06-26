@@ -32,6 +32,7 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.helper.PersistenceHelper;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
@@ -163,7 +164,11 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
             log.log(Level.WARNING, "An error occurred during a search interaction", e);
         } finally {
             if (transactionHelper != null) {
-                transactionHelper.rollback();
+                try {
+                    transactionHelper.rollback();
+                } catch (FHIRPersistenceException e) {
+                    log.log(Level.WARNING, "An error occurred ending the current transaction", e);
+                }
             }
         }
         return Collections.emptyList();
@@ -210,7 +215,11 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
             log.log(Level.WARNING, "An error occurred during a search interaction", e);
         } finally {
             if (transactionHelper != null) {
-                transactionHelper.rollback();
+                try {
+                    transactionHelper.rollback();
+                } catch (FHIRPersistenceException e) {
+                    log.log(Level.WARNING, "An error occurred ending the current transaction", e);
+                }
             }
         }
 

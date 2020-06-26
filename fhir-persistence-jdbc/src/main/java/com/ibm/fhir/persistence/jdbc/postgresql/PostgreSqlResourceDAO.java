@@ -77,7 +77,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
         final String METHODNAME = "insert(Resource, List<ExtractedParameterValue, ParameterDAO>";
         logger.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = getConnection(); // do not close
+        final Connection connection = getConnection(); // do not close
         CallableStatement stmt = null;
         String stmtString = null;
         Integer resourceTypeId;
@@ -233,7 +233,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
         final String METHODNAME = "readResourceTypeId";
         logger.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = getConnection(); // do not close
+        final Connection connection = getConnection(); // do not close
         CallableStatement stmt = null;
         Integer resourceTypeId = null;
         String stmtString;
