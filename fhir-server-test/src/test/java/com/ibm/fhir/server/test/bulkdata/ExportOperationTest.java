@@ -62,6 +62,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
     // Disabled by default
     private static boolean ON = false;
     private static boolean isUseMinio = false;
+    private static boolean isUseMinioInBuildPipeline = false;
 
     public static final boolean DEBUG = false;
     private String exportStatusUrl;
@@ -77,6 +78,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         isUseMinio = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.useminio", "false"));
         minioUserName = testProperties.getProperty("test.bulkdata.minio.username");
         minioPassword = testProperties.getProperty("test.bulkdata.minio.password");
+        isUseMinioInBuildPipeline = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.useminio.inbuildpipeline", "false"));
     }
 
     public Response doPost(String path, String mimeType, String outputFormat, Instant since, List<String> types, List<String> typeFilters)
@@ -172,10 +174,20 @@ public class ExportOperationTest extends FHIRServerTestBase {
     }
     
     private void verifyDownloadUrl(String downloadUrl) {
+        // Minio doesn't support file level ACL using which we make can make the published file public, so we have to 
+        // get the token first, and then use the token to download the file. 
         if (isUseMinio) {
             downloadUrl = downloadUrl.substring(8);
             String minioHost = downloadUrl.substring(0, downloadUrl.indexOf("/"));
             String minioFilePath = downloadUrl.substring(minioHost.length());
+            
+            // If using minio in build pipeline, then we have to change the host name to "localhost" to all the
+            // build machine to access the minio server via it.
+            if (isUseMinioInBuildPipeline) {
+                String[] minioHostArray = minioHost.split(":");
+                minioHostArray[0] = "localhost";
+                String.join(":", minioHostArray);
+            }
             
             String minioAuthUrl = "https://" + minioHost + "/minio/webrpc";
             String minioAuthRequestBody = "{\"id\":1,\"jsonrpc\":\"2.0\",\"params\":{\"username\":\"" 
