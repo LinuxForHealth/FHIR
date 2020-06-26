@@ -1169,7 +1169,7 @@ The *fhir-bulkimportexport-webapp* module is a wrapper for the whole BulkData we
                      <group name="FHIRUsers"/>
             </security-role>
         </application-bnd>
-</webApplicaion>
+</webApplication>
 ```
 
 BulkData web application writes the exported FHIR resources to an IBM Cloud Object Storage (COS) or any Amazon S3-Compatible bucket as configured in the per-tenant server configuration under `fhirServer/bulkdata`. The following is an example configuration for bulkdata, please refer to section 5 for the detailed description of these properties:
