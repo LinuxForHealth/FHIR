@@ -77,7 +77,7 @@ echo "Waiting for fhir-server to complete initialization..."
 healthcheck_url='https://localhost:9443/fhir-server/api/v4/$healthcheck'
 tries=0
 status=0
-while [ $status -ne 200 -a $tries -lt 10 ]; do
+while [ $status -ne 200 -a $tries -lt 30 ]; do
     tries=$((tries + 1))
     set +o errexit
     cmd="curl --max-time 30 -k -o ${WORKSPACE}/health.json -I -w "%{http_code}" -u fhiruser:change-password $healthcheck_url"
@@ -87,8 +87,8 @@ while [ $status -ne 200 -a $tries -lt 10 ]; do
     echo "Status code: $status"
     if [ $status -ne 200 ]
     then
-       echo "Sleeping 10 secs..."
-       sleep 10
+       echo "Sleeping 30 secs..."
+       sleep 30
     fi
 done
 
