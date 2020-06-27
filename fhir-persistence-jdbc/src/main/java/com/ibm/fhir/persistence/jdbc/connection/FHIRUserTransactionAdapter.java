@@ -63,6 +63,10 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
                 log.log(Level.SEVERE, "failed to start transaction", x);
                 throw new FHIRPersistenceDataAccessException("Start global transaction failed. See server log for details");
             }
+        } else if (isMarkedForRollback(status)) {
+            // the transaction is active but has already been marked for rollback. This is OK,
+            // we just behave as though we're a nested transaction
+            this.startCount++;
         } else if (isActive(status)) {
             // transaction is already active, so this is a nested request
             this.startCount++;
@@ -120,11 +124,21 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
         // trap door - mark for rollback, *even* if we didn't start the transaction
         int status = getStatus();
         try {
-            if (isActive(status)) {
-                log.fine("Marking transaction for rollback.");
-                this.userTransaction.setRollbackOnly();
-            } else if (!isMarkedForRollback(status)) {
-                log.warning("mark for rollback - transaction not active, status=" + status);
+            // Only mark the transaction for rollback if we started it. This is necessary
+            // to correctly handle nested calls in the current JDBC persistence layer.
+            // This behavior should be reconsidered so that any layer can mark the
+            // transaction for rollback if the error is fatal. Needs a closer look
+            // at what constitutes an expected vs. unexpected failure
+            if (this.startedByThis && startCount == 1) {
+                if (isActive(status)) {
+                    log.fine("Marking transaction for rollback.");
+                    this.userTransaction.setRollbackOnly();
+                } else if (!isMarkedForRollback(status)) {
+                    log.warning("mark for rollback - transaction not active, status=" + status);
+                    throw new FHIRPersistenceDataAccessException("No current transaction to mark for rollback");
+                }
+            } else {
+                log.fine("Transaction not started by this so ignoring setRollbackOnly");
             }
         } catch (Exception x) {
             log.log(Level.SEVERE, "failed to start transaction, status=" + status, x);
