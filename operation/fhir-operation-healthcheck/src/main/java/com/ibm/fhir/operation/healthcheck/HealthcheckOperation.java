@@ -54,10 +54,8 @@ public class HealthcheckOperation extends AbstractOperation {
             tx.begin();
             
             try {
-                logger.info("checking health");
                 OperationOutcome operationOutcome = pl.getHealth();
                 checkOperationOutcome(operationOutcome);
-                logger.info("checked health");
                 return FHIROperationUtil.getOutputParameters(operationOutcome);
             } catch (Throwable t) {
                 tx.setRollbackOnly();
