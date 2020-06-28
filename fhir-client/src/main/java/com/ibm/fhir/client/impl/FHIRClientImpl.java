@@ -1010,7 +1010,7 @@ public class FHIRClientImpl implements FHIRClient {
         this.trustStorePassword = trustStorePassword;
     }
 
-    private KeyStore getTrustStore() {
+    public KeyStore getTrustStore() {
         return trustStore;
     }
 

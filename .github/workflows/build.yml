@@ -222,7 +222,7 @@ jobs:
       with:
         name: integration-test-results-windows-${{ matrix.java }}
         path: SIT/integration-test-results
-  e2e-db2:
+  e2e-db2-with-bulkdata:
     runs-on: ubuntu-latest
     if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
