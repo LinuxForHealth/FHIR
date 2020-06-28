@@ -1250,6 +1250,7 @@ Note, the deletion of an a job is split into two phases, ACCEPTED (202) response
 By default, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.
 
 Note: `fhirServer/bulkdata/isExportPublic` can be set to "false" to disable public access.
+      Minio doesn't support object level ACL, so access token is always needed to download the exported `ndjson` files.
 
 JavaBatch feature must be enabled in `server.xml` as following on the Liberty server:
 
