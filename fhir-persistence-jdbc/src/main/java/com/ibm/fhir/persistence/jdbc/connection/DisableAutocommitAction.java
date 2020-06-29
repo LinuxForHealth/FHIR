@@ -17,7 +17,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
  */
 public class DisableAutocommitAction extends ChainedAction {
     private static final Logger log = Logger.getLogger(DisableAutocommitAction.class.getName());
-        /**
+    /**
      * Public constructor
      */
     public DisableAutocommitAction() {

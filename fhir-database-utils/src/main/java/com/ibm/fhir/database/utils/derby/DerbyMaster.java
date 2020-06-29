@@ -121,7 +121,8 @@ public class DerbyMaster implements AutoCloseable {
         try {
             shutdown(database);
         } catch (IllegalStateException x) {
-            // NOP - database doesn't exist anyway
+            // NOP - database doesn't exist anyway, so this is info not warning on purpose
+            logger.info("DROP DATABASE - database does not exist: " + database);
         }
         
         try {

@@ -21,6 +21,7 @@ public class FHIRTestTransactionFactory implements FHIRTransactionFactory {
     
     /**
      * Public constructor
+     * @param cp the {@link IConnectionProvider}
      */
     public FHIRTestTransactionFactory(IConnectionProvider cp) {
         this.connectionProvider = cp;

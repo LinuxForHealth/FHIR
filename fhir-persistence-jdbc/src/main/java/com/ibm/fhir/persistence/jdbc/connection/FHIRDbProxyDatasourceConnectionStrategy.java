@@ -62,7 +62,7 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
         try {
             this.datasourceJndiName =
                     FHIRConfiguration.getInstance().loadConfiguration().getStringProperty(
-                        FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, FHIRDbDAO.FHIRDB_JNDI_NAME_DEFAULT);
+                        FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME, FHIRDbConstants.FHIRDB_JNDI_NAME_DEFAULT);
             
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Using datasource JNDI name: " + datasourceJndiName);
