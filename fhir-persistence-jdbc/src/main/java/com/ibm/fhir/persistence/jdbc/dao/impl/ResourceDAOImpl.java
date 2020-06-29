@@ -242,11 +242,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                     resources = this.runQuery(stmtString, logicalId, offset, maxResults);
                 }
             }
-//        } 
-//        catch (SQLException e) {
-//            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure running history query");
-//            String errMsg = "Failure running history query: " + stmtString;
-//            throw severe(log, fx, errMsg, e);
         } finally {
             log.exiting(CLASSNAME, METHODNAME, Arrays.toString(new Object[] {resources}));
         }

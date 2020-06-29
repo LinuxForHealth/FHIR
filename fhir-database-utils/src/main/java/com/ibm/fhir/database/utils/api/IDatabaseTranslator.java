@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -165,7 +165,7 @@ public interface IDatabaseTranslator {
     
     /**
      * The name of the "DUAL" table...that special table giving us one row/column.
-     * @return
+     * @return the name of the "DUAL" table for the database, or null if not supported
      */
     String dualTableName();
 }

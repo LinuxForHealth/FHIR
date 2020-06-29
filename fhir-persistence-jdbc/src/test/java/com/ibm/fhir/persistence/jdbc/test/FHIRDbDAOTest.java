@@ -17,7 +17,6 @@ import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.persistence.jdbc.connection.Action;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConstants;
-import com.ibm.fhir.persistence.jdbc.connection.FHIRDbPropsConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTestConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameFromProps;
 import com.ibm.fhir.persistence.jdbc.connection.SetSchemaAction;
@@ -48,31 +47,6 @@ public class FHIRDbDAOTest {
 
         Action action = new SetSchemaAction(new SchemaNameFromProps("FHIRDATA"), null);
         FHIRDbConnectionStrategy strat = new FHIRDbTestConnectionStrategy(connectionPool, action);
-
-        // We only ask the DAO for a connection
-        try (Connection c = strat.getConnection()) {
-            assertNotNull(c);
-        }
-    }
-    
-    /**
-     * Tests acquiring a connection to an existing DB2 FHIR database. 
-     * NOTE: This test will remain commented out. Since it has a specific dependency on an existing DB2 database, it will fail when run as part of the
-     * maven build for the project. It can uncommented and run as a standalone testNg test, provided a DB2 FHIR database is pre-defined.
-     * @throws Exception
-     */
-    //@Test(groups = {"jdbc"})
-    public void testGetDB2Connection() throws Exception {
-        
-        Properties props = new Properties();
-        props.setProperty(FHIRDbDAO.PROPERTY_DB_DRIVER, "com.ibm.db2.jcc.DB2Driver");
-        props.setProperty(FHIRDbDAO.PROPERTY_DB_URL, "jdbc:db2://localhost:50000/fhirdb");
-        props.setProperty(FHIRDbDAO.PROPERTY_DB2_USER, "user");
-        props.setProperty(FHIRDbDAO.PROPERTY_DB2_PSWD, "password");
-        props.setProperty(FHIRDbConstants.PROPERTY_SCHEMA_NAME, "FHIRDATA");
-
-        // Need a connection provider for DB2
-        FHIRDbConnectionStrategy strat = new FHIRDbPropsConnectionStrategy(props);
 
         // We only ask the DAO for a connection
         try (Connection c = strat.getConnection()) {
