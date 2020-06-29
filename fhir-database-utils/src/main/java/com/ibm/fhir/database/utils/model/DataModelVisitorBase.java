@@ -94,9 +94,6 @@ public class DataModelVisitorBase implements DataModelVisitor {
         // NOP
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.DataModelVisitor#visited(com.ibm.fhir.database.utils.model.AlterSequenceStartWith)
-     */
     @Override
     public void visited(AlterSequenceStartWith alterSequence) {
         // TODO Auto-generated method stub

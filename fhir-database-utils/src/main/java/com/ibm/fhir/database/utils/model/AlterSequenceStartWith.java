@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,17 +53,11 @@ public class AlterSequenceStartWith extends BaseObject {
         target.grantSequencePrivileges(getSchemaName(), getObjectName(), group, toUser);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visit(com.ibm.fhir.database.utils.model.DataModelVisitor)
-     */
     @Override
     public void visit(DataModelVisitor v) {
         v.visited(this);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visitReverse(com.ibm.fhir.database.utils.model.DataModelVisitor)
-     */
     @Override
     public void visitReverse(DataModelVisitor v) {
         v.visited(this);

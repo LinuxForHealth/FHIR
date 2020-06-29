@@ -157,8 +157,7 @@ public abstract class DatabaseObject implements IDatabaseObject {
                     // tried again.
                     if (x.isDeadlock()) {
                         logger.warning("Deadlock detected processing: " + this.getTypeNameVersion() + " [remaining=" + remainingAttempts + "]");
-                    }
-                    else {
+                    } else {
                         logger.warning("Lock timeout detected processing: " + this.getTypeNameVersion() + " [remaining=" + remainingAttempts + "]");
                     }
                     tx.setRollbackOnly();
@@ -168,8 +167,7 @@ public abstract class DatabaseObject implements IDatabaseObject {
                         logger.log(Level.SEVERE, "[FAILED] retries exhausted for: " + this.getTypeNameVersion());
                         throw x;
                     }
-                }
-                catch (Exception x) {
+                } catch (Exception x) {
                     logger.log(Level.SEVERE, "[FAILED] " + this.getTypeNameVersion());
                     tx.setRollbackOnly();
                     throw x;

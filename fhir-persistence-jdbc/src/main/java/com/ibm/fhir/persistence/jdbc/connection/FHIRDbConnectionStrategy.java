@@ -12,8 +12,6 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-
-
 /**
  * Abstraction used to obtain JDBC connections. The database being connected
  * is determined by the datasource currently referenced by the {@link FHIRRequestContext}
@@ -38,5 +36,4 @@ public interface FHIRDbConnectionStrategy {
      * @throws FHIRPersistenceDataAccessException if there is an issue with the configuration
      */
     public FHIRDbFlavor getFlavor() throws FHIRPersistenceDataAccessException;
-        
 }

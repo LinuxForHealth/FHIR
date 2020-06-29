@@ -166,26 +166,17 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
         return false;
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#getType()
-     */
     @Override
     public DbType getType() {
         return DbType.POSTGRESQL;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#dualTableName()
-     */
     @Override
     public String dualTableName() {
         // PostgreSQL does not support a "DUAL" table because the FROM clause is optional.
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#selectSequenceNextValue(java.lang.String, java.lang.String)
-     */
     @Override
     public String selectSequenceNextValue(String schemaName, String sequenceName) {
         // PostgreSQL uses function-based syntax for sequences and FROM is not required

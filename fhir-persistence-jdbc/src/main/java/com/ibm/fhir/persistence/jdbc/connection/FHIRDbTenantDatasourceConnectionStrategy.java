@@ -88,9 +88,6 @@ public class FHIRDbTenantDatasourceConnectionStrategy extends FHIRDbConnectionSt
         this.flavor = createFlavor();
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionProvider#getConnection()
-     */
     @Override
     public Connection getConnection() throws FHIRPersistenceDBConnectException {
         Connection connection = null;
@@ -163,9 +160,6 @@ public class FHIRDbTenantDatasourceConnectionStrategy extends FHIRDbConnectionSt
         return connection;
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#getFlavor()
-     */
     @Override
     public FHIRDbFlavor getFlavor() throws FHIRPersistenceDataAccessException {
         return this.flavor;
@@ -214,5 +208,4 @@ public class FHIRDbTenantDatasourceConnectionStrategy extends FHIRDbConnectionSt
         
         return result;
     }
-
 }

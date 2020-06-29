@@ -52,5 +52,4 @@ public class JDBCSearchIdLastUpdatedTest extends AbstractSearchIdAndLastUpdatedT
             this.connectionPool.close();
         }
     }
-
 }

@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 
-
 /**
  * Command to set the named schema on a connection
  */
@@ -32,9 +31,6 @@ public class SetSchemaAction extends ChainedAction {
         this.schemaNameSupplier = schemaNameSupplier;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.Action#performOn(java.sql.Connection)
-     */
     @Override
     public void performOn(Connection c) throws FHIRPersistenceDBConnectException {
         // this is being called the first time we've seen a connection for this
@@ -59,5 +55,4 @@ public class SetSchemaAction extends ChainedAction {
         // call the next action in the chain
         super.performOn(c);
     }
-
 }

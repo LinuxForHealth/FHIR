@@ -35,7 +35,6 @@ public class JDBCSearchDateTest extends AbstractSearchDateTest {
             this.connectionPool = new PoolConnectionProvider(cp, 1);
         }
     }
-    
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         if (this.connectionPool == null) {
@@ -52,5 +51,4 @@ public class JDBCSearchDateTest extends AbstractSearchDateTest {
             this.connectionPool.close();
         }
     }
-
 }

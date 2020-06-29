@@ -47,9 +47,6 @@ public class LockInfo {
         this.indexname = indexname;
     }
     
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return String.format("%15s %5s %4s %24s %10s %5s %9s %5s %s", xid, type, mode, tablename, lockname, state, tabletype, lockcount, indexname);

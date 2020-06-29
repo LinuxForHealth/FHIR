@@ -55,7 +55,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     // The translator used to to tweak the syntax for the database
     private final IDatabaseTranslator translator;
-    
     /**
      * Protected constructor
      * @param tgt database targeted
@@ -531,10 +530,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
             logger.warning(ddl + "; Sequence not found");
         }
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#alterSequenceRestartWith(java.lang.String, java.lang.String, long)
-     */
     @Override
     public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache) {
         // make sure we never reduce the sequence value

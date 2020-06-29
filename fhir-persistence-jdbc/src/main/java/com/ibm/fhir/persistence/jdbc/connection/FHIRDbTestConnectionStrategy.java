@@ -46,6 +46,7 @@ public class FHIRDbTestConnectionStrategy implements FHIRDbConnectionStrategy {
     /**
      * Public constructor
      * @param cp
+     * @param action
      */
     public FHIRDbTestConnectionStrategy(IConnectionProvider cp, Action action) {
         this.connectionProvider = cp;
@@ -72,8 +73,7 @@ public class FHIRDbTestConnectionStrategy implements FHIRDbConnectionStrategy {
                     this.initialized = true;
                     
                     log.fine("Connection initialized");
-                }
-                catch (Throwable t) {
+                } catch (Throwable t) {
                     // inialization failed, but the connection is open so we need to close it
                     log.severe("Connection initialization failed");
                     result.close();
@@ -82,8 +82,7 @@ public class FHIRDbTestConnectionStrategy implements FHIRDbConnectionStrategy {
             }
             
             return result;
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw new FHIRPersistenceDBConnectException("Could not connect to database");
         }
     }

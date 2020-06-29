@@ -52,5 +52,4 @@ public class JDBCSearchNumberTest extends AbstractSearchNumberTest {
             this.connectionPool.close();
         }
     }
-
 }

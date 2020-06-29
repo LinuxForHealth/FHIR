@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 
-
 /**
  * Supplier which tries to obtain the schema name from the given delegate,
  * falling back to calling getSchema() from the connection if the supplier
@@ -28,7 +27,6 @@ public class SchemaNameImpl implements SchemaNameSupplier {
     /**
      * Public constructor
      * @param delegate
-     * @param connection
      */
     public SchemaNameImpl(SchemaNameSupplier delegate) {
         this.delegate = delegate;
@@ -53,12 +51,10 @@ public class SchemaNameImpl implements SchemaNameSupplier {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("schema name from connection: " + result);
                 }
-            }
-            catch (SQLException x) {
+            } catch (SQLException x) {
                 throw new FHIRPersistenceDBConnectException("Unable to obtain schema name from connection", x);
             }
         }
         return result;
     }
-
 }

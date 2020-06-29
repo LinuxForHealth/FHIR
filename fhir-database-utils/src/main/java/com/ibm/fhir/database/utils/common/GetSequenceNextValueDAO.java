@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,8 +36,6 @@ public class GetSequenceNextValueDAO implements IDatabaseSupplier<Long> {
         this.schemaName = schemaName;
         this.sequenceName = sequenceName;
     }
-    
-    
     /**
      * Execute the encapsulated query against the database and stream the result data to the
      * configured target
@@ -56,17 +54,14 @@ public class GetSequenceNextValueDAO implements IDatabaseSupplier<Long> {
                 long currentValue = rs.getInt(1);
                 if (rs.wasNull()) {
                     return null;
-                }
-                else {
+                } else {
                     return currentValue;
                 }
-            }
-            else {
+            } else {
                 // Something broken with the SQL engine if this happens!
                 throw new IllegalStateException(SQL + " returned nothing");
             }
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             // Translate the exception into something a little more meaningful
             // for this database type and application
             throw translator.translate(x);

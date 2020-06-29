@@ -103,8 +103,7 @@ public class SetTenantAction extends ChainedAction {
                     multiTenantFeature =
                             dsPG.getBooleanProperty("multitenant", DATASTORE_REQUIRES_ROW_PERMISSIONS.contains(type));
                 }
-            }
-            catch (Exception x) {
+            } catch (Exception x) {
                 log.log(Level.SEVERE, "Datastore configuration issue for '" + datastoreId + "'", x);
                 throw new FHIRPersistenceDBConnectException("Datastore configuration issue. Details in server logs");
             }

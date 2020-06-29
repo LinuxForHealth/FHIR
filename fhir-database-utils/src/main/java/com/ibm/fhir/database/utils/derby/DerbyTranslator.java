@@ -166,25 +166,16 @@ public class DerbyTranslator implements IDatabaseTranslator {
         return false;
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#getType()
-     */
     @Override
     public DbType getType() {
         return DbType.DERBY;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#dualTableName()
-     */
     @Override
     public String dualTableName() {
         return "SYSIBM.SYSDUMMY1";
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseTranslator#selectSequenceNextValue(java.lang.String, java.lang.String)
-     */
     @Override
     public String selectSequenceNextValue(String schemaName, String sequenceName) {
         String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);

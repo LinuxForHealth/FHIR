@@ -43,5 +43,4 @@ public class ChainedAction implements Action {
             next.performOn(c);
         }
     }
-
 }

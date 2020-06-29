@@ -97,8 +97,7 @@ public class DerbyMaster implements AutoCloseable {
                 
                 try {
                     c.commit();
-                }
-                catch (SQLException x) {
+                } catch (SQLException x) {
                     throw DERBY_TRANSLATOR.translate(x);
                 }
             }
@@ -121,8 +120,7 @@ public class DerbyMaster implements AutoCloseable {
         // Make sure the database is shut down before we try to drop it
         try {
             shutdown(database);
-        }
-        catch (IllegalStateException x) {
+        } catch (IllegalStateException x) {
             // NOP - database doesn't exist anyway
         }
         
@@ -195,8 +193,7 @@ public class DerbyMaster implements AutoCloseable {
             Connection connection = DriverManager.getConnection(DERBY_TRANSLATOR.getUrl(properties));
             connection.setAutoCommit(false);
             return connection;
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw DERBY_TRANSLATOR.translate(x);
         }
     }

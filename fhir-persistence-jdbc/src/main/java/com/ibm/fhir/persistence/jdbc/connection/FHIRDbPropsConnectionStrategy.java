@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
-
 /**
  * Hides the logic behind obtaining a JDBC {@link Connection} from the DAO code.
  * 
