@@ -204,16 +204,12 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
         try {
             runStatement(ddl);
-        }
-        catch (UndefinedNameException x) {
+        } catch (UndefinedNameException x) {
             logger.warning(ddl + "; Sequence not found");
         }
     }
 
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#alterSequenceRestartWith(java.lang.String, java.lang.String, long)
-     */
     @Override
     public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache) {
         // Derby doesn't support ALTER SEQUENCE, so we have to drop and create again with the start value.
@@ -352,5 +348,4 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Set integrity unchecked not supported for this adapter.");
     }
-
  }

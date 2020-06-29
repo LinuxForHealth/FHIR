@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,8 +47,7 @@ public class ConnectionProviderTarget implements IDatabaseTarget {
                 throw x;
             }
             connection.commit();
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
     }
@@ -65,8 +64,7 @@ public class ConnectionProviderTarget implements IDatabaseTarget {
                 throw x;
             }
             connection.commit();
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
     }
@@ -78,14 +76,12 @@ public class ConnectionProviderTarget implements IDatabaseTarget {
         try (Connection connection = connectionProvider.getConnection()) {
             try {
                 statement.run(translator, connection);
-            }
-            catch (Throwable t) {
+            } catch (Throwable t) {
                 connection.rollback();
                 throw t;
             }
             connection.commit();
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
     }
@@ -99,15 +95,13 @@ public class ConnectionProviderTarget implements IDatabaseTarget {
             T result;
             try {
                 result = supplier.run(translator, connection);
-            }
-            catch (Throwable t) {
+            } catch (Throwable t) {
                 connection.rollback();
                 throw t;
             }
             connection.commit();
             return result;
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
             
         }

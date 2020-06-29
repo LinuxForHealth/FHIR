@@ -20,7 +20,7 @@ public interface SchemaNameSupplier {
      * Get the schema name for the current request context
      * @param c the connection for which we want to obtain the schema name
      * @return the main schema name to use for the given connection
-     * @throws FHIRPersistenceException
+     * @throws FHIRPersistenceDBConnectException
      */
     public String getSchemaForRequestContext(Connection c) throws FHIRPersistenceDBConnectException;
 }

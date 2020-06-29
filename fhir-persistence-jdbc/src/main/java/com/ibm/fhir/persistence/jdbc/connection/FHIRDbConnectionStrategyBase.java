@@ -108,8 +108,7 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
                 }
                 
                 result = new FHIRDbFlavorImpl(type, multitenant);
-            }
-            catch (Exception x) {
+            } catch (Exception x) {
                 log.log(Level.SEVERE, "No type property found for datastore '" + datastoreId + "'", x);
                 throw new FHIRPersistenceDataAccessException("Datastore configuration issue. Details in server logs");
             }
@@ -155,12 +154,8 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
         return connection;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy#getFlavor()
-     */
     @Override
     public FHIRDbFlavor getFlavor() throws FHIRPersistenceDataAccessException {
         return this.flavor;
     }
-
 }

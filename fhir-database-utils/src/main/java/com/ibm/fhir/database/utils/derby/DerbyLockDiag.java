@@ -29,6 +29,7 @@ public class DerbyLockDiag implements IDatabaseSupplier<List<LockInfo>> {
      * Public constructor
      */
     public DerbyLockDiag() {
+        // NOP
     }
 
     @Override
@@ -50,8 +51,7 @@ public class DerbyLockDiag implements IDatabaseSupplier<List<LockInfo>> {
                     rs.getString(9));
                 result.add(info);
             }
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             throw translator.translate(x);
         }
         

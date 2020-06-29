@@ -12,8 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-
-
 /**
  * Command to turn off autocommit
  */
@@ -23,6 +21,7 @@ public class DisableAutocommitAction extends ChainedAction {
      * Public constructor
      */
     public DisableAutocommitAction() {
+        // No Op
     }
 
     /**
@@ -33,9 +32,6 @@ public class DisableAutocommitAction extends ChainedAction {
         super(next);
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.Action#performOn(java.sql.Connection)
-     */
     @Override
     public void performOn(Connection c) throws FHIRPersistenceDBConnectException {
             
@@ -51,5 +47,4 @@ public class DisableAutocommitAction extends ChainedAction {
         // call the next action in the chain
         super.performOn(c);
     }
-
 }

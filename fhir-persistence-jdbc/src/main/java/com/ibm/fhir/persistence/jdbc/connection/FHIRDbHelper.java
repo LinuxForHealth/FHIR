@@ -83,7 +83,7 @@ public class FHIRDbHelper {
      *           will the connection be returned to the pool (or closed). 
      *           If connections remain open when commit() is called, the 
      *           transaction will fail.
-     * @param c
+     * @param connection
      */
     public static void close(Connection connection) {
         if (connection != null) {
@@ -95,7 +95,5 @@ public class FHIRDbHelper {
                 log.log(Level.SEVERE, ce.getMessage(), ce);
             }
         }
-        
     }
-
 }

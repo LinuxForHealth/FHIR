@@ -11,7 +11,6 @@ import java.util.Properties;
 
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 
-
 /**
  * Returns a constant schemaName. Useful for unit test configurations
  */
@@ -41,5 +40,4 @@ public class SchemaNameFromProps implements SchemaNameSupplier {
     public String getSchemaForRequestContext(Connection connection) throws FHIRPersistenceDBConnectException {
         return this.schemaName;
     }
-
 }

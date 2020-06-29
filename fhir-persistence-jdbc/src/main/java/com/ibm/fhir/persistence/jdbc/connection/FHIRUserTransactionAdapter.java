@@ -36,7 +36,7 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
     
     /**
      * Public constructor
-     * @param strat
+     * @param tx
      */
     public FHIRUserTransactionAdapter(UserTransaction tx) {
         this.userTransaction = tx;

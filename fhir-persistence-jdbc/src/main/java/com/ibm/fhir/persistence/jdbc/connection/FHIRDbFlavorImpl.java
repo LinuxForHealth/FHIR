@@ -25,20 +25,13 @@ public class FHIRDbFlavorImpl implements FHIRDbFlavor {
         this.multitenant = multitenant;
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor#isMultitenant()
-     */
     @Override
     public boolean isMultitenant() {
         return this.multitenant;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor#getType()
-     */
     @Override
     public DbType getType() {
         return this.type;
     }
-
 }

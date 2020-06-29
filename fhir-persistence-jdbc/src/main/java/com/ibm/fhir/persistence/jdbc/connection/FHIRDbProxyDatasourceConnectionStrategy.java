@@ -50,8 +50,6 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
     
     // JNDI address of the (proxy) datasource
     private final String datasourceJndiName;
-
-
     /**
      * Public constructor. The proxy datasource must be present (registered in JNDI)
      * at server startup.
@@ -60,8 +58,6 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
     public FHIRDbProxyDatasourceConnectionStrategy(TransactionSynchronizationRegistry trxSyncRegistry, Action newConnectionAction) throws FHIRException {
         super(trxSyncRegistry, newConnectionAction);
         final String METHODNAME = "FHIRDbProxyDatasourceConnectionProvider()";
-        
-        
         // Find the JNDI name of the datasource we want to use
         try {
             this.datasourceJndiName =
@@ -92,9 +88,6 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionProvider#getConnection()
-     */
     @Override
     public Connection getConnection() throws FHIRPersistenceDBConnectException {
         Connection connection;
@@ -164,5 +157,4 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
         
         return connection;
     }
-
 }

@@ -30,5 +30,4 @@ public class FHIRUserTransactionFactory implements FHIRTransactionFactory {
     public FHIRPersistenceTransaction create() {
         return new FHIRUserTransactionAdapter(userTransaction);
     }
-
 }

@@ -53,5 +53,4 @@ public class JDBCSearchQuantityTest extends AbstractSearchQuantityTest {
             this.connectionPool.close();
         }
     }
-
 }

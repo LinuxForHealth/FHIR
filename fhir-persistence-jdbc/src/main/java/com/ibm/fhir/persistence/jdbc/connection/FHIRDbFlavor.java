@@ -26,5 +26,4 @@ public interface FHIRDbFlavor {
      * @return
      */
     public DbType getType();
-    
 }

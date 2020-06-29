@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,8 +35,6 @@ public class DerbyConnectionProvider implements IConnectionProvider {
         this.derby = derby;
         this.schemaName = schemaName;
     }
-
-
     @Override
     public void commitTransaction() throws SQLException {
         // NOP
@@ -44,6 +42,7 @@ public class DerbyConnectionProvider implements IConnectionProvider {
 
     @Override
     public void describe(String arg0, StringBuilder arg1, String arg2) {
+        // NOP
     }
 
     @Override

@@ -26,9 +26,6 @@ public class FHIRTestTransactionFactory implements FHIRTransactionFactory {
         this.connectionProvider = cp;
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.FHIRTransactionFactory#create()
-     */
     @Override
     public FHIRPersistenceTransaction create() {
         return new FHIRTestTransactionAdapter(connectionProvider);
