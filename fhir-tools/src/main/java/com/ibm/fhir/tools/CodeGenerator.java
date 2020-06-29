@@ -1347,6 +1347,9 @@ public class CodeGenerator {
         for (JsonObject elementDefinition : elementDefinitions) {
             String elementName = getElementName(elementDefinition, path);
             String fieldName = getFieldName(elementName);
+            if ("result".equals(fieldName)) {
+                fieldName = "this." + fieldName;
+            }
             joiner.add(fieldName);
         }
 

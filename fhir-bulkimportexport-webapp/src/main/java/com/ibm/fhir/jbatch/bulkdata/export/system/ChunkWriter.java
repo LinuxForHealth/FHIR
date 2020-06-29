@@ -171,16 +171,6 @@ public class ChunkWriter extends AbstractItemWriter {
      */
     @Override
     public void writeItems(List<java.lang.Object> arg0) throws Exception {
-        if (cosClient == null) {
-            cosClient = BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl, cosLocation);
-            if (cosClient == null) {
-                logger.warning("writeItems: Failed to get CosClient!");
-                throw new Exception("writeItems: Failed to get CosClient!!");
-            } else {
-                logger.finer("writeItems: Got CosClient successfully!");
-            }
-        }
-
         if (cosBucketName == null) {
             cosBucketName = Constants.DEFAULT_COS_BUCKETNAME;
         }
@@ -209,6 +199,17 @@ public class ChunkWriter extends AbstractItemWriter {
     @Override
     public void open(Serializable checkpoint) throws Exception  {
         isExportPublic = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC, true);
-
+        boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
+            .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE, false);
+        cosClient =
+            BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
+                cosLocation, isCosClientUseFhirServerTrustStore);
+        
+        if (cosClient == null) {
+            logger.warning("open: Failed to get CosClient!");
+            throw new Exception("Failed to get CosClient!!");
+        } else {
+            logger.finer("open: Got CosClient successfully!");
+        }
     }
 }

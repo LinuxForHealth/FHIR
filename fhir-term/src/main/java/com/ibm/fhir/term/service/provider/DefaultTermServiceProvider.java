@@ -14,6 +14,7 @@ import static com.ibm.fhir.term.util.CodeSystemSupport.getCodeSystem;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getConcepts;
 import static com.ibm.fhir.term.util.ValueSetSupport.getContains;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -29,6 +30,7 @@ import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ConceptMap;
 import com.ibm.fhir.model.resource.ConceptMap.Group;
 import com.ibm.fhir.model.resource.ConceptMap.Group.Element;
+import com.ibm.fhir.model.resource.ConceptMap.Group.Element.Target;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.resource.ValueSet.Expansion;
 import com.ibm.fhir.model.resource.ValueSet.Expansion.Contains;
@@ -50,7 +52,6 @@ import com.ibm.fhir.term.spi.TranslationOutcome.Match;
 import com.ibm.fhir.term.spi.TranslationParameters;
 import com.ibm.fhir.term.spi.ValidationOutcome;
 import com.ibm.fhir.term.spi.ValidationParameters;
-import com.ibm.fhir.term.util.ConceptMapSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
 /**
@@ -211,12 +212,36 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
 
     @Override
     public TranslationOutcome translate(ConceptMap conceptMap, Coding coding, TranslationParameters parameters) {
-        List<Match> match = ConceptMapSupport.translate(conceptMap, coding).stream()
-                .map(group -> match(getSource(conceptMap), group))
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
+        Uri source = getSource(conceptMap);
+        List<Match> match = new ArrayList<>();
+        for (Group group : conceptMap.getGroup()) {
+            if (group.getSource() == null || !group.getSource().equals(coding.getSystem())) {
+                continue;
+            }
+            if (group.getSourceVersion() != null && coding.getVersion() != null && !group.getSourceVersion().equals(coding.getVersion())) {
+                continue;
+            }
+            for (Element element : group.getElement()) {
+                if (element.getCode() == null || !element.getCode().equals(coding.getCode())) {
+                    // TODO: handle unmatched codes here
+                    continue;
+                }
+                for (Target target : element.getTarget()) {
+                    match.add(Match.builder()
+                        .equivalence(target.getEquivalence())
+                        .concept(Coding.builder()
+                            .system(group.getTarget())
+                            .version(group.getTargetVersion())
+                            .code(target.getCode())
+                            .display(target.getDisplay())
+                            .build())
+                        .source(source)
+                        .build());
+                }
+            }
+        }
         return TranslationOutcome.builder()
-                .result(!match.isEmpty() ? Boolean.TRUE : Boolean.FALSE)
+                .result(match.isEmpty() ? Boolean.FALSE : Boolean.TRUE)
                 .message(match.isEmpty() ? string("No matches found") : null)
                 .match(match)
                 .build();
@@ -352,31 +377,8 @@ public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
         return Collections.emptyMap();
     }
 
-    private List<Match> match(Uri source, Group group) {
-        return group.getElement().stream()
-                .map(element -> match(source, group.getTarget(), group.getTargetVersion(), element))
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
-    }
-
-    private List<Match> match(Uri source, Uri system, com.ibm.fhir.model.type.String version, Element element) {
-        return element.getTarget().stream()
-                .map(target -> Match.builder()
-                    .equivalence(target.getEquivalence())
-                    .concept(Coding.builder()
-                        .system(system)
-                        .version(version)
-                        .code(target.getCode())
-                        .display(target.getDisplay())
-                        .build())
-                    .source(source)
-                    .build())
-                .collect(Collectors.toList());
-    }
-
     private Uri getSource(ConceptMap conceptMap) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(conceptMap.getUrl().getValue());
+        StringBuilder sb = new StringBuilder(conceptMap.getUrl().getValue());
         if (conceptMap.getVersion() != null) {
             sb.append("|").append(conceptMap.getVersion().getValue());
         }

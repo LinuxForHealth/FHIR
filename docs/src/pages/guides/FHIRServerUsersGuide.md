@@ -1172,7 +1172,7 @@ The *fhir-bulkimportexport-webapp* module is a wrapper for the whole BulkData we
 </webApplication>
 ```
 
-BulkData web application writes the exported FHIR resources to an IBM Cloud Object Storage (COS) or any Amazon S3-Compatible bucket as configured in the per-tenant server configuration under `fhirServer/bulkdata`. The following is an example configuration for bulkdata, please refer to section 5 for the detailed description of these properties:
+BulkData web application writes the exported FHIR resources to an IBM Cloud Object Storage (COS) or any Amazon S3-Compatible bucket (e.g, Amazon S3, minio etc) as configured in the per-tenant server configuration under `fhirServer/bulkdata`. The following is an example configuration for bulkdata, please refer to section 5 for the detailed description of these properties:
 
 ```
 "bulkdata": {
@@ -1243,13 +1243,14 @@ Following is the beautified response of sample polling location request after th
 }
 ```
 
-For the Import Operation, the polled status includes an indication of `$import` and the location of the OperationOutcome NDJsons and the corresonding failure and success counts.
+For the Import Operation, the polled status includes an indication of `$import` and the location of the OperationOutcome NDJsons and the corresponding failure and success counts.
 
-Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the oepration is stopped or removed, and then 204.
+Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the operation is stopped or removed, and then 204.
 
 By default, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.
 
 Note: `fhirServer/bulkdata/isExportPublic` can be set to "false" to disable public access.
+      minio doesn't support object level ACL, so access token is always needed to download the exported `ndjson` files.
 
 JavaBatch feature must be enabled in `server.xml` as following on the Liberty server:
 
@@ -1489,6 +1490,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/cosFileMaxResources`|int|The maximum number of FHIR resources per COS file, "-1" means no limit, the default value is 500000 |
 |`fhirServer/bulkdata/cosFileMaxSize`|int|The maximum COS file size in bytes, "-1" means no limit, the default value is 209715200 (200M) |
 |`fhirServer/bulkdata/patientExportPageSize`|int| The search page size for patient/group export, the default value is 200 |
+|`fhirServer/bulkdata/useFhirServerTrustStore`|boolean| If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
 
 
 ### 5.1.2 Default property values
@@ -1538,6 +1540,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/cosFileMaxResources`|500000|
 |`fhirServer/bulkdata/cosFileMaxSize`|209715200|
 |`fhirServer/bulkdata/patientExportPageSize`|200|
+|`fhirServer/bulkdata/useFhirServerTrustStore`|false|
 
 
 ### 5.1.3 Property attributes
@@ -1605,6 +1608,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/cosFileMaxResources`|Y|Y|
 |`fhirServer/bulkdata/cosFileMaxSize`|Y|Y|
 |`fhirServer/bulkdata/patientExportPageSize`|Y|Y|
+|`fhirServer/bulkdata/useFhirServerTrustStore`|Y|Y|
 
 ## 5.2 Keystores, truststores, and the FHIR server
 
