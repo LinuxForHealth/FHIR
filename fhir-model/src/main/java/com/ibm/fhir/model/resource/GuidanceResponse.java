@@ -384,7 +384,7 @@ public class GuidanceResponse extends DomainResource {
                 note, 
                 evaluationMessage, 
                 outputParameters, 
-                result, 
+                this.result, 
                 dataRequirement);
             hashCode = result;
         }
