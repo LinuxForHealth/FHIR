@@ -13,6 +13,7 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getString;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isCodedElementNode;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isQuantityNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isStringElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isUriElementNode;
@@ -28,11 +29,13 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.term.service.FHIRTermService;
@@ -66,8 +69,8 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
             return empty();
         }
 
-        if (!isCodedElementNode(context) && !isStringElementNode(context) && !isUriElementNode(context)) {
-            throw new IllegalArgumentException("The 'memberOf' function must be invoked on a coded element node, string element node, or uri element node");
+        if (!isCodedElementNode(context) && !isQuantityNode(context) && !isStringElementNode(context) && !isUriElementNode(context)) {
+            throw new IllegalArgumentException("The 'memberOf' function must be invoked on a coded element node, quantity element node, string element node, or uri element node");
         }
 
         if (!isStringValue(arguments.get(0))) {
@@ -88,7 +91,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
             FHIRTermService service = FHIRTermService.getInstance();
             if (isExpanded(valueSet) || service.isExpandable(valueSet)) {
                 if (element.is(Code.class)) {
-                    Uri system = getSystem(evaluationContext.getTree().getParent(elementNode));
+                    Uri system = getSystem(evaluationContext.getTree(), elementNode);
                     Code code = element.as(Code.class);
                     if (validateCode(service, valueSet, system, null, code, null, evaluationContext, elementNode, strength)) {
                         return SINGLETON_TRUE;
@@ -101,6 +104,11 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                 } else if (element.is(CodeableConcept.class)) {
                     CodeableConcept codeableConcept = element.as(CodeableConcept.class);
                     if (validateCode(service, valueSet, codeableConcept, evaluationContext, elementNode, strength)) {
+                        return SINGLETON_TRUE;
+                    }
+                } else if (element.is(Quantity.class)) {
+                    Quantity quantity = element.as(Quantity.class);
+                    if (validateCode(service, valueSet, quantity.getSystem(), null, quantity.getCode(), null, evaluationContext, elementNode, strength)) {
                         return SINGLETON_TRUE;
                     }
                 } else {
@@ -166,20 +174,20 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
     }
 
     /**
-     * Get a URI-typed child node of the input parameter with name "system".
+     * Get the URI-typed sibling of the given element node with name "system".
      *
-     * @param node
-     *     the parent node
+     * @param tree
+     *     the tree
+     * @param elementNode
+     *     the element node
      * @return
-     *     the URI-typed child node with name "system", or null if no such child node exists
+     *     the URI-typed sibling of the given element node with name "system", or null if no such sibling exists
      */
-    private Uri getSystem(FHIRPathNode node) {
-        if (node == null || !node.isElementNode()) {
-            return null;
-        }
-        for (FHIRPathNode child : node.children()) {
-            if ("system".equals(child.name()) && FHIRPathType.FHIR_URI.equals(node.type())) {
-                return child.asElementNode().element().as(Uri.class);
+    protected Uri getSystem(FHIRPathTree tree, FHIRPathElementNode elementNode) {
+        if (tree != null) {
+            FHIRPathNode systemNode = tree.getSibling(elementNode, "system");
+            if (systemNode != null && FHIRPathType.FHIR_URI.equals(systemNode.type())) {
+                return systemNode.asElementNode().element().as(Uri.class);
             }
         }
         return null;
