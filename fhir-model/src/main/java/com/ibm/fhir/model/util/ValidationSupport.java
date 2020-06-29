@@ -266,6 +266,7 @@ public final class ValidationSupport {
             for (Class<?> type : types) {
                 if (type.isAssignableFrom(elementType)) {
                     noneMatch = false;
+                    break;
                 }
             }
             if (noneMatch) {
@@ -348,6 +349,7 @@ public final class ValidationSupport {
         for (T element : elements) {
             if (Objects.isNull(element)) {
                 anyMatch = true;
+                break;
             }
         }
         if (anyMatch) {
