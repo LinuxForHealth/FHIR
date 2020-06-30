@@ -54,5 +54,4 @@ public class JDBCCompartmentTest extends AbstractCompartmentTest {
             this.connectionPool.close();
         }
     }
-
 }

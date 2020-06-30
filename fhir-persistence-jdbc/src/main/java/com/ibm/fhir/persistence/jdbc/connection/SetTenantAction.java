@@ -54,7 +54,6 @@ public class SetTenantAction extends ChainedAction {
         super(next);
     }
 
-
     @Override
     public void performOn(Connection c) throws FHIRPersistenceDBConnectException {
         

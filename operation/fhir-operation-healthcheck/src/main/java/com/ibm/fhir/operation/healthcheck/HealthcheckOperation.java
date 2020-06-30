@@ -8,7 +8,6 @@ package com.ibm.fhir.operation.healthcheck;
 
 import java.io.InputStream;
 import java.util.List;
-import java.util.logging.Logger;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
@@ -27,7 +26,6 @@ import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.util.FHIROperationUtil;
 
 public class HealthcheckOperation extends AbstractOperation {
-    private static final Logger logger = Logger.getLogger(HealthcheckOperation.class.getName());
     
     public HealthcheckOperation() {
         super();

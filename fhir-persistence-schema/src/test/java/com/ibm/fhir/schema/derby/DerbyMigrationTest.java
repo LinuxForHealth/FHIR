@@ -49,10 +49,6 @@ public class DerbyMigrationTest {
     private static final String ADMIN_SCHEMA_NAME = "FHIR_ADMIN";
     private static final String OAUTH_SCHEMANAME = "FHIR_OAUTH";
     
-    // the translator we use to handle Derby syntax
-    // private static final IDatabaseTranslator DERBY_TRANSLATOR = new DerbyTranslator();
-
-
     @BeforeClass(alwaysRun = true)
     protected void setUp() throws SecurityException, IOException
     {

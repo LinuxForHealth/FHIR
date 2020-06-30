@@ -23,7 +23,6 @@ import org.apache.commons.beanutils.PropertyUtils;
  */
 public class FHIRDebugXADataSource implements XADataSource {
     private static final Logger log = Logger.getLogger(FHIRDebugXADataSource.class.getName());
-    private static final String CLASSNAME = FHIRDebugXADataSource.class.getName();
 
     // Fixed configuration for debug
     private static final String DERBY_EMBEDDED_XA_DATASOURCE = "org.apache.derby.jdbc.EmbeddedXADataSource";

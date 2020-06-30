@@ -136,7 +136,7 @@ public class DerbyInitializer {
     /**
      * Bootstrap the database if necessary, and get a connection provider for it
      * @return an {@link IConnectionProvider} configured for the FHIR Derby database
-     * @param reset reset the database if true
+     * @param reset resets the database if true
      * @throws SQLException 
      * @throws FHIRPersistenceDBConnectException 
      */

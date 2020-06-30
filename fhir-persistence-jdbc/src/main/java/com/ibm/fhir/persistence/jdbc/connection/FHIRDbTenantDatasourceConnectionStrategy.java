@@ -170,11 +170,12 @@ public class FHIRDbTenantDatasourceConnectionStrategy extends FHIRDbConnectionSt
     /**
      * Identify the flavor of the database using information from the
      * datasource configuration.
-     * TODO duplicate code in FHIRDbConnectionStrategyBase. Refactor
      * @return
      * @throws FHIRPersistenceException
      */
     private FHIRDbFlavor createFlavor() throws FHIRPersistenceDataAccessException {
+        // TODO duplicate code in FHIRDbConnectionStrategyBase. Suggest refactor when
+        // implementing the simple datasource feature - issue-916
         FHIRDbFlavor result;
         
         String datastoreId = FHIRRequestContext.get().getDataStoreId();

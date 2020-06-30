@@ -38,9 +38,8 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
     
     /**
      * Protected constructor
-     * @param userTx the transaction handler
-     * @param trxSyncRegistry
-     * @param newConnectionAction
+     * @param trxSyncRegistry the transaction sync registry
+     * @param newConnectionAction actions to apply when a connection is created
      */
     protected FHIRDbConnectionStrategyBase(TransactionSynchronizationRegistry trxSyncRegistry, Action newConnectionAction) throws FHIRPersistenceDataAccessException {
         this.trxSyncRegistry = trxSyncRegistry;
@@ -53,7 +52,7 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
     /**
      * Check with the transaction sync registry to see if this is the first time
      * we've worked with this connection in the current transaction.
-     * @param c the new connection
+     * @param connection the new connection
      * @param tenantId the tenant to which the connection belongs
      * @param dsId the datasource in the tenant to which the connection belongs
      */

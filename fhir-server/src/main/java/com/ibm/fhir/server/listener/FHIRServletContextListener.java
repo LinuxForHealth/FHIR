@@ -72,7 +72,6 @@ public class FHIRServletContextListener implements ServletContextListener {
     private static FHIRNotificationNATSPublisher natsPublisher = null;
     private static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
 
-
     @Override
     public void contextInitialized(ServletContextEvent event) {
         if (log.isLoggable(Level.FINER)) {

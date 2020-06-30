@@ -175,8 +175,7 @@ public abstract class AbstractPersistenceTest {
             MultiResourceResult<Resource> result = persistence.search(persistenceContext, resourceType);
             assertNotNull(result.getResource());
             return result;
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             debugLocks();
             throw t;
         }

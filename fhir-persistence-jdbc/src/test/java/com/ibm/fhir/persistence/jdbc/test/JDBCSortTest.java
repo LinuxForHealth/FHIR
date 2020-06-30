@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -54,5 +54,4 @@ public class JDBCSortTest extends AbstractSortTest {
             this.connectionPool.close();
         }
     }
-
 }
