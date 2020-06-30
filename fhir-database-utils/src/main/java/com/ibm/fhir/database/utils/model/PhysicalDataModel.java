@@ -23,7 +23,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.task.api.ITaskCollector;
 
 /**

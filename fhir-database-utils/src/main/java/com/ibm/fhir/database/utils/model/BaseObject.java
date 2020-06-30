@@ -113,8 +113,8 @@ public abstract class BaseObject implements IDatabaseObject {
     }
 
     @Override
-    public String getTypeAndName() {
-        return getObjectType().name() + ":" + getQualifiedName();
+    public String getTypeNameVersion() {
+        return getObjectType().name() + ":" + getQualifiedName() + ":" + this.version;
     }
 
     /**
@@ -198,7 +198,7 @@ public abstract class BaseObject implements IDatabaseObject {
         // create a new task group representing this node, pointing to any dependencies
         // we collected above. We need to use the type and name for the task group, to
         // ensure we allow for the different namespaces (e.g. procedures vs tables).
-        return tc.makeTaskGroup(this.getTypeAndName(), () -> applyTx(target, tp, vhs), children);
+        return tc.makeTaskGroup(this.getTypeNameVersion(), () -> applyTx(target, tp, vhs), children);
     }
 
     @Override
@@ -218,21 +218,21 @@ public abstract class BaseObject implements IDatabaseObject {
                     // Either a deadlock, or lock timeout, we allow the transaction to be
                     // tried again.
                     if (x.isDeadlock()) {
-                        logger.warning("Deadlock detected processing: " + this.getTypeAndName() + "; retrying up to " + remainingAttempts + " more times");
+                        logger.warning("Deadlock detected processing: " + this.getTypeNameVersion() + "; retrying up to " + remainingAttempts + " more times");
                     }
                     else {
-                        logger.warning("Lock timeout detected processing: " + this.getTypeAndName() + "; retrying up to " + remainingAttempts + " more times");
+                        logger.warning("Lock timeout detected processing: " + this.getTypeNameVersion() + "; retrying up to " + remainingAttempts + " more times");
                     }
                     tx.setRollbackOnly();
 
                     if (remainingAttempts == 0) {
                         // end of the road on this one
-                        logger.log(Level.SEVERE, "[FAILED] retries exhausted for: " + this.getTypeAndName());
+                        logger.log(Level.SEVERE, "[FAILED] retries exhausted for: " + this.getTypeNameVersion());
                         throw x;
                     }
                 }
                 catch (Exception x) {
-                    logger.log(Level.SEVERE, "[FAILED] " + this.getTypeAndName());
+                    logger.log(Level.SEVERE, "[FAILED] " + this.getTypeNameVersion());
                     tx.setRollbackOnly();
                     throw x;
                 }
@@ -256,7 +256,7 @@ public abstract class BaseObject implements IDatabaseObject {
     @Override
     public void applyVersion(IDatabaseAdapter target, IVersionHistoryService vhs) {
         if (vhs.applies(getSchemaName(), getObjectType().name(), getObjectName(), version)) {
-            logger.fine("Applying change [v" + version + "]: " + this.getTypeAndName());
+            logger.fine("Applying change [v" + version + "]: " + this.getTypeNameVersion());
 
             // Apply this change to the target database
             apply(vhs.getVersion(getSchemaName(), getObjectType().name(), getObjectName()), target);

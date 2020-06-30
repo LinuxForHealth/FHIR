@@ -175,10 +175,15 @@ public class ChunkReader extends AbstractItemReader {
                         searchContext.setPageSize(pageSize);
                         searchContext.setPageNumber(compartmentPageNum);
                         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-                        txn.enroll();
                         FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-                        List<Resource> resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
-                        txn.unenroll();
+
+                        List<Resource> resources;
+                        txn.begin();
+                        try {
+                            resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
+                        } finally {
+                            txn.end();
+                        }
                         compartmentPageNum++;
 
                         for (Resource res : resources) {
@@ -297,10 +302,14 @@ public class ChunkReader extends AbstractItemReader {
         searchContext.setPageNumber(pageNum);
         List<Resource> resources = null;
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-        txn.enroll();
-        persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-        resources = fhirPersistence.search(persistenceContext, Patient.class).getResource();
-        txn.unenroll();
+        txn.begin();
+        
+        try {
+            persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
+            resources = fhirPersistence.search(persistenceContext, Patient.class).getResource();
+        } finally {
+            txn.end();
+        }
         pageNum++;
 
         if (chunkData == null) {

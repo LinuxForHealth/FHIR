@@ -26,10 +26,10 @@ public class DerbyCodeSystemDAO extends CodeSystemDAOImpl {
     /**
      * Public constructor
      * @param c
-     * @param fsd
+     * @param schemaName
      */
-    public DerbyCodeSystemDAO(Connection c) {
-        super(c);
+    public DerbyCodeSystemDAO(Connection c, String schemaName) {
+        super(c, schemaName);
         this.fhirRefSequenceDAO = new FhirRefSequenceDAOImpl(c);
     }
 

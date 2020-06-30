@@ -65,16 +65,26 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
     @BeforeClass
     public void createResources() throws Exception {
         setTenant();
-        saveBasicResource(getBasicResource());
-        createCompositionReferencingSavedResource();
+        
+        // Must have a transaction in place because this done before the class test methods
+        persistence.getTransaction().begin();
+        try {
+            saveBasicResource(getBasicResource());
+            createCompositionReferencingSavedResource();
+        } finally {
+            persistence.getTransaction().end();
+        }
     }
 
     @AfterClass
     public void removeSavedResourcesAndResetTenant() throws Exception {
         if (savedResource != null && persistence.isDeleteSupported()) {
+            if (persistence.isTransactional()) {
+                persistence.getTransaction().begin();
+            }
             persistence.delete(getDefaultPersistenceContext(), Basic.class, savedResource.getId());
             if (persistence.isTransactional()) {
-                persistence.getTransaction().commit();
+                persistence.getTransaction().end();
             }
         }
         FHIRRequestContext.get().setTenantId("default");

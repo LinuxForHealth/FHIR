@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -274,5 +274,22 @@ public class PoolConnectionProvider implements IConnectionProvider {
      */
     public int getPoolSize() {
         return this.maxPoolSize;
+    }
+
+    /**
+     * The caller is telling us they no longer need to use the pool so we can free
+     * any internal resources. This also let's us check for anything currently
+     * in-use that shouldn't be
+     * @throws IllegalStateException if there are open connections or a transaction
+     *         is active.
+     */
+    public void close() {
+        if (activeConnection.get() != null) {
+            throw new IllegalStateException("transaction still active");
+        }
+
+        if (this.free.size() != this.allocated) {
+            throw new IllegalStateException(String.format("Connections still in use [free=%d, allocated=%d]", this.free.size(), this.allocated));
+        }
     }
 }

@@ -18,6 +18,8 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.model.DbType;
 
 /**
  * translates database access to PostgreSql supported access.
@@ -163,4 +165,23 @@ public class PostgreSqlTranslator implements IDatabaseTranslator {
     public boolean clobSupportsInline() {
         return false;
     }
+    
+    @Override
+    public DbType getType() {
+        return DbType.POSTGRESQL;
+    }
+
+    @Override
+    public String dualTableName() {
+        // PostgreSQL does not support a "DUAL" table because the FROM clause is optional.
+        return null;
+    }
+
+    @Override
+    public String selectSequenceNextValue(String schemaName, String sequenceName) {
+        // PostgreSQL uses function-based syntax for sequences and FROM is not required
+        String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
+        return "SELECT nextval('" + qname + "')";
+    }
+
 }

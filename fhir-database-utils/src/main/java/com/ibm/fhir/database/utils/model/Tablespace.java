@@ -8,7 +8,6 @@ package com.ibm.fhir.database.utils.model;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Consumer;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
@@ -62,7 +61,7 @@ public class Tablespace extends DatabaseObject {
     public ITaskGroup collect(ITaskCollector tc, IDatabaseAdapter target, ITransactionProvider tp, IVersionHistoryService vhs) {
         // no dependencies, so no need to recurse down
         List<ITaskGroup> children = null;
-        return tc.makeTaskGroup(this.getTypeAndName(), () -> applyTx(target, tp, vhs), children);
+        return tc.makeTaskGroup(this.getTypeNameVersion(), () -> applyTx(target, tp, vhs), children);
     }
 
     @Override

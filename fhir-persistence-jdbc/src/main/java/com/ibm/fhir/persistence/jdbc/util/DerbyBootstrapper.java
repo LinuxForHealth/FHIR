@@ -66,6 +66,7 @@ public class DerbyBootstrapper {
             String dsId = FHIRRequestContext.get().getDataStoreId();
             log.finer("Obtaining connection for tenantId/dsId: " + tenantId + "/" + dsId);
             connection = fhirDb.getConnection(tenantId, dsId);
+            connection.setAutoCommit(false);
             log.finer("Connection: " + connection.toString());
 
             // Sets the sequence properties on teh database.
@@ -78,7 +79,6 @@ public class DerbyBootstrapper {
                 final String dataSchemaName = connection.getSchema();
 
                 bootstrap(connection, adminSchemaName, dataSchemaName);
-                connection.commit();
             }
         } catch (Throwable e) {
             String msg = "Encountered an exception while bootstrapping the FHIR database";
@@ -165,31 +165,26 @@ public class DerbyBootstrapper {
      */
     public static void bootstrapOauthDb(DataSource ds) throws Exception {
         try (Connection c = ds.getConnection()) {
-            try {
-                JdbcTarget target = new JdbcTarget(c);
-                IDatabaseAdapter adapter = new DerbyAdapter(target);
+            c.setAutoCommit(false);
+            JdbcTarget target = new JdbcTarget(c);
+            IDatabaseAdapter adapter = new DerbyAdapter(target);
 
-                // Set up the version history service first if it doesn't yet exist
-                CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMANAME, adapter);
+            // Set up the version history service first if it doesn't yet exist
+            CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMANAME, adapter);
 
-                // Current version history for the database. This is used by applyWithHistory
-                // to determine which updates to apply and to record the new changes as they
-                // are applied
-                VersionHistoryService vhs =
-                        new VersionHistoryService(ADMIN_SCHEMANAME, OAUTH_SCHEMANAME);
-                vhs.setTarget(adapter);
-                vhs.init();
+            // Current version history for the database. This is used by applyWithHistory
+            // to determine which updates to apply and to record the new changes as they
+            // are applied
+            VersionHistoryService vhs =
+                    new VersionHistoryService(ADMIN_SCHEMANAME, OAUTH_SCHEMANAME);
+            vhs.setTarget(adapter);
+            vhs.init();
 
-                // Build/update the Liberty OAuth-related tables
-                PhysicalDataModel pdm = new PhysicalDataModel();
-                OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(OAUTH_SCHEMANAME);
-                oauthSchemaGenerator.buildOAuthSchema(pdm);
-                pdm.applyWithHistory(adapter, vhs);
-                c.commit();
-            } catch (Exception x) {
-                c.rollback();
-                throw x;
-            }
+            // Build/update the Liberty OAuth-related tables
+            PhysicalDataModel pdm = new PhysicalDataModel();
+            OAuthSchemaGenerator oauthSchemaGenerator = new OAuthSchemaGenerator(OAUTH_SCHEMANAME);
+            oauthSchemaGenerator.buildOAuthSchema(pdm);
+            pdm.applyWithHistory(adapter, vhs);
         }
     }
 
@@ -202,11 +197,12 @@ public class DerbyBootstrapper {
         // This is specific to boostrapping where we are not suppose to use the derby db, rather a remote db.
         boolean isDerby = false;
         try (Connection c = ds.getConnection()) {
+            c.setAutoCommit(false);
             try (Statement stmt = c.createStatement();
                     ResultSet rs = stmt.executeQuery("VALUES SYSCS_UTIL.SYSCS_GET_DATABASE_PROPERTY('derby.database.defaultConnectionMode')");) {
                 isDerby = rs.next();
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine(" The results are " + rs.getString(1));
+                    log.fine(" Derby check results are " + rs.getString(1));
                 }
             }
         } catch (java.sql.SQLNonTransientException e) {
@@ -216,31 +212,27 @@ public class DerbyBootstrapper {
         }
 
         if (isDerby) {
+            // run within a global transaction, so local commit not necessary
             try (Connection c = ds.getConnection()) {
-                try {
-                    JdbcTarget target = new JdbcTarget(c);
-                    IDatabaseAdapter adapter = new DerbyAdapter(target);
+                c.setAutoCommit(false);
+                JdbcTarget target = new JdbcTarget(c);
+                IDatabaseAdapter adapter = new DerbyAdapter(target);
 
-                    // Set up the version history service first if it doesn't yet exist
-                    CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMANAME, adapter);
+                // Set up the version history service first if it doesn't yet exist
+                CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMANAME, adapter);
 
-                    // Current version history for the database. This is used by applyWithHistory
-                    // to determine which updates to apply and to record the new changes as they
-                    // are applied
-                    VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMANAME, BATCH_SCHEMANAME);
-                    vhs.setTarget(adapter);
-                    vhs.init();
+                // Current version history for the database. This is used by applyWithHistory
+                // to determine which updates to apply and to record the new changes as they
+                // are applied
+                VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMANAME, BATCH_SCHEMANAME);
+                vhs.setTarget(adapter);
+                vhs.init();
 
-                    // Build/update the Liberty OAuth-related tables
-                    PhysicalDataModel pdm = new PhysicalDataModel();
-                    JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(BATCH_SCHEMANAME);
-                    javaBatchSchemaGenerator.buildJavaBatchSchema(pdm);
-                    pdm.applyWithHistory(adapter, vhs);
-                    c.commit();
-                } catch (Exception x) {
-                    c.rollback();
-                    throw x;
-                }
+                // Build/update the Liberty OAuth-related tables
+                PhysicalDataModel pdm = new PhysicalDataModel();
+                JavaBatchSchemaGenerator javaBatchSchemaGenerator = new JavaBatchSchemaGenerator(BATCH_SCHEMANAME);
+                javaBatchSchemaGenerator.buildJavaBatchSchema(pdm);
+                pdm.applyWithHistory(adapter, vhs);
             }
         }
     }

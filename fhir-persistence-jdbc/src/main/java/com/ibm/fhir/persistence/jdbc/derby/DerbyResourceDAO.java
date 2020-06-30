@@ -24,6 +24,7 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.CodeSystemCacheAdapter;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterNameCacheAdapter;
@@ -56,13 +57,18 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
     private static final DerbyTranslator translator = new DerbyTranslator();
 
-    public DerbyResourceDAO(Connection managedConnection) {
-        super(managedConnection);
+    public DerbyResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor) {
+        super(connection, schemaName, flavor);
     }
 
-
-    public DerbyResourceDAO(TransactionSynchronizationRegistry trxSynchRegistry) {
-        super(trxSynchRegistry);
+    /**
+     * Derby is not only used for unit tests, but can also be used to provide persistence
+     * for a stand-alone full FHIR server.
+     * @param strat the connection strategy
+     * @param trxSynchRegistry
+     */
+    public DerbyResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry) {
+        super(connection, schemaName, flavor, trxSynchRegistry);
     }
 
     /**
@@ -83,7 +89,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         final String METHODNAME = "insert";
         logger.entering(CLASSNAME, METHODNAME);
 
-        Connection connection = null;
+        final Connection connection = getConnection(); // do not close
         Integer resourceTypeId;
         Timestamp lastUpdated;
         boolean acquiredFromCache;
@@ -91,7 +97,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         double dbCallDuration;
 
         try {
-            connection = this.getConnection();
             resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());
             if (resourceTypeId == null) {
                 acquiredFromCache = false;
@@ -147,7 +152,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure inserting Resource.");
             throw severe(logger, fx, e);
         } finally {
-            this.cleanup(null, connection);
             logger.exiting(CLASSNAME, METHODNAME);
         }
 

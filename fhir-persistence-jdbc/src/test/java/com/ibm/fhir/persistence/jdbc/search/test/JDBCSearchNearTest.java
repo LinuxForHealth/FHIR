@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,8 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.database.utils.api.IConnectionProvider;
+import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
@@ -76,15 +78,19 @@ public class JDBCSearchNearTest {
         testProps = TestUtil.readTestProperties("test.jdbc.properties");
 
         DerbyInitializer derbyInit;
+        PoolConnectionProvider connectionPool;
         String dbDriverName = this.testProps.getProperty("dbDriverName");
         if (dbDriverName != null && dbDriverName.contains("derby")) {
             derbyInit = new DerbyInitializer(this.testProps);
-            derbyInit.bootstrapDb();
+            IConnectionProvider cp = derbyInit.getConnectionProvider(false);
+            connectionPool = new PoolConnectionProvider(cp, 1);
+        } else {
+            throw new IllegalStateException("dbDriverName must be set in test.jdbc.properties");
         }
 
         savedResource = TestUtil.readExampleResource("json/spec/location-example.json");
 
-        persistence   = new FHIRPersistenceJDBCImpl(this.testProps);
+        persistence   = new FHIRPersistenceJDBCImpl(this.testProps, connectionPool);
 
         SingleResourceResult<Location> result =
                 persistence.create(FHIRPersistenceContextFactory.createPersistenceContext(null), savedResource);
@@ -97,6 +103,10 @@ public class JDBCSearchNearTest {
     @AfterClass
     public void teardown() throws Exception {
         if (savedResource != null && persistence.isDeleteSupported()) {
+            if (persistence.isTransactional()) {
+                persistence.getTransaction().begin();
+            }
+            
             FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, Collections.emptyMap(), true);
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);

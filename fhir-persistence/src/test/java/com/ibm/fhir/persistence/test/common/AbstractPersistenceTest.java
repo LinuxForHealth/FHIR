@@ -16,7 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
@@ -47,7 +49,9 @@ import com.ibm.fhir.search.util.SearchUtil;
  * </ul>
  */
 public abstract class AbstractPersistenceTest {
-
+    // common logger to make things a little easier on subclass implementations
+    protected static final Logger logger = Logger.getLogger(AbstractPersistenceTest.class.getName());
+    
     // The persistence layer instance to be used by the tests.
     protected static FHIRPersistence persistence = null;
 
@@ -59,6 +63,12 @@ public abstract class AbstractPersistenceTest {
 
     // A hook for subclasses to override and provide specific test database shutdown functionality if required.
     protected void shutdownDatabase() throws Exception {}
+    
+    // A hook for subclasses to close any pools they may have created. Called after all tests in the class have been run
+    protected void shutdownPools() throws Exception {}
+    
+    // A hook for subclasses to debug locks in the case of a lock timeout in the current transaction
+    protected void debugLocks() {};
 
     // The following persistence context-related methods can be overridden in subclasses to
     // provide a more specific instance of the FHIRPersistenceContext if necessary.
@@ -98,8 +108,13 @@ public abstract class AbstractPersistenceTest {
     @AfterMethod(alwaysRun = true)
     public void commitTrx() throws Exception{
         if (persistence != null && persistence.isTransactional()) {
-            persistence.getTransaction().commit();
+            persistence.getTransaction().end();
         }
+    }
+    
+    @AfterClass(alwaysRun = true)
+    public void closeClass() throws Exception {
+        shutdownPools();
     }
 
     @AfterSuite(alwaysRun = true)
@@ -155,9 +170,15 @@ public abstract class AbstractPersistenceTest {
             searchContext.setPageSize(maxPageSize);
         }
         FHIRPersistenceContext persistenceContext = getPersistenceContextForSearch(searchContext);
-        MultiResourceResult<Resource> result = persistence.search(persistenceContext, resourceType);
-        assertNotNull(result.getResource());
-        return result;
+        
+        try {
+            MultiResourceResult<Resource> result = persistence.search(persistenceContext, resourceType);
+            assertNotNull(result.getResource());
+            return result;
+        } catch (Throwable t) {
+            debugLocks();
+            throw t;
+        }
     }
 
     protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, String parmName, String parmValue) throws Exception {

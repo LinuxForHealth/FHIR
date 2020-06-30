@@ -69,6 +69,7 @@ import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
 import com.ibm.fhir.model.type.code.FHIRResourceType;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
+import com.ibm.fhir.schema.control.FhirSchemaVersion;
 import com.ibm.fhir.schema.control.Replacer;
 import com.ibm.fhir.schema.control.SchemaGeneratorUtil;
 
@@ -226,7 +227,7 @@ public class OldFhirSchemaGenerator {
 
         // All tables are added to this new tablespace (which has a small extent size.
         // Each tenant partition gets its own tablespace
-        fhirTablespace = new Tablespace(FhirSchemaConstants.FHIR_TS, FhirSchemaConstants.INITIAL_VERSION, FhirSchemaConstants.FHIR_TS_EXTENT_KB);
+        fhirTablespace = new Tablespace(FhirSchemaConstants.FHIR_TS, FhirSchemaVersion.V0001.vid(), FhirSchemaConstants.FHIR_TS_EXTENT_KB);
         fhirTablespace.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         model.addObject(fhirTablespace);
 
@@ -245,7 +246,7 @@ public class OldFhirSchemaGenerator {
         final String ROOT_DIR = "db2/";
         ProcedureDef setTenant = model.addProcedure(this.adminSchemaName,
                 SET_TENANT,
-                FhirSchemaConstants.INITIAL_VERSION,
+                FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName, ROOT_DIR + SET_TENANT.toLowerCase() + ".sql", null),
                 Arrays.asList(allAdminTablesComplete),
                 procedurePrivileges);
@@ -264,7 +265,7 @@ public class OldFhirSchemaGenerator {
      * @param model
      */
     public void addVariable(PhysicalDataModel model) {
-        this.sessionVariable = new SessionVariableDef(adminSchemaName, "SV_TENANT_ID", FhirSchemaConstants.INITIAL_VERSION);
+        this.sessionVariable = new SessionVariableDef(adminSchemaName, "SV_TENANT_ID", FhirSchemaVersion.V0001.vid());
         this.sessionVariable.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         variablePrivileges.forEach(p -> p.addToObject(this.sessionVariable));
 
@@ -333,7 +334,7 @@ public class OldFhirSchemaGenerator {
      * @param pdm
      */
     protected void addTenantSequence(PhysicalDataModel pdm) {
-        this.tenantSequence = new Sequence(adminSchemaName, TENANT_SEQUENCE, FhirSchemaConstants.INITIAL_VERSION, 1000);
+        this.tenantSequence = new Sequence(adminSchemaName, TENANT_SEQUENCE, FhirSchemaVersion.V0001.vid(), 1, 1000);
         this.tenantSequence.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         adminProcedureDependencies.add(tenantSequence);
         sequencePrivileges.forEach(p -> p.addToObject(tenantSequence));
@@ -380,7 +381,7 @@ public class OldFhirSchemaGenerator {
         ProcedureDef pd;
         pd = model.addProcedure(this.schemaName,
                 ADD_CODE_SYSTEM,
-                FhirSchemaConstants.INITIAL_VERSION,
+                FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_CODE_SYSTEM.toLowerCase() + ".sql", null),
                 Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete),
                 procedurePrivileges);
@@ -388,7 +389,7 @@ public class OldFhirSchemaGenerator {
 
         pd = model.addProcedure(this.schemaName,
                 ADD_PARAMETER_NAME,
-                FhirSchemaConstants.INITIAL_VERSION,
+                FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_PARAMETER_NAME.toLowerCase() + ".sql", null),
                 Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete),
                 procedurePrivileges);
@@ -396,7 +397,7 @@ public class OldFhirSchemaGenerator {
 
         pd = model.addProcedure(this.schemaName,
                 ADD_RESOURCE_TYPE,
-                FhirSchemaConstants.INITIAL_VERSION,
+                FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_RESOURCE_TYPE.toLowerCase() + ".sql", null),
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
                 procedurePrivileges);
@@ -404,7 +405,7 @@ public class OldFhirSchemaGenerator {
 
         pd = model.addProcedure(this.schemaName,
                 ADD_ANY_RESOURCE,
-                FhirSchemaConstants.INITIAL_VERSION,
+                FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase() + ".sql", null),
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
                 procedurePrivileges);
@@ -733,7 +734,7 @@ public class OldFhirSchemaGenerator {
      * @param pdm
      */
     protected void addFhirSequence(PhysicalDataModel pdm) {
-        this.fhirSequence = new Sequence(schemaName, FHIR_SEQUENCE, FhirSchemaConstants.INITIAL_VERSION, 1000);
+        this.fhirSequence = new Sequence(schemaName, FHIR_SEQUENCE, FhirSchemaVersion.V0001.vid(), 1, 1000);
         this.fhirSequence.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         procedureDependencies.add(fhirSequence);
         sequencePrivileges.forEach(p -> p.addToObject(fhirSequence));
@@ -742,7 +743,9 @@ public class OldFhirSchemaGenerator {
     }
 
     protected void addFhirRefSequence(PhysicalDataModel pdm) {
-        this.fhirRefSequence = new Sequence(schemaName, FHIR_REF_SEQUENCE, FhirSchemaConstants.INITIAL_VERSION, 1000);
+        // in the original FHIR schema, we start the ref sequence at 1, which causes problems
+        // for parameter_names. See issue-1263. Schema migration should handle the change
+        this.fhirRefSequence = new Sequence(schemaName, FHIR_REF_SEQUENCE, FhirSchemaVersion.V0001.vid(), 1, 1000);
         this.fhirRefSequence.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         procedureDependencies.add(fhirRefSequence);
         sequencePrivileges.forEach(p -> p.addToObject(fhirRefSequence));
@@ -776,7 +779,7 @@ public class OldFhirSchemaGenerator {
         pdm.addObject(rt);
 
         // Followed by the corresponding array type
-        IDatabaseObject rat = new RowArrayType(schemaName, "t_latlng_values_arr", FhirSchemaConstants.INITIAL_VERSION, "t_latlng_values", ARRAY_SIZE);
+        IDatabaseObject rat = new RowArrayType(schemaName, "t_latlng_values_arr", FhirSchemaVersion.V0001.vid(), "t_latlng_values", ARRAY_SIZE);
         rat.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         rat.addDependencies(Arrays.asList(rt));
         procedureDependencies.add(rat);

@@ -13,6 +13,7 @@ import java.util.Properties;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
@@ -29,26 +30,27 @@ import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 import com.ibm.fhir.validation.test.ValidationProcessor;
 
 public class R4JDBCExamplesTest extends AbstractPersistenceTest {
-    // The Derby database instance used for the persistence tests
-    private DerbyFhirDatabase database;
 
     private Properties properties;
+    
+    // provides connections to a bootstrapped Derby database
+    private IConnectionProvider derbyConnectionProvider;
 
+    /**
+     * Public constructor
+     * @throws Exception
+     */
     public R4JDBCExamplesTest() throws Exception {
         this.properties = TestUtil.readTestProperties("test.jdbc.properties");
     }
 
     @Test(groups = { "jdbc-seed" }, singleThreaded = true, priority = -1)
     public void perform() throws Exception {
-        if(this.database == null) {
-            System.out.println("Bootstrapping database:");
-            this.database = new DerbyFhirDatabase(DerbyInitializer.DB_NAME);
-        }
-        
+                
         // Use connection pool and transaction provider to make sure the resource operations
         // of each resource are committed after the processing is finished, and because this
         // testng test process the samples one by one, so set the connection pool size to 1.
-        PoolConnectionProvider connectionPool = new PoolConnectionProvider(database, 1);
+        PoolConnectionProvider connectionPool = new PoolConnectionProvider(derbyConnectionProvider, 1);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         List<ITestResourceOperation> operations = new ArrayList<>();
         operations.add(new CreateOperation());
@@ -115,15 +117,10 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
 
     @Override
     public void bootstrapDatabase() throws Exception {
-        // Create the derby database
-        this.database = new DerbyInitializer().bootstrapDb();
-    }
-
-    @AfterClass
-    public void shutdown() throws Exception {
-        System.out.println("Shutting down database");
-        if (this.database != null) {
-            this.database.close();
-        }
+        // The Derby database instance used for the persistence tests. This is
+        // an on-disk (not memory) instance due to the amount of data in the
+        // tests and limited resources on build nodes.
+        DerbyInitializer di = new DerbyInitializer(properties);
+        derbyConnectionProvider = di.getConnectionProvider(false); // no need to reset
     }
 }

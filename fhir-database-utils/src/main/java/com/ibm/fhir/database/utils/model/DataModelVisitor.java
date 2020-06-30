@@ -63,4 +63,9 @@ public interface DataModelVisitor {
      * @param functionDef
      */
     public void visited(FunctionDef functionDef);
+    
+    /**
+     * @param alterSequence
+     */
+    public void visited(AlterSequenceStartWith alterSequence);
 }

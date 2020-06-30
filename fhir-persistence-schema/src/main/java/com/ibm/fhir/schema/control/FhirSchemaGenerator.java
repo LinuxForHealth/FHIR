@@ -54,6 +54,8 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropIndex;
+import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
+import com.ibm.fhir.database.utils.model.BaseObject;
 import com.ibm.fhir.database.utils.model.FunctionDef;
 import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
@@ -204,7 +206,7 @@ public class FhirSchemaGenerator {
     public void buildAdminSchema(PhysicalDataModel model) {
         // All tables are added to this new tablespace (which has a small extent size.
         // Each tenant partition gets its own tablespace
-        fhirTablespace = new Tablespace(FhirSchemaConstants.FHIR_TS, FhirSchemaConstants.INITIAL_VERSION, FhirSchemaConstants.FHIR_TS_EXTENT_KB);
+        fhirTablespace = new Tablespace(FhirSchemaConstants.FHIR_TS, FhirSchemaVersion.V0001.vid(), FhirSchemaConstants.FHIR_TS_EXTENT_KB);
         fhirTablespace.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         model.addObject(fhirTablespace);
 
@@ -241,7 +243,7 @@ public class FhirSchemaGenerator {
      * @param model
      */
     public void addVariable(PhysicalDataModel model) {
-        this.sessionVariable = new SessionVariableDef(adminSchemaName, "SV_TENANT_ID", FhirSchemaConstants.INITIAL_VERSION);
+        this.sessionVariable = new SessionVariableDef(adminSchemaName, "SV_TENANT_ID", FhirSchemaVersion.V0001.vid());
         this.sessionVariable.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         variablePrivileges.forEach(p -> p.addToObject(this.sessionVariable));
 
@@ -310,7 +312,7 @@ public class FhirSchemaGenerator {
      * @param pdm
      */
     protected void addTenantSequence(PhysicalDataModel pdm) {
-        this.tenantSequence = new Sequence(adminSchemaName, TENANT_SEQUENCE, FhirSchemaConstants.INITIAL_VERSION, 1000);
+        this.tenantSequence = new Sequence(adminSchemaName, TENANT_SEQUENCE, FhirSchemaVersion.V0001.vid(), 1, 1000);
         this.tenantSequence.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         adminProcedureDependencies.add(tenantSequence);
         sequencePrivileges.forEach(p -> p.addToObject(tenantSequence));
@@ -357,7 +359,7 @@ public class FhirSchemaGenerator {
         final String ROOT_DIR = "db2/";
         ProcedureDef pd = model.addProcedure(this.schemaName,
                 ADD_CODE_SYSTEM,
-                FhirSchemaConstants.INITIAL_VERSION,
+                FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_CODE_SYSTEM.toLowerCase() + ".sql", null),
                 Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete),
                 procedurePrivileges);
@@ -365,7 +367,7 @@ public class FhirSchemaGenerator {
 
         pd = model.addProcedure(this.schemaName,
                 ADD_PARAMETER_NAME,
-                FhirSchemaConstants.INITIAL_VERSION,
+                FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_PARAMETER_NAME.toLowerCase() + ".sql", null),
                 Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete),
                 procedurePrivileges);
@@ -373,7 +375,7 @@ public class FhirSchemaGenerator {
 
         pd = model.addProcedure(this.schemaName,
                 ADD_RESOURCE_TYPE,
-                FhirSchemaConstants.INITIAL_VERSION,
+                FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_RESOURCE_TYPE.toLowerCase() + ".sql", null),
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
                 procedurePrivileges);
@@ -381,7 +383,7 @@ public class FhirSchemaGenerator {
 
         pd = model.addProcedure(this.schemaName,
                 ADD_ANY_RESOURCE,
-                FhirSchemaConstants.INITIAL_VERSION,
+                FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase() + ".sql", null),
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
                 procedurePrivileges);
@@ -394,7 +396,7 @@ public class FhirSchemaGenerator {
         final String ROOT_DIR = "postgres/";
         FunctionDef fd = model.addFunction(this.schemaName,
                 ADD_CODE_SYSTEM,
-                FhirSchemaConstants.INITIAL_VERSION,
+                FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_CODE_SYSTEM.toLowerCase() + ".sql", null),
                 Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete),
                 procedurePrivileges);
@@ -402,7 +404,7 @@ public class FhirSchemaGenerator {
 
         fd = model.addFunction(this.schemaName,
                 ADD_PARAMETER_NAME,
-                FhirSchemaConstants.INITIAL_VERSION,
+                FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_PARAMETER_NAME.toLowerCase()
                         + ".sql", null),
                 Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete), procedurePrivileges);
@@ -410,7 +412,7 @@ public class FhirSchemaGenerator {
 
         fd = model.addFunction(this.schemaName,
                 ADD_RESOURCE_TYPE,
-                FhirSchemaConstants.INITIAL_VERSION,
+                FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_RESOURCE_TYPE.toLowerCase()
                         + ".sql", null),
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
@@ -418,7 +420,7 @@ public class FhirSchemaGenerator {
 
         fd = model.addFunction(this.schemaName,
                 ADD_ANY_RESOURCE,
-                FhirSchemaConstants.INITIAL_VERSION,
+                FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase()
                         + ".sql", null),
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
@@ -714,7 +716,7 @@ public class FhirSchemaGenerator {
      * @param pdm
      */
     protected void addFhirSequence(PhysicalDataModel pdm) {
-        this.fhirSequence = new Sequence(schemaName, FHIR_SEQUENCE, FhirSchemaConstants.INITIAL_VERSION, 1000);
+        this.fhirSequence = new Sequence(schemaName, FHIR_SEQUENCE, FhirSchemaVersion.V0001.vid(), 1, 1000);
         this.fhirSequence.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         procedureDependencies.add(fhirSequence);
         sequencePrivileges.forEach(p -> p.addToObject(fhirSequence));
@@ -723,11 +725,25 @@ public class FhirSchemaGenerator {
     }
 
     protected void addFhirRefSequence(PhysicalDataModel pdm) {
-        this.fhirRefSequence = new Sequence(schemaName, FHIR_REF_SEQUENCE, FhirSchemaConstants.INITIAL_VERSION, 1000);
+        this.fhirRefSequence = new Sequence(schemaName, FHIR_REF_SEQUENCE, FhirSchemaVersion.V0001.vid(), FhirSchemaConstants.FHIR_REF_SEQUENCE_START, FhirSchemaConstants.FHIR_REF_SEQUENCE_CACHE);
         this.fhirRefSequence.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         procedureDependencies.add(fhirRefSequence);
         sequencePrivileges.forEach(p -> p.addToObject(fhirRefSequence));
-
         pdm.addObject(fhirRefSequence);
+        
+        // Schema V0003 does an alter to bump up the start value of the reference sequence
+        // to avoid a conflict with parameter names not in the pre-populated set
+        // fix for issue-1263. This will only be applied if the current version of the
+        // the FHIR_REF_SEQUENCE is <= 2.
+        BaseObject alter = new AlterSequenceStartWith(schemaName, FHIR_REF_SEQUENCE, FhirSchemaVersion.V0003.vid(), 
+            FhirSchemaConstants.FHIR_REF_SEQUENCE_START, FhirSchemaConstants.FHIR_REF_SEQUENCE_CACHE);
+        alter.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        procedureDependencies.add(alter);
+        alter.addDependency(fhirRefSequence); // only alter after the sequence is initially created
+        
+        // Because the sequence might be dropped and recreated, we need to inject privileges
+        // so that they are applied when this ALTER SEQUENCE is processed.
+        sequencePrivileges.forEach(p -> p.addToObject(alter));
+        pdm.addObject(alter);
     }
 }

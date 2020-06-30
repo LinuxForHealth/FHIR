@@ -85,10 +85,13 @@ public class ChunkReader extends com.ibm.fhir.jbatch.bulkdata.export.patient.Chu
         searchContext = SearchUtil.parseQueryParameters(Group.class, queryParameters);
         List<Resource> resources = null;
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-        txn.enroll();
-        persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-        resources = fhirPersistence.search(persistenceContext, Group.class).getResource();
-        txn.unenroll();
+        txn.begin();
+        try {
+            persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
+            resources = fhirPersistence.search(persistenceContext, Group.class).getResource();
+        } finally {
+            txn.end();
+        }
 
         if (resources != null) {
             return (Group) resources.get(0);
@@ -108,10 +111,13 @@ public class ChunkReader extends com.ibm.fhir.jbatch.bulkdata.export.patient.Chu
         searchContext.setPageSize(pageSize);
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
 
-        txn.enroll();
-        persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-        patients = fhirPersistence.search(persistenceContext, Patient.class).getResource();
-        txn.unenroll();
+        txn.begin();
+        try {
+            persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
+            patients = fhirPersistence.search(persistenceContext, Patient.class).getResource();
+        } finally {
+            txn.end();
+        }
 
         return patients;
     }
