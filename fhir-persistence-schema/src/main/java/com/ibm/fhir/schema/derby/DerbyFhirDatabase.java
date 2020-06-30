@@ -43,9 +43,6 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     private static final String OAUTH_SCHEMANAME = Main.OAUTH_SCHEMANAME;
     private static final String BATCH_SCHEMANAME = Main.BATCH_SCHEMANAME;
 
-    // The translator to help us out with Derby syntax
-    // private static final IDatabaseTranslator DERBY_TRANSLATOR = new DerbyTranslator();
-
     // The wrapper for managing a derby in-memory instance
     private final DerbyMaster derby;
 
@@ -87,8 +84,7 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
                 derby.createSchema(connectionPool, vhs, pdm);
-            }
-            catch (Throwable t) {
+            } catch (Throwable t) {
                 // mark the transaction for rollback
                 tx.setRollbackOnly();
                 throw t;
@@ -160,8 +156,7 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
                 DerbyAdapter derbyAdapter = new DerbyAdapter(target);
                 CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, derbyAdapter);
                 c.commit();
-            }
-            catch (SQLException x) {
+            } catch (SQLException x) {
                 logger.log(Level.SEVERE, "failed to create version history table", x);
                 c.rollback(); // may generate its own exception if the database is messed up
                 throw x;

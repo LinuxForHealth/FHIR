@@ -103,7 +103,6 @@ public class ConnectionProviderTarget implements IDatabaseTarget {
             return result;
         } catch (SQLException x) {
             throw translator.translate(x);
-            
         }
     }
 }

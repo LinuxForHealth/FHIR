@@ -6,9 +6,6 @@
 
 package com.ibm.fhir.schema.control;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Tracks the incremental changes to the FHIR schema as it evolves. Incremental
  * changes to the schema should be recorded here to create a new version number

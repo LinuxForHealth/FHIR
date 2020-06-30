@@ -32,7 +32,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 
 /**
  * This class is a root Data Access Object for managing JDBC access to the FHIR database.
- * As of 2020-06-16, connection handling is factored out of the DAO and is instead the
+ * As of 4.3.0, connection handling is factored out of the DAO and is instead the
  * responsibility of the FHIRPersistenceJDBCImpl. Each DAO therefore requires a
  * connection to be passed to it. This is good for separation of concerns, because the
  * DAO code shouldn't care where the connection comes from. As each DAO is stateless,

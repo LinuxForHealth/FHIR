@@ -88,13 +88,9 @@ import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.connection.Action;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbProxyDatasourceConnectionStrategy;
-import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTenantDatasourceConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTestConnectionStrategy;
-import com.ibm.fhir.persistence.jdbc.connection.FHIRTestTransactionFactory;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRTestTransactionAdapter;
-import com.ibm.fhir.persistence.jdbc.connection.FHIRTransactionFactory;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRUserTransactionAdapter;
-import com.ibm.fhir.persistence.jdbc.connection.FHIRUserTransactionFactory;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameFromProps;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameImpl;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameSupplier;
@@ -183,8 +179,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         ResourceTypesCache.setEnabled(fhirConfig.getBooleanProperty(PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE,
                                       Boolean.TRUE));
         
-        //this.connectionStrategy = new FHIRDbTenantDatasourceConnectionStrategy(getTrxSynchRegistry(), buildActionChain());
-        
         // Set up the connection strategy for use within a JEE container. The actions
         // are processed the first time a connection is established to a particular tenant/datasource.
         this.schemaNameSupplier = new SchemaNameImpl(this);
@@ -222,34 +216,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         log.exiting(CLASSNAME, METHODNAME);
     }
-    
 
-    /**
-     * Constructor for use when running standalone, outside of any web container.
-     * @throws Exception
-     */
-//    @Deprecated
-//    public FHIRPersistenceJDBCImpl(Properties configProps) throws Exception {
-//        final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties)";
-//        log.entering(CLASSNAME, METHODNAME);
-//
-//        this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
-//
-//        // not running inside a JEE container
-//        this.trxSynchRegistry = null;
-//
-//        // Obtain connections from DriverManager
-//        this.schemaName = getSchema();
-//
-////        Action setSchema = new SetSchemaAction(schemaName);
-////        Action setTenant = new SetTenantAction(setSchema);
-//        this.connectionStrategy = new FHIRDbPropsConnectionStrategy(configProps);
-//        
-//
-//        log.exiting(CLASSNAME, METHODNAME);
-//    }
-
-    
     /**
      * Build a chain of actions we want to apply to new connections. Current the
      * only action we need is setting the tenant if we're in multi-tenant mode.
@@ -594,13 +561,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         // than other sorted searches.
                         if (resourceType.equals(Resource.class)) {
                            resources = this.convertResourceDTOList(resourceDao.search(query), resourceType, elements);
-                        }
-                        else {
+                        } else {
                             sortedIdList = resourceDao.searchForIds(query);
                             resources = this.buildSortedFhirResources(resourceDao, context, resourceType, sortedIdList, elements);
                         }
-                    }
-                    else {
+                    } else {
                         unsortedResultsList = resourceDao.search(query);
                         resources = this.convertResourceDTOList(unsortedResultsList, resourceType, elements);
                     }
@@ -611,16 +576,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     .success(true)
                     .resource(resources)
                     .build();
-        }
-        catch(FHIRPersistenceException e) {
+        } catch (FHIRPersistenceException e) {
             throw e;
-        }
-        catch(Throwable e) {
+        } catch (Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a search operation.");
             log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
@@ -1120,8 +1082,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         try {
             ctxt = new InitialContext();
             return (TransactionSynchronizationRegistry) ctxt.lookup(TRX_SYNCH_REG_JNDI_NAME);
-        }
-        catch(Throwable e) {
+        } catch(Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Failed to acquire TrxSynchRegistry service");
             log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
@@ -1337,8 +1298,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     }
                 }
             }
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return allParameters;
@@ -1587,8 +1547,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
                 // can be null
                 return currentSchema;
-            }
-            catch (Exception x) {
+            } catch (Exception x) {
                 log.log(Level.SEVERE, "Datastore configuration issue for '" + datastoreId + "'", x);
                 throw new FHIRPersistenceDBConnectException("Datastore configuration issue. Details in server logs");
             }

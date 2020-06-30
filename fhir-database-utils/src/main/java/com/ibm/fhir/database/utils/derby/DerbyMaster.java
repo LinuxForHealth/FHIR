@@ -123,7 +123,7 @@ public class DerbyMaster implements AutoCloseable {
             shutdown(database);
         } catch (IllegalStateException x) {
             // NOP - database doesn't exist anyway, so this is info not warning on purpose
-            logger.info("DROP DATABASE - database does not exist: " + database);
+            
         }
         
         try {
@@ -210,7 +210,8 @@ public class DerbyMaster implements AutoCloseable {
 
     /**
      * Ask the schema to apply itself to our target (adapter pattern)
-     * @param pdm
+     * @param pool the connection pool
+     * @param pdm the data model to create
      */
     public void createSchema(IConnectionProvider pool, PhysicalDataModel pdm) {
         createSchema(pool, vhs, pdm);
