@@ -431,9 +431,6 @@ public final class ModelSupport {
      * @return the serialized name of the choice element {@code name} with choice type {@code type}
      */
     public static String getChoiceElementName(String name, Class<?> type) {
-        if (Code.class.isAssignableFrom(type)) {
-            return name + "Code";
-        }
         return name + getConcreteType(type).getSimpleName();
     }
 
