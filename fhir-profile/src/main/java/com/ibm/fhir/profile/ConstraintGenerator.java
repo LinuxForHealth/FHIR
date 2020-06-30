@@ -636,7 +636,7 @@ public class ConstraintGenerator {
     private boolean hasVocabularyConstraint(ElementDefinition elementDefinition) {
         Binding binding = elementDefinition.getBinding();
         if (binding != null && !BindingStrength.EXAMPLE.equals(binding.getStrength()) && binding.getValueSet() != null &&
-                (isCodedElement(elementDefinition) || isStringElement(elementDefinition) || isUriElement(elementDefinition))) {
+                (isCodedElement(elementDefinition) || isQuantityElement(elementDefinition) || isStringElement(elementDefinition) || isUriElement(elementDefinition))) {
             BindingStrength.ValueSet strength = binding.getStrength().getValueAsEnumConstant();
             String valueSet = binding.getValueSet().getValue();
 
@@ -706,6 +706,19 @@ public class ConstraintGenerator {
         if (type.getCode() != null) {
             String code = type.getCode().getValue();
             return "uri".equals(code);
+        }
+        return false;
+    }
+
+    private boolean isQuantityElement(ElementDefinition elementDefinition) {
+        List<Type> types = getTypes(elementDefinition);
+        if (types.size() != 1) {
+            return false;
+        }
+        Type type = types.get(0);
+        if (type.getCode() != null) {
+            String code = type.getCode().getValue();
+            return "Quantity".equals(code);
         }
         return false;
     }

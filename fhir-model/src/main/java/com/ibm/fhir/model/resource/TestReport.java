@@ -336,7 +336,7 @@ public class TestReport extends DomainResource {
                 name, 
                 status, 
                 testScript, 
-                result, 
+                this.result, 
                 score, 
                 tester, 
                 issued, 
@@ -1768,7 +1768,7 @@ public class TestReport extends DomainResource {
                         result = Objects.hash(id, 
                             extension, 
                             modifierExtension, 
-                            result, 
+                            this.result, 
                             message, 
                             detail);
                         hashCode = result;
@@ -2075,7 +2075,7 @@ public class TestReport extends DomainResource {
                         result = Objects.hash(id, 
                             extension, 
                             modifierExtension, 
-                            result, 
+                            this.result, 
                             message, 
                             detail);
                         hashCode = result;

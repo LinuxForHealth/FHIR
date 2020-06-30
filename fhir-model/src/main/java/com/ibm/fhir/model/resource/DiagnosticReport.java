@@ -447,7 +447,7 @@ public class DiagnosticReport extends DomainResource {
                 performer, 
                 resultsInterpreter, 
                 specimen, 
-                result, 
+                this.result, 
                 imagingStudy, 
                 media, 
                 conclusion, 

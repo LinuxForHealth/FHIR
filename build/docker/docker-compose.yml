@@ -27,6 +27,7 @@ services:
       - nats-node1
       - nats-node2
       - nats-node3
+      - minio
 
   db2:
     build:
@@ -63,3 +64,22 @@ services:
       command: --config /nats/config-3.conf
       ports:
           - 4224:4222
+  
+  minio:
+    build:
+      context: minio
+    hostname: minio
+    privileged: true
+    volumes:
+      - ./minio/miniodata:/data1
+    ports:
+      - 9000:9000
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: change-password
+    command: server /data1
+    healthcheck:
+      test: curl -v -f -k 'https://localhost:9000/minio/health/live'
+      interval: 30s
+      timeout: 20s
+      retries: 3
