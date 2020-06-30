@@ -52,6 +52,10 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
 
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
+     * @param Connection - A database connection that will be managed by the caller.
+     * @param schemaName
+     * @param flavor
+     * @param trxSynchRegistry
      */
     public ParameterDAOImpl(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry) {
         super(connection, schemaName, flavor);
@@ -63,6 +67,8 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
      * Constructs a DAO using the passed externally managed database connection.
      * The connection used by this instance for all DB operations will be the passed connection.
      * @param Connection - A database connection that will be managed by the caller.
+     * @param schemaName
+     * @param flavor
      */
     public ParameterDAOImpl(Connection connection, String schemaName, FHIRDbFlavor flavor) {
         super(connection, schemaName, flavor);

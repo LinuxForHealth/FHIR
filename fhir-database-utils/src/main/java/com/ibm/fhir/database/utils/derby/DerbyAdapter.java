@@ -184,10 +184,10 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createSequence(String schemaName, String sequenceName, long startWith, int cache) {
-        /* CREATE SEQUENCE fhir_sequence
+        /* Example syntax
+         * CREATE SEQUENCE <sequence-name>
          *     AS BIGINT
-         *     START WITH 1
-         *     CACHE 1000
+         *     START WITH <start-with>
          *     NO CYCLE;
          */
         // Derby doesn't support CACHE
@@ -313,36 +313,24 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         logger.fine("Drop tablespace not supported in Derby");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#disableForeignKey(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void disableForeignKey(String schemaName, String tableName, String constraintName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Disable FK currently not supported for this adapter.");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#enableForeignKey(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void enableForeignKey(String schemaName, String tableName, String constraintName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Disable FK currently not supported for this adapter.");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#setIntegrityOff(java.lang.String, java.lang.String)
-     */
     @Override
     public void setIntegrityOff(String schemaName, String tableName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Set integrity off not supported for this adapter.");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#setIntegrityUnchecked(java.lang.String, java.lang.String)
-     */
     @Override
     public void setIntegrityUnchecked(String schemaName, String tableName) {
         // not expecting this to be called for this adapter

@@ -506,13 +506,13 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     @Override
     public void createSequence(String schemaName, String sequenceName, long startWith, int cache) {
         /*
-         * <CODE>CREATE SEQUENCE fhir_sequence
+         * Example syntax:
+         * <CODE>CREATE SEQUENCE <sequence-name>
          * AS BIGINT
-         * START WITH 20000
-         * CACHE 1000
+         * START WITH <start-with>
+         * CACHE <cache>
          * NO CYCLE;</CODE>
          */
-        // The move to start with 1000 gives room for manual creation and update of sequences.
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT START WITH " + startWith + " CACHE " + cache + " NO CYCLE";
         runStatement(ddl);

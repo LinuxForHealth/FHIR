@@ -35,7 +35,7 @@ public class JDBCSearchIdLastUpdatedTest extends AbstractSearchIdAndLastUpdatedT
             this.connectionPool = new PoolConnectionProvider(cp, 1);
         }
     }
-    
+
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         if (this.connectionPool == null) {

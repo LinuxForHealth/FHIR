@@ -37,7 +37,7 @@ public class JDBCSearchCompositeTest extends AbstractSearchCompositeTest {
             this.connectionPool = new PoolConnectionProvider(cp, 1);
         }
     }
-    
+
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         if (this.connectionPool == null) {
@@ -54,5 +54,4 @@ public class JDBCSearchCompositeTest extends AbstractSearchCompositeTest {
             this.connectionPool.close();
         }
     }
-
 }

@@ -19,5 +19,4 @@ public class FHIRDbConstants {
     public static final String PROPERTY_DB_USER = "user";
     public static final String PROPERTY_DB_PSWD = "password";
     public static final String PROPERTY_SCHEMA_NAME = "schemaName";
-
 }

@@ -70,30 +70,4 @@ public class FHIRDbHelper {
         Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
         return new FHIRPersistenceDBConnectException(msg).withIssue(ooi);
     }
-
-    /**
-     * Close the connection if not null.
-     * @implNote This connection object is just a wrapper. If we're in a 
-     *           transaction, then closing it doesn't do much, other than tell
-     *           the transaction manager that the connection is no longer in
-     *           use. The transaction manager still holds the underlying 
-     *           database connection open, and will use that connection the 
-     *           next time getConnection() is called for the same datasource 
-     *           within this thread. Only when the transaction commits 
-     *           will the connection be returned to the pool (or closed). 
-     *           If connections remain open when commit() is called, the 
-     *           transaction will fail.
-     * @param connection
-     */
-    public static void close(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (Throwable e) {
-                // log the failure, but suppress the exception
-                FHIRPersistenceDBCleanupException ce = new FHIRPersistenceDBCleanupException("Failure closing Connection.", e);
-                log.log(Level.SEVERE, ce.getMessage(), ce);
-            }
-        }
-    }
 }

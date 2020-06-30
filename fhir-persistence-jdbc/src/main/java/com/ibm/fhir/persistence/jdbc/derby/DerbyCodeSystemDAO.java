@@ -26,7 +26,7 @@ public class DerbyCodeSystemDAO extends CodeSystemDAOImpl {
     /**
      * Public constructor
      * @param c
-     * @param fsd
+     * @param schemaName
      */
     public DerbyCodeSystemDAO(Connection c, String schemaName) {
         super(c, schemaName);

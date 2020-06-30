@@ -45,6 +45,8 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
  *           things, but also makes it easier to implement new strategies,
  *           such as using a JEE datasource directly instead of the FHIR
  *           proxy datasource used here.
+ *           Currently not used - just needs some additional integration
+ *           with the fhir-server-configuration to be supported.
  */
 public class FHIRDbTenantDatasourceConnectionStrategy extends FHIRDbConnectionStrategyBase {
     private static final Logger log = Logger.getLogger(FHIRDbDAOImpl.class.getName());

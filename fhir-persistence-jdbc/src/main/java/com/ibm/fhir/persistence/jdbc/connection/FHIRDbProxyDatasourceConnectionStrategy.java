@@ -146,8 +146,9 @@ public class FHIRDbProxyDatasourceConnectionStrategy extends FHIRDbConnectionStr
             try {
                 connection.close();
             } catch (Throwable x) {
-                // NOP...something bad is going on anyway, so don't confuse things
-                // by throwing a different exception and hiding the original
+                // Don't confuse things by propagating this exception...we want the original exception
+                // to be the cause of failure. But log anyway, in case it's useful
+                log.log(Level.FINEST, "close failed", x);
             } finally {
                 // just to prevent future coding mistakes
                 connection = null;

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -54,5 +54,4 @@ public class JDBCSearchTokenTest extends AbstractSearchTokenTest {
             this.connectionPool.close();
         }
     }
-
 }

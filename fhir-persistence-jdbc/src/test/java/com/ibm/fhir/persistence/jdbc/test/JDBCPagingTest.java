@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -64,8 +64,7 @@ public class JDBCPagingTest extends AbstractPagingTest {
         // Exception running a query. Let's dump the lock table
         try (Connection c = connectionPool.getConnection()) {
             DerbyMaster.dumpLockInfo(c);
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             // just log the error...things are already bad if this method has been called
             logger.severe("dumpLockInfo - connection failure: " + x.getMessage());
         }

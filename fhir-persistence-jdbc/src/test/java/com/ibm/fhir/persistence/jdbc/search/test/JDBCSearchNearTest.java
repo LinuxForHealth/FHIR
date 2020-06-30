@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.LogManager;
 
-import org.apache.derby.impl.store.raw.xact.BeginXact;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;

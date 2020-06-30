@@ -25,6 +25,8 @@ public class Sequence extends BaseObject {
      * 
      * @param schemaName
      * @param sequenceName
+     * @param version
+     * @param startWith
      * @param cache
      */
     public Sequence(String schemaName, String sequenceName, int version, long startWith, int cache) {

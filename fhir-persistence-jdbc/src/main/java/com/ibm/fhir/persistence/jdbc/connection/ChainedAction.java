@@ -10,7 +10,6 @@ import java.sql.Connection;
 
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 
-
 /**
  * Base for chaining actions together
  */
@@ -34,9 +33,6 @@ public class ChainedAction implements Action {
         this.next = null;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.jdbc.connection.Action#performOn(java.sql.Connection)
-     */
     @Override
     public void performOn(Connection c) throws FHIRPersistenceDBConnectException {
         if (next != null) {

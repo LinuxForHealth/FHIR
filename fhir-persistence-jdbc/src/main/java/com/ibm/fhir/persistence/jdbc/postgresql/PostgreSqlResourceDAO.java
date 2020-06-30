@@ -257,6 +257,7 @@ public class PostgreSqlResourceDAO extends ResourceDAOImpl {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException(errMsg);
             throw severe(logger, fx, e);
         } finally {
+            cleanup(stmt);
             logger.exiting(CLASSNAME, METHODNAME);
         }
         return resourceTypeId;

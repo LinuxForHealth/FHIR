@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -217,14 +218,20 @@ public class DerbyMaster implements AutoCloseable {
 
     /**
      * Ask the schema to apply itself to our target (adapter pattern)
-     * @param vhs
-     * @param pdm
+     * @param pool the connection pool
+     * @param vhs current version history service
+     * @param pdm the data model we want to create
      */
     public void createSchema(IConnectionProvider pool, IVersionHistoryService vhs, PhysicalDataModel pdm) {
         runWithAdapter(pool, target -> pdm.applyWithHistory(target, vhs));
     }
-    
-    public void runWithAdapter(IConnectionProvider pool, java.util.function.Consumer<IDatabaseAdapter> fn) {
+
+    /**
+     * Run the {@link IDatabaseAdapter} command fn using a DerbyAdapter for the given connection pool
+     * @param pool provides database connections
+     * @param fn the command to execute
+     */
+    public void runWithAdapter(IConnectionProvider pool, Consumer<IDatabaseAdapter> fn) {
 
         // We need to obtain connections from the same pool as the version history service
         // so we can avoid deadlocks for certain DDL like DROP INDEX
@@ -317,8 +324,7 @@ public class DerbyMaster implements AutoCloseable {
             
             // should throw an exception if successful
             DriverManager.getConnection(dropper);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             // should say "Database 'target/derby/...' shutdown."
             logger.info(e.getMessage());
             shutdown = true;

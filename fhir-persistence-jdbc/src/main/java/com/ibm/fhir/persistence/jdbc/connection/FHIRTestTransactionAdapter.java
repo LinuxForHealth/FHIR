@@ -17,7 +17,6 @@ import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
-
 /**
  * Hides the logic behind obtaining a JDBC {@link Connection} from the DAO code.
  * 
@@ -81,14 +80,12 @@ public class FHIRTestTransactionAdapter implements FHIRPersistenceTransaction {
             if (startedByThis && --startCount == 0) {
                 this.currentTransaction.get().close();
             }
-        }
-        catch (Throwable x) {
+        } catch (Throwable x) {
             // translate to a FHIRPersistenceException
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while committing a transaction.");
             log.log(Level.SEVERE, fx.getMessage(), x);
             throw fx;
-        }
-        finally {
+        } finally {
             this.currentTransaction.set(null);
             this.startedByThis = false;
         }

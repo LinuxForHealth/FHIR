@@ -25,6 +25,8 @@ public class AlterSequenceStartWith extends BaseObject {
      * 
      * @param schemaName
      * @param sequenceName
+     * @param version
+     * @param startWith
      * @param cache
      */
     public AlterSequenceStartWith(String schemaName, String sequenceName, int version, long startWith, int cache) {
@@ -62,5 +64,4 @@ public class AlterSequenceStartWith extends BaseObject {
     public void visitReverse(DataModelVisitor v) {
         v.visited(this);
     }
-
 }

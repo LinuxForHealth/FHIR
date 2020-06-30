@@ -112,6 +112,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     /**
      * Constructs a DAO instance suitable for acquiring connections from a JDBC Datasource object.
+     * @param c
+     * @param schemaName
+     * @param flavor
+     * @param trxSyncRegistry
      */
     public ResourceDAOImpl(Connection c, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry) {
         super(c, schemaName, flavor);
@@ -121,7 +125,9 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     /**
      * Constructs a DAO instance for use outside a managed transaction (JEE) environment
-     * @param connectionStrategy
+     * @param c
+     * @param schemaName
+     * @param flavor
      */
     public ResourceDAOImpl(Connection c, String schemaName, FHIRDbFlavor flavor) {
         super(c, schemaName, flavor);

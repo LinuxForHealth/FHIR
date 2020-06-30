@@ -40,8 +40,7 @@ public class DropIndex implements IDatabaseStatement {
 
         try (Statement s = c.createStatement()) {
             s.executeUpdate("DROP INDEX " + qname);
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             // useful to know which index is causing the problem
             logger.severe("FAILED: DROP INDEX " + qname);
             throw translator.translate(x);

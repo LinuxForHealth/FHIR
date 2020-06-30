@@ -35,7 +35,7 @@ public class JDBCSearchNumberTest extends AbstractSearchNumberTest {
             this.connectionPool = new PoolConnectionProvider(cp, 1);
         }
     }
-    
+
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         if (this.connectionPool == null) {

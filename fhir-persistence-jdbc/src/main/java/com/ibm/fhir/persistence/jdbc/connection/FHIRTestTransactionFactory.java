@@ -9,7 +9,6 @@ package com.ibm.fhir.persistence.jdbc.connection;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 
-
 /**
  * Factory/strategy to instantiate FHIRTestTransactionHandler implementations
  * of the {@link FHIRPersistenceTransaction} interface. Typically used

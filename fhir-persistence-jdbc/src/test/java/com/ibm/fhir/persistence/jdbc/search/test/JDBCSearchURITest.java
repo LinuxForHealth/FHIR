@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2019, 2020
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,7 +35,7 @@ public class JDBCSearchURITest extends AbstractSearchURITest {
             this.connectionPool = new PoolConnectionProvider(cp, 1);
         }
     }
-    
+
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         if (this.connectionPool == null) {
@@ -52,5 +52,4 @@ public class JDBCSearchURITest extends AbstractSearchURITest {
             this.connectionPool.close();
         }
     }
-
 }
