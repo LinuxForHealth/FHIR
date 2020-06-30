@@ -26,6 +26,9 @@ import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Request;
 import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Result;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectSummary;
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.jbatch.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.jbatch.bulkdata.common.Constants;
 
@@ -132,6 +135,20 @@ public class ImportPartitionMapper implements PartitionMapper {
     @Inject
     @BatchProperty(name = Constants.COS_IS_IBM_CREDENTIAL)
     String cosCredentialIbm;
+    
+    /**
+     * Fhir tenant id.
+     */
+    @Inject
+    @BatchProperty(name = Constants.FHIR_TENANT)
+    String fhirTenant;
+
+    /**
+     * Fhir data store id.
+     */
+    @Inject
+    @BatchProperty(name = Constants.FHIR_DATASTORE_ID)
+    String fhirDatastoreId;
 
     public ImportPartitionMapper() {
         // No Operation
@@ -173,11 +190,25 @@ public class ImportPartitionMapper implements PartitionMapper {
             throws Exception {
         String nextToken = null;
         List<FhirDataSource> fhirDataSources = new ArrayList<>();
+
+        if (fhirTenant == null) {
+            fhirTenant = "default";
+            logger.info("open: Set tenant to default!");
+        }
+        if (fhirDatastoreId == null) {
+            fhirDatastoreId = Constants.DEFAULT_FHIR_TENANT;
+            logger.info("open: Set DatastoreId to default!");
+        }
+
+        FHIRRequestContext.set(new FHIRRequestContext(fhirTenant, fhirDatastoreId));
+
         // Create a COS/S3 client if it's not created yet.
         if (cosClient == null) {
+            boolean isCosClientUseFhirServerTrustStore = FHIRConfigHelper
+                .getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE, false);
             cosClient =
                     BulkDataUtils.getCosClient(cosCredentialIbm, cosApiKeyProperty, cosSrvinstId, cosEndpointUrl,
-                            cosLocation);
+                            cosLocation, isCosClientUseFhirServerTrustStore);
 
             if (cosClient == null) {
                 logger.warning("getFhirDataSourcesForObjectStore: Failed to get CosClient!");

@@ -11,6 +11,7 @@ import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -19,10 +20,12 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
@@ -180,5 +183,75 @@ public class MemberOfFunctionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(Uri.of("x"), "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
 
         Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+
+    @Test
+    public void testMemberOfFunction14() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Quantity quantity = Quantity.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .code(Code.of("a"))
+                .build();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+
+    @Test
+    public void testMemberOfFunction15() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Quantity quantity = Quantity.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .code(Code.of("x"))
+                .build();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+
+    @Test
+    public void testMemberOfFunction16() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Quantity quantity = Quantity.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .code(Code.of("a"))
+                .build();
+
+        EvaluationContext evaluationContext = new EvaluationContext(quantity);
+        FHIRPathTree tree = evaluationContext.getTree();
+        Collection<FHIRPathNode> initialContext = getChildren(tree.getRoot(), "code");
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')", initialContext);
+
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+
+    @Test
+    public void testMemberOfFunction17() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        Quantity quantity = Quantity.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .code(Code.of("x"))
+                .build();
+
+        EvaluationContext evaluationContext = new EvaluationContext(quantity);
+        FHIRPathTree tree = evaluationContext.getTree();
+        Collection<FHIRPathNode> initialContext = getChildren(tree.getRoot(), "code");
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')", initialContext);
+
+        Assert.assertEquals(result, SINGLETON_FALSE);
+    }
+
+    private Collection<FHIRPathNode> getChildren(FHIRPathNode node, String name) {
+        return node.children().stream()
+                .filter(child -> name.equals(child.name()))
+                .collect(Collectors.toList());
     }
 }

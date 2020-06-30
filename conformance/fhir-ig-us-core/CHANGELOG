@@ -1,2 +1,5 @@
 Changed constraint provenance-1 in StructureDefinition-us-core-provenance.json from: ($this.agent.who.resolve().is Practitioner or Device) implies exists() to: ($this.agent.who.resolve().is(Practitioner) or $this.agent.who.resolve().is(Device)) implies exists() to correct a FHIRPath syntax error
     See: https://jira.hl7.org/browse/FHIR-27065 for more information
+
+Changed SearchParameter-us-core-procedure-date.json from Procedure.occurence to Procedure.performed
+    See: https://jira.hl7.org/browse/FHIR-27887 for more information

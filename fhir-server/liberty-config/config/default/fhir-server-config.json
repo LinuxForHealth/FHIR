@@ -145,7 +145,8 @@
             "isExportPublic": true,
             "cosFileMaxResources": 500000,
             "cosFileMaxSize": 209715200,
-            "validBaseUrls": []
+            "validBaseUrls": [],
+            "useFhirServerTrustStore": false
         }
     }
 }
