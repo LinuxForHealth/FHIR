@@ -1,9 +1,9 @@
 {
     "resourceType": "Group",
-    "id": "27c4d32d-f376-405a-b558-8079ac5ab4f4",
+    "id": "b6cf0443-4aed-4374-9899-a9d95ddf6c32",
     "meta": {
         "versionId": "1",
-        "lastUpdated": "2020-06-26T19:41:19.068Z"
+        "lastUpdated": "2020-06-30T16:03:28.1Z"
     },
     "text": {
         "status": "generated",
@@ -24,7 +24,7 @@
                 ],
                 "text": "Age calculated"
             },
-            "valueAge": {
+            "valueQuantity": {
                 "value": 35,
                 "comparator": ">=",
                 "unit": "years",
@@ -43,7 +43,7 @@
                 ],
                 "text": "Age calculated"
             },
-            "valueAge": {
+            "valueQuantity": {
                 "value": 70,
                 "comparator": "<=",
                 "unit": "years",

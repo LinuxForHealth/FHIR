@@ -6,8 +6,7 @@
 
 package com.ibm.fhir.search.group;
 
-import java.util.List;
-import java.util.Map;
+import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.model.resource.Group;
 
@@ -19,11 +18,12 @@ public interface GroupSearchCompiler {
 
     /**
      * translates the given group to a search query
-     * @param group
+     * @param group the dynamic group
+     * @param target the resource type for the search query
      * @return
      * @throws GroupSearchCompilerException
      *  <li>not enabled as a Group
      *  <li>not a descriptive Group
      */
-    public Map<String, List<String>> groupToSearch(Group group) throws GroupSearchCompilerException;
+    public MultivaluedMap<String, String> groupToSearch(Group group, String target) throws GroupSearchCompilerException;
 }

@@ -99,7 +99,7 @@ public class AgeRangeWithGenderGroup extends GroupExample {
 
         CodeableConcept value = CodeableConcept.builder().coding(Coding.builder().code(Code.of("Female"))
             .system(Uri.of("http://hl7.org/fhir/administrative-gender")).build())
-            .text(string("Female"))
+            .text(string("female"))
             .build();
 
         Characteristic characteristic = Characteristic.builder()
