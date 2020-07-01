@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.operation.support.bulkdata.helpers.group;
+package com.ibm.fhir.operation.bulkdata.helpers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,13 +19,6 @@ import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Group;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
-import com.ibm.fhir.operation.support.bulkdata.helpers.group.examples.AgeRangeBloodPressureGroup;
-import com.ibm.fhir.operation.support.bulkdata.helpers.group.examples.AgeRangeGroup;
-import com.ibm.fhir.operation.support.bulkdata.helpers.group.examples.AgeRangeWithGenderAndExcludeGroup;
-import com.ibm.fhir.operation.support.bulkdata.helpers.group.examples.AgeRangeWithGenderGroup;
-import com.ibm.fhir.operation.support.bulkdata.helpers.group.examples.AgeSimpleDisabledGroup;
-import com.ibm.fhir.operation.support.bulkdata.helpers.group.examples.AgeSimpleGroup;
-import com.ibm.fhir.operation.support.bulkdata.helpers.group.examples.GroupExample;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 

@@ -5,7 +5,6 @@
         {
             "resource": {
                 "resourceType": "Patient",
-                "id": "8b32ca06-48b8-415c-a406-0bbf96b4df97",
                 "meta": {
                     "versionId": "1",
                     "lastUpdated": "2020-06-30T16:03:31.943Z"
@@ -35,7 +34,7 @@
             },
             "request": {
                 "method": "POST",
-                "url": "682d21cf-1fb4-488c-8db5-9ee69c24805c"
+                "url": "Patient"
             }
         },
         {
@@ -73,7 +72,7 @@
             },
             "request": {
                 "method": "POST",
-                "url": "a6c63bad-9f5e-47d1-ade1-cf141dbfac1c"
+                "url": "Observation"
             }
         }
     ]

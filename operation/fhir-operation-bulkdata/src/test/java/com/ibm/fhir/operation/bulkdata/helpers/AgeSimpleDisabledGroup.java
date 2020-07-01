@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.operation.support.bulkdata.helpers.group.examples;
+package com.ibm.fhir.operation.bulkdata.helpers;
 
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.type.Xhtml.xhtml;
@@ -113,7 +113,7 @@ public class AgeSimpleDisabledGroup extends GroupExample {
         Bundle.Entry entry = Bundle.Entry.builder()
                 .resource(buildTestPatient())
                 .request(Request.builder().method(HTTPVerb.POST)
-                    .url(Uri.of(UUID.randomUUID().toString())).build())
+                    .url(Uri.of("Patient")).build())
                 .build();
         return Bundle.builder().type(BundleType.TRANSACTION).entry(entry).build();
     }

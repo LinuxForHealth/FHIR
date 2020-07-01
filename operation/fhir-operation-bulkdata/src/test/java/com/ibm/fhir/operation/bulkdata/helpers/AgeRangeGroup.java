@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.operation.support.bulkdata.helpers.group.examples;
+package com.ibm.fhir.operation.bulkdata.helpers;
 
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.type.Xhtml.xhtml;
@@ -41,12 +41,12 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.QuantityComparator;
 
 /**
- * Shows a simple age included in a Dynamic Group.
+ * Shows an age range included in a Dynamic Group.
  */
-public class AgeSimpleGroup extends GroupExample {
+public class AgeRangeGroup extends GroupExample {
     @Override
     public String filename() {
-        return "age-simple";
+        return "age-range";
     }
 
     @Override
@@ -70,7 +70,8 @@ public class AgeSimpleGroup extends GroupExample {
         com.ibm.fhir.model.type.Boolean actual = com.ibm.fhir.model.type.Boolean.of(false);
 
         Collection<Characteristic> characteristics = new ArrayList<>();
-        characteristics.add(generateBirthdateCharacteristic());
+        characteristics.add(generateLowerBoundBirthdateCharacteristic());
+        characteristics.add(generateUpperBoundBirthdateCharacteristic());
 
         Group group = Group.builder()
                 .id(id)
@@ -86,7 +87,7 @@ public class AgeSimpleGroup extends GroupExample {
     }
 
 
-    private Characteristic generateBirthdateCharacteristic() {
+    private Characteristic generateLowerBoundBirthdateCharacteristic() {
         CodeableConcept code = CodeableConcept.builder().coding(Coding.builder().code(Code.of("29553-5"))
             .system(Uri.of("http://loinc.org")).build())
             .text(string("Age calculated"))
@@ -96,8 +97,30 @@ public class AgeSimpleGroup extends GroupExample {
                 .system(Uri.of("http://unitsofmeasure.org"))
                 .code(Code.of("a"))
                 .unit(string("years"))
-                .value(Decimal.of("30"))
+                .value(Decimal.of("13"))
                 .comparator(QuantityComparator.GREATER_OR_EQUALS)
+                .build();
+
+        Characteristic characteristic = Characteristic.builder()
+            .code(code)
+            .value(value)
+            .exclude(com.ibm.fhir.model.type.Boolean.FALSE)
+            .build();
+        return characteristic;
+    }
+
+    private Characteristic generateUpperBoundBirthdateCharacteristic() {
+        CodeableConcept code = CodeableConcept.builder().coding(Coding.builder().code(Code.of("29553-5"))
+            .system(Uri.of("http://loinc.org")).build())
+            .text(string("Age calculated"))
+            .build();
+
+        Age value = Age.builder()
+                .system(Uri.of("http://unitsofmeasure.org"))
+                .code(Code.of("a"))
+                .unit(string("years"))
+                .value(Decimal.of("56"))
+                .comparator(QuantityComparator.LESS_OR_EQUALS)
                 .build();
 
         Characteristic characteristic = Characteristic.builder()
@@ -113,7 +136,7 @@ public class AgeSimpleGroup extends GroupExample {
         Bundle.Entry entry = Bundle.Entry.builder()
                 .resource(buildTestPatient())
                 .request(Request.builder().method(HTTPVerb.POST)
-                    .url(Uri.of(UUID.randomUUID().toString())).build())
+                    .url(Uri.of("Patient")).build())
                 .build();
         return Bundle.builder().type(BundleType.TRANSACTION).entry(entry).build();
     }

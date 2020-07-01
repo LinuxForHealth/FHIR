@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.operation.support.bulkdata.helpers;
+package com.ibm.fhir.operation.bulkdata.helpers;
 
 import static com.ibm.fhir.model.type.String.string;
 

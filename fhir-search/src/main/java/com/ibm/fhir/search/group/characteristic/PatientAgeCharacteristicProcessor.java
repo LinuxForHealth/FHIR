@@ -36,6 +36,15 @@ public class PatientAgeCharacteristicProcessor implements CharacteristicProcesso
         }
     }
 
+    /*
+     * Small Explaination to the Logic.
+     *
+     * Since age relative to birthdate is a moving window, tomorrow is one day different
+     * than today. We need to consider the conversation to birthdate.
+     *
+     * This means - find window and flip the direction.
+     *
+     */
     private String fromQuantityComparator(QuantityComparator comparator, Boolean exclude) {
         // The default is actually empty, which equates to 'eq'.
         String result = "";
@@ -51,30 +60,36 @@ public class PatientAgeCharacteristicProcessor implements CharacteristicProcesso
                 result = "ne";
             }
         } else {
+            // Example: Age = 56
+            // Birthdate: 2020 becomes 1964
             QuantityComparator.ValueSet vs = comparator.getValueAsEnumConstant();
             if (QuantityComparator.ValueSet.LESS_THAN.equals(vs)) {
+                // gt1964
                 if (!exclude.booleanValue()) {
-                    result = "lt";
+                    result = "gt";
                 } else {
-                    result = "ge";
+                    result = "le";
                 }
             } else if (QuantityComparator.ValueSet.LESS_OR_EQUALS.equals(vs)) {
-                if (!exclude.booleanValue()) {
-                    result = "le";
-                } else {
-                    result = "gt";
-                }
-            } else if (QuantityComparator.ValueSet.GREATER_OR_EQUALS.equals(vs)) {
+                // ge1964
                 if (!exclude.booleanValue()) {
                     result = "ge";
                 } else {
                     result = "lt";
                 }
-            } else if (QuantityComparator.ValueSet.GREATER_THAN.equals(vs)) {
+            } else if (QuantityComparator.ValueSet.GREATER_OR_EQUALS.equals(vs)) {
+                // le1964
                 if (!exclude.booleanValue()) {
-                    result = "gt";
-                } else {
                     result = "le";
+                } else {
+                    result = "gt";
+                }
+            } else if (QuantityComparator.ValueSet.GREATER_THAN.equals(vs)) {
+                // lt1964
+                if (!exclude.booleanValue()) {
+                    result = "lt";
+                } else {
+                    result = "ge";
                 }
             }
         }
