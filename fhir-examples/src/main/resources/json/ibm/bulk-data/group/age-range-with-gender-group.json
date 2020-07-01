@@ -1,0 +1,77 @@
+{
+    "resourceType": "Group",
+    "id": "b365d50d-af4e-48b0-8793-1bc79c1f1570",
+    "meta": {
+        "versionId": "1",
+        "lastUpdated": "2020-06-30T16:03:31.905Z"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>"
+    },
+    "active": true,
+    "type": "person",
+    "actual": false,
+    "name": "age-range-with-gender",
+    "characteristic": [
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://loinc.org",
+                        "code": "29553-5"
+                    }
+                ],
+                "text": "Age calculated"
+            },
+            "valueQuantity": {
+                "value": 13,
+                "comparator": ">=",
+                "unit": "years",
+                "system": "http://unitsofmeasure.org",
+                "code": "a"
+            },
+            "exclude": false
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://loinc.org",
+                        "code": "29553-5"
+                    }
+                ],
+                "text": "Age calculated"
+            },
+            "valueQuantity": {
+                "value": 56,
+                "comparator": "<=",
+                "unit": "years",
+                "system": "http://unitsofmeasure.org",
+                "code": "a"
+            },
+            "exclude": false
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/administrative-gender",
+                        "code": "AdministrativeGender"
+                    }
+                ],
+                "text": "Gender"
+            },
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/administrative-gender",
+                        "code": "female"
+                    }
+                ],
+                "text": "Female"
+            },
+            "exclude": false
+        }
+    ]
+}

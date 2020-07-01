@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "52d10ab2-86b8-47cd-88a7-c4f6ca62ba36",
+            "value": "Synthethic Mass - 117"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 117",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "CVDX",
+                    "display": "Cardiovascular diagnostics or therapeutics unit"
+                }
+            ],
+            "text": "Cardiovascular diagnostics or therapeutics unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "ONE HOSPITAL ROAD FIRST FL WING 5 PO BOX 1477"
+        ],
+        "city": "OAK BLUFFS",
+        "state": "MA",
+        "postalCode": "02557",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -70.58079,
+        "latitude": 41.46076
+    }
+}

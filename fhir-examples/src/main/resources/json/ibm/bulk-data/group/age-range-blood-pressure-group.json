@@ -1,0 +1,92 @@
+{
+    "resourceType": "Group",
+    "id": "b6cf0443-4aed-4374-9899-a9d95ddf6c32",
+    "meta": {
+        "versionId": "1",
+        "lastUpdated": "2020-06-30T16:03:28.1Z"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>"
+    },
+    "active": true,
+    "type": "person",
+    "actual": false,
+    "name": "age-range-blood-pressure",
+    "characteristic": [
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://loinc.org",
+                        "code": "29553-5"
+                    }
+                ],
+                "text": "Age calculated"
+            },
+            "valueQuantity": {
+                "value": 35,
+                "comparator": ">=",
+                "unit": "years",
+                "system": "http://unitsofmeasure.org",
+                "code": "a"
+            },
+            "exclude": false
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://loinc.org",
+                        "code": "29553-5"
+                    }
+                ],
+                "text": "Age calculated"
+            },
+            "valueQuantity": {
+                "value": 70,
+                "comparator": "<=",
+                "unit": "years",
+                "system": "http://unitsofmeasure.org",
+                "code": "a"
+            },
+            "exclude": false
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://loinc.org",
+                        "code": "8480-6"
+                    }
+                ],
+                "text": "Systolic blood pressure"
+            },
+            "valueQuantity": {
+                "value": 120,
+                "comparator": ">=",
+                "system": "http://unitsofmeasure.org",
+                "code": "mm[Hg]"
+            },
+            "exclude": false
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://loinc.org",
+                        "code": "8462-4"
+                    }
+                ],
+                "text": "Diastolic blood pressure"
+            },
+            "valueQuantity": {
+                "value": 120,
+                "comparator": ">=",
+                "system": "http://unitsofmeasure.org",
+                "code": "mm[Hg]"
+            },
+            "exclude": false
+        }
+    ]
+}

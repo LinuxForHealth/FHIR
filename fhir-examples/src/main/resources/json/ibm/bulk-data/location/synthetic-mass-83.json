@@ -1,0 +1,48 @@
+{
+    "resourceType": "Location",
+    "identifier": [
+        {
+            "id": "4c7c21eb-7d8e-4971-b581-b6392729b517",
+            "value": "Synthethic Mass - 83"
+        }
+    ],
+    "status": "active",
+    "name": "Synthetic Mass - Location - 83",
+    "description": "A Synthetic Mass Location",
+    "mode": "instance",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "RNEU",
+                    "display": "Neuroradiology unit"
+                }
+            ],
+            "text": "Neuroradiology unit"
+        }
+    ],
+    "address": {
+        "line": [
+            "67 GRAND ARMY OF THE REPUBLIC HIGHWAY"
+        ],
+        "city": "SOMERSET",
+        "state": "MA",
+        "postalCode": "02726",
+        "country": "USA"
+    },
+    "physicalType": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            }
+        ],
+        "text": "Any Building or structure. This may contain rooms, corridors, wings, etc. It might not have walls, or a roof, but is considered a defined/allocated space."
+    },
+    "position": {
+        "longitude": -71.1889,
+        "latitude": 41.74136
+    }
+}

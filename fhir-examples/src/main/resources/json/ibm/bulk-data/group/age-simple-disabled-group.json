@@ -1,0 +1,37 @@
+{
+    "resourceType": "Group",
+    "id": "b5cf5c00-5d3e-4419-a79f-a0bbc41d04be",
+    "meta": {
+        "versionId": "1",
+        "lastUpdated": "2020-06-30T16:03:31.882Z"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>"
+    },
+    "active": false,
+    "type": "person",
+    "actual": false,
+    "name": "age-simple-disabled",
+    "characteristic": [
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://loinc.org",
+                        "code": "29553-5"
+                    }
+                ],
+                "text": "Age calculated"
+            },
+            "valueQuantity": {
+                "value": 30,
+                "comparator": ">=",
+                "unit": "years",
+                "system": "http://unitsofmeasure.org",
+                "code": "a"
+            },
+            "exclude": false
+        }
+    ]
+}

@@ -1,0 +1,98 @@
+{
+    "resourceType": "Group",
+    "id": "d6c68c84-9af7-4b25-a51e-cbe398cd1347",
+    "meta": {
+        "versionId": "1",
+        "lastUpdated": "2020-06-30T16:03:31.94Z"
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>"
+    },
+    "active": true,
+    "type": "person",
+    "actual": false,
+    "name": "age-range-with-gender-and-exclude",
+    "characteristic": [
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://loinc.org",
+                        "code": "29553-5"
+                    }
+                ],
+                "text": "Age calculated"
+            },
+            "valueQuantity": {
+                "value": 13,
+                "comparator": ">=",
+                "unit": "years",
+                "system": "http://unitsofmeasure.org",
+                "code": "a"
+            },
+            "exclude": false
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://loinc.org",
+                        "code": "29553-5"
+                    }
+                ],
+                "text": "Age calculated"
+            },
+            "valueQuantity": {
+                "value": 56,
+                "comparator": "<=",
+                "unit": "years",
+                "system": "http://unitsofmeasure.org",
+                "code": "a"
+            },
+            "exclude": false
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/administrative-gender",
+                        "code": "AdministrativeGender"
+                    }
+                ],
+                "text": "Gender"
+            },
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/administrative-gender",
+                        "code": "female"
+                    }
+                ],
+                "text": "Female"
+            },
+            "exclude": false
+        },
+        {
+            "code": {
+                "coding": [
+                    {
+                        "system": "http://loinc.org",
+                        "code": "82810-3"
+                    }
+                ],
+                "text": "Pregnancy status"
+            },
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "http://loinc.org",
+                        "code": "LA15173-0"
+                    }
+                ],
+                "text": "Pregnant"
+            },
+            "exclude": true
+        }
+    ]
+}
