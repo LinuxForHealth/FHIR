@@ -35,7 +35,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.feature.LoggingFeature;
-
 import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRRequestHeader;
@@ -1010,7 +1009,7 @@ public class FHIRClientImpl implements FHIRClient {
         this.trustStorePassword = trustStorePassword;
     }
 
-    private KeyStore getTrustStore() {
+    public KeyStore getTrustStore() {
         return trustStore;
     }
 

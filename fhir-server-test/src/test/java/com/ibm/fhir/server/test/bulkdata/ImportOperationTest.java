@@ -93,6 +93,8 @@ public class ImportOperationTest extends FHIRServerTestBase {
     public static final String BASE_VALID_URL = "/$import";
     public static final String BASE_VALID_STATUS_URL = "/$bulkdata-status";
     public static final String FORMAT = "application/fhir+ndjson";
+    private final String tenantName = "default";
+    private final String dataStoreId = "default";
 
     @BeforeClass
     public void setup() throws Exception {
@@ -158,7 +160,10 @@ public class ImportOperationTest extends FHIRServerTestBase {
     public Response doGet(String path, String mimeType) {
         WebTarget target = getWebTarget();
         target = target.path(path);
-        return target.request(mimeType).get(Response.class);
+        return target.request(mimeType)
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.get(Response.class);
     }
 
     public Response doPost(String path, String inputFormat, String inputSource, String resourceType, String url) throws FHIRGeneratorException, IOException {
@@ -169,7 +174,10 @@ public class ImportOperationTest extends FHIRServerTestBase {
         }
         Parameters parameters = generateParameters(inputFormat, inputSource, resourceType, url);
         Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
-        return target.request(FHIRMediaType.APPLICATION_FHIR_JSON).post(entity, Response.class);
+        return target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+        		.header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+        		.post(entity, Response.class);
     }
 
     public Response polling(String statusUrl) throws InterruptedException {
