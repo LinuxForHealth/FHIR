@@ -338,7 +338,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                     // If the id of the input resource is different from the id of the search result,
                     // then throw exception.
-                    if (newResource.getId() != null && id != null && !newResource.getId().equalsIgnoreCase(id)) {
+                    if (newResource.getId() != null && id != null && !newResource.getId().equals(id)) {
                         String msg = "Input resource 'id' attribute must match the id of the search result resource.";
                         throw buildRestException(msg, IssueType.VALUE);
                     }
